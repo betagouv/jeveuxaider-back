@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Models\Structure;
-use App\Models\Young;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTrashSearch;
@@ -17,9 +16,7 @@ class TrashController extends Controller
     {
         if ($request->input('type') == 'Missions') {
             $query = Mission::class;
-        } elseif ($request->input('type') == 'Volontaires') {
-            $query = Young::class;
-        } else {
+        } elseif ($request->input('type') == 'Structures') {
             $query = Structure::class;
         }
 

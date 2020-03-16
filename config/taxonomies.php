@@ -4,26 +4,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | YOUNG WORKFLOW STATES
-    |--------------------------------------------------------------------------
-    |
-    */
-    'young_workflow_states' => [
-        "vocabulary" => "Statut",
-        "terms" => [
-            "En attente de mission" => "En attente de mission",
-            "Mission proposée" => "Mission proposée",
-            "Mission refusée" => "Mission refusée",
-            "Mission en cours" => "Mission en cours",
-            "Abandon de mission" => "Abandon de mission",
-            "Exclusion de la mission" => "Exclusion de la mission",
-            "Arrêt de la mission" => "Arrêt de la mission",
-            "Mission effectuée" => "Mission effectuée"
-        ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | INTEREST RATINGS
     |--------------------------------------------------------------------------
     |
@@ -80,24 +60,6 @@ return [
             "En tant que pompier volontaire" => "En tant que pompier volontaire",
             "Au sein de la gendarmerie" => "Au sein de la gendarmerie",
             "Dans une association de protection civile" => "Dans une association de protection civile",
-        ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | YOUNG SITUATIONS
-    |--------------------------------------------------------------------------
-    |
-    */
-    'young_situations' => [
-        "vocabulary" => "Situations",
-        "terms" => [
-            "Scolarité - externe" => "Scolarité - externe",
-            "Scolarisé - demi-pensionnaire" => "Scolarisé - demi-pensionnaire",
-            "Scolarisé - interne" => "Scolarisé - interne",
-            "Salarié" => "Salarié",
-            "Apprenti" => "Apprenti",
-            "Autre" => "Autre",
         ]
     ],
 

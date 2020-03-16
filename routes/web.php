@@ -24,18 +24,4 @@ Route::get('/debug', function () {
 */
 
 
-/*
-    select
-    sum(youngs_count) as total_youngs,
-    sum(participations_max) as total_participations_max
-    from(
-        SELECT
-            missions.participations_max,
-            COUNT(youngs.id) youngs_count
-        FROM
-            missions
-            LEFT JOIN youngs ON youngs.mission_id = missions.id
-        GROUP BY
-            missions.id
-    ) youngs
-*/
+

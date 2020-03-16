@@ -13,10 +13,6 @@ class AddForeignKeysForRelations extends Migration
      */
     public function up()
     {
-        Schema::table('youngs', function (Blueprint $table) {
-            $table->foreign('mission_id')->references('id')->on('missions')->onDelete('set null');
-        });
-
         Schema::table('missions', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('structure_id')->references('id')->on('structures')->onDelete('cascade');
@@ -40,9 +36,6 @@ class AddForeignKeysForRelations extends Migration
      */
     public function down()
     {
-        Schema::table('youngs', function (Blueprint $table) {
-            $table->dropForeign(['mission_id']);
-        });
         Schema::table('missions', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['structure_id']);

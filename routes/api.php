@@ -61,27 +61,15 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profiles', 'Api\ProfileController@index');
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
-    // YOUNGS
-    Route::get('youngs', 'Api\YoungController@index');
-    Route::post('young', 'Api\YoungController@store');
-    Route::get('young/{young}', 'Api\YoungController@show');
-    Route::post('young/{young}', 'Api\YoungController@update');
-    Route::delete('young/{young}', 'Api\YoungController@delete');
-
-    // YOUNGS MISSIONS
-    Route::get('young/{young}/missions', 'Api\YoungController@missions');
-
     // EXPORT
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
-    Route::get('youngs/export', 'Api\YoungController@export');
 
     // STATISTICS
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
     Route::get('statistics/structures', 'Api\StatisticsController@structures');
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
-    Route::get('statistics/youngs', 'Api\StatisticsController@youngs');
 });
 
 // ONLY ADMIN

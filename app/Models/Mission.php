@@ -55,14 +55,11 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'places_left', 'has_places_left'];
-
-    protected $withCount = ['youngs'];
+    protected $appends = ['full_address'];
 
     protected $with = [
         'structure:id,name',
-        'structure.members:id,first_name,last_name',
-        'youngs:id,first_name,last_name,email,mission_id'
+        'structure.members:id,first_name,last_name'
     ];
 
     public function setNameAttribute($value)
@@ -85,34 +82,9 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Profile');
     }
 
-    public function youngs()
-    {
-        return $this->hasMany('App\Models\Young', 'mission_id')->without('mission');
-    }
-
     public function getFullAddressAttribute()
     {
         return "{$this->address} {$this->zip} {$this->city}";
-    }
-
-    public function getHasPlacesLeftAttribute()
-    {
-        return $this->youngs_count < $this->participations_max ? true : false;
-    }
-
-    public function getPlacesLeftAttribute()
-    {
-        return $this->participations_max - $this->youngs_count;
-    }
-
-    public function scopeHasPlacesLeft($query)
-    {
-        return $query->has('youngs', '<', DB::raw('participations_max'));
-    }
-
-    public function scopeComplete($query)
-    {
-        return $query->has('youngs', '=', DB::raw('participations_max'));
     }
 
     public function scopeRole($query, $contextRole)
@@ -162,9 +134,7 @@ class Mission extends Model
 
     public function clone()
     {
-        // $withCount breaks replicate(),
-        // See https://github.com/laravel/framework/issues/26562#issuecomment-440251568
-        $mission = $this->replicate(['youngs_count']);
+        $mission = $this->replicate();
         $mission->state = 'Brouillon';
         $mission->save();
 
