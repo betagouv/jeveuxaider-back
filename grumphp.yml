@@ -1,0 +1,22 @@
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    tasks:
+      phpcsfixer2:
+        allow_risky: ~
+        cache_file: ~
+        config: .php_cs
+        rules:
+          '@PSR2': true
+          no_unused_imports: true
+          no_useless_return: true
+          no_useless_else: true
+          php_unit_method_casing:
+            case: 'snake_case'
+          array_syntax:
+            syntax: short
+        using_cache: ~
+        config_contains_finder: false
+        verbose: true
+        diff: false
+        triggered_by: ['php']

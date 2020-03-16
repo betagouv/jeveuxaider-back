@@ -1,0 +1,44 @@
+
+$blue: #253B8A
+$gray-light: #f4f4f4
+
+a
+    color: $blue
+    &:hover
+        color: darken($blue, 20)
+
+.box
+    border: none!important
+    box-shadow: none!important
+    padding: 0!important
+
+#logo
+    width: 40px
+    height: auto
+
+.content-wrapper
+    background: white
+
+.skin-blue-light .main-header .logo
+    background-color: darken($blue, 10)
+    &:hover
+        background-color: darken($blue, 20)
+
+.skin-blue-light .main-header .navbar
+    background-color: $blue
+
+.btn-primary
+    background-color: $blue
+    &:hover
+        background-color: darken($blue, 10)
+
+#datatable_search_stack
+    input
+        background-color: $gray-light
+
+table,
+table#crudTable
+    border: 1px solid $gray-light!important
+
+.sidebar-toggle
+    height: 50px

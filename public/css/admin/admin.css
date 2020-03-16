@@ -1,0 +1,55 @@
+a {
+  color: #253B8A;
+}
+
+a:hover {
+  color: #0f193a;
+}
+
+.box {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+#logo {
+  width: 40px;
+  height: auto;
+}
+
+.content-wrapper {
+  background: white;
+}
+
+.skin-blue-light .main-header .logo {
+  background-color: #1a2a62;
+}
+
+.skin-blue-light .main-header .logo:hover {
+  background-color: #0f193a;
+}
+
+.skin-blue-light .main-header .navbar {
+  background-color: #253B8A;
+}
+
+.btn-primary {
+  background-color: #253B8A;
+}
+
+.btn-primary:hover {
+  background-color: #1a2a62;
+}
+
+#datatable_search_stack input {
+  background-color: #f4f4f4;
+}
+
+table,
+table#crudTable {
+  border: 1px solid #f4f4f4 !important;
+}
+
+.sidebar-toggle {
+  height: 50px;
+}
