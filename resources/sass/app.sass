@@ -1,0 +1,56 @@
+//
+@import "tailwindcss/base"
+@import "tailwindcss/components"
+@import "tailwindcss/utilities"
+
+// @import "element-ui/lib/theme-chalk"
+
+@import "variables"
+@import "layouts"
+@import "forms"
+
+body
+    font-family: "Poppins", sans-serif
+
+#app
+    background-color: $gray-light
+    overflow-y: hidden
+
+main
+    max-height: calc(100% - 60px)
+
+button:focus
+    outline: 0
+
+.text-primary
+    color: $primary
+
+.bg-primary
+    background-color: $primary
+
+.field
+    margin-bottom: 16px
+    display: flex
+    .field-label
+        font-weight: 300
+        color: $gray
+        width: 200px
+    .field-value
+        flex: 1
+
+.el-card
+    box-shadow: none!important
+    border: 1px solid #ebf1fa
+
+.el-table th > .cell
+    font-weight: 300
+
+.el-table__empty-block
+    height: 100px!important
+
+.el-table.cliquable
+    .el-table__row
+        cursor: pointer
+
+
+

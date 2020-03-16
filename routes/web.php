@@ -11,17 +11,7 @@
 |
 */
 
-/* TODO : Remove route closure for cache
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
-/*
 
-Route::get('/debug', function () {
-
-});
-*/
-
-
-
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');

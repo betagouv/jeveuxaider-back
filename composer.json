@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "SNU Backend",
+    "description": "Covid",
     "keywords": [
         "framework",
         "laravel"

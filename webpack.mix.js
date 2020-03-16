@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,11 +12,21 @@ const tailwindcss = require('tailwindcss');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .options({
-        processCssUrls: false,
-        postCss: [ tailwindcss('./tailwind.js') ],
-      });
+mix.js('resources/js/app.js', 'public/assets/js');
 
-mix.sass('resources/sass/admin.sass', 'public/css/admin');
+mix.sass('resources/sass/app.sass', 'public/assets/css')
+   .options({
+      processCssUrls: false,
+      postCss: [ tailwindcss('tailwind.config.js') ],
+})
+
+mix.webpackConfig({
+    resolve: {
+      alias: {
+        '@': path.resolve(
+          __dirname,
+          'resources/js'
+        )
+      }
+    }
+  })

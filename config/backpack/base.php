@@ -12,11 +12,11 @@ return [
     */
 
     // Project name. Shown in the breadcrumbs and a few other places.
-    'project_name' => 'SNU',
+    'project_name' => 'Covid',
 
     // Menu logos
-    'logo_lg'   => '<img id="logo" src="/img/snu-logo.png" /> Back office',
-    'logo_mini' => '<img id="logo" src="/img/snu-logo.png" />',
+    'logo_lg'   => '<img id="logo" src="/images/snu-logo.png" /> Back office',
+    'logo_mini' => '<img id="logo" src="/images/snu-logo.png" />',
 
     // Developer or company name. Shown in footer.
     'developer_name' => 'Codeconut',

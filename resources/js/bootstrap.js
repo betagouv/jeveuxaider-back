@@ -1,17 +1,16 @@
-window._ = require('lodash');
+import VueRouter from 'vue-router'
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/fr'
+import axios from 'axios';
+import Ls from './services/ls'
+import store from './store/index.js'
+import { Message } from "element-ui"
+import Swal from 'sweetalert2'
 
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
-} catch (e) {}
+window._ = require('lodash')
+window.Vue = require('vue')
+window.Swal = Swal
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -19,37 +18,72 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+axios.defaults.baseURL = '/api';
 
+window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
+ * Interceptors
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+window.axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  const AUTH_TOKEN = Ls.get('auth.token')
 
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+  if (AUTH_TOKEN) {
+    config.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
+  }
+
+  return config
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error)
+})
 
 /**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
+ * Global Axios Response Interceptor
  */
+global.axios.interceptors.response.use(undefined, function (err) {
+  // Do something with request error
+  return new Promise((resolve, reject) => {
+    console.log(err.response)
+    if (err.response && err.response.data) {
+      if (!err.response.data.errors) {
+        Message({
+          message: err.response.data.message,
+          type: "error"
+        });
+      } else {
+        Message({
+          message: format_errors(err.response.data.errors),
+          dangerouslyUseHTMLString: true,
+          type: "error"
+        });
+      }
+    }
+    if (err.response.data && (err.response.data.message === 'Unauthenticated.')) {
+      store.dispatch('auth/logout', true)
+    } else {
+      throw err
+    }
+  })
+})
 
-// import Echo from 'laravel-echo'
+Vue.use(VueRouter)
+Vue.use(ElementUI, { locale })
 
-// window.Pusher = require('pusher-js');
+/**
+ * Plugins
+ */
+require('./plugins/vue-font-awesome/index')
+require('./plugins/dayjs/index')
+require('./plugins/numeral/index')
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     encrypted: true
-// });
+function format_errors(errors) {
+  var string = "";
+  for (var errorField in errors) {
+    string += errors[errorField][0] + "<br />";
+  }
+  return string;
+}

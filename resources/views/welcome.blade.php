@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>SNU</title>
+        <title>Covid</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -13,7 +13,7 @@
     </head>
     <body>
         <div class="tw-flex tw-h-screen tw-justify-center tw-items-center ">
-            <img src="{{ asset('img/snu-logo.png') }}" />
+            <img src="{{ asset('images/snu-logo.png') }}" />
         </div>
     </body>
 </html>
