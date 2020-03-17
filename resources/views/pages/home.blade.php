@@ -69,7 +69,7 @@
                 <div class="text-gray-600 text-xl mb-12">Collectivités, plateformes de l'engagement et spécialistes du bénévolat, rejoignez le mouvement !</div>
             </div>
             <hr class="text-gray-600 py-4 w-24 border-t-4 mx-auto">
-            <div class="flex flex-col lg:flex-row flex-wrap">
+            <div class="flex flex-col lg:flex-row flex-wrap pb-12">
                 <div class="w-full lg:max-w-1/3 p-3 my-3 text-center">
                     <div class="text-gray-800 text-sm uppercase font-bold mb-2">WEBASSOC</div>
                     <div class="text-gray-600 text-lg">Aide aux associations à se renforcer avec internet</div>

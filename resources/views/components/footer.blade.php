@@ -7,9 +7,9 @@
             </div>
             <div class="lg:flex lg:flex-1 lg:justify-around mt-8 lg:mt-0">
                 <div class="lg:max-w-1/4 text-white">
-                    <a class="block p-3 hover:underline" href="#">A propos</a>
-                    <a class="block p-3 hover:underline" href="#">Centre d'aide</a>
-                    <a class="block p-3 hover:underline" href="#">Confidentialité</a>
+                    <a class="block p-3 hover:underline" href="/a-propos">A propos</a>
+                    <a class="block p-3 hover:underline" href="/centre-d-aide">Centre d'aide</a>
+                    <a class="block p-3 hover:underline" href="/confidentialite">Confidentialité</a>
                 </div>
                 <div class="lg:max-w-1/4 text-white">
                     <a class="block p-3 hover:underline" href="https://www.elysee.fr/" target="_blank">elysee.fr</a>
@@ -26,7 +26,7 @@
                     <a class="block p-3 hover:underline" href="https://garde-nationale.gouv.fr/" target="_blank">Garde Nationale</a>
                 </div>
             </div>
-            <div class="mt-8 lg:mt-0">
+            <div class="mt-8 lg:mt-3">
                 <div class="mb-8">Suivez la Réserve Civique</div>
                 <div class="">
                     <a class="border rounded-full w-24 h-24" href="https://twitter.com/gouvernementfr" target="_blank"><i class="fab fa-twitter"></i></a>
