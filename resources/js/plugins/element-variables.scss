@@ -1,0 +1,28 @@
+/* purgecss start ignore */
+@import "../../sass/_variables.sass";
+/* theme color */
+$--color-primary: $color-primary;
+$--color-text-regular: $color-text-regular;
+$--color-text-placeholder: #6a6f85;
+/* icon font path, required */
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+.el-form--label-top .el-form-item__label {
+  color: #6A6F85;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 1;
+  padding-left: 15px;
+}
+
+.el-form-item {
+  margin-bottom: 32px;
+}
+
+.el-select {
+  width: 100%;
+}
+/* purgecss end ignore */

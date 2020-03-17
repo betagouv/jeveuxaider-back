@@ -1,56 +1,74 @@
-//
-@import "tailwindcss/base"
-@import "tailwindcss/components"
-@import "tailwindcss/utilities"
+@import 'variables'
+@import '../css/tailwind.css'
 
-// @import "element-ui/lib/theme-chalk"
+html
+  height: 100%
 
-@import "variables"
-@import "layouts"
-@import "forms"
+.gradient-primary
+  background: linear-gradient(90deg, #006ace 0%, #478fda 100%)
 
-body
-    font-family: "Poppins", sans-serif
+.text-label
+  color: #6A6F85
+  text-transform: uppercase
+  font-weight: bold
+  font-size: 10px
+  line-height: 1
+  padding-left: 15px
 
-#app
-    background-color: $gray-light
-    overflow-y: hidden
+.el-loading-spinner
+  @apply flex justify-center
 
-main
-    max-height: calc(100% - 60px)
+.el-table
+  thead
+    th
+      @apply border-t border-gray-200 text-gray-700 font-normal
+  tbody
+    td
+      @apply border-gray-200
+
+.el-table--enable-row-hover .el-table__body tr:hover > td
+  @apply bg-gray-100
+
+.el-table__body tr.current-row > td
+  @apply bg-gray-100
+
+.el-table__row
+  cursor: pointer
+
+.el-badge__content
+  height: 21px
+  line-height: 20px
+
+.el-table
+  .cell
+    word-break: break-word
+
+.has-full-table
+  @apply h-full flex flex-col
+  .el-table__body-wrapper
+    height: calc(100% - 49px)
+    overflow-y: auto
+  .el-table__row
+    td:last-of-type
+      .cell
+        margin-right: 15px
+
+.card-item
+  width: 320px
+
+.card-label
+  width: 90px
 
 button:focus
-    outline: 0
+  outline: none
 
-.text-primary
-    color: $primary
+::placeholder
+  font-weight: 300
+  color: #cbd5e0 !important
 
-.bg-primary
-    background-color: $primary
-
-.field
-    margin-bottom: 16px
-    display: flex
-    .field-label
-        font-weight: 300
-        color: $gray
-        width: 200px
-    .field-value
-        flex: 1
-
-.el-card
-    box-shadow: none!important
-    border: 1px solid #ebf1fa
-
-.el-table th > .cell
-    font-weight: 300
-
-.el-table__empty-block
-    height: 100px!important
-
-.el-table.cliquable
-    .el-table__row
-        cursor: pointer
-
-
+.wysiwyg-field
+  ul
+    list-style: disc
+    padding-left: 24px
+    margin-bottom: 24px
 

@@ -1,0 +1,259 @@
+<template>
+  <Volet>
+    <template v-slot:content="{ row }">
+      <div class="text-xs text-gray-600 uppercase text-center mt-16 mb-12">
+        {{ row.structure.name }}
+      </div>
+      <el-card shadow="hover" class="overflow-visible">
+        <div slot="header" class="clearfix flex flex-col items-center">
+          <div class="-mt-10">
+            <el-avatar
+              v-if="row.structure.logo"
+              :src="`${row.structure.logo}`"
+              class="w-10 rounded-full border"
+            />
+            <el-avatar v-else class="bg-primary">
+              {{ row.structure.name[0] }}
+            </el-avatar>
+          </div>
+          <div class="font-bold text-lg text-center mb-3 flex">
+            {{ row.name }}
+          </div>
+          <div class="flex items-center">
+            <router-link
+              :to="{
+                name: 'MissionFormEdit',
+                params: { id: row.id }
+              }"
+            >
+              <el-button icon="el-icon-edit" type="mini">Modifier</el-button>
+            </router-link>
+            <button
+              v-if="
+                $store.getters.contextRole == 'admin' ||
+                  $store.getters.contextRole == 'referent'
+              "
+              type="button"
+              class="ml-2 el-button is-plain el-button--danger el-button--mini"
+              @click="onClickDelete"
+            >
+              <i class="el-icon-delete" />
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center justify-center mb-4">
+          <el-tag
+            v-if="row.department"
+            type="warning"
+            class="m-1 ml-0"
+            size="small"
+          >
+            {{ row.department | fullDepartmentFromValue }}
+          </el-tag>
+          <el-tooltip
+            v-if="row.structure.ceu"
+            class="item"
+            effect="dark"
+            :content="row.structure.structure_publique_etat_type"
+            placement="top"
+          >
+            <el-tag size="small" class="m-1 ml-0" type="info">CEU</el-tag>
+          </el-tooltip>
+        </div>
+        <mission-infos :mission="row"></mission-infos>
+      </el-card>
+      <el-form ref="missionForm" :model="form" label-position="top">
+        <template v-if="showAskValidation">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Proposer la mission
+          </div>
+          <item-description>
+            Une fois votre mission complétée, vous pouvez la soumettre à
+            validation auprès de votre référent départemental pour publication.
+          </item-description>
+          <div class="flex pt-2">
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="onAskValidationSubmit"
+              >Proposer la mission</el-button
+            >
+          </div>
+        </template>
+        <template v-if="showStatut">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Statut de la mission
+          </div>
+          <item-description>
+            Vous pouvez sélectionner le statut de la mission. A noter que des
+            notifications emails seront envoyées.
+          </item-description>
+          <el-form-item label="Statut" prop="state" class="flex-1">
+            <el-select v-model="form.state" placeholder="Statut">
+              <el-option
+                v-for="item in $store.getters.taxonomies.mission_workflow_states
+                  .terms"
+                :key="item.label"
+                :label="item.value"
+                :value="item.label"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+        <template v-if="showTuteur">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Tuteur de la mission
+          </div>
+          <item-description>
+            Sélectionner le tuteur qui va s'occuper de la mission. Vous pouvez
+            également
+            <router-link
+              class="underline"
+              :to="{
+                name: 'StructureMembersAdd',
+                params: { id: form.structure.id }
+              }"
+              >ajouter un nouveau tuteur</router-link
+            >
+            à votre équipe.
+          </item-description>
+          <el-form-item label="Tuteur" prop="tuteur_id" class="flex-1">
+            <el-select
+              v-model="form.tuteur_id"
+              placeholder="Sélectionner un tuteur"
+            >
+              <el-option
+                v-for="item in form.structure.members"
+                :key="item.id"
+                :label="item.full_name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+        <div v-if="showStatut || showTuteur" class="flex pt-2">
+          <el-button type="primary" :loading="loading" @click="onSubmit"
+            >Enregistrer</el-button
+          >
+        </div>
+      </el-form>
+      <div class="mb-6 mt-12 flex text-xl text-gray-800">
+        Volontaires ({{ form.youngs.length }})
+      </div>
+      <item-description v-if="form.youngs.length == 0">
+        Aucun volontaire n'a encore été assigné.
+      </item-description>
+      <young-teaser
+        v-for="young in form.youngs"
+        v-else
+        :key="young.id"
+        :young="young"
+        class="young py-4 px-6"
+      ></young-teaser>
+    </template>
+  </Volet>
+</template>
+
+<script>
+import Volet from "@/layout/components/Volet";
+import { updateMission, deleteMission } from "@/api/mission";
+import VoletRow from "@/mixins/VoletRow";
+import ItemDescription from "@/components/forms/ItemDescription";
+import YoungTeaser from "@/components/YoungTeaser";
+import MissionInfos from "@/components/infos/MissionInfos";
+
+export default {
+  name: "MissionVolet",
+  components: { Volet, ItemDescription, YoungTeaser, MissionInfos },
+  mixins: [VoletRow],
+  data() {
+    return {
+      loading: false
+    };
+  },
+  computed: {
+    showAskValidation() {
+      return this.$store.getters.contextRole == "responsable" &&
+        (this.row.state == "Brouillon" ||
+          this.row.state == "En attente de correction")
+        ? true
+        : false;
+    },
+    showStatut() {
+      return this.$store.getters.contextRole == "admin" ||
+        this.$store.getters.contextRole == "referent"
+        ? true
+        : false;
+    },
+    showTuteur() {
+      return this.$store.getters.contextRole != "tuteur" && !this.row.tuteur_id
+        ? true
+        : false;
+    }
+  },
+  methods: {
+    onClickDelete() {
+      if (this.row.youngs_count > 0) {
+        this.$alert(
+          "Il est impossible de supprimer une mission déjà assigner à un ou plusieurs volontaires.",
+          "Supprimer la mission",
+          {
+            confirmButtonText: "Retour",
+            type: "warning"
+          }
+        );
+      } else {
+        this.$confirm(
+          `La mission ${this.row.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
+          "Supprimer la mission",
+          {
+            confirmButtonText: "Supprimer",
+            confirmButtonClass: "el-button--danger",
+            cancelButtonText: "Annuler",
+            type: "error"
+          }
+        ).then(() => {
+          deleteMission(this.row.id).then(() => {
+            this.$message({
+              type: "success",
+              message: `La mission ${this.row.name} a été supprimée.`
+            });
+            this.$emit("deleted", this.row);
+            this.$store.commit("volet/setRow", null);
+            this.$store.commit("volet/hide");
+          });
+        });
+      }
+    },
+    onAskValidationSubmit() {
+      this.form.state = "En attente de validation";
+      this.onSubmit();
+    },
+    onSubmit() {
+      this.$confirm("Êtes vous sur de vos changements ?", "Confirmation", {
+        confirmButtonText: "Je confirme",
+        cancelButtonText: "Annuler",
+        type: "warning"
+      })
+        .then(() => {
+          this.loading = true;
+          updateMission(this.form.id, this.form)
+            .then(response => {
+              this.loading = false;
+              this.$store.commit("volet/setRow", response.data);
+              this.$message({
+                type: "success",
+                message: "La mission a été mise à jour"
+              });
+              this.$emit("updated", response.data);
+            })
+            .catch(error => {
+              this.loading = false;
+              this.errors = error.response.data.errors;
+            });
+        })
+        .catch(() => {});
+    }
+  }
+};
+</script>
