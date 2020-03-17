@@ -1,49 +1,61 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import auth from './modules/auth'
-import user from './modules/user'
-import app from './modules/app'
+import Vue from "vue";
+import Vuex from "vuex";
+import auth from "./modules/auth";
+import user from "./modules/user";
+import volet from "./modules/volet";
+import getters from "./getters";
+import { bootstrap } from "../api/app";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
+const state = {
+  isAppLoaded: false,
+  loading: false,
+  taxonomies: null,
+  reseaux: null,
+  release: null
+};
+
+// actions
+const actions = {
+  async bootstrap({ commit }) {
+    const { data } = await bootstrap();
+    commit("setTaxonomies", data.taxonomies);
+    commit("setReseaux", data.reseaux);
+    commit("setRelease", data.release);
+    commit("user/setUser", data.user);
+    commit("setAppLoadingStatus", true);
+    return data;
+  }
+};
+
+// mutations
+const mutations = {
+  setAppLoadingStatus(state, isAppLoaded) {
+    state.isAppLoaded = isAppLoaded;
+  },
+  setTaxonomies: (state, taxonomies) => {
+    state.taxonomies = taxonomies;
+  },
+  setReseaux: (state, reseaux) => {
+    state.reseaux = reseaux;
+  },
+  setRelease: (state, release) => {
+    state.release = release;
+  },
+  setLoading: (state, loading) => {
+    state.loading = loading;
+  }
+};
 
 export default new Vuex.Store({
-  strict: true,
-  state: {
-    isAppLoaded: false
-  },
-
   modules: {
     auth,
     user,
-    app
+    volet
   },
-
-  getters: {
-    isAppLoaded(state){
-      return state.isAppLoaded
-    }
-  },
-
-  mutations: {
-    UPDATE_APP_LOADING_STATUS(state, data) {
-      state.isAppLoaded = data
-    }
-  },
-
-  actions: {
-    bootstrap({ commit, dispatch, state }) {
-      return new Promise((resolve, reject) => {
-        axios.get('/bootstrap').then((response) => {
-          commit('user/SET_CURRENT_USER', response.data.user)
-          commit('app/SET_TAXONOMIES', response.data.taxonomies)
-          commit('app/SET_COLLABORATORS', response.data.collaborators)
-          commit('app/SET_ACTIVITIES', response.data.activities)
-          commit('UPDATE_APP_LOADING_STATUS', true)
-          resolve(response)
-        }).catch((err) => {
-          reject(err)
-        })
-      })
-    }
-  }
-})
+  state,
+  getters,
+  mutations,
+  actions
+});

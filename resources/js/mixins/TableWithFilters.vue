@@ -1,5 +1,6 @@
 <script>
 export default {
+  name: "TableWithFilters",
   data() {
     return {
       query: {},
@@ -17,6 +18,16 @@ export default {
       this.$router.push({
         path: this.$router.history.current.fullpath,
         query: { ...this.query, page: page }
+      });
+    },
+    onFilterChange(filter) {
+      this.$router.push({
+        path: this.$router.history.current.path,
+        query: {
+          ...this.query,
+          [`filter[${filter.name}]`]: filter.value,
+          page: 1
+        }
       });
     },
     fetchDatas() {

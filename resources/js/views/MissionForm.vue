@@ -1,0 +1,568 @@
+<template>
+  <div v-if="!$store.getters.loading" class="mission-form pl-12 pb-12">
+    <template v-if="mode == 'edit'">
+      <div class="text-m text-gray-600 uppercase">
+        Mission
+      </div>
+      <div class="mb-8 flex">
+        <div class="font-bold text-2xl text-gray-800">{{ form.name }}</div>
+        <state-tag
+          :state="form.state"
+          class="relative ml-3"
+          style="top: 1px"
+        ></state-tag>
+      </div>
+    </template>
+    <template v-else>
+      <div class="text-m text-gray-600 uppercase">
+        Mission
+      </div>
+      <div class="mb-12 font-bold text-2xl text-gray-800">
+        Création
+      </div>
+    </template>
+    <el-form
+      ref="missionForm"
+      :model="form"
+      class="max-w-2xl"
+      label-position="top"
+      :rules="rules"
+    >
+      <div class="mb-6 text-xl text-gray-800">
+        Informations générales
+      </div>
+
+      <el-form-item label="Nom de votre Mission" prop="name">
+        <el-input v-model="form.name" placeholder="Nom de votre mission" />
+      </el-form-item>
+
+      <el-form-item v-if="form.structure" label="Structure rattachée" class="">
+        <el-input
+          v-model="form.structure.name"
+          placeholder="Structure de la mission"
+          disabled
+        />
+      </el-form-item>
+
+      <el-form-item label="Domaines" prop="domaines">
+        <el-select
+          v-model="form.domaines"
+          multiple
+          :multiple-limit="3"
+          placeholder="Domaines"
+        >
+          <el-option
+            v-for="item in $store.getters.taxonomies.mission_domaines.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item
+        label="Nombre de volontaires susceptibles d’être accueillis de façon concomitante sur cette mission"
+        prop="participations_max"
+      >
+        <item-description>
+          Précisez ce nombre en fonction de vos contraintes logistiques et votre
+          capacité à accompagner les volontaires.
+        </item-description>
+        <el-input-number
+          v-model="form.participations_max"
+          :step="1"
+          :min="1"
+          class="w-full"
+        ></el-input-number>
+      </el-form-item>
+
+      <el-form-item label="Format de mission" prop="format">
+        <el-select
+          v-model="form.format"
+          placeholder="Selectionner un format de mission"
+          @change="handleFormatChanged()"
+        >
+          <el-option
+            v-for="item in $store.getters.taxonomies.mission_formats.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <div v-if="form.format != 'Autonome'">
+        <div class="mt-12 mb-6 text-xl text-gray-800">
+          Dates de la mission
+          <span v-if="form.format">{{ form.format.toLowerCase() }}</span>
+        </div>
+
+        <div class="flex">
+          <el-form-item
+            label="Date de début"
+            prop="start_date"
+            class="flex-1 mr-2"
+          >
+            <el-date-picker
+              v-model="form.start_date"
+              class="w-full"
+              type="datetime"
+              placeholder="Date de début"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              default-time="09:00:00"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item
+            label="Date de fin"
+            prop="start_date"
+            class="flex-1 ml-2"
+          >
+            <el-date-picker
+              v-model="form.end_date"
+              class="w-full"
+              type="datetime"
+              placeholder="Date de fin"
+              default-time="18:00:00"
+              value-format="yyyy-MM-dd HH:mm:ss"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </div>
+      </div>
+
+      <el-form-item
+        v-if="form.format == 'Continue'"
+        label="Informations complémentaires concernant les dates et horaires de la mission"
+        prop="dates_infos"
+        class="flex-1"
+      >
+        <el-input
+          v-model="form.dates_infos"
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 6 }"
+          placeholder="Informations complémentaires concernant les dates et horaires de la mission"
+        ></el-input>
+      </el-form-item>
+
+      <el-form-item
+        v-if="form.format == 'Perlée'"
+        label="Fréquence estimée de la mission"
+        prop="frequence"
+        class="flex-1"
+      >
+        <item-description>
+          Par exemple, tous les mardis soirs, le samedi, tous les mercredis
+          après-midi pendant un trimestre, possibilité de moduler les horaires
+          en fonction de l'emploi du temps du volontaire...
+        </item-description>
+        <el-input
+          v-model="form.frequence"
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 6 }"
+          placeholder="Fréquence estimée de la mission"
+        ></el-input>
+      </el-form-item>
+
+      <el-form-item
+        v-if="form.format == 'Perlée'"
+        label="Périodes possibles pour réaliser la mission"
+        prop="periodes"
+      >
+        <el-select
+          v-model="form.periodes"
+          multiple
+          placeholder="Sélectionner les périodes"
+        >
+          <el-option
+            v-for="item in $store.getters.taxonomies.mission_periodes.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <div v-if="form.format != 'Autonome'">
+        <div class="mt-12 mb-6 text-xl text-gray-800">
+          Détail de la mission
+        </div>
+        <div>
+          <el-form-item
+            label="Descriptif de la mission"
+            prop="description"
+            class="flex-1"
+          >
+            <el-input
+              v-model="form.description"
+              name="description"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 6 }"
+              placeholder="Décrivez votre mission, en quelques mots"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item
+            label="Actions concrètes confiées au(x) volontaire(s)"
+            prop="actions"
+            class="flex-1"
+          >
+            <el-input
+              v-model="form.actions"
+              name="actions"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 6 }"
+              placeholder="Actions concrètes confiées au(x) volontaire(s)"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item
+            label="En quoi la mission  proposée permettra-t-elle au volontaire d’agir en faveur de l’intérêt général ?"
+            prop="justifications"
+            class="flex-1"
+          >
+            <item-description>
+              Les réponses à cette question ne seront pas publiées. Elles
+              permettront aux services référents de valider les missions.
+            </item-description>
+            <el-input
+              v-model="form.justifications"
+              name="justifications"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 6 }"
+              placeholder="Décrivez votre mission, en quelques mots"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item
+            label="Y a-t-il des contraintes spécifiques pour cette mission ?"
+            prop="contraintes"
+            class="flex-1"
+          >
+            <item-description>
+              Par exemple, nécessité d’une bonne condition physique, mission en
+              soirée, cette mission intègre une période de formation…
+            </item-description>
+            <el-input
+              v-model="form.contraintes"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 6 }"
+              placeholder="Décrivez votre mission, en quelques mots"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item
+            label="Mission ouverte aux personnes en situation de handicap"
+            prop="handicap"
+          >
+            <el-select
+              v-model="form.handicap"
+              placeholder="Mission ouverte aux personnes en situation de handicap"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.mission_handicap.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+      </div>
+
+      <div class="mt-12 mb-6 flex text-xl text-gray-800">
+        <span v-if="form.format == 'Autonome'">Lieu de l'accompagnement</span>
+        <span v-else>Lieu de la mission</span>
+      </div>
+
+      <el-form-item label="Département" prop="department">
+        <el-select
+          v-model="form.department"
+          filterable
+          placeholder="Département"
+        >
+          <el-option
+            v-for="item in $store.getters.taxonomies.departments.terms"
+            :key="item.value"
+            :label="`${item.value} - ${item.label}`"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <algolia-places-input
+        ref="alogoliaInput"
+        :value="form.full_address"
+        @selected="setAddress"
+        @clear="clearAddress"
+      ></algolia-places-input>
+      <el-form-item label="Adresse" prop="address">
+        <el-input v-model="form.address" disabled placeholder="Adresse" />
+      </el-form-item>
+      <div class="flex">
+        <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
+          <el-input v-model="form.zip" disabled placeholder="Code postal" />
+        </el-form-item>
+        <el-form-item label="Ville" prop="city" class="flex-1">
+          <el-input v-model="form.city" disabled placeholder="Ville" />
+        </el-form-item>
+      </div>
+      <div class="flex">
+        <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
+          <el-input v-model="form.latitude" disabled placeholder="Latitude" />
+        </el-form-item>
+        <el-form-item label="Longitude" prop="longitude" class="flex-1">
+          <el-input v-model="form.longitude" disabled placeholder="Longitude" />
+        </el-form-item>
+      </div>
+
+      <div class="mt-12 mb-6 flex text-xl text-gray-800">
+        Tuteur de la mission
+      </div>
+      <item-description>
+        Sélectionner le tuteur qui va s'occuper de la mission. Vous pouvez
+        également
+        <span class="underline cursor-pointer" @click="onAddTuteurLinkClicked">
+          ajouter un nouveau tuteur
+        </span>
+        à votre équipe.
+      </item-description>
+      <el-form-item label="Tuteur" prop="tuteur_id" class="flex-1">
+        <el-select
+          v-model="form.tuteur_id"
+          placeholder="Sélectionner un tuteur"
+        >
+          <el-option
+            v-for="item in form.structure.members"
+            :key="item.id"
+            :label="item.full_name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <div class="flex pt-2">
+        <el-button
+          :type="!showAskValidation ? 'primary' : ''"
+          :loading="loading"
+          @click="onSubmit"
+          >Enregistrer</el-button
+        >
+        <el-button
+          v-if="showAskValidation"
+          type="primary"
+          :loading="loading"
+          @click="onAskValidationSubmit"
+          >Enregistrer et proposer la mission</el-button
+        >
+      </div>
+    </el-form>
+  </div>
+</template>
+
+<script>
+import { getMission, addMission, updateMission } from "@/api/mission";
+import { getStructure } from "@/api/structure";
+import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
+import StateTag from "@/components/StateTag";
+import FormWithAddress from "@/mixins/FormWithAddress";
+import ItemDescription from "@/components/forms/ItemDescription";
+
+export default {
+  name: "MissionForm",
+  components: { AlgoliaPlacesInput, StateTag, ItemDescription },
+  mixins: [FormWithAddress],
+  props: {
+    structureId: {
+      type: Number,
+      default: null
+    },
+    id: {
+      type: Number,
+      default: null
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      mission: {},
+      form: {
+        state: "Brouillon",
+        format: "Perlée",
+        participations_max: 1
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "Veuillez renseigner un nom de mission",
+            trigger: "blur"
+          }
+        ],
+        format: [
+          {
+            required: true,
+            message: "Veuillez choisir un format de mission",
+            trigger: "blur"
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: "Veuillez renseigner un descriptif de la mission",
+            trigger: "blur"
+          }
+        ],
+        actions: [
+          {
+            required: true,
+            message: "Veuillez renseigner les actions de la mission",
+            trigger: "blur"
+          }
+        ],
+        justifications: [
+          {
+            required: true,
+            message:
+              "Veuillez expliquer en quoi la mission est d'intérêt général",
+            trigger: "blur"
+          }
+        ],
+        department: [
+          {
+            required: true,
+            message: "Veuillez sélectionner un département",
+            trigger: "blur"
+          }
+        ],
+        address: [
+          {
+            required: true,
+            message: "Veuillez renseigner une adresse",
+            trigger: "blur"
+          }
+        ],
+        city: [
+          {
+            required: true,
+            message: "Veuillez renseigner un ville",
+            trigger: "blur"
+          }
+        ],
+        tuteur_id: [
+          {
+            required: true,
+            message: "Veuillez sélectionner le responsable de la mission",
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  },
+  computed: {
+    showAskValidation() {
+      return this.$store.getters.contextRole == "responsable" &&
+        (!this.mission.state ||
+          this.mission.state == "Brouillon" ||
+          this.mission.state == "En attente de correction")
+        ? true
+        : false;
+    },
+    mode() {
+      return this.id ? "edit" : "add";
+    }
+  },
+  created() {
+    if (this.structureId) {
+      this.$store.commit("setLoading", true);
+      getStructure(this.structureId)
+        .then(response => {
+          this.$set(this.form, "structure", response.data);
+          if (
+            response.data.members.filter(
+              member => member.id == this.$store.getters.user.profile.id
+            ).length > 0
+          ) {
+            this.form.tuteur_id = this.$store.getters.user.profile.id;
+          }
+          this.$store.commit("setLoading", false);
+        })
+        .catch(() => {
+          this.loading = false;
+        });
+    } else if (this.id) {
+      this.$store.commit("setLoading", true);
+      getMission(this.id)
+        .then(response => {
+          this.form = response.data;
+          this.mission = { ...response.data };
+          this.$store.commit("setLoading", false);
+        })
+        .catch(() => {
+          this.loading = false;
+        });
+    }
+  },
+  methods: {
+    onAddTuteurLinkClicked() {
+      let routeData = this.$router.resolve({
+        name: "StructureMembersAdd",
+        params: { id: this.form.structure.id }
+      });
+      window.open(routeData.href, "_blank");
+    },
+    onAskValidationSubmit() {
+      this.form.state = "En attente de validation";
+      this.addOrUpdateMission();
+    },
+    onSubmit() {
+      this.addOrUpdateMission();
+    },
+    addOrUpdateMission() {
+      this.loading = true;
+      this.$refs["missionForm"].validate(valid => {
+        if (valid) {
+          if (this.id) {
+            updateMission(this.id, this.form)
+              .then(() => {
+                this.loading = false;
+                this.$router.go(-1);
+                this.$message({
+                  message: "La mission a été mise à jour !",
+                  type: "success"
+                });
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          } else if (this.structureId) {
+            addMission(this.structureId, this.form)
+              .then(() => {
+                this.loading = false;
+                this.$router.go(-1);
+                this.$message({
+                  message: "La mission a été ajoutée !",
+                  type: "success"
+                });
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          }
+        } else {
+          this.loading = false;
+        }
+      });
+    },
+    handleFormatChanged() {
+      if (this.mode == "add" && this.form.format == "Autonome") {
+        this.$refs.alogoliaInput.setVal(this.form.structure.full_address);
+        this.$set(this.form, "address", this.form.structure.address);
+        this.$set(this.form, "zip", this.form.structure.zip);
+        this.$set(this.form, "city", this.form.structure.city);
+        this.$set(this.form, "latitude", this.form.structure.latitude);
+        this.$set(this.form, "longitude", this.form.structure.longitude);
+        this.$set(this.form, "department", this.form.structure.department);
+      }
+    }
+  }
+};
+</script>
