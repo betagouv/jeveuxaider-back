@@ -12,9 +12,21 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.home');
+});
+
+Route::get('/a-propos', function () {
+    return view('pages.about');
+});
+
+Route::get('/confidentialite', function () {
+    return view('pages.confidentiality');
+});
+
+Route::get('/centre-d-aide', function () {
+    return view('pages.help');
 });
 
 Route::get('/{any}', function () {
-    return view('app');
+    return view('layouts.app');
 })->where('any', '.*');
