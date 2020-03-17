@@ -19,7 +19,7 @@ module.exports = {
       white: "#fff",
 
       gray: {
-        100: "#fafafc", //Overriden (#f7fafc)
+        100: "#fafafa", //Overriden (#f7fafc)
         200: "#edf2f7",
         300: "#e2e8f0",
         400: "#cbd5e0",
@@ -327,7 +327,11 @@ module.exports = {
       "4xl": "56rem",
       "5xl": "64rem",
       "6xl": "72rem",
-      full: "100%"
+      full: "100%",
+      "1/3": "33.3%",
+      "1/4": "25%",
+      "1/2": "50%",
+      "3/4": "75%",
     },
     minHeight: {
       "0": "0",
