@@ -18,17 +18,17 @@
                 <a href="/"><img id="logo-rc" src="/images/logo-reserve-civique_light.svg" alt="" style="height: 47px" /></a>
                 <a href="https://reserve-civique.beta.gouv.fr" target="_blank" class="text-white text-sm font-thin">Béta</a>
             </div>
-            <div class="my-8 text-4xl text-white max-w-4xl mx-auto text-center">
+            <div class="my-12 text-4xl text-white max-w-4xl mx-auto text-center">
                 <h1>Face à l’épidémie de <span class="italic font-bold">Covid-19</span> le Gouvernement appelle à une mobilisation de toutes les bonnes volontés.</h1>
             </div>
             <div class="flex justify-center">
                 <a href="/" class="btn-primary m-3">
-                    <span class="uppercase font-light text-xs">Je suis une structure publique ou associative</span>
-                    <span>J'ai besoin d'aide</span>
+                    <span class="uppercase font-light text-xxs">Je suis une structure publique ou associative</span>
+                    <span class="text-lg font-bold">J'ai besoin d'aide</span>
                 </a>
                 <a href="#" class="btn-secondary m-3" style="min-width: 300px">
-                    <span class="uppercase font-light text-xs">Je suis volontaire</span>
-                    <span>Je veux aider</span>
+                    <span class="uppercase font-light text-xxs">Je suis volontaire</span>
+                    <span class="text-lg font-bold">Je veux aider</span>
                 </a>
             </div>
         </div>
@@ -37,16 +37,16 @@
         <div class="w-1/2"><img class="" src="/images/brainstorming.jpeg" alt="" /></div>
         <div class="w-1/2 p-12">
             <div class="pr-32">
-                <h2 class="text-4xl mb-3 text-black font-bold">Votre structure est engagée dans la crise sanitaire face au Covid 19 ?</h2>
-                <p class="py-3 text-gray-600">Identifiez votre besoin et partagez-le sur la Réserve Civique pour que des citoyens vous viennent en aide dans le respect des règles de sécurité et des directives du gouvernement.</p>
+                <h2 class="text-4xl mb-3 text-gray-800 font-bold">Votre structure est engagée dans la crise sanitaire face au Covid 19 ?</h2>
+                <p class="py-3 text-gray-600 text-lg">Identifiez votre besoin et partagez-le sur la Réserve Civique pour que des citoyens vous viennent en aide dans le respect des règles de sécurité et des directives du gouvernement.</p>
             </div>
         </div>
     </div>
     <div class="flex">
         <div class="w-1/2 p-12">
             <div class="pl-32">
-                <h2 class="text-4xl mb-3 text-black font-bold">Vous souhaitez rejoindre les volontaires ?</h2>
-                <p class="py-3 text-gray-600">Aidez un travailleur en première ligne vivant proche de chez vous en gardant un enfant ou en faisant des courses, et engagez-vous dans la lutte contre l’épidémie.</p>
+                <h2 class="text-4xl mb-3 text-gray-800 font-bold">Vous souhaitez rejoindre les volontaires ?</h2>
+                <p class="py-3 text-gray-600 text-lg">Aidez un travailleur en première ligne vivant proche de chez vous en gardant un enfant ou en faisant des courses, et engagez-vous dans la lutte contre l’épidémie.</p>
             </div>
         </div>
         <div class="w-1/2"><img class="" src="/images/volontaires.jpeg" alt="" /> </div>
