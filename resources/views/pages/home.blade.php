@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.default')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Covid</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600,700" rel="stylesheet">
-    <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
-</head>
-
-<body>
+@section('content')
     <div style="background-image: url(images/bg_header_home.jpg)" class="py-12">
         <div class="container mx-auto px-4">
             <div class="lg:flex lg:justify-between text-center pb-6">
@@ -31,17 +21,18 @@
                     <span class="uppercase font-light text-xxs">Je suis une structure publique ou associative</span>
                     <span class="text-lg font-bold">J'ai besoin d'aide</span>
                 </a>
-                <a href="#" class="btn-secondary m-3">
+                <a href="#" class="btn-secondary m-3" style="min-width: 300px;">
                     <span class="uppercase font-light text-xxs">Je suis volontaire</span>
                     <span class="text-lg font-bold">Je veux aider</span>
                 </a>
             </div>
         </div>
     </div>
+
     <div class="lg:flex">
         <div class="lg:w-1/2"><img class="" src="/images/brainstorming.jpeg" alt="" /></div>
-        <div class="lg:w-1/2 p-12">
-            <div class="lg:pr-24">
+        <div class="lg:w-1/2 p-12 lg:flex lg:justify-start">
+            <div class="lg:max-w-xl">
                 <h2 class="text-2xl lg:text-4xl mb-3 text-gray-800 font-bold">Votre structure est engagée dans la crise sanitaire face au Covid 19 ?</h2>
                 <p class="py-3 text-gray-600 text-lg">Identifiez votre besoin et partagez-le sur la Réserve Civique pour que des citoyens vous viennent en aide dans le respect des règles de sécurité et des directives du gouvernement.</p>
                 <div class="mt-3">
@@ -52,9 +43,10 @@
             </div>
         </div>
     </div>
+
     <div class="lg:flex">
-        <div class="lg:w-1/2 p-12">
-            <div class="lg:pl-24">
+        <div class="lg:w-1/2 p-12 lg:flex lg:justify-end">
+            <div class="lg:max-w-xl">
                 <h2 class="text-2xl lg:text-4xl mb-3 text-gray-800 font-bold">Vous souhaitez rejoindre les volontaires ?</h2>
                 <p class="py-3 text-gray-600 text-lg">Aidez un travailleur en première ligne vivant proche de chez vous en gardant un enfant ou en faisant des courses, et engagez-vous dans la lutte contre l’épidémie.</p>
                 <div class="py-3">
@@ -69,6 +61,7 @@
         </div>
         <div class="lg:w-1/2"><img class="" src="/images/volontaires.jpeg" alt="" /> </div>
     </div>
+
     <div class="bg-gray-100">
         <div class="container mx-auto px-4">
             <div class="pt-12 lg:pt-24 text-center">
@@ -105,6 +98,21 @@
             </div>
         </div>
     </div>
-</body>
 
-</html>
+    <div class="lg:flex">
+        <div class="bg-blue-700 text-white lg:w-1/2 p-4 lg:p-12 lg:flex lg:justify-end">
+            <div class="lg:max-w-xl">
+                <h2 class="text-2xl lg:text-4xl mb-3 font-bold">Informations Coronavirus</h2>
+                <p class="py-3 text-lg">Toutes les réponses aux questions que vous vous posez sur le Coronavirus COVID-19</p>
+                <div class="mt-3">
+                    <a href="https://www.gouvernement.fr/info-coronavirus" target="_blank" class="btn-secondary plain">
+                        <span class="text-lg font-bold">S'informer</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="lg:w-1/2">
+            <img class="" src="/images/covid_19_header.jpg" alt="" />
+        </div>
+    </div>
+@endsection
