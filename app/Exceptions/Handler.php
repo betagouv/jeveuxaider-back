@@ -34,10 +34,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
-        }
-
         if ($exception instanceof \League\OAuth2\Server\Exception\OAuthServerException) {
             $transPayload = trans('auth.' . $exception->getErrorType());
             if (is_array($transPayload)) { // can be remove if you translate all error types!
