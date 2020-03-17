@@ -26,19 +26,6 @@
         <i class="el-icon-collection"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/youngs">
-      <span v-if="!isCollapsed">Volontaires</span>
-      <el-tooltip
-        v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Volontaires"
-        placement="right"
-      >
-        <i class="el-icon-finished"></i>
-      </el-tooltip>
-    </el-menu-item>
   </div>
 </template>
 

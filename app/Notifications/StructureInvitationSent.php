@@ -60,7 +60,7 @@ class StructureInvitationSent extends Notification
         if (!$notifiable->user) {
             $message
                 ->line('Vous pouvez créer votre compte maintenant en utilisant votre adresse email pour accéder à votre espace et proposer vos missions.')
-                ->action('Créer un compte', url(config('app.front_app_url') . '/register?' . http_build_query([
+                ->action('Créer un compte', url(config('app.url') . '/register?' . http_build_query([
                     'email' => $notifiable->email,
                     'first_name' => $notifiable->first_name,
                     'last_name' => $notifiable->last_name
@@ -68,7 +68,7 @@ class StructureInvitationSent extends Notification
         } else {
             $message
                 ->line('Vous pouvez, en utilisant votre adresse email, accéder à votre espace et proposer vos missions d’intérêt général dans le cadre du SNU.')
-                ->action('Accéder à mon compte', url(config('app.front_app_url')));
+                ->action('Accéder à mon compte', url(config('app.url')));
         }
 
         return $message;

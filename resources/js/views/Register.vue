@@ -6,7 +6,7 @@
         style="width: 340px;"
       >
         <img
-          src="@/assets/images/logo-snu.png"
+          src="/images/logo-snu.png"
           style="max-width: 100px; width: 100px; margin-bottom: 45px; margin-top: -70px;"
         />
         <div class="mb-6 font-bold text-2xl text-gray-800">Créez un compte</div>
@@ -88,7 +88,7 @@
           Plateforme du Service National Universel
         </h1>
         <img
-          src="@/assets/images/groupe-jeunes.png"
+          src="/images/groupe-jeunes.png"
           style="max-width: 280px;"
         />
       </div>

@@ -61,14 +61,14 @@ class ProfileInvitationSent extends Notification
         if (!$notifiable->user) {
             $message
                 ->line('Créez votre compte maintenant en utilisant votre adresse email pour accéder à votre espace et proposer vos missions.')
-                ->action('Créer mon compte', url(config('app.front_app_url') . '/register?' . http_build_query([
+                ->action('Créer mon compte', url(config('app.url') . '/register?' . http_build_query([
                     'email' => $notifiable->email,
                     'first_name' => $notifiable->first_name,
                     'last_name' => $notifiable->last_name
                 ])));
         } else {
             $message
-                ->action('Accéder à mon compte', url(config('app.front_app_url')));
+                ->action('Accéder à mon compte', url(config('app.url')));
         }
 
         return $message;

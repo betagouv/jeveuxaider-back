@@ -7,9 +7,9 @@ import Layout from "@/layout";
 /* Pages */
 import Login from "@/views/Login.vue";
 // import Logout from "@/views/Logout.vue";
-// import Register from "@/views/Register.vue";
-// import PasswordForgot from "@/views/PasswordForgot.vue";
-// import PasswordReset from "@/views/PasswordReset.vue";
+import Register from "@/views/Register.vue";
+import PasswordForgot from "@/views/PasswordForgot.vue";
+import PasswordReset from "@/views/PasswordReset.vue";
 // import NotFound from "@/views/NotFound.vue";
 // import Forbidden from "@/views/Forbidden.vue";
 // import BrowserOutdated from "@/views/BrowserOutdated.vue";
@@ -244,24 +244,24 @@ export default new Router({
     //   name: "Logout",
     //   component: Logout
     // },
-    // {
-    //   path: "/register",
-    //   name: "Register",
-    //   component: Register,
-    //   meta: { requiresAnonymous: true }
-    // },
-    // {
-    //   path: "/password/forgot",
-    //   name: "PasswordForgot",
-    //   component: PasswordForgot,
-    //   meta: { requiresAnonymous: true }
-    // },
-    // {
-    //   path: "/password/reset/:token",
-    //   name: "PasswordReset",
-    //   component: PasswordReset,
-    //   meta: { requiresAnonymous: true }
-    // },
+    {
+      path: "/register",
+      name: "Register",
+      component: Register,
+      meta: { requiresAnonymous: true }
+    },
+    {
+      path: "/password/forgot",
+      name: "PasswordForgot",
+      component: PasswordForgot,
+      meta: { requiresAnonymous: true }
+    },
+    {
+      path: "/password/reset/:token",
+      name: "PasswordReset",
+      component: PasswordReset,
+      meta: { requiresAnonymous: true }
+    },
     // {
     //   path: "/releases",
     //   component: Releases,

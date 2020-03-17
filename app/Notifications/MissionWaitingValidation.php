@@ -53,7 +53,7 @@ class MissionWaitingValidation extends Notification
             ->line('Vous avez proposé une mission d’intérêt général pour la phase 2 du SNU : ' . $this->mission->name)
             ->line('Cette mission, avant d’être proposée à un ou plusieurs volontaires, doit être validée par le service en charge des missions d’intérêt général.')
             ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
-            ->action('Accéder à mon compte', url(config('app.front_app_url')));
+            ->action('Accéder à mon compte', url(config('app.url')));
     }
 
     /**

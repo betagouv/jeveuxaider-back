@@ -56,7 +56,7 @@ class StructureCreated extends Notification
             ->line(new HtmlString('<ul><li>Proposer une mission d’intérêt général</li><li>Inviter d’autres membres de l’équipe de votre structure à proposer une mission d’intérêt général.</li></ul>'))
             ->line('Pour toute question concernant l’éligibilité de votre structure ou les missions que vous souhaitez proposer, nous vous invitons à contacter votre service référent départemental.')
             ->line('Nous vous rappelons que les structures pouvant proposer une mission d’intérêt général pour le SNU sont les associations, les structures publiques, les entreprises agréées « Entreprise solidaire d’utilité sociale » (ESUS) et les établissements de santé privés d’intérêt collectif. Les associations soumises à la loi de 1905, les partis politiques ou les syndicats ne peuvent proposer de missions.')
-            ->action('Accéder à mon compte', url(config('app.front_app_url')));
+            ->action('Accéder à mon compte', url(config('app.url')));
     }
 
     /**

@@ -44,7 +44,7 @@ class RegisterUserResponsable extends Notification
             ->greeting('Bonjour ' . $notifiable->profile->full_name . ' !')
             ->line('Vous vous êtes inscrit sur la plateforme de dépôt de missions d’intérêt général du SNU.')
             ->line('Vous pouvez désormais ajouter la structure dans laquelle vous êtes investis et proposer des missions d’intérêt général dans le cadre du SNU.')
-            ->action('Ajouter une structure', url(config('app.front_app_url')));
+            ->action('Ajouter une structure', url(config('app.url')));
     }
 
     /**

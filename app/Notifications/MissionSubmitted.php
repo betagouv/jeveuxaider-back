@@ -52,7 +52,7 @@ class MissionSubmitted extends Notification
             ->greeting('Bonjour ' . $notifiable->full_name . ' !')
             ->line('La structure ' . $this->mission->structure->name . ' propose une mission d’intérêt général dans le cadre du SNU : ' . $this->mission->name)
             ->line('Vous pouvez, sur votre espace personnel la consulter et valider cette mission.')
-            ->action('Accéder à mon compte', url(config('app.front_app_url'). '/missions'));
+            ->action('Accéder à mon compte', url(config('app.url'). '/missions'));
     }
 
     /**

@@ -52,7 +52,7 @@ class MissionValidated extends Notification
             ->greeting('Bonjour ' . $notifiable->full_name . ' !')
             ->line('Nous avons le plaisir de vous informer que la mission d’intérêt général ' . $this->mission->name . ' que vous avez proposée a bien été validée. Elle sera proposée à un ou plusieurs volontaires réalisant leur SNU.')
             ->line('Nous vous informerons prochainement des coordonnées du volontaire affecté sur cette mission.')
-            ->action('Accéder à mon compte', url(config('app.front_app_url')));
+            ->action('Accéder à mon compte', url(config('app.url')));
     }
 
     /**

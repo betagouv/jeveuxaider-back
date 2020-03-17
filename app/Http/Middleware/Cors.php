@@ -17,7 +17,7 @@ class Cors
     {
         $response = $next($request);
 
-        $response->headers->set('Access-Control-Allow-Origin', config('app.front_app_url'));
+        // $response->headers->set('Access-Control-Allow-Origin', config('app.url'));
         $response->headers->set('Access-Control-Allow-Methods', ['DELETE']);
         $response->headers->set('Access-Control-Allow-Headers', ['X-REQUESTED-WITH', 'CONTENT-TYPE', 'Authorization', 'Context-Role']);
 

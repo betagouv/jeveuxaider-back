@@ -53,7 +53,7 @@ class MissionWaitingCorrection extends Notification
             ->line('Vous avez déposé une proposition de mission d’intérêt général pour la phase 2 du SNU et nous vous en remercions.')
             ->line('Néanmoins, nous n’avons pu valider votre mission.')
             ->line('Nous vous invitons à modifier en conséquence votre mission et la proposer à nouveau pour validation.')
-            ->action('Modifier la mission', url(config('app.front_app_url') . '/mission/' . $this->mission->id . '/edit'))
+            ->action('Modifier la mission', url(config('app.url') . '/mission/' . $this->mission->id . '/edit'))
             ->line('L’équipe en charge du SNU dans votre département se tient à votre disposition pour tout renseignement complémentaire,');
     }
 
