@@ -3932,7 +3932,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue_clamp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-clamp */ "./node_modules/vue-clamp/Clamp.js");
@@ -4084,7 +4084,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      baseUrl: process.env.VUE_APP_API_BASE_URL,
+      // baseUrl: process.env.VUE_APP_API_BASE_URL,
       activeMenu: "profile"
     };
   },
@@ -4152,7 +4152,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }()
   }
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -85210,10 +85209,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 function login(email, password) {
+  console.log(process.env);
   return _utils_request__WEBPACK_IMPORTED_MODULE_1__["default"].post("/oauth/token", {
     grant_type: "password",
-    client_id: process.env.VUE_APP_OAUTH_CLIENT_ID,
-    client_secret: process.env.VUE_APP_OAUTH_CLIENT_SECRET,
+    client_id: process.env.MIX_OAUTH_CLIENT_ID,
+    client_secret: process.env.MIX_OAUTH_CLIENT_SECRET,
     username: email,
     password: password,
     scope: "*"
@@ -85234,8 +85234,8 @@ function _refreshToken() {
             _context.next = 2;
             return _utils_request__WEBPACK_IMPORTED_MODULE_1__["default"].post("/oauth/token", {
               grant_type: "refresh_token",
-              client_id: process.env.VUE_APP_OAUTH_CLIENT_ID,
-              client_secret: process.env.VUE_APP_OAUTH_CLIENT_SECRET,
+              client_id: process.env.MIX_OAUTH_CLIENT_ID,
+              client_secret: process.env.MIX_OAUTH_CLIENT_SECRET,
               refresh_token: refreshToken,
               scope: "*"
             });
@@ -87079,7 +87079,7 @@ var mutations = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
@@ -87098,9 +87098,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"; // create an axios instance
 
-var request = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL // timeout: 5000 ( Ne convient pas pour l'export )
-
+var request = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create({// baseURL: process.env.VUE_APP_API_BASE_URL
+  // timeout: 5000 ( Ne convient pas pour l'export )
 }); // request interceptor
 
 request.interceptors.request.use(
@@ -87181,7 +87180,6 @@ function format_errors(errors) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (request);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 

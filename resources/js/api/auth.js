@@ -2,10 +2,11 @@ import request from "../utils/request";
 import store from "../store";
 
 export function login(email, password) {
+    console.log(process.env)
   return request.post("/oauth/token", {
     grant_type: "password",
-    client_id: process.env.VUE_APP_OAUTH_CLIENT_ID,
-    client_secret: process.env.VUE_APP_OAUTH_CLIENT_SECRET,
+    client_id: process.env.MIX_OAUTH_CLIENT_ID,
+    client_secret: process.env.MIX_OAUTH_CLIENT_SECRET,
     username: email,
     password: password,
     scope: "*"
@@ -15,8 +16,8 @@ export function login(email, password) {
 export async function refreshToken(refreshToken) {
   return await request.post("/oauth/token", {
     grant_type: "refresh_token",
-    client_id: process.env.VUE_APP_OAUTH_CLIENT_ID,
-    client_secret: process.env.VUE_APP_OAUTH_CLIENT_SECRET,
+    client_id: process.env.MIX_OAUTH_CLIENT_ID,
+    client_secret: process.env.MIX_OAUTH_CLIENT_SECRET,
     refresh_token: refreshToken,
     scope: "*"
   });
