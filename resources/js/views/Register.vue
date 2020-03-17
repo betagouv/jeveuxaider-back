@@ -1,98 +1,102 @@
 <template>
-  <div class="login flex h-full">
-    <div class="flex flex-col justify-center items-center w-1/2">
-      <div
-        class="flex flex-col h-full justify-center relative"
-        style="width: 340px;"
-      >
-        <img
-          src="/images/logo-snu.png"
-          style="max-width: 100px; width: 100px; margin-bottom: 45px; margin-top: -70px;"
-        />
-        <div class="mb-6 font-bold text-2xl text-gray-800">Créez un compte</div>
+  <div class="register mx-auto w-full" style="max-width: 620px;">
+              <div>
+          <img class="h-8 w-auto" src="images/logo-reserve-civique_dark.svg" alt="Workflow" />
+          <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+            Vous souhaitez rejoindre les volontaires ?<br /> Rejoignez la <span class="text-blue-800">Réserve Civique</span>
+          </h2>
+        </div>
+        <div class="mt-8 border-t border-gray-200 pt-8"></div>
+        <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Engagez-vous dans la lutte contre l’épidémie
+            </h3>
+            <p class="mt-1 text-sm leading-5 text-gray-500">
+                <a href="#">Cet engagement nécessite un respect strict des règles sanitaires applicables ›</a>
+            </p>
+        </div>
         <el-form
           ref="registerForm"
           :model="form"
           label-position="top"
           :rules="rules"
           :hide-required-asterisk="true"
+          class="mt-6 flex flex-wrap"
         >
-          <el-form-item label="Adresse Email" prop="email">
-            <el-input
-              v-model="form.email"
-              placeholder="Email"
-              :disabled="disableFields"
-            />
-          </el-form-item>
-          <div class="flex justify-between">
-            <el-form-item label="Prénom" prop="first_name" class="mr-1">
-              <el-input
+            <el-form-item label="Prénom" prop="first_name" class="sm:w-1/2 sm:pr-4">
+                <el-input
                 v-model="form.first_name"
                 placeholder="Prénom"
-                :disabled="disableFields"
-              />
+                />
             </el-form-item>
-            <el-form-item label="Nom" prop="last_name" class="ml-1">
-              <el-input
+            <el-form-item label="Nom" prop="last_name" class="sm:w-1/2">
+                <el-input
                 v-model="form.last_name"
                 placeholder="Nom"
-                :disabled="disableFields"
-              />
+                />
             </el-form-item>
-          </div>
-          <el-form-item label="Mot de passe" prop="password">
+          <el-form-item label="E-mail" prop="email" class="sm:w-1/2 sm:pr-4">
+            <el-input
+              v-model="form.email"
+              placeholder="E-mail"
+            />
+          </el-form-item>
+            <el-form-item label="Code Postal" prop="code_postal" class="sm:w-1/2">
+                <el-input
+                v-model="form.code_postal"
+                placeholder="Code Postal"
+                />
+            </el-form-item>
+            <el-form-item label="Téléphone" prop="telephone" class="sm:w-1/2 sm:pr-4">
+                <el-input
+                v-model="form.telephone"
+                placeholder="Téléphone"
+                />
+            </el-form-item>
+            <el-form-item label="Date de naissance" prop="date_naissance" class="sm:w-1/2">
+                <el-date-picker type="date" placeholder="Date de naissance" v-model="form.date_naissance" style="width:100%;"></el-date-picker>
+            </el-form-item>
+          <el-form-item label="Mot de passe" prop="password" class="sm:w-1/2">
             <el-input
               v-model="form.password"
               placeholder="Choisissez votre mot de passe"
               show-password
             />
           </el-form-item>
-          <!-- <el-form-item label="J'ai lu et j'accepte" class="-mb-3">
-            <el-checkbox v-model="form.cgu"
-              >les conditions générales d’utilisation</el-checkbox
-            >
-          </el-form-item>
-          <el-form-item prop="cgu">
-            <el-checkbox v-model="form.confidentialite"
-              >la polititique de confidentialité</el-checkbox
-            >
-          </el-form-item> -->
-          <div class="flex pt-2">
-            <el-button type="primary" :loading="loading" @click="onSubmit"
-              >Créer mon compte</el-button
-            >
-          </div>
         </el-form>
-        <div
-          class="absolute bottom-0 m-auto mb-10 text-sm text-secondary pt-5 border-t border-gray-400"
-          style="width: 340px;"
-        >
-          Vous avez déjà un compte ?
-          <router-link to="/login">
-            <span class="text-gray-800 font-semibold"
-              >&nbsp;Connectez-vous</span
+        <div class="mt-8 sm:col-span-">
+        <span class=" block w-full rounded-md shadow-sm">
+            <el-button
+            type="primary" :loading="loading" @click="onSubmit"
+            style="height: 48px;"
+            class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
             >
-          </router-link>
+                Je m'inscris
+            </el-button>
+        </span>
         </div>
-      </div>
-    </div>
-    <div
-      class="flex flex-col justify-center w-1/2"
-      style="background-color: #f5f9fc;"
-    >
-      <div class="flex flex-col items-center">
-        <h1
-          class="text-2xl font-semibold text-center text-primary"
-          style="margin-bottom: 92px;"
-        >
-          Plateforme du Service National Universel
-        </h1>
-        <img
-          src="/images/groupe-jeunes.png"
-          style="max-width: 280px;"
-        />
-      </div>
-    </div>
+        <div class="mt-6">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm leading-5">
+              <span class="px-2 bg-white text-gray-500">
+                OU
+              </span>
+            </div>
+          </div>
+          <div class="mt-6 sm:col-span-">
+            <router-link to="/login">
+                <span class=" block w-full rounded-md shadow-sm">
+                <button type="submit"
+                class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out">
+                J'ai déjà un compte
+                </button>
+                </span>
+            </router-link>
+          </div>
+        </div>
   </div>
 </template>
 
@@ -100,27 +104,16 @@
 export default {
   name: "Register",
   data() {
-    // var validateCGU = (rule, value, callback) => {
-    //   if (this.form.cgu === false) {
-    //     callback(
-    //       new Error("Merci d'accepter les conditions générales d'utilisation")
-    //     );
-    //   } else if (this.form.confidentialite === false) {
-    //     callback(new Error("Merci d'accepter la politique de confidentialité"));
-    //   } else {
-    //     callback();
-    //   }
-    // };
     return {
       loading: false,
-      disableFields: false,
       form: {
         email: "",
         first_name: "",
         last_name: "",
         password: "",
-        cgu: false,
-        confidentialite: false
+        telephone: "",
+        code_postal: "",
+        date_naissance: ""
       },
       rules: {
         email: [
@@ -149,7 +142,6 @@ export default {
             trigger: "blur"
           }
         ],
-        // cgu: [{ validator: validateCGU, trigger: "blur" }],
         password: [
           {
             required: true,
@@ -164,14 +156,6 @@ export default {
         ]
       }
     };
-  },
-  created() {
-    if (this.$route.query.email) {
-      this.form.email = this.$route.query.email;
-      this.form.first_name = this.$route.query.first_name;
-      this.form.last_name = this.$route.query.last_name;
-      this.disableFields = true;
-    }
   },
   methods: {
     onSubmit() {

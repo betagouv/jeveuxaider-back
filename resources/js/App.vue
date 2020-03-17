@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-full">
+  <div id="app" class="h-full font-sans">
     <transition name="fade" mode="out-in">
         <router-view />
     </transition>

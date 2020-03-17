@@ -13,7 +13,7 @@ module.exports = {
     },
     colors: {
       transparent: "transparent",
-      primary: colors.blue[600],
+      primary: colors.blue[800],
 
       black: "#000",
       white: "#fff",
@@ -21,11 +21,11 @@ module.exports = {
       gray: {
         100: "#fafafa", //Overriden (#f7fafc)
         200: "#edf2f7",
-        300: "#e2e8f0",
-        400: "#cbd5e0",
-        500: "#a0aec0",
+        300: "#d2d6dc",
+        400: "#9fa6b2",
+        500: "#6b7280",
         600: "#747474", //Overridden 718096",
-        700: "#4a5568",
+        700: "#374151",
         800: "#242526", //Overriden (#2d3748)
         900: "#1a202c"
       },
@@ -92,7 +92,7 @@ module.exports = {
         500: "#4299e1",
         600: "#3182ce",
         700: "#3093D8", //Overriden #2b6cb0,
-        800: "#2c5282",
+        800: "#1e429f", // Color primary
         900: "#2a4365",
         'royal': '#002D83'
       },
@@ -495,5 +495,7 @@ module.exports = {
     zIndex: ["responsive"]
   },
   corePlugins: {},
-  plugins: []
+    plugins: [
+        require('@tailwindcss/ui'),
+    ]
 };
