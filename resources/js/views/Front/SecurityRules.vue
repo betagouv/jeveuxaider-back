@@ -5,68 +5,80 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">À propos</h1>
+          <h1 class="text-3xl font-bold text-white">Règles de sécurité</h1>
         </div>
       </div>
     </div>
 
     <div class="-mt-32">
       <div class="container mx-auto px-4 my-12">
-        <div class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16">
-          <h2
-            class="text-3xl leading-tight font-extrabold text-gray-900"
-          >Des gestes simples pour préserver votre santé et celle des autres</h2>
+        <div
+          class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
+        >
+          <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
+            Des gestes simples pour préserver votre santé et celle des autres
+          </h2>
           <div class="mt-6 border-t-2 border-gray-100 pt-10">
             <dl class="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <div>
-                  <dt
-                    class="text-lg leading-tight font-bold text-gray-900"
-                  >Je me lave très régulièrement les mains</dt>
+                  <dt class="text-lg leading-tight font-bold text-gray-900">
+                    Je me lave très régulièrement les mains
+                  </dt>
                   <dd class="mt-2">
-                    <p
-                      class="text-base leading-6 text-gray-500"
-                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-base leading-6 text-gray-500">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
                   </dd>
                 </div>
                 <div class="mt-12">
-                  <dt
-                    class="text-lg leading-tight font-bold text-gray-900"
-                  >Je tousse ou éternue dans mon coude ou dans un mouchoir</dt>
+                  <dt class="text-lg leading-tight font-bold text-gray-900">
+                    Je tousse ou éternue dans mon coude ou dans un mouchoir
+                  </dt>
                   <dd class="mt-2">
-                    <p
-                      class="text-base leading-6 text-gray-500"
-                    >Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="text-base leading-6 text-gray-500">
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
                   </dd>
                 </div>
                 <div class="mt-12">
-                  <dt
-                    class="text-lg leading-tight font-bold text-gray-900"
-                  >J’utilise des mouchoirs à usage unique et je les jette</dt>
+                  <dt class="text-lg leading-tight font-bold text-gray-900">
+                    J’utilise des mouchoirs à usage unique et je les jette
+                  </dt>
                   <dd class="mt-2">
-                    <p
-                      class="text-base leading-6 text-gray-500"
-                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-base leading-6 text-gray-500">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
                   </dd>
                 </div>
               </div>
               <div class="mt-12 md:mt-0">
                 <div>
-                  <dt
-                    class="text-lg leading-tight font-bold text-gray-900"
-                  >Je salue sans serrer la main, j’arrête les embrassades</dt>
+                  <dt class="text-lg leading-tight font-bold text-gray-900">
+                    Je salue sans serrer la main, j’arrête les embrassades
+                  </dt>
                   <dd class="mt-2">
-                    <p
-                      class="text-base leading-6 text-gray-500"
-                    >Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="text-base leading-6 text-gray-500">
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
                   </dd>
                 </div>
                 <div class="mt-12">
-                  <dt class="text-lg leading-tight font-bold text-gray-900">Je reste chez moi</dt>
+                  <dt class="text-lg leading-tight font-bold text-gray-900">
+                    Je reste chez moi
+                  </dt>
                   <dd class="mt-2">
-                    <p
-                      class="text-base leading-6 text-gray-500"
-                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="text-base leading-6 text-gray-500">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
                   </dd>
                 </div>
               </div>
