@@ -12,7 +12,15 @@
 
 <body>
     <div id="app-blade">
-        <vue-header title="Titre à sortir de vue header"></vue-header>
+        <vue-header></vue-header>
+
+        <div class="bg-blue-900 pb-32">
+            <div class="container mx-auto px-4">
+                <div class="pt-10">
+                    <h1 class="text-3xl font-bold text-white">@yield('page_title')</h1>
+                </div>
+            </div>
+        </div>
 
         <div class="-mt-32">
             <div class="container mx-auto px-4 my-12">

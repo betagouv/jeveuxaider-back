@@ -1,6 +1,14 @@
 <template>
   <div class="bg-gray-100">
-    <Header title="Mission disponible" />
+    <VueHeader />
+
+    <div class="bg-blue-900 pb-32">
+      <div class="container mx-auto px-4">
+        <div class="pt-10">
+          <h1 class="text-3xl font-bold text-white">Mission disponible</h1>
+        </div>
+      </div>
+    </div>
 
     <div class="-mt-32">
       <div class="container mx-auto px-4 mt-12">
@@ -478,12 +486,12 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import VueHeader from "@/components/VueHeader";
 
 export default {
   name: "Mission",
   components: {
-    Header
+    VueHeader
   },
   computed: {}
 };
