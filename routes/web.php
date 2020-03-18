@@ -10,23 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('pages.home');
-});
-
-Route::get('/a-propos', function () {
-    return view('pages.about');
-});
-
-Route::get('/confidentialite', function () {
-    return view('pages.confidentiality');
-});
-
-Route::get('/centre-d-aide', function () {
-    return view('pages.help');
-});
-
-Route::get('/{any}', function () {
-    return view('layouts.app');
-})->where('any', '.*');
+Route::get('/', 'PagesController@home');
+Route::get('/a-propos', 'PagesController@about');
+Route::get('/confidentialite', 'PagesController@confidentiality');
+Route::get('/centre-d-aide', 'PagesController@help');
+Route::get('/{any}', 'PagesController@spa')->where('any', '.*');
