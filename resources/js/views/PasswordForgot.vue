@@ -1,76 +1,74 @@
 <template>
-  <div class="login flex h-full">
-    <div class="flex flex-col justify-center items-center w-1/2">
-      <div
-        class="flex flex-col h-full justify-center relative"
-        style="width: 340px;"
+  <div class="mx-auto w-full" style="max-width: 390px;">
+    <div>
+      <router-link to="/">
+        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+      </router-link>
+      <h2 v-if="!submitted" class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+        Réinitialisation du mot de passe
+        <br />
+        <span class="text-blue-800">mot de passe</span>
+      </h2>
+      <h2 v-else class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+        Email
+        <span class="text-blue-800">envoyé</span>
+      </h2>
+    </div>
+    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div v-if="!submitted">
+      <div class="mb-6 text-sm">
+        Pour réinitialiser votre mot de passe, entrez l'adresse mail que
+        vous avez utilisée pour vous connecter à la plateforme
+      </div>
+      <el-form
+        ref="forgotPasswordForm"
+        :model="form"
+        label-position="top"
+        :rules="rules"
+        :hide-required-asterisk="true"
       >
-        <img
-          src="/images/logo-snu.png"
-          style="max-width: 100px; width: 100px; margin-bottom: 45px; margin-top: -70px;"
-        />
-        <div v-if="!submitted">
-          <div class="mb-6 font-bold text-2xl text-gray-800">
-            Réinitialisation du mot de passe
+        <el-form-item label="Adresse Email" prop="email">
+          <el-input v-model="form.email" placeholder="Email" />
+        </el-form-item>
+      </el-form>
+      <div class="mt-8 sm:col-span-">
+        <span class="block w-full rounded-md shadow-sm">
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="onSubmit"
+            style="height: 48px;"
+            class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+          >Réinitialiser mon mot de passe</el-button>
+        </span>
+      </div>
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
           </div>
-          <div class="mb-6 font-light text-sm">
-            Pour réinitialiser votre mot de passe, entrez l'adresse mail que
-            vous avez utilisée pour vous connecter à la plateforme
-          </div>
-          <el-form
-            ref="forgotPasswordForm"
-            :model="form"
-            label-position="top"
-            :rules="rules"
-            :hide-required-asterisk="true"
-          >
-            <el-form-item label="Adresse Email" prop="email">
-              <el-input v-model="form.email" placeholder="Email" />
-            </el-form-item>
-            <div class="flex pt-2 justify-between items-center">
-              <el-button type="primary" :loading="loading" @click="onSubmit"
-                >Obtenir le lien de réinitialisation par email</el-button
-              >
-            </div>
-          </el-form>
-          <div
-            class="absolute bottom-0 m-auto mb-10 text-sm text-secondary pt-5 border-t border-gray-400"
-            style="width: 340px;"
-          >
-            Vous avez déjà un compte ?
-            <router-link to="/user/login">
-              <span class="text-gray-800 font-semibold"
-                >&nbsp;Connectez vous</span
-              >
-            </router-link>
+          <div class="relative flex justify-center text-sm leading-5">
+            <span class="px-2 bg-white text-gray-500">OU</span>
           </div>
         </div>
-        <div v-else>
-          <div class="mb-6 font-bold text-2xl text-gray-800">Email envoyé</div>
-          <div class="mb-6 font-light text-sm">
-            Une email contenant les instructions pour réinitialiser votre mot de
-            passe vient de vous être envoyé.
-            <br />Si vous ne vous souvenez plus de votre email de connexion,
-            écrivez-nous à contact@snu-mig.fr.
-          </div>
+        <div class="mt-6 sm:col-span-">
+          <router-link to="/login">
+            <span class="block w-full rounded-md shadow-sm">
+              <button
+                type="submit"
+                class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
+              >J'ai déjà un compte</button>
+            </span>
+          </router-link>
         </div>
       </div>
     </div>
-    <div
-      class="flex flex-col justify-center w-1/2"
-      style="background-color: #f5f9fc;"
-    >
-      <div class="flex flex-col items-center">
-        <h1
-          class="text-2xl font-semibold text-center text-primary"
-          style="margin-bottom: 92px;"
-        >
-          Plateforme du Service National Universel
-        </h1>
-        <img
-          src="/images/groupe-jeunes.png"
-          style="max-width: 280px;"
-        />
+    <div v-else>
+      <div class="mb-6 text-sm">
+        Une email contenant les instructions pour réinitialiser votre mot de
+        passe vient de vous être envoyé.
+        <br /><br />Si vous ne vous souvenez plus de votre email de connexion,
+        écrivez-nous à contact@reserve-civique.beta.gouv.fr.
       </div>
     </div>
   </div>

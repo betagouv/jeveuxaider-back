@@ -9,7 +9,7 @@ router.beforeEach(async (to, from, next) => {
     console.log('requiresAuth is true')
     if (!store.getters.isLogged) {
         console.log('requiresAuth is true && is NOT logged')
-      next("/user/login");
+      next("/login");
     } else {
       // IF NOT CONTEXT ROLE
       console.log('requiresAuth is true && is logged')

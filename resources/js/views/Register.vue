@@ -1,7 +1,9 @@
 <template>
   <div class="register mx-auto w-full" style="max-width: 700px;">
     <div>
-      <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Workflow" />
+      <router-link to="/">
+        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+      </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Rejoignez la
         <span class="text-blue-800">Réserve Civique</span>
@@ -26,7 +28,7 @@
             Je suis volontaire et souhaite apporter mon aide
           </div>
           <router-link
-            to="/user/register/volontaire"
+            to="/register/volontaire"
           >
             <el-button type="primary">Choisir</el-button>
           </router-link>
@@ -40,7 +42,7 @@
             Je suis une structure publique ou associative
           </div>
           <router-link
-            to="/user/register/responsable"
+            to="/register/responsable"
           >
             <el-button type="primary">Choisir</el-button>
           </router-link>
@@ -58,7 +60,7 @@
         </div>
       </div>
       <div class="mt-6 sm:col-span-">
-        <router-link to="/user/login">
+        <router-link to="/login">
           <span class="block w-full rounded-md shadow-sm">
             <button
               type="submit"

@@ -7,21 +7,22 @@
             <img class="mx-auto" src="/images/logo-header.svg" alt style="height: 42px" />
           </div>
           <div class="my-3">
-            <a href="/">
+            <router-link to="/">
               <img
                 class="mx-auto"
                 src="/images/logo-reserve-civique_light.svg"
                 alt="Réserve Civique"
                 style="height: 47px"
               />
-            </a>
+            </router-link>
           </div>
           <div class="my-3">
-            <a
+            <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
+            <router-link
+              v-else
+              to="/login"
               class="mx-auto text-white text-sm font-thin hover:underline"
-              href="https://reserve-civique.beta.gouv.fr"
-              target="_blank"
-            >Béta</a>
+            >Se connecter</router-link>
           </div>
         </div>
         <div class="py-8 text-2xl lg:text-4xl text-white max-w-4xl mx-auto text-center">
@@ -31,7 +32,8 @@
           </h1>
         </div>
         <div class="flex flex-col lg:flex-row items-center justify-center">
-          <router-link to="/user/register/responsable"
+          <router-link
+            to="/register/responsable"
             class="btn-primary m-3 w-full"
             style="max-width:320px;"
           >
@@ -41,7 +43,7 @@
             <span class="text-lg font-bold">J'ai besoin d'aide</span>
           </router-link>
           <router-link
-            to="/user/register/volontaire"
+            to="/register/volontaire"
             class="btn-secondary m-3 w-full"
             style="max-width:320px;"
           >
@@ -65,7 +67,7 @@
             class="py-3 text-gray-600 text-lg"
           >Identifiez votre besoin et partagez-le sur la Réserve Civique pour que des citoyens vous viennent en aide dans le respect des règles de sécurité et des directives du gouvernement.</p>
           <div class="mt-3">
-            <router-link to="/user/register/responsable" class="btn-primary">Proposer des missions</router-link>
+            <router-link to="/register/responsable" class="btn-primary">Proposer des missions</router-link>
           </div>
         </div>
       </div>
@@ -161,5 +163,6 @@
         />
       </div>
     </div>
+    <AppFooter />
   </div>
 </template>

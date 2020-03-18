@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100">
-    <VueHeader />
+    <AppHeader />
 
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
@@ -482,17 +482,13 @@
         </ul>
       </div>
     </div>
+    <AppFooter />
   </div>
 </template>
 
 <script>
-import VueHeader from "@/components/VueHeader";
-
 export default {
   name: "Mission",
-  components: {
-    VueHeader
-  },
   computed: {}
 };
 </script>
