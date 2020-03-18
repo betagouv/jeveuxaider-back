@@ -13,7 +13,7 @@ use Laravel\Passport\Token;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\RegisterUserResponsable;
-use App\Notifications\RegisterUser;
+use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterRequest;
 
 class PassportController extends Controller
@@ -33,10 +33,16 @@ class PassportController extends Controller
         ]);
 
         $profile = Profile::whereEmail(request('email'))->first();
-        $notification = new RegisterUser($user);
 
         if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
             $profile = Profile::create($request->validated());
+        }
+
+        if (request('type') == 'volontaire') {
+            $notification = new RegisterUserVolontaire($user);
+        }
+
+        if (request('type') == 'responsable') {
             $notification = new RegisterUserResponsable($user);
         }
 

@@ -43,7 +43,7 @@ const actions = {
   },
   register({ dispatch }, user) {
     return new Promise((resolve, reject) => {
-      register(user.email, user.password, user.first_name, user.last_name)
+      register(user.type, user.email, user.password, user.first_name, user.last_name, user.mobile, user.birthday, user.zip)
         .then(() => {
           dispatch("login", user).then(response => {
             resolve(response);

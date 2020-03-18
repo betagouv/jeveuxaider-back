@@ -1,18 +1,32 @@
+.transition
+    transition: all .25s
+
+.btn
+    @apply inline-flex flex-col px-8 py-3 rounded-full items-center text-center font-bold border-2 border-transparent transition
+    font-size: 15px
+
 .btn-primary
-    @apply inline-flex flex-col bg-red-700 text-white px-8 py-4 rounded-full items-center shadow-xl
+    box-shadow: 4px 7px 16px #d9534f69
+    @apply btn bg-red-700 text-white
     &:hover
         @apply bg-red-600
 
 .btn-secondary
-    @apply inline-flex flex-col bg-blue-700 text-white px-8 py-4 rounded-full items-center shadow-xl
+    @apply btn bg-blue-700 text-white
+    box-shadow: 4px 7px 16px rgba(27, 139, 249, 0.4)
     &:hover
         @apply bg-blue-600
     &.plain
-        @apply bg-transparent border-2 border-white shadow-none
+        @apply bg-transparent border-white shadow-none
         &:hover
             @apply bg-white text-gray-800
 
 .text-xxs
     font-size: 9px
-    
-        
+.text-15
+    font-size: 15px
+
+.titre-1
+    @apply text-2xl mb-3 text-gray-800 font-bold leading-tight
+    @screen lg
+        @apply text-4xl
