@@ -93,7 +93,7 @@ export default new Router({
           path: "/register/step/norole",
           component: () =>
             import(
-              /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
+              /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
             ),
           name: "NoRoleStep"
         },
@@ -101,7 +101,7 @@ export default new Router({
           path: "/register/step/profile",
           component: () =>
             import(
-              /* webpackChunkName: "profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
+              /* webpackChunkName: "assets/js/profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
             ),
           name: "ProfileStep"
         },
@@ -109,7 +109,7 @@ export default new Router({
           path: "/register/step/structure",
           component: () =>
             import(
-              /* webpackChunkName: "structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
+              /* webpackChunkName: "assets/js/structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
             ),
           name: "StructureStep"
         },
@@ -117,7 +117,7 @@ export default new Router({
           path: "/register/step/address",
           component: () =>
             import(
-              /* webpackChunkName: "address-step" */ "@/views/RegisterSteps/AddressStep.vue"
+              /* webpackChunkName: "assets/js/address-step" */ "@/views/RegisterSteps/AddressStep.vue"
             ),
           name: "AddressStep"
         }
@@ -125,7 +125,7 @@ export default new Router({
     //       path: "/register/step/other",
     //       component: () =>
     //         import(
-    //           /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
+    //           /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
     //         ),
     //       name: "OtherStep"
     //     },

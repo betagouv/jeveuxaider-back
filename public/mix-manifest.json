@@ -1,10 +1,9 @@
 {
     "/assets/js/app.js": "/assets/js/app.js",
     "/assets/css/app.css": "/assets/css/app.css",
-    "/address-step.js": "/address-step.js",
-    "/no-role-step.js": "/no-role-step.js",
-    "/profile-step.js": "/profile-step.js",
-    "/structure-step.js": "/structure-step.js",
-    "/vendors~address-step.js": "/vendors~address-step.js",
-    "/assets/js/app.d3f3ae58d43c6fd3ff84.hot-update.js": "/assets/js/app.d3f3ae58d43c6fd3ff84.hot-update.js"
+    "/assets/js/address-step.js": "/assets/js/address-step.js",
+    "/assets/js/no-role-step.js": "/assets/js/no-role-step.js",
+    "/assets/js/profile-step.js": "/assets/js/profile-step.js",
+    "/assets/js/structure-step.js": "/assets/js/structure-step.js",
+    "/vendors~assets/js/address-step.js": "/vendors~assets/js/address-step.js"
 }
