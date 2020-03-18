@@ -1,11 +1,11 @@
 {
-    "/assets/js/app.js": "/assets/js/app.js",
-    "/assets/css/app.css": "/assets/css/app.css",
-    "/assets/js/app-blade.js": "/assets/js/app-blade.js",
-    "/assets/js/address-step.js": "/assets/js/address-step.js",
-    "/assets/js/no-role-step.js": "/assets/js/no-role-step.js",
-    "/assets/js/profile-step.js": "/assets/js/profile-step.js",
-    "/assets/js/structure-step.js": "/assets/js/structure-step.js",
-    "/mission.js": "/mission.js",
-    "/vendors~assets/js/address-step.js": "/vendors~assets/js/address-step.js"
+    "/assets/js/app.js": "/assets/js/app.js?id=0a6b0c409c03f94e9e6c",
+    "/assets/css/app.css": "/assets/css/app.css?id=46f15569571a251500fa",
+    "/assets/js/app-blade.js": "/assets/js/app-blade.js?id=c8c32338c465c41705b1",
+    "/assets/js/address-step.js": "/assets/js/address-step.js?id=538f81e43bfc71633840",
+    "/assets/js/no-role-step.js": "/assets/js/no-role-step.js?id=5d8f37844d1049623bde",
+    "/assets/js/profile-step.js": "/assets/js/profile-step.js?id=7fa807667ed89009ed25",
+    "/assets/js/structure-step.js": "/assets/js/structure-step.js?id=dad96ce12f5dd5f8e2d8",
+    "/mission.js": "/mission.js?id=1eb74b4bbb5dff062ec3",
+    "/vendors~assets/js/address-step.js": "/vendors~assets/js/address-step.js?id=607c506fa841e18716b1"
 }

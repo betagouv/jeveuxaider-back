@@ -151,13 +151,13 @@ export default new Router({
       {
         path: '/user/profile',
         component: FrontProfile
-  
+
       },
     // {
       {
         path: '/user/settings',
         component: FrontSettings
-  
+
       },
     {
       path: '/missions',
@@ -167,7 +167,7 @@ export default new Router({
       path: "/missions/:id",
       component: () =>
         import(
-            /* webpackChunkName: "mission" */ "@/views/Mission.vue"
+            /* webpackChunkName: "assets/js/mission" */ "@/views/Mission.vue"
         ),
       name: "Mission"
     },
