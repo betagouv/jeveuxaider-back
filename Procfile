@@ -1,1 +1,1 @@
-postdeploy: php artisan migrate --no-interaction
+postdeploy: php artisan migrate --no-interaction --force
