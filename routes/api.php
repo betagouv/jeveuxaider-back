@@ -78,19 +78,19 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('profile', 'Api\ProfileController@store');
 
     // TRASH
-    Route::get('trash', 'Api\TrashController@index');
-    Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
-    Route::delete('young/{id}/destroy', 'Api\YoungController@destroy');
-    Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
+    // Route::get('trash', 'Api\TrashController@index');
+    // Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
+    // Route::delete('young/{id}/destroy', 'Api\YoungController@destroy');
+    // Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
 
     // RELEASES
-    Route::get('release/{release}', 'Api\ReleaseController@show');
-    Route::post('release/{release}', 'Api\ReleaseController@update');
-    Route::delete('release/{release}', 'Api\ReleaseController@delete');
+    // Route::get('release/{release}', 'Api\ReleaseController@show');
+    // Route::post('release/{release}', 'Api\ReleaseController@update');
+    // Route::delete('release/{release}', 'Api\ReleaseController@delete');
 
     // IMPERSONNATE
-    Route::post('impersonate/{user}', 'Api\UserController@impersonate');
-    Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
+    // Route::post('impersonate/{user}', 'Api\UserController@impersonate');
+    // Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
 });
 
 // Endpoints utilisés par des applications externes

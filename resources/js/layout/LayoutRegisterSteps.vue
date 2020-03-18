@@ -16,9 +16,9 @@
 
       <div class="absolute bottom-0 w-full flex flex-col items-center px-4">
         <img
-          src="@/assets/images/logo-snu.png"
+          src="/images/logo-reserve-civique_dark.svg"
           class="mb-8"
-          style="max-width: 100px;"
+          style="max-width: 230px;"
         />
         <div
           class="flex text-blue-200 font-light border-t border-blue-400 w-full justify-center"

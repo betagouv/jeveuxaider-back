@@ -32,7 +32,7 @@
             <span v-if="firstName">{{ firstName[0] }}{{ lastName[0] }}</span>
           </el-avatar>
         </div>
-        <div class="ml-8 mb-auto">
+        <!-- <div class="ml-8 mb-auto">
           <el-upload
             action=""
             :http-request="uploadAvatar"
@@ -45,7 +45,7 @@
               taille maximale de 5 Mo
             </div>
           </el-upload>
-        </div>
+        </div> -->
       </div>
       <el-form
         ref="profileForm"
@@ -119,23 +119,23 @@ export default {
     }
   },
   methods: {
-    uploadAvatar(request) {
-      this.$store.dispatch("user/updateProfileAvatar", {
-        id: this.$store.getters.profile.id,
-        avatar: request.file
-      });
-    },
-    beforeAvatarUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 4;
-      if (!isLt5M) {
-        this.$message({
-          message: "Votre image ne doit pas éxcéder une taille de 4MB",
-          dangerouslyUseHTMLString: true,
-          type: "error"
-        });
-      }
-      return isLt5M;
-    },
+    // uploadAvatar(request) {
+    //   this.$store.dispatch("user/updateProfileAvatar", {
+    //     id: this.$store.getters.profile.id,
+    //     avatar: request.file
+    //   });
+    // },
+    // beforeAvatarUpload(file) {
+    //   const isLt5M = file.size / 1024 / 1024 < 4;
+    //   if (!isLt5M) {
+    //     this.$message({
+    //       message: "Votre image ne doit pas éxcéder une taille de 4MB",
+    //       dangerouslyUseHTMLString: true,
+    //       type: "error"
+    //     });
+    //   }
+    //   return isLt5M;
+    // },
     onSubmit() {
       this.loading = true;
       this.$refs["profileForm"].validate(valid => {

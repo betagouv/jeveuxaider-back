@@ -7,7 +7,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 // create an axios instance
 const request = axios.create({
-  // baseURL: process.env.VUE_APP_API_BASE_URL
+  baseURL: process.env.MIX_API_BASE_URL
   // timeout: 5000 ( Ne convient pas pour l'export )
 });
 

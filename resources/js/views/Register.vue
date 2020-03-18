@@ -171,7 +171,7 @@ export default {
             })
             .then(() => {
               this.loading = false;
-              this.$router.push("/register/step/norole");
+              this.$router.push("/register/step/profile");
             })
             .catch(() => {
               this.loading = false;

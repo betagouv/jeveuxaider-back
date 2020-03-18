@@ -2,7 +2,6 @@ import request from "../utils/request";
 import store from "../store";
 
 export function login(email, password) {
-    console.log(process.env)
   return request.post("/oauth/token", {
     grant_type: "password",
     client_id: process.env.MIX_OAUTH_CLIENT_ID,
