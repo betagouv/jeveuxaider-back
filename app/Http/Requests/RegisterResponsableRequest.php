@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class RegisterResponsableRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,10 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:volontaire,responsable',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
-            'last_name' => 'required|min:2',
-            'mobile' => 'nullable',
-            'birthday' => 'date',
-            'zip' => 'nullable|min:5',
+            'last_name' => 'required|min:2'
         ];
     }
 
@@ -51,9 +47,7 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'Cet email est déjà pris',
             'email.email' => 'Cet email est mal formaté',
             'password.required' => 'Un mot de passe est requis',
-            'password.min' => 'Votre mot de passe doit contenir au moins :min caractères',
-            'zip.min' => 'Votre code postal doit contenir au moins :min caractères',
-            'birthday.date' => 'Votre date d\'anniversaire doit être au bon format',
+            'password.min' => 'Votre mot de passe doit contenir au moins :min caractères'
         ];
     }
 }

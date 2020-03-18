@@ -4,7 +4,7 @@
         <router-view></router-view>
     </div>
     <div class="hidden lg:block relative w-0 flex-1">
-      <img class="absolute inset-0 h-full w-full object-cover" src="images/bg_header_home.jpg" alt="" />
+      <img class="absolute inset-0 h-full w-full object-cover" src="/images/bg_header_home.jpg" alt="" />
     </div>
   </div>
 </template>

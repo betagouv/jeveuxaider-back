@@ -1033,15 +1033,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
 
 function addStructure(structure) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/structure", structure);
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/structure", structure);
 }
 function updateStructure(id, structure) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/structure/".concat(id), structure);
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/structure/".concat(id), structure);
 }
 function updateStructureLogo(id, logo) {
   var data = new FormData();
   data.append("logo", logo);
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/structure/".concat(id), data, {
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/structure/".concat(id), data, {
     "Content-Type": "multipart/form-data"
   });
 }
@@ -1049,18 +1049,18 @@ function addOrUpdateStructure(id, structure) {
   return id ? updateStructure(id, structure) : addStructure(structure);
 }
 function getStructure(id) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("api/structure/".concat(id));
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/structure/".concat(id));
 }
 function getStructureMembers(id) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("api/structure/".concat(id, "/members"));
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/structure/".concat(id, "/members"));
 }
 function fetchStructureMissions(id, params) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("api/structure/".concat(id, "/missions"), {
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/structure/".concat(id, "/missions"), {
     params: params
   });
 }
 function inviteStructureMember(id, member) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("api/structure/".concat(id, "/members"), member);
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/structure/".concat(id, "/members"), member);
 }
 function fetchStructures(params) {
   return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/structures", {
@@ -1074,10 +1074,10 @@ function exportStructures(params) {
   });
 }
 function deleteStructure(id) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("api/structure/".concat(id));
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/structure/".concat(id));
 }
 function destroyStructure(id) {
-  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("api/structure/".concat(id, "/destroy"));
+  return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/structure/".concat(id, "/destroy"));
 }
 function deleteMember(structureId, memberId) {
   return _utils_request__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/structure/".concat(structureId, "/members/").concat(memberId));

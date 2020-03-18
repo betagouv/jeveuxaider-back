@@ -12,10 +12,12 @@ import LayoutRegisterSteps from "@/layout/LayoutRegisterSteps";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
 import Register from "@/views/Register.vue";
+import RegisterResponsable from "@/views/RegisterResponsable.vue";
+import RegisterVolontaire from "@/views/RegisterVolontaire.vue";
 import PasswordForgot from "@/views/PasswordForgot.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
-// import NotFound from "@/views/NotFound.vue";
-// import Forbidden from "@/views/Forbidden.vue";
+import NotFound from "@/views/NotFound.vue";
+import Forbidden from "@/views/Forbidden.vue";
 // import BrowserOutdated from "@/views/BrowserOutdated.vue";
 // import Maintenance from "@/views/Maintenance.vue";
 // import Releases from "@/views/Releases.vue";
@@ -48,6 +50,18 @@ export default new Router({
             path: "/register",
             name: "Register",
             component: Register,
+            meta: { requiresAnonymous: true }
+          },
+          {
+            path: "/register/volontaire",
+            name: "RegisterVolontaire",
+            component: RegisterVolontaire,
+            meta: { requiresAnonymous: true }
+          },
+          {
+            path: "/register/responsable",
+            name: "RegisterResponsable",
+            component: RegisterResponsable,
             meta: { requiresAnonymous: true }
           },
           {
@@ -131,7 +145,7 @@ export default new Router({
     //   name: "maintenance",
     //   component: Maintenance
     // },
-    // { path: "/403", component: Forbidden },
-    // { path: "*", component: NotFound }
+    { path: "/403", component: Forbidden },
+    { path: "*", component: NotFound }
   ]
 });
