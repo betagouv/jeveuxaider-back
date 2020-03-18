@@ -16,11 +16,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["profile", "isImpersonating", "isAppLoaded"])
+    ...mapGetters(["profile", "isImpersonating", "isAppLoaded", "isLogged"])
   },
   created() {
-    if(this.profile) {
+    if(this.isLogged) {
         this.$store.dispatch("bootstrap");
+    } else {
+        this.$store.commit("setAppLoadingStatus", true);
     }
       /*
     this.$store.subscribeAction({
