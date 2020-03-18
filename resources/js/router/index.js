@@ -24,114 +24,123 @@ import PasswordReset from "@/views/PasswordReset.vue";
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err);
+    return originalPush.call(this, location).catch(err => err);
 };
 
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      component: Layout2Cols,
-      redirect: "/login",
-      children: [
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes: [
         {
-            path: "/login",
-            name: "Login",
-            component: Login,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/register",
-            name: "Register",
-            component: Register,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/password/forgot",
-            name: "PasswordForgot",
-            component: PasswordForgot,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/password/reset/:token",
-            name: "PasswordReset",
-            component: PasswordReset,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/logout",
-            name: "Logout",
-            component: Logout
-          },
-      ]
-    },
-    {
-      path: "/register/step",
-      component: LayoutRegisterSteps,
-      redirect: "/register/step/profile",
-      meta: { requiresAuth: true },
-      children: [
+            path: "/",
+            component: Layout2Cols,
+            redirect: "/login",
+            children: [
+                {
+                    path: "/login",
+                    name: "Login",
+                    component: Login,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/register",
+                    name: "Register",
+                    component: Register,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/password/forgot",
+                    name: "PasswordForgot",
+                    component: PasswordForgot,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/password/reset/:token",
+                    name: "PasswordReset",
+                    component: PasswordReset,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/logout",
+                    name: "Logout",
+                    component: Logout
+                },
+            ]
+        },
         {
-          path: "/register/step/norole",
-          component: () =>
-            import(
+            path: "/register/step",
+            component: LayoutRegisterSteps,
+            redirect: "/register/step/profile",
+            meta: { requiresAuth: true },
+            children: [
+                {
+                    path: "/register/step/norole",
+                    component: () =>
+                        import(
               /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
-            ),
-          name: "NoRoleStep"
-        },
-        {
-          path: "/register/step/profile",
-          component: () =>
-            import(
+                        ),
+                    name: "NoRoleStep"
+                },
+                {
+                    path: "/register/step/profile",
+                    component: () =>
+                        import(
               /* webpackChunkName: "profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
-            ),
-          name: "ProfileStep"
-        },
-        {
-          path: "/register/step/structure",
-          component: () =>
-            import(
+                        ),
+                    name: "ProfileStep"
+                },
+                {
+                    path: "/register/step/structure",
+                    component: () =>
+                        import(
               /* webpackChunkName: "structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
-            ),
-          name: "StructureStep"
-        },
-        {
-          path: "/register/step/address",
-          component: () =>
-            import(
+                        ),
+                    name: "StructureStep"
+                },
+                {
+                    path: "/register/step/address",
+                    component: () =>
+                        import(
               /* webpackChunkName: "address-step" */ "@/views/RegisterSteps/AddressStep.vue"
-            ),
-          name: "AddressStep"
+                        ),
+                    name: "AddressStep"
+                }
+                //     {
+                //       path: "/register/step/other",
+                //       component: () =>
+                //         import(
+                //           /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
+                //         ),
+                //       name: "OtherStep"
+                //     },
+            ]
+        },
+        // {
+        //   path: "/releases",
+        //   component: Releases,
+        //   meta: { requiresAuth: true }
+        // },
+        // {
+        //   path: "/browser-outdated",
+        //   component: BrowserOutdated
+        // },
+        // {
+        //   path: "/maintenance",
+        //   name: "maintenance",
+        //   component: Maintenance
+        // },
+        // { path: "/403", component: Forbidden },
+        // { path: "*", component: NotFound }
+
+        {
+            path: "/missions/:id",
+            component: () =>
+                import(
+              /* webpackChunkName: "mission" */ "@/views/Mission.vue"
+                ),
+            name: "Mission"
         }
-    //     {
-    //       path: "/register/step/other",
-    //       component: () =>
-    //         import(
-    //           /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
-    //         ),
-    //       name: "OtherStep"
-    //     },
-      ]
-    },
-    // {
-    //   path: "/releases",
-    //   component: Releases,
-    //   meta: { requiresAuth: true }
-    // },
-    // {
-    //   path: "/browser-outdated",
-    //   component: BrowserOutdated
-    // },
-    // {
-    //   path: "/maintenance",
-    //   name: "maintenance",
-    //   component: Maintenance
-    // },
-    // { path: "/403", component: Forbidden },
-    // { path: "*", component: NotFound }
-  ]
+    ]
 });

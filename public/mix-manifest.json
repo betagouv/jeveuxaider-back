@@ -2,6 +2,7 @@
     "/assets/js/app.js": "/assets/js/app.js",
     "/assets/css/app.css": "/assets/css/app.css",
     "/address-step.js": "/address-step.js",
+    "/mission.js": "/mission.js",
     "/no-role-step.js": "/no-role-step.js",
     "/profile-step.js": "/profile-step.js",
     "/structure-step.js": "/structure-step.js",
