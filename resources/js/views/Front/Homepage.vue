@@ -20,7 +20,7 @@
             <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
             <router-link
               v-else
-              to="/user/login"
+              to="/login"
               class="mx-auto text-white text-sm font-thin hover:underline"
             >Se connecter</router-link>
           </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="flex flex-col lg:flex-row items-center justify-center">
           <router-link
-            to="/user/register/responsable"
+            to="/register/responsable"
             class="btn-primary m-3 w-full"
             style="max-width:320px;"
           >
@@ -43,7 +43,7 @@
             <span class="text-lg font-bold">J'ai besoin d'aide</span>
           </router-link>
           <router-link
-            to="/user/register/volontaire"
+            to="/register/volontaire"
             class="btn-secondary m-3 w-full"
             style="max-width:320px;"
           >
@@ -67,7 +67,7 @@
             class="py-3 text-gray-600 text-lg"
           >Identifiez votre besoin et partagez-le sur la Réserve Civique pour que des citoyens vous viennent en aide dans le respect des règles de sécurité et des directives du gouvernement.</p>
           <div class="mt-3">
-            <router-link to="/user/register/responsable" class="btn-primary">Proposer des missions</router-link>
+            <router-link to="/register/responsable" class="btn-primary">Proposer des missions</router-link>
           </div>
         </div>
       </div>

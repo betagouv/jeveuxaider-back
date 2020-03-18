@@ -72,10 +72,10 @@
             "
             divided
           />
-          <router-link to="/profile">
+          <router-link to="/user/profile">
             <el-dropdown-item>Profil</el-dropdown-item>
           </router-link>
-          <router-link to="/settings">
+          <router-link to="/user/settings">
             <el-dropdown-item>Paramètres de compte</el-dropdown-item>
           </router-link>
           <el-dropdown-item

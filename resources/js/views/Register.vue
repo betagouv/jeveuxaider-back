@@ -28,7 +28,7 @@
             Je suis volontaire et souhaite apporter mon aide
           </div>
           <router-link
-            to="/user/register/volontaire"
+            to="/register/volontaire"
           >
             <el-button type="primary">Choisir</el-button>
           </router-link>
@@ -42,7 +42,7 @@
             Je suis une structure publique ou associative
           </div>
           <router-link
-            to="/user/register/responsable"
+            to="/register/responsable"
           >
             <el-button type="primary">Choisir</el-button>
           </router-link>
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="mt-6 sm:col-span-">
-        <router-link to="/user/login">
+        <router-link to="/login">
           <span class="block w-full rounded-md shadow-sm">
             <button
               type="submit"

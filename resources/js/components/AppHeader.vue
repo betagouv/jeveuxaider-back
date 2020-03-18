@@ -40,7 +40,7 @@
             <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
             <router-link
               v-else
-              to="/user/login"
+              to="/login"
               class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
             >Se connecter</router-link>
           </div>

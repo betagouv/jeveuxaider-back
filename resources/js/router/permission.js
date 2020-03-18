@@ -3,13 +3,12 @@ import store from "../store";
 
 router.beforeEach(async (to, from, next) => {
   // IF REQUIRE AUTH
-  console.log('try go to', to)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // REDIRECT IF NOT LOGGED
     console.log('requiresAuth is true')
     if (!store.getters.isLogged) {
         console.log('requiresAuth is true && is NOT logged')
-      next("/user/login");
+      next("/login");
     } else {
       // IF NOT CONTEXT ROLE
       console.log('requiresAuth is true && is logged')
