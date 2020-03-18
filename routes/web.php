@@ -27,6 +27,10 @@ Route::get('/centre-d-aide', function () {
     return view('pages.help');
 });
 
+Route::get('/regles-de-securite', function () {
+    return view('pages.security-rules');
+});
+
 Route::get('/{any}', function () {
     return view('layouts.app');
 })->where('any', '.*');

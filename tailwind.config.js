@@ -91,9 +91,9 @@ module.exports = {
                 400: "#63b3ed",
                 500: "#4299e1",
                 600: "#3182ce",
-                700: "#3093D8", //Overriden #2b6cb0,
+                700: "#3093D8", // Overriden #2b6cb0,
                 800: "#1e429f", // Color primary
-                900: "#2a4365",
+                900: "#233876", // Overriden #2a4365
                 'royal': '#002D83'
             },
             indigo: {
@@ -176,6 +176,7 @@ module.exports = {
             none: "0",
             sm: "0.125rem",
             default: "0.25rem",
+            md: ".375rem",
             lg: "0.5rem",
             full: "9999px"
         },

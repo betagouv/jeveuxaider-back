@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.front')
 
 @section('content')
     <div style="background-image: url(images/bg_header_home.jpg)" class="py-12">
@@ -103,8 +103,8 @@
                 </div>
             </div>
         </div>
-        <div class="lg:w-1/2">
-            <img class="object-cover object-center w-full h-full" src="/images/covid_19_header.jpg" alt="" />
+        <div class="lg:w-1/2 flex items-center">
+            <img class="object-cover object-center w-full h-full" src="/images/covid_19_header.jpg" style="max-height:300px;" />
         </div>
     </div>
 @endsection
