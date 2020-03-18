@@ -1,10 +1,17 @@
 @extends('layouts.default')
 
+@section('page_title')
+    Centre d'aide
+@endsection
+
 @section('content')
-    <div class="container mx-auto my-12">
-        <h1 class="titre-1">Centre d'aide</h1>
-        <p class="py-3 text-gray-600 text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde cumque eum ut sequi delectus, perferendis libero. Velit iure odit cumque perferendis! Ab tempora voluptas vitae aperiam rerum inventore voluptate veniam.</p>
-        <p class="py-3 text-gray-600 text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde cumque eum ut sequi delectus, perferendis libero. Velit iure odit cumque perferendis! Ab tempora voluptas vitae aperiam rerum inventore voluptate veniam.</p>
-        <p class="py-3 text-gray-600 text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde cumque eum ut sequi delectus, perferendis libero. Velit iure odit cumque perferendis! Ab tempora voluptas vitae aperiam rerum inventore voluptate veniam.</p>
-    </div>
+    <p class="text-gray-600">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde cumque eum ut sequi delectus, perferendis libero. Velit iure odit cumque perferendis! Ab tempora voluptas vitae aperiam rerum inventore voluptate veniam.
+    </p>
+    <p class="text-gray-600">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde cumque eum ut sequi delectus, perferendis libero. Velit iure odit cumque perferendis! Ab tempora voluptas vitae aperiam rerum inventore voluptate veniam.
+    </p>
+    <p class="text-gray-600">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde cumque eum ut sequi delectus, perferendis libero. Velit iure odit cumque perferendis! Ab tempora voluptas vitae aperiam rerum inventore voluptate veniam.
+    </p>
 @endsection

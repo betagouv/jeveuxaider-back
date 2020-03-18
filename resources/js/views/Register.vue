@@ -16,7 +16,6 @@
         <a href="#">Cet engagement nécessite un respect strict des règles sanitaires applicables ›</a>
       </p>
     </div>
-
     <div class="flex flex-wrap mt-8">
       <div
           class="w-64 border p-8 mr-8 mb-8 rounded-lg flex flex-col text-center hover:border-primary"

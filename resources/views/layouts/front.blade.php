@@ -12,15 +12,7 @@
 
 <body>
     <div id="app">
-        @include('components.header')
-
-        <div class="-mt-32">
-            <div class="container mx-auto px-4 my-12">
-                <div class="bg-white rounded-lg shadow {{ $content_padding ?? 'px-4 py-8 sm:p-8 lg:p-12 xl:p-16' }}">
-                    @yield('content')
-                </div>
-            </div>
-        </div>
+        @yield('content')
 
         @include('components.footer')
     </div>

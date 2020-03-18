@@ -16,25 +16,25 @@ export function exportMissions(params) {
 }
 
 export function addMission(structureId, mission) {
-  return request.post(`api/structure/${structureId}/missions`, mission);
+  return request.post(`/api/structure/${structureId}/missions`, mission);
 }
 
 export function updateMission(id, mission) {
-  return request.post(`api/mission/${id}`, mission);
+  return request.post(`/api/mission/${id}`, mission);
 }
 
 export function cloneMission(id) {
-  return request.post(`api/mission/${id}/clone`);
+  return request.post(`/api/mission/${id}/clone`);
 }
 
 export function deleteMission(id) {
-  return request.delete(`api/mission/${id}`);
+  return request.delete(`/api/mission/${id}`);
 }
 
 export function destroyMission(id) {
-  return request.delete(`api/mission/${id}/destroy`);
+  return request.delete(`/api/mission/${id}/destroy`);
 }
 
 export function getMission(id) {
-  return request.get(`api/mission/${id}`);
+  return request.get(`/api/mission/${id}`);
 }

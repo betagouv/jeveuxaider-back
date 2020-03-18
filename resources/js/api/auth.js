@@ -2,7 +2,6 @@ import request from "../utils/request";
 import store from "../store";
 
 export function login(email, password) {
-    console.log(process.env)
   return request.post("/oauth/token", {
     grant_type: "password",
     client_id: process.env.MIX_OAUTH_CLIENT_ID,
@@ -38,11 +37,11 @@ export function resetPassword(form) {
 }
 
 export function impersonate(id) {
-  return request.post(`api/impersonate/${id}`);
+  return request.post(`/api/impersonate/${id}`);
 }
 
 export function stopImpersonate(token_id) {
-  return request.delete(`api/impersonate/${token_id}`, {
+  return request.delete(`/api/impersonate/${token_id}`, {
     headers: { Authorization: `Bearer ${store.state.auth.accessToken}` }
   });
 }

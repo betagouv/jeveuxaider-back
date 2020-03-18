@@ -44,7 +44,7 @@ class RegisterUserVolontaire extends Notification
             ->greeting('Bonjour ' . $notifiable->profile->full_name . ' !')
             ->line('Vous vous êtes inscrit sur la plateforme de dépôt de missions d’intérêt général.')
             ->line('Vous pouvez désormais participer à des missions d’intérêt général.')
-            ->action('Trouver une mission', url(config('app.url')));
+            ->action('Trouver une mission', url(config('app.url').'/missions'));
     }
 
     /**

@@ -1,8 +1,12 @@
 <footer class="bg-blue-royal text-white text-center lg:text-left">
     <div class="container mx-auto px-4 py-8">
-        <div class="flex flex-col lg:flex-row items-center lg:items-start p-4">
+        <div class="flex flex-col lg:flex-row items-center lg:items-start">
             <div class="max-w-xs">
-                <div class="mb-8"><img class="mx-auto lg:mx-0" src="/images/logo-reserve-civique_light.svg" alt="" style="height: 30px;" /></div>
+                <div class="mb-8">
+                    <a href="/">
+                        <img class="mx-auto lg:mx-0" src="/images/logo-reserve-civique_light.svg" alt="" style="height: 30px;" />
+                    </a>
+                </div>
                 <div class="text-white" style="max-width:260px; font-size:14px; line-height: 1.6; letter-spacing: 0.05em;">Trouvez une mission d'intérêt général auprès d'un organisme public ou associatif et faites vivre les valeurs de la République.</div>
             </div>
             <div id="menu-footer" class="lg:flex lg:flex-1 lg:justify-around mt-8 lg:mt-0">
