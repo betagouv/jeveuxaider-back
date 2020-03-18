@@ -77,6 +77,10 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
+        "post-install-cmd": [
+            "[ -n \"$OAUTH_PUBLIC_KEY\" ] && echo \"$OAUTH_PUBLIC_KEY\" > storage/oauth-public.key",
+            "[ -n \"$OAUTH_PRIVATE_KEY\" ] && echo \"$OAUTH_PRIVATE_KEY\" > storage/oauth-private.key"
+        ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
