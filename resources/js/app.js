@@ -10,19 +10,22 @@ import PortalVue from "portal-vue";
 import AppHeader from "@/components/AppHeader"
 import AppFooter from "@/components/AppFooter"
 import DropdownUser from "@/components/DropdownUser"
+import VClamp from "vue-clamp";
 
 Vue.component('AppHeader', AppHeader);
 Vue.component('AppFooter', AppFooter);
 Vue.component('DropdownUser', DropdownUser);
+Vue.component('VClamp', VClamp);
 
 import Bowser from "bowser";
+import "./plugins/dayjs.js";
+import "./plugins/utils.js";
+
 
 /*
 import Vue2Filters from "vue2-filters";
 
 import "./plugins/sentry.js";
-import "./plugins/dayjs.js";
-import "./plugins/utils.js";
 Vue.config.productionTip = false;
 
 Vue.use(Vue2Filters);

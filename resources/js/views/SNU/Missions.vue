@@ -17,9 +17,9 @@
             }
           }"
         >
-          <el-button type="primary" icon="el-icon-plus"
-            >Nouvelle mission</el-button
-          >
+          <el-button type="primary" icon="el-icon-plus">
+              Nouvelle mission
+            </el-button>
         </router-link>
       </div>
     </div>
@@ -235,39 +235,27 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
-      <div class="ml-auto">
-        <el-button icon="el-icon-download" size="small" @click="onExport"
-          >Export</el-button
-        >
-      </div>
     </div>
-    <portal to="volet">
-      <mission-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
-    </portal>
   </div>
 </template>
 
 <script>
 import { fetchMissions, exportMissions, cloneMission } from "@/api/mission";
 import StateTag from "@/components/StateTag";
-import TableWithVolet from "@/mixins/TableWithVolet";
 import TableWithFilters from "@/mixins/TableWithFilters";
-import MissionVolet from "@/layout/components/Volet/MissionVolet.vue";
 import QueryFilter from "@/components/QueryFilter.vue";
 import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
-import fileDownload from "js-file-download";
 
 export default {
   name: "Missions",
   components: {
     StateTag,
-    MissionVolet,
     QueryFilter,
     QuerySearchFilter,
     QueryMainSearchFilter
   },
-  mixins: [TableWithVolet, TableWithFilters],
+  mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
@@ -283,23 +271,15 @@ export default {
     fetchRows() {
       return fetchMissions(this.query);
     },
-    onExport() {
-      this.loading = true;
-      exportMissions(this.query)
-        .then(response => {
-          this.loading = false;
-          fileDownload(response.data, "missions.xlsx");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    onClickedRow(row) {
+        this.$router.push({path: `/missions/${row.id}`});
     },
     clone(id) {
       this.loading = true;
       cloneMission(id).then(response => {
         this.$router
           .push({
-            path: `mission/${response.data.id}/edit`
+            path: `/dashboard/mission/${response.data.id}/edit`
           })
           .then(() => {
             this.$message({
