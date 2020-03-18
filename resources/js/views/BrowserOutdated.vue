@@ -1,5 +1,5 @@
 <template>
-<div class="mx-auto w-full" style="max-width: 500px">
+<div class="mx-auto w-full" style="max-width: 420px">
     <div>
       <router-link to="/">
         <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
