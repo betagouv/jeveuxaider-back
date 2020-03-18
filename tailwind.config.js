@@ -19,6 +19,7 @@ module.exports = {
             white: "#fff",
 
             gray: {
+                50: "#f9fafb",
                 100: "#fafafa", //Overriden (#f7fafc)
                 200: "#edf2f7",
                 300: "#d2d6dc",
@@ -63,14 +64,14 @@ module.exports = {
                 900: "#744210"
             },
             green: {
-                100: "#f0fff4",
+                100: "#def7ec", // Override, #f0fff4
                 200: "#c6f6d5",
                 300: "#9ae6b4",
                 400: "#68d391",
                 500: "#48bb78",
                 600: "#38a169",
                 700: "#2f855a",
-                800: "#276749",
+                800: "#03543f", // Override, #276749
                 900: "#22543d"
             },
             teal: {
@@ -142,6 +143,7 @@ module.exports = {
             "8": "2rem",
             "10": "2.5rem",
             "12": "3rem",
+            "14": "3.5rem",
             "16": "4rem",
             "20": "5rem",
             "24": "6rem",

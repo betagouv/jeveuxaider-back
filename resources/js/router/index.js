@@ -42,7 +42,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name:"Homepage",
+      name: "Homepage",
       component: FrontHomepage,
     },
     {
@@ -50,49 +50,50 @@ export default new Router({
       component: Layout2Cols,
       redirect: "/user/login",
       children: [
-          {
-            path: "/user/login",
-            name: "Login",
-            component: Login,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/register",
-            name: "Register",
-            component: Register,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/register/volontaire",
-            name: "RegisterVolontaire",
-            component: RegisterVolontaire,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/register/responsable",
-            name: "RegisterResponsable",
-            component: RegisterResponsable,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/password/forgot",
-            name: "PasswordForgot",
-            component: PasswordForgot,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/password/reset/:token",
-            name: "PasswordReset",
-            component: PasswordReset,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/logout",
-            name: "Logout",
-            component: Logout
-          },
+        {
+          path: "/user/login",
+          name: "Login",
+          component: Login,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/user/register",
+          name: "Register",
+          component: Register,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/user/register/volontaire",
+          name: "RegisterVolontaire",
+          component: RegisterVolontaire,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/user/register/responsable",
+          name: "RegisterResponsable",
+          component: RegisterResponsable,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/user/password/forgot",
+          name: "PasswordForgot",
+          component: PasswordForgot,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/user/password/reset/:token",
+          name: "PasswordReset",
+          component: PasswordReset,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/user/logout",
+          name: "Logout",
+          component: Logout
+        },
       ]
     },
+
     {
       path: "/register/step",
       component: LayoutRegisterSteps,
@@ -123,6 +124,7 @@ export default new Router({
             ),
           name: "StructureStep"
         },
+
         {
           path: "/register/step/address",
           component: () =>
@@ -130,38 +132,44 @@ export default new Router({
               /* webpackChunkName: "assets/js/address-step" */ "@/views/RegisterSteps/AddressStep.vue"
             ),
           name: "AddressStep"
-        }
-    //     {
-    //       path: "/register/step/other",
-    //       component: () =>
-    //         import(
-    //           /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
-    //         ),
-    //       name: "OtherStep"
-    //     },
+        },
+        {
+          path: "/register/step/other",
+          component: () =>
+            import(
+                      /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
+            ),
+          name: "OtherStep"
+        },
       ]
     },
-    // {
-    //   path: "/releases",
-    //   component: Releases,
-    //   meta: { requiresAuth: true }
-    // },
     // {
     //   path: "/browser-outdated",
     //   component: BrowserOutdated
     // },
     // {
+      {
+        path: '/user/profile',
+        component: FrontProfile
+  
+      },
+    // {
+      {
+        path: '/user/settings',
+        component: FrontSettings
+  
+      },
     {
       path: '/missions',
       component: FrontMissions
     },
     {
-      path: '/user/settings',
-      component: FrontSettings
-    },
-    {
-      path: '/user/profile',
-      component: FrontProfile
+      path: "/missions/:id",
+      component: () =>
+        import(
+            /* webpackChunkName: "mission" */ "@/views/Mission.vue"
+        ),
+      name: "Mission"
     },
     {
       path: "/maintenance",
