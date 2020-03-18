@@ -1,4 +1,9 @@
 {
     "/assets/js/app.js": "/assets/js/app.js",
-    "/assets/css/app.css": "/assets/css/app.css"
+    "/assets/css/app.css": "/assets/css/app.css",
+    "/address-step.js": "/address-step.js",
+    "/profile-step.js": "/profile-step.js",
+    "/structure-step.js": "/structure-step.js",
+    "/vendors~address-step.js": "/vendors~address-step.js",
+    "/no-role-step.js": "/no-role-step.js"
 }

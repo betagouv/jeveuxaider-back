@@ -14,7 +14,6 @@
         "barryvdh/laravel-elfinder": "^0.4.4",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
-        "itsgoingd/clockwork": "^4.0",
         "jorijn/laravel-security-checker": "^1.1",
         "laravel/framework": "^6.0",
         "laravel/passport": "^7.3",

@@ -4,22 +4,22 @@ import App from "./App.vue";
 import router from "./router";
 import "./plugins/element.js";
 import store from "./store";
+import "./router/permission";
+import PortalVue from "portal-vue";
 
 /*
-import PortalVue from "portal-vue";
 import Bowser from "bowser";
 import Vue2Filters from "vue2-filters";
-import "./router/permission";
+
 import "./plugins/sentry.js";
 import "./plugins/dayjs.js";
 import "./plugins/utils.js";
-
-
 Vue.config.productionTip = false;
 
-Vue.use(PortalVue);
 Vue.use(Vue2Filters);
 */
+Vue.use(PortalVue);
+
 new Vue({
   router,
   store,
@@ -33,6 +33,7 @@ new Vue({
     ) {
       this.$router.push("/browser-outdated");
     }
+    */
     router.afterEach(() => {
       store.commit("volet/hide");
       store.commit("setLoading", false);
@@ -41,7 +42,6 @@ new Vue({
       store.commit("setLoading", true);
       next();
     });
-    */
   },
   render: h => h(App)
 }).$mount("#app");
