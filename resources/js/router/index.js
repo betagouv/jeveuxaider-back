@@ -19,8 +19,8 @@ import PasswordReset from "@/views/PasswordReset.vue";
 import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
 import Maintenance from "@/views/Maintenance.vue";
-// import BrowserOutdated from "@/views/BrowserOutdated.vue";
-// import Maintenance from "@/views/Maintenance.vue";
+import BrowserOutdated from "@/views/BrowserOutdated.vue";
+
 // import Releases from "@/views/Releases.vue";
 
 import FrontHomepage from "@/views/Front/Homepage";
@@ -60,46 +60,56 @@ export default new Router({
     {
       path: "/user",
       component: Layout2Cols,
-      redirect: "/user/login",
+      redirect: "/login",
       children: [
         {
-          path: "/user/login",
+          path: "/maintenance",
+          name: "Maintenance",
+          component: Maintenance,
+        },
+        {
+          path: "/browser-outdated",
+          name: "BrowserOutdated",
+          component: BrowserOutdated
+        },
+        {
+          path: "/login",
           name: "Login",
           component: Login,
           meta: { requiresAnonymous: true }
         },
         {
-          path: "/user/register",
+          path: "/register",
           name: "Register",
           component: Register,
           meta: { requiresAnonymous: true }
         },
         {
-          path: "/user/register/volontaire",
+          path: "/register/volontaire",
           name: "RegisterVolontaire",
           component: RegisterVolontaire,
           meta: { requiresAnonymous: true }
         },
         {
-          path: "/user/register/responsable",
+          path: "/register/responsable",
           name: "RegisterResponsable",
           component: RegisterResponsable,
           meta: { requiresAnonymous: true }
         },
         {
-          path: "/user/password/forgot",
+          path: "/password/forgot",
           name: "PasswordForgot",
           component: PasswordForgot,
           meta: { requiresAnonymous: true }
         },
         {
-          path: "/user/password/reset/:token",
+          path: "/password/reset/:token",
           name: "PasswordReset",
           component: PasswordReset,
           meta: { requiresAnonymous: true }
         },
         {
-          path: "/user/logout",
+          path: "/logout",
           name: "Logout",
           component: Logout
         },
@@ -155,22 +165,16 @@ export default new Router({
         },
       ]
     },
-    // {
-    //   path: "/browser-outdated",
-    //   component: BrowserOutdated
-    // },
-    // {
-      {
-        path: '/user/profile',
-        component: FrontProfile
+    {
+      path: '/user/profile',
+      component: FrontProfile
 
-      },
-    // {
-      {
-        path: '/user/settings',
-        component: FrontSettings
+    },
+    {
+      path: '/user/settings',
+      component: FrontSettings
 
-      },
+    },
     {
       path: '/missions',
       component: FrontMissions
@@ -182,11 +186,6 @@ export default new Router({
             /* webpackChunkName: "assets/js/mission" */ "@/views/Mission.vue"
         ),
       name: "Mission"
-    },
-    {
-      path: "/maintenance",
-      name: "Maintenance",
-      component: Maintenance,
     },
     { path: "/403", component: Forbidden },
     { path: "*", component: NotFound }

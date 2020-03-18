@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="mt-6 sm:col-span-">
-        <router-link to="/user/login">
+        <router-link to="/login">
           <span class="block w-full rounded-md shadow-sm">
             <button
               type="submit"

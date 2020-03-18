@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="mt-6 sm:col-span-">
-        <router-link to="/user/register">
+        <router-link to="/register">
           <span class="block w-full rounded-md shadow-sm">
             <button
               type="submit"

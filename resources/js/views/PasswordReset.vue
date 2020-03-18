@@ -54,7 +54,7 @@
           <div class="mb-6 font-light text-sm">
             Votre mot de passe a été mis à jour avec succès.
           </div>
-          <router-link to="/user/login">
+          <router-link to="/login">
             <el-button type="primary">Connectez-vous</el-button>
           </router-link>
         </div>
