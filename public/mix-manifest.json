@@ -6,5 +6,10 @@
     "/no-role-step.js": "/no-role-step.js",
     "/profile-step.js": "/profile-step.js",
     "/structure-step.js": "/structure-step.js",
-    "/vendors~address-step.js": "/vendors~address-step.js"
+    "/vendors~address-step.js": "/vendors~address-step.js",
+    "/assets/js/address-step.js": "/assets/js/address-step.js",
+    "/assets/js/no-role-step.js": "/assets/js/no-role-step.js",
+    "/assets/js/profile-step.js": "/assets/js/profile-step.js",
+    "/assets/js/structure-step.js": "/assets/js/structure-step.js",
+    "/vendors~assets/js/address-step.js": "/vendors~assets/js/address-step.js"
 }
