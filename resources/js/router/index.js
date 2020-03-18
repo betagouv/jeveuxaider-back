@@ -23,7 +23,10 @@ import Maintenance from "@/views/Maintenance.vue";
 // import Maintenance from "@/views/Maintenance.vue";
 // import Releases from "@/views/Releases.vue";
 
+import FrontHomepage from "@/views/Front/Homepage";
 import FrontMissions from "@/views/Front/Missions";
+import FrontProfile from "@/views/Front/Profile";
+import FrontSettings from "@/views/Front/Settings";
 
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
@@ -37,6 +40,11 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: "/",
+      name:"Homepage",
+      component: FrontHomepage,
+    },
     {
       path: "/user",
       component: Layout2Cols,
@@ -146,7 +154,14 @@ export default new Router({
     {
       path: '/missions',
       component: FrontMissions
-
+    },
+    {
+      path: '/user/settings',
+      component: FrontSettings
+    },
+    {
+      path: '/user/profile',
+      component: FrontProfile
     },
     {
       path: "/maintenance",
