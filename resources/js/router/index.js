@@ -173,21 +173,21 @@ export default new Router({
                 path: "/dashboard/missions",
                 component: () =>
                   import(
-                    /* webpackChunkName: "assets/js/snu-missions" */ "@/views/SNU/Missions.vue"
+                    /* webpackChunkName: "assets/js/dashboard-missions" */ "@/views/SNU/Missions.vue"
                   ),
                 name: "DashboardMissions"
             },
             {
                 path: "/dashboard/structure/:structureId/missions/add",
                 component: () =>
-                  import(/* webpackChunkName: "mission" */ "@/views/MissionForm.vue"),
+                  import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/MissionForm.vue"),
                 name: "MissionFormAdd",
                 props: route => ({ structureId: parseInt(route.params.structureId) })
               },
               {
                 path: "/dashboard/mission/:id/edit",
                 component: () =>
-                  import(/* webpackChunkName: "mission" */ "@/views/MissionForm.vue"),
+                  import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/MissionForm.vue"),
                 name: "MissionFormEdit",
                 props: route => ({ mode: "edit", id: parseInt(route.params.id) })
               },
