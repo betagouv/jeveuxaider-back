@@ -38,7 +38,7 @@ router.beforeEach(async (to, from, next) => {
     }
     next();
   }
-  if (process.env.MIX_MAINTENANCE_MODE == 1 && to.name != "maintenance") {
+  if (process.env.MIX_MAINTENANCE_MODE == 1 && to.name != "Maintenance") {
     next("/maintenance");
   }
 });

@@ -18,6 +18,7 @@ import PasswordForgot from "@/views/PasswordForgot.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
 import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
+import Maintenance from "@/views/Maintenance.vue";
 // import BrowserOutdated from "@/views/BrowserOutdated.vue";
 // import Maintenance from "@/views/Maintenance.vue";
 // import Releases from "@/views/Releases.vue";
@@ -41,7 +42,7 @@ export default new Router({
       component: Layout2Cols,
       redirect: "/user/login",
       children: [
-        {
+          {
             path: "/user/login",
             name: "Login",
             component: Login,
@@ -142,14 +143,15 @@ export default new Router({
     //   component: BrowserOutdated
     // },
     // {
-    //   path: "/maintenance",
-    //   name: "maintenance",
-    //   component: Maintenance
-    // },
     {
       path: '/missions',
       component: FrontMissions
 
+    },
+    {
+      path: "/maintenance",
+      name: "Maintenance",
+      component: Maintenance,
     },
     { path: "/403", component: Forbidden },
     { path: "*", component: NotFound }
