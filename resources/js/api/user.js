@@ -1,8 +1,7 @@
 import request from "../utils/request";
 
-export function register(type, email, password, first_name, last_name, mobile, birthday, zip) {
-  return request.post("/api/register", {
-    type,
+export function registerVolontaire(email, password, first_name, last_name, mobile, birthday, zip) {
+  return request.post("/api/register/volontaire", {
     email,
     password,
     first_name,
@@ -10,6 +9,15 @@ export function register(type, email, password, first_name, last_name, mobile, b
     mobile,
     birthday,
     zip
+  });
+}
+
+export function registerResponsable(email, password, first_name, last_name) {
+  return request.post("/api/register/responsable", {
+    email,
+    password,
+    first_name,
+    last_name
   });
 }
 

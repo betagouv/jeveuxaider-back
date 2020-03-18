@@ -14,13 +14,40 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\RegisterVolontaireRequest;
+use App\Http\Requests\RegisterResponsableRequest;
 
 class PassportController extends Controller
 {
     use SendsPasswordResetEmails;
 
-    public function register(RegisterRequest $request)
+    public function registerVolontaire(RegisterVolontaireRequest $request)
+    {
+        if (!$request->validated()) {
+            return $request->validated();
+        }
+
+        $user = User::create([
+            'name' => request("email"),
+            'email' => request("email"),
+            'context_role' => 'volontaire',
+            'password' => Hash::make(request("password"))
+        ]);
+
+        $profile = Profile::whereEmail(request('email'))->first();
+
+        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
+            $profile = Profile::create($request->validated());
+        }
+
+        $notification = new RegisterUserVolontaire($user);
+        $user->profile()->save($profile);
+        $user->notify($notification);
+
+        return $user;
+    }
+
+    public function registerResponsable(RegisterResponsableRequest $request)
     {
         if (!$request->validated()) {
             return $request->validated();
@@ -38,16 +65,8 @@ class PassportController extends Controller
             $profile = Profile::create($request->validated());
         }
 
-        if (request('type') == 'volontaire') {
-            $notification = new RegisterUserVolontaire($user);
-        }
-
-        if (request('type') == 'responsable') {
-            $notification = new RegisterUserResponsable($user);
-        }
-
+        $notification = new RegisterUserResponsable($user);
         $user->profile()->save($profile);
-
         $user->notify($notification);
 
         return $user;
