@@ -11,8 +11,8 @@
 </head>
 
 <body>
-    <div id="app">
-        @include('components.header')
+    <div id="app-blade">
+        <vue-header title="Titre à sortir de vue header"></vue-header>
 
         <div class="-mt-32">
             <div class="container mx-auto px-4 my-12">
@@ -24,6 +24,8 @@
 
         @include('components.footer')
     </div>
+
+    <script type="text/javascript" src="{{ mix('/assets/js/app-blade.js') }}"></script>
 
 </body>
 

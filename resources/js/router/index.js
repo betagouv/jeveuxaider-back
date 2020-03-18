@@ -22,6 +22,7 @@ import Forbidden from "@/views/Forbidden.vue";
 // import Maintenance from "@/views/Maintenance.vue";
 // import Releases from "@/views/Releases.vue";
 
+import FrontMissions from "@/views/Front/Missions";
 
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
@@ -36,48 +37,48 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
+      path: "/user",
       component: Layout2Cols,
-      redirect: "/login",
+      redirect: "/user/login",
       children: [
         {
-            path: "/login",
+            path: "/user/login",
             name: "Login",
             component: Login,
             meta: { requiresAnonymous: true }
           },
           {
-            path: "/register",
+            path: "/user/register",
             name: "Register",
             component: Register,
             meta: { requiresAnonymous: true }
           },
           {
-            path: "/register/volontaire",
+            path: "/user/register/volontaire",
             name: "RegisterVolontaire",
             component: RegisterVolontaire,
             meta: { requiresAnonymous: true }
           },
           {
-            path: "/register/responsable",
+            path: "/user/register/responsable",
             name: "RegisterResponsable",
             component: RegisterResponsable,
             meta: { requiresAnonymous: true }
           },
           {
-            path: "/password/forgot",
+            path: "/user/password/forgot",
             name: "PasswordForgot",
             component: PasswordForgot,
             meta: { requiresAnonymous: true }
           },
           {
-            path: "/password/reset/:token",
+            path: "/user/password/reset/:token",
             name: "PasswordReset",
             component: PasswordReset,
             meta: { requiresAnonymous: true }
           },
           {
-            path: "/logout",
+            path: "/user/logout",
             name: "Logout",
             component: Logout
           },
@@ -145,6 +146,11 @@ export default new Router({
     //   name: "maintenance",
     //   component: Maintenance
     // },
+    {
+      path: '/missions',
+      component: FrontMissions
+
+    },
     { path: "/403", component: Forbidden },
     { path: "*", component: NotFound }
   ]

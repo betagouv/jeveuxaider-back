@@ -9,7 +9,7 @@ router.beforeEach(async (to, from, next) => {
     console.log('requiresAuth is true')
     if (!store.getters.isLogged) {
         console.log('requiresAuth is true && is NOT logged')
-      next("/login");
+      next("/user/login");
     } else {
       // IF NOT CONTEXT ROLE
       console.log('requiresAuth is true && is logged')
@@ -33,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
     // ONLY ANONYMOUS PAGE
     if (to.matched.some(record => record.meta.requiresAnonymous)) {
       if (store.getters.isLogged) {
-        next("/");
+        next("/missions");
       }
     }
     next();

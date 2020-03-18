@@ -38,7 +38,7 @@
             style="width: 340px;"
           >
             Vous avez déjà un compte ?
-            <router-link to="/login">
+            <router-link to="/user/login">
               <span class="text-gray-800 font-semibold"
                 >&nbsp;Connectez vous</span
               >

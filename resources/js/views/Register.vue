@@ -13,7 +13,7 @@
         class="text-lg leading-6 font-medium text-gray-900"
       >Engagez-vous dans la lutte contre l’épidémie</h3>
       <p class="mt-1 text-sm leading-5 text-gray-500">
-        <a href="#">Cet engagement nécessite un respect strict des règles sanitaires applicables ›</a>
+        <a href="/regles-de-securite">Cet engagement nécessite un respect strict des règles sanitaires applicables ›</a>
       </p>
     </div>
     <div class="flex flex-wrap mt-8">
@@ -26,7 +26,7 @@
             Je suis volontaire et souhaite apporter mon aide
           </div>
           <router-link
-            to="/register/volontaire"
+            to="/user/register/volontaire"
           >
             <el-button type="primary">Choisir</el-button>
           </router-link>
@@ -40,7 +40,7 @@
             Je suis une structure publique ou associative
           </div>
           <router-link
-            to="/register/responsable"
+            to="/user/register/responsable"
           >
             <el-button type="primary">Choisir</el-button>
           </router-link>
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="mt-6 sm:col-span-">
-        <router-link to="/login">
+        <router-link to="/user/login">
           <span class="block w-full rounded-md shadow-sm">
             <button
               type="submit"

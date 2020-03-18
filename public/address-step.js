@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {//
+//
 //
 //
 //
@@ -46,8 +46,8 @@ var places = __webpack_require__(/*! places.js */ "./node_modules/places.js/inde
     var _this = this;
 
     var fixedOptions = {
-      appId: process.env.MIX_ALGOLIA_PLACES_APP_ID,
-      apiKey: process.env.MIX_ALGOLIA_PLACES_API_KEY,
+      appId: "plJ7DRP13SVL",
+      apiKey: "1a3ad9013014611a6cca6aeeedf2f303",
       container: document.querySelector("#".concat(this.selector))
     };
     var reconfigurableOptions = {
@@ -78,7 +78,6 @@ var places = __webpack_require__(/*! places.js */ "./node_modules/places.js/inde
     }
   }
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 

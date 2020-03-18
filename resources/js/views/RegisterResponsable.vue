@@ -14,7 +14,7 @@
         class="text-lg leading-6 font-medium text-gray-900"
       >Engagez-vous dans la lutte contre l’épidémie</h3>
       <p class="mt-1 text-sm leading-5 text-gray-500">
-        <a href="#">Cet engagement nécessite un respect strict des règles sanitaires applicables ›</a>
+        <a href="/regles-de-securite">Cet engagement nécessite un respect strict des règles sanitaires applicables ›</a>
       </p>
     </div>
     <el-form
@@ -75,7 +75,7 @@
         </div>
       </div>
       <div class="mt-6 sm:col-span-">
-        <router-link to="/login">
+        <router-link to="/user/login">
           <span class="block w-full rounded-md shadow-sm">
             <button
               type="submit"

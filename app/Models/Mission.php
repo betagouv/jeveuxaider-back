@@ -7,7 +7,6 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Utils;
-use Illuminate\Support\Facades\DB;
 
 class Mission extends Model
 {
@@ -41,13 +40,18 @@ class Mission extends Model
         'justifications',
         'contraintes',
         'handicap',
-        'tuteur_id'
+        'tuteur_id',
+        'periodicite',
+        'publics_beneficiaires',
+        'publics_volontaires'
     ];
 
     protected $casts = [
         'domaines' => 'array',
         'periodes' => 'array',
-        'planning' => 'array'
+        'planning' => 'array',
+        'publics_beneficiaires' => 'array',
+        'publics_volontaires' => 'array'
     ];
 
     protected $attributes = [
