@@ -5,7 +5,7 @@
         <div
           class="flex flex-wrap items-center justify-center md:h-16 border-b border-blue-800"
         >
-          <div class="flex-shrink-0 my-4 md:my-0">
+          <div class="flex-shrink-0 my-4 md:my-0 order-1">
             <a href="/">
               <img
                 class="h-6"
@@ -15,7 +15,7 @@
             </a>
           </div>
 
-          <div class="mb-3 md:ml-auto md:mb-0 w-full md:w-auto">
+          <div class="mb-3 md:ml-auto md:mb-0 w-full md:w-auto order-3">
             <div class="flex flex-wrap items-center justify-center -m-2">
               <a
                 href="/missions"
@@ -44,7 +44,7 @@
               >
             </div>
           </div>
-          <div class="ml-3">
+          <div class="order-2 md:order-3 ml-auto md:ml-3">
             <dropdown-user></dropdown-user>
           </div>
         </div>
@@ -54,12 +54,12 @@
 </template>
 
 <script>
-import DropdownUser from "@/components/DropdownUser.vue"
+import DropdownUser from "@/components/DropdownUser.vue";
 
 export default {
   name: "VueHeader",
   components: {
-    DropdownUser,
+    DropdownUser
   },
   props: {
     title: String,
