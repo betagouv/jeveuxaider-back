@@ -4,9 +4,9 @@ import Vue from "vue";
 import Router from "vue-router";
 
 /* Layouts */
-// import Layout from "@/layout";
 import Layout2Cols from "@/layout/Layout2Cols";
 import LayoutRegisterSteps from "@/layout/LayoutRegisterSteps";
+import LayoutSNU from "@/layout/LayoutSNU";
 
 /* Pages */
 import Login from "@/views/Login.vue";
@@ -115,7 +115,6 @@ export default new Router({
         },
       ]
     },
-
     {
       path: "/register/step",
       component: LayoutRegisterSteps,
@@ -166,6 +165,21 @@ export default new Router({
       ]
     },
     {
+        path: "/dashboard",
+        component: LayoutSNU,
+        redirect: "/dashboard/missions",
+        children: [
+            {
+                path: "/dashboard/missions",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/snu-missions" */ "@/views/SNU/Missions.vue"
+                  ),
+                name: "DashboardMissions"
+              },
+        ]
+    },
+    {
       path: '/user/profile',
       component: FrontProfile
 
@@ -174,7 +188,7 @@ export default new Router({
       path: '/user/settings',
       component: FrontSettings
 
-    },
+      },
     {
       path: '/missions',
       component: FrontMissions

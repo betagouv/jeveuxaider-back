@@ -3,7 +3,6 @@ import store from "../store";
 
 router.beforeEach(async (to, from, next) => {
   // IF REQUIRE AUTH
-  console.log('try go to', to)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // REDIRECT IF NOT LOGGED
     console.log('requiresAuth is true')
