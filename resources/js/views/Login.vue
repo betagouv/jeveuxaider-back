@@ -32,10 +32,10 @@
       <div class="flex pt-4 justify-end items-center">
         <router-link to="/password/forgot">
           <div class="text-sm leading-5">
-            <a
-              href="#"
+            <router-link
+              to="/password/forgot"
               class="font-medium text-blue-800 hover:text-blue-900 focus:outline-none focus:underline transition ease-in-out duration-150"
-            >Mot de passe perdu ?</a>
+            >Mot de passe perdu ?</router-link>
           </div>
         </router-link>
       </div>

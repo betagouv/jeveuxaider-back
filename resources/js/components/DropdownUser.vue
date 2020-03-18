@@ -7,7 +7,7 @@
         <el-dropdown-item command="/user/settings"
           >Paramètres de compte</el-dropdown-item
         >
-        <el-dropdown-item divided command="/user/logout"
+        <el-dropdown-item divided command="/logout"
           >Se déconnecter</el-dropdown-item
         >
       </el-dropdown-menu>
