@@ -4,7 +4,6 @@ import Vue from "vue";
 import Router from "vue-router";
 
 /* Layouts */
-// import Layout from "@/layout";
 import Layout2Cols from "@/layout/Layout2Cols";
 import LayoutRegisterSteps from "@/layout/LayoutRegisterSteps";
 
@@ -170,6 +169,12 @@ export default new Router({
         path: '/user/settings',
         component: FrontSettings
 
+      },
+      {
+        path: "/user/missions",
+        component: () =>
+          import(/* webpackChunkName: "assets/js/user-missions" */ "@/views/SNU/Missions.vue"),
+        name: "Missions"
       },
     {
       path: '/missions',
