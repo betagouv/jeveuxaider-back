@@ -17,11 +17,11 @@
                 <h1>Face à l’épidémie de <span class="italic font-bold">Covid-19</span> le Gouvernement appelle à une mobilisation de toutes les bonnes volontés.</h1>
             </div>
             <div class="flex flex-col lg:flex-row items-center justify-center">
-                <a href="/" class="btn-primary m-3 w-full" style="max-width:320px;">
+                <a href="/user/register/responsable" class="btn-primary m-3 w-full" style="max-width:320px;">
                     <span class="uppercase font-light text-xxs">Je suis une structure publique ou associative</span>
                     <span class="text-lg font-bold">J'ai besoin d'aide</span>
                 </a>
-                <a href="#" class="btn-secondary m-3 w-full" style="max-width:320px;">
+                <a href="/user/register/volontaire" class="btn-secondary m-3 w-full" style="max-width:320px;">
                     <span class="uppercase font-light text-xxs">Je suis volontaire</span>
                     <span class="text-lg font-bold">Je veux aider</span>
                 </a>
@@ -36,7 +36,7 @@
                 <h2 class="titre-1">Votre structure est engagée dans la crise sanitaire face au Covid 19&nbsp;?</h2>
                 <p class="py-3 text-gray-600 text-lg">Identifiez votre besoin et partagez-le sur la Réserve Civique pour que des citoyens vous viennent en aide dans le respect des règles de sécurité et des directives du gouvernement.</p>
                 <div class="mt-3">
-                    <a href="/" class="btn-primary">Proposer des missions</a>
+                    <a href="/user/register/responsable" class="btn-primary">Proposer des missions</a>
                 </div>
             </div>
         </div>
@@ -48,10 +48,10 @@
                 <h2 class="titre-1">Vous souhaitez rejoindre les volontaires&nbsp;?</h2>
                 <p class="py-3 text-gray-600 text-lg">Aidez un travailleur en première ligne vivant proche de chez vous en gardant un enfant ou en faisant des courses, et engagez-vous dans la lutte contre l’épidémie.</p>
                 <div class="py-3">
-                    <a href="/" class="btn-secondary">Trouver une mission</a>
+                    <a href="/missions" class="btn-secondary">Trouver une mission</a>
                 </div>
                 <div class="pt-3">
-                    <a href="#" class="text-15 text-gray-600 hover:underline">Cet engagement nécessite un respect strict des règles sanitaires applicables&nbsp;›</a>
+                    <a href="/regles-de-securite" class="text-15 text-gray-600 hover:underline">Cet engagement nécessite un respect strict des règles sanitaires applicables&nbsp;›</a>
                 </div>
             </div>
         </div>

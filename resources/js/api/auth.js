@@ -37,11 +37,11 @@ export function resetPassword(form) {
 }
 
 export function impersonate(id) {
-  return request.post(`api/impersonate/${id}`);
+  return request.post(`/api/impersonate/${id}`);
 }
 
 export function stopImpersonate(token_id) {
-  return request.delete(`api/impersonate/${token_id}`, {
+  return request.delete(`/api/impersonate/${token_id}`, {
     headers: { Authorization: `Bearer ${store.state.auth.accessToken}` }
   });
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="mx-auto w-full">
         <div>
-          <img class="h-8 w-auto" src="images/logo-reserve-civique_dark.svg" alt="Workflow" />
+          <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Workflow" />
           <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
             Connexion à l'espace de la<br /> <span class="text-blue-800">Réserve Civique</span>
           </h2>
@@ -59,7 +59,7 @@
             </div>
           </div>
           <div class="mt-6 sm:col-span-">
-            <router-link to="/register">
+            <router-link to="/user/register">
                 <span class=" block w-full rounded-md shadow-sm">
                 <button type="submit"
                 class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out">
@@ -125,7 +125,7 @@ export default {
               if (this.$store.getters.noRole === true) {
                 this.$router.push("/register/step/norole");
               } else {
-                this.$router.push("/");
+                this.$router.push("/missions");
               }
             })
             .catch(() => {

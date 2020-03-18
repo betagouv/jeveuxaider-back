@@ -12,14 +12,18 @@ import LayoutRegisterSteps from "@/layout/LayoutRegisterSteps";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
 import Register from "@/views/Register.vue";
+import RegisterResponsable from "@/views/RegisterResponsable.vue";
+import RegisterVolontaire from "@/views/RegisterVolontaire.vue";
 import PasswordForgot from "@/views/PasswordForgot.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
-// import NotFound from "@/views/NotFound.vue";
-// import Forbidden from "@/views/Forbidden.vue";
+import NotFound from "@/views/NotFound.vue";
+import Forbidden from "@/views/Forbidden.vue";
+import Maintenance from "@/views/Maintenance.vue";
 // import BrowserOutdated from "@/views/BrowserOutdated.vue";
 // import Maintenance from "@/views/Maintenance.vue";
 // import Releases from "@/views/Releases.vue";
 
+import FrontMissions from "@/views/Front/Missions";
 
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
@@ -34,36 +38,48 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: "/",
+            path: "/user",
             component: Layout2Cols,
-            redirect: "/login",
+            redirect: "/user/login",
             children: [
                 {
-                    path: "/login",
+                    path: "/user/login",
                     name: "Login",
                     component: Login,
                     meta: { requiresAnonymous: true }
                 },
                 {
-                    path: "/register",
+                    path: "/user/register",
                     name: "Register",
                     component: Register,
                     meta: { requiresAnonymous: true }
                 },
                 {
-                    path: "/password/forgot",
+                    path: "/user/register/volontaire",
+                    name: "RegisterVolontaire",
+                    component: RegisterVolontaire,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/user/register/responsable",
+                    name: "RegisterResponsable",
+                    component: RegisterResponsable,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/user/password/forgot",
                     name: "PasswordForgot",
                     component: PasswordForgot,
                     meta: { requiresAnonymous: true }
                 },
                 {
-                    path: "/password/reset/:token",
+                    path: "/user/password/reset/:token",
                     name: "PasswordReset",
                     component: PasswordReset,
                     meta: { requiresAnonymous: true }
                 },
                 {
-                    path: "/logout",
+                    path: "/user/logout",
                     name: "Logout",
                     component: Logout
                 },
@@ -79,7 +95,7 @@ export default new Router({
                     path: "/register/step/norole",
                     component: () =>
                         import(
-              /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
+              /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
                         ),
                     name: "NoRoleStep"
                 },
@@ -87,7 +103,7 @@ export default new Router({
                     path: "/register/step/profile",
                     component: () =>
                         import(
-              /* webpackChunkName: "profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
+              /* webpackChunkName: "assets/js/profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
                         ),
                     name: "ProfileStep"
                 },
@@ -95,15 +111,32 @@ export default new Router({
                     path: "/register/step/structure",
                     component: () =>
                         import(
-              /* webpackChunkName: "structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
+              /* webpackChunkName: "assets/js/structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
                         ),
                     name: "StructureStep"
                 },
+                // {
+                //   path: "/releases",
+                //   component: Releases,
+                //   meta: { requiresAuth: true }
+                // },
+                // {
+                //   path: "/browser-outdated",
+                //   component: BrowserOutdated
+                // },
+                // {
+                //   path: "/maintenance",
+                //   name: "maintenance",
+                //   component: Maintenance
+                // },
+                // { path: "/403", component: Forbidden },
+                // { path: "*", component: NotFound }
+
                 {
                     path: "/register/step/address",
                     component: () =>
                         import(
-              /* webpackChunkName: "address-step" */ "@/views/RegisterSteps/AddressStep.vue"
+              /* webpackChunkName: "assets/js/address-step" */ "@/views/RegisterSteps/AddressStep.vue"
                         ),
                     name: "AddressStep"
                 }
@@ -111,7 +144,7 @@ export default new Router({
                 //       path: "/register/step/other",
                 //       component: () =>
                 //         import(
-                //           /* webpackChunkName: "no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
+                //           /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
                 //         ),
                 //       name: "OtherStep"
                 //     },
@@ -127,20 +160,25 @@ export default new Router({
         //   component: BrowserOutdated
         // },
         // {
-        //   path: "/maintenance",
-        //   name: "maintenance",
-        //   component: Maintenance
-        // },
-        // { path: "/403", component: Forbidden },
-        // { path: "*", component: NotFound }
+        {
+            path: '/missions',
+            component: FrontMissions
 
+        },
         {
             path: "/missions/:id",
             component: () =>
                 import(
-              /* webpackChunkName: "mission" */ "@/views/Mission.vue"
+            /* webpackChunkName: "mission" */ "@/views/Mission.vue"
                 ),
             name: "Mission"
-        }
+        },
+        {
+            path: "/maintenance",
+            name: "Maintenance",
+            component: Maintenance,
+        },
+        { path: "/403", component: Forbidden },
+        { path: "*", component: NotFound }
     ]
 });

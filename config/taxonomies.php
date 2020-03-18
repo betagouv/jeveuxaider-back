@@ -229,6 +229,30 @@ return [
 
      /*
     |--------------------------------------------------------------------------
+    | MISSION PERIODICITES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'mission_periodicites' => [
+        "vocabulary" => "Périodicités",
+        "terms" => [
+            "1 heure par jour" => "1 heure par jour",
+            "2 heures par jour" => "2 heures par jour",
+            "3 heures par jour" => "3 heures par jour",
+            "4 heures par jour" => "4 heures par jour",
+            "1 journée par semaine" => "1 journée par semaine",
+            "2 journées par semaine" => "2 journées par semaine",
+            "3 journées par semaine" => "3 journées par semaine",
+            "4 journées par semaine" => "4 journées par semaine",
+            "5 journées par semaine" => "5 journées par semaine",
+            "10 jours par mois" => "10 jours par mois",
+            "15 jours par mois" => "15 jours par mois",
+            "20 jours par mois" => "20 jours par mois",
+        ]
+    ],
+
+     /*
+    |--------------------------------------------------------------------------
     | MISSION DOMAINES
     |--------------------------------------------------------------------------
     |
@@ -236,15 +260,40 @@ return [
     'mission_domaines' => [
         "vocabulary" => "Domaines de mission",
         "terms" => [
-            "Défense et mémoire" => "Défense et mémoire",
-            "Sécurité" => "Sécurité",
-            "Solidarité" => "Solidarité",
-            "Santé" => "Santé",
-            "Éducation" => "Éducation",
-            "Culture" => "Culture",
-            "Sport" => "Sport",
-            "Environnement et développement durable" => "Environnement et développement durable",
-            "Citoyenneté" => "Citoyenneté",
+            "Je distribue des produits de première nécessité aux plus démunis" => "Je distribue des produits de première nécessité aux plus démunis",
+            "Domaine 2" => "Domaine 2",
+            "Domaine 3" => "Domaine 3"
+        ]
+    ],
+
+     /*
+    |--------------------------------------------------------------------------
+    | MISSION PUBLICS BENEFICIAIRES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'mission_publics_beneficiaires' => [
+        "vocabulary" => "Publics bénéficiaires",
+        "terms" => [
+            "Personnes âgées" => "",
+            "Personnes en situation de handicap" => "",
+            "Personnes à la rue" => "Personnes à la rue",
+            "Parents" => "Parents",
+            "Tous publics" => "Tous publics"
+        ]
+    ],
+
+     /*
+    |--------------------------------------------------------------------------
+    | MISSION PUBLICS VOLONTAIRES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'mission_publics_beneficiaires' => [
+        "vocabulary" => "Publics bénéficiaires",
+        "terms" => [
+            "Personnes mobiles" => "Personnes mobiles",
+            "À determiner" => "À determiner"
         ]
     ],
 

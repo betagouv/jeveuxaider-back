@@ -10,27 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', 'PagesController@home');
+Route::get('/a-propos', 'PagesController@about');
+Route::get('/confidentialite', 'PagesController@confidentiality');
+Route::get('/centre-d-aide', 'PagesController@help');
+Route::get('/regles-de-securite', 'PagesController@securityRules');
 
-Route::get('/', function () {
-    return view('pages.home');
-});
-
-Route::get('/a-propos', function () {
-    return view('pages.about');
-});
-
-Route::get('/confidentialite', function () {
-    return view('pages.confidentiality');
-});
-
-Route::get('/centre-d-aide', function () {
-    return view('pages.help');
-});
-
-Route::get('/regles-de-securite', function () {
-    return view('pages.security-rules');
-});
-
-Route::get('/{any}', function () {
-    return view('layouts.app');
-})->where('any', '.*');
+// SPA VUE
+Route::get('/{any}', 'PagesController@spa')->where('any', '.*');
