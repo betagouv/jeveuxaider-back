@@ -24,6 +24,11 @@ class PagesController extends Controller
         return view('pages.help');
     }
 
+    public function securityRules()
+    {
+        return view('pages.security-rules');
+    }
+
     public function spa()
     {
         return view('layouts.app');
