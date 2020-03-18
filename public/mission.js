@@ -9,7 +9,6 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_VueHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/VueHeader */ "./resources/js/components/VueHeader.vue");
 //
 //
 //
@@ -497,12 +496,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Mission",
-  components: {
-    VueHeader: _components_VueHeader__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
   computed: {}
 });
 
@@ -527,7 +523,7 @@ var render = function() {
     "div",
     { staticClass: "bg-gray-100" },
     [
-      _c("VueHeader"),
+      _c("AppHeader"),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -1235,7 +1231,9 @@ var render = function() {
             ])
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("AppFooter")
     ],
     1
   )

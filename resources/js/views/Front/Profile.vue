@@ -1,6 +1,6 @@
 <template>
   <div>
-    <VueHeader />
+    <AppHeader />
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
@@ -8,7 +8,6 @@
         </div>
       </div>
     </div>
-
     <div class="-mt-32">
       <div class="container mx-auto px-4 my-12">
         <div
@@ -18,16 +17,12 @@
         </div>
       </div>
     </div>
+    <AppFooter />
   </div>
 </template>
 
 <script>
-import VueHeader from "@/components/VueHeader";
-
 export default {
-  name: "FrontProfile",
-  components: {
-    VueHeader
-  }
+  name: "FrontProfile"
 };
 </script>

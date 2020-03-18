@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dropdown @command="handleCommand">
-      <el-avatar>NV</el-avatar>
+      <el-avatar class="bg-white text-blue-900">NV</el-avatar>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="/user/profile">Profil</el-dropdown-item>
         <el-dropdown-item command="/user/settings"
