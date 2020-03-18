@@ -24,6 +24,8 @@ import Maintenance from "@/views/Maintenance.vue";
 // import Releases from "@/views/Releases.vue";
 
 import FrontHomepage from "@/views/Front/Homepage";
+import FrontAbout from "@/views/Front/About";
+import FrontSecurityRules from "@/views/Front/SecurityRules";
 import FrontMissions from "@/views/Front/Missions";
 import FrontProfile from "@/views/Front/Profile";
 import FrontSettings from "@/views/Front/Settings";
@@ -44,6 +46,16 @@ export default new Router({
       path: "/",
       name: "Homepage",
       component: FrontHomepage,
+    },
+    {
+      path: "/regles-de-securite",
+      name: "SecurityRules",
+      component: FrontSecurityRules,
+    },
+    {
+      path: "/a-propos",
+      name: "About",
+      component: FrontAbout,
     },
     {
       path: "/user",

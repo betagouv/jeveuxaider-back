@@ -14,8 +14,6 @@ const tailwindcss = require('tailwindcss');
 
 mix.js('resources/js/app.js', 'public/assets/js');
 
-mix.js('resources/js/app-blade.js', 'public/assets/js');
-
 mix.sass('resources/sass/app.sass', 'public/assets/css')
    .options({
       processCssUrls: false,
