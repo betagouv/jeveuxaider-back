@@ -40,12 +40,12 @@ class ProfileUpdateRequest extends ProfileRequest
             'last_name' => 'sometimes|required|min:2',
             'mobile' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'zip' => 'sometimes|required|postal_code:FR',
-            'birthday' => 'sometimes|required|date|before:-16 years'
-            // 'phone' => 'phone:FR',
+            'birthday' => 'sometimes|required|date|before:-16 years',
+            //'phone' => 'phone:FR',
+            'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             // 'avatar' => '',
-            // 'referent_department' => '',
-            // 'reseau_id' => '',
-
+            'referent_department' => '',
+            'reseau_id' => '',
         ];
     }
 
@@ -68,7 +68,8 @@ class ProfileUpdateRequest extends ProfileRequest
             'postal_code' => 'Le code postal n\'est pas valide',
             'zip.required' => 'Le code postal est requis',
             'mobile.required' => 'Le numéro de téléphone est requis',
-            'mobile' => 'Le numéro de téléphone n\'est pas valide'
+            'mobile' => 'Le numéro de téléphone n\'est pas valide',
+            'phone' => 'Le numéro de téléphone n\'est pas valide'
         ];
     }
 }

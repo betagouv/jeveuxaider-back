@@ -18,6 +18,14 @@
       <div class="card-label">Téléphone</div>
       <div class="text-gray-900 flex-1">{{ profile.phone }}</div>
     </div>
+    <div v-if="profile.birthday" class="mb-2 flex">
+      <div class="card-label">Naissance</div>
+      <div class="text-gray-900 flex-1">{{ profile.birthday }}</div>
+    </div>
+    <div v-if="profile.zip" class="mb-2 flex">
+      <div class="card-label">Code postal</div>
+      <div class="text-gray-900 flex-1">{{ profile.zip }}</div>
+    </div>
   </div>
 </template>
 
