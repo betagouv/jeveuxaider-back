@@ -25,6 +25,7 @@ use App\Models\Mission;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
+use Illuminate\Support\Facades\Auth;
 
 class StructureController extends Controller
 {
@@ -75,7 +76,7 @@ class StructureController extends Controller
         }
 
         $structure = Structure::create(
-            array_merge($request->validated(), ['user_id' => auth()->user()->id])
+            array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
         );
 
         $request->user()->notify(new StructureCreated($structure));
@@ -144,7 +145,7 @@ class StructureController extends Controller
             return $request->validated();
         }
 
-        $mission = $structure->addMission(array_merge($request->validated(), ['user_id' => auth()->user()->id]));
+        $mission = $structure->addMission(array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]));
 
         return $mission;
     }
