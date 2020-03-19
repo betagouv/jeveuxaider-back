@@ -27,7 +27,8 @@ scalingo env-set \
   APP_KEY=$(openssl rand -hex 16) \
   MIX_API_BASE_URL=<url> \
   MIX_ALGOLIA_PLACES_APP_ID=<algolia id> \
-  MIX_ALGOLIA_PLACES_API_KEY=<algolia key>
+  MIX_ALGOLIA_PLACES_API_KEY=<algolia key> \
+  ASSET_URL=https://<asset app name>.<region>.scalingo.io
 ```
 
 * Configure Passport
