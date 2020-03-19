@@ -7,10 +7,11 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Utils;
+use Laravel\Scout\Searchable;
 
 class Mission extends Model
 {
-    use CrudTrait, SoftDeletes;
+    use CrudTrait, SoftDeletes, Searchable;
 
     protected $table = 'missions';
 
@@ -67,6 +68,17 @@ class Mission extends Model
         'structure:id,name',
         'structure.members:id,first_name,last_name'
     ];
+
+    public function shouldBeSearchable()
+    {
+        // TODO : Remplacer par un état de la mission ?
+        return TRUE;
+    }
+
+    public function searchableAs()
+    {
+        return config('scout.prefix').'_covid_missions';
+    }
 
     public function setNameAttribute($value)
     {
