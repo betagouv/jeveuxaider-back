@@ -26,10 +26,10 @@ class Profile extends Model implements HasMedia
         'last_name',
         'email',
         // 'avatar',
-        // 'phone',
+        'phone',
         'mobile',
-        // 'reseau_id',
-        // 'referent_department',
+        'reseau_id',
+        'referent_department',
         'birthday',
         'zip'
     ];

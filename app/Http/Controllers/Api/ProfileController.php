@@ -14,6 +14,7 @@ use App\Exports\ProfilesExport;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Http\Requests\ProfileRequest;
+use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class ProfileController extends Controller
@@ -29,6 +30,14 @@ class ProfileController extends Controller
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))
             ;
+    }
+
+    public function participations(Request $request, Profile $profile)
+    {
+        return QueryBuilder::for(Participation::class)
+        ->where('profile_id', $profile->id)
+        ->defaultSort('-updated_at')
+        ->paginate(config('query-builder.results_per_page'));
     }
 
     public function export(Request $request)

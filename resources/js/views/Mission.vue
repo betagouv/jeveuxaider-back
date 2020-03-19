@@ -14,30 +14,33 @@
       <div class="container mx-auto px-4 mt-12">
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
           <div class="lg:flex">
-            <div class="bg-white px-6 py-8 lg:flex-shrink-1 lg:p-12">
+            <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
               <h3
                 class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
               >
-                Distribution des produits alimentaires aux différents patients
-                de l'Hôpital
+                {{ mission.name }}
               </h3>
 
               <div class="mt-12">
                 <div
                   class="flex flex-wrap justify-center sm:justify-start items-center text-center sm:text-left"
                 >
-                  <div class="flex-shrink-0">
+                  <div
+                    v-if="structure && structure.logo"
+                    class="flex-shrink-0 sm:pr-4"
+                  >
                     <img
                       class="h-14 w-14 rounded-full"
-                      src="https://s3.eu-west-2.amazonaws.com/plateforme-prod/uploads/5737034557ef5b8c02c0e46513b98f90/c9c2676be6cd123b7f24038717efe1b3.jpg"
+                      :src="structure.logo"
                       alt=""
                     />
                   </div>
-                  <div class="sm:pl-4">
+                  <div>
                     <h3
+                      v-if="structure"
                       class="text-2xl leading-tight font-medium text-gray-900"
                     >
-                      Centre Hospitalier de Créteil
+                      {{ structure.name }}
                     </h3>
 
                     <div class="mt-4 sm:mt-2">
@@ -55,8 +58,8 @@
                             clip-rule="evenodd"
                           ></path>
                         </svg>
-                        <span class="m-1"
-                          >40 Avenue de Verdun, 94000 Créteil</span
+                        <span class="m-1" v-if="structure">
+                          {{ structure.full_address }}</span
                         >
                       </div>
                     </div>
@@ -68,17 +71,18 @@
                 <span
                   class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
                 >
-                  Mission ponctuelle
+                  {{ mission.format }}
                 </span>
                 <span
                   class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
                 >
-                  Mission à distance
+                  {{ mission.type }}
                 </span>
                 <span
+                  v-if="mission.periodicite"
                   class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
                 >
-                  4h par semaine
+                  {{ mission.periodicite }}
                 </span>
               </div>
 
@@ -110,8 +114,7 @@
                         </svg>
                       </div>
                       <p class="ml-3 text-gray-700">
-                        Je distribue des produits de première nécessité aux plus
-                        démunis
+                        {{ mission.domaine }}
                       </p>
                     </li>
                   </ul>
@@ -131,6 +134,9 @@
                 <div class="mt-8">
                   <ul class="flex flex-wrap -m-1">
                     <li
+                      v-for="(publicBeneficiaire,
+                      key) in mission.publics_beneficiaires"
+                      :key="key"
                       class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
                     >
                       <div class="flex-shrink-0" style="margin-top: 2px;">
@@ -147,87 +153,7 @@
                         </svg>
                       </div>
                       <p class="ml-3 text-gray-700">
-                        Personnes âgées
-                      </p>
-                    </li>
-                    <li
-                      class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                    >
-                      <div class="flex-shrink-0" style="margin-top: 2px;">
-                        <svg
-                          class="h-5 w-5 text-green-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      <p class="ml-3 text-gray-700">
-                        Personnes en situation de handicap
-                      </p>
-                    </li>
-                    <li
-                      class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                    >
-                      <div class="flex-shrink-0" style="margin-top: 2px;">
-                        <svg
-                          class="h-5 w-5 text-green-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      <p class="ml-3 text-gray-700">
-                        Personnes à la rue
-                      </p>
-                    </li>
-                    <li
-                      class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                    >
-                      <div class="flex-shrink-0" style="margin-top: 2px;">
-                        <svg
-                          class="h-5 w-5 text-green-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      <p class="ml-3 text-gray-700">
-                        Parents
-                      </p>
-                    </li>
-                    <li
-                      class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                    >
-                      <div class="flex-shrink-0" style="margin-top: 2px;">
-                        <svg
-                          class="h-5 w-5 text-green-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      <p class="ml-3 text-gray-700">
-                        Tous publics
+                        {{ publicBeneficiaire }}
                       </p>
                     </li>
                   </ul>
@@ -246,6 +172,9 @@
                 <div class="mt-8">
                   <ul class="flex flex-wrap -m-1">
                     <li
+                      v-for="(publicVolontaire,
+                      key) in mission.publics_volontaires"
+                      :key="key"
                       class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
                     >
                       <div class="flex-shrink-0" style="margin-top: 2px;">
@@ -262,27 +191,7 @@
                         </svg>
                       </div>
                       <p class="ml-3 text-gray-700">
-                        Personnes mobiles
-                      </p>
-                    </li>
-                    <li
-                      class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                    >
-                      <div class="flex-shrink-0" style="margin-top: 2px;">
-                        <svg
-                          class="h-5 w-5 text-green-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      <p class="ml-3 text-gray-700">
-                        À déterminer
+                        {{ publicVolontaire }}
                       </p>
                     </li>
                   </ul>
@@ -301,10 +210,7 @@
 
                 <div class="mt-6  text-gray-500">
                   <p>
-                    Les limites de compétences des stagiaires SNU seront prises
-                    en compte. Par exemple l’action de «&nbsp;faire boire&nbsp;»
-                    ne sera pas confiée aux stagiaires SNU, par rapport aux
-                    risques de fausses routes.
+                    {{ mission.description }}
                   </p>
                 </div>
               </div>
@@ -324,7 +230,11 @@
                 <span
                   class="px-6 py-1 shadow-md inline-flex text-lg font-semibold rounded-full bg-green-100 text-green-800"
                 >
-                  4 volontaires
+                  {{ mission.participations_max }}
+                  {{
+                    mission.participations_max
+                      | pluralize(["volontaire", "volontaires"])
+                  }}
                 </span>
               </div>
 
@@ -341,7 +251,19 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  Disponibilité aussitôt que possible
+                  <div v-if="mission.start_date">
+                    <span class="text-gray-400 mr-1 text-xs">Du</span>
+                    <span class="mr-1">{{
+                      mission.start_date | formatMedium
+                    }}</span>
+                  </div>
+                  <div v-if="mission.end_date">
+                    <span class="text-gray-400 mr-1 text-xs">Au</span>
+                    {{ mission.end_date | formatMedium }}
+                  </div>
+                  <div v-if="!mission.start_date && !mission.end_date">
+                    Disponibilité aussitôt que possible
+                  </div>
                 </div>
               </div>
 
@@ -370,6 +292,7 @@
       </div>
     </div>
 
+    <!-- @TODO Dynamiquement -->
     <div class="container mx-auto px-4 py-12">
       <div class=" bg-white shadow overflow-hidden rounded-lg">
         <div
@@ -487,8 +410,38 @@
 </template>
 
 <script>
+import { getMission } from "@/api/mission";
+
 export default {
   name: "Mission",
-  computed: {}
+  props: {
+    id: {
+      type: Number,
+      default: null
+    }
+  },
+  computed: {
+    structure() {
+      return this.mission.structure;
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      mission: {}
+    };
+  },
+  created() {
+    this.$store.commit("setLoading", true);
+    getMission(this.id)
+      .then(response => {
+        this.form = response.data;
+        this.mission = { ...response.data };
+        this.$store.commit("setLoading", false);
+      })
+      .catch(() => {
+        this.loading = false;
+      });
+  }
 };
 </script>

@@ -64,6 +64,10 @@ export function fetchUsers() {
   return request.get("/api/users");
 }
 
+export function fetchProfileParticipations(id) {
+  return request.get(`/api/profile/${id}/participations`);
+}
+
 export function fetchProfiles(params) {
   return request.get("/api/profiles", { params });
 }

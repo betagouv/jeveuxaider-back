@@ -1,37 +1,20 @@
 <template>
-  <div
-    v-if="!$store.getters.loading"
-    class="profile-form max-w-2xl pl-12 pb-12"
-  >
+  <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        Profil
-      </div>
+      <div class="text-m text-gray-600 uppercase">Profil</div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl">
-          {{ form.first_name }} {{ form.last_name }}
-        </div>
-        <profile-roles-tags
-          :profile="form"
-          class="ml-3 relative"
-        ></profile-roles-tags>
+        <div class="font-bold text-2xl">{{ form.first_name }} {{ form.last_name }}</div>
+        <profile-roles-tags :profile="form" class="ml-3 relative"></profile-roles-tags>
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
       Invitation d'un nouveau
-      <span v-if="role == 'referent'"> référent départemental</span
-      ><span v-if="role == 'superviseur'"> superviseur national</span>
+      <span v-if="role == 'referent'">référent départemental</span>
+      <span v-if="role == 'superviseur'">superviseur national</span>
     </div>
 
-    <el-form
-      ref="profileForm"
-      :model="form"
-      label-position="top"
-      :rules="rules"
-    >
-      <div class="mb-6 text-xl text-gray-800">
-        Informations générales
-      </div>
+    <el-form ref="profileForm" :model="form" label-position="top" :rules="rules">
+      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Email" prop="email">
         <el-input v-model="form.email" placeholder="Email" />
@@ -44,12 +27,9 @@
           <el-input v-model="form.last_name" placeholder="Nom" />
         </el-form-item>
       </div>
+      
       <div class="flex">
-        <el-form-item
-          label="Téléphone mobile"
-          prop="mobile"
-          class="flex-1 mr-2"
-        >
+        <el-form-item label="Téléphone mobile" prop="mobile" class="flex-1 mr-2">
           <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
         </el-form-item>
         <el-form-item label="Téléphone fixe" prop="phone" class="flex-1 ml-2">
@@ -57,11 +37,26 @@
         </el-form-item>
       </div>
 
+      <div class="flex">
+        <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
+          <el-input v-model="form.zip" placeholder="Code postal" />
+        </el-form-item>
+        <el-form-item label="Date de naissance" prop="birthday" class="flex-1 ml-2">
+          <el-date-picker
+            type="date"
+            placeholder="Date de naissance"
+            v-model="form.birthday"
+            autocomplete="off"
+            format="dd-MM-yyyy"
+            value-format="yyyy-MM-dd"
+            style="width:100%;"
+          ></el-date-picker>
+        </el-form-item>
+      </div>
+
       <template v-if="$store.getters.contextRole == 'admin'">
         <template v-if="mode == 'edit' || role == 'superviseur'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Réseau national
-          </div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Réseau national</div>
           <item-description>
             Si cet utilisateur est membre d'un réseau national (La Croix Rouge,
             Armée du Salut...), renseignez son nom. Vous permettez à cet
@@ -69,11 +64,7 @@
             structures de ce réseau national.
           </item-description>
           <el-form-item label="Réseau national" prop="reseau_id" class="flex-1">
-            <el-select
-              v-model="form.reseau_id"
-              clearable
-              placeholder="Réseau national"
-            >
+            <el-select v-model="form.reseau_id" clearable placeholder="Réseau national">
               <el-option
                 v-for="item in $store.getters.reseaux"
                 :key="item.id"
@@ -84,19 +75,13 @@
           </el-form-item>
         </template>
         <template v-if="mode == 'edit' || role == 'referent'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Référent départemental
-          </div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Référent départemental</div>
           <item-description>
             Si cet utilisateur est référent, renseignez le nom du département
             Vous permettez à cet utilisateur de visualiser les missions et
             volontaires rattachés aux structures de ce département.
           </item-description>
-          <el-form-item
-            label="Département"
-            prop="referent_department"
-            class="flex-1"
-          >
+          <el-form-item label="Département" prop="referent_department" class="flex-1">
             <el-select
               v-model="form.referent_department"
               filterable
@@ -114,9 +99,7 @@
         </template>
       </template>
       <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">
-          Enregistrer
-        </el-button>
+        <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
       </div>
     </el-form>
   </div>

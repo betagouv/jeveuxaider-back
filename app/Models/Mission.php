@@ -65,7 +65,7 @@ class Mission extends Model
     protected $appends = ['full_address', 'places_left', 'has_places_left'];
 
     protected $with = [
-        'structure:id,name',
+        'structure:id,name,city,address,zip',
         'structure.members:id,first_name,last_name'
     ];
 

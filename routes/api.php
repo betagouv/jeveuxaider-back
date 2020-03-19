@@ -20,12 +20,19 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::get('releases', 'Api\ReleaseController@index');
 
+// Missions
+Route::get('missions', 'Api\MissionController@index');
+Route::get('mission/{mission}', 'Api\MissionController@show');
+
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('bootstrap', 'Api\ConfigController@bootstrap');
     Route::get('user', 'Api\UserController@show');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
+    Route::post('profile/{profile}/participations', 'Api\ProfileController@participations');
+
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
@@ -56,8 +63,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
 
     // MISSIONS
-    Route::get('missions', 'Api\MissionController@index');
-    Route::get('mission/{mission}', 'Api\MissionController@show');
     Route::post('mission/{mission}', 'Api\MissionController@update');
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
