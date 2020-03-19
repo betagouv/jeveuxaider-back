@@ -17,7 +17,7 @@
           class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
         >
           <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
-            TODO Prénom Nom
+            {{ $store.getters.user.profile.first_name }} {{ $store.getters.user.profile.last_name }}
           </h2>
 
           <el-form
@@ -38,22 +38,22 @@
               <div class="flex flex-wrap -m-2">
                 <el-form-item
                   label="Ancien mot de passe"
-                  prop="oldPassword"
+                  prop="current_password"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
                   <el-input
-                    v-model="form.oldPassword"
+                    v-model="form.current_password"
                     placeholder="Ancien mot de passe"
                     show-password
                   />
                 </el-form-item>
                 <el-form-item
                   label="Nouveau mot de passe"
-                  prop="newPassword"
+                  prop="password"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
                   <el-input
-                    v-model="form.newPassword"
+                    v-model="form.password"
                     placeholder="Nouveau mot de passe"
                     show-password
                   />
@@ -89,12 +89,14 @@
 </template>
 
 <script>
+import { updatePassword } from "@/api/user";
+
 export default {
   name: "FrontSettings",
   components: {},
   data() {
     var validatePass2 = (rule, value, callback) => {
-      if (value !== this.form.newPassword) {
+      if (value !== this.form.password) {
         callback(new Error("Les mots de passe ne sont pas identiques"));
       } else {
         callback();
@@ -104,14 +106,14 @@ export default {
       loading: false,
       form: {},
       rules: {
-        oldPssword: [
+        current_password: [
           {
             required: true,
             message: "Ce champ est requis",
             trigger: "change"
           }
         ],
-        newPassword: [
+        password: [
           {
             required: true,
             message: "Choisissez votre mot de passe",
@@ -132,23 +134,18 @@ export default {
       this.loading = true;
       this.$refs["settingsForm"].validate(valid => {
         if (valid) {
-          //   this.$store
-          //     .dispatch("auth/registerVolontaire", {
-          //       email: this.form.email,
-          //       password: this.form.password,
-          //       first_name: this.form.first_name,
-          //       last_name: this.form.last_name,
-          //       mobile: this.form.mobile,
-          //       birthday: this.form.birthday,
-          //       zip: this.form.zip
-          //     })
-          //     .then(() => {
-          //       this.loading = false;
-          //       this.$router.push("/missions");
-          //     })
-          //     .catch(() => {
-          //       this.loading = false;
-          //     });
+          updatePassword(this.form)
+            .then(() => {
+              this.loading = false;
+              this.$message({
+                message: "Votre mot de passe a été modifié",
+                type: "success"
+              });
+            })
+            .catch(() => {
+              this.loading = false;
+            });
+          this.loading = false;
         } else {
           this.loading = false;
         }

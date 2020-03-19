@@ -62,7 +62,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address'];
+    protected $appends = ['full_address', 'places_left', 'has_places_left'];
 
     protected $with = [
         'structure:id,name',
@@ -110,6 +110,26 @@ class Mission extends Model
     public function getFullAddressAttribute()
     {
         return "{$this->address} {$this->zip} {$this->city}";
+    }
+
+    public function getHasPlacesLeftAttribute()
+    {
+        return $this->participations_count < $this->participations_max ? true : false;
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return $this->participations_max - $this->participations_count;
+    }
+
+    public function scopeHasPlacesLeft($query)
+    {
+        return $query->has('participations', '<', DB::raw('participations_max'));
+    }
+
+    public function scopeComplete($query)
+    {
+        return $query->has('participations', '=', DB::raw('participations_max'));
     }
 
     public function scopeRole($query, $contextRole)
