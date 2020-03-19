@@ -134,7 +134,7 @@ export default {
           updateStructure(this.structureId, this.form)
             .then(() => {
               this.loading = false;
-              this.$router.push("/dashboard/missions");
+              this.$router.push(`/dashboard/structure/${this.structureId}/missions/add`);
             })
             .catch(() => {
               this.loading = false;

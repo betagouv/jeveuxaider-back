@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="font-montserrat">
     <div style="background-image: url(images/bg_header_home.jpg)" class="py-12">
       <div class="container mx-auto px-4">
         <div class="lg:flex lg:justify-between text-center pb-6">
@@ -65,6 +65,148 @@
       </div>
     </div>
 
+    <div class="container mx-auto px-4">
+      <div class="py-4 sm:py-8 md:py-16">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="relative mb-4 sm:col-span-2 lg:col-span-1">
+            <svg
+              class="absolute"
+              width="404"
+              height="200"
+              fill="none"
+              viewBox="0 0 404 200"
+              style="bottom: -45px; left: -180px;"
+            >
+              <defs>
+                <pattern
+                  id="8b1b5f72-e944-4457-af67-0c6d15a99f38"
+                  x="0"
+                  y="0"
+                  width="20"
+                  height="20"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <rect
+                    x="0"
+                    y="0"
+                    width="4"
+                    height="4"
+                    class="text-gray-200"
+                    fill="currentColor"
+                  ></rect>
+                </pattern>
+              </defs>
+              <rect
+                width="404"
+                height="784"
+                fill="url(#8b1b5f72-e944-4457-af67-0c6d15a99f38)"
+              ></rect>
+            </svg>
+            <div class="relative">
+              <h3
+                class="text-3xl leading-tight font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+              >
+                Les 5 missions prioritaires de volontariat
+              </h3>
+              <div class="inline-flex rounded-full shadow-xl mt-6">
+                <a
+                  href="#"
+                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-sm leading-6 font-semibold rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                >
+                  Règles de sécurité
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+            >
+              1
+            </div>
+            <div class="mt-5">
+              <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                Aide alimentaire
+              </h5>
+              <p class="mt-2 text-base leading-6 text-gray-500">
+                Je récupère et distribue des produits de première nécessité aux
+                plus démunis (aliments, hygiène...)
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+            >
+              2
+            </div>
+            <div class="mt-5">
+              <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                Aide d’urgence
+              </h5>
+              <p class="mt-2 text-base leading-6 text-gray-500">
+                Je prépare / aide à préparer des repas pour les personnes en
+                difficultés.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+            >
+              3
+            </div>
+            <div class="mt-5">
+              <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                Garde d’enfants
+              </h5>
+              <p class="mt-2 text-base leading-6 text-gray-500">
+                Je garde des enfants de soignants ou d’une structure de l’Aide
+                Sociale à l’Enfance
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+            >
+              4
+            </div>
+            <div class="mt-5">
+              <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                Lien aux personnes fragiles isolées
+              </h5>
+              <p class="mt-2 text-base leading-6 text-gray-500">
+                Je maintiens un lien (téléphone, visio, mail...) avec des
+                personnes fragiles isolées (âgées, situation de handicap, etc.)
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+            >
+              5
+            </div>
+            <div class="mt-5">
+              <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                Solidarité de proximité
+              </h5>
+              <p class="mt-2 text-base leading-6 text-gray-500">
+                Je fais les courses de produits essentiels pour mes voisins les
+                plus fragiles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="lg:flex">
       <div class="lg:w-1/2">
         <img
@@ -126,7 +268,7 @@
       </div>
     </div>
 
-    <div class="bg-gray-100">
+    <!-- <div class="bg-gray-100">
       <div class="container mx-auto px-4">
         <div class="pt-8 md:pt-12 lg:pt-24 text-center">
           <h2 class="titre-1">Les partenaires de la Réserve Civique</h2>
@@ -184,7 +326,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="lg:flex">
       <div
@@ -219,3 +361,7 @@
     <AppFooter />
   </div>
 </template>
+
+<style lang="sass" scoped>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap')
+</style>

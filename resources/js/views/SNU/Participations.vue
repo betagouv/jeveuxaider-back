@@ -56,15 +56,17 @@
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
           <div class="font-light text-gray-600 flex items-center">
-            <div class="text-xs">{{ scope.row.profile.email }}</div>
+            <div class="text-xs">{{ scope.row.profile.email }} - {{ scope.row.profile.mobile }}</div>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.mission.name }}</div>
+          <div class="text-gray-900">
+            <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name }}</v-clamp>
+          </div>
           <div class="font-light text-gray-600 flex items-center">
-            <div class="text-xs">{{ scope.row.mission.domaine }}</div>
+            <div class="text-xs">{{ scope.row.mission.structure.name }}</div>
           </div>
         </template>
       </el-table-column>
@@ -73,9 +75,12 @@
           <state-tag :state="scope.row.state"></state-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="created_at" label="Crée le" min-width="120">
+        <template slot-scope="scope">{{ scope.row.created_at | fromNow }}</template>
+      </el-table-column>
       <el-table-column v-if="!$store.getters['volet/active']" label="Actions" width="165">
         <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini" class="m-1">Ouvrir</el-button>
+          <el-button icon="el-icon-edit" size="mini" class="m-1">Modifier</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -91,7 +96,15 @@
       <div
         class="text-secondary text-xs ml-3"
       >Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats</div>
+      <div class="ml-auto">
+        <el-button icon="el-icon-download" size="small" @click="onExport"
+          >Export</el-button
+        >
+      </div>
     </div>
+    <portal to="volet">
+      <participation-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
@@ -99,9 +112,13 @@
 import { fetchParticipations, exportParticipations } from "@/api/participation";
 import StateTag from "@/components/StateTag";
 import TableWithFilters from "@/mixins/TableWithFilters";
+import TableWithVolet from "@/mixins/TableWithVolet";
 import QueryFilter from "@/components/QueryFilter.vue";
 import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
+import ParticipationVolet from "@/layout/components/Volet/ParticipationVolet.vue";
+
+import fileDownload from "js-file-download";
 
 export default {
   name: "Participations",
@@ -109,9 +126,10 @@ export default {
     StateTag,
     QueryFilter,
     QuerySearchFilter,
-    QueryMainSearchFilter
+    QueryMainSearchFilter,
+    ParticipationVolet
   },
-  mixins: [TableWithFilters],
+  mixins: [TableWithFilters, TableWithVolet],
   data() {
     return {
       loading: true,
@@ -127,10 +145,18 @@ export default {
     fetchRows() {
       return fetchParticipations(this.query);
     },
-    onClickedRow(row) {
-      console.log("click row ");
-      //this.$router.push({path: `/missions/${row.id}`});
-    }
+    onExport() {
+      this.loading = true;
+      exportParticipations(this.query)
+        .then(response => {
+          this.loading = false;
+          console.log('export', response.data)
+          fileDownload(response.data, "participations.xlsx");
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   }
 };
 </script>

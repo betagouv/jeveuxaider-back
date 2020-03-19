@@ -20,9 +20,6 @@ Vue.component('VClamp', VClamp);
 import Bowser from "bowser";
 import "./plugins/dayjs.js";
 import "./plugins/utils.js";
-
-
-
 import Vue2Filters from "vue2-filters";
 
 /*
