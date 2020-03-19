@@ -4,14 +4,16 @@
       class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
     >
       <div>
-        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Workflow" />
+        <router-link to="/">
+          <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+        </router-link>
         <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
           Page
           <span class="text-blue-800">inaccessible</span>
         </h2>
       </div>
       <div class="mt-8 border-t border-gray-200 pt-8"></div>
-      <div class="">
+      <div class>
         <p>La page que vous souhaitez afficher n'est pas accessible.</p>
       </div>
     </div>
