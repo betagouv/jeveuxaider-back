@@ -23,7 +23,7 @@ class Participation extends Model
         'state',
     ];
 
-    protected $with = ['mission:id,name,tuteur_id,structure_id', 'mission.structure:id,name'];
+    protected $with = ['mission', 'profile'];
 
 
     public function mission()

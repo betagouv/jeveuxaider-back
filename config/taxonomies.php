@@ -429,4 +429,21 @@ return [
             "987" => "Polynésie française"
         ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | PARTICIPATION WORKFLOW STATES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'participation_workflow_states' => [
+        "vocabulary" => "Statut",
+        "terms" => [
+            "En attente de validation" => "En attente de validation",
+            "Validée" => "Validée",
+            "Abandonnée" => "Abandonnée",
+            "Annulée" => "Annulée",
+            "Archivée" => "Archivée"
+        ]
+    ],
 ];

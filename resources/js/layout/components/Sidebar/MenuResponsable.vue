@@ -26,6 +26,19 @@
         <i class="el-icon-collection"></i>
       </el-tooltip>
     </el-menu-item>
+    <el-menu-item index="/dashboard/participations">
+      <span v-if="!isCollapsed">Participations</span>
+      <el-tooltip
+        v-else
+        class="item"
+        :open-delay="500"
+        effect="dark"
+        content="Participations"
+        placement="right"
+      >
+        <i class="el-icon-finished"></i>
+      </el-tooltip>
+    </el-menu-item>
   </div>
 </template>
 
