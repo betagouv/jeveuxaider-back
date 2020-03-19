@@ -181,16 +181,82 @@ export default new Router({
             {
                 path: "/dashboard/structure/:structureId/missions/add",
                 component: () =>
-                  import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/MissionForm.vue"),
+                  import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionForm.vue"),
                 name: "MissionFormAdd",
                 props: route => ({ structureId: parseInt(route.params.structureId) })
               },
               {
                 path: "/dashboard/mission/:id/edit",
                 component: () =>
-                  import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/MissionForm.vue"),
+                  import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/SNU/MissionForm.vue"),
                 name: "MissionFormEdit",
                 props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+              },
+              {
+                path: "/dashboard/structures",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-structures" */ "@/views/SNU/Structures.vue"
+                  ),
+                name: "Structures"
+              },
+              {
+                path: "/dashboard/structure/add",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-add" */ "@/views/SNU/StructureForm.vue"
+                  ),
+                name: "StructureFormAdd",
+                props: { mode: "add" },
+                meta: {
+                  roles: ["admin"]
+                }
+              },
+              {
+                path: "/dashboard/structure/:id",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-structure-view" */ "@/views/SNU/Structure.vue"),
+                name: "Structure",
+                props: route => ({ id: parseInt(route.params.id) }),
+                meta: {
+                  roles: ["admin", "referent", "superviseur", "responsable"]
+                }
+              },
+              {
+                path: "/dashboard/structure/:id/edit",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-edit" */ "@/views/SNU/StructureForm.vue"
+                  ),
+                name: "StructureFormEdit",
+                props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+              },
+              {
+                path: "/dashboard/structure/:id/members",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-members" */ "@/views/SNU/StructureMembers.vue"
+                  ),
+                name: "StructureMembers",
+                props: route => ({ id: parseInt(route.params.id) })
+              },
+              {
+                path: "/dashboard/structure/:id/members/add",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-members-add" */ "@/views/SNU/StructureMembersAdd.vue"
+                  ),
+                name: "StructureMembersAdd",
+                props: route => ({ id: parseInt(route.params.id) })
+              },
+              {
+                path: "/dashboard/profiles",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
+                name: "Profiles",
+                meta: {
+                  roles: ["admin", "referent", "superviseur"]
+                }
               },
               {
                 path: "/dashboard/participations",
