@@ -49,9 +49,9 @@ class MissionWaitingValidation extends Notification
     {
         return (new MailMessage)
             ->subject('Votre mission a bien été déposée')
-            ->greeting('Bonjour ' . $notifiable->full_name . ' !')
-            ->line('Vous avez proposé une mission d’intérêt général pour la phase 2 du SNU : ' . $this->mission->name)
-            ->line('Cette mission, avant d’être proposée à un ou plusieurs volontaires, doit être validée par le service en charge des missions d’intérêt général.')
+            ->greeting('Bonjour ' . $notifiable->full_name . ',')
+            ->line('Vous avez proposé une mission dans le cadre de la crise sanitaire : ' . $this->mission->name)
+            ->line('Cette mission, avant d’être proposée à un ou plusieurs volontaires, doit être validée par le service en charge des missions proposées sur la Réserve Civique.')
             ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
             ->action('Accéder à mon compte', url(config('app.url')));
     }
