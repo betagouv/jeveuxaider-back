@@ -41,7 +41,6 @@ export function addProfile(profile) {
 }
 
 export function updateProfile(id, profile) {
-    console.log(profile, "envoie")
   return request.post(`/api/profile/${id}`, profile);
 }
 
