@@ -53,7 +53,7 @@ class StructureInvitationSent extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-            ->subject('Vous êtes invités à vous inscrire à la plateforme de la Réserve Civique dédiée à la crise sanitaire du Covid-19')
+            ->subject('Invitation en attente')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
 

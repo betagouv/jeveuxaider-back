@@ -47,16 +47,16 @@
               </v-clamp>
             </el-dropdown-item>
           </router-link>
-          <!-- <router-link
+          <router-link
             v-if="$store.getters.contextRole == 'responsable'"
             :to="
-              `/structure/${$store.getters.structure_as_responsable.id}/members`
+              `/dashboard/structure/${$store.getters.structure_as_responsable.id}/members`
             "
           >
             <el-dropdown-item>
               Gérer votre équipe
             </el-dropdown-item>
-          </router-link> -->
+          </router-link>
           <router-link
             v-if="$store.getters.contextRole == 'admin'"
             :to="`/dashboard/trash`"
