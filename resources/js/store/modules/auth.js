@@ -54,6 +54,19 @@ const actions = {
         });
     });
   },
+  registerInvitation({ dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      registerInvitation(user.email, user.password, user.first_name, user.last_name)
+        .then(() => {
+          dispatch("login", user).then(response => {
+            resolve(response);
+          });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
   registerVolontaire({ dispatch }, user) {
     return new Promise((resolve, reject) => {
       registerVolontaire(user.email, user.password, user.first_name, user.last_name, user.mobile, user.birthday, user.zip)
