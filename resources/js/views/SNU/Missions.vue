@@ -81,9 +81,8 @@
         />
         <query-filter
           type="select"
-          name="domaines"
-          :value="query['filter[domaine]']"
-          multiple
+          name="name"
+          :value="query['filter[name]']"
           label="Domaine"
           :options="$store.getters.taxonomies.mission_domaines.terms"
           @changed="onFilterChange"

@@ -67,12 +67,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
     // EXPORT
-    /*
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');
-    */
+    
 
     // STATISTICS
     // Route::get('statistics/missions', 'Api\StatisticsController@missions');

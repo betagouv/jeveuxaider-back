@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
+use App\Filters\FiltersMissionPlacesLeft;
 use App\Http\Requests\MissionRequest;
 use App\Http\Requests\Api\MissionDeleteRequest;
 
@@ -22,13 +23,14 @@ class MissionController extends Controller
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
         ->allowedFilters([
-            'domaine',
+            'name',
             'state',
             'format',
             'department',
             AllowedFilter::custom('ceu', new FiltersMissionCeu),
             AllowedFilter::custom('search', new FiltersMissionSearch),
             AllowedFilter::custom('lieu', new FiltersMissionLieu),
+            AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
         ])
         ->defaultSort('-updated_at')
         ->paginate(config('query-builder.results_per_page'));

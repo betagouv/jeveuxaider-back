@@ -24,13 +24,13 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return QueryBuilder::for(Mission::role($this->request->header('Context-Role')))
             ->allowedFilters([
-                'domaines',
+                'name',
                 'state',
                 'format',
                 'department',
@@ -51,7 +51,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             'state',
             'description',
             'format',
-            'domaines',
+            'type',
             'full_address',
             'address',
             'zip',
@@ -70,13 +70,6 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             'participations_max',
             'places_left',
             'dates_infos',
-            'periodes',
-            'frequence',
-            'planning',
-            'actions',
-            'justifications',
-            'contraintes',
-            'handicap',
             'tuteur',
             'tuteur_id',
         ];
@@ -90,7 +83,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->state,
             $mission->description,
             $mission->format,
-            $mission->domaines ? implode(',', $mission->domaines) : '',
+            $mission->type,
             $mission->full_address,
             $mission->address,
             $mission->zip,
@@ -105,17 +98,9 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->updated_at,
             $mission->structure ? $mission->structure->name : '',
             $mission->structure ? $mission->structure->id : '',
-            $mission->periodes ? implode(',', $mission->periodes) : '',
             $mission->participations_max,
             $mission->places_left,
             $mission->dates_infos,
-            $mission->periodes,
-            $mission->frequence,
-            $mission->planning,
-            $mission->actions,
-            $mission->justifications,
-            $mission->contraintes,
-            $mission->handicap,
             $mission->tuteur ? $mission->tuteur->full_name : '',
             $mission->tuteur ? $mission->tuteur->id : '',
         ];

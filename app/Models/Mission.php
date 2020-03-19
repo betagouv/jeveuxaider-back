@@ -7,6 +7,7 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Utils;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
 class Mission extends Model
