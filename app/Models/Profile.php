@@ -155,6 +155,13 @@ class Profile extends Model implements HasMedia
             ->withPivot('role');
     }
 
+    public function participations()
+    {
+        return $this
+            ->belongsToMany('App\Models\Participation')
+            ->without('profile');
+    }
+
     public function isReferent()
     {
         return $this->referent_department ? true : false;
