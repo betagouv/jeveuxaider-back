@@ -49,9 +49,9 @@ class MissionValidated extends Notification
     {
         return (new MailMessage)
             ->subject('Votre mission est validée !')
-            ->greeting('Bonjour ' . $notifiable->full_name . ' !')
-            ->line('Nous avons le plaisir de vous informer que la mission d’intérêt général ' . $this->mission->name . ' que vous avez proposée a bien été validée. Elle sera proposée à un ou plusieurs volontaires réalisant leur SNU.')
-            ->line('Nous vous informerons prochainement des coordonnées du volontaire affecté sur cette mission.')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->line('Nous avons le plaisir de vous informer que la mission ' . $this->mission->name . ' a bien été validée. Elle sera proposée aux volontaires de la Réserve Civique.')
+            ->line('Nous vous informerons prochainement des coordonnées du volontaire affecté à cette mission.')
             ->action('Accéder à mon compte', url(config('app.url')));
     }
 

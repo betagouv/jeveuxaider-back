@@ -39,8 +39,8 @@ class ProfileUpdateRequest extends ProfileRequest
             'first_name' => 'sometimes|required|min:3',
             'last_name' => 'sometimes|required|min:2',
             'mobile' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'zip' => 'required|postal_code:FR',
-            'birthday' => 'required|date|before:-16 years'
+            'zip' => 'sometimes|required|postal_code:FR',
+            'birthday' => 'sometimes|required|date|before:-16 years'
             // 'phone' => 'phone:FR',
             // 'avatar' => '',
             // 'referent_department' => '',
@@ -49,7 +49,7 @@ class ProfileUpdateRequest extends ProfileRequest
         ];
     }
 
-        /**
+    /**
      * Get the validation messages that apply to the request.
      *
      * @return array

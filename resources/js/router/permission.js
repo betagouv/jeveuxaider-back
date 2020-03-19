@@ -5,13 +5,10 @@ router.beforeEach(async (to, from, next) => {
   // IF REQUIRE AUTH
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // REDIRECT IF NOT LOGGED
-    console.log('requiresAuth is true')
     if (!store.getters.isLogged) {
-        console.log('requiresAuth is true && is NOT logged')
       next("/login");
     } else {
       // IF NOT CONTEXT ROLE
-      console.log('requiresAuth is true && is logged')
       if (!store.getters.contextRole) {
         await store.dispatch("user/get");
       }

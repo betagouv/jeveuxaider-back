@@ -54,7 +54,7 @@ class StructureInvitationSent extends Notification
     {
         $message = (new MailMessage)
             ->subject('Vous êtes invités à vous inscrire à la plateforme de la Réserve Civique dédiée au Covid-19')
-            ->greeting('Bonjour ' . $notifiable->full_name . ' !')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions d’intérêt général du SNU.');
 
         if (!$notifiable->user) {
