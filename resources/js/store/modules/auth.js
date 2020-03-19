@@ -1,4 +1,4 @@
-import { registerVolontaire, registerResponsable } from "../../api/user";
+import { registerVolontaire, registerResponsable, registerInvitation } from "../../api/user";
 import {
   login,
   logout,

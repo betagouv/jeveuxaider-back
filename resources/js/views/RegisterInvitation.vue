@@ -148,7 +148,7 @@ export default {
       this.$refs["registerInvitationForm"].validate(valid => {
         if (valid) {
           this.$store
-            .dispatch("auth/registerResponsable", {
+            .dispatch("auth/registerInvitation", {
               email: this.form.email,
               password: this.form.password,
               first_name: this.form.first_name,
