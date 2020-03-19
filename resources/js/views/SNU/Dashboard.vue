@@ -18,7 +18,6 @@
         }"
       >
         <card-mission-count label="Missions" name="missions" link="missions" />
-        <card-young-count label="Volontaires" name="youngs" link="youngs" />
       </div>
       <div
         v-if="canSeeStructuresAndProfiles"
@@ -32,16 +31,14 @@
 </template>
 
 <script>
-import CardCount from "../components/CardCount";
-import CardMissionCount from "../components/CardMissionCount";
-import CardYoungCount from "../components/CardYoungCount";
+import CardCount from "@/components/CardCount";
+import CardMissionCount from "@/components/CardMissionCount";
 
 export default {
   name: "Dashboard",
   components: {
     CardCount,
-    CardMissionCount,
-    CardYoungCount
+    CardMissionCount
   },
   computed: {
     canSeeStructuresAndProfiles() {

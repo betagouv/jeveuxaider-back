@@ -4,10 +4,6 @@ export function fetchParticipations(params) {
   return request.get("/api/participations", { params });
 }
 
-// export function fetchYoungMissions(id, params) {
-//   return request.get(`/api/young/${id}/missions`, { params });
-// }
-
 export function exportParticipations(params) {
   return request.get(`/api/participations/export`, {
     responseType: "blob",
@@ -15,12 +11,12 @@ export function exportParticipations(params) {
   });
 }
 
-// export function addParticipation(structureId, participation) {
-//   return request.post(`/api/structure/${structureId}/participations`, participation);
+// export function addParticipation(missionId, participation) {
+//   return request.post(`/api/mission/${missionId}/participation`, participation);
 // }
 
 export function updateParticipation(id, participation) {
-  return request.post(`/api/participations/${id}`, participation);
+  return request.post(`/api/participation/${id}`, participation);
 }
 
 export function deleteParticipation(id) {

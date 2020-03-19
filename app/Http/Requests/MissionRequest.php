@@ -17,10 +17,7 @@ class MissionRequest extends FormRequest
             return true;
         }
 
-        // @TODO
-        return true;
-
-        // return $this->user()->can('view', request()->route('mission'));
+        return $this->user()->can('update', request()->route('mission'));
     }
 
     /**

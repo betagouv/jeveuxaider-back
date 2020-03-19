@@ -46,6 +46,7 @@ export default new Router({
             path: "/",
             name: "Homepage",
             component: FrontHomepage,
+            meta: { requiresAnonymous: true }
         },
         {
             path: "/regles-de-securite",
@@ -63,112 +64,139 @@ export default new Router({
             redirect: "/login",
             children: [
                 {
-                    path: "/maintenance",
-                    name: "Maintenance",
-                    component: Maintenance,
+                    path: "/",
+                    name: "Homepage",
+                    component: FrontHomepage,
                 },
                 {
-                    path: "/browser-outdated",
-                    name: "BrowserOutdated",
-                    component: BrowserOutdated
+                    path: "/regles-de-securite",
+                    name: "SecurityRules",
+                    component: FrontSecurityRules,
                 },
                 {
-                    path: "/login",
-                    name: "Login",
-                    component: Login,
-                    meta: { requiresAnonymous: true }
+                    path: "/a-propos",
+                    name: "About",
+                    component: FrontAbout,
                 },
                 {
-                    path: "/register",
-                    name: "Register",
-                    component: Register,
-                    meta: { requiresAnonymous: true }
+                    path: "/user",
+                    component: Layout2Cols,
+                    redirect: "/login",
+                    children: [
+                        {
+                            path: "/maintenance",
+                            name: "Maintenance",
+                            component: Maintenance,
+                        },
+                        {
+                            path: "/browser-outdated",
+                            name: "BrowserOutdated",
+                            component: BrowserOutdated
+                        },
+                        {
+                            path: "/login",
+                            name: "Login",
+                            component: Login,
+                            meta: { requiresAnonymous: true }
+                        },
+                        {
+                            path: "/register",
+                            name: "Register",
+                            component: Register,
+                            meta: { requiresAnonymous: true }
+                        },
+                        {
+                            path: "/register/volontaire",
+                            name: "RegisterVolontaire",
+                            component: RegisterVolontaire,
+                            meta: { requiresAnonymous: true }
+                        },
+                        {
+                            path: "/register/responsable",
+                            name: "RegisterResponsable",
+                            component: RegisterResponsable,
+                            meta: { requiresAnonymous: true }
+                        },
+                        {
+                            path: "/password/forgot",
+                            name: "PasswordForgot",
+                            component: PasswordForgot,
+                            meta: { requiresAnonymous: true }
+                        },
+                        {
+                            path: "/password/reset/:token",
+                            name: "PasswordReset",
+                            component: PasswordReset,
+                            meta: { requiresAnonymous: true }
+                        },
+                        {
+                            path: "/logout",
+                            name: "Logout",
+                            component: Logout
+                        },
+                    ]
                 },
                 {
-                    path: "/register/volontaire",
-                    name: "RegisterVolontaire",
-                    component: RegisterVolontaire,
-                    meta: { requiresAnonymous: true }
-                },
-                {
-                    path: "/register/responsable",
-                    name: "RegisterResponsable",
-                    component: RegisterResponsable,
-                    meta: { requiresAnonymous: true }
-                },
-                {
-                    path: "/password/forgot",
-                    name: "PasswordForgot",
-                    component: PasswordForgot,
-                    meta: { requiresAnonymous: true }
-                },
-                {
-                    path: "/password/reset/:token",
-                    name: "PasswordReset",
-                    component: PasswordReset,
-                    meta: { requiresAnonymous: true }
-                },
-                {
-                    path: "/logout",
-                    name: "Logout",
-                    component: Logout
-                },
-            ]
-        },
-        {
-            path: "/register/step",
-            component: LayoutRegisterSteps,
-            redirect: "/register/step/profile",
-            meta: { requiresAuth: true },
-            children: [
-                {
-                    path: "/register/step/norole",
-                    component: () =>
-                        import(
+                    path: "/register/step",
+                    component: LayoutRegisterSteps,
+                    redirect: "/register/step/profile",
+                    meta: { requiresAuth: true },
+                    children: [
+                        {
+                            path: "/register/step/norole",
+                            component: () =>
+                                import(
               /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
-                        ),
-                    name: "NoRoleStep"
-                },
-                {
-                    path: "/register/step/profile",
-                    component: () =>
-                        import(
+                                ),
+                            name: "NoRoleStep"
+                        },
+                        {
+                            path: "/register/step/profile",
+                            component: () =>
+                                import(
               /* webpackChunkName: "assets/js/profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
-                        ),
-                    name: "ProfileStep"
-                },
-                {
-                    path: "/register/step/structure",
-                    component: () =>
-                        import(
+                                ),
+                            name: "ProfileStep"
+                        },
+                        {
+                            path: "/register/step/structure",
+                            component: () =>
+                                import(
               /* webpackChunkName: "assets/js/structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
-                        ),
-                    name: "StructureStep"
-                },
+                                ),
+                            name: "StructureStep"
+                        },
 
-                {
-                    path: "/register/step/address",
-                    component: () =>
-                        import(
+                        {
+                            path: "/register/step/address",
+                            component: () =>
+                                import(
               /* webpackChunkName: "assets/js/address-step" */ "@/views/RegisterSteps/AddressStep.vue"
-                        ),
-                    name: "AddressStep"
-                },
-                {
-                    path: "/register/step/other",
-                    component: () =>
-                        import(
+                                ),
+                            name: "AddressStep"
+                        },
+                        {
+                            path: "/register/step/other",
+                            component: () =>
+                                import(
                       /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
-                        ),
-                    name: "OtherStep"
+                                ),
+                            name: "OtherStep"
+                        },
+                    ]
                 },
             ]
         },
         {
             path: "/dashboard",
             component: LayoutSNU,
-            redirect: "/dashboard/missions",
             children: [
+                {
+                    path: "/dashboard",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard" */ "@/views/SNU/Dashboard.vue"),
+                    name: "Dashboard"
+                },
                 {
                     path: "/dashboard/missions",
                     component: () =>
@@ -180,16 +208,109 @@ export default new Router({
                 {
                     path: "/dashboard/structure/:structureId/missions/add",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/MissionForm.vue"),
+                        import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionForm.vue"),
                     name: "MissionFormAdd",
                     props: route => ({ structureId: parseInt(route.params.structureId) })
                 },
                 {
                     path: "/dashboard/mission/:id/edit",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/MissionForm.vue"),
+                        import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/SNU/MissionForm.vue"),
                     name: "MissionFormEdit",
                     props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+                },
+                {
+                    path: "/dashboard/structures",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-structures" */ "@/views/SNU/Structures.vue"
+                        ),
+                    name: "Structures"
+                },
+                {
+                    path: "/dashboard/structure/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-add" */ "@/views/SNU/StructureForm.vue"
+                        ),
+                    name: "StructureFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/structure/:id",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-structure-view" */ "@/views/SNU/Structure.vue"),
+                    name: "Structure",
+                    props: route => ({ id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
+                },
+                {
+                    path: "/dashboard/structure/:id/edit",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-edit" */ "@/views/SNU/StructureForm.vue"
+                        ),
+                    name: "StructureFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+                },
+                {
+                    path: "/dashboard/structure/:id/members",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-members" */ "@/views/SNU/StructureMembers.vue"
+                        ),
+                    name: "StructureMembers",
+                    props: route => ({ id: parseInt(route.params.id) })
+                },
+                {
+                    path: "/dashboard/structure/:id/members/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-structure-members-add" */ "@/views/SNU/StructureMembersAdd.vue"
+                        ),
+                    name: "StructureMembersAdd",
+                    props: route => ({ id: parseInt(route.params.id) })
+                },
+                {
+                    path: "/dashboard/profiles",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
+                    name: "Profiles",
+                    meta: {
+                        roles: ["admin", "referent", "superviseur"]
+                    }
+                },
+                {
+                    path: "/dashboard/profile/:id",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-profile-view" */ "@/views/SNU/Profile.vue"),
+                    name: "Profile",
+                    props: route => ({ id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur"]
+                    }
+                },
+                {
+                    path: "/dashboard/profile/:role/add",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-profile-role-add" */ "@/views/SNU/ProfileForm.vue"),
+                    name: "ProfileFormAdd",
+                    props: route => ({ mode: "add", role: route.params.role })
+                },
+                {
+                    path: "/dashboard/profile/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-profile-edit" */ "@/views/SNU/ProfileForm.vue"),
+                    name: "ProfileFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
                 },
                 {
                     path: "/dashboard/participations",
@@ -199,21 +320,31 @@ export default new Router({
                         ),
                     name: "DashboardParticipations"
                 },
+                {
+                    path: "/dashboard/trash",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-trash" */ "@/views/SNU/Trash.vue"),
+                    name: "Trash",
+                    meta: {
+                        roles: ["admin"]
+                    }
+                }
             ]
         },
         {
             path: '/user/profile',
-            component: FrontProfile
-
+            component: FrontProfile,
+            name: 'FrontProfile'
         },
         {
             path: '/user/settings',
-            component: FrontSettings
-
+            component: FrontSettings,
+            name: 'FrontSettings'
         },
         {
             path: '/missions',
-            component: FrontMissions
+            component: FrontMissions,
+            name: 'FrontMissions'
         },
         {
             path: "/missions/:id",
@@ -224,7 +355,7 @@ export default new Router({
             name: "Mission",
             props: route => ({ id: parseInt(route.params.id) })
         },
-        { path: "/403", component: Forbidden },
-        { path: "*", component: NotFound }
+        { path: "/403", component: Forbidden, name: 'Forbidden' },
+        { path: "*", component: NotFound, name: 'NotFound' }
     ]
 });

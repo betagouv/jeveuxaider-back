@@ -24,25 +24,30 @@
     >
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
-      <el-form-item label="Nom de votre mission" prop="name">
-        <el-input v-model="form.name" placeholder="Nom de votre mission" />
+      <el-form-item v-if="form.structure" label="Ma structure" class>
+        <el-input v-model="form.structure.name" placeholder="Structure de la mission" disabled />
       </el-form-item>
 
-      <el-form-item v-if="form.structure" label="Structure rattachée" class>
-        <el-input
-          v-model="form.structure.name"
-          placeholder="Structure de la mission"
-          disabled
-        />
-      </el-form-item>
-
-      <el-form-item label="Domaine d'action" prop="domaine">
-        <item-description>
-          Choisissez parmi la liste des missions prioritaires face à la crise
-        </item-description>
-        <el-select v-model="form.domaine" placeholder="Choisir une mission">
+      <el-form-item label="Domaine d'action" prop="name">
+        <item-description>Choisissez parmi la liste des missions prioritaires face à la crise</item-description>
+        <el-select v-model="form.name" placeholder="Choisir un domaine d'action">
           <el-option
             v-for="item in $store.getters.taxonomies.mission_domaines.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="Type de mission" prop="type">
+        <el-select
+          v-model="form.type"
+          placeholder="Selectionner un type de mission"
+          @change="handleTypeChanged()"
+        >
+          <el-option
+            v-for="item in $store.getters.taxonomies.mission_types.terms"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -67,27 +72,9 @@
       </el-form-item>
 
       <el-form-item label="Format de mission" prop="format">
-        <el-select
-          v-model="form.format"
-          placeholder="Selectionner un format de mission"
-          @change="handleFormatChanged()"
-        >
+        <el-select v-model="form.format" placeholder="Selectionner un format de mission">
           <el-option
             v-for="item in $store.getters.taxonomies.mission_formats.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="Type de mission" prop="type">
-        <el-select
-          v-model="form.type"
-          placeholder="Selectionner un type de mission"
-        >
-          <el-option
-            v-for="item in $store.getters.taxonomies.mission_types.terms"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -218,9 +205,7 @@
         </el-form-item>
       </div>
 
-      <div class="mt-12 mb-6 flex text-xl text-gray-800">
-        Lieu de la mission
-      </div>
+      <div class="mt-12 mb-6 flex text-xl text-gray-800">La localisation des publics bénéficiaires</div>
 
       <el-form-item label="Département" prop="department">
         <el-select
@@ -266,12 +251,12 @@
         Responsable de la mission
       </div>
       <item-description>
-        Les notifications lors de la prise de contact d'un réserviste concernant
-        cette mission seront envoyées à cette personne.<br />
-        Vous pouvez également
-        <span class="underline cursor-pointer" @click="onAddTuteurLinkClicked"
-          >ajouter un nouveau membre</span
-        >
+        Les notifications lors de la prise de contact d'un réserviste concernant cette mission seront envoyées à cette personne.
+        <br />Vous pouvez également
+        <span
+          class="underline cursor-pointer"
+          @click="onAddTuteurLinkClicked"
+        >ajouter un nouveau membre</span>
         à votre équipe.
       </item-description>
       <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
@@ -338,13 +323,6 @@ export default {
       },
       rules: {
         name: [
-          {
-            required: true,
-            message: "Veuillez renseigner un nom de mission",
-            trigger: "blur"
-          }
-        ],
-        domaine: [
           {
             required: true,
             message: "Veuillez choisir un domaine d'action",
@@ -512,15 +490,23 @@ export default {
         }
       });
     },
-    handleFormatChanged() {
-      if (this.mode == "add" && this.form.type == "Mission à distance") {
-        this.$refs.alogoliaInput.setVal(this.form.structure.full_address);
-        this.$set(this.form, "address", this.form.structure.address);
-        this.$set(this.form, "zip", this.form.structure.zip);
-        this.$set(this.form, "city", this.form.structure.city);
-        this.$set(this.form, "latitude", this.form.structure.latitude);
-        this.$set(this.form, "longitude", this.form.structure.longitude);
-        this.$set(this.form, "department", this.form.structure.department);
+    handleTypeChanged() {
+      if (this.form.type == "Mission à distance") {
+        this.rules.address[0].required = false;
+        this.rules.city[0].required = false;
+      } else {
+        this.$confirm(
+          "Merci de bien respecter les règles de sécurités pour les missions en présentiel !",
+          "Confirmation",
+          {
+            confirmButtonText: "Je confirme",
+            cancelButtonText: "Annuler",
+            type: "warning"
+          }
+        );
+
+        this.rules.address[0].required = true;
+        this.rules.city[0].required = true;
       }
     }
   }

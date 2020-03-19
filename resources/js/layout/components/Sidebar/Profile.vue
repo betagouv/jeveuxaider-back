@@ -59,7 +59,7 @@
           </router-link> -->
           <router-link
             v-if="$store.getters.contextRole == 'admin'"
-            :to="`/trash`"
+            :to="`/dashboard/trash`"
           >
             <el-dropdown-item>
               Corbeille

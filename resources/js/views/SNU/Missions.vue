@@ -81,9 +81,8 @@
         />
         <query-filter
           type="select"
-          name="domaines"
-          :value="query['filter[domaine]']"
-          multiple
+          name="name"
+          :value="query['filter[name]']"
           label="Domaine"
           :options="$store.getters.taxonomies.mission_domaines.terms"
           @changed="onFilterChange"
@@ -218,7 +217,15 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
+      <div class="ml-auto">
+        <el-button icon="el-icon-download" size="small" @click="onExport"
+          >Export</el-button
+        >
+      </div>
     </div>
+    <portal to="volet">
+      <mission-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
@@ -226,9 +233,12 @@
 import { fetchMissions, exportMissions, cloneMission } from "@/api/mission";
 import StateTag from "@/components/StateTag";
 import TableWithFilters from "@/mixins/TableWithFilters";
+import TableWithVolet from "@/mixins/TableWithVolet";
 import QueryFilter from "@/components/QueryFilter.vue";
 import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
+import MissionVolet from "@/layout/components/Volet/MissionVolet.vue";
+import fileDownload from "js-file-download";
 
 export default {
   name: "Missions",
@@ -236,9 +246,10 @@ export default {
     StateTag,
     QueryFilter,
     QuerySearchFilter,
-    QueryMainSearchFilter
+    QueryMainSearchFilter,
+    MissionVolet
   },
-  mixins: [TableWithFilters],
+  mixins: [TableWithFilters, TableWithVolet],
   data() {
     return {
       loading: true,
@@ -254,8 +265,16 @@ export default {
     fetchRows() {
       return fetchMissions(this.query);
     },
-    onClickedRow(row) {
-        this.$router.push({path: `/missions/${row.id}`});
+    onExport() {
+      this.loading = true;
+      exportMissions(this.query)
+        .then(response => {
+          this.loading = false;
+          fileDownload(response.data, "missions.xlsx");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     clone(id) {
       this.loading = true;

@@ -1,7 +1,7 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <div class="text-xs text-gray-600 uppercase text-center mt-16 mb-12">
+      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
         {{ row.structure.name }}
       </div>
       <el-card shadow="hover" class="overflow-visible">
@@ -16,7 +16,7 @@
               {{ row.structure.name[0] }}
             </el-avatar>
           </div>
-          <div class="font-bold text-lg text-center mb-3 flex">
+          <div class="font-bold text-lg text-center my-3 flex">
             {{ row.name }}
           </div>
           <div class="flex items-center">
@@ -50,15 +50,6 @@
           >
             {{ row.department | fullDepartmentFromValue }}
           </el-tag>
-          <el-tooltip
-            v-if="row.structure.ceu"
-            class="item"
-            effect="dark"
-            :content="row.structure.structure_publique_etat_type"
-            placement="top"
-          >
-            <el-tag size="small" class="m-1 ml-0" type="info">CEU</el-tag>
-          </el-tooltip>
         </div>
         <mission-infos :mission="row"></mission-infos>
       </el-card>
@@ -137,19 +128,6 @@
           >
         </div>
       </el-form>
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">
-        Volontaires ({{ form.youngs.length }})
-      </div>
-      <item-description v-if="form.youngs.length == 0">
-        Aucun volontaire n'a encore été assigné.
-      </item-description>
-      <young-teaser
-        v-for="young in form.youngs"
-        v-else
-        :key="young.id"
-        :young="young"
-        class="young py-4 px-6"
-      ></young-teaser>
     </template>
   </Volet>
 </template>
