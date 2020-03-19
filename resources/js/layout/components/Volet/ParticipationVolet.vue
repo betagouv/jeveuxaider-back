@@ -4,12 +4,12 @@
       <el-card shadow="hover" class="overflow-visible mt-24">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
-            <el-avatar class="bg-primary">{{ row.short_name }}</el-avatar>
+            <el-avatar class="bg-primary">{{ row.profile.short_name }}</el-avatar>
           </div>
-          <div class="font-bold text-lg text-primary mb-3">{{ row.full_name }}</div>
+          <div class="font-bold text-lg mt-3">{{ row.profile.full_name }}</div>
         </div>
         <div class="flex items-center justify-center mb-4">
-          <state-tag :state="scope.row.state" size="small" class="flex items-center"></state-tag>
+          <state-tag :state="row.state" size="small" class="flex items-center"></state-tag>
         </div>
         <participation-infos :participation="row"></participation-infos>
       </el-card>
@@ -45,7 +45,7 @@
 <script>
 import Volet from "@/layout/components/Volet";
 import StateTag from "@/components/StateTag.vue";
-import { updateParticipation } from "@/api/user";
+import { updateParticipation } from "@/api/participation";
 import VoletRow from "@/mixins/VoletRow";
 import ItemDescription from "@/components/forms/ItemDescription";
 import ParticipationInfos from "@/components/infos/ParticipationInfos";

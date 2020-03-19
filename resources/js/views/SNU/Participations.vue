@@ -102,6 +102,9 @@
         >
       </div>
     </div>
+    <portal to="volet">
+      <participation-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
@@ -109,9 +112,12 @@
 import { fetchParticipations, exportParticipations } from "@/api/participation";
 import StateTag from "@/components/StateTag";
 import TableWithFilters from "@/mixins/TableWithFilters";
+import TableWithVolet from "@/mixins/TableWithVolet";
 import QueryFilter from "@/components/QueryFilter.vue";
 import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
+import ParticipationVolet from "@/layout/components/Volet/ParticipationVolet.vue";
+
 import fileDownload from "js-file-download";
 
 export default {
@@ -120,9 +126,10 @@ export default {
     StateTag,
     QueryFilter,
     QuerySearchFilter,
-    QueryMainSearchFilter
+    QueryMainSearchFilter,
+    ParticipationVolet
   },
-  mixins: [TableWithFilters],
+  mixins: [TableWithFilters, TableWithVolet],
   data() {
     return {
       loading: true,
@@ -137,10 +144,6 @@ export default {
   methods: {
     fetchRows() {
       return fetchParticipations(this.query);
-    },
-    onClickedRow(row) {
-      console.log("click row ");
-      //this.$router.push({path: `/missions/${row.id}`});
     },
     onExport() {
       this.loading = true;

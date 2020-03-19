@@ -1,7 +1,7 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <div class="text-xs text-gray-600 uppercase text-center mt-16 mb-12">
+      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
         {{ row.structure.name }}
       </div>
       <el-card shadow="hover" class="overflow-visible">
@@ -16,7 +16,7 @@
               {{ row.structure.name[0] }}
             </el-avatar>
           </div>
-          <div class="font-bold text-lg text-center mb-3 flex">
+          <div class="font-bold text-lg text-center my-3 flex">
             {{ row.name }}
           </div>
           <div class="flex items-center">
