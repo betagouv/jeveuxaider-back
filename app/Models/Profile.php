@@ -11,6 +11,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use App\Helpers\Utils;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Profile extends Model implements HasMedia
@@ -110,13 +111,13 @@ class Profile extends Model implements HasMedia
                     ->whereHas('missionsAsTuteur', function (Builder $query) {
                         $query
                             ->whereNotNull('department')
-                            ->where('department', auth()->user()->profile->referent_department);
+                            ->where('department', Auth::guard('api')->user()->profile->referent_department);
                     })
                     ->orWhereHas('structures', function (Builder $query) {
                         $query
                             ->where('role', 'responsable')
                             ->whereNotNull('department')
-                            ->where('department', auth()->user()->profile->referent_department);
+                            ->where('department', Auth::guard('api')->user()->profile->referent_department);
                     })
                     ;
             break;
@@ -125,7 +126,7 @@ class Profile extends Model implements HasMedia
                     ->whereHas('structures', function (Builder $query) {
                         $query
                             ->whereNotNull('reseau_id')
-                            ->where('reseau_id', auth()->user()->profile->reseau_id);
+                            ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                     })
                     ;
             break;

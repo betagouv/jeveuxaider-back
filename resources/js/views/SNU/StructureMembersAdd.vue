@@ -128,7 +128,7 @@ export default {
           inviteStructureMember(this.id, this.form)
             .then(() => {
               this.loading = false;
-              this.$router.push(`/structure/${this.id}/members`);
+              this.$router.push(`/dashboard/structure/${this.id}/members`);
               this.$message({
                 dangerouslyUseHTMLString: true,
                 message: `${this.form.first_name} ${this.form.last_name} fait maintenant partie de votre équipe. <br /><br />Une notification email lui a été envoyé.`,

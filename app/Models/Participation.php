@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class Participation extends Model
 {
@@ -44,24 +45,24 @@ class Participation extends Model
             break;
             case 'referent':
                 return $query
-                    ->where('department', auth()->user()->profile->referent_department);
+                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
             break;
             case 'superviseur':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
                         $query->whereHas('structure', function (Builder $query) {
-                            $query->where('reseau_id', auth()->user()->profile->reseau_id);
+                            $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                         });
                     });
             break;
             case 'responsable':
                 return $query
-                    ->whereIn('mission_id', auth()->user()->missions->pluck('id'))
-                    ->orWhereIn('mission_id', auth()->user()->profile->missionsAsTuteur->pluck('id'));
+                    ->whereIn('mission_id', Auth::guard('api')->user()->missions->pluck('id'))
+                    ->orWhereIn('mission_id', Auth::guard('api')->user()->profile->missionsAsTuteur->pluck('id'));
             break;
             case 'tuteur':
                 return $query
-                    ->whereIn('mission_id', auth()->user()->profile->missionsAsTuteur->pluck('id'));
+                    ->whereIn('mission_id', Auth::guard('api')->user()->profile->missionsAsTuteur->pluck('id'));
             break;
         }
     }

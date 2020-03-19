@@ -7,6 +7,7 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Utils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
@@ -141,24 +142,24 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 return $query
-                    ->whereIn('structure_id', auth()->user()->profile->structures->pluck('id'));
+                    ->whereIn('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id'));
             break;
             case 'tuteur':
                 // Missions dont je suis le tuteur
                 return $query
-                    ->where('tuteur_id', auth()->user()->profile->id);
+                    ->where('tuteur_id', Auth::guard('api')->user()->profile->id);
             break;
             case 'referent':
                 // Missions qui sont dans mon département
                 return $query
                     ->whereNotNull('department')
-                    ->where('department', auth()->user()->profile->referent_department);
+                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
             break;
             case 'superviseur':
                 // Missions qui sont dans une structure rattachée à mon réseau
                 return $query
                     ->whereHas('structure', function (Builder $query) {
-                        $query->where('reseau_id', auth()->user()->profile->reseau->id);
+                        $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
             break;
         }

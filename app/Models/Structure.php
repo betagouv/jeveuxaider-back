@@ -11,6 +11,7 @@ use Illuminate\Http\UploadedFile;
 use App\Helpers\Utils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Structure extends Model implements HasMedia
@@ -81,23 +82,23 @@ class Structure extends Model implements HasMedia
             break;
             case 'responsable':
                 return $query->whereHas('responsables', function (Builder $query) {
-                    $query->where('profile_id', auth()->user()->profile->id);
+                    $query->where('profile_id', Auth::guard('api')->user()->profile->id);
                 });
             break;
             case 'tuteur':
                 return $query->whereHas('tuteurs', function (Builder $query) {
-                    $query->where('profile_id', auth()->user()->profile->id);
+                    $query->where('profile_id', Auth::guard('api')->user()->profile->id);
                 });
             break;
             case 'referent':
                 return $query
                     ->whereNotNull('department')
-                    ->where('department', auth()->user()->profile->referent_department);
+                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
             break;
             case 'superviseur':
                 return $query
                     ->whereNotNull('reseau_id')
-                    ->where('reseau_id', auth()->user()->profile->reseau->id);
+                    ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
             break;
         }
     }
