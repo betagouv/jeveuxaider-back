@@ -45,7 +45,6 @@ class Mission extends Model
         'periodicite',
         'publics_beneficiaires',
         'publics_volontaires',
-        'domaine',
         'type'
     ];
 
