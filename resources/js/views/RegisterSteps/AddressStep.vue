@@ -100,7 +100,7 @@ export default {
   data() {
     return {
       loading: false,
-      structureId: null,
+      structureId: this.$store.getters.structure_as_responsable.id,
       form: {},
       rules: {
         lieu: {
@@ -125,15 +125,6 @@ export default {
         }
       }
     };
-  },
-  created() {
-    this.structureId = this.$store.getters.structure_as_responsable.id;
-  },
-  beforeRouteEnter(to, from, next) {
-    if (store.getters.noRole) {
-      next("/register/step/structure");
-    }
-    next();
   },
   methods: {
     onSubmit() {

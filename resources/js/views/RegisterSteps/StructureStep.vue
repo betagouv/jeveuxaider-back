@@ -332,13 +332,13 @@ export default {
       this.$refs["structureForm"].validate(valid => {
         if (valid) {
           addOrUpdateStructure(this.structureId, this.form)
-            .then(response => {
+            .then(async response => {
               this.structureId = response.data.id;
               if (this.$refs.logo.uploadFiles.length > 0) {
                 this.$refs.logo.submit();
               } else {
                 // Get profile to get new role
-                this.$store.dispatch("user/get");
+                await this.$store.dispatch("user/get");
                 this.$router.push("/register/step/address");
                 this.loading = false;
               }
