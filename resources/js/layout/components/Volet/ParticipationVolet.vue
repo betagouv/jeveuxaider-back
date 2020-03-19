@@ -13,7 +13,7 @@
         </div>
         <participation-infos :participation="row"></participation-infos>
       </el-card>
-      <template v-if="$store.getters.contextRole === 'admin'">
+      <template>
         <el-form ref="participationForm" :model="form" label-position="top">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut</div>
           <item-description>Vous pouvez sélectionner le statut de la participation. A noter que des
@@ -28,7 +28,7 @@
               <el-option
                 v-for="item in $store.getters.taxonomies.participation_workflow_states.terms"
                 :key="item.value"
-                :label="`${item.value} - ${item.label}`"
+                :label="`${item.label}`"
                 :value="item.value"
               ></el-option>
             </el-select>

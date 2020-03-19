@@ -16,7 +16,7 @@ export function exportParticipations(params) {
 // }
 
 export function updateParticipation(id, participation) {
-  return request.post(`/api/participations/${id}`, participation);
+  return request.post(`/api/participation/${id}`, participation);
 }
 
 export function deleteParticipation(id) {

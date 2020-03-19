@@ -44,10 +44,8 @@ class ParticipationController extends Controller
         return $participation;
     }
 
-    public function update(ParticipationUpdateRequest $request, Participation $participation = null)
+    public function update(ParticipationUpdateRequest $request, Participation $participation)
     {
-        $participation = $participation ?: $request->user()->profile;
-
         if (!$request->validated()) {
             return $request->validated();
         }
