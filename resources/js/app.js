@@ -24,7 +24,6 @@ import Vue2Filters from "vue2-filters";
 
 /*
 import "./plugins/sentry.js";
-Vue.config.productionTip = false;
 */
 
 Vue.use(Vue2Filters);
