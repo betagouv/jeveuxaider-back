@@ -31,3 +31,16 @@ scalingo env-set \
 # Remove these files as they should only be used in the deployed environment not in dev
 rm storage/oauth-private.key storage/oauth-public.key
 ```
+
+### Configuration Email
+
+```
+scalingo env-set \
+  MAIL_DRIVER=smtp \
+  MAIL_HOST=<smtp server> \
+  MAIL_PORT=<smtp port> \
+  MAIL_USERNAME=<smtp username> \
+  MAIL_PASSWORD=<smtp password> \
+  MAIL_ENCRYPTION=<null|tls> \
+  MAIL_FROM_ADDRESS=crise@reserve-civique.gouv.fr
+```
