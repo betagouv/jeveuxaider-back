@@ -60,15 +60,6 @@ export default {
   },
   created() {
     this.$store.dispatch("bootstrap");
-  },
-  beforeRouteEnter(to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
-    if (!store.getters.noRole && to.name != "AddressStep") {
-      next("/");
-    }
-    next();
   }
 };
 </script>
