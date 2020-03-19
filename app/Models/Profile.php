@@ -168,11 +168,6 @@ class Profile extends Model implements HasMedia
         return $this->referent_department ? true : false;
     }
 
-    public function isVolontaire()
-    {
-        return true;
-    }
-
     public function isSuperviseur()
     {
         return $this->reseau ? true : false;
@@ -201,7 +196,6 @@ class Profile extends Model implements HasMedia
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'tuteur' => $this->isTuteur(),
-            'volontaire' => $this->isVolontaire(),
         ];
     }
 }

@@ -440,9 +440,12 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
-            "Validée" => "Validée",
-            "Abandonnée" => "Abandonnée",
-            "Annulée" => "Annulée",
+            "Mission validée" => "Mission validée",
+            "Mission en cours" => "Mission en cours",
+            "Mission effectuée" => "Mission effectuée",
+            "Mission refusée" => "Mission refusée",
+            "Mission abandonnée" => "Mission abandonnée",
+            "Mission annulée" => "Mission annulée",
             "Archivée" => "Archivée"
         ]
     ],

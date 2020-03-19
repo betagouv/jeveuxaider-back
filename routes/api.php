@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
     Route::get('statistics/structures', 'Api\StatisticsController@structures');
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
+    Route::get('statistics/participations', 'Api\StatisticsController@participations');
 });
 
 // ONLY ADMIN

@@ -9,17 +9,25 @@
         {{ label }}
       </div>
       <template v-if="data">
-        <div v-if="data" class="count text-primary font-medium text-2xl">
+        <div class="count text-primary font-medium text-2xl">
           {{ data.total }}
         </div>
-        <div v-if="data" class="flex flex-wrap">
+        <div class="flex flex-wrap">
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Places occupées</div>
-            <div class="">{{ data.participations }}</div>
+            <div class="text-gray-500 text-sm">En attente de mission</div>
+            <div class="">{{ data.waiting }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Places disponibles</div>
-            <div class="">{{ data.places_left }}</div>
+            <div class="text-gray-500 text-sm">En cours de mission</div>
+            <div class="">{{ data.current }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Mission effectuée</div>
+            <div class="">{{ data.done }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Autres</div>
+            <div class="">{{ data.other }}</div>
           </div>
         </div>
       </template>

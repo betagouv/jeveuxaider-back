@@ -24,13 +24,7 @@
             "
           command="/dashboard"
         >Tableau de bord</el-dropdown-item>
-        <el-dropdown-item
-          v-if="
-              $store.getters.contextRole == 'responsable' ||
-                $store.getters.contextRole == 'admin'
-            "
-          divided
-        />
+        <el-dropdown-item v-if="$store.getters.contextRole != 'volontaire'" divided />
         <el-dropdown-item command="/user/profile">Profil</el-dropdown-item>
         <el-dropdown-item command="/user/settings">Paramètres de compte</el-dropdown-item>
         <el-dropdown-item divided command="/logout">Se déconnecter</el-dropdown-item>
