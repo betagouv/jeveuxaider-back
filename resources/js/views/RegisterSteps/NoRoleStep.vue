@@ -7,13 +7,15 @@
         finaliser la création de votre compte sur la plateforme SNU.
       </p>
     </portal>
-    <div class="flex flex-col justify-center items-center h-full">
+    <div
+      class="p-4 overflow-hidden flex flex-col justify-center items-center h-full"
+    >
       <div class="font-bold text-4xl text-gray-800 mb-8">
         Je choisis mon type de profil
       </div>
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap -m-4 lg:-m-8">
         <div
-          class="w-64 border p-8 m-8 rounded-lg flex flex-col text-center hover:border-primary"
+          class="w-full sm:w-64 border p-8 m-4 lg:m-8 rounded-lg flex flex-col text-center hover:border-primary"
           style="height: 270px"
         >
           <div class="font-bold mb-4">Responsable</div>
@@ -29,7 +31,7 @@
           </router-link>
         </div>
         <div
-          class="w-64 border p-8 m-8 rounded-lg flex flex-col text-center hover:border-primary"
+          class="w-full sm:w-64 border p-8 m-4 lg:m-8 rounded-lg flex flex-col text-center hover:border-primary"
           style="height: 270px"
         >
           <div class="font-bold mb-4">Autre</div>
