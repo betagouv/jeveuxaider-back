@@ -1403,6 +1403,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bowser@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.9.0.tgz#3bed854233b419b9a7422d9ee3e85504373821c9"
+  integrity sha512-2ld76tuLBNFekRgmJfT2+3j5MIrP6bFict8WAIT3beq+srz1gcKNAdNKMqHqauQt63NmAa88HfP1/Ypa9Er3HA==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -3936,6 +3941,11 @@ js-cookie@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
   integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
+
+js-file-download@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/js-file-download/-/js-file-download-0.4.10.tgz#016ece060121cabc611b0f95aab64df63ba55071"
+  integrity sha512-kX4J3mEFdiQ1w4YarrO940hpwuEhxcpzL5FZoA3WLR3D+/FPJtu04I7PesC4nJDdrQYM6xeckBiULGUxvxZluQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -6868,6 +6878,11 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue2-filters@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/vue2-filters/-/vue2-filters-0.10.0.tgz#dd85464276a1038beb4a6d164c30e9e11fb62f98"
+  integrity sha512-i6niwyhAq4iioKAIB5ohXBr8lrKP+NTLhVP1+F1wj4pvrKrEMoItQG7VgAnqlmK0kdwO5V7Axw3OH+hnh4o/Ig==
 
 vue@^2.6.11:
   version "2.6.11"

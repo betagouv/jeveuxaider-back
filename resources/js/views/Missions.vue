@@ -233,7 +233,7 @@
         @current-change="onPageChange"
       ></el-pagination>
       <div class="text-secondary text-xs ml-3">
-        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+        Afficheee {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
         <el-button icon="el-icon-download" size="small" @click="onExport"

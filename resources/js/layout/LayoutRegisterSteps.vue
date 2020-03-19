@@ -1,12 +1,14 @@
 <template>
-  <el-container v-if="isAppLoaded" class="h-full flex">
+  <el-container
+    v-if="isAppLoaded"
+    class="w-full h-full flex flex-wrap lg:flex-no-wrap"
+  >
     <div
-      class="flex flex-col h-full  gradient-primary fixed flex-none w-1/4"
-      style=""
+      class="aside flex flex-wrap sm:flex-no-wrap lg:flex-col w-full gradient-primary"
     >
       <div
-        class="text-white px-6 py-5 mx-10 rounded-lg"
-        style="background: rgba(255, 255, 255, 0.2); margin-top: 95px;"
+        class="flex-grow lg:flex-grow-0 text-white px-6 py-5 m-4 lg:mx-10 lg:mt-24 rounded-lg order-2 lg:order-1"
+        style="background: rgba(255, 255, 255, 0.2);"
       >
         <portal-target
           class="text-center text-sm font-light"
@@ -14,14 +16,15 @@
         />
       </div>
 
-      <div class="absolute bottom-0 w-full flex flex-col items-center px-4">
+      <div
+        class="flex sm:flex-col sm:flex-none items-center lg:mt-auto w-full sm:w-auto lg:w-full p-4 order-1 lg:order-2"
+      >
         <img
-          src="/images/logo-reserve-civique_dark.svg"
-          class="mb-8"
-          style="max-width: 230px;"
+          src="/images/logo-reserve-civique_light.svg"
+          class="logo sm:mb-2 lg:mb-8"
         />
         <div
-          class="flex text-blue-200 font-light border-t border-blue-400 w-full justify-center"
+          class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t "
         >
           <div
             v-if="isImpersonating"
@@ -32,7 +35,7 @@
           </div>
           <div
             v-else
-            class="text-sm p-6 cursor-pointer hover:text-white"
+            class="text-sm sm:pt-2 lg:p-6 cursor-pointer hover:text-white"
             @click="$store.dispatch('auth/logout')"
           >
             Se déconnecter
@@ -40,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col w-full" style="width:75%; margin-left:25%;">
+    <div class="main-content flex-grow flex flex-col">
       <router-view class="app-main" />
     </div>
   </el-container>
@@ -57,15 +60,21 @@ export default {
   },
   created() {
     this.$store.dispatch("bootstrap");
-  },
-  beforeRouteEnter(to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
-    if (!store.getters.noRole && to.name != "AddressStep") {
-      next("/");
-    }
-    next();
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.aside
+    @screen lg
+        position: fixed
+        max-width: 390px
+        min-height: 100vh
+.main-content
+    @screen lg
+        margin-left: 390px
+.logo
+    width: 150px
+    @screen lg
+        max-width: 230px
+</style>

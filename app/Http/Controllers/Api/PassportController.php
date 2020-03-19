@@ -23,10 +23,6 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
         $user = User::create([
             'name' => request("email"),
             'email' => request("email"),
@@ -49,10 +45,6 @@ class PassportController extends Controller
 
     public function registerResponsable(RegisterResponsableRequest $request)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
         $user = User::create([
             'name' => request("email"),
             'email' => request("email"),

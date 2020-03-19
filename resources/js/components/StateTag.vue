@@ -100,7 +100,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "StateTag",
   props: {
     state: {
       type: String,

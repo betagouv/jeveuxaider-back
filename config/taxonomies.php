@@ -200,16 +200,29 @@ return [
 
      /*
     |--------------------------------------------------------------------------
-    | MISSION TYPES
+    | MISSION FORMATS
     |--------------------------------------------------------------------------
     |
     */
     'mission_formats' => [
         "vocabulary" => "Formats de mission",
         "terms" => [
-            "Perlée" => "Mission perlée (84 heures tout au long de l'année)",
-            "Continue" => "Mission continue (12 jours d'affilée sauf exception)",
-            "Autonome" => "Projet autonome",
+            "Mission ponctuelle" => "Mission ponctuelle",
+            "Mission récurrente" => "Mission récurrente",
+        ]
+    ],
+
+     /*
+    |--------------------------------------------------------------------------
+    | MISSION TYPES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'mission_types' => [
+        "vocabulary" => "Types de mission",
+        "terms" => [
+            "Mission en présentiel" => "Mission en présentiel",
+            "Mission à distance" => "Mission à distance",
         ]
     ],
 
@@ -240,6 +253,10 @@ return [
             "2 heures par jour" => "2 heures par jour",
             "3 heures par jour" => "3 heures par jour",
             "4 heures par jour" => "4 heures par jour",
+            "1 heure par semaine" => "1 heure par semaine",
+            "2 heures par semaine" => "2 heures par semaine",
+            "3 heures par semaine" => "3 heures par semaine",
+            "4 heures par semaine" => "4 heures par semaine",
             "1 journée par semaine" => "1 journée par semaine",
             "2 journées par semaine" => "2 journées par semaine",
             "3 journées par semaine" => "3 journées par semaine",
@@ -260,9 +277,11 @@ return [
     'mission_domaines' => [
         "vocabulary" => "Domaines de mission",
         "terms" => [
-            "Je distribue des produits de première nécessité aux plus démunis" => "Je distribue des produits de première nécessité aux plus démunis",
-            "Domaine 2" => "Domaine 2",
-            "Domaine 3" => "Domaine 3"
+            "Je distribue des produits de première nécessité aux plus démunis (aliments, hygiène…)" => "Je distribue des produits de première nécessité aux plus démunis (aliments, hygiène…)",
+            "J'aide à préparer des repas pour les personnes en difficultés" => "J'aide à préparer des repas pour les personnes en difficultés",
+            "Je garde les enfants des soignants dans une école de ma commune" => "Je garde les enfants des soignants dans une école de ma commune",
+            "Je maintien un lien (téléphone, visio…) avec des personnes âgées et des personnes en situation de handicap" => "Je maintien un lien (téléphone, visio…) avec des personnes âgées et des personnes en situation de handicap",
+            "Je réalise les courses de produits essentiels pour mes voisins les plus fragiles" => "Je réalise les courses de produits essentiels pour mes voisins les plus fragiles",
         ]
     ],
 
@@ -275,8 +294,8 @@ return [
     'mission_publics_beneficiaires' => [
         "vocabulary" => "Publics bénéficiaires",
         "terms" => [
-            "Personnes âgées" => "",
-            "Personnes en situation de handicap" => "",
+            "Personnes âgées" => "Personnes âgées",
+            "Personnes en situation de handicap" => "Personnes en situation de handicap",
             "Personnes à la rue" => "Personnes à la rue",
             "Parents" => "Parents",
             "Tous publics" => "Tous publics"
@@ -289,8 +308,8 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_publics_beneficiaires' => [
-        "vocabulary" => "Publics bénéficiaires",
+    'mission_publics_volontaires' => [
+        "vocabulary" => "Publics volontaires",
         "terms" => [
             "Personnes mobiles" => "Personnes mobiles",
             "À determiner" => "À determiner"
@@ -408,6 +427,23 @@ return [
             "974" => "La Réunion",
             "976" => "Mayotte",
             "987" => "Polynésie française"
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | PARTICIPATION WORKFLOW STATES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'participation_workflow_states' => [
+        "vocabulary" => "Statut",
+        "terms" => [
+            "En attente de validation" => "En attente de validation",
+            "Validée" => "Validée",
+            "Abandonnée" => "Abandonnée",
+            "Annulée" => "Annulée",
+            "Archivée" => "Archivée"
         ]
     ],
 ];

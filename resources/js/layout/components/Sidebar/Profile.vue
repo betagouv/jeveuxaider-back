@@ -33,7 +33,7 @@
         <div v-if="activeMenu == 'profile'">
           <router-link
             v-if="$store.getters.contextRole == 'responsable'"
-            :to="`/structure/${$store.getters.structure_as_responsable.id}`"
+            to="/dashboard/missions"
           >
             <el-dropdown-item class="flex items-center">
               <el-avatar
@@ -47,7 +47,7 @@
               </v-clamp>
             </el-dropdown-item>
           </router-link>
-          <router-link
+          <!-- <router-link
             v-if="$store.getters.contextRole == 'responsable'"
             :to="
               `/structure/${$store.getters.structure_as_responsable.id}/members`
@@ -56,7 +56,7 @@
             <el-dropdown-item>
               Gérer votre équipe
             </el-dropdown-item>
-          </router-link>
+          </router-link> -->
           <router-link
             v-if="$store.getters.contextRole == 'admin'"
             :to="`/trash`"
@@ -72,10 +72,10 @@
             "
             divided
           />
-          <router-link to="/profile">
+          <router-link to="/user/profile">
             <el-dropdown-item>Profil</el-dropdown-item>
           </router-link>
-          <router-link to="/settings">
+          <router-link to="/user/settings">
             <el-dropdown-item>Paramètres de compte</el-dropdown-item>
           </router-link>
           <el-dropdown-item
@@ -123,13 +123,9 @@
 
 <script>
 import { mapGetters } from "vuex";
-import VClamp from "vue-clamp";
 
 export default {
   name: "SidebarProfile",
-  components: {
-    VClamp
-  },
   props: {
     isCollapsed: {
       type: Boolean,

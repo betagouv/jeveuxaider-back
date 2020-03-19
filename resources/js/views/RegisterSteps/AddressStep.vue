@@ -22,7 +22,7 @@
         description="J'enregistre le lieu de mon établissement"
       ></el-step>
     </el-steps>
-    <div class="max-w-lg p-12">
+    <div class="max-w-lg p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
         Lieu de ma structure
       </div>
@@ -32,7 +32,7 @@
         label-position="top"
         :rules="rules"
       >
-        <el-form-item label="Département" prop="department" class="flex-1 mr-2">
+        <el-form-item label="Département" prop="department" class="flex-1">
           <el-select
             v-model="form.department"
             filterable
@@ -60,7 +60,7 @@
           <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
             <el-input v-model="form.zip" disabled placeholder="Code postal" />
           </el-form-item>
-          <el-form-item label="Ville" prop="city" class="flex-1 mr-2">
+          <el-form-item label="Ville" prop="city" class="flex-1">
             <el-input v-model="form.city" disabled placeholder="Ville" />
           </el-form-item>
         </div>
@@ -100,7 +100,7 @@ export default {
   data() {
     return {
       loading: false,
-      structureId: null,
+      structureId: this.$store.getters.structure_as_responsable.id,
       form: {},
       rules: {
         lieu: {
@@ -126,15 +126,6 @@ export default {
       }
     };
   },
-  created() {
-    this.structureId = this.$store.getters.structure_as_responsable.id;
-  },
-  beforeRouteEnter(to, from, next) {
-    if (store.getters.noRole) {
-      next("/register/step/structure");
-    }
-    next();
-  },
   methods: {
     onSubmit() {
       this.loading = true;
@@ -143,7 +134,7 @@ export default {
           updateStructure(this.structureId, this.form)
             .then(() => {
               this.loading = false;
-              this.$router.push("/dashboard");
+              this.$router.push(`/dashboard/structure/${this.structureId}/missions/add`);
             })
             .catch(() => {
               this.loading = false;
@@ -156,3 +147,10 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+::v-deep .el-step__description
+    @apply hidden
+    @screen sm
+        @apply block
+</style>

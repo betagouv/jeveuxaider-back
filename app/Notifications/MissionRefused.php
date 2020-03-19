@@ -49,10 +49,10 @@ class MissionRefused extends Notification
     {
         return (new MailMessage)
             ->subject('Votre mission a été refusée')
-            ->greeting('Bonjour ' . $notifiable->full_name . ' !')
-            ->line('Vous avez déposé une proposition de mission d’intérêt général pour la phase 2 du SNU et nous vous en remercions.')
-            ->line('Néanmoins, nous n’avons pas validé votre mission.')
-            ->line('L’équipe en charge du SNU dans votre département se tient à votre disposition pour tout renseignement complémentaire,');
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->line('Vous avez déposé une proposition de mission dans le cadre de la crise sanitaire et nous vous en remercions.')
+            ->line('Néanmoins, nous n’avons pas validé cette mission.')
+            ->line('L’équipe de la Réserve Civique de votre département se tient à votre disposition pour tout renseignement complémentaire.');
     }
 
     /**

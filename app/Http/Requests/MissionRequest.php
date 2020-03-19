@@ -17,7 +17,7 @@ class MissionRequest extends FormRequest
             return true;
         }
 
-        return $this->user()->can('view', request()->route('mission'));
+        return $this->user()->can('update', request()->route('mission'));
     }
 
     /**
@@ -53,7 +53,12 @@ class MissionRequest extends FormRequest
             'justifications'=> '',
             'contraintes'=> '',
             'handicap'=> '',
-            'state' => ''
+            'state' => '',
+            'periodicite' => '',
+            'publics_volontaires' => '',
+            'publics_beneficiaires' => '',
+            'domaine' => '',
+            'type' => ''
         ];
     }
 

@@ -25,16 +25,16 @@ class Profile extends Model implements HasMedia
         'first_name',
         'last_name',
         'email',
-        'avatar',
-        'phone',
+        // 'avatar',
+        // 'phone',
         'mobile',
-        'reseau_id',
-        'referent_department',
+        // 'reseau_id',
+        // 'referent_department',
         'birthday',
         'zip'
     ];
 
-    protected $appends = ['full_name', 'avatar', 'roles', 'has_user'];
+    protected $appends = ['full_name', 'short_name', 'avatar', 'roles', 'has_user'];
 
     protected $hidden = ['media', 'user'];
 
@@ -82,6 +82,11 @@ class Profile extends Model implements HasMedia
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getShortNameAttribute()
+    {
+        return "{$this->first_name[0]}{$this->last_name[0]}";
     }
 
     public function setFirstNameAttribute($value)
@@ -150,9 +155,21 @@ class Profile extends Model implements HasMedia
             ->withPivot('role');
     }
 
+    public function participations()
+    {
+        return $this
+            ->belongsToMany('App\Models\Participation')
+            ->without('profile');
+    }
+
     public function isReferent()
     {
         return $this->referent_department ? true : false;
+    }
+
+    public function isVolontaire()
+    {
+        return true;
     }
 
     public function isSuperviseur()
@@ -183,6 +200,7 @@ class Profile extends Model implements HasMedia
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'tuteur' => $this->isTuteur(),
+            'volontaire' => $this->isVolontaire(),
         ];
     }
 }

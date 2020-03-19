@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "algolia/scout-extended": "^1.9",
+        "axlon/laravel-postal-code-validation": "^2.1",
         "backpack/crud": "^3.6",
         "backpack/logmanager": "^2.3",
         "barryvdh/laravel-elfinder": "^0.4.4",
@@ -78,8 +80,8 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-install-cmd": [
-            "[ -n \"$OAUTH_PUBLIC_KEY\" ] && echo \"$OAUTH_PUBLIC_KEY\" > storage/oauth-public.key",
-            "[ -n \"$OAUTH_PRIVATE_KEY\" ] && echo \"$OAUTH_PRIVATE_KEY\" > storage/oauth-private.key"
+            "if [ -n \"$OAUTH_PUBLIC_KEY\" ] ; then echo \"$OAUTH_PUBLIC_KEY\" > storage/oauth-public.key ; fi",
+            "if [ -n \"$OAUTH_PRIVATE_KEY\" ] ; then echo \"$OAUTH_PRIVATE_KEY\" > storage/oauth-private.key ; fi"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"

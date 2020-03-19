@@ -14,7 +14,6 @@ use App\Exports\MissionsExport;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
-use App\Http\Requests\MissionRequest;
 use App\Http\Requests\Api\MissionDeleteRequest;
 
 class MissionController extends Controller
@@ -23,7 +22,7 @@ class MissionController extends Controller
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
         ->allowedFilters([
-            'domaines',
+            'name',
             'state',
             'format',
             'department',
@@ -41,7 +40,7 @@ class MissionController extends Controller
         return Excel::download(new MissionsExport($request), 'missions.xlsx');
     }
 
-    public function show(MissionRequest $request, Mission $mission)
+    public function show(Request $request, Mission $mission)
     {
         return $mission;
     }

@@ -1,4 +1,6 @@
 <script>
+import _ from "lodash";
+
 export default {
   name: "TableWithFilters",
   data() {
@@ -6,12 +8,27 @@ export default {
       query: {},
       totalRows: 0,
       fromRow: 0,
-      toRow: 0
+      toRow: 0,
+      showFilters: false
     };
+  },
+  computed: {
+    activeFilters() {
+      let count = 0;
+      Object.entries(this.query).forEach(([key, value]) => {
+        if (key != "page" && key != "filter[search]") {
+          if ((!_.isEmpty(value) && value) || _.isBoolean(value)) {
+            count++;
+          }
+        }
+      });
+      return count;
+    }
   },
   created() {
     this.query = { ...this.$router.history.current.query };
     this.tableData = this.fetchDatas();
+    this.showFilters = this.activeFilters > 0 ? true : false;
   },
   methods: {
     onPageChange(page) {

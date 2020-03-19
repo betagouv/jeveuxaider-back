@@ -32,7 +32,8 @@ class ProfileRequest extends FormRequest
             'first_name' => 'sometimes|required|min:3',
             'last_name' => 'sometimes|required|min:2',
             'mobile' => '',
-            'phone' => '',
+            'zip' => '',
+            'birthday' => 'required|date|before:-16 years'
         ];
     }
 

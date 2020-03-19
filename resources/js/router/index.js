@@ -4,9 +4,9 @@ import Vue from "vue";
 import Router from "vue-router";
 
 /* Layouts */
-// import Layout from "@/layout";
 import Layout2Cols from "@/layout/Layout2Cols";
 import LayoutRegisterSteps from "@/layout/LayoutRegisterSteps";
+import LayoutSNU from "@/layout/LayoutSNU";
 
 /* Pages */
 import Login from "@/views/Login.vue";
@@ -18,11 +18,17 @@ import PasswordForgot from "@/views/PasswordForgot.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
 import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
-// import BrowserOutdated from "@/views/BrowserOutdated.vue";
-// import Maintenance from "@/views/Maintenance.vue";
+import Maintenance from "@/views/Maintenance.vue";
+import BrowserOutdated from "@/views/BrowserOutdated.vue";
+
 // import Releases from "@/views/Releases.vue";
 
+import FrontHomepage from "@/views/Front/Homepage";
+import FrontAbout from "@/views/Front/About";
+import FrontSecurityRules from "@/views/Front/SecurityRules";
 import FrontMissions from "@/views/Front/Missions";
+import FrontProfile from "@/views/Front/Profile";
+import FrontSettings from "@/views/Front/Settings";
 
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
@@ -37,51 +43,76 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/",
+      name: "Homepage",
+      component: FrontHomepage,
+    },
+    {
+      path: "/regles-de-securite",
+      name: "SecurityRules",
+      component: FrontSecurityRules,
+    },
+    {
+      path: "/a-propos",
+      name: "About",
+      component: FrontAbout,
+    },
+    {
       path: "/user",
       component: Layout2Cols,
-      redirect: "/user/login",
+      redirect: "/login",
       children: [
         {
-            path: "/user/login",
-            name: "Login",
-            component: Login,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/register",
-            name: "Register",
-            component: Register,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/register/volontaire",
-            name: "RegisterVolontaire",
-            component: RegisterVolontaire,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/register/responsable",
-            name: "RegisterResponsable",
-            component: RegisterResponsable,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/password/forgot",
-            name: "PasswordForgot",
-            component: PasswordForgot,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/password/reset/:token",
-            name: "PasswordReset",
-            component: PasswordReset,
-            meta: { requiresAnonymous: true }
-          },
-          {
-            path: "/user/logout",
-            name: "Logout",
-            component: Logout
-          },
+          path: "/maintenance",
+          name: "Maintenance",
+          component: Maintenance,
+        },
+        {
+          path: "/browser-outdated",
+          name: "BrowserOutdated",
+          component: BrowserOutdated
+        },
+        {
+          path: "/login",
+          name: "Login",
+          component: Login,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/register",
+          name: "Register",
+          component: Register,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/register/volontaire",
+          name: "RegisterVolontaire",
+          component: RegisterVolontaire,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/register/responsable",
+          name: "RegisterResponsable",
+          component: RegisterResponsable,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/password/forgot",
+          name: "PasswordForgot",
+          component: PasswordForgot,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/password/reset/:token",
+          name: "PasswordReset",
+          component: PasswordReset,
+          meta: { requiresAnonymous: true }
+        },
+        {
+          path: "/logout",
+          name: "Logout",
+          component: Logout
+        },
       ]
     },
     {
@@ -114,6 +145,7 @@ export default new Router({
             ),
           name: "StructureStep"
         },
+
         {
           path: "/register/step/address",
           component: () =>
@@ -121,35 +153,75 @@ export default new Router({
               /* webpackChunkName: "assets/js/address-step" */ "@/views/RegisterSteps/AddressStep.vue"
             ),
           name: "AddressStep"
-        }
-    //     {
-    //       path: "/register/step/other",
-    //       component: () =>
-    //         import(
-    //           /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
-    //         ),
-    //       name: "OtherStep"
-    //     },
+        },
+        {
+          path: "/register/step/other",
+          component: () =>
+            import(
+                      /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/OtherStep.vue"
+            ),
+          name: "OtherStep"
+        },
       ]
     },
-    // {
-    //   path: "/releases",
-    //   component: Releases,
-    //   meta: { requiresAuth: true }
-    // },
-    // {
-    //   path: "/browser-outdated",
-    //   component: BrowserOutdated
-    // },
-    // {
-    //   path: "/maintenance",
-    //   name: "maintenance",
-    //   component: Maintenance
-    // },
+    {
+        path: "/dashboard",
+        component: LayoutSNU,
+        redirect: "/dashboard/missions",
+        children: [
+            {
+                path: "/dashboard/missions",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-missions" */ "@/views/SNU/Missions.vue"
+                  ),
+                name: "DashboardMissions"
+            },
+            {
+                path: "/dashboard/structure/:structureId/missions/add",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/MissionForm.vue"),
+                name: "MissionFormAdd",
+                props: route => ({ structureId: parseInt(route.params.structureId) })
+              },
+              {
+                path: "/dashboard/mission/:id/edit",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/MissionForm.vue"),
+                name: "MissionFormEdit",
+                props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+              },
+              {
+                path: "/dashboard/participations",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-participations" */ "@/views/SNU/Participations.vue"
+                  ),
+                name: "DashboardParticipations"
+            },
+        ]
+    },
+    {
+      path: '/user/profile',
+      component: FrontProfile
+
+    },
+    {
+      path: '/user/settings',
+      component: FrontSettings
+
+      },
     {
       path: '/missions',
       component: FrontMissions
-
+    },
+    {
+      path: "/missions/:id",
+      component: () =>
+        import(
+            /* webpackChunkName: "assets/js/mission" */ "@/views/Mission.vue"
+        ),
+      name: "Mission"
     },
     { path: "/403", component: Forbidden },
     { path: "*", component: NotFound }
