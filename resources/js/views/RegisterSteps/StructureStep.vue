@@ -22,7 +22,7 @@
         description="J'enregistre le lieu de mon établissement"
       ></el-step>
     </el-steps>
-    <div class="max-w-lg p-12">
+    <div class="max-w-xl p-12">
       <div class="font-bold text-2xl text-gray-800">
         Ma structure
       </div>

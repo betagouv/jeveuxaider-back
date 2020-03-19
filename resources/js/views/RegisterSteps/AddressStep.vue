@@ -22,7 +22,7 @@
         description="J'enregistre le lieu de mon établissement"
       ></el-step>
     </el-steps>
-    <div class="max-w-lg p-12">
+    <div class="max-w-xl p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
         Lieu de ma structure
       </div>
@@ -32,7 +32,7 @@
         label-position="top"
         :rules="rules"
       >
-        <el-form-item label="Département" prop="department" class="flex-1 mr-2">
+        <el-form-item label="Département" prop="department" class="flex-1">
           <el-select
             v-model="form.department"
             filterable

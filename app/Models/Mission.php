@@ -43,7 +43,9 @@ class Mission extends Model
         'tuteur_id',
         'periodicite',
         'publics_beneficiaires',
-        'publics_volontaires'
+        'publics_volontaires',
+        'domaine',
+        'type'
     ];
 
     protected $casts = [

@@ -72,23 +72,6 @@
           @changed="onFilterChange"
         />
         <query-filter
-          v-if="$store.getters.contextRole !== 'responsable'"
-          name="ceu"
-          label="Corps en uniforme"
-          :value="query['filter[ceu]']"
-          :options="[
-            {
-              value: true,
-              label: 'Oui'
-            },
-            {
-              value: false,
-              label: 'Non'
-            }
-          ]"
-          @changed="onFilterChange"
-        />
-        <query-filter
           name="state"
           label="Statut"
           multiple
@@ -99,7 +82,7 @@
         <query-filter
           type="select"
           name="domaines"
-          :value="query['filter[domaines]']"
+          :value="query['filter[domaine]']"
           multiple
           label="Domaine"
           :options="$store.getters.taxonomies.mission_domaines.terms"
