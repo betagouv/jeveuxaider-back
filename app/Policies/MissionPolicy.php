@@ -19,17 +19,7 @@ class MissionPolicy
 
     public function view(User $user, Mission $mission)
     {
-        $ids = Mission::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if ($user->profile->isReferent()) {
-            return true;
-        }
-
-        if (in_array($mission->id, $ids)) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public function update(User $user, Mission $mission)
