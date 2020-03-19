@@ -50,18 +50,18 @@ class ProfileInvitationSent extends Notification
 
         if ($this->role == 'referent') {
             $message
-                ->line($this->user->profile->full_name . ' vous invite à devenir le référent du département ' . $notifiable->referent_department. ' sur la plateforme de dépôts de missions d’intérêt général du SNU.');
+                ->line($this->user->profile->full_name . ' vous invite à devenir le référent du département ' . $notifiable->referent_department. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
         }
 
         if ($this->role == 'superviseur') {
             $message
-                ->line($this->user->profile->full_name . ' vous invite à devenir le superviseur du réseau ' . $notifiable->reseau->name. ' sur la plateforme de dépôts de missions d’intérêt général du SNU.');
+                ->line($this->user->profile->full_name . ' vous invite à devenir le superviseur du réseau ' . $notifiable->reseau->name. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
         }
 
         if (!$notifiable->user) {
             $message
                 ->line('Créez votre compte maintenant en utilisant votre adresse email pour accéder à votre espace et proposer vos missions.')
-                ->action('Créer mon compte', url(config('app.url') . '/register?' . http_build_query([
+                ->action('Créer mon compte', url(config('app.url') . '/register/invitation?' . http_build_query([
                     'email' => $notifiable->email,
                     'first_name' => $notifiable->first_name,
                     'last_name' => $notifiable->last_name

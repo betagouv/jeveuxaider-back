@@ -4,7 +4,7 @@
       <p>
         Bienvenue {{ $store.getters.profile.first_name }} ! <br />Veuillez
         selectionner <span class="font-bold">votre type de profil</span> pour
-        finaliser la création de votre compte sur la plateforme SNU.
+        finaliser la création de votre compte sur la plateforme.
       </p>
     </portal>
     <div class="flex flex-col justify-center items-center h-full text-center">

@@ -11,6 +11,7 @@ import Logout from "@/views/Logout.vue";
 import Register from "@/views/Register.vue";
 import RegisterResponsable from "@/views/RegisterResponsable.vue";
 import RegisterVolontaire from "@/views/RegisterVolontaire.vue";
+import RegisterInvitation from "@/views/RegisterInvitation.vue";
 import PasswordForgot from "@/views/PasswordForgot.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -86,6 +87,12 @@ export default new Router({
                     path: "/register/responsable",
                     name: "RegisterResponsable",
                     component: RegisterResponsable,
+                    meta: { requiresAnonymous: true }
+                },
+                {
+                    path: "/register/invitation",
+                    name: "RegisterInvitation",
+                    component: RegisterInvitation,
                     meta: { requiresAnonymous: true }
                 },
                 {

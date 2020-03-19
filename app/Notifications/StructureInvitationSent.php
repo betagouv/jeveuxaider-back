@@ -53,14 +53,14 @@ class StructureInvitationSent extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-            ->subject('Vous êtes invités à vous inscrire à la plateforme de la Réserve Civique dédiée au Covid-19')
+            ->subject('Vous êtes invités à vous inscrire à la plateforme de la Réserve Civique dédiée à la crise sanitaire du Covid-19')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions d’intérêt général du SNU.');
+            ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
 
         if (!$notifiable->user) {
             $message
                 ->line('Vous pouvez créer votre compte maintenant en utilisant votre adresse email pour accéder à votre espace et proposer vos missions.')
-                ->action('Créer un compte', url(config('app.url') . '/register?' . http_build_query([
+                ->action('Créer un compte', url(config('app.url') . '/register/invitation?' . http_build_query([
                     'email' => $notifiable->email,
                     'first_name' => $notifiable->first_name,
                     'last_name' => $notifiable->last_name

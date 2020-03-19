@@ -64,6 +64,25 @@ class PassportController extends Controller
         return $user;
     }
 
+    public function registerInvitation(RegisterResponsableRequest $request)
+    {
+        $user = User::create([
+            'name' => request("email"),
+            'email' => request("email"),
+            'password' => Hash::make(request("password"))
+        ]);
+
+        $profile = Profile::whereEmail(request('email'))->first();
+
+        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
+            $profile = Profile::create($request->validated());
+        }
+
+        $user->profile()->save($profile);
+
+        return $user;
+    }
+
     public function logout(Request $request)
     {
         $id = (new Parser())->parse($request->bearerToken())->getHeader('jti');

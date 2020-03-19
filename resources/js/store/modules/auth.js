@@ -1,4 +1,4 @@
-import { registerVolontaire, registerResponsable } from "../../api/user";
+import { registerVolontaire, registerResponsable, registerInvitation } from "../../api/user";
 import {
   login,
   logout,
@@ -44,6 +44,19 @@ const actions = {
   registerResponsable({ dispatch }, user) {
     return new Promise((resolve, reject) => {
       registerResponsable(user.email, user.password, user.first_name, user.last_name)
+        .then(() => {
+          dispatch("login", user).then(response => {
+            resolve(response);
+          });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  registerInvitation({ dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      registerInvitation(user.email, user.password, user.first_name, user.last_name)
         .then(() => {
           dispatch("login", user).then(response => {
             resolve(response);

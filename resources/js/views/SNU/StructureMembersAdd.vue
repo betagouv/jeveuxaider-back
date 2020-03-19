@@ -32,7 +32,7 @@
             <div>Responsable</div>
             <div class="description">
               Vous pouvez partager vos droits d'administration de votre compte
-              de structure d'accueil SNU avec plusieurs personnes.
+              de structure d'accueil avec plusieurs personnes.
             </div>
           </el-radio>
         </el-radio-group>

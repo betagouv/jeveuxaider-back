@@ -29,6 +29,8 @@ class ProfileUpdateRequest extends ProfileRequest
     {
         $profile = request()->route('profile') ?: request()->user()->profile;
 
+        // @TODO : rendre required certains champs seulement pour les volontaires ?
+
         return [
             'email' => [
                 'sometimes',

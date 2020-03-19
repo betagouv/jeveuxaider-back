@@ -21,6 +21,15 @@ export function registerResponsable(email, password, first_name, last_name) {
   });
 }
 
+export function registerInvitation(email, password, first_name, last_name) {
+  return request.post("/api/register/invitation", {
+    email,
+    password,
+    first_name,
+    last_name
+  });
+}
+
 export function exportProfiles(params) {
   return request.get(`/api/profiles/export`, {
     responseType: "blob",
