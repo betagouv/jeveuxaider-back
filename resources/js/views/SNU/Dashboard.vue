@@ -17,14 +17,15 @@
           'w-full': !canSeeStructuresAndProfiles
         }"
       >
-        <card-mission-count label="Missions" name="missions" link="missions" />
+        <card-mission-count label="Missions" name="missions" link="/dashboard/missions" />
+        <card-participation-count label="Participations" name="participations" link="/dashboard/participations" />
       </div>
       <div
         v-if="canSeeStructuresAndProfiles"
         :class="{ 'w-1/4': canSeeStructuresAndProfiles }"
       >
-        <card-count label="Structures" name="structures" link="structures" />
-        <card-count label="Utilisateurs" name="profiles" link="profiles" />
+        <card-count label="Structures" name="structures" link="/dashboard/structures" />
+        <card-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" />
       </div>
     </div>
   </div>
@@ -33,12 +34,14 @@
 <script>
 import CardCount from "@/components/CardCount";
 import CardMissionCount from "@/components/CardMissionCount";
+import CardParticipationCount from "@/components/CardParticipationCount";
 
 export default {
   name: "Dashboard",
   components: {
     CardCount,
-    CardMissionCount
+    CardMissionCount,
+    CardParticipationCount
   },
   computed: {
     canSeeStructuresAndProfiles() {

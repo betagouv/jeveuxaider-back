@@ -45,7 +45,9 @@ class Participation extends Model
             break;
             case 'referent':
                 return $query
-                    ->where('department', Auth::guard('api')->user()->profile->referent_department);
+                    ->whereHas('mission', function (Builder $query) {
+                        $query->where('department', Auth::guard('api')->user()->profile->referent_department);
+                    });
             break;
             case 'superviseur':
                 return $query
