@@ -53,7 +53,7 @@ class StructureInvitationSent extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-            ->subject('Vous êtes invités à vous inscrire sur la base de données des missions SNU')
+            ->subject('Vous êtes invités à vous inscrire à la plateforme de la Réserve Civique dédiée au Covid-19')
             ->greeting('Bonjour ' . $notifiable->full_name . ' !')
             ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions d’intérêt général du SNU.');
 
@@ -67,7 +67,7 @@ class StructureInvitationSent extends Notification
                 ])));
         } else {
             $message
-                ->line('Vous pouvez, en utilisant votre adresse email, accéder à votre espace et proposer vos missions d’intérêt général dans le cadre du SNU.')
+                ->line('Vous pouvez, en utilisant votre adresse email, accéder à votre espace et proposer vos missions d’intérêt général.')
                 ->action('Accéder à mon compte', url(config('app.url')));
         }
 

@@ -29,6 +29,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
+    Route::post('participation', 'Api\ParticipationController@store');
+    Route::get('participations', 'Api\ParticipationController@index');
+    Route::post('participation/{participation}', 'Api\ParticipationController@update');
+
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
 });
@@ -67,6 +71,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
+    Route::get('participations/export', 'Api\ParticipationController@export');
     */
 
     // STATISTICS

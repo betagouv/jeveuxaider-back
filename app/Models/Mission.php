@@ -69,10 +69,12 @@ class Mission extends Model
         'structure.members:id,first_name,last_name'
     ];
 
+    protected $withCount = ['participations'];
+
     public function shouldBeSearchable()
     {
         // TODO : Remplacer par un état de la mission ?
-        return TRUE;
+        return true;
     }
 
     public function searchableAs()
@@ -98,6 +100,11 @@ class Mission extends Model
     public function tuteur()
     {
         return $this->belongsTo('App\Models\Profile');
+    }
+
+    public function participations()
+    {
+        return $this->hasMany('App\Models\Participation', 'mission_id')->without('mission');
     }
 
     public function getFullAddressAttribute()

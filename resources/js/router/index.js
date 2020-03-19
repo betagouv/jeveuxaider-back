@@ -191,6 +191,14 @@ export default new Router({
                 name: "MissionFormEdit",
                 props: route => ({ mode: "edit", id: parseInt(route.params.id) })
               },
+              {
+                path: "/dashboard/participations",
+                component: () =>
+                  import(
+                    /* webpackChunkName: "assets/js/dashboard-participations" */ "@/views/SNU/Participations.vue"
+                  ),
+                name: "DashboardParticipations"
+            },
         ]
     },
     {
