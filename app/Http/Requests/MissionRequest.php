@@ -53,7 +53,12 @@ class MissionRequest extends FormRequest
             'justifications'=> '',
             'contraintes'=> '',
             'handicap'=> '',
-            'state' => ''
+            'state' => '',
+            'periodicite' => '',
+            'publics_volontaires' => '',
+            'publics_beneficiaires' => '',
+            'domaine' => '',
+            'type' => ''
         ];
     }
 

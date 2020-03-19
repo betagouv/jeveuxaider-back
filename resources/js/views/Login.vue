@@ -117,7 +117,6 @@ export default {
       this.loading = true;
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
-          console.log(this);
           this.$store
             .dispatch("auth/login", {
               email: this.form.email,

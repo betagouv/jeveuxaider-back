@@ -22,7 +22,7 @@ class MissionController extends Controller
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
         ->allowedFilters([
-            'domaines',
+            'domaine',
             'state',
             'format',
             'department',

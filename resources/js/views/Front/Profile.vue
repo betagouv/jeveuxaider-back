@@ -14,7 +14,7 @@
           class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
         >
           <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
-            TODO Prénom Nom
+            {{ $store.getters.user.profile.first_name }} {{ $store.getters.user.profile.last_name }}
           </h2>
 
           <el-form
@@ -49,11 +49,11 @@
                 </el-form-item>
                 <el-form-item
                   label="Code postal"
-                  prop="postal_code"
+                  prop="zip"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
                   <el-input
-                    v-model="form.last_name"
+                    v-model="form.zip"
                     placeholder="Code postal"
                   />
                 </el-form-item>
@@ -111,14 +111,10 @@
 <script>
 export default {
   name: "FrontProfile",
-  components: {},
   data() {
     return {
       loading: false,
-      form: {
-        email: "",
-        password: ""
-      },
+      form: this.$store.getters.user.profile,
       rules: {
         email: [
           {
@@ -138,25 +134,21 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true;
-      this.$refs["profileForm"].validate(valid => {
+        this.$refs["profileForm"].validate(valid => {
         if (valid) {
-          //   this.$store
-          //     .dispatch("auth/registerVolontaire", {
-          //       email: this.form.email,
-          //       password: this.form.password,
-          //       first_name: this.form.first_name,
-          //       last_name: this.form.last_name,
-          //       mobile: this.form.mobile,
-          //       birthday: this.form.birthday,
-          //       zip: this.form.zip
-          //     })
-          //     .then(() => {
-          //       this.loading = false;
-          //       this.$router.push("/missions");
-          //     })
-          //     .catch(() => {
-          //       this.loading = false;
-          //     });
+          this.$store
+            .dispatch("user/updateProfile", this.form)
+            .then(() => {
+              this.loading = false;
+              this.$message({
+                message: "Votre profil a été mis à jour.",
+                type: "success"
+              });
+            })
+            .catch(() => {
+              this.loading = false;
+            });
+          this.loading = false;
         } else {
           this.loading = false;
         }

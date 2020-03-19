@@ -57,11 +57,11 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('DO_SPACES_KEY'),
-            'secret' => env('DO_SPACES_SECRET'),
-            'endpoint' => env('DO_SPACES_ENDPOINT'),
-            'region' => env('DO_SPACES_REGION'),
-            'bucket' => env('DO_SPACES_BUCKET'),
+            'key' => env('S3_AK'),
+            'secret' => env('S3_SK'),
+            'endpoint' => env('S3_ENDPOINT'),
+            'region' => env('S3_REGION'),
+            'bucket' => env('S3_BUCKET'),
         ],
 
     ],
