@@ -9,7 +9,7 @@
           Gérer votre équipe
         </div>
       </div>
-      <router-link :to="`/structure/${id}/members/add`">
+      <router-link :to="`/dashboard/structure/${id}/members/add`">
         <el-button type="primary" icon="el-icon-plus">
           Inviter un membre
         </el-button>
