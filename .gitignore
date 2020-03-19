@@ -17,3 +17,4 @@ _ide_helper_models.php
 /public/assets/*
 /public/vendors~assets/*
 mix-manifest.json
+package-lock.json
