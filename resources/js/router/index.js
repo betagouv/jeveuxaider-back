@@ -21,7 +21,6 @@ import BrowserOutdated from "@/views/BrowserOutdated.vue";
 import FrontHomepage from "@/views/Front/Homepage";
 import FrontAbout from "@/views/Front/About";
 import FrontSecurityRules from "@/views/Front/SecurityRules";
-import FrontMissions from "@/views/Front/Missions";
 import FrontProfile from "@/views/Front/Profile";
 import FrontSettings from "@/views/Front/Settings";
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
@@ -312,9 +311,12 @@ export default new Router({
         },
         {
             path: '/missions',
-            component: FrontMissions,
+            component: () =>
+            import(
+                /* webpackChunkName: "assets/js/front-missions" */ "@/views/Front/Missions.vue"
+            ),
             name: 'FrontMissions'
-        },
+          },
         {
             path: "/missions/:id",
             component: () =>
