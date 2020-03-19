@@ -23,13 +23,14 @@
       ></el-step>
     </el-steps>
     <div class="p-4 sm:p-12">
-      <div class="font-bold text-2xl text-gray-800">
+      <div class="font-bold text-2xl text-gray-800 mb-6">
         Ma structure
       </div>
-      <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
+      <!-- TODO -->
+      <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
         Logo de la structure
-      </div>
-      <div class="mb-10">
+      </div> -->
+      <div v-show="false" class="mb-10">
         <div class="flex -m-4">
           <div class="m-4">
             <div v-if="logoPreview" class="h-32 w-32 flex items-center">
@@ -61,6 +62,7 @@
           </div>
         </div>
       </div>
+      <!-- END TODO -->
       <el-form
         ref="structureForm"
         :model="form"
