@@ -46,7 +46,7 @@ class ProfileInvitationSent extends Notification
     {
         $message = (new MailMessage)
             ->subject('Invitation en attente')
-            ->greeting('Bonjour ' . $notifiable->full_name . ' !');
+            ->greeting('Bonjour ' . $notifiable->first_name . ',');
 
         if ($this->role == 'referent') {
             $message

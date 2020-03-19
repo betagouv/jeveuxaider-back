@@ -46,7 +46,8 @@ import {
   Divider,
   Pagination,
   Steps,
-  Step
+  Step,
+  Badge
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/fr";
 import locale from "element-ui/lib/locale";
@@ -104,6 +105,7 @@ Vue.use(Divider);
 Vue.use(Pagination);
 Vue.use(Steps);
 Vue.use(Step);
+Vue.use(Badge);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;

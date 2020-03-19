@@ -3,11 +3,11 @@
     <portal to="register-steps-help">
       <p>
         Bienvenue {{ firstName }} ! <br />Commencez par
-        <span class="font-bold">compléter votre profil</span> pour finaliser la
-        création de votre compte de responsable de structure d’accueil SNU.
+        <span class="font-bold">compléter le profil</span> de votre compte
+        Responsable de structure.
       </p>
     </portal>
-    <el-steps :active="1" align-center class="p-8 border-b border-b-2">
+    <el-steps :active="1" align-center class="p-4 sm:p-8 border-b border-b-2">
       <el-step
         title="Profil"
         description="Je complète les informations de mon profil"
@@ -22,7 +22,7 @@
       ></el-step>
     </el-steps>
 
-    <div class="max-w-lg p-12">
+    <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800">
         Mon profil
       </div>
@@ -52,19 +52,28 @@
         :model="form"
         label-position="top"
         :rules="rules"
+        class="flex flex-wrap -m-2"
       >
-        <el-form-item label="Téléphone mobile" prop="mobile">
+        <el-form-item
+          label="Téléphone mobile"
+          prop="mobile"
+          class="w-full sm:w-1/2 lg:w-1/3 p-2"
+        >
           <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
         </el-form-item>
-        <el-form-item label="Téléphone fixe" prop="phone">
+        <el-form-item
+          label="Téléphone fixe"
+          prop="phone"
+          class="w-full sm:w-1/2 lg:w-1/3 p-2"
+        >
           <el-input v-model="form.phone" placeholder="Téléphone fixe" />
         </el-form-item>
-        <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit">
-            Continuer
-          </el-button>
-        </div>
       </el-form>
+      <div class="flex pt-2">
+        <el-button type="primary" :loading="loading" @click="onSubmit">
+          Continuer
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -160,3 +169,10 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+::v-deep .el-step__description
+    @apply hidden
+    @screen sm
+        @apply block
+</style>

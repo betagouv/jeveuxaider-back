@@ -25,4 +25,8 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 .el-select {
   width: 100%;
 }
+
+.el-message .el-message__content{
+    line-height: 2rem !important;
+}
 /* purgecss end ignore */

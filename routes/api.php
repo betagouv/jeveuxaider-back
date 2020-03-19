@@ -29,6 +29,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
+    Route::post('participation', 'Api\ParticipationController@store');
+    Route::get('participations', 'Api\ParticipationController@index');
+    Route::post('participation/{participation}', 'Api\ParticipationController@update');
+
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
 });
@@ -66,11 +70,13 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
+    Route::get('participations/export', 'Api\ParticipationController@export');
+    
 
     // STATISTICS
-    Route::get('statistics/missions', 'Api\StatisticsController@missions');
-    Route::get('statistics/structures', 'Api\StatisticsController@structures');
-    Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
+    // Route::get('statistics/missions', 'Api\StatisticsController@missions');
+    // Route::get('statistics/structures', 'Api\StatisticsController@structures');
+    // Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
 });
 
 // ONLY ADMIN
@@ -92,11 +98,4 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // IMPERSONNATE
     // Route::post('impersonate/{user}', 'Api\UserController@impersonate');
     // Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
-});
-
-// Endpoints utilisés par des applications externes
-// TODO : Validation par IP de Diagoriente
-Route::prefix('v1')->group(function () {
-    Route::get('connect/{token}', 'Api\SnuConnectController@show');
-    Route::get('generate-token/{first_name}/{last_name}/{email}/{id}', 'Api\SnuConnectController@generateUserToken');
 });

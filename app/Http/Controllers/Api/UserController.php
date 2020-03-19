@@ -55,7 +55,7 @@ class UserController extends Controller
         if (!(Hash::check($request->get('current_password'), $user->password))) {
             return response()->json(['errors'=> [
                 'current_password' => [
-                    'Le mot de passe actuel est incorrect'
+                    "L'ancien mot de passe est incorrect"
                 ]
             ]], 400);
         }

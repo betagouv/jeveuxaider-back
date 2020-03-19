@@ -50,7 +50,7 @@ class StructureCreated extends Notification
     {
         return (new MailMessage)
             ->subject('Votre structure est bien inscrite')
-            ->greeting('Bonjour ' . $notifiable->profile->full_name . ' !')
+            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
             ->line('Votre structure est bien enregistrée au dispositif d’urgence Covid-19 de la Réserve Civique.')
             ->line('Vous pouvez désormais:')
             ->line(new HtmlString('<ul><li>Proposer une mission d’intérêt général</li><li>Inviter d’autres membres de l’équipe de votre structure à proposer une mission d’intérêt général.</li></ul>'))

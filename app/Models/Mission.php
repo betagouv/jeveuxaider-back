@@ -7,10 +7,12 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Utils;
+use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
 
 class Mission extends Model
 {
-    use CrudTrait, SoftDeletes;
+    use CrudTrait, SoftDeletes, Searchable;
 
     protected $table = 'missions';
 
@@ -43,7 +45,8 @@ class Mission extends Model
         'tuteur_id',
         'periodicite',
         'publics_beneficiaires',
-        'publics_volontaires'
+        'publics_volontaires',
+        'type'
     ];
 
     protected $casts = [
@@ -59,12 +62,25 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address'];
+    protected $appends = ['full_address', 'places_left', 'has_places_left'];
 
     protected $with = [
         'structure:id,name',
         'structure.members:id,first_name,last_name'
     ];
+
+    protected $withCount = ['participations'];
+
+    public function shouldBeSearchable()
+    {
+        // TODO : Remplacer par un état de la mission ?
+        return true;
+    }
+
+    public function searchableAs()
+    {
+        return config('scout.prefix').'_covid_missions';
+    }
 
     public function setNameAttribute($value)
     {
@@ -86,9 +102,34 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Profile');
     }
 
+    public function participations()
+    {
+        return $this->hasMany('App\Models\Participation', 'mission_id')->without('mission');
+    }
+
     public function getFullAddressAttribute()
     {
         return "{$this->address} {$this->zip} {$this->city}";
+    }
+
+    public function getHasPlacesLeftAttribute()
+    {
+        return $this->participations_count < $this->participations_max ? true : false;
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return $this->participations_max - $this->participations_count;
+    }
+
+    public function scopeHasPlacesLeft($query)
+    {
+        return $query->has('participations', '<', DB::raw('participations_max'));
+    }
+
+    public function scopeComplete($query)
+    {
+        return $query->has('participations', '=', DB::raw('participations_max'));
     }
 
     public function scopeRole($query, $contextRole)
