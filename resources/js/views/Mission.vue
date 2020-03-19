@@ -114,7 +114,7 @@
                         </svg>
                       </div>
                       <p class="ml-3 text-gray-700">
-                        {{ mission.domaine }}
+                        {{ mission.name }}
                       </p>
                     </li>
                   </ul>
