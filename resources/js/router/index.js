@@ -259,6 +259,33 @@ export default new Router({
                 }
               },
               {
+                path: "/dashboard/profile/:id",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-profile-view" */ "@/views/SNU/Profile.vue"),
+                name: "Profile",
+                props: route => ({ id: parseInt(route.params.id) }),
+                meta: {
+                  roles: ["admin", "referent", "superviseur"]
+                }
+              },
+              {
+                path: "/dashboard/profile/:role/add",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-profile-role-add" */ "@/views/SNU/ProfileForm.vue"),
+                name: "ProfileFormAdd",
+                props: route => ({ mode: "add", role: route.params.role })
+              },
+              {
+                path: "/dashboard/profile/:id/edit",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-profile-edit" */ "@/views/SNU/ProfileForm.vue"),
+                name: "ProfileFormEdit",
+                props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                meta: {
+                  roles: ["admin"]
+                }
+              },
+              {
                 path: "/dashboard/participations",
                 component: () =>
                   import(
@@ -266,6 +293,15 @@ export default new Router({
                   ),
                 name: "DashboardParticipations"
             },
+            {
+                path: "/dashboard/trash",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard-trash" */ "@/views/SNU/Trash.vue"),
+                name: "Trash",
+                meta: {
+                  roles: ["admin"]
+                }
+              }
         ]
     },
     {

@@ -17,7 +17,6 @@
       <el-radio-group v-model="type" @change="handleChangeType">
         <el-radio-button label="Structures"></el-radio-button>
         <el-radio-button label="Missions"></el-radio-button>
-        <el-radio-button label="Volontaires"></el-radio-button>
       </el-radio-group>
     </div>
 
@@ -40,8 +39,7 @@
     >
       <el-table-column label="Nom" min-width="320">
         <template slot-scope="scope">
-          <span v-if="type == 'Volontaires'">{{ scope.row.full_name }}</span>
-          <span v-else>{{ scope.row.name }}</span>
+          <span >{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Type" min-width="120">
@@ -85,7 +83,6 @@
 import { fetchTrashItems } from "@/api/app";
 import { destroyStructure } from "@/api/structure";
 import { destroyMission } from "@/api/mission";
-import { destroyYoung } from "@/api/young";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 
@@ -138,20 +135,6 @@ export default {
             this.$message({
               type: "success",
               message: "La mission a été défitivement supprimée"
-            });
-            let foundIndex = this.tableData.findIndex(el => el.id === row.id);
-            this.tableData.splice(foundIndex, 1);
-          })
-          .catch(() => {
-            this.loading = false;
-          });
-      } else if (this.type == "Volontaires") {
-        destroyYoung(row.id)
-          .then(() => {
-            this.loading = false;
-            this.$message({
-              type: "success",
-              message: "Le volontaire a été défitivement supprimé"
             });
             let foundIndex = this.tableData.findIndex(el => el.id === row.id);
             this.tableData.splice(foundIndex, 1);

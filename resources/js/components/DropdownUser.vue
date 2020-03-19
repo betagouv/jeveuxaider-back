@@ -19,6 +19,9 @@
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item
+          v-if="$store.getters.contextRole != 'responsable' &&
+                $store.getters.contextRole != 'volontaire'
+            "
           command="/dashboard"
         >Tableau de bord</el-dropdown-item>
         <el-dropdown-item
