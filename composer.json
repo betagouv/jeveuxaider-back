@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "algolia/scout-extended": "^1.9",
+        "axlon/laravel-postal-code-validation": "^2.1",
         "backpack/crud": "^3.6",
         "backpack/logmanager": "^2.3",
         "barryvdh/laravel-elfinder": "^0.4.4",

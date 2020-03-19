@@ -58,12 +58,6 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
-        $profile = $profile ?: $request->user()->profile;
-
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
         $profile->update($request->validated());
 
         return $profile;

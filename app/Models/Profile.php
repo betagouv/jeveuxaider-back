@@ -25,11 +25,11 @@ class Profile extends Model implements HasMedia
         'first_name',
         'last_name',
         'email',
-        'avatar',
-        'phone',
+        // 'avatar',
+        // 'phone',
         'mobile',
-        'reseau_id',
-        'referent_department',
+        // 'reseau_id',
+        // 'referent_department',
         'birthday',
         'zip'
     ];
@@ -160,6 +160,11 @@ class Profile extends Model implements HasMedia
         return $this->referent_department ? true : false;
     }
 
+    public function isVolontaire()
+    {
+        return true;
+    }
+
     public function isSuperviseur()
     {
         return $this->reseau ? true : false;
@@ -188,6 +193,7 @@ class Profile extends Model implements HasMedia
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'tuteur' => $this->isTuteur(),
+            'volontaire' => $this->isVolontaire(),
         ];
     }
 }
