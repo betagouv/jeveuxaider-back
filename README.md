@@ -66,3 +66,15 @@ scalingo env-set \
   S3_BUCKET=<bucket>
 ```
 
+### Configuration Email
+
+```
+scalingo env-set \
+  MAIL_DRIVER=smtp \
+  MAIL_HOST=<smtp server> \
+  MAIL_PORT=<smtp port> \
+  MAIL_USERNAME=<smtp username> \
+  MAIL_PASSWORD=<smtp password> \
+  MAIL_ENCRYPTION=<null|tls> \
+  MAIL_FROM_ADDRESS=crise@reserve-civique.gouv.fr
+```
