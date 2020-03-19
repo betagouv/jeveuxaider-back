@@ -3,8 +3,7 @@
     <portal to="register-steps-help">
       <p>
         Bienvenue {{ firstName }} ! <br />Commencez par
-        <span class="font-bold">compléter votre profil</span> pour finaliser la
-        création de votre compte de responsable de structure d’accueil SNU.
+        <span class="font-bold">compléter le profil</span> de votre compte Responsable de structure.
       </p>
     </portal>
     <el-steps :active="1" align-center class="p-8 border-b border-b-2">
