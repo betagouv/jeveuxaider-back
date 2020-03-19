@@ -23,7 +23,10 @@
       </el-form-item>
 
       <el-form-item label="Domaine d'action" prop="domaine">
-        <el-select v-model="form.domaine" placeholder="Sélectionnez le domaine d'action">
+        <item-description>
+          Choisissez parmi la liste des missions prioritaires face à la crise
+        </item-description>
+        <el-select v-model="form.domaine" placeholder="Choisir une mission">
           <el-option
             v-for="item in $store.getters.taxonomies.mission_domaines.terms"
             :key="item.value"
@@ -148,6 +151,7 @@
         </el-form-item>
 
         <el-form-item label="Publics volontaires" prop="publics_volontaires">
+          <item-description>Votre mission apparaîtra dans les résultats de recherche lorsqu'un ou plusieurs de ses publics bénéficiaires seront saisis.</item-description>
           <el-select
             v-model="form.publics_volontaires"
             placeholder="Selectionner les publics volontaires"
@@ -203,15 +207,15 @@
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">Responsable de la mission</div>
       <item-description>
-        Sélectionner le responsable qui va s'occuper de la mission. Vous pouvez
-        également
+        Les notifications lors de la prise de contact d'un réserviste concernant cette mission seront envoyées à cette personne.<br>
+        Vous pouvez également
         <span
           class="underline cursor-pointer"
           @click="onAddTuteurLinkClicked"
         >ajouter un nouveau membre</span>
         à votre équipe.
       </item-description>
-      <el-form-item label="Tuteur" prop="tuteur_id" class="flex-1">
+      <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
         <el-select v-model="form.tuteur_id" placeholder="Sélectionner un responsable">
           <el-option
             v-for="item in form.structure.members"
