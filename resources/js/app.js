@@ -22,14 +22,15 @@ import "./plugins/dayjs.js";
 import "./plugins/utils.js";
 
 
-/*
+
 import Vue2Filters from "vue2-filters";
 
+/*
 import "./plugins/sentry.js";
 Vue.config.productionTip = false;
+*/
 
 Vue.use(Vue2Filters);
-*/
 Vue.use(PortalVue);
 
 new Vue({
