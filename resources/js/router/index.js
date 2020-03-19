@@ -167,8 +167,13 @@ export default new Router({
     {
         path: "/dashboard",
         component: LayoutSNU,
-        redirect: "/dashboard/missions",
         children: [
+            {
+                path: "/dashboard",
+                component: () =>
+                  import(/* webpackChunkName: "assets/js/dashboard" */ "@/views/SNU/Dashboard.vue"),
+                name: "Dashboard"
+              },
             {
                 path: "/dashboard/missions",
                 component: () =>

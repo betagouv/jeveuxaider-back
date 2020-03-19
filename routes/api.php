@@ -71,12 +71,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');
-    
+
 
     // STATISTICS
-    // Route::get('statistics/missions', 'Api\StatisticsController@missions');
-    // Route::get('statistics/structures', 'Api\StatisticsController@structures');
-    // Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
+    Route::get('statistics/missions', 'Api\StatisticsController@missions');
+    Route::get('statistics/structures', 'Api\StatisticsController@structures');
+    Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
 });
 
 // ONLY ADMIN
@@ -85,10 +85,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('profile', 'Api\ProfileController@store');
 
     // TRASH
-    // Route::get('trash', 'Api\TrashController@index');
-    // Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
-    // Route::delete('young/{id}/destroy', 'Api\YoungController@destroy');
-    // Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
+    Route::get('trash', 'Api\TrashController@index');
+    Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
+    Route::delete('young/{id}/destroy', 'Api\YoungController@destroy');
+    Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
 
     // RELEASES
     // Route::get('release/{release}', 'Api\ReleaseController@show');
@@ -96,6 +96,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('release/{release}', 'Api\ReleaseController@delete');
 
     // IMPERSONNATE
-    // Route::post('impersonate/{user}', 'Api\UserController@impersonate');
-    // Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
+    Route::post('impersonate/{user}', 'Api\UserController@impersonate');
+    Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
 });

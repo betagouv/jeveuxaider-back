@@ -28,12 +28,6 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'sometimes|required|email|unique:profiles,email,' . $this->id,
-            'first_name' => 'sometimes|required|min:3',
-            'last_name' => 'sometimes|required|min:2',
-            'mobile' => '',
-            'zip' => '',
-            'birthday' => 'required|date|before:-16 years'
         ];
     }
 
@@ -45,12 +39,6 @@ class ProfileRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Un email est requis',
-            'email.unique' => 'Cet email est déjà pris',
-            'first_name.required' => 'Un prénom est requis',
-            'first_name.min' => 'Votre prénom doit contenir au moins :min lettres',
-            'last_name.required' => 'Un nom est requis',
-            'last_name.min' => 'Votre nom doit contenir au moins :min lettres'
         ];
     }
 }
