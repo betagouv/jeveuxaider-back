@@ -5,7 +5,7 @@
         Dites-nous en plus sur votre structure !
         <br />Ces
         <span class="font-bold">informations générales</span> permettront au
-        service référent du SNU de mieux vous connaître.
+        service référent de mieux vous connaître.
       </p>
     </portal>
     <el-steps :active="2" align-center class="p-4 sm:p-8 border-b-2">

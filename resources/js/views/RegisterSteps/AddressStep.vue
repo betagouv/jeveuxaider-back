@@ -5,7 +5,7 @@
         Dites nous plus sur votre structure.<br />
         Merci de
         <span class="font-bold">compléter l'adresse</span>
-        de votre structure d’accueil SNU.
+        de votre structure d’accueil.
       </p>
     </portal>
     <el-steps :active="3" align-center class="p-8 border-b">
