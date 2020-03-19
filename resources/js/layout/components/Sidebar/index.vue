@@ -48,24 +48,13 @@
         @click="handleCollapse"
       ></el-button>
     </div>
-
-    <div class="absolute bottom-0 p-6 flex justify-center">
-      <img
-        src="/images/logo-snu.png"
-        class="mr-4"
-        style="max-width: 40px;"
-      />
-      <div v-if="!isCollapsed && release" class="text-xs">
-        <router-link to="/releases" target="_blank">
-          <div class="text-gray-600">
-            {{ release.title }}
-          </div>
-          <div class="text-gray-800">
-            Nouveautés
-          </div>
-        </router-link>
-      </div>
-    </div>
+    <router-link to="/">
+        <div v-if="!isCollapsed" class="absolute bottom-0 p-6 pb-10 flex justify-center" style="width: 220px;">
+        <img
+            src="/images/logo-reserve-civique_dark.svg"
+        />
+        </div>
+    </router-link>
   </el-aside>
 </template>
 

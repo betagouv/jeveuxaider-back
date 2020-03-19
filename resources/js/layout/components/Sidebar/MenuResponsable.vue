@@ -13,7 +13,7 @@
         <i class="el-icon-data-analysis"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/missions">
+    <el-menu-item index="/dashboard/missions">
       <span v-if="!isCollapsed">Missions</span>
       <el-tooltip
         v-else

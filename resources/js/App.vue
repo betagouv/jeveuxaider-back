@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-full font-sans">
+  <div id="app" v-if="isAppLoaded" class="h-full font-sans">
     <transition name="fade" mode="out-in">
         <router-view />
     </transition>
@@ -7,7 +7,7 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -16,9 +16,14 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters(["profile", "isImpersonating"])
+    ...mapGetters(["profile", "isImpersonating", "isAppLoaded", "isLogged"])
   },
   created() {
+    if(this.isLogged) {
+        this.$store.dispatch("bootstrap");
+    } else {
+        this.$store.commit("setAppLoadingStatus", true);
+    }
       /*
     this.$store.subscribeAction({
       after: action => {

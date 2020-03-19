@@ -16,7 +16,7 @@
 
       <div class="absolute bottom-0 w-full flex flex-col items-center px-4">
         <img
-          src="/images/logo-reserve-civique_dark.svg"
+          src="/images/logo-reserve-civique_light.svg"
           class="mb-8"
           style="max-width: 230px;"
         />
