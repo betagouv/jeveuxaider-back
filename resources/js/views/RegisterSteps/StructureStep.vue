@@ -8,7 +8,7 @@
         service référent du SNU de mieux vous connaître.
       </p>
     </portal>
-    <el-steps :active="2" align-center class="p-8 border-b-2">
+    <el-steps :active="2" align-center class="p-4 sm:p-8 border-b-2">
       <el-step
         title="Profil"
         description="Je complète les informations de mon profil"
@@ -22,41 +22,43 @@
         description="J'enregistre le lieu de mon établissement"
       ></el-step>
     </el-steps>
-    <div class="max-w-lg p-12">
+    <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800">
         Ma structure
       </div>
       <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
         Logo de la structure
       </div>
-      <div class="flex mb-10">
-        <div class="flex-1">
-          <div v-if="logoPreview" class="h-32 w-32 flex items-center">
-            <img :src="logoPreview" alt="Logo" />
-          </div>
-          <div
-            v-else
-            class="default-picture h-32 w-32 font-bold flex items-center justify-center text-white text-2xl bg-primary"
-          >
-            LOGO
-          </div>
-        </div>
-        <div class="ml-8 mb-auto">
-          <el-upload
-            ref="logo"
-            action=""
-            :http-request="uploadLogo"
-            accept="image/*"
-            :before-upload="beforeLogoUpload"
-            :auto-upload="false"
-            :on-change="onChangeLogo"
-          >
-            <el-button>Modifier</el-button>
-            <div slot="tip" class="el-upload__tip text-xs">
-              Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
-              taille maximale de 5 Mo
+      <div class="mb-10">
+        <div class="flex -m-4">
+          <div class="m-4">
+            <div v-if="logoPreview" class="h-32 w-32 flex items-center">
+              <img :src="logoPreview" alt="Logo" />
             </div>
-          </el-upload>
+            <div
+              v-else
+              class="default-picture h-32 w-32 font-bold flex items-center justify-center text-white text-2xl bg-primary"
+            >
+              LOGO
+            </div>
+          </div>
+          <div class="m-4">
+            <el-upload
+              ref="logo"
+              action=""
+              :http-request="uploadLogo"
+              accept="image/*"
+              :before-upload="beforeLogoUpload"
+              :auto-upload="false"
+              :on-change="onChangeLogo"
+            >
+              <el-button>Modifier</el-button>
+              <div slot="tip" class="el-upload__tip text-xs">
+                Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
+                taille maximale de 5 Mo
+              </div>
+            </el-upload>
+          </div>
         </div>
       </div>
       <el-form
@@ -64,12 +66,9 @@
         :model="form"
         label-position="top"
         :rules="rules"
+        class="max-w-lg"
       >
-        <el-form-item
-          label="Nom de votre structure"
-          prop="name"
-          class="flex-1 mr-2"
-        >
+        <el-form-item label="Nom de votre structure" prop="name">
           <el-input v-model="form.name" placeholder="Nom de votre structure" />
         </el-form-item>
         <el-form-item label="Statut juridique" prop="statut_juridique">
@@ -182,24 +181,33 @@
           />
         </el-form-item>
 
-        <div class="flex">
+        <div class="flex flex-wrap -m-2">
           <el-form-item
             label="Site Internet"
             prop="website"
-            class="flex-1 mr-2"
+            class="w-full sm:w-1/2 p-2"
           >
             <el-input v-model="form.website" placeholder="http://" />
           </el-form-item>
-          <el-form-item label="Facebook" prop="facebok" class="flex-1 ml-2">
+          <el-form-item
+            label="Facebook"
+            prop="facebok"
+            class="w-full sm:w-1/2 p-2"
+          >
             <el-input v-model="form.facebook" placeholder="http://" />
           </el-form-item>
-        </div>
-
-        <div class="flex">
-          <el-form-item label="Twitter" prop="twitter" class="flex-1 mr-2">
+          <el-form-item
+            label="Twitter"
+            prop="twitter"
+            class="w-full sm:w-1/2 p-2"
+          >
             <el-input v-model="form.twitter" placeholder="http://" />
           </el-form-item>
-          <el-form-item label="Instagram" prop="instagram" class="flex-1 ml-2">
+          <el-form-item
+            label="Instagram"
+            prop="instagram"
+            class="w-full sm:w-1/2 p-2"
+          >
             <el-input v-model="form.instagram" placeholder="http://" />
           </el-form-item>
         </div>
@@ -346,3 +354,12 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+::v-deep .el-step__description
+    @apply hidden
+    @screen sm
+        @apply block
+::v-deep .el-upload-list__item-name
+    @apply hidden
+</style>
