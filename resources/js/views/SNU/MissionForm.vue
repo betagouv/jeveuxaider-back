@@ -25,12 +25,22 @@
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item v-if="form.structure" label="Ma structure" class>
-        <el-input v-model="form.structure.name" placeholder="Structure de la mission" disabled />
+        <el-input
+          v-model="form.structure.name"
+          placeholder="Structure de la mission"
+          disabled
+        />
       </el-form-item>
 
       <el-form-item label="Domaine d'action" prop="name">
-        <item-description>Choisissez parmi la liste des missions prioritaires face à la crise</item-description>
-        <el-select v-model="form.name" placeholder="Choisir un domaine d'action">
+        <item-description
+          >Choisissez parmi la liste des missions prioritaires face à la
+          crise</item-description
+        >
+        <el-select
+          v-model="form.name"
+          placeholder="Choisir un domaine d'action"
+        >
           <el-option
             v-for="item in $store.getters.taxonomies.mission_domaines.terms"
             :key="item.value"
@@ -72,7 +82,10 @@
       </el-form-item>
 
       <el-form-item label="Format de mission" prop="format">
-        <el-select v-model="form.format" placeholder="Selectionner un format de mission">
+        <el-select
+          v-model="form.format"
+          placeholder="Selectionner un format de mission"
+        >
           <el-option
             v-for="item in $store.getters.taxonomies.mission_formats.terms"
             :key="item.value"
@@ -205,7 +218,9 @@
         </el-form-item>
       </div>
 
-      <div class="mt-12 mb-6 flex text-xl text-gray-800">La localisation des publics bénéficiaires</div>
+      <div class="mt-12 mb-6 flex text-xl text-gray-800">
+        La localisation des publics bénéficiaires
+      </div>
 
       <el-form-item label="Département" prop="department">
         <el-select
@@ -251,12 +266,12 @@
         Responsable de la mission
       </div>
       <item-description>
-        Les notifications lors de la prise de contact d'un réserviste concernant cette mission seront envoyées à cette personne.
+        Les notifications lors de la prise de contact d'un réserviste concernant
+        cette mission seront envoyées à cette personne.
         <br />Vous pouvez également
-        <span
-          class="underline cursor-pointer"
-          @click="onAddTuteurLinkClicked"
-        >ajouter un nouveau membre</span>
+        <span class="underline cursor-pointer" @click="onAddTuteurLinkClicked"
+          >ajouter un nouveau membre</span
+        >
         à votre équipe.
       </item-description>
       <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
@@ -475,7 +490,7 @@ export default {
             addMission(this.structureId, this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.go(-1);
+                this.$router.push(`/dashboard/missions`);
                 this.$message({
                   message: "La mission a été ajoutée !",
                   type: "success"
