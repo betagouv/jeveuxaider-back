@@ -49,7 +49,7 @@ class ProfileUpdateRequest extends ProfileRequest
         ];
     }
 
-        /**
+    /**
      * Get the validation messages that apply to the request.
      *
      * @return array
