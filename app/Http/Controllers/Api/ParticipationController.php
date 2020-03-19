@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\ParticipationsExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Participation;
 use Spatie\QueryBuilder\QueryBuilder;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Filters\FiltersProfileSearch;
+use App\Filters\FiltersParticipationSearch;
+use App\Http\Requests\Api\ParticipationCreateRequest;
+use App\Http\Requests\Api\ParticipationUpdateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class ParticipationController extends Controller
@@ -16,7 +19,8 @@ class ParticipationController extends Controller
     {
         return QueryBuilder::for(Participation::role($request->header('Context-Role')))
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersProfileSearch)
+                AllowedFilter::custom('search', new FiltersParticipationSearch),
+                'state'
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))

@@ -440,9 +440,16 @@ export default {
         this.rules.address[0].required = false;
         this.rules.city[0].required = false;
       } else {
-        alert(
-          "Merci de bien respecter les règles de sécurités pour les missions en présentiel !"
+        this.$confirm(
+          "Merci de bien respecter les règles de sécurités pour les missions en présentiel !",
+          "Confirmation",
+          {
+            confirmButtonText: "Je confirme",
+            cancelButtonText: "Annuler",
+            type: "warning"
+          }
         );
+
         this.rules.address[0].required = true;
         this.rules.city[0].required = true;
       }

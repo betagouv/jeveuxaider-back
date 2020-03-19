@@ -4,10 +4,16 @@
       <div class="card-label">Statut</div>
       <div class="text-gray-900 flex-1">{{ mission.state }}</div>
     </div>
+    <div v-if="mission.type" class="mb-2 flex">
+      <div class="card-label">Type</div>
+      <div class="text-gray-900 flex-1">
+        {{ mission.type }}
+      </div>
+    </div>
     <div v-if="mission.format" class="mb-2 flex">
       <div class="card-label">Format</div>
       <div class="text-gray-900 flex-1">
-        {{ mission.format | labelFromValue("mission_formats") }}
+        {{ mission.format }}
       </div>
     </div>
     <div v-if="mission.start_date" class="mb-2 flex">
@@ -46,58 +52,16 @@
         </div>
       </div>
     </template>
-    <div v-if="mission.domaines.length > 0" class="mb-2 flex">
-      <div class="card-label">Domaines</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.domaines.join(", ") }}
-      </div>
-    </div>
     <div v-if="mission.participations_max" class="mb-2 flex">
       <div class="card-label">Max.</div>
       <div class="text-gray-900 flex-1">
         {{ mission.participations_max }}
       </div>
     </div>
-    <div v-if="mission.frequence" class="mb-2 flex">
-      <div class="card-label">Fréquence</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.frequence }}
-      </div>
-    </div>
-    <div v-if="mission.periodes.length > 0" class="mb-2 flex">
-      <div class="card-label">Périodes</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.periodes.join(", ") }}
-      </div>
-    </div>
     <div v-if="mission.description" class="mb-2 flex">
       <div class="card-label">Détails</div>
       <div class="text-gray-900 flex-1">
         {{ mission.description }}
-      </div>
-    </div>
-    <div v-if="mission.actions" class="mb-2 flex">
-      <div class="card-label">Actions</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.actions }}
-      </div>
-    </div>
-    <div v-if="mission.justifications" class="mb-2 flex">
-      <div class="card-label">MIG</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.justifications }}
-      </div>
-    </div>
-    <div v-if="mission.contraintes" class="mb-2 flex">
-      <div class="card-label">Contraintes</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.contraintes }}
-      </div>
-    </div>
-    <div v-if="mission.handicap" class="mb-2 flex">
-      <div class="card-label">Handicap</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.handicap }}
       </div>
     </div>
   </div>
