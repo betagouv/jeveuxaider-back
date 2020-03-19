@@ -4,7 +4,7 @@
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap items-center justify-center md:h-16 border-b border-blue-800">
           <div class="flex-shrink-0 my-4 md:my-0 order-1">
-            <router-link to="/">
+            <router-link :to="{name: 'Homepage'}">
               <img class="h-6" src="/images/logo-reserve-civique_light.svg" alt="Réserve Civique" />
             </router-link>
           </div>

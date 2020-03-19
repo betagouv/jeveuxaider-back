@@ -46,6 +46,7 @@ export default new Router({
       path: "/",
       name: "Homepage",
       component: FrontHomepage,
+      meta: { requiresAnonymous: true }
     },
     {
       path: "/regles-de-securite",
@@ -203,17 +204,18 @@ export default new Router({
     },
     {
       path: '/user/profile',
-      component: FrontProfile
-
+      component: FrontProfile,
+      name: 'FrontProfile'
     },
     {
       path: '/user/settings',
-      component: FrontSettings
-
+      component: FrontSettings,
+      name: 'FrontSettings'
       },
     {
       path: '/missions',
-      component: FrontMissions
+      component: FrontMissions,
+      name: 'FrontMissions'
     },
     {
       path: "/missions/:id",
@@ -223,7 +225,7 @@ export default new Router({
         ),
       name: "Mission"
     },
-    { path: "/403", component: Forbidden },
-    { path: "*", component: NotFound }
+    { path: "/403", component: Forbidden, name: 'Forbidden' },
+    { path: "*", component: NotFound , name: 'NotFound' }
   ]
 });
