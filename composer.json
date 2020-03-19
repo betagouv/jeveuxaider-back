@@ -80,8 +80,8 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-install-cmd": [
-            "if [ -n \"$OAUTH_PUBLIC_KEY\" ] ; then echo \"$OAUTH_PUBLIC_KEY\" > storage/oauth-public.key ; fi",
-            "if [ -n \"$OAUTH_PRIVATE_KEY\" ] ; then echo \"$OAUTH_PRIVATE_KEY\" > storage/oauth-private.key ; fi"
+            "if [ -n \"$OAUTH_PUBLIC_KEY\" ] ; then echo \"$OAUTH_PUBLIC_KEY\" | base64 -d > storage/oauth-public.key ; fi",
+            "if [ -n \"$OAUTH_PRIVATE_KEY\" ] ; then echo \"$OAUTH_PRIVATE_KEY\" | base64 -d > storage/oauth-private.key ; fi"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
