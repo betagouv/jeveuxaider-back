@@ -359,7 +359,7 @@
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
-                    <b>Au moindres doute d’infection</b>, sans attendre,
+                    <b>Au moindre doute d’infection</b>, sans attendre,
                     j’informe l’association et je reste chez moi.
                   </h5>
                 </div>
