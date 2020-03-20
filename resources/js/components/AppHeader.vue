@@ -27,7 +27,7 @@
               >
 
               <router-link
-                v-if="$store.getters.isLogged"
+                v-if="$store.getters.isLogged && $store.getters.noRole === true"
                 to="/user/missions"
                 :class="{
                   'bg-blue-700': isCurrentPath('/user/missions')
