@@ -22,6 +22,7 @@ import BrowserOutdated from "@/views/BrowserOutdated.vue";
 import FrontHomepage from "@/views/Front/Homepage";
 import FrontAbout from "@/views/Front/About";
 import FrontSecurityRules from "@/views/Front/SecurityRules";
+import FrontPolitiqueConfidentialite from "@/views/Front/PolitiqueConfidentialite";
 import FrontProfile from "@/views/Front/Profile";
 import FrontSettings from "@/views/Front/Settings";
 import FrontUserMissions from "@/views/Front/UserMissions";
@@ -46,6 +47,11 @@ export default new Router({
             path: "/regles-de-securite",
             name: "SecurityRules",
             component: FrontSecurityRules,
+        },
+        {
+            path: "/politique-de-confidentialite",
+            name: "PolitiqueConfidentialite",
+            component: FrontPolitiqueConfidentialite,
         },
         {
             path: "/a-propos",
