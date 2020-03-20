@@ -10,7 +10,7 @@
                 <div class="pt-10">
                     <h1 class="text-3xl font-bold text-white">Missions disponibles</h1>
                 </div>
-                <ais-search-box />
+                <ais-search-box v-if="missionsAreReady" />
             </div>
         </div>
 
@@ -19,13 +19,14 @@
             <div
             class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
             >
-                <ais-hits>
+                Missions en cours de validation...
+                <ais-hits v-if="missionsAreReady">
                     <div slot="item" slot-scope="{ item }">
                         <h2>{{ item.name }}</h2>
                     </div>
                 </ais-hits>
 
-                <div class="pagination"><ais-pagination /></div>
+                <div class="pagination"><ais-pagination v-if="missionsAreReady" /></div>
 
             </div>
         </div>
@@ -50,6 +51,7 @@ export default {
     },
    data() {
     return {
+        missionsAreReady: false,
       searchClient: algoliasearch(
         process.env.MIX_ALGOLIA_APP_ID,
         process.env.MIX_ALGOLIA_SEARCH_KEY
