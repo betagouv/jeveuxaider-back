@@ -45,7 +45,7 @@
             <span
               class="uppercase font-light text-xxs"
             >Je suis une structure publique ou associative</span>
-            <span class="text-lg font-bold">J'ai besoin de volontaires</span>
+            <span class="text-lg font-bold">Proposer une mission</span>
           </router-link>
           <router-link
             to="/register/volontaire"
@@ -207,7 +207,7 @@
             ou dans votre rue.
           </p>
           <div class="py-3">
-            <a href="#" class="btn-secondary">Télécharger le kit de solidarité de proximité</a>
+            <a href="/files/Kit-Coronavirus-1.zip" target="_blank" class="btn-secondary">Télécharger le kit de solidarité de proximité</a>
           </div>
         </div>
       </div>

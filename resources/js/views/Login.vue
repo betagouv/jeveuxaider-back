@@ -123,11 +123,21 @@ export default {
               password: this.form.password
             })
             .then(() => {
-              if (this.$store.getters.noRole === true) {
+
+              console.log('noRole',this.$store.getters.noRole)
+              if (
+                this.$store.getters.noRole === true &&
+                this.$store.getters.contextRole != "volontaire"
+              ) {
                 this.$router.push("/register/step/norole");
+              }
+
+              if (this.$store.getters.noRole === false) {
+                this.$router.push("/dashboard");
               } else {
                 this.$router.push("/missions");
               }
+
             })
             .catch(() => {
               this.loading = false;
