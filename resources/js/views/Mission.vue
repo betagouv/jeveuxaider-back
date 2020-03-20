@@ -252,7 +252,6 @@
       </div>
     </div>
 
-    <!-- @TODO Dynamiquement -->
     <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
       <div class="bg-white shadow overflow-hidden rounded-lg">
         <div class="bg-white px-4 py-3 flex items-center justify-between sm:px-6">
@@ -323,7 +322,11 @@
                       <div class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500">
                         <span
                           class="px-3 inline-flex text-s leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                        >{{ mission.participations_max }} volontaires</span>
+                        >{{ mission.participations_max }}
+                  {{
+                  mission.participations_max
+                  | pluralize(["volontaire", "volontaires"])
+                  }}</span>
                       </div>
                     </div>
                   </div>
