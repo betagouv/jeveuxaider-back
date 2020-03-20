@@ -151,7 +151,7 @@
                 </div>
               </div>
 
-              <div class="mt-16">
+              <!-- <div class="mt-16">
                 <div class="flex items-center">
                   <h4
                     class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
@@ -185,7 +185,7 @@
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
 
               <div class="mt-16">
                 <div class="flex items-center">
