@@ -18,10 +18,14 @@ use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StructuresExport;
+use Illuminate\Support\Facades\Auth;
+use App\Filters\FiltersMissionCeu;
+use App\Filters\FiltersMissionSearch;
+use App\Filters\FiltersMissionLieu;
+use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Models\Mission;
-use Illuminate\Support\Facades\Auth;
 
 class StructureController extends Controller
 {
@@ -44,6 +48,23 @@ class StructureController extends Controller
     }
 
     public function missions(StructureRequest $request, Structure $structure)
+    {
+        return QueryBuilder::for(Mission::class)
+            ->allowedFilters([
+                'domaines',
+                'state',
+                'format',
+                AllowedFilter::custom('ceu', new FiltersMissionCeu),
+                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::custom('lieu', new FiltersMissionLieu),
+                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+            ])
+            ->where('structure_id', $structure->id)
+            ->defaultSort('-updated_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
+    public function availableMissions(Structure $structure)
     {
         return QueryBuilder::for(Mission::class)
             ->available()

@@ -349,7 +349,7 @@
 
 <script>
 import { getMission } from "@/api/mission";
-import { fetchStructureMissions } from "@/api/structure";
+import { fetchStructureAvailableMissions } from "@/api/structure";
 
 export default {
   name: "Mission",
@@ -378,7 +378,7 @@ export default {
         this.form = response.data;
         this.mission = { ...response.data };
         this.$store.commit("setLoading", false);
-        fetchStructureMissions(this.mission.structure.id)
+        fetchStructureAvailableMissions(this.mission.structure.id)
           .then(response => {
             this.otherMissions = { ...response.data };
           })
