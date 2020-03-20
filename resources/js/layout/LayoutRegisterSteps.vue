@@ -19,10 +19,7 @@
       <div
         class="flex sm:flex-col sm:flex-none items-center lg:mt-auto w-full sm:w-auto lg:w-full p-4 order-1 lg:order-2"
       >
-        <img
-          src="/images/logo-reserve-civique_light.svg"
-          class="logo sm:mb-2 lg:mb-8"
-        />
+        <img src="/images/logo-rf-rc.png" class="logo sm:mb-2 lg:mb-8" />
         <div
           class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t "
         >
@@ -66,15 +63,15 @@ export default {
 
 <style lang="sass" scoped>
 .aside
-    @screen lg
-        position: fixed
-        max-width: 390px
-        min-height: 100vh
+  @screen lg
+    position: fixed
+    max-width: 390px
+    min-height: 100vh
 .main-content
-    @screen lg
-        margin-left: 390px
+  @screen lg
+    margin-left: 390px
 .logo
-    width: 150px
-    @screen lg
-        max-width: 230px
+  width: 150px
+  @screen lg
+    max-width: 230px
 </style>

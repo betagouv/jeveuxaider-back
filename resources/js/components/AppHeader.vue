@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="bg-blue-900">
+    <div :class="background">
       <div class="container mx-auto px-4">
         <div
           class="flex flex-wrap items-center justify-center md:h-16 border-b border-blue-800"
@@ -9,7 +9,7 @@
             <router-link :to="{ name: 'Homepage' }">
               <img
                 class="h-6"
-                src="/images/logo-reserve-civique_light.svg"
+                src="/images/logo-rf-rc.png"
                 alt="Réserve Civique"
               />
             </router-link>
@@ -75,6 +75,12 @@
 <script>
 export default {
   name: "AppHeader",
+  props: {
+    background: {
+      type: String,
+      default: "bg-blue-900"
+    }
+  },
   methods: {
     isCurrentPath(path) {
       return window.location.pathname === path;

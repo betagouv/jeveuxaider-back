@@ -7,7 +7,7 @@
             <router-link to="/">
               <img
                 class="mx-auto lg:mx-0"
-                src="/images/logo-reserve-civique_light.svg"
+                src="/images/logo-rf-rc.png"
                 alt=""
                 style="height: 30px;"
               />
