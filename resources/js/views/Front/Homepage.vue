@@ -214,8 +214,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
       >
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
-            Votre structure est engagée dans la crise sanitaire face au Covid 19
-            et vous avez besoin de volontaires&nbsp;?
+            Face à la crise sanitaire du Covid 19, votre structure a besoin de renforts&nbsp;?
           </h2>
           <p class="py-3 text-gray-600 text-lg">
             Publiez une offre de mission pour que des citoyens viennent vous
@@ -356,7 +355,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
                 </div>
               </div>
             </li>
-            <li class="mt-10 md:mt-0">
+            <!-- <li class="mt-10 md:mt-0">
               <div class="flex">
                 <div class="flex-shrink-0">
                   <div
@@ -373,14 +372,14 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
                   </h5>
                 </div>
               </div>
-            </li>
+            </li> -->
             <li class="mt-10 md:mt-0">
               <div class="flex">
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
                   >
-                    5
+                    4
                   </div>
                 </div>
                 <div class="ml-4">
@@ -397,7 +396,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
                   <div
                     class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
                   >
-                    6
+                    5
                   </div>
                 </div>
                 <div class="ml-4">

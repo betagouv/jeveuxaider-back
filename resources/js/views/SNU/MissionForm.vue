@@ -289,18 +289,18 @@
       </el-form-item>
       <div class="flex pt-2">
         <el-button
-          :type="!showAskValidation ? 'primary' : ''"
+          type="primary"
           :loading="loading"
           @click="onSubmit"
-          >Enregistrer</el-button
+          >Enregistrer et proposer la mission</el-button
         >
-        <el-button
+        <!-- <el-button
           v-if="showAskValidation"
           type="primary"
           :loading="loading"
           @click="onAskValidationSubmit"
           >Enregistrer et proposer la mission</el-button
-        >
+        > -->
       </div>
     </el-form>
   </div>
@@ -333,7 +333,7 @@ export default {
       loading: false,
       mission: {},
       form: {
-        state: "Brouillon",
+        state: "Validée",
         participations_max: 1
       },
       rules: {
