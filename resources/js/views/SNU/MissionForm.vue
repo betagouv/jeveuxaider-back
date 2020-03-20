@@ -358,6 +358,13 @@ export default {
             trigger: "blur"
           }
         ],
+        periodicite: [
+          {
+            required: true,
+            message: "Veuillez choisir une périodicité",
+            trigger: "blur"
+          }
+        ],
         publics_beneficiaires: [
           {
             required: true,
