@@ -196,7 +196,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="Publics volontaires" prop="publics_volontaires">
+        <!-- <el-form-item label="Publics volontaires" prop="publics_volontaires">
           <item-description
             >Votre mission apparaîtra dans les résultats de recherche lorsqu'un
             ou plusieurs de ses publics bénéficiaires seront
@@ -215,7 +215,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </div>
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
@@ -372,13 +372,13 @@ export default {
             trigger: "blur"
           }
         ],
-        publics_volontaires: [
-          {
-            required: true,
-            message: "Veuillez choisir au moins un public volontaire",
-            trigger: "blur"
-          }
-        ],
+        // publics_volontaires: [
+        //   {
+        //     required: true,
+        //     message: "Veuillez choisir au moins un public volontaire",
+        //     trigger: "blur"
+        //   }
+        // ],
         description: [
           {
             required: true,
