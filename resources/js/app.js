@@ -6,6 +6,11 @@ import "./plugins/element.js";
 import store from "./store";
 import "./router/permission";
 import PortalVue from "portal-vue";
+import "./plugins/sentry.js";
+import Bowser from "bowser";
+import "./plugins/dayjs.js";
+import "./plugins/utils.js";
+import Vue2Filters from "vue2-filters";
 
 import AppHeader from "@/components/AppHeader"
 import AppFooter from "@/components/AppFooter"
@@ -17,14 +22,8 @@ Vue.component('AppFooter', AppFooter);
 Vue.component('DropdownUser', DropdownUser);
 Vue.component('VClamp', VClamp);
 
-import Bowser from "bowser";
-import "./plugins/dayjs.js";
-import "./plugins/utils.js";
-import Vue2Filters from "vue2-filters";
 
-/*
-import "./plugins/sentry.js";
-*/
+
 
 Vue.use(Vue2Filters);
 Vue.use(PortalVue);

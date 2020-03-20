@@ -1,12 +1,12 @@
 import Vue from "vue";
-import * as Sentry from "@sentry/browser";
-import * as Integrations from "@sentry/integrations";
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
 import store from "../store";
 
-if (process.env.VUE_APP_SENTRY_DSN) {
+if (process.env.MIX_SENTRY_DSN) {
   Sentry.init({
     environment: process.env.NODE_ENV,
-    dsn: process.env.VUE_APP_SENTRY_DSN,
+    dsn: process.env.MIX_SENTRY_DSN,
     integrations: [
       new Integrations.Vue({ Vue, attachProps: true, logErrors: true })
     ]
@@ -27,7 +27,3 @@ if (process.env.VUE_APP_SENTRY_DSN) {
     });
   }
 }
-/* pour tester
-Sentry.captureMessage("Something went wrong");
-myUndefinedFunction();
-*/
