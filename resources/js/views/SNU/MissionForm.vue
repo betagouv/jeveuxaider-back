@@ -13,7 +13,7 @@
     </template>
     <template v-else>
       <div class="text-m text-gray-600 uppercase">Mission</div>
-      <div class="mb-12 font-bold text-2xl text-gray-800">Création</div>
+      <div class="mb-12 font-bold text-2xl text-gray-800">Création d'une nouvelle mission</div>
     </template>
     <el-form
       ref="missionForm"

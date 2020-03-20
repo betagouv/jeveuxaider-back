@@ -100,7 +100,7 @@ class Mission extends Model
 
     public function tuteur()
     {
-        return $this->belongsTo('App\Models\Profile');
+        return $this->belongsTo('App\Models\Profile')->without('structures');
     }
 
     public function participations()
