@@ -214,8 +214,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
       >
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
-            Votre structure est engagée dans la crise sanitaire face au Covid 19
-            et vous avez besoin de volontaires&nbsp;?
+            Face à la crise sanitaire du Covid 19, votre structure a besoin de renforts&nbsp;?
           </h2>
           <p class="py-3 text-gray-600 text-lg">
             Publiez une offre de mission pour que des citoyens viennent vous
