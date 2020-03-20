@@ -77,14 +77,24 @@
 
     <div class="container mx-auto px-4">
       <div class="py-8 md:py-16 max-w-4xl mx-auto">
-        <div class="text-md sm:text-md lg:text-xl text-gray-900 text-center italic">
-          « Jamais de telles épreuves ne se surmontent en solitaire. C’est au contraire en solidaires, en disant « nous » plutôt qu’en pensant « je » que nous révélerons cet immense défi. »
+        <div
+          class="text-md sm:text-md lg:text-xl text-gray-900 text-center italic"
+        >
+          «&nbsp;Jamais de telles épreuves ne se surmontent en solitaire. C’est
+          au contraire en solidaires, en disant «&nbsp;nous&nbsp;» plutôt qu’en
+          pensant «&nbsp;je&nbsp;» que nous relèverons cet immense défi.&nbsp;»
         </div>
         <div class="text-md text-center text-gray-900">
           Emmanuel Macron, Président de la République, 12 mars 2020
         </div>
         <div class="mt-8 text-lg sm:text-xxl lg:text-2xl text-gray-900">
-Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l’âme, habitué depuis toujours des missions associatives. Ou que l’on ait à cœur, pour la première fois, de donner un peu de temps et d’énergie. Parce que cette guerre sanitaire est sans précédent, parce qu’elle nous concerne toutes et tous et parce que nous voulons la gagner. Ensemble.        </div>
+          Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans
+          l’âme, habitué depuis toujours des missions associatives. Ou que l’on
+          ait à cœur, pour la première fois, de donner un peu de temps et
+          d’énergie. Parce que cette guerre sanitaire est sans précédent, parce
+          qu’elle nous concerne toutes et tous et parce que nous voulons la
+          gagner. Ensemble.
+        </div>
         <div class="text-2xl font-bold">#jeveuxaider</div>
       </div>
     </div>
@@ -214,7 +224,8 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
       >
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
-            Face à la crise sanitaire du Covid 19, votre structure a besoin de renforts&nbsp;?
+            Face à la crise sanitaire du Covid 19, votre structure a besoin de
+            renforts&nbsp;?
           </h2>
           <p class="py-3 text-gray-600 text-lg">
             Publiez une offre de mission pour que des citoyens viennent vous
