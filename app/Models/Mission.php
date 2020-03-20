@@ -83,6 +83,22 @@ class Mission extends Model
         return config('scout.prefix').'_covid_missions';
     }
 
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'city' => $this->city,
+            'department' => $this->department,
+            'periodicite' => $this->periodicite,
+            'participations_max' => $this->participations_max,
+            'structure' => $this->structure ? [
+                'id' => $this->structure->id,
+                'name' => $this->structure->name,
+            ] : null
+        ];
+    }
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = Utils::ucfirst($value);
