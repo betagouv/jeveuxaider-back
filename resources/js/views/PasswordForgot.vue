@@ -2,13 +2,23 @@
   <div class="mx-auto w-full" style="max-width: 390px;">
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+        <img
+          class="h-8 w-auto"
+          src="/images/logo-rf-rc-dark.png"
+          alt="Réserve Civique"
+        />
       </router-link>
-      <h2 v-if="!submitted" class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+      <h2
+        v-if="!submitted"
+        class="mt-8 text-3xl leading-tight font-extrabold text-gray-900"
+      >
         Réinitialisation du
         <span class="text-blue-800">mot de passe</span>
       </h2>
-      <h2 v-else class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+      <h2
+        v-else
+        class="mt-8 text-3xl leading-tight font-extrabold text-gray-900"
+      >
         Email
         <span class="text-blue-800">envoyé</span>
       </h2>
@@ -16,8 +26,8 @@
     <div class="mt-8 border-t border-gray-200 pt-8"></div>
     <div v-if="!submitted">
       <div class="mb-6 text-sm">
-        Pour réinitialiser votre mot de passe, entrez l'adresse mail que
-        vous avez utilisée pour vous connecter à la plateforme
+        Pour réinitialiser votre mot de passe, entrez l'adresse mail que vous
+        avez utilisée pour vous connecter à la plateforme
       </div>
       <el-form
         ref="forgotPasswordForm"
@@ -38,7 +48,8 @@
             @click="onSubmit"
             style="height: 48px;"
             class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >Réinitialiser mon mot de passe</el-button>
+            >Réinitialiser mon mot de passe</el-button
+          >
         </span>
       </div>
       <div class="mt-6">
@@ -56,7 +67,9 @@
               <button
                 type="submit"
                 class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-              >J'ai déjà un compte</button>
+              >
+                J'ai déjà un compte
+              </button>
             </span>
           </router-link>
         </div>

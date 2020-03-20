@@ -2,16 +2,22 @@
   <div class="register mx-auto w-full" style="max-width: 620px;">
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+        <img
+          class="h-8 w-auto"
+          src="/images/logo-rf-rc-dark.png"
+          alt="Réserve Civique"
+        />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
-        Invitation à rejoindre la 
+        Invitation à rejoindre la
         <span class="text-blue-800">Réserve Civique</span>
       </h2>
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8"></div>
     <div>
-      <h3 class="text-lg font-medium text-gray-900">Engagez-vous dans la lutte contre l’épidémie</h3>
+      <h3 class="text-lg font-medium text-gray-900">
+        Engagez-vous dans la lutte contre l’épidémie
+      </h3>
       <p class="mt-1 text-sm text-gray-500">
         <router-link to="/regles-de-securite">
           Cet engagement nécessite un respect strict des règles sanitaires
@@ -28,16 +34,36 @@
       class="mt-6"
     >
       <div class="flex flex-wrap -m-2">
-        <el-form-item label="Prénom" prop="first_name" class="w-full sm:w-1/2 p-2">
-          <el-input v-model="form.first_name" placeholder="Prénom" :disabled="disableFields" />
+        <el-form-item
+          label="Prénom"
+          prop="first_name"
+          class="w-full sm:w-1/2 p-2"
+        >
+          <el-input
+            v-model="form.first_name"
+            placeholder="Prénom"
+            :disabled="disableFields"
+          />
         </el-form-item>
         <el-form-item label="Nom" prop="last_name" class="w-full sm:w-1/2 p-2">
-          <el-input v-model="form.last_name" placeholder="Nom" :disabled="disableFields" />
+          <el-input
+            v-model="form.last_name"
+            placeholder="Nom"
+            :disabled="disableFields"
+          />
         </el-form-item>
         <el-form-item label="E-mail" prop="email" class="w-full p-2">
-          <el-input v-model="form.email" placeholder="E-mail" :disabled="disableFields" />
+          <el-input
+            v-model="form.email"
+            placeholder="E-mail"
+            :disabled="disableFields"
+          />
         </el-form-item>
-        <el-form-item label="Mot de passe" prop="password" class="w-full sm:w-1/2 p-2">
+        <el-form-item
+          label="Mot de passe"
+          prop="password"
+          class="w-full sm:w-1/2 p-2"
+        >
           <el-input
             v-model="form.password"
             placeholder="Choisissez votre mot de passe"
@@ -65,7 +91,8 @@
           @click="onSubmit"
           style="height: 48px;"
           class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-        >Je m'inscris</el-button>
+          >Je m'inscris</el-button
+        >
       </span>
     </div>
   </div>

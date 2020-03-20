@@ -49,11 +49,13 @@
       ></el-button>
     </div>
     <router-link to="/">
-        <div v-if="!isCollapsed" class="absolute bottom-0 p-6 pb-10 flex justify-center mb-4" style="width: 220px;">
-        <img
-            src="/images/logo-reserve-civique_dark.svg"
-        />
-        </div>
+      <div
+        v-if="!isCollapsed"
+        class="absolute bottom-0 p-6 pb-10 flex justify-center mb-4"
+        style="width: 220px;"
+      >
+        <img src="/images/logo-rf-rc-dark.png" />
+      </div>
     </router-link>
   </el-aside>
 </template>

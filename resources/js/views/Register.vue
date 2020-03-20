@@ -4,7 +4,7 @@
       <router-link to="/">
         <img
           class="h-8 w-auto"
-          src="/images/logo-reserve-civique_dark.svg"
+          src="/images/logo-rf-rc-dark.png"
           alt="Réserve Civique"
         />
       </router-link>
