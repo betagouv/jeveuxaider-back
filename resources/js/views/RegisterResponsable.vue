@@ -56,6 +56,11 @@
             show-password
           />
         </el-form-item>
+         <el-form-item class="-mb-3 py-4" prop="confidentialite">
+            <el-checkbox v-model="form.confidentialite">
+                J'accepte la <router-link to="/politique-de-confidentialite" target="_blank" class="underline">politique de confidentialité</router-link>
+            </el-checkbox>
+          </el-form-item>
       </div>
     </el-form>
     <div class="mt-8 sm:col-span-">
@@ -97,6 +102,13 @@
 export default {
   name: "RegisterVolontaire",
   data() {
+    var validateConfidentialite = (rule, value, callback) => {
+      if (this.form.confidentialite === false) {
+        callback(new Error("Merci d'accepter la politique de confidentialité"));
+      } else {
+        callback();
+      }
+    };
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
         callback(new Error("Les mots de passe ne sont pas identiques"));
@@ -111,7 +123,8 @@ export default {
         email: "",
         first_name: "",
         last_name: "",
-        password: ""
+        password: "",
+        confidentialite: false
       },
       rules: {
         email: [
@@ -152,7 +165,8 @@ export default {
             trigger: "blur"
           }
         ],
-        password_confirmation: [{ validator: validatePass2, trigger: "blur" }]
+        password_confirmation: [{ validator: validatePass2, trigger: "blur" }],
+        confidentialite: [{ validator: validateConfidentialite, trigger: "blur" }],
       }
     };
   },
