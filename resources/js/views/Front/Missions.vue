@@ -199,7 +199,7 @@ export default {
   },
   data() {
     return {
-      missionsAreReady: false,
+      missionsAreReady: true,
       searchClient: algoliasearch(
         process.env.MIX_ALGOLIA_APP_ID,
         process.env.MIX_ALGOLIA_SEARCH_KEY
