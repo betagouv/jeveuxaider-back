@@ -12,7 +12,7 @@
             </div>
             <div id="menu-footer" class="lg:flex lg:flex-1 lg:justify-around mt-8 lg:mt-0">
                 <div class="lg:max-w-1/4 text-white">
-                    <router-link class="block p-3 hover:underline" to="/a-propos">A propos</router-link>
+                    <!-- <router-link class="block p-3 hover:underline" to="/a-propos">A propos</router-link> -->
                     <router-link class="block p-3 hover:underline" to="/regles-de-securite">Règles de sécurité</router-link>
                 </div>
                 <div class="lg:max-w-1/4 text-white">
