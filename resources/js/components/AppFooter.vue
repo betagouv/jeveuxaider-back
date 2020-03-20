@@ -7,7 +7,7 @@
             <router-link to="/">
               <img
                 class="mx-auto lg:mx-0"
-                src="/images/logo-reserve-civique_light.svg"
+                src="/images/logo-rf-rc.png"
                 alt=""
                 style="height: 30px;"
               />
@@ -70,7 +70,7 @@
             >
             <a
               class="block p-3 hover:underline"
-              href="https://france.fr"
+              href="https://www.france.fr"
               target="_blank"
               >france.fr</a
             >
@@ -117,14 +117,14 @@
           >
             <a
               class="m-2 flex-shrink-0 flex items-center justify-center border rounded-full w-10 h-10 transition opacity-75 hover:opacity-100"
-              href="https://twitter.com/gouvernementfr"
+              href="https://twitter.com/ReserveCivique"
               target="_blank"
             >
               <img src="/images/twitter_white.svg" alt="Twitter" />
             </a>
             <a
               class="m-2 flex-shrink-0 flex items-center justify-center border rounded-full w-10 h-10 transition opacity-75 hover:opacity-100"
-              href="https://www.facebook.com/gouvernement.fr"
+              href="https://www.facebook.com/reservecivique/"
               target="_blank"
             >
               <img src="/images/facebook_white.svg" alt="Facebook" />

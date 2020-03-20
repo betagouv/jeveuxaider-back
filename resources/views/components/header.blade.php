@@ -9,7 +9,7 @@
                     <a href="/">
                         <img
                             class="h-6"
-                            src="/images/logo-reserve-civique_light.svg"
+                            src="/images/logo-rf-rc.png"
                             alt="Réserve Civique"
                         />
                     </a>
