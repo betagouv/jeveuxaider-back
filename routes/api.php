@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@show');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
-    Route::post('profile/{profile}/participations', 'Api\ProfileController@participations');
+    Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');
 
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
