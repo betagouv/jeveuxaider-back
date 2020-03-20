@@ -200,6 +200,17 @@ export default {
             required: true,
             message: "Code postal obligatoire",
             trigger: "blur"
+          },
+          {
+            pattern: /^\d+$/,
+            message: "Ne doit contenir que des chiffres",
+            trigger: "blur"
+          },
+          {
+            min: 5,
+            max: 5,
+            message: "Format erroné",
+            trigger: "blur"
           }
         ],
         mobile: [
