@@ -76,5 +76,6 @@ scalingo env-set \
   MAIL_USERNAME=<smtp username> \
   MAIL_PASSWORD=<smtp password> \
   MAIL_ENCRYPTION=<null|tls> \
-  MAIL_FROM_ADDRESS=crise@reserve-civique.gouv.fr
+  MAIL_FROM_ADDRESS=crise@reserve-civique.gouv.fr \
+  "MAIL_FROM_NAME=Réserve Civique"
 ```
