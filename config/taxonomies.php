@@ -277,11 +277,10 @@ return [
     'mission_domaines' => [
         "vocabulary" => "Domaines de mission",
         "terms" => [
-            "Je distribue des produits de première nécessité aux plus démunis (aliments, hygiène…)" => "Je distribue des produits de première nécessité aux plus démunis (aliments, hygiène…)",
-            "J'aide à préparer des repas pour les personnes en difficultés" => "J'aide à préparer des repas pour les personnes en difficultés",
-            "Je garde les enfants des soignants dans une école de ma commune" => "Je garde les enfants des soignants dans une école de ma commune",
-            "Je maintien un lien (téléphone, visio…) avec des personnes âgées et des personnes en situation de handicap" => "Je maintien un lien (téléphone, visio…) avec des personnes âgées et des personnes en situation de handicap",
-            "Je réalise les courses de produits essentiels pour mes voisins les plus fragiles" => "Je réalise les courses de produits essentiels pour mes voisins les plus fragiles",
+            "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis" => "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis",
+            "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance",
+            "Je maintien un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)" => "Je maintien un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)",
+            "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
         ]
     ],
 
