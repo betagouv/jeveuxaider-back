@@ -45,7 +45,16 @@
               >
             </div>
           </div>
-          <div class="order-2 md:order-3 ml-auto md:ml-3">
+          <div class="order-2 md:order-3 ml-auto md:ml-3 flex items-center">
+            <router-link
+              v-if="$store.getters.contextRole != 'volontaire'"
+              to="/dashboard"
+              class="hidden lg:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
+              :class="{
+                'bg-blue-700': isCurrentPath('/dashboard')
+              }"
+              >Tableau de bord</router-link
+            >
             <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
             <router-link
               v-else
