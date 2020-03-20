@@ -37,6 +37,11 @@
             <router-link class="block p-3 hover:underline" to="/faq"
               >FAQ</router-link
             >
+            <router-link
+              class="block p-3 hover:underline"
+              to="/mentions-legales"
+              >Mentions légales</router-link
+            >
           </div>
           <div class="lg:max-w-1/4 text-white">
             <a

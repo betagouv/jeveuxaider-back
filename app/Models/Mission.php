@@ -59,7 +59,7 @@ class Mission extends Model
     ];
 
     protected $attributes = [
-        'state' => 'Brouillon',
+        'state' => 'Validée',
         'country' => 'France'
     ];
 
