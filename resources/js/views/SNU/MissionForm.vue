@@ -137,7 +137,7 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item
+      <!-- <el-form-item
         label="Périodicité de la mission"
         prop="periodicite"
         class="flex-1"
@@ -153,7 +153,7 @@
             :value="item.value"
           ></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
 
       <div class="mt-12 mb-6 text-xl text-gray-800">Détail de la mission</div>
       <div>
@@ -358,13 +358,13 @@ export default {
             trigger: "blur"
           }
         ],
-        periodicite: [
-          {
-            required: true,
-            message: "Veuillez choisir une périodicité",
-            trigger: "blur"
-          }
-        ],
+        // periodicite: [
+        //   {
+        //     required: true,
+        //     message: "Veuillez choisir une périodicité",
+        //     trigger: "blur"
+        //   }
+        // ],
         publics_beneficiaires: [
           {
             required: true,

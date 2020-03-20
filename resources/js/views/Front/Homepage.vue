@@ -294,7 +294,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
           <h3
             class="text-3xl leading-tight font-extrabold tracking-tight text-gray-900 sm:text-4xl"
           >
-            Les 6 règles de sécurité des volontaires
+            Les 5 règles de sécurité des volontaires
           </h3>
         </div>
 
