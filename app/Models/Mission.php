@@ -67,7 +67,8 @@ class Mission extends Model
 
     protected $with = [
         'structure:id,name,city,address,zip',
-        'structure.members:id,first_name,last_name,mobile,email'
+        'structure.members:id,first_name,last_name,mobile,email',
+        'tuteur:id,email,mobile,phone,first_name,last_name'
     ];
 
     protected $withCount = ['participations'];

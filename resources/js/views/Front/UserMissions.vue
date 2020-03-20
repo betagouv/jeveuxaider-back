@@ -6,7 +6,7 @@
       <div class="container mx-auto px-4">
         <div class="pt-10">
           <h1 class="text-3xl font-bold text-white">
-            Missions auxquelles j'ai candidaté
+            Missions auxquelles j'ai candidatées
           </h1>
         </div>
       </div>
@@ -152,12 +152,12 @@
                 </svg>
                 <span>
                   Responsable :
-                  {{ participation.mission.structure.members[0].full_name }}
+                  {{ participation.mission.tuteur.full_name }}
                 </span>
               </div>
 
               <button
-                v-if="participation.mission.structure.members[0].mobile"
+                v-if="participation.mission.tuteur.mobile"
                 type="button"
                 class="m-2 relative shadow-sm inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white "
               >
@@ -171,13 +171,13 @@
                   ></path>
                 </svg>
                 <span>
-                  {{ participation.mission.structure.members[0].mobile }}
+                  {{ participation.mission.tuteur.mobile }}
                 </span>
               </button>
 
               <a
                 :href="
-                  `mailto:${participation.mission.structure.members[0].email}`
+                  `mailto:${participation.mission.tuteur.email}`
                 "
                 class="m-2"
               >
