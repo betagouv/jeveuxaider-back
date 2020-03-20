@@ -262,7 +262,11 @@
           </div>
         </div>
         <ul>
-          <li v-for="mission in otherMissions.data" :key="mission.id" class="border-t border-gray-200">
+          <li
+            v-for="mission in otherMissions.data"
+            :key="mission.id"
+            class="border-t border-gray-200"
+          >
             <router-link
               :to="`/missions/${mission.id}`"
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
@@ -278,16 +282,14 @@
                   </div>
                   <div class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4">
                     <div class="col-span-2 lg:col-span-1 mb-4 md:mb-0">
-                      <div
-                        class="font-semibold text-blue-800 truncate"
-                      >{{ mission.name }}</div>
+                      <div class="font-semibold text-blue-800 truncate">{{ mission.name }}</div>
                       <div class="mt-1 flex items-center text-sm ext-gray-900 font-semibold">
                         <span class="truncate">{{ mission.structure.name }}</span>
                       </div>
                     </div>
 
                     <div
-                    v-if="mission.department"
+                      v-if="mission.department"
                       class="flex flex-wrap item-center -mx-2 -my-1 col-span-2 lg:col-span-1 text-sm"
                     >
                       <div class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500">
@@ -322,11 +324,13 @@
                       <div class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500">
                         <span
                           class="px-3 inline-flex text-s leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                        >{{ mission.participations_max }}
-                  {{
-                  mission.participations_max
-                  | pluralize(["volontaire", "volontaires"])
-                  }}</span>
+                        >
+                          {{ mission.participations_max }}
+                          {{
+                          mission.participations_max
+                          | pluralize(["volontaire", "volontaires"])
+                          }}
+                        </span>
                       </div>
                     </div>
                   </div>
