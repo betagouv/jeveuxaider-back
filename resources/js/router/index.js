@@ -25,6 +25,7 @@ import FrontSecurityRules from "@/views/Front/SecurityRules";
 import FrontProfile from "@/views/Front/Profile";
 import FrontSettings from "@/views/Front/Settings";
 import FrontUserMissions from "@/views/Front/UserMissions";
+import FrontFaq from "@/views/Front/Faq";
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -50,6 +51,11 @@ export default new Router({
             path: "/a-propos",
             name: "About",
             component: FrontAbout,
+        },
+        {
+            path: "/faq",
+            name: "Faq",
+            component: FrontFaq,
         },
         {
             path: "/user",
