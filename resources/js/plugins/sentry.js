@@ -27,5 +27,3 @@ if (process.env.MIX_SENTRY_DSN) {
     });
   }
 }
-/* pour tester */
-Sentry.captureMessage("Test Sentry");
