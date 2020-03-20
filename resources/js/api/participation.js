@@ -11,9 +11,13 @@ export function exportParticipations(params) {
   });
 }
 
-// export function addParticipation(missionId, participation) {
-//   return request.post(`/api/mission/${missionId}/participation`, participation);
-// }
+export function addParticipation(mission_id, profile_id) {
+  return request.post(`/api/participation`, {
+    mission_id,
+    profile_id,
+    state: 'En attente de validation'
+  });
+}
 
 export function updateParticipation(id, participation) {
   return request.post(`/api/participation/${id}`, participation);

@@ -111,7 +111,7 @@
                       >
                         <span
                           :class="participationStateTheme(participation)"
-                          class="px-3 inline-flex text-s leading-5 font-semibold rounded-full"
+                          class="inline-flex font-semibold rounded-full"
                         >
                           {{ participation.state }}
                         </span>

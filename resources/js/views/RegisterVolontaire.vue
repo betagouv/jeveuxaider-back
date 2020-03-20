@@ -20,9 +20,9 @@
         Engagez-vous dans la lutte contre l’épidémie
       </h3>
       <p class="mt-1 text-sm text-gray-500">
-        <a href="/regles-de-securite"
+        <router-link to="/regles-de-securite"
           >Cet engagement nécessite un respect strict des règles sanitaires
-          applicables ›</a
+          applicables.</router-link
         >
       </p>
     </div>
