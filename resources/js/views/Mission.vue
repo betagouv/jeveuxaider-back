@@ -237,10 +237,24 @@
 
               <div class="mt-6">
                 <div class="rounded-md shadow-md rounded-full">
-                  <a
-                    href="#"
-                    class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                  >Proposer votre aide</a>
+                  <template v-if="$store.getters.isLogged">
+                    <el-button
+                      v-if="canRegistred"
+                      @click="handleClick"
+                      class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    >Proposer votre aide</el-button>
+                    <router-link
+                      v-else
+                      to="/user/missions"
+                      class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    >Vous êtes déjà inscrit !</router-link>
+                  </template>
+                  <template v-else>
+                    <router-link
+                      to="/login"
+                      class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    >Proposer votre aide</router-link>
+                  </template>
                 </div>
                 <div
                   class="mt-2 text-center inline-flex text-xs text-gray-500"
@@ -356,6 +370,7 @@
 
 <script>
 import { getMission } from "@/api/mission";
+import { addParticipation } from "@/api/participation";
 import { fetchStructureAvailableMissions } from "@/api/structure";
 
 export default {
@@ -369,6 +384,9 @@ export default {
   computed: {
     structure() {
       return this.mission.structure;
+    },
+    canRegistred() {
+      return true;
     }
   },
   data() {
@@ -396,6 +414,36 @@ export default {
       .catch(() => {
         this.loading = false;
       });
+  },
+  methods: {
+    handleClick() {
+      this.$confirm(
+        "Êtes vous sur de vouloir participer à cette mission ?<br>",
+        "Confirmation",
+        {
+          center: true,
+          confirmButtonText: "Oui, je participe",
+          cancelButtonText: "Annuler",
+          // type: "warning",
+          dangerouslyUseHTMLString: true
+        }
+      )
+        .then(() => {
+          this.loading = true;
+          addParticipation(this.mission.id, this.$store.getters.profile.id)
+          .then(() => {
+            this.$router.push('/user/missions')
+            this.$message({
+              message: "Votre participation a été enregistrée et est en attente de validation !",
+              type: "success"
+            });
+            this.loading = false
+          }).catch(() => {
+            this.loading = false;
+          });
+        })
+        .catch(() => {});
+    }
   }
 };
 </script>
