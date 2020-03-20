@@ -356,7 +356,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
                 </div>
               </div>
             </li>
-            <li class="mt-10 md:mt-0">
+            <!-- <li class="mt-10 md:mt-0">
               <div class="flex">
                 <div class="flex-shrink-0">
                   <div
@@ -373,14 +373,14 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
                   </h5>
                 </div>
               </div>
-            </li>
+            </li> -->
             <li class="mt-10 md:mt-0">
               <div class="flex">
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
                   >
-                    5
+                    4
                   </div>
                 </div>
                 <div class="ml-4">
@@ -397,7 +397,7 @@ Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans l�
                   <div
                     class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
                   >
-                    6
+                    5
                   </div>
                 </div>
                 <div class="ml-4">
