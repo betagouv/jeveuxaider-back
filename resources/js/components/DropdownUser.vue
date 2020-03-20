@@ -5,7 +5,7 @@
         class="bg-white text-blue-900"
       >{{ $store.getters.user.profile.first_name[0] }}{{ $store.getters.user.profile.last_name[0] }}</el-avatar>
       <el-dropdown-menu slot="dropdown">
-        <router-link v-if="$store.getters.contextRole == 'responsable'" to="/dashboard/missions">
+        <router-link v-if="$store.getters.contextRole == 'responsable'" to="/dashboard">
           <el-dropdown-item class="flex items-center">
             <el-avatar
               class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border"

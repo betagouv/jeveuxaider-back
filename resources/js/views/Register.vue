@@ -19,9 +19,9 @@
         Engagez-vous dans la lutte contre l’épidémie
       </h3>
       <p class="mt-1 text-sm leading-5 text-gray-500">
-        <a href="/regles-de-securite"
+        <router-link to="/regles-de-securite"
           >Cet engagement nécessite un respect strict des règles sanitaires
-          applicables ›</a
+          applicables.</router-link
         >
       </p>
     </div>
@@ -33,7 +33,7 @@
         >
           <div class="mb-4 uppercase">Appel aux Citoyens</div>
           <div class="text-gray-600 mb-4 flex-1">
-            Je suis volontaire et souhaite apporter mon aide
+            Je suis volontaire pour aider
           </div>
           <router-link to="/register/volontaire">
             <el-button type="primary">Choisir</el-button>

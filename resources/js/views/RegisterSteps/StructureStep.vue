@@ -173,46 +173,6 @@
             placeholder="Décrivez votre structure, en quelques mots"
           ></el-input>
         </el-form-item>
-        <el-form-item label="Numéro SIRET" prop="siret" class="flex-1">
-          <item-description>
-            Si vous ne disposez pas d’un numéro SIRET, ne pas remplir cette case
-          </item-description>
-          <el-input
-            v-model="form.siret"
-            placeholder="Entrez votre numéro de SIRET"
-          />
-        </el-form-item>
-
-        <div class="flex flex-wrap -m-2">
-          <el-form-item
-            label="Site Internet"
-            prop="website"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input v-model="form.website" placeholder="http://" />
-          </el-form-item>
-          <el-form-item
-            label="Facebook"
-            prop="facebok"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input v-model="form.facebook" placeholder="http://" />
-          </el-form-item>
-          <el-form-item
-            label="Twitter"
-            prop="twitter"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input v-model="form.twitter" placeholder="http://" />
-          </el-form-item>
-          <el-form-item
-            label="Instagram"
-            prop="instagram"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input v-model="form.instagram" placeholder="http://" />
-          </el-form-item>
-        </div>
 
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national
