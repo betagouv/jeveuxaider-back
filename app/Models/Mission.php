@@ -192,7 +192,7 @@ class Mission extends Model
     public function clone()
     {
         $mission = $this->replicate();
-        $mission->state = 'Brouillon';
+        // $mission->state = 'Brouillon';
         $mission->save();
 
         return $mission;

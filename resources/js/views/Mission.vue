@@ -17,31 +17,20 @@
             <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
               <h3
                 class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
-              >
-                {{ mission.name }}
-              </h3>
+              >{{ mission.name }}</h3>
 
               <div class="mt-12">
                 <div
                   class="flex flex-wrap justify-center sm:justify-start items-center text-center sm:text-left"
                 >
-                  <div
-                    v-if="structure && structure.logo"
-                    class="flex-shrink-0 sm:pr-4"
-                  >
-                    <img
-                      class="h-14 w-14 rounded-full"
-                      :src="structure.logo"
-                      alt
-                    />
+                  <div v-if="structure && structure.logo" class="flex-shrink-0 sm:pr-4">
+                    <img class="h-14 w-14 rounded-full" :src="structure.logo" alt />
                   </div>
                   <div>
                     <h3
                       v-if="structure"
                       class="text-2xl leading-tight font-medium text-gray-900"
-                    >
-                      {{ structure.name }}
-                    </h3>
+                    >{{ structure.name }}</h3>
 
                     <div class="mt-4 sm:mt-2">
                       <div
@@ -58,9 +47,11 @@
                             clip-rule="evenodd"
                           />
                         </svg>
-                        <span class="m-1" v-if="structure">{{
+                        <span class="m-1" v-if="structure">
+                          {{
                           structure.full_address
-                        }}</span>
+                          }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -70,26 +61,21 @@
               <div class="mt-8 text-center sm:text-left">
                 <span
                   class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
-                  >{{ mission.format }}</span
-                >
+                >{{ mission.format }}</span>
                 <span
                   class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
-                  >{{ mission.type }}</span
-                >
+                >{{ mission.type }}</span>
                 <span
                   v-if="mission.periodicite"
                   class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
-                  >{{ mission.periodicite }}</span
-                >
+                >{{ mission.periodicite }}</span>
               </div>
 
               <div class="mt-12">
                 <div class="flex items-center">
                   <h4
                     class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >
-                    Domaine d'action
-                  </h4>
+                  >Domaine d'action</h4>
                   <div class="flex-1 border-t-2 border-gray-200"></div>
                 </div>
                 <div class="mt-8">
@@ -113,14 +99,34 @@
                   </ul>
                 </div>
               </div>
+              <div class="mt-12">
+                <div
+                  v-if="mission.name == 'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'"
+                >
+                  <AideAlimentaireUrgence />
+                </div>
+                <div
+                  v-if="mission.name == 'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'"
+                >
+                  <GardeExceptionnelleEnfants />
+                </div>
+                <div
+                  v-if="mission.name == 'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'"
+                >
+                  <LienPersonnesFragilesIsolees />
+                </div>
+                <div
+                  v-if="mission.name == 'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'"
+                >
+                  <SolidariteDeProximite />
+                </div>
+              </div>
 
               <div class="mt-16">
                 <div class="flex items-center">
                   <h4
                     class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >
-                    Publics bénéficiaires
-                  </h4>
+                  >Publics bénéficiaires</h4>
                   <div class="flex-1 border-t-2 border-gray-200"></div>
                 </div>
 
@@ -185,15 +191,13 @@
                     </li>
                   </ul>
                 </div>
-              </div> -->
+              </div>-->
 
               <div class="mt-16">
                 <div class="flex items-center">
                   <h4
                     class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >
-                    Commentaire par la structure
-                  </h4>
+                  >Commentaire par la structure</h4>
                   <div class="flex-1 border-t-2 border-gray-200"></div>
                 </div>
 
@@ -210,9 +214,7 @@
                 Rejoignez
                 <br />le mouvement
               </p>
-              <p class="mt-6 text-sm tracking-wider text-gray-500 uppercase">
-                La structure recherche
-              </p>
+              <p class="mt-6 text-sm tracking-wider text-gray-500 uppercase">La structure recherche</p>
 
               <div class="text-sm">
                 <span
@@ -220,16 +222,14 @@
                 >
                   {{ mission.participations_max }}
                   {{
-                    mission.participations_max
-                      | pluralize(["volontaire", "volontaires"])
+                  mission.participations_max
+                  | pluralize(["volontaire", "volontaires"])
                   }}
                 </span>
               </div>
 
               <div class="mt-4 text-sm">
-                <div
-                  class="mt-6 text-center inline-flex justify-center flex-wrap text-gray-500"
-                >
+                <div class="mt-6 text-center inline-flex justify-center flex-wrap text-gray-500">
                   <svg
                     class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
                     fill="currentColor"
@@ -243,17 +243,15 @@
                   </svg>
                   <div v-if="mission.start_date" class="w-full sm:w-auto">
                     <span class="text-gray-400 mr-1 text-xs">Du</span>
-                    <span class="mr-1">
-                      {{ mission.start_date | formatMedium }}
-                    </span>
+                    <span class="mr-1">{{ mission.start_date | formatMedium }}</span>
                   </div>
                   <div v-if="mission.end_date" class="w-full sm:w-auto">
                     <span class="text-gray-400 mr-1 text-xs">Au</span>
                     {{ mission.end_date | formatMedium }}
                   </div>
-                  <div v-if="!mission.start_date && !mission.end_date">
-                    Disponibilité aussitôt que possible
-                  </div>
+                  <div
+                    v-if="!mission.start_date && !mission.end_date"
+                  >Disponibilité aussitôt que possible</div>
                 </div>
               </div>
 
@@ -268,21 +266,18 @@
                       v-if="canRegistred"
                       @click="handleClick"
                       class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      >Proposer votre aide</el-button
-                    >
+                    >Proposer votre aide</el-button>
                     <router-link
                       v-else
                       to="/user/missions"
                       class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      >Vous êtes déjà inscrit !</router-link
-                    >
+                    >Vous êtes déjà inscrit !</router-link>
                   </template>
                   <template v-else>
                     <router-link
                       to="/login"
                       class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      >Proposer votre aide</router-link
-                    >
+                    >Proposer votre aide</router-link>
                   </template>
                 </div>
               </div>
@@ -294,13 +289,11 @@
 
     <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
       <div class="bg-white shadow overflow-hidden rounded-lg">
-        <div
-          class="bg-white px-4 py-3 flex items-center justify-between sm:px-6"
-        >
+        <div class="bg-white px-4 py-3 flex items-center justify-between sm:px-6">
           <div>
-            <p class="text-2xl sm:leading-10 font-bold text-gray-900">
-              Autres missions proposées par cette structure
-            </p>
+            <p
+              class="text-2xl sm:leading-10 font-bold text-gray-900"
+            >Autres missions proposées par cette structure</p>
           </div>
         </div>
         <ul>
@@ -315,29 +308,22 @@
             >
               <div class="flex items-center px-4 py-4 sm:px-6">
                 <div class="min-w-0 flex-1 flex items-start">
-                  <div
-                    class="hidden sm:block flex-shrink-0"
-                    style="margin-top:2px;"
-                  >
+                  <div class="hidden sm:block flex-shrink-0" style="margin-top:2px;">
                     <img
                       class="h-12 w-12 rounded-full"
                       src="https://s3.eu-west-2.amazonaws.com/plateforme-prod/uploads/5737034557ef5b8c02c0e46513b98f90/c9c2676be6cd123b7f24038717efe1b3.jpg"
                       alt
                     />
                   </div>
-                  <div
-                    class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4"
-                  >
+                  <div class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4">
                     <div class="col-span-2 lg:col-span-1 mb-4 md:mb-0">
-                      <div class="font-semibold text-blue-800 truncate">
-                        {{ mission.name }}
-                      </div>
-                      <div
-                        class="mt-1 flex items-center text-sm ext-gray-900 font-semibold"
-                      >
-                        <span class="truncate">{{
+                      <div class="font-semibold text-blue-800 truncate">{{ mission.name }}</div>
+                      <div class="mt-1 flex items-center text-sm ext-gray-900 font-semibold">
+                        <span class="truncate">
+                          {{
                           mission.structure.name
-                        }}</span>
+                          }}
+                        </span>
                       </div>
                     </div>
 
@@ -345,9 +331,7 @@
                       v-if="mission.department"
                       class="flex flex-wrap item-center -mx-2 -my-1 col-span-2 lg:col-span-1 text-sm"
                     >
-                      <div
-                        class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500"
-                      >
+                      <div class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500">
                         <svg
                           class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
                           fill="currentColor"
@@ -379,16 +363,14 @@
                         {{ mission.periodicite }}
                       </div>
 
-                      <div
-                        class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500"
-                      >
+                      <div class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500">
                         <span
                           class="px-3 inline-flex text-s leading-5 font-semibold rounded-full bg-green-100 text-green-800"
                         >
                           {{ mission.participations_max }}
                           {{
-                            mission.participations_max
-                              | pluralize(["volontaire", "volontaires"])
+                          mission.participations_max
+                          | pluralize(["volontaire", "volontaires"])
                           }}
                         </span>
                       </div>
@@ -396,11 +378,7 @@
                   </div>
                 </div>
                 <div>
-                  <svg
-                    class="h-5 w-5 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
+                  <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fill-rule="evenodd"
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -422,9 +400,19 @@
 import { getMission } from "@/api/mission";
 import { addParticipation } from "@/api/participation";
 import { fetchStructureAvailableMissions } from "@/api/structure";
+import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence";
+import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
+import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
+import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
 
 export default {
   name: "Mission",
+  components: {
+    AideAlimentaireUrgence,
+    GardeExceptionnelleEnfants,
+    LienPersonnesFragilesIsolees,
+    SolidariteDeProximite
+  },
   props: {
     id: {
       type: Number,
