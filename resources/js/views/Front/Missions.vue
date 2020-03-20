@@ -45,7 +45,7 @@
                             style="margin-top:2px;"
                           >
                             <img
-                              v-if="item.structure.logo"
+                              v-if="item.structure"
                               class="h-12 w-12 rounded-full"
                               :src="item.structure.logo"
                               :alt="item.structure.name"
