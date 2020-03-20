@@ -2,7 +2,11 @@
   <div class="mx-auto w-full" style="max-width: 420px">
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+        <img
+          class="h-8 w-auto"
+          src="/images/logo-rf-rc-dark.png"
+          alt="Réserve Civique"
+        />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Site en
@@ -12,8 +16,7 @@
     <div class="mt-8 border-t border-gray-200 pt-8"></div>
     <div class>
       <p>
-        Une opération de maintenance est en cours. Nous faisons au plus
-        vite. 🚀
+        Une opération de maintenance est en cours. Nous faisons au plus vite. 🚀
       </p>
     </div>
   </div>

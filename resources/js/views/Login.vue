@@ -2,7 +2,11 @@
   <div class="mx-auto w-full">
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-reserve-civique_dark.svg" alt="Réserve Civique" />
+        <img
+          class="h-8 w-auto"
+          src="/images/logo-rf-rc-dark.png"
+          alt="Réserve Civique"
+        />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Connexion à l'espace de la
@@ -35,7 +39,8 @@
             <router-link
               to="/password/forgot"
               class="font-medium text-blue-800 hover:text-blue-900 focus:outline-none focus:underline transition ease-in-out duration-150"
-            >Mot de passe perdu ?</router-link>
+              >Mot de passe perdu ?</router-link
+            >
           </div>
         </router-link>
       </div>
@@ -48,7 +53,8 @@
           @click="onSubmit"
           style="height: 48px;"
           class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-        >Je me connecte</el-button>
+          >Je me connecte</el-button
+        >
       </span>
     </div>
     <div class="mt-6">
@@ -66,7 +72,9 @@
             <button
               type="submit"
               class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-            >Je ne suis pas encore inscrit à la Réserve Civique</button>
+            >
+              Je ne suis pas encore inscrit à la Réserve Civique
+            </button>
           </span>
         </router-link>
       </div>
@@ -123,8 +131,7 @@ export default {
               password: this.form.password
             })
             .then(() => {
-
-              console.log('noRole',this.$store.getters.noRole)
+              console.log("noRole", this.$store.getters.noRole);
               if (
                 this.$store.getters.noRole === true &&
                 this.$store.getters.contextRole != "volontaire"
@@ -137,7 +144,6 @@ export default {
               } else {
                 this.$router.push("/missions");
               }
-
             })
             .catch(() => {
               this.loading = false;
