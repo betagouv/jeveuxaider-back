@@ -25,6 +25,7 @@ Route::get('releases', 'Api\ReleaseController@index');
 Route::get('missions', 'Api\MissionController@index');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 
+Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG

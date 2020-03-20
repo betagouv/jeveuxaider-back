@@ -74,8 +74,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        // TODO : Remplacer par un état de la mission ?
-        return true;
+        return $this->isAvailable();
     }
 
     public function searchableAs()
@@ -131,6 +130,17 @@ class Mission extends Model
     public function scopeComplete($query)
     {
         return $query->has('participations', '=', DB::raw('participations_max'));
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query
+            ->where('state', 'Validée');
+    }
+
+    public function isAvailable()
+    {
+        return $this->state == 'Validée' ? true : false;
     }
 
     public function scopeRole($query, $contextRole)

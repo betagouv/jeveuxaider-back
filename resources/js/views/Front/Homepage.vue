@@ -26,18 +26,18 @@
             <router-link
               v-else
               to="/login"
-              class="mx-auto text-white text-sm font-thin hover:underline"
+              class="mx-auto text-white text-sm font-thin uppercase hover:underline"
               >Se connecter</router-link
             >
           </div>
         </div>
         <div
-          class="py-16 text-2xl lg:text-5xl text-white max-w-5xl mx-auto text-center"
+          class="py-16 text-2xl lg:text-5xl text-white max-w-5xl mx-auto text-center leading-tight"
         >
-          <h1>
+          <h1 class="hide-br">
             Face à l’épidémie de
-            <span class="italic font-bold">Covid-19</span> le Gouvernement
-            appelle à une mobilisation de toutes les bonnes volontés.
+            <span class="italic font-bold">Covid-19</span> <br />le Gouvernement
+            appelle à une mobilisation <br />de toutes les bonnes volontés.
           </h1>
         </div>
         <div class="flex flex-col lg:flex-row items-center justify-center">
@@ -66,8 +66,8 @@
     </div>
 
     <div class="container mx-auto px-4">
-      <div class="py-4 sm:py-8 md:py-16 max-w-4xl mx-auto">
-        <div class="text-3xl text-gray-900">
+      <div class="py-8 md:py-16 max-w-4xl mx-auto">
+        <div class="text-xl sm:text-2xl lg:text-3xl text-gray-900">
           Cuisiner un repas et le livrer. Ecouter et parler. Donner et partager.
           Il y a autant de façon de s’engager. Que l’on soit bénévole dans
           l’âme, habitué depuis toujours des missions associatives. Ou que l’on
@@ -80,17 +80,45 @@
       </div>
     </div>
 
-    <div class="bg-gray-50 py-4 sm:py-8 md:py-16">
+    <div class="bg-gray-50 py-8 md:py-16 overflow-hidden">
       <div class="container mx-auto px-4">
         <div class="relative lg:grid lg:grid-cols-3 lg:col-gap-8">
           <div class="lg:col-span-1">
             <h3
-              class="text-3xl leading-14 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+              class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl leading-tight hide-br"
             >
               Les 4 missions
               <br />vitales
             </h3>
           </div>
+
+          <svg
+            class="hidden lg:block absolute"
+            width="404"
+            height="300"
+            fill="none"
+            viewBox="0 0 404 300"
+            style="top: 150px; left: -152px;"
+          >
+            <defs>
+              <pattern
+                id="8b1b5f72-e944-4457-af67-0c6d15a99f38"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect x="0" y="0" width="4" height="4" fill="#e6e7eb"></rect>
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="300"
+              fill="url(#8b1b5f72-e944-4457-af67-0c6d15a99f38)"
+            ></rect>
+          </svg>
+
           <div
             class="mt-10 sm:grid sm:grid-cols-2 sm:col-gap-8 sm:row-gap-10 lg:col-span-2 lg:mt-0"
           >
@@ -127,41 +155,37 @@
               </div>
             </div>
 
-            <div
-              class="mt-10 sm:grid sm:grid-cols-2 sm:col-gap-8 sm:row-gap-10 lg:col-span-2 lg:mt-0"
-            >
-              <div>
-                <div
-                  class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                >
-                  3
-                </div>
-                <div class="mt-5">
-                  <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                    Lien avec les personnes fragiles isolées.
-                  </h5>
-                  <p class="mt-2 text-base leading-6 text-gray-500">
-                    Je participe à maintenir le lien (téléphone, visio, mail...)
-                    avec des personnes fragiles isolées : personnes âgées,
-                    malades ou en situation de handicap.
-                  </p>
-                </div>
+            <div class="mt-10 sm:mt-0">
+              <div
+                class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+              >
+                3
               </div>
-              <div class="mt-10 sm:mt-0">
-                <div
-                  class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                >
-                  4
-                </div>
-                <div class="mt-5">
-                  <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                    Solidarité de proximité.
-                  </h5>
-                  <p class="mt-2 text-base leading-6 text-gray-500">
-                    Je fais les courses de produits essentiels pour mes voisins
-                    les plus fragiles.
-                  </p>
-                </div>
+              <div class="mt-5">
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                  Lien avec les personnes fragiles isolées.
+                </h5>
+                <p class="mt-2 text-base leading-6 text-gray-500">
+                  Je participe à maintenir le lien (téléphone, visio, mail...)
+                  avec des personnes fragiles isolées : personnes âgées, malades
+                  ou en situation de handicap.
+                </p>
+              </div>
+            </div>
+            <div class="mt-10 sm:mt-0">
+              <div
+                class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+              >
+                4
+              </div>
+              <div class="mt-5">
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                  Solidarité de proximité.
+                </h5>
+                <p class="mt-2 text-base leading-6 text-gray-500">
+                  Je fais les courses de produits essentiels pour mes voisins
+                  les plus fragiles.
+                </p>
               </div>
             </div>
           </div>
@@ -170,14 +194,16 @@
     </div>
 
     <div class="lg:flex">
-      <div class="lg:w-1/2">
+      <div class="hidden lg:block lg:w-1/2">
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           src="/images/structure.jpg"
         />
       </div>
-      <div class="lg:w-1/2 p-4 sm:p-8 md:p-16 lg:flex lg:justify-start">
-        <div class="lg:max-w-xl">
+      <div
+        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
+      >
+        <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Votre structure est engagée dans la crise sanitaire face au Covid 19
             et vous avez besoin de volontaires&nbsp;?
@@ -196,8 +222,10 @@
     </div>
 
     <div class="lg:flex">
-      <div class="lg:w-1/2 p-4 sm:p-8 md:p-16 lg:flex lg:justify-end">
-        <div class="lg:max-w-xl">
+      <div
+        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
+      >
+        <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Vous souhaitez vous engager au plus près de chez vous&nbsp;?
           </h2>
@@ -218,7 +246,7 @@
           </div>
         </div>
       </div>
-      <div class="lg:w-1/2">
+      <div class="hidden lg:block lg:w-1/2">
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           src="/images/structure-2.jpg"
@@ -227,14 +255,16 @@
     </div>
 
     <div class="lg:flex">
-      <div class="lg:w-1/2">
+      <div class="hidden lg:block lg:w-1/2">
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           src="/images/structure-3.jpg"
         />
       </div>
-      <div class="lg:w-1/2 p-4 sm:p-8 md:p-16 lg:flex lg:justify-start">
-        <div class="lg:max-w-xl">
+      <div
+        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
+      >
+        <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Vous souhaitez rejoindre une structure qui a besoin d'aide&nbsp;?
           </h2>
@@ -252,11 +282,11 @@
       </div>
     </div>
 
-    <div class="py-20 bg-gray-50">
-      <div class="container mx-auto px-6 sm:px-6 lg:px-8">
+    <div class="py-8 lg:py-20 bg-gray-50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:text-center">
           <h3
-            class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+            class="text-3xl leading-tight font-extrabold tracking-tight text-gray-900 sm:text-4xl"
           >
             Les 6 règles de sécurité des volontaires
           </h3>
@@ -274,7 +304,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h5 class="text-lg leading-6 font-medium text-gray-900">
+                  <h5 class="text-lg text-gray-900">
                     En toutes circonstances,
                     <b>je fais en sorte de garder ma distance de sécurité</b>
                     d’au moins un mètre avec les bénéficiaires et les autres
@@ -293,7 +323,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h5 class="text-lg leading-6 font-medium text-gray-900">
+                  <h5 class="text-lg text-gray-900">
                     En toutes circonstances,
                     <b>j’applique les gestes barrières</b> pour me protéger et
                     protéger les bénéficiaires et les autres bénévoles.
@@ -311,7 +341,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h5 class="text-lg leading-6 font-medium text-gray-900">
+                  <h5 class="text-lg text-gray-900">
                     <b>Je suis un ambassadeur des règles de sécurité</b> et des
                     gestes barrière que j’explique et promeus auprès des
                     bénéficiaires et des autres bénévoles.
@@ -329,7 +359,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h5 class="text-lg leading-6 font-medium text-gray-900">
+                  <h5 class="text-lg text-gray-900">
                     Pour accomplir ma mission bénévole,
                     <b>je n’utilise pas les transports en commun</b> afin de
                     limiter les risques de contamination.
@@ -347,7 +377,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h5 class="text-lg leading-6 font-medium text-gray-900">
+                  <h5 class="text-lg text-gray-900">
                     <b>Au moindre doute d’infection</b>, sans attendre,
                     j’informe l’association et je reste chez moi.
                   </h5>
@@ -364,7 +394,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <h5 class="text-lg leading-6 font-medium text-gray-900">
+                  <h5 class="text-lg text-gray-900">
                     <b
                       >Âgé de 70 ans ou plus ou porteur d’une maladie
                       chronique</b
@@ -473,4 +503,9 @@
 </template>
 
 <style lang="sass" scoped>
+.hide-br
+    br
+        @apply hidden
+        @screen lg
+            @apply inline
 </style>
