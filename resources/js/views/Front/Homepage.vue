@@ -2,44 +2,8 @@
   <div class>
     <div style="background-image: url(images/bg_header_home.jpg)" class="py-12">
       <div class="container mx-auto px-4">
-        <div class="lg:flex lg:justify-between text-center pb-6">
-          <div class="my-3">
-            <img
-              class="mx-auto"
-              src="/images/logo-header.svg"
-              alt
-              style="height: 42px"
-            />
-          </div>
-          <div class="my-3">
-            <router-link to="/">
-              <img
-                class="mx-auto"
-                src="/images/logo-reserve-civique_light.svg"
-                alt="Réserve Civique"
-                style="height: 47px"
-              />
-            </router-link>
-          </div>
-          <div class="my-3 flex items-center justify-center">
-            <template v-if="$store.getters.isLogged">
-              <router-link
-                v-if="$store.getters.contextRole != 'volontaire'"
-                to="/dashboard"
-                class="hidden lg:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                >Tableau de bord</router-link
-              >
-              <dropdown-user></dropdown-user>
-            </template>
+        <AppHeader background="bg-transparent" />
 
-            <router-link
-              v-else
-              to="/login"
-              class="mx-auto text-white text-sm font-thin uppercase hover:underline"
-              >Se connecter</router-link
-            >
-          </div>
-        </div>
         <div
           class="py-16 text-2xl lg:text-5xl text-white max-w-5xl mx-auto text-center leading-tight"
         >
