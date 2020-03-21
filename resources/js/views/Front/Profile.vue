@@ -14,7 +14,8 @@
           class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
         >
           <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
-            {{ $store.getters.user.profile.first_name }} {{ $store.getters.user.profile.last_name }}
+            {{ $store.getters.user.profile.first_name }}
+            {{ $store.getters.user.profile.last_name }}
           </h2>
 
           <el-form
@@ -52,10 +53,7 @@
                   prop="zip"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input
-                    v-model="form.zip"
-                    placeholder="Code postal"
-                  />
+                  <el-input v-model="form.zip" placeholder="Code postal" />
                 </el-form-item>
                 <el-form-item
                   label="Date de naissance"
@@ -127,6 +125,50 @@ export default {
             message: "Veuillez renseigner votre email",
             trigger: "blur"
           }
+        ],
+        first_name: [
+          {
+            required: true,
+            message: "Prénom obligatoire",
+            trigger: "blur"
+          }
+        ],
+        last_name: [
+          {
+            required: true,
+            message: "Nom obligatoire",
+            trigger: "blur"
+          }
+        ],
+        zip: [
+          {
+            required: true,
+            message: "Code postal obligatoire",
+            trigger: "blur"
+          },
+          {
+            pattern: /^\d+$/,
+            message: "Ne doit contenir que des chiffres",
+            trigger: "blur"
+          },
+          {
+            min: 5,
+            max: 5,
+            message: "Format erroné",
+            trigger: "blur"
+          }
+        ],
+        mobile: [
+          {
+            required: true,
+            message: "Téléphone obligatoire",
+            trigger: "blur"
+          },
+          {
+            pattern: /^[+|\s|\d]*$/,
+            message: "Le format du numéro de téléphone est incorrect",
+            trigger: "blur"
+          }
         ]
       }
     };
@@ -134,7 +176,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true;
-        this.$refs["profileForm"].validate(valid => {
+      this.$refs["profileForm"].validate(valid => {
         if (valid) {
           this.$store
             .dispatch("user/updateProfile", this.form)
