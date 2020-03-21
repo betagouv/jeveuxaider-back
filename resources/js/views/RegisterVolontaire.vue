@@ -80,6 +80,12 @@
               show-password
             />
           </el-form-item>
+          <el-form-item class="-mb-3 py-4 ml-2" prop="service_civique">
+            <el-checkbox
+              v-model="form.service_civique"
+              @change="handleServiceCiviqueChange"
+            >Je suis volontaire en Service Civique</el-checkbox>
+          </el-form-item>
         </div>
       </el-form>
       <div class="mt-8 sm:col-span-">
@@ -138,7 +144,8 @@ export default {
         password: "",
         mobile: "",
         zip: "",
-        birthday: ""
+        birthday: "",
+        service_civique: false
       },
       rules: {
         email: [
@@ -222,10 +229,31 @@ export default {
   },
   computed: {
     modeLigth() {
-      return process.env.MIX_MODE_APP_LIGTH ? JSON.parse(process.env.MIX_MODE_APP_LIGTH) : false;
+      return process.env.MIX_MODE_APP_LIGTH
+        ? JSON.parse(process.env.MIX_MODE_APP_LIGTH)
+        : false;
     }
   },
   methods: {
+    handleServiceCiviqueChange() {
+      if (this.form.service_civique) {
+        this.$confirm(
+          "Je suis actuellement sous contrat de Service Civique et certifie sur l’honneur que ma mission de Service Civique est, en accord avec mon organisme d’accueil en Service Civique, actuellement en tout ou partie suspendue dans le cadre des mesures prises pour la lutte contre la propagation du virus Covid-19. Je me déclare volontaire pour rejoindre la Réserve civique jusqu’à la date de reprise, à temps complet, de ma mission au sein de mon organisme d’accueil en Service Civique. ",
+          "Confirmation",
+          {
+            center: true,
+            confirmButtonText: "Accepter",
+            cancelButtonText: "Annuler",
+            // type: "warning",
+            dangerouslyUseHTMLString: true
+          }
+        )
+          .then(() => {})
+          .catch(() => {
+            this.form.service_civique = false;
+          });
+      }
+    },
     onSubmit() {
       this.loading = true;
       this.$refs["registerVolontaireForm"].validate(valid => {
@@ -258,5 +286,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-@apply mb-3
+  @apply mb-3
 </style>

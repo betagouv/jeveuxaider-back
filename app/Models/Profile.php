@@ -32,7 +32,8 @@ class Profile extends Model implements HasMedia
         'reseau_id',
         'referent_department',
         'birthday',
-        'zip'
+        'zip',
+        'service_civique'
     ];
 
     protected $appends = ['full_name', 'short_name', 'avatar', 'roles', 'has_user'];

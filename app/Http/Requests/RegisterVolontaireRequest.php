@@ -31,6 +31,7 @@ class RegisterVolontaireRequest extends FormRequest
             'mobile' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'birthday' => 'required|date|before:-16 years',
             'zip' => 'required|postal_code:FR',
+            'service_civique' => 'boolean',
         ];
     }
 

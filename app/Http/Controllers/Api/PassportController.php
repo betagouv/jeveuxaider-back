@@ -37,10 +37,10 @@ class PassportController extends Controller
         }
 
         
+        $user->profile()->save($profile);
+
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
-
-        $user->profile()->save($profile);
 
         return $user;
     }

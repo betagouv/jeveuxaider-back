@@ -82,7 +82,7 @@
             show-password
           />
         </el-form-item>
-        <el-form-item class="-mb-3 py-4" prop="confidentialite">
+        <el-form-item class="-mb-3 py-4 ml-2" prop="confidentialite">
           <el-checkbox v-model="form.confidentialite">
             J'accepte la
             <router-link
