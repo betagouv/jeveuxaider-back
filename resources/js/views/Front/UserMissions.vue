@@ -6,7 +6,7 @@
       <div class="container mx-auto px-4">
         <div class="pt-10">
           <h1 class="text-3xl font-bold text-white">
-            Missions auxquelles j'ai candidatées
+            Missions auxquelles j'ai candidaté
           </h1>
         </div>
       </div>
