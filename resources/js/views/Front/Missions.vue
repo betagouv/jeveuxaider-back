@@ -245,24 +245,24 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .ais-SearchBox-input
-  @apply bg-white rounded-lg shadow px-12 py-3 border-0 outline-none
+    @apply bg-white rounded-lg shadow px-12 py-3 border-0 outline-none
 ::v-deep .ais-SearchBox-submit
-  left: 15px
+    left: 15px
 ::v-deep .ais-StateResults
-  @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
+    @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
 ::v-deep .ais-Hits-list
-  @apply m-0
+    @apply m-0
 ::v-deep .ais-Hits-item
-  @apply border-0 shadow-none w-full p-0 m-0 border-b border-gray-200
+    @apply border-0 shadow-none w-full p-0 m-0 border-b border-gray-200
 ::v-deep .ais-Pagination-item
-  &:not(.ais-Pagination-item--previousPage):not(.ais-Pagination-item--nextPage)
-    @apply hidden
+    &:not(.ais-Pagination-item--previousPage):not(.ais-Pagination-item--nextPage)
+        @apply hidden
     .ais-Pagination-link
-      @apply relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white transition ease-in-out duration-150
+        @apply relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white transition ease-in-out duration-150
         &:hover
-          @pply text-gray-500
+            @pply text-gray-500
         &:focus
-          @apply outline-none border-blue-300
+            @apply outline-none border-blue-300
         &:active
-          @apply bg-gray-100 text-gray-700
+            @apply bg-gray-100 text-gray-700
 </style>

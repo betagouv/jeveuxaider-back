@@ -258,5 +258,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-@apply mb-3
+    @apply mb-3
 </style>
