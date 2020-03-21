@@ -92,7 +92,7 @@ A l’attention du délégué à la protection des données (DPD)<br />
 </p>
 
 
-<p>Par voie électronique : <a class="underline" target="_blank" href="mailto:adresse@mail.gouv.fr">adresse@mail.gouv.fr</a> ou <a class="underline" target="_blank" href="mailto:djepva-rgpd@jeunesse-sports.gouv.fr">djepva-rgpd@jeunesse-sports.gouv.fr</a> </p>
+<p>Par voie électronique : <a class="underline" target="_blank" href="mailto:covid19@mail.reserve-civique.gouv.fr">covid19@mail.reserve-civique.gouv.fr</a> ou <a class="underline" target="_blank" href="mailto:djepva-rgpd@jeunesse-sports.gouv.fr">djepva-rgpd@jeunesse-sports.gouv.fr</a> </p>
 
 <p>Pour en savoir plus sur le détail de vos droits en matière de données personnelles, n’hésitez pas à consulter le site de la commission nationale de l’informatique et des libertés (CNIL) : <a class="underline" target="_blank" href="https://www.cnil.fr/fr/les-droits-pour-maitriser-vos-donnees-personnelles">https://www.cnil.fr/fr/les-droits-pour-maitriser-vos-donnees-personnelles</a> </p>
 

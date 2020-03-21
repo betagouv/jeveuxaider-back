@@ -150,8 +150,8 @@
                 <b>Par voie électronique</b>, à l’adresse suivante&nbsp;:
                 <a
                   class="text-blue-900 hover:underline font-medium"
-                  href="mailto:adresse@mail.gouv.fr"
-                  >adresse@mail.gouv.fr</a
+                  href="mailto:covid19@mail.reserve-civique.gouv.fr"
+                  >covid19@mail.reserve-civique.gouv.fr</a
                 >
               </p>
             </div>

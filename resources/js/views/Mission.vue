@@ -310,6 +310,7 @@
                         class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                       >Proposer votre aide</el-button>
                       <router-link
+                        v-else
                         to="/user/missions"
                         class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                       >Vous êtes déjà inscrit !</router-link>
@@ -474,12 +475,12 @@ export default {
     structure() {
       return this.mission.structure;
     },
-    canRegistered() {
-      this.hasParticipation.length > 0 ? true : false
-    },
     hasParticipation() {
         return this.$store.getters.profile.participations.filter((participation) => (participation.mission_id == this.id))
-    }
+    },
+    canRegistered() {
+      return this.hasParticipation.length > 0 ? false : true
+    },
   },
   data() {
     return {
