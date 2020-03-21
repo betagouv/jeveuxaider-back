@@ -69,7 +69,7 @@ const actions = {
   },
   registerVolontaire({ dispatch }, user) {
     return new Promise((resolve, reject) => {
-      registerVolontaire(user.email, user.password, user.first_name, user.last_name, user.mobile, user.birthday, user.zip)
+      registerVolontaire(user.email, user.password, user.first_name, user.last_name, user.mobile, user.birthday, user.zip, user.service_civique)
         .then(() => {
           dispatch("login", user).then(response => {
             resolve(response);

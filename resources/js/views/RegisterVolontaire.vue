@@ -266,7 +266,8 @@ export default {
               last_name: this.form.last_name,
               mobile: this.form.mobile,
               birthday: this.form.birthday,
-              zip: this.form.zip
+              zip: this.form.zip,
+              service_civique: this.form.service_civique
             })
             .then(() => {
               this.loading = false;
