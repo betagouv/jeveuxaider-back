@@ -13,10 +13,7 @@
             <h1 class="text-3xl font-bold text-white">Missions disponibles</h1>
           </div>
 
-          <ais-search-box
-            v-if="missionsAreReady"
-            placeholder="Trouver une mission..."
-          />
+          <ais-search-box v-if="missionsAreReady" placeholder="Trouver une mission..." />
         </div>
       </div>
 
@@ -25,9 +22,7 @@
           <div
             v-if="!missionsAreReady"
             class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16 mb-16"
-          >
-            Missions en cours de validation...
-          </div>
+          >Missions en cours de validation...</div>
 
           <ais-state-results v-else>
             <template slot-scope="{ hits, nbHits, page, nbPages, hitsPerPage }">
@@ -40,10 +35,7 @@
                     >
                       <div class="flex items-center px-4 py-4 sm:px-6">
                         <div class="min-w-0 flex-1 flex items-start">
-                          <div
-                            class="hidden sm:block flex-shrink-0"
-                            style="margin-top:2px;"
-                          >
+                          <div class="hidden sm:block flex-shrink-0" style="margin-top:2px;">
                             <img
                               v-if="item.structure.logo"
                               class="h-12 w-12 rounded-full"
@@ -53,23 +45,19 @@
                             <div
                               v-else
                               class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center"
-                            >
-                              {{ item.structure.name[0] }}
-                            </div>
+                            >{{ item.structure.name[0] }}</div>
                           </div>
-                          <div
-                            class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4"
-                          >
+                          <div class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4">
                             <div class="col-span-2 lg:col-span-1 mb-4 md:mb-0">
-                              <div class="font-semibold text-blue-800 truncate">
-                                {{ item.name }}
-                              </div>
+                              <div class="font-semibold text-blue-800 truncate">{{ item.name }}</div>
                               <div
                                 class="mt-1 flex items-center text-sm ext-gray-900 font-semibold"
                               >
-                                <span class="truncate">{{
+                                <span class="truncate">
+                                  {{
                                   item.structure.name
-                                }}</span>
+                                  }}
+                                </span>
                               </div>
                             </div>
 
@@ -88,11 +76,11 @@
                                     fill-rule="evenodd"
                                     d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                     clip-rule="evenodd"
-                                  ></path>
+                                  />
                                 </svg>
                                 {{ item.city }} ({{ item.department }})
                               </div>
-                              <div
+                              <!-- <div
                                 v-if="item.periodicite"
                                 class="mx-2 my-1 flex items-center text-gray-500"
                               >
@@ -108,16 +96,25 @@
                                   ></path>
                                 </svg>
                                 {{ item.periodicite }}
-                              </div>
+                              </div>-->
 
                               <span
-                                class="mx-2 my-1 px-6 py-1 shadow-md inline-flex font-semibold rounded-full bg-green-100 text-green-800"
+                                class="mx-2 my-1 px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
                               >
-                                {{ item.participations_max }}
-                                {{
-                                  item.participations_max
-                                    | pluralize(["volontaire", "volontaires"])
-                                }}
+                              <div>
+                                <div v-if="item.has_places_left">
+                                  {{ item.places_left }}
+                                  {{
+                                  (item.places_left)
+                                  | pluralize(["place restante", "places restantes"])
+                                  }}
+                                </div>
+                                <div v-else>Complet</div>
+                                <div
+                                  class="font-light text-gray-600 text-xs"
+                                >{{ item.participations_max - item.places_left }} / {{ item.participations_max }}
+                                </div>
+                              </div>
                               </span>
                             </div>
                           </div>
@@ -132,7 +129,7 @@
                               fill-rule="evenodd"
                               d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                               clip-rule="evenodd"
-                            ></path>
+                            />
                           </svg>
                         </div>
                       </div>
@@ -147,13 +144,12 @@
                         formatNbResults(nbHits, page, nbPages, hitsPerPage)
                       "
                     ></span>
-
                     {{
-                      nbHits
-                        | pluralize([
-                          "mission disponible",
-                          "missions disponibles"
-                        ])
+                    nbHits
+                    | pluralize([
+                    "mission disponible",
+                    "missions disponibles"
+                    ])
                     }}
                   </div>
                   <div class="pagination ml-auto">
@@ -165,9 +161,7 @@
               <div
                 v-else
                 class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
-              >
-                Pas de résultats.
-              </div>
+              >Pas de résultats.</div>
             </template>
           </ais-state-results>
         </div>
@@ -228,26 +222,26 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .ais-SearchBox-input
-    @apply bg-white rounded-lg shadow px-12 py-3 border-0 outline-none
+  @apply bg-white rounded-lg shadow px-12 py-3 border-0 outline-none
 ::v-deep .ais-SearchBox-submit
-    left: 15px
+  left: 15px
 ::v-deep .ais-StateResults
-    @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
+  @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
 ::v-deep .ais-Hits-list
-    @apply m-0
+  @apply m-0
 ::v-deep .ais-Hits-item
-    @apply border-0 shadow-none w-full p-0 m-0 border-b border-gray-200
+  @apply border-0 shadow-none w-full p-0 m-0 border-b border-gray-200
 ::v-deep .ais-Pagination-item
-    &.ais-Pagination-item--selected,
-    &.ais-Pagination-item--firstPage,
-    &.ais-Pagination-item--lastPage
-        @apply hidden
+  &.ais-Pagination-item--selected,
+  &.ais-Pagination-item--firstPage,
+  &.ais-Pagination-item--lastPage
+    @apply hidden
     .ais-Pagination-link
-        @apply relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white transition ease-in-out duration-150
+      @apply relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white transition ease-in-out duration-150
         &:hover
-            @pply text-gray-500
+          @pply text-gray-500
         &:focus
-            @apply outline-none border-blue-300
+          @apply outline-none border-blue-300
         &:active
-            @apply bg-gray-100 text-gray-700
+          @apply bg-gray-100 text-gray-700
 </style>
