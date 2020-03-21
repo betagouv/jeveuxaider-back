@@ -36,9 +36,11 @@ class PassportController extends Controller
             $profile = Profile::create($request->validated());
         }
 
+        
         $notification = new RegisterUserVolontaire($user);
-        $user->profile()->save($profile);
         $user->notify($notification);
+
+        $user->profile()->save($profile);
 
         return $user;
     }
