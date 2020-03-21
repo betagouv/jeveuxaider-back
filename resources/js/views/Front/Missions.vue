@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="-mt-32">
+      <div ref="resultsWrapper" class="-mt-32">
         <div class="container mx-auto px-4 my-12">
           <div
             v-if="!missionsAreReady"
@@ -170,7 +170,7 @@
                     }}
                   </div>
                   <div class="pagination ml-auto">
-                    <ais-pagination />
+                    <ais-pagination @page-change="scrollToTop" />
                   </div>
                 </div>
               </template>
@@ -226,14 +226,13 @@ export default {
   },
   methods: {
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
-      //   console.log(nbHits);
-      //   console.log(page);
-      //   console.log(nbPages);
-      //   console.log(hitsPerPage);
       let begin = page * hitsPerPage + 1;
       let end =
         nbHits < (page + 1) * hitsPerPage ? nbHits : (page + 1) * hitsPerPage;
       return `<span class="font-medium">${begin}</span> à <span class="font-medium">${end}</span> sur <span class="font-medium">${nbHits}</span>`;
+    },
+    scrollToTop() {
+      this.$refs.resultsWrapper.scrollIntoView();
     }
   }
 };
@@ -251,16 +250,14 @@ export default {
 ::v-deep .ais-Hits-item
     @apply border-0 shadow-none w-full p-0 m-0 border-b border-gray-200
 ::v-deep .ais-Pagination-item
-    &.ais-Pagination-item--selected,
-    &.ais-Pagination-item--firstPage,
-    &.ais-Pagination-item--lastPage
+    &:not(.ais-Pagination-item--previousPage):not(.ais-Pagination-item--nextPage)
         @apply hidden
-        .ais-Pagination-link
+    .ais-Pagination-link
         @apply relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white transition ease-in-out duration-150
-            &:hover
+        &:hover
             @pply text-gray-500
-            &:focus
+        &:focus
             @apply outline-none border-blue-300
-            &:active
+        &:active
             @apply bg-gray-100 text-gray-700
 </style>
