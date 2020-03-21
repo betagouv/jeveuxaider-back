@@ -27,6 +27,7 @@
         "portal-vue": "^2.1.7",
         "tailwindcss": "^1.1.4",
         "vue": "^2.6.11",
+        "vue-analytics": "^5.22.1",
         "vue-clamp": "^0.2.2",
         "vue-instantsearch": "^2.7.0",
         "vue-router": "^3.1.3",
