@@ -27,7 +27,7 @@
     <div v-if="!submitted">
       <div class="mb-6 text-sm">
         Pour réinitialiser votre mot de passe, entrez l'adresse mail que vous
-        avez utilisée pour vous connecter à la plateforme
+        avez utilisée pour vous connecter à la plateforme.
       </div>
       <el-form
         ref="forgotPasswordForm"
