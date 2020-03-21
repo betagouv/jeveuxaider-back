@@ -11,6 +11,7 @@ import Bowser from "bowser";
 import "./plugins/dayjs.js";
 import "./plugins/utils.js";
 import Vue2Filters from "vue2-filters";
+import VueAnalytics from 'vue-analytics'
 
 import AppHeader from "@/components/AppHeader"
 import AppFooter from "@/components/AppFooter"
@@ -22,11 +23,21 @@ Vue.component('AppFooter', AppFooter);
 Vue.component('DropdownUser', DropdownUser);
 Vue.component('VClamp', VClamp);
 
-
-
-
 Vue.use(Vue2Filters);
 Vue.use(PortalVue);
+Vue.use(VueAnalytics, {
+    id: 'UA-81479189-7',
+    router,
+    autoTracking: {
+        pageviewTemplate (route) {
+            return {
+                page: route.path,
+                title: document.title,
+                location: window.location.href
+            }
+        }
+    }
+})
 
 new Vue({
   router,
