@@ -39,7 +39,7 @@ class Profile extends Model implements HasMedia
 
     protected $hidden = ['media', 'user'];
 
-    protected $with = ['structures:id,name', 'reseau:id,name'];
+    protected $with = ['structures:id,name', 'reseau:id,name', 'participations'];
 
     public function registerMediaCollections()
     {
@@ -159,8 +159,9 @@ class Profile extends Model implements HasMedia
     public function participations()
     {
         return $this
-            ->belongsToMany('App\Models\Participation')
-            ->without('profile');
+            ->hasMany('App\Models\Participation')
+            ->without('profile')
+            ->without('mission');
     }
 
     public function isReferent()
