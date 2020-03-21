@@ -91,6 +91,8 @@ class Mission extends Model
             'city' => $this->city,
             'department' => $this->department,
             'periodicite' => $this->periodicite,
+            'has_places_left' => $this->has_places_left,
+            'places_left' => $this->places_left,
             'participations_max' => $this->participations_max,
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
