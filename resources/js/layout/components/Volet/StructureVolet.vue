@@ -97,7 +97,7 @@
           </router-link>
         </div>
       </el-card>
-      <!-- <el-form ref="structureForm" :model="form" label-position="top">
+      <el-form ref="structureForm" :model="form" label-position="top">
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national
         </div>
@@ -135,7 +135,7 @@
             Enregistrer
           </el-button>
         </div>
-      </el-form> -->
+      </el-form>
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Équipe ({{ form.members.length }})
       </div>

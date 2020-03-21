@@ -3,13 +3,21 @@
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">Mission</div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name }}</div>
-        <state-tag :state="form.state" class="relative ml-3" style="top: 1px"></state-tag>
+        <div class="font-bold text-2xl text-gray-800 max-w-3xl">
+          {{ form.name }}
+        </div>
+        <state-tag
+          :state="form.state"
+          class="relative ml-3"
+          style="top: 1px"
+        ></state-tag>
       </div>
     </template>
     <template v-else>
       <div class="text-m text-gray-600 uppercase">Mission</div>
-      <div class="mb-12 font-bold text-2xl text-gray-800">Création d'une nouvelle mission</div>
+      <div class="mb-12 font-bold text-2xl text-gray-800">
+        Création d'une nouvelle mission
+      </div>
     </template>
     <div class="flex">
       <div style="max-width: 600px">
@@ -23,7 +31,11 @@
           <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
           <el-form-item v-if="form.structure" label="Ma structure" class>
-            <el-input v-model="form.structure.name" placeholder="Structure de la mission" disabled />
+            <el-input
+              v-model="form.structure.name"
+              placeholder="Structure de la mission"
+              disabled
+            />
           </el-form-item>
 
           <el-form-item label="Domaine d'action" prop="name">
@@ -31,7 +43,10 @@
               Choisissez parmi la liste des missions prioritaires face à la
               crise
             </item-description>
-            <el-select v-model="form.name" placeholder="Choisir un domaine d'action">
+            <el-select
+              v-model="form.name"
+              placeholder="Choisir un domaine d'action"
+            >
               <el-option
                 v-for="item in $store.getters.taxonomies.mission_domaines.terms"
                 :key="item.value"
@@ -61,14 +76,22 @@
             prop="participations_max"
           >
             <item-description>
-              Précisez ce nombre en fonction de vos contraintes logistiques et votre
-              capacité à accompagner les volontaires.
+              Précisez ce nombre en fonction de vos contraintes logistiques et
+              votre capacité à accompagner les volontaires.
             </item-description>
-            <el-input-number v-model="form.participations_max" :step="1" :min="1" class="w-full"></el-input-number>
+            <el-input-number
+              v-model="form.participations_max"
+              :step="1"
+              :min="1"
+              class="w-full"
+            ></el-input-number>
           </el-form-item>
 
           <el-form-item label="Format de mission" prop="format">
-            <el-select v-model="form.format" placeholder="Selectionner un format de mission">
+            <el-select
+              v-model="form.format"
+              placeholder="Selectionner un format de mission"
+            >
               <el-option
                 v-for="item in $store.getters.taxonomies.mission_formats.terms"
                 :key="item.value"
@@ -78,10 +101,16 @@
             </el-select>
           </el-form-item>
 
-          <div class="mt-12 mb-6 text-xl text-gray-800">Dates de la mission</div>
+          <div class="mt-12 mb-6 text-xl text-gray-800">
+            Dates de la mission
+          </div>
 
           <div class="flex">
-            <el-form-item label="Date de début" prop="start_date" class="flex-1 mr-2">
+            <el-form-item
+              label="Date de début"
+              prop="start_date"
+              class="flex-1 mr-2"
+            >
               <el-date-picker
                 v-model="form.start_date"
                 class="w-full"
@@ -91,7 +120,11 @@
                 default-time="09:00:00"
               ></el-date-picker>
             </el-form-item>
-            <el-form-item label="Date de fin" prop="start_date" class="flex-1 ml-2">
+            <el-form-item
+              label="Date de fin"
+              prop="start_date"
+              class="flex-1 ml-2"
+            >
               <el-date-picker
                 v-model="form.end_date"
                 class="w-full"
@@ -134,9 +167,15 @@
         </el-select>
           </el-form-item>-->
 
-          <div class="mt-12 mb-6 text-xl text-gray-800">Détail de la mission</div>
+          <div class="mt-12 mb-6 text-xl text-gray-800">
+            Détail de la mission
+          </div>
           <div class>
-            <el-form-item label="Commentaire par la structure" prop="description" class="flex-1">
+            <el-form-item
+              label="Commentaire par la structure"
+              prop="description"
+              class="flex-1"
+            >
               <item-description>
                 Décrivez précisément la mission (contexte, objectifs,
                 bénéficiaires, activités, utilité, ressources...). Celle-ci doit
@@ -152,7 +191,10 @@
               ></el-input>
             </el-form-item>
 
-            <el-form-item label="Publics bénéficiaires" prop="publics_beneficiaires">
+            <el-form-item
+              label="Publics bénéficiaires"
+              prop="publics_beneficiaires"
+            >
               <el-select
                 v-model="form.publics_beneficiaires"
                 placeholder="Selectionner les publics bénéficiaires"
@@ -160,7 +202,7 @@
               >
                 <el-option
                   v-for="item in $store.getters.taxonomies
-                .mission_publics_beneficiaires.terms"
+                    .mission_publics_beneficiaires.terms"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -190,12 +232,16 @@
             </el-form-item>-->
           </div>
 
-          <div
-            class="mt-12 mb-6 flex text-xl text-gray-800"
-          >La localisation des publics bénéficiaires</div>
+          <div class="mt-12 mb-6 flex text-xl text-gray-800">
+            La localisation des publics bénéficiaires
+          </div>
 
           <el-form-item label="Département" prop="department">
-            <el-select v-model="form.department" filterable placeholder="Département">
+            <el-select
+              v-model="form.department"
+              filterable
+              placeholder="Département"
+            >
               <el-option
                 v-for="item in $store.getters.taxonomies.departments.terms"
                 :key="item.value"
@@ -223,26 +269,40 @@
           </div>
           <div class="flex">
             <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
-              <el-input v-model="form.latitude" disabled placeholder="Latitude" />
+              <el-input
+                v-model="form.latitude"
+                disabled
+                placeholder="Latitude"
+              />
             </el-form-item>
             <el-form-item label="Longitude" prop="longitude" class="flex-1">
-              <el-input v-model="form.longitude" disabled placeholder="Longitude" />
+              <el-input
+                v-model="form.longitude"
+                disabled
+                placeholder="Longitude"
+              />
             </el-form-item>
           </div>
 
-          <div class="mt-12 mb-6 flex text-xl text-gray-800">Responsable de la mission</div>
+          <div class="mt-12 mb-6 flex text-xl text-gray-800">
+            Responsable de la mission
+          </div>
           <item-description>
-            Les notifications lors de la prise de contact d'un réserviste concernant
-            cette mission seront envoyées à cette personne.
+            Les notifications lors de la prise de contact d'un volontaire
+            concernant cette mission seront envoyées à cette personne.
             <br />Vous pouvez également
             <span
               class="underline cursor-pointer"
               @click="onAddTuteurLinkClicked"
-            >ajouter un nouveau membre</span>
+              >ajouter un nouveau membre</span
+            >
             à votre équipe.
           </item-description>
           <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
-            <el-select v-model="form.tuteur_id" placeholder="Sélectionner un responsable">
+            <el-select
+              v-model="form.tuteur_id"
+              placeholder="Sélectionner un responsable"
+            >
               <el-option
                 v-for="item in form.structure.members"
                 :key="item.id"
@@ -252,11 +312,9 @@
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button
-              type="primary"
-              :loading="loading"
-              @click="onSubmit"
-            >Enregistrer</el-button>
+            <el-button type="primary" :loading="loading" @click="onSubmit"
+              >Enregistrer</el-button
+            >
             <!-- <el-button
           v-if="showAskValidation"
           type="primary"
@@ -268,16 +326,40 @@
         </el-form>
       </div>
       <div class="flex-1 px-12">
-        <div v-if="form.name == 'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'" class="border rounded p-8">
+        <div
+          v-if="
+            form.name ==
+              'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
+          "
+          class="border rounded p-8"
+        >
           <AideAlimentaireUrgence />
         </div>
-        <div v-if="form.name == 'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'" class="border rounded p-8">
+        <div
+          v-if="
+            form.name ==
+              'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
+          "
+          class="border rounded p-8"
+        >
           <GardeExceptionnelleEnfants />
         </div>
-        <div v-if="form.name == 'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'" class="border rounded p-8">
+        <div
+          v-if="
+            form.name ==
+              'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
+          "
+          class="border rounded p-8"
+        >
           <LienPersonnesFragilesIsolees />
         </div>
-        <div v-if="form.name == 'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'" class="border rounded p-8">
+        <div
+          v-if="
+            form.name ==
+              'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
+          "
+          class="border rounded p-8"
+        >
           <SolidariteDeProximite />
         </div>
       </div>
@@ -528,8 +610,8 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep
-  .el-input-number__decrease,
-  .el-input-number__increase
+.el-input-number__decrease,
+.el-input-number__increase
     bottom: 1px
     display: flex
     align-items: center
