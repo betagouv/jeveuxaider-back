@@ -406,7 +406,12 @@
                         <span
                           class="mx-2 my-1 px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
                         >
-                          <div>
+                        {{ otherMission.participations_max }}
+                              {{
+                              (otherMission.participations_max)
+                              | pluralize(["volontaire", "volontaires"])
+                              }}
+                          <!-- <div>
                             <div v-if="otherMission.has_places_left">
                               {{ otherMission.places_left }}
                               {{
@@ -418,7 +423,7 @@
                             <div
                               class="font-light text-gray-600 text-xs"
                             >{{ otherMission.participations_max - otherMission.places_left }} / {{ otherMission.participations_max }}</div>
-                          </div>
+                          </div> -->
                         </span>
                       </div>
                     </div>
