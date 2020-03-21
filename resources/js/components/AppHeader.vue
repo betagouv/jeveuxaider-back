@@ -3,7 +3,7 @@
     <div :class="background">
       <div class="container mx-auto px-4">
         <div
-          class="flex flex-wrap items-center justify-center md:h-16 border-b border-blue-800"
+          class="flex flex-wrap items-center justify-center pt-1 md:pt-0 md:h-16 border-b border-blue-800"
         >
           <div class="flex-shrink-0 my-4 md:my-0 order-1">
             <router-link :to="{ name: 'Homepage' }">
@@ -45,26 +45,28 @@
               >
             </div>
           </div>
-          <div class="order-2 md:order-3 ml-auto md:ml-3 flex items-center">
-            <router-link
-              v-if="
-                $store.getters.isLogged &&
-                  $store.getters.contextRole != 'volontaire'
-              "
-              to="/dashboard"
-              class="hidden lg:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-              :class="{
-                'bg-blue-700': isCurrentPath('/dashboard')
-              }"
-              >Tableau de bord</router-link
-            >
-            <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
-            <router-link
-              v-else
-              to="/login"
-              class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
-              >Se connecter</router-link
-            >
+          <div class="order-2 md:order-3 ml-auto md:ml-3">
+            <div class="flex items-center -m-2">
+              <router-link
+                v-if="
+                  $store.getters.isLogged &&
+                    $store.getters.contextRole != 'volontaire'
+                "
+                to="/dashboard"
+                class="hidden lg:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
+                :class="{
+                  'bg-blue-700': isCurrentPath('/dashboard')
+                }"
+                >Tableau de bord</router-link
+              >
+              <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
+              <router-link
+                v-else
+                to="/login"
+                class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
+                >Se connecter</router-link
+              >
+            </div>
           </div>
         </div>
       </div>
