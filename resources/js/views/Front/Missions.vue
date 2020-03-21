@@ -223,7 +223,7 @@ export default {
   },
   computed: {
     modeLigth() {
-      return process.env.MIX_MODE_APP_LIGTH;
+      return process.env.MIX_MODE_APP_LIGTH ? JSON.parse(process.env.MIX_MODE_APP_LIGTH) : false;
     },
     indexName() {
       return process.env.MIX_ALGOLIA_INDEX;
