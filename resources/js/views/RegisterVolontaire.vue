@@ -2,11 +2,7 @@
   <div class="register mx-auto w-full" style="max-width: 620px;">
     <div>
       <router-link to="/">
-        <img
-          class="h-8 w-auto"
-          src="/images/logo-rf-rc-dark.png"
-          alt="Réserve Civique"
-        />
+        <img class="h-8 w-auto" src="/images/logo-rf-rc-dark.png" alt="Réserve Civique" />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Vous souhaitez rejoindre les volontaires ?
@@ -16,103 +12,88 @@
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8"></div>
     <div>
-      <h3 class="text-lg font-medium text-gray-900">
-        Engagez-vous dans la lutte contre l’épidémie
-      </h3>
+      <h3 class="text-lg font-medium text-gray-900">Engagez-vous dans la lutte contre l’épidémie</h3>
       <p class="mt-1 text-sm text-gray-500">
-        <router-link to="/regles-de-securite"
-          >Cet engagement nécessite un respect strict des règles sanitaires
-          applicables.</router-link
-        >
+        <router-link to="/regles-de-securite">
+          Cet engagement nécessite un respect strict des règles sanitaires
+          applicables.
+        </router-link>
       </p>
     </div>
-    <el-form
-      ref="registerVolontaireForm"
-      :model="form"
-      label-position="top"
-      :rules="rules"
-      :hide-required-asterisk="true"
-      class="mt-6"
-    >
-      <div class="flex flex-wrap -m-2">
-        <el-form-item
-          label="Prénom"
-          prop="first_name"
-          class="w-full sm:w-1/2 p-2"
-        >
-          <el-input v-model="form.first_name" placeholder="Prénom" />
-        </el-form-item>
-        <el-form-item label="Nom" prop="last_name" class="w-full sm:w-1/2 p-2">
-          <el-input v-model="form.last_name" placeholder="Nom" />
-        </el-form-item>
-        <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 p-2">
-          <el-input v-model="form.email" placeholder="E-mail" />
-        </el-form-item>
-        <el-form-item
-          label="Code Postal"
-          prop="zip"
-          class="w-full sm:w-1/2 p-2"
-        >
-          <el-input v-model="form.zip" placeholder="Code Postal" />
-        </el-form-item>
-        <el-form-item
-          label="Téléphone mobile"
-          prop="mobile"
-          class="w-full sm:w-1/2 p-2"
-        >
-          <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
-        </el-form-item>
-        <el-form-item
-          label="Date de naissance"
-          prop="birthday"
-          class="w-full sm:w-1/2 p-2"
-        >
-          <el-date-picker
-            type="date"
-            placeholder="Date de naissance"
-            v-model="form.birthday"
-            autocomplete="off"
-            format="dd-MM-yyyy"
-            value-format="yyyy-MM-dd"
-            style="width:100%;"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item
-          label="Mot de passe"
-          prop="password"
-          class="w-full sm:w-1/2 p-2"
-        >
-          <el-input
-            v-model="form.password"
-            placeholder="Choisissez votre mot de passe"
-            show-password
-          />
-        </el-form-item>
-        <el-form-item
-          label="Confirmation du mot de passe"
-          prop="password_confirmation"
-          class="w-full sm:w-1/2 p-2"
-        >
-          <el-input
-            v-model="form.password_confirmation"
-            placeholder="Confirmez votre mot de passe"
-            show-password
-          />
-        </el-form-item>
+    <template v-if="modeLigth">
+      <div class="py-8">
+        Quel élan de solidarité !
+        <br />Vous êtes actuellement très nombreux·ses à vouloir vous engager et notre plateforme rencontre des difficultés. Revenez dans quelques minutes pour vous inscrire. Nous avons plus que jamais besoin de vous !
       </div>
-    </el-form>
-    <div class="mt-8 sm:col-span-">
-      <span class="block w-full rounded-md shadow-sm">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="onSubmit"
-          style="height: 48px;"
-          class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >Je m'inscris en tant que volontaire</el-button
-        >
-      </span>
-    </div>
+    </template>
+    <template v-else>
+      <el-form
+        ref="registerVolontaireForm"
+        :model="form"
+        label-position="top"
+        :rules="rules"
+        :hide-required-asterisk="true"
+        class="mt-6"
+      >
+        <div class="flex flex-wrap -m-2">
+          <el-form-item label="Prénom" prop="first_name" class="w-full sm:w-1/2 p-2">
+            <el-input v-model="form.first_name" placeholder="Prénom" />
+          </el-form-item>
+          <el-form-item label="Nom" prop="last_name" class="w-full sm:w-1/2 p-2">
+            <el-input v-model="form.last_name" placeholder="Nom" />
+          </el-form-item>
+          <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 p-2">
+            <el-input v-model="form.email" placeholder="E-mail" />
+          </el-form-item>
+          <el-form-item label="Code Postal" prop="zip" class="w-full sm:w-1/2 p-2">
+            <el-input v-model="form.zip" placeholder="Code Postal" />
+          </el-form-item>
+          <el-form-item label="Téléphone mobile" prop="mobile" class="w-full sm:w-1/2 p-2">
+            <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
+          </el-form-item>
+          <el-form-item label="Date de naissance" prop="birthday" class="w-full sm:w-1/2 p-2">
+            <el-date-picker
+              type="date"
+              placeholder="Date de naissance"
+              v-model="form.birthday"
+              autocomplete="off"
+              format="dd-MM-yyyy"
+              value-format="yyyy-MM-dd"
+              style="width:100%;"
+            ></el-date-picker>
+          </el-form-item>
+          <el-form-item label="Mot de passe" prop="password" class="w-full sm:w-1/2 p-2">
+            <el-input
+              v-model="form.password"
+              placeholder="Choisissez votre mot de passe"
+              show-password
+            />
+          </el-form-item>
+          <el-form-item
+            label="Confirmation du mot de passe"
+            prop="password_confirmation"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.password_confirmation"
+              placeholder="Confirmez votre mot de passe"
+              show-password
+            />
+          </el-form-item>
+        </div>
+      </el-form>
+      <div class="mt-8 sm:col-span-">
+        <span class="block w-full rounded-md shadow-sm">
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="onSubmit"
+            style="height: 48px;"
+            class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+          >Je m'inscris en tant que volontaire</el-button>
+        </span>
+      </div>
+    </template>
 
     <div class="mt-6">
       <div class="relative">
@@ -129,9 +110,7 @@
             <button
               type="submit"
               class="w-full flex justify-center py-2 px-4 border border-transparent font-medium border border-gray-300 rounded bg-white text-sm font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-            >
-              J'ai déjà un compte
-            </button>
+            >J'ai déjà un compte</button>
           </span>
         </router-link>
       </div>
@@ -241,6 +220,11 @@ export default {
       }
     };
   },
+  computed: {
+    modeLigth() {
+      return process.env.MIX_MODE_APP_LIGTH ? JSON.parse(process.env.MIX_MODE_APP_LIGTH) : false;
+    }
+  },
   methods: {
     onSubmit() {
       this.loading = true;
@@ -274,5 +258,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-@apply mb-3
+    @apply mb-3
 </style>
