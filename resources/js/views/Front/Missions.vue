@@ -213,11 +213,20 @@ export default {
     AisStateResults
   },
   data() {
+    var algoliasearchParams = null
+    if(window.ip_client[0] != "127.0.0.1") {
+        algoliasearchParams = {
+            headers: {
+                'X-Forwarded-For': window.ip_client[0]
+            }
+        }
+    }
     return {
       missionsAreReady: true,
       searchClient: algoliasearch(
         process.env.MIX_ALGOLIA_APP_ID,
-        process.env.MIX_ALGOLIA_SEARCH_KEY
+        process.env.MIX_ALGOLIA_SEARCH_KEY,
+        algoliasearchParams
       ),
         searchFunction(helper) {
             helper.setQueryParameter('aroundLatLngViaIP', true).search();
