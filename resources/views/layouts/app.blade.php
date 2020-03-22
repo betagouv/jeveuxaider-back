@@ -12,7 +12,6 @@
         <script>
             Userback = window.Userback || {};
             Userback.access_token = '8654|15306|z7JRFuJkExuIVFcztrli1HqKOnGVSikUhotmIJl6M1x3tJKtaW';
-            window.ip_client = @json(request()->getClientIps(true));
             (function(id) {
                 var s = document.createElement('script');
                 s.async = 1;s.src = 'https://static.userback.io/widget/v1.js';
