@@ -94,10 +94,6 @@ class Mission extends Model
             'has_places_left' => $this->has_places_left,
             'places_left' => $this->places_left,
             'participations_max' => $this->participations_max,
-            "_geoloc" => [
-                "lat" => $this->latitude,
-                "lng" => $this->longitude
-            ],
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
