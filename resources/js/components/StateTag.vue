@@ -40,6 +40,14 @@
       En attente de mission
     </el-tag>
     <el-tag
+      v-if="state == 'Mission validée'"
+      type="success"
+      :size="size"
+      class="m-1"
+    >
+      Mission validée
+    </el-tag>
+    <el-tag
       v-if="state == 'Mission proposée'"
       type="success"
       :size="size"

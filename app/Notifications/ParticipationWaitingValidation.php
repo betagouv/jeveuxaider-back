@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Support\HtmlString;
 
 class ParticipationWaitingValidation extends Notification
 {
@@ -48,12 +49,19 @@ class ParticipationWaitingValidation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre demande de participation a bien été déposée')
+            ->subject('Vous avez une nouvelle demande de participation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Vous avez proposé votre aide dans le cadre de la crise sanitaire pour la mission : ' . $this->participation->mission->name .'.')
-            ->line('')
-            ->line('Nous vous informerons sous peu de la validation de votre participation.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la missions « ' . $this->participation->mission->name .' »')
+            ->line('Voici ses coordonnées :')
+            ->line(
+                new HtmlString(
+                    $this->participation->profile->full_name . '<br>' .
+                    $this->participation->profile->mobile . '<br>' .
+                    $this->participation->profile->email
+                )
+            )
+            ->line('Merci de confirmer sa participation depuis votre espace de gestion.')
+            ->action('Gérer mes participations', url(config('app.url').'/dashboard/participations'));
     }
 
     /**
