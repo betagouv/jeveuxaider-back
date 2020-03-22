@@ -8,6 +8,8 @@ use App\Observers\StructureObserver;
 use App\Models\Structure;
 use App\Observers\MissionObserver;
 use App\Models\Mission;
+use App\Models\Participation;
+use App\Observers\ParticipationObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Structure::observe(StructureObserver::class);
         Mission::observe(MissionObserver::class);
+        Participation::observe(ParticipationObserver::class);
 
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);
