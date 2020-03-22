@@ -20,7 +20,7 @@
       </div>
     </template>
     <template v-else>
-      <ais-instant-search :search-client="searchClient" :index-name="indexName" :search-function="searchFunction">
+      <ais-instant-search :search-client="searchClient" :index-name="indexName">
         <div class="bg-blue-900 pb-32">
           <div class="container mx-auto px-4">
             <div
@@ -218,10 +218,7 @@ export default {
       searchClient: algoliasearch(
         process.env.MIX_ALGOLIA_APP_ID,
         process.env.MIX_ALGOLIA_SEARCH_KEY
-      ),
-        searchFunction(helper) {
-            helper.setQueryParameter('aroundLatLngViaIP', true).search();
-        },
+      )
     };
   },
   computed: {
