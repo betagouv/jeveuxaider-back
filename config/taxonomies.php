@@ -88,12 +88,12 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "Brouillon" => "Brouillon",
-            "En attente de validation" => "En attente de validation",
-            "En attente de correction" => "En attente de correction",
+            //"En attente de validation" => "En attente de validation",
+            //"En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Refusée" => "Refusée",
             "Annulée" => "Annulée",
-            "Archivée" => "Archivée"
+           // "Archivée" => "Archivée"
         ]
     ],
 
@@ -442,10 +442,10 @@ return [
             "Mission validée" => "Mission validée",
             "Mission en cours" => "Mission en cours",
             "Mission effectuée" => "Mission effectuée",
-            "Mission refusée" => "Mission refusée",
+            //"Mission refusée" => "Mission refusée",
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",
-            "Archivée" => "Archivée"
+           // "Archivée" => "Archivée"
         ]
     ],
 ];
