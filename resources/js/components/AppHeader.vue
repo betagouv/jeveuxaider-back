@@ -9,7 +9,7 @@
             <router-link :to="{ name: 'Homepage' }">
               <img
                 class="h-6"
-                src="/images/logo-rf-rc.png"
+                src="/images/logo-header.png"
                 alt="Réserve Civique"
               />
             </router-link>

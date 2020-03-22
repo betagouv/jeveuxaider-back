@@ -19,7 +19,7 @@
       <div
         class="flex sm:flex-col sm:flex-none items-center lg:mt-auto w-full sm:w-auto lg:w-full p-4 order-1 lg:order-2"
       >
-        <img src="/images/logo-rf-rc.png" class="logo sm:mb-2 lg:mb-8" />
+        <img src="/images/logo-header.png" class="logo sm:mb-2 lg:mb-8" />
         <div
           class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t "
         >

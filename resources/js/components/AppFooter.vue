@@ -7,7 +7,7 @@
             <router-link to="/">
               <img
                 class="mx-auto lg:mx-0"
-                src="/images/logo-rf-rc.png"
+                src="/images/logo-header.png"
                 alt=""
                 style="height: 30px;"
               />
