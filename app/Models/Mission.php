@@ -104,7 +104,7 @@ class Mission extends Model
             ] : null
         ];
 
-        if($this->latitude && $this->longitude) {
+        if(!empty($this->latitude) && !empty($this->longitude)) {
             $mission["_geoloc"] = [
                 "lat" => $this->latitude,
                 "lng" => $this->longitude
