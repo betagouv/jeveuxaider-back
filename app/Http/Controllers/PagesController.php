@@ -29,11 +29,6 @@ class PagesController extends Controller
         return view('pages.security-rules');
     }
 
-    public function showIp()
-    {
-        return request()->getClientIp(true);
-    }
-
     public function spa()
     {
         return view('layouts.app');

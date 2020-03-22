@@ -16,7 +16,5 @@
 // Route::get('/centre-d-aide', 'PagesController@help');
 // Route::get('/regles-de-securite', 'PagesController@securityRules');
 
-Route::get('/show-ip', 'PagesController@showIp');
-
 // SPA VUE
 Route::get('/{any}', 'PagesController@spa')->where('any', '.*');
