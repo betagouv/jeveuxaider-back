@@ -2,7 +2,7 @@
   <div class="register mx-auto w-full" style="max-width: 620px;">
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-rf-rc-dark.png" alt="Réserve Civique" />
+        <img class="h-8 w-auto" src="/images/logo-header-dark.png" alt="Réserve Civique" />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Vous souhaitez rejoindre les volontaires ?

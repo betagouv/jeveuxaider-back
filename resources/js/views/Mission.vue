@@ -231,6 +231,24 @@
                   <p>{{ mission.description }}</p>
                 </div>
               </div>
+
+              <div class="mt-16">
+                <div class="flex flex-wrap items-center">
+                  <h4
+                    class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                  >Quelques pistes pour l'écoute téléphonique</h4>
+                  <div class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0"></div>
+                </div>
+
+                <div class="mt-6 text-gray-500">
+                    <p>
+                        <a class="inline-flex items-center hover:underline" target="_blank" href="/files/Fiche_Reserve_civique_soutien_ECOUTE_TELEPHONIQUE_-_Covid-19.pdf">
+                        Télécharger la fiche pratique
+                        <svg style="margin-top:2px;" data-v-18b25a0c="" fill="currentColor" viewBox="0 0 20 20" class="h-4 w-4 text-gray-400"><path data-v-18b25a0c="" fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </p>
+                </div>
+              </div>
             </div>
 
             <div
