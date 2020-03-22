@@ -85,7 +85,7 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
-        return [
+        $mission = [
             'id' => $this->id,
             'name' => $this->name,
             'city' => $this->city,
@@ -103,6 +103,15 @@ class Mission extends Model
                 'name' => $this->structure->name,
             ] : null
         ];
+
+        if($this->latitude && $this->longitude) {
+            $mission["_geoloc"] = [
+                "lat" => $this->latitude,
+                "lng" => $this->longitude
+            ];
+        }
+
+        return $mission;
     }
 
     public function setNameAttribute($value)
