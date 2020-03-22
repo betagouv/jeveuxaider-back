@@ -93,10 +93,10 @@
         </template>
         <template v-if="showTuteur">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Tuteur de la mission
+            Responsable de la mission
           </div>
           <item-description>
-            Sélectionner le tuteur qui va s'occuper de la mission. Vous pouvez
+            Sélectionner le responsable qui va s'occuper de la mission. Vous pouvez
             également
             <router-link
               class="underline"
@@ -104,14 +104,14 @@
                 name: 'StructureMembersAdd',
                 params: { id: form.structure.id }
               }"
-              >ajouter un nouveau tuteur</router-link
+              >ajouter un nouveau responsable</router-link
             >
             à votre équipe.
           </item-description>
-          <el-form-item label="Tuteur" prop="tuteur_id" class="flex-1">
+          <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
             <el-select
               v-model="form.tuteur_id"
-              placeholder="Sélectionner un tuteur"
+              placeholder="Sélectionner un responsable"
             >
               <el-option
                 v-for="item in form.structure.members"
@@ -158,10 +158,11 @@ export default {
         : false;
     },
     showStatut() {
-      return this.$store.getters.contextRole == "admin" ||
-        this.$store.getters.contextRole == "referent"
-        ? true
-        : false;
+      // return this.$store.getters.contextRole == "admin" ||
+      //   this.$store.getters.contextRole == "referent"
+      //   ? true
+      //   : false;
+      return true;
     },
     showTuteur() {
       return this.$store.getters.contextRole != "tuteur" && !this.row.tuteur_id

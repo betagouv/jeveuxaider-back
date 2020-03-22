@@ -158,7 +158,7 @@
                   </ais-hits>
 
                   <div class="flex items-center px-4 py-4 sm:px-6">
-                    <div class="text-sm text-gray-700">
+                    <!-- <div class="text-sm text-gray-700">
                       <span
                         v-html="
                         formatNbResults(nbHits, page, nbPages, hitsPerPage)
@@ -171,7 +171,7 @@
                       "missions disponibles"
                       ])
                       }}
-                    </div>
+                    </div> -->
                     <div class="pagination ml-auto">
                       <ais-pagination @page-change="scrollToTop" />
                     </div>

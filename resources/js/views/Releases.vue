@@ -7,7 +7,7 @@
     <div class="w-full max-w-2xl my-12">
       <div class="header">
         <div class="mb-8 pb-8 border-b">
-          <img src="/images/logo-rf-rc.png" style="max-width: 50px;" />
+          <img src="/images/logo-header.png" style="max-width: 50px;" />
         </div>
         <div class="header-titles flex-1">
           <div class="mb-12 font-bold text-3xl text-gray-800">

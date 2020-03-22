@@ -54,7 +54,7 @@
         class="absolute bottom-0 p-6 pb-10 flex justify-center mb-4"
         style="width: 220px;"
       >
-        <img src="/images/logo-rf-rc-dark.png" />
+        <img src="/images/logo-header-dark.png" />
       </div>
     </router-link>
   </el-aside>
