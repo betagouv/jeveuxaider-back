@@ -59,6 +59,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'updated_at',
             'structures',
             'registered',
+            'volontaire'
         ];
     }
 
@@ -84,7 +85,8 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'created_at' => $profile->created_at,
             'updated_at' => $profile->updated_at,
             'structures' => $profile->structures ? $profile->structures->pluck('name')->implode(', ') : '',
-            'registered' => $profile->user ? true : false,
+            'registered' => $profile->has_user ? true : false,
+            'volontaire' => $profile->volontaire,
         ];
     }
 }

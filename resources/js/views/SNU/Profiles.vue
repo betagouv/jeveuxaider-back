@@ -63,7 +63,7 @@
             { label: 'Superviseur', value: 'superviseur' },
             { label: 'Référent', value: 'referent' },
             { label: 'Responsable', value: 'responsable' },
-            { label: 'Tuteur', value: 'tuteur' }
+            { label: 'Volontaire', value: 'volontaire' }
           ]"
           @changed="onFilterChange"
         />

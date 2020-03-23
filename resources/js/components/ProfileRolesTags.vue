@@ -3,6 +3,9 @@
     <el-tag v-if="profile.roles.admin" type="danger" :size="size" class="m-1">
       Admin
     </el-tag>
+    <el-tag v-if="profile.volontaire" type="info" :size="size" class="m-1">
+      Volontaire
+    </el-tag>
     <el-tooltip
       v-if="profile.roles.referent"
       class="item"
