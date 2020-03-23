@@ -62,10 +62,10 @@
       </el-table-column>
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">
+          <div v-if="scope.row.mission" class="text-gray-900">
             <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name }}</v-clamp>
           </div>
-          <div class="font-light text-gray-600 flex items-center">
+          <div v-if="scope.row.mission.structure" class="font-light text-gray-600 flex items-center">
             <div class="text-xs">{{ scope.row.mission.structure.name }}</div>
           </div>
         </template>
