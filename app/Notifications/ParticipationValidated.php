@@ -56,7 +56,6 @@ class ParticipationValidated extends Notification
             ->line(
                 new HtmlString(
                     $this->participation->mission->tuteur->full_name . '<br>' .
-                    $this->participation->mission->tuteur->mobile . '<br>' .
                     $this->participation->mission->tuteur->email
                 )
             )
