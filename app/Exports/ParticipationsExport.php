@@ -46,6 +46,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'first_name',
             'last_name',
             'mobile',
+            'email',
             'state',
             'created_at',
             'updated_at'
@@ -64,6 +65,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'first_name' => $participation->profile ? $participation->profile->first_name : '',
             'last_name' => $participation->profile ? $participation->profile->last_name : '',
             'mobile' => $participation->profile ? $participation->profile->mobile : '',
+            'email' => $participation->profile ? $participation->profile->email : '',
             'state' => $participation->state,
             'created_at' => $participation->created_at,
             'updated_at' => $participation->updated_at
