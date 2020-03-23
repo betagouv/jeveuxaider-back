@@ -52,7 +52,9 @@
             <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
           </el-form-item>
           <el-form-item label="Date de naissance" prop="birthday" class="w-full sm:w-1/2 p-2">
-            <el-date-picker
+            <el-input v-model="form.birthday" placeholder="__/__/____" v-mask="'##/##/####'" />
+
+            <!-- <el-date-picker
               type="date"
               placeholder="Date de naissance"
               v-model="form.birthday"
@@ -60,7 +62,7 @@
               format="dd-MM-yyyy"
               value-format="yyyy-MM-dd"
               style="width:100%;"
-            ></el-date-picker>
+            ></el-date-picker>-->
           </el-form-item>
           <el-form-item label="Mot de passe" prop="password" class="w-full sm:w-1/2 p-2">
             <el-input
@@ -125,6 +127,10 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
+var customParseFormat = require("dayjs/plugin/customParseFormat");
+dayjs.extend(customParseFormat);
+
 export default {
   name: "RegisterVolontaire",
   data() {
@@ -178,6 +184,11 @@ export default {
           {
             required: true,
             message: "Date de naissance obligatoire",
+            trigger: "blur"
+          },
+          {
+            pattern: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
+            message: "Format accepté: 24/12/1990",
             trigger: "blur"
           }
         ],
@@ -258,6 +269,10 @@ export default {
       this.loading = true;
       this.$refs["registerVolontaireForm"].validate(valid => {
         if (valid) {
+          let birthdayValidFormat = dayjs(
+            this.form.birthday,
+            "DD/MM/YYYY"
+          ).format("YYYY-MM-DD");
           this.$store
             .dispatch("auth/registerVolontaire", {
               email: this.form.email,
@@ -265,7 +280,7 @@ export default {
               first_name: this.form.first_name,
               last_name: this.form.last_name,
               mobile: this.form.mobile,
-              birthday: this.form.birthday,
+              birthday: birthdayValidFormat,
               zip: this.form.zip,
               service_civique: this.form.service_civique
             })
