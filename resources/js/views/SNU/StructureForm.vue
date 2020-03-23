@@ -27,7 +27,7 @@
         Informations générales
       </div>
 
-      <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
+      <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
         Logo de la structure
       </div>
       <div class="flex mb-10">
@@ -58,7 +58,8 @@
             </div>
           </el-upload>
         </div>
-      </div>
+      </div> -->
+
       <el-form-item label="Nom de votre structure" prop="name">
         <el-input v-model="form.name" placeholder="Nom de votre structure" />
       </el-form-item>
