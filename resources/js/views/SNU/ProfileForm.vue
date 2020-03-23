@@ -17,7 +17,7 @@
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Email" prop="email">
-        <el-input v-model="form.email" placeholder="Email" />
+        <el-input v-model="form.email" placeholder="Email" disabled/>
       </el-form-item>
       <div class="flex">
         <el-form-item label="Prénom" prop="first_name" class="flex-1 mr-2">
