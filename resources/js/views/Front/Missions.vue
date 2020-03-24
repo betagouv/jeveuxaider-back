@@ -59,6 +59,7 @@
                         @change="refine($event)"
                         placeholder="Domaines d'actions"
                     >
+                        <el-option value="">Tous les domaines</el-option>
                         <el-option
                         v-for="item in items"
                         :key="item.value"
