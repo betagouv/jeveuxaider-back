@@ -62,11 +62,11 @@ class MissionObserver
                         $mission->tuteur->notify(new MissionWaitingCorrection($mission));
                     }
                     break;
-                case 'Refusée':
-                    if ($mission->tuteur) {
-                        $mission->tuteur->notify(new MissionRefused($mission));
-                    }
-                    break;
+                // case 'Refusée':
+                //     if ($mission->tuteur) {
+                //         $mission->tuteur->notify(new MissionRefused($mission));
+                //     }
+                //     break;
             }
         }
     }

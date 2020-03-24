@@ -25,7 +25,10 @@
     <el-tag v-if="state == 'Refusée'" type="danger" :size="size" class="m-1">
       Refusée
     </el-tag>
-    <el-tag v-if="state == 'Annulée'" type="danger" :size="size" class="m-1">
+    <el-tag v-if="state == 'Signalée'" type="danger" :size="size" class="m-1">
+      Signalée
+    </el-tag>
+    <el-tag v-if="state == 'Annulée'" type="info" :size="size" class="m-1">
       Annulée
     </el-tag>
     <el-tag v-if="state == 'Archivée'" type="info" :size="size" class="m-1">

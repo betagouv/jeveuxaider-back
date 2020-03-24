@@ -18,6 +18,8 @@ class TrashController extends Controller
             $query = Mission::class;
         } elseif ($request->input('type') == 'Structures') {
             $query = Structure::class;
+        } else {
+            $query = Structure::class;
         }
 
         return QueryBuilder::for($query)
