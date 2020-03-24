@@ -85,7 +85,6 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
-
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
@@ -103,7 +102,7 @@ class Mission extends Model
             ] : null
         ];
 
-        if($this->latitude && $this->longitude) {
+        if ($this->latitude && $this->longitude) {
             $mission["_geoloc"] = [
                 "lat" => $this->latitude,
                 "lng" => $this->longitude
@@ -160,7 +159,7 @@ class Mission extends Model
 
     public function scopeComplete($query)
     {
-        return $query->has('participations', '=', DB::raw('participations_max'));
+        return $query->has('participations', '>=', DB::raw('participations_max'));
     }
 
     public function scopeAvailable($query)
