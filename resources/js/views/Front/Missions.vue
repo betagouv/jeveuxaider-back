@@ -31,8 +31,58 @@
             >
               <h1 class="text-3xl font-bold text-white">Missions disponibles</h1>
             </div>
-
-            <ais-search-box v-if="missionsAreReady" placeholder="Mots-clés, ville, code postal, etc." />
+            <div class="filters md:flex md:rounded-lg md:shadow md:bg-white" v-if="missionsAreReady" >
+                <ais-search-box class="flex-1" autofocus placeholder="Mots-clés, ville, code postal, etc." />
+                <ais-menu-select class="flex-1" attribute="department_name" :limit="120">
+                    <el-select
+                        v-model="filters.department_name"
+                        slot-scope="{ items, canRefine, refine }"
+                        :disabled="!canRefine"
+                        @change="refine($event)"
+                        placeholder="Départements"
+                    >
+                        <el-option value="">Tous les départements</el-option>
+                        <el-option
+                        v-for="item in items"
+                        :key="item.value"
+                        :label="item.label"
+                        :selected="item.isRefined"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </ais-menu-select>
+                <ais-menu-select class="flex-1" attribute="domaine_action" :transform-items="transformItems">
+                    <el-select
+                        v-model="filters.domaine_action"
+                        slot-scope="{ items, canRefine, refine }"
+                        :disabled="!canRefine"
+                        @change="refine($event)"
+                        placeholder="Domaines d'actions"
+                    >
+                        <el-option value="">Tous les domaines</el-option>
+                        <el-option
+                        v-for="item in items"
+                        :key="item.value"
+                        :label="item.label"
+                        :selected="item.isRefined"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </ais-menu-select>
+                <ais-clear-refinements>
+                    <div
+                        @click.prevent="handleResetFilters(refine)"
+                        slot-scope="{ canRefine, refine }"
+                        class="md:h-full py-2 md:p-4"
+                        :class="{
+                            'cursor-not-allowed text-gray-400 hidden md:block': !canRefine,
+                            'cursor-pointer text-blue-300  md:text-primary block': canRefine,
+                        }"
+                    >
+                        Réinitialiser
+                    </div>
+                </ais-clear-refinements>
+            </div>
           </div>
         </div>
 
@@ -198,7 +248,9 @@ import {
   AisSearchBox,
   AisHits,
   AisPagination,
-  AisStateResults
+  AisStateResults,
+  AisMenuSelect,
+  AisClearRefinements
 } from "vue-instantsearch";
 import algoliasearch from "algoliasearch/lite";
 import "instantsearch.css/themes/algolia-min.css";
@@ -210,7 +262,9 @@ export default {
     AisSearchBox,
     AisHits,
     AisPagination,
-    AisStateResults
+    AisStateResults,
+    AisMenuSelect,
+    AisClearRefinements
   },
   data() {
     return {
@@ -218,7 +272,11 @@ export default {
       searchClient: algoliasearch(
         process.env.MIX_ALGOLIA_APP_ID,
         process.env.MIX_ALGOLIA_SEARCH_KEY
-      )
+      ),
+      filters: {
+          department_name: null,
+          domaine_action: null
+      }
     };
   },
   computed: {
@@ -230,6 +288,11 @@ export default {
     }
   },
   methods: {
+    handleResetFilters(refine) {
+          refine()
+          this.filters.department_name = null
+          this.filters.domaine_action = null
+    },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
       let begin = page * hitsPerPage + 1;
       let end =
@@ -238,14 +301,21 @@ export default {
     },
     scrollToTop() {
       this.$refs.resultsWrapper.scrollIntoView();
-    }
+    },
+    transformItems(items) {
+        return items.map(item => ({
+          ...item,
+          label: (item.label.length > 60) ? item.label.substring(0, 60) + "..." : item.label,
+        }));
+      },
   }
 };
 </script>
 
 <style lang="sass" scoped>
-::v-deep .ais-SearchBox-input
-    @apply bg-white rounded-lg shadow px-12 py-3 border-0 outline-none
+
+::v-deep .ais-SearchBox-form
+    @apply m-0
 ::v-deep .ais-SearchBox-submit
     left: 15px
 ::v-deep .ais-StateResults
@@ -265,4 +335,19 @@ export default {
             @apply outline-none border-blue-300
         &:active
             @apply bg-gray-100 text-gray-700
+.filters
+    ::v-deep input, ::v-deep select
+        @apply py-2 shadow rounded-lg my-1
+        font-size: 16px !important
+    @screen md
+        ::v-deep input, ::v-deep select, ::v-deep .el-input__inner
+                @apply h-full border-0 rounded-none border-r my-0 shadow-none bg-white
+    ::v-deep .ais-SearchBox-input
+        @apply rounded-l-lg outline-none px-12
+    @screen md
+        ::v-deep .is-disabled
+            @apply h-full
+    @screen md
+        ::v-deep .el-input__inner
+            height: 100% !important
 </style>
