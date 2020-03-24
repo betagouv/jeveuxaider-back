@@ -41,7 +41,6 @@
                         @change="refine($event)"
                         placeholder="Départements"
                     >
-                        <el-option value="">Tous les départements</el-option>
                         <el-option
                         v-for="item in items"
                         :key="item.value"
@@ -58,8 +57,8 @@
                         :disabled="!canRefine"
                         @change="refine($event)"
                         placeholder="Domaines d'actions"
+                        popper-class="domaines-actions"
                     >
-                        <el-option value="">Tous les domaines</el-option>
                         <el-option
                         v-for="item in items"
                         :key="item.value"
@@ -305,7 +304,7 @@ export default {
     transformItems(items) {
         return items.map(item => ({
           ...item,
-          label: (item.label.length > 60) ? item.label.substring(0, 60) + "..." : item.label,
+          label: item.label,
         }));
       },
   }
@@ -339,11 +338,12 @@ export default {
     ::v-deep input, ::v-deep select
         @apply py-2 shadow rounded-lg my-1
         font-size: 16px !important
+        text-overflow: ellipsis
     @screen md
         ::v-deep input, ::v-deep select, ::v-deep .el-input__inner
-                @apply h-full border-0 rounded-none border-r my-0 shadow-none bg-white
+            @apply h-full border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
     ::v-deep .ais-SearchBox-input
-        @apply rounded-l-lg outline-none px-12
+        @apply rounded-l-lg outline-none pl-12
     @screen md
         ::v-deep .is-disabled
             @apply h-full
