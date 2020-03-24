@@ -9,6 +9,7 @@ use App\Models\Participation;
 use Spatie\QueryBuilder\QueryBuilder;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Filters\FiltersParticipationSearch;
+use App\Filters\FiltersParticipationLieu;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -20,7 +21,11 @@ class ParticipationController extends Controller
         return QueryBuilder::for(Participation::role($request->header('Context-Role')))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
-                'state'
+                AllowedFilter::custom('lieu', new FiltersParticipationLieu),
+                'state',
+                'mission.department',
+                'mission.type',
+                'mission.name'
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))
