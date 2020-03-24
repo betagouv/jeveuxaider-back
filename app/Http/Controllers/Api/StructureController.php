@@ -23,6 +23,7 @@ use App\Filters\FiltersMissionCeu;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
+use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Models\Mission;
@@ -36,6 +37,7 @@ class StructureController extends Controller
                 'department',
                 'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
+                AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
             ])
             ->defaultSort('-updated_at')

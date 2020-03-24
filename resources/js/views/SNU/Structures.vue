@@ -45,6 +45,13 @@
         >
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
+        <query-search-filter
+          name="lieu"
+          label="Lieu"
+          placeholder="Ville ou code postal"
+          :value="query['filter[lieu]']"
+          @changed="onFilterChange"
+        />
         <query-filter
           name="statut_juridique"
           label="Statut juridique"
@@ -214,12 +221,13 @@ import TableWithVolet from "@/mixins/TableWithVolet";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import StructureVolet from "@/layout/components/Volet/StructureVolet";
 import QueryFilter from "@/components/QueryFilter.vue";
+import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 import fileDownload from "js-file-download";
 
 export default {
   name: "Structures",
-  components: { StructureVolet, QueryFilter, QueryMainSearchFilter },
+  components: { StructureVolet, QueryFilter, QueryMainSearchFilter, QuerySearchFilter },
   mixins: [TableWithVolet, TableWithFilters],
   data() {
     return {

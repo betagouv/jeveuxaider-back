@@ -38,6 +38,43 @@
           :options="$store.getters.taxonomies.participation_workflow_states.terms"
           @changed="onFilterChange"
         />
+        <query-search-filter
+          name="lieu"
+          label="Lieu"
+          placeholder="Ville ou code postal"
+          :value="query['filter[lieu]']"
+          @changed="onFilterChange"
+        />
+        <query-filter
+          name="mission.department"
+          label="Département"
+          multiple
+          :value="query['filter[mission.department]']"
+          :options="
+            $store.getters.taxonomies.departments.terms.map(term => {
+              return {
+                label: `${term.value} - ${term.label}`,
+                value: term.value
+              };
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
+          name="mission.name"
+          :value="query['filter[mission.name]']"
+          label="Domaine"
+          :options="$store.getters.taxonomies.mission_domaines.terms"
+          @changed="onFilterChange"
+        />
+        <query-filter
+          name="mission.type"
+          label="Type de mission"
+          :value="query['filter[mission.type]']"
+          :options="$store.getters.taxonomies.mission_types.terms"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
