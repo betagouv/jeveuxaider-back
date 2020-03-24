@@ -67,12 +67,12 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             'updated_at',
             'structure',
             'structure_id',
-            'periodes',
             'participations_max',
             'places_left',
             'dates_infos',
-            'tuteur',
-            'tuteur_id',
+            'responsable',
+            'responsable_id',
+            'responsable_email',
         ];
     }
 
@@ -104,6 +104,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->dates_infos,
             $mission->tuteur ? $mission->tuteur->full_name : '',
             $mission->tuteur ? $mission->tuteur->id : '',
+            $mission->tuteur ? $mission->tuteur->email : '',
         ];
     }
 }

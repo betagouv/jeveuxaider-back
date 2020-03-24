@@ -53,22 +53,6 @@
           @changed="onFilterChange"
         />
         <query-filter
-          name="ceu"
-          label="Corps en uniforme"
-          :value="query['filter[ceu]']"
-          :options="[
-            {
-              value: true,
-              label: 'Oui'
-            },
-            {
-              value: false,
-              label: 'Non'
-            }
-          ]"
-          @changed="onFilterChange"
-        />
-        <query-filter
           v-if="$store.getters.contextRole === 'admin'"
           name="department"
           label="Département"
