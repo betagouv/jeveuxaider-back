@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureCeu;
 use App\Filters\FiltersStructureSearch;
+use App\Filters\FiltersStructureLieu;
 
 class StructuresExport implements FromCollection, WithMapping, WithHeadings
 {
@@ -31,6 +32,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
                 'department',
                 'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
+                AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
             ])
             ->defaultSort('-updated_at')

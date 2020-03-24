@@ -73,6 +73,13 @@
           @changed="onFilterChange"
         />
         <query-filter
+          name="format"
+          label="Format de mission"
+          :value="query['filter[format]']"
+          :options="$store.getters.taxonomies.mission_formats.terms"
+          @changed="onFilterChange"
+        />
+        <query-filter
           name="state"
           label="Statut"
           multiple
