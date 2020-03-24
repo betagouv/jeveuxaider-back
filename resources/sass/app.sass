@@ -96,3 +96,10 @@ button:focus
         max-width: calc(100% - 2rem)
         .el-select-dropdown__item
             @apply whitespace-normal overflow-auto leading-normal h-full py-2
+
+// Correct click twice under IOS to trigger the selected event
+// See https://github.com/ElemeFE/element/issues/17794
+.el-select-dropdown
+    .el-scrollbar
+        > .el-scrollbar__bar
+            opacity: 1
