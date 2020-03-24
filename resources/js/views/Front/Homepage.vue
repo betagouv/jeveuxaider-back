@@ -221,7 +221,7 @@
           </p>
           <div class="py-3">
             <a
-              href="/files/Kit-Coronavirus-1.zip"
+              href="/files/Kit-Coronavirus-1.pdf"
               target="_blank"
               class="btn-secondary"
               >Télécharger le kit de solidarité de proximité</a

@@ -33,6 +33,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 'name',
                 'state',
                 'format',
+                'type',
                 'department',
                 AllowedFilter::custom('ceu', new FiltersMissionCeu),
                 AllowedFilter::custom('search', new FiltersMissionSearch),

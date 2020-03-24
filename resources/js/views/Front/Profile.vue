@@ -75,7 +75,7 @@
                   prop="email"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input v-model="form.email" placeholder="E-mail" />
+                  <el-input v-model="form.email" placeholder="E-mail" disabled/>
                 </el-form-item>
                 <el-form-item
                   label="Téléphone mobile"

@@ -52,11 +52,10 @@ class ParticipationValidated extends Notification
             ->subject('Bravo ! Votre demande de participation vient d\'être acceptée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « ' . $this->participation->mission->name .' » a été acceptée !')
-            ->line('Voici ses coordonnées :')
+            ->line('Vous pouvez dès maintenant contacter votre structure :')
             ->line(
                 new HtmlString(
                     $this->participation->mission->tuteur->full_name . '<br>' .
-                    $this->participation->mission->tuteur->mobile . '<br>' .
                     $this->participation->mission->tuteur->email
                 )
             )

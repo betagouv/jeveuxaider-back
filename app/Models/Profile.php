@@ -36,7 +36,7 @@ class Profile extends Model implements HasMedia
         'service_civique'
     ];
 
-    protected $appends = ['full_name', 'short_name', 'avatar', 'roles', 'has_user'];
+    protected $appends = ['full_name', 'short_name', 'avatar', 'roles', 'has_user', 'volontaire'];
 
     protected $hidden = ['media', 'user'];
 
@@ -190,6 +190,16 @@ class Profile extends Model implements HasMedia
         return $this->user ? $this->user->is_admin ? true : false : false;
     }
 
+    public function isVolontaire()
+    {
+        return $this->user ? $this->user->context_role == 'volontaire' ? true : false : false;
+    }
+
+    public function getVolontaireAttribute()
+    {
+        return $this->isVolontaire();
+    }
+
     public function getRolesAttribute()
     {
         return [
@@ -197,7 +207,7 @@ class Profile extends Model implements HasMedia
             'referent' => $this->isReferent(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
-            'tuteur' => $this->isTuteur(),
+            'tuteur' => $this->isTuteur()
         ];
     }
 }
