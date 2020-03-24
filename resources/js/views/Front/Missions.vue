@@ -41,7 +41,6 @@
                         @change="refine($event)"
                         placeholder="Départements"
                     >
-                        <el-option value="">Tous les départements</el-option>
                         <el-option
                         v-for="item in items"
                         :key="item.value"
@@ -59,7 +58,6 @@
                         @change="refine($event)"
                         placeholder="Domaines d'actions"
                     >
-                        <el-option value="">Tous les domaines</el-option>
                         <el-option
                         v-for="item in items"
                         :key="item.value"
