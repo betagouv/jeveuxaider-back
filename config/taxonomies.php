@@ -91,7 +91,7 @@ return [
             //"En attente de validation" => "En attente de validation",
             //"En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
-            "Refusée" => "Refusée",
+            "Signalée" => "Signalée",
             "Annulée" => "Annulée",
            // "Archivée" => "Archivée"
         ]

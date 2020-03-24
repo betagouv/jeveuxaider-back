@@ -1,9 +1,7 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
-        {{ row.structure.name }}
-      </div>
+      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">{{ row.structure.name }}</div>
       <el-card shadow="hover" class="overflow-visible">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
@@ -12,13 +10,9 @@
               :src="`${row.structure.logo}`"
               class="w-10 rounded-full border"
             />
-            <el-avatar v-else class="bg-primary">
-              {{ row.structure.name[0] }}
-            </el-avatar>
+            <el-avatar v-else class="bg-primary">{{ row.structure.name[0] }}</el-avatar>
           </div>
-          <div class="font-bold text-lg text-center my-3 flex">
-            {{ row.name }}
-          </div>
+          <div class="font-bold text-lg text-center my-3 flex">{{ row.name }}</div>
           <div class="flex items-center">
             <router-link
               :to="{
@@ -47,17 +41,13 @@
             type="warning"
             class="m-1 ml-0"
             size="small"
-          >
-            {{ row.department | fullDepartmentFromValue }}
-          </el-tag>
+          >{{ row.department | fullDepartmentFromValue }}</el-tag>
         </div>
         <mission-infos :mission="row"></mission-infos>
       </el-card>
       <el-form ref="missionForm" :model="form" label-position="top">
         <template v-if="showAskValidation">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Proposer la mission
-          </div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Proposer la mission</div>
           <item-description>
             Une fois votre mission complétée, vous pouvez la soumettre à
             validation auprès de votre référent départemental pour publication.
@@ -67,14 +57,11 @@
               type="primary"
               :loading="loading"
               @click="onAskValidationSubmit"
-              >Proposer la mission</el-button
-            >
+            >Proposer la mission</el-button>
           </div>
         </template>
         <template v-if="showStatut">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Statut de la mission
-          </div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut de la mission</div>
           <item-description>
             Vous pouvez sélectionner le statut de la mission. A noter que des
             notifications emails seront envoyées.
@@ -92,9 +79,7 @@
           </el-form-item>
         </template>
         <template v-if="showTuteur">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Responsable de la mission
-          </div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Responsable de la mission</div>
           <item-description>
             Sélectionner le responsable qui va s'occuper de la mission. Vous pouvez
             également
@@ -104,15 +89,10 @@
                 name: 'StructureMembersAdd',
                 params: { id: form.structure.id }
               }"
-              >ajouter un nouveau responsable</router-link
-            >
-            à votre équipe.
+            >ajouter un nouveau responsable</router-link>à votre équipe.
           </item-description>
           <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
-            <el-select
-              v-model="form.tuteur_id"
-              placeholder="Sélectionner un responsable"
-            >
+            <el-select v-model="form.tuteur_id" placeholder="Sélectionner un responsable">
               <el-option
                 v-for="item in form.structure.members"
                 :key="item.id"
@@ -123,9 +103,7 @@
           </el-form-item>
         </template>
         <div v-if="showStatut || showTuteur" class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit"
-            >Enregistrer</el-button
-          >
+          <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
         </div>
       </el-form>
     </template>
@@ -158,11 +136,17 @@ export default {
         : false;
     },
     showStatut() {
-      // return this.$store.getters.contextRole == "admin" ||
-      //   this.$store.getters.contextRole == "referent"
-      //   ? true
-      //   : false;
-      return true;
+      let show = false;
+      if (this.row.state != "Signalée") {
+        show = true;
+      }
+      if (
+        this.$store.getters.contextRole == "admin" ||
+        this.$store.getters.contextRole == "referent"
+      ) {
+        show = true;
+      }
+      return show;
     },
     showTuteur() {
       return this.$store.getters.contextRole != "tuteur" && !this.row.tuteur_id
