@@ -32,7 +32,7 @@
               <h1 class="text-3xl font-bold text-white">Missions disponibles</h1>
             </div>
 
-            <ais-search-box v-if="missionsAreReady" placeholder="Trouver une mission..." />
+            <ais-search-box v-if="missionsAreReady" placeholder="Mots-clés, ville, code postal, etc." />
           </div>
         </div>
 

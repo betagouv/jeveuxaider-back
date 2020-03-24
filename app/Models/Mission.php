@@ -85,11 +85,14 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
+
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
             'city' => $this->city,
             'department' => $this->department,
+            'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
+            'domaine_action' => $this->name,
             'periodicite' => $this->periodicite,
             'has_places_left' => $this->has_places_left,
             'places_left' => $this->places_left,
