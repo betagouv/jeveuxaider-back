@@ -64,6 +64,14 @@ new Vue({
       this.$router.push("/browser-outdated");
     }
 
+    Userback.on_load = function() {
+      if (!window.location.href.includes('dashboard')) {
+        Userback.hide()
+      } else {
+        Userback.show()
+      }
+    };
+
     router.afterEach((to, from) => {
       store.commit("volet/hide");
       store.commit("setLoading", false);
