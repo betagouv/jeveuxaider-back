@@ -28,22 +28,22 @@ Vue.component('VClamp', VClamp);
 Vue.use(Vue2Filters);
 Vue.use(PortalVue);
 Vue.use(VueAnalytics, {
-    id: 'UA-81479189-7',
-    router,
-    autoTracking: {
-        pageviewTemplate (route) {
-            return {
-                page: route.path,
-                title: document.title,
-                location: window.location.href
-            }
-        }
+  id: 'UA-81479189-7',
+  router,
+  autoTracking: {
+    pageviewTemplate(route) {
+      return {
+        page: route.path,
+        title: document.title,
+        location: window.location.href
+      }
     }
+  }
 })
 
 Vue.directive('mask', {
   bind: function (el, binding) {
-      Inputmask(binding.value).mask(el.getElementsByTagName('INPUT')[0])
+    Inputmask(binding.value).mask(el.getElementsByTagName('INPUT')[0])
   }
 })
 
@@ -64,12 +64,17 @@ new Vue({
       this.$router.push("/browser-outdated");
     }
 
-    router.afterEach(() => {
+    router.afterEach((to, from) => {
       store.commit("volet/hide");
       store.commit("setLoading", false);
     });
     router.beforeEach((to, from, next) => {
       store.commit("setLoading", true);
+      if (!to.path.includes('dashboard')) {
+        Userback.hide()
+      } else {
+        Userback.show()
+      }
       next();
     });
   },
