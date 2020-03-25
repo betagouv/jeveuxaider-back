@@ -13,6 +13,7 @@ use App\Filters\FiltersParticipationLieu;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
+use App\Models\Mission;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class ParticipationController extends Controller
@@ -44,10 +45,14 @@ class ParticipationController extends Controller
             return $request->validated();
         }
 
-        $user = $request->user();
-        $participation = Participation::create($request->validated());
+        $mission = Mission::find(request("mission_id"));
 
-        return $participation;
+        if ($mission && $mission->hasPlacesLeft) {
+            $participation = Participation::create($request->validated());
+            return $participation;
+        }
+        
+        abort(402, "Désolé, la mission n'a plus de place disponible !");
     }
 
     public function update(ParticipationUpdateRequest $request, Participation $participation)

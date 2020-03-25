@@ -54,4 +54,18 @@ class ParticipationObserver
             }
         }
     }
+
+    public function deleted(Participation $participation)
+    {
+        // $oldState = $participation->getOriginal('state');
+        // $newState = $participation->state;
+
+        if ($participation->mission) {
+            if ($participation->mission->shouldBeSearchable()) {
+                $participation->mission->searchable();
+            } else {
+                $participation->mission->unsearchable();
+            }
+        }
+    }
 }
