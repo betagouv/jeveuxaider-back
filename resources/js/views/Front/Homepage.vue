@@ -1,9 +1,6 @@
 <template>
   <div class>
-    <div
-      style="background-image: url(images/bg_header_home.jpg)"
-      class="pt-1 pb-12 md:py-12"
-    >
+    <div style="background-image: url(images/bg_header_home.jpg)" class="pt-1 pb-12 md:py-12">
       <AppHeader background="bg-transparent" />
       <div class="container mx-auto px-4">
         <div
@@ -12,7 +9,8 @@
           <h1 class="hide-br">
             Face à l’épidémie de
             <span class="italic font-bold">Covid-19</span>
-            <br />le Gouvernement appelle à la mobilisation <br />générale des
+            <br />le Gouvernement appelle à la mobilisation
+            <br />générale des
             solidarités.
           </h1>
         </div>
@@ -22,9 +20,9 @@
             class="btn-primary m-3 w-full"
             style="max-width:320px;"
           >
-            <span class="uppercase font-light text-xxs"
-              >Je suis une structure publique ou associative</span
-            >
+            <span
+              class="uppercase font-light text-xxs"
+            >Je suis une structure publique ou associative</span>
             <span class="text-lg font-bold">Proposer une mission</span>
           </router-link>
           <router-link
@@ -32,9 +30,7 @@
             class="btn-secondary m-3 w-full"
             style="max-width:320px;"
           >
-            <span class="uppercase font-light text-xxs"
-              >Je suis volontaire</span
-            >
+            <span class="uppercase font-light text-xxs">Je suis volontaire</span>
             <span class="text-lg font-bold">Je veux aider</span>
           </router-link>
         </div>
@@ -43,16 +39,14 @@
 
     <div class="container mx-auto px-4">
       <div class="py-8 md:py-16 max-w-4xl mx-auto">
-        <div
-          class="text-md sm:text-md lg:text-xl text-gray-900 text-center italic"
-        >
+        <div class="text-md sm:text-md lg:text-xl text-gray-900 text-center italic">
           «&nbsp;Jamais de telles épreuves ne se surmontent en solitaire. C’est
           au contraire en solidaires, en disant «&nbsp;nous&nbsp;» plutôt qu’en
           pensant «&nbsp;je&nbsp;» que nous relèverons cet immense défi.&nbsp;»
         </div>
-        <div class="text-md text-center text-gray-900">
-          Emmanuel Macron, Président de la République, 12 mars 2020
-        </div>
+        <div
+          class="text-md text-center text-gray-900"
+        >Emmanuel Macron, Président de la République, 12 mars 2020</div>
         <div class="mt-8 text-lg sm:text-xxl lg:text-2xl text-gray-900">
           Cet espace d’engagement est ouvert à tous. Que l’on soit bénévole dans
           l’âme, habitué depuis toujours des missions associatives. Ou que l’on
@@ -97,11 +91,7 @@
                 <rect x="0" y="0" width="4" height="4" fill="#e6e7eb" />
               </pattern>
             </defs>
-            <rect
-              width="404"
-              height="300"
-              fill="url(#8b1b5f72-e944-4457-af67-0c6d15a99f38)"
-            />
+            <rect width="404" height="300" fill="url(#8b1b5f72-e944-4457-af67-0c6d15a99f38)" />
           </svg>
 
           <div
@@ -110,13 +100,11 @@
             <div>
               <div
                 class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-              >
-                1
-              </div>
+              >1</div>
               <div class="mt-5">
-                <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                  Aide alimentaire et d’urgence.
-                </h5>
+                <h5
+                  class="text-lg leading-6 font-semibold text-gray-900"
+                >Aide alimentaire et d’urgence.</h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
                   Je distribue des produits de première nécessité (aliments,
                   hygiène…) et des repas aux plus démunis.
@@ -126,13 +114,11 @@
             <div class="mt-10 sm:mt-0">
               <div
                 class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-              >
-                2
-              </div>
+              >2</div>
               <div class="mt-5">
-                <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                  Garde exceptionnelle d’enfants.
-                </h5>
+                <h5
+                  class="text-lg leading-6 font-semibold text-gray-900"
+                >Garde exceptionnelle d’enfants.</h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
                   J’aide à garder des enfants de soignants ou d’une structure de
                   l’Aide Sociale à l’Enfance.
@@ -143,13 +129,11 @@
             <div class="mt-10 sm:mt-0">
               <div
                 class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-              >
-                3
-              </div>
+              >3</div>
               <div class="mt-5">
-                <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                  Lien avec les personnes fragiles isolées.
-                </h5>
+                <h5
+                  class="text-lg leading-6 font-semibold text-gray-900"
+                >Lien avec les personnes fragiles isolées.</h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
                   Je participe à maintenir le lien (téléphone, visio, mail...)
                   avec des personnes fragiles isolées : personnes âgées, malades
@@ -160,13 +144,9 @@
             <div class="mt-10 sm:mt-0">
               <div
                 class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-              >
-                4
-              </div>
+              >4</div>
               <div class="mt-5">
-                <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                  Solidarité de proximité.
-                </h5>
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">Solidarité de proximité.</h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
                   Je fais les courses de produits essentiels pour mes voisins
                   les plus fragiles.
@@ -185,9 +165,7 @@
           src="/images/structure.jpg"
         />
       </div>
-      <div
-        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
-      >
+      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start">
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Face à la crise sanitaire du Covid 19, votre structure a besoin de
@@ -198,22 +176,16 @@
             prêter main forte, dans le respect des règles de sécurité.
           </p>
           <div class="mt-3">
-            <router-link to="/register/responsable" class="btn-primary"
-              >Proposer des missions</router-link
-            >
+            <router-link to="/register/responsable" class="btn-primary">Proposer des missions</router-link>
           </div>
         </div>
       </div>
     </div>
 
     <div class="lg:flex">
-      <div
-        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
-      >
+      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start">
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
-          <h2 class="titre-1">
-            Vous souhaitez vous engager au plus près de chez vous&nbsp;?
-          </h2>
+          <h2 class="titre-1">Vous souhaitez vous engager au plus près de chez vous&nbsp;?</h2>
           <p class="py-3 text-gray-600 text-lg">
             Vous pouvez également choisir de contribuer à la lutte contre
             l’épidémie en menant des actions de solidarité dans votre immeuble
@@ -224,8 +196,8 @@
               href="/files/Kit-Coronavirus-1.pdf"
               target="_blank"
               class="btn-secondary"
-              >Télécharger le kit de solidarité de proximité</a
-            >
+              onclick="return tag.click.send({elem:this, name:'Kit_de_solidarite', level2:'0', type:'download'});"
+            >Télécharger le kit de solidarité de proximité</a>
           </div>
         </div>
       </div>
@@ -244,22 +216,16 @@
           src="/images/structure-3.jpg"
         />
       </div>
-      <div
-        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
-      >
+      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start">
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
-          <h2 class="titre-1">
-            Vous souhaitez rejoindre une structure qui a besoin d'aide&nbsp;?
-          </h2>
+          <h2 class="titre-1">Vous souhaitez rejoindre une structure qui a besoin d'aide&nbsp;?</h2>
           <p class="py-3 text-gray-600 text-lg">
             Aidez un soignant en première ligne vivant proche de chez vous en
             gardant son enfant, distribuez des produits alimentaires aux plus
             démunis, gardez le lien avec une personne isolée...
           </p>
           <div class="mt-3">
-            <router-link to="/missions" class="btn-secondary"
-              >Trouver une mission</router-link
-            >
+            <router-link to="/missions" class="btn-secondary">Trouver une mission</router-link>
           </div>
         </div>
       </div>
@@ -270,9 +236,7 @@
         <div class="lg:text-center">
           <h3
             class="text-3xl leading-tight font-extrabold tracking-tight text-gray-900 sm:text-4xl"
-          >
-            Les 5 règles de sécurité des volontaires
-          </h3>
+          >Les 5 règles de sécurité des volontaires</h3>
         </div>
 
         <div class="mt-20">
@@ -282,9 +246,7 @@
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                  >
-                    1
-                  </div>
+                  >1</div>
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
@@ -301,9 +263,7 @@
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                  >
-                    2
-                  </div>
+                  >2</div>
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
@@ -319,9 +279,7 @@
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
-                  >
-                    3
-                  </div>
+                  >3</div>
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
@@ -349,15 +307,13 @@
                   </h5>
                 </div>
               </div>
-            </li> -->
+            </li>-->
             <li class="mt-10 md:mt-0">
               <div class="flex">
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
-                  >
-                    4
-                  </div>
+                  >4</div>
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
@@ -372,15 +328,11 @@
                 <div class="flex-shrink-0">
                   <div
                     class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                  >
-                    5
-                  </div>
+                  >5</div>
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
-                    <b>
-                      Âgé de 70 ans ou plus ou porteur d’une maladie chronique </b
-                    >, je ne m’engage que dans des missions à distance, depuis
+                    <b>Âgé de 70 ans ou plus ou porteur d’une maladie chronique</b>, je ne m’engage que dans des missions à distance, depuis
                     mon domicile, pour protéger au maximum ma santé et celle des
                     autres.
                   </h5>
@@ -487,7 +439,7 @@
 <style lang="sass" scoped>
 .hide-br
 br
-    @apply hidden
+  @apply hidden
     @screen lg
-        @apply inline
+      @apply inline
 </style>

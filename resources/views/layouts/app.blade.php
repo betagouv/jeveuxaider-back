@@ -6,10 +6,16 @@
     <title>Réserve Civique | Engagez-vous face à l'épidémie de Covid-19</title>
     <link rel="icon" href="{{ asset("/images/favicon.jpg") }}" />
     <link href="{{ mix("/assets/css/app.css") }}" rel="stylesheet" type="text/css">
+    <script src="//tag.aticdn.net/610648/smarttag.js"></script>
 </head>
 
 <body>
     <div id="app"></div>
+    <script type="text/javascript">
+        var tag = new ATInternet.Tracker.Tag();
+        tag.page.set({});
+        tag.dispatch();
+    </script>
     <script>
         Userback = window.Userback || {};
         Userback.access_token = '8654|15306|z7JRFuJkExuIVFcztrli1HqKOnGVSikUhotmIJl6M1x3tJKtaW';
