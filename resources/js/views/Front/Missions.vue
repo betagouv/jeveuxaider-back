@@ -72,7 +72,7 @@
                     <div
                         @click.prevent="handleResetFilters(refine)"
                         slot-scope="{ canRefine, refine }"
-                        class="md:h-full py-2 md:p-4"
+                        class="py-2 md:p-4"
                         :class="{
                             'cursor-not-allowed text-gray-400 hidden md:block': !canRefine,
                             'cursor-pointer text-blue-300  md:text-primary block': canRefine,
@@ -332,13 +332,8 @@ export default {
         text-overflow: ellipsis
     @screen md
         ::v-deep input, ::v-deep select, ::v-deep .el-input__inner
-            @apply h-full border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
+            height: 56px
+            @apply border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
     ::v-deep .ais-SearchBox-input
         @apply rounded-l-lg outline-none pl-12
-    @screen md
-        ::v-deep .is-disabled
-            @apply h-full
-    @screen md
-        ::v-deep .el-input__inner
-            height: 100% !important
 </style>
