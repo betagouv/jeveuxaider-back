@@ -67,6 +67,14 @@
       Mission refusée
     </el-tag>
     <el-tag
+      v-if="state == 'Mission annulée'"
+      type="info"
+      :size="size"
+      class="m-1"
+    >
+      Mission annulée
+    </el-tag>
+    <el-tag
       v-if="state == 'Mission en cours'"
       type="success"
       :size="size"

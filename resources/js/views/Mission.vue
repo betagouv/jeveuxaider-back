@@ -322,6 +322,7 @@
                 <div class="rounded-md shadow-md rounded-full">
                   <template v-if="mission.has_places_left">
                     <template v-if="$store.getters.isLogged">
+                      <template v-if="mission.state == 'Validée'">
                       <el-button
                         v-if="canRegistered"
                         @click="handleClick"
@@ -332,6 +333,7 @@
                         to="/user/missions"
                         class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                       >Vous êtes déjà inscrit !</router-link>
+                      </template>
                     </template>
                     <template v-else>
                       <router-link

@@ -62,9 +62,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$confirm("Êtes vous sur de vos changements ?", "Confirmation", {
+      this.$confirm("Êtes vous sur de vos changements ?<br>", "Confirmation", {
         confirmButtonText: "Je confirme",
         cancelButtonText: "Annuler",
+        dangerouslyUseHTMLString: true,
+        center: true,
         type: "warning"
       }).then(() => {
         this.loading = true;

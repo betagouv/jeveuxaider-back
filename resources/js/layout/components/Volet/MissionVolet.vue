@@ -69,8 +69,7 @@
           <el-form-item label="Statut" prop="state" class="flex-1">
             <el-select v-model="form.state" placeholder="Statut">
               <el-option
-                v-for="item in $store.getters.taxonomies.mission_workflow_states
-                  .terms"
+                v-for="item in statesAvailable"
                 :key="item.label"
                 :label="item.value"
                 :value="item.label"
@@ -78,7 +77,7 @@
             </el-select>
           </el-form-item>
         </template>
-        <template v-if="showTuteur">
+        <!-- <template v-if="showTuteur">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">Responsable de la mission</div>
           <item-description>
             Sélectionner le responsable qui va s'occuper de la mission. Vous pouvez
@@ -101,8 +100,8 @@
               ></el-option>
             </el-select>
           </el-form-item>
-        </template>
-        <div v-if="showStatut || showTuteur" class="flex pt-2">
+        </template> -->
+        <div v-if="showStatut" class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
         </div>
       </el-form>
@@ -137,26 +136,33 @@ export default {
     },
     showStatut() {
       let show = false;
-      if (this.row.state != "Signalée") {
+      if (this.row.state != "Signalée" && this.row.state != "Annulée") {
         show = true;
       }
-      if (
-        this.$store.getters.contextRole == "admin" ||
-        this.$store.getters.contextRole == "referent"
-      ) {
-        show = true;
-      }
+      // if (
+      //   this.$store.getters.contextRole == "admin" ||
+      //   this.$store.getters.contextRole == "referent"
+      // ) {
+      //   show = true;
+      // }
       return show;
     },
-    showTuteur() {
-      return this.$store.getters.contextRole != "tuteur" && !this.row.tuteur_id
-        ? true
-        : false;
-    }
+    statesAvailable(){
+      if(this.$store.getters.contextRole == "responsable") {
+        return this.$store.getters.taxonomies.mission_workflow_states.terms.filter((item) => (item.value != 'Signalée'))
+      } else {
+        return this.$store.getters.taxonomies.mission_workflow_states.terms
+      }
+    },
+    // showTuteur() {
+    //   return this.$store.getters.contextRole != "tuteur" && !this.row.tuteur_id
+    //     ? true
+    //     : false;
+    // }
   },
   methods: {
     onClickDelete() {
-      if (this.row.youngs_count > 0) {
+      if (this.row.participations_count > 0) {
         this.$alert(
           "Il est impossible de supprimer une mission déjà assigner à un ou plusieurs volontaires.",
           "Supprimer la mission",
@@ -173,6 +179,7 @@ export default {
             confirmButtonText: "Supprimer",
             confirmButtonClass: "el-button--danger",
             cancelButtonText: "Annuler",
+            center: true,
             type: "error"
           }
         ).then(() => {
@@ -193,10 +200,23 @@ export default {
       this.onSubmit();
     },
     onSubmit() {
-      this.$confirm("Êtes vous sur de vos changements ?", "Confirmation", {
+
+      let message = "Êtes vous sur de vos changements ?"
+
+      if(this.form.state == 'Annulée') {
+        message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les volontaires inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
+      }
+
+      if(this.form.state == 'Signalée') {
+        message =  `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique et qui est en lien avec ${this.form.participations_count} participation(s). <br><br> Les participations à venir seront automatiquement annulées. les coordonnées des volontaires masqués et une notification d'annulation sera envoyée aux volontaires initialement inscrits.`
+      }
+
+      this.$confirm(message, "Confirmation", {
         confirmButtonText: "Je confirme",
         cancelButtonText: "Annuler",
-        type: "warning"
+        type: "warning",
+        center: true,
+        dangerouslyUseHTMLString: true
       })
         .then(() => {
           this.loading = true;
