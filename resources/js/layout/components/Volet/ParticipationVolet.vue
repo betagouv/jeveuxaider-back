@@ -6,10 +6,22 @@
           <div class="-mt-10">
             <el-avatar class="bg-primary">{{ row.profile.short_name }}</el-avatar>
           </div>
-          <div class="font-bold text-lg mt-3">{{ row.profile.full_name }}</div>
+          <div class="font-bold text-lg my-3">{{ row.profile.full_name }}</div>
+          <button
+              v-if="
+                $store.getters.contextRole == 'admin' ||
+                  $store.getters.contextRole == 'referent'
+              "
+              type="button"
+              class="ml-2 el-button is-plain el-button--danger el-button--mini"
+              @click="onClickDelete"
+            >
+              <i class="el-icon-delete" />
+            </button>
         </div>
         <div class="flex items-center justify-center mb-4">
           <state-tag :state="row.state" size="small" class="flex items-center"></state-tag>
+          
         </div>
         <participation-infos :participation="row"></participation-infos>
       </el-card>
@@ -45,7 +57,7 @@
 <script>
 import Volet from "@/layout/components/Volet";
 import StateTag from "@/components/StateTag.vue";
-import { updateParticipation } from "@/api/participation";
+import { updateParticipation, deleteParticipation } from "@/api/participation";
 import VoletRow from "@/mixins/VoletRow";
 import ItemDescription from "@/components/forms/ItemDescription";
 import ParticipationInfos from "@/components/infos/ParticipationInfos";
@@ -61,6 +73,30 @@ export default {
     };
   },
   methods: {
+    onClickDelete() {
+        this.$confirm(
+          `La participation sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
+          "Supprimer la participation",
+          {
+            confirmButtonText: "Supprimer",
+            confirmButtonClass: "el-button--danger",
+            cancelButtonText: "Annuler",
+            center: true,
+            type: "error"
+          }
+        ).then(() => {
+          deleteParticipation(this.row.id).then(() => {
+            this.$message({
+              type: "success",
+              message: `La participation ${this.row.name} a été supprimée.`
+            });
+            this.$emit("deleted", this.row);
+            this.$store.commit("volet/setRow", null);
+            this.$store.commit("volet/hide");
+          });
+        });
+      
+    },
     onSubmit() {
       this.$confirm("Êtes vous sur de vos changements ?<br>", "Confirmation", {
         confirmButtonText: "Je confirme",

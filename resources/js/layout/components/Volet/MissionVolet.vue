@@ -168,7 +168,8 @@ export default {
           "Supprimer la mission",
           {
             confirmButtonText: "Retour",
-            type: "warning"
+            type: "warning",
+            center: true,
           }
         );
       } else {

@@ -9,6 +9,7 @@ use App\Models\Structure;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTrashSearch;
+use App\Models\Participation;
 
 class TrashController extends Controller
 {
@@ -18,6 +19,8 @@ class TrashController extends Controller
             $query = Mission::class;
         } elseif ($request->input('type') == 'Structures') {
             $query = Structure::class;
+        } elseif ($request->input('type') == 'Participations') {
+            $query = Participation::class;
         } else {
             $query = Structure::class;
         }

@@ -60,4 +60,13 @@ class ParticipationPolicy
 
         return false;
     }
+
+    public function delete()
+    {
+        if (in_array(request()->header('Context-Role'), ['referent', 'admin'])) {
+            return true;
+        }
+
+        return false;
+    }
 }
