@@ -1,34 +1,53 @@
 import store from "../store";
 import Vue from "vue";
 
-Vue.filter("labelFromValue", function(key, taxonomy) {
+Vue.filter("labelFromValue", function (key, taxonomy) {
   let element = store.getters.taxonomies[taxonomy].terms.find(el => {
     return el.value == key;
   });
   return element ? element.label : "";
 });
 
-Vue.filter("reseauFromValue", function(id) {
+Vue.filter("reseauFromValue", function (id) {
   let element = store.getters.reseaux.find(el => {
     return el.id == id;
   });
   return element ? element.name : "";
 });
 
-Vue.filter("departmentFromValue", function(key) {
+Vue.filter("departmentFromValue", function (key) {
   let department = store.getters.taxonomies.departments.terms.find(el => {
     return el.value == key;
   });
   return department ? department.label : "";
 });
 
-Vue.filter("fullDepartmentFromValue", function(key) {
+Vue.filter("fullDepartmentFromValue", function (key) {
   let department = store.getters.taxonomies.departments.terms.find(el => {
     return el.value == key;
   });
   return department ? `${department.value} - ${department.label}` : "";
 });
 
-Vue.filter("cleanCity", function(city) {
+Vue.filter("cleanCity", function (city) {
   return city.replace("Arrondissement", "");
+});
+
+Vue.filter("cleanDomaineAction", function (domaine) {
+  switch (domaine) {
+    case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
+      return "Aide alimentaire et d’urgence";
+      break;
+    case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
+      return "Garde exceptionnelle d’enfants";
+      break;
+    case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
+      return "Lien avec les personnes fragiles isolées";
+      break;
+    case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
+      return "Solidarité de proximité";
+      break;
+    default:
+      return domaine
+  }
 });

@@ -62,7 +62,7 @@
                         <el-option
                         v-for="item in items"
                         :key="item.value"
-                        :label="item.label"
+                        :label="item.label|cleanDomaineAction"
                         :selected="item.isRefined"
                         :value="item.value">
                         </el-option>
