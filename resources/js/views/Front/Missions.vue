@@ -172,6 +172,10 @@
                                   | pluralize(["volontaire recherché", "volontaires recherchés"])
                                   }}
                                 </span>
+                                <span
+                                  v-else
+                                  class="mx-2 my-1 ml-auto px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
+                                >Complet</span>
                               </div>
                             </div>
                           </div>
