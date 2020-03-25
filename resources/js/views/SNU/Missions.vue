@@ -187,7 +187,7 @@
             <i class="el-icon-edit mr-2"></i>Modifier
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item :command="`/missions/${scope.row.id}`">Visualiser</el-dropdown-item>
-              <el-dropdown-item :command="{ action: 'clone', id: scope.row.id }">Dupliquer</el-dropdown-item>
+              <!-- <el-dropdown-item :command="{ action: 'clone', id: scope.row.id }">Dupliquer</el-dropdown-item> -->
             </el-dropdown-menu>
           </el-dropdown>
           <router-link v-else :to="{ name: 'MissionFormEdit', params: { id: scope.row.id } }">

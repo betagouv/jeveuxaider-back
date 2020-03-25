@@ -591,12 +591,14 @@ export default {
         this.rules.city[0].required = false;
       } else {
         this.$confirm(
-          "Merci de bien respecter les règles de sécurités pour les missions en présentiel !",
+          "Merci de bien respecter les règles de sécurités pour les missions en présentiel !<br>",
           "Confirmation",
           {
             confirmButtonText: "Je confirme",
             cancelButtonText: "Annuler",
-            type: "warning"
+            type: "warning",
+            center: true,
+            dangerouslyUseHTMLString: true
           }
         );
 

@@ -96,13 +96,14 @@ export default {
   methods: {
     deleteConfirm(member) {
       this.$confirm(
-        "Êtes vous sur de vouloir supprimer ce membre ?<br>Ce membre ne pourra plus être affecté à de nouvelles missions.",
+        "Êtes vous sur de vouloir supprimer ce membre ?<br><br>Ce membre ne pourra plus être affecté à de nouvelles missions.<br>",
         "Confirmation",
         {
           confirmButtonText: "Supprimer",
           confirmButtonClass: "el-button--danger",
           cancelButtonText: "Annuler",
           type: "warning",
+          center: true,
           dangerouslyUseHTMLString: true
         }
       )

@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Mission;
 
-class MissionRefused extends Notification
+class MissionCanceled extends Notification
 {
     use Queueable;
 
@@ -48,7 +48,7 @@ class MissionRefused extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a été refusée')
+            ->subject('Votre mission a été annulée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Vous avez déposé une proposition de mission dans le cadre de la crise sanitaire et nous vous en remercions.')
             ->line('Néanmoins, nous n’avons pas validé cette mission.')

@@ -73,6 +73,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profiles', 'Api\ProfileController@index');
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
+    // PARTICIPATIONS
+    Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
+
     // EXPORT
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
@@ -97,6 +100,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
     Route::delete('young/{id}/destroy', 'Api\YoungController@destroy');
     Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
+    Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
+
 
     // RELEASES
     // Route::get('release/{release}', 'Api\ReleaseController@show');

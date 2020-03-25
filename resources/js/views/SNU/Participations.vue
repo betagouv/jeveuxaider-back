@@ -92,8 +92,14 @@
       <el-table-column prop="name" label="Volontaire" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
-          <div class="font-light text-gray-600 flex items-center">
+          <div
+            class="font-light text-gray-600 flex items-center"
+            v-if="scope.row.mission && (scope.row.mission.state != 'Signalée' || $store.getters.contextRole !== 'responsable')"
+          >
             <div class="text-xs">{{ scope.row.profile.email }} - {{ scope.row.profile.mobile }}</div>
+          </div>
+          <div v-else class="font-light text-gray-600 flex items-center">
+            <div class="text-xs">Coordonnées masquées</div>
           </div>
         </template>
       </el-table-column>
@@ -102,7 +108,10 @@
           <div v-if="scope.row.mission" class="text-gray-900">
             <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name }}</v-clamp>
           </div>
-          <div v-if="scope.row.mission && scope.row.mission.structure" class="font-light text-gray-600 flex items-center">
+          <div
+            v-if="scope.row.mission && scope.row.mission.structure"
+            class="font-light text-gray-600 flex items-center"
+          >
             <div class="text-xs">{{ scope.row.mission.structure.name }}</div>
           </div>
         </template>
@@ -134,9 +143,7 @@
         class="text-secondary text-xs ml-3"
       >Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats</div>
       <div class="ml-auto">
-        <el-button icon="el-icon-download" size="small" @click="onExport"
-          >Export</el-button
-        >
+        <el-button icon="el-icon-download" size="small" @click="onExport">Export</el-button>
       </div>
     </div>
     <portal to="volet">
@@ -187,13 +194,13 @@ export default {
       exportParticipations(this.query)
         .then(response => {
           this.loading = false;
-          console.log('export', response.data)
+          console.log("export", response.data);
           fileDownload(response.data, "participations.xlsx");
         })
         .catch(error => {
           console.log(error);
         });
-    },
+    }
   }
 };
 </script>

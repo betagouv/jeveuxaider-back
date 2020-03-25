@@ -12,6 +12,7 @@ use App\Filters\FiltersParticipationSearch;
 use App\Filters\FiltersParticipationLieu;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
+use App\Http\Requests\Api\ParticipationDeleteRequest;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class ParticipationController extends Controller
@@ -58,5 +59,16 @@ class ParticipationController extends Controller
         $participation->update($request->validated());
 
         return $participation;
+    }
+
+    public function delete(ParticipationDeleteRequest $request, Participation $participation)
+    {
+        return (string) $participation->delete();
+    }
+
+    public function destroy($id)
+    {
+        $participation = Participation::withTrashed()->findOrFail($id);
+        return (string) $participation->forceDelete();
     }
 }

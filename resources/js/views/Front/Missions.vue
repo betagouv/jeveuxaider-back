@@ -163,28 +163,19 @@
                                 </div>-->
 
                                 <span
-                                  class="mx-2 my-1 px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
+                                  v-if="item.has_places_left && item.places_left > 0"
+                                  class="mx-2 my-1 ml-auto px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
                                 >
-                                  {{ item.participations_max }}
+                                  {{ item.places_left|formatNumber }}
                                   {{
-                                  item.participations_max
-                                  | pluralize(["volontaire", "volontaires"])
+                                  item.places_left
+                                  | pluralize(["volontaire recherché", "volontaires recherchés"])
                                   }}
-                                  <!-- <div>
-                                <div v-if="item.has_places_left">
-                                  {{ item.places_left }}
-                                  {{
-                                  (item.places_left)
-                                  | pluralize(["place restante", "places restantes"])
-                                  }}
-                                </div>
-                                <div v-else>Complet</div>
-                                <div
-                                  class="font-light text-gray-600 text-xs"
-                                >{{ item.participations_max - item.places_left }} / {{ item.participations_max }}
-                                </div>
-                                  </div>-->
                                 </span>
+                                <span
+                                  v-else
+                                  class="mx-2 my-1 ml-auto px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
+                                >Complet</span>
                               </div>
                             </div>
                           </div>

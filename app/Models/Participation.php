@@ -26,7 +26,7 @@ class Participation extends Model
 
     protected $with = ['mission', 'profile'];
 
-    protected $touches = ['mission'];
+    // protected $touches = ['mission'];
 
     public function mission()
     {

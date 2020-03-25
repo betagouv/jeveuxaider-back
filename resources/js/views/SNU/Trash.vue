@@ -2,14 +2,12 @@
   <div class="structures has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
-        </div>
+        <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
           Corbeille
-          <div class="text-gray-600 text-sm font-normal mt-2">
-            Affiche les objets supprimés par les référents
-          </div>
+          <div
+            class="text-gray-600 text-sm font-normal mt-2"
+          >Affiche les objets supprimés par les référents</div>
         </div>
       </div>
     </div>
@@ -17,6 +15,7 @@
       <el-radio-group v-model="type" @change="handleChangeType">
         <el-radio-button label="Structures"></el-radio-button>
         <el-radio-button label="Missions"></el-radio-button>
+        <el-radio-button label="Participations"></el-radio-button>
       </el-radio-group>
     </div>
 
@@ -32,23 +31,16 @@
       </div>
     </div>
 
-    <el-table
-      v-loading="loading"
-      :data="tableData"
-      :highlight-current-row="true"
-    >
+    <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
       <el-table-column label="Nom" min-width="320">
         <template slot-scope="scope">
-          <span >{{ scope.row.name }}</span>
+          <span v-if="type != 'Participations'">{{ scope.row.name }}</span>
+          <span v-else>{{ scope.row.profile.full_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Type" min-width="120">
-        {{ type }}
-      </el-table-column>
+      <el-table-column label="Type" min-width="120">{{ type }}</el-table-column>
       <el-table-column label="Date de suppression" min-width="200">
-        <template slot-scope="scope">
-          {{ scope.row.deleted_at }}
-        </template>
+        <template slot-scope="scope">{{ scope.row.deleted_at }}</template>
       </el-table-column>
       <el-table-column label="Actions" width="230">
         <template slot-scope="scope">
@@ -56,9 +48,7 @@
             type="button"
             class="el-button is-plain el-button--danger el-button--mini"
             @click="handleDelete(scope.row)"
-          >
-            Supprimer définitivement
-          </button>
+          >Supprimer définitivement</button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,11 +60,10 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      >
-      </el-pagination>
-      <div class="text-secondary text-xs ml-3">
-        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
-      </div>
+      ></el-pagination>
+      <div
+        class="text-secondary text-xs ml-3"
+      >Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats</div>
     </div>
   </div>
 </template>
@@ -83,6 +72,7 @@
 import { fetchTrashItems } from "@/api/app";
 import { destroyStructure } from "@/api/structure";
 import { destroyMission } from "@/api/mission";
+import { destroyParticipation } from "@/api/participation";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 
@@ -135,6 +125,20 @@ export default {
             this.$message({
               type: "success",
               message: "La mission a été défitivement supprimée"
+            });
+            let foundIndex = this.tableData.findIndex(el => el.id === row.id);
+            this.tableData.splice(foundIndex, 1);
+          })
+          .catch(() => {
+            this.loading = false;
+          });
+      } else if (this.type == "Participations") {
+        destroyParticipation(row.id)
+          .then(() => {
+            this.loading = false;
+            this.$message({
+              type: "success",
+              message: "La participation a été défitivement supprimée"
             });
             let foundIndex = this.tableData.findIndex(el => el.id === row.id);
             this.tableData.splice(foundIndex, 1);

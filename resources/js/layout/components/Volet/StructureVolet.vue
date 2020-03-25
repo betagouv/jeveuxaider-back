@@ -212,12 +212,14 @@ export default {
         );
       } else {
         this.$confirm(
-          `La structure ${this.row.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
+          `La structure ${this.row.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
           "Supprimer la structure",
           {
             confirmButtonText: "Supprimer",
             confirmButtonClass: "el-button--danger",
             cancelButtonText: "Annuler",
+            center: true,
+            dangerouslyUseHTMLString: true,
             type: "error"
           }
         ).then(() => {
@@ -233,9 +235,11 @@ export default {
       }
     },
     onSubmit() {
-      this.$confirm("Êtes vous sur de vos changements ?", "Confirmation", {
+      this.$confirm("Êtes vous sur de vos changements ?<br>", "Confirmation", {
         confirmButtonText: "Je confirme",
         cancelButtonText: "Annuler",
+        dangerouslyUseHTMLString: true,
+        center: true,
         type: "warning"
       }).then(() => {
         this.loading = true;

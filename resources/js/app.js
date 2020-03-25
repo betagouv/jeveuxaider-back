@@ -8,6 +8,7 @@ import "./router/permission";
 import PortalVue from "portal-vue";
 import "./plugins/sentry.js";
 import Bowser from "bowser";
+import "./plugins/numeral.js";
 import "./plugins/dayjs.js";
 import "./plugins/utils.js";
 import Vue2Filters from "vue2-filters";
