@@ -13,7 +13,11 @@ class ParticipationObserver
     public function created(Participation $participation)
     {
         if ($participation->mission) {
-            $participation->mission->searchable();
+            if ($participation->mission->has_places_left) {
+                $participation->mission->searchable();
+            } else {
+                $participation->mission->unsearchable();
+            }
         }
 
         if ($participation->state == 'En attente de validation') {

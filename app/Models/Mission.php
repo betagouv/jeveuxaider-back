@@ -75,7 +75,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        return $this->isAvailable();
+        return $this->state == 'Validée' && $this->has_places_left ? true : false;
     }
 
     public function searchableAs()
@@ -167,11 +167,6 @@ class Mission extends Model
     {
         return $query
             ->where('state', 'Validée');
-    }
-
-    public function isAvailable()
-    {
-        return $this->state == 'Validée' && $this->has_places_left > 0 ? true : false;
     }
 
     public function scopeRole($query, $contextRole)
