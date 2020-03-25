@@ -13,7 +13,7 @@ class ParticipationObserver
     public function created(Participation $participation)
     {
         if ($participation->mission) {
-            if ($participation->mission->has_places_left) {
+            if ($participation->mission->shouldBeSearchable()) {
                 $participation->mission->searchable();
             } else {
                 $participation->mission->unsearchable();
