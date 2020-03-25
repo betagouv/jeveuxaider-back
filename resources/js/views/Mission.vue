@@ -264,7 +264,7 @@
                 <span
                   class="px-6 py-1 shadow-md inline-flex text-lg font-semibold rounded-full bg-green-100 text-green-800"
                 >
-                  {{ mission.participations_max }}
+                  {{ mission.participations_max|formatNumber }}
                   {{
                   mission.participations_max
                   | pluralize(["volontaire", "volontaires"])
@@ -274,7 +274,7 @@
 
               <div class="mt-4 text-sm">
                 <div v-if="mission.has_places_left">
-                  {{ mission.places_left }}
+                  {{ mission.places_left|formatNumber }}
                   {{
                   (mission.places_left)
                   | pluralize(["place restante", "places restantes"])
