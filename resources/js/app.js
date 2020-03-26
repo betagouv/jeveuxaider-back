@@ -64,11 +64,19 @@ new Vue({
       this.$router.push("/browser-outdated");
     }
 
-    Userback.on_load = function() {
-      if (!window.location.href.includes('dashboard')) {
-        Userback.hide()
+    Crisp.on_load = function() {
+      if (! ( window.location.href.includes('dashboard')|| window.location.href.includes('step') ) ) {
+        $crisp.push(['do', 'chat:hide']);
+       
       } else {
-        Userback.show()
+        $crisp.push(['do', 'chat:show']);
+        if (store.getters.profile) {
+          $crisp.push(["set", "user:email", [store.getters.profile.email]]);
+          $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
+          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+          console.log(store.getters.profile);
+        }
+       
       }
     };
 
@@ -78,10 +86,11 @@ new Vue({
     });
     router.beforeEach((to, from, next) => {
       store.commit("setLoading", true);
-      if (!to.path.includes('dashboard')) {
-        Userback.hide()
+      if (! (to.path.includes('dashboard')|| (to.path.includes('step')) )) {
+        $crisp.push(['do', 'chat:hide']);
+      
       } else {
-        Userback.show()
+        $crisp.push(['do', 'chat:show']);
       }
       next();
     });

@@ -6,6 +6,13 @@
         <span class="font-bold">compléter le profil</span> de votre compte
         Responsable de structure.
       </p>
+      <p>
+          Une question? Appelez-nous au<br /><span class="font-bold"><a href="tel:0184800189">
+           01 84 80 01 89</a> </span>
+          ou 
+          <button onclick="$crisp.push(['do', 'chat:open'])">chatez en cliquant sur le bouton en bas à droite.</button>
+      </p>  
+
     </portal>
     <el-steps :active="1" align-center class="p-4 sm:p-8 border-b border-b-2">
       <el-step

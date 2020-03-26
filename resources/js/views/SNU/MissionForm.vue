@@ -21,6 +21,12 @@
     </template>
     <div class="flex">
       <div style="max-width: 600px">
+         <p  class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+            Une question? Appelez-nous au <span class="font-bold"> <a href="tel:0184800189"> 
+             &nbsp;01 84 80 01 89&nbsp;</a></span>
+             ou chatez en cliquant sur le bouton en bas à droite.
+          </p>  
+
         <el-form
           ref="missionForm"
           :model="form"
