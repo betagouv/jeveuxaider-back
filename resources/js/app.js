@@ -64,14 +64,6 @@ new Vue({
       this.$router.push("/browser-outdated");
     }
 
-    Userback.on_load = function() {
-      if (!window.location.href.includes('dashboard')) {
-        Userback.hide()
-      } else {
-        Userback.show()
-      }
-    };
-
     Crisp.on_load = function() {
       if (! ( window.location.href.includes('dashboard')|| window.location.href.includes('step') ) ) {
         $crisp.push(['do', 'chat:hide']);
@@ -87,10 +79,8 @@ new Vue({
     router.beforeEach((to, from, next) => {
       store.commit("setLoading", true);
       if (! (to.path.includes('dashboard')|| (to.path.includes('step')) )) {
-        Userback.hide();
         $crisp.push(['do', 'chat:hide']);
       } else {
-        Userback.show();
         $crisp.push(['do', 'chat:show']);
       }
       next();
