@@ -48,12 +48,13 @@ class ParticipationCanceled extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre participation a été annulée')
+            ->subject('Votre mission a été annulée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('')
-            ->line('')
-            ->line('Retrouvez les détails dans votre espace utilisateur.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->line('Nous sommes au regret de vous informer que votre mission est annulée.')
+            ->line('Nous vous invitons à poursuivre votre engagement au titre d\'une autre mission proposée sur le site jeveuxaider.gouv.fr')
+            ->line('Le responsable de la structure « ' . $this->participation->mission->structure->name . ' »')
+            ->action('Toutes nos missions', url(config('app.url') . '/missions'))
+        ;
     }
 
     /**

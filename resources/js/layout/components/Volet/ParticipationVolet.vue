@@ -4,9 +4,11 @@
       <el-card shadow="hover" class="overflow-visible mt-24">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
-            <el-avatar class="bg-primary">{{ row.profile.short_name }}</el-avatar>
+            <el-avatar v-if="canShowProfileDetails" class="bg-primary">{{ row.profile.short_name }}</el-avatar>
+            <el-avatar v-else class="bg-primary">XX</el-avatar>
           </div>
-          <div class="font-bold text-lg my-3">{{ row.profile.full_name }}</div>
+          <div v-if="canShowProfileDetails" class="font-bold text-lg my-3">{{ row.profile.full_name }}</div>
+          <div v-else class="font-bold text-lg my-3">Anonyme</div>
           <button
               v-if="
                 $store.getters.contextRole == 'admin' ||
@@ -25,7 +27,7 @@
         </div>
         <participation-infos :participation="row"></participation-infos>
       </el-card>
-      <template>
+      <template v-if="canChangeState">
         <el-form ref="participationForm" :model="form" label-position="top">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut</div>
           <item-description>Vous pouvez sélectionner le statut de la participation. A noter que des
@@ -71,6 +73,23 @@ export default {
       loading: false,
       form: {}
     };
+  },
+  computed: {
+    canShowProfileDetails() {
+      return this.row.mission &&
+        (this.row.mission.state != "Signalée" ||
+          this.$store.getters.contextRole !== "responsable")
+        ? true
+        : false;
+    },
+    canChangeState(){
+      let state = [
+        'En attente de validation',
+        'Mission validée',
+        'Mission en cours'
+      ]
+      return state.includes(this.row.state) === true ? true : false
+    }
   },
   methods: {
     onClickDelete() {

@@ -445,6 +445,7 @@ return [
             //"Mission refusée" => "Mission refusée",
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",
+            "Mission signalée" => "Mission signalée",
            // "Archivée" => "Archivée"
         ]
     ],

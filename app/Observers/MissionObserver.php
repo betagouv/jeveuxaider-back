@@ -4,11 +4,10 @@ namespace App\Observers;
 
 use App\Models\Mission;
 use App\Models\Profile;
-// use App\Notifications\MissionCanceled;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingCorrection;
 use App\Notifications\MissionWaitingValidation;
-// use App\Notifications\MissionSignaled;
+use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 
 class MissionObserver
@@ -65,17 +64,16 @@ class MissionObserver
                     break;
                 case 'Signalée':
                     if ($mission->tuteur) {
-                        // $mission->tuteur->notify(new MissionSignaled($mission));
+                        $mission->tuteur->notify(new MissionSignaled($mission));
                         if ($mission->participations) {
                             foreach ($mission->participations as $participation) {
-                                $participation->update(['state' => 'Mission annulée']);
+                                $participation->update(['state' => 'Mission signalée']);
                             }
                         }
                     }
                     break;
                 case 'Annulée':
                     if ($mission->tuteur) {
-                        // $mission->tuteur->notify(new MissionCanceled($mission));
                         if ($mission->participations) {
                             foreach ($mission->participations as $participation) {
                                 $participation->update(['state' => 'Mission annulée']);
