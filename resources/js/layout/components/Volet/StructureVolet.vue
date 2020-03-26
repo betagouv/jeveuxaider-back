@@ -135,6 +135,28 @@
             Enregistrer
           </el-button>
         </div>
+        <template v-if="showStatut">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut de la structure</div>
+          <item-description>
+            Vous pouvez sélectionner le statut de la structure. A noter que des
+            notifications emails seront envoyées.
+          </item-description>
+          <el-form-item label="Statut" prop="state" class="flex-1">
+            <el-select v-model="form.state" placeholder="Statut">
+              <el-option
+                v-for="item in $store.getters.taxonomies.structure_workflow_states.terms"
+                :key="item.label"
+                :label="item.value"
+                :value="item.label"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+           <div class="flex pt-2">
+          <el-button type="primary" :loading="loading" @click="onSubmitState">
+            Enregistrer
+          </el-button>
+        </div>
+        </template>
       </el-form>
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Équipe ({{ form.members.length }})
@@ -199,6 +221,11 @@ export default {
       form: {}
     };
   },
+  computed:{
+    showStatut() {
+      return (this.row.state != "Signalée") ? true : false;
+    },
+  },
   methods: {
     onClickDelete() {
       if (this.row.missions_count > 0) {
@@ -257,6 +284,40 @@ export default {
             this.errors = error.response.data.errors;
           });
       });
+    },
+    onSubmitState() {
+
+      let message = "Êtes vous sur de vos changements ?"
+
+      if(this.form.state == 'Signalée') {
+        message =  `Vous êtes sur le point de signaler une structure qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. La structure est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées et une notification d'annulation sera envoyée aux volontaires initialement inscrits.`
+      }
+
+      this.$confirm(message, "Confirmation", {
+        confirmButtonText: "Je confirme",
+        cancelButtonText: "Annuler",
+        type: "warning",
+        center: true,
+        dangerouslyUseHTMLString: true
+      })
+        .then(() => {
+          this.loading = true;
+          updateStructure(this.form.id, this.form)
+            .then(response => {
+              this.loading = false;
+              this.$store.commit("volet/setRow", response.data);
+              this.$message({
+                type: "success",
+                message: "La structure a été mise à jour"
+              });
+              this.$emit("updated", response.data);
+            })
+            .catch(error => {
+              this.loading = false;
+              this.errors = error.response.data.errors;
+            });
+        })
+        .catch(() => {});
     }
   }
 };

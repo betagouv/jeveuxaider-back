@@ -53,6 +53,14 @@
           @changed="onFilterChange"
         />
         <query-filter
+          name="state"
+          label="Statut"
+          multiple
+          :value="query['filter[state]']"
+          :options="$store.getters.taxonomies.structure_workflow_states.terms"
+          @changed="onFilterChange"
+        />
+        <query-filter
           name="statut_juridique"
           label="Statut juridique"
           :value="query['filter[statut_juridique]']"
@@ -149,6 +157,11 @@
           >
         </template>
       </el-table-column>
+      <el-table-column prop="state" label="Statut" min-width="170">
+        <template slot-scope="scope">
+          <state-tag :state="scope.row.state"></state-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="Actions" width="180">
         <template slot-scope="scope">
           <el-dropdown
@@ -224,10 +237,11 @@ import QueryFilter from "@/components/QueryFilter.vue";
 import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 import fileDownload from "js-file-download";
+import StateTag from "@/components/StateTag";
 
 export default {
   name: "Structures",
-  components: { StructureVolet, QueryFilter, QueryMainSearchFilter, QuerySearchFilter },
+  components: { StructureVolet, QueryFilter, QueryMainSearchFilter, QuerySearchFilter, StateTag},
   mixins: [TableWithVolet, TableWithFilters],
   data() {
     return {
