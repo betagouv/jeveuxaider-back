@@ -67,8 +67,14 @@ new Vue({
     Crisp.on_load = function() {
       if (! ( window.location.href.includes('dashboard')|| window.location.href.includes('step') ) ) {
         $crisp.push(['do', 'chat:hide']);
+       
       } else {
         $crisp.push(['do', 'chat:show']);
+        if (store.getters.profile) {
+          $crisp.push(["set", "user:email", [store.getters.profile.email]]);
+          crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
+        }
+       
       }
     };
 
@@ -80,8 +86,13 @@ new Vue({
       store.commit("setLoading", true);
       if (! (to.path.includes('dashboard')|| (to.path.includes('step')) )) {
         $crisp.push(['do', 'chat:hide']);
+      
       } else {
         $crisp.push(['do', 'chat:show']);
+        if (store.getters.profile) {
+          $crisp.push(["set", "user:email", [store.getters.profile.email]]);
+          $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
+        }
       }
       next();
     });
