@@ -39,8 +39,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
     Route::post('participation', 'Api\ParticipationController@store');
-    Route::get('participations', 'Api\ParticipationController@index');
-    Route::post('participation/{participation}', 'Api\ParticipationController@update');
 
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
@@ -75,6 +73,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // PARTICIPATIONS
     Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
+    Route::get('participations', 'Api\ParticipationController@index');
+    Route::post('participation/{participation}', 'Api\ParticipationController@update');
 
     // EXPORT
     Route::get('structures/export', 'Api\StructureController@export');
