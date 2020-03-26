@@ -74,7 +74,6 @@ new Vue({
           $crisp.push(["set", "user:email", [store.getters.profile.email]]);
           $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
           $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
-          console.log(store.getters.profile);
         }
        
       }
@@ -91,6 +90,11 @@ new Vue({
       
       } else {
         $crisp.push(['do', 'chat:show']);
+        if (store.getters.profile) {
+          $crisp.push(["set", "user:email", [store.getters.profile.email]]);
+          $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
+          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+        }
       }
       next();
     });
