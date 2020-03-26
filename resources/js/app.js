@@ -72,16 +72,26 @@ new Vue({
       }
     };
 
+    Crisp.on_load = function() {
+      if (! ( window.location.href.includes('dashboard')|| window.location.href.includes('step') ) ) {
+        $crisp.push(['do', 'chat:hide']);
+      } else {
+        $crisp.push(['do', 'chat:show']);
+      }
+    };
+
     router.afterEach((to, from) => {
       store.commit("volet/hide");
       store.commit("setLoading", false);
     });
     router.beforeEach((to, from, next) => {
       store.commit("setLoading", true);
-      if (!to.path.includes('dashboard')) {
-        Userback.hide()
+      if (! (to.path.includes('dashboard')|| (to.path.includes('step')) )) {
+        Userback.hide();
+        $crisp.push(['do', 'chat:hide']);
       } else {
-        Userback.show()
+        Userback.show();
+        $crisp.push(['do', 'chat:show']);
       }
       next();
     });

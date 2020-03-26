@@ -7,6 +7,13 @@
     <link rel="icon" href="{{ asset("/images/favicon.jpg") }}" />
     <link href="{{ mix("/assets/css/app.css") }}" rel="stylesheet" type="text/css">
     <script src="//tag.aticdn.net/610648/smarttag.js"></script>
+    <script type="text/javascript">
+    Crisp = window.Crisp || {};
+    window.$crisp=[];
+    window.CRISP_WEBSITE_ID="4b843a95-8a0b-4274-bfd5-e81cbdc188ac";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+    window.$crisp.push(['do', 'chat:hide']);
+    </script>
+    
 </head>
 
 <body>
