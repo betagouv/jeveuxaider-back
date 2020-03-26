@@ -72,9 +72,10 @@ return [
     'structure_workflow_states' => [
         "vocabulary" => "Statut",
         "terms" => [
-            "En attente de validation" => "En attente de validation",
-            "En attente de correction" => "En attente de correction",
+            // "En attente de validation" => "En attente de validation",
+            // "En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
+            "Signalée" => "Signalée"
         ]
     ],
 

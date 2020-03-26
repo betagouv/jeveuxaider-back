@@ -13,14 +13,25 @@ class StatisticsController extends Controller
 {
     public function missions(Request $request)
     {
-        $totalPlaces = Mission::role($request->header('Context-Role'))->sum('participations_max');
-        $participations = Mission::role($request->header('Context-Role'))->with('participations')->pluck('participations_count')->sum();
-        $places_left = $totalPlaces - $participations;
+        
+        // $totalPlaces = Mission::role($request->header('Context-Role'))->sum('participations_max');
+        // $participations = Mission::role($request->header('Context-Role'))->with('participations')->pluck('participations_count')->sum();
+        // $places_left = $totalPlaces - $participations;
+
+        // return [
+        //     'total' => Mission::role($request->header('Context-Role'))->count(),
+        //     'places_left' => $places_left,
+        //     'participations' => $participations
+        // ];
+
+        $missionsCollection = Mission::role($request->header('Context-Role'))->without(['structure','tuteur'])->available()->hasPlacesLeft()->get();
 
         return [
             'total' => Mission::role($request->header('Context-Role'))->count(),
-            'places_left' => $places_left,
-            'participations' => $participations
+            'places_available' => $missionsCollection->mapWithKeys(function ($item) {
+                return ['places_left_'.$item->id=> $item->participations_max - $item->participations_count];
+            })->sum(),
+            'missions_available' => $missionsCollection->count(),
         ];
     }
 

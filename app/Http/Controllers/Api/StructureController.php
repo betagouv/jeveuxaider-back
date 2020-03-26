@@ -35,6 +35,7 @@ class StructureController extends Controller
         return QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
                 'department',
+                'state',
                 'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),

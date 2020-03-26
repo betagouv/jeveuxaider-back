@@ -31,6 +31,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
             ->allowedFilters([
                 'department',
                 'statut_juridique',
+                'state',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),

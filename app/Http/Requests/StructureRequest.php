@@ -55,6 +55,7 @@ class StructureRequest extends FormRequest
             'structure_publique_type' => '',
             'structure_publique_etat_type' => '',
             'structure_privee_type' => '',
+            'state' => '',
         ];
     }
 
