@@ -14,12 +14,12 @@
         </div>
         <div v-if="data" class="flex flex-wrap">
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Places occupées</div>
-            <div class="">{{ data.participations }}</div>
+            <div class="text-gray-500 text-sm">Missions disponibles</div>
+            <div class="">{{ data.missions_available }}</div>
           </div>
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">Places disponibles</div>
-            <div class="">{{ data.places_left }}</div>
+            <div class="">{{ data.places_available }}</div>
           </div>
         </div>
       </template>
