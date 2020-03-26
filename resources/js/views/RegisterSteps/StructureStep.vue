@@ -7,6 +7,12 @@
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
       </p>
+      <p>
+          Une question? Appelez-nous au<br /><span class="font-bold"><a href="tel:0184800189">
+           01 84 80 01 89</a> </span>
+          ou 
+          <button onclick="$crisp.push(['do', 'chat:open'])">chatez en cliquant sur le bouton en bas à droite.</button>
+      </p>  
     </portal>
     <el-steps :active="2" align-center class="p-4 sm:p-8 border-b-2">
       <el-step
