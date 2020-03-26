@@ -7,6 +7,12 @@
         <span class="font-bold">compléter l'adresse</span>
         de votre structure d’accueil.
       </p>
+      <p>
+          Une question? Appelez-nous au<br /><span class="font-bold"><a href="tel:0184800189">
+           01 84 80 01 89</a> </span>
+          ou 
+          <button onclick="$crisp.push(['do', 'chat:open'])">chatez en cliquant sur le bouton en bas à droite.</button>
+      </p>  
     </portal>
     <el-steps :active="3" align-center class="p-8 border-b">
       <el-step

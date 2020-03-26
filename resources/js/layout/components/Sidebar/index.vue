@@ -33,7 +33,13 @@
         :is-collapsed="isCollapsed"
       />
     </el-menu>
-
+  <div
+        v-if="!isCollapsed"
+        class="px-5 el-menu-item"
+        style="width: 220px;"
+      >
+        Aide: <a href="tel:0184800189"> &nbsp;01 84 80 01 89&nbsp;</a><br/>
+      </div>
     <div class="px-5">
       <hr />
     </div>
@@ -48,12 +54,16 @@
         @click="handleCollapse"
       ></el-button>
     </div>
+    
+    
+
     <router-link to="/">
       <div
         v-if="!isCollapsed"
         class="absolute bottom-0 p-6 pb-10 flex justify-center mb-4"
         style="width: 220px;"
       >
+      
         <img src="/images/logo-header-dark.png" />
       </div>
     </router-link>
