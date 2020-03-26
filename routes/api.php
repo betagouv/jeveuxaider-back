@@ -22,7 +22,6 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 Route::get('releases', 'Api\ReleaseController@index');
 
 // Missions
-Route::get('missions', 'Api\MissionController@index');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
@@ -63,6 +62,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
 
     // MISSIONS
+    Route::get('missions', 'Api\MissionController@index');
     Route::post('mission/{mission}', 'Api\MissionController@update');
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
