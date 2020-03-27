@@ -10,16 +10,24 @@
       </div>
       <template v-if="data">
         <div v-if="data" class="count text-primary font-medium text-2xl">
-          {{ data.total }}
+          {{ data.total|formatNumber }}
         </div>
         <div v-if="data" class="flex flex-wrap">
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Missions disponibles</div>
-            <div class="">{{ data.missions_available }}</div>
+            <div class="text-gray-500 text-sm">Validées</div>
+            <div class="">{{ data.validated|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Places disponibles</div>
-            <div class="">{{ data.places_available }}</div>
+            <div class="text-gray-500 text-sm">Annulées</div>
+            <div class="">{{ data.canceled|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Signalées</div>
+            <div class="">{{ data.signaled|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Autres</div>
+            <div class="">{{ data.other|formatNumber }}</div>
           </div>
         </div>
       </template>

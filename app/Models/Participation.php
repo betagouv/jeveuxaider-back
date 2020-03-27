@@ -69,4 +69,12 @@ class Participation extends Model
             break;
         }
     }
+
+    public function scopeDepartment($query, $value)
+    {
+        return $query
+            ->whereHas('mission', function (Builder $query) use ($value) {
+                $query->where('department', $value);
+            });
+    }
 }
