@@ -19,8 +19,26 @@ router.beforeEach(async (to, from, next) => {
       }
 
       // ROLES RESTRICTIONS
-      if (to.meta.roles && !to.meta.roles.includes(store.getters.contextRole)) {
-        next("/403");
+      if (to.meta.roles) {
+        if (!to.meta.roles.includes(store.getters.contextRole)) {
+          next("/403");
+        }
+        else {
+          if (store.getters.contextRole === 'responsable') {
+            if (to.name === 'StructureFormEdit' || to.name === 'StructureMembers' || to.name === 'StructureMembersAdd' || to.name === 'Structure') {
+              // Accès seulement si c'est la structure du responsable.
+              if (!store.getters.structure_as_responsable || store.getters.structure_as_responsable.id != to.params.id) {
+                next("/403");
+              }
+            }
+            else if (to.name === 'MissionFormAdd') {
+              // Accès seulement si c'est la structure du responsable.
+              if (!store.getters.structure_as_responsable || store.getters.structure_as_responsable.id != to.params.structureId) {
+                next("/403");
+              }
+            }
+          }
+        }
       }
 
       next();

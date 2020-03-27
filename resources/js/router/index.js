@@ -184,12 +184,16 @@ export default new Router({
         {
             path: "/dashboard",
             component: LayoutSNU,
+            meta: { requiresAuth: true },
             children: [
                 {
                     path: "/dashboard",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard" */ "@/views/SNU/Dashboard.vue"),
-                    name: "Dashboard"
+                    name: "Dashboard",
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/missions",
@@ -197,21 +201,30 @@ export default new Router({
                         import(
                     /* webpackChunkName: "assets/js/dashboard-missions" */ "@/views/SNU/Missions.vue"
                         ),
-                    name: "DashboardMissions"
+                    name: "DashboardMissions",
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/structure/:structureId/missions/add",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionForm.vue"),
                     name: "MissionFormAdd",
-                    props: route => ({ structureId: parseInt(route.params.structureId) })
+                    props: route => ({ structureId: parseInt(route.params.structureId) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/mission/:id/edit",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/SNU/MissionForm.vue"),
                     name: "MissionFormEdit",
-                    props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/structures",
@@ -219,7 +232,10 @@ export default new Router({
                         import(
                     /* webpackChunkName: "assets/js/dashboard-structures" */ "@/views/SNU/Structures.vue"
                         ),
-                    name: "Structures"
+                    name: "Structures",
+                    meta: {
+                        roles: ["admin", "referent", "superviseur"]
+                    }
                 },
                 {
                     path: "/dashboard/structure/add",
@@ -230,7 +246,7 @@ export default new Router({
                     name: "StructureFormAdd",
                     props: { mode: "add" },
                     meta: {
-                        roles: ["admin"]
+                        roles: ["admin", "referent", "superviseur"]
                     }
                 },
                 {
@@ -250,7 +266,10 @@ export default new Router({
                     /* webpackChunkName: "assets/js/dashboard-structure-edit" */ "@/views/SNU/StructureForm.vue"
                         ),
                     name: "StructureFormEdit",
-                    props: route => ({ mode: "edit", id: parseInt(route.params.id) })
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/structure/:id/members",
@@ -259,7 +278,10 @@ export default new Router({
                     /* webpackChunkName: "assets/js/dashboard-structure-members" */ "@/views/SNU/StructureMembers.vue"
                         ),
                     name: "StructureMembers",
-                    props: route => ({ id: parseInt(route.params.id) })
+                    props: route => ({ id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/structure/:id/members/add",
@@ -268,7 +290,10 @@ export default new Router({
                     /* webpackChunkName: "assets/js/dashboard-structure-members-add" */ "@/views/SNU/StructureMembersAdd.vue"
                         ),
                     name: "StructureMembersAdd",
-                    props: route => ({ id: parseInt(route.params.id) })
+                    props: route => ({ id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/profiles",
@@ -276,7 +301,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
                     name: "Profiles",
                     meta: {
-                        roles: ["admin", "referent", "superviseur"]
+                        roles: ["admin", "referent"]
                     }
                 },
                 {
@@ -286,7 +311,7 @@ export default new Router({
                     name: "Profile",
                     props: route => ({ id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur"]
+                        roles: ["admin", "referent"]
                     }
                 },
                 {
@@ -294,7 +319,10 @@ export default new Router({
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-profile-role-add" */ "@/views/SNU/ProfileForm.vue"),
                     name: "ProfileFormAdd",
-                    props: route => ({ mode: "add", role: route.params.role })
+                    props: route => ({ mode: "add", role: route.params.role }),
+                    meta: {
+                        roles: ["admin"]
+                    }
                 },
                 {
                     path: "/dashboard/profile/:id/edit",
@@ -312,7 +340,10 @@ export default new Router({
                         import(
                     /* webpackChunkName: "assets/js/dashboard-participations" */ "@/views/SNU/Participations.vue"
                         ),
-                    name: "DashboardParticipations"
+                    name: "DashboardParticipations",
+                    meta: {
+                        roles: ["admin", "referent", "superviseur", "responsable"]
+                    }
                 },
                 {
                     path: "/dashboard/trash",
