@@ -9,7 +9,6 @@ use App\Http\Requests\Api\StructureCreateRequest;
 use App\Http\Requests\Api\StructureUpdateRequest;
 use App\Http\Requests\Api\StructureDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Notifications\StructureCreated;
 use App\Models\Profile;
 use App\Http\Requests\Api\MissionCreateRequest;
 use App\Http\Requests\StructureInvitationRequest;
@@ -90,8 +89,6 @@ class StructureController extends Controller
         $structure = Structure::create(
             array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
         );
-
-        $request->user()->notify(new StructureCreated($structure));
 
         return $structure;
     }

@@ -72,7 +72,7 @@ return [
     'structure_workflow_states' => [
         "vocabulary" => "Statut",
         "terms" => [
-            // "En attente de validation" => "En attente de validation",
+            "En attente de validation" => "En attente de validation",
             // "En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Signalée" => "Signalée"
@@ -89,7 +89,7 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "Brouillon" => "Brouillon",
-            //"En attente de validation" => "En attente de validation",
+            "En attente de validation" => "En attente de validation",
             //"En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Signalée" => "Signalée",

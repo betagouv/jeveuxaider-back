@@ -412,7 +412,7 @@ export default {
       loading: false,
       mission: {},
       form: {
-        state: "Validée",
+        state: "En attente de validation",
         participations_max: 1
       },
       rules: {
@@ -553,6 +553,9 @@ export default {
       this.addOrUpdateMission();
     },
     onSubmit() {
+      if(this.form.structure && this.form.structure.state == 'Validée') {
+        this.form.state = 'Validée'
+      }
       this.addOrUpdateMission();
     },
     addOrUpdateMission() {

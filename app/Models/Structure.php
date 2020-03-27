@@ -55,7 +55,7 @@ class Structure extends Model implements HasMedia
     ];
 
     protected $attributes = [
-        'state' => 'Validée',
+        'state' => 'En attente de validation',
         'country' => 'France'
     ];
 

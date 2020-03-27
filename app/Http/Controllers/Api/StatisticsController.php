@@ -8,12 +8,13 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use Illuminate\Support\Facades\Auth;
 
 class StatisticsController extends Controller
 {
     public function missions(Request $request)
     {
-        
+
         // $totalPlaces = Mission::role($request->header('Context-Role'))->sum('participations_max');
         // $participations = Mission::role($request->header('Context-Role'))->with('participations')->pluck('participations_count')->sum();
         // $places_left = $totalPlaces - $participations;
@@ -64,7 +65,7 @@ class StatisticsController extends Controller
             'waiting' => Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
             'current' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission en cours', 'Mission validée'])->count(),
             'done' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission effectuée'])->count(),
-            'other' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission refusée','Mission abandonnée', 'Mission annulée', 'Mission signalée'])->count(),
+            'other' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission refusée', 'Mission abandonnée', 'Mission annulée', 'Mission signalée'])->count(),
         ];
     }
 
@@ -74,10 +75,20 @@ class StatisticsController extends Controller
         $datas = collect();
 
         $missionsCollection = Mission::role($request->header('Context-Role'))
-                ->without(['structure','tuteur'])
-                ->available()
-                ->hasPlacesLeft()
-                ->get();
+            ->without(['structure', 'tuteur'])
+            ->available()
+            ->hasPlacesLeft()
+            ->get();
+
+        // Filter department based on user
+        if ($request->header('Context-Role') == 'referent') {
+            $referentDepartement = Auth::guard('api')->user()->profile->referent_department;
+            foreach ($departements as $key => $departement) {
+                if ($key != $referentDepartement) {
+                    unset($departements[$key]);
+                }
+            }
+        }
 
         foreach ($departements as $key => $value) {
             $departmentCollection = $missionsCollection->filter(function ($item) use ($key) {
@@ -92,14 +103,14 @@ class StatisticsController extends Controller
                 'participations_count' => Participation::role($request->header('Context-Role'))->department($key)->count(),
                 'missions_available' => $departmentCollection->count(),
                 'places_available' => $departmentCollection->mapWithKeys(function ($item) {
-                    return ['places_left_'.$item->id=> $item->participations_max - $item->participations_count];
+                    return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];
                 })->sum(),
             ]);
         }
 
         return [
             'total_places_available' => $missionsCollection->mapWithKeys(function ($item) {
-                return ['places_left_'.$item->id=> $item->participations_max - $item->participations_count];
+                return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];
             })->sum(),
             'total_missions_available' => $missionsCollection->count(),
             'departments' => $datas
