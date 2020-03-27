@@ -100,7 +100,8 @@ class Mission extends Model
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
-            ] : null
+            ] : null,
+            'type' => $this->type
         ];
 
         if ($this->latitude && $this->longitude) {
