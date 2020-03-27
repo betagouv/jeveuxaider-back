@@ -326,26 +326,26 @@
                         <el-button
                           v-if="canRegistered"
                           @click="handleClick"
-                          class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                         >Proposer votre aide</el-button>
                         <router-link
                           v-else
                           to="/user/missions"
-                          class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                         >Vous êtes déjà inscrit !</router-link>
                       </template>
 
                       <template v-else>
                         <router-link
                           to="/login"
-                          class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                         >Proposer votre aide</router-link>
                       </template>
                     </template>
                   </template>
 
                   <template v-else>
-                    <span class="bg-orange-300 flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium">Cette mission a le statut {{ mission.state.toLowerCase() }}</span>
+                    <span class="bg-orange-300 inline-flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium">Cette mission a le statut {{ mission.state.toLowerCase() }}</span>
                   </template>
                 </template>
               </div>
@@ -370,101 +370,89 @@
             :key="otherMission.id"
             class="border-t border-gray-200"
           >
+
             <router-link
-              :to="`/missions/${otherMission.id}`"
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+              :to="`/missions/${otherMission.id}`"
             >
-              <div class="flex items-center px-4 py-4 sm:px-6">
-                <div class="min-w-0 flex-1 flex items-start">
-                  <div class="hidden sm:block flex-shrink-0" style="margin-top:2px;">
+              <div class="p-4 sm:p-6 md:p-8">
+                <div class="flex items-center">
+                  <div
+                    class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center"
+                  >
                     <img
-                      class="h-12 w-12 rounded-full"
-                      src="https://s3.eu-west-2.amazonaws.com/plateforme-prod/uploads/5737034557ef5b8c02c0e46513b98f90/c9c2676be6cd123b7f24038717efe1b3.jpg"
-                      alt
+                      class=""
+                      :src="iconDomain(otherMission.name)"
+                      style="width:28px;"
                     />
                   </div>
-                  <div class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4">
-                    <div class="col-span-2 lg:col-span-1 mb-4 md:mb-0">
-                      <div class="font-semibold text-blue-800 truncate">{{ otherMission.name }}</div>
-                      <div class="mt-1 flex items-center text-sm ext-gray-900 font-semibold">
-                        <span class="truncate">{{ otherMission.structure.name }}</span>
-                      </div>
-                    </div>
-
+                  <div class="min-w-0 flex-1 sm:pl-4">
                     <div
-                      v-if="otherMission.department"
-                      class="flex flex-wrap item-center -mx-2 -my-1 col-span-2 lg:col-span-1 text-sm"
+                      class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2"
                     >
-                      <div class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500">
-                        <svg
-                          class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                        {{ otherMission.city }} ({{ otherMission.department }})
+                      <div class="m-2 min-w-0 flex-shrink">
+                        <div
+                          class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
+                          v-text="otherMission.type"
+                        ></div>
+                        <div
+                          class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
+                          v-text="otherMission.name"
+                        ></div>
                       </div>
-                      <!-- <div
-                        v-if="otherMission.periodicite"
-                        class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500"
-                      >
-                        <svg
-                          class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                        {{ otherMission.periodicite }}
-                      </div>-->
 
-                      <div class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500">
-                        <span
-                          class="mx-2 my-1 px-6 py-1 shadow-md inline-flex font-semibold text-center rounded-full bg-green-100 text-green-800"
+                      <div
+                        v-if="
+                          otherMission.has_places_left && otherMission.places_left > 0
+                        "
+                        class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
+                        style="background:#31c48d;"
+                      >
+                        <template
+                          v-if="
+                            otherMission.has_places_left &&
+                              otherMission.places_left > 0
+                          "
                         >
-                        {{ otherMission.participations_max }}
-                              {{
-                              (otherMission.participations_max)
-                              | pluralize(["volontaire", "volontaires"])
-                              }}
-                          <!-- <div>
-                            <div v-if="otherMission.has_places_left">
-                              {{ otherMission.places_left }}
-                              {{
-                              (otherMission.places_left)
-                              | pluralize(["place restante", "places restantes"])
-                              }}
-                            </div>
-                            <div v-else>Complet</div>
-                            <div
-                              class="font-light text-gray-600 text-xs"
-                            >{{ otherMission.participations_max - otherMission.places_left }} / {{ otherMission.participations_max }}</div>
-                          </div> -->
-                        </span>
+                          {{ otherMission.places_left | formatNumber }}
+                          {{
+                            otherMission.places_left
+                              | pluralize([
+                                "volontaire recherché",
+                                "volontaires recherchés"
+                              ])
+                          }}
+                        </template>
+                        <template v-else>Complet</template>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+
+                <div
+                  class="mt-4 flex items-start text-sm text-gray-500"
+                >
+                  <svg
+                    class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                       clip-rule="evenodd"
                     />
                   </svg>
+                  <span
+                    v-text="
+                      `${otherMission.city} (${otherMission.department}) - ${otherMission.structure.name}`
+                    "
+                  >
+                  </span>
                 </div>
               </div>
             </router-link>
+
           </li>
         </ul>
       </div>
@@ -563,6 +551,18 @@ export default {
             });
         })
         .catch(() => {});
+    },
+    iconDomain(domain) {
+      switch (domain) {
+        case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
+          return "/images/groceries.svg";
+        case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
+          return "/images/teddy-bear.svg";
+        case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
+          return "/images/phone-handle.svg";
+        case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
+          return "/images/basket.svg";
+      }
     }
   }
 };
