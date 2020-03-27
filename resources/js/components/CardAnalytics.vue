@@ -13,7 +13,7 @@
             <div class="">{{ data.total_places_available|formatNumber }}</div>
           </div>
         </div>
-        <el-table v-show="false" :data="data.departments" style="width: 100%" @row-click="onClickedRow">
+        <el-table :data="data.departments" style="width: 100%" @row-click="onClickedRow">
           <el-table-column prop="key" label="#" width="80">
             <template slot-scope="scope">
               <span>{{ scope.row.key }}</span>
