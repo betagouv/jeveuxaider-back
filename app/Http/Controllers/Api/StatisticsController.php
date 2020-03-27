@@ -9,38 +9,19 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class StatisticsController extends Controller
 {
     public function missions(Request $request)
     {
-
-        // $totalPlaces = Mission::role($request->header('Context-Role'))->sum('participations_max');
-        // $participations = Mission::role($request->header('Context-Role'))->with('participations')->pluck('participations_count')->sum();
-        // $places_left = $totalPlaces - $participations;
-
-        // return [
-        //     'total' => Mission::role($request->header('Context-Role'))->count(),
-        //     'places_left' => $places_left,
-        //     'participations' => $participations
-        // ];
-
-        // $missionsCollection = Mission::role($request->header('Context-Role'))->without(['structure','tuteur'])->available()->hasPlacesLeft()->get();
-
-        // return [
-        //     'total' => Mission::role($request->header('Context-Role'))->count(),
-        //     'places_available' => $missionsCollection->mapWithKeys(function ($item) {
-        //         return ['places_left_'.$item->id=> $item->participations_max - $item->participations_count];
-        //     })->sum(),
-        //     'missions_available' => $missionsCollection->count(),
-        // ];
-
         return [
             'total' => Mission::role($request->header('Context-Role'))->count(),
+            'waiting' => Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
             'validated' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->count(),
             'canceled' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Annulée'])->count(),
             'signaled' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Signalée'])->count(),
-            'other' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Brouillon'])->count(),
+            'draft' => Mission::role($request->header('Context-Role'))->whereIn('state', ['Brouillon'])->count(),
         ];
     }
 
@@ -48,6 +29,9 @@ class StatisticsController extends Controller
     {
         return [
             'total' => Structure::role($request->header('Context-Role'))->count(),
+            'validated' => Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->count(),
+            'signaled' => Structure::role($request->header('Context-Role'))->whereIn('state', ['Signalée'])->count(),
+            'waiting' => Structure::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
         ];
     }
 
@@ -55,6 +39,18 @@ class StatisticsController extends Controller
     {
         return [
             'total' => Profile::role($request->header('Context-Role'))->count(),
+            'volontaire' => Profile::role($request->header('Context-Role'))
+                ->whereHas('user', function (Builder $query) {
+                    $query->where('context_role', 'volontaire');
+                })->count(),
+            'responsable' => Mission::role($request->header('Context-Role'))->distinct()->count('tuteur_id'),
+            'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
+            'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
+            'admin' => Profile::role($request->header('Context-Role'))
+                ->whereHas('user', function (Builder $query) {
+                    $query->where('is_admin', true);
+                })->count(),
+            'invited' => Profile::role($request->header('Context-Role'))->doesntHave('user')->count(),
         ];
     }
 
@@ -63,9 +59,12 @@ class StatisticsController extends Controller
         return [
             'total' => Participation::role($request->header('Context-Role'))->count(),
             'waiting' => Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
-            'current' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission en cours', 'Mission validée'])->count(),
+            'validated' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission validée'])->count(),
+            'current' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission en cours'])->count(),
             'done' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission effectuée'])->count(),
-            'other' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission refusée', 'Mission abandonnée', 'Mission annulée', 'Mission signalée'])->count(),
+            'canceled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission annulée'])->count(),
+            'signaled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission signalée'])->count(),
+            'abandoned' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission abandonnée'])->count(),
         ];
     }
 

@@ -18,16 +18,28 @@
             <div class="">{{ data.waiting|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Validées</div>
+            <div class="">{{ data.validated|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">En cours</div>
             <div class="">{{ data.current|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Effectuée</div>
+            <div class="text-gray-500 text-sm">Effectuées</div>
             <div class="">{{ data.done|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Autres</div>
-            <div class="">{{ data.other|formatNumber }}</div>
+            <div class="text-gray-500 text-sm">Annulées</div>
+            <div class="">{{ data.canceled|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Signalées</div>
+            <div class="">{{ data.signaled|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Abandonnées</div>
+            <div class="">{{ data.abandoned|formatNumber }}</div>
           </div>
         </div>
       </template>
