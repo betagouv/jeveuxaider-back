@@ -28,8 +28,8 @@
         <card-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" />
       </div>
     </div>
-    <div class="mb-12 px-12" v-if="$store.getters.contextRole == 'admin'">
-      <card-analytics label="Données par départements" name="analytics"></card-analytics>
+    <div class="mb-12 px-12" v-if="$store.getters.contextRole == 'admin' || $store.getters.contextRole == 'referent'">
+      <card-analytics label="Départements" name="analytics"></card-analytics>
     </div>
   </div>
 </template>

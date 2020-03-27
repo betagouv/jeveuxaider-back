@@ -59,7 +59,7 @@ class Mission extends Model
     ];
 
     protected $attributes = [
-        'state' => 'Validée',
+        'state' => 'En attente de validation',
         'country' => 'France'
     ];
 

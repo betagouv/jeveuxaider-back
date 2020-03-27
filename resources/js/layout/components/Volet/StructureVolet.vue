@@ -98,6 +98,28 @@
         </div>
       </el-card>
       <el-form ref="structureForm" :model="form" label-position="top">
+        <template v-if="showStatut">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut de la structure</div>
+          <item-description>
+            Vous pouvez sélectionner le statut de la structure. A noter que des
+            notifications emails seront envoyées.
+          </item-description>
+          <el-form-item label="Statut" prop="state" class="flex-1">
+            <el-select v-model="form.state" placeholder="Statut">
+              <el-option
+                v-for="item in $store.getters.taxonomies.structure_workflow_states.terms"
+                :key="item.label"
+                :label="item.value"
+                :value="item.label"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+           <div class="flex pt-2">
+          <el-button type="primary" :loading="loading" @click="onSubmitState">
+            Enregistrer
+          </el-button>
+        </div>
+        </template>
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national
         </div>
@@ -135,28 +157,7 @@
             Enregistrer
           </el-button>
         </div>
-        <template v-if="showStatut">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut de la structure</div>
-          <item-description>
-            Vous pouvez sélectionner le statut de la structure. A noter que des
-            notifications emails seront envoyées.
-          </item-description>
-          <el-form-item label="Statut" prop="state" class="flex-1">
-            <el-select v-model="form.state" placeholder="Statut">
-              <el-option
-                v-for="item in $store.getters.taxonomies.structure_workflow_states.terms"
-                :key="item.label"
-                :label="item.value"
-                :value="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-           <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmitState">
-            Enregistrer
-          </el-button>
-        </div>
-        </template>
+        
       </el-form>
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Équipe ({{ form.members.length }})

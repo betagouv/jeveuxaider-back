@@ -136,20 +136,20 @@ export default {
     },
     showStatut() {
       let show = false;
-      if (this.row.state != "Signalée" && this.row.state != "Annulée") {
+      if (this.row.state == "Validée" || this.row.state == "Brouillon") {
         show = true;
       }
-      // if (
-      //   this.$store.getters.contextRole == "admin" ||
-      //   this.$store.getters.contextRole == "referent"
-      // ) {
-      //   show = true;
-      // }
+      if (
+        this.$store.getters.contextRole == "admin" ||
+        this.$store.getters.contextRole == "referent"
+      ) {
+        show = true;
+      }
       return show;
     },
     statesAvailable(){
       if(this.$store.getters.contextRole == "responsable") {
-        return this.$store.getters.taxonomies.mission_workflow_states.terms.filter((item) => (item.value != 'Signalée'))
+        return this.$store.getters.taxonomies.mission_workflow_states.terms.filter((item) => (item.value != 'Signalée' && item.value != 'En attente de validation'))
       } else {
         return this.$store.getters.taxonomies.mission_workflow_states.terms
       }

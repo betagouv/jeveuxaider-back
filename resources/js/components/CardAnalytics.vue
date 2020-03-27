@@ -1,6 +1,6 @@
 <template>
   <div class="stat-count w-full rounded-lg mb-6 p-6 shadow">
-    <div class="label mb-3 text-lg font-bold text-secondary">{{ label }}</div>
+    <div class="label mb-3 text-lg font-bold text-secondary uppercase">{{ label }}</div>
     <template v-if="data">
       <div class="w-full">
         <div class="flex flex-wrap mb-8 uppercase">
@@ -108,7 +108,7 @@ export default {
   created() {
     statistics(this.name).then(response => {
       this.data = response.data;
-    });
+    }); 
   },
   methods: {
     type(places) {

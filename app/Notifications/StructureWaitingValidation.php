@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Structure;
 
-class StructureSignaled extends Notification
+class StructureWaitingValidation extends Notification
 {
     use Queueable;
 
@@ -48,10 +48,11 @@ class StructureSignaled extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre structure a été signalée')
+            ->subject('Votre structure est en cours de validation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Votre structure « ' . $this->structure->name . ' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
-            ->line('Par conséquent, votre structure et vos éventuelles missions ont été également signalées et dépubliées de la plateforme. Si des volontaires étaient inscrits à l\'une de vos missions à venir, ils ont automatiquement été notifiés de leur annulation.')
+            ->line('Avant tout, merci d\'avoir rejoint la Réserve Civique !')
+            ->line('Nous avons bien reçu la demande d\'inscription de votre structure « ' . $this->structure->name . ' » et vous répondront sous peu quant à votre éligibilité.')
+            ->line('Vous pouvez dès maintenant proposer une ou plusieurs missions. Elles seront publiées dès la validation de votre structure par le référent de le Réserve Civique de votre département.')
         ;
     }
 

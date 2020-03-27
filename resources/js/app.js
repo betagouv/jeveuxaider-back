@@ -73,7 +73,9 @@ new Vue({
         if (store.getters.profile) {
           $crisp.push(["set", "user:email", [store.getters.profile.email]]);
           $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
-          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+          if (store.getters.profile.zip) {
+            $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+          }
           $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
         }
        
@@ -94,7 +96,9 @@ new Vue({
         if (store.getters.profile) {
           $crisp.push(["set", "user:email", [store.getters.profile.email]]);
           $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
-          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+          if (store.getters.profile.zip) {
+            $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+          }
           $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
         }
       }

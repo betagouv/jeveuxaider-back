@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Structure;
-use Illuminate\Support\HtmlString;
 
-class StructureCreated extends Notification
+class StructureValidated extends Notification
 {
     use Queueable;
 
@@ -49,13 +48,11 @@ class StructureCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre structure est bien inscrite')
-            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
-            ->line('Votre structure est bien enregistrée au dispositif d’urgence Covid-19 de la Réserve Civique.')
-            ->line('Vous pouvez désormais:')
-            ->line(new HtmlString('<ul><li>Proposer une mission d’intérêt général</li><li>Inviter d’autres membres de l’équipe de votre structure à proposer une mission d’intérêt général.</li></ul>'))
-            ->line('Pour toute question concernant l’éligibilité de votre structure ou les missions que vous souhaitez proposer, nous vous invitons à contacter votre service référent départemental.')
-            ->action('Publier votre première mission', url(config('app.url').'/dashboard'));
+            ->subject('Votre structure a été validée')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
+            ->line('Votre structure « ' . $this->structure->name . ' » vient d\'être validée.')
+            ->line('Vous pouvez désormais publier directement vos missions depuis votre espace structure.')
+            ->action('Mes missions', url(config('app.url').'/dashboard/missions'));
     }
 
     /**
