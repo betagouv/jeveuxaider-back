@@ -219,7 +219,7 @@
                 </div>
               </div>-->
 
-              <div class="mt-16">
+              <div class="mt-16" v-if="mission.state == 'Validée'">
                 <div class="flex items-center">
                   <h4
                     class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
@@ -252,7 +252,7 @@
             </div>
 
             <div
-              class="py-8 px-6 text-center bg-gray-100 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12"
+              class="aside py-8 px-6 text-center bg-gray-100 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12"
             >
               <p class="text-3xl leading-none font-extrabold text-gray-900">
                 Rejoignez
@@ -319,30 +319,35 @@
               ></div>
 
               <div class="mt-6">
-                <div class="rounded-md shadow-md rounded-full">
-                  <template v-if="mission.has_places_left">
-                    <template v-if="$store.getters.isLogged">
-                      <template v-if="mission.state == 'Validée'">
-                      <el-button
-                        v-if="canRegistered"
-                        @click="handleClick"
-                        class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      >Proposer votre aide</el-button>
-                      <router-link
-                        v-else
-                        to="/user/missions"
-                        class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      >Vous êtes déjà inscrit !</router-link>
+                <template v-if="mission.state">
+                  <template v-if="mission.state == 'Validée'">
+                    <template v-if="mission.has_places_left">
+                      <template v-if="$store.getters.isLogged">
+                        <el-button
+                          v-if="canRegistered"
+                          @click="handleClick"
+                          class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        >Proposer votre aide</el-button>
+                        <router-link
+                          v-else
+                          to="/user/missions"
+                          class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        >Vous êtes déjà inscrit !</router-link>
+                      </template>
+
+                      <template v-else>
+                        <router-link
+                          to="/login"
+                          class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        >Proposer votre aide</router-link>
                       </template>
                     </template>
-                    <template v-else>
-                      <router-link
-                        to="/login"
-                        class="flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      >Proposer votre aide</router-link>
-                    </template>
                   </template>
-                </div>
+
+                  <template v-else>
+                    <span class="bg-orange-300 flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium">Cette mission a le statut {{ mission.state.toLowerCase() }}</span>
+                  </template>
+                </template>
               </div>
             </div>
           </div>
@@ -562,3 +567,9 @@ export default {
   }
 };
 </script>
+
+<style lang="sass" scoped>
+.aside
+  @screen lg
+    max-width: 410px
+</style>
