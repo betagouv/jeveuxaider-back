@@ -5,7 +5,7 @@
       v-loading="$store.getters.loading"
       class="main-container mt-8 overflow-y-auto w-full"
     >
-      <router-view class="app-main" />
+      <router-view :key="$route.fullPath" class="app-main" />
     </div>
     <portal-target
       v-if="$store.getters['volet/active'] && $store.getters['volet/row']"

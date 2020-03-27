@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="main-content flex-grow flex flex-col">
-      <router-view class="app-main" />
+      <router-view :key="$route.fullPath" class="app-main" />
     </div>
   </el-container>
 </template>
