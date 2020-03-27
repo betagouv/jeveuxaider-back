@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="mb-12 px-12 flex flex-wrap">
+    <div class="mb-6 px-12 flex flex-wrap">
       <div
         :class="{
           'w-3/4': canSeeStructuresAndProfiles,
@@ -28,6 +28,9 @@
         <card-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" />
       </div>
     </div>
+    <div class="mb-12 px-12" v-if="$store.getters.contextRole == 'admin'">
+      <card-analytics label="Données par départements" name="analytics"></card-analytics>
+    </div>
   </div>
 </template>
 
@@ -35,13 +38,15 @@
 import CardCount from "@/components/CardCount";
 import CardMissionCount from "@/components/CardMissionCount";
 import CardParticipationCount from "@/components/CardParticipationCount";
+import CardAnalytics from "@/components/CardAnalytics";
 
 export default {
   name: "Dashboard",
   components: {
     CardCount,
     CardMissionCount,
-    CardParticipationCount
+    CardParticipationCount,
+    CardAnalytics
   },
   computed: {
     canSeeStructuresAndProfiles() {

@@ -50,7 +50,7 @@ class StructureSignaled extends Notification
         return (new MailMessage)
             ->subject('Votre structure a été signalée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Votre structure « ' . $this->structure->name . ' » ne répond pas aux éxigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
+            ->line('Votre structure « ' . $this->structure->name . ' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
             ->line('Par conséquent, votre structure et vos éventuelles missions ont été signalées et dépubliées de la plateforme. Si des volontaires étaient inscrits à l\'une de vos missions à venir, ils ont automatiquement été notifiés de leur annulation.')
         ;
     }

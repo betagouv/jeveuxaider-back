@@ -288,7 +288,7 @@ export default {
       }
     },
     canClone() {
-    return false // Fonctionnalité désactivée car bugs remontés dans Sentry
+      return false // Fonctionnalité désactivée car bugs remontés dans Sentry
       let roles = ["admin", "referent", "responsable"];
       return roles.includes(this.$store.getters.contextRole);
     }

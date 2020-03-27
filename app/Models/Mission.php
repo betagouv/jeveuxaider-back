@@ -170,6 +170,12 @@ class Mission extends Model
             ->where('state', 'Validée');
     }
 
+    public function scopeDepartment($query, $value)
+    {
+        return $query
+            ->where('department', $value);
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {

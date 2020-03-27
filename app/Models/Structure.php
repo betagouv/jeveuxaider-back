@@ -152,6 +152,12 @@ class Structure extends Model implements HasMedia
                 ->orWhereNotIn('structure_publique_etat_type', self::CEU_TYPES);
     }
 
+    public function scopeDepartment($query, $value)
+    {
+        return $query
+            ->where('department', $value);
+    }
+
     public function getCeuAttribute()
     {
         if (!isset($this->attributes['structure_publique_etat_type'])) {
