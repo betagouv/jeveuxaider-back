@@ -474,14 +474,14 @@ export default {
         ],
         address: [
           {
-            required: false,
+            required: true,
             message: "Veuillez renseigner une adresse",
             trigger: "blur"
           }
         ],
         city: [
           {
-            required: false,
+            required: true,
             message: "Veuillez renseigner un ville",
             trigger: "blur"
           }
