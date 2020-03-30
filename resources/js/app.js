@@ -65,19 +65,21 @@ new Vue({
     }
 
     Crisp.on_load = function() {
-      if (! ( window.location.href.includes('dashboard')|| window.location.href.includes('step') ) ) {
+      if (! ( window.location.href.includes('dashboard') || window.location.href.includes('step') ) ) {
         $crisp.push(['do', 'chat:hide']);
        
       } else {
         $crisp.push(['do', 'chat:show']);
-        if (store.getters.profile) {
+        if (typeof store.getters.profile  !== 'undefined') {
           $crisp.push(["set", "user:email", [store.getters.profile.email]]);
           $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
-          if(store.getters.contextRole){
-            $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
-           }
         }
-       
+        if(typeof store.getters.profile.zip !== 'undefined'){
+          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+        }
+        if( (typeof store.getters.contextRole !== 'undefined') && (store.getters.contextRole != null)){
+          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+         }
       }
     };
 
@@ -89,17 +91,15 @@ new Vue({
       store.commit("setLoading", true);
       if (! (to.path.includes('dashboard')|| (to.path.includes('step')) )) {
         $crisp.push(['do', 'chat:hide']);
-      
       } else {
         $crisp.push(['do', 'chat:show']);
-        if (store.getters.profile) {
+        if (typeof store.getters.profile !== 'undefined') {
           $crisp.push(["set", "user:email", [store.getters.profile.email]]);
           $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
-          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
-          if(store.getters.contextRole){
-           $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
-          }
         }
+        if( (typeof store.getters.contextRole !== 'undefined') && (store.getters.contextRole != null)){
+          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+         }
       }
       next();
     });
