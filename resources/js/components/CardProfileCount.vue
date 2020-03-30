@@ -18,15 +18,15 @@
             <div class="">{{ data.volontaire|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Responsable</div>
+            <div class="text-gray-500 text-sm">Responsables</div>
             <div class="">{{ data.responsable|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Référent</div>
+            <div class="text-gray-500 text-sm">Référents</div>
             <div class="">{{ data.referent|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Superviseur</div>
+            <div class="text-gray-500 text-sm">Superviseurs</div>
             <div class="">{{ data.superviseur|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">

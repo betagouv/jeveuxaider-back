@@ -43,7 +43,7 @@ class StatisticsController extends Controller
                 ->whereHas('user', function (Builder $query) {
                     $query->where('context_role', 'volontaire');
                 })->count(),
-            'responsable' => Mission::role($request->header('Context-Role'))->distinct()->count('tuteur_id'),
+            'responsable' => Profile::role($request->header('Context-Role'))->whereHas('missionsAsTuteur')->orWhereHas('structures')->count(),
             'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
             'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
             'admin' => Profile::role($request->header('Context-Role'))
