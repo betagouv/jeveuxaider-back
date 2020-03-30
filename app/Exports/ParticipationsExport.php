@@ -61,6 +61,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($participation): array
     {
+        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') || $participation->state == 'Mission signalée' ? true : false;
         return [
             'id' => $participation->id,
             'mission_id' => $participation->mission_id,
@@ -68,10 +69,10 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'responsable_name' => $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->full_name : '',
             'responsable_email' => $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->email : '',
             'profile_id' => $participation->profile_id,
-            'first_name' => $participation->profile ? $participation->profile->first_name : '',
-            'last_name' => $participation->profile ? $participation->profile->last_name : '',
-            'mobile' => $participation->profile ? $participation->profile->mobile : '',
-            'email' => $participation->profile ? $participation->profile->email : '',
+            'first_name' => $participation->profile && !$hidden ? $participation->profile->first_name : '',
+            'last_name' => $participation->profile && !$hidden ? $participation->profile->last_name : '',
+            'mobile' => $participation->profile && !$hidden ? $participation->profile->mobile : '',
+            'email' => $participation->profile && !$hidden ? $participation->profile->email : '',
             'state' => $participation->state,
             'created_at' => $participation->created_at,
             'updated_at' => $participation->updated_at
