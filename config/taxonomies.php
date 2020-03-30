@@ -73,8 +73,9 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
-            "En attente de correction" => "En attente de correction",
+            // "En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
+            "Signalée" => "Signalée"
         ]
     ],
 
@@ -88,7 +89,7 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "Brouillon" => "Brouillon",
-            //"En attente de validation" => "En attente de validation",
+            "En attente de validation" => "En attente de validation",
             //"En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Signalée" => "Signalée",
@@ -445,6 +446,7 @@ return [
             //"Mission refusée" => "Mission refusée",
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",
+            "Mission signalée" => "Mission signalée",
            // "Archivée" => "Archivée"
         ]
     ],

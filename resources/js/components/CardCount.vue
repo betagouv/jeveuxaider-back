@@ -10,7 +10,7 @@
       </div>
       <template v-if="data">
         <div class="count text-primary font-medium text-2xl">
-          {{ data.total }}
+          {{ data.total|formatNumber }}
         </div>
       </template>
       <template v-else>

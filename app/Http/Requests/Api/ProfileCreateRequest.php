@@ -28,12 +28,13 @@ class ProfileCreateRequest extends ProfileRequest
             'email' => 'required|email|unique:profiles',
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
-            'role' => 'required|in:referent,superviseur',
+            'role' => 'required|in:referent,superviseur,analyste',
             'mobile' => '',
             'phone' => '',
             'avatar' => '',
             'referent_department' => '',
             'reseau_id' => '',
+            'is_analyste' => 'boolean'
         ];
     }
 }

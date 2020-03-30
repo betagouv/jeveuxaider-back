@@ -42,6 +42,7 @@ class Participation extends Model
     {
         switch ($contextRole) {
             case 'admin':
+            case 'analyste':
                 return $query;
             break;
             case 'referent':
@@ -68,5 +69,13 @@ class Participation extends Model
                     ->whereIn('mission_id', Auth::guard('api')->user()->profile->missionsAsTuteur->pluck('id'));
             break;
         }
+    }
+
+    public function scopeDepartment($query, $value)
+    {
+        return $query
+            ->whereHas('mission', function (Builder $query) use ($value) {
+                $query->where('department', $value);
+            });
     }
 }

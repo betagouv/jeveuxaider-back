@@ -22,16 +22,8 @@
             <div class="">{{ data.validated|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Annulées</div>
-            <div class="">{{ data.canceled|formatNumber }}</div>
-          </div>
-          <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">Signalées</div>
             <div class="">{{ data.signaled|formatNumber }}</div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Brouillon</div>
-            <div class="">{{ data.draft|formatNumber }}</div>
           </div>
         </div>
       </template>

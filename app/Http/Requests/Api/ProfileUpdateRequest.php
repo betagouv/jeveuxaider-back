@@ -48,6 +48,7 @@ class ProfileUpdateRequest extends ProfileRequest
             // 'avatar' => '',
             'referent_department' => '',
             'reseau_id' => '',
+            'is_analyste' => 'boolean',
         ];
     }
 

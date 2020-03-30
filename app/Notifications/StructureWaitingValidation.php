@@ -5,27 +5,27 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Mission;
+use App\Models\Structure;
 
-class MissionValidated extends Notification
+class StructureWaitingValidation extends Notification
 {
     use Queueable;
 
     /**
      * The order instance.
      *
-     * @var Mission
+     * @var Structure
      */
-    public $mission;
+    public $structure;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct(Structure $structure)
     {
-        $this->mission = $mission;
+        $this->structure = $structure;
     }
 
     /**
@@ -48,11 +48,12 @@ class MissionValidated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission est validée !')
+            ->subject('Votre structure est en cours de validation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name . ' » a bien été validée. Elle sera proposée aux volontaires de la Réserve Civique.')
-            ->line('Nous vous informerons prochainement des coordonnées du volontaire affecté à cette mission.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->line('Avant tout, merci d\'avoir rejoint la Réserve Civique !')
+            ->line('Nous avons bien reçu la demande d\'inscription de votre structure « ' . $this->structure->name . ' » et vous répondront sous peu quant à votre éligibilité.')
+            ->line('Vous pouvez dès maintenant proposer une ou plusieurs missions. Elles seront publiées dès la validation de votre structure par le référent de le Réserve Civique de votre département.')
+        ;
     }
 
     /**

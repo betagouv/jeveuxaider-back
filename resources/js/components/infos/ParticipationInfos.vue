@@ -32,6 +32,10 @@
           <div class="card-label">Anniversaire</div>
           <div class="text-gray-900 flex-1">{{ participation.profile.birthday }}</div>
         </div>
+        <div v-if="participation.profile.zip" class="card-item mb-2 flex">
+          <div class="card-label">Code postal</div>
+          <div class="text-gray-900 flex-1">{{ participation.profile.zip }}</div>
+        </div>
       </template>
     </div>
   </div>

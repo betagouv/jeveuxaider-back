@@ -114,6 +114,22 @@
     >
       Mission effectuée
     </el-tag>
+    <el-tag
+      v-if="state == 'Mission abandonnée'"
+      type=""
+      :size="size"
+      class="m-1"
+    >
+      Mission abandonnée
+    </el-tag>
+    <el-tag
+      v-if="state == 'Mission signalée'"
+      type="danger"
+      :size="size"
+      class="m-1"
+    >
+      Mission signalée
+    </el-tag>
   </div>
 </template>
 

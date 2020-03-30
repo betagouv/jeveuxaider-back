@@ -412,7 +412,7 @@ export default {
       loading: false,
       mission: {},
       form: {
-        state: "Validée",
+        state: "En attente de validation",
         participations_max: 1
       },
       rules: {
@@ -553,6 +553,9 @@ export default {
       this.addOrUpdateMission();
     },
     onSubmit() {
+      if(this.form.structure && this.form.structure.state == 'Validée') {
+        this.form.state = 'Validée'
+      }
       this.addOrUpdateMission();
     },
     addOrUpdateMission() {
@@ -593,8 +596,8 @@ export default {
     },
     handleTypeChanged() {
       if (this.form.type == "Mission à distance") {
-        this.rules.address[0].required = false;
-        this.rules.city[0].required = false;
+        // this.rules.address[0].required = false;
+        // this.rules.city[0].required = false;
       } else {
         this.$confirm(
           "Merci de bien respecter les règles de sécurités pour les missions en présentiel !<br>",
@@ -607,9 +610,8 @@ export default {
             dangerouslyUseHTMLString: true
           }
         );
-
-        this.rules.address[0].required = true;
-        this.rules.city[0].required = true;
+        // this.rules.address[0].required = true;
+        // this.rules.city[0].required = true;
       }
     }
   }

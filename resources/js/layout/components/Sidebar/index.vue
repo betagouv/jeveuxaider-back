@@ -32,14 +32,13 @@
         :default-active="activeMenu"
         :is-collapsed="isCollapsed"
       />
+      <menu-analyste
+        v-if="$store.getters.contextRole == 'analyste'"
+        :default-active="activeMenu"
+        :is-collapsed="isCollapsed"
+      />
     </el-menu>
-  <div
-        v-if="!isCollapsed"
-        class="px-5 el-menu-item"
-        style="width: 220px;"
-      >
-        Aide: <a href="tel:0184800189"> &nbsp;01 84 80 01 89&nbsp;</a><br/>
-      </div>
+    
     <div class="px-5">
       <hr />
     </div>
@@ -76,6 +75,7 @@ import MenuModerateur from "./MenuModerateur";
 import MenuReferent from "./MenuReferent";
 import MenuSuperviseur from "./MenuSuperviseur";
 import MenuTuteur from "./MenuTuteur";
+import MenuAnalyste from "./MenuAnalyste";
 import Profile from "./Profile";
 import { mapGetters } from "vuex";
 
@@ -87,6 +87,7 @@ export default {
     MenuReferent,
     MenuSuperviseur,
     MenuTuteur,
+    MenuAnalyste,
     Profile
   },
   data() {

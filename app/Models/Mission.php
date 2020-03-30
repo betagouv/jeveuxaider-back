@@ -59,7 +59,7 @@ class Mission extends Model
     ];
 
     protected $attributes = [
-        'state' => 'Validée',
+        'state' => 'En attente de validation',
         'country' => 'France'
     ];
 
@@ -100,7 +100,8 @@ class Mission extends Model
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
-            ] : null
+            ] : null,
+            'type' => $this->type
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -169,10 +170,17 @@ class Mission extends Model
             ->where('state', 'Validée');
     }
 
+    public function scopeDepartment($query, $value)
+    {
+        return $query
+            ->where('department', $value);
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
             case 'admin':
+            case 'analyste':
                 return $query;
             break;
             case 'responsable':

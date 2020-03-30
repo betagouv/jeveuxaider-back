@@ -23,8 +23,8 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return QueryBuilder::for(Participation::role($this->request->header('Context-Role')))
@@ -53,6 +53,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'last_name',
             'mobile',
             'email',
+            'zip',
             'state',
             'created_at',
             'updated_at'
@@ -61,6 +62,10 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($participation): array
     {
+        $hidden = (($participation->mission && $participation->mission->state == 'Signalée')
+         || $participation->state == 'Mission signalée') && $this->request->header('Context-Role') == 'responsable'
+         ? true : false;
+
         return [
             'id' => $participation->id,
             'mission_id' => $participation->mission_id,
@@ -68,10 +73,11 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'responsable_name' => $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->full_name : '',
             'responsable_email' => $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->email : '',
             'profile_id' => $participation->profile_id,
-            'first_name' => $participation->profile ? $participation->profile->first_name : '',
-            'last_name' => $participation->profile ? $participation->profile->last_name : '',
-            'mobile' => $participation->profile ? $participation->profile->mobile : '',
-            'email' => $participation->profile ? $participation->profile->email : '',
+            'first_name' => $participation->profile && !$hidden ? $participation->profile->first_name : '',
+            'last_name' => $participation->profile && !$hidden ? $participation->profile->last_name : '',
+            'mobile' => $participation->profile && !$hidden ? $participation->profile->mobile : '',
+            'email' => $participation->profile && !$hidden ? $participation->profile->email : '',
+            'zip' => $participation->profile && !$hidden ? $participation->profile->zip : '',
             'state' => $participation->state,
             'created_at' => $participation->created_at,
             'updated_at' => $participation->updated_at

@@ -5,27 +5,27 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Mission;
+use App\Models\Structure;
 
-class MissionCanceled extends Notification
+class StructureSignaled extends Notification
 {
     use Queueable;
 
     /**
      * The order instance.
      *
-     * @var Mission
+     * @var Structure
      */
-    public $mission;
+    public $structure;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct(Structure $structure)
     {
-        $this->mission = $mission;
+        $this->structure = $structure;
     }
 
     /**
@@ -48,11 +48,11 @@ class MissionCanceled extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a été annulée')
+            ->subject('Votre structure a été signalée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Vous avez déposé une proposition de mission dans le cadre de la crise sanitaire et nous vous en remercions.')
-            ->line('Néanmoins, nous n’avons pas validé cette mission.')
-            ->line('L’équipe de la Réserve Civique de votre département se tient à votre disposition pour tout renseignement complémentaire.');
+            ->line('Votre structure « ' . $this->structure->name . ' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
+            ->line('Par conséquent, votre structure et vos éventuelles missions ont été également signalées et dépubliées de la plateforme. Si des volontaires étaient inscrits à l\'une de vos missions à venir, ils ont automatiquement été notifiés de leur annulation.')
+        ;
     }
 
     /**

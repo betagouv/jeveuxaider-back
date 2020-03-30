@@ -5,27 +5,27 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Mission;
+use App\Models\Structure;
 
-class MissionValidated extends Notification
+class StructureSubmitted extends Notification
 {
     use Queueable;
 
     /**
      * The order instance.
      *
-     * @var Mission
+     * @var Structure
      */
-    public $mission;
+    public $structure;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct(Structure $structure)
     {
-        $this->mission = $mission;
+        $this->structure = $structure;
     }
 
     /**
@@ -48,11 +48,12 @@ class MissionValidated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission est validée !')
+            ->subject('Une structure est en attente de validation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name . ' » a bien été validée. Elle sera proposée aux volontaires de la Réserve Civique.')
-            ->line('Nous vous informerons prochainement des coordonnées du volontaire affecté à cette mission.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->line('La structure « ' . $this->structure->name . ' » vient de s\'inscrire dans votre département et est en attente de modération.')
+            ->line('Les missions proposées par cette structure ne seront publiées qu\'après validation de la structure.')
+            ->line('Pour valider ou signaler cette structure, rendez vous dans votre espace référent.')
+            ->action('Mon espace référent', url(config('app.url').'/dashboard/structures?filter[state]=En attente de validation'));
     }
 
     /**

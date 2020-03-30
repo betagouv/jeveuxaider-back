@@ -5,8 +5,8 @@ namespace App\Observers;
 use App\Models\Participation;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
-
-// use App\Notifications\ParticipationCanceled;
+use App\Notifications\ParticipationCanceled;
+use App\Notifications\ParticipationSignaled;
 
 class ParticipationObserver
 {
@@ -45,11 +45,16 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationValidated($participation));
                     }
                     break;
-                // case 'Mission annulée':
-                //     if ($participation->profile) {
-                //         $participation->profile->notify(new ParticipationCanceled($participation));
-                //     }
-                //     break;
+                case 'Mission annulée':
+                    if ($participation->profile) {
+                        $participation->profile->notify(new ParticipationCanceled($participation));
+                    }
+                    break;
+                case 'Mission signalée':
+                    if ($participation->profile) {
+                        $participation->profile->notify(new ParticipationSignaled($participation));
+                    }
+                    break;
                 
             }
         }

@@ -91,16 +91,18 @@
       </el-table-column>
       <el-table-column prop="name" label="Volontaire" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
-          <div
-            class="font-light text-gray-600 flex items-center"
-            v-if="scope.row.mission && (scope.row.mission.state != 'Signalée' || $store.getters.contextRole !== 'responsable')"
-          >
-            <div class="text-xs">{{ scope.row.profile.email }} - {{ scope.row.profile.mobile }}</div>
-          </div>
-          <div v-else class="font-light text-gray-600 flex items-center">
-            <div class="text-xs">Coordonnées masquées</div>
-          </div>
+          <template v-if="canShowProfileDetails(scope.row)">
+            <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
+            <div class="font-light text-gray-600 flex items-center">
+              <div class="text-xs">{{ scope.row.profile.email }} - {{ scope.row.profile.mobile }}</div>
+            </div>
+          </template>
+          <template v-else>
+            <div class="text-gray-900">Anonyme</div>
+            <div class="font-light text-gray-600 flex items-center">
+              <div class="text-xs">Coordonnées masquées</div>
+            </div>
+          </template>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Mission" min-width="320">
@@ -186,6 +188,13 @@ export default {
     next();
   },
   methods: {
+    canShowProfileDetails(row) {
+      return row.mission &&
+        (row.mission.state != "Signalée" ||
+          this.$store.getters.contextRole !== "responsable")
+        ? true
+        : false;
+    },
     fetchRows() {
       return fetchParticipations(this.query);
     },

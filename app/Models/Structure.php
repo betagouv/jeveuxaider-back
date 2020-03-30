@@ -55,7 +55,7 @@ class Structure extends Model implements HasMedia
     ];
 
     protected $attributes = [
-        'state' => 'Validée',
+        'state' => 'En attente de validation',
         'country' => 'France'
     ];
 
@@ -78,6 +78,7 @@ class Structure extends Model implements HasMedia
     {
         switch ($contextRole) {
             case 'admin':
+            case 'analyste':
                 return $query;
             break;
             case 'responsable':
@@ -150,6 +151,12 @@ class Structure extends Model implements HasMedia
         return $query
                 ->whereNull('structure_publique_etat_type')
                 ->orWhereNotIn('structure_publique_etat_type', self::CEU_TYPES);
+    }
+
+    public function scopeDepartment($query, $value)
+    {
+        return $query
+            ->where('department', $value);
     }
 
     public function getCeuAttribute()

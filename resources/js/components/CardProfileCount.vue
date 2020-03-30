@@ -14,24 +14,28 @@
         </div>
         <div v-if="data" class="flex flex-wrap">
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">En attente</div>
-            <div class="">{{ data.waiting|formatNumber }}</div>
+            <div class="text-gray-500 text-sm">Volontaires</div>
+            <div class="">{{ data.volontaire|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Validées</div>
-            <div class="">{{ data.validated|formatNumber }}</div>
+            <div class="text-gray-500 text-sm">Responsables</div>
+            <div class="">{{ data.responsable|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Annulées</div>
-            <div class="">{{ data.canceled|formatNumber }}</div>
+            <div class="text-gray-500 text-sm">Référents</div>
+            <div class="">{{ data.referent|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Signalées</div>
-            <div class="">{{ data.signaled|formatNumber }}</div>
+            <div class="text-gray-500 text-sm">Superviseurs</div>
+            <div class="">{{ data.superviseur|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Brouillon</div>
-            <div class="">{{ data.draft|formatNumber }}</div>
+            <div class="text-gray-500 text-sm">Modérateurs</div>
+            <div class="">{{ data.admin|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Invités</div>
+            <div class="">{{ data.invited|formatNumber }}</div>
           </div>
         </div>
       </template>
