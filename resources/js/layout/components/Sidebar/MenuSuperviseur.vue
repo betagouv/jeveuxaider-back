@@ -65,6 +65,9 @@
         <i class="el-icon-user"></i>
       </el-tooltip>
     </el-menu-item>
+    <el-menu-item v-if="!isCollapsed">
+      <a href="tel:0184800189">Aide:&nbsp;01 84 80 01 89&nbsp;</a>
+    </el-menu-item>
   </div>
 </template>
 
