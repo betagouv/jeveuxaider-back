@@ -42,6 +42,7 @@ class Participation extends Model
     {
         switch ($contextRole) {
             case 'admin':
+            case 'analyste':
                 return $query;
             break;
             case 'referent':

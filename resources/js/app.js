@@ -76,7 +76,9 @@ new Vue({
           if (store.getters.profile.zip) {
             $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
           }
-          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+          if (store.getters.profile.contextRole) {
+            $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+          }
         }
        
       }
@@ -99,7 +101,9 @@ new Vue({
           if (store.getters.profile.zip) {
             $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
           }
-          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+          if (store.getters.profile.contextRole) {
+            $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+          }
         }
       }
       next();

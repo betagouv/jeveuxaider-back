@@ -192,7 +192,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard" */ "@/views/SNU/Dashboard.vue"),
                     name: "Dashboard",
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent", "superviseur", "responsable", "analyste"]
                     }
                 },
                 {
