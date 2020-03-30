@@ -32,6 +32,11 @@
         :default-active="activeMenu"
         :is-collapsed="isCollapsed"
       />
+      <menu-analyste
+        v-if="$store.getters.contextRole == 'analyste'"
+        :default-active="activeMenu"
+        :is-collapsed="isCollapsed"
+      />
     </el-menu>
     
     <div class="px-5">
@@ -70,6 +75,7 @@ import MenuModerateur from "./MenuModerateur";
 import MenuReferent from "./MenuReferent";
 import MenuSuperviseur from "./MenuSuperviseur";
 import MenuTuteur from "./MenuTuteur";
+import MenuAnalyste from "./MenuAnalyste";
 import Profile from "./Profile";
 import { mapGetters } from "vuex";
 
@@ -81,6 +87,7 @@ export default {
     MenuReferent,
     MenuSuperviseur,
     MenuTuteur,
+    MenuAnalyste,
     Profile
   },
   data() {

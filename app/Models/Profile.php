@@ -33,7 +33,12 @@ class Profile extends Model implements HasMedia
         'referent_department',
         'birthday',
         'zip',
-        'service_civique'
+        'service_civique',
+        'is_analyste'
+    ];
+
+    protected $casts = [
+        'is_analyste' => 'boolean',
     ];
 
     protected $appends = ['full_name', 'short_name', 'avatar', 'roles', 'has_user', 'volontaire'];
@@ -105,6 +110,7 @@ class Profile extends Model implements HasMedia
     {
         switch ($contextRole) {
             case 'admin':
+            case 'analyste':
                 return $query;
             break;
             case 'referent':
@@ -207,7 +213,8 @@ class Profile extends Model implements HasMedia
             'referent' => $this->isReferent(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
-            'tuteur' => $this->isTuteur()
+            'tuteur' => $this->isTuteur(),
+            'analyste' => $this->is_analyste
         ];
     }
 }

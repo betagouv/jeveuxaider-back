@@ -15,6 +15,9 @@ class FiltersProfileRole implements Filter
                     $query->where('is_admin', true);
                 });
             break;
+            case 'analyste':
+                return $query->where('is_analyste', true);
+            break;
             case 'volontaire':
                 return $query->whereHas('user', function (Builder $query) use ($value) {
                     $query->where('context_role', 'volontaire');

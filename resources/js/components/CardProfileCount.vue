@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     onClick() {
-      if (this.link) {
+      if (this.link && this.$store.getters.contextRole != 'analyste') {
         this.$router.push(this.link);
       }
     }

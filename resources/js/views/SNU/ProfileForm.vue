@@ -11,6 +11,7 @@
       Invitation d'un nouveau
       <span v-if="role == 'referent'">référent départemental</span>
       <span v-if="role == 'superviseur'">superviseur national</span>
+      <span v-if="role == 'analyste'">datas analyste</span>
     </div>
 
     <el-form ref="profileForm" :model="form" label-position="top" :rules="rules">
@@ -95,6 +96,17 @@
                 :value="item.value"
               ></el-option>
             </el-select>
+          </el-form-item>
+        </template>
+        <template v-if="mode == 'edit' || role == 'analyste'">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Datas analyste</div>
+          <item-description>
+            Si cet utilisateur est un datas analyste, cochez la case. Il aura accès au tableau de bord et à tous ses indicateurs.
+          </item-description>
+          <el-form-item prop="is_analyste" class="flex-1">
+           <el-checkbox
+              v-model="form.is_analyste"
+            >Accès au tableau de bord</el-checkbox>
           </el-form-item>
         </template>
       </template>

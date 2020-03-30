@@ -78,6 +78,7 @@ class Structure extends Model implements HasMedia
     {
         switch ($contextRole) {
             case 'admin':
+            case 'analyste':
                 return $query;
             break;
             case 'responsable':

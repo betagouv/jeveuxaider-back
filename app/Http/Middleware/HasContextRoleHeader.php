@@ -22,6 +22,7 @@ class HasContextRoleHeader
             'superviseur',
             'responsable',
             'tuteur',
+            'analyste'
         ];
         if (!$request->hasHeader('Context-Role') || !in_array($request->header('Context-Role'), $roles)) {
             return new Response("Missing or wrong 'Context-Role' header", 401);

@@ -28,6 +28,9 @@
         Superviseur
       </el-tag>
     </el-tooltip>
+    <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
+        Analyste
+      </el-tag>
     <el-tooltip
       v-if="profile.roles.responsable"
       class="item"
