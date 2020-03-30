@@ -23,8 +23,8 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return QueryBuilder::for(Participation::role($this->request->header('Context-Role')))
@@ -61,7 +61,10 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($participation): array
     {
-        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') || $participation->state == 'Mission signalée' ? true : false;
+        $hidden = (($participation->mission && $participation->mission->state == 'Signalée')
+         || $participation->state == 'Mission signalée') && $this->request->header('Context-Role') == 'responsable'
+         ? true : false;
+
         return [
             'id' => $participation->id,
             'mission_id' => $participation->mission_id,
