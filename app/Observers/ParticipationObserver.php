@@ -12,13 +12,7 @@ class ParticipationObserver
 {
     public function created(Participation $participation)
     {
-        if ($participation->mission) {
-            if ($participation->mission->shouldBeSearchable()) {
-                $participation->mission->searchable();
-            } else {
-                $participation->mission->unsearchable();
-            }
-        }
+        $this->updateAlgolia($participation);
 
         if ($participation->state == 'En attente de validation') {
             if ($participation->mission->tuteur) {
@@ -32,13 +26,14 @@ class ParticipationObserver
         $oldState = $participation->getOriginal('state');
         $newState = $participation->state;
 
+        $this->updateAlgolia($participation);
+
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'En attente de validation':
                     if ($participation->mission->tuteur) {
                         $participation->mission->tuteur->notify(new ParticipationWaitingValidation($participation));
                     }
-                    
                     break;
                 case 'Mission validée':
                     if ($participation->profile) {
@@ -55,7 +50,6 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationSignaled($participation));
                     }
                     break;
-                
             }
         }
     }
@@ -65,6 +59,10 @@ class ParticipationObserver
         // $oldState = $participation->getOriginal('state');
         // $newState = $participation->state;
 
+        $this->updateAlgolia($participation);
+    }
+
+    private function updateAlgolia($participation) {
         if ($participation->mission) {
             if ($participation->mission->shouldBeSearchable()) {
                 $participation->mission->searchable();
