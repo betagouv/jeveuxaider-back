@@ -7,7 +7,7 @@ use App\Models\Structure;
 use Illuminate\Support\Facades\Event;
 
 // To prevent emails from being sent,
-// otherwise get error -> too many emails per second
+// Also prevent an error -> too many emails per second
 Event::fake();
 
 $factory->define(Structure::class, function (Faker $faker) {
@@ -17,7 +17,6 @@ $factory->define(Structure::class, function (Faker $faker) {
     $organizationPublicType = $statuts == 'Structure publique' ? array_rand(config('taxonomies.structure_publique_types.terms')) : null;
     $organizationPrivateType = $statuts == 'Structure privée' ? array_rand(config('taxonomies.structure_privee_types.terms')) : null;
     $isReseau = $faker->boolean();
-
 
     return [
         'user_id' => $profile->user->id,
@@ -42,6 +41,4 @@ $factory->define(Structure::class, function (Faker $faker) {
 
 $factory->afterCreating(Structure::class, function ($structure, $faker) {
     $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
-
-    // TODO: créér automatiquement quelques missions.
 });
