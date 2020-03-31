@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Release;
 use App\Models\Structure;
+use App\Models\Mission;
 use Illuminate\Support\Facades\Auth;
 
 class ConfigController extends Controller
@@ -16,6 +17,7 @@ class ConfigController extends Controller
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
             'reseaux' => $this->reseaux(),
+            'responsableMissions' => Mission::role('responsable')->get()->pluck('id')->all()
         ]);
     }
 

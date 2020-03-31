@@ -13,7 +13,8 @@ const state = {
   loading: false,
   taxonomies: null,
   reseaux: null,
-  release: null
+  release: null,
+  responsableMissions: null,
 };
 
 // actions
@@ -25,6 +26,7 @@ const actions = {
     commit("setRelease", data.release);
     commit("user/setUser", data.user);
     commit("setAppLoadingStatus", true);
+    commit("setResponsableMissions", data.responsableMissions);
 
     // Switch context role if no more volontaire
     // if(getters.contextRole == 'volontaire') {
@@ -53,7 +55,10 @@ const mutations = {
   },
   setLoading: (state, loading) => {
     state.loading = loading;
-  }
+  },
+  setResponsableMissions: (state, responsableMissions) => {
+    state.responsableMissions = responsableMissions;
+  },
 };
 
 export default new Vuex.Store({
