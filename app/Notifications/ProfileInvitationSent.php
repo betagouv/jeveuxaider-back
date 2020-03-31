@@ -53,6 +53,11 @@ class ProfileInvitationSent extends Notification
                 ->line($this->user->profile->full_name . ' vous invite à devenir le référent du département ' . $notifiable->referent_department. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
         }
 
+        if ($this->role == 'referent_regional') {
+            $message
+                ->line($this->user->profile->full_name . ' vous invite à devenir le référent de la région ' . $notifiable->referent_region. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
+        }
+
         if ($this->role == 'superviseur') {
             $message
                 ->line($this->user->profile->full_name . ' vous invite à devenir le superviseur du réseau ' . $notifiable->reseau->name. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');

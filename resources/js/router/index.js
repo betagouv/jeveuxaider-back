@@ -192,7 +192,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard" */ "@/views/SNU/Dashboard.vue"),
                     name: "Dashboard",
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable", "analyste"]
+                        roles: ["admin", "referent","referent_regional","superviseur", "responsable", "analyste"]
                     }
                 },
                 {
@@ -203,7 +203,7 @@ export default new Router({
                         ),
                     name: "DashboardMissions",
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -213,7 +213,7 @@ export default new Router({
                     name: "MissionFormAdd",
                     props: route => ({ structureId: parseInt(route.params.structureId) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -223,7 +223,7 @@ export default new Router({
                     name: "MissionFormEdit",
                     props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -234,7 +234,7 @@ export default new Router({
                         ),
                     name: "Structures",
                     meta: {
-                        roles: ["admin", "referent", "superviseur"]
+                        roles: ["admin", "referent","referent_regional", "superviseur"]
                     }
                 },
                 {
@@ -246,7 +246,7 @@ export default new Router({
                     name: "StructureFormAdd",
                     props: { mode: "add" },
                     meta: {
-                        roles: ["admin", "referent", "superviseur"]
+                        roles: ["admin", "referent","referent_regional", "superviseur"]
                     }
                 },
                 {
@@ -256,7 +256,7 @@ export default new Router({
                     name: "Structure",
                     props: route => ({ id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -268,7 +268,7 @@ export default new Router({
                     name: "StructureFormEdit",
                     props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -280,7 +280,7 @@ export default new Router({
                     name: "StructureMembers",
                     props: route => ({ id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -292,7 +292,7 @@ export default new Router({
                     name: "StructureMembersAdd",
                     props: route => ({ id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {
@@ -301,7 +301,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
                     name: "Profiles",
                     meta: {
-                        roles: ["admin", "referent"]
+                        roles: ["admin", "referent","referent_regional"]
                     }
                 },
                 {
@@ -311,7 +311,7 @@ export default new Router({
                     name: "Profile",
                     props: route => ({ id: parseInt(route.params.id) }),
                     meta: {
-                        roles: ["admin", "referent"]
+                        roles: ["admin", "referent","referent_regional"]
                     }
                 },
                 {
@@ -342,7 +342,7 @@ export default new Router({
                         ),
                     name: "DashboardParticipations",
                     meta: {
-                        roles: ["admin", "referent", "superviseur", "responsable"]
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
                 },
                 {

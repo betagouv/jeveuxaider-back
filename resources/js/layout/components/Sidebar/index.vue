@@ -22,6 +22,11 @@
         :default-active="activeMenu"
         :is-collapsed="isCollapsed"
       />
+      <menu-referent-regional
+        v-if="$store.getters.contextRole == 'referent_regional'"
+        :default-active="activeMenu"
+        :is-collapsed="isCollapsed"
+      />
       <menu-superviseur
         v-if="$store.getters.contextRole == 'superviseur'"
         :default-active="activeMenu"
@@ -73,6 +78,7 @@
 import MenuResponsable from "./MenuResponsable";
 import MenuModerateur from "./MenuModerateur";
 import MenuReferent from "./MenuReferent";
+import MenuReferentRegional from "./MenuReferentRegional";
 import MenuSuperviseur from "./MenuSuperviseur";
 import MenuTuteur from "./MenuTuteur";
 import MenuAnalyste from "./MenuAnalyste";
@@ -85,6 +91,7 @@ export default {
     MenuResponsable,
     MenuModerateur,
     MenuReferent,
+    MenuReferentRegional,
     MenuSuperviseur,
     MenuTuteur,
     MenuAnalyste,

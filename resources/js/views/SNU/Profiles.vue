@@ -26,6 +26,11 @@
               <el-dropdown-item>Référent départemental</el-dropdown-item>
             </router-link>
             <router-link
+              :to="{ name: 'ProfileFormAdd', params: { role: 'referent_regional' } }"
+            >
+              <el-dropdown-item>Référent régional</el-dropdown-item>
+            </router-link>
+            <router-link
               :to="{ name: 'ProfileFormAdd', params: { role: 'analyste' } }"
             >
               <el-dropdown-item>Datas analyste</el-dropdown-item>
@@ -67,7 +72,8 @@
             { label: 'Modérateur', value: 'admin' },
             { label: 'Superviseur', value: 'superviseur' },
             { label: 'Analyste', value: 'analyste' },
-            { label: 'Référent', value: 'referent' },
+            { label: 'Référent départemental', value: 'referent' },
+            { label: 'Référent régional', value: 'referent_regional' },
             { label: 'Responsable', value: 'responsable' },
             { label: 'Volontaire', value: 'volontaire' },
           ]"

@@ -47,6 +47,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             // 'avatar' => '',
             'referent_department' => '',
+            'referent_region' => '',
             'reseau_id' => '',
             'is_analyste' => 'boolean',
         ];

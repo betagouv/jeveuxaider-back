@@ -51,6 +51,12 @@ class Participation extends Model
                         $query->where('department', Auth::guard('api')->user()->profile->referent_department);
                     });
             break;
+            case 'referent_regional':
+                return $query
+                    ->whereHas('mission', function (Builder $query) {
+                        $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                    });
+            break;
             case 'superviseur':
                 return $query
                     ->whereHas('mission', function (Builder $query) {

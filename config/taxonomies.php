@@ -430,6 +430,56 @@ return [
         ]
     ],
 
+     /*
+    |--------------------------------------------------------------------------
+    | Régions
+    |--------------------------------------------------------------------------
+    |
+    */
+    'regions' => [
+        "vocabulary" => "Régions",
+        "terms" => [
+            "Auvergne-Rhônes-Alpes" => "Auvergne-Rhônes-Alpes",
+            "Bourgogne-Franche-Comté" => "Bourgogne-Franche-Comté",
+            "Bretagne" => "Bretagne",
+            "Centre-Val de Loire" => "Centre-Val de Loire",
+            "Corse" => "Corse",
+            "Grand Est" => "Grand Est",
+            "Hauts-de-France" => "Hauts-de-France",
+            "Île-de-France" => "Île-de-France",
+            "Normandie" => "Normandie",
+            "Nouvelle-Aquitaine" => "Nouvelle-Aquitaine",
+            "Occitanie" => "Occitanie",
+            "Pays de la Loire" => "Pays de la Loire",
+            "Provence-Alpes-Côte d'Azur" => "Provence-Alpes-Côte d'Azur",
+            "Guadeloupe" => "Guadeloupe",
+            "Martinique" => "Martinique",
+            "Guyane" => "Guyane",
+            "La Réunion" => "La Réunion",
+            "Mayotte" => "Mayotte",
+        ],
+        "departments" => [
+            "Auvergne-Rhônes-Alpes" => ["03","42","63","15","43","07","26","38","73","74","69"],
+            "Bourgogne-Franche-Comté" => ["89","21","70","90","25","39","71","58"],
+            "Bretagne" => ["29","22","35","56"],
+            "Centre-Val de Loire" => ["28","45","41","37","36","18"],
+            "Corse" => ["2A","2B"],
+            "Grand Est" => ["08","55","54","57","67","68","54","88","52","10"],
+            "Hauts-de-France" => ["62","59","02","60","80"],
+            "Île-de-France" => ["75","77","78","91","92","93","94","95"],
+            "Normandie" => ["50","14","76","27","61"],
+            "Nouvelle-Aquitaine" => ["79","86","17","16","87","23","33","24","19","40","47","64"],
+            "Occitanie" => ["46","12","48","30","82","81","34","32","31","11","65","09","66"],
+            "Pays de la Loire" => ["53","72","44","49","85"],
+            "Provence-Alpes-Côte d'Azur" => ["05","04","84","13","06","83"],
+            "Guadeloupe" => ["971"],
+            "Martinique" => ["972"],
+            "Guyane" => ["973"],
+            "La Réunion" => ["974"],
+            "Mayotte" => ["976"],
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | PARTICIPATION WORKFLOW STATES

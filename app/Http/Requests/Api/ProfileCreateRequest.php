@@ -28,11 +28,12 @@ class ProfileCreateRequest extends ProfileRequest
             'email' => 'required|email|unique:profiles',
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
-            'role' => 'required|in:referent,superviseur,analyste',
+            'role' => 'required|in:referent,superviseur,analyste,referent_regional',
             'mobile' => '',
             'phone' => '',
             'avatar' => '',
             'referent_department' => '',
+            'referent_region' => '',
             'reseau_id' => '',
             'is_analyste' => 'boolean'
         ];

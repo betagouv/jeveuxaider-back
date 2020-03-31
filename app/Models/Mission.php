@@ -199,6 +199,12 @@ class Mission extends Model
                     ->whereNotNull('department')
                     ->where('department', Auth::guard('api')->user()->profile->referent_department);
             break;
+            case 'referent_regional':
+                // Missions qui sont dans ma région
+                return $query
+                    ->whereNotNull('department')
+                    ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+            break;
             case 'superviseur':
                 // Missions qui sont dans une structure rattachée à mon réseau
                 return $query
