@@ -36,11 +36,3 @@ $factory->define(Participation::class, function (Faker $faker) {
         'state' => $state,
     ];
 });
-
-$factory->afterCreating(Participation::class, function ($participation, $faker) {
-    $mission = Mission::inRandomOrder()->has('participations', '<', DB::raw('participations_max'))->limit(1)->first();
-    if (empty($mission)) {
-        dump('EMPTY');
-        $mission = factory(App\Models\Mission::class)->create();
-    }
-});
