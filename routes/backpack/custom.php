@@ -18,4 +18,5 @@ Route::group([
     // CRUD::resource('structure', 'StructureCrudController');
     // CRUD::resource('young', 'YoungCrudController');
     CRUD::resource('release', 'ReleaseCrudController');
+    CRUD::resource('faq', 'FaqCrudController');
 }); // this should be the absolute last line of this file
