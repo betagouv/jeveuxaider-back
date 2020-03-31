@@ -12,7 +12,8 @@
           <button
               v-if="
                 $store.getters.contextRole == 'admin' ||
-                  $store.getters.contextRole == 'referent'
+                  $store.getters.contextRole == 'referent' ||
+                    $store.getters.contextRole == 'referent_regional'
               "
               type="button"
               class="ml-2 el-button is-plain el-button--danger el-button--mini"

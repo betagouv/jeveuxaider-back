@@ -32,7 +32,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 'referent_department'
             )
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->get();
     }
 
@@ -48,13 +48,13 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'mobile',
             'avatar',
             'referent_department',
-            'superviseur_reseau',
+            'referent_region',
             'reseau_id',
             'admin',
             'referent',
             'superviseur',
             'responsable',
-            'tuteur',
+            'analyste',
             'created_at',
             'updated_at',
             'structures',
@@ -75,13 +75,13 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'mobile' => $profile->mobile,
             'avatar' => $profile->avatar,
             'referent_department' => $profile->referent_department,
-            'superviseur_reseau' => $profile->superviseur_reseau ? $profile->superviseur_reseau['name'] : '',
+            'referent_region' => $profile->referent_region,
             'reseau_id' => $profile->reseau_id,
             'admin' => $profile->isAdmin(),
             'referent' => $profile->isReferent(),
             'superviseur' => $profile->isSuperviseur(),
             'responsable' => $profile->isResponsable(),
-            'tuteur' => $profile->isTuteur(),
+            'analyste' => $profile->is_analyste,
             'created_at' => $profile->created_at,
             'updated_at' => $profile->updated_at,
             'structures' => $profile->structures ? $profile->structures->pluck('name')->implode(', ') : '',

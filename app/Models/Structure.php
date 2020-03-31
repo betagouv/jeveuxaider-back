@@ -96,6 +96,11 @@ class Structure extends Model implements HasMedia
                     ->whereNotNull('department')
                     ->where('department', Auth::guard('api')->user()->profile->referent_department);
             break;
+            case 'referent_regional':
+                return $query
+                    ->whereNotNull('department')
+                    ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+            break;
             case 'superviseur':
                 return $query
                     ->whereNotNull('reseau_id')

@@ -88,6 +88,14 @@ class StatisticsController extends Controller
                 }
             }
         }
+        if ($request->header('Context-Role') == 'referent_regional') {
+            $referentRegionalDepartements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
+            foreach ($departements as $key => $departement) {
+                if (!in_array($key, $referentRegionalDepartements)) {
+                    unset($departements[$key]);
+                }
+            }
+        }
 
         foreach ($departements as $key => $value) {
             $departmentCollection = $missionsCollection->filter(function ($item) use ($key) {

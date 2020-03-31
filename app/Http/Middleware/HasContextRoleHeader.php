@@ -19,6 +19,7 @@ class HasContextRoleHeader
         $roles = [
             'admin',
             'referent',
+            'referent_regional',
             'superviseur',
             'responsable',
             'tuteur',

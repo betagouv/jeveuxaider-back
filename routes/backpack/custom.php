@@ -12,10 +12,10 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () {
     // custom admin routes
-    CRUD::resource('mission', 'MissionCrudController');
-    CRUD::resource('user', 'UserCrudController');
-    CRUD::resource('profile', 'ProfileCrudController');
-    CRUD::resource('structure', 'StructureCrudController');
-    CRUD::resource('young', 'YoungCrudController');
+    // CRUD::resource('mission', 'MissionCrudController');
+    // CRUD::resource('user', 'UserCrudController');
+    // CRUD::resource('profile', 'ProfileCrudController');
+    // CRUD::resource('structure', 'StructureCrudController');
+    // CRUD::resource('young', 'YoungCrudController');
     CRUD::resource('release', 'ReleaseCrudController');
 }); // this should be the absolute last line of this file

@@ -36,7 +36,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
             ])
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->get();
     }
 

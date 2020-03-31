@@ -18,6 +18,17 @@
       </el-tag>
     </el-tooltip>
     <el-tooltip
+      v-if="profile.roles.referent_regional"
+      class="item"
+      effect="dark"
+      :content="profile.referent_region"
+      placement="top"
+    >
+      <el-tag type="warning" :size="size" class="m-1">
+        Régional
+      </el-tag>
+    </el-tooltip>
+    <el-tooltip
       v-if="profile.roles.superviseur"
       class="item"
       effect="dark"

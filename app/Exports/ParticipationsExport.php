@@ -36,7 +36,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
                 'mission.type',
                 'mission.name'
             )
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->get();
     }
 

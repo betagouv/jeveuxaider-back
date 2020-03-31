@@ -31,6 +31,7 @@ class Profile extends Model implements HasMedia
         'mobile',
         'reseau_id',
         'referent_department',
+        'referent_region',
         'birthday',
         'zip',
         'service_civique',
@@ -128,6 +129,21 @@ class Profile extends Model implements HasMedia
                     })
                     ;
             break;
+            case 'referent_regional':
+                return $query
+                    ->whereHas('missionsAsTuteur', function (Builder $query) {
+                        $query
+                            ->whereNotNull('department')
+                            ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                    })
+                    ->orWhereHas('structures', function (Builder $query) {
+                        $query
+                            ->where('role', 'responsable')
+                            ->whereNotNull('department')
+                            ->where('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                    })
+                    ;
+            break;
             case 'superviseur':
                 return $query
                     ->whereHas('structures', function (Builder $query) {
@@ -176,6 +192,11 @@ class Profile extends Model implements HasMedia
         return $this->referent_department ? true : false;
     }
 
+    public function isReferentRegional()
+    {
+        return $this->referent_region ? true : false;
+    }
+
     public function isSuperviseur()
     {
         return $this->reseau ? true : false;
@@ -211,6 +232,7 @@ class Profile extends Model implements HasMedia
         return [
             'admin' => $this->isAdmin(),
             'referent' => $this->isReferent(),
+            'referent_regional' => $this->isReferentRegional(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'tuteur' => $this->isTuteur(),

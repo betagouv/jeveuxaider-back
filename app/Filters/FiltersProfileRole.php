@@ -24,14 +24,13 @@ class FiltersProfileRole implements Filter
                 });
             break;
             case 'referent':
-                return $query->whereHas('user', function (Builder $query) use ($value) {
-                    $query->whereNotNull('referent_department');
-                });
+                return $query->whereNotNull('referent_department');
+            break;
+            case 'referent_regional':
+                return $query->whereNotNull('referent_region');
             break;
             case 'superviseur':
-                return $query->whereHas('user', function (Builder $query) use ($value) {
-                    $query->whereNotNull('reseau_id');
-                });
+                return $query->whereNotNull('reseau_id');
             break;
             case 'responsable':
                 return $query->whereHas('structures', function (Builder $query) use ($value) {

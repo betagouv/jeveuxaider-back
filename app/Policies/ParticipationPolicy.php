@@ -63,7 +63,7 @@ class ParticipationPolicy
 
     public function delete()
     {
-        if (in_array(request()->header('Context-Role'), ['referent', 'admin'])) {
+        if (in_array(request()->header('Context-Role'), ['referent','referent_regional','admin'])) {
             return true;
         }
 

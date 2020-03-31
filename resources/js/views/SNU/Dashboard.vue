@@ -14,8 +14,8 @@
         link="/dashboard/participations"
       />
     </div>
-    <div class="px-12" v-if="$store.getters.contextRole == 'referent'">
-      <card-structures-count label="Structures" name="structures" link="/dashboard/structures" />
+    <div class="px-12" v-if="$store.getters.contextRole == 'referent' || $store.getters.contextRole == 'referent_regional'">
+      <card-structure-count label="Structures" name="structures" link="/dashboard/structures" />
       <!-- <card-profile-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" /> -->
       <card-analytics label="Départements" name="analytics"></card-analytics>
     </div>

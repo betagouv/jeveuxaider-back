@@ -10,6 +10,7 @@
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
       Invitation d'un nouveau
       <span v-if="role == 'referent'">référent départemental</span>
+      <span v-if="role == 'referent_regional'">référent régional</span>
       <span v-if="role == 'superviseur'">superviseur national</span>
       <span v-if="role == 'analyste'">datas analyste</span>
     </div>
@@ -71,6 +72,29 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+        <template v-if="mode == 'edit' || role == 'referent_regional'">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Référent régional</div>
+          <item-description>
+            Si cet utilisateur est référent régional, renseignez le nom de la région.
+            Vous permettez à cet utilisateur de visualiser les missions et
+            volontaires rattachés aux structures de cette région.
+          </item-description>
+          <el-form-item label="Région" prop="referent_region" class="flex-1">
+            <el-select
+              v-model="form.referent_region"
+              filterable
+              clearable
+              placeholder="Région"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.regions.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -198,6 +222,16 @@ export default {
           {
             required: true,
             message: "Veuillez sélectionner un département",
+            trigger: "blur"
+          }
+        ];
+      }
+
+      if (this.role == "referent_regional") {
+        rules.referent_region = [
+          {
+            required: true,
+            message: "Veuillez sélectionner une région",
             trigger: "blur"
           }
         ];
