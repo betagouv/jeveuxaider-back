@@ -50,16 +50,16 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'referent_department',
             'referent_region',
             'reseau_id',
-            'admin',
-            'referent',
-            'superviseur',
-            'responsable',
-            'analyste',
+            // 'admin',
+            // 'referent',
+            // 'superviseur',
+            // 'responsable',
+            // 'analyste',
             'created_at',
             'updated_at',
-            'structures',
-            'registered',
-            'volontaire'
+            // 'structures',
+            // 'registered',
+            // 'volontaire'
         ];
     }
 
@@ -77,16 +77,16 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'referent_department' => $profile->referent_department,
             'referent_region' => $profile->referent_region,
             'reseau_id' => $profile->reseau_id,
-            'admin' => $profile->isAdmin(),
-            'referent' => $profile->isReferent(),
-            'superviseur' => $profile->isSuperviseur(),
-            'responsable' => $profile->isResponsable(),
-            'analyste' => $profile->is_analyste,
+            // 'admin' => $profile->isAdmin(),
+            // 'referent' => $profile->isReferent(),
+            // 'superviseur' => $profile->isSuperviseur(),
+            // 'responsable' => $profile->isResponsable(),
+            // 'analyste' => $profile->is_analyste,
             'created_at' => $profile->created_at,
             'updated_at' => $profile->updated_at,
-            'structures' => $profile->structures ? $profile->structures->pluck('name')->implode(', ') : '',
-            'registered' => $profile->has_user ? true : false,
-            'volontaire' => $profile->volontaire,
+            // 'structures' => $profile->structures ? $profile->structures->pluck('name')->implode(', ') : '',
+            // 'registered' => $profile->has_user ? true : false,
+            // 'volontaire' => $profile->volontaire,
         ];
     }
 }
