@@ -5,6 +5,7 @@
 use Faker\Generator as Faker;
 use App\Models\Structure;
 use Illuminate\Support\Facades\Event;
+use App\Helpers\Utils;
 
 // To prevent emails from being sent,
 // Also prevent an error -> too many emails per second
@@ -20,7 +21,7 @@ $factory->define(Structure::class, function (Faker $faker) {
 
     return [
         'user_id' => $profile->user->id,
-        'name' => $faker->company,
+        'name' => Utils::removeAccents($faker->company),
         'description' => $faker->sentence(40),
         'statut_juridique' => $statuts,
         'is_reseau' => $isReseau,
