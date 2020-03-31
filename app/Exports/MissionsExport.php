@@ -40,7 +40,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
             ])
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->get();
     }
 
