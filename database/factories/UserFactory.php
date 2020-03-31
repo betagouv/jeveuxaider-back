@@ -4,6 +4,7 @@
 use App\Models\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Event;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,10 @@ use Faker\Generator as Faker;
 |
 */
 
-//
-// USE ProfileFactory instead
-//
+// To prevent emails from being sent,
+// Also prevent an error -> too many emails per second
+Event::fake();
+
 $factory->define(User::class, function (Faker $faker) {
     $email = $faker->unique()->safeEmail;
 
