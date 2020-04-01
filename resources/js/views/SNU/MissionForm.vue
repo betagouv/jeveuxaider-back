@@ -522,15 +522,19 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      getResponsableMissions().then(response => {
-        if (
-          !response.data.responsableMissions.includes(parseInt(to.params.id))
-        ) {
-          next("/403");
-        } else {
-          vm.canEdit = true;
-        }
-      });
+      if (vm.$store.getters.contextRole == "responsable") {
+        getResponsableMissions().then(response => {
+          if (
+            !response.data.responsableMissions.includes(parseInt(to.params.id))
+          ) {
+            next("/403");
+          } else {
+            vm.canEdit = true;
+          }
+        });
+      } else {
+        vm.canEdit = true;
+      }
     });
   },
   created() {
