@@ -37,20 +37,6 @@ router.beforeEach(async (to, from, next) => {
                 next("/403");
               }
             }
-            else if (to.name === 'MissionFormEdit') {
-              // Accès seulement si la mission fait parti du scope du responsable.
-              function getResponsableMissions() {
-                if (!store.getters.responsableMissions) {
-                  window.setTimeout(getResponsableMissions, 100); /* Checks every 100 milliseconds*/
-                }
-                else {
-                  if (!store.getters.responsableMissions.includes(to.params.id)) {
-                    next("/403");
-                  }
-                }
-              }
-              getResponsableMissions();
-            }
           }
         }
       }

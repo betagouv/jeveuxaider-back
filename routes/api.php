@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::post('mission/{mission}', 'Api\MissionController@update');
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
+    Route::get('responsable/missions', 'Api\MissionController@responsableMissions');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');

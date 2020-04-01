@@ -68,4 +68,11 @@ class MissionController extends Controller
     {
         return $mission->clone();
     }
+
+    public function responsableMissions(Request $request)
+    {
+        return response()->json([
+            'responsableMissions' => Mission::role('responsable')->get()->pluck('id')->all()
+        ]);
+    }
 }

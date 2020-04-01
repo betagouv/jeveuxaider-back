@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!$store.getters.loading" class="mission-form pl-12 pb-12">
+  <div
+    v-if="!$store.getters.loading && canEdit"
+    class="mission-form pl-12 pb-12"
+  >
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">Mission</div>
       <div class="mb-8 flex">
@@ -21,11 +24,13 @@
     </template>
     <div class="flex">
       <div style="max-width: 600px">
-         <p  class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-            Une question? Appelez-nous au <span class="font-bold"> <a href="tel:0184800189"> 
-             &nbsp;01 84 80 01 89&nbsp;</a></span>
-             ou chatez en cliquant sur le bouton en bas à droite.
-          </p>  
+        <p class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+          Une question? Appelez-nous au
+          <span class="font-bold">
+            <a href="tel:0184800189"> &nbsp;01 84 80 01 89&nbsp;</a></span
+          >
+          ou chatez en cliquant sur le bouton en bas à droite.
+        </p>
 
         <el-form
           ref="missionForm"
@@ -374,7 +379,12 @@
 </template>
 
 <script>
-import { getMission, addMission, updateMission } from "@/api/mission";
+import {
+  getMission,
+  addMission,
+  updateMission,
+  getResponsableMissions
+} from "@/api/mission";
 import { getStructure } from "@/api/structure";
 import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
 import StateTag from "@/components/StateTag";
@@ -410,6 +420,7 @@ export default {
   data() {
     return {
       loading: false,
+      canEdit: false,
       mission: {},
       form: {
         state: "En attente de validation",
@@ -509,6 +520,19 @@ export default {
       return this.id ? "edit" : "add";
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      getResponsableMissions().then(response => {
+        if (
+          !response.data.responsableMissions.includes(parseInt(to.params.id))
+        ) {
+          next("/403");
+        } else {
+          vm.canEdit = true;
+        }
+      });
+    });
+  },
   created() {
     if (this.structureId) {
       this.$store.commit("setLoading", true);
@@ -553,8 +577,8 @@ export default {
       this.addOrUpdateMission();
     },
     onSubmit() {
-      if(this.form.structure && this.form.structure.state == 'Validée') {
-        this.form.state = 'Validée'
+      if (this.form.structure && this.form.structure.state == "Validée") {
+        this.form.state = "Validée";
       }
       this.addOrUpdateMission();
     },
@@ -620,10 +644,10 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep
-    .el-input-number__decrease,
-    .el-input-number__increase
-        bottom: 1px
-        display: flex
-        align-items: center
-        justify-content: center
+  .el-input-number__decrease,
+  .el-input-number__increase
+    bottom: 1px
+    display: flex
+    align-items: center
+    justify-content: center
 </style>

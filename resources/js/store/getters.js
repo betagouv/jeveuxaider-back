@@ -36,7 +36,6 @@ const getters = {
       return null;
     }
     return rolesList.filter(role => getters.profile.roles[role.key] === true);
-  },
-  responsableMissions: state => state.responsableMissions
+  }
 };
 export default getters;
