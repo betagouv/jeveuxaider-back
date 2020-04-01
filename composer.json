@@ -26,6 +26,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.1",
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
+        "sentry/sentry-laravel": "^1.7",
         "spatie/geocoder": "^3.5",
         "spatie/laravel-backup": "^6.7",
         "spatie/laravel-medialibrary": "^7.0.0",
