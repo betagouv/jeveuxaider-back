@@ -63,15 +63,13 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'places_left', 'has_places_left'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count'];
 
     protected $with = [
         'structure:id,name,city,address,zip',
         'structure.members:id,first_name,last_name,mobile,email',
         'tuteur:id,email,mobile,phone,first_name,last_name'
     ];
-
-    protected $withCount = ['participations'];
 
     public function shouldBeSearchable()
     {
@@ -146,34 +144,32 @@ class Mission extends Model
 
     public function getHasPlacesLeftAttribute()
     {
-        return $this->participations_count < $this->participations_max ? true : false;
+        return $this->places_left > 0 ? true : false;
     }
 
-    public function getPlacesLeftAttribute()
+    public function getParticipationsCountAttribute()
     {
-        return $this->participations_max - $this->participations_count;
+        return $this->participations_max - $this->places_left;
     }
 
     public function scopeHasPlacesLeft($query)
     {
-        return $query->has('participations', '<', DB::raw('participations_max'));
+        return $query->where('places_left', '>', 0);
     }
 
     public function scopeComplete($query)
     {
-        return $query->has('participations', '>=', DB::raw('participations_max'));
+        return $query->where('places_left', '<=', 0);
     }
 
     public function scopeAvailable($query)
     {
-        return $query
-            ->where('state', 'Validée');
+        return $query->where('state', 'Validée');
     }
 
     public function scopeDepartment($query, $value)
     {
-        return $query
-            ->where('department', $value);
+        return $query->where('department', $value);
     }
 
     public function scopeRole($query, $contextRole)

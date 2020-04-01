@@ -15,7 +15,7 @@ class ConfigController extends Controller
             'user' => Auth::user(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
-            'reseaux' => $this->reseaux(),
+            'reseaux' => $this->reseaux()
         ]);
     }
 

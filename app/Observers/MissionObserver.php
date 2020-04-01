@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Mission;
+use App\Models\Participation;
 use App\Models\Profile;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingCorrection;
@@ -89,6 +90,12 @@ class MissionObserver
                     break;
             }
         }
+    }
+
+    public function saving(Mission $mission)
+    {
+        // Calcul Places Left
+        $mission->places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
     }
 
     /**
