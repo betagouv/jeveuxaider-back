@@ -15,8 +15,8 @@ $factory->define(Profile::class, function (Faker $faker) {
     $user = factory(App\Models\User::class)->create();
 
     return [
-        'first_name' => Utils::removeAccents($faker->firstName),
-        'last_name' => Utils::removeAccents($faker->lastName),
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
         'user_id' => $user->id,
         'email' => $user->email,
         'phone' => $faker->phoneNumber,

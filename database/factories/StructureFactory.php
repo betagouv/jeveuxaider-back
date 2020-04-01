@@ -21,7 +21,7 @@ $factory->define(Structure::class, function (Faker $faker) {
 
     return [
         'user_id' => $profile->user->id,
-        'name' => Utils::removeAccents($faker->company),
+        'name' => $faker->company,
         'description' => $faker->sentence(40),
         'statut_juridique' => $statuts,
         'is_reseau' => $isReseau,
