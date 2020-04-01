@@ -6,7 +6,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // REDIRECT IF NOT LOGGED
     if (!store.getters.isLogged) {
-      next("/login");
+      next(`/login?redirect=${to.path}`);
     } else {
       // IF NOT CONTEXT ROLE
       if (!store.getters.contextRole) {
