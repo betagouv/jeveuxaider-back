@@ -7,15 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FiltersStructureLieu implements Filter
 {
-    public function __invoke(Builder $query, $value, string $property) : Builder
+    public function __invoke(Builder $query, $value, string $property): Builder
     {
-        return $query
-            ->where(function ($query) use ($value) {
-                $query
-                    ->where('city', 'LIKE', '%' . $value . '%')
-                    ->orWhere('zip', 'LIKE', '%' . $value . '%')
-                ;
-            })
-        ;
+        return
+            $query
+            ->where('city', 'LIKE', '%' . $value . '%')
+            ->orWhere('zip', 'LIKE', '%' . $value . '%');
     }
 }
