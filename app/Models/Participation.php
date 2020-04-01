@@ -26,7 +26,12 @@ class Participation extends Model
 
     protected $with = ['mission', 'profile'];
 
-    // protected $touches = ['mission'];
+    const ACTIVE_STATUS = [
+        'En attente de validation',
+        'Mission validée',
+        'Mission en cours',
+        'Mission effectuée'
+    ];
 
     public function mission()
     {
