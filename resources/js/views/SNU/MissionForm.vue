@@ -522,7 +522,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (vm.$store.getters.contextRole == "responsable") {
+      if (vm.$store.getters.contextRole == "responsable" && to.name == "MissionFormEdit") {
         fetchMissions({'filter[id][]': vm.id}).then(response => {
           if (response.data.total != 1) {
             next("/403");
