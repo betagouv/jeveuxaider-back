@@ -5,7 +5,9 @@
         <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
         <div class="mb-8 font-bold text-2xl text-gray-800">Participations</div>
       </div>
-      <div></div>
+      <div>
+        <el-button type="primary" @click="onMassValidation">Validation massive</el-button>
+      </div>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -155,7 +157,7 @@
 </template>
 
 <script>
-import { fetchParticipations, exportParticipations } from "@/api/participation";
+import { fetchParticipations, exportParticipations, massValidationParticipation } from "@/api/participation";
 import StateTag from "@/components/StateTag";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import TableWithVolet from "@/mixins/TableWithVolet";
@@ -209,6 +211,29 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    onMassValidation() {
+      this.$confirm("Vous êtes sur le point de valider toutes les participations actuellement en attente de validation.<br>Êtes-vous sûr de vouloir continuer ?", "Confirmation", {
+        confirmButtonText: "Je confirme",
+        cancelButtonText: "Annuler",
+        dangerouslyUseHTMLString: true,
+        center: true,
+        type: "warning"
+      }).then(() => {
+        this.loading = true;
+        massValidationParticipation()
+          .then(response => {
+            this.loading = false;
+            this.$message({
+              type: "success",
+              message: "Les participations ont été mises à jour"
+            });
+            this.fetchDatas();
+          })
+          .catch(() => {
+            this.loading = false;
+          });
+      });
     }
   }
 };
