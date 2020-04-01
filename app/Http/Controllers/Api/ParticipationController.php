@@ -51,7 +51,7 @@ class ParticipationController extends Controller
             $participation = Participation::create($request->validated());
             return $participation;
         }
-        
+
         abort(402, "Désolé, la mission n'a plus de place disponible !");
     }
 
@@ -75,5 +75,13 @@ class ParticipationController extends Controller
     {
         $participation = Participation::withTrashed()->findOrFail($id);
         return (string) $participation->forceDelete();
+    }
+
+    public function massValidation(Request $request)
+    {
+        $participations = Participation::role('responsable')->where('state', 'En attente de validation')->get();
+        foreach ($participations as $participation) {
+            $participation->update(['state' => 'Mission validée']);
+        }
     }
 }

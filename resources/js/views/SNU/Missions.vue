@@ -149,7 +149,7 @@
           <div v-if="scope.row.city" class>{{ scope.row.city | cleanCity }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Places" width="90">
+      <el-table-column label="Places" width="130">
         <template slot-scope="scope">
           <div v-if="scope.row.has_places_left">
             {{ scope.row.participations_max - scope.row.participations_count }}

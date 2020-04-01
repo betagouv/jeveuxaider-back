@@ -51,7 +51,7 @@ class ParticipationPolicy
         if ($participation->profile_id == $user->profile->id) {
             return true;
         }
-        
+
         $ids = Participation::role(request()->header('Context-Role'))->get()->pluck('id')->all();
 
         if (in_array($participation->id, $ids)) {
@@ -64,6 +64,15 @@ class ParticipationPolicy
     public function delete()
     {
         if (in_array(request()->header('Context-Role'), ['referent','referent_regional','admin'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function massValidation()
+    {
+        if (in_array(request()->header('Context-Role'), ['responsable'])) {
             return true;
         }
 
