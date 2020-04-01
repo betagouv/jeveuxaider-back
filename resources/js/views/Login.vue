@@ -131,18 +131,23 @@ export default {
               password: this.form.password
             })
             .then(() => {
-              console.log("noRole", this.$store.getters.noRole);
-              if (
-                this.$store.getters.noRole === true &&
-                this.$store.getters.contextRole != "volontaire"
-              ) {
-                this.$router.push("/register/step/norole");
+              if (this.$route.query.redirect) {
+                this.$router.push(this.$route.query.redirect);
               }
+              else {
+                // console.log("noRole", this.$store.getters.noRole);
+                if (
+                  this.$store.getters.noRole === true &&
+                  this.$store.getters.contextRole != "volontaire"
+                ) {
+                  this.$router.push("/register/step/norole");
+                }
 
-              if (this.$store.getters.noRole === false) {
-                this.$router.push("/dashboard");
-              } else {
-                this.$router.push("/missions");
+                if (this.$store.getters.noRole === false) {
+                  this.$router.push("/dashboard");
+                } else {
+                  this.$router.push("/missions");
+                }
               }
             })
             .catch(() => {
