@@ -27,7 +27,7 @@ class MissionController extends Controller
             'format',
             'type',
             'department',
-            'id',
+            AllowedFilter::exact('id'),
             AllowedFilter::custom('ceu', new FiltersMissionCeu),
             AllowedFilter::custom('search', new FiltersMissionSearch),
             AllowedFilter::custom('lieu', new FiltersMissionLieu),
