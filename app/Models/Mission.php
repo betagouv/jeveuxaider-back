@@ -154,12 +154,12 @@ class Mission extends Model
 
     public function scopeHasPlacesLeft($query)
     {
-        return $query->has('places_left', '>', 0);
+        return $query->where('places_left', '>', 0);
     }
 
     public function scopeComplete($query)
     {
-        return $query->has('places_left', '<=', 0);
+        return $query->where('places_left', '<=', 0);
     }
 
     public function scopeAvailable($query)
