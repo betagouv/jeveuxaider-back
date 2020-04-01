@@ -20,10 +20,9 @@ Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::get('releases', 'Api\ReleaseController@index');
+Route::get('faqs', 'Api\FaqController@index');
 
-// Missions
 Route::get('mission/{mission}', 'Api\MissionController@show');
-
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -103,6 +102,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
+    // FAQ
+    Route::post('faq', 'Api\FaqController@store');
+    Route::post('faq/{faq}', 'Api\FaqController@update');
+    Route::get('faq/{faq}', 'Api\FaqController@show');
 
     // RELEASES
     // Route::get('release/{release}', 'Api\ReleaseController@show');

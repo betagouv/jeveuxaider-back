@@ -353,7 +353,38 @@ export default new Router({
                     meta: {
                         roles: ["admin"]
                     }
-                }
+                },
+                {
+                    path: "/dashboard/faqs",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-trash" */ "@/views/SNU/Faqs.vue"),
+                    name: "Faqs",
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/faq/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-faq-add" */ "@/views/SNU/FaqForm.vue"
+                        ),
+                    name: "FaqFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/faq/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-faq-edit" */ "@/views/SNU/FaqForm.vue"),
+                    name: "FaqFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
             ]
         },
         {
