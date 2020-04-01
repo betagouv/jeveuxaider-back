@@ -357,7 +357,7 @@ export default new Router({
                 {
                     path: "/dashboard/faqs",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-trash" */ "@/views/SNU/Faqs.vue"),
+                        import(/* webpackChunkName: "assets/js/dashboard-faqs" */ "@/views/SNU/Faqs.vue"),
                     name: "Faqs",
                     meta: {
                         roles: ["admin"]
