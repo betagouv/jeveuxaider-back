@@ -383,7 +383,7 @@ import {
   getMission,
   addMission,
   updateMission,
-  getResponsableMissions
+  fetchMissions
 } from "@/api/mission";
 import { getStructure } from "@/api/structure";
 import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
@@ -523,10 +523,8 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (vm.$store.getters.contextRole == "responsable") {
-        getResponsableMissions().then(response => {
-          if (
-            !response.data.responsableMissions.includes(parseInt(to.params.id))
-          ) {
+        fetchMissions({'filter[id][]': vm.id}).then(response => {
+          if (response.data.total != 1) {
             next("/403");
           } else {
             vm.canEdit = true;

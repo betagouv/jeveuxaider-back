@@ -27,6 +27,7 @@ class MissionController extends Controller
             'format',
             'type',
             'department',
+            'id',
             AllowedFilter::custom('ceu', new FiltersMissionCeu),
             AllowedFilter::custom('search', new FiltersMissionSearch),
             AllowedFilter::custom('lieu', new FiltersMissionLieu),
@@ -67,12 +68,5 @@ class MissionController extends Controller
     public function clone(MissionUpdateRequest $request, Mission $mission)
     {
         return $mission->clone();
-    }
-
-    public function responsableMissions(Request $request)
-    {
-        return response()->json([
-            'responsableMissions' => Mission::role('responsable')->get()->pluck('id')->all()
-        ]);
     }
 }
