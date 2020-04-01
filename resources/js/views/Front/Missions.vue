@@ -163,12 +163,7 @@
                                   class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
                                   style="background:#31c48d;"
                                 >
-                                  <template
-                                    v-if="
-                                      item.has_places_left &&
-                                        item.places_left > 0
-                                    "
-                                  >
+                                  <template>
                                     {{ item.places_left | formatNumber }}
                                     {{
                                       item.places_left
@@ -178,8 +173,9 @@
                                         ])
                                     }}
                                   </template>
-                                  <template v-else>Complet</template>
                                 </div>
+                                <div v-else class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
+                                  style="background:#d2d6dc;">Complet</div>
                               </div>
                             </div>
                           </div>

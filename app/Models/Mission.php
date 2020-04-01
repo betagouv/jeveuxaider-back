@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\Utils;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
 class Mission extends Model
@@ -73,7 +72,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        return $this->state == 'Validée' && $this->has_places_left ? true : false;
+        return $this->state == 'Validée' ? true : false;
     }
 
     public function searchableAs()
