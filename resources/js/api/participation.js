@@ -11,6 +11,10 @@ export function exportParticipations(params) {
   });
 }
 
+export function massValidationParticipation() {
+  return request.post(`/api/participations/mass-validation`);
+}
+
 export function addParticipation(mission_id, profile_id) {
   return request.post(`/api/participation`, {
     mission_id,
