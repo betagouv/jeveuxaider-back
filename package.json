@@ -11,6 +11,8 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+        "@ckeditor/ckeditor5-vue": "^1.0.1",
         "@sentry/browser": "^5.15.0",
         "@sentry/integrations": "^5.15.0",
         "@tailwindcss/ui": "^0.1.3",

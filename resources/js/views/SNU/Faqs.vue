@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     fetchRows() {
-      console.log("fetchhh");
       return fetchFaqs(this.query);
     }
   }

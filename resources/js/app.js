@@ -19,6 +19,7 @@ import AppHeader from "@/components/AppHeader"
 import AppFooter from "@/components/AppFooter"
 import DropdownUser from "@/components/DropdownUser"
 import VClamp from "vue-clamp";
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 Vue.component('AppHeader', AppHeader);
 Vue.component('AppFooter', AppFooter);
@@ -27,6 +28,7 @@ Vue.component('VClamp', VClamp);
 
 Vue.use(Vue2Filters);
 Vue.use(PortalVue);
+Vue.use(CKEditor);
 Vue.use(VueAnalytics, {
   id: 'UA-81479189-7',
   router,

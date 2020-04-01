@@ -15,7 +15,12 @@
         <el-input v-model="form.title" placeholder="Question" />
       </el-form-item>
 
-      <el-form-item label="Description" prop="description" class="flex-1">
+      <el-form-item label="Poids de la question" prop="weight">
+        <item-description>Les questions s'afficheront par ordre décroissant.</item-description>
+        <el-input-number v-model="form.weight" :step="1" :min="1" class="w-full"></el-input-number>
+      </el-form-item>
+
+      <!-- <el-form-item label="Description" prop="description" class="flex-1">
         <el-input
           v-model="form.description"
           name="description"
@@ -23,11 +28,10 @@
           :autosize="{ minRows: 6, maxRows: 20 }"
           placeholder="Rédigez la réponse"
         ></el-input>
-      </el-form-item>
+      </el-form-item>-->
 
-      <el-form-item label="Poids de la question" prop="weight">
-        <item-description>Les questions s'afficheront par ordre décroissant.</item-description>
-        <el-input-number v-model="form.weight" :step="1" :min="1" class="w-full"></el-input-number>
+      <el-form-item label="Description" prop="description">
+        <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
       </el-form-item>
 
       <div class="flex pt-2">
@@ -40,6 +44,7 @@
 <script>
 import { getFaq, updateFaq, addFaq } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
   name: "FaqForm",
@@ -59,6 +64,10 @@ export default {
       loading: false,
       form: {
         weight: 1
+      },
+      editor: ClassicEditor,
+      editorConfig: {
+        toolbar: ["bold", "italic", "|", "link", "bulletedList", "numberedList"]
       }
     };
   },
