@@ -242,7 +242,7 @@
 
                 <div class="mt-6 text-gray-500">
                     <p>
-                        <a class="inline-flex items-center hover:underline" target="_blank" href="/files/Fiche_Reserve_civique_soutien_ECOUTE_TELEPHONIQUE_-_Covid-19.pdf">
+                        <a class="inline-flex items-center hover:underline" target="_blank" href="/files/PFP_Asso_Fiche_telephonie_COVID19__2020_03_23_.pdf">
                         Télécharger la fiche pratique
                         <svg style="margin-top:2px;" data-v-18b25a0c="" fill="currentColor" viewBox="0 0 20 20" class="h-4 w-4 text-gray-400"><path data-v-18b25a0c="" fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
                         </a>

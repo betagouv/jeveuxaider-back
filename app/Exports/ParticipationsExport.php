@@ -54,6 +54,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'mobile',
             'email',
             'zip',
+            'birthday',
             'state',
             'created_at',
             'updated_at'
@@ -78,6 +79,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             'mobile' => $participation->profile && !$hidden ? $participation->profile->mobile : '',
             'email' => $participation->profile && !$hidden ? $participation->profile->email : '',
             'zip' => $participation->profile && !$hidden ? $participation->profile->zip : '',
+            'birthday' => $participation->profile && !$hidden ? $participation->profile->birthday : '',
             'state' => $participation->state,
             'created_at' => $participation->created_at,
             'updated_at' => $participation->updated_at
