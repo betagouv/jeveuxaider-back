@@ -385,6 +385,37 @@ export default new Router({
                         roles: ["admin"]
                     }
                 },
+                {
+                    path: "/dashboard/collectivities",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-collectivities" */ "@/views/SNU/Collectivities.vue"),
+                    name: "Collectivities",
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/collectivity/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-collectivity-add" */ "@/views/SNU/CollectivityForm.vue"
+                        ),
+                    name: "CollectivityFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/collectivity/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-collectivity-edit" */ "@/views/SNU/CollectivityForm.vue"),
+                    name: "CollectivityFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
             ]
         },
         {

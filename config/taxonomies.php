@@ -500,4 +500,34 @@ return [
            // "Archivée" => "Archivée"
         ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | COLLECTIVITIES TYPES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'collectivities_types' => [
+        "vocabulary" => "Types de collectivités",
+        "terms" => [
+            "Collectivité" => "Collectivité",
+            "Autre" => "Autre"
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | COLLECTIVITIES STATES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'collectivities_states' => [
+        "vocabulary" => "Statut des collectivités",
+        "terms" => [
+            "En attente de validation" => "En attente de validation",
+            "Validée" => "Validée",
+            "Signalée" => "Signalée",
+            "Archivée" => "Archivée",
+        ]
+    ],
 ];

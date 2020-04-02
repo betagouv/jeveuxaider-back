@@ -25,6 +25,9 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
+Route::post('submit/collectivity', 'Api\CollectivityController@submit');
+Route::get('collectivity/{collectivity}', 'Api\CollectivityController@show');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('bootstrap', 'Api\ConfigController@bootstrap');
@@ -82,7 +85,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');
 
-
     // STATISTICS
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
     Route::get('statistics/analytics', 'Api\StatisticsController@analytics');
@@ -99,9 +101,15 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // TRASH
     Route::get('trash', 'Api\TrashController@index');
     Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
-    Route::delete('young/{id}/destroy', 'Api\YoungController@destroy');
+    Route::delete('collectivity/{id}/destroy', 'Api\CollectivityController@destroy');
     Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
+
+    // COLLECTIVITIES
+    Route::get('collectivities', 'Api\CollectivityController@index');
+    Route::post('collectivity', 'Api\CollectivityController@store');
+    Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
+    Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
 
     // FAQ
     Route::post('faq', 'Api\FaqController@store');
