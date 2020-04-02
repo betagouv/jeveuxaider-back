@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CollectivityRequest extends FormRequest
 {
-
     public function authorize()
     {
         if (backpack_auth()->check()) {

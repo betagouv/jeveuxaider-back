@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
 
 class Collectivity extends Model
 {
-
     protected $table = 'collectivities';
 
     protected $fillable = [

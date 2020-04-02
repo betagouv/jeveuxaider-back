@@ -28,7 +28,6 @@ class CreateCollectivitiesTable extends Migration
             $table->softDeletes();
 
             $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('set null');
-
         });
     }
 

@@ -6,7 +6,6 @@ use App\Http\Requests\CollectivityRequest;
 
 class CollectivitySubmitRequest extends CollectivityRequest
 {
-
     public function authorize()
     {
         return true;
@@ -25,5 +24,4 @@ class CollectivitySubmitRequest extends CollectivityRequest
             'mobile' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
         ];
     }
-    
 }

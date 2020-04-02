@@ -82,5 +82,4 @@ class CollectivityController extends Controller
         $collectivity = Collectivity::withTrashed()->findOrFail($id);
         return (string) $collectivity->forceDelete();
     }
-
 }
