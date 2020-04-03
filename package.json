@@ -29,6 +29,7 @@
         "numeral": "^2.0.6",
         "places.js": "^1.16.4",
         "portal-vue": "^2.1.7",
+        "slugify": "^1.4.0",
         "tailwindcss": "^1.1.4",
         "vue": "^2.6.11",
         "vue-analytics": "^5.22.1",

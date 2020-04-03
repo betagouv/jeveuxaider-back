@@ -1,5 +1,6 @@
 import store from "../store";
 import Vue from "vue";
+import slugify from "slugify";
 
 Vue.filter("labelFromValue", function (key, taxonomy) {
   let element = store.getters.taxonomies[taxonomy].terms.find(el => {
@@ -50,4 +51,10 @@ Vue.filter("cleanDomaineAction", function (domaine) {
     default:
       return domaine
   }
+});
+
+Vue.filter("slugify", function (string) {
+  return slugify(string, {
+    lower: true
+  });
 });

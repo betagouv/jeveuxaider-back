@@ -20,6 +20,9 @@ class CollectivityRequest extends FormRequest
             'type' => 'required',
             'description' => '',
             'zips' => 'required',
+            'instagram' => '',
+            'twitter' => '',
+            'facebook' => '',
         ];
     }
 }

@@ -450,6 +450,19 @@ export default new Router({
             name: "Mission",
             props: route => ({ id: parseInt(route.params.id) }),
         },
+        {
+            path: "/collectivites/:slug",
+            component: () =>
+                import(/* webpackChunkName: "assets/js/collectivites-slug" */ "@/views/Front/Collectivity.vue"),
+            name: "CollectivitySlug",
+            props: route => ({ slug: route.params.slug })
+        },
+        {
+            path: "/collectivity/new",
+            component: () =>
+                import(/* webpackChunkName: "assets/js/collectivite-submit" */ "@/views/Front/CollectivitySubmit.vue"),
+            name: "CollectivitySubmit",
+        },
         { path: "/403", component: Forbidden, name: 'Forbidden' },
         { path: "*", component: NotFound, name: 'NotFound' }
     ],

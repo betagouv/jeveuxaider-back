@@ -3,6 +3,11 @@ import request from "../utils/request";
 export function addCollectivity(collectivity) {
   return request.post("/api/collectivity", collectivity);
 }
+
+export function submitCollectivity(collectivity) {
+  return request.post("/api/submit/collectivity", collectivity);
+}
+
 export function updateCollectivity(id, collectivity) {
   return request.post(`/api/collectivity/${id}`, collectivity);
 }

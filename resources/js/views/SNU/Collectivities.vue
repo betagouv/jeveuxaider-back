@@ -24,14 +24,17 @@
     <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">
-            {{ scope.row.name[0] }}
-          </el-avatar>
+          <el-avatar class="bg-primary uppercase">{{ scope.row.name[0] }}</el-avatar>
         </template>
       </el-table-column>
       <el-table-column label="Collectivité" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="font-light text-gray-600 text-xs">
+            <router-link :to="{ name: 'CollectivitySlug', params: { slug: scope.row.slug } }" target="_blank">
+              /collectivites/{{scope.row.slug}}
+            </router-link>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">

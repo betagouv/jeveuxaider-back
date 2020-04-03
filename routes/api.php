@@ -26,7 +26,7 @@ Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::post('submit/collectivity', 'Api\CollectivityController@submit');
-Route::get('collectivity/{collectivity}', 'Api\CollectivityController@show');
+Route::get('collectivite/{slugOrId}', 'Api\CollectivityController@show');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // COLLECTIVITIES
     Route::get('collectivities', 'Api\CollectivityController@index');
+    Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
     Route::post('collectivity', 'Api\CollectivityController@store');
     Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');

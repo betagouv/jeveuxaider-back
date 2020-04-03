@@ -11,8 +11,20 @@
     <el-form ref="collectivityForm" :model="form" label-position="top" :rules="rules">
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
-      <el-form-item label="Collectivité" prop="name">
+      <el-form-item label="Nom de la collectivité" prop="name">
+        <item-description>Accessible à l'adresse : {{baseUrl}}/collectivites/{{ form.name|slugify }}</item-description>
         <el-input v-model="form.name" placeholder="Nom de la collectivité" />
+      </el-form-item>
+
+      <el-form-item label="Liste des codes postaux" prop="zips" class="flex-1">
+        <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
+        <el-input
+          v-model="form.zips"
+          name="zips"
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 10 }"
+          placeholder="Codes postaux..."
+        ></el-input>
       </el-form-item>
 
       <el-form-item label="Description" prop="description" class="flex-1">
@@ -25,6 +37,31 @@
         ></el-input>
       </el-form-item>
 
+      <el-form-item label="Type" prop="type">
+        <el-select v-model="form.type" placeholder="Selectionner le type">
+          <el-option
+            v-for="item in $store.getters.taxonomies.collectivities_types.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <div class="mb-6 text-xl text-gray-800">Réseaux sociaux</div>
+
+      <el-form-item label="Instagram" prop="instagram">
+        <el-input v-model="form.instagram" placeholder="Lien de votre compte instagram" />
+      </el-form-item>
+
+      <el-form-item label="Facebook" prop="facebook">
+        <el-input v-model="form.facebook" placeholder="Lien de votre compte facebook" />
+      </el-form-item>
+
+      <el-form-item label="Twitter" prop="twitter">
+        <el-input v-model="form.twitter" placeholder="Lien de votre compte twitter" />
+      </el-form-item>
+
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
       </div>
@@ -33,7 +70,11 @@
 </template>
 
 <script>
-import { getCollectivity, updateCollectivity, addCollectivity } from "@/api/collectivity";
+import {
+  getCollectivity,
+  updateCollectivity,
+  addCollectivity
+} from "@/api/collectivity";
 import ItemDescription from "@/components/forms/ItemDescription";
 
 export default {
@@ -51,6 +92,7 @@ export default {
   },
   data() {
     return {
+      baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
       form: {}
     };
@@ -131,5 +173,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
 </style>

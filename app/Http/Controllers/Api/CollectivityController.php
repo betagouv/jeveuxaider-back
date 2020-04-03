@@ -26,9 +26,11 @@ class CollectivityController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show(Collectivity $collectivity)
+    public function show($slugOrId)
     {
-        return $collectivity;
+        return is_numeric($slugOrId)
+            ? Collectivity::where('id', $slugOrId)->firstOrFail()
+            : Collectivity::where('slug', $slugOrId)->firstOrFail();
     }
 
     public function submit(CollectivitySubmitRequest $request)

@@ -17,6 +17,7 @@ class CreateCollectivitiesTable extends Migration
             $table->increments('id');
             $table->integer('profile_id')->unsigned()->nullable();
             $table->string('name');
+            $table->string('slug');
             $table->json('zips')->nullable();
             $table->text('type')->nullable();
             $table->text('description')->nullable();
