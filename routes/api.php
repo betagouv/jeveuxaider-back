@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('faq', 'Api\FaqController@store');
     Route::post('faq/{faq}', 'Api\FaqController@update');
     Route::get('faq/{faq}', 'Api\FaqController@show');
+    Route::delete('faq/{faq}', 'Api\FaqController@delete');
 
     // RELEASES
     // Route::get('release/{release}', 'Api\ReleaseController@show');

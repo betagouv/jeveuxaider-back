@@ -27,3 +27,7 @@ export function addFaq(faq) {
 export function updateFaq(id, faq) {
   return request.post(`/api/faq/${id}`, faq);
 }
+
+export function deleteFaq(id) {
+  return request.delete(`/api/faq/${id}`);
+}

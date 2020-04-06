@@ -22,7 +22,7 @@
       </div>
     </div>
     <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
-      <el-table-column label="Poids" min-width="70" center>
+      <el-table-column label="Ordre" min-width="70" align="center">
         <template slot-scope="scope">
           <el-avatar class="bg-primary">{{ scope.row.weight }}</el-avatar>
         </template>
@@ -37,9 +37,23 @@
       </el-table-column>
       <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
-          <router-link :to="{ name: 'FaqFormEdit', params: { id: scope.row.id } }">
-            <el-button icon="el-icon-edit" size="mini" class="m-1">Modifier</el-button>
-          </router-link>
+          <el-dropdown
+            size="small"
+            split-button
+            trigger="click"
+            @click="
+              $router.push({
+                name: 'FaqFormEdit',
+                params: { id: scope.row.id }
+              })
+            "
+            @command="handleCommand"
+          >
+            <i class="el-icon-edit mr-2"></i>Modifier
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="{ action: 'delete', id: scope.row.id }">Supprimer</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -60,7 +74,7 @@
 </template>
 
 <script>
-import { fetchFaqs } from "@/api/app";
+import { fetchFaqs, deleteFaq } from "@/api/app";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 
@@ -85,6 +99,35 @@ export default {
   methods: {
     fetchRows() {
       return fetchFaqs(this.query);
+    },
+    handleCommand(command) {
+      console.log(command)
+      if (command.action == "delete") {
+        this.delete(command.id);
+      } else {
+        this.$router.push(command);
+      }
+    },
+    delete(id) {
+      this.$confirm(
+        `Êtes vous sur de vouloir supprimer cette question ?`,
+        "Supprimer la question",
+        {
+          confirmButtonText: "Supprimer",
+          confirmButtonClass: "el-button--danger",
+          cancelButtonText: "Annuler",
+          center: true,
+          type: "error"
+        }
+      ).then(() => {
+        deleteFaq(id).then(() => {
+          this.$message({
+            type: "success",
+            message: `La question a été supprimée.`
+          });
+          this.fetchDatas();
+        });
+      });
     }
   }
 };
