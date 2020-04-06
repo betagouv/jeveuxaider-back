@@ -101,14 +101,13 @@ export default {
       return fetchFaqs(this.query);
     },
     handleCommand(command) {
-      console.log(command)
       if (command.action == "delete") {
-        this.delete(command.id);
+        this.handleClickDelete(command.id);
       } else {
         this.$router.push(command);
       }
     },
-    delete(id) {
+    handleClickDelete(id) {
       this.$confirm(
         `Êtes vous sur de vouloir supprimer cette question ?`,
         "Supprimer la question",
