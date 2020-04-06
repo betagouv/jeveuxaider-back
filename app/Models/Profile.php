@@ -115,34 +115,42 @@ class Profile extends Model implements HasMedia
                 return $query;
             break;
             case 'referent':
+                $departement = Auth::guard('api')->user()->profile->referent_department;
                 return $query
-                    ->whereHas('missionsAsTuteur', function (Builder $query) {
+                    ->where('zip', 'LIKE', $departement . '%')
+                    ->orWhereHas('missions', function (Builder $query) use ($departement) {
                         $query
                             ->whereNotNull('department')
-                            ->where('department', Auth::guard('api')->user()->profile->referent_department);
+                            ->where('department', $departement);
                     })
-                    ->orWhereHas('structures', function (Builder $query) {
+                    ->orWhereHas('structures', function (Builder $query) use ($departement) {
                         $query
                             ->where('role', 'responsable')
                             ->whereNotNull('department')
-                            ->where('department', Auth::guard('api')->user()->profile->referent_department);
+                            ->where('department', $departement);
                     })
-                    ;
+                ;
             break;
             case 'referent_regional':
+                $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
                 return $query
-                    ->whereHas('missionsAsTuteur', function (Builder $query) {
+                    ->whereHas('missions', function (Builder $query) use ($departements) {
                         $query
                             ->whereNotNull('department')
-                            ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                            ->whereIn('department', $departements);
                     })
-                    ->orWhereHas('structures', function (Builder $query) {
+                    ->orWhereHas('structures', function (Builder $query) use ($departements) {
                         $query
                             ->where('role', 'responsable')
                             ->whereNotNull('department')
-                            ->where('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                            ->whereIn('department', $departements);
                     })
-                    ;
+                    ->orWhere(function (Builder $query) use ($departements) {
+                        foreach ($departements as $departement) {
+                            $query->orWhere('zip', 'LIKE', $departement . '%');
+                        }
+                    })
+                ;
             break;
             case 'superviseur':
                 return $query
@@ -151,9 +159,14 @@ class Profile extends Model implements HasMedia
                             ->whereNotNull('reseau_id')
                             ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                     })
-                    ;
+                ;
             break;
         }
+    }
+
+    public function scopeDepartment($query, $value)
+    {
+        return $query->where('zip', 'LIKE', $value . '%');
     }
 
     public function user()
@@ -166,7 +179,7 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure')->without('members');
     }
 
-    public function missionsAsTuteur()
+    public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'tuteur_id');
     }

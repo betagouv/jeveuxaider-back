@@ -37,21 +37,43 @@ class StatisticsController extends Controller
 
     public function profiles(Request $request)
     {
-        return [
-            'total' => Profile::role($request->header('Context-Role'))->count(),
-            'volontaire' => Profile::role($request->header('Context-Role'))
-                ->whereHas('user', function (Builder $query) {
-                    $query->where('context_role', 'volontaire');
-                })->count(),
-            'responsable' => Profile::role($request->header('Context-Role'))->whereHas('missionsAsTuteur')->orWhereHas('structures')->count(),
-            'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
-            'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
-            'admin' => Profile::role($request->header('Context-Role'))
-                ->whereHas('user', function (Builder $query) {
-                    $query->where('is_admin', true);
-                })->count(),
-            'invited' => Profile::role($request->header('Context-Role'))->doesntHave('user')->count(),
-        ];
+        switch ($request->header('Context-Role')) {
+            case 'admin':
+            case 'analyste':
+                return [
+                    'total' => Profile::role($request->header('Context-Role'))->count(),
+                    'volontaire' => Profile::role($request->header('Context-Role'))
+                        ->whereHas('user', function (Builder $query) {
+                            $query->where('context_role', 'volontaire');
+                        })->count(),
+                    'responsable' => Profile::role($request->header('Context-Role'))->whereHas('missions')->orWhereHas('structures')->count(),
+                    'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
+                    'referent_regional' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_region')->count(),
+                    'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
+                    'admin' => Profile::role($request->header('Context-Role'))
+                        ->whereHas('user', function (Builder $query) {
+                            $query->where('is_admin', true);
+                        })->count(),
+                    'invited' => Profile::role($request->header('Context-Role'))->doesntHave('user')->count(),
+                ];
+
+            break;
+            case 'referent':
+            case 'referent_regional':
+            case 'superviseur':
+                $total = Profile::role($request->header('Context-Role'))->count();
+                $volontaire = Profile::role($request->header('Context-Role'))
+                    ->whereHas('user', function (Builder $query) {
+                        $query->where('context_role', 'volontaire');
+                    })
+                    ->count();
+                return [
+                    'total' => $total,
+                    'volontaire' => $volontaire,
+                    'responsable' => $total - $volontaire,
+                ];
+            break;
+        }
     }
 
     public function participations(Request $request)
@@ -108,6 +130,12 @@ class StatisticsController extends Controller
                 'missions_count' => Mission::role($request->header('Context-Role'))->department($key)->count(),
                 'structures_count' => Structure::role($request->header('Context-Role'))->department($key)->count(),
                 'participations_count' => Participation::role($request->header('Context-Role'))->department($key)->count(),
+                'volontaires_count' => Profile::role($request->header('Context-Role'))
+                    ->department($key)
+                    ->whereHas('user', function (Builder $query) {
+                        $query->where('context_role', 'volontaire');
+                    })
+                    ->count(),
                 'missions_available' => $departmentCollection->count(),
                 'places_available' => $departmentCollection->mapWithKeys(function ($item) {
                     return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];

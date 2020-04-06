@@ -9,10 +9,11 @@ class FiltersProfileSearch implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
-        return $query
-            ->where('first_name', 'LIKE', '%' . $value . '%')
+        return $query->where(function ($query) use ($value, $property) {
+            $query->where('first_name', 'LIKE', '%' . $value . '%')
             ->orWhere('last_name', 'LIKE', '%' . $value . '%')
             ->orWhere('email', 'LIKE', '%' . $value . '%');
+        })
         ;
     }
 }

@@ -24,20 +24,20 @@
               <span class="text-gray-500">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="structures_count" label="Structures" width="120" align="center" sortable>
+          <el-table-column prop="structures_count" label="Struct." width="100" align="center" sortable>
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.structures_count|formatNumber }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="missions_count" label="Missions" width="120" align="center" sortable>
+          <el-table-column prop="missions_count" label="Miss." width="100" align="center" sortable>
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.missions_count|formatNumber }}</span>
             </template>
           </el-table-column>
           <el-table-column
             prop="participations_count"
-            label="Participations"
-            width="140"
+            label="Partic."
+            width="100"
             align="center"
             sortable
           >
@@ -45,10 +45,21 @@
               <span class="text-gray-500">{{ scope.row.participations_count|formatNumber }}</span>
             </template>
           </el-table-column>
+           <el-table-column
+            prop="volontaires_count"
+            label="Volon."
+            width="100"
+            align="center"
+            sortable
+          >
+            <template slot-scope="scope">
+              <span class="text-gray-500">{{ scope.row.volontaires_count|formatNumber }}</span>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="missions_available"
-            label="Missions dispos."
-            width="160"
+            label="Miss. dispos."
+            width="140"
             align="center"
             sortable
           >

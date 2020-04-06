@@ -31,7 +31,7 @@ class ParticipationController extends Controller
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))
-            ;
+        ;
     }
 
     public function export(Request $request)

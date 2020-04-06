@@ -301,7 +301,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
                     name: "Profiles",
                     meta: {
-                        roles: ["admin", "referent"]
+                        roles: ["admin", "referent", "referent_regional"]
                     }
                 },
                 {

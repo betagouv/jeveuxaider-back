@@ -9,11 +9,12 @@ class FiltersParticipationLieu implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
-        return $query
-            ->whereHas('mission', function (Builder $query) use ($value) {
+        return $query->where(function ($query) use ($value, $property) {
+            $query->whereHas('mission', function (Builder $query) use ($value) {
                 $query
                     ->where('city', 'LIKE', '%' . $value . '%')
                     ->orWhere('zip', 'LIKE', '%' . $value . '%');
             });
+        });
     }
 }
