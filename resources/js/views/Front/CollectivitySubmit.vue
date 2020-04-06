@@ -50,8 +50,8 @@
       </div>
     </div>
 
-    <div class="bg-blue-900">
-      <div class="container mx-auto pb-64 pt-16 px-4">
+    <div class="bg-blue-900 relative">
+      <div class="container mx-auto pb-48 pt-16 px-4">
         <div class="max-w-6xl mx-auto text-center">
           <h2
             class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
@@ -64,12 +64,12 @@
         <div class="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
           <div>
             <p class="mt-2 text-lg leading-8 font-medium text-indigo-200">Déjà plus de</p>
-            <p class="text-4xl leading-none font-extrabold text-white">100 000</p>
+            <p class="text-4xl leading-none font-extrabold text-white">250 000</p>
             <p class="mt-2 text-lg leading-6 font-medium text-indigo-200">volontaires déjà inscrits</p>
           </div>
           <div class="mt-10 sm:mt-0">
             <p class="mt-2 text-lg leading-8 font-medium text-indigo-200">Pas moins de</p>
-            <p class="text-4xl leading-none font-extrabold text-white">2 000</p>
+            <p class="text-4xl leading-none font-extrabold text-white">3 000</p>
             <p class="mt-2 text-lg leading-6 font-medium text-indigo-200">structures et associations</p>
           </div>
           <div class="mt-10 sm:mt-0">
@@ -86,127 +86,133 @@
         <div id="form">
           <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mx-auto z-10">
-              <div class="rounded-lg bg-white shadow-lg p-8 lg:px-20 lg:py-16">
+              <div class="rounded-lg bg-white shadow-lg p-8 lg:px-20 lg:py-16 relative -mt-32">
                 <div
                   class="text-base leading-6 font-semibold uppercase tracking-wider text-blue-800"
                 >Appel aux collectivités</div>
                 <h2
                   class="mt-2 text-black text-3xl leading-9 font-extrabold tracking-tight sm:text-4xl sm:leading-10"
                 >Je souhaite inscrire ma collectivité</h2>
-                <el-form ref="collectivityForm" :model="form" label-position="top" :rules="rules">
-                  <div>
-                    <div class="mt-8 border-t border-gray-200 pt-8">
-                      <div class="grid grid-cols-1 row-gap-6 col-gap-4 sm:grid-cols-6">
-                        <div class="col-span-6 sm:col-span-3">
-                          <el-form-item label="Nom de la collectivité" prop="name">
-                            <el-input v-model="form.name" placeholder="Nom de la collectivité" />
-                          </el-form-item>
-                        </div>
+                <template v-if="!submitted">
+                  <el-form ref="collectivityForm" :model="form" label-position="top" :rules="rules">
+                    <div>
+                      <div class="mt-8 border-t border-gray-200 pt-8">
+                        <div class="grid grid-cols-1 row-gap-6 col-gap-4 sm:grid-cols-6">
+                          <div class="col-span-6 sm:col-span-3">
+                            <el-form-item label="Nom de la collectivité" prop="name">
+                              <el-input v-model="form.name" placeholder="Nom de la collectivité" />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                          <el-form-item label="Type" prop="type">
-                            <el-select v-model="form.type" placeholder="Selectionner le type">
-                              <el-option
-                                v-for="item in $store.getters.taxonomies.collectivities_types.terms"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                              ></el-option>
-                            </el-select>
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-3">
+                            <el-form-item label="Type" prop="type">
+                              <el-select v-model="form.type" placeholder="Selectionner le type">
+                                <el-option
+                                  v-for="item in $store.getters.taxonomies.collectivities_types.terms"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value"
+                                ></el-option>
+                              </el-select>
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                          <el-form-item label="Nom du contact" prop="last_name">
-                            <el-input v-model="form.last_name" placeholder />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-3">
+                            <el-form-item label="Nom du contact" prop="last_name">
+                              <el-input v-model="form.last_name" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                          <el-form-item label="Prénom du contact" prop="first_name">
-                            <el-input v-model="form.first_name" placeholder />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-3">
+                            <el-form-item label="Prénom du contact" prop="first_name">
+                              <el-input v-model="form.first_name" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                          <el-form-item label="Email du contact" prop="email">
-                            <el-input v-model="form.email" placeholder />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-3">
+                            <el-form-item label="Email du contact" prop="email">
+                              <el-input v-model="form.email" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-3">
-                          <el-form-item label="Téléphone" prop="mobile">
-                            <el-input v-model="form.mobile" placeholder />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-3">
+                            <el-form-item label="Téléphone" prop="mobile">
+                              <el-input v-model="form.mobile" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-2">
-                          <el-form-item label="Page Instagram" prop="instagram">
-                            <el-input
-                              v-model="form.instagram"
-                              placeholder=""
-                            />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-2">
+                            <el-form-item label="Page Instagram" prop="instagram">
+                              <el-input v-model="form.instagram" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-2">
-                          <el-form-item label="Page Twitter" prop="twitter">
-                            <el-input v-model="form.twitter" placeholder />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-2">
+                            <el-form-item label="Page Twitter" prop="twitter">
+                              <el-input v-model="form.twitter" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-2">
-                          <el-form-item label="Page Facebook" prop="facebook">
-                            <el-input v-model="form.facebook" placeholder />
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-2">
+                            <el-form-item label="Page Facebook" prop="facebook">
+                              <el-input v-model="form.facebook" placeholder />
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-6">
-                          <el-form-item
-                            label="Quelques mots à propos de votre collectivité"
-                            prop="description"
-                            class="flex-1"
-                          >
-                            <el-input
-                              v-model="form.description"
-                              name="description"
-                              type="textarea"
-                              :autosize="{ minRows: 3, maxRows: 8 }"
-                              placeholder
-                            ></el-input>
-                          </el-form-item>
-                        </div>
+                          <div class="col-span-6 sm:col-span-6">
+                            <el-form-item
+                              label="Quelques mots à propos de votre collectivité"
+                              prop="description"
+                              class="flex-1"
+                            >
+                              <el-input
+                                v-model="form.description"
+                                name="description"
+                                type="textarea"
+                                :autosize="{ minRows: 3, maxRows: 8 }"
+                                placeholder
+                              ></el-input>
+                            </el-form-item>
+                          </div>
 
-                        <div class="col-span-6 sm:col-span-6">
-                          <el-form-item
-                            label="Quels sont les codes postaux concernés par votre collectivité ?"
-                            prop="description"
-                            class="flex-1"
-                          >
-                            <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
-                            <el-input
-                              v-model="form.zips"
-                              name="zips"
-                              type="textarea"
-                              :autosize="{ minRows: 3, maxRows: 10 }"
-                              placeholder="Codes postaux..."
-                            ></el-input>
-                          </el-form-item>
+                          <div class="col-span-6 sm:col-span-6">
+                            <el-form-item
+                              label="Quels sont les codes postaux concernés par votre collectivité ?"
+                              prop="zips"
+                              class="flex-1"
+                            >
+                              <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
+                              <el-input
+                                v-model="form.zips"
+                                name="zips"
+                                type="textarea"
+                                :autosize="{ minRows: 3, maxRows: 10 }"
+                                placeholder="Codes postaux..."
+                              ></el-input>
+                            </el-form-item>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  </el-form>
+                  <div class="mt-8">
+                    <span class="block w-full text-center rounded-full shadow-lg">
+                      <el-button
+                        @click="handleSubmit"
+                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-500 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                      >Proposer ma collectivité</el-button>
+                    </span>
+                    <div
+                      class="text-center mt-3 text-gray-500"
+                    >L'équipe de la Réserve Civique vous accompagne tout au long de votre inscription</div>
                   </div>
-                </el-form>
-                <div class="mt-8">
-                  <span class="block w-full text-center rounded-full shadow-lg">
-                    <el-button
-                      class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-500 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
-                    >Proposer ma collectivité</el-button>
-                  </span>
-                  <div
-                    class="text-center mt-3 text-gray-500"
-                  >L'équipe de la Réserve Civique vous accompagne tout au long de votre inscription</div>
-                </div>
+                </template>
+                <template v-else>
+                  <div class="text-center mt-8 border-t border-gray-200 pt-8">
+                    Votre demande d'inscription de collectivité a bien été prise en compte.
+                    <br />Nous allons traiter votre demande dans les plus brefs délais et vous serez notifié de l'évolution du dossier.
+                  </div>
+                </template>
               </div>
             </div>
           </div>
@@ -227,6 +233,7 @@ export default {
   data() {
     return {
       loading: false,
+      submitted: false,
       form: {}
     };
   },
@@ -287,14 +294,14 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    handleSubmit() {
       this.loading = true;
       this.$refs["collectivityForm"].validate(valid => {
         if (valid) {
           submitCollectivity(this.form)
             .then(() => {
               this.loading = false;
-              this.$router.go(-1);
+              this.submitted = true;
               this.$message({
                 message:
                   "Votre collectivité a été enregistrée et est en attente de validation !",
