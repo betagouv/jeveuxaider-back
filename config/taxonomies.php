@@ -351,7 +351,7 @@ return [
             "25" => "Doubs",
             "26" => "Drôme",
             "27" => "Eure",
-            "28" => "Eure-et-Loire",
+            "28" => "Eure-et-Loir",
             "29" => "Finistère",
             "2A" => "Corse-du-Sud",
             "2B" => "Haute-Corse",

@@ -68,15 +68,7 @@
           name="role"
           label="Rôle"
           :value="query['filter[role]']"
-          :options="[
-            { label: 'Modérateur', value: 'admin' },
-            { label: 'Superviseur', value: 'superviseur' },
-            { label: 'Analyste', value: 'analyste' },
-            { label: 'Référent départemental', value: 'referent' },
-            { label: 'Référent régional', value: 'referent_regional' },
-            { label: 'Responsable', value: 'responsable' },
-            { label: 'Volontaire', value: 'volontaire' },
-          ]"
+          :options="rolesList"
           @changed="onFilterChange"
         />
         <query-filter
@@ -220,6 +212,27 @@ export default {
       tableData: [],
       totalRows: 0
     };
+  },
+  computed: {
+    rolesList(){
+      console.log(this.$store.getters.contextRole)
+      if(this.$store.getters.contextRole == 'admin' || this.$store.getters.contextRole == 'analyste') {
+        return [
+            { label: 'Modérateur', value: 'admin' },
+            { label: 'Superviseur', value: 'superviseur' },
+            { label: 'Analyste', value: 'analyste' },
+            { label: 'Référent départemental', value: 'referent' },
+            { label: 'Référent régional', value: 'referent_regional' },
+            { label: 'Responsable', value: 'responsable' },
+            { label: 'Volontaire', value: 'volontaire' },
+          ]
+      } else {
+        return [
+            { label: 'Responsable', value: 'responsable' },
+            { label: 'Volontaire', value: 'volontaire' },
+          ]
+      }
+    }
   },
   beforeRouteUpdate(to, from, next) {
     this.query = { ...to.query };
