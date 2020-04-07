@@ -166,6 +166,18 @@ class Profile extends Model implements HasMedia
 
     public function scopeDepartment($query, $value)
     {
+        if ($value == '2A') {
+            return $query
+                ->where('zip', 'LIKE', '200%')
+                ->orWhere('zip', 'LIKE', '201%');
+        }
+
+        if ($value == '2B') {
+            return $query
+                ->where('zip', 'LIKE', '202%')
+                ->orWhere('zip', 'LIKE', '206%');
+        }
+
         return $query->where('zip', 'LIKE', $value . '%');
     }
 
