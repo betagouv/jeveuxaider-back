@@ -95,21 +95,12 @@ class StatisticsController extends Controller
         $departements = config('taxonomies.departments.terms');
         $datas = collect();
 
-        $missionsAvailableCollection = Mission::role($request->header('Context-Role'))
+        $missionsCollection = Mission::role($request->header('Context-Role'))
             ->without(['structure', 'tuteur'])
             ->available()
             ->hasPlacesLeft()
             ->get();
-        
-        $volontairesCollection = Profile::role($request->header('Context-Role'))
-            ->whereHas('user', function (Builder $query) {
-                $query->where('context_role', 'volontaire');
-            })
-            ->get();
-        
-        $missionsCollection = Mission::role($request->header('Context-Role'))->without(['structure', 'tuteur'])->get();
-        $structuresCollection = Structure::role($request->header('Context-Role'))->without(['members'])->get();
-        
+
         // Filter department based on user
         if ($request->header('Context-Role') == 'referent') {
             $referentDepartement = Auth::guard('api')->user()->profile->referent_department;
@@ -129,41 +120,34 @@ class StatisticsController extends Controller
         }
 
         foreach ($departements as $key => $value) {
-            $missionsAvailableByDepCollection = $missionsAvailableCollection->filter(function ($item) use ($key) {
+            $departmentCollection = $missionsCollection->filter(function ($item) use ($key) {
                 return $item->department == $key;
-            });
-
-            $missionsByDepCollection = $missionsCollection->filter(function ($item) use ($key) {
-                return $item->department == $key;
-            });
-
-            $structuresByDepCollection = $structuresCollection->filter(function ($item) use ($key) {
-                return $item->department == $key;
-            });
-
-            $volontairesByDepCollection = $volontairesCollection->filter(function ($item) use ($key) {
-                return substr($item->zip, 0, 2) == $key;
             });
 
             $datas->push([
                 'key' => $key,
                 'name' => $value,
-                'missions_count' => $missionsByDepCollection->count(),
-                'structures_count' => $structuresByDepCollection->count(),
-                'participations_count' => Participation::role($request->header('Context-Role'))->without(['profile'])->department($key)->count(),
-                'volontaires_count' => $volontairesByDepCollection->count(),
-                'missions_available' => $missionsAvailableByDepCollection->count(),
-                'places_available' => $missionsAvailableByDepCollection->mapWithKeys(function ($item) {
+                'missions_count' => Mission::role($request->header('Context-Role'))->department($key)->count(),
+                'structures_count' => Structure::role($request->header('Context-Role'))->department($key)->count(),
+                'participations_count' => Participation::role($request->header('Context-Role'))->department($key)->count(),
+                'volontaires_count' => Profile::role($request->header('Context-Role'))
+                    ->department($key)
+                    ->whereHas('user', function (Builder $query) {
+                        $query->where('context_role', 'volontaire');
+                    })
+                    ->count(),
+                'missions_available' => $departmentCollection->count(),
+                'places_available' => $departmentCollection->mapWithKeys(function ($item) {
                     return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];
                 })->sum(),
             ]);
         }
 
         return [
-            'total_places_available' => $missionsAvailableCollection->mapWithKeys(function ($item) {
+            'total_places_available' => $missionsCollection->mapWithKeys(function ($item) {
                 return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];
             })->sum(),
-            'total_missions_available' => $missionsAvailableCollection->count(),
+            'total_missions_available' => $missionsCollection->count(),
             'departments' => $datas
         ];
     }
