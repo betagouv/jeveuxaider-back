@@ -5,12 +5,22 @@
         <div class="max-w-xs">
           <div class="mb-8">
             <router-link to="/">
+            <div class="border-b border-gray-200 pb-6 mb-6">
+              <img
+                class="mx-auto lg:mx-0"
+                src="/images/logo-reserve-civique.png"
+                alt=""
+                style="max-width: 270px; height: auto;"
+              />
+            </div>
+            <div>
               <img
                 class="mx-auto lg:mx-0"
                 src="/images/logo-footer.png"
                 alt=""
                 style="height:200px;"
               />
+            </div>
             </router-link>
           </div>
           <div
