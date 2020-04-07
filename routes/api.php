@@ -19,7 +19,6 @@ Route::post('register/invitation', 'Api\PassportController@registerInvitation');
 Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
-Route::get('releases', 'Api\ReleaseController@index');
 Route::get('faqs', 'Api\FaqController@index');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
@@ -82,6 +81,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');
 
+    // RELEASES
+    Route::get('releases', 'Api\ReleaseController@index');
 
     // STATISTICS
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
@@ -110,9 +111,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('faq/{faq}', 'Api\FaqController@delete');
 
     // RELEASES
-    // Route::get('release/{release}', 'Api\ReleaseController@show');
-    // Route::post('release/{release}', 'Api\ReleaseController@update');
-    // Route::delete('release/{release}', 'Api\ReleaseController@delete');
+    Route::post('release', 'Api\ReleaseController@store');
+    Route::post('release/{release}', 'Api\ReleaseController@update');
+    Route::get('release/{release}', 'Api\ReleaseController@show');
+    Route::delete('release/{release}', 'Api\ReleaseController@delete');
 
     // IMPERSONNATE
     Route::post('impersonate/{user}', 'Api\UserController@impersonate');

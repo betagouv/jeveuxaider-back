@@ -385,6 +385,46 @@ export default new Router({
                         roles: ["admin"]
                     }
                 },
+                {
+                    path: "/dashboard/news",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-news" */ "@/views/SNU/News.vue"),
+                    name: "News",
+                    meta: {
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
+                    }
+                },
+                {
+                    path: "/dashboard/releases",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-releases" */ "@/views/SNU/Releases.vue"),
+                    name: "Releases",
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/release/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-release-add" */ "@/views/SNU/ReleaseForm.vue"
+                        ),
+                    name: "ReleaseFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/release/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-release-edit" */ "@/views/SNU/ReleaseForm.vue"),
+                    name: "ReleaseFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
             ]
         },
         {

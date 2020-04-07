@@ -43,7 +43,7 @@
         :is-collapsed="isCollapsed"
       />
     </el-menu>
-    
+
     <div class="px-5">
       <hr />
     </div>
@@ -58,19 +58,19 @@
         @click="handleCollapse"
       ></el-button>
     </div>
-    
-    
 
-    <router-link to="/">
-      <div
-        v-if="!isCollapsed"
-        class="absolute bottom-0 p-6 pb-10 flex justify-center mb-4"
-        style="width: 220px;"
-      >
-      
+    <div
+      v-if="!isCollapsed"
+      class="absolute bottom-0 p-6 pb-10 flex flex-col justify-center items-center mb-4"
+      style="width: 220px;"
+    >
+      <router-link to="/">
         <img src="/images/logo-header-dark.png" />
-      </div>
-    </router-link>
+      </router-link>
+      <router-link to="/dashboard/news">
+        <div class="text-xs text-gray-600 py-2">Nouveautés</div>
+      </router-link>
+    </div>
   </el-aside>
 </template>
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Filters\FiltersFaqSearch;
+use App\Filters\FiltersTitleBodySearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\FaqCreateRequest;
@@ -19,15 +19,10 @@ class FaqController extends Controller
 
         return QueryBuilder::for(Faq::class)
             ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersFaqSearch),
+                AllowedFilter::custom('search', new FiltersTitleBodySearch),
             )
             ->defaultSort('-weight')
             ->paginate($paginate);
-    }
-
-    public function indexFront(Request $request)
-    {
-        return Faq::orderBy('weight', 'DESC')->get();
     }
 
     public function store(FaqCreateRequest $request)
