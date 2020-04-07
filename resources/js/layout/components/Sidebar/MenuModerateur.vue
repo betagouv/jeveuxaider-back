@@ -65,7 +65,7 @@
         <i class="el-icon-user"></i>
       </el-tooltip>
     </el-menu-item>
-     <el-menu-item index="/dashboard/faqs">
+    <el-menu-item index="/dashboard/faqs">
       <span v-if="!isCollapsed">FAQ</span>
       <el-tooltip
         v-else
@@ -78,9 +78,20 @@
         <i class="el-icon-help"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item v-if="!isCollapsed">
-      <a href="tel:0184800189">Aide:&nbsp;01 84 80 01 89&nbsp;</a>
+    <el-menu-item index="/dashboard/releases">
+      <span v-if="!isCollapsed">Releases</span>
+      <el-tooltip
+        v-else
+        class="item"
+        :open-delay="500"
+        effect="dark"
+        content="Releases"
+        placement="right"
+      >
+        <i class="el-icon-bell"></i>
+      </el-tooltip>
     </el-menu-item>
+
   </div>
 </template>
 
