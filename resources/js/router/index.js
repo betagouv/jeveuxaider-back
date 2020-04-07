@@ -389,7 +389,7 @@ export default new Router({
                     path: "/dashboard/news",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-news" */ "@/views/SNU/News.vue"),
-                    name: "Releases",
+                    name: "News",
                     meta: {
                         roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
