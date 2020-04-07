@@ -109,7 +109,6 @@ class StatisticsController extends Controller
         
         $missionsCollection = Mission::role($request->header('Context-Role'))->without(['structure', 'tuteur'])->get();
         $structuresCollection = Structure::role($request->header('Context-Role'))->without(['members'])->get();
-        $participationsCollection = Participation::role($request->header('Context-Role'))->without(['profile'])->get();
         
         // Filter department based on user
         if ($request->header('Context-Role') == 'referent') {
@@ -142,10 +141,6 @@ class StatisticsController extends Controller
                 return $item->department == $key;
             });
 
-            $participationsByDepCollection = $participationsCollection->filter(function ($item) use ($key) {
-                return $item->mission && $item->mission->department == $key;
-            });
-
             $volontairesByDepCollection = $volontairesCollection->filter(function ($item) use ($key) {
                 return substr($item->zip, 0, 2) == $key;
             });
@@ -155,7 +150,7 @@ class StatisticsController extends Controller
                 'name' => $value,
                 'missions_count' => $missionsByDepCollection->count(),
                 'structures_count' => $structuresByDepCollection->count(),
-                'participations_count' => $participationsByDepCollection->count(),
+                'participations_count' => Participation::role($request->header('Context-Role'))->without(['profile'])->department($key)->count(),
                 'volontaires_count' => $volontairesByDepCollection->count(),
                 'missions_available' => $missionsAvailableByDepCollection->count(),
                 'places_available' => $missionsAvailableByDepCollection->mapWithKeys(function ($item) {
