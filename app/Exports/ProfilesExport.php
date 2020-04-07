@@ -32,7 +32,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 'referent_department'
             )
-            ->defaultSort('-created_at')
+            ->defaultSort('-id')
             ->get();
     }
 
@@ -40,17 +40,17 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             'id',
-            'full_name',
-            'first_name',
-            'last_name',
-            'email',
-            'phone',
-            'mobile',
-            'avatar',
-            'referent_department',
-            'referent_region',
-            'reseau_id',
-            'service_civique',
+            // 'full_name',
+            // 'first_name',
+            // 'last_name',
+            // 'email',
+            // 'phone',
+            // 'mobile',
+            // 'avatar',
+            // 'referent_department',
+            // 'referent_region',
+            // 'reseau_id',
+            // 'service_civique',
             'created_at',
             'updated_at',
         ];
@@ -60,17 +60,17 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $profile->id,
-            $profile->full_name,
-            $profile->first_name,
-            $profile->last_name,
-            $profile->email,
-            $profile->phone,
-            $profile->mobile,
-            $profile->avatar,
-            $profile->referent_department,
-            $profile->referent_region,
-            $profile->reseau_id,
-            $profile->service_civique,
+            // $profile->full_name,
+            // $profile->first_name,
+            // $profile->last_name,
+            // $profile->email,
+            // $profile->phone,
+            // $profile->mobile,
+            // $profile->avatar,
+            // $profile->referent_department,
+            // $profile->referent_region,
+            // $profile->reseau_id,
+            // $profile->service_civique,
             $profile->created_at,
             $profile->updated_at,
         ];
