@@ -68,21 +68,21 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
          ? true : false;
 
         return [
-            'id' => $participation->id,
-            'mission_id' => $participation->mission_id,
-            'mission_name' => $participation->mission ? $participation->mission->name : '',
-            'responsable_name' => $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->full_name : '',
-            'responsable_email' => $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->email : '',
-            'profile_id' => $participation->profile_id,
-            'first_name' => $participation->profile && !$hidden ? $participation->profile->first_name : '',
-            'last_name' => $participation->profile && !$hidden ? $participation->profile->last_name : '',
-            'mobile' => $participation->profile && !$hidden ? $participation->profile->mobile : '',
-            'email' => $participation->profile && !$hidden ? $participation->profile->email : '',
-            'zip' => $participation->profile && !$hidden ? $participation->profile->zip : '',
-            'birthday' => $participation->profile && !$hidden ? $participation->profile->birthday : '',
-            'state' => $participation->state,
-            'created_at' => $participation->created_at,
-            'updated_at' => $participation->updated_at
+            $participation->id,
+            $participation->mission_id,
+            $participation->mission ? $participation->mission->name : '',
+            $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->full_name : '',
+            $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->email : '',
+            $participation->profile_id,
+            $participation->profile && !$hidden ? $participation->profile->first_name : '',
+            $participation->profile && !$hidden ? $participation->profile->last_name : '',
+            $participation->profile && !$hidden ? $participation->profile->mobile : '',
+            $participation->profile && !$hidden ? $participation->profile->email : '',
+            $participation->profile && !$hidden ? $participation->profile->zip : '',
+            $participation->profile && !$hidden ? $participation->profile->birthday : '',
+            $participation->state,
+            $participation->created_at,
+            $participation->updated_at
         ];
     }
 }

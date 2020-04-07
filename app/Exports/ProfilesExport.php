@@ -50,43 +50,29 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'referent_department',
             'referent_region',
             'reseau_id',
-            // 'admin',
-            // 'referent',
-            // 'superviseur',
-            // 'responsable',
-            // 'analyste',
+            'service_civique',
             'created_at',
             'updated_at',
-            // 'structures',
-            // 'registered',
-            // 'volontaire'
         ];
     }
 
     public function map($profile): array
     {
         return [
-            'id' => $profile->id,
-            'full_name' => $profile->full_name,
-            'first_name' => $profile->first_name,
-            'last_name' => $profile->last_name,
-            'email' => $profile->email,
-            'phone' => $profile->phone,
-            'mobile' => $profile->mobile,
-            'avatar' => $profile->avatar,
-            'referent_department' => $profile->referent_department,
-            'referent_region' => $profile->referent_region,
-            'reseau_id' => $profile->reseau_id,
-            // 'admin' => $profile->isAdmin(),
-            // 'referent' => $profile->isReferent(),
-            // 'superviseur' => $profile->isSuperviseur(),
-            // 'responsable' => $profile->isResponsable(),
-            // 'analyste' => $profile->is_analyste,
-            'created_at' => $profile->created_at,
-            'updated_at' => $profile->updated_at,
-            // 'structures' => $profile->structures ? $profile->structures->pluck('name')->implode(', ') : '',
-            // 'registered' => $profile->has_user ? true : false,
-            // 'volontaire' => $profile->volontaire,
+            $profile->id,
+            $profile->full_name,
+            $profile->first_name,
+            $profile->last_name,
+            $profile->email,
+            $profile->phone,
+            $profile->mobile,
+            $profile->avatar,
+            $profile->referent_department,
+            $profile->referent_region,
+            $profile->reseau_id,
+            $profile->service_civique,
+            $profile->created_at,
+            $profile->updated_at,
         ];
     }
 }
