@@ -46,6 +46,10 @@ class StatisticsController extends Controller
                         ->whereHas('user', function (Builder $query) {
                             $query->where('context_role', 'volontaire');
                         })->count(),
+                    'service_civique' => Profile::role($request->header('Context-Role'))
+                        ->whereHas('user', function (Builder $query) {
+                            $query->where('service_civique', true);
+                        })->count(),
                     'responsable' => Profile::role($request->header('Context-Role'))->whereHas('missions')->orWhereHas('structures')->count(),
                     'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
                     'referent_regional' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_region')->count(),
@@ -57,7 +61,7 @@ class StatisticsController extends Controller
                     'invited' => Profile::role($request->header('Context-Role'))->doesntHave('user')->count(),
                 ];
 
-            break;
+                break;
             case 'referent':
             case 'referent_regional':
             case 'superviseur':
@@ -71,8 +75,12 @@ class StatisticsController extends Controller
                     'total' => $total,
                     'volontaire' => $volontaire,
                     'responsable' => $total - $volontaire,
+                    'service_civique' => Profile::role($request->header('Context-Role'))
+                        ->whereHas('user', function (Builder $query) {
+                            $query->where('service_civique', true);
+                        })->count(),
                 ];
-            break;
+                break;
         }
     }
 
@@ -136,6 +144,11 @@ class StatisticsController extends Controller
                         $query->where('context_role', 'volontaire');
                     })
                     ->count(),
+                'service_civique_count' => Profile::role($request->header('Context-Role'))
+                    ->department($key)
+                    ->whereHas('user', function (Builder $query) {
+                        $query->where('service_civique', true);
+                    })->count(),
                 'missions_available' => $departmentCollection->count(),
                 'places_available' => $departmentCollection->mapWithKeys(function ($item) {
                     return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];

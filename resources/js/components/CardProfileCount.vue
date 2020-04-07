@@ -21,6 +21,10 @@
             <div class="text-gray-500 text-sm">Responsables</div>
             <div class="">{{ data.responsable|formatNumber }}</div>
           </div>
+          <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Service civique</div>
+              <div class="">{{ data.service_civique|formatNumber }}</div>
+            </div>
           <template v-if="$store.getters.contextRole == 'admin' || $store.getters.contextRole == 'analyste'">
             <div class="mr-6 mt-6">
               <div class="text-gray-500 text-sm">Départementaux</div>

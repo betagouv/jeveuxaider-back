@@ -14,7 +14,7 @@
           </div>
         </div>
         <el-table :data="data.departments" style="width: 100%" @row-click="onClickedRow">
-          <el-table-column prop="key" label="#" width="80">
+          <el-table-column prop="key" label="#" width="50">
             <template slot-scope="scope">
               <span>{{ scope.row.key }}</span>
             </template>
@@ -29,7 +29,7 @@
               <span class="text-gray-500">{{ scope.row.structures_count|formatNumber }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="missions_count" label="Miss." width="100" align="center" sortable>
+          <el-table-column prop="missions_count" label="Miss." width="90" align="center" sortable>
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.missions_count|formatNumber }}</span>
             </template>
@@ -45,7 +45,7 @@
               <span class="text-gray-500">{{ scope.row.participations_count|formatNumber }}</span>
             </template>
           </el-table-column>
-           <el-table-column
+          <el-table-column
             prop="volontaires_count"
             label="Volon."
             width="100"
@@ -54,6 +54,17 @@
           >
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.volontaires_count|formatNumber }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="service_civique_count"
+            label="Volon. SC"
+            width="120"
+            align="center"
+            sortable
+          >
+            <template slot-scope="scope">
+              <span class="text-gray-500">{{ scope.row.service_civique_count|formatNumber }}</span>
             </template>
           </el-table-column>
           <el-table-column
