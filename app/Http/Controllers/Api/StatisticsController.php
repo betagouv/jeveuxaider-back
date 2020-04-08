@@ -95,6 +95,7 @@ class StatisticsController extends Controller
             'canceled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission annulée'])->count(),
             'signaled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission signalée'])->count(),
             'abandoned' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission abandonnée'])->count(),
+            'declined' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Participation déclinée'])->count(),
         ];
     }
 

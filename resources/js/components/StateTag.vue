@@ -67,6 +67,14 @@
       Mission refusée
     </el-tag>
     <el-tag
+      v-if="state == 'Participation déclinée'"
+      type="info"
+      :size="size"
+      class="m-1"
+    >
+      Participation déclinée
+    </el-tag>
+    <el-tag
       v-if="state == 'Mission annulée'"
       type="info"
       :size="size"

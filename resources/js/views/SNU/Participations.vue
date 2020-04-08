@@ -128,11 +128,6 @@
       <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">{{ scope.row.created_at | fromNow }}</template>
       </el-table-column>
-      <el-table-column v-if="!$store.getters['volet/active']" label="Actions" width="165">
-        <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini" class="m-1">Modifier</el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <div class="m-3 flex items-center">
       <el-pagination

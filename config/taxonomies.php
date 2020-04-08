@@ -490,10 +490,10 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
+            "Participation déclinée" => "Participation déclinée",
             "Mission validée" => "Mission validée",
             "Mission en cours" => "Mission en cours",
             "Mission effectuée" => "Mission effectuée",
-            //"Mission refusée" => "Mission refusée",
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",
             "Mission signalée" => "Mission signalée",
