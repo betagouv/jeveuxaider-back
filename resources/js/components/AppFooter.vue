@@ -10,7 +10,7 @@
                 class="mx-auto lg:mx-0"
                 src="/images/logo-reserve-civique.png"
                 alt=""
-                style="max-width: 270px; height: auto;"
+                style="max-width: 220px; height: auto;"
               />
             </div>
             <div>

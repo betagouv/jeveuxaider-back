@@ -65,33 +65,19 @@
         <i class="el-icon-user"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/faqs">
-      <span v-if="!isCollapsed">FAQ</span>
+    <el-menu-item index="/dashboard/contents">
+      <span v-if="!isCollapsed">Contenus</span>
       <el-tooltip
         v-else
         class="item"
         :open-delay="500"
         effect="dark"
-        content="FAQ"
+        content="Contenus"
         placement="right"
       >
         <i class="el-icon-help"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/releases">
-      <span v-if="!isCollapsed">Releases</span>
-      <el-tooltip
-        v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Releases"
-        placement="right"
-      >
-        <i class="el-icon-bell"></i>
-      </el-tooltip>
-    </el-menu-item>
-
   </div>
 </template>
 

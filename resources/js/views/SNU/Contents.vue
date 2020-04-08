@@ -1,15 +1,31 @@
 <template>
-  <div class="profiles has-full-table">
+  <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">FAQ</div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus</div>
       </div>
       <div class>
-        <router-link :to="{ name: 'FaqFormAdd' }">
-          <el-button type="primary" icon="el-icon-plus">Nouvelle question</el-button>
-        </router-link>
+        <el-dropdown>
+          <el-button type="primary">
+            <i class="el-icon-plus mr-1"></i> Ajouter un contenu
+          </el-button>
+          <el-dropdown-menu type="primary">
+            <router-link :to="{ name: 'FaqFormAdd' }">
+              <el-dropdown-item>Nouvelle FAQ</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ name: 'ReleaseFormAdd' }">
+              <el-dropdown-item>Nouvelle release</el-dropdown-item>
+            </router-link>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
+    </div>
+    <div class="px-12 mb-6 -mt-6">
+      <el-radio-group v-model="type" @change="handleChangeType">
+        <el-radio-button label="Faqs"></el-radio-button>
+        <el-radio-button label="Releases"></el-radio-button>
+      </el-radio-group>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -22,9 +38,14 @@
       </div>
     </div>
     <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
-      <el-table-column label="Ordre" min-width="70" align="center">
+      <el-table-column v-if="type == 'Faqs'" label="Ordre" min-width="70" align="center">
         <template slot-scope="scope">
           <el-avatar class="bg-primary">{{ scope.row.weight }}</el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column v-else label="ID" min-width="70" align="center">
+        <template slot-scope="scope">
+          <el-avatar class="bg-primary">{{ scope.row.id }}</el-avatar>
         </template>
       </el-table-column>
       <el-table-column label="Titre" min-width="320">
@@ -41,9 +62,13 @@
             size="small"
             split-button
             trigger="click"
-            @click="
+            @click=" type == 'Faqs' ?
               $router.push({
                 name: 'FaqFormEdit',
+                params: { id: scope.row.id }
+              })
+              : $router.push({
+                name: 'ReleaseFormEdit',
                 params: { id: scope.row.id }
               })
             "
@@ -74,12 +99,13 @@
 </template>
 
 <script>
+import { fetchReleases, deleteRelease } from "@/api/app";
 import { fetchFaqs, deleteFaq } from "@/api/app";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 
 export default {
-  name: "Faqs",
+  name: "Contents",
   components: {
     QueryMainSearchFilter
   },
@@ -87,18 +113,35 @@ export default {
   data() {
     return {
       loading: true,
+      type: "Faqs",
       tableData: [],
       totalRows: 0
     };
   },
   beforeRouteUpdate(to, from, next) {
     this.query = { ...to.query };
+    this.type = this.$route.query.type ? this.$route.query.type : 'Faqs'
     this.fetchDatas();
     next();
   },
+  created(){
+    this.type = this.$route.query.type ? this.$route.query.type : 'Faqs'
+    this.query = { ...this.$router.history.current.query };
+    this.tableData = this.fetchDatas();
+    this.showFilters = this.activeFilters > 0 ? true : false;
+  },
   methods: {
+    handleChangeType() {
+      this.query.type = this.type;
+      this.query.page = 1;
+      this.fetchDatas();
+    },
     fetchRows() {
-      return fetchFaqs(this.query);
+      if (this.type == "Faqs") {
+        return fetchFaqs(this.query);
+      } else {
+        return fetchReleases(this.query);
+      }
     },
     handleCommand(command) {
       if (command.action == "delete") {
@@ -109,8 +152,8 @@ export default {
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette question ?`,
-        "Supprimer la question",
+        `Êtes vous sur de vouloir supprimer cet item ?`,
+        "Supprimer la release",
         {
           confirmButtonText: "Supprimer",
           confirmButtonClass: "el-button--danger",
@@ -119,13 +162,23 @@ export default {
           type: "error"
         }
       ).then(() => {
-        deleteFaq(id).then(() => {
-          this.$message({
-            type: "success",
-            message: `La question a été supprimée.`
+        if (this.type == "Faqs") {
+          deleteFaq(id).then(() => {
+            this.$message({
+              type: "success",
+              message: `La question a été supprimée.`
+            });
+            this.fetchDatas();
           });
-          this.fetchDatas();
-        });
+        } else {
+          deleteRelease(id).then(() => {
+            this.$message({
+              type: "success",
+              message: `La release a été supprimée.`
+            });
+            this.fetchDatas();
+          });
+        }
       });
     }
   }

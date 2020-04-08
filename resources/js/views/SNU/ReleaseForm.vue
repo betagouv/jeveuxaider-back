@@ -58,9 +58,7 @@ export default {
   data() {
     return {
       loading: false,
-      form: {
-        weight: 1
-      },
+      form: {},
       editor: ClassicEditor,
       editorConfig: {
         toolbar: ["bold", "italic", "|", "link", "bulletedList", "numberedList"]

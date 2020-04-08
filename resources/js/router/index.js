@@ -355,15 +355,6 @@ export default new Router({
                     }
                 },
                 {
-                    path: "/dashboard/faqs",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-faqs" */ "@/views/SNU/Faqs.vue"),
-                    name: "Faqs",
-                    meta: {
-                        roles: ["admin"]
-                    }
-                },
-                {
                     path: "/dashboard/faq/add",
                     component: () =>
                         import(
@@ -395,10 +386,10 @@ export default new Router({
                     }
                 },
                 {
-                    path: "/dashboard/releases",
+                    path: "/dashboard/contents",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-releases" */ "@/views/SNU/Releases.vue"),
-                    name: "Releases",
+                        import(/* webpackChunkName: "assets/js/dashboard-contents" */ "@/views/SNU/Contents.vue"),
+                    name: "Contents",
                     meta: {
                         roles: ["admin"]
                     }
