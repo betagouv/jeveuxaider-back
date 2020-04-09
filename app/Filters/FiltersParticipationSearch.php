@@ -13,16 +13,16 @@ class FiltersParticipationSearch implements Filter
             ->where(function ($query) use ($value, $property) {
                 $query->whereHas('mission', function (Builder $query) use ($value) {
                     $query
-                        ->where('name', 'LIKE', '%' . $value . '%')
+                        ->where('name', 'ILIKE', '%' . $value . '%')
                         ->orWhereHas('structure', function (Builder $query) use ($value) {
-                            $query->where('name', 'LIKE', '%' . $value . '%');
+                            $query->where('name', 'ILIKE', '%' . $value . '%');
                         });
                 })
                 ->orWhereHas('profile', function (Builder $query) use ($value) {
                     $query
-                        ->where('first_name', 'LIKE', '%' . $value . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . $value . '%')
-                        ->orWhere('email', 'LIKE', '%' . $value . '%');
+                        ->where('first_name', 'ILIKE', '%' . $value . '%')
+                        ->orWhere('last_name', 'ILIKE', '%' . $value . '%')
+                        ->orWhere('email', 'ILIKE', '%' . $value . '%');
                 });
             })
         ;

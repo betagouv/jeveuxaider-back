@@ -11,8 +11,8 @@ class FiltersTitleBodySearch implements Filter
     {
         return $query->where(function ($query) use ($value, $property) {
             $query
-                ->where('title', 'LIKE', '%' . $value . '%')
-                ->orWhere('description', 'LIKE', '%' . $value . '%');
+                ->where('title', 'ILIKE', '%' . $value . '%')
+                ->orWhere('description', 'ILIKE', '%' . $value . '%');
         })
         ;
     }

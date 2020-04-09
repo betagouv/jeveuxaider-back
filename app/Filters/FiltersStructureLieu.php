@@ -12,7 +12,7 @@ class FiltersStructureLieu implements Filter
         return
             $query->where(function ($query) use ($value, $property) {
                 $query
-                    ->where('city', 'LIKE', '%' . $value . '%')
+                    ->where('city', 'ILIKE', '%' . $value . '%')
                     ->orWhere('zip', 'LIKE', '%' . $value . '%');
             });
     }

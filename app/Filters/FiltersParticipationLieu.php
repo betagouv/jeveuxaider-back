@@ -12,7 +12,7 @@ class FiltersParticipationLieu implements Filter
         return $query->where(function ($query) use ($value, $property) {
             $query->whereHas('mission', function (Builder $query) use ($value) {
                 $query
-                    ->where('city', 'LIKE', '%' . $value . '%')
+                    ->where('city', 'ILIKE', '%' . $value . '%')
                     ->orWhere('zip', 'LIKE', '%' . $value . '%');
             });
         });
