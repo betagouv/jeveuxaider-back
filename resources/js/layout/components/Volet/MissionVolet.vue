@@ -12,7 +12,7 @@
             />
             <el-avatar v-else class="bg-primary">{{ row.structure.name[0] }}</el-avatar>
           </div>
-          <div class="font-bold text-lg text-center my-3 flex">{{ row.name|labelFromValue('mission_domaines') }}</div>
+          <div class="font-bold text-lg text-center my-3 flex">{{ row.name }}</div>
           <div class="flex items-center">
             <router-link
               :to="{

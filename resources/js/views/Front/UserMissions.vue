@@ -56,7 +56,7 @@
                   >
                     <div class="col-span-2 lg:col-span-1 mb-4 md:mb-0">
                       <div class="font-semibold text-blue-800 truncate">
-                        {{ participation.mission.name|labelFromValue('mission_domaines') }}
+                        {{ participation.mission.name }}
                       </div>
                       <div
                         class="mt-1 flex items-center text-sm ext-gray-900 font-semibold"
