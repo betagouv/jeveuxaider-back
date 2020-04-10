@@ -45,9 +45,16 @@ class ParticipationController extends Controller
             return $request->validated();
         }
 
+        $participationCount = Participation::where('profile_id', request("profile_id"))
+            ->where('mission_id', request("mission_id"))->count();
+
+        if ($participationCount > 0) {
+            abort(402, "Désolé, vous avez déjà participé à cette mission !");
+        }
+
         $mission = Mission::find(request("mission_id"));
 
-        if ($mission && $mission->hasPlacesLeft) {
+        if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
             return $participation;
         }
