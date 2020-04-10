@@ -76,11 +76,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::post('participations/mass-validation', 'Api\ParticipationController@massValidation');
 
     // EXPORT
+    /*
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');
-
+    */
     // RELEASES
     Route::get('releases', 'Api\ReleaseController@index');
 
