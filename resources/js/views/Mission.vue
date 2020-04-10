@@ -146,22 +146,6 @@
                 >
                   <SolidariteDeProximite />
                 </div>
-                <div
-                  v-if="
-                    mission.name ==
-                      'soutien_aux_personnes_agees_en_etablissement'
-                  "
-                >
-                  <SoutienPersonnesAgeesEtablissement />
-                </div>
-                <div
-                  v-if="
-                    mission.name ==
-                      'soutien_scolaire_a_distance'
-                  "
-                >
-                  <SoutienScolaireDistance />
-                </div>
               </div>
 
               <div class="mt-16">
@@ -485,8 +469,6 @@ import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence
 import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
 import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
-import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
-import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
 
 export default {
   name: "Mission",
@@ -494,9 +476,7 @@ export default {
     AideAlimentaireUrgence,
     GardeExceptionnelleEnfants,
     LienPersonnesFragilesIsolees,
-    SolidariteDeProximite,
-    SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance
+    SolidariteDeProximite
   },
   props: {
     id: {
@@ -582,10 +562,6 @@ export default {
           return "/images/phone-handle.svg";
         case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
           return "/images/basket.svg";
-        case "soutien_aux_personnes_agees_en_etablissement":
-          return "/images/ehpad.svg";
-        case "soutien_scolaire_a_distance":
-          return "/images/ecole.svg";
       }
     }
   }

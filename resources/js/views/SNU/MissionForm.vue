@@ -373,24 +373,6 @@
         >
           <SolidariteDeProximite />
         </div>
-        <div
-          v-if="
-            form.name ==
-              'soutien_aux_personnes_agees_en_etablissement'
-          "
-          class="border rounded p-8"
-        >
-          <SoutienPersonnesAgeesEtablissement />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'soutien_scolaire_a_distance'
-          "
-          class="border rounded p-8"
-        >
-          <SoutienScolaireDistance />
-        </div>
       </div>
     </div>
   </div>
@@ -412,8 +394,6 @@ import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence
 import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
 import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
-import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
-import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
 
 export default {
   name: "MissionForm",
@@ -424,9 +404,7 @@ export default {
     AideAlimentaireUrgence,
     GardeExceptionnelleEnfants,
     LienPersonnesFragilesIsolees,
-    SolidariteDeProximite,
-    SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance
+    SolidariteDeProximite
   },
   mixins: [FormWithAddress],
   props: {
