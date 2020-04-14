@@ -4,7 +4,7 @@
       <template v-if="participation.mission">
         <div v-if="participation.mission.name" class="card-item mb-2 flex">
           <div class="card-label">Mission</div>
-          <div class="text-gray-900 flex-1">{{ participation.mission.name }}</div>
+          <div class="text-gray-900 flex-1">{{ participation.mission.name|labelFromValue('mission_domaines') }}</div>
         </div>
         <div v-if="participation.mission.type" class="card-item mb-2 flex">
           <div class="card-label">Type</div>

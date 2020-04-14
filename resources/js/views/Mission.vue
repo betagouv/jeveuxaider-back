@@ -17,7 +17,7 @@
             <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
               <h3
                 class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
-              >{{ mission.name }}</h3>
+              >{{ mission.name|labelFromValue('mission_domaines') }}</h3>
 
               <div class="mt-12">
                 <div
@@ -108,7 +108,7 @@
                           />
                         </svg>
                       </div>
-                      <p class="ml-3 text-gray-700">{{ mission.name }}</p>
+                      <p class="ml-3 text-gray-700">{{ mission.name|labelFromValue('mission_domaines') }}</p>
                     </li>
                   </ul>
                 </div>
