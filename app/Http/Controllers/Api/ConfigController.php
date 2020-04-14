@@ -17,7 +17,7 @@ class ConfigController extends Controller
     public function bootstrap()
     {
         return response()->json([
-            'user' => Auth::user(),
+            'user' => Auth::guard('api')->user(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
             'reseaux' => $this->reseaux()
