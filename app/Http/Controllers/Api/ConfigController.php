@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Release;
 use App\Models\Structure;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Mission;
+use App\Models\Participation;
+use App\Models\Profile;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ConfigController extends Controller
 {
@@ -50,5 +55,39 @@ class ConfigController extends Controller
             }
         }
         return $taxonomies;
+    }
+
+    public function export(Request $request, $table)
+    {
+        $output = '';
+
+        switch ($table) {
+            case 'structures':
+                $rows = Structure::cursor();
+            break;
+            case 'missions':
+                $rows = Mission::cursor();
+            break;
+            case 'profiles':
+                $rows = Profile::cursor();
+            break;
+            case 'participations':
+                $rows = Participation::cursor();
+            break;
+        }
+
+        if ($rows) {
+            foreach ($rows as $row) {
+                $output .=  implode(";", [
+                    'id' => $row->id,
+                    'first_name' => $row->first_name,
+                    'last_name' => $row->last_name
+                ])."\n";
+            }
+        }
+
+        return response()->streamDownload(function () use ($output) {
+            echo $output;
+        }, 'output.csv');
     }
 }
