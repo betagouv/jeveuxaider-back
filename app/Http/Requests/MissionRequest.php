@@ -13,10 +13,6 @@ class MissionRequest extends FormRequest
      */
     public function authorize()
     {
-        if (backpack_auth()->check()) {
-            return true;
-        }
-
         return $this->user()->can('update', request()->route('mission'));
     }
 

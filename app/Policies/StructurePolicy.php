@@ -15,6 +15,10 @@ class StructurePolicy
         if ($user->isAdmin()) {
             return true;
         }
+
+        if (request()->header('Context-Role') == 'analyste') {
+            return false;
+        }
     }
 
     public function view(User $user, Structure $structure)

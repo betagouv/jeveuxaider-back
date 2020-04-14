@@ -441,7 +441,7 @@ return [
     'regions' => [
         "vocabulary" => "Régions",
         "terms" => [
-            "Auvergne-Rhônes-Alpes" => "Auvergne-Rhônes-Alpes",
+            "Auvergne-Rhône-Alpes" => "Auvergne-Rhône-Alpes",
             "Bourgogne-Franche-Comté" => "Bourgogne-Franche-Comté",
             "Bretagne" => "Bretagne",
             "Centre-Val de Loire" => "Centre-Val de Loire",
@@ -461,7 +461,7 @@ return [
             "Mayotte" => "Mayotte",
         ],
         "departments" => [
-            "Auvergne-Rhônes-Alpes" => ["03","42","63","15","43","07","26","38","73","74","69"],
+            "Auvergne-Rhône-Alpes" => ["01","03","42","63","15","43","07","26","38","73","74","69"],
             "Bourgogne-Franche-Comté" => ["89","21","70","90","25","39","71","58"],
             "Bretagne" => ["29","22","35","56"],
             "Centre-Val de Loire" => ["28","45","41","37","36","18"],

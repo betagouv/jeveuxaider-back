@@ -55,5 +55,7 @@ class ProfilePolicy
         if ($user->id == $profile->user_id) {
             return true;
         }
+
+        return false;
     }
 }
