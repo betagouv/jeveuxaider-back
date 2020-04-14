@@ -152,8 +152,7 @@
                                   ></div>
                                   <div
                                     class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                                    v-text="item.name"
-                                  ></div>
+                                  >{{ item.name|labelFromValue('mission_domaines') }}</div>
                                 </div>
 
                                 <div
@@ -408,6 +407,10 @@ export default {
           return "/images/phone-handle.svg";
         case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
           return "/images/basket.svg";
+        case "soutien_aux_personnes_agees_en_etablissement":
+          return "/images/ehpad.svg";
+        case "soutien_scolaire_a_distance":
+          return "/images/ecole.svg";
       }
     }
   }

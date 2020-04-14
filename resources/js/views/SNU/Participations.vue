@@ -110,7 +110,7 @@
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
           <div v-if="scope.row.mission" class="text-gray-900">
-            <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name }}</v-clamp>
+            <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name|labelFromValue('mission_domaines') }}</v-clamp>
           </div>
           <div
             v-if="scope.row.mission && scope.row.mission.structure"
@@ -200,7 +200,6 @@ export default {
       exportParticipations(this.query)
         .then(response => {
           this.loading = false;
-          console.log("export", response.data);
           fileDownload(response.data, "participations.xlsx");
         })
         .catch(error => {

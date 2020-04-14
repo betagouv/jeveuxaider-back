@@ -3,7 +3,7 @@
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">Mission</div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name }}</div>
+        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name|labelFromValue('mission_domaines') }}</div>
         <state-tag :state="form.state" class="relative ml-3" style="top: 1px"></state-tag>
       </div>
     </template>
@@ -308,6 +308,24 @@
         >
           <SolidariteDeProximite />
         </div>
+        <div
+          v-if="
+            form.name ==
+              'soutien_aux_personnes_agees_en_etablissement'
+          "
+          class="border rounded p-8"
+        >
+          <SoutienPersonnesAgeesEtablissement />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'soutien_scolaire_a_distance'
+          "
+          class="border rounded p-8"
+        >
+          <SoutienScolaireDistance />
+        </div>
       </div>
     </div>
   </div>
@@ -329,6 +347,8 @@ import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence
 import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
 import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
+import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
+import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
 
 export default {
   name: "MissionForm",
@@ -339,7 +359,9 @@ export default {
     AideAlimentaireUrgence,
     GardeExceptionnelleEnfants,
     LienPersonnesFragilesIsolees,
-    SolidariteDeProximite
+    SolidariteDeProximite,
+    SoutienPersonnesAgeesEtablissement,
+    SoutienScolaireDistance
   },
   mixins: [FormWithAddress],
   props: {

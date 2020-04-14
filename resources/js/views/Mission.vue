@@ -17,7 +17,7 @@
             <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
               <h3
                 class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
-              >{{ mission.name }}</h3>
+              >{{ mission.name|labelFromValue('mission_domaines') }}</h3>
 
               <div class="mt-12">
                 <div
@@ -108,7 +108,7 @@
                           />
                         </svg>
                       </div>
-                      <p class="ml-3 text-gray-700">{{ mission.name }}</p>
+                      <p class="ml-3 text-gray-700">{{ mission.name|labelFromValue('mission_domaines') }}</p>
                     </li>
                   </ul>
                 </div>
@@ -145,6 +145,22 @@
                   "
                 >
                   <SolidariteDeProximite />
+                </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'soutien_aux_personnes_agees_en_etablissement'
+                  "
+                >
+                  <SoutienPersonnesAgeesEtablissement />
+                </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'soutien_scolaire_a_distance'
+                  "
+                >
+                  <SoutienScolaireDistance />
                 </div>
               </div>
 
@@ -397,7 +413,7 @@
                         ></div>
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                          v-text="otherMission.name"
+                          v-text="otherMission.name|labelFromValue('mission_domaines')"
                         ></div>
                       </div>
 
@@ -469,6 +485,8 @@ import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence
 import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
 import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
+import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
+import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
 
 export default {
   name: "Mission",
@@ -476,7 +494,9 @@ export default {
     AideAlimentaireUrgence,
     GardeExceptionnelleEnfants,
     LienPersonnesFragilesIsolees,
-    SolidariteDeProximite
+    SolidariteDeProximite,
+    SoutienPersonnesAgeesEtablissement,
+    SoutienScolaireDistance
   },
   props: {
     id: {
@@ -517,7 +537,8 @@ export default {
             this.loading = false;
           });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         this.loading = false;
       });
   },
@@ -562,6 +583,10 @@ export default {
           return "/images/phone-handle.svg";
         case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
           return "/images/basket.svg";
+        case "soutien_aux_personnes_agees_en_etablissement":
+          return "/images/ehpad.svg";
+        case "soutien_scolaire_a_distance":
+          return "/images/ecole.svg";
       }
     }
   }

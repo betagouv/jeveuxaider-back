@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -25,13 +26,21 @@ if (mix.inProduction()) {
     mix.version();
 }
 
+let url = process.env.APP_URL.replace(/(^\w+:|^)\/\//, '');
+mix.options({
+   hmrOptions: {
+       host: url,
+       port: 8080 // Can't use 443 here because address already in use
+   }
+});
+
 mix.webpackConfig({
-    resolve: {
-      alias: {
-        '@': path.resolve(
-          __dirname,
-          'resources/js'
-        )
-      }
+  resolve: {
+    alias: {
+      '@': path.resolve(
+        __dirname,
+        'resources/js'
+      )
     }
-  })
+  }
+})
