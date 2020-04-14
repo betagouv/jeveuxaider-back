@@ -15,6 +15,10 @@ class ProfilePolicy
         if ($user->isAdmin()) {
             return true;
         }
+
+        if (request()->header('Context-Role') == 'responsable') {
+            return false;
+        }
     }
 
     public function view(User $user, Profile $profile)
@@ -55,5 +59,7 @@ class ProfilePolicy
         if ($user->id == $profile->user_id) {
             return true;
         }
+
+        return false;
     }
 }

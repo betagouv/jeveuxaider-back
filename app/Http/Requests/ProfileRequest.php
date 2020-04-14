@@ -13,10 +13,6 @@ class ProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        if (backpack_auth()->check()) {
-            return true;
-        }
-
         return $this->user()->can('view', request()->route('profile'));
     }
 
