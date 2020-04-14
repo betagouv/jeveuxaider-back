@@ -66,7 +66,7 @@
             <h3
               class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl leading-tight hide-br"
             >
-              Les 4 missions
+              Les 6 missions
               <br />vitales
             </h3>
           </div>
@@ -150,6 +150,28 @@
                 <p class="mt-2 text-base leading-6 text-gray-500">
                   Je fais les courses de produits essentiels pour mes voisins
                   les plus fragiles.
+                </p>
+              </div>
+            </div>
+            <div class="mt-10 sm:mt-0">
+              <div
+                class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+              >5</div>
+              <div class="mt-5">
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">Soutien aux personnes âgées en établissement.</h5>
+                <p class="mt-2 text-base leading-6 text-gray-500">
+                  J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.
+                </p>
+              </div>
+            </div>
+            <div class="mt-10 sm:mt-0">
+              <div
+                class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+              >6</div>
+              <div class="mt-5">
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">Soutien scolaire à distance.</h5>
+                <p class="mt-2 text-base leading-6 text-gray-500">
+                  J’aide à distance les élèves à faire leurs devoirs.
                 </p>
               </div>
             </div>
