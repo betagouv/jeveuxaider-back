@@ -215,7 +215,6 @@ export default {
   },
   computed: {
     rolesList(){
-      console.log(this.$store.getters.contextRole)
       if(this.$store.getters.contextRole == 'admin' || this.$store.getters.contextRole == 'analyste') {
         return [
             { label: 'Modérateur', value: 'admin' },

@@ -111,11 +111,6 @@ class Mission extends Model
         return $mission;
     }
 
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = Utils::ucfirst($value);
-    }
-
     public function user()
     {
         return $this->belongsTo('App\Models\User');

@@ -24,9 +24,10 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
+Route::get('bootstrap', 'Api\ConfigController@bootstrap');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
-    Route::get('bootstrap', 'Api\ConfigController@bootstrap');
     Route::get('user', 'Api\UserController@show');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');

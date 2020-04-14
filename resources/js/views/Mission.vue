@@ -413,7 +413,7 @@
                         ></div>
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                          v-text="otherMission.name"
+                          v-text="otherMission.name|labelFromValue('mission_domaines')"
                         ></div>
                       </div>
 
@@ -537,7 +537,8 @@ export default {
             this.loading = false;
           });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         this.loading = false;
       });
   },

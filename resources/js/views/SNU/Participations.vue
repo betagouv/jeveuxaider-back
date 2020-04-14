@@ -200,7 +200,6 @@ export default {
       exportParticipations(this.query)
         .then(response => {
           this.loading = false;
-          console.log("export", response.data);
           fileDownload(response.data, "participations.xlsx");
         })
         .catch(error => {
