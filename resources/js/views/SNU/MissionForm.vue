@@ -3,7 +3,7 @@
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">Mission</div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name }}</div>
+        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name|labelFromValue('mission_domaines') }}</div>
         <state-tag :state="form.state" class="relative ml-3" style="top: 1px"></state-tag>
       </div>
     </template>
