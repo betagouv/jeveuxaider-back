@@ -69,7 +69,6 @@ new Vue({
     Crisp.on_load = function() {
       if (! ( window.location.href.includes('dashboard') || window.location.href.includes('step') ) ) {
         $crisp.push(['do', 'chat:hide']);
-       
       } else {
         $crisp.push(['do', 'chat:show']);
         if (typeof store.getters.profile  !== 'undefined') {
