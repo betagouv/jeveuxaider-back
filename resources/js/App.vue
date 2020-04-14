@@ -10,11 +10,6 @@
 import { mapGetters } from "vuex"
 
 export default {
-  data() {
-    return {
-      message: null
-    };
-  },
   computed: {
     ...mapGetters(["isAppLoaded"])
   },

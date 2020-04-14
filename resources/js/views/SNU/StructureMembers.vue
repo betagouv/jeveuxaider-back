@@ -116,7 +116,6 @@ export default {
                 type: "success",
                 message: "Le membre a bien été supprimé"
               });
-              console.log(response.data);
               this.members = response.data;
             })
             .catch(error => {
