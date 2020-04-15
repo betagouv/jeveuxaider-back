@@ -9,6 +9,9 @@
         <el-dropdown @command="handleCommand">
           <el-button :loading="loading" type="primary">Exporter les données</el-button>
           <el-dropdown-menu type="primary">
+            <el-dropdown-item command="structures">Toutes les structures</el-dropdown-item>
+            <el-dropdown-item command="missions">Toutes les missions</el-dropdown-item>
+            <el-dropdown-item command="participations">Toutes les participations</el-dropdown-item>
             <el-dropdown-item command="profiles">Tous les utilisateurs</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
