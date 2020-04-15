@@ -3,16 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Helpers\Utils;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
 class Mission extends Model
 {
-    use CrudTrait, SoftDeletes, Searchable;
+    use SoftDeletes, Searchable;
 
     protected $table = 'missions';
 

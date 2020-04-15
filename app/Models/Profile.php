@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media;
@@ -16,7 +15,6 @@ use Illuminate\Support\Str;
 
 class Profile extends Model implements HasMedia
 {
-    use CrudTrait;
     use HasMediaTrait;
     use Notifiable;
 
