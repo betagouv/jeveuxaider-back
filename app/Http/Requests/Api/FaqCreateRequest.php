@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\FaqRequest;
-
-class FaqCreateRequest extends FaqRequest
+class FaqCreateRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +13,6 @@ class FaqCreateRequest extends FaqRequest
     {
         return true;
     }
-
 
     /**
      * Get the validation rules that apply to the request.

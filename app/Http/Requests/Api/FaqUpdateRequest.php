@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\FaqRequest;
-
-class FaqUpdateRequest extends FaqRequest
+class FaqUpdateRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,5 +12,19 @@ class FaqUpdateRequest extends FaqRequest
     public function authorize()
     {
         return $this->user()->can('update', $this->route('faq'));
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'title' => 'required',
+            'weight' => 'required',
+            'description' => 'required',
+        ];
     }
 }
