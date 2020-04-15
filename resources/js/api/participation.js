@@ -27,6 +27,10 @@ export function updateParticipation(id, participation) {
   return request.post(`/api/participation/${id}`, participation);
 }
 
+export function cancelParticipation(id) {
+  return request.post(`/api/participation/${id}/cancel`);
+}
+
 export function deleteParticipation(id) {
   return request.delete(`/api/participation/${id}`);
 }
@@ -35,6 +39,3 @@ export function destroyParticipation(id) {
   return request.delete(`/api/participation/${id}/destroy`);
 }
 
-// export function getParticipation(id) {
-//   return request.get(`/api/participation/${id}`);
-// }

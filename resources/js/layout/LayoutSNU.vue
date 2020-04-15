@@ -3,9 +3,9 @@
     <sidebar class="bg-gray-100" />
     <div
       v-loading="$store.getters.loading"
-      class="main-container mt-8 overflow-y-auto w-full"
+      class="main-container overflow-y-auto w-full"
     >
-      <router-view :key="$route.fullPath" class="app-main" />
+      <router-view :key="$route.fullPath" class="app-main pt-8" />
     </div>
     <portal-target
       v-if="$store.getters['volet/active'] && $store.getters['volet/row']"

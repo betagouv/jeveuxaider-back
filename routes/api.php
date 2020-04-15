@@ -37,6 +37,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
     Route::post('participation', 'Api\ParticipationController@store');
+    Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
+
 
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
