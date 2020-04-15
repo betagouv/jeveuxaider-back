@@ -51,3 +51,7 @@ export function updateRelease(id, release) {
 export function deleteRelease(id) {
   return request.delete(`/api/release/${id}`);
 }
+
+export function exportTable(table) {
+  return request.post(`/api/${table}/export/table`);
+}

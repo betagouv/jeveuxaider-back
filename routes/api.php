@@ -120,4 +120,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // IMPERSONNATE
     Route::post('impersonate/{user}', 'Api\UserController@impersonate');
     Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
+
+    // TABLE EXPORT
+    Route::post('{table}/export/table', 'Api\ConfigController@export');
 });
