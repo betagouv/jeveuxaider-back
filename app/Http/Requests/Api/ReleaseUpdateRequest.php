@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\ReleaseRequest;
-
-class ReleaseUpdateRequest extends ReleaseRequest
+class ReleaseUpdateRequest
 {
     /**
      * Determine if the user is authorized to make this request.
