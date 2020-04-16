@@ -112,7 +112,7 @@
           <div class="text-gray-900">
             {{ scope.row.first_name }} {{ scope.row.last_name }}
           </div>
-          <div class="font-light text-gray-600">{{ scope.row.email }}</div>
+          <div class="font-light text-gray-600 text-xs">{{ scope.row.email }}</div>
         </template>
       </el-table-column>
       <el-table-column label="Roles" min-width="200">
