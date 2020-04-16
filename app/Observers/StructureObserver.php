@@ -71,10 +71,7 @@ class StructureObserver
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
-                        // Pour dépublier les missions d'Algolia
-                        foreach ($structure->missions as $mission) {
-                            $mission->update();
-                        }
+                        $structure->missions->unsearchable();
                     }
                     break;
             }
