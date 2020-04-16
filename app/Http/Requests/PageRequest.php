@@ -13,8 +13,7 @@ class PageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        return $this->user()->can('update', request()->route('page'));
+        return $this->user()->isAdmin();
     }
 
 
