@@ -115,7 +115,7 @@ export default {
             updateRelease(this.form.id, this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.go(-1);
+                this.$router.push('/dashboard/contents?type=Releases');
                 this.$message({
                   message: "La release a été enregistrée !",
                   type: "success"
@@ -128,7 +128,7 @@ export default {
             addRelease(this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.go(-1);
+                this.$router.push('/dashboard/contents?type=Releases');
                 this.$message({
                   message: "La release a été enregistrée !",
                   type: "success"

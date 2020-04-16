@@ -1,34 +1,19 @@
 <template>
   <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">FAQ</div>
+      <div class="text-m text-gray-600 uppercase">Page</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">{{ form.title }}</div>
       </div>
     </template>
-    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle question</div>
+    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle page</div>
 
-    <el-form ref="faqForm" :model="form" label-position="top" :rules="rules">
+    <el-form ref="pageForm" :model="form" label-position="top" :rules="rules">
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
-      <el-form-item label="Question" prop="title">
-        <el-input v-model="form.title" placeholder="Question" />
+      <el-form-item label="Titre" prop="title">
+        <el-input v-model="form.title" placeholder="Titre" />
       </el-form-item>
-
-      <el-form-item label="Poids de la question" prop="weight">
-        <item-description>Les questions s'afficheront par ordre décroissant.</item-description>
-        <el-input-number v-model="form.weight" :step="1" :min="1" class="w-full"></el-input-number>
-      </el-form-item>
-
-      <!-- <el-form-item label="Description" prop="description" class="flex-1">
-        <el-input
-          v-model="form.description"
-          name="description"
-          type="textarea"
-          :autosize="{ minRows: 6, maxRows: 20 }"
-          placeholder="Rédigez la réponse"
-        ></el-input>
-      </el-form-item>-->
 
       <el-form-item label="Description" prop="description">
         <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
@@ -42,12 +27,12 @@
 </template>
 
 <script>
-import { getFaq, updateFaq, addFaq } from "@/api/app";
+import { getPage, updatePage, addPage } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
-  name: "FaqForm",
+  name: "PageForm",
   components: { ItemDescription },
   props: {
     mode: {
@@ -62,9 +47,7 @@ export default {
   data() {
     return {
       loading: false,
-      form: {
-        weight: 1
-      },
+      form: {},
       editor: ClassicEditor,
       editorConfig: {
         toolbar: ["bold", "italic", "|", "link", "bulletedList", "numberedList"]
@@ -87,13 +70,6 @@ export default {
             message: "Veuillez renseigner un nom",
             trigger: "blur"
           }
-        ],
-        weight: [
-          {
-            required: true,
-            message: "Veuillez renseigner un poids",
-            trigger: "blur"
-          }
         ]
       };
       return rules;
@@ -102,7 +78,7 @@ export default {
   created() {
     if (this.mode == "edit") {
       this.$store.commit("setLoading", true);
-      getFaq(this.id)
+      getPage(this.id)
         .then(response => {
           this.$store.commit("setLoading", false);
           this.form = response.data;
@@ -115,15 +91,15 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true;
-      this.$refs["faqForm"].validate(valid => {
+      this.$refs["pageForm"].validate(valid => {
         if (valid) {
           if (this.id) {
-            updateFaq(this.form.id, this.form)
+            updatePage(this.form.id, this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.push('/dashboard/contents?type=Faqs');
+                this.$router.push('/dashboard/contents?type=Pages');
                 this.$message({
-                  message: "La question a été enregistrée !",
+                  message: "La page a été enregistrée !",
                   type: "success"
                 });
               })
@@ -131,12 +107,12 @@ export default {
                 this.loading = false;
               });
           } else {
-            addFaq(this.form)
+            addPage(this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.push('/dashboard/contents?type=Faqs');
+                this.$router.push('/dashboard/contents?type=Pages');
                 this.$message({
-                  message: "La question a été enregistrée !",
+                  message: "La page a été enregistrée !",
                   type: "success"
                 });
               })
@@ -152,13 +128,3 @@ export default {
   }
 };
 </script>
-
-<style lang="sass" scoped>
-::v-deep
-  .el-input-number__decrease,
-  .el-input-number__increase
-    bottom: 1px
-    display: flex
-    align-items: center
-    justify-content: center
-</style>

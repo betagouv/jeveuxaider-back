@@ -416,6 +416,28 @@ export default new Router({
                         roles: ["admin"]
                     }
                 },
+                {
+                    path: "/dashboard/page/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-page-add" */ "@/views/SNU/PageForm.vue"
+                        ),
+                    name: "PageFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/page/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-page-edit" */ "@/views/SNU/PageForm.vue"),
+                    name: "PageFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
             ]
         },
         {

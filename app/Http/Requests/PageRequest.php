@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FaqUpdateRequest extends FormRequest
+class PageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,8 +13,10 @@ class FaqUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->route('faq'));
+        return true;
+        return $this->user()->can('update', request()->route('page'));
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -25,7 +27,6 @@ class FaqUpdateRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'weight' => 'required',
             'description' => 'required',
         ];
     }
