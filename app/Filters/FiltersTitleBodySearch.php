@@ -13,7 +13,6 @@ class FiltersTitleBodySearch implements Filter
             $query
                 ->where('title', 'ILIKE', '%' . $value . '%')
                 ->orWhere('description', 'ILIKE', '%' . $value . '%');
-        })
-        ;
+        });
     }
 }

@@ -14,6 +14,7 @@ use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Models\Mission;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class ParticipationController extends Controller
@@ -69,6 +70,17 @@ class ParticipationController extends Controller
         }
 
         $participation->update($request->validated());
+
+        return $participation;
+    }
+
+    public function cancel(Request $request, Participation $participation)
+    {
+        if (Auth::guard('api')->user()->profile->id != $participation->profile_id) {
+            abort(403, 'Cette participation ne vous appartient pas');
+        }
+
+        $participation->update(['state' => 'Candidature annulée']);
 
         return $participation;
     }

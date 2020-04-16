@@ -54,8 +54,13 @@ p:not(:last-child)
 
 .has-full-table
   @apply h-full flex flex-col
+  .el-table
+    @apply flex flex-col
+  .el-table__header-wrapper
+    overflow: initial
   .el-table__body-wrapper
-    height: calc(100% - 49px)
+    // height: calc(100% - 49px)
+    align-items: stretch
     overflow-y: auto
   .el-table__row
     td:last-of-type

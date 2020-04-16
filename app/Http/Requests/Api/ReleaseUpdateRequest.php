@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-class ReleaseUpdateRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class ReleaseUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

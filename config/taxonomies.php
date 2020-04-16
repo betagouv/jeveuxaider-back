@@ -493,6 +493,7 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
+            "Candidature annulée" => "Candidature annulée",
             "Participation déclinée" => "Participation déclinée",
             "Mission validée" => "Mission validée",
             "Mission en cours" => "Mission en cours",
@@ -500,7 +501,6 @@ return [
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",
             "Mission signalée" => "Mission signalée",
-           // "Archivée" => "Archivée"
         ]
     ],
 ];

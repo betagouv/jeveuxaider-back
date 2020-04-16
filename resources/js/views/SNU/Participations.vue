@@ -95,8 +95,9 @@
         <template slot-scope="scope">
           <template v-if="canShowProfileDetails(scope.row)">
             <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
-            <div class="font-light text-gray-600 flex items-center">
-              <div class="text-xs">{{ scope.row.profile.email }} - {{ scope.row.profile.mobile }}</div>
+            <div class="font-light text-gray-600">
+              <div class="text-xs">{{ scope.row.profile.email }}</div>
+              <div class="text-xs">{{ scope.row.profile.mobile }} - {{ scope.row.profile.zip }}</div>
             </div>
           </template>
           <template v-else>

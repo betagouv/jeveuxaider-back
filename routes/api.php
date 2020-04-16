@@ -20,6 +20,7 @@ Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::get('faqs', 'Api\FaqController@index');
+Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
@@ -37,6 +38,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
     Route::post('participation', 'Api\ParticipationController@store');
+    Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
+
 
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
@@ -116,6 +119,12 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('release/{release}', 'Api\ReleaseController@update');
     Route::get('release/{release}', 'Api\ReleaseController@show');
     Route::delete('release/{release}', 'Api\ReleaseController@delete');
+
+    // PAGES
+    Route::get('pages', 'Api\PageController@index');
+    Route::post('page', 'Api\PageController@store');
+    Route::post('page/{page}', 'Api\PageController@update');
+    Route::delete('page/{page}', 'Api\PageController@delete');
 
     // IMPERSONNATE
     Route::post('impersonate/{user}', 'Api\UserController@impersonate');

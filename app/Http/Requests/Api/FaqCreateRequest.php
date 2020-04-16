@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-class FaqCreateRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class FaqCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

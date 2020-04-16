@@ -12,10 +12,13 @@
           </el-button>
           <el-dropdown-menu type="primary">
             <router-link :to="{ name: 'FaqFormAdd' }">
-              <el-dropdown-item>Nouvelle FAQ</el-dropdown-item>
+              <el-dropdown-item>Nouvelle question</el-dropdown-item>
             </router-link>
             <router-link :to="{ name: 'ReleaseFormAdd' }">
               <el-dropdown-item>Nouvelle release</el-dropdown-item>
+            </router-link>
+            <router-link :to="{ name: 'PageFormAdd' }">
+              <el-dropdown-item>Nouvelle page</el-dropdown-item>
             </router-link>
           </el-dropdown-menu>
         </el-dropdown>
@@ -25,6 +28,7 @@
       <el-radio-group v-model="type" @change="handleChangeType">
         <el-radio-button label="Faqs"></el-radio-button>
         <el-radio-button label="Releases"></el-radio-button>
+        <el-radio-button label="Pages"></el-radio-button>
       </el-radio-group>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
@@ -62,16 +66,7 @@
             size="small"
             split-button
             trigger="click"
-            @click=" type == 'Faqs' ?
-              $router.push({
-                name: 'FaqFormEdit',
-                params: { id: scope.row.id }
-              })
-              : $router.push({
-                name: 'ReleaseFormEdit',
-                params: { id: scope.row.id }
-              })
-            "
+            @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >
             <i class="el-icon-edit mr-2"></i>Modifier
@@ -101,6 +96,7 @@
 <script>
 import { fetchReleases, deleteRelease } from "@/api/app";
 import { fetchFaqs, deleteFaq } from "@/api/app";
+import { fetchPages, deletePage } from "@/api/app";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 
@@ -120,12 +116,12 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.query = { ...to.query };
-    this.type = this.$route.query.type ? this.$route.query.type : 'Faqs'
+    this.type = this.$route.query.type ? this.$route.query.type : "Faqs";
     this.fetchDatas();
     next();
   },
-  created(){
-    this.type = this.$route.query.type ? this.$route.query.type : 'Faqs'
+  created() {
+    this.type = this.$route.query.type ? this.$route.query.type : "Faqs";
     this.query = { ...this.$router.history.current.query };
     this.tableData = this.fetchDatas();
     this.showFilters = this.activeFilters > 0 ? true : false;
@@ -139,8 +135,10 @@ export default {
     fetchRows() {
       if (this.type == "Faqs") {
         return fetchFaqs(this.query);
-      } else {
+      } else if (this.type == "Releases") {
         return fetchReleases(this.query);
+      } else {
+        return fetchPages(this.query);
       }
     },
     handleCommand(command) {
@@ -150,10 +148,28 @@ export default {
         this.$router.push(command);
       }
     },
+    handleClickEdit(id) {
+      if (this.type == "Faqs") {
+        this.$router.push({
+          name: "FaqFormEdit",
+          params: { id: id }
+        });
+      } else if (this.type == "Releases") {
+        this.$router.push({
+          name: "ReleaseFormEdit",
+          params: { id: id }
+        });
+      } else {
+        this.$router.push({
+          name: "PageFormEdit",
+          params: { id: id }
+        });
+      }
+    },
     handleClickDelete(id) {
       this.$confirm(
         `Êtes vous sur de vouloir supprimer cet item ?`,
-        "Supprimer la release",
+        "Supprimer cet item",
         {
           confirmButtonText: "Supprimer",
           confirmButtonClass: "el-button--danger",
@@ -170,11 +186,19 @@ export default {
             });
             this.fetchDatas();
           });
-        } else {
+        } else if (this.type == "Releases") {
           deleteRelease(id).then(() => {
             this.$message({
               type: "success",
               message: `La release a été supprimée.`
+            });
+            this.fetchDatas();
+          });
+        } else {
+          deletePage(id).then(() => {
+            this.$message({
+              type: "success",
+              message: `La page a été supprimée.`
             });
             this.fetchDatas();
           });

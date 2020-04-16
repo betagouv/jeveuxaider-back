@@ -75,6 +75,14 @@
       Participation déclinée
     </el-tag>
     <el-tag
+      v-if="state == 'Candidature annulée'"
+      type="info"
+      :size="size"
+      class="m-1"
+    >
+      Candidature annulée
+    </el-tag>
+    <el-tag
       v-if="state == 'Mission annulée'"
       type="info"
       :size="size"

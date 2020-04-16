@@ -52,6 +52,26 @@ export function deleteRelease(id) {
   return request.delete(`/api/release/${id}`);
 }
 
+export function fetchPages(params) {
+  return request.get("/api/pages", { params });
+}
+
+export function getPage(id) {
+  return request.get(`/api/page/${id}`);
+}
+
+export function addPage(page) {
+  return request.post(`/api/page`, page);
+}
+
+export function updatePage(id, page) {
+  return request.post(`/api/page/${id}`, page);
+}
+
+export function deletePage(id) {
+  return request.delete(`/api/page/${id}`);
+}
+
 export function exportTable(table) {
   return request.post(`/api/${table}/export/table`);
 }
