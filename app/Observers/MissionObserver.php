@@ -81,7 +81,7 @@ class MissionObserver
                     break;
                 case 'Annulée':
                     if ($mission->tuteur) {
-                        if ($mission->participations) {
+                        if ($mission->participations->where("state", "En attente de validation")) {
                             foreach ($mission->participations as $participation) {
                                 $participation->update(['state' => 'Mission annulée']);
                             }
