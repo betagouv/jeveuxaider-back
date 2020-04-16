@@ -284,7 +284,7 @@ return [
             "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)" => "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)",
             "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
             //"soutien_aux_personnes_agees_en_etablissement" => "J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.",
-            //"soutien_scolaire_a_distance" => "J’aide à distance les élèves à faire leurs devoirs.",
+            "soutien_scolaire_a_distance" => "J’aide à distance les élèves à faire leurs devoirs.",
         ]
     ],
 
