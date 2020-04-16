@@ -28,6 +28,7 @@ import FrontSettings from "@/views/Front/Settings";
 import FrontUserMissions from "@/views/Front/UserMissions";
 import FrontFaq from "@/views/Front/Faq";
 import FrontLegalNotice from "@/views/Front/LegalNotice";
+import FrontPage from "@/views/Front/Page";
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -66,8 +67,32 @@ export default new Router({
         },
         {
             path: "/mentions-legales",
-            name: "Mentions légales",
+            name: "FrontLegalNotice",
             component: FrontLegalNotice,
+        },
+        {
+            path: "/mentions-legales2",
+            name: "PageMentionsLegales",
+            component: FrontPage,
+            props: { id: 1 },
+        },
+        {
+            path: "/conditions-generales-d-utilisation",
+            name: "PageCGU",
+            component: FrontPage,
+            props: { id: 2 },
+        },
+        {
+            path: "/politique-de-confidentialite2",
+            name: "PagePolitiqueConfidentialite",
+            component: FrontPage,
+            props: { id: 3 },
+        },
+        {
+            path: "/charte-reserve-civique",
+            name: "PagePCharteReserveCivique",
+            component: FrontPage,
+            props: { id: 4 },
         },
         {
             path: "/user",

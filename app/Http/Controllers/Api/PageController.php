@@ -18,6 +18,7 @@ class PageController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             )
+            ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
