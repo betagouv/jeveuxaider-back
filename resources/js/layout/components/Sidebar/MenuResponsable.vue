@@ -13,6 +13,19 @@
         <i class="el-icon-data-analysis"></i>
       </el-tooltip>
     </el-menu-item>
+    <el-menu-item :index="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`" :class="{'is-active': isActive('structure')}">
+      <span v-if="$store.getters.sidebar">Ma structure</span>
+      <el-tooltip
+        v-else
+        class="item"
+        :open-delay="500"
+        effect="dark"
+        content="Structures"
+        placement="right"
+      >
+        <i class="el-icon-school"></i>
+      </el-tooltip>
+    </el-menu-item>
     <el-menu-item index="/dashboard/missions" :class="{'is-active': isActive('mission')}">
       <span v-if="$store.getters.sidebar">Missions</span>
       <el-tooltip

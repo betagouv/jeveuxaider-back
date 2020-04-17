@@ -27,7 +27,7 @@
       </div>
       <el-dropdown-menu slot="dropdown" style="max-width: 300px">
         <div v-if="activeMenu == 'profile'">
-          <router-link v-if="$store.getters.contextRole == 'responsable'" :to="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`">
+          <!-- <router-link v-if="$store.getters.contextRole == 'responsable'" :to="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`">
             <el-dropdown-item class="flex items-center">
               <el-avatar
                 class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border"
@@ -39,7 +39,7 @@
                 class="flex-1"
               >{{ $store.getters.structure_as_responsable.name }}</v-clamp>
             </el-dropdown-item>
-          </router-link>
+          </router-link> -->
           <router-link
             v-if="$store.getters.contextRole == 'responsable'"
             :to="
