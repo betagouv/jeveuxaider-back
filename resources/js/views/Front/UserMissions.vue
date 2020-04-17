@@ -115,7 +115,7 @@
             </a>
           </div>
 
-          <div v-if="canShowCoordonates(participation)" class="px-6 py-8">
+          <div  class="px-6 py-8">
             <div class="flex flex-wrap -m-2">
               <div
                 class="m-2 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white"
@@ -136,6 +136,7 @@
               </div>
 
               <a
+                v-if="canShowCoordonates(participation)"
                 :href="
                   `mailto:${participation.mission.tuteur.email}`
                 "
