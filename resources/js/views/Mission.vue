@@ -10,6 +10,7 @@
       </div>
     </div>
 
+    <template v-if="!loading">
     <div class="-mt-32 mb-12">
       <div class="container mx-auto px-4 mt-12">
         <div class="bg-white rounded-lg shadow-lg">
@@ -287,7 +288,7 @@
             </div>
 
             <div
-              class="aside text-center bg-gray-100 lg:flex-shrink-0"
+              class="aside text-center bg-gray-100 lg:rounded-r-lg lg:flex-shrink-0"
             >
               <div class="sticky top-0 py-8 px-6 lg:p-12">
                 <p class="text-3xl leading-none font-extrabold text-gray-900">
@@ -395,6 +396,10 @@
         </div>
       </div>
     </div>
+    </template>
+    <template v-else>
+      <front-mission-loading />
+    </template>
 
     <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
       <div class="bg-white shadow overflow-hidden rounded-lg">
@@ -498,10 +503,12 @@ import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFra
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
 import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
 import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
+import FrontMissionLoading from "@/components/loadings/FrontMissionLoading";
 
 export default {
   name: "Mission",
   components: {
+    FrontMissionLoading,
     AideAlimentaireUrgence,
     GardeExceptionnelleEnfants,
     LienPersonnesFragilesIsolees,
@@ -530,18 +537,17 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       mission: {},
       otherMissions: {}
     };
   },
   created() {
-    this.$store.commit("setLoading", true);
     getMission(this.id)
       .then(response => {
         this.form = response.data;
         this.mission = { ...response.data };
-        this.$store.commit("setLoading", false);
+        this.loading = false
         fetchStructureAvailableMissions(this.mission.structure.id)
           .then(response => {
             this.otherMissions = { ...response.data };
@@ -551,7 +557,6 @@ export default {
           });
       })
       .catch(error => {
-        console.log(error);
         this.loading = false;
       });
   },

@@ -2,7 +2,7 @@
   <div>
     <AppHeader />
 
-    <template v-if="!$store.getters.loading">
+    <template v-if="!loading">
       <div class="bg-blue-900 pb-32">
         <div class="container mx-auto px-4">
           <div class="pt-10">
@@ -21,16 +21,22 @@
         </div>
       </div>
     </template>
-    <template v-else></template>
+    <template v-else>
+      <front-page-loading />
+    </template>
     <AppFooter />
   </div>
 </template>
 
 <script>
 import { getPage } from "@/api/app";
+import FrontPageLoading from "@/components/loadings/FrontPageLoading"
 
 export default {
-  name: "FrontMissions",
+  name: "FrontPage",
+  components: {
+    FrontPageLoading
+  },
   props: {
     id: {
       type: Number,
@@ -39,15 +45,15 @@ export default {
   },
   data() {
     return {
+      loading: true,
       page: null
     };
   },
   created() {
-    this.$store.commit("setLoading", true);
     getPage(this.id)
       .then(response => {
-        this.$store.commit("setLoading", false);
         this.page = response.data;
+        this.loading = false;
       })
       .catch(() => {
         this.loading = false;
