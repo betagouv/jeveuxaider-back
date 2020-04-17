@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 h-full flex flex-col flex-grow">
+  <div class="bg-gray-100 flex flex-col flex-grow">
     <AppHeader />
 
     <div class="bg-blue-900 pb-32">
@@ -115,7 +115,7 @@
             </a>
           </div>
 
-          <div class="px-6 py-8">
+          <div v-if="canShowCoordonates(participation)" class="px-6 py-8">
             <div class="flex flex-wrap -m-2">
               <div
                 class="m-2 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white"
@@ -156,7 +156,7 @@
                       clip-rule="evenodd"
                     />
                   </svg>
-                  <span>Messagerie</span>
+                  <span>{{ participation.mission.tuteur.email }}</span>
                 </button>
               </a>
 
@@ -203,6 +203,14 @@ export default {
       });
   },
   methods: {
+    canShowCoordonates(participation){
+      let validStates = [
+            'Mission validée',
+            'Mission en cours',
+            'Mission effectuée'
+      ];
+      return validStates.includes(participation.state) ? true : false;
+    },
     onClickCancel(participation){
       this.$confirm(
           `Vous êtes sur le point d'annuler votre candidature. Voulez-vous continuer ?`,
