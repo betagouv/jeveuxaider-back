@@ -1,51 +1,44 @@
 <template>
-  <el-aside :width="asideWidth" :class="{ collapsed: isCollapsed }">
-    <profile :is-collapsed="isCollapsed" />
-
-    <div class="px-5">
-      <hr />
-    </div>
-
-    <el-menu :router="true">
-      <menu-responsable
-        v-if="$store.getters.contextRole == 'responsable'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-moderateur
-        v-if="$store.getters.contextRole == 'admin'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-referent
-        v-if="$store.getters.contextRole == 'referent'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-referent-regional
-        v-if="$store.getters.contextRole == 'referent_regional'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-superviseur
-        v-if="$store.getters.contextRole == 'superviseur'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-tuteur
-        v-if="$store.getters.contextRole == 'tuteur'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-analyste
-        v-if="$store.getters.contextRole == 'analyste'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-    </el-menu>
-
-    <div class="px-5">
-      <hr />
+  <el-aside :width="asideWidth" :class="{ collapsed: isCollapsed }" class="flex flex-col">
+    <profile :is-collapsed="isCollapsed" class="border-b border-gray-200" />
+    <div class="flex flex-col flex-1">
+      <el-menu :router="true">
+        <menu-responsable
+          v-if="$store.getters.contextRole == 'responsable'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+        <menu-moderateur
+          v-if="$store.getters.contextRole == 'admin'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+        <menu-referent
+          v-if="$store.getters.contextRole == 'referent'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+        <menu-referent-regional
+          v-if="$store.getters.contextRole == 'referent_regional'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+        <menu-superviseur
+          v-if="$store.getters.contextRole == 'superviseur'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+        <menu-tuteur
+          v-if="$store.getters.contextRole == 'tuteur'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+        <menu-analyste
+          v-if="$store.getters.contextRole == 'analyste'"
+          :default-active="activeMenu"
+          :is-collapsed="isCollapsed"
+        />
+      </el-menu>
     </div>
 
     <div class="text-center p-5">
@@ -59,15 +52,12 @@
       ></el-button>
     </div>
 
-    <div
-      v-if="!isCollapsed"
-      class="absolute bottom-0 p-6 pb-10 flex flex-col justify-center items-center mb-4"
-      style="width: 220px;"
-    >
+    <div class="p-6 flex flex-col border-t border-gray-200 justify-center items-center">
       <router-link to="/">
-        <img src="/images/logo-header-dark.png" />
+        <img v-if="!isCollapsed" src="/images/logo-header-dark.png" />
+        <img v-else src="/images/logo-rc-square.png" />
       </router-link>
-      <router-link to="/dashboard/news">
+      <router-link v-if="!isCollapsed" to="/dashboard/news">
         <div class="text-xs text-gray-600 py-2">Nouveautés</div>
       </router-link>
     </div>
