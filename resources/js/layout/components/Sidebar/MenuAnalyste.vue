@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-menu-item index="/dashboard">
-      <span v-if="!isCollapsed">Tableau de bord</span>
+    <el-menu-item index="/dashboard" :class="{'is-active': isActive('dashboard')}">
+      <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
         v-else
         class="item"
@@ -13,20 +13,17 @@
         <i class="el-icon-data-analysis"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item v-if="!isCollapsed">
+    <el-menu-item v-if="$store.getters.sidebar">
       <a href="tel:0184800189">Aide:&nbsp;01 84 80 01 89&nbsp;</a>
     </el-menu-item>
   </div>
 </template>
 
 <script>
+import MenuActive from "@/mixins/MenuActive"
+
 export default {
   name: "MenuAnalyste",
-  props: {
-    isCollapsed: {
-      type: Boolean,
-      required: true
-    }
-  }
+  mixins: [MenuActive]
 };
 </script>

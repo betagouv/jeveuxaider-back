@@ -18,7 +18,7 @@
             {{ $store.getters.user.profile.first_name[0]
             }}{{ $store.getters.user.profile.last_name[0] }}
           </el-avatar>
-          <div v-if="!isCollapsed" class="flex flex-col ml-2">
+          <div v-if="$store.getters.sidebar" class="flex flex-col ml-2">
             <div class="text-black">{{ $store.getters.user.profile.first_name }}</div>
             <div class="uppercase text-xs">{{ $store.getters["user/contextRoleLabel"] }}</div>
           </div>
@@ -109,12 +109,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "SidebarProfile",
-  props: {
-    isCollapsed: {
-      type: Boolean,
-      required: true
-    }
-  },
   data() {
     return {
       // baseUrl: process.env.VUE_APP_API_BASE_URL,

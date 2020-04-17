@@ -3,6 +3,7 @@ import { rolesList } from "../api/user";
 
 const getters = {
   isAppLoaded: state => state.isAppLoaded,
+  sidebar: state => state.sidebar,
   isLogged: state => !!state.auth.accessToken,
   tokenHasExpired: state => {
     return state.auth.dateExpire
