@@ -1480,7 +1480,7 @@ babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-helper-vue-jsx-merge-props@^2.0.0:
+babel-helper-vue-jsx-merge-props@^2.0.0, babel-helper-vue-jsx-merge-props@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
   integrity sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg==
@@ -7185,6 +7185,13 @@ vue-clamp@^0.2.2:
   integrity sha512-WohCN3oTRz8PGWT2m1c1qsmb1oKKNA4A9MyGxUspfONkQJ7vrlk50R4NAG3H80F/CTdpkit6mxQh3eLtlpLccw==
   dependencies:
     resize-detector "^0.1.10"
+
+vue-content-loader@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/vue-content-loader/-/vue-content-loader-0.2.3.tgz#8516a2536b375ce5363ae6a14f5ff5ecbd13b696"
+  integrity sha512-gJlNEdXkuHGvgnyY0lBMsrSsOMk+TTog5uNAil5MSLv08f/mE7Apag0VavpxJ6ieb4P5J1iVKEIhHI41HQNq9Q==
+  dependencies:
+    babel-helper-vue-jsx-merge-props "^2.0.3"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"

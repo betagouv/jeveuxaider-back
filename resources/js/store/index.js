@@ -10,6 +10,7 @@ Vue.use(Vuex);
 
 const state = {
   isAppLoaded: false,
+  sidebar: true,
   loading: false,
   taxonomies: null,
   reseaux: null,
@@ -22,12 +23,10 @@ const actions = {
     const { data } = await bootstrap();
     commit("setTaxonomies", data.taxonomies);
     commit("setReseaux", data.reseaux);
-    commit("setRelease", data.release);
     if(data.user) {
       commit("user/setUser", data.user);
     }
     commit("setAppLoadingStatus", true);
-
     return data;
   }
 };
@@ -48,6 +47,9 @@ const mutations = {
   },
   setLoading: (state, loading) => {
     state.loading = loading;
+  },
+  toggleSidebar: (state) => {
+    state.sidebar = !state.sidebar
   }
 };
 
