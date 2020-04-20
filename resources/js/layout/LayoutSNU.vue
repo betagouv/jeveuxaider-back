@@ -37,9 +37,6 @@ export default {
   },
   computed: {
     ...mapGetters(["isAppLoaded"])
-  },
-  created() {
-    this.$store.dispatch("bootstrap");
   }
 };
 </script>

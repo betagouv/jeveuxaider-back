@@ -25,7 +25,7 @@
         <query-main-search-filter
           name="search"
           placeholder="Rechercher par mots clés..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
@@ -49,7 +49,7 @@
           name="lieu"
           label="Lieu"
           placeholder="Ville ou code postal"
-          :value="query['filter[lieu]']"
+          :initial-value="query['filter[lieu]']"
           @changed="onFilterChange"
         />
         <query-filter

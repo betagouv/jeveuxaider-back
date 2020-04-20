@@ -25,7 +25,7 @@
           name="search"
           label="Recherche"
           placeholder="Mots clés, etc..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
       </div>

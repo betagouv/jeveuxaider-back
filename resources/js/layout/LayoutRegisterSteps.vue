@@ -54,9 +54,6 @@ export default {
   name: "RegisterSteps",
   computed: {
     ...mapGetters(["isAppLoaded", "isImpersonating"])
-  },
-  created() {
-    this.$store.dispatch("bootstrap");
   }
 };
 </script>

@@ -26,7 +26,7 @@ export default {
     }
   },
   created() {
-    this.query = { ...this.$router.history.current.query };
+    this.query = { ...this.$route.query };
     this.tableData = this.fetchDatas();
     this.showFilters = this.activeFilters > 0 ? true : false;
   },
@@ -38,6 +38,7 @@ export default {
       });
     },
     onFilterChange(filter) {
+      console.log("onFilterChange !")
       this.$router.push({
         path: this.$router.history.current.path,
         query: {

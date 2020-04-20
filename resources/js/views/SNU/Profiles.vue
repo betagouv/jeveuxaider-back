@@ -44,7 +44,7 @@
         <query-main-search-filter
           name="search"
           placeholder="Rechercher par nom, prénom, email..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">

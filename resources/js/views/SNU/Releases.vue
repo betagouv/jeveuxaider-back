@@ -16,7 +16,7 @@
         <query-main-search-filter
           name="search"
           placeholder="Rechercher par mots clés..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
       </div>
