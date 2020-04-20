@@ -44,7 +44,7 @@
         <query-main-search-filter
           name="search"
           placeholder="Rechercher par nom, prénom, email..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
@@ -68,15 +68,7 @@
           name="role"
           label="Rôle"
           :value="query['filter[role]']"
-          :options="[
-            { label: 'Modérateur', value: 'admin' },
-            { label: 'Superviseur', value: 'superviseur' },
-            { label: 'Analyste', value: 'analyste' },
-            { label: 'Référent départemental', value: 'referent' },
-            { label: 'Référent régional', value: 'referent_regional' },
-            { label: 'Responsable', value: 'responsable' },
-            { label: 'Volontaire', value: 'volontaire' },
-          ]"
+          :options="rolesList"
           @changed="onFilterChange"
         />
         <query-filter
@@ -120,7 +112,7 @@
           <div class="text-gray-900">
             {{ scope.row.first_name }} {{ scope.row.last_name }}
           </div>
-          <div class="font-light text-gray-600">{{ scope.row.email }}</div>
+          <div class="font-light text-gray-600 text-xs">{{ scope.row.email }}</div>
         </template>
       </el-table-column>
       <el-table-column label="Roles" min-width="200">
@@ -220,6 +212,26 @@ export default {
       tableData: [],
       totalRows: 0
     };
+  },
+  computed: {
+    rolesList(){
+      if(this.$store.getters.contextRole == 'admin' || this.$store.getters.contextRole == 'analyste') {
+        return [
+            { label: 'Modérateur', value: 'admin' },
+            { label: 'Superviseur', value: 'superviseur' },
+            { label: 'Analyste', value: 'analyste' },
+            { label: 'Référent départemental', value: 'referent' },
+            { label: 'Référent régional', value: 'referent_regional' },
+            { label: 'Responsable', value: 'responsable' },
+            { label: 'Volontaire', value: 'volontaire' },
+          ]
+      } else {
+        return [
+            { label: 'Responsable', value: 'responsable' },
+            { label: 'Volontaire', value: 'volontaire' },
+          ]
+      }
+    }
   },
   beforeRouteUpdate(to, from, next) {
     this.query = { ...to.query };

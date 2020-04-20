@@ -41,6 +41,10 @@
             <div class="text-gray-500 text-sm">Abandonnées</div>
             <div class="">{{ data.abandoned|formatNumber }}</div>
           </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Déclinées</div>
+            <div class="">{{ data.declined|formatNumber }}</div>
+          </div>
         </div>
       </template>
       <template v-else>

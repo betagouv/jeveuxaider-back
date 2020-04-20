@@ -105,14 +105,14 @@
           name="search"
           label="Recherche"
           placeholder="Mots clés, etc..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
         <query-search-filter
           name="lieu"
           label="Lieu"
           placeholder="Ville ou code postal"
-          :value="query['filter[lieu]']"
+          :initial-value="query['filter[lieu]']"
           @changed="onFilterChange"
         />
       </div>

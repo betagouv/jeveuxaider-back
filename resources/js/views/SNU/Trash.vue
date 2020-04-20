@@ -25,7 +25,7 @@
           name="search"
           label="Recherche"
           placeholder="Mots clés, etc..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
       </div>
@@ -35,7 +35,10 @@
       <el-table-column label="Nom" min-width="320">
         <template slot-scope="scope">
           <span v-if="type != 'Participations'">{{ scope.row.name }}</span>
-          <span v-else>{{ scope.row.profile.full_name }}</span>
+          <span v-else>
+            <template v-if="scope.row.profile">{{ scope.row.profile.full_name }}</template>
+            <template v-else>Profil supprimé</template>
+          </span>
         </template>
       </el-table-column>
       <el-table-column label="Type" min-width="120">{{ type }}</el-table-column>
@@ -92,15 +95,18 @@ export default {
     this.fetchDatas();
     next();
   },
+  created(){
+    this.type = this.$route.query.type ? this.$route.query.type : 'Structures'
+    this.query = { ...this.$router.history.current.query };
+    this.tableData = this.fetchDatas();
+    this.showFilters = this.activeFilters > 0 ? true : false;
+  },
   methods: {
     handleChangeType() {
-      this.$router.push({
-        path: this.$router.history.current.path,
-        query: {
-          type: this.type,
-          page: 1
-        }
-      });
+      this.tableData = []
+      this.query.type = this.type;
+      this.query.page = 1;
+      this.fetchDatas();
     },
     handleDelete(row) {
       this.loading = true;

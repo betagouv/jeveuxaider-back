@@ -14,7 +14,7 @@
         <query-main-search-filter
           name="search"
           placeholder="Rechercher par mots clés, mission ou structure..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
@@ -44,7 +44,7 @@
           name="lieu"
           label="Lieu"
           placeholder="Ville ou code postal"
-          :value="query['filter[lieu]']"
+          :initial-value="query['filter[lieu]']"
           @changed="onFilterChange"
         />
         <query-filter
@@ -95,8 +95,9 @@
         <template slot-scope="scope">
           <template v-if="canShowProfileDetails(scope.row)">
             <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
-            <div class="font-light text-gray-600 flex items-center">
-              <div class="text-xs">{{ scope.row.profile.email }} - {{ scope.row.profile.mobile }}</div>
+            <div class="font-light text-gray-600">
+              <div class="text-xs">{{ scope.row.profile.email }}</div>
+              <div class="text-xs">{{ scope.row.profile.mobile }} - {{ scope.row.profile.zip }}</div>
             </div>
           </template>
           <template v-else>
@@ -110,7 +111,7 @@
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
           <div v-if="scope.row.mission" class="text-gray-900">
-            <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name }}</v-clamp>
+            <v-clamp :max-lines="1" autoresize>{{ scope.row.mission.name|labelFromValue('mission_domaines') }}</v-clamp>
           </div>
           <div
             v-if="scope.row.mission && scope.row.mission.structure"
@@ -127,11 +128,6 @@
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">{{ scope.row.created_at | fromNow }}</template>
-      </el-table-column>
-      <el-table-column v-if="!$store.getters['volet/active']" label="Actions" width="165">
-        <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini" class="m-1">Modifier</el-button>
-        </template>
       </el-table-column>
     </el-table>
     <div class="m-3 flex items-center">
@@ -205,7 +201,6 @@ export default {
       exportParticipations(this.query)
         .then(response => {
           this.loading = false;
-          console.log("export", response.data);
           fileDownload(response.data, "participations.xlsx");
         })
         .catch(error => {

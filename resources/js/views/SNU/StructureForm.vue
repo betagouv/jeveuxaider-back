@@ -230,17 +230,18 @@
           <el-input v-model="form.longitude" disabled placeholder="Longitude" />
         </el-form-item>
       </div>
-      <div class="flex pt-2">
+      <div class="flex pt-2 items-center">
         <el-button type="primary" :loading="loading" @click="onSubmit"
           >Enregistrer</el-button
         >
+        <div v-if="$store.getters.contextRole === 'responsable'" class="text-red-500 ml-4 cursor-pointer hover:underline" @click="onSubmitDelete">Supprimer ma structure</div>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { getStructure, addOrUpdateStructure } from "@/api/structure";
+import { getStructure, addOrUpdateStructure, updateStructure } from "@/api/structure";
 import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
 import StateTag from "@/components/StateTag";
 import FormWithAddress from "@/mixins/FormWithAddress";
@@ -364,6 +365,28 @@ export default {
           this.loading = false;
         }
       });
+    },
+    onSubmitDelete() {
+        this.$confirm(
+          "Souhaitez-vous réellement supprimer votre structure de la Réserve Civique ?",
+          "Supprimer ma structure",
+          {
+            confirmButtonText: "Je confirme",
+            confirmButtonClass: "el-button--danger",
+            cancelButtonText: "Annuler",
+            center: true,
+            type: "error"
+          }
+        ).then(() => {
+          this.form.state = "Désinscrite"
+          updateStructure(this.form.id, this.form).then(() => {
+            this.$message({
+              type: "success",
+              message: `Votre structure ${this.form.name} a bien été supprimée.`
+            });
+            this.$router.push("/");
+          });
+        });
     }
   }
 };

@@ -34,7 +34,7 @@
     </div>
     <template v-if="mission.tuteur">
       <div v-if="mission.tuteur" class="mb-2 flex">
-        <div class="card-label">Tuteur</div>
+        <div class="card-label">Responsable</div>
         <div class="text-gray-900 flex-1">
           {{ mission.tuteur.first_name }} {{ mission.tuteur.last_name }}
         </div>

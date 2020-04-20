@@ -24,6 +24,10 @@ class MissionPolicy
 
     public function update(User $user, Mission $mission)
     {
+        if (request()->header('Context-Role') == 'analyste') {
+            return false;
+        }
+        
         $ids = Mission::role(request()->header('Context-Role'))->get()->pluck('id')->all();
 
         if (in_array($mission->id, $ids)) {

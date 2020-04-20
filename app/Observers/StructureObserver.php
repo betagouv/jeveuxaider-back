@@ -65,6 +65,15 @@ class StructureObserver
                         }
                     }
                     break;
+                case 'Désinscrite':
+                    $structure->members()->detach();
+                    if ($structure->missions) {
+                        foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
+                            $mission->update(['state' => 'Annulée']);
+                        }
+                        $structure->missions->unsearchable();
+                    }
+                    break;
             }
         }
 

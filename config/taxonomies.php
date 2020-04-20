@@ -75,7 +75,8 @@ return [
             "En attente de validation" => "En attente de validation",
             // "En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
-            "Signalée" => "Signalée"
+            "Signalée" => "Signalée",
+            "Désinscrite" => "Désinscrite"
         ]
     ],
 
@@ -278,10 +279,12 @@ return [
     'mission_domaines' => [
         "vocabulary" => "Domaines de mission",
         "terms" => [
-            "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis" => "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis",
-            "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance",
+            "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis" => "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis, dans la rue ou au sein d’établissements (accueil de jour, centres d’hébergement).",
+            "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants des personnels indispensables à la gestion de la crise sanitaire  ou d’une structure de l’Aide Sociale à l’Enfance",
             "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)" => "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)",
             "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
+            //"soutien_aux_personnes_agees_en_etablissement" => "J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.",
+            "soutien_scolaire_a_distance" => "J’aide à distance les élèves à faire leurs devoirs.",
         ]
     ],
 
@@ -351,7 +354,7 @@ return [
             "25" => "Doubs",
             "26" => "Drôme",
             "27" => "Eure",
-            "28" => "Eure-et-Loire",
+            "28" => "Eure-et-Loir",
             "29" => "Finistère",
             "2A" => "Corse-du-Sud",
             "2B" => "Haute-Corse",
@@ -439,7 +442,7 @@ return [
     'regions' => [
         "vocabulary" => "Régions",
         "terms" => [
-            "Auvergne-Rhônes-Alpes" => "Auvergne-Rhônes-Alpes",
+            "Auvergne-Rhône-Alpes" => "Auvergne-Rhône-Alpes",
             "Bourgogne-Franche-Comté" => "Bourgogne-Franche-Comté",
             "Bretagne" => "Bretagne",
             "Centre-Val de Loire" => "Centre-Val de Loire",
@@ -459,11 +462,11 @@ return [
             "Mayotte" => "Mayotte",
         ],
         "departments" => [
-            "Auvergne-Rhônes-Alpes" => ["03","42","63","15","43","07","26","38","73","74","69"],
+            "Auvergne-Rhône-Alpes" => ["01","03","42","63","15","43","07","26","38","73","74","69"],
             "Bourgogne-Franche-Comté" => ["89","21","70","90","25","39","71","58"],
             "Bretagne" => ["29","22","35","56"],
             "Centre-Val de Loire" => ["28","45","41","37","36","18"],
-            "Corse" => ["2A","2B"],
+            "Corse" => ["2A","2B","20"],
             "Grand Est" => ["08","55","54","57","67","68","54","88","52","10"],
             "Hauts-de-France" => ["62","59","02","60","80"],
             "Île-de-France" => ["75","77","78","91","92","93","94","95"],
@@ -490,14 +493,14 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
+            "Candidature annulée" => "Candidature annulée",
+            "Participation déclinée" => "Participation déclinée",
             "Mission validée" => "Mission validée",
             "Mission en cours" => "Mission en cours",
             "Mission effectuée" => "Mission effectuée",
-            //"Mission refusée" => "Mission refusée",
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",
             "Mission signalée" => "Mission signalée",
-           // "Archivée" => "Archivée"
         ]
     ],
 
@@ -510,8 +513,8 @@ return [
     'collectivities_types' => [
         "vocabulary" => "Types de collectivités",
         "terms" => [
-            "Collectivité" => "Collectivité",
-            "Autre" => "Autre"
+            "department" => "Département",
+            "other" => "Autre"
         ]
     ],
 
@@ -524,10 +527,10 @@ return [
     'collectivities_states' => [
         "vocabulary" => "Statut des collectivités",
         "terms" => [
-            "En attente de validation" => "En attente de validation",
-            "Validée" => "Validée",
-            "Signalée" => "Signalée",
-            "Archivée" => "Archivée",
+            "waiting" => "En attente de validation",
+            "validated" => "Validée",
+            "signaled" => "Signalée",
+            "archived" => "Archivée",
         ]
     ],
 ];

@@ -1,51 +1,35 @@
 <template>
-  <el-aside :width="asideWidth" :class="{ collapsed: isCollapsed }">
-    <profile :is-collapsed="isCollapsed" />
-
-    <div class="px-5">
-      <hr />
-    </div>
-
-    <el-menu :router="true">
-      <menu-responsable
-        v-if="$store.getters.contextRole == 'responsable'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-moderateur
-        v-if="$store.getters.contextRole == 'admin'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-referent
-        v-if="$store.getters.contextRole == 'referent'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-referent-regional
-        v-if="$store.getters.contextRole == 'referent_regional'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-superviseur
-        v-if="$store.getters.contextRole == 'superviseur'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-tuteur
-        v-if="$store.getters.contextRole == 'tuteur'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-      <menu-analyste
-        v-if="$store.getters.contextRole == 'analyste'"
-        :default-active="activeMenu"
-        :is-collapsed="isCollapsed"
-      />
-    </el-menu>
-    
-    <div class="px-5">
-      <hr />
+  <el-aside
+    :width="asideWidth"
+    :class="{ collapsed: !$store.getters.sidebar }"
+    class="flex flex-col"
+  >
+    <profile class="border-b border-gray-200" />
+    <div class="flex flex-col flex-1">
+      <el-menu :router="true">
+        <menu-responsable
+          v-if="$store.getters.contextRole == 'responsable'"
+          
+        />
+        <menu-moderateur v-if="$store.getters.contextRole == 'admin'"  />
+        <menu-referent
+          v-if="$store.getters.contextRole == 'referent'"
+          
+        />
+        <menu-referent-regional
+          v-if="$store.getters.contextRole == 'referent_regional'"
+          
+        />
+        <menu-superviseur
+          v-if="$store.getters.contextRole == 'superviseur'"
+          
+        />
+        <menu-tuteur v-if="$store.getters.contextRole == 'tuteur'"  />
+        <menu-analyste
+          v-if="$store.getters.contextRole == 'analyste'"
+          
+        />
+      </el-menu>
     </div>
 
     <div class="text-center p-5">
@@ -58,19 +42,16 @@
         @click="handleCollapse"
       ></el-button>
     </div>
-    
-    
 
-    <router-link to="/">
-      <div
-        v-if="!isCollapsed"
-        class="absolute bottom-0 p-6 pb-10 flex justify-center mb-4"
-        style="width: 220px;"
-      >
-      
-        <img src="/images/logo-header-dark.png" />
-      </div>
-    </router-link>
+    <div class="p-6 flex flex-col border-t border-gray-200 justify-center items-center">
+      <router-link to="/">
+        <img v-if="$store.getters.sidebar" src="/images/logo-header-dark.png" />
+        <img v-else src="/images/logo-rc-square.png" />
+      </router-link>
+      <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
+        <div class="text-xs text-gray-600 py-2">Nouveautés</div>
+      </router-link>
+    </div>
   </el-aside>
 </template>
 
@@ -97,23 +78,14 @@ export default {
     MenuAnalyste,
     Profile
   },
-  data() {
-    return {
-      isCollapsed: false
-    };
-  },
   computed: {
-    ...mapGetters(["release"]),
-    activeMenu() {
-      return this.$route.path;
-    },
     asideWidth() {
-      return this.isCollapsed ? "88px" : "232px";
+      return this.$store.getters.sidebar ? "232px" : "88px";
     }
   },
   methods: {
     handleCollapse() {
-      this.isCollapsed = !this.isCollapsed;
+      this.$store.commit("toggleSidebar");
     }
   }
 };

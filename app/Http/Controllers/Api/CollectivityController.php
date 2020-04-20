@@ -9,9 +9,7 @@ use App\Http\Requests\Api\CollectivityUpdateRequest;
 use App\Http\Requests\Api\CollectivityDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersCollectivitySearch;
-use App\Http\Requests\Api\CollectivitySubmitRequest;
-use App\Models\Profile;
+use App\Filters\FiltersTitleBodySearch;
 
 class CollectivityController extends Controller
 {
@@ -20,37 +18,35 @@ class CollectivityController extends Controller
         return QueryBuilder::for(Collectivity::class)
             ->allowedFilters([
                 'state',
-                AllowedFilter::custom('search', new FiltersCollectivitySearch),
+                AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show($slugOrId)
+    public function show(Collectivity $collectivity)
     {
-        return is_numeric($slugOrId)
-            ? Collectivity::where('id', $slugOrId)->firstOrFail()
-            : Collectivity::where('slug', $slugOrId)->firstOrFail();
-    }
-
-    public function submit(CollectivitySubmitRequest $request)
-    {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
-        $collectivity = Collectivity::create($request->validated());
-
-        $profile = Profile::whereEmail(request('email'))->first();
-
-        if (!$profile) {
-            $profile = Profile::create($request->validated());
-        }
-
-        $collectivity->profile()->save($profile);
-
         return $collectivity;
     }
+
+    // public function submit(CollectivitySubmitRequest $request)
+    // {
+    //     if (!$request->validated()) {
+    //         return $request->validated();
+    //     }
+
+    //     $collectivity = Collectivity::create($request->validated());
+
+    //     $profile = Profile::whereEmail(request('email'))->first();
+
+    //     if (!$profile) {
+    //         $profile = Profile::create($request->validated());
+    //     }
+
+    //     $collectivity->profile()->save($profile);
+
+    //     return $collectivity;
+    // }
 
     public function store(CollectivityCreateRequest $request)
     {

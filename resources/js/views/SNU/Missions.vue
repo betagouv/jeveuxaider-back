@@ -24,7 +24,7 @@
         <query-main-search-filter
           name="search"
           placeholder="Rechercher par mots clés, mission ou structure..."
-          :value="query['filter[search]']"
+          :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
@@ -46,7 +46,7 @@
           name="lieu"
           label="Lieu"
           placeholder="Ville ou code postal"
-          :value="query['filter[lieu]']"
+          :initial-value="query['filter[lieu]']"
           @changed="onFilterChange"
         />
         <query-filter
@@ -126,7 +126,7 @@
       </el-table-column>
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="text-gray-900">{{ scope.row.name|labelFromValue('mission_domaines') }}</div>
           <div v-if="scope.row.structure" class="font-light text-gray-600 flex items-center">
             <div class="text-xs">{{ scope.row.structure.name }}</div>
           </div>

@@ -180,7 +180,7 @@
           ></el-input>
         </el-form-item>
 
-        <!-- <div class="mb-6 mt-12 flex text-xl text-gray-800">
+        <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national
         </div>
         <item-description>
@@ -198,7 +198,7 @@
               :value="item.id"
             ></el-option>
           </el-select>
-        </el-form-item> -->
+        </el-form-item>
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit"
             >Continuer</el-button

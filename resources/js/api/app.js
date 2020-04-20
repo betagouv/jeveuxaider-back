@@ -27,3 +27,83 @@ export function addFaq(faq) {
 export function updateFaq(id, faq) {
   return request.post(`/api/faq/${id}`, faq);
 }
+
+export function deleteFaq(id) {
+  return request.delete(`/api/faq/${id}`);
+}
+
+export function fetchReleases(params) {
+  return request.get("/api/releases", { params });
+}
+
+export function getRelease(id) {
+  return request.get(`/api/release/${id}`);
+}
+
+export function addRelease(release) {
+  return request.post(`/api/release`, release);
+}
+
+export function updateRelease(id, release) {
+  return request.post(`/api/release/${id}`, release);
+}
+
+export function deleteRelease(id) {
+  return request.delete(`/api/release/${id}`);
+}
+
+export function fetchPages(params) {
+  return request.get("/api/pages", { params });
+}
+
+export function getPage(id) {
+  return request.get(`/api/page/${id}`);
+}
+
+export function addPage(page) {
+  return request.post(`/api/page`, page);
+}
+
+export function updatePage(id, page) {
+  return request.post(`/api/page/${id}`, page);
+}
+
+export function deletePage(id) {
+  return request.delete(`/api/page/${id}`);
+}
+
+export function exportTable(table) {
+  return request.post(`/api/${table}/export/table`);
+}
+
+export function addCollectivity(collectivity) {
+  return request.post("/api/collectivity", collectivity);
+}
+
+// export function submitCollectivity(collectivity) {
+//   return request.post("/api/submit/collectivity", collectivity);
+// }
+
+export function updateCollectivity(id, collectivity) {
+  return request.post(`/api/collectivity/${id}`, collectivity);
+}
+
+export function addOrUpdateCollectivity(id, collectivity) {
+  return id ? updateCollectivity(id, collectivity) : addCollectivity(collectivity);
+}
+
+export function getCollectivity(id) {
+  return request.get(`/api/collectivity/${id}`);
+}
+
+export function fetchCollectivities(params) {
+  return request.get("/api/collectivities", { params });
+}
+
+export function deleteCollectivity(id) {
+  return request.delete(`/api/collectivity/${id}`);
+}
+
+export function destroyCollectivity(id) {
+  return request.delete(`/api/collectivity/${id}/destroy`);
+}

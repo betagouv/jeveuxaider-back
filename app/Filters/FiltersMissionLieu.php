@@ -9,8 +9,9 @@ class FiltersMissionLieu implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
-        return $query
-            ->where('city', 'LIKE', '%' . $value . '%')
+        return $query->where(function ($query) use ($value, $property) {
+            $query->where('city', 'ILIKE', '%' . $value . '%')
             ->orWhere('zip', 'LIKE', '%' . $value . '%');
+        });
     }
 }

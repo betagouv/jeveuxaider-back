@@ -18,7 +18,7 @@ import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
 import Maintenance from "@/views/Maintenance.vue";
 import BrowserOutdated from "@/views/BrowserOutdated.vue";
-// import Releases from "@/views/Releases.vue";
+
 import FrontHomepage from "@/views/Front/Homepage";
 import FrontAbout from "@/views/Front/About";
 import FrontSecurityRules from "@/views/Front/SecurityRules";
@@ -28,6 +28,8 @@ import FrontSettings from "@/views/Front/Settings";
 import FrontUserMissions from "@/views/Front/UserMissions";
 import FrontFaq from "@/views/Front/Faq";
 import FrontLegalNotice from "@/views/Front/LegalNotice";
+import FrontPage from "@/views/Front/Page";
+
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -66,8 +68,32 @@ export default new Router({
         },
         {
             path: "/mentions-legales",
-            name: "Mentions légales",
+            name: "FrontLegalNotice",
             component: FrontLegalNotice,
+        },
+        {
+            path: "/mentions-legales2",
+            name: "PageMentionsLegales",
+            component: FrontPage,
+            props: { id: 1 },
+        },
+        {
+            path: "/conditions-generales-d-utilisation",
+            name: "PageCGU",
+            component: FrontPage,
+            props: { id: 2 },
+        },
+        {
+            path: "/politique-de-confidentialite2",
+            name: "PagePolitiqueConfidentialite",
+            component: FrontPage,
+            props: { id: 3 },
+        },
+        {
+            path: "/charte-reserve-civique",
+            name: "PageCharteReserveCivique",
+            component: FrontPage,
+            props: { id: 4 },
         },
         {
             path: "/user",
@@ -301,7 +327,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
                     name: "Profiles",
                     meta: {
-                        roles: ["admin", "referent"]
+                        roles: ["admin", "referent", "referent_regional"]
                     }
                 },
                 {
@@ -355,15 +381,6 @@ export default new Router({
                     }
                 },
                 {
-                    path: "/dashboard/faqs",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-faqs" */ "@/views/SNU/Faqs.vue"),
-                    name: "Faqs",
-                    meta: {
-                        roles: ["admin"]
-                    }
-                },
-                {
                     path: "/dashboard/faq/add",
                     component: () =>
                         import(
@@ -386,10 +403,63 @@ export default new Router({
                     }
                 },
                 {
-                    path: "/dashboard/collectivities",
+                    path: "/dashboard/news",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-collectivities" */ "@/views/SNU/Collectivities.vue"),
-                    name: "Collectivities",
+                        import(/* webpackChunkName: "assets/js/dashboard-news" */ "@/views/SNU/News.vue"),
+                    name: "News",
+                    meta: {
+                        roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
+                    }
+                },
+                {
+                    path: "/dashboard/contents",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-contents" */ "@/views/SNU/Contents.vue"),
+                    name: "Contents",
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/release/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-release-add" */ "@/views/SNU/ReleaseForm.vue"
+                        ),
+                    name: "ReleaseFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/release/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-release-edit" */ "@/views/SNU/ReleaseForm.vue"),
+                    name: "ReleaseFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/page/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-page-add" */ "@/views/SNU/PageForm.vue"
+                        ),
+                    name: "PageFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/page/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-page-edit" */ "@/views/SNU/PageForm.vue"),
+                    name: "PageFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
                     meta: {
                         roles: ["admin"]
                     }
@@ -451,17 +521,11 @@ export default new Router({
             props: route => ({ id: parseInt(route.params.id) }),
         },
         {
-            path: "/collectivites/:slug",
+            path: "/pyrennees-atlantiques",
             component: () =>
                 import(/* webpackChunkName: "assets/js/collectivites-slug" */ "@/views/Front/Collectivity.vue"),
-            name: "CollectivitySlug",
-            props: route => ({ slug: route.params.slug })
-        },
-        {
-            path: "/collectivity/new",
-            component: () =>
-                import(/* webpackChunkName: "assets/js/collectivite-submit" */ "@/views/Front/CollectivitySubmit.vue"),
-            name: "CollectivitySubmit",
+            name: "Collectivity",
+            props: route => ({ id: 1 })
         },
         { path: "/403", component: Forbidden, name: 'Forbidden' },
         { path: "*", component: NotFound, name: 'NotFound' }

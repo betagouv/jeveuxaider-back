@@ -22,21 +22,31 @@
             <div class="">{{ data.responsable|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Référents</div>
-            <div class="">{{ data.referent|formatNumber }}</div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Superviseurs</div>
-            <div class="">{{ data.superviseur|formatNumber }}</div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Modérateurs</div>
-            <div class="">{{ data.admin|formatNumber }}</div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Invités</div>
-            <div class="">{{ data.invited|formatNumber }}</div>
-          </div>
+              <div class="text-gray-500 text-sm">Service civique</div>
+              <div class="">{{ data.service_civique|formatNumber }}</div>
+            </div>
+          <template v-if="$store.getters.contextRole == 'admin' || $store.getters.contextRole == 'analyste'">
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Départementaux</div>
+              <div class="">{{ data.referent|formatNumber }}</div>
+            </div>
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Régionaux</div>
+              <div class="">{{ data.referent_regional|formatNumber }}</div>
+            </div>
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Superviseurs</div>
+              <div class="">{{ data.superviseur|formatNumber }}</div>
+            </div>
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Modérateurs</div>
+              <div class="">{{ data.admin|formatNumber }}</div>
+            </div>
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Invités</div>
+              <div class="">{{ data.invited|formatNumber }}</div>
+            </div>
+          </template>
         </div>
       </template>
       <template v-else>

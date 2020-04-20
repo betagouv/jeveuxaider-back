@@ -7,6 +7,7 @@ use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationSignaled;
+use App\Notifications\ParticipationDeclined;
 
 class ParticipationObserver
 {
@@ -50,6 +51,11 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationSignaled($participation));
                     }
                     break;
+                case 'Participation déclinée':
+                    if ($participation->profile) {
+                        $participation->profile->notify(new ParticipationDeclined($participation));
+                    }
+                    break;
             }
         }
     }
@@ -62,7 +68,8 @@ class ParticipationObserver
         $this->updateMission($participation);
     }
 
-    private function updateMission($participation) {
+    private function updateMission($participation)
+    {
         // Permet de calculer le nombre de places restantes + Envoie à Algolia
         $participation->mission->update();
         /*

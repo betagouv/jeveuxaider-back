@@ -10,8 +10,10 @@ class FiltersStructureLieu implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return
-            $query
-            ->where('city', 'LIKE', '%' . $value . '%')
-            ->orWhere('zip', 'LIKE', '%' . $value . '%');
+            $query->where(function ($query) use ($value, $property) {
+                $query
+                    ->where('city', 'ILIKE', '%' . $value . '%')
+                    ->orWhere('zip', 'LIKE', '%' . $value . '%');
+            });
     }
 }

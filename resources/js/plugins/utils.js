@@ -1,6 +1,5 @@
 import store from "../store";
 import Vue from "vue";
-import slugify from "slugify";
 
 Vue.filter("labelFromValue", function (key, taxonomy) {
   let element = store.getters.taxonomies[taxonomy].terms.find(el => {
@@ -48,13 +47,14 @@ Vue.filter("cleanDomaineAction", function (domaine) {
     case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
       return "Solidarité de proximité";
       break;
+    case "soutien_aux_personnes_agees_en_etablissement":
+      return "Soutien aux personnes âgées en établissement";
+      break;
+    case "soutien_scolaire_a_distance":
+      return "Soutien scolaire à distance";
+      break;
     default:
       return domaine
   }
 });
 
-Vue.filter("slugify", function (string) {
-  return slugify(string, {
-    lower: true
-  });
-});

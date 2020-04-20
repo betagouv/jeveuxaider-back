@@ -71,7 +71,9 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
             'twitter',
             'created_at',
             'updated_at',
-            'missions'
+            'missions',
+            'user_id',
+            'user_email',
         ];
     }
 
@@ -106,7 +108,9 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
             $structure->twitter,
             $structure->created_at,
             $structure->updated_at,
-            $structure->missions->count()
+            $structure->missions->count(),
+            $structure->user_id,
+            $structure->user ? $structure->user->email : ''
         ];
     }
 }

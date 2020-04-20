@@ -17,7 +17,7 @@ import _ from "lodash";
 export default {
   name: "QueryMainSearchFilter",
   props: {
-    value: {
+    initialValue: {
       type: String,
       required: false,
       default: null
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      input: "",
+      input: this.initialValue,
       debouncedInput: ""
     };
   },
@@ -44,9 +44,6 @@ export default {
         this.$emit("changed", { name: this.name, value: newVal });
       }
     }, 500)
-  },
-  created() {
-    this.input = this.value;
   }
 };
 </script>

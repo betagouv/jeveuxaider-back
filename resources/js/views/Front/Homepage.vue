@@ -66,7 +66,7 @@
             <h3
               class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl leading-tight hide-br"
             >
-              Les 4 missions
+              Les 5 missions
               <br />vitales
             </h3>
           </div>
@@ -153,6 +153,29 @@
                 </p>
               </div>
             </div>
+            <div class="mt-10 sm:mt-0">
+              <div
+                class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+              >5</div>
+              <div class="mt-5">
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">Soutien scolaire à distance.</h5>
+                <p class="mt-2 text-base leading-6 text-gray-500">
+                  J’aide à distance les élèves à faire leurs devoirs.
+                </p>
+              </div>
+            </div>
+            <!--        <div class="mt-10 sm:mt-0">
+              <div
+                class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+              >6</div>
+              <div class="mt-5">
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">Soutien aux personnes âgées en établissement.</h5>
+                <p class="mt-2 text-base leading-6 text-gray-500">
+                  J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.
+                </p>
+              </div>
+            </div>
+            -->
           </div>
         </div>
       </div>
@@ -431,6 +454,61 @@
         />
       </div>
     </div>-->
+
+    <div class="p-8 lg:p-20">
+      <div class="relative max-w-4xl mx-auto">
+        <div class="lg:text-center">
+          <h2 class="text-3xl leading-9 tracking-tight font-extrabold text-gray-900 sm:text-4xl sm:leading-10">
+            S'informer c'est s'engager
+          </h2>
+          <p class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4">
+            Restez informé et soutenez l'emploi des secteurs prioritaires
+          </p>
+        </div>
+        <div class="mt-12 grid gap-12 max-w-lg lg:max-w-4xl mx-auto lg:grid-cols-2 lg:max-w-none">
+          <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+            <a href="https://www.gouvernement.fr/info-coronavirus" target="_blank">
+            <div class="flex-shrink-0">
+              <img class=" w-full object-cover" src="images/rcv.jpg" alt="">
+            </div>
+            <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+              <div class="flex-1">
+                <p class="text-md leading-5 font-medium text-blue-800">
+                    #RestezChezVous
+                </p>
+                  <h3 class="mt-2 text-xl leading-7 font-semibold text-gray-900">
+                    Informations Coronavirus
+                  </h3>
+                  <p class="mt-3 text-base leading-6 text-gray-500">
+                    Tenez-vous informé des informations officielles sur le COVID-19 grâce au point de situation du gouvernement.
+                  </p>
+              </div>
+            </div>
+          </a>
+          </div>
+          <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+            <a href="https://mobilisationemploi.gouv.fr/" target="_blank">
+            <div class="flex-shrink-0">
+            <img class="w-full object-cover" src="images/pole.jpg" alt="">
+            </div>
+            <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+              <div class="flex-1">
+                <p class="text-md leading-5 font-medium text-blue-800">
+                  #TousMobilisés
+                </p>
+                  <h3 class="mt-2 text-xl leading-7 font-semibold text-gray-900">
+                  Mobilisez-vous pour l'emploi
+                  </h3>
+                  <p class="mt-3 text-base leading-6 text-gray-500">
+                    Actuellement en recherche d’emploi ou en activité partielle, soutenez et venez travailler avec les salarié(e)s des secteurs prioritaires.
+                  </p>
+              </div>
+              </div>
+            </a>
+            </div>
+          </div>
+        </div>
+    </div>
 
     <AppFooter />
   </div>

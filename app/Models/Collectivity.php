@@ -3,21 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Collectivity extends Model
 {
     protected $table = 'collectivities';
 
     protected $fillable = [
-        'name',
-        'slug',
+        'title',
         'zips',
         'type',
+        'department',
         'description',
-        'instagram',
-        'facebook',
-        'twitter',
         'state',
         'profile_id'
     ];
@@ -27,17 +23,6 @@ class Collectivity extends Model
     ];
 
     protected $attributes = [
-        'state' => 'En attente de validation'
+        'state' => 'validated'
     ];
-
-    public function profile()
-    {
-        return $this->belongsTo('App\Models\Profile');
-    }
-
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
-    }
 }

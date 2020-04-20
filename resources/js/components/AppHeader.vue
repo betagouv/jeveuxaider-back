@@ -43,6 +43,7 @@
                 }"
                 >Règles de sécurité</router-link
               >
+              <a href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/" class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700">Toutes les initiatives solidaires</a>
             </div>
           </div>
           <div class="order-2 md:order-3 ml-auto md:ml-3">

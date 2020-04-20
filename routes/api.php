@@ -19,18 +19,18 @@ Route::post('register/invitation', 'Api\PassportController@registerInvitation');
 Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
-Route::get('releases', 'Api\ReleaseController@index');
 Route::get('faqs', 'Api\FaqController@index');
+Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
-Route::post('submit/collectivity', 'Api\CollectivityController@submit');
-Route::get('collectivite/{slugOrId}', 'Api\CollectivityController@show');
+Route::get('bootstrap', 'Api\ConfigController@bootstrap');
+
+Route::get('collectivity/{collectivity}', 'Api\CollectivityController@show');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
-    Route::get('bootstrap', 'Api\ConfigController@bootstrap');
     Route::get('user', 'Api\UserController@show');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure/{structure}', 'Api\StructureController@update');
 
     Route::post('participation', 'Api\ParticipationController@store');
+    Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
+
 
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
@@ -85,6 +87,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');
 
+    // RELEASES
+    Route::get('releases', 'Api\ReleaseController@index');
+
     // STATISTICS
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
     Route::get('statistics/analytics', 'Api\StatisticsController@analytics');
@@ -107,7 +112,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // COLLECTIVITIES
     Route::get('collectivities', 'Api\CollectivityController@index');
-    Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
     Route::post('collectivity', 'Api\CollectivityController@store');
     Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
@@ -116,13 +120,24 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('faq', 'Api\FaqController@store');
     Route::post('faq/{faq}', 'Api\FaqController@update');
     Route::get('faq/{faq}', 'Api\FaqController@show');
+    Route::delete('faq/{faq}', 'Api\FaqController@delete');
 
     // RELEASES
-    // Route::get('release/{release}', 'Api\ReleaseController@show');
-    // Route::post('release/{release}', 'Api\ReleaseController@update');
-    // Route::delete('release/{release}', 'Api\ReleaseController@delete');
+    Route::post('release', 'Api\ReleaseController@store');
+    Route::post('release/{release}', 'Api\ReleaseController@update');
+    Route::get('release/{release}', 'Api\ReleaseController@show');
+    Route::delete('release/{release}', 'Api\ReleaseController@delete');
+
+    // PAGES
+    Route::get('pages', 'Api\PageController@index');
+    Route::post('page', 'Api\PageController@store');
+    Route::post('page/{page}', 'Api\PageController@update');
+    Route::delete('page/{page}', 'Api\PageController@delete');
 
     // IMPERSONNATE
     Route::post('impersonate/{user}', 'Api\UserController@impersonate');
     Route::delete('impersonate/{token}', 'Api\UserController@stopImpersonate');
+
+    // TABLE EXPORT
+    Route::post('{table}/export/table', 'Api\ConfigController@export');
 });

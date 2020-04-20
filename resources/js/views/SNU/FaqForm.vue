@@ -121,7 +121,7 @@ export default {
             updateFaq(this.form.id, this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.go(-1);
+                this.$router.push('/dashboard/contents?type=Faqs');
                 this.$message({
                   message: "La question a été enregistrée !",
                   type: "success"
@@ -134,7 +134,7 @@ export default {
             addFaq(this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.go(-1);
+                this.$router.push('/dashboard/contents?type=Faqs');
                 this.$message({
                   message: "La question a été enregistrée !",
                   type: "success"

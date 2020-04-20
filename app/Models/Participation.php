@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class Participation extends Model
 {
-    use CrudTrait, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'participations';
 
@@ -73,11 +72,11 @@ class Participation extends Model
             case 'responsable':
                 return $query
                     ->whereIn('mission_id', Auth::guard('api')->user()->missions->pluck('id'))
-                    ->orWhereIn('mission_id', Auth::guard('api')->user()->profile->missionsAsTuteur->pluck('id'));
+                    ->orWhereIn('mission_id', Auth::guard('api')->user()->profile->missions->pluck('id'));
             break;
             case 'tuteur':
                 return $query
-                    ->whereIn('mission_id', Auth::guard('api')->user()->profile->missionsAsTuteur->pluck('id'));
+                    ->whereIn('mission_id', Auth::guard('api')->user()->profile->missions->pluck('id'));
             break;
         }
     }

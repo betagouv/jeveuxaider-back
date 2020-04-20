@@ -3,16 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Helpers\Utils;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
 class Mission extends Model
 {
-    use CrudTrait, SoftDeletes, Searchable;
+    use SoftDeletes, Searchable;
 
     protected $table = 'missions';
 
@@ -72,7 +70,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        return $this->state == 'Validée' ? true : false;
+        return $this->structure()->first()->state == 'Validée' && $this->state == 'Validée' ? true : false;
     }
 
     public function searchableAs()
@@ -109,11 +107,6 @@ class Mission extends Model
         }
 
         return $mission;
-    }
-
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = Utils::ucfirst($value);
     }
 
     public function user()

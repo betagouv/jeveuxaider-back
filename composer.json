@@ -11,9 +11,6 @@
         "php": "^7.2",
         "algolia/scout-extended": "^1.9",
         "axlon/laravel-postal-code-validation": "^2.1",
-        "backpack/crud": "^3.6",
-        "backpack/logmanager": "^2.3",
-        "barryvdh/laravel-elfinder": "^0.4.4",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "jorijn/laravel-security-checker": "^1.1",
@@ -33,7 +30,6 @@
         "spatie/laravel-query-builder": "^2.0"
     },
     "require-dev": {
-        "backpack/generators": "^1.2",
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.6",
         "beyondcode/laravel-dump-server": "^1.0",

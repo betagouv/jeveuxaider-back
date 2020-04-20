@@ -10,6 +10,7 @@ Vue.use(Vuex);
 
 const state = {
   isAppLoaded: false,
+  sidebar: true,
   loading: false,
   taxonomies: null,
   reseaux: null,
@@ -22,17 +23,10 @@ const actions = {
     const { data } = await bootstrap();
     commit("setTaxonomies", data.taxonomies);
     commit("setReseaux", data.reseaux);
-    commit("setRelease", data.release);
-    commit("user/setUser", data.user);
+    if(data.user) {
+      commit("user/setUser", data.user);
+    }
     commit("setAppLoadingStatus", true);
-
-    // Switch context role if no more volontaire
-    // if(getters.contextRole == 'volontaire') {
-    //   if(getters.hasRoles && getters.hasRoles.length > 0) {
-    //     dispatch("user/setContextRole", getters.hasRoles[0].key);
-    //   }
-    // }
-
     return data;
   }
 };
@@ -53,6 +47,9 @@ const mutations = {
   },
   setLoading: (state, loading) => {
     state.loading = loading;
+  },
+  toggleSidebar: (state) => {
+    state.sidebar = !state.sidebar
   }
 };
 

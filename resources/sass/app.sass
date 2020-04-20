@@ -54,8 +54,13 @@ p:not(:last-child)
 
 .has-full-table
   @apply h-full flex flex-col
+  .el-table
+    @apply flex flex-col
+  .el-table__header-wrapper
+    overflow: initial
   .el-table__body-wrapper
-    height: calc(100% - 49px)
+    // height: calc(100% - 49px)
+    align-items: stretch
     overflow-y: auto
   .el-table__row
     td:last-of-type
@@ -109,6 +114,16 @@ button:focus
     padding: 15px 25px!important
     color: #6b7280
     line-height: 16px
+    h2
+      font-size: 24px
+      font-weight: 800
+      line-height: 26px
+      margin-bottom: 15px
+    h3
+      font-size: 18px
+      font-weight: 800
+      line-height: 20px
+      margin-bottom: 15px
     ul,ol
       padding-bottom: 24px
       padding-left: 24px
@@ -118,4 +133,18 @@ button:focus
       list-style: disc  
     ol
       list-style: decimal
+
+.faq-description
+  ul
+    list-style: disc
+    list-style-position: outside
+    padding-left: 18px
+    li:not(:last-child)
+      @apply mb-4
+
+.release-description
+  ul
+    list-style: disc
+    list-style-position: outside
+    padding-left: 18px
 

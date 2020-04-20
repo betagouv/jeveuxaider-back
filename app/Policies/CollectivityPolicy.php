@@ -22,11 +22,6 @@ class CollectivityPolicy
         return true;
     }
 
-    public function submit(User $user)
-    {
-        return true;
-    }
-
     public function create(User $user)
     {
         return false;

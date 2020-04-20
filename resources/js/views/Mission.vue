@@ -10,14 +10,15 @@
       </div>
     </div>
 
+    <template v-if="!loading">
     <div class="-mt-32 mb-12">
       <div class="container mx-auto px-4 mt-12">
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-white rounded-lg shadow-lg">
           <div class="lg:flex">
             <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
               <h3
                 class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
-              >{{ mission.name }}</h3>
+              >{{ mission.name|labelFromValue('mission_domaines') }}</h3>
 
               <div class="mt-12">
                 <div
@@ -108,7 +109,9 @@
                           />
                         </svg>
                       </div>
-                      <p class="ml-3 text-gray-700">{{ mission.name }}</p>
+                      <p
+                        class="ml-3 text-gray-700"
+                      >{{ mission.name|labelFromValue('mission_domaines') }}</p>
                     </li>
                   </ul>
                 </div>
@@ -145,6 +148,22 @@
                   "
                 >
                   <SolidariteDeProximite />
+                </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'soutien_aux_personnes_agees_en_etablissement'
+                  "
+                >
+                  <SoutienPersonnesAgeesEtablissement />
+                </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'soutien_scolaire_a_distance'
+                  "
+                >
+                  <SoutienScolaireDistance />
                 </div>
               </div>
 
@@ -241,119 +260,146 @@
                 </div>
 
                 <div class="mt-6 text-gray-500">
-                    <p>
-                        <a class="inline-flex items-center hover:underline" target="_blank" href="/files/PFP_Asso_Fiche_telephonie_COVID19__2020_03_23_.pdf">
-                        Télécharger la fiche pratique
-                        <svg style="margin-top:2px;" data-v-18b25a0c="" fill="currentColor" viewBox="0 0 20 20" class="h-4 w-4 text-gray-400"><path data-v-18b25a0c="" fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                        </a>
-                    </p>
+                  <p>
+                    <a
+                      class="inline-flex items-center hover:underline"
+                      target="_blank"
+                      href="/files/PFP_Asso_Fiche_telephonie_COVID19__2020_03_23_.pdf"
+                    >
+                      Télécharger la fiche pratique
+                      <svg
+                        style="margin-top:2px;"
+                        data-v-18b25a0c
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        class="h-4 w-4 text-gray-400"
+                      >
+                        <path
+                          data-v-18b25a0c
+                          fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>
 
             <div
-              class="aside py-8 px-6 text-center bg-gray-100 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12"
+              class="aside text-center bg-gray-100 lg:rounded-r-lg lg:flex-shrink-0"
             >
-              <p class="text-3xl leading-none font-extrabold text-gray-900">
-                Rejoignez
-                <br />le mouvement
-              </p>
-              <p class="mt-6 text-sm tracking-wider text-gray-500 uppercase">La structure recherche</p>
+              <div class="sticky top-0 py-8 px-6 lg:p-12">
+                <p class="text-3xl leading-none font-extrabold text-gray-900">
+                  Rejoignez
+                  <br />le mouvement
+                </p>
+                <p
+                  class="mt-6 text-sm tracking-wider text-gray-500 uppercase"
+                >La structure recherche</p>
 
-              <div class="text-sm">
-                <span
-                  class="px-6 py-1 shadow-md inline-flex text-lg font-semibold rounded-full bg-green-100 text-green-800"
-                >
-                  {{ mission.participations_max|formatNumber }}
-                  {{
-                  mission.participations_max
-                  | pluralize(["volontaire", "volontaires"])
-                  }}
-                </span>
-              </div>
-
-              <div class="mt-4 text-sm">
-                <div v-if="mission.has_places_left">
-                  {{ mission.places_left|formatNumber }}
-                  {{
-                  (mission.places_left)
-                  | pluralize(["place restante", "places restantes"])
-                  }}
-                </div>
-                <div v-else>Complet</div>
-              </div>
-
-              <div class="mt-4 text-sm">
-                <div class="mt-6 text-center inline-flex justify-center flex-wrap text-gray-500">
-                  <svg
-                    class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
+                <div class="text-sm">
+                  <span
+                    class="px-6 py-1 shadow-md inline-flex text-lg font-semibold rounded-full bg-green-100 text-green-800"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  <div v-if="mission.start_date" class="w-full sm:w-auto">
-                    <span class="text-gray-400 mr-1 text-xs">Du</span>
-                    <span class="mr-1">
-                      {{
-                      mission.start_date | formatMedium
-                      }}
-                    </span>
-                  </div>
-                  <div v-if="mission.end_date" class="w-full sm:w-auto">
-                    <span class="text-gray-400 mr-1 text-xs">Au</span>
-                    {{ mission.end_date | formatMedium }}
-                  </div>
-                  <div
-                    v-if="!mission.start_date && !mission.end_date"
-                  >Disponibilité aussitôt que possible</div>
+                    {{ mission.participations_max|formatNumber }}
+                    {{
+                    mission.participations_max
+                    | pluralize(["volontaire", "volontaires"])
+                    }}
+                  </span>
                 </div>
-              </div>
 
-              <div
-                class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
-              ></div>
+                <div class="mt-4 text-sm">
+                  <div v-if="mission.has_places_left">
+                    {{ mission.places_left|formatNumber }}
+                    {{
+                    (mission.places_left)
+                    | pluralize(["place restante", "places restantes"])
+                    }}
+                  </div>
+                  <div v-else>Complet</div>
+                </div>
 
-              <div class="mt-6">
-                <template v-if="mission.state">
-                  <template v-if="mission.state == 'Validée'">
-                    <template v-if="mission.has_places_left">
-                      <template v-if="$store.getters.isLogged">
-                        <el-button
-                          v-if="canRegistered"
-                          @click="handleClick"
-                          class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Proposer votre aide</el-button>
-                        <router-link
-                          v-else
-                          to="/user/missions"
-                          class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Vous êtes déjà inscrit !</router-link>
-                      </template>
+                <div class="mt-4 text-sm">
+                  <div class="mt-6 text-center inline-flex justify-center flex-wrap text-gray-500">
+                    <svg
+                      class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <div v-if="mission.start_date" class="w-full sm:w-auto">
+                      <span class="text-gray-400 mr-1 text-xs">Du</span>
+                      <span class="mr-1">
+                        {{
+                        mission.start_date | formatMedium
+                        }}
+                      </span>
+                    </div>
+                    <div v-if="mission.end_date" class="w-full sm:w-auto">
+                      <span class="text-gray-400 mr-1 text-xs">Au</span>
+                      {{ mission.end_date | formatMedium }}
+                    </div>
+                    <div
+                      v-if="!mission.start_date && !mission.end_date"
+                    >Disponibilité aussitôt que possible</div>
+                  </div>
+                </div>
 
-                      <template v-else>
-                        <router-link
-                          to="/login"
-                          class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Proposer votre aide</router-link>
+                <div
+                  class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
+                ></div>
+
+                <div class="mt-6">
+                  <template v-if="mission.state">
+                    <template v-if="mission.state == 'Validée'">
+                      <template v-if="mission.has_places_left">
+                        <template v-if="$store.getters.isLogged">
+                          <el-button
+                            v-if="canRegistered"
+                            @click="handleClick"
+                            class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          >Proposer votre aide</el-button>
+                          <router-link
+                            v-else
+                            to="/user/missions"
+                            class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          >Vous êtes déjà inscrit !</router-link>
+                        </template>
+
+                        <template v-else>
+                          <router-link
+                            to="/login"
+                            class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          >Proposer votre aide</router-link>
+                        </template>
                       </template>
                     </template>
-                  </template>
 
-                  <template v-else>
-                    <span class="bg-orange-300 inline-flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium">Cette mission a le statut {{ mission.state.toLowerCase() }}</span>
+                    <template v-else>
+                      <span
+                        class="bg-orange-300 inline-flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium"
+                      >Cette mission a le statut {{ mission.state.toLowerCase() }}</span>
+                    </template>
                   </template>
-                </template>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    </template>
+    <template v-else>
+      <front-mission-loading />
+    </template>
 
     <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
       <div class="bg-white shadow overflow-hidden rounded-lg">
@@ -370,26 +416,17 @@
             :key="otherMission.id"
             class="border-t border-gray-200"
           >
-
             <router-link
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
               :to="`/missions/${otherMission.id}`"
             >
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">
-                  <div
-                    class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center"
-                  >
-                    <img
-                      class=""
-                      :src="iconDomain(otherMission.name)"
-                      style="width:28px;"
-                    />
+                  <div class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center">
+                    <img class :src="iconDomain(otherMission.name)" style="width:28px;" />
                   </div>
                   <div class="min-w-0 flex-1 sm:pl-4">
-                    <div
-                      class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2"
-                    >
+                    <div class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2">
                       <div class="m-2 min-w-0 flex-shrink">
                         <div
                           class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
@@ -397,8 +434,7 @@
                         ></div>
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                          v-text="otherMission.name"
-                        ></div>
+                        >{{ otherMission.name|labelFromValue('mission_domaines') }}</div>
                       </div>
 
                       <div
@@ -416,11 +452,11 @@
                         >
                           {{ otherMission.places_left | formatNumber }}
                           {{
-                            otherMission.places_left
-                              | pluralize([
-                                "volontaire recherché",
-                                "volontaires recherchés"
-                              ])
+                          otherMission.places_left
+                          | pluralize([
+                          "volontaire recherché",
+                          "volontaires recherchés"
+                          ])
                           }}
                         </template>
                         <template v-else>Complet</template>
@@ -429,9 +465,7 @@
                   </div>
                 </div>
 
-                <div
-                  class="mt-4 flex items-start text-sm text-gray-500"
-                >
+                <div class="mt-4 flex items-start text-sm text-gray-500">
                   <svg
                     class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
                     fill="currentColor"
@@ -447,12 +481,10 @@
                     v-text="
                       `${otherMission.city} (${otherMission.department}) - ${otherMission.structure.name}`
                     "
-                  >
-                  </span>
+                  ></span>
                 </div>
               </div>
             </router-link>
-
           </li>
         </ul>
       </div>
@@ -469,14 +501,20 @@ import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence
 import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
 import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
+import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
+import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
+import FrontMissionLoading from "@/components/loadings/FrontMissionLoading";
 
 export default {
   name: "Mission",
   components: {
+    FrontMissionLoading,
     AideAlimentaireUrgence,
     GardeExceptionnelleEnfants,
     LienPersonnesFragilesIsolees,
-    SolidariteDeProximite
+    SolidariteDeProximite,
+    SoutienPersonnesAgeesEtablissement,
+    SoutienScolaireDistance
   },
   props: {
     id: {
@@ -489,26 +527,27 @@ export default {
       return this.mission.structure;
     },
     hasParticipation() {
-        return this.$store.getters.profile.participations.filter((participation) => (participation.mission_id == this.id))
+      return this.$store.getters.profile.participations.filter(
+        participation => participation.mission_id == this.id
+      );
     },
     canRegistered() {
-      return this.hasParticipation.length > 0 ? false : true
-    },
+      return this.hasParticipation.length > 0 ? false : true;
+    }
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       mission: {},
       otherMissions: {}
     };
   },
   created() {
-    this.$store.commit("setLoading", true);
     getMission(this.id)
       .then(response => {
         this.form = response.data;
         this.mission = { ...response.data };
-        this.$store.commit("setLoading", false);
+        this.loading = false
         fetchStructureAvailableMissions(this.mission.structure.id)
           .then(response => {
             this.otherMissions = { ...response.data };
@@ -517,7 +556,7 @@ export default {
             this.loading = false;
           });
       })
-      .catch(() => {
+      .catch(error => {
         this.loading = false;
       });
   },
@@ -562,6 +601,10 @@ export default {
           return "/images/phone-handle.svg";
         case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
           return "/images/basket.svg";
+        case "soutien_aux_personnes_agees_en_etablissement":
+          return "/images/ehpad.svg";
+        case "soutien_scolaire_a_distance":
+          return "/images/ecole.svg";
       }
     }
   }
