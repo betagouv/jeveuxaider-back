@@ -70,7 +70,7 @@
                   />
                 </el-form-item>
               </div>
-              <div class="mt-8 border-t border-gray-200 pt-5">
+              <div class="mt-8 border-t border-gray-200 pt-5 flex items-center">
                 <el-button
                   type="primary"
                   :loading="loading"
@@ -78,6 +78,7 @@
                   class=""
                   >Enregistrer les modifications
                 </el-button>
+                <div v-if="$store.getters.isVolunteerOnly === true" class="text-red-500 ml-4 cursor-pointer hover:underline" @click="onSubmitDelete">Supprimer mon compte</div>
               </div>
             </div>
           </el-form>
@@ -89,7 +90,7 @@
 </template>
 
 <script>
-import { updatePassword } from "@/api/user";
+import { updatePassword, anonymizeUser } from "@/api/user";
 
 export default {
   name: "FrontSettings",
@@ -150,6 +151,29 @@ export default {
           this.loading = false;
         }
       });
+    },
+    onSubmitDelete() {
+        this.$confirm(
+          "Attention, vos données seront supprimées et vous serez immédiatement déconnecté. Souhaitez-vous réellement supprimer votre compte ?",
+          "Supprimer mon compte",
+          {
+            confirmButtonText: "Je confirme",
+            confirmButtonClass: "el-button--danger",
+            cancelButtonText: "Annuler",
+            center: true,
+            type: "error"
+          }
+        ).then(() => {
+          anonymizeUser().then(() => {
+            this.$store.dispatch("auth/logout").then(() => {
+              this.$router.push("/");
+              this.$message({
+                type: "success",
+                message: `Votre compte a bien été supprimé.`
+              });
+            })
+          });
+        });
     }
   }
 };

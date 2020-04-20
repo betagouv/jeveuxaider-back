@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\ResetPassword;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -62,5 +63,23 @@ class User extends Authenticatable
         }
 
         return $this->attributes['context_role'];
+    }
+
+    public function anonymize()
+    {
+        $email = $this->id . '@anonymized.fr';
+        $this->anonymous_at = Carbon::now();
+        $this->name = $email;
+        $this->email = $email;
+        $this->profile->email = $email;
+        $this->profile->first_name = 'Anonyme';
+        $this->profile->last_name = 'Anonyme';
+        $this->profile->phone = null;
+        $this->profile->mobile = null;
+        $this->profile->birthday = null;
+        $this->save();
+        $this->profile->save();
+
+        return $this;
     }
 }

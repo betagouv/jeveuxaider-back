@@ -30,6 +30,7 @@ Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
+    Route::post('user/anonymize', 'Api\UserController@anonymize');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
     Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');

@@ -70,6 +70,10 @@ export function updatePassword(user) {
   return request.post("/api/user/password", user);
 }
 
+export function anonymizeUser() {
+  return request.post("/api/user/anonymize");
+}
+
 export function fetchUsers() {
   return request.get("/api/users");
 }

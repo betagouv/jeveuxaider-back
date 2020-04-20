@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -100,5 +101,15 @@ class UserController extends Controller
     public function stopImpersonate(Token $token)
     {
         return (string) $token->revoke();
+    }
+
+    public function anonymize(Request $request)
+    {
+        // TODO : Seulement volontaire peuvent s'anonymiser
+        $user = $request->user();
+        $user->anonymize();
+        $user->token()->revoke();
+
+        return $user;
     }
 }
