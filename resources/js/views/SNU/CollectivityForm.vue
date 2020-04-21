@@ -49,15 +49,6 @@
           ></el-input>
         </el-form-item> -->
 
-      <!-- <el-form-item label="Description" prop="description" class="flex-1">
-        <el-input
-          v-model="form.description"
-          name="description"
-          type="textarea"
-          :autosize="{ minRows: 6, maxRows: 20 }"
-          placeholder=""
-        ></el-input>
-      </el-form-item> -->
 
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
@@ -70,7 +61,8 @@
 import {
   getCollectivity,
   updateCollectivity,
-  addCollectivity
+  addCollectivity,
+  addOrUpdateCollectivity
 } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 
@@ -92,7 +84,8 @@ export default {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
       form: {
-        type: 'department'
+        type: 'department',
+        image: ''
       }
     };
   },

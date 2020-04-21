@@ -107,3 +107,11 @@ export function deleteCollectivity(id) {
 export function destroyCollectivity(id) {
   return request.delete(`/api/collectivity/${id}/destroy`);
 }
+
+// export function uploadImagee(id, model, image) {
+//   var data = new FormData();
+//   data.append("image", image);
+//   return request.post(`/api/${model}/${id}`, data, {
+//     "Content-Type": "multipart/form-data"
+//   });
+// }
