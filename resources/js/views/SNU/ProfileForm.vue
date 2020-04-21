@@ -58,7 +58,7 @@
 
       <template v-if="$store.getters.contextRole == 'admin'">
         <template v-if="mode == 'edit' || role == 'superviseur'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Réseau national</div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Superviseur du réseau national</div>
           <item-description>
             Si cet utilisateur est membre d'un réseau national (La Croix Rouge,
             Armée du Salut...), renseignez son nom. Vous permettez à cet
@@ -66,7 +66,7 @@
             structures de ce réseau national.
           </item-description>
           <el-form-item label="Réseau national" prop="reseau_id" class="flex-1">
-            <el-select v-model="form.reseau_id" clearable placeholder="Réseau national">
+            <el-select v-model="form.reseau_id" clearable placeholder="Sélectionner un réseau national">
               <el-option
                 v-for="item in $store.getters.reseaux"
                 :key="item.id"
