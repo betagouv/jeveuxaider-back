@@ -16,6 +16,7 @@ class CreateCollectivitiesTable extends Migration
         Schema::create('collectivities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('slug');
             $table->text('type')->nullable();
             $table->string('department')->nullable();
             $table->json('zips')->nullable();

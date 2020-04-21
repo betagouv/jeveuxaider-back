@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Collectivity extends Model
 {
@@ -10,6 +11,7 @@ class Collectivity extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'zips',
         'type',
         'department',
@@ -25,4 +27,10 @@ class Collectivity extends Model
     protected $attributes = [
         'state' => 'validated'
     ];
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
+    }
 }

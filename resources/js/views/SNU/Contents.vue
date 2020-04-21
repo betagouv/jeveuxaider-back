@@ -59,6 +59,11 @@
       <el-table-column label="Titre" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>
+          <div v-if="type == 'Collectivités'" class="font-light text-gray-600 text-xs">
+            <router-link :to="{ name: 'CollectivitySlug', params: { slug: scope.row.slug } }" target="_blank">
+              /collectivites/{{scope.row.slug}}
+            </router-link>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">

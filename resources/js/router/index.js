@@ -521,11 +521,11 @@ export default new Router({
             props: route => ({ id: parseInt(route.params.id) }),
         },
         {
-            path: "/pyrennees-atlantiques",
+            path: "/collectivites/:slug",
             component: () =>
                 import(/* webpackChunkName: "assets/js/collectivites-slug" */ "@/views/Front/Collectivity.vue"),
-            name: "Collectivity",
-            props: route => ({ id: 1 })
+            name: "CollectivitySlug",
+            props: route => ({ slug: route.params.slug })
         },
         { path: "/403", component: Forbidden, name: 'Forbidden' },
         { path: "*", component: NotFound, name: 'NotFound' }

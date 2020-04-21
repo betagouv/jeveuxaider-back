@@ -13,6 +13,7 @@
 
       <el-form-item label="Nom de la collectivité" prop="title">
         <el-input v-model="form.title" placeholder="Nom de la collectivité" />
+        <item-description>Accessible à l'adresse : {{baseUrl}}/collectivites/{{ form.title|slugify }}</item-description>
       </el-form-item>
 
        <el-form-item label="Type" prop="type">
@@ -37,18 +38,18 @@
             </el-select>
           </el-form-item>
 
-      <el-form-item label="Liste des codes postaux" prop="zips" class="flex-1">
-        <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
-        <el-input
-          v-model="form.zips"
-          name="zips"
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-          placeholder="Codes postaux..."
-        ></el-input>
-      </el-form-item>
+        <!-- <el-form-item label="Liste des codes postaux" prop="zips" class="flex-1">
+          <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
+          <el-input
+            v-model="form.zips"
+            name="zips"
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+            placeholder="Codes postaux..."
+          ></el-input>
+        </el-form-item> -->
 
-      <el-form-item label="Description" prop="description" class="flex-1">
+      <!-- <el-form-item label="Description" prop="description" class="flex-1">
         <el-input
           v-model="form.description"
           name="description"
@@ -56,7 +57,7 @@
           :autosize="{ minRows: 6, maxRows: 20 }"
           placeholder=""
         ></el-input>
-      </el-form-item>
+      </el-form-item> -->
 
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
@@ -90,7 +91,9 @@ export default {
     return {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
-      form: {}
+      form: {
+        type: 'department'
+      }
     };
   },
   computed: {
@@ -102,8 +105,19 @@ export default {
             message: "Veuillez renseigner un nom de collectivité",
             trigger: "blur"
           }
-        ]
+        ],
       };
+
+      if(this.form.type == 'department') {
+        rules.department = [
+          {
+            required: true,
+            message: "Veuillez choisir un département",
+            trigger: "blur"
+          }
+        ]
+      }
+
       return rules;
     }
   },
