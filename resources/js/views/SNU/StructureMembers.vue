@@ -25,7 +25,7 @@
           >
             {{ member.first_name[0] }}{{ member.last_name[0] }}
           </el-avatar>
-          <div class="flex flex-col ml-6" style="min-width:250px;">
+          <div class="flex flex-col ml-6" style="min-width:350px;">
             <div class="text-gray-800">
               {{ member.first_name }} {{ member.last_name }}
             </div>
