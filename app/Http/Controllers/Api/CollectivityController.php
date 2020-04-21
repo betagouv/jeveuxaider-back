@@ -10,6 +10,8 @@ use App\Http\Requests\Api\CollectivityDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTitleBodySearch;
+use App\Http\Requests\Api\CollectivityUploadRequest;
+use Illuminate\Support\Str;
 
 class CollectivityController extends Controller
 {
@@ -63,11 +65,27 @@ class CollectivityController extends Controller
 
     public function update(CollectivityUpdateRequest $request, Collectivity $collectivity)
     {
-        if (!$request->validated()) {
-            return $request->validated();
+        $collectivity->update($request->validated());
+
+        return $collectivity;
+    }
+
+    public function upload(CollectivityUploadRequest $request, Collectivity $collectivity)
+    {
+
+        // Delete previous file
+        if ($media = $collectivity->getFirstMedia('collectivities')) {
+            $media->delete();
         }
 
-        $collectivity->update($request->validated());
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(30);
+
+        $collectivity
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->toMediaCollection('collectivities');
 
         return $collectivity;
     }

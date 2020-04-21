@@ -49,6 +49,11 @@
           ></el-input>
         </el-form-item> -->
 
+      <div v-if="mode == 'edit'" class="mb-6">
+        <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
+        <item-description>Ca upload le file quand on le choisit. TODO: trouver un component d'upload avec crop ?</item-description>
+        <input type="file" @change="selectFile">
+      </div>
 
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
@@ -62,7 +67,8 @@ import {
   getCollectivity,
   updateCollectivity,
   addCollectivity,
-  addOrUpdateCollectivity
+  addOrUpdateCollectivity,
+  uploadImage
 } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 
@@ -128,6 +134,17 @@ export default {
     }
   },
   methods: {
+    selectFile(event) {
+        // `files` is always an array because the file input may be in multiple mode
+        console.log(event);
+        uploadImage(this.id, 'collectivity', event.target.files[0])
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(() => {
+          this.loading = false;
+        });
+    },
     onSubmit() {
       this.loading = true;
       this.$refs["collectivityForm"].validate(valid => {

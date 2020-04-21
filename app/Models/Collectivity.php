@@ -43,19 +43,19 @@ class Collectivity extends Model implements HasMedia
         return $media ? $media->getFullUrl() : null;
     }
 
-    public function setImageAttribute($image)
-    {
-        if ($image == null) {
-            $media = $this->getFirstMedia('collectivities');
-            if ($media) {
-                $media->delete();
-            }
-        } elseif (Str::startsWith($image, 'data:image')) {
-            $this->addMediaFromBase64($image)->toMediaCollection('collectivities');
-        } elseif ($image instanceof UploadedFile) {
-            $this->addMedia($image)->toMediaCollection('collectivities');
-        }
-    }
+    // public function setImageAttribute($image)
+    // {
+    //     if ($image == null) {
+    //         $media = $this->getFirstMedia('collectivities');
+    //         if ($media) {
+    //             $media->delete();
+    //         }
+    //     } elseif (Str::startsWith($image, 'data:image')) {
+    //         $this->addMediaFromBase64($image)->toMediaCollection('collectivities');
+    //     } elseif ($image instanceof UploadedFile) {
+    //         $this->addMedia($image)->toMediaCollection('collectivities');
+    //     }
+    // }
 
     public function setTitleAttribute($value)
     {
