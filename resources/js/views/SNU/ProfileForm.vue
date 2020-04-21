@@ -58,7 +58,7 @@
 
       <template v-if="$store.getters.contextRole == 'admin'">
         <template v-if="mode == 'edit' || role == 'superviseur'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Superviseur du réseau national</div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Superviseur réseau national</div>
           <item-description>
             Si cet utilisateur est membre d'un réseau national (La Croix Rouge,
             Armée du Salut...), renseignez son nom. Vous permettez à cet

@@ -38,7 +38,6 @@ export default {
       });
     },
     onFilterChange(filter) {
-      console.log("onFilterChange !")
       this.$router.push({
         path: this.$router.history.current.path,
         query: {
