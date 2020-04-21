@@ -71,7 +71,7 @@ class Structure extends Model implements HasMedia
 
     protected $withCount = ['missions'];
 
-    protected $with = ['members:id,first_name,last_name'];
+    protected $with = ['members:id,first_name,last_name,email,mobile'];
 
     public function scopeRole($query, $contextRole)
     {

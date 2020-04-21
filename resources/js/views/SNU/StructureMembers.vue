@@ -19,10 +19,9 @@
     <div class="px-12">
       <div class="text-sm font-medium text-secondary mb-4">Membres</div>
       <div v-for="member in members" :key="member.id" class="member py-4 px-6">
-        <div class="flex">
+        <div class="flex items-center">
           <el-avatar
             class="bg-primary w-10 rounded-full"
-            :src="`${member.avatar}`"
           >
             {{ member.first_name[0] }}{{ member.last_name[0] }}
           </el-avatar>
@@ -32,6 +31,9 @@
             </div>
             <div class="uppercase text-xs text-secondary">
               {{ member.pivot.role }}
+            </div>
+            <div class="text-xs text-secondary">
+              {{ member.email }} - {{ member.mobile }}
             </div>
           </div>
           <el-button

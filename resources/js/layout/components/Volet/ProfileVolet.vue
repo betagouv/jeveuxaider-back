@@ -36,7 +36,7 @@
       <template v-if="$store.getters.contextRole === 'admin'">
         <el-form ref="profileForm" :model="form" label-position="top">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Réseau national
+            Superviseur du réseau national
           </div>
           <item-description>
             Si cet utilisateur est membre d'un réseau national (La Croix Rouge,
@@ -48,7 +48,7 @@
             <el-select
               v-model="form.reseau_id"
               clearable
-              placeholder="Réseau national"
+              placeholder="Sélectionner un réseau national"
             >
               <el-option
                 v-for="item in $store.getters.reseaux"
