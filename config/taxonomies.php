@@ -503,4 +503,34 @@ return [
             "Mission signalée" => "Mission signalée",
         ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | COLLECTIVITIES TYPES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'collectivities_types' => [
+        "vocabulary" => "Types de collectivités",
+        "terms" => [
+            "department" => "Département",
+            "other" => "Autre"
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | COLLECTIVITIES STATES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'collectivities_states' => [
+        "vocabulary" => "Statut des collectivités",
+        "terms" => [
+            "waiting" => "En attente de validation",
+            "validated" => "Validée",
+            "signaled" => "Signalée",
+            "archived" => "Archivée",
+        ]
+    ],
 ];

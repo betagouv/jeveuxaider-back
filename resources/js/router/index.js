@@ -18,7 +18,7 @@ import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
 import Maintenance from "@/views/Maintenance.vue";
 import BrowserOutdated from "@/views/BrowserOutdated.vue";
-// import Releases from "@/views/Releases.vue";
+
 import FrontHomepage from "@/views/Front/Homepage";
 import FrontAbout from "@/views/Front/About";
 import FrontSecurityRules from "@/views/Front/SecurityRules";
@@ -29,6 +29,7 @@ import FrontUserMissions from "@/views/Front/UserMissions";
 import FrontFaq from "@/views/Front/Faq";
 import FrontLegalNotice from "@/views/Front/LegalNotice";
 import FrontPage from "@/views/Front/Page";
+
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -90,7 +91,7 @@ export default new Router({
         },
         {
             path: "/charte-reserve-civique",
-            name: "PagePCharteReserveCivique",
+            name: "PageCharteReserveCivique",
             component: FrontPage,
             props: { id: 4 },
         },
@@ -463,6 +464,28 @@ export default new Router({
                         roles: ["admin"]
                     }
                 },
+                {
+                    path: "/dashboard/collectivity/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-collectivity-add" */ "@/views/SNU/CollectivityForm.vue"
+                        ),
+                    name: "CollectivityFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/collectivity/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-collectivity-edit" */ "@/views/SNU/CollectivityForm.vue"),
+                    name: "CollectivityFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
             ]
         },
         {
@@ -496,6 +519,13 @@ export default new Router({
                 ),
             name: "Mission",
             props: route => ({ id: parseInt(route.params.id) }),
+        },
+        {
+            path: "/collectivites/:slug",
+            component: () =>
+                import(/* webpackChunkName: "assets/js/collectivites-slug" */ "@/views/Front/Collectivity.vue"),
+            name: "CollectivitySlug",
+            props: route => ({ slug: route.params.slug })
         },
         { path: "/403", component: Forbidden, name: 'Forbidden' },
         { path: "*", component: NotFound, name: 'NotFound' }

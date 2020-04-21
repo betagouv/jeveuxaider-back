@@ -18,10 +18,6 @@ class CreateParticipationsTable extends Migration
             $table->integer('profile_id')->unsigned();
             $table->integer('mission_id')->unsigned();
             $table->timestamps();
-
-            // $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('set null');
-            // $table->foreign('mission_id')->references('id')->on('missions')->onDelete('set null');
-
             $table->softDeletes();
         });
     }

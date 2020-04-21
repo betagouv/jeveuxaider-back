@@ -210,6 +210,11 @@ class Profile extends Model implements HasMedia
             ->without('mission');
     }
 
+    public function collectivities()
+    {
+        return $this->hasMany('App\Models\Collectivity');
+    }
+
     public function isReferent()
     {
         return $this->referent_department ? true : false;
