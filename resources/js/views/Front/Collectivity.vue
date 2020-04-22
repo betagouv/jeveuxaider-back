@@ -59,6 +59,7 @@
       </div>
       <div class="hidden lg:block lg:w-1/2">
         <img
+          v-if="!loading"
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           :src="collectivity.image ? collectivity.image : '/images/hotel-de-ville-collectivite.jpg'"
         />
@@ -249,7 +250,7 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       collectivity: {},
     };
   },
@@ -259,6 +260,7 @@ export default {
       .then(response => {
         this.collectivity = { ...response.data };
         this.$store.commit("setLoading", false);
+        this.loading = false
       })
       .catch(() => {
         this.loading = false;
