@@ -17,7 +17,6 @@ class CollectivityRequest extends FormRequest
             'title' => 'required|min:3|max:255',
             'type' => 'required',
             'description' => '',
-            'image' => '',
             'department' => '',
             'zips' => '',
         ];

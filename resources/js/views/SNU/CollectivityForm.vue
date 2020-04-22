@@ -89,9 +89,9 @@ export default {
     return {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
+      image: null,
       form: {
         type: 'department',
-        image: ''
       }
     };
   },
@@ -135,47 +135,30 @@ export default {
   },
   methods: {
     selectFile(event) {
-        // `files` is always an array because the file input may be in multiple mode
-        console.log(event);
-        uploadImage(this.id, 'collectivity', event.target.files[0])
-        .then((response) => {
-          console.log(response)
-        })
-        .catch(() => {
-          this.loading = false;
-        });
+        this.image = event.target.files[0]
     },
     onSubmit() {
       this.loading = true;
       this.$refs["collectivityForm"].validate(valid => {
         if (valid) {
-          if (this.id) {
-            updateCollectivity(this.form.id, this.form)
-              .then(() => {
+            addOrUpdateCollectivity(this.id, this.form)
+              .then((response) => {
+                this.form = response.data;             
+                if(this.image) {
+                  uploadImage(this.form.id, 'collectivity', this.image)
+                }
+
                 this.loading = false;
                 this.$router.push('/dashboard/contents?type=Collectivités');
                 this.$message({
                   message: "La collectivité a été enregistrée !",
                   type: "success"
                 });
+                
               })
               .catch(() => {
                 this.loading = false;
-              });
-          } else {
-            addCollectivity(this.form)
-              .then(() => {
-                this.loading = false;
-                this.$router.push('/dashboard/contents?type=Collectivités');
-                this.$message({
-                  message: "La collectivité a été enregistrée !",
-                  type: "success"
-                });
-              })
-              .catch(() => {
-                this.loading = false;
-              });
-          }
+              }); 
         } else {
           this.loading = false;
         }
