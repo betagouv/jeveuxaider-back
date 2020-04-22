@@ -4602,12 +4602,6 @@
                 "url": "https://github.com/getsentry/sentry-php-sdk.git",
                 "reference": "18921af9c2777517ef9fb480845c22a98554d6af"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php-sdk/zipball/18921af9c2777517ef9fb480845c22a98554d6af",
-                "reference": "18921af9c2777517ef9fb480845c22a98554d6af",
-                "shasum": ""
-            },
             "require": {
                 "http-interop/http-factory-guzzle": "^1.0",
                 "php-http/guzzle6-adapter": "^1.1|^2.0",

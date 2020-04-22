@@ -60,7 +60,7 @@
       <div class="hidden lg:block lg:w-1/2">
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
-          src="/images/hotel-de-ville-collectivite.jpg"
+          :src="collectivity.image ? collectivity.image : '/images/hotel-de-ville-collectivite.jpg'"
         />
       </div>
     </div>
@@ -74,7 +74,7 @@
           <p class="text-xl leading-8 text-indigo-200 mt-2">
             <router-link to="/regles-de-securite">Consulter les règles de sécurité ›</router-link>
           </p>
-        </div>  
+        </div>
 
         <missions-search :facet-filters="[`department: ${collectivity.department}`]"></missions-search>
 
