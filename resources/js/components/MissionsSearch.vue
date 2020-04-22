@@ -20,7 +20,7 @@
             :index-name="indexName" 
           >
             <ais-configure :hits-per-page.camel="20" :facet-filters.camel="facetFilters" />
-            <div class="bg-blue-900 pb-32">
+            <div class="bg-blue-900 pb-24">
               <div class="container mx-auto px-4">
                 <div
                   class="filters md:flex md:rounded-lg md:shadow md:bg-white"

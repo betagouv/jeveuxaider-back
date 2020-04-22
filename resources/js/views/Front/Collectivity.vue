@@ -2,16 +2,16 @@
   <div>
     <AppHeader />
 
-    <div class="bg-blue-900 pb-12">
+    <div class="bg-blue-900 pb-5">
       <div class="container mx-auto px-4">
-        <div class="pt-10">
+        <div class="pt-5">
           <h1 class="text-3xl font-bold text-white">{{ collectivity.title }}</h1>
         </div>
       </div>
     </div>
 
     <div class="lg:flex">
-      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16">
+      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-24">
         <div class="uppercase pb-2 mt-3 text-xl text-gray-500 sm:mt-5">
           Crise sanitaire du
           <b>COVID-19</b>
@@ -30,7 +30,7 @@
             générale des solidarités.
           </p>
 
-          <div class="mt-6 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-2 sm:gap-2">
+          <div class="mt-6 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-2 sm:gap-8">
             <div>
               <div
                 class="mt-2 pb-1 text-sm leading-6 font-medium text-gray-500"
@@ -66,13 +66,13 @@
     </div>
 
     <div class="bg-blue-900">
-      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-12 lg:pt-20">
+      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-0 lg:pt-10">
         <div class="max-w-6xl mx-auto text-center">
           <h2 class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10">
             Trouvez une mission de bénévolat
           </h2>
           <p class="text-xl leading-8 text-indigo-200 mt-2">
-            <router-link to="/regles-de-securite">Consulter les règles de sécurité ›</router-link>
+            <router-link to="/regles-de-securite" target="_blank">Consulter les règles de sécurité ›</router-link>
           </p>
         </div>  
 
