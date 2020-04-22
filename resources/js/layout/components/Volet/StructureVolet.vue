@@ -108,7 +108,7 @@
           <el-form-item label="Statut" prop="state" class="flex-1">
             <el-select v-model="form.state" placeholder="Statut">
               <el-option
-                v-for="item in $store.getters.taxonomies.structure_workflow_states.terms"
+                v-for="item in statesAvailable"
                 :key="item.label"
                 :label="item.value"
                 :value="item.label"
@@ -225,7 +225,10 @@ export default {
   },
   computed:{
     showStatut() {
-      return (this.row.state != "Signalée") ? true : false;
+      return (this.row.state != "Signalée" && this.row.state != "Désinscrite") ? true : false;
+    },
+    statesAvailable(){
+      return this.$store.getters.taxonomies.structure_workflow_states.terms.filter((item) => item.value != 'Désinscrite')
     },
   },
   methods: {
