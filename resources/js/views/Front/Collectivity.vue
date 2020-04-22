@@ -11,8 +11,8 @@
     </div>
 
     <div class="lg:flex">
-      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-24">
-        <div class="uppercase pb-2 mt-3 text-xl text-gray-500 sm:mt-5">
+      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16">
+        <div class="sm:text-center lg:text-left uppercase pb-2 mt-3 text-xl text-gray-500 sm:mt-5">
           Crise sanitaire du
           <b>COVID-19</b>
         </div>
@@ -30,7 +30,7 @@
             générale des solidarités.
           </p>
 
-          <div class="mt-6 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-2 sm:gap-8">
+          <div class="mt-6 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-2 sm:gap-6">
             <div>
               <div
                 class="mt-2 pb-1 text-sm leading-6 font-medium text-gray-500"
