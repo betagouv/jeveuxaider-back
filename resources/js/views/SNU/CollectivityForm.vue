@@ -49,7 +49,7 @@
           ></el-input>
         </el-form-item> -->
 
-      <div v-if="mode == 'edit'" class="mb-6">
+      <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
         <item-description>Résolution minimale: {{ imgMinWidth }} par {{ imgMinHeight }} pixels</item-description>
         <input type="file" accept="image/*" @change="selectFile">
