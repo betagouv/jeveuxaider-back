@@ -51,8 +51,44 @@
 
       <div v-if="mode == 'edit'" class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
-        <item-description>Ca upload le file quand on le choisit. TODO: trouver un component d'upload avec crop ?</item-description>
-        <input type="file" @change="selectFile">
+        <item-description>Résolution minimale: {{ imgMinWidth }} par {{ imgMinHeight }} pixels</item-description>
+        <input type="file" accept="image/*" @change="selectFile">
+
+        <div v-show="imgSrc" class="mt-4">
+          <div class="p-2 bg-black">
+            <vue-cropper
+              ref="cropper"
+              :src="imgSrc"
+              :aspectRatio="128/85"
+              :zoomable="false"
+              :movable="false"
+              :zoomOnTouch="false"
+              :zoomOnWheel="false"
+              :autoCropArea="1"
+              preview=".preview"
+              @ready="cropImage"
+              @cropmove="ensureMinWidth"
+            >
+            </vue-cropper>
+          </div>
+
+          <div class="actions mt-4">
+            <el-button type="secondary" @click.prevent="cropImage">Recadrer</el-button>
+            <el-button type="secondary" @click.prevent="reset">Réinitialiser</el-button>
+          </div>
+
+          <div class="preview-area">
+            <div class="mt-4">Apercu :</div>
+            <img
+              v-if="cropImgSrc"
+              :src="cropImgSrc"
+              alt="Cropped Image"
+            />
+            <div v-else class="crop-placeholder" />
+          </div>
+        </div>
+
+
       </div>
 
       <div class="flex pt-2">
@@ -71,10 +107,12 @@ import {
   uploadImage
 } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
+import VueCropper from 'vue-cropperjs';
+import 'cropperjs/dist/cropper.css';
 
 export default {
   name: "CollectivityForm",
-  components: { ItemDescription },
+  components: { ItemDescription, VueCropper },
   props: {
     mode: {
       type: String,
@@ -89,7 +127,12 @@ export default {
     return {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
-      image: null,
+      img: null,
+      imgSrc: '',
+      imgMinWidth: 1024,
+      imgMinHeight: 680,
+      cropImg: null,
+      cropImgSrc: '',
       form: {
         type: 'department',
       }
@@ -135,30 +178,91 @@ export default {
   },
   methods: {
     selectFile(event) {
-        this.image = event.target.files[0]
+      if (!event.target.files[0]) {
+        return;
+      }
+      if (event.target.files[0].type.indexOf('image/') === -1) {
+        this.$message({
+          message: "Veuillez sélectionner une image",
+          type: "error"
+        });
+        return;
+      }
+      if (typeof FileReader === 'function') {
+        const reader = new FileReader();
+        reader.onload = (readerEvent) => {
+          console.log(readerEvent)
+          // Validate the File Height and Width.
+          let image = new Image();
+          image.src = readerEvent.target.result;
+          image.onload = (imageEvent) => {
+            var height = imageEvent.path[0].height;
+            var width = imageEvent.path[0].width;
+            if (height < this.imgMinHeight || width < this.imgMinWidth) {
+              this.$message({
+                message: `Résolution minimale: ${this.imgMinWidth} par ${this.imgMinHeight} pixels`,
+                type: "error"
+              });
+            }
+            else {
+              this.img = event.target.files[0];
+              this.imgSrc = readerEvent.target.result;
+              this.$refs.cropper.replace(this.imgSrc);
+            }
+          };
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+      else {
+        console.log("FileReader API not supported")
+      }
+    },
+    cropImage() {
+      this.cropImgSrc = this.$refs.cropper.getCroppedCanvas().toDataURL();
+      fetch(this.cropImgSrc)
+        .then(res => res.blob())
+        .then(blob => this.cropImg = blob)
+    },
+    reset() {
+      this.$refs.cropper.reset();
+      this.cropImage()
+    },
+    ensureMinWidth(event) {
+      let data = this.$refs.cropper.getData();
+      if (data.width < this.imgMinWidth || data.height < this.imgMinHeight) {
+        event.preventDefault();
+        if (data.width < this.imgMinWidth) {
+          data.width = this.imgMinWidth;
+        }
+        if (data.height < this.imgMinHeight) {
+          data.height = this.imgMinHeight;
+        }
+        this.$refs.cropper.setData(data);
+      }
     },
     onSubmit() {
       this.loading = true;
       this.$refs["collectivityForm"].validate(valid => {
         if (valid) {
-            addOrUpdateCollectivity(this.id, this.form)
-              .then((response) => {
-                this.form = response.data;             
-                if(this.image) {
-                  uploadImage(this.form.id, 'collectivity', this.image)
-                }
+          addOrUpdateCollectivity(this.id, this.form)
+            .then((response) => {
+              this.form = response.data;
+              if(this.img || this.cropImg) {
+                let finalImg = this.cropImg ? this.cropImg : this.img
+                uploadImage(this.form.id, 'collectivity', finalImg)
+              }
 
-                this.loading = false;
-                this.$router.push('/dashboard/contents?type=Collectivités');
-                this.$message({
-                  message: "La collectivité a été enregistrée !",
-                  type: "success"
-                });
-                
-              })
-              .catch(() => {
-                this.loading = false;
-              }); 
+              this.loading = false;
+              this.$router.push('/dashboard/contents?type=Collectivités');
+              this.$message({
+                message: "La collectivité a été enregistrée !",
+                type: "success"
+              });
+
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
           this.loading = false;
         }
@@ -169,4 +273,19 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.preview-area
+  width: 307px
+
+.preview
+  width: 100%
+  height: calc(372px * (85 / 128))
+  overflow: hidden
+
+.crop-placeholder
+  width: 100%
+  height: 200px
+  background: #ccc
+
+.cropped-image img
+  max-width: 100%
 </style>
