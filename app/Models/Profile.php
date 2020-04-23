@@ -46,6 +46,11 @@ class Profile extends Model implements HasMedia
 
     protected $with = ['structures:id,name', 'reseau:id,name', 'participations'];
 
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
     public function registerMediaCollections()
     {
         $this->addMediaCollection('avatars')->singleFile();

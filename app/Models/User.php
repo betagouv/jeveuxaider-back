@@ -26,6 +26,11 @@ class User extends Authenticatable
 
     protected $with = ['profile'];
 
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
     public function profile()
     {
         return $this->hasOne('App\Models\Profile');
