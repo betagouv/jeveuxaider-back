@@ -20,7 +20,7 @@
             :index-name="indexName" 
           >
             <ais-configure :hits-per-page.camel="20" :facet-filters.camel="facetFilters" />
-            <div class="bg-blue-900 pb-24">
+            <div class="bg-blue-900">
               <div class="container mx-auto px-4">
                 <div
                   class="filters md:flex md:rounded-lg md:shadow md:bg-white"
@@ -67,8 +67,8 @@
               </div>
             </div>
 
-            <div ref="resultsWrapper" class="-mt-32">
-              <div class="container mx-auto px-4 my-12">
+            <div ref="resultsWrapper" class="">
+              <div class="container mx-auto px-4 mt-4">
                 <ais-state-results>
                   <template slot-scope="{ hits, nbHits, page, nbPages, hitsPerPage }">
                     <template v-if="hits.length > 0">

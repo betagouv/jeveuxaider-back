@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Lowercase;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterVolontaireRequest extends FormRequest
@@ -24,7 +25,7 @@ class RegisterVolontaireRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
+            'email' => ['required','email', 'unique:users', new Lowercase],
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',

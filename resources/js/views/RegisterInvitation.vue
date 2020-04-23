@@ -102,6 +102,13 @@
 export default {
   name: "RegisterInvitation",
   data() {
+    var checkLowercase = (rule, value, callback) => {
+      if (value !== value.toLowerCase()) {
+        callback(new Error("Merci de ne saisir que des minuscules"));
+      } else {
+        callback();
+      }
+    };
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
         callback(new Error("Les mots de passe ne sont pas identiques"));
@@ -129,7 +136,8 @@ export default {
             required: true,
             message: "Veuillez renseigner votre email",
             trigger: "blur"
-          }
+          },
+          { validator: checkLowercase, trigger: 'blur' }
         ],
         first_name: [
           {

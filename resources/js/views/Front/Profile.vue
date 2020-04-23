@@ -110,6 +110,13 @@
 export default {
   name: "FrontProfile",
   data() {
+    var checkLowercase = (rule, value, callback) => {
+      if (value !== value.toLowerCase()) {
+        callback(new Error("Merci de ne saisir que des minuscules"));
+      } else {
+        callback();
+      }
+    };
     return {
       loading: false,
       form: this.$store.getters.user.profile,
@@ -124,7 +131,8 @@ export default {
             required: true,
             message: "Veuillez renseigner votre email",
             trigger: "blur"
-          }
+          },
+          { validator: checkLowercase, trigger: 'blur' }
         ],
         first_name: [
           {

@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('participation', 'Api\ParticipationController@store');
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
 
+    Route::post('user/password', 'Api\UserController@updatePassword');
 
     // AUTH
     Route::post('logout', 'Api\PassportController@logout');
@@ -51,7 +52,6 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], function () {
     // USERS
     Route::post('user', 'Api\UserController@update');
-    Route::post('user/password', 'Api\UserController@updatePassword');
 
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');

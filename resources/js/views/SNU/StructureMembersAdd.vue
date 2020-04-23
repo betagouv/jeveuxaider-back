@@ -48,8 +48,8 @@
             <el-input v-model="form.last_name" placeholder="Nom de famille" />
           </el-form-item>
         </div>
-        <el-form-item label="Adresse email" prop="email">
-          <el-input v-model="form.email" placeholder="Adresse email" />
+        <el-form-item label="Email" prop="email">
+          <el-input v-model="form.email" placeholder="Email" />
         </el-form-item>
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">
@@ -73,6 +73,13 @@ export default {
     }
   },
   data() {
+    var checkLowercase = (rule, value, callback) => {
+      if (value !== value.toLowerCase()) {
+        callback(new Error("Merci de ne saisir que des minuscules"));
+      } else {
+        callback();
+      }
+    };
     return {
       structure: {},
       form: {
@@ -89,7 +96,8 @@ export default {
             required: true,
             message: "Veuillez renseigner votre email",
             trigger: "blur"
-          }
+          },
+          { validator: checkLowercase, trigger: 'blur' }
         ],
         first_name: [
           {
@@ -131,7 +139,7 @@ export default {
               this.$router.push(`/dashboard/structure/${this.id}/members`);
               this.$message({
                 dangerouslyUseHTMLString: true,
-                message: `${this.form.first_name} ${this.form.last_name} fait maintenant partie de votre équipe. <br /><br />Une notification email lui a été envoyé.`,
+                message: `${this.form.first_name} ${this.form.last_name} fait maintenant partie de votre équipe. Une notification email lui a été envoyé.`,
                 type: "success"
               });
             })

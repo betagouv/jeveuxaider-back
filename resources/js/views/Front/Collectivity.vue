@@ -66,7 +66,7 @@
     </div>
 
     <div class="bg-blue-900">
-      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-0 lg:pt-10">
+      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
           <h2 class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10">
             Trouvez une mission de bénévolat

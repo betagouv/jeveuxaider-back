@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Rules\Lowercase;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -36,7 +36,7 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => ['required','email','unique:users,email,' . $user->id, new Lowercase]
         ], $messages);
 
         if ($validator->fails()) {
