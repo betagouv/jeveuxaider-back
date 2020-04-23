@@ -25,6 +25,10 @@ const actions = {
     commit("setReseaux", data.reseaux);
     if(data.user) {
       commit("user/setUser", data.user);
+    } else {
+      // Access token plus valide
+      commit("auth/deleteTokens");
+      commit("user/deleteUser", null, { root: true });
     }
     commit("setAppLoadingStatus", true);
     return data;
