@@ -1,7 +1,7 @@
 <template>
   <div class="m-2">
     <el-dropdown @command="handleCommand">
-      <el-avatar class="bg-white text-blue-900"
+      <el-avatar v-if="$store.getters.user.profile" class="bg-white text-blue-900"
         >{{ $store.getters.user.profile.first_name[0]
         }}{{ $store.getters.user.profile.last_name[0] }}</el-avatar
       >
