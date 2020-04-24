@@ -52,7 +52,7 @@
               to="/mentions-legales"
               >Mentions légales</router-link
             >
-            <a class="block p-3 hover:underline" href="https://www.gouvernement.fr/info-coronavirus" target="_blank">Info Coronarivus</a>
+            <a class="block p-3 hover:underline" href="https://www.gouvernement.fr/info-coronavirus" target="_blank">Info Coronavirus</a>
             <a class="block p-3 hover:underline" href="https://mobilisationemploi.gouv.fr/#/accueil" target="_blank">Mobilisation pour l'emploi</a>
           </div>
           <div class="lg:max-w-1/4 text-black">
