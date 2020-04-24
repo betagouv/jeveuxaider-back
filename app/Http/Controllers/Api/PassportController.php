@@ -16,7 +16,8 @@ use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
-use App\Rules\Lowercase;
+
+//use App\Rules\Lowercase;
 
 class PassportController extends Controller
 {
@@ -103,7 +104,7 @@ class PassportController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required','email', new Lowercase],
+            'email' => ['required','email'],
         ], $messages);
 
         if ($validator->fails()) {

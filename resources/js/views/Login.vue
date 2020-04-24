@@ -111,7 +111,7 @@ export default {
             message: "Veuillez renseigner votre email",
             trigger: "blur"
           },
-          { validator: checkLowercase, trigger: 'blur' }
+          // { validator: checkLowercase, trigger: 'blur' }
         ],
         password: [
           {
