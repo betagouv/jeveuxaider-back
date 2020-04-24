@@ -27,7 +27,7 @@
         :hide-required-asterisk="true"
       >
         <el-form-item label="Email" prop="email">
-          <el-input v-model="form.email" placeholder="Email" />
+          <el-input v-model.trim="form.email" placeholder="Email" />
         </el-form-item>
       </el-form>
       <div class="mt-8 sm:col-span-">

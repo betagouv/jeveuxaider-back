@@ -23,7 +23,7 @@
       :hide-required-asterisk="true"
     >
       <el-form-item label="E-mail" prop="email">
-        <el-input v-model="form.email" placeholder="Email" />
+        <el-input v-model.trim="form.email" placeholder="Email" />
       </el-form-item>
       <el-form-item label="Mot de passe" prop="password" class="mb-0">
         <el-input

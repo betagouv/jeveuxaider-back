@@ -54,7 +54,7 @@
         </el-form-item>
         <el-form-item label="E-mail" prop="email" class="w-full p-2">
           <el-input
-            v-model="form.email"
+            v-model.trim="form.email"
             placeholder="E-mail"
             :disabled="disableFields"
           />

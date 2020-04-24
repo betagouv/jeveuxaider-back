@@ -131,7 +131,7 @@
 
                           <div class="col-span-6 sm:col-span-3">
                             <el-form-item label="Email du contact" prop="email">
-                              <el-input v-model="form.email" placeholder />
+                              <el-input v-model.trim="form.email" placeholder />
                             </el-form-item>
                           </div>
 

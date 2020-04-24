@@ -49,7 +49,7 @@
           </el-form-item>
         </div>
         <el-form-item label="Email" prop="email">
-          <el-input v-model="form.email" placeholder="Email" />
+          <el-input v-model.trim="form.email" placeholder="Email" />
         </el-form-item>
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">

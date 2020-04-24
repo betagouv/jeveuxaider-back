@@ -43,7 +43,7 @@
             <el-input v-model="form.last_name" placeholder="Nom" />
           </el-form-item>
           <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 p-2">
-            <el-input v-model="form.email" placeholder="E-mail" />
+            <el-input v-model.trim="form.email" placeholder="E-mail" />
           </el-form-item>
           <el-form-item label="Code Postal" prop="zip" class="w-full sm:w-1/2 p-2">
             <el-input v-model="form.zip" placeholder="Code Postal" />
