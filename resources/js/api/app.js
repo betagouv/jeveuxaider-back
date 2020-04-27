@@ -108,9 +108,10 @@ export function destroyCollectivity(id) {
   return request.delete(`/api/collectivity/${id}/destroy`);
 }
 
-export function uploadImage(id, model, image) {
+export function uploadImage(id, model, image, cropSettings) {
   var data = new FormData();
   data.append("image", image);
+  data.append("cropSettings", JSON.stringify(cropSettings))
   return request.post(`/api/${model}/${id}/upload`, data, {
     "Content-Type": "multipart/form-data"
   });

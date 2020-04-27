@@ -78,13 +78,26 @@ class CollectivityController extends Controller
             $media->delete();
         }
 
+        $data = $request->all();
         $extension = $request->file('image')->guessExtension();
         $name = Str::random(30);
+
+        $cropSettings = json_decode($data['cropSettings']);
+        $stringCropSettings = implode(",", [
+            $cropSettings->width,
+            $cropSettings->height,
+            $cropSettings->x,
+            $cropSettings->y
+        ]);
 
         $collectivity
             ->addMedia($request->file('image'))
             ->usingName($name)
             ->usingFileName($name . '.' . $extension)
+            ->withManipulations([
+                'large' => ['manualCrop' => $stringCropSettings],
+                'thumb' => ['manualCrop' => $stringCropSettings]
+            ])
             ->toMediaCollection('collectivities');
 
         return $collectivity;

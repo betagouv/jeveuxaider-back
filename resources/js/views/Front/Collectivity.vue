@@ -61,7 +61,7 @@
         <img
           v-if="!loading"
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
-          :src="collectivity.image ? collectivity.image : '/images/hotel-de-ville-collectivite.jpg'"
+          :src="collectivity.image && collectivity.image.large ? collectivity.image.large : '/images/hotel-de-ville-collectivite.jpg'"
         />
       </div>
     </div>
