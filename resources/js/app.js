@@ -11,6 +11,7 @@ import Bowser from "bowser";
 import "./plugins/numeral.js";
 import "./plugins/dayjs.js";
 import "./plugins/utils.js";
+import "./plugins/prettyBytes.js";
 import Vue2Filters from "vue2-filters";
 import VueAnalytics from 'vue-analytics'
 import Inputmask from 'inputmask'

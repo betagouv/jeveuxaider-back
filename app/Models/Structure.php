@@ -3,19 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Http\UploadedFile;
 use App\Helpers\Utils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
-class Structure extends Model implements HasMedia
+class Structure extends Model
 {
-    use HasMediaTrait, SoftDeletes;
+    use SoftDeletes;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -28,7 +23,6 @@ class Structure extends Model implements HasMedia
 
     protected $fillable = [
         'name',
-        'logo',
         'user_id',
         'siret',
         'statut_juridique',
@@ -67,7 +61,7 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $appends = ['logo', 'full_address', 'ceu'];
+    protected $appends = ['full_address', 'ceu'];
 
     protected $withCount = ['missions'];
 
@@ -106,19 +100,6 @@ class Structure extends Model implements HasMedia
                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
             break;
         }
-    }
-
-    public function registerMediaCollections()
-    {
-        $this->addMediaCollection('logos')
-            ->singleFile();
-    }
-
-    public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('medium')
-            ->width(400)
-            ->height(300);
     }
 
     public function setNameAttribute($value)
@@ -175,27 +156,6 @@ class Structure extends Model implements HasMedia
     public function getFullAddressAttribute()
     {
         return "{$this->address}, {$this->zip} {$this->city}";
-    }
-
-    public function setLogoAttribute($logo)
-    {
-        if ($logo == null) {
-            $logo = $this->getMedia('logos')->first();
-            if ($logo) {
-                $logo->delete();
-            }
-        } elseif (Str::startsWith($logo, 'data:image')) {
-            $this->addMediaFromBase64($logo)->toMediaCollection('logos');
-        } elseif ($logo instanceof UploadedFile) {
-            $this->addMedia($logo)->toMediaCollection('logos');
-        }
-    }
-
-    public function getLogoAttribute()
-    {
-        $logo = $this->getMedia('logos')->first();
-
-        return isset($logo) ? $logo->getFullUrl('medium') : null;
     }
 
     public function user()

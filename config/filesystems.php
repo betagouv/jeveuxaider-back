@@ -55,11 +55,21 @@ return [
             'visibility' => 'public',
         ],
 
+        'media' => [
+            'driver' => 's3',
+            'root'   => 'public',
+            'key' => env('S3_AK'),
+            'secret' => env('S3_SK'),
+            // 'endpoint' => env('S3_ENDPOINT'),
+            'region' => env('S3_REGION'),
+            'bucket' => env('S3_BUCKET'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('S3_AK'),
             'secret' => env('S3_SK'),
-            'endpoint' => env('S3_ENDPOINT'),
+            // 'endpoint' => env('S3_ENDPOINT'),
             'region' => env('S3_REGION'),
             'bucket' => env('S3_BUCKET'),
         ],

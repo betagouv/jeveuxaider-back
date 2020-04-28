@@ -59,8 +59,9 @@
       </div>
       <div class="hidden lg:block lg:w-1/2">
         <img
+          v-if="!loading"
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
-          src="/images/hotel-de-ville-collectivite.jpg"
+          :src="collectivity.image && collectivity.image.large ? collectivity.image.large : '/images/hotel-de-ville-collectivite.jpg'"
         />
       </div>
     </div>
@@ -74,7 +75,7 @@
           <p class="text-xl leading-8 text-indigo-200 mt-2">
             <router-link to="/regles-de-securite" target="_blank">Consulter les règles de sécurité ›</router-link>
           </p>
-        </div>  
+        </div>
 
         <missions-search :facet-filters="[`department: ${collectivity.department}`]"></missions-search>
 
@@ -249,7 +250,7 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       collectivity: {},
     };
   },
@@ -259,6 +260,7 @@ export default {
       .then(response => {
         this.collectivity = { ...response.data };
         this.$store.commit("setLoading", false);
+        this.loading = false
       })
       .catch(() => {
         this.loading = false;

@@ -3,19 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use App\Helpers\Utils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Profile extends Model implements HasMedia
+class Profile extends Model
 {
-    use HasMediaTrait;
     use Notifiable;
 
     protected $table = 'profiles';
@@ -40,7 +35,7 @@ class Profile extends Model implements HasMedia
         'is_analyste' => 'boolean',
     ];
 
-    protected $appends = ['full_name', 'short_name', 'avatar', 'roles', 'has_user', 'volontaire'];
+    protected $appends = ['full_name', 'short_name', 'roles', 'has_user', 'volontaire'];
 
     protected $hidden = ['media', 'user'];
 
@@ -66,29 +61,29 @@ class Profile extends Model implements HasMedia
         return $this->user ? true : false;
     }
 
-    public function setAvatarAttribute($avatar)
-    {
-        if ($avatar == null) {
-            $avatar = $this->getMedia('avatars')->first();
-            if ($avatar) {
-                $avatar->delete();
-            }
-            return;
-        }
+    // public function setAvatarAttribute($avatar)
+    // {
+    //     if ($avatar == null) {
+    //         $avatar = $this->getMedia('avatars')->first();
+    //         if ($avatar) {
+    //             $avatar->delete();
+    //         }
+    //         return;
+    //     }
 
-        if (Str::startsWith($avatar, 'data:image')) {
-            $this->addMediaFromBase64($avatar)->toMediaCollection('avatars');
-        } elseif ($avatar instanceof UploadedFile) {
-            $this->addMedia($avatar)->toMediaCollection('avatars');
-        }
-    }
+    //     if (Str::startsWith($avatar, 'data:image')) {
+    //         $this->addMediaFromBase64($avatar)->toMediaCollection('avatars');
+    //     } elseif ($avatar instanceof UploadedFile) {
+    //         $this->addMedia($avatar)->toMediaCollection('avatars');
+    //     }
+    // }
 
-    public function getAvatarAttribute()
-    {
-        $avatar = $this->getMedia('avatars')->first();
+    // public function getAvatarAttribute()
+    // {
+    //     $avatar = $this->getMedia('avatars')->first();
 
-        return isset($avatar) ? $avatar->getFullUrl('thumb') : null;
-    }
+    //     return isset($avatar) ? $avatar->getFullUrl('thumb') : null;
+    // }
 
     public function getFullNameAttribute()
     {

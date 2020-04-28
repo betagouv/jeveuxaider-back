@@ -1,4 +1,5 @@
 {
     "phpSniffer.standard": "PSR2",
-    "intelephense.environment.documentRoot": "public"
+    "intelephense.environment.documentRoot": "public",
+    "editor.formatOnSave": false
 }
