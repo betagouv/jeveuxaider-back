@@ -521,7 +521,7 @@ export default new Router({
             props: route => ({ id: parseInt(route.params.id) }),
         },
         {
-            path: "/collectivites/:slug",
+            path: "/territoires/:slug",
             component: () =>
                 import(/* webpackChunkName: "assets/js/collectivites-slug" */ "@/views/Front/Collectivity.vue"),
             name: "CollectivitySlug",

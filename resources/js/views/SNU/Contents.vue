@@ -61,7 +61,7 @@
           <div class="text-gray-900">{{ scope.row.title }}</div>
           <div v-if="type == 'Collectivités'" class="font-light text-gray-600 text-xs">
             <router-link :to="{ name: 'CollectivitySlug', params: { slug: scope.row.slug } }" target="_blank">
-              /collectivites/{{scope.row.slug}}
+              /territoires/{{scope.row.slug}}
             </router-link>
           </div>
         </template>

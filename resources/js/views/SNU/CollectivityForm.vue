@@ -13,7 +13,7 @@
 
       <el-form-item label="Nom de la collectivité" prop="title">
         <el-input v-model="form.title" placeholder="Nom de la collectivité" />
-        <item-description>Accessible à l'adresse : {{baseUrl}}/collectivites/{{ form.title|slugify }}</item-description>
+        <item-description>Accessible à l'adresse : {{baseUrl}}/territoires/{{ form.title|slugify }}</item-description>
       </el-form-item>
 
        <el-form-item label="Type" prop="type">
