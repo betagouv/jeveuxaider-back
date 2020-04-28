@@ -27,7 +27,6 @@ import FrontProfile from "@/views/Front/Profile";
 import FrontSettings from "@/views/Front/Settings";
 import FrontUserMissions from "@/views/Front/UserMissions";
 import FrontFaq from "@/views/Front/Faq";
-import FrontLegalNotice from "@/views/Front/LegalNotice";
 import FrontPage from "@/views/Front/Page";
 
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
@@ -68,11 +67,6 @@ export default new Router({
         },
         {
             path: "/mentions-legales",
-            name: "FrontLegalNotice",
-            component: FrontLegalNotice,
-        },
-        {
-            path: "/mentions-legales2",
             name: "PageMentionsLegales",
             component: FrontPage,
             props: { id: 1 },
