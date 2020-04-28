@@ -7210,6 +7210,11 @@ vue-cropperjs@^4.1.0:
   dependencies:
     cropperjs "^1.5.6"
 
+vue-filter-pretty-bytes@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/vue-filter-pretty-bytes/-/vue-filter-pretty-bytes-0.1.4.tgz#425dbf776944ef9608aeee9070e738219c2647a3"
+  integrity sha512-2V+9lCUjpH43RcT96LSY6b7+b91IM/+ZA/q+Ixmonrk0cyBHKWkiXDd1OTrOxOi1wOhhLa+rx8w2km84kX3qSw==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

@@ -51,44 +51,60 @@
 
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
-        <item-description>Résolution minimale: {{ imgMinWidth }} par {{ imgMinHeight }} pixels</item-description>
-        <input type="file" accept="image/*" @change="selectFile">
+        <item-description>
+          Résolution minimale: {{ imgMinWidth }} par {{ imgMinHeight }} pixels<br />
+          Taille maximale: {{ imgMaxSize | prettyBytes }}
+        </item-description>
 
-        <div v-show="imgSrc" class="mt-4">
-          <div class="p-2 bg-black">
+        <div v-show="imgPreview">
+          <div class="preview-area">
+            <img
+              :src="imgPreview"
+              alt="Cropped Image"
+            />
+          </div>
+
+          <div class="actions mt-4">
+            <el-button type="secondary" @click.prevent="dialogCropVisible = true">Recadrer</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click.prevent="onDelete()" :loading="loadingDelete">Supprimer</el-button>
+          </div>
+
+          <el-dialog title="Recadrer" :visible.sync="dialogCropVisible" width="680">
             <vue-cropper
               ref="cropper"
-              :src="imgSrc"
+              :src="imgSrc ? imgSrc : form.image ? form.image.original : null"
               :aspectRatio="128/85"
               :zoomable="false"
               :movable="false"
               :zoomOnTouch="false"
               :zoomOnWheel="false"
               :autoCropArea="1"
+              :minContainerHeight="425"
+              :minContainerWidth="640"
               preview=".preview"
-              @ready="cropImage"
               @cropmove="ensureMinWidth"
             >
             </vue-cropper>
-          </div>
-
-          <div class="actions mt-4">
-            <el-button type="secondary" @click.prevent="cropImage">Recadrer</el-button>
-            <el-button type="secondary" @click.prevent="reset">Réinitialiser</el-button>
-          </div>
-
-          <div class="preview-area">
-            <div class="mt-4">Apercu :</div>
-            <img
-              v-if="cropImgSrc"
-              :src="cropImgSrc"
-              alt="Cropped Image"
-            />
-            <div v-else class="crop-placeholder" />
-          </div>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="onReset()">Réinitialiser</el-button>
+              <el-button @click="dialogCropVisible = false">Annuler</el-button>
+              <el-button type="primary" @click="onCrop()" :loading="loadingCrop">Valider</el-button>
+            </span>
+          </el-dialog>
         </div>
-
-
+        <div v-show="!imgPreview">
+          <el-upload
+            class="upload-demo"
+            drag
+            action=""
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-change="onSelectFile"
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">Glissez votre image ou <br /><em>cliquez ici pour la selectionner</em></div>
+          </el-upload>
+        </div>
       </div>
 
       <div class="flex pt-2">
@@ -164,9 +180,6 @@ export default {
         .then(response => {
           this.$store.commit("setLoading", false);
           this.form = response.data;
-          // if (this.form.image) {
-          //   this.imgSrc = this.form.image
-          // }
         })
         .catch(() => {
           this.loading = false;
@@ -182,16 +195,15 @@ export default {
             .then((response) => {
               this.form = response.data;
               if(this.img) {
-                uploadImage(this.form.id, 'collectivity', this.img, this.$refs.cropper.getData())
+                let cropSettings = this.$refs.cropper ? this.$refs.cropper.getData() : null
+                uploadImage(this.form.id, 'collectivity', this.img, cropSettings)
+                  .then(() => {
+                    this.onSubmitEnd()
+                  })
               }
-
-              this.loading = false;
-              this.$router.push('/dashboard/contents?type=Collectivités');
-              this.$message({
-                message: "La collectivité a été enregistrée !",
-                type: "success"
-              });
-
+              else {
+                this.onSubmitEnd()
+              }
             })
             .catch(() => {
               this.loading = false;
@@ -199,6 +211,14 @@ export default {
         } else {
           this.loading = false;
         }
+      });
+    },
+    onSubmitEnd() {
+      this.loading = false;
+      this.$router.push('/dashboard/contents?type=Collectivités');
+      this.$message({
+        message: "La collectivité a été enregistrée !",
+        type: "success"
       });
     }
   }

@@ -47,7 +47,8 @@ import {
     Pagination,
     Steps,
     Step,
-    Badge
+    Badge,
+    Dialog
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/fr";
 import locale from "element-ui/lib/locale";
@@ -106,6 +107,7 @@ Vue.use(Pagination);
 Vue.use(Steps);
 Vue.use(Step);
 Vue.use(Badge);
+Vue.use(Dialog);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = option => Message({ duration: 5000, ...option })

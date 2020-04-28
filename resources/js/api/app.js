@@ -116,3 +116,7 @@ export function uploadImage(id, model, image, cropSettings) {
     "Content-Type": "multipart/form-data"
   });
 }
+
+export function deleteImage(id, model) {
+  return request.delete(`/api/${model}/${id}/upload`);
+}

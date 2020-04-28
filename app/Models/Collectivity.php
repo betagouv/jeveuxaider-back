@@ -60,12 +60,14 @@ class Collectivity extends Model implements HasMedia
     {
         $this->addMediaConversion('large')
             ->width(1280)
-            ->height(680)
+            ->height(850)
+            ->nonQueued()
             ->performOnCollections('collectivities');
 
         $this->addMediaConversion('thumb')
-            ->width(384)
-            ->height(255)
+            ->width(512)
+            ->height(340)
+            ->nonQueued()
             ->performOnCollections('collectivities');
     }
 }

@@ -1,6 +1,9 @@
 <script>
 import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
+import {
+  deleteImage
+} from "@/api/app";
 
 export default {
   name: "Crop",
@@ -11,16 +14,33 @@ export default {
       imgSrc: '',
       imgMinWidth: 1024,
       imgMinHeight: 680,
-      cropImg: null,
+      imgMaxSize: 4000000, // 4 MB
       cropImgSrc: '',
+      dialogCropVisible: false,
+      loadingDelete: false,
+      loadingCrop: false
     };
   },
+  computed: {
+    imgPreview() {
+      return this.cropImgSrc ? this.cropImgSrc :
+      this.imgSrc ? this.imgSrc :
+      (this.form.image && this.form.image.thumb) ? this.form.image.thumb : null
+    }
+  },
   methods: {
-    selectFile(event) {
-      if (!event.target.files[0]) {
+    onSelectFile(file) {
+      if (!file.raw) {
         return;
       }
-      if (event.target.files[0].type.indexOf('image/') === -1) {
+      if (file.size > this.imgMaxSize) {
+        this.$message({
+          message: `La taille ne doit pas dépasser ${this.$options.filters.prettyBytes(this.imgMaxSize)}`,
+          type: "error"
+        });
+        return;
+      }
+      if (file.raw.type.indexOf('image/') === -1) {
         this.$message({
           message: "Veuillez sélectionner une image",
           type: "error"
@@ -43,27 +63,52 @@ export default {
               });
             }
             else {
-              this.img = event.target.files[0];
+              this.img = file.raw;
               this.imgSrc = readerEvent.target.result;
-              this.$refs.cropper.replace(this.imgSrc);
+              if (this.$refs.cropper) {
+                this.$refs.cropper.replace(this.imgSrc);
+              }
             }
           };
         };
-        reader.readAsDataURL(event.target.files[0]);
+        reader.readAsDataURL(file.raw);
       }
       else {
         console.log("FileReader API not supported")
       }
     },
-    cropImage() {
-      this.cropImgSrc = this.$refs.cropper.getCroppedCanvas().toDataURL();
-      fetch(this.cropImgSrc)
-        .then(res => res.blob())
-        .then(blob => this.cropImg = blob)
+    onCrop() {
+      this.loadingCrop = true
+      if (!this.img) {
+        fetch(this.form.image.original)
+          .then(res => res.blob())
+          .then(blob => {
+            this.img = blob
+            this.crop()
+          })
+      }
+      else {
+        this.crop()
+      }
     },
-    reset() {
+    crop() {
+      this.cropImgSrc = this.$refs.cropper.getCroppedCanvas().toDataURL();
+      this.loadingCrop = false
+      this.dialogCropVisible = false
+    },
+    onReset() {
       this.$refs.cropper.reset();
-      this.cropImage()
+    },
+    onDelete() {
+      this.loadingDelete = true
+      deleteImage(this.form.id, 'collectivity')
+        .then(() => {
+          this.form.image = null
+          this.img = null
+          this.imgSrc = ''
+          this.cropImgSrc = ''
+          this.loadingDelete = false
+        })
     },
     ensureMinWidth(event) {
       let data = this.$refs.cropper.getData();
@@ -77,7 +122,7 @@ export default {
         }
         this.$refs.cropper.setData(data);
       }
-    },
+    }
   }
 };
 </script>
@@ -85,17 +130,12 @@ export default {
 
 <style lang="sass" scoped>
 .preview-area
-  width: 307px
+  width: 300px
 
 .preview
   width: 100%
   height: calc(372px * (85 / 128))
   overflow: hidden
-
-.crop-placeholder
-  width: 100%
-  height: 200px
-  background: #ccc
 
 .cropped-image img
   max-width: 100%
