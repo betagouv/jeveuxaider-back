@@ -68,10 +68,6 @@ new Vue({
     }
 
     Crisp.on_load = function() {
-      if (! ( window.location.href.includes('dashboard') || window.location.href.includes('step') ) ) {
-        $crisp.push(['do', 'chat:hide']);
-      } else {
-        $crisp.push(['do', 'chat:show']);
         if (typeof store.getters.profile  !== 'undefined') {
           $crisp.push(["set", "user:email", [store.getters.profile.email]]);
           $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
@@ -82,7 +78,6 @@ new Vue({
         if( (typeof store.getters.contextRole !== 'undefined') && (store.getters.contextRole != null)){
           $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
          }
-      }
     };
 
     router.afterEach((to, from) => {
@@ -91,18 +86,6 @@ new Vue({
     });
     router.beforeEach((to, from, next) => {
       store.commit("setLoading", true);
-      if (! (to.path.includes('dashboard')|| (to.path.includes('step')) )) {
-        $crisp.push(['do', 'chat:hide']);
-      } else {
-        $crisp.push(['do', 'chat:show']);
-        if (typeof store.getters.profile !== 'undefined') {
-          $crisp.push(["set", "user:email", [store.getters.profile.email]]);
-          $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
-        }
-        if( (typeof store.getters.contextRole !== 'undefined') && (store.getters.contextRole != null)){
-          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
-         }
-      }
       next();
     });
   },
