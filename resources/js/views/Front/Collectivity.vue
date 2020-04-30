@@ -70,8 +70,7 @@
               L'engagement en quelques chiffres
             </h2>
             <p v-if="!loading" class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center">
-              <!-- La Réserve Civique facilite la mise en relation entre les <b>volontaires</b> et leurs prochaines <b>structures publiques et associatives</b>. -->
-              Sur l'ensemble du territoire français, <b>{{ collectivity.stats.participations_count_national }}</b> réservistes se sont engagé.es auprès de <b>{{ collectivity.stats.structures_count_national }}</b> structures publiques et associatives.
+              Sur l'ensemble du territoire français, <b>{{ collectivity.stats.volontaires_count_national }}</b> réservistes et <b>{{ collectivity.stats.structures_count_national }}</b> structures publiques et associatives ont déjà rejoint la Réserve Civique.
             </p>
 
             <dl v-if="!loading" class="mt-2 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
@@ -97,7 +96,7 @@
                   {{ collectivity.stats.participations_count }}
                 </dd>
                 <dt class="mt-2 text-lg font-medium text-gray-800">
-                  Participations
+                  Mises en relation
                 </dt>
               </div>
             </dl>
@@ -113,7 +112,7 @@
       <div v-if="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         <div v-for="(domain, key) in collectivity.stats.domains" :key="key">
           <div
-            class="inline-flex bg-blue-900 rounded-md p-3 text-center mb-5"
+            class="inline-block bg-blue-900 rounded-md p-3 text-center mb-5"
           >
             <img
               class
@@ -143,7 +142,7 @@
         <div class="max-w-6xl mx-auto text-center">
           <h2 class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10">
             <div>{{ collectivity.title }}</div>
-            Trouvez une mission dans le département
+            <span class="font-bold">Trouvez une mission dans le département</span>
           </h2>
           <p class="text-xl leading-8 text-indigo-200 mt-2">
             <router-link to="/regles-de-securite" target="_blank">Consulter les règles de sécurité ›</router-link>

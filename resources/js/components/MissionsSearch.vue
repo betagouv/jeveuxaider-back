@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="bg-blue-900">
-      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-12 lg:pt-14">
+      <div class="pt-16 pb-8">
         <template v-if="modeLigth">
           <div class="">
-            <div class="container mx-auto px-4 my-12">
+            <div class="px-4 my-12">
               <div class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16">
                 Les organisations en première ligne face à la crise proposent
                 actuellement leurs missions prioritaires.
@@ -21,7 +21,7 @@
           >
             <ais-configure :hits-per-page.camel="10" :facet-filters.camel="facetFilters" />
             <div class="bg-blue-900 hidden">
-              <div class="container mx-auto px-4">
+              <div class="px-4">
                 <div
                   class="filters md:flex md:rounded-lg md:shadow md:bg-white"
                 >
@@ -67,7 +67,7 @@
             </div>
 
             <div ref="resultsWrapper" class="">
-              <div class="container mx-auto px-4 mt-4">
+              <div class="">
                 <ais-state-results>
                   <template slot-scope="{ hits, nbHits, page, nbPages, hitsPerPage }">
                     <template v-if="hits.length > 0">
