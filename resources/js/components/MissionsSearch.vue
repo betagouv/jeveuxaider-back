@@ -99,8 +99,9 @@
                                       ></div>
                                       <div
                                         class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                                        v-text="item.name"
-                                      ></div>
+                                      >
+                                        {{ item.name|labelFromValue('mission_domaines') }}
+                                      </div>
                                     </div>
 
                                     <div
