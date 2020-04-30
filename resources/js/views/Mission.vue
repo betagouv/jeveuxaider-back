@@ -165,6 +165,14 @@
                 >
                   <SoutienScolaireDistance />
                 </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'fabrication_distribution_equipements'
+                  "
+                >
+                  <FabricationDistributionEquipements />
+                </div>
               </div>
 
               <div class="mt-16">
@@ -503,6 +511,7 @@ import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFra
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
 import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
 import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
+import FabricationDistributionEquipements from "@/components/domaines/FabricationDistributionEquipements";
 import FrontMissionLoading from "@/components/loadings/FrontMissionLoading";
 
 export default {
@@ -514,7 +523,8 @@ export default {
     LienPersonnesFragilesIsolees,
     SolidariteDeProximite,
     SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance
+    SoutienScolaireDistance,
+    FabricationDistributionEquipements
   },
   props: {
     id: {

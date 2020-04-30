@@ -326,6 +326,15 @@
         >
           <SoutienScolaireDistance />
         </div>
+        <div
+          v-if="
+            form.name ==
+              'fabrication_distribution_equipements'
+          "
+          class="border rounded p-8"
+        >
+          <FabricationDistributionEquipements />
+        </div>
       </div>
     </div>
   </div>
@@ -349,6 +358,7 @@ import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFra
 import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
 import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
 import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
+import FabricationDistributionEquipements from "@/components/domaines/FabricationDistributionEquipements";
 
 export default {
   name: "MissionForm",
@@ -361,7 +371,8 @@ export default {
     LienPersonnesFragilesIsolees,
     SolidariteDeProximite,
     SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance
+    SoutienScolaireDistance,
+    FabricationDistributionEquipements
   },
   mixins: [FormWithAddress],
   props: {

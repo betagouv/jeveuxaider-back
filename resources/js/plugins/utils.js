@@ -54,6 +54,9 @@ Vue.filter("cleanDomaineAction", function (domaine) {
     case "soutien_scolaire_a_distance":
       return "Soutien scolaire à distance";
       break;
+    case "fabrication_distribution_equipements":
+      return "Fabrication et distribution d’équipements de protection grand public";
+      break;
     default:
       return domaine
   }
@@ -78,6 +81,9 @@ Vue.filter("domainIcon", function (domaine) {
 
     case "soutien_scolaire_a_distance":
       return "/images/ecole.svg";
+
+    case "fabrication_distribution_equipements":
+      return "/images/masque.svg";
 
     default:
       return null
