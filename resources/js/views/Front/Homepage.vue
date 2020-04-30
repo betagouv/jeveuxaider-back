@@ -66,7 +66,7 @@
             <h3
               class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl leading-tight hide-br"
             >
-              Les 5 missions
+              Les 6 missions
               <br />vitales
             </h3>
           </div>
