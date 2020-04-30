@@ -24,7 +24,7 @@
       </div>
     </template>
     <template v-else>
-      <ais-instant-search :search-client="searchClient" :index-name="indexName">
+      <ais-instant-search ref="instantsearch" :search-client="searchClient" :index-name="indexName">
         <ais-configure :hits-per-page.camel="20" />
 
         <div class="bg-blue-900 pb-32">
@@ -50,6 +50,7 @@
               >
               </ais-search-box>
               <ais-menu-select
+                ref="filterdepartment"
                 class="flex-1"
                 attribute="department_name"
                 :limit="120"
@@ -65,7 +66,6 @@
                     v-for="item in items"
                     :key="item.value"
                     :label="`${item.label} (${item.count})`"
-                    :selected="item.isRefined"
                     :value="item.value"
                   >
                   </el-option>
@@ -367,9 +367,19 @@ export default {
       }
     };
   },
-  // created() {
-  //   console.log(this.$route)
-  // },
+  mounted() {
+    if (this.$route.query.search) {
+     this.$refs.instantsearch.instantSearchInstance.searchParameters.query = this.$route.query.search
+    }
+    if (this.$route.query.department) {
+      // TODO: Ne permet pas de reinitialiser les facets quand on clique sur Réinitialiser !
+      // this.$refs.instantsearch.instantSearchInstance.searchParameters.facetFilters = [`department:${this.$route.query.department}`]
+
+      // TODO: Selectionner l'option du select
+      // this.filters.department_name = "94 - Val-de-Marne"
+      // console.log(this.$refs.filterdepartment)
+    }
+  },
   computed: {
     modeLigth() {
       return process.env.MIX_MODE_APP_LIGTH
@@ -378,9 +388,6 @@ export default {
     },
     indexName() {
       return process.env.MIX_ALGOLIA_INDEX;
-    },
-    querySearch() {
-      return this.$route.query.search ? this.$route.query.search : null
     }
   },
   methods: {
