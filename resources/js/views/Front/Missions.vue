@@ -411,6 +411,8 @@ export default {
           return "/images/ehpad.svg";
         case "soutien_scolaire_a_distance":
           return "/images/ecole.svg";
+        case "fabrication_distribution_equipements":
+          return "/images/masque.svg";
       }
     }
   }
