@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-blue-900">
-      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-12 lg:pt-20">
+      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-12 lg:pt-14">
         <template v-if="modeLigth">
           <div class="">
             <div class="container mx-auto px-4 my-12">
@@ -20,7 +20,7 @@
             :index-name="indexName"
           >
             <ais-configure :hits-per-page.camel="20" :facet-filters.camel="facetFilters" />
-            <div class="bg-blue-900">
+            <div class="bg-blue-900 hidden">
               <div class="container mx-auto px-4">
                 <div
                   class="filters md:flex md:rounded-lg md:shadow md:bg-white"
