@@ -59,6 +59,31 @@ Vue.filter("cleanDomaineAction", function (domaine) {
   }
 });
 
+Vue.filter("domainIcon", function (domaine) {
+  switch (domaine) {
+    case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
+      return "/images/groceries.svg";
+
+    case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
+      return "/images/teddy-bear.svg";
+
+    case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
+      return "/images/phone-handle.svg";
+
+    case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
+      return "/images/basket.svg";
+
+    case "soutien_aux_personnes_agees_en_etablissement":
+      return "/images/ehpad.svg";
+
+    case "soutien_scolaire_a_distance":
+      return "/images/ecole.svg";
+
+    default:
+      return null
+  }
+});
+
 Vue.filter("slugify", function (string) {
   return string ? slugify(string, {
     lower: true

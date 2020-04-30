@@ -423,7 +423,7 @@
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">
                   <div class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center">
-                    <img class :src="iconDomain(otherMission.name)" style="width:28px;" />
+                    <img class :src="$options.filters.domainIcon(otherMission.name)" style="width:28px;" />
                   </div>
                   <div class="min-w-0 flex-1 sm:pl-4">
                     <div class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2">
@@ -590,22 +590,6 @@ export default {
             });
         })
         .catch(() => {});
-    },
-    iconDomain(domain) {
-      switch (domain) {
-        case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
-          return "/images/groceries.svg";
-        case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
-          return "/images/teddy-bear.svg";
-        case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
-          return "/images/phone-handle.svg";
-        case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
-          return "/images/basket.svg";
-        case "soutien_aux_personnes_agees_en_etablissement":
-          return "/images/ehpad.svg";
-        case "soutien_scolaire_a_distance":
-          return "/images/ecole.svg";
-      }
     }
   }
 };

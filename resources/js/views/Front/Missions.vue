@@ -47,7 +47,8 @@
                 class="flex-1"
                 autofocus
                 placeholder="Mots-clés, ville, code postal, etc."
-              />
+              >
+              </ais-search-box>
               <ais-menu-select
                 class="flex-1"
                 attribute="department_name"
@@ -137,7 +138,7 @@
                             >
                               <img
                                 class=""
-                                :src="iconDomain(item.domaine_action)"
+                                :src="$options.filters.domainIcon(item.domaine_action)"
                                 style="width:28px;"
                               />
                             </div>
@@ -366,6 +367,9 @@ export default {
       }
     };
   },
+  // created() {
+  //   console.log(this.$route)
+  // },
   computed: {
     modeLigth() {
       return process.env.MIX_MODE_APP_LIGTH
@@ -374,6 +378,9 @@ export default {
     },
     indexName() {
       return process.env.MIX_ALGOLIA_INDEX;
+    },
+    querySearch() {
+      return this.$route.query.search ? this.$route.query.search : null
     }
   },
   methods: {
@@ -396,22 +403,6 @@ export default {
         ...item,
         label: item.label
       }));
-    },
-    iconDomain(domain) {
-      switch (domain) {
-        case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
-          return "/images/groceries.svg";
-        case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
-          return "/images/teddy-bear.svg";
-        case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
-          return "/images/phone-handle.svg";
-        case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
-          return "/images/basket.svg";
-        case "soutien_aux_personnes_agees_en_etablissement":
-          return "/images/ehpad.svg";
-        case "soutien_scolaire_a_distance":
-          return "/images/ecole.svg";
-      }
     }
   }
 };

@@ -59,14 +59,14 @@ class Collectivity extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('large')
-            ->width(1280)
-            ->height(850)
+            ->width(2000)
+            ->height(750)
             ->nonQueued()
             ->performOnCollections('collectivities');
 
         $this->addMediaConversion('thumb')
-            ->width(512)
-            ->height(340)
+            ->width(600)
+            ->height(225)
             ->nonQueued()
             ->performOnCollections('collectivities');
     }

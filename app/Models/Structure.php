@@ -144,6 +144,11 @@ class Structure extends Model
             ->where('department', $value);
     }
 
+    public function scopeValidated($query)
+    {
+        return $query->where('state', 'Validée');
+    }
+
     public function getCeuAttribute()
     {
         if (!isset($this->attributes['structure_publique_etat_type'])) {
