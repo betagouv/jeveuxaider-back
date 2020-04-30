@@ -12,6 +12,11 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTitleBodySearch;
 use App\Http\Requests\Api\CollectivityUploadRequest;
 use Illuminate\Support\Str;
+use App\Models\Mission;
+use App\Models\Participation;
+use App\Models\Profile;
+use App\Models\Structure;
+use Illuminate\Database\Eloquent\Builder;
 
 class CollectivityController extends Controller
 {
@@ -28,9 +33,54 @@ class CollectivityController extends Controller
 
     public function show($slugOrId)
     {
-        return is_numeric($slugOrId)
+        $collectivity = (is_numeric($slugOrId))
             ? Collectivity::where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
+
+        $domains = config('taxonomies.mission_domaines.terms');
+        $dataDomains = Mission::selectRaw('missions.name, count(missions.city) as missions_count')
+            ->department($collectivity->department)
+            ->available()
+            ->groupBy('name')
+            ->take(6)
+            ->orderBy('missions_count', 'desc')
+            ->get();
+        foreach ($dataDomains as $key => $domain) {
+            $dataDomains[$key] = [
+                'key' => $domain->name,
+                'name' => $domains[$domain->name],
+                'missions_count' => $domain->missions_count
+            ];
+        }
+
+        $dataCities = Mission::selectRaw('missions.city, count(missions.city) as missions_count')
+            ->department($collectivity->department)
+            ->available()
+            ->groupBy('city')
+            ->take(20)
+            ->orderBy('missions_count', 'desc')
+            ->get();
+        foreach ($dataCities as $key => $city) {
+            $dataCities[$key] = [
+                'name' => $city->city,
+                'missions_count' => $city->missions_count
+            ];
+        }
+
+        $collectivity->stats = [
+            'missions_count' => Mission::department($collectivity->department)->available()->count(),
+            'structures_count' => Structure::department($collectivity->department)->validated()->count(),
+            'participations_count' => Participation::department($collectivity->department)->count(),
+            'volontaires_count' => Profile::department($collectivity->department)
+                ->whereHas('user', function (Builder $query) {
+                    $query->where('context_role', 'volontaire');
+                })
+                ->count(),
+            'domains' => $dataDomains,
+            'cities' => $dataCities,
+        ];
+
+        return $collectivity;
     }
 
     // public function submit(CollectivitySubmitRequest $request)

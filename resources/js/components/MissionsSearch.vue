@@ -15,9 +15,9 @@
           </div>
         </template>
         <template v-else>
-          <ais-instant-search 
-            :search-client="searchClient" 
-            :index-name="indexName" 
+          <ais-instant-search
+            :search-client="searchClient"
+            :index-name="indexName"
           >
             <ais-configure :hits-per-page.camel="20" :facet-filters.camel="facetFilters" />
             <div class="bg-blue-900">
@@ -85,7 +85,7 @@
                                 >
                                   <img
                                     class
-                                    :src="iconDomain(item.domaine_action)"
+                                    :src="$options.filters.domainIcon(item.domaine_action)"
                                     style="width:28px;"
                                   />
                                 </div>
@@ -348,18 +348,6 @@ export default {
         ...item,
         label: item.label
       }));
-    },
-    iconDomain(domain) {
-      switch (domain) {
-        case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
-          return "/images/groceries.svg";
-        case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
-          return "/images/teddy-bear.svg";
-        case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
-          return "/images/phone-handle.svg";
-        case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
-          return "/images/basket.svg";
-      }
     }
   }
 };

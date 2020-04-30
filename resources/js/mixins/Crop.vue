@@ -12,8 +12,8 @@ export default {
     return {
       img: null,
       imgSrc: '',
-      imgMinWidth: 1024,
-      imgMinHeight: 680,
+      imgMinWidth: 1600,
+      imgMinHeight: 600,
       imgMaxSize: 4000000, // 4 MB
       cropImgSrc: '',
       dialogCropVisible: false,

@@ -1,68 +1,136 @@
 <template>
   <div>
-    <AppHeader />
+    <div class="relative">
+      <img
+        v-if="collectivity.image && collectivity.image.large"
+        :src="collectivity.image.large"
+        :alt="collectivity.title"
+        class="absolute object-cover object-center w-full h-full"
+      />
 
-    <div class="bg-blue-900 pb-5">
-      <div class="container mx-auto px-4">
-        <div class="pt-5">
-          <h1 class="text-3xl font-bold text-white">{{ collectivity.title }}</h1>
-        </div>
-      </div>
-    </div>
+      <div :class="['bg-blue-900', 'absolute', 'inset-0', {'opacity-75': collectivity.image}]"></div>
 
-    <div class="lg:flex">
-      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16">
-        <div class="sm:text-center lg:text-left uppercase pb-2 mt-3 text-xl text-gray-500 sm:mt-5">
-          Crise sanitaire du
-          <b>COVID-19</b>
-        </div>
-        <div class="sm:text-center lg:text-left">
-          <h2
-            class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl"
-          >
-            Engagez-vous
-          </h2>
-          <p
-            class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-2xl md:max-w-3xl"
-          >
-            Face à l’épidémie de Covid-19
-            le Gouvernement appelle à la mobilisation
-            générale des solidarités.
-          </p>
-
-          <div class="mt-6 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-2 sm:gap-6">
-            <div>
-              <div
-                class="mt-2 pb-1 text-sm leading-6 font-medium text-gray-500"
-              >Je suis une structure associative</div>
-              <router-link
-                to="/register/responsable"
-                class="btn-primary w-full"
-                style="max-width:320px;"
-              >
-                <span class="text-lg font-bold">Proposer une mission</span>
-              </router-link>
+      <div class="relative pt-1 pb-12 lg:py-12">
+        <AppHeader background="bg-transparent" border="" :showMenu="false">
+          <template v-slot:menu>
+            <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
+              <div class="text-xl md:text-2xl font-medium text-white leading-none">• {{ collectivity.title }}</div>
             </div>
-            <div>
-              <div class="mt-2 pb-1 text-sm leading-6 font-medium text-gray-500">Je suis volontaire</div>
+          </template>
+        </AppHeader>
+        <div class="container mx-auto px-4">
+          <div class="py-8 text-center sm:text-left">
+            <h2 class="text-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl">
+              Engagez-vous dans
+              <br class="hidden sm:block"/>
+              <span class="text-white">votre département</span>
+            </h2>
 
-              <router-link
-                to="/register/volontaire"
-                class="btn-secondary w-full"
-                style="max-width:320px;"
-              >
-                <span class="text-lg font-bold">Je veux aider</span>
-              </router-link>
+            <p class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl">
+              Le département <b>{{ collectivity.title }}</b> vous propose un espace d'engagement ouvert à tous, que vous soyez bénévole dans l’âme ou bien un acteur local du monde associatif.
+            </p>
+
+            <div class="mt-5 sm:mt-8 sm:flex sm:justify-start">
+              <div class=" text-center">
+                <div class="pb-1 text-sm font-medium text-gray-100">
+                  Je suis une structure associative
+                </div>
+                <router-link
+                  to="/register/responsable"
+                  class="btn-primary"
+                >
+                  <span class="text-lg font-bold">Proposer une mission</span>
+                </router-link>
+              </div>
+              <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
+                <div class="pb-1 text-sm font-medium text-gray-100">
+                  Je suis volontaire
+                </div>
+                <router-link
+                  to="/register/volontaire"
+                  class="btn-white"
+                >
+                  <span class="text-lg font-bold">Je veux aider</span>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="hidden lg:block lg:w-1/2">
-        <img
-          v-if="!loading"
-          class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
-          :src="collectivity.image && collectivity.image.large ? collectivity.image.large : '/images/hotel-de-ville-collectivite.jpg'"
-        />
+
+    </div>
+
+    <div class="container mx-auto px-4">
+      <div class="py-16">
+        <div class=" text-center">
+            <h2 class="text-3xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-14 leading-none">
+              L'engagement en <span class="text-blue-900">{{ collectivity.title }}</span>
+            </h2>
+            <p class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center">
+              La Réserve Civique facilite la mise en relation entre les <b>volontaires</b> et leurs prochaines <b>structures publiques et associatives</b>.
+            </p>
+
+            <dl v-if="!loading" class="mt-2 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
+              <div class="flex flex-col">
+                <dd class="text-5xl leading-none font-bold text-gray-800">
+                  {{ collectivity.stats.volontaires_count }}
+                </dd>
+                <dt class="mt-2 text-lg font-medium text-gray-800">
+                  Volontaires
+                </dt>
+              </div>
+              <div class="flex flex-col mt-10 sm:mt-0">
+                <dd class="text-5xl leading-none font-bold text-gray-800">
+                  {{ collectivity.stats.structures_count }}
+                </dd>
+                <dt class="mt-2 text-lg font-medium text-gray-800">
+                  Structures
+                </dt>
+              </div>
+
+              <div class="flex flex-col mt-10 sm:mt-0">
+                <dd class="text-5xl leading-none font-bold text-gray-800">
+                  {{ collectivity.stats.participations_count }}
+                </dd>
+                <dt class="mt-2 text-lg font-medium text-gray-800">
+                  Participations
+                </dt>
+              </div>
+            </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider">
+        Parmi les domaines d'actions populaires
+      </div>
+
+      <div v-if="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div v-for="(domain, key) in collectivity.stats.domains" :key="key">
+          <div
+            class="inline-flex bg-blue-900 rounded-md p-3 text-center mb-5"
+          >
+            <img
+              class
+              :src="$options.filters.domainIcon(domain.key)"
+              style="width:28px;"
+            />
+          </div>
+          <div class="text-lg font-medium text-gray-900">{{ domain.key | cleanDomaineAction }}.</div>
+          <div class="mt-2 text-base text-gray-500">{{ domain.name }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4">
+      <div class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider">
+        Retrouvez toutes les missions disponibles dans votre commune
+      </div>
+      <div class="pb-16 flex flex-wrap items-center justify-center" v-if="!loading">
+        <div v-for="(city, key) in collectivity.stats.cities" :key="key" class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50">
+          <router-link :to="`/missions?search=${city.name}`">{{ city.name }}</router-link>
+        </div>
       </div>
     </div>
 

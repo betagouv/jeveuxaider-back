@@ -1,6 +1,6 @@
 <template>
   <div class>
-    <div style="background-image: url(images/bg_header_home.jpg)" class="pt-1 pb-12 md:py-12">
+    <div style="background-image: url(/images/bg_header_home.jpg); background-size: cover; background-repeat: no-repeat;" class="pt-1 pb-12 md:py-12">
       <AppHeader background="bg-transparent" />
       <div class="container mx-auto px-4">
         <div

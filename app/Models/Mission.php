@@ -164,6 +164,11 @@ class Mission extends Model
         return $query->where('department', $value);
     }
 
+    public function scopeName($query, $value)
+    {
+        return $query->where('name', $value);
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
