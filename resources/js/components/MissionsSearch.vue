@@ -27,7 +27,6 @@
                 >
                   <ais-search-box
                     class="flex-1"
-                    autofocus
                     placeholder="Mots-clés, ville, code postal, etc."
                   />
                   <ais-menu-select

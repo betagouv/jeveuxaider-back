@@ -68,6 +68,8 @@ class CollectivityController extends Controller
         }
 
         $collectivity->stats = [
+            'participations_count_national' => Participation::count(),
+            'structures_count_national' => Structure::validated()->count(),
             'missions_count' => Mission::department($collectivity->department)->available()->count(),
             'structures_count' => Structure::department($collectivity->department)->validated()->count(),
             'participations_count' => Participation::department($collectivity->department)->count(),
