@@ -19,7 +19,7 @@
             :search-client="searchClient"
             :index-name="indexName"
           >
-            <ais-configure :hits-per-page.camel="20" :facet-filters.camel="facetFilters" />
+            <ais-configure :hits-per-page.camel="10" :facet-filters.camel="facetFilters" />
             <div class="bg-blue-900 hidden">
               <div class="container mx-auto px-4">
                 <div
@@ -154,32 +154,21 @@
                       </ais-hits>
 
                       <div class="px-4 sm:px-6 md:px-8">
-                        <div v-show="false" class="text-sm text-gray-700">
-                          <span
-                            v-html="
-                          formatNbResults(nbHits, page, nbPages, hitsPerPage)
-                        "
-                          ></span>
-                          {{
-                          nbHits
-                          | pluralize([
-                          "mission disponible",
-                          "missions disponibles"
-                          ])
-                          }}
+                        <div class="text-sm font-bold uppercase my-8 text-blue text-blue-600 text-center">
+                          <router-link :to="`/missions`">Toutes les missions</router-link>
                         </div>
-                        <div class="pagination w-full border-b-2 border-transparent">
+                        <!-- <div class="pagination w-full border-b-2 border-transparent">
                           <ais-pagination :padding="2" @page-change="scrollToTop">
                             <ul
                               slot-scope="{
-                            currentRefinement,
-                            nbPages,
-                            pages,
-                            isFirstPage,
-                            isLastPage,
-                            refine,
-                            createURL
-                          }"
+                                currentRefinement,
+                                nbPages,
+                                pages,
+                                isFirstPage,
+                                isLastPage,
+                                refine,
+                                createURL
+                              }"
                               class="ais-Pagination-list"
                             >
                               <li
@@ -251,7 +240,7 @@
                               </li>
                             </ul>
                           </ais-pagination>
-                        </div>
+                        </div> -->
                       </div>
                     </template>
 
@@ -358,7 +347,7 @@ export default {
 ::v-deep .ais-SearchBox-submit
   left: 15px
 ::v-deep .ais-StateResults
-  @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
+  @apply m-0 bg-white rounded-lg shadow overflow-hidden
 ::v-deep .ais-Hits-list
   @apply m-0
 ::v-deep .ais-Hits-item

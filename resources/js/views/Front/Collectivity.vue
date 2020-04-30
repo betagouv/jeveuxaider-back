@@ -68,7 +68,6 @@
             <h2 class="text-3xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-14 leading-none">
               <div class="text-blue-900">{{ collectivity.title }}</div>
               L'engagement en quelques chiffres
-              <div> • </div>
             </h2>
             <p v-if="!loading" class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center">
               <!-- La Réserve Civique facilite la mise en relation entre les <b>volontaires</b> et leurs prochaines <b>structures publiques et associatives</b>. -->
