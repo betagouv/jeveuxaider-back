@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="bg-blue-900">
-      <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-12 lg:pt-20">
+      <div class="pt-16 pb-8">
         <template v-if="modeLigth">
           <div class="">
-            <div class="container mx-auto px-4 my-12">
+            <div class="px-4 my-12">
               <div class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16">
                 Les organisations en première ligne face à la crise proposent
                 actuellement leurs missions prioritaires.
@@ -19,15 +19,14 @@
             :search-client="searchClient"
             :index-name="indexName"
           >
-            <ais-configure :hits-per-page.camel="20" :facet-filters.camel="facetFilters" />
-            <div class="bg-blue-900">
-              <div class="container mx-auto px-4">
+            <ais-configure :hits-per-page.camel="10" :facet-filters.camel="facetFilters" />
+            <div class="bg-blue-900 hidden">
+              <div class="px-4">
                 <div
                   class="filters md:flex md:rounded-lg md:shadow md:bg-white"
                 >
                   <ais-search-box
                     class="flex-1"
-                    autofocus
                     placeholder="Mots-clés, ville, code postal, etc."
                   />
                   <ais-menu-select
@@ -68,7 +67,7 @@
             </div>
 
             <div ref="resultsWrapper" class="">
-              <div class="container mx-auto px-4 mt-4">
+              <div class="">
                 <ais-state-results>
                   <template slot-scope="{ hits, nbHits, page, nbPages, hitsPerPage }">
                     <template v-if="hits.length > 0">
@@ -100,8 +99,9 @@
                                       ></div>
                                       <div
                                         class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                                        v-text="item.name"
-                                      ></div>
+                                      >
+                                        {{ item.name|labelFromValue('mission_domaines') }}
+                                      </div>
                                     </div>
 
                                     <div
@@ -155,32 +155,21 @@
                       </ais-hits>
 
                       <div class="px-4 sm:px-6 md:px-8">
-                        <div v-show="false" class="text-sm text-gray-700">
-                          <span
-                            v-html="
-                          formatNbResults(nbHits, page, nbPages, hitsPerPage)
-                        "
-                          ></span>
-                          {{
-                          nbHits
-                          | pluralize([
-                          "mission disponible",
-                          "missions disponibles"
-                          ])
-                          }}
+                        <div class="text-sm font-bold uppercase my-8 text-blue text-blue-600 text-center">
+                          <router-link :to="`/missions`">Toutes les missions</router-link>
                         </div>
-                        <div class="pagination w-full border-b-2 border-transparent">
+                        <!-- <div class="pagination w-full border-b-2 border-transparent">
                           <ais-pagination :padding="2" @page-change="scrollToTop">
                             <ul
                               slot-scope="{
-                            currentRefinement,
-                            nbPages,
-                            pages,
-                            isFirstPage,
-                            isLastPage,
-                            refine,
-                            createURL
-                          }"
+                                currentRefinement,
+                                nbPages,
+                                pages,
+                                isFirstPage,
+                                isLastPage,
+                                refine,
+                                createURL
+                              }"
                               class="ais-Pagination-list"
                             >
                               <li
@@ -252,7 +241,7 @@
                               </li>
                             </ul>
                           </ais-pagination>
-                        </div>
+                        </div> -->
                       </div>
                     </template>
 
@@ -359,7 +348,7 @@ export default {
 ::v-deep .ais-SearchBox-submit
   left: 15px
 ::v-deep .ais-StateResults
-  @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
+  @apply m-0 bg-white rounded-lg shadow overflow-hidden
 ::v-deep .ais-Hits-list
   @apply m-0
 ::v-deep .ais-Hits-item

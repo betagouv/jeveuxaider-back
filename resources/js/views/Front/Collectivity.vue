@@ -27,13 +27,15 @@
             </h2>
 
             <p class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl">
-              Le département <b>{{ collectivity.title }}</b> vous propose un espace d'engagement ouvert à tous, que vous soyez bénévole dans l’âme ou bien un acteur local du monde associatif.
+              <!-- Le département <b>{{ collectivity.title }}</b> vous propose un espace d'engagement ouvert à tous, que vous soyez bénévole dans l’âme ou bien un acteur local du monde associatif. -->
+
+              <b>{{ collectivity.title }}</b> • Votre structure a besoin de renforts ? Vous souhaitez vous engager bénévolement au plus près de chez vous ? Rejoignez la Réserve Civique dans votre département.
             </p>
 
             <div class="mt-5 sm:mt-8 sm:flex sm:justify-start">
               <div class=" text-center">
                 <div class="pb-1 text-sm font-medium text-gray-100">
-                  Je suis une structure associative
+                  Structure publique ou associative
                 </div>
                 <router-link
                   to="/register/responsable"
@@ -44,7 +46,7 @@
               </div>
               <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
                 <div class="pb-1 text-sm font-medium text-gray-100">
-                  Je suis volontaire
+                  Bénévole
                 </div>
                 <router-link
                   to="/register/volontaire"
@@ -64,10 +66,11 @@
       <div class="py-16">
         <div class=" text-center">
             <h2 class="text-3xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-14 leading-none">
-              L'engagement en <span class="text-blue-900">{{ collectivity.title }}</span>
+              <div class="text-blue-900">{{ collectivity.title }}</div>
+              L'engagement en quelques chiffres
             </h2>
-            <p class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center">
-              La Réserve Civique facilite la mise en relation entre les <b>volontaires</b> et leurs prochaines <b>structures publiques et associatives</b>.
+            <p v-if="!loading" class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center">
+              Sur l'ensemble du territoire français, <b>{{ collectivity.stats.volontaires_count_national }}</b> réservistes et <b>{{ collectivity.stats.structures_count_national }}</b> structures publiques et associatives ont déjà rejoint la Réserve Civique.
             </p>
 
             <dl v-if="!loading" class="mt-2 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
@@ -76,7 +79,7 @@
                   {{ collectivity.stats.volontaires_count }}
                 </dd>
                 <dt class="mt-2 text-lg font-medium text-gray-800">
-                  Volontaires
+                  Réservistes
                 </dt>
               </div>
               <div class="flex flex-col mt-10 sm:mt-0">
@@ -93,7 +96,7 @@
                   {{ collectivity.stats.participations_count }}
                 </dd>
                 <dt class="mt-2 text-lg font-medium text-gray-800">
-                  Participations
+                  Mises en relation
                 </dt>
               </div>
             </dl>
@@ -109,7 +112,7 @@
       <div v-if="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         <div v-for="(domain, key) in collectivity.stats.domains" :key="key">
           <div
-            class="inline-flex bg-blue-900 rounded-md p-3 text-center mb-5"
+            class="inline-block bg-blue-900 rounded-md p-3 text-center mb-5"
           >
             <img
               class
@@ -138,7 +141,8 @@
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
           <h2 class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10">
-            Trouvez une mission de bénévolat
+            <div>{{ collectivity.title }}</div>
+            <span class="font-bold">Trouvez une mission dans le département</span>
           </h2>
           <p class="text-xl leading-8 text-indigo-200 mt-2">
             <router-link to="/regles-de-securite" target="_blank">Consulter les règles de sécurité ›</router-link>

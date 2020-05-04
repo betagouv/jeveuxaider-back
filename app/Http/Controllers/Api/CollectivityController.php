@@ -68,6 +68,7 @@ class CollectivityController extends Controller
         }
 
         $collectivity->stats = [
+            'structures_count_national' => Structure::validated()->count(),
             'missions_count' => Mission::department($collectivity->department)->available()->count(),
             'structures_count' => Structure::department($collectivity->department)->validated()->count(),
             'participations_count' => Participation::department($collectivity->department)->count(),
@@ -76,6 +77,10 @@ class CollectivityController extends Controller
                     $query->where('context_role', 'volontaire');
                 })
                 ->count(),
+            'volontaires_count_national' => Profile::whereHas('user', function (Builder $query) {
+                $query->where('context_role', 'volontaire');
+            })
+            ->count(),
             'domains' => $dataDomains,
             'cities' => $dataCities,
         ];
