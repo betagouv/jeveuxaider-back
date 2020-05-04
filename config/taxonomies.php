@@ -302,6 +302,7 @@ return [
             "Personnes en situation de handicap" => "Personnes en situation de handicap",
             "Personnes à la rue" => "Personnes à la rue",
             "Parents" => "Parents",
+            "jeunes_enfants" => "Jeunes / enfants",
             "Tous publics" => "Tous publics"
         ]
     ],
