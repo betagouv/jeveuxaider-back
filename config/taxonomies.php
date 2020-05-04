@@ -285,7 +285,7 @@ return [
             "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
             //"soutien_aux_personnes_agees_en_etablissement" => "J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.",
             "soutien_scolaire_a_distance" => "J’aide à distance les élèves à faire leurs devoirs.",
-            "fabrication_distribution_equipements" => "Fabrication et distribution d’équipements de protection grand public",
+            "fabrication_distribution_equipements" => "Je participe à la confection d’équipements de protection grand public ou à leur distribution.",
         ]
     ],
 
