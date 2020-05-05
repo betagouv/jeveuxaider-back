@@ -25,7 +25,7 @@
     </template>
     <template v-else>
       <ais-instant-search ref="instantsearch" :search-client="searchClient" :index-name="indexName" :routing="routing">
-        <ais-configure :hits-per-page.camel="2" />
+        <ais-configure :hits-per-page.camel="20" />
 
         <div class="bg-blue-900 pb-32">
           <div class="container mx-auto px-4">
