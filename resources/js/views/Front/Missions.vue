@@ -24,8 +24,8 @@
       </div>
     </template>
     <template v-else>
-      <ais-instant-search ref="instantsearch" :search-client="searchClient" :index-name="indexName">
-        <ais-configure :hits-per-page.camel="20" />
+      <ais-instant-search ref="instantsearch" :search-client="searchClient" :index-name="indexName" :routing="routing">
+        <ais-configure :hits-per-page.camel="2" />
 
         <div class="bg-blue-900 pb-32">
           <div class="container mx-auto px-4">
@@ -47,10 +47,10 @@
                 class="flex-1"
                 autofocus
                 placeholder="Mots-clés, ville, code postal, etc."
+                ref="searchbox"
               >
               </ais-search-box>
               <ais-menu-select
-                ref="filterdepartment"
                 class="flex-1"
                 attribute="department_name"
                 :limit="120"
@@ -100,8 +100,8 @@
                   slot-scope="{ canRefine, refine }"
                   class="py-2 md:p-4"
                   :class="{
-                    'cursor-not-allowed text-gray-400 hidden md:block': !canRefine,
-                    'cursor-pointer text-blue-300  md:text-primary block': canRefine
+                    'cursor-not-allowed text-gray-400 hidden md:block': !canRefine && !$refs.searchbox.state.query,
+                    'cursor-pointer text-blue-300  md:text-primary block': canRefine || $refs.searchbox.state.query
                   }"
                 >
                   Réinitialiser
@@ -341,6 +341,8 @@ import {
 } from "vue-instantsearch";
 import algoliasearch from "algoliasearch/lite";
 import "instantsearch.css/themes/algolia-min.css";
+import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
+import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings';
 
 export default {
   name: "FrontMissions",
@@ -354,6 +356,10 @@ export default {
     AisClearRefinements,
     AisConfigure
   },
+  beforeRouteUpdate(to, from, next) {
+    // Do nothing, navigation is handled by algolia
+    // If trying to use vue routeur instead of algolia, remove
+  },
   data() {
     return {
       missionsAreReady: true,
@@ -364,21 +370,99 @@ export default {
       filters: {
         department_name: null,
         domaine_action: null
-      }
-    };
-  },
-  mounted() {
-    if (this.$route.query.search) {
-     this.$refs.instantsearch.instantSearchInstance.searchParameters.query = this.$route.query.search
-    }
-    if (this.$route.query.department) {
-      // TODO: Ne permet pas de reinitialiser les facets quand on clique sur Réinitialiser !
-      // this.$refs.instantsearch.instantSearchInstance.searchParameters.facetFilters = [`department:${this.$route.query.department}`]
+      },
+      routing: {
+        router: historyRouter({
+          createURL: ({ qsModule, location, routeState }) => {
+            if (location.pathname != '/missions') {
+              return;
+            }
+            console.log(location)
+            const { origin, pathname, hash } = location;
+            const queryString = qsModule.stringify(routeState);
 
-      // TODO: Selectionner l'option du select
-      // this.filters.department_name = "94 - Val-de-Marne"
-      // console.log(this.$refs.filterdepartment)
-    }
+            if (routeState.menu) {
+              this.filters.department_name = routeState.menu.department_name ? routeState.menu.department_name : null
+              this.filters.domaine_action = routeState.menu.domaine_action ? routeState.menu.domaine_action : null
+            }
+            else {
+              this.filters.department_name = null
+              this.filters.domaine_action = null
+            }
+            if (!queryString) {
+              return `${origin}${pathname}${hash}`;
+            }
+            return `${origin}${pathname}?${queryString}${hash}`;
+          }
+        }),
+        stateMapping: simpleMapping()
+      },
+      //
+      // WITH VUEJS ROUTEUR
+      // See: https://www.algolia.com/doc/guides/building-search-ui/going-further/routing-urls/vue/#combining-with-vue-router
+      // And: https://github.com/algolia/vue-instantsearch/issues/589
+      // Exemple when it works: https://codesandbox.io/s/github/algolia/doc-code-samples/tree/master/Vue+InstantSearch/routing-vue-router?file=/src/views/Home.vue:2558-3190
+      //
+
+      // routing: {
+      //   router: {
+      //     read: () => {
+      //       console.log('read', this.$router.currentRoute.query)
+
+      //       if (this.$router.currentRoute.query.menu) {
+      //         this.filters.department_name = this.$router.currentRoute.query.menu.department_name ? this.$router.currentRoute.query.menu.department_name : null
+      //       }
+      //       else {
+      //         this.filters.department_name = null
+      //       }
+
+      //       return this.$router.currentRoute.query;
+      //     },
+      //     write: (routeState) => {
+      //       console.log('write', routeState)
+
+      //       this.$router.push({
+      //         query: routeState,
+      //       });
+      //     },
+      //     createURL: (routeState) => {
+      //       console.log('createUrl', routeState)
+
+      //       return this.$router.resolve({
+      //         query: routeState,
+      //       }).href;
+      //     },
+      //     onUpdate(cb) {
+      //       this._onPopState = ({state}) => {
+      //         console.log('onUpdate')
+      //         const routeState = state;
+      //         // at initial load, the state is read from the URL without
+      //         // update. Therefore the state object is not there. In this
+      //         // case we fallback and read the URL.
+      //         if (!routeState) {
+      //           cb(this.read());
+      //         } else {
+      //           cb(routeState);
+      //         }
+      //       };
+      //       window.addEventListener('popstate', this._onPopState);
+      //     },
+      //     dispose() {
+      //       console.log('dispose')
+      //       window.removeEventListener('popstate', this._onPopState);
+      //       this.write();
+      //     },
+      //   },
+      //   stateMapping: {
+      //     stateToRoute(uiState) {
+      //       return uiState
+      //     },
+      //     routeToState(routeState) {
+      //       return routeState
+      //     },
+      //   },
+      // }
+    };
   },
   computed: {
     modeLigth() {
@@ -392,6 +476,7 @@ export default {
   },
   methods: {
     handleResetFilters(refine) {
+      this.$refs.searchbox.state.clear()
       refine();
       this.filters.department_name = null;
       this.filters.domaine_action = null;

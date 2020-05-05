@@ -20,51 +20,6 @@
             :index-name="indexName"
           >
             <ais-configure :hits-per-page.camel="10" :facet-filters.camel="facetFilters" />
-            <div class="bg-blue-900 hidden">
-              <div class="px-4">
-                <div
-                  class="filters md:flex md:rounded-lg md:shadow md:bg-white"
-                >
-                  <ais-search-box
-                    class="flex-1"
-                    placeholder="Mots-clés, ville, code postal, etc."
-                  />
-                  <ais-menu-select
-                    class="flex-1"
-                    attribute="domaine_action"
-                    :transform-items="transformItems"
-                  >
-                    <el-select
-                      v-model="filters.domaine_action"
-                      slot-scope="{ items, canRefine, refine }"
-                      :disabled="!canRefine"
-                      @change="refine($event)"
-                      placeholder="Domaines d'actions"
-                      popper-class="domaines-actions"
-                    >
-                      <el-option
-                        v-for="item in items"
-                        :key="item.value"
-                        :label="`${$options.filters.cleanDomaineAction(item.label)} (${item.count})`"
-                        :selected="item.isRefined"
-                        :value="item.value"
-                      ></el-option>
-                    </el-select>
-                  </ais-menu-select>
-                  <ais-clear-refinements>
-                    <div
-                      @click.prevent="handleResetFilters(refine)"
-                      slot-scope="{ canRefine, refine }"
-                      class="py-2 md:p-4"
-                      :class="{
-                    'cursor-not-allowed text-gray-400 hidden md:block': !canRefine,
-                    'cursor-pointer text-blue-300  md:text-primary block': canRefine
-                  }"
-                    >Réinitialiser</div>
-                  </ais-clear-refinements>
-                </div>
-              </div>
-            </div>
 
             <div ref="resultsWrapper" class="">
               <div class="">
@@ -156,7 +111,7 @@
 
                       <div class="px-4 sm:px-6 md:px-8">
                         <div class="text-sm font-bold uppercase my-8 text-blue text-blue-600 text-center">
-                          <router-link :to="`/missions`">Toutes les missions</router-link>
+                          <router-link :to="`/missions?menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(department)}`">Toutes les missions</router-link>
                         </div>
                         <!-- <div class="pagination w-full border-b-2 border-transparent">
                           <ais-pagination :padding="2" @page-change="scrollToTop">
@@ -289,6 +244,10 @@ export default {
   props: {
     facetFilters: {
       type: Array,
+      default: null
+    },
+    department: {
+      type: String,
       default: null
     }
   },

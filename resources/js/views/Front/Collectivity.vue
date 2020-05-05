@@ -132,7 +132,7 @@
       </div>
       <div class="pb-16 flex flex-wrap items-center justify-center" v-if="!loading">
         <div v-for="(city, key) in collectivity.stats.cities" :key="key" class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50">
-          <router-link :to="`/missions?search=${city.name}&department=${collectivity.department}`">{{ city.name }}</router-link>
+          <router-link :to="`/missions?query=${city.name}&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(collectivity.department)}`">{{ city.name }}</router-link>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@
           </p>
         </div>
 
-        <missions-search :facet-filters="[`department: ${collectivity.department}`]"></missions-search>
+        <missions-search :facet-filters="[`department: ${collectivity.department}`]" :department="collectivity.department"></missions-search>
 
       </div>
     </div>
