@@ -67,6 +67,7 @@ class MissionController extends Controller
 
     public function clone(MissionUpdateRequest $request, Mission $mission)
     {
+        $mission->state = 'Brouillon';
         return $mission->clone();
     }
 }
