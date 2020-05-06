@@ -48,17 +48,16 @@
       </el-card>
       <el-form ref="missionForm" :model="form" label-position="top">
         <template v-if="showAskValidation">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Proposer la mission</div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">Publier la mission</div>
           <item-description>
-            Une fois votre mission complétée, vous pouvez la soumettre à
-            validation auprès de votre référent départemental pour publication.
+            Une fois votre mission complétée, vous pouvez la publier pour qu'elle soit proposée aux utilisateurs.
           </item-description>
           <div class="flex pt-2">
             <el-button
               type="primary"
               :loading="loading"
               @click="onAskValidationSubmit"
-            >Proposer la mission</el-button>
+            >Publier la mission</el-button>
           </div>
         </template>
         <template v-if="showStatut">
@@ -130,14 +129,13 @@ export default {
   computed: {
     showAskValidation() {
       return this.$store.getters.contextRole == "responsable" &&
-        (this.row.state == "Brouillon" ||
-          this.row.state == "En attente de correction")
+        this.row.state == "Brouillon"
         ? true
         : false;
     },
     showStatut() {
       let show = false;
-      if (this.row.state == "Validée" || this.row.state == "Brouillon") {
+      if (this.row.state == "Validée") {
         show = true;
       }
       if (
@@ -199,8 +197,15 @@ export default {
       }
     },
     onAskValidationSubmit() {
-      this.form.state = "En attente de validation";
-      this.onSubmit();
+      if(this.form.structure.state == 'Validée') {
+        this.form.state = "Validée";
+        this.onSubmit();
+      } else {
+        this.$message({
+          type: "error",
+          message: "Votre structure doit être validée avant de pouvoir publier une mission"
+        });
+      }
     },
     onSubmit() {
 
