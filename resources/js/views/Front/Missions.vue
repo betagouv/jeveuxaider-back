@@ -456,7 +456,6 @@ export default {
       else {
         this.filters.department_name = null
         this.filters.domaine_action = null
-        this.filters.query = null
       }
     },
     handleFilters(refine, $event) {
