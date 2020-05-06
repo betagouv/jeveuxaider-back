@@ -1,6 +1,7 @@
 import Vue from "vue";
 // import store from "../store";
 import Router from "vue-router";
+import qs from 'qs';
 /* Layouts */
 import Layout2Cols from "@/layout/Layout2Cols";
 import LayoutRegisterSteps from "@/layout/LayoutRegisterSteps";
@@ -526,5 +527,13 @@ export default new Router({
     ],
     scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 }
-    }
+    },
+    parseQuery(query) {
+      return qs.parse(query);
+    },
+    stringifyQuery(query) {
+      const result = qs.stringify(query);
+
+      return result ? '?' + result : '';
+    },
 });
