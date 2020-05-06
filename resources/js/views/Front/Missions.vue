@@ -24,7 +24,7 @@
       </div>
     </template>
     <template v-else>
-      <ais-instant-search ref="instantsearch" :search-client="searchClient" :index-name="indexName">
+      <ais-instant-search ref="instantsearch" :search-client="searchClient" :index-name="indexName" :routing="routing">
         <ais-configure :hits-per-page.camel="20" />
 
         <div class="bg-blue-900 pb-32">
@@ -47,10 +47,36 @@
                 class="flex-1"
                 autofocus
                 placeholder="Mots-clés, ville, code postal, etc."
+                ref="searchbox"
               >
+                <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
+                  <el-input
+                    v-model="filters.query"
+                    placeholder="Mots-clés, ville, code postal, etc."
+                    clearable
+                    @input="handleFilters(refine, $event)"
+                    class="search-input"
+                    autocomplete="new-password"
+                  >
+                    <svg
+                      slot="prefix"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 40 40"
+                      class="el-input__icon"
+                      style="width:14px;"
+                    >
+                      <path
+                        d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
+                        fillRule="evenodd" fill="#6a6f85"
+                      />
+                    </svg>
+                  </el-input>
+                </div>
               </ais-search-box>
               <ais-menu-select
-                ref="filterdepartment"
                 class="flex-1"
                 attribute="department_name"
                 :limit="120"
@@ -59,7 +85,7 @@
                   v-model="filters.department_name"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
-                  @change="refine($event)"
+                  @change="handleFilters(refine, $event)"
                   placeholder="Départements"
                 >
                   <el-option
@@ -80,7 +106,7 @@
                   v-model="filters.domaine_action"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
-                  @change="refine($event)"
+                  @change="handleFilters(refine, $event)"
                   placeholder="Domaines d'actions"
                   popper-class="domaines-actions"
                 >
@@ -100,8 +126,8 @@
                   slot-scope="{ canRefine, refine }"
                   class="py-2 md:p-4"
                   :class="{
-                    'cursor-not-allowed text-gray-400 hidden md:block': !canRefine,
-                    'cursor-pointer text-blue-300  md:text-primary block': canRefine
+                    'cursor-not-allowed text-gray-400 hidden md:block': !canRefine && !$refs.searchbox.state.query,
+                    'cursor-pointer text-blue-300  md:text-primary block': canRefine || $refs.searchbox.state.query
                   }"
                 >
                   Réinitialiser
@@ -341,6 +367,8 @@ import {
 } from "vue-instantsearch";
 import algoliasearch from "algoliasearch/lite";
 import "instantsearch.css/themes/algolia-min.css";
+import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings';
+import _ from "lodash"
 
 export default {
   name: "FrontMissions",
@@ -362,23 +390,51 @@ export default {
         process.env.MIX_ALGOLIA_SEARCH_KEY
       ),
       filters: {
+        query: null,
         department_name: null,
         domaine_action: null
+      },
+      forceWrite: false,
+      routing: {
+        router: {
+          read: () => {
+            this.synchronizeFilters(this.$router.currentRoute.query)
+            return this.$router.currentRoute.query;
+          },
+          write: (routeState) => {
+            if (this.writeTimeout) {
+              this.writeTimeout.cancel()
+            }
+            if (this.forceWrite) {
+              this.writeTimeout = _.debounce(() => {
+                window.history.pushState(routeState, '', `${this.$router.currentRoute.path}${this.$router.options.stringifyQuery(routeState)}`);
+                this.forceWrite = false
+              }, 400)
+              this.writeTimeout()
+            }
+          },
+          createURL: (routeState) => {
+            return this.$router.resolve({
+              query: routeState,
+            }).href;
+          },
+          onUpdate: (cb) => {
+            if (this.writeTimeout) {
+              this.writeTimeout.cancel()
+            }
+
+            this._onPopState = ({state}) => {
+              cb(this.routing.router.read());
+            };
+            window.addEventListener('popstate', this._onPopState);
+          },
+          dispose: () => {
+            window.removeEventListener('popstate', this._onPopState);
+          },
+        },
+        stateMapping: simpleMapping()
       }
     };
-  },
-  mounted() {
-    if (this.$route.query.search) {
-     this.$refs.instantsearch.instantSearchInstance.searchParameters.query = this.$route.query.search
-    }
-    if (this.$route.query.department) {
-      // TODO: Ne permet pas de reinitialiser les facets quand on clique sur Réinitialiser !
-      // this.$refs.instantsearch.instantSearchInstance.searchParameters.facetFilters = [`department:${this.$route.query.department}`]
-
-      // TODO: Selectionner l'option du select
-      // this.filters.department_name = "94 - Val-de-Marne"
-      // console.log(this.$refs.filterdepartment)
-    }
   },
   computed: {
     modeLigth() {
@@ -391,8 +447,26 @@ export default {
     }
   },
   methods: {
+    synchronizeFilters(state) {
+      this.filters.query = state.query ? state.query : null
+      if (state.menu) {
+        this.filters.department_name = state.menu.department_name ? state.menu.department_name : null
+        this.filters.domaine_action = state.menu.domaine_action ? state.menu.domaine_action : null
+      }
+      else {
+        this.filters.department_name = null
+        this.filters.domaine_action = null
+      }
+    },
+    handleFilters(refine, $event) {
+      this.forceWrite = true
+      refine($event)
+    },
     handleResetFilters(refine) {
+      this.forceWrite = true
+      this.$refs.searchbox.state.clear()
       refine();
+      this.filters.query = null;
       this.filters.department_name = null;
       this.filters.domaine_action = null;
     },
@@ -452,11 +526,16 @@ export default {
     font-size: 16px !important
     text-overflow: ellipsis
     @apply py-2 shadow rounded-lg my-1
-
+  ::v-deep .search-input
+    .el-input__inner
+      @apply rounded-l-lg outline-none pl-12
+  ::v-deep .el-input__prefix
+    left: 15px
   @screen md
-    ::v-deep input, ::v-deep select, ::v-deep .el-input__inner
+    ::v-deep input,
+    ::v-deep select,
+    ::v-deep .el-select .el-input__inner
       height: 56px
       @apply border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
-  ::v-deep .ais-SearchBox-input
-    @apply rounded-l-lg outline-none pl-12
+
 </style>
