@@ -15,11 +15,11 @@
       </div>
     </div>
     <div class="mt-12">
-      <div class="flex items-center">
+      <div class="flex flex-wrap items-center">
         <h4
-          class="flex-shrink-000 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+          class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
         >Description de la mission et règles à appliquer impérativement</h4>
-        <div class="flex-1 border-t-2 border-gray-200"></div>
+        <div class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0 lg:mt-2 xl:mt-0"></div>
       </div>
       <div class="mt-8">
         <div class="ml-3 text-gray-700">

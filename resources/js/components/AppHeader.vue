@@ -39,7 +39,7 @@
                 >
                 <router-link
                   to="/regles-de-securite"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
+                  class="hidden sm:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
                   :class="{
                     'bg-blue-700': isCurrentPath('/regles-de-securite')
                   }"

@@ -247,11 +247,11 @@
               </div>-->
 
               <div class="mt-16" v-if="mission.state == 'Validée'">
-                <div class="flex items-center">
+                <div class="flex flex-wrap items-center">
                   <h4
-                    class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                    class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                   >Commentaire par la structure</h4>
-                  <div class="flex-1 border-t-2 border-gray-200"></div>
+                  <div class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0"></div>
                 </div>
 
                 <div class="mt-6 text-gray-500">
