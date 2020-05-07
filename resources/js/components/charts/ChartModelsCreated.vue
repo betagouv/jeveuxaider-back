@@ -77,7 +77,7 @@ export default {
         datasets: [
           {
             label: 'Nouvelles créations',
-            backgroundColor: "#00405C",
+            backgroundColor: "#2C5283",
             data: this.datas.items
           }
         ]
