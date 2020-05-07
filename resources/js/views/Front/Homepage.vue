@@ -527,8 +527,8 @@
 
 <style lang="sass" scoped>
 .hide-br
-br
-  @apply hidden
-    @screen lg
-      @apply inline
+  br
+    @apply hidden
+      @screen lg
+        @apply inline
 </style>
