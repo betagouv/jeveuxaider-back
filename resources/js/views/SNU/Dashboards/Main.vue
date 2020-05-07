@@ -21,6 +21,10 @@
      <dashboard-menu index="main"></dashboard-menu>
     </div>
     <div class="px-12">
+      <reminder-referent v-if="$store.getters.contextRole === 'referent'" class="mb-12"></reminder-referent>
+      <reminder-responsable v-if="$store.getters.contextRole === 'responsable'" class="mb-12"></reminder-responsable>
+    </div>
+    <div class="px-12">
       <div class="flex flex-wrap">
         <card-count
           v-if="$store.getters.contextRole != 'responsable'"
@@ -44,6 +48,8 @@
 <script>
 import DashboardMenu from "@/components/DashboardMenu";
 import CardCount from "@/components/CardCount";
+import ReminderReferent from "@/components/ReminderReferent";
+import ReminderResponsable from "@/components/ReminderResponsable";
 import { exportTable } from "@/api/app";
 import fileDownload from "js-file-download";
 
@@ -51,7 +57,9 @@ export default {
   name: "DashboardMain",
   components: {
     DashboardMenu,
-    CardCount
+    CardCount,
+    ReminderReferent,
+    ReminderResponsable
   },
   data() {
     return {

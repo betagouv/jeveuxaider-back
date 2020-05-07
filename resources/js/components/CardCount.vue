@@ -1,7 +1,7 @@
 <template>
   <el-card
     shadow="never"
-    class="mr-6 mb-6 p-6 uppercase flex items-center"
+    class="mr-5 mb-5 p-5 uppercase flex items-center"
     :class="{ 'hover:border-blue-900 cursor-pointer': link }"
     @click="onClick"
     style="width: 330px"

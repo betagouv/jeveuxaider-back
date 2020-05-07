@@ -98,7 +98,6 @@ export default {
         type: this.type,
         year: this.year
       }).then(res => {
-        console.log("datas", res.data);
         this.datas = res.data;
         this.loading = false;
       });

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="mb-6 p-6" shadow="never">
+  <el-card class="mb-5 p-5" shadow="never">
     <div class="label mb-3 text-lg font-bold text-secondary uppercase">{{ label }}</div>
     <template v-if="data">
       <div class="w-full">
