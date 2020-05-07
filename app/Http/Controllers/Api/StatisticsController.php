@@ -8,6 +8,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -17,7 +18,9 @@ class StatisticsController extends Controller
     {
         if ($request->has('type') && $request->input('type') == 'light') {
             return [
-                'total' => Mission::role($request->header('Context-Role'))->count()
+                'total' => Mission::role($request->header('Context-Role'))->count(),
+                'month' => Mission::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                'week' => Mission::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(7))->count()
             ];
         }
 
@@ -35,7 +38,9 @@ class StatisticsController extends Controller
     {
         if ($request->has('type') && $request->input('type') == 'light') {
             return [
-                'total' => Structure::role($request->header('Context-Role'))->count()
+                'total' => Structure::role($request->header('Context-Role'))->count(),
+                'month' => Structure::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                'week' => Structure::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(7))->count()
             ];
         }
 
@@ -51,7 +56,9 @@ class StatisticsController extends Controller
     {
         if ($request->has('type') && $request->input('type') == 'light') {
             return [
-                'total' => Profile::role($request->header('Context-Role'))->count()
+                'total' => Profile::role($request->header('Context-Role'))->count(),
+                'month' => Profile::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                'week' => Profile::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(7))->count()
             ];
         }
 
@@ -106,7 +113,9 @@ class StatisticsController extends Controller
     {
         if ($request->has('type') && $request->input('type') == 'light') {
             return [
-                'total' => Participation::role($request->header('Context-Role'))->count()
+                'total' => Participation::role($request->header('Context-Role'))->count(),
+                'month' => Participation::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                'week' => Participation::role($request->header('Context-Role'))->where('created_at', '>=', Carbon::today()->subDays(7))->count()
             ];
         }
 

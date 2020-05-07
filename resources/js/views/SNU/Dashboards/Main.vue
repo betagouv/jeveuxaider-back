@@ -18,20 +18,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="main" active>Général</el-menu-item>
-        <el-menu-item
-          v-if="$store.getters.contextRole != 'responsable'"
-          index="structures"
-        >Structures</el-menu-item>
-        <el-menu-item index="missions">Missions</el-menu-item>
-        <el-menu-item index="participations">Participations</el-menu-item>
-        <el-menu-item v-if="$store.getters.contextRole != 'responsable'" index="profiles">Utilisateurs</el-menu-item>
-        <el-menu-item
-          v-if="$store.getters.contextRole != 'responsable'"
-          index="departments"
-        >Départements</el-menu-item>
-      </el-menu>
+     <dashboard-menu index="main"></dashboard-menu>
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
@@ -55,6 +42,7 @@
 </template>
 
 <script>
+import DashboardMenu from "@/components/DashboardMenu";
 import CardCount from "@/components/CardCount";
 import { exportTable } from "@/api/app";
 import fileDownload from "js-file-download";
@@ -62,21 +50,16 @@ import fileDownload from "js-file-download";
 export default {
   name: "DashboardMain",
   components: {
+    DashboardMenu,
     CardCount
   },
   data() {
     return {
-      activeIndex: "main",
       loading: false
     };
   },
   computed: {},
   methods: {
-    handleSelect(index) {
-      index == "main"
-        ? this.$router.push("/dashboard")
-        : this.$router.push(`/dashboard/stats/${index}`);
-    },
     handleCommand(command) {
       this.loading = true;
       this.export(command);
