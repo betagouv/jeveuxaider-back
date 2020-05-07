@@ -1,16 +1,16 @@
 <template>
-  <div class="stat-count w-full rounded-lg mb-6 p-6 border border-gray-300">
+  <el-card class="mb-6 p-6" shadow="never">
     <div class="label mb-3 text-lg font-bold text-secondary uppercase">{{ label }}</div>
     <template v-if="data">
       <div class="w-full">
         <div class="flex flex-wrap mb-8 uppercase">
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">Missions disponibles</div>
-            <div class="">{{ data.total_missions_available|formatNumber }}</div>
+            <div class>{{ data.total_missions_available|formatNumber }}</div>
           </div>
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">Places disponibles</div>
-            <div class="">{{ data.total_places_available|formatNumber }}</div>
+            <div class>{{ data.total_places_available|formatNumber }}</div>
           </div>
         </div>
         <el-table :data="data.departments" style="width: 100%" @row-click="onClickedRow">
@@ -24,7 +24,13 @@
               <span class="text-gray-500">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="structures_count" label="Struct." width="100" align="center" sortable>
+          <el-table-column
+            prop="structures_count"
+            label="Struct."
+            width="100"
+            align="center"
+            sortable
+          >
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.structures_count|formatNumber }}</span>
             </template>
@@ -101,7 +107,7 @@
     <template v-else>
       <i class="el-icon-loading"></i>
     </template>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -130,7 +136,7 @@ export default {
   created() {
     statistics(this.name).then(response => {
       this.data = response.data;
-    }); 
+    });
   },
   methods: {
     type(places) {

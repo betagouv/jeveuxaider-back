@@ -231,7 +231,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard-stats-missions" */ "@/views/SNU/Dashboards/Missions.vue"),
                     name: "DashboardMissions",
                     meta: {
-                        roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
+                        roles: ["admin", "referent","referent_regional","superviseur", "analyste", "responsable"]
                     }
                 },
                 {
@@ -240,7 +240,7 @@ export default new Router({
                         import(/* webpackChunkName: "assets/js/dashboard-stats-participations" */ "@/views/SNU/Dashboards/Participations.vue"),
                     name: "DashboardParticipations",
                     meta: {
-                        roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
+                        roles: ["admin", "referent","referent_regional","superviseur", "analyste", "responsable"]
                     }
                 },
                 {

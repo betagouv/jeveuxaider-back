@@ -11,6 +11,7 @@
     </div>
     <div class="px-12">
       <card-structure-count label="Structures" name="structures" link="/dashboard/structures" />
+      <chart-models-created type="structures"></chart-models-created>
     </div>
   </div>
 </template>
@@ -18,12 +19,14 @@
 <script>
 import DashboardMenu from "@/components/DashboardMenu";
 import CardStructureCount from "@/components/CardStructureCount";
+import ChartModelsCreated from "@/components/charts/ChartModelsCreated";
 
 export default {
   name: "DashboardStructures",
   components: {
     DashboardMenu,
-    CardStructureCount
+    CardStructureCount,
+    ChartModelsCreated
   },
   data() {
     return {

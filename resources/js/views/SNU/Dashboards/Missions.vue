@@ -11,6 +11,7 @@
     </div>
     <div class="px-12">
       <card-mission-count label="Missions" name="missions" link="/dashboard/missions" />
+      <chart-models-created type="missions"></chart-models-created>
     </div>
   </div>
 </template>
@@ -18,12 +19,14 @@
 <script>
 import DashboardMenu from "@/components/DashboardMenu";
 import CardMissionCount from "@/components/CardMissionCount";
+import ChartModelsCreated from "@/components/charts/ChartModelsCreated";
 
 export default {
   name: "DashboardMissions",
   components: {
     DashboardMenu,
-    CardMissionCount
+    CardMissionCount,
+    ChartModelsCreated
   },
   data() {
     return {

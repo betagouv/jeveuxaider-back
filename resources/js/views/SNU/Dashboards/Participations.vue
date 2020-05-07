@@ -15,6 +15,7 @@
         name="participations"
         link="/dashboard/participations"
       />
+      <chart-models-created type="participations"></chart-models-created>
     </div>
   </div>
 </template>
@@ -22,12 +23,14 @@
 <script>
 import DashboardMenu from "@/components/DashboardMenu";
 import CardParticipationCount from "@/components/CardParticipationCount";
+import ChartModelsCreated from "@/components/charts/ChartModelsCreated";
 
 export default {
   name: "DashboardParticipations",
   components: {
     DashboardMenu,
-    CardParticipationCount
+    CardParticipationCount,
+    ChartModelsCreated
   },
   data() {
     return {

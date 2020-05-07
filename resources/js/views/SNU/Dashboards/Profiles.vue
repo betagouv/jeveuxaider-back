@@ -11,6 +11,7 @@
     </div>
     <div class="px-12">
       <card-profile-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" />
+      <chart-models-created type="profiles"></chart-models-created>
     </div>
   </div>
 </template>
@@ -18,12 +19,14 @@
 <script>
 import DashboardMenu from "@/components/DashboardMenu";
 import CardProfileCount from "@/components/CardProfileCount";
+import ChartModelsCreated from "@/components/charts/ChartModelsCreated";
 
 export default {
   name: "DashboardProfiles",
   components: {
     DashboardMenu,
-    CardProfileCount
+    CardProfileCount,
+    ChartModelsCreated
   },
   data() {
     return {
