@@ -220,7 +220,7 @@ export default new Router({
                     path: "/dashboard/stats/structures",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-stats-structures" */ "@/views/SNU/Dashboards/Structures.vue"),
-                    name: "DashboardStructures",
+                    name: "StatsStructures",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
                     }
@@ -229,7 +229,7 @@ export default new Router({
                     path: "/dashboard/stats/missions",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-stats-missions" */ "@/views/SNU/Dashboards/Missions.vue"),
-                    name: "DashboardMissions",
+                    name: "StatsMissions",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste", "responsable"]
                     }
@@ -238,7 +238,7 @@ export default new Router({
                     path: "/dashboard/stats/participations",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-stats-participations" */ "@/views/SNU/Dashboards/Participations.vue"),
-                    name: "DashboardParticipations",
+                    name: "StatsParticipations",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste", "responsable"]
                     }
@@ -247,7 +247,7 @@ export default new Router({
                     path: "/dashboard/stats/profiles",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-stats-profiles" */ "@/views/SNU/Dashboards/Profiles.vue"),
-                    name: "DashboardProfiles",
+                    name: "StatsProfiles",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
                     }
@@ -256,7 +256,7 @@ export default new Router({
                     path: "/dashboard/stats/departments",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-stats-departments" */ "@/views/SNU/Dashboards/Departments.vue"),
-                    name: "DashboardDepartments",
+                    name: "StatsDepartments",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
                     }
@@ -298,7 +298,7 @@ export default new Router({
                         import(
                     /* webpackChunkName: "assets/js/dashboard-structures" */ "@/views/SNU/Structures.vue"
                         ),
-                    name: "Structures",
+                    name: "DashboardStructures",
                     meta: {
                         roles: ["admin", "referent","referent_regional", "superviseur"]
                     }
@@ -365,7 +365,7 @@ export default new Router({
                     path: "/dashboard/profiles",
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-profiles" */ "@/views/SNU/Profiles.vue"),
-                    name: "Profiles",
+                    name: "DashboardProfiles",
                     meta: {
                         roles: ["admin", "referent", "referent_regional"]
                     }

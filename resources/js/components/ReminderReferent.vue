@@ -6,8 +6,11 @@
     <div
       class="text-gray-400 mt-3 mb-4"
     >En validant ces structures, vous leur permettez de publier <br>leurs missions sur la plateforme.</div>
-    <router-link :to="{name: 'Structures', query: {'filter[state]': 'En attente de validation'}}">
-      <el-button type="primary" class="mt-2">Afficher les {{ data.waiting|formatNumber }} structures</el-button>
+    <router-link :to="{name: 'DashboardStructures', query: {'filter[state]': 'En attente de validation'}}">
+      <el-button type="primary" class="mt-2">
+        <template v-if="data.waiting > 1">Afficher les {{data.waiting|formatNumber}} structures</template>
+        <template v-else>Afficher la structure</template>
+      </el-button>
     </router-link>
   </el-card>
 </template>
