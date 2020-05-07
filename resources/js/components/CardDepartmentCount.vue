@@ -1,5 +1,5 @@
 <template>
-  <div class="stat-count w-full rounded-lg mb-6 p-6 shadow">
+  <div class="stat-count w-full rounded-lg mb-6 p-6 border border-gray-300">
     <div class="label mb-3 text-lg font-bold text-secondary uppercase">{{ label }}</div>
     <template v-if="data">
       <div class="w-full">

@@ -1,7 +1,7 @@
 <template>
   <div
-    class="stat-count w-full rounded-lg mb-6 p-6 uppercase flex items-center shadow"
-    :class="{ 'hover:shadow-md cursor-pointer': link }"
+    class="stat-count w-full rounded-lg mb-6 p-6 uppercase flex items-center border border-gray-300"
+    :class="{ 'hover:border-blue-900 cursor-pointer': link }"
     @click="onClick"
   >
     <div>

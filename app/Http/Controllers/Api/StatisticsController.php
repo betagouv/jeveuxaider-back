@@ -15,6 +15,12 @@ class StatisticsController extends Controller
 {
     public function missions(Request $request)
     {
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total' => Mission::role($request->header('Context-Role'))->count()
+            ];
+        }
+
         return [
             'total' => Mission::role($request->header('Context-Role'))->count(),
             'waiting' => Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
@@ -27,6 +33,12 @@ class StatisticsController extends Controller
 
     public function structures(Request $request)
     {
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total' => Structure::role($request->header('Context-Role'))->count()
+            ];
+        }
+
         return [
             'total' => Structure::role($request->header('Context-Role'))->count(),
             'validated' => Structure::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->count(),
@@ -37,6 +49,12 @@ class StatisticsController extends Controller
 
     public function profiles(Request $request)
     {
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total' => Profile::role($request->header('Context-Role'))->count()
+            ];
+        }
+
         switch ($request->header('Context-Role')) {
             case 'admin':
             case 'analyste':
@@ -86,6 +104,12 @@ class StatisticsController extends Controller
 
     public function participations(Request $request)
     {
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total' => Participation::role($request->header('Context-Role'))->count()
+            ];
+        }
+
         return [
             'total' => Participation::role($request->header('Context-Role'))->count(),
             'waiting' => Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
@@ -99,7 +123,7 @@ class StatisticsController extends Controller
         ];
     }
 
-    public function analytics(Request $request)
+    public function departments(Request $request)
     {
         $departements = config('taxonomies.departments.terms');
         $datas = collect();

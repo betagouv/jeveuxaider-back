@@ -4,8 +4,8 @@ export function bootstrap() {
   return request.get("/api/bootstrap");
 }
 
-export function statistics(name) {
-  return request.get(`/api/statistics/${name}`);
+export function statistics(name, params) {
+  return request.get(`/api/statistics/${name}`, { params });
 }
 
 export function fetchTrashItems(params) {

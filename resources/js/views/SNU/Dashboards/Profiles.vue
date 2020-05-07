@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-12 font-bold text-2xl text-gray-800">Dashboard</div>
+        <div class="mb-12 font-bold text-2xl text-gray-800">Tableau de bord - Utilisateurs</div>
       </div>
       <div v-if="$store.getters.contextRole === 'admin'" class>
         <el-dropdown @command="handleCommand">
@@ -17,53 +17,56 @@
         </el-dropdown>
       </div>
     </div>
-    <div class="px-12">
-      <card-mission-count label="Missions" name="missions" link="/dashboard/missions" />
-      <card-participation-count
-        label="Participations"
-        name="participations"
-        link="/dashboard/participations"
-      />
+    <div class="px-12 mb-12">
+      <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="main" active>Général</el-menu-item>
+        <el-menu-item
+          v-if="$store.getters.contextRole != 'responsable'"
+          index="structures"
+        >Structures</el-menu-item>
+        <el-menu-item index="missions">Missions</el-menu-item>
+        <el-menu-item index="participations">Participations</el-menu-item>
+        <el-menu-item v-if="$store.getters.contextRole != 'responsable'" index="profiles">Utilisateurs</el-menu-item>
+        <el-menu-item
+          v-if="$store.getters.contextRole != 'responsable'"
+          index="departments"
+        >Départements</el-menu-item>
+      </el-menu>
     </div>
-
-    <div class="px-12" v-if="$store.getters.contextRole != 'responsable'">
-      <card-structure-count label="Structures" name="structures" link="/dashboard/structures" />
+    <div class="px-12">
       <card-profile-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" />
-      <card-analytics label="Départements" name="analytics"></card-analytics>
     </div>
   </div>
 </template>
 
 <script>
-import CardMissionCount from "@/components/CardMissionCount";
-import CardParticipationCount from "@/components/CardParticipationCount";
-import CardStructureCount from "@/components/CardStructureCount";
 import CardProfileCount from "@/components/CardProfileCount";
-import CardAnalytics from "@/components/CardAnalytics";
 import { exportTable } from "@/api/app";
 import fileDownload from "js-file-download";
 
 export default {
-  name: "Dashboard",
+  name: "DashboardProfiles",
   components: {
-    CardMissionCount,
-    CardParticipationCount,
-    CardStructureCount,
-    CardProfileCount,
-    CardAnalytics
+    CardProfileCount
   },
   data() {
     return {
+      activeIndex: "profiles",
       loading: false
     };
   },
   computed: {},
   methods: {
+    handleSelect(index) {
+      index == "main"
+        ? this.$router.push("/dashboard")
+        : this.$router.push(`/dashboard/stats/${index}`);
+    },
     handleCommand(command) {
       this.loading = true;
       this.export(command);
     },
-    export(table){
+    export(table) {
       exportTable(table)
         .then(response => {
           this.loading = false;
@@ -73,7 +76,6 @@ export default {
           console.log(error);
         });
     }
-    
   }
 };
 </script>
