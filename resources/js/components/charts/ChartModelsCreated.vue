@@ -24,10 +24,9 @@
   </div>
 </template>
 
-<script type="text/babel">
+<script>
 import BarChart from "@/components/charts/BarChart";
 import { chartCreated } from "@/api/app";
-
 
 export default {
   components: { BarChart },
