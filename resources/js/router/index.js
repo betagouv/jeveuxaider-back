@@ -30,6 +30,12 @@ import FrontUserMissions from "@/views/Front/UserMissions";
 import FrontFaq from "@/views/Front/Faq";
 import FrontPage from "@/views/Front/Page";
 
+import StatsStructures from "@/views/SNU/Dashboards/Structures";
+import StatsMissions from "@/views/SNU/Dashboards/Missions";
+import StatsParticipations from "@/views/SNU/Dashboards/Participations";
+import StatsProfiles from "@/views/SNU/Dashboards/Profiles";
+import StatsDepartments from "@/views/SNU/Dashboards/Departments";
+
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -218,8 +224,7 @@ export default new Router({
                 },
                 {
                     path: "/dashboard/stats/structures",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-stats-structures" */ "@/views/SNU/Dashboards/Structures.vue"),
+                    component: StatsStructures,
                     name: "StatsStructures",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
@@ -227,8 +232,7 @@ export default new Router({
                 },
                 {
                     path: "/dashboard/stats/missions",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-stats-missions" */ "@/views/SNU/Dashboards/Missions.vue"),
+                    component: StatsMissions,
                     name: "StatsMissions",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste", "responsable"]
@@ -236,8 +240,7 @@ export default new Router({
                 },
                 {
                     path: "/dashboard/stats/participations",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-stats-participations" */ "@/views/SNU/Dashboards/Participations.vue"),
+                    component: StatsParticipations,
                     name: "StatsParticipations",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste", "responsable"]
@@ -245,8 +248,7 @@ export default new Router({
                 },
                 {
                     path: "/dashboard/stats/profiles",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-stats-profiles" */ "@/views/SNU/Dashboards/Profiles.vue"),
+                    component: StatsProfiles,
                     name: "StatsProfiles",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
@@ -254,8 +256,7 @@ export default new Router({
                 },
                 {
                     path: "/dashboard/stats/departments",
-                    component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-stats-departments" */ "@/views/SNU/Dashboards/Departments.vue"),
+                    component: StatsDepartments,
                     name: "StatsDepartments",
                     meta: {
                         roles: ["admin", "referent","referent_regional","superviseur", "analyste"]
