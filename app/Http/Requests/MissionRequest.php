@@ -30,30 +30,28 @@ class MissionRequest extends FormRequest
             'start_date' => 'nullable|date_format:Y-m-d H:i:s',
             'end_date' => 'nullable|date_format:Y-m-d H:i:s|after:start_date',
             'structure_id' => '',
-            'domaines' => '',
             'format' => 'sometimes|required',
             'description' => '',
-            'address' => '',
-            'latitude' => '',
-            'longitude' => '',
-            'zip' => '',
-            'city' => '',
-            'department' => '',
-            'country' => '',
+            'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'zip' => 'required',
+            'city' => 'required',
+            'department' => 'required',
             'participations_max'=> 'integer',
             'dates_infos'=> '',
-            'periodes'=> '',
-            'frequence'=> '',
-            'planning'=> '',
-            'actions'=> '',
-            'justifications'=> '',
-            'contraintes'=> '',
-            'handicap'=> '',
-            'state' => '',
+            'state' => [
+                function ($attribute, $value, $fail) {
+                    if ($this->mission && $this->mission->state !== $value) { // State will  change
+                        if(! $this->user()->can('changeState', [$this->mission, $value])) {
+                            $fail('Vous n\'êtes pas autorisé à changer le statut de cette mission.');
+                        }
+                    }
+                }
+            ],
             'periodicite' => '',
             'publics_volontaires' => '',
             'publics_beneficiaires' => '',
-            'domaine' => '',
             'type' => ''
         ];
     }

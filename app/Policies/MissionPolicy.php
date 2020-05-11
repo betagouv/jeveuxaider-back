@@ -27,7 +27,7 @@ class MissionPolicy
         if (request()->header('Context-Role') == 'analyste') {
             return false;
         }
-        
+
         $ids = Mission::role(request()->header('Context-Role'))->get()->pluck('id')->all();
 
         if (in_array($mission->id, $ids)) {
@@ -39,10 +39,25 @@ class MissionPolicy
 
     public function delete()
     {
-        if (in_array(request()->header('Context-Role'), ['referent','referent_regional', 'admin'])) {
+        if (in_array(request()->header('Context-Role'), ['referent','referent_regional'])) {
             return true;
         }
 
+        return false;
+    }
+
+    public function changeState(User $user, Mission $mission, $newState)
+    {
+        if(request()->header('Context-Role') == 'responsable') {
+            if($newState == 'Brouillon' || $newState == 'Annulée') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else if (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
+            return true;
+        }
         return false;
     }
 }
