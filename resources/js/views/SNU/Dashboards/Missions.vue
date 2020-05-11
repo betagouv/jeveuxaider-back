@@ -11,7 +11,7 @@
     </div>
     <div class="px-12">
       <card-mission-count label="Missions" name="missions" link="/dashboard/missions" />
-      <chart-models-created type="missions"></chart-models-created>
+      <chart-models-created type="missions" class="max-w-4xl"></chart-models-created>
     </div>
   </div>
 </template>

@@ -1,51 +1,52 @@
 <template>
   <el-card
     shadow="never"
-    class="mb-5 p-5 uppercase flex items-center"
+    class="mb-5 p-5 uppercase"
     :class="{ 'hover:border-blue-900 cursor-pointer': link }"
-    @click="onClick"
   >
-    <div class="label mb-3 text-lg font-bold text-secondary">{{ label }}</div>
-    <template v-if="data">
-      <div class="count text-primary font-medium text-2xl">{{ data.total|formatNumber }}</div>
-      <div class="flex flex-wrap">
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">En attente</div>
-          <div class>{{ data.waiting|formatNumber }}</div>
+    <div @click="onClick">
+      <div class="label mb-3 text-lg font-bold text-secondary">{{ label }}</div>
+      <template v-if="data">
+        <div class="count text-primary font-medium text-2xl">{{ data.total|formatNumber }}</div>
+        <div class="flex flex-wrap">
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">En attente</div>
+            <div class>{{ data.waiting|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Validées</div>
+            <div class>{{ data.validated|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">En cours</div>
+            <div class>{{ data.current|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Effectuées</div>
+            <div class>{{ data.done|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Annulées</div>
+            <div class>{{ data.canceled|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Signalées</div>
+            <div class>{{ data.signaled|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Abandonnées</div>
+            <div class>{{ data.abandoned|formatNumber }}</div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">Déclinées</div>
+            <div class>{{ data.declined|formatNumber }}</div>
+          </div>
         </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">Validées</div>
-          <div class>{{ data.validated|formatNumber }}</div>
-        </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">En cours</div>
-          <div class>{{ data.current|formatNumber }}</div>
-        </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">Effectuées</div>
-          <div class>{{ data.done|formatNumber }}</div>
-        </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">Annulées</div>
-          <div class>{{ data.canceled|formatNumber }}</div>
-        </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">Signalées</div>
-          <div class>{{ data.signaled|formatNumber }}</div>
-        </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">Abandonnées</div>
-          <div class>{{ data.abandoned|formatNumber }}</div>
-        </div>
-        <div class="mr-6 mt-6">
-          <div class="text-gray-500 text-sm">Déclinées</div>
-          <div class>{{ data.declined|formatNumber }}</div>
-        </div>
-      </div>
-    </template>
-    <template v-else>
-      <i class="el-icon-loading"></i>
-    </template>
+      </template>
+      <template v-else>
+        <i class="el-icon-loading"></i>
+      </template>
+    </div>
   </el-card>
 </template>
 

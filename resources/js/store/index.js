@@ -4,7 +4,7 @@ import auth from "./modules/auth";
 import user from "./modules/user";
 import volet from "./modules/volet";
 import getters from "./getters";
-import { bootstrap } from "../api/app";
+import { bootstrap, reminders } from "../api/app";
 
 Vue.use(Vuex);
 
@@ -14,7 +14,8 @@ const state = {
   loading: false,
   taxonomies: null,
   reseaux: null,
-  release: null
+  release: null,
+  reminders: null
 };
 
 // actions
@@ -25,12 +26,18 @@ const actions = {
     commit("setReseaux", data.reseaux);
     if(data.user) {
       commit("user/setUser", data.user);
+      dispatch('reminders');
     } else {
       // Access token plus valide
       commit("auth/deleteTokens");
       commit("user/deleteUser", null, { root: true });
     }
     commit("setAppLoadingStatus", true);
+    return data;
+  },
+  async reminders({ commit }) {
+    const { data } = await reminders();
+    commit("setReminders", data);
     return data;
   }
 };
@@ -45,6 +52,9 @@ const mutations = {
   },
   setReseaux: (state, reseaux) => {
     state.reseaux = reseaux;
+  },
+  setReminders: (state, reminders) => {
+    state.reminders = reminders;
   },
   setRelease: (state, release) => {
     state.release = release;

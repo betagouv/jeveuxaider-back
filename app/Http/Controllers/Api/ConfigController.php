@@ -20,8 +20,25 @@ class ConfigController extends Controller
             'user' => Auth::guard('api')->user(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
-            'reseaux' => $this->reseaux()
+            'reseaux' => $this->reseaux(),
         ]);
+    }
+
+    public function reminders(Request $request)
+    {
+        $count = 0;
+
+        if ($request->header('Context-Role') == 'referent') {
+            $count = Structure::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+        }
+
+        if ($request->header('Context-Role') == 'responsable') {
+            $count = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+        }
+        
+        return [
+            'waiting' => $count,
+        ];
     }
 
     private function release()

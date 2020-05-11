@@ -223,6 +223,7 @@ export default {
               type: "success",
               message: "Les participations ont été mises à jour"
             });
+            this.$store.dispatch("reminders");
             this.fetchDatas();
           })
           .catch(() => {

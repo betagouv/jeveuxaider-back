@@ -30,15 +30,15 @@
           v-if="$store.getters.contextRole != 'responsable'"
           label="Structures"
           name="structures"
-          link="/dashboard/structures"
+          link="/dashboard/stats/structures"
         ></card-count>
-        <card-count label="Missions" name="missions" link="/dashboard/missions"></card-count>
-        <card-count label="Participations" name="participations" link="/dashboard/participations"></card-count>
+        <card-count label="Missions" name="missions" link="/dashboard/stats/missions"></card-count>
+        <card-count label="Participations" name="participations" link="/dashboard/stats/participations"></card-count>
         <card-count
           v-if="$store.getters.contextRole != 'responsable'"
           label="Utilisateurs"
           name="profiles"
-          link="/dashboard/profiles"
+          link="/dashboard/stats/profiles"
         ></card-count>
       </div>
     </div>

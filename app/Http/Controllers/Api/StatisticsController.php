@@ -14,23 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class StatisticsController extends Controller
 {
-    public function reminder(Request $request)
-    {
-        $count = 0;
-
-        if ($request->header('Context-Role') == 'referent') {
-            $count = Structure::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
-        }
-
-        if ($request->header('Context-Role') == 'responsable') {
-            $count = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
-        }
-        
-        return [
-            'waiting' => $count,
-        ];
-    }
-
     public function missions(Request $request)
     {
         if ($request->has('type') && $request->input('type') == 'light') {

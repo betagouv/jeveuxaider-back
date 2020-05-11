@@ -16,6 +16,7 @@ const getters = {
   release: state => state.release,
   isImpersonating: state => (state.auth.accessTokenImpersonate ? true : false),
   reseaux: state => state.reseaux,
+  reminders: state => state.reminders,
   profile: state => (state.user.user ? state.user.user.profile : null),
   contextRole: state => state.user.user.context_role,
   structure_as_responsable: (state, getters) => {
