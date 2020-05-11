@@ -72,7 +72,7 @@ export default {
   computed: {
     chartData() {
       return {
-        labels: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre'],
+        labels: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juill.','Aout','Sept.','Oct.','Nov.','Déc.'],
         datasets: [
           {
             label: 'Nouvelles créations',

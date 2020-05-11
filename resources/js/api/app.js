@@ -8,6 +8,10 @@ export function statistics(name, params) {
   return request.get(`/api/statistics/${name}`, { params });
 }
 
+export function reminders() {
+  return request.get('/api/reminders');
+}
+
 export function chartCreated(params) {
   return request.get('/api/charts/created', { params });
 }

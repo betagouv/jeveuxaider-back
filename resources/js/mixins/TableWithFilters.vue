@@ -26,7 +26,6 @@ export default {
     }
   },
   created() {
-    console.log('query', this.$route.query)
     this.query = { ...this.$route.query };
     this.tableData = this.fetchDatas();
     this.showFilters = this.activeFilters > 0 ? true : false;

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { statistics } from "@/api/app";
+import { reminders } from "@/api/app";
 
 export default {
   data() {
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     fetchDatas() {
-      statistics("reminder").then(response => {
+      reminders().then(response => {
         this.loading = false;
         this.data = response.data;
       });

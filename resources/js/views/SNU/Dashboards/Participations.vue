@@ -15,7 +15,7 @@
         name="participations"
         link="/dashboard/participations"
       />
-      <chart-models-created type="participations"></chart-models-created>
+      <chart-models-created type="participations" class="max-w-4xl"></chart-models-created>
     </div>
   </div>
 </template>

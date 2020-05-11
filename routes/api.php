@@ -97,8 +97,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('statistics/structures', 'Api\StatisticsController@structures');
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
     Route::get('statistics/participations', 'Api\StatisticsController@participations');
-    Route::get('statistics/reminder', 'Api\StatisticsController@reminder');
     Route::get('charts/created', 'Api\ChartController@created');
+
+    // REMINDERS
+    Route::get('reminders', 'Api\ConfigController@reminders');
 });
 
 // ONLY ADMIN
