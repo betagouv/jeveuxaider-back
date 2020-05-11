@@ -28,7 +28,8 @@ class ParticipationController extends Controller
                 'state',
                 'mission.department',
                 'mission.type',
-                'mission.name'
+                'mission.name',
+                AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))
