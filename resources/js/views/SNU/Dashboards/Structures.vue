@@ -11,7 +11,7 @@
     </div>
     <div class="px-12">
       <card-structure-count label="Structures" name="structures" link="/dashboard/structures" />
-      <chart-models-created type="structures"></chart-models-created>
+      <chart-models-created type="structures" class="max-w-4xl"></chart-models-created>
     </div>
   </div>
 </template>

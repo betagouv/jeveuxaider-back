@@ -11,7 +11,7 @@
     </div>
     <div class="px-12">
       <card-profile-count label="Utilisateurs" name="profiles" link="/dashboard/profiles" />
-      <chart-models-created type="profiles"></chart-models-created>
+      <chart-models-created type="profiles" class="max-w-4xl"></chart-models-created>
     </div>
   </div>
 </template>
