@@ -29,17 +29,9 @@ class Mission extends Model
         'start_date',
         'end_date',
         'format',
-        'domaines',
         'state',
         'participations_max',
         'dates_infos',
-        'periodes',
-        'frequence',
-        'planning',
-        'actions',
-        'justifications',
-        'contraintes',
-        'handicap',
         'tuteur_id',
         'periodicite',
         'publics_beneficiaires',
@@ -48,9 +40,6 @@ class Mission extends Model
     ];
 
     protected $casts = [
-        'domaines' => 'array',
-        'periodes' => 'array',
-        'planning' => 'array',
         'publics_beneficiaires' => 'array',
         'publics_volontaires' => 'array'
     ];

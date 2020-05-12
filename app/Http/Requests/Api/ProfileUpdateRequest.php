@@ -29,9 +29,7 @@ class ProfileUpdateRequest extends ProfileRequest
     {
         $profile = request()->route('profile') ?: request()->user()->profile;
 
-        // @TODO : rendre required certains champs seulement pour les volontaires ?
-
-        return [
+        $rules = [
             'email' => [
                 'sometimes',
                 'email',
@@ -43,14 +41,17 @@ class ProfileUpdateRequest extends ProfileRequest
             'mobile' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'zip' => 'nullable|postal_code:FR',
             'birthday' => 'nullable|date|before:-16 years',
-            //'phone' => 'phone:FR',
             'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            // 'avatar' => '',
-            'referent_department' => '',
-            'referent_region' => '',
-            'reseau_id' => '',
-            'is_analyste' => 'boolean',
         ];
+
+        if(request()->user()->isAdmin()) {
+            $rules['referent_department'] = '';
+            $rules['referent_region'] = '';
+            $rules['reseau_id'] = '';
+            $rules['is_analyste'] = 'boolean';
+        }
+
+        return $rules;
     }
 
     /**

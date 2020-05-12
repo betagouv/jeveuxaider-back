@@ -85,7 +85,7 @@ class ConfigController extends Controller
             break;
             case 'missions':
                 $rows = Mission::cursor();
-                $columns = ['id','user_id','name','structure_id','tuteur_id','domaines','participations_max','format','start_date','end_date','periodes','frequence','planning','address','zip','city','department','country','latitude','longitude','actions','justifications','contraintes','handicap','state','created_at','updated_at','deleted_at','periodicite','publics_beneficiaires','publics_volontaires','type','places_left'];
+                $columns = ['id','user_id','name','structure_id','tuteur_id','participations_max','format','start_date','end_date','address','zip','city','department','country','latitude','longitude','state','created_at','updated_at','deleted_at','periodicite','publics_beneficiaires','publics_volontaires','type','places_left'];
             break;
             case 'profiles':
                 $rows = Profile::cursor();
