@@ -24,7 +24,7 @@
         </div>
         <div class="flex items-center justify-center mb-4">
           <state-tag :state="row.state" size="small" class="flex items-center"></state-tag>
-          
+
         </div>
         <participation-infos :participation="row"></participation-infos>
       </el-card>
@@ -116,7 +116,7 @@ export default {
             this.$store.dispatch("reminders");
           });
         });
-      
+
     },
     onSubmit() {
       this.$confirm("Êtes vous sur de vos changements ?<br>", "Confirmation", {
@@ -130,12 +130,12 @@ export default {
         updateParticipation(this.form.id, this.form)
           .then(response => {
             this.loading = false;
-            this.form = response.data;
             this.$message({
               type: "success",
               message: "La participation a été mise à jour"
             });
-            this.$emit("updated", response.data);
+            this.$emit("updated", { ...this.form, ...response.data });
+            this.$store.commit("volet/setRow", { ...this.row, ...response.data });
             this.$store.dispatch("reminders");
           })
           .catch(() => {

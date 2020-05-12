@@ -21,7 +21,8 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Profile::role($request->header('Context-Role')))
+        return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with('structures'))
+            ->allowedAppends('roles')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),

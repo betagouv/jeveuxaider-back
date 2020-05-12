@@ -128,12 +128,12 @@ export default {
         updateProfile(this.form.id, this.form)
           .then(response => {
             this.loading = false;
-            this.form = response.data;
             this.$message({
               type: "success",
               message: "Le profil a été mis à jour"
             });
-            this.$emit("updated", response.data);
+            this.$store.commit("volet/setRow", { ...this.row, ...response.data });
+            this.$emit("updated", { ...this.form, ...response.data });
           })
           .catch(() => {
             this.loading = false;

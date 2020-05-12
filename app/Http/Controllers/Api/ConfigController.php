@@ -16,8 +16,11 @@ class ConfigController extends Controller
 {
     public function bootstrap()
     {
+        $user = Auth::guard('api')->user();
+        $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
+
         return response()->json([
-            'user' => Auth::guard('api')->user(),
+            'user' => $user,
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
             'reseaux' => $this->reseaux(),
@@ -35,7 +38,7 @@ class ConfigController extends Controller
         if ($request->header('Context-Role') == 'responsable') {
             $count = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
         }
-        
+
         return [
             'waiting' => $count,
         ];

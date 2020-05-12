@@ -35,11 +35,11 @@ class Profile extends Model
         'is_analyste' => 'boolean',
     ];
 
-    protected $appends = ['full_name', 'short_name', 'roles', 'has_user', 'volontaire'];
-
+   // protected $appends = ['full_name', 'short_name', 'roles', 'has_user', 'volontaire'];
+    protected $appends = ['full_name', 'short_name'];
     protected $hidden = ['media', 'user'];
 
-    protected $with = ['structures:id,name', 'reseau:id,name', 'participations'];
+    // protected $with = ['structures:id,name', 'reseau:id,name', 'participations'];
 
     // public function setEmailAttribute($value)
     // {

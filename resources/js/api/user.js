@@ -83,7 +83,7 @@ export function fetchProfileParticipations(id) {
 }
 
 export function fetchProfiles(params) {
-  return request.get("/api/profiles", { params });
+  return request.get("/api/profiles?append=roles", { params });
 }
 
 export const rolesList = [

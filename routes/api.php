@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', 'Api\PassportController@logout');
 });
 
+// Pour info : Les middleware 'auth:api', 'has.context.role.header' ajoutent 9 queries
 Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], function () {
     // USERS
     Route::post('user', 'Api\UserController@update');

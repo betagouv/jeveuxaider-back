@@ -23,7 +23,10 @@ class UserController extends Controller
 
     public function show(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+        $user['profile']['roles'] = $user->profile->roles;
+
+        return $user;
     }
 
     public function update(Request $request)

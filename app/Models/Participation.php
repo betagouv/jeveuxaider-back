@@ -23,7 +23,7 @@ class Participation extends Model
         'state',
     ];
 
-    protected $with = ['mission', 'profile'];
+    // protected $with = ['mission', 'profile'];
 
     const ACTIVE_STATUS = [
         'En attente de validation',

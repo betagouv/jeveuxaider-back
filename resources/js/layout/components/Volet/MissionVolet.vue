@@ -229,18 +229,18 @@ export default {
         .then(() => {
           this.loading = true;
           updateMission(this.form.id, this.form)
-            .then(response => {
+            .then(({data}) => {
               this.loading = false;
-              this.$store.commit("volet/setRow", response.data);
+              this.$store.commit("volet/setRow", { ...this.row, ...data });
               this.$message({
                 type: "success",
                 message: "La mission a été mise à jour"
               });
-              this.$emit("updated", response.data);
+              this.$emit("updated", { ...this.form, ...data });
             })
             .catch(error => {
               this.loading = false;
-              this.errors = error.response.data.errors;
+              console.log(error)
             });
         })
         .catch(() => {});
