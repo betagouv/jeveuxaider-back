@@ -73,7 +73,11 @@ class ProfileUpdateRequest extends ProfileRequest
             'zip.required' => 'Le code postal est requis',
             'mobile.required' => 'Le numéro de téléphone est requis',
             'mobile' => 'Le numéro de téléphone n\'est pas valide',
-            'phone' => 'Le numéro de téléphone n\'est pas valide'
+            'mobile.min' => 'Le numéro de téléphone n\'est pas valide',
+            'mobile.regex' => 'Le numéro de téléphone n\'est pas valide',
+            'phone' => 'Le numéro de téléphone n\'est pas valide',
+            'phone.min' => 'Le numéro de téléphone n\'est pas valide',
+            'phone.regex' => 'Le numéro de téléphone n\'est pas valide'
         ];
     }
 }

@@ -124,7 +124,7 @@
             v-if="scope.row.mission && scope.row.mission.structure"
             class="font-light text-gray-600 flex items-center"
           >
-            <div class="text-xs">{{ scope.row.mission.structure.name }}</div>
+            <div class="text-xs"><v-clamp :max-lines="1" autoresize>{{ scope.row.mission.structure.name }}</v-clamp></div>
           </div>
         </template>
       </el-table-column>
