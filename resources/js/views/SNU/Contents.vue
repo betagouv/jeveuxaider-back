@@ -231,7 +231,7 @@ export default {
             });
             this.fetchDatas();
           });
-        } else if (this.type == "Document") {
+        } else if (this.type == "Documents") {
           deleteDocument(id).then(() => {
             this.$message({
               type: "success",
