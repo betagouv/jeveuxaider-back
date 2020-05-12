@@ -23,6 +23,9 @@
             <router-link :to="{ name: 'CollectivityFormAdd' }">
               <el-dropdown-item>Nouvelle collectivité</el-dropdown-item>
             </router-link>
+            <router-link :to="{ name: 'DocumentFormAdd' }">
+              <el-dropdown-item>Nouveau document</el-dropdown-item>
+            </router-link>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -33,6 +36,7 @@
         <el-radio-button label="Releases"></el-radio-button>
         <el-radio-button label="Pages"></el-radio-button>
         <el-radio-button label="Collectivités"></el-radio-button>
+        <el-radio-button label="Documents"></el-radio-button>
       </el-radio-group>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
@@ -107,6 +111,7 @@ import { fetchReleases, deleteRelease } from "@/api/app";
 import { fetchFaqs, deleteFaq } from "@/api/app";
 import { fetchPages, deletePage } from "@/api/app";
 import { fetchCollectivities, deleteCollectivity } from "@/api/app";
+import { fetchDocuments, deleteDocument } from "@/api/app";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 
@@ -149,6 +154,8 @@ export default {
         return fetchReleases(this.query);
       } else if (this.type == "Collectivités") {
         return fetchCollectivities(this.query);
+      } else if (this.type == "Documents") {
+        return fetchDocuments(this.query);
       } else {
         return fetchPages(this.query);
       }
@@ -174,6 +181,11 @@ export default {
       } else if (this.type == "Collectivités") {
         this.$router.push({
           name: "CollectivityFormEdit",
+          params: { id: id }
+        });
+      } else if (this.type == "Documents") {
+        this.$router.push({
+          name: "DocumentFormEdit",
           params: { id: id }
         });
       } else {
@@ -216,6 +228,14 @@ export default {
             this.$message({
               type: "success",
               message: `La collectivité a été supprimée.`
+            });
+            this.fetchDatas();
+          });
+        } else if (this.type == "Document") {
+          deleteDocument(id).then(() => {
+            this.$message({
+              type: "success",
+              message: `Le document a été supprimée.`
             });
             this.fetchDatas();
           });

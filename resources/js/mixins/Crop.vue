@@ -31,21 +31,21 @@ export default {
   methods: {
     onSelectFile(file) {
       if (!file.raw) {
-        return;
+        return false;
       }
       if (file.size > this.imgMaxSize) {
         this.$message({
           message: `La taille ne doit pas dépasser ${this.$options.filters.prettyBytes(this.imgMaxSize)}`,
           type: "error"
         });
-        return;
+        return false;
       }
       if (file.raw.type.indexOf('image/') === -1) {
         this.$message({
           message: "Veuillez sélectionner une image",
           type: "error"
         });
-        return;
+        return false;
       }
       if (typeof FileReader === 'function') {
         const reader = new FileReader();

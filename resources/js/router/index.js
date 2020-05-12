@@ -527,6 +527,28 @@ export default new Router({
                         roles: ["admin"]
                     }
                 },
+                {
+                    path: "/dashboard/document/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-document-add" */ "@/views/SNU/DocumentForm.vue"
+                        ),
+                    name: "DocumentFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/document/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-document-edit" */ "@/views/SNU/DocumentForm.vue"),
+                    name: "DocumentFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
             ]
         },
         {

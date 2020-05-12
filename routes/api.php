@@ -101,6 +101,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // REMINDERS
     Route::get('reminders', 'Api\ConfigController@reminders');
+
+    // DOCUMENTS
+    // Route::get('documents', 'Api\DocumentController@index');
 });
 
 // ONLY ADMIN
@@ -122,6 +125,15 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
     Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
+
+    // DOCUMENTS
+    Route::get('documents', 'Api\DocumentController@index');
+    Route::get('document/{document}', 'Api\DocumentController@show');
+    Route::post('document', 'Api\DocumentController@store');
+    Route::post('document/{document}', 'Api\DocumentController@update');
+    Route::post('document/{document}/upload', 'Api\DocumentController@upload');
+    Route::delete('document/{document}/upload', 'Api\DocumentController@uploadDelete');
+    Route::delete('document/{document}', 'Api\DocumentController@delete');
 
     // FAQ
     Route::post('faq', 'Api\FaqController@store');

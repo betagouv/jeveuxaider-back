@@ -96,3 +96,42 @@ Vue.filter("slugify", function (string) {
   }) : string;
 });
 
+Vue.filter("icoFromMimeType", function (mymeType) {
+
+  switch (mymeType) {
+    case 'application/vnd.ms-powerpoint':
+    case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+      return 'file-powerpoint';
+    case 'application/pdf':
+      return 'file-pdf';
+    case 'text/csv':
+      return 'file-csv';
+    case 'application/msword':
+    case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+      return 'file-word';
+    default:
+      return 'file';
+  }
+
+});
+
+Vue.filter("fileSizeBytes", function(size){
+    size = Math.abs(parseInt(size, 10));
+    var def = [[1, 'octets'], [1024, 'ko'], [1024*1024, 'Mo'], [1024*1024*1024, 'Go'], [1024*1024*1024*1024, 'To']];
+    for(var i=0; i<def.length; i++){
+      if(size<def[i][0]) {
+        return (size/def[i-1][0]).toFixed(2)+' '+def[i-1][1];
+      }
+    }
+});
+
+Vue.filter("fileSizeOctets", function(size){
+    size = Math.abs(parseInt(size, 10));
+    var def = [[1, 'octets'], [1000, 'ko'], [1000*1000, 'Mo'], [1000*1000*1000, 'Go'], [1000*1000*1000*1000, 'To']];
+    for(var i=0; i<def.length; i++){
+      if(size<def[i][0]) {
+        return (size/def[i-1][0]).toFixed(2)+' '+def[i-1][1];
+      }
+    }
+});
+
