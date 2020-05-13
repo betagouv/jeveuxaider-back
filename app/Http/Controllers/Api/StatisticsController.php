@@ -138,7 +138,6 @@ class StatisticsController extends Controller
         $datas = collect();
 
         $missionsCollection = Mission::role($request->header('Context-Role'))
-            ->without(['structure', 'tuteur'])
             ->available()
             ->hasPlacesLeft()
             ->get();

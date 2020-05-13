@@ -190,7 +190,7 @@ class Structure extends Model
 
     public function missions()
     {
-        return $this->hasMany('App\Models\Mission')->without(['structure']);
+        return $this->hasMany('App\Models\Mission');
     }
 
     public function addMember(Profile $profile, $role)

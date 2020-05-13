@@ -186,7 +186,7 @@ class Profile extends Model
 
     public function reseau()
     {
-        return $this->belongsTo('App\Models\Structure')->without('members');
+        return $this->belongsTo('App\Models\Structure');
     }
 
     public function missions()
@@ -198,16 +198,12 @@ class Profile extends Model
     {
         return $this
             ->belongsToMany('App\Models\Structure', 'members')
-            ->without('members')
             ->withPivot('role');
     }
 
     public function participations()
     {
-        return $this
-            ->hasMany('App\Models\Participation')
-            ->without('profile')
-            ->without('mission');
+        return $this->hasMany('App\Models\Participation');
     }
 
     public function collectivities()

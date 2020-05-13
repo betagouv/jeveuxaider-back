@@ -34,12 +34,12 @@ class Participation extends Model
 
     public function mission()
     {
-        return $this->belongsTo('App\Models\Mission')->without('participations');
+        return $this->belongsTo('App\Models\Mission');
     }
 
     public function profile()
     {
-        return $this->belongsTo('App\Models\Profile')->without('participations');
+        return $this->belongsTo('App\Models\Profile');
     }
 
     public function scopeRole($query, $contextRole)
