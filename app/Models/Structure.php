@@ -63,9 +63,9 @@ class Structure extends Model
 
     protected $appends = ['full_address', 'ceu'];
 
-    protected $withCount = ['missions'];
+    // protected $withCount = ['missions'];
 
-    protected $with = ['members:id,first_name,last_name,email,mobile'];
+    // protected $with = ['members:id,first_name,last_name,email,mobile'];
 
     public function scopeRole($query, $contextRole)
     {
