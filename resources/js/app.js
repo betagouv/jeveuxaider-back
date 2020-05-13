@@ -10,6 +10,7 @@ import "./plugins/sentry.js";
 import Bowser from "bowser";
 import "./plugins/numeral.js";
 import "./plugins/dayjs.js";
+import "./plugins/font-awesome.js";
 import "./plugins/utils.js";
 import "./plugins/prettyBytes.js";
 import Vue2Filters from "vue2-filters";

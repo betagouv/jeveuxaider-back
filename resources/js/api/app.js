@@ -128,3 +128,39 @@ export function uploadImage(id, model, image, cropSettings) {
 export function deleteImage(id, model) {
   return request.delete(`/api/${model}/${id}/upload`);
 }
+
+export function addDocument(document) {
+  return request.post("/api/document", document);
+}
+
+export function updateDocument(id, document) {
+  return request.post(`/api/document/${id}`, document);
+}
+
+export function addOrUpdateDocument(id, document) {
+  return id ? updateDocument(id, document) : addDocument(document);
+}
+
+export function getDocument(id) {
+  return request.get(`/api/document/${id}`);
+}
+
+export function fetchDocuments(params) {
+  return request.get("/api/documents", { params });
+}
+
+export function deleteDocument(id) {
+  return request.delete(`/api/document/${id}`);
+}
+
+export function uploadFile(id, model, file) {
+  var data = new FormData();
+  data.append("file", file);
+  return request.post(`/api/${model}/${id}/upload`, data, {
+    "Content-Type": "multipart/form-data"
+  });
+}
+
+export function deleteFile(id, model) {
+  return request.delete(`/api/${model}/${id}/upload`);
+}
