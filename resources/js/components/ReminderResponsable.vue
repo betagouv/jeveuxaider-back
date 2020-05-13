@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never" v-if="data && data.waiting" class="p-5">
+  <el-card shadow="never" v-if="$store.getters.reminders && $store.getters.reminders.waiting" class="p-5">
     <div
       class
     >{{ $store.getters.user.profile.first_name }}, des participations sont en attente de validation dans le cadre de vos missions.</div>
@@ -11,7 +11,7 @@
       :to="{name: 'DashboardParticipations', query: {'filter[state]': 'En attente de validation'}}"
     >
       <el-button type="primary" class="mt-2">
-        <template v-if="data.waiting > 1">Afficher les {{data.waiting|formatNumber}} participations</template>
+        <template v-if="$store.getters.reminders.waiting > 1">Afficher les {{$store.getters.reminders.waiting|formatNumber}} participations</template>
         <template v-else>Afficher la participation</template>
       </el-button>
     </router-link>
@@ -29,7 +29,7 @@ export default {
     };
   },
   created() {
-    this.fetchDatas();
+    this.$store.dispatch('reminders');
   },
   methods: {
     fetchDatas() {

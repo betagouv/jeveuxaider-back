@@ -262,7 +262,6 @@ export default {
             });
             this.$emit("deleted", this.row);
             this.$store.commit("volet/setRow", null);
-            this.$store.dispatch("reminders");
           });
         });
       }
@@ -317,7 +316,6 @@ export default {
                 message: "La structure a été mise à jour"
               });
               this.$emit("updated", response.data);
-              this.$store.dispatch("reminders");
             })
             .catch(error => {
               this.loading = false;

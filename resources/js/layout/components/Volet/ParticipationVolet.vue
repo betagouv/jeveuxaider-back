@@ -113,7 +113,6 @@ export default {
             this.$emit("deleted", this.row);
             this.$store.commit("volet/setRow", null);
             this.$store.commit("volet/hide");
-            this.$store.dispatch("reminders");
           });
         });
 
@@ -136,7 +135,6 @@ export default {
             });
             this.$emit("updated", { ...this.form, ...response.data });
             this.$store.commit("volet/setRow", { ...this.row, ...response.data });
-            this.$store.dispatch("reminders");
           })
           .catch(() => {
             this.loading = false;
