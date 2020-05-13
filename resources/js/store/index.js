@@ -26,7 +26,6 @@ const actions = {
     commit("setReseaux", data.reseaux);
     if(data.user) {
       commit("user/setUser", data.user);
-      dispatch('reminders');
     } else {
       // Access token plus valide
       commit("auth/deleteTokens");

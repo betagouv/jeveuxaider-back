@@ -113,7 +113,6 @@ export default {
             this.$emit("deleted", this.row);
             this.$store.commit("volet/setRow", null);
             this.$store.commit("volet/hide");
-            this.$store.dispatch("reminders");
           });
         });
       
@@ -136,7 +135,6 @@ export default {
               message: "La participation a été mise à jour"
             });
             this.$emit("updated", response.data);
-            this.$store.dispatch("reminders");
           })
           .catch(() => {
             this.loading = false;

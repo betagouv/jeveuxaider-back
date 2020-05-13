@@ -94,6 +94,9 @@ export default {
       default: "border-b border-blue-800"
     }
   },
+  created(){
+    this.$store.dispatch('reminders')
+  },
   methods: {
     isCurrentPath(path) {
       return window.location.pathname === path;

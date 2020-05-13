@@ -42,5 +42,8 @@ mix.webpackConfig({
         'resources/js'
       )
     }
+  },
+  externals: {
+    moment: 'moment'
   }
 })
