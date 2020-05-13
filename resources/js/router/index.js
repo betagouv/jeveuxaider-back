@@ -50,7 +50,6 @@ export default new Router({
             path: "/",
             name: "Homepage",
             component: FrontHomepage,
-            meta: { requiresAnonymous: true }
         },
         {
             path: "/regles-de-securite",

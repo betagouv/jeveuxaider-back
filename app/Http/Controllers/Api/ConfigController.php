@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -16,11 +17,8 @@ class ConfigController extends Controller
 {
     public function bootstrap()
     {
-        $user = Auth::guard('api')->user();
-        $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
-
         return response()->json([
-            'user' => $user,
+            'user' => User::currentUser(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
             'reseaux' => $this->reseaux(),

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\ResetPassword;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,18 @@ class User extends Authenticatable
     // {
     //     $this->attributes['email'] = strtolower($value);
     // }
+
+    public static function currentUser()
+    {
+        if(! Auth::guard('api')->user()) {
+            return null;
+        }
+
+        $user = User::with('profile.structures')->where('id', Auth::guard('api')->user()->id)->first();
+        $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
+
+        return $user;
+    }
 
     public function profile()
     {

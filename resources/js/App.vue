@@ -12,9 +12,6 @@ import { mapGetters } from "vuex"
 export default {
   computed: {
     ...mapGetters(["isAppLoaded"])
-  },
-  created() {
-    this.$store.dispatch("bootstrap")
   }
 };
 </script>

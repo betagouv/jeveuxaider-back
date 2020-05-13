@@ -58,7 +58,8 @@ new Vue({
     AppHeader,
     AppFooter
   },
-  created() {
+  async created() {
+    await this.$store.dispatch("bootstrap")
     // Non supported version of browser (IE < 11)
     const browserInfos = Bowser.parse(window.navigator.userAgent);
     if (
