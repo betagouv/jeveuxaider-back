@@ -158,13 +158,13 @@
             Enregistrer
           </el-button>
         </div>
-        
+
       </el-form>
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Équipe ({{ form.members.length }})
       </div>
       <item-description>
-        Vous pouver
+        Vous pouvez
         <router-link
           :to="{
             name: 'StructureMembers',

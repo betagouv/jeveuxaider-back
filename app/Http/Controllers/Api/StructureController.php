@@ -31,7 +31,7 @@ class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role')))
+        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members'))
             ->allowedFilters([
                 'department',
                 'state',
@@ -77,7 +77,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        return $structure;
+         return Structure::with('members')->where('id', $structure->id)->first();
     }
 
     public function store(StructureCreateRequest $request)
