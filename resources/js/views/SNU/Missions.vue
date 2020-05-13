@@ -116,17 +116,12 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar
-            v-if="scope.row.structure && scope.row.structure.logo"
-            :src="`${scope.row.structure.logo}`"
-            class="w-10 rounded-full border"
-          />
-          <el-avatar v-else class="bg-primary">{{ scope.row.structure.name[0] }}</el-avatar>
+          <el-avatar class="bg-primary">{{ scope.row.structure.name[0] }}</el-avatar>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.name|labelFromValue('mission_domaines') }}</div>
+          <div class="text-gray-900"><v-clamp :max-lines="2" autoresize>{{ scope.row.name|labelFromValue('mission_domaines') }}</v-clamp></div>
           <div v-if="scope.row.structure" class="font-light text-gray-600 flex items-center">
             <div class="text-xs">{{ scope.row.structure.name }}</div>
           </div>

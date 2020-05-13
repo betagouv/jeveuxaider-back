@@ -123,12 +123,7 @@
       >
         <el-table-column width="70" align="center">
           <template>
-            <el-avatar
-              v-if="structure.logo"
-              :src="`${structure.logo}`"
-              class="w-10 rounded-full border"
-            />
-            <el-avatar v-else class="bg-primary">
+            <el-avatar class="bg-primary">
               {{ structure.name[0] }}
             </el-avatar>
           </template>
@@ -136,7 +131,9 @@
         <el-table-column prop="name" label="Mission" min-width="320">
           <template slot-scope="scope">
             <div class="text-gray-900">
-              {{ scope.row.name }}
+              <v-clamp :max-lines="2" autoresize>
+              {{ scope.row.name|labelFromValue('mission_domaines') }}
+              </v-clamp>
             </div>
             <div
               v-if="scope.row.structure"
