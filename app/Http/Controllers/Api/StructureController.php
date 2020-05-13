@@ -31,7 +31,7 @@ class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members'))
+        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members')->withCount('missions'))
             ->allowedFilters([
                 'department',
                 'state',
