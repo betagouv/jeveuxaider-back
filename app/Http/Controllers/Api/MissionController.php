@@ -42,9 +42,9 @@ class MissionController extends Controller
         return Excel::download(new MissionsExport($request), 'missions.xlsx');
     }
 
-    public function show(Request $request, Mission $mission)
+    public function show(Request $request, Int $id)
     {
-        return $mission;
+        return Mission::with('structure.members:id,first_name,last_name,mobile,email')->where('id', $id)->first();
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)

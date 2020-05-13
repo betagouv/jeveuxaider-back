@@ -54,6 +54,7 @@ class StructureObserver
                             }
                         }
                     }
+                    // TODO : Envoyer les missions validées dans Algolia
                     break;
                 case 'Signalée':
                     if ($structure->user->profile) {
