@@ -122,14 +122,14 @@
         :highlight-current-row="true"
       >
         <el-table-column width="70" align="center">
-          <template slot-scope="scope">
+          <template>
             <el-avatar
-              v-if="scope.row.structure && scope.row.structure.logo"
-              :src="`${scope.row.structure.logo}`"
+              v-if="structure.logo"
+              :src="`${structure.logo}`"
               class="w-10 rounded-full border"
             />
             <el-avatar v-else class="bg-primary">
-              {{ scope.row.structure.name[0] }}
+              {{ structure.name[0] }}
             </el-avatar>
           </template>
         </el-table-column>
