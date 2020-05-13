@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Http\Requests\Api\MissionUpdateRequest;
+use App\Http\Requests\Api\MissionCloneRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Filters\FiltersMissionCeu;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -65,7 +66,7 @@ class MissionController extends Controller
         return (string) $mission->forceDelete();
     }
 
-    public function clone(MissionUpdateRequest $request, Mission $mission)
+    public function clone(MissionCloneRequest $request, Mission $mission)
     {
         return $mission->clone();
     }
