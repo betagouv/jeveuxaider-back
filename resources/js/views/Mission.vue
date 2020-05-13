@@ -487,7 +487,7 @@
                   </svg>
                   <span
                     v-text="
-                      `${otherMission.city} (${otherMission.department}) - ${otherMission.structure.name}`
+                      `${otherMission.city} (${otherMission.department}) - ${mission.structure.name}`
                     "
                   ></span>
                 </div>
