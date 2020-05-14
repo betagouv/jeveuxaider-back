@@ -558,9 +558,9 @@ export default {
         this.form = response.data;
         this.mission = { ...response.data };
         this.loading = false
-        fetchStructureAvailableMissions(this.mission.structure.id)
+        fetchStructureAvailableMissions(this.mission.structure.id, { exclude: this.id })
           .then(response => {
-            this.otherMissions = { ...response.data };
+            this.otherMissions = response.data
           })
           .catch(() => {
             this.loading = false;
