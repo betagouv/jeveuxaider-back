@@ -268,11 +268,6 @@ export default {
         this.loading = false;
       });
   },
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query };
-    this.fetchDatas();
-    next();
-  },
   methods: {
     fetchRows() {
       return fetchStructureMissions(this.id, this.query);
