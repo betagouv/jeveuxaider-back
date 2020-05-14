@@ -1,7 +1,7 @@
 <template>
   <div class="member flex">
-    <el-avatar class="bg-primary w-10 rounded-full" :src="`${member.avatar}`">
-      {{ member.first_name[0] }}{{ member.last_name[0] }}
+    <el-avatar class="bg-primary w-10 rounded-full">
+      {{ member.short_name }}
     </el-avatar>
     <div class="flex flex-col ml-6" style="min-width:250px;">
       <router-link
@@ -12,7 +12,7 @@
         target="_blank"
       >
         <div class="text-gray-800">
-          {{ member.first_name }} {{ member.last_name }}
+          {{ member.full_name }}
         </div>
       </router-link>
       <div class="uppercase text-xs text-secondary">

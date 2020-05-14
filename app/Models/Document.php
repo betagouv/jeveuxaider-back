@@ -36,4 +36,19 @@ class Document extends Model implements HasMedia
         }
         return $file;
     }
+
+    public function scopeRole($query, $contextRole)
+    {
+        switch ($contextRole) {
+            case 'admin':
+                return $query;
+            break;
+            case 'referent':
+                return $query->whereJsonContains('roles', 'referent');
+            break;
+            case 'responsable':
+                return $query->whereJsonContains('roles', 'responsable');
+            break;
+        }
+    }
 }

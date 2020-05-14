@@ -97,20 +97,15 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar
-            v-if="scope.row.avatar"
-            :src="`${scope.row.avatar}`"
-            class="w-10 rounded-full border"
-          />
-          <el-avatar v-else class="bg-primary">
-            {{ scope.row.first_name[0] }}{{ scope.row.last_name[0] }}
+          <el-avatar class="bg-primary">
+            {{ scope.row.short_name }}
           </el-avatar>
         </template>
       </el-table-column>
       <el-table-column label="Email" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
-            {{ scope.row.first_name }} {{ scope.row.last_name }}
+            {{ scope.row.full_name }}
           </div>
           <div class="font-light text-gray-600 text-xs">{{ scope.row.email }}</div>
         </template>

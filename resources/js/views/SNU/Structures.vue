@@ -94,12 +94,7 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar
-            v-if="scope.row.logo"
-            :src="`${scope.row.logo}`"
-            class="w-10 rounded-full border"
-          />
-          <el-avatar v-else class="bg-primary">
+          <el-avatar class="bg-primary">
             {{ scope.row.name[0] }}
           </el-avatar>
         </template>
@@ -111,7 +106,7 @@
           </div>
           <div
             v-if="scope.row.statut_juridique"
-            class="font-light text-gray-600"
+            class="font-light text-gray-600 text-xs"
           >
             {{ scope.row.statut_juridique }}
           </div>

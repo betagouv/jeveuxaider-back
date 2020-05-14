@@ -11,12 +11,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTitleBodySearch;
 use App\Http\Requests\Api\DocumentUploadRequest;
+use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return QueryBuilder::for(Document::class)
+        return QueryBuilder::for(Document::role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])

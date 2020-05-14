@@ -48,14 +48,14 @@ class MissionPolicy
 
     public function changeState(User $user, Mission $mission, $newState)
     {
-        if(request()->header('Context-Role') == 'responsable') {
-            if($newState == 'Brouillon' || $newState == 'Annulée') {
+        if (request()->header('Context-Role') == 'responsable') {
+            if ($newState == 'Brouillon' || $newState == 'Annulée') {
                 return true;
-            } else {
-                return false;
+            } elseif ($newState == 'Validée') {
+                return $mission->structure->state == 'Validée' ? true : false;
             }
-        }
-        else if (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
+            return false;
+        } elseif (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
             return true;
         }
         return false;

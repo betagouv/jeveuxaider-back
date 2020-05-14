@@ -420,6 +420,15 @@ export default new Router({
                     }
                 },
                 {
+                    path: "/dashboard/ressources",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-ressources" */ "@/views/SNU/Ressources.vue"),
+                    name: "Ressources",
+                    meta: {
+                        roles: ["referent","responsable"]
+                    }
+                },
+                {
                     path: "/dashboard/faq/add",
                     component: () =>
                         import(
