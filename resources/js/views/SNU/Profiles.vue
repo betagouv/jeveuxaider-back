@@ -228,11 +228,6 @@ export default {
       }
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query };
-    this.fetchDatas();
-    next();
-  },
   methods: {
     fetchRows() {
       return fetchProfiles(this.query);

@@ -91,11 +91,6 @@ export default {
       totalRows: 0
     };
   },
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query };
-    this.fetchDatas();
-    next();
-  },
   methods: {
     fetchRows() {
       return fetchReleases(this.query);

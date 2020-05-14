@@ -129,12 +129,6 @@ export default {
       totalRows: 0
     };
   },
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query };
-    this.type = this.$route.query.type ? this.$route.query.type : "Faqs";
-    this.fetchDatas();
-    next();
-  },
   created() {
     this.type = this.$route.query.type ? this.$route.query.type : "Faqs";
     this.query = { ...this.$router.history.current.query };

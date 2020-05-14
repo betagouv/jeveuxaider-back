@@ -90,17 +90,6 @@ export default {
       tableData: []
     };
   },
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query };
-    this.fetchDatas();
-    next();
-  },
-  created(){
-    this.type = this.$route.query.type ? this.$route.query.type : 'Structures'
-    this.query = { ...this.$router.history.current.query };
-    this.tableData = this.fetchDatas();
-    this.showFilters = this.activeFilters > 0 ? true : false;
-  },
   methods: {
     handleChangeType() {
       this.tableData = []

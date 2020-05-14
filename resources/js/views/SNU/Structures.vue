@@ -244,11 +244,6 @@ export default {
       tableData: []
     };
   },
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query };
-    this.fetchDatas();
-    next();
-  },
   methods: {
     fetchRows() {
       return fetchStructures(this.query);

@@ -369,6 +369,7 @@ import algoliasearch from "algoliasearch/lite";
 import "instantsearch.css/themes/algolia-min.css";
 import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings';
 import _ from "lodash"
+import qs from 'qs';
 
 export default {
   name: "FrontMissions",
@@ -398,8 +399,9 @@ export default {
       routing: {
         router: {
           read: () => {
-            this.synchronizeFilters(this.$router.currentRoute.query)
-            return this.$router.currentRoute.query;
+            let query = this.parseQuery(this.$router.currentRoute.query)
+            this.synchronizeFilters(query)
+            return query;
           },
           write: (routeState) => {
             if (this.writeTimeout) {
@@ -407,7 +409,7 @@ export default {
             }
             if (this.forceWrite) {
               this.writeTimeout = _.debounce(() => {
-                window.history.pushState(routeState, '', `${this.$router.currentRoute.path}${this.$router.options.stringifyQuery(routeState)}`);
+                window.history.pushState(routeState, '', `${this.$router.currentRoute.path}${this.stringifyQuery(routeState)}`);
                 this.forceWrite = false
               }, 400)
               this.writeTimeout()
@@ -484,7 +486,14 @@ export default {
         ...item,
         label: item.label
       }));
-    }
+    },
+    parseQuery(query) {
+      return qs.parse(query);
+    },
+    stringifyQuery(query) {
+      const result = qs.stringify(query);
+      return result ? '?' + result : '';
+    },
   }
 };
 </script>
