@@ -61,7 +61,7 @@
                   to="/dashboard"
                   class="hidden lg:block bordermr-3 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:bg-blue-700"
                 >Tableau de bord</router-link>
-                <el-badge v-if="$store.getters.reminders && $store.getters.reminders.waiting > 0" :value="$store.getters.reminders.waiting" :max="99" class="ml-3 mr-5">
+                <el-badge v-if="$store.getters.isLogged && $store.getters.reminders && $store.getters.reminders.waiting > 0" :value="$store.getters.reminders.waiting" :max="99" class="ml-3 mr-5">
                   <router-link to="/dashboard">
                     <i class="el-icon-bell text-white text-2xl"></i>
                   </router-link>
@@ -95,7 +95,9 @@ export default {
     }
   },
   created(){
-    this.$store.dispatch('reminders')
+    if(this.$store.getters.isLogged) {
+      this.$store.dispatch('reminders')
+    }
   },
   methods: {
     isCurrentPath(path) {
