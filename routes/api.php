@@ -127,6 +127,20 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
 
+    // THEMATIQUES
+    Route::get('thematiques', 'Api\ThematiqueController@index');
+    Route::post('thematique', 'Api\ThematiqueController@store');
+    Route::post('thematique/{thematique}', 'Api\ThematiqueController@update');
+    Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
+    Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
+    Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');
+
+    // MISSION TEMPLATES
+    Route::get('mission-templates', 'Api\MissionTemplateController@index');
+    Route::post('mission-template', 'Api\MissionTemplateController@store');
+    Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
+    Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
+
     // DOCUMENTS
     Route::get('document/{document}', 'Api\DocumentController@show');
     Route::post('document', 'Api\DocumentController@store');

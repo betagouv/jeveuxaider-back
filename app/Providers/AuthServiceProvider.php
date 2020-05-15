@@ -20,7 +20,9 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Faq' => 'App\Policies\FaqPolicy',
         'App\Models\Collectivity' => 'App\Policies\CollectivityPolicy',
         'App\Models\Document' => 'App\Policies\DocumentPolicy',
-        'App\Models\Release' => 'App\Policies\ReleasePolicy'
+        'App\Models\Release' => 'App\Policies\ReleasePolicy',
+        'App\Models\Thematique' => 'App\Policies\ThematiquePolicy',
+        'App\Models\MissionTemplate' => 'App\Policies\MissionTemplatePolicy'
     ];
 
     /**
