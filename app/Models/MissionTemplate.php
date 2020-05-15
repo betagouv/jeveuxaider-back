@@ -13,10 +13,12 @@ class MissionTemplate extends Model
         'subtitle',
         'objectif',
         'description',
+        'priority',
         'published'
     ];
 
     protected $attributes = [
+        'priority' => false,
         'published' => true
     ];
 }

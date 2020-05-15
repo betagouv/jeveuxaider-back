@@ -3,14 +3,14 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus - Releases</div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus - Pages</div>
       </div>
       <div class>
         <new-content-dropdown></new-content-dropdown>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <contents-menu index="/dashboard/contents/releases"></contents-menu>
+      <contents-menu index="/dashboard/contents/pages"></contents-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -28,7 +28,7 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Question" min-width="320">
+      <el-table-column label="Titre" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>
         </template>
@@ -70,14 +70,14 @@
 </template>
 
 <script>
-import { fetchReleases, deleteRelease } from "@/api/app";
+import { fetchPages, deletePage } from "@/api/app";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 import ContentsMenu from "@/components/ContentsMenu";
 import NewContentDropdown from "@/components/NewContentDropdown";
 
 export default {
-  name: "Releases",
+  name: "Pages",
   components: {
     QueryMainSearchFilter,
     ContentsMenu,
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     fetchRows() {
-      return fetchReleases(this.query)
+      return fetchPages(this.query)
     },
     handleCommand(command) {
       if (command.action == "delete") {
@@ -103,14 +103,14 @@ export default {
     },
     handleClickEdit(id) {
         this.$router.push({
-          name: `ReleaseFormEdit`,
+          name: `PageFormEdit`,
           params: { id: id }
         });
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette release ?`,
-        "Supprimer cette release",
+        `Êtes vous sur de vouloir supprimer cette page ?`,
+        "Supprimer cette page",
         {
           confirmButtonText: "Supprimer",
           confirmButtonClass: "el-button--danger",
@@ -119,10 +119,10 @@ export default {
           type: "error"
         }
       ).then(() => {
-         deleteRelease( id).then(() => {
+         deletePage( id).then(() => {
             this.$message({
               type: "success",
-              message: `La release a été supprimée.`
+              message: `La page a été supprimée.`
             });
             this.fetchDatas();
           });

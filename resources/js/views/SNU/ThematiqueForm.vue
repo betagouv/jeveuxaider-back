@@ -1,22 +1,22 @@
 <template>
   <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">Collectivité</div>
+      <div class="text-m text-gray-600 uppercase">Thématique</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">{{ form.name }}</div>
       </div>
     </template>
-    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle collectivité</div>
+    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle thématique</div>
 
-    <el-form ref="collectivityForm" :model="form" label-position="top" :rules="rules">
+    <el-form ref="thematiqueForm" :model="form" label-position="top" :rules="rules">
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
-      <el-form-item label="Nom de la collectivité" prop="title">
-        <el-input v-model="form.title" placeholder="Nom de la collectivité" />
-        <item-description>Accessible à l'adresse : {{baseUrl}}/territoires/{{ form.title|slugify }}</item-description>
+      <el-form-item label="Nom de la thématique" prop="name">
+        <el-input v-model="form.name" placeholder="Nom de la thématique" />
+        <item-description>Accessible à l'adresse : {{baseUrl}}/territoires/{{ form.name|slugify }}</item-description>
       </el-form-item>
 
-       <el-form-item label="Type" prop="type">
+       <!-- <el-form-item label="Type" prop="type">
         <el-select v-model="form.type" placeholder="Selectionner le type">
           <el-option
             v-for="item in $store.getters.taxonomies.collectivities_types.terms"
@@ -25,32 +25,11 @@
             :value="item.value"
           ></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
 
-       <el-form-item label="Département" prop="department">
-            <el-select v-model="form.department" filterable placeholder="Département">
-              <el-option
-                v-for="item in $store.getters.taxonomies.departments.terms"
-                :key="item.value"
-                :label="`${item.value} - ${item.label}`"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-
-        <!-- <el-form-item label="Liste des codes postaux" prop="zips" class="flex-1">
-          <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
-          <el-input
-            v-model="form.zips"
-            name="zips"
-            type="textarea"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-            placeholder="Codes postaux..."
-          ></el-input>
-        </el-form-item> -->
 
       <div class="mb-6">
-        <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
+        <div class="mb-6 text-xl text-gray-800">Photo de la thématique</div>
         <item-description>
           Résolution minimale: {{ imgMinWidth }} par {{ imgMinHeight }} pixels<br />
           Taille maximale: {{ imgMaxSize | prettyBytes }}
@@ -116,15 +95,15 @@
 
 <script>
 import {
-  getCollectivity,
-  addOrUpdateCollectivity,
+  getThematique,
+  addOrUpdateThematique,
   uploadImage
 } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 import Crop from "@/mixins/Crop";
 
 export default {
-  name: "CollectivityForm",
+  name: "ThematiqueForm",
   components: { ItemDescription },
   mixins: [Crop],
   props: {
@@ -142,31 +121,21 @@ export default {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
       form: {
-        type: 'department',
+        published: true,
       }
     };
   },
   computed: {
     rules() {
       let rules = {
-        title: [
+        name: [
           {
             required: true,
-            message: "Veuillez renseigner un nom de collectivité",
+            message: "Veuillez renseigner un nom de thématique",
             trigger: "blur"
           }
         ],
       };
-
-      if(this.form.type == 'department') {
-        rules.department = [
-          {
-            required: true,
-            message: "Veuillez choisir un département",
-            trigger: "blur"
-          }
-        ]
-      }
 
       return rules;
     }
@@ -174,7 +143,7 @@ export default {
   created() {
     if (this.mode == "edit") {
       this.$store.commit("setLoading", true);
-      getCollectivity(this.id)
+      getThematique(this.id)
         .then(response => {
           this.$store.commit("setLoading", false);
           this.form = response.data;
@@ -187,14 +156,14 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true;
-      this.$refs["collectivityForm"].validate(valid => {
+      this.$refs["thematiqueForm"].validate(valid => {
         if (valid) {
-          addOrUpdateCollectivity(this.id, this.form)
+          addOrUpdateThematique(this.id, this.form)
             .then((response) => {
               this.form = response.data;
               if(this.img) {
                 let cropSettings = this.$refs.cropper ? this.$refs.cropper.getData() : null
-                uploadImage(this.form.id, 'collectivity', this.img, cropSettings)
+                uploadImage(this.form.id, 'thematique', this.img, cropSettings)
                   .then(() => {
                     this.onSubmitEnd()
                   })
@@ -213,9 +182,9 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false;
-      this.$router.push('/dashboard/contents/collectivities');
+      this.$router.push('/dashboard/contents/thematiques');
       this.$message({
-        message: "La collectivité a été enregistrée !",
+        message: "La thematique a été enregistrée !",
         type: "success"
       });
     }

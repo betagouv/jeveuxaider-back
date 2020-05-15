@@ -14,7 +14,7 @@ class ThematiqueRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
+            'name' => [
                 'required',
                 'unique:thematiques',
                 'min:3',

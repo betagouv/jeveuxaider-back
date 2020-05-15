@@ -28,6 +28,7 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
+Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -137,6 +138,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // MISSION TEMPLATES
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
+    Route::get('mission-template/{missionTemplate}', 'Api\MissionTemplateController@show');
     Route::post('mission-template', 'Api\MissionTemplateController@store');
     Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');

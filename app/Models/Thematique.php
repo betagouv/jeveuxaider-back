@@ -15,7 +15,7 @@ class Thematique extends Model implements HasMedia
     protected $table = 'thematiques';
 
     protected $fillable = [
-        'title',
+        'name',
         'slug',
     ];
 
@@ -36,9 +36,9 @@ class Thematique extends Model implements HasMedia
         return null;
     }
 
-    public function setTitleAttribute($value)
+    public function setNameAttribute($value)
     {
-        $this->attributes['title'] = $value;
+        $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 

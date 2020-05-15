@@ -188,7 +188,7 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false;
-      this.$router.push("/dashboard/contents?type=Documents");
+      this.$router.push("/dashboard/contents/documents");
       this.$message({
         message: "Le document a été enregistrée !",
         type: "success"

@@ -1,29 +1,22 @@
 <template>
   <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">Release</div>
+      <div class="text-m text-gray-600 uppercase">Page</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">{{ form.title }}</div>
       </div>
     </template>
-    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle release</div>
+    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouveau modèle</div>
 
-    <el-form ref="releaseForm" :model="form" label-position="top" :rules="rules">
+    <el-form ref="missionTemplateForm" :model="form" label-position="top" :rules="rules">
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Titre" prop="title">
         <el-input v-model="form.title" placeholder="Titre" />
       </el-form-item>
 
-      <el-form-item label="Date" prop="date">
-        <el-date-picker
-          v-model="form.date"
-          class="w-full"
-          type="datetime"
-          placeholder="Date de début"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          default-time="09:00:00"
-        ></el-date-picker>
+      <el-form-item label="Objectif" prop="objectif">
+        <ckeditor :editor="editor" v-model="form.objectif" :config="editorConfig"></ckeditor>
       </el-form-item>
 
       <el-form-item label="Description" prop="description">
@@ -38,12 +31,12 @@
 </template>
 
 <script>
-import { getRelease, updateRelease, addRelease } from "@/api/app";
+import { getMissionTemplate, addOrUpdateMissionTemplate } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
-  name: "ReleaseForm",
+  name: "MissionTemplateForm",
   components: { ItemDescription },
   props: {
     mode: {
@@ -58,10 +51,20 @@ export default {
   data() {
     return {
       loading: false,
-      form: {},
+      form: {
+        published: true,
+        priority: false
+      },
       editor: ClassicEditor,
       editorConfig: {
-        toolbar: ["bold", "italic", "|", "link", "bulletedList", "numberedList"]
+        toolbar: ["heading", "bold", "italic", "|", "link", "bulletedList", "numberedList"],
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+            ]
+        }
       }
     };
   },
@@ -81,13 +84,6 @@ export default {
             message: "Veuillez renseigner un nom",
             trigger: "blur"
           }
-        ],
-        date: [
-          {
-            required: true,
-            message: "Veuillez renseigner une date",
-            trigger: "blur"
-          }
         ]
       };
       return rules;
@@ -96,7 +92,7 @@ export default {
   created() {
     if (this.mode == "edit") {
       this.$store.commit("setLoading", true);
-      getRelease(this.id)
+      getMissionTemplate(this.id)
         .then(response => {
           this.$store.commit("setLoading", false);
           this.form = response.data;
@@ -109,35 +105,22 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true;
-      this.$refs["releaseForm"].validate(valid => {
+      this.$refs["missionTemplateForm"].validate(valid => {
         if (valid) {
-          if (this.id) {
-            updateRelease(this.form.id, this.form)
+          
+            addOrUpdateMissionTemplate(this.id, this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.push('/dashboard/contents/releases');
+                this.$router.push('/dashboard/contents/mission-templates');
                 this.$message({
-                  message: "La release a été enregistrée !",
+                  message: "Le modèle a été enregistré !",
                   type: "success"
                 });
               })
               .catch(() => {
                 this.loading = false;
               });
-          } else {
-            addRelease(this.form)
-              .then(() => {
-                this.loading = false;
-                this.$router.push('/dashboard/contents/releases');
-                this.$message({
-                  message: "La release a été enregistrée !",
-                  type: "success"
-                });
-              })
-              .catch(() => {
-                this.loading = false;
-              });
-          }
+          
         } else {
           this.loading = false;
         }

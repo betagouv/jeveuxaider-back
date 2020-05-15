@@ -14,8 +14,9 @@ class CreateThematiquesTable extends Migration
     public function up()
     {
         Schema::create('thematiques', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
+            $table->string('slug');
             $table->boolean('published')->default(true);
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class ThematiqueUpdateRequest extends ThematiqueRequest
         $thematique = request()->route('thematique');
 
         return [
-            'title' => [
+            'name' => [
                 'required',
                 Rule::unique('thematiques')->ignore($thematique->id),
                 'min:3',
