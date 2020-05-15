@@ -17,6 +17,11 @@ class Thematique extends Model implements HasMedia
     protected $fillable = [
         'name',
         'slug',
+        'published'
+    ];
+
+    protected $casts = [
+        'published' => 'boolean',
     ];
 
     protected $appends = ['image'];
@@ -55,5 +60,10 @@ class Thematique extends Model implements HasMedia
             ->height(225)
             ->nonQueued()
             ->performOnCollections('thematiques');
+    }
+
+    public function missionTemplates()
+    {
+        return $this->hasMany('App\Models\MissionTemplate');
     }
 }

@@ -34,7 +34,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.updated_at | fromNow }}</template>
+        <template slot-scope="scope">
+          <div class="text-sm text-gray-600">{{ scope.row.updated_at | fromNow }}</div>
+        </template>
       </el-table-column>
       <el-table-column label="Actions" width="165">
         <template slot-scope="scope">

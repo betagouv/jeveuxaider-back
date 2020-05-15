@@ -21,4 +21,14 @@ class MissionTemplate extends Model
         'priority' => false,
         'published' => true
     ];
+
+    protected $casts = [
+        'priority' => 'boolean',
+        'published' => 'boolean',
+    ];
+
+    public function thematique()
+    {
+        return $this->belongsTo('App\Models\Thematique');
+    }
 }

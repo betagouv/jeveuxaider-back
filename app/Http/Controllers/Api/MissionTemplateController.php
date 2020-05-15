@@ -17,7 +17,7 @@ class MissionTemplateController extends Controller
     {
         $paginate = $request->has('pagination') ? $request->input('pagination') : config('query-builder.results_per_page');
 
-        return QueryBuilder::for(MissionTemplate::class)
+        return QueryBuilder::for(MissionTemplate::with('thematique'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             )

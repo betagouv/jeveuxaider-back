@@ -32,14 +32,17 @@
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>
           <div class="font-light text-gray-600 text-xs">
-            <router-link :to="{ name: 'CollectivitySlug', params: { slug: scope.row.slug } }" target="_blank">
-              /territoires/{{scope.row.slug}}
-            </router-link>
+            <router-link
+              :to="{ name: 'CollectivitySlug', params: { slug: scope.row.slug } }"
+              target="_blank"
+            >/territoires/{{scope.row.slug}}</router-link>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.updated_at | fromNow }}</template>
+        <template slot-scope="scope">
+          <div class="text-sm text-gray-600">{{ scope.row.updated_at | fromNow }}</div>
+        </template>
       </el-table-column>
       <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
@@ -92,12 +95,12 @@ export default {
   data() {
     return {
       loading: true,
-      tableData: [],
+      tableData: []
     };
   },
   methods: {
     fetchRows() {
-      return fetchCollectivities(this.query)
+      return fetchCollectivities(this.query);
     },
     handleCommand(command) {
       if (command.action == "delete") {
@@ -107,10 +110,10 @@ export default {
       }
     },
     handleClickEdit(id) {
-        this.$router.push({
-          name: `CollectivityFormEdit`,
-          params: { id: id }
-        });
+      this.$router.push({
+        name: `CollectivityFormEdit`,
+        params: { id: id }
+      });
     },
     handleClickDelete(id) {
       this.$confirm(
@@ -124,13 +127,13 @@ export default {
           type: "error"
         }
       ).then(() => {
-         deleteCollectivity( id).then(() => {
-            this.$message({
-              type: "success",
-              message: `La collectivité a été supprimée.`
-            });
-            this.fetchDatas();
+        deleteCollectivity(id).then(() => {
+          this.$message({
+            type: "success",
+            message: `La collectivité a été supprimée.`
           });
+          this.fetchDatas();
+        });
       });
     }
   }

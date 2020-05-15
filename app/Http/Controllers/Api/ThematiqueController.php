@@ -8,8 +8,6 @@ use App\Http\Requests\Api\ThematiqueCreateRequest;
 use App\Http\Requests\Api\ThematiqueUpdateRequest;
 use App\Http\Requests\Api\ThematiqueDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersTitleBodySearch;
 use App\Http\Requests\Api\ThematiqueUploadRequest;
 use Illuminate\Support\Str;
 
@@ -19,8 +17,7 @@ class ThematiqueController extends Controller
     {
         return QueryBuilder::for(Thematique::class)
             ->allowedFilters([
-                'state',
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                'name',
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));

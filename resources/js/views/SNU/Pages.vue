@@ -34,7 +34,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.updated_at | fromNow }}</template>
+        <template slot-scope="scope">
+          <div class="text-sm text-gray-600">{{ scope.row.updated_at | fromNow }}</div>
+        </template>
       </el-table-column>
       <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
@@ -87,12 +89,12 @@ export default {
   data() {
     return {
       loading: true,
-      tableData: [],
+      tableData: []
     };
   },
   methods: {
     fetchRows() {
-      return fetchPages(this.query)
+      return fetchPages(this.query);
     },
     handleCommand(command) {
       if (command.action == "delete") {
@@ -102,10 +104,10 @@ export default {
       }
     },
     handleClickEdit(id) {
-        this.$router.push({
-          name: `PageFormEdit`,
-          params: { id: id }
-        });
+      this.$router.push({
+        name: `PageFormEdit`,
+        params: { id: id }
+      });
     },
     handleClickDelete(id) {
       this.$confirm(
@@ -119,13 +121,13 @@ export default {
           type: "error"
         }
       ).then(() => {
-         deletePage( id).then(() => {
-            this.$message({
-              type: "success",
-              message: `La page a été supprimée.`
-            });
-            this.fetchDatas();
+        deletePage(id).then(() => {
+          this.$message({
+            type: "success",
+            message: `La page a été supprimée.`
           });
+          this.fetchDatas();
+        });
       });
     }
   }

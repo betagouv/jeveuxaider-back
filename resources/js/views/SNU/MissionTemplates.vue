@@ -31,16 +31,23 @@
       <el-table-column label="Nom du modèle" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>
-          <div class="text-gray-900">@TODO: prioritaire ?</div>
+          <div
+            v-if="scope.row.thematique"
+            class="font-light text-gray-600 text-xs"
+          >{{ scope.row.thematique.name }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Thématique" min-width="320">
+      <el-table-column label="Contexte" min-width="320">
         <template slot-scope="scope">
-          <div v-if="scope.row.thematique" class="text-gray-900">{{ scope.row.thematique.name }}</div>
+          <el-tag v-if="scope.row.published" type="success" class="m-1 ml-0" size="small">En ligne</el-tag>
+          <el-tag v-if="scope.row.priority" type="danger" class="m-1 ml-0" size="small">Prioritaire</el-tag>
+          <el-tag v-if="!scope.row.published" type="info" class="m-1 ml-0" size="small">Non publié</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.updated_at | fromNow }}</template>
+        <template slot-scope="scope">
+          <div class="text-sm text-gray-600">{{ scope.row.updated_at | fromNow }}</div>
+        </template>
       </el-table-column>
       <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
@@ -93,12 +100,12 @@ export default {
   data() {
     return {
       loading: true,
-      tableData: [],
+      tableData: []
     };
   },
   methods: {
     fetchRows() {
-      return fetchMissionTemplates(this.query)
+      return fetchMissionTemplates(this.query);
     },
     handleCommand(command) {
       if (command.action == "delete") {
@@ -108,10 +115,10 @@ export default {
       }
     },
     handleClickEdit(id) {
-        this.$router.push({
-          name: `ModelFormEdit`,
-          params: { id: id }
-        });
+      this.$router.push({
+        name: `MissionTemplateFormEdit`,
+        params: { id: id }
+      });
     },
     handleClickDelete(id) {
       this.$confirm(
@@ -125,13 +132,13 @@ export default {
           type: "error"
         }
       ).then(() => {
-         deleteMissionTemplate( id).then(() => {
-            this.$message({
-              type: "success",
-              message: `Le modèle a été supprimé.`
-            });
-            this.fetchDatas();
+        deleteMissionTemplate(id).then(() => {
+          this.$message({
+            type: "success",
+            message: `Le modèle a été supprimé.`
           });
+          this.fetchDatas();
+        });
       });
     }
   }

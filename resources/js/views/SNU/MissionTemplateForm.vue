@@ -23,6 +23,18 @@
         <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
       </el-form-item>
 
+      <div class="mb-6 mt-12 flex text-xl text-gray-800">Visibilité</div>
+      <item-description>Si vous souhaitez rendre ce modèle visible, cochez la case.</item-description>
+      <el-form-item prop="published" class="flex-1">
+        <el-checkbox v-model="form.published">En ligne</el-checkbox>
+      </el-form-item>
+
+      <div class="mb-6 mt-12 flex text-xl text-gray-800">Mission prioritaire</div>
+      <item-description>Les modèle de missions prioritaires sont mises en avant lors de la création d'une nouvelle mission.</item-description>
+      <el-form-item prop="priority" class="flex-1">
+        <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
+      </el-form-item>
+
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
       </div>
@@ -57,13 +69,35 @@ export default {
       },
       editor: ClassicEditor,
       editorConfig: {
-        toolbar: ["heading", "bold", "italic", "|", "link", "bulletedList", "numberedList"],
+        toolbar: [
+          "heading",
+          "bold",
+          "italic",
+          "|",
+          "link",
+          "bulletedList",
+          "numberedList"
+        ],
         heading: {
-            options: [
-                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
-            ]
+          options: [
+            {
+              model: "paragraph",
+              title: "Paragraph",
+              class: "ck-heading_paragraph"
+            },
+            {
+              model: "heading2",
+              view: "h2",
+              title: "Heading 2",
+              class: "ck-heading_heading2"
+            },
+            {
+              model: "heading3",
+              view: "h3",
+              title: "Heading 3",
+              class: "ck-heading_heading3"
+            }
+          ]
         }
       }
     };
@@ -107,20 +141,18 @@ export default {
       this.loading = true;
       this.$refs["missionTemplateForm"].validate(valid => {
         if (valid) {
-          
-            addOrUpdateMissionTemplate(this.id, this.form)
-              .then(() => {
-                this.loading = false;
-                this.$router.push('/dashboard/contents/mission-templates');
-                this.$message({
-                  message: "Le modèle a été enregistré !",
-                  type: "success"
-                });
-              })
-              .catch(() => {
-                this.loading = false;
+          addOrUpdateMissionTemplate(this.id, this.form)
+            .then(() => {
+              this.loading = false;
+              this.$router.push("/dashboard/contents/mission-templates");
+              this.$message({
+                message: "Le modèle a été enregistré !",
+                type: "success"
               });
-          
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
           this.loading = false;
         }
