@@ -48,7 +48,23 @@
               <el-input
                 v-model="form.name"
                 placeholder="Titre de la mission"
+                :disabled="disableField"
               />
+            </el-form-item>
+
+            <el-form-item label="Thématique de mission" prop="thematique_main_id">
+              <el-select
+                v-model="form.thematique_main_id"
+                placeholder="Selectionner une thématique"
+                :disabled="disableField"
+              >
+                <el-option
+                  v-for="item in $store.getters.thematiques"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
             </el-form-item>
 
             <el-form-item label="Type de mission" prop="type">
@@ -141,15 +157,17 @@
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 6 }"
                   placeholder="Décrivez votre mission, en quelques mots"
+                  :disabled="disableField"
                 ></el-input>
               </el-form-item>
               <el-form-item label="Description de la mission" prop="description" class="flex-1">
                 <el-input
-                  v-model="form.objectif"
+                  v-model="form.description"
                   name="description"
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 6 }"
                   placeholder="Décrivez votre mission, en quelques mots"
+                  :disabled="disableField"
                 ></el-input>
               </el-form-item>
               <el-form-item label="Commentaire par la structure" prop="information" class="flex-1">
@@ -177,27 +195,7 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-
-              <!-- <el-form-item label="Publics volontaires" prop="publics_volontaires">
-          <item-description
-            >Votre mission apparaîtra dans les résultats de recherche lorsqu'un
-            ou plusieurs de ses publics bénéficiaires seront
-            saisis.</item-description
-          >
-          <el-select
-            v-model="form.publics_volontaires"
-            placeholder="Selectionner les publics volontaires"
-            multiple
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies
-                .mission_publics_volontaires.terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-              </el-form-item>-->
+       
             </div>
 
             <div
@@ -408,6 +406,13 @@ export default {
             trigger: "blur"
           }
         ],
+        thematique_main_id: [
+          {
+            required: true,
+            message: "Veuillez choisir une thématique",
+            trigger: "blur"
+          }
+        ],
         format: [
           {
             required: true,
@@ -422,13 +427,6 @@ export default {
             trigger: "blur"
           }
         ],
-        // periodicite: [
-        //   {
-        //     required: true,
-        //     message: "Veuillez choisir une périodicité",
-        //     trigger: "blur"
-        //   }
-        // ],
         publics_beneficiaires: [
           {
             required: true,
@@ -436,13 +434,13 @@ export default {
             trigger: "blur"
           }
         ],
-        // publics_volontaires: [
-        //   {
-        //     required: true,
-        //     message: "Veuillez choisir au moins un public volontaire",
-        //     trigger: "blur"
-        //   }
-        // ],
+        objectif: [
+          {
+            required: true,
+            message: "Veuillez renseigner un objectif de la mission",
+            trigger: "blur"
+          }
+        ],
         description: [
           {
             required: true,
@@ -492,6 +490,9 @@ export default {
     },
     showSelectTemplateForm() {
       return this.id || this.hasSelectedTemplate ? false : true;
+    },
+    disableField(){
+      return this.form.template_id ? true : false;
     },
     mode() {
       return this.id ? "edit" : "add";
@@ -551,8 +552,11 @@ export default {
     selectTemplate(template) {
       this.hasSelectedTemplate = true;
       if(template){
-        this.form.description = template.description
+        this.form.state = 'Validée'
+        this.form.template_id = template.id
         this.form.name = template.title
+        this.form.thematique_main_id = template.thematique_id
+        this.form.description = template.description
         this.form.objectif = template.objectif
       }
       console.log("hasSelectedTemplate", template);
