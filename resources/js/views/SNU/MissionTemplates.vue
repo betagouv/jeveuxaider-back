@@ -3,14 +3,14 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus - Releases</div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus - Modèles de mission</div>
       </div>
       <div class>
         <new-content-dropdown></new-content-dropdown>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <contents-menu index="/dashboard/contents/releases"></contents-menu>
+      <contents-menu index="/dashboard/contents/mission-templates"></contents-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -28,9 +28,20 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Question" min-width="320">
+      <el-table-column label="Nom du modèle" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>
+          <div
+            v-if="scope.row.thematique"
+            class="font-light text-gray-600 text-xs"
+          >{{ scope.row.thematique.name }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Contexte" min-width="320">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.published" type="success" class="m-1 ml-0" size="small">En ligne</el-tag>
+          <el-tag v-if="scope.row.priority" type="danger" class="m-1 ml-0" size="small">Prioritaire</el-tag>
+          <el-tag v-if="!scope.row.published" type="info" class="m-1 ml-0" size="small">Non publié</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
@@ -72,14 +83,14 @@
 </template>
 
 <script>
-import { fetchReleases, deleteRelease } from "@/api/app";
+import { fetchMissionTemplates, deleteMissionTemplate } from "@/api/app";
 import TableWithFilters from "@/mixins/TableWithFilters";
 import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
 import ContentsMenu from "@/components/ContentsMenu";
 import NewContentDropdown from "@/components/NewContentDropdown";
 
 export default {
-  name: "Releases",
+  name: "MissionTemplates",
   components: {
     QueryMainSearchFilter,
     ContentsMenu,
@@ -94,7 +105,7 @@ export default {
   },
   methods: {
     fetchRows() {
-      return fetchReleases(this.query);
+      return fetchMissionTemplates(this.query);
     },
     handleCommand(command) {
       if (command.action == "delete") {
@@ -105,14 +116,14 @@ export default {
     },
     handleClickEdit(id) {
       this.$router.push({
-        name: `ReleaseFormEdit`,
+        name: `MissionTemplateFormEdit`,
         params: { id: id }
       });
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette release ?`,
-        "Supprimer cette release",
+        `Êtes vous sur de vouloir supprimer ce modèle ?`,
+        "Supprimer ce modèle",
         {
           confirmButtonText: "Supprimer",
           confirmButtonClass: "el-button--danger",
@@ -121,10 +132,10 @@ export default {
           type: "error"
         }
       ).then(() => {
-        deleteRelease(id).then(() => {
+        deleteMissionTemplate(id).then(() => {
           this.$message({
             type: "success",
-            message: `La release a été supprimée.`
+            message: `Le modèle a été supprimé.`
           });
           this.fetchDatas();
         });

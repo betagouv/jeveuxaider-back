@@ -72,13 +72,5 @@ class ParticipationObserver
     {
         // Permet de calculer le nombre de places restantes + Envoie à Algolia
         $participation->mission->update();
-        /*
-        if ($participation->mission) {
-            if ($participation->mission->shouldBeSearchable()) {
-                $participation->mission->searchable();
-            } else {
-                $participation->mission->unsearchable();
-            }
-        }*/
     }
 }

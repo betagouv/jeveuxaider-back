@@ -28,6 +28,7 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
+Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -105,6 +106,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
+
+    // MISSIONS TEMPLATES
+    Route::get('mission-templates', 'Api\MissionTemplateController@index');
 });
 
 // ONLY ADMIN
@@ -126,6 +130,20 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
     Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
+
+    // THEMATIQUES
+    Route::get('thematiques', 'Api\ThematiqueController@index');
+    Route::post('thematique', 'Api\ThematiqueController@store');
+    Route::post('thematique/{thematique}', 'Api\ThematiqueController@update');
+    Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
+    Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
+    Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');
+
+    // MISSION TEMPLATES
+    Route::get('mission-template/{missionTemplate}', 'Api\MissionTemplateController@show');
+    Route::post('mission-template', 'Api\MissionTemplateController@store');
+    Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
+    Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
 
     // DOCUMENTS
     Route::get('document/{document}', 'Api\DocumentController@show');

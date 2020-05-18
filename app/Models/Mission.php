@@ -16,6 +16,8 @@ class Mission extends Model
 
     protected $fillable = [
         'name',
+        'information',
+        'objectif',
         'description',
         'address',
         'zip',
@@ -36,7 +38,9 @@ class Mission extends Model
         'periodicite',
         'publics_beneficiaires',
         'publics_volontaires',
-        'type'
+        'type',
+        'thematique_main_id',
+        'template_id',
     ];
 
     protected $casts = [
@@ -118,6 +122,16 @@ class Mission extends Model
         return $this->hasMany('App\Models\Participation', 'mission_id');
     }
 
+    public function thematique()
+    {
+        return $this->belongsTo('App\Models\Thematique', 'thematique_main_id');
+    }
+
+    public function template()
+    {
+        return $this->belongsTo('App\Models\MissionTemplate');
+    }
+
     public function getFullAddressAttribute()
     {
         return "{$this->address} {$this->zip} {$this->city}";
@@ -131,6 +145,21 @@ class Mission extends Model
     public function getParticipationsCountAttribute()
     {
         return $this->participations_max - $this->places_left;
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->template_id ? $this->template->title : $value;
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->template_id ? $this->template->description : $value;
+    }
+
+    public function getObjectifAttribute($value)
+    {
+        return $this->template_id ? $this->template->objectif : $value;
     }
 
     public function scopeHasPlacesLeft($query)

@@ -55,7 +55,7 @@
                                       <div
                                         class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                                       >
-                                        {{ item.name|labelFromValue('mission_domaines') }}
+                                        {{ item.name }}
                                       </div>
                                     </div>
 

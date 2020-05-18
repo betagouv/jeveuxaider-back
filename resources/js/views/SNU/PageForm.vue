@@ -104,7 +104,7 @@ export default {
             updatePage(this.form.id, this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.push('/dashboard/contents?type=Pages');
+                this.$router.push('/dashboard/contents/pages');
                 this.$message({
                   message: "La page a été enregistrée !",
                   type: "success"
@@ -117,7 +117,7 @@ export default {
             addPage(this.form)
               .then(() => {
                 this.loading = false;
-                this.$router.push('/dashboard/contents?type=Pages');
+                this.$router.push('/dashboard/contents/pages');
                 this.$message({
                   message: "La page a été enregistrée !",
                   type: "success"

@@ -65,7 +65,7 @@
         <i class="el-icon-user"></i>
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/contents" :class="{'is-active': isActive('content')}">
+    <el-menu-item index="/dashboard/contents/faqs" :class="{'is-active': isActive('content')}">
       <span v-if="$store.getters.sidebar">Contenus</span>
       <el-tooltip
         v-else

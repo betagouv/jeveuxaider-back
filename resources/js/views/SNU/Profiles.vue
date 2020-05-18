@@ -118,7 +118,7 @@
 
       <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">
-          {{ scope.row.created_at | fromNow }}
+          <div class="text-sm text-gray-600">{{ scope.row.created_at | fromNow }}</div>
         </template>
       </el-table-column>
       <el-table-column

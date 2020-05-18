@@ -18,7 +18,7 @@
             <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
               <h3
                 class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
-              >{{ mission.name|labelFromValue('mission_domaines') }}</h3>
+              >{{ mission.name }}</h3>
 
               <div class="mt-12">
                 <div
@@ -111,7 +111,7 @@
                       </div>
                       <p
                         class="ml-3 text-gray-700"
-                      >{{ mission.name|labelFromValue('mission_domaines') }}</p>
+                      >{{ mission.name }}</p>
                     </li>
                   </ul>
                 </div>
@@ -442,7 +442,7 @@
                         ></div>
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                        >{{ otherMission.name|labelFromValue('mission_domaines') }}</div>
+                        >{{ otherMission.name }}</div>
                       </div>
 
                       <div
@@ -558,9 +558,9 @@ export default {
         this.form = response.data;
         this.mission = { ...response.data };
         this.loading = false
-        fetchStructureAvailableMissions(this.mission.structure.id)
+        fetchStructureAvailableMissions(this.mission.structure.id, { exclude: this.id })
           .then(response => {
-            this.otherMissions = { ...response.data };
+            this.otherMissions = response.data
           })
           .catch(() => {
             this.loading = false;

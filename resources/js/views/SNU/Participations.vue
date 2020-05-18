@@ -118,7 +118,7 @@
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
           <div v-if="scope.row.mission" class="text-gray-900">
-            <v-clamp :max-lines="1" autoresize>#{{ scope.row.mission.id }} - {{ scope.row.mission.name|labelFromValue('mission_domaines') }}</v-clamp>
+            <v-clamp :max-lines="1" autoresize>#{{ scope.row.mission.id }} - {{ scope.row.mission.name }}</v-clamp>
           </div>
           <div
             v-if="scope.row.mission && scope.row.mission.structure"
@@ -134,7 +134,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.created_at | fromNow }}</template>
+        <template slot-scope="scope">
+          <div class="text-sm text-gray-600">{{ scope.row.created_at | fromNow }}</div>
+        </template>
       </el-table-column>
     </el-table>
     <div class="m-3 flex items-center">

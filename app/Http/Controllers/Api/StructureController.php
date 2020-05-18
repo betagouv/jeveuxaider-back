@@ -66,18 +66,24 @@ class StructureController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function availableMissions(Structure $structure)
+    public function availableMissions(Request $request, Structure $structure)
     {
-        return QueryBuilder::for(Mission::class)
+        $query = QueryBuilder::for(Mission::class)
             ->available()
-            ->where('structure_id', $structure->id)
+            ->where('structure_id', $structure->id);
+
+        if ($request->has('exclude')) {
+            $query->where('id', '<>', $request->input('exclude'));
+        }
+
+        return $query
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
     public function show(StructureRequest $request, Structure $structure)
     {
-         return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
+        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
     }
 
     public function store(StructureCreateRequest $request)

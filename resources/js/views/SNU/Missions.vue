@@ -121,7 +121,7 @@
       </el-table-column>
       <el-table-column prop="name" label="Mission" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900"><v-clamp :max-lines="2" autoresize>{{ scope.row.name|labelFromValue('mission_domaines') }}</v-clamp></div>
+          <div class="text-gray-900"><v-clamp :max-lines="2" autoresize>{{ scope.row.name }}</v-clamp></div>
           <div v-if="scope.row.structure" class="font-light text-gray-600 flex items-center">
             <div class="text-xs">{{ scope.row.structure.name }}</div>
           </div>
