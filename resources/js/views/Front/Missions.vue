@@ -179,7 +179,7 @@
                                   ></div>
                                   <div
                                     class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                                  >{{ item.name|labelFromValue('mission_domaines') }}</div>
+                                  >{{ item.name }}</div>
                                 </div>
 
                                 <div

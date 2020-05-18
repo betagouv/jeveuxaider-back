@@ -5,7 +5,7 @@
       <div class="mb-8 flex">
         <div
           class="font-bold text-2xl text-gray-800 max-w-3xl"
-        >{{ form.name|labelFromValue('mission_domaines') }}</div>
+        >{{ form.name }}</div>
         <state-tag :state="form.state" class="relative ml-3" style="top: 1px"></state-tag>
       </div>
     </template>

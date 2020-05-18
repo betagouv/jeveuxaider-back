@@ -147,6 +147,21 @@ class Mission extends Model
         return $this->participations_max - $this->places_left;
     }
 
+    public function getNameAttribute($value)
+    {
+        return $this->template_id ? $this->template->title : $value;
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->template_id ? $this->template->description : $value;
+    }
+
+    public function getObjectifAttribute($value)
+    {
+        return $this->template_id ? $this->template->objectif : $value;
+    }
+
     public function scopeHasPlacesLeft($query)
     {
         return $query->where('places_left', '>', 0);

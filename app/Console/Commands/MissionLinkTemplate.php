@@ -46,6 +46,7 @@ class MissionLinkTemplate extends Command
             if ($template) {
                 $missions = Mission::where('name', $key);
                 $missions->update([
+                    'name' => null,
                     'template_id' => $template->id,
                 ]);
                 $this->info($missions->count() . ' missions(s) has been linked to template : ' . $template->title);
