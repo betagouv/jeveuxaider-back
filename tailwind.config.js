@@ -20,7 +20,7 @@ module.exports = {
 
             gray: {
                 50: "#f9fafb",
-                100: "#fafafa", //Overriden (#f7fafc)
+                100: "#F7FAFC",
                 200: "#edf2f7",
                 300: "#d2d6dc",
                 400: "#9fa6b2",

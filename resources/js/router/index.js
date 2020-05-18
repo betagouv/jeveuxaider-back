@@ -273,7 +273,7 @@ export default new Router({
                 {
                     path: "/dashboard/structure/:structureId/missions/add",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionForm.vue"),
+                        import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionAdd.vue"),
                     name: "MissionFormAdd",
                     props: route => ({ structureId: parseInt(route.params.structureId) }),
                     meta: {

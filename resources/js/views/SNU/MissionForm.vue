@@ -1,16 +1,5 @@
 <template>
-  <div v-if="!$store.getters.loading && canEdit" class="mission-form pl-12 pb-12">
-    <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">Mission</div>
-      <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name|labelFromValue('mission_domaines') }}</div>
-        <state-tag :state="form.state" class="relative ml-3" style="top: 1px"></state-tag>
-      </div>
-    </template>
-    <template v-else>
-      <div class="text-m text-gray-600 uppercase">Mission</div>
-      <div class="mb-12 font-bold text-2xl text-gray-800">Création d'une nouvelle mission</div>
-    </template>
+  <div class="mission-form">
     <div class="flex">
       <div style="max-width: 600px">
         <p class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
@@ -28,63 +17,72 @@
           label-position="top"
           :rules="rules"
         >
-          <div class="mb-6 text-xl text-gray-800">Informations générales</div>
-
-          <el-form-item v-if="form.structure" label="Ma structure" class>
-            <el-input v-model="form.structure.name" placeholder="Structure de la mission" disabled />
-          </el-form-item>
-
-          <el-form-item label="Domaine d'action" prop="name">
-            <item-description>
-              Choisissez parmi la liste des missions prioritaires face à la
-              crise
-            </item-description>
-            <el-select v-model="form.name" placeholder="Choisir un domaine d'action">
-              <el-option
-                v-for="item in $store.getters.taxonomies.mission_domaines.terms"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="Type de mission" prop="type">
-            <el-select
-              v-model="form.type"
-              placeholder="Selectionner un type de mission"
-              @change="handleTypeChanged()"
-            >
-              <el-option
-                v-for="item in $store.getters.taxonomies.mission_types.terms"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item
-            label="Nombre de volontaires susceptibles d’être accueillis de façon concomitante sur cette mission"
-            prop="participations_max"
-          >
-            <item-description>
-              Précisez ce nombre en fonction de vos contraintes logistiques et
-              votre capacité à accompagner les volontaires.
-            </item-description>
-            <el-input-number v-model="form.participations_max" :step="1" :min="1" class="w-full"></el-input-number>
-          </el-form-item>
-
-          <el-form-item label="Format de mission" prop="format">
-            <el-select v-model="form.format" placeholder="Selectionner un format de mission">
-              <el-option
-                v-for="item in $store.getters.taxonomies.mission_formats.terms"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
+          <div class="text-xl text-gray-800 mb-4">Choix du modèle</div>
+      <div>
+        <div
+          v-if="
+            form.name ==
+              'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
+          "
+          class="border rounded p-8"
+        >
+          <AideAlimentaireUrgence />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
+          "
+          class="border rounded p-8"
+        >
+          <GardeExceptionnelleEnfants />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
+          "
+          class="border rounded p-8"
+        >
+          <LienPersonnesFragilesIsolees />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
+          "
+          class="border rounded p-8"
+        >
+          <SolidariteDeProximite />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'soutien_aux_personnes_agees_en_etablissement'
+          "
+          class="border rounded p-8"
+        >
+          <SoutienPersonnesAgeesEtablissement />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'soutien_scolaire_a_distance'
+          "
+          class="border rounded p-8"
+        >
+          <SoutienScolaireDistance />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'fabrication_distribution_equipements'
+          "
+          class="border rounded p-8"
+        >
+          <FabricationDistributionEquipements />
+        </div>
+      </div>
 
           <div class="mt-12 mb-6 text-xl text-gray-800">Dates de la mission</div>
 
@@ -143,7 +141,60 @@
           </el-form-item>-->
 
           <div class="mt-12 mb-6 text-xl text-gray-800">Détail de la mission</div>
-          <div class>
+             <el-form-item
+            label="Tags"
+            prop="tag"
+          >
+                <item-description>
+              Précisez un tag pour votre mission afin de la catégoriser.
+            </item-description>
+            <el-select v-model="tag" multiple placeholder="Select">
+              <el-option
+                v-for="item in tags"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+             </el-form-item>
+
+         <el-form-item label="Type de mission" prop="type">
+            <el-select
+              v-model="form.type"
+              placeholder="Selectionner un type de mission"
+              @change="handleTypeChanged()"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.mission_types.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+
+      <el-form-item label="Format de mission" prop="format">
+            <el-select v-model="form.format" placeholder="Selectionner un format de mission">
+              <el-option
+                v-for="item in $store.getters.taxonomies.mission_formats.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+
+          <div>
+            <el-form-item
+            label="Nombre de volontaires susceptibles d’être accueillis de façon concomitante sur cette mission"
+            prop="participations_max"
+          >
+            <item-description>
+              Précisez ce nombre en fonction de vos contraintes logistiques et
+              votre capacité à accompagner les volontaires.
+            </item-description>
+            <el-input-number v-model="form.participations_max" :step="1" :min="1" class="w-full"></el-input-number>
+          </el-form-item>
             <el-form-item label="Commentaire par la structure" prop="description" class="flex-1">
               <item-description>
                 Décrivez précisément la mission (contexte, objectifs,
@@ -249,7 +300,7 @@
             >ajouter un nouveau membre</span>
             à votre équipe.
           </item-description>
-          <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
+          <el-form-item v-if="form.structure" label="Responsable" prop="tuteur_id" class="flex-1">
             <el-select v-model="form.tuteur_id" placeholder="Sélectionner un responsable">
               <el-option
                 v-for="item in form.structure.members"
@@ -271,71 +322,7 @@
           </div>
         </el-form>
       </div>
-      <div class="flex-1 px-12">
-        <div
-          v-if="
-            form.name ==
-              'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
-          "
-          class="border rounded p-8"
-        >
-          <AideAlimentaireUrgence />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
-          "
-          class="border rounded p-8"
-        >
-          <GardeExceptionnelleEnfants />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
-          "
-          class="border rounded p-8"
-        >
-          <LienPersonnesFragilesIsolees />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
-          "
-          class="border rounded p-8"
-        >
-          <SolidariteDeProximite />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'soutien_aux_personnes_agees_en_etablissement'
-          "
-          class="border rounded p-8"
-        >
-          <SoutienPersonnesAgeesEtablissement />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'soutien_scolaire_a_distance'
-          "
-          class="border rounded p-8"
-        >
-          <SoutienScolaireDistance />
-        </div>
-        <div
-          v-if="
-            form.name ==
-              'fabrication_distribution_equipements'
-          "
-          class="border rounded p-8"
-        >
-          <FabricationDistributionEquipements />
-        </div>
-      </div>
+
     </div>
   </div>
 </template>
@@ -390,18 +377,29 @@ export default {
       loading: false,
       canEdit: false,
       mission: {},
+      tag: null,
+        tags: [{
+          value: 'Situations d\'urgence ou événements exceptionnels',
+          label: 'Situations d\'urgence ou événements exceptionnels'
+        }, {
+          value: 'Covid-19',
+          label: 'Covid-19'
+        }, {
+          value: 'Santé',
+          label: 'Santé'
+        }, {
+          value: 'Option4',
+          label: 'Option4'
+        }, {
+          value: 'Option5',
+          label: 'Option5'
+        }],
       form: {
         state: "En attente de validation",
+        name: "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance",
         participations_max: 1
       },
       rules: {
-        name: [
-          {
-            required: true,
-            message: "Veuillez choisir un domaine d'action",
-            trigger: "blur"
-          }
-        ],
         format: [
           {
             required: true,
@@ -510,22 +508,19 @@ export default {
   created() {
     if (this.structureId) {
       this.$store.commit("setLoading", true);
+      console.log("created", this.structureId)
       getStructure(this.structureId)
         .then(response => {
+          console.log(response)
           this.$set(this.form, "structure", response.data);
-          if (
-            response.data.members.filter(
-              member => member.id == this.$store.getters.user.profile.id
-            ).length > 0
-          ) {
-            this.form.tuteur_id = this.$store.getters.user.profile.id;
-          }
+          this.form.tuteur_id = this.$store.getters.user.profile.id;
           this.$store.commit("setLoading", false);
         })
         .catch(() => {
           this.loading = false;
         });
     } else if (this.id) {
+      console.log('chelouuu')
       this.$store.commit("setLoading", true);
       getMission(this.id)
         .then(response => {
