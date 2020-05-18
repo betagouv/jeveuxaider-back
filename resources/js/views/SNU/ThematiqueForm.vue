@@ -13,7 +13,7 @@
 
       <el-form-item label="Nom de la thématique" prop="name">
         <el-input v-model="form.name" placeholder="Nom de la thématique" />
-        <item-description>Accessible à l'adresse : {{baseUrl}}/territoires/{{ form.name|slugify }}</item-description>
+        <item-description>Accessible à l'adresse : {{baseUrl}}/thematiques/{{ form.name|slugify }}</item-description>
       </el-form-item>
 
       <div class="mb-6">
