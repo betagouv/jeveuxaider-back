@@ -335,6 +335,24 @@
         >
           <FabricationDistributionEquipements />
         </div>
+        <div
+          v-if="
+            form.name ==
+              'soutien_mobilisation_sanitaire'
+          "
+          class="border rounded p-8"
+        >
+          <SoutienMobilisationSanitaire />
+        </div>
+        <div
+          v-if="
+            form.name ==
+              'soutien_reprise_missions_service_public'
+          "
+          class="border rounded p-8"
+        >
+          <SoutienRepriseMissionsServicePublic />
+        </div>
       </div>
     </div>
   </div>
@@ -359,6 +377,8 @@ import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
 import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
 import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
 import FabricationDistributionEquipements from "@/components/domaines/FabricationDistributionEquipements";
+import SoutienMobilisationSanitaire from "@/components/domaines/SoutienMobilisationSanitaire";
+import SoutienRepriseMissionsServicePublic from "@/components/domaines/SoutienRepriseMissionsServicePublic";
 
 export default {
   name: "MissionForm",
@@ -372,7 +392,9 @@ export default {
     SolidariteDeProximite,
     SoutienPersonnesAgeesEtablissement,
     SoutienScolaireDistance,
-    FabricationDistributionEquipements
+    FabricationDistributionEquipements,
+    SoutienMobilisationSanitaire,
+    SoutienRepriseMissionsServicePublic
   },
   mixins: [FormWithAddress],
   props: {

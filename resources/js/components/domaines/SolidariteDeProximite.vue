@@ -32,7 +32,7 @@
           >Cette mission n’est accessible qu’aux personnes majeures, de moins de 70 ans et en bonne santé.</div>
           <div
             class="mt-3"
-          >Pour sortir faire ces courses, je me munis de mon autorisation de déplacement. Je n’emprunte pas les transports en commun. Dans les magasins, je respecte les règles de sé-curité et les gestes barrières afin de me protéger et de protéger les autres. Au moindre doute d’infection, je ne me mobilise pas et je reste chez moi.</div>
+          >Pour sortir faire ces courses, j’évite d’emprunter les transports en commun lorsque cela est possible, notamment aux heures de pointe. Si j’emprunte les transports en commun en Ile-de-France, je me munis de l’autorisation de déplacement et du justificatif fourni par la structure au profit de laquelle je réalise la mission. Dans les magasins, je respecte les règles de sécurité et les gestes barrières afin de me protéger et de protéger les autres. Au moindre doute d’infection, je ne me mobilise pas et je reste chez moi.</div>
         </div>
       </div>
     </div>

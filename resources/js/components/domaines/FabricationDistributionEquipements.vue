@@ -38,7 +38,7 @@
             La mission de confection se déroule au sein d’un atelier de production ou à domicile.
           </p>
           <p>
-            Pour me rendre sur site, le cas échéant, je me munis de mon autorisation de déplacement. Sur place, je respecte les règles de sécurité et les gestes barrières afin de me protéger et de protéger les autres. Au moindre doute d’infection, je ne me mobilise pas et je reste chez moi.
+            Pour me rendre sur site,j’évite d’emprunter les transports en commun lorsque cela est possible, notamment aux heures de pointe. Si j’emprunte les transports en commun en Ile-de-France, je me munis de l’autorisation de déplacement et du justificatif fourni par la structure au profit de laquelle je réalise la mission. Sur place, je respecte les règles de sécurité et les gestes barrières afin de me protéger et de protéger les autres. Au moindre doute d’infection, je ne me mobilise pas et je reste chez moi.
           </p>
           <p>
             Cette mission n’est accessible qu’aux personnes majeures.

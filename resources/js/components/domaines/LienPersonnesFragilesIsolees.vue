@@ -10,7 +10,9 @@
       <div class="mt-8">
         <p
           class="ml-3 text-gray-700"
-        >En cette période de crise sanitaire et de confinement, il est essentiel que les personnes les plus en risque d’isolement relationnel puissent bénéficier de contacts réguliers et bienveillants. Cet isolement peut, en effet, être rompu en organisant un lien par téléphone, visio ou par d’autres moyens de communication.</p>
+        >
+          En cette période de crise sanitaire et de confinement, il est essentiel que les personnes les plus en risque d’isolement relationnel puissent bénéficier de contacts réguliers et bienveillants. Cet isolement peut, en effet, être rompu en organisant un lien par téléphone, visio ou par d’autres moyens de communication.
+        </p>
       </div>
     </div>
     <div class="mt-12">

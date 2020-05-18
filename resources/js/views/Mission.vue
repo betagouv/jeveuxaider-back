@@ -173,6 +173,22 @@
                 >
                   <FabricationDistributionEquipements />
                 </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'soutien_mobilisation_sanitaire'
+                  "
+                >
+                  <SoutienMobilisationSanitaire />
+                </div>
+                <div
+                  v-if="
+                    mission.name ==
+                      'soutien_reprise_missions_service_public'
+                  "
+                >
+                  <SoutienRepriseMissionsServicePublic />
+                </div>
               </div>
 
               <div class="mt-16">
@@ -512,6 +528,8 @@ import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
 import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
 import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
 import FabricationDistributionEquipements from "@/components/domaines/FabricationDistributionEquipements";
+import SoutienMobilisationSanitaire from "@/components/domaines/SoutienMobilisationSanitaire";
+import SoutienRepriseMissionsServicePublic from "@/components/domaines/SoutienRepriseMissionsServicePublic";
 import FrontMissionLoading from "@/components/loadings/FrontMissionLoading";
 
 export default {
@@ -524,7 +542,9 @@ export default {
     SolidariteDeProximite,
     SoutienPersonnesAgeesEtablissement,
     SoutienScolaireDistance,
-    FabricationDistributionEquipements
+    FabricationDistributionEquipements,
+    SoutienMobilisationSanitaire,
+    SoutienRepriseMissionsServicePublic
   },
   props: {
     id: {

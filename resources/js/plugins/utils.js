@@ -52,10 +52,16 @@ Vue.filter("cleanDomaineAction", function (domaine) {
       return "Soutien aux personnes âgées en établissement";
       break;
     case "soutien_scolaire_a_distance":
-      return "Soutien scolaire à distance";
+      return "Soutien scolaire";
       break;
     case "fabrication_distribution_equipements":
       return "Fabrication et distribution d’équipements de protection grand public";
+      break;
+    case "soutien_mobilisation_sanitaire":
+      return "Soutien à la mobilisation sanitaire";
+      break;
+    case "soutien_reprise_missions_service_public":
+      return "Soutien à la reprise des missions de service public";
       break;
     default:
       return domaine
@@ -84,6 +90,12 @@ Vue.filter("domainIcon", function (domaine) {
 
     case "fabrication_distribution_equipements":
       return "/images/masque.svg";
+
+    case "soutien_mobilisation_sanitaire":
+      return "/images/sanitaire.svg";
+
+    case "soutien_reprise_missions_service_public":
+      return "/images/service-public.svg";
 
     default:
       return null
