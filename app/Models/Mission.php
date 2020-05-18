@@ -16,6 +16,8 @@ class Mission extends Model
 
     protected $fillable = [
         'name',
+        'information',
+        'objectif',
         'description',
         'address',
         'zip',
@@ -36,7 +38,9 @@ class Mission extends Model
         'periodicite',
         'publics_beneficiaires',
         'publics_volontaires',
-        'type'
+        'type',
+        'thematique_main_id',
+        'template_id',
     ];
 
     protected $casts = [

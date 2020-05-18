@@ -18,7 +18,8 @@ class MissionTemplateRequest extends FormRequest
             'description' => 'required',
             'objectif' => 'required',
             'thematique_id' => 'nullable',
-            'published' => 'boolean'
+            'published' => 'boolean',
+            'priority' => 'boolean'
         ];
     }
 }

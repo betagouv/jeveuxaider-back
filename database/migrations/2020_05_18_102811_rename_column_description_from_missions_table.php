@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateThematiquesTable extends Migration
+class RenameColumnDescriptionFromMissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateThematiquesTable extends Migration
      */
     public function up()
     {
-        Schema::create('thematiques', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('slug');
-            $table->boolean('published')->default(true);
-            $table->timestamps();
+        Schema::table('missions', function (Blueprint $table) {
+            $table->renameColumn('description', 'information');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateThematiquesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('thematiques');
+        Schema::table('missions', function (Blueprint $table) {
+            $table->renameColumn('information', 'description');
+        });
     }
 }

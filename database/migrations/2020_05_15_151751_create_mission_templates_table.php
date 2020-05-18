@@ -14,12 +14,12 @@ class CreateMissionTemplatesTable extends Migration
     public function up()
     {
         Schema::create('mission_templates', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
             $table->string('subtitle')->nullable();
             $table->text('objectif')->nullable();
             $table->text('description')->nullable();
-            $table->integer('thematique_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('thematique_id')->nullable();
             $table->boolean('priority')->default(false);
             $table->boolean('published')->default(true);
             $table->timestamps();
