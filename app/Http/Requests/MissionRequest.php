@@ -78,6 +78,7 @@ class MissionRequest extends FormRequest
             'end_date.date' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.date_format' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.after' => 'La date de fin doit être supérieur à celle de début',
+            'name.required_without' => 'Le nom de la mission est requis',
         ];
     }
 }
