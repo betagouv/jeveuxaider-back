@@ -10,17 +10,13 @@
           ou chatez en cliquant sur le bouton en bas à droite.
         </p>
 
-        <template v-if="showSelectTemplateForm">
-          <mission-template-form @selected="selectTemplate"></mission-template-form>
-        </template>
-        <template v-else>
-          <div v-if="templateSelected" class="mb-6">
+          <div v-if="mission.template" class="mb-6">
             <div class="mb-6 text-xl text-gray-800">Choix du modèle</div>
             <div class="border rounded p-4">
               <div class="">Réserve thématique</div>
-              <div class="">{{ templateSelected.thematique_id }}</div>
+              <div class="">{{ mission.template.thematique_id }}</div>
               <div class="">Titre de la mission</div>
-              <div class="">{{ templateSelected.subtitle }}</div>
+              <div class="">{{ mission.template.subtitle }}</div>
             </div>
           </div>
           <el-form
@@ -120,7 +116,6 @@
             </el-select>
           </el-form-item>
 
-          <div>
             <el-form-item
             label="Nombre de volontaires susceptibles d’être accueillis de façon concomitante sur cette mission"
             prop="participations_max"
@@ -314,7 +309,6 @@
               >-->
             </div>
           </el-form>
-        </template>
       </div>
 
     </div>
@@ -333,29 +327,13 @@ import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
 import StateTag from "@/components/StateTag";
 import FormWithAddress from "@/mixins/FormWithAddress";
 import ItemDescription from "@/components/forms/ItemDescription";
-import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence";
-import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
-import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
-import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
-import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
-import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
-import FabricationDistributionEquipements from "@/components/domaines/FabricationDistributionEquipements";
-import MissionTemplateForm from "@/components/forms/MissionTemplateForm";
 
 export default {
   name: "MissionForm",
   components: {
     AlgoliaPlacesInput,
     StateTag,
-    ItemDescription,
-    AideAlimentaireUrgence,
-    GardeExceptionnelleEnfants,
-    LienPersonnesFragilesIsolees,
-    SolidariteDeProximite,
-    SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance,
-    FabricationDistributionEquipements,
-    MissionTemplateForm
+    ItemDescription
   },
   mixins: [FormWithAddress],
   props: {
@@ -366,15 +344,20 @@ export default {
     id: {
       type: Number,
       default: null
+    },
+    mission: {
+      type: Object,
+      default: {}
     }
   },
   data() {
     return {
       loading: false,
       canEdit: false,
-      mission: {},
       templateSelected: null,
       showSelectTemplateForm: true,
+      tags: [],
+      tag: null,
       form: {
         state: "En attente de validation",
         name: "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance",

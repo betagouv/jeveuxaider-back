@@ -12,23 +12,24 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          En choisissant un modèle, votre mission sera automatiquement en ligne dès sa publication. <br />Le modèle inclut le choix de la Réserve thématique, le titre, la description et l’objectif de la mission.
+          En choisissant un modèle, votre mission sera directement en ligne dès sa publication. <br />Le modèle inclue le choix du titre, de la thématique, de la description et de l’objectif de la mission.
         </div>
       </div>
-      <el-select v-model="thematique" placeholder="Réserve Thématique" class="mb-8">
+      <!-- // TODO : Récupérer les thématiques prioritaires au change du select -->
+      <el-select v-model="mission.thematique_id" placeholder="Réserve Thématique" class="mb-8">
         <el-option
-          v-for="item in thematiques"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="thematique in templates"
+          :key="thematique.id"
+          :label="thematique.title"
+          :value="thematique.id">
         </el-option>
       </el-select>
-      <div v-for="item in missions_models" :key="item.label" class="bg-gray-100 p-4 mb-4 rounded flex items-center">
+      <div v-for="template in templates" :key="template.label" class="bg-gray-100 p-4 mb-4 rounded flex items-center">
         <div class="mr-3">
-          <div class="mb-1">{{ item.label }}</div>
-          <div class="text-xs text-gray-700">{{ item.description }}</div>
+          <div class="mb-1">{{ template.title }}</div>
+          <div class="text-xs text-gray-400">{{ template.subtitle }}</div>
         </div>
-        <el-button plain type="primary" size="medium" class="ml-auto h-full" @click="step = 2">Choisir</el-button>
+        <el-button plain type="primary" size="medium" class="ml-auto h-full" @click="handleSelectTemplate(template)">Choisir</el-button>
       </div>
       <div class="mt-10 text-xl text-gray-800 flex items-center">
         <div>À partir d'un modèle libre</div>
@@ -45,16 +46,17 @@
       <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
         <div class="mr-3">
           <div class="mb-1">Modèle libre</div>
-          <div class="text-xs text-gray-700">Je personnalise le contenu de ma mission.</div>
+          <div class="text-xs text-gray-400">Je personnalise le contenu de ma mission.</div>
         </div>
-        <el-button plain type="primary" class="ml-auto h-full">Choisir</el-button>
+        <el-button plain type="primary" class="ml-auto h-full" @click="step = 2">Choisir</el-button>
       </div>
     </div>
-    <MissionForm :structure-id="structureId" v-else />
+    <MissionForm :structure-id="structureId" :mission="mission" v-else />
   </div>
 </template>
 
 <script>
+import { fetchMissionTemplates, deleteMissionTemplate } from "@/api/app";
 import MissionForm from "@/views/SNU/MissionForm";
 
 export default {
@@ -68,41 +70,24 @@ export default {
       default: null
     }
   },
+  created() {
+    fetchMissionTemplates().then(res => {
+      this.templates = res.data.data;
+    });
+  },
   data() {
     return {
       step: 1,
       loading: false,
-      thematiques: [{
-          value: 'Crise sanitaire Covid-19',
-          label: 'Crise sanitaire Covid-19'
-        }, {
-          value: 'sante',
-          label: 'Santé'
-        }, {
-          value: 'environnement',
-          label: 'Environnement'
-        }, {
-          value: 'education',
-          label: 'Éducation'
-        }],
-      thematique: '',
-      missions_models: [{
-          label: 'Aide alimentaire et d’urgence',
-          description: 'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis',
-        }, {
-          label: 'Garde exceptionnelle d’enfants',
-          description: 'J’aide à garder des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance',
-        }, {
-          label: 'Lien avec les personnes fragiles isolées',
-          description: 'Je participe à maintenir le lien (téléphone, visio, mail...) avec des personnes fragiles isolées : personnes âgées, malades ou en situation de handicap.',
-        }, {
-          label: 'Solidarité de proximité',
-          description: 'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.',
-        }, {
-          label: 'Soutien scolaire à distance',
-          description: 'J’aide à distance les élèves à faire leurs devoirs.',
-        }]
+      templates: [],
+      mission: {}
     };
+  },
+  methods: {
+    handleSelectTemplate(template) {
+      this.mission.template = template
+      this.step = 2
+    }
   }
 };
 </script>
