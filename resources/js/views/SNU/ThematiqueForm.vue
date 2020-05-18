@@ -16,18 +16,6 @@
         <item-description>Accessible à l'adresse : {{baseUrl}}/territoires/{{ form.name|slugify }}</item-description>
       </el-form-item>
 
-       <!-- <el-form-item label="Type" prop="type">
-        <el-select v-model="form.type" placeholder="Selectionner le type">
-          <el-option
-            v-for="item in $store.getters.taxonomies.collectivities_types.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </el-form-item> -->
-
-
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Photo de la thématique</div>
         <item-description>
@@ -86,6 +74,12 @@
         </div>
       </div>
 
+      <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
+      <item-description>Si vous souhaitez rendre cette thématique visible, cochez la case.</item-description>
+      <el-form-item prop="published" class="flex-1">
+        <el-checkbox v-model="form.published">En ligne</el-checkbox>
+      </el-form-item>
+      
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
       </div>

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Release;
 use App\Models\Structure;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Thematique;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,6 +21,7 @@ class ConfigController extends Controller
             'user' => User::currentUser(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
+            'thematiques' => $this->thematiques(),
             'reseaux' => $this->reseaux(),
         ]);
     }
@@ -45,6 +46,11 @@ class ConfigController extends Controller
     private function release()
     {
         return Release::orderBy('date', 'desc')->first();
+    }
+
+    private function thematiques()
+    {
+        return Thematique::all();
     }
 
     private function reseaux()

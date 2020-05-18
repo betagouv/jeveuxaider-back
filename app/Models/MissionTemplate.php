@@ -14,7 +14,8 @@ class MissionTemplate extends Model
         'objectif',
         'description',
         'priority',
-        'published'
+        'published',
+        'thematique_id'
     ];
 
     protected $attributes = [

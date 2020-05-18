@@ -13,7 +13,7 @@ class MissionTemplateDeleteRequest extends MissionTemplateRequest
      */
     public function authorize()
     {
-        return $this->user()->can('delete', request()->route('mission_template'));
+        return $this->user()->can('delete', request()->route('missionTemplate'));
     }
 
 

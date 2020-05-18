@@ -8,6 +8,6 @@ class MissionTemplateUpdateRequest extends MissionTemplateRequest
 {
     public function authorize()
     {
-        return $this->user()->can('update', request()->route('mission_template'));
+        return $this->user()->can('update', request()->route('missionTemplate'));
     }
 }

@@ -15,6 +15,21 @@
         <el-input v-model="form.title" placeholder="Titre" />
       </el-form-item>
 
+      <el-form-item label="Thématique" prop="thematique" class="flex-1">
+        <el-select
+          v-model="form.thematique_id"
+          clearable
+          placeholder="Sélectionner une thématique"
+        >
+          <el-option
+            v-for="item in $store.getters.thematiques"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="Objectif" prop="objectif">
         <ckeditor :editor="editor" v-model="form.objectif" :config="editorConfig"></ckeditor>
       </el-form-item>
@@ -30,7 +45,7 @@
       </el-form-item>
 
       <div class="mb-6 mt-12 flex text-xl text-gray-800">Mission prioritaire</div>
-      <item-description>Les modèle de missions prioritaires sont mises en avant lors de la création d'une nouvelle mission.</item-description>
+      <item-description>Les modèles de missions prioritaires sont mises en avant lors de la création d'une nouvelle mission.</item-description>
       <el-form-item prop="priority" class="flex-1">
         <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
       </el-form-item>
@@ -115,7 +130,14 @@ export default {
         description: [
           {
             required: true,
-            message: "Veuillez renseigner un nom",
+            message: "Veuillez renseigner une description",
+            trigger: "blur"
+          }
+        ],
+        objectif: [
+          {
+            required: true,
+            message: "Veuillez renseigner un objectif",
             trigger: "blur"
           }
         ]
