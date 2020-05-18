@@ -44,9 +44,11 @@ class MissionLinkTemplate extends Command
         foreach ($domaines as $key => $domaine) {
             $template = $this->getTemplate($key);
             if ($template) {
-                Mission::where('name', $key)->update([
+                $missions = Mission::where('name', $key);
+                $missions->update([
                     'template_id' => $template->id,
                 ]);
+                $this->info($missions->count() . ' missions(s) has been linked to template : ' . $template->title);
             } else {
                 $this->error('No template found for key: ' . $key);
             }
