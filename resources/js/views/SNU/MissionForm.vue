@@ -24,7 +24,7 @@
         </p>
 
         <template v-if="showSelectTemplateForm">
-          <mission-template-form @selected="hasSelectedModel"></mission-template-form>
+          <mission-template-form @selected="selectTemplate"></mission-template-form>
         </template>
         <template v-else>
           <el-form
@@ -44,19 +44,11 @@
               />
             </el-form-item>
 
-            <el-form-item label="Domaine d'action" prop="name">
-              <item-description>
-                Choisissez parmi la liste des missions prioritaires face à la
-                crise
-              </item-description>
-              <el-select v-model="form.name" placeholder="Choisir un domaine d'action">
-                <el-option
-                  v-for="item in $store.getters.taxonomies.mission_domaines.terms"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
+            <el-form-item label="Titre de la mission" prop="name">
+              <el-input
+                v-model="form.name"
+                placeholder="Titre de la mission"
+              />
             </el-form-item>
 
             <el-form-item label="Type de mission" prop="type">
@@ -134,33 +126,33 @@
               ></el-input>
             </el-form-item>
 
-            <!-- <el-form-item
-        label="Périodicité de la mission"
-        prop="periodicite"
-        class="flex-1"
-      >
-        <el-select
-          v-model="form.periodicite"
-          placeholder="Sélectionnez la périodicité"
-        >
-          <el-option
-            v-for="item in $store.getters.taxonomies.mission_periodicites.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-            </el-form-item>-->
-
-            <div class="mt-12 mb-6 text-xl text-gray-800">Détail de la mission</div>
+            <div class="mt-12 mb-6 text-xl text-gray-800">Détails de la mission</div>
             <div class>
-              <el-form-item label="Commentaire par la structure" prop="information" class="flex-1">
-                <item-description>
+              <item-description>
                   Décrivez précisément la mission (contexte, objectifs,
                   bénéficiaires, activités, utilité, ressources...). Celle-ci doit
                   être conforme aux règles sanitaires et aux directives du
                   gouvernement.
                 </item-description>
+              <el-form-item label="Objectif de la mission" prop="objectif" class="flex-1">
+                <el-input
+                  v-model="form.objectif"
+                  name="objectif"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 6 }"
+                  placeholder="Décrivez votre mission, en quelques mots"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="Description de la mission" prop="description" class="flex-1">
+                <el-input
+                  v-model="form.objectif"
+                  name="description"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 6 }"
+                  placeholder="Décrivez votre mission, en quelques mots"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="Commentaire par la structure" prop="information" class="flex-1">
                 <el-input
                   v-model="form.information"
                   name="information"
@@ -498,7 +490,7 @@ export default {
         ? true
         : false;
     },
-    showSelectTemplateForm(){
+    showSelectTemplateForm() {
       return this.id || this.hasSelectedTemplate ? false : true;
     },
     mode() {
@@ -556,8 +548,14 @@ export default {
     }
   },
   methods: {
-    hasSelectedModel(model) {
-      console.log('hasSelectedModel', model)
+    selectTemplate(template) {
+      this.hasSelectedTemplate = true;
+      if(template){
+        this.form.description = template.description
+        this.form.name = template.title
+        this.form.objectif = template.objectif
+      }
+      console.log("hasSelectedTemplate", template);
     },
     onAddTuteurLinkClicked() {
       let routeData = this.$router.resolve({

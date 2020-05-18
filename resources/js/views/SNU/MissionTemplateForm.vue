@@ -15,12 +15,18 @@
         <el-input v-model="form.title" placeholder="Titre" />
       </el-form-item>
 
+      <el-form-item label="Sous titre" prop="subtitle" class="flex-1">
+        <el-input
+          v-model="form.subtitle"
+          name="subtitle"
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 6 }"
+          placeholder="Placeholder subtitle"
+        ></el-input>
+      </el-form-item>
+
       <el-form-item label="Thématique" prop="thematique" class="flex-1">
-        <el-select
-          v-model="form.thematique_id"
-          clearable
-          placeholder="Sélectionner une thématique"
-        >
+        <el-select v-model="form.thematique_id" clearable placeholder="Sélectionner une thématique">
           <el-option
             v-for="item in $store.getters.thematiques"
             :key="item.id"
@@ -124,6 +130,13 @@ export default {
           {
             required: true,
             message: "Veuillez renseigner un titre",
+            trigger: "blur"
+          }
+        ],
+        subtitle: [
+          {
+            required: true,
+            message: "Veuillez renseigner un sous-titre",
             trigger: "blur"
           }
         ],

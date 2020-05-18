@@ -15,6 +15,7 @@ class MissionTemplateRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'subtitle' => 'required',
             'description' => 'required',
             'objectif' => 'required',
             'thematique_id' => 'nullable',
