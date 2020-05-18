@@ -27,6 +27,15 @@
           <mission-template-form @selected="selectTemplate"></mission-template-form>
         </template>
         <template v-else>
+          <div v-if="templateSelected" class="mb-6">
+            <div class="mb-6 text-xl text-gray-800">Choix du modèle</div>
+            <div class="border rounded p-4">
+              <div class="">Réserve thématique</div>
+              <div class="">{{ templateSelected.thematique_id }}</div>
+              <div class="">Titre de la mission</div>
+              <div class="">{{ templateSelected.subtitle }}</div>
+            </div>
+          </div>
           <el-form
             ref="missionForm"
             :model="form"
@@ -44,19 +53,17 @@
               />
             </el-form-item>
 
-            <el-form-item label="Titre de la mission" prop="name">
+            <el-form-item v-if="!templateSelected" label="Titre de la mission" prop="name">
               <el-input
                 v-model="form.name"
                 placeholder="Titre de la mission"
-                :disabled="disableField"
               />
             </el-form-item>
 
-            <el-form-item label="Thématique de mission" prop="thematique_main_id">
+            <el-form-item v-if="!templateSelected" label="Thématique de mission" prop="thematique_main_id">
               <el-select
                 v-model="form.thematique_main_id"
                 placeholder="Selectionner une thématique"
-                :disabled="disableField"
               >
                 <el-option
                   v-for="item in $store.getters.thematiques"
@@ -145,22 +152,21 @@
             <div class="mt-12 mb-6 text-xl text-gray-800">Détails de la mission</div>
             <div class>
               <item-description>
-                  Décrivez précisément la mission (contexte, objectifs,
-                  bénéficiaires, activités, utilité, ressources...). Celle-ci doit
-                  être conforme aux règles sanitaires et aux directives du
-                  gouvernement.
-                </item-description>
-              <el-form-item label="Objectif de la mission" prop="objectif" class="flex-1">
+                Décrivez précisément la mission (contexte, objectifs,
+                bénéficiaires, activités, utilité, ressources...). Celle-ci doit
+                être conforme aux règles sanitaires et aux directives du
+                gouvernement.
+              </item-description>
+              <el-form-item v-if="!templateSelected" label="Objectif de la mission" prop="objectif" class="flex-1">
                 <el-input
                   v-model="form.objectif"
                   name="objectif"
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 6 }"
                   placeholder="Décrivez votre mission, en quelques mots"
-                  :disabled="disableField"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="Description de la mission" prop="description" class="flex-1">
+              <el-form-item v-if="!templateSelected" label="Description de la mission" prop="description" class="flex-1">
                 <el-input
                   v-model="form.description"
                   name="description"
@@ -195,7 +201,6 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-       
             </div>
 
             <div
@@ -393,7 +398,8 @@ export default {
       loading: false,
       canEdit: false,
       mission: {},
-      hasSelectedTemplate: false,
+      templateSelected: null,
+      showSelectTemplateForm: true,
       form: {
         state: "En attente de validation",
         participations_max: 1
@@ -488,10 +494,7 @@ export default {
         ? true
         : false;
     },
-    showSelectTemplateForm() {
-      return this.id || this.hasSelectedTemplate ? false : true;
-    },
-    disableField(){
+    disableField() {
       return this.form.template_id ? true : false;
     },
     mode() {
@@ -537,6 +540,7 @@ export default {
         });
     } else if (this.id) {
       this.$store.commit("setLoading", true);
+      this.showSelectTemplateForm = false;
       getMission(this.id)
         .then(response => {
           this.form = response.data;
@@ -550,16 +554,13 @@ export default {
   },
   methods: {
     selectTemplate(template) {
-      this.hasSelectedTemplate = true;
-      if(template){
-        this.form.state = 'Validée'
-        this.form.template_id = template.id
-        this.form.name = template.title
-        this.form.thematique_main_id = template.thematique_id
-        this.form.description = template.description
-        this.form.objectif = template.objectif
+      if (template.id) {
+        console.log('selectTemplate', template)
+        this.templateSelected = template;
+        this.form.state = "Validée";
+        this.form.template_id = template.id;
       }
-      console.log("hasSelectedTemplate", template);
+      this.showSelectTemplateForm = false;
     },
     onAddTuteurLinkClicked() {
       let routeData = this.$router.resolve({

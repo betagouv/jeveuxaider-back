@@ -25,15 +25,15 @@ class MissionRequest extends FormRequest
     {
         return [
             'user_id' => 'sometimes|required',
-            'name' => 'sometimes|required|min:3|max:255',
+            'name' => 'required_without:template_id|min:3|max:255',
             'tuteur_id' => '',
             'start_date' => 'nullable|date_format:Y-m-d H:i:s',
             'end_date' => 'nullable|date_format:Y-m-d H:i:s|after:start_date',
             'structure_id' => '',
             'format' => 'sometimes|required',
             'information' => '',
-            'objectif' => '',
-            'description' => '',
+            'objectif' => 'required_without:template_id',
+            'description' => 'required_without:template_id',
             'address' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -55,7 +55,7 @@ class MissionRequest extends FormRequest
             'publics_volontaires' => '',
             'publics_beneficiaires' => '',
             'type' => '',
-            'thematique_main_id' => '',
+            'thematique_main_id' => 'required_without:template_id',
             'template_id' => ''
         ];
     }
