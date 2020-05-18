@@ -122,6 +122,16 @@ class Mission extends Model
         return $this->hasMany('App\Models\Participation', 'mission_id');
     }
 
+    public function thematique()
+    {
+        return $this->belongsTo('App\Models\Thematique', 'thematique_main_id');
+    }
+
+    public function template()
+    {
+        return $this->belongsTo('App\Models\MissionTemplate');
+    }
+
     public function getFullAddressAttribute()
     {
         return "{$this->address} {$this->zip} {$this->city}";
