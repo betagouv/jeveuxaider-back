@@ -21,6 +21,7 @@ class ThematiqueRequest extends FormRequest
                 'max:255',
             ],
             'published' => 'boolean',
+            'domaine_id' => 'nullable'
         ];
     }
 }

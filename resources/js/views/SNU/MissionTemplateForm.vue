@@ -28,9 +28,9 @@
       <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
         <el-select v-model="form.domaine_id" clearable placeholder="Sélectionner un domaine d'action">
           <el-option
-            v-for="item in $store.getters.domaines"
+            v-for="item in tags"
             :key="item.id"
-            :label="item.name"
+            :label="item.name.fr"
             :value="item.id"
           ></el-option>
         </el-select>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { getMissionTemplate, addOrUpdateMissionTemplate } from "@/api/app";
+import { getMissionTemplate, addOrUpdateMissionTemplate, fetchTags } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       loading: false,
+      tags: [],
       form: {
         published: true,
         priority: false
@@ -159,6 +160,10 @@ export default {
     }
   },
   created() {
+    fetchTags({'filter[type]': 'domaine'}).then(response=>{
+      this.tags = response.data.data
+    })
+
     if (this.mode == "edit") {
       this.$store.commit("setLoading", true);
       getMissionTemplate(this.id)

@@ -32,9 +32,9 @@
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>
           <div
-            v-if="scope.row.thematique"
+            v-if="scope.row.domaine"
             class="font-light text-gray-600 text-xs"
-          >{{ scope.row.thematique.name }}</div>
+          >{{ scope.row.domaine.name.fr }}</div>
         </template>
       </el-table-column>
       <el-table-column label="Contexte" min-width="320">
