@@ -18,7 +18,15 @@
           :rules="rules"
         >
           <div v-if="form.template">
-            <div class="mb-6 text-xl text-gray-800">Choix du modèle</div>
+            <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
+              <div class="mr-3 flex-1">
+                <div class="mb-1">{{ form.template.title }}</div>
+                <div class="text-xs text-gray-400">{{ form.template.subtitle }}</div>
+              </div>
+              <el-button plain type="primary" @click.prevent="modalVisible = true">Détails</el-button>
+            </div>
+
+            <!-- <div class="mb-6 text-xl text-gray-800">Choix du modèle</div>
             <div class="border rounded p-6">
               <div class="flex items-center">
                 <h4
@@ -38,34 +46,52 @@
                 class="mt-3"
                 size="small"
                 @click.prevent="modalVisible = true"
-              >Prévisualier le modèle</el-button>
-              <el-dialog :title="form.template.title" :visible.sync="modalVisible" width="680">
-                <div class="flex items-center">
-                  <h4
-                    class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >Titre de la mission</h4>
-                  <div class="flex-1 border-t-2 border-gray-200"></div>
-                </div>
-                <div class="mt-2">{{ form.template.subtitle }}</div>
-                <div class="flex items-center mt-6">
-                  <h4
-                    class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >Objectif de la mission</h4>
-                  <div class="flex-1 border-t-2 border-gray-200"></div>
-                </div>
-                <div v-html="form.template.objectif" class="mt-2"></div>
-                <div class="flex items-center mt-6">
-                  <h4
-                    class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >Description de la mission et règles à suivre impérativement</h4>
-                  <div class="flex-1 border-t-2 border-gray-200"></div>
-                </div>
-                <div v-html="form.template.description" class="mt-2"></div>
-              </el-dialog>
+              >Prévisualier le modèle</el-button>              
             </div>
+            -->
+            <el-dialog :title="form.template.title" :visible.sync="modalVisible" width="680">
+              <div class="flex items-center">
+                <h4
+                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                >Titre de la mission</h4>
+                <div class="flex-1 border-t-2 border-gray-200"></div>
+              </div>
+              <div class="mt-2">{{ form.template.subtitle }}</div>
+              <div class="flex items-center mt-6">
+                <h4
+                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                >Objectif de la mission</h4>
+                <div class="flex-1 border-t-2 border-gray-200"></div>
+              </div>
+              <div v-html="form.template.objectif" class="mt-2"></div>
+              <div class="flex items-center mt-6">
+                <h4
+                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                >Description de la mission et règles à suivre impérativement</h4>
+                <div class="flex-1 border-t-2 border-gray-200"></div>
+              </div>
+              <div v-html="form.template.description" class="mt-2"></div>
+            </el-dialog>
           </div>
           <div class="mt-6 mb-6 text-xl text-gray-800">Détails de la mission</div>
           <div v-if="!form.template">
+            <el-form-item label="Titre de la mission" prop="name" class="flex-1 mr-2">
+              <el-input v-model="form.name" placeholder="Titre" />
+            </el-form-item>
+            <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
+              <el-select
+                v-model="form.domaine_id"
+                clearable
+                placeholder="Sélectionner un domaine d'action"
+              >
+                <el-option
+                  v-for="domaine in domaines"
+                  :key="domaine.id"
+                  :label="domaine.name.fr"
+                  :value="domaine.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="Objectif de la mission" prop="objectif" class="flex-1">
               <item-description>
                 Décrivez précisément la mission (contexte, objectifs,
@@ -262,6 +288,7 @@
 
 <script>
 import { addMission, updateMission, fetchMissions } from "@/api/mission";
+import { fetchTags } from "@/api/app";
 import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
 import FormWithAddress from "@/mixins/FormWithAddress";
 import ItemDescription from "@/components/forms/ItemDescription";
@@ -290,6 +317,7 @@ export default {
         template: this.template || null,
         ...this.mission
       },
+      domaines: [],
       rules: {
         name: [
           {
@@ -370,6 +398,11 @@ export default {
         ]
       }
     };
+  },
+  created(){
+    fetchTags({'filter[type]': 'domaine'}).then(response=>{
+      this.domaines = response.data.data
+    })
   },
   computed: {
     mode() {
