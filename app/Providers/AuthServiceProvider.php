@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Release' => 'App\Policies\ReleasePolicy',
         'App\Models\Thematique' => 'App\Policies\ThematiquePolicy',
         'App\Models\MissionTemplate' => 'App\Policies\MissionTemplatePolicy',
-        'App\Models\Tag' => 'App\Policies\Tag'
+        'Spatie\Tags\Tag' => 'App\Policies\TagPolicy'
     ];
 
     /**

@@ -7,6 +7,7 @@
     <el-menu-item index="/dashboard/contents/documents">Documents</el-menu-item>
     <el-menu-item index="/dashboard/contents/thematiques">Thématiques</el-menu-item>
     <el-menu-item index="/dashboard/contents/mission-templates">Modèles</el-menu-item>
+    <el-menu-item index="/dashboard/contents/tags">Tags</el-menu-item>
   </el-menu>
 </template>
 

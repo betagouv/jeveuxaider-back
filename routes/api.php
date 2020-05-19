@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // MISSIONS TEMPLATES
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
+
+    // TAGS
+    Route::get('tags', 'Api\TagController@index');
 });
 
 // ONLY ADMIN
@@ -144,6 +147,12 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('mission-template', 'Api\MissionTemplateController@store');
     Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
+
+    // TAGS
+    Route::get('tag/{tag}', 'Api\TagController@show');
+    Route::post('tag', 'Api\TagController@store');
+    Route::post('tag/{tag}', 'Api\TagController@update');
+    Route::delete('tag/{tag}', 'Api\TagController@delete');
 
     // DOCUMENTS
     Route::get('document/{document}', 'Api\DocumentController@show');
