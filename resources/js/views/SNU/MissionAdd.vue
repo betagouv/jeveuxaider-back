@@ -16,7 +16,7 @@
         </div>
       </div>
       <!-- // TODO : Récupérer les thématiques prioritaires au change du select -->
-      <el-select v-model="template_id" placeholder="Réserve Thématique" class="mb-8">
+      <el-select v-model="template_id" placeholder="Domaine d'action" class="mb-8">
         <el-option
           v-for="thematique in templates"
           :key="thematique.id"

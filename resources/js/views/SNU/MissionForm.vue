@@ -27,7 +27,7 @@
                 <div class="flex-1 border-t-2 border-gray-200"></div>
               </div>
               <p class="mt-6 ml-3 text-gray-700">
-                {{ form.template.domaine_id }} TODO
+                {{ form.template.domaine.name.fr }}
               </p>
               <div class="flex items-center mt-6">
                 <h4 class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700">
