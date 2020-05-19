@@ -3,7 +3,7 @@
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">Tag</div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl">{{ form.name }}</div>
+        <div class="font-bold text-2xl">{{ form.name.fr }}</div>
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouveau tag</div>
@@ -24,6 +24,10 @@
             :value="item.value"
           ></el-option>
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="Ordre" prop="order_column">
+        <el-input v-model="form.order_column" placeholder="Ordre du tag" />
       </el-form-item>
 
       <div class="flex pt-2">

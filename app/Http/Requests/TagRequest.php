@@ -16,6 +16,7 @@ class TagRequest extends FormRequest
         return [
             'name' => 'required',
             'type' => 'required',
+            'order_column' => '',
         ];
     }
 }

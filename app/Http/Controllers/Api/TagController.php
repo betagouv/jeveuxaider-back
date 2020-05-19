@@ -17,7 +17,7 @@ class TagController extends Controller
 
         return QueryBuilder::for(Tag::class)
             ->allowedFilters(['name', 'type'])
-            ->defaultSort('-updated_at')
+            ->defaultSort('order_column')
             ->paginate($paginate);
     }
 

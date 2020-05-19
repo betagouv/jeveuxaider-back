@@ -15,13 +15,12 @@
           En choisissant un modèle, votre mission sera directement en ligne dès sa publication. <br />Le modèle inclue le choix du titre, de la thématique, de la description et de l’objectif de la mission.
         </div>
       </div>
-      <!-- // TODO : Récupérer les thématiques prioritaires au change du select -->
-      <el-select v-model="template_id" placeholder="Domaine d'action" class="mb-8">
+      <el-select v-model="domaine_id" placeholder="Domaine d'action" class="mb-8" @change="handleChangeDomaine">
         <el-option
-          v-for="thematique in templates"
-          :key="thematique.id"
-          :label="thematique.title"
-          :value="thematique.id">
+          v-for="domaine in domaines"
+          :key="domaine.id"
+          :label="domaine.name.fr"
+          :value="domaine.id">
         </el-option>
       </el-select>
       <div v-for="template in templates" :key="template.label" class="bg-gray-100 p-4 mb-4 rounded flex items-center">
@@ -56,7 +55,7 @@
 </template>
 
 <script>
-import { fetchMissionTemplates } from "@/api/app";
+import { fetchMissionTemplates, fetchTags } from "@/api/app";
 import { getStructure } from "@/api/structure";
 import MissionForm from "@/views/SNU/MissionForm";
 
@@ -77,19 +76,32 @@ export default {
   },
   created() {
     if(this.step == 1) {
-      fetchMissionTemplates().then(res => {
-        this.templates = res.data.data;
-      });
+      fetchTags({'filter[type]': 'domaine'}).then(res=>{
+        this.domaine_id = res.data.data[0] ? res.data.data[0].id : null
+        this.domaines = res.data.data
+        fetchMissionTemplates({'filter[domaine.id]': this.domaine_id}).then(res => {
+          this.templates = res.data.data;
+        });
+
+      })
+      
     }
   },
   data() {
     return {
       step: this.$router.history.current.query.step || 1,
       template_id: null,
-      templates: []
+      templates: [],
+      domaine_id: null,
+      domaines: []
     };
   },
   methods: {
+    handleChangeDomaine(domaine_id) {
+       fetchMissionTemplates({'filter[domaine.id]': domaine_id}).then(res => {
+          this.templates = res.data.data;
+        });
+    },
     async handleSelectTemplate(template) {
       const { data } = await getStructure(this.structureId)
       this.$router.push({
