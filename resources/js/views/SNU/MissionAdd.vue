@@ -16,7 +16,7 @@
         </div>
       </div>
       <!-- // TODO : Récupérer les thématiques prioritaires au change du select -->
-      <el-select v-model="mission.thematique_id" placeholder="Réserve Thématique" class="mb-8">
+      <el-select v-model="template_id" placeholder="Réserve Thématique" class="mb-8">
         <el-option
           v-for="thematique in templates"
           :key="thematique.id"
@@ -51,12 +51,12 @@
         <el-button plain type="primary" class="ml-auto h-full" @click="step = 2">Choisir</el-button>
       </div>
     </div>
-    <MissionForm :structure-id="structureId" :mission="mission" v-else />
+    <MissionForm :structure-id="structureId" :template="template" v-else />
   </div>
 </template>
 
 <script>
-import { fetchMissionTemplates, deleteMissionTemplate } from "@/api/app";
+import { fetchMissionTemplates } from "@/api/app";
 import MissionForm from "@/views/SNU/MissionForm";
 
 export default {
@@ -68,25 +68,29 @@ export default {
     structureId: {
       type: Number,
       default: null
+    },
+    template: {
+      type: Object,
+      default: null
     }
   },
   created() {
-    fetchMissionTemplates().then(res => {
-      this.templates = res.data.data;
-    });
+    if(this.step == 1) {
+      fetchMissionTemplates().then(res => {
+        this.templates = res.data.data;
+      });
+    }
   },
   data() {
     return {
-      step: 1,
-      loading: false,
-      templates: [],
-      mission: {}
+      step: this.$router.history.current.query.step || 1,
+      template_id: null,
+      templates: []
     };
   },
   methods: {
     handleSelectTemplate(template) {
-      this.mission.template = template
-      this.step = 2
+      this.$router.push({  name: 'MissionFormAdd', params: { structureId: this.structureId, template }, query: { step: 2 } })
     }
   }
 };

@@ -275,7 +275,7 @@ export default new Router({
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionAdd.vue"),
                     name: "MissionFormAdd",
-                    props: route => ({ structureId: parseInt(route.params.structureId) }),
+                    props: route => ({ structureId: parseInt(route.params.structureId), template: { ...route.params.template } }),
                     meta: {
                         roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
@@ -283,9 +283,9 @@ export default new Router({
                 {
                     path: "/dashboard/mission/:id/edit",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/SNU/MissionForm.vue"),
+                        import(/* webpackChunkName: "assets/js/dashboard-mission-edit" */ "@/views/SNU/MissionEdit.vue"),
                     name: "MissionFormEdit",
-                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    props: route => ({ id: parseInt(route.params.id) }),
                     meta: {
                         roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
