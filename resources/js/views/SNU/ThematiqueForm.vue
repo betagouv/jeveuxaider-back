@@ -16,6 +16,17 @@
         <item-description>Accessible à l'adresse : {{baseUrl}}/thematiques/{{ form.name|slugify }}</item-description>
       </el-form-item>
 
+       <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
+        <el-select v-model="form.domaine_id" clearable placeholder="Sélectionner un domaine d'action">
+          <el-option
+            v-for="item in tags"
+            :key="item.id"
+            :label="item.name.fr"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+       </el-form-item>
+
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Photo de la thématique</div>
         <item-description>
@@ -91,7 +102,8 @@
 import {
   getThematique,
   addOrUpdateThematique,
-  uploadImage
+  uploadImage,
+  fetchTags
 } from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 import Crop from "@/mixins/Crop";
@@ -114,6 +126,7 @@ export default {
     return {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
+      tags: [],
       form: {
         published: true,
       }
@@ -135,6 +148,9 @@ export default {
     }
   },
   created() {
+    fetchTags({'filter[type]': 'domaine'}).then(response=>{
+      this.tags = response.data.data
+    })
     if (this.mode == "edit") {
       this.$store.commit("setLoading", true);
       getThematique(this.id)
