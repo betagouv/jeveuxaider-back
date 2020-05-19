@@ -67,7 +67,7 @@
               class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl leading-tight hide-br"
             >
               Les 8 missions
-              <br />vitales
+              <br />prioritaires
             </h3>
           </div>
 
