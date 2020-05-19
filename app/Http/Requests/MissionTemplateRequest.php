@@ -18,7 +18,7 @@ class MissionTemplateRequest extends FormRequest
             'subtitle' => 'required',
             'description' => 'required',
             'objectif' => 'required',
-            'thematique_id' => 'nullable',
+            'domaine_id' => 'nullable',
             'published' => 'boolean',
             'priority' => 'boolean'
         ];

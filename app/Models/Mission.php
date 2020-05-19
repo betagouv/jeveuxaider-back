@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable;
+    use SoftDeletes, Searchable, HasTags;
 
     protected $table = 'missions';
 
@@ -39,7 +40,7 @@ class Mission extends Model
         'publics_beneficiaires',
         'publics_volontaires',
         'type',
-        'thematique_main_id',
+        'domaine_id',
         'template_id',
     ];
 
@@ -54,12 +55,6 @@ class Mission extends Model
     ];
 
     protected $appends = ['full_address', 'has_places_left', 'participations_count'];
-
-    /*protected $with = [
-        'structure:id,name,city,address,zip,state',
-        'structure.members:id,first_name,last_name,mobile,email',
-        'tuteur:id,email,mobile,phone,first_name,last_name'
-    ];*/
 
     public function shouldBeSearchable()
     {
@@ -122,9 +117,9 @@ class Mission extends Model
         return $this->hasMany('App\Models\Participation', 'mission_id');
     }
 
-    public function thematique()
+    public function domaine()
     {
-        return $this->belongsTo('App\Models\Thematique', 'thematique_main_id');
+        return $this->belongsTo('Spatie\Tags\Tag');
     }
 
     public function template()

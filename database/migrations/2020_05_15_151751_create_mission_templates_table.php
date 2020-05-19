@@ -17,15 +17,12 @@ class CreateMissionTemplatesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('subtitle')->nullable();
+            $table->unsignedInteger('domaine_id')->nullable();
             $table->text('objectif')->nullable();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('thematique_id')->nullable();
             $table->boolean('priority')->default(false);
             $table->boolean('published')->default(true);
             $table->timestamps();
-
-            $table->index(['thematique_id']);
-            $table->foreign('thematique_id')->references('id')->on('thematiques')->onDelete('set null');
         });
     }
 

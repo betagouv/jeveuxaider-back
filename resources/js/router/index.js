@@ -515,8 +515,17 @@ export default new Router({
                 {
                     path: "/dashboard/contents/mission-templates",
                     component: () =>
-                        import(/* webpackChunkName: "assets/js/dashboard-contents-models" */ "@/views/SNU/MissionTemplates.vue"),
+                        import(/* webpackChunkName: "assets/js/dashboard-contents-mission-templates" */ "@/views/SNU/MissionTemplates.vue"),
                     name: "MissionTemplates",
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/contents/tags",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-contents-tags" */ "@/views/SNU/Tags.vue"),
+                    name: "Tags",
                     meta: {
                         roles: ["admin"]
                     }
@@ -648,6 +657,28 @@ export default new Router({
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-mission-template-edit" */ "@/views/SNU/MissionTemplateForm.vue"),
                     name: "MissionTemplateFormEdit",
+                    props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/tag/add",
+                    component: () =>
+                        import(
+                    /* webpackChunkName: "assets/js/dashboard-tag-add" */ "@/views/SNU/TagForm.vue"
+                        ),
+                    name: "TagFormAdd",
+                    props: { mode: "add" },
+                    meta: {
+                        roles: ["admin"]
+                    }
+                },
+                {
+                    path: "/dashboard/tag/:id/edit",
+                    component: () =>
+                        import(/* webpackChunkName: "assets/js/dashboard-tag-edit" */ "@/views/SNU/TagForm.vue"),
+                    name: "TagFormEdit",
                     props: route => ({ mode: "edit", id: parseInt(route.params.id) }),
                     meta: {
                         roles: ["admin"]

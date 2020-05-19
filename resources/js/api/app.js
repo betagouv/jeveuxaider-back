@@ -212,3 +212,27 @@ export function fetchMissionTemplates(params) {
 export function deleteMissionTemplate(id) {
   return request.delete(`/api/mission-template/${id}`);
 }
+
+export function updateTag(id, tag) {
+  return request.post(`/api/tag/${id}`, tag);
+}
+
+export function addOrUpdateTag(id, tag) {
+  return id ? updateTag(id, tag) : addTag(tag);
+}
+
+export function addTag(tag) {
+  return request.post("/api/tag", tag);
+}
+
+export function getTag(id) {
+  return request.get(`/api/tag/${id}`);
+}
+
+export function fetchTags(params) {
+  return request.get("/api/tags", { params });
+}
+
+export function deleteTag(id) {
+  return request.delete(`/api/tag/${id}`);
+}

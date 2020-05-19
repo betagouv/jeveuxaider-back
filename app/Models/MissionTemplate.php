@@ -15,7 +15,7 @@ class MissionTemplate extends Model
         'description',
         'priority',
         'published',
-        'thematique_id'
+        'domaine_id'
     ];
 
     protected $attributes = [
@@ -28,8 +28,8 @@ class MissionTemplate extends Model
         'published' => 'boolean',
     ];
 
-    public function thematique()
+    public function domaine()
     {
-        return $this->belongsTo('App\Models\Thematique');
+        return $this->belongsTo('Spatie\Tags\Tag');
     }
 }

@@ -279,6 +279,13 @@ export default {
             trigger: "blur"
           }
         ],
+        domaine_id: [
+          {
+            required: true,
+            message: "Veuillez choisir un domaine d'action principal",
+            trigger: "blur"
+          }
+        ],
         format: [
           {
             required: true,

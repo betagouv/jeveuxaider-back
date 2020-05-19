@@ -14,7 +14,6 @@ class AddForeignKeysToMissionsTable extends Migration
     public function up()
     {
         Schema::table('missions', function (Blueprint $table) {
-            $table->foreign('thematique_main_id')->references('id')->on('thematiques')->onDelete('set null');
             $table->foreign('template_id')->references('id')->on('mission_templates')->onDelete('set null');
         });
     }
@@ -27,7 +26,6 @@ class AddForeignKeysToMissionsTable extends Migration
     public function down()
     {
         Schema::table('missions', function (Blueprint $table) {
-            $table->dropForeign(['thematique_main_id']);
             $table->dropForeign(['template_id']);
         });
     }

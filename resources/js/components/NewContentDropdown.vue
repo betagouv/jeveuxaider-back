@@ -25,6 +25,9 @@
             <router-link :to="{ name: 'MissionTemplateFormAdd' }">
               <el-dropdown-item>Nouveau modèle</el-dropdown-item>
             </router-link>
+            <router-link :to="{ name: 'TagFormAdd' }">
+              <el-dropdown-item>Nouveau tag</el-dropdown-item>
+            </router-link>
           </el-dropdown-menu>
         </el-dropdown>
 </template>
