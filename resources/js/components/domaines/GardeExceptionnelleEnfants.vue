@@ -26,6 +26,6 @@
         >Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis.</p>
       </div>
     </div>
-     <el-button class="mt-8" size="small">Pévisualier le modèle</el-button>
+     <el-button class="mt-8" size="small">Prévisualier le modèle</el-button>
   </div>
 </template>

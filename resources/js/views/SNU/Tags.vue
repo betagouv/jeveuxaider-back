@@ -23,14 +23,14 @@
       </div>
     </div>
     <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
-      <el-table-column label="#" min-width="70" align="center">
+      <el-table-column label="Ordre" min-width="70" align="center">
         <template slot-scope="scope">
-          <div>{{ scope.row.id }}</div>
+          <div>{{ scope.row.order_column }}</div>
         </template>
       </el-table-column>
       <el-table-column label="Tag" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="text-gray-900">{{ scope.row.name.fr }}</div>
         </template>
       </el-table-column>
       <el-table-column label="Type" min-width="320">
