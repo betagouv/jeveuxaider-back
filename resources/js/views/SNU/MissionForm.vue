@@ -27,7 +27,7 @@
                 <div class="flex-1 border-t-2 border-gray-200"></div>
               </div>
               <p class="mt-6 ml-3 text-gray-700">
-                {{ form.template.thematique.name }}
+                {{ form.template.domaine_id }} TODO
               </p>
               <div class="flex items-center mt-6">
                 <h4 class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700">
@@ -381,9 +381,6 @@ export default {
       window.open(routeData.href, "_blank");
     },
     onSubmit() {
-      if (this.form.structure && this.form.structure.state == "Validée") {
-        this.form.state = "Validée";
-      }
       this.addOrUpdateMission();
     },
     addOrUpdateMission() {
@@ -403,8 +400,8 @@ export default {
               .catch(() => {
                 this.loading = false;
               });
-          } else if (this.structureId) {
-            addMission(this.structureId, this.form)
+          } else if (this.form.structure_id) {
+            addMission(this.form.structure_id, this.form)
               .then(() => {
                 this.loading = false;
                 this.$router.push(`/dashboard/missions`);

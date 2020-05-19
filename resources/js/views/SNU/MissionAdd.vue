@@ -48,15 +48,16 @@
           <div class="mb-1">Modèle libre</div>
           <div class="text-xs text-gray-400">Je personnalise le contenu de ma mission.</div>
         </div>
-        <el-button plain type="primary" class="ml-auto h-full" @click="step = 2">Choisir</el-button>
+        <el-button plain type="primary" class="ml-auto h-full" @click="handleSelectTemplate()">Choisir</el-button>
       </div>
     </div>
-    <MissionForm :structure-id="structureId" :template="template" v-else />
+    <MissionForm :mission="mission" v-else />
   </div>
 </template>
 
 <script>
 import { fetchMissionTemplates } from "@/api/app";
+import { getStructure } from "@/api/structure";
 import MissionForm from "@/views/SNU/MissionForm";
 
 export default {
@@ -69,7 +70,7 @@ export default {
       type: Number,
       default: null
     },
-    template: {
+    mission: {
       type: Object,
       default: null
     }
@@ -89,8 +90,21 @@ export default {
     };
   },
   methods: {
-    handleSelectTemplate(template) {
-      this.$router.push({  name: 'MissionFormAdd', params: { structureId: this.structureId, template }, query: { step: 2 } })
+    async handleSelectTemplate(template) {
+      const { data } = await getStructure(this.structureId)
+      this.$router.push({
+        name: 'MissionFormAdd',
+        params: {
+          mission: {
+            template_id: template ? template.id : null,
+            template: template || null,
+            tuteur_id: this.$store.getters.user.profile.id,
+            structure_id: this.structureId,
+            structure: data
+          }
+        },
+        query: { step: 2 }
+        })
     }
   }
 };

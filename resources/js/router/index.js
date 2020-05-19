@@ -275,7 +275,7 @@ export default new Router({
                     component: () =>
                         import(/* webpackChunkName: "assets/js/dashboard-mission-add" */ "@/views/SNU/MissionAdd.vue"),
                     name: "MissionFormAdd",
-                    props: route => ({ structureId: parseInt(route.params.structureId), template: { ...route.params.template } }),
+                    props: route => ({structureId: parseInt(route.params.structureId), mission: { ...route.params.mission } }),
                     meta: {
                         roles: ["admin", "referent","referent_regional", "superviseur", "responsable"]
                     }
