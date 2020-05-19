@@ -17,6 +17,7 @@ class Thematique extends Model implements HasMedia
     protected $fillable = [
         'name',
         'slug',
+        'domaine_id',
         'published'
     ];
 
@@ -65,5 +66,10 @@ class Thematique extends Model implements HasMedia
     public function missionTemplates()
     {
         return $this->hasMany('App\Models\MissionTemplate');
+    }
+
+    public function domaine()
+    {
+        return $this->belongsTo('Spatie\Tags\Tag');
     }
 }

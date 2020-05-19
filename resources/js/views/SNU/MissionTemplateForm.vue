@@ -25,10 +25,10 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="Thématique" prop="thematique" class="flex-1">
-        <el-select v-model="form.thematique_id" clearable placeholder="Sélectionner une thématique">
+      <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
+        <el-select v-model="form.domaine_id" clearable placeholder="Sélectionner un domaine d'action">
           <el-option
-            v-for="item in $store.getters.thematiques"
+            v-for="item in $store.getters.domaines"
             :key="item.id"
             :label="item.name"
             :value="item.id"

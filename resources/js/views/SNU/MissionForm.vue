@@ -30,8 +30,8 @@
           <div v-if="templateSelected" class="mb-6">
             <div class="mb-6 text-xl text-gray-800">Choix du modèle</div>
             <div class="border rounded p-4">
-              <div class="">Réserve thématique</div>
-              <div class="">{{ templateSelected.thematique_id }}</div>
+              <div class="">Domaine d'action</div>
+              <div class="">{{ templateSelected.domaine_id }}</div>
               <div class="">Titre de la mission</div>
               <div class="">{{ templateSelected.subtitle }}</div>
             </div>
@@ -60,10 +60,10 @@
               />
             </el-form-item>
 
-            <el-form-item v-if="!templateSelected" label="Thématique de mission" prop="thematique_main_id">
+            <el-form-item v-if="!templateSelected" label="Domaine d'action principal" prop="domaine_id">
               <el-select
-                v-model="form.thematique_main_id"
-                placeholder="Selectionner une thématique"
+                v-model="form.domaine_id"
+                placeholder="Selectionner un domaine d'action"
               >
                 <el-option
                   v-for="item in $store.getters.thematiques"
@@ -412,10 +412,10 @@ export default {
             trigger: "blur"
           }
         ],
-        thematique_main_id: [
+        domaine_id: [
           {
             required: true,
-            message: "Veuillez choisir une thématique",
+            message: "Veuillez choisir un domaine d'action principal",
             trigger: "blur"
           }
         ],

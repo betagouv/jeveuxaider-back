@@ -17,6 +17,7 @@ class CreateMissionTemplatesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('subtitle')->nullable();
+            $table->unsignedInteger('domaine_id')->nullable();
             $table->text('objectif')->nullable();
             $table->text('description')->nullable();
             $table->boolean('priority')->default(false);
