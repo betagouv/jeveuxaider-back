@@ -47,51 +47,42 @@ class CollectivityController extends Controller
             ? Collectivity::where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
-        // $templates = MissionTemplate::where('published', true)
-        //     ->whereHas('mission', function (Builder $query) use ($collectivity) {
-        //         $query
-        //             ->where('city', 'ILIKE', '%' . $value . '%')
-        //             ->orWhere('zip', 'LIKE', '%' . $value . '%');
-        //         })
-        //     ->all();
+        $templates = [];
 
-        $domains = config('taxonomies.mission_domaines.terms');
-        $dataDomains = Mission::selectRaw('missions.name, count(missions.city) as missions_count')
-            ->department($collectivity->department)
-            ->available()
-            ->groupBy('name')
-            ->take(6)
-            ->orderBy('missions_count', 'desc')
-            ->get();
-        foreach ($dataDomains as $key => $domain) {
-            $dataDomains[$key] = [
-                'key' => $domain->name,
-                'name' => $domain->name ?? $domains[$domain->name],
-                'missions_count' => $domain->missions_count
+        $templatesCollection = MissionTemplate::where('published', true)->get();
+        $templates = $templatesCollection->map(function ($template) use ($collectivity) {
+            return [
+                'id' => $template->id,
+                'title' => $template->title,
+                'subtitle' => $template->subtitle,
+                'missions_count' => Mission::where('template_id', $template->id)
+                    ->where('department', $collectivity->department)
+                    ->count(),
+                'image' => $template->image
             ];
-        }
+        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
-        $dataCities = Mission::selectRaw('missions.city, count(missions.city) as missions_count')
+        $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count')
             ->department($collectivity->department)
             ->available()
             ->groupBy('city')
             ->take(20)
             ->orderBy('missions_count', 'desc')
             ->get();
-        foreach ($dataCities as $key => $city) {
-            $dataCities[$key] = [
+        foreach ($cities as $key => $city) {
+            $cities[$key] = [
                 'name' => $city->city,
                 'missions_count' => $city->missions_count
             ];
         }
+
 
         return [
             'national' => [
                 'structures_count' => Structure::validated()->count(),
                 'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
                     $query->where('context_role', 'volontaire');
-                })
-                ->count()
+                })->count()
             ],
             'missions_count' => Mission::department($collectivity->department)->available()->count(),
             'structures_count' => Structure::department($collectivity->department)->validated()->count(),
@@ -101,8 +92,8 @@ class CollectivityController extends Controller
                     $query->where('context_role', 'volontaire');
                 })
                 ->count(),
-            'domains' => $dataDomains,
-            'cities' => $dataCities
+            'templates' => $templates,
+            'cities' => $cities
         ];
     }
 

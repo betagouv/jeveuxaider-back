@@ -144,7 +144,7 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-        return $this->template_id ? $this->template->title : $value;
+        return $this->template_id ? $this->template->subtitle : $value;
     }
 
     public function getDescriptionAttribute($value)

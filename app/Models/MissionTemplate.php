@@ -49,4 +49,9 @@ class MissionTemplate extends Model implements HasMedia
     {
         return $this->belongsTo('App\Models\Tag');
     }
+
+    public function missions()
+    {
+        return $this->hasMany('App\Models\Mission', 'template_id');
+    }
 }
