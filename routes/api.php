@@ -147,6 +147,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('mission-template', 'Api\MissionTemplateController@store');
     Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
     Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
+    Route::post('mission-template/{missionTemplate}/upload', 'Api\MissionTemplateController@upload');
+    Route::delete('mission-template/{missionTemplate}/upload', 'Api\MissionTemplateController@uploadDelete');
 
     // TAGS
     Route::get('tag/{tag}', 'Api\TagController@show');

@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class MissionTemplate extends Model
+class MissionTemplate extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $table = 'mission_templates';
 
     protected $fillable = [
@@ -27,6 +31,19 @@ class MissionTemplate extends Model
         'priority' => 'boolean',
         'published' => 'boolean',
     ];
+
+    protected $appends = ['image'];
+
+    protected $hidden = ['media'];
+
+    public function getImageAttribute()
+    {
+        $media = $this->getFirstMedia('templates');
+        if ($media) {
+            return $media->getFullUrl();
+        }
+        return null;
+    }
 
     public function domaine()
     {

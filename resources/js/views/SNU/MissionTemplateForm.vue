@@ -26,13 +26,12 @@
       </el-form-item>
 
       <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
-        <el-select v-model="form.domaine_id" clearable placeholder="Sélectionner un domaine d'action">
-          <el-option
-            v-for="item in tags"
-            :key="item.id"
-            :label="item.name.fr"
-            :value="item.id"
-          ></el-option>
+        <el-select
+          v-model="form.domaine_id"
+          clearable
+          placeholder="Sélectionner un domaine d'action"
+        >
+          <el-option v-for="item in tags" :key="item.id" :label="item.name.fr" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
 
@@ -56,6 +55,44 @@
         <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
       </el-form-item>
 
+      <div class="mb-6">
+        <div class="mb-6 text-xl text-gray-800">Icone</div>
+        <item-description>Format accepté: SVG</item-description>
+
+        <div v-show="imgPreview">
+          <div class="bg-blue-900 rounded-md p-3" style="max-width: 80px">
+            <img :src="imgPreview" alt="Icone" />
+          </div>
+
+          <div class="actions mt-4">
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              @click.prevent="onDelete()"
+              :loading="loadingDelete"
+            >Supprimer</el-button>
+          </div>
+        </div>
+        <div v-show="!imgPreview">
+          <el-upload
+            class="upload-demo"
+            drag
+            action
+            accept="image/svg+xml"
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-change="onSelectFile"
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              Glissez votre icone ou
+              <br />
+              <em>cliquez ici pour la selectionner</em>
+            </div>
+          </el-upload>
+        </div>
+      </div>
+
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
       </div>
@@ -64,13 +101,20 @@
 </template>
 
 <script>
-import { getMissionTemplate, addOrUpdateMissionTemplate, fetchTags } from "@/api/app";
+import {
+  getMissionTemplate,
+  addOrUpdateMissionTemplate,
+  fetchTags,
+  uploadImage
+} from "@/api/app";
 import ItemDescription from "@/components/forms/ItemDescription";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Crop from "@/mixins/Crop";
 
 export default {
   name: "MissionTemplateForm",
   components: { ItemDescription },
+  mixins: [Crop],
   props: {
     mode: {
       type: String,
@@ -85,6 +129,7 @@ export default {
     return {
       loading: false,
       tags: [],
+      model: "mission-template",
       form: {
         published: true,
         priority: false
@@ -141,6 +186,13 @@ export default {
             trigger: "blur"
           }
         ],
+        domaine_id: [
+          {
+            required: true,
+            message: "Veuillez sélectionner le domaine d'action",
+            trigger: "blur"
+          }
+        ],
         description: [
           {
             required: true,
@@ -160,9 +212,9 @@ export default {
     }
   },
   created() {
-    fetchTags({'filter[type]': 'domaine'}).then(response=>{
-      this.tags = response.data.data
-    })
+    fetchTags({ "filter[type]": "domaine" }).then(response => {
+      this.tags = response.data.data;
+    });
 
     if (this.mode == "edit") {
       this.$store.commit("setLoading", true);
@@ -183,12 +235,15 @@ export default {
         if (valid) {
           addOrUpdateMissionTemplate(this.id, this.form)
             .then(() => {
-              this.loading = false;
-              this.$router.push("/dashboard/contents/mission-templates");
-              this.$message({
-                message: "Le modèle a été enregistré !",
-                type: "success"
-              });
+              if (this.img) {
+                uploadImage(this.form.id, this.model, this.img, null).then(
+                  () => {
+                    this.onSubmitEnd();
+                  }
+                );
+              } else {
+                this.onSubmitEnd();
+              }
             })
             .catch(() => {
               this.loading = false;
@@ -196,6 +251,14 @@ export default {
         } else {
           this.loading = false;
         }
+      });
+    },
+    onSubmitEnd() {
+      this.loading = false;
+      this.$router.push("/dashboard/contents/mission-templates");
+      this.$message({
+        message: "Le modèle a été enregistré !",
+        type: "success"
       });
     }
   }

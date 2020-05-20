@@ -56,7 +56,7 @@ class TagController extends Controller
         }
 
         $extension = $request->file('image')->guessExtension();
-        $name = Str::random(30);
+        $name = Str::random(15);
 
         $tag
             ->addMedia($request->file('image'))

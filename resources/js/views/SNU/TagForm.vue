@@ -148,7 +148,7 @@ export default {
             .then(() => {
               this.loading = false;
               if (this.img) {
-                uploadImage(this.form.id, "tag", this.img, null).then(() => {
+                uploadImage(this.form.id, this.model, this.img, null).then(() => {
                   this.onSubmitEnd();
                 });
               } else {

@@ -37,6 +37,8 @@ class CollectivityController extends Controller
             ? Collectivity::where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
+
+        // @TODO: à refactoriser pour plus de clarté !! :/
         $domains = config('taxonomies.mission_domaines.terms');
         $dataDomains = Mission::selectRaw('missions.name, count(missions.city) as missions_count')
             ->department($collectivity->department)
@@ -48,7 +50,7 @@ class CollectivityController extends Controller
         foreach ($dataDomains as $key => $domain) {
             $dataDomains[$key] = [
                 'key' => $domain->name,
-                'name' => $domains[$domain->name],
+                'name' => $domain->name ?? $domains[$domain->name],
                 'missions_count' => $domain->missions_count
             ];
         }
@@ -81,31 +83,12 @@ class CollectivityController extends Controller
                 $query->where('context_role', 'volontaire');
             })
             ->count(),
-            'domains' => $dataDomains,
+            // 'domains' => $dataDomains,
             'cities' => $dataCities,
         ];
 
         return $collectivity;
     }
-
-    // public function submit(CollectivitySubmitRequest $request)
-    // {
-    //     if (!$request->validated()) {
-    //         return $request->validated();
-    //     }
-
-    //     $collectivity = Collectivity::create($request->validated());
-
-    //     $profile = Profile::whereEmail(request('email'))->first();
-
-    //     if (!$profile) {
-    //         $profile = Profile::create($request->validated());
-    //     }
-
-    //     $collectivity->profile()->save($profile);
-
-    //     return $collectivity;
-    // }
 
     public function store(CollectivityCreateRequest $request)
     {

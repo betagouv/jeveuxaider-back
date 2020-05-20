@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MissionTemplateCreateRequest;
 use App\Http\Requests\Api\MissionTemplateUpdateRequest;
+use App\Http\Requests\Api\MissionTemplateDeleteRequest;
+use App\Http\Requests\Api\MissionTemplateUploadRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\MissionTemplate;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Str;
 
 class MissionTemplateController extends Controller
 {
@@ -47,6 +50,33 @@ class MissionTemplateController extends Controller
         $missionTemplate->update($request->validated());
 
         return $missionTemplate;
+    }
+
+    public function upload(MissionTemplateUploadRequest $request, MissionTemplate $missionTemplate)
+    {
+
+        // Delete previous file
+        if ($media = $missionTemplate->getFirstMedia('templates')) {
+            $media->delete();
+        }
+
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(15);
+
+        $missionTemplate
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->toMediaCollection('templates');
+
+        return $missionTemplate;
+    }
+
+    public function uploadDelete(MissionTemplateDeleteRequest $request, MissionTemplate $missionTemplate)
+    {
+        if ($media = $missionTemplate->getFirstMedia('templates')) {
+            $media->delete();
+        }
     }
 
     public function delete(Request $request, MissionTemplate $missionTemplate)
