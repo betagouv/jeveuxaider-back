@@ -28,6 +28,13 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
+      <el-table-column label="Icone" min-width="70" align="center">
+        <template slot-scope="scope">
+           <div v-if="scope.row.image" class="bg-blue-900 rounded-md p-2 inline-block" style="width: 40px; height: 40px">
+            <img :src="scope.row.image" :alt="scope.row.title" />
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="Nom du modèle" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.title }}</div>

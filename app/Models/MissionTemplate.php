@@ -42,7 +42,7 @@ class MissionTemplate extends Model implements HasMedia
         if ($media) {
             return $media->getFullUrl();
         }
-        return null;
+        return $this->domaine->image;
     }
 
     public function domaine()
