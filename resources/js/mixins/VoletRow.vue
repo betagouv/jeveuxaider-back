@@ -1,25 +1,25 @@
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "VoletRow",
+  name: 'VoletRow',
   data() {
     return {
-      form: {}
-    };
+      form: {},
+    }
   },
   computed: {
     ...mapGetters({
-      row: "volet/row"
-    })
+      row: 'volet/row',
+    }),
   },
   watch: {
     row: {
       immediate: true,
       handler(val) {
-        this.form = { ...val };
-      }
-    }
-  }
-};
+        this.form = { ...val }
+      },
+    },
+  },
+}
 </script>

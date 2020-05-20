@@ -2,18 +2,28 @@
   <div class="mx-auto w-full" style="max-width: 390px;">
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-header-dark.png" alt="Réserve Civique" />
+        <img
+          class="h-8 w-auto"
+          src="/images/logo-header-dark.png"
+          alt="Réserve Civique"
+        />
       </router-link>
-      <h2 v-if="!submitted" class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+      <h2
+        v-if="!submitted"
+        class="mt-8 text-3xl leading-tight font-extrabold text-gray-900"
+      >
         Réinitialisation du
         <span class="text-blue-800">mot de passe</span>
       </h2>
-      <h2 v-else class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+      <h2
+        v-else
+        class="mt-8 text-3xl leading-tight font-extrabold text-gray-900"
+      >
         Email
         <span class="text-blue-800">envoyé</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div v-if="!submitted">
       <div class="mb-6 text-sm">
         Pour réinitialiser votre mot de passe, entrez l'adresse mail que vous
@@ -35,16 +45,17 @@
           <el-button
             type="primary"
             :loading="loading"
-            @click="onSubmit"
             style="height: 48px;"
             class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >Réinitialiser mon mot de passe</el-button>
+            @click="onSubmit"
+            >Réinitialiser mon mot de passe</el-button
+          >
         </span>
       </div>
       <div class="mt-6">
         <div class="relative">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-300"></div>
+            <div class="w-full border-t border-gray-300" />
           </div>
           <div class="relative flex justify-center text-sm leading-5">
             <span class="px-2 bg-white text-gray-500">OU</span>
@@ -56,7 +67,9 @@
               <button
                 type="submit"
                 class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-              >J'ai déjà un compte</button>
+              >
+                J'ai déjà un compte
+              </button>
             </span>
           </router-link>
         </div>
@@ -75,11 +88,12 @@
 </template>
 
 <script>
-import { forgotPassword } from "@/api/auth";
+import { forgotPassword } from '@/api/auth'
 
 export default {
-  name: "PasswordForgot",
+  name: 'PasswordForgot',
   data() {
+    /*
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
         callback(new Error("Merci de ne saisir que des minuscules"));
@@ -87,47 +101,48 @@ export default {
         callback();
       }
     };
+    */
     return {
       loading: false,
       submitted: false,
       form: {
-        email: ""
+        email: '',
       },
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
           // { validator: checkLowercase, trigger: "blur" }
-        ]
-      }
-    };
+        ],
+      },
+    }
   },
   methods: {
     onSubmit() {
-      this.$refs["forgotPasswordForm"].validate(valid => {
+      this.$refs['forgotPasswordForm'].validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           forgotPassword(this.form.email)
             .then(() => {
-              this.loading = false;
-              this.submitted = true;
+              this.loading = true
+              this.submitted = true
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>

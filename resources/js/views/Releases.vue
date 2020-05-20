@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div
     class="flex flex-col min-h-full items-center"
@@ -28,13 +27,17 @@
           class="bg-white rounded mb-8"
         >
           <div class="border-b p-6">
-            <div class="text-primary text-xl mb-1">{{ release.title }}</div>
-            <div class="text-gray-600">{{ release.date | formatMedium }}</div>
+            <div class="text-primary text-xl mb-1">
+              {{ release.title }}
+            </div>
+            <div class="text-gray-600">
+              {{ release.date | formatMedium }}
+            </div>
           </div>
           <div
             class="p-6 font-light wysiwyg-field text-sm text-gray-800"
             v-html="release.description"
-          ></div>
+          />
         </div>
       </div>
     </div>
@@ -42,27 +45,27 @@
 </template>
 
 <script>
-import { fetchReleases } from "@/api/release";
+import { fetchReleases } from '@/api/release'
 
 export default {
-  name: "Releases",
+  name: 'Releases',
   data() {
     return {
       loading: true,
-      releases: []
-    };
+      releases: [],
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     fetchReleases()
-      .then(response => {
-        this.$store.commit("setLoading", false);
-        this.releases = response.data;
+      .then((response) => {
+        this.$store.commit('setLoading', false)
+        this.releases = response.data
       })
       .catch(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

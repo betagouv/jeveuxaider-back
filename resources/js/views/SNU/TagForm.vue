@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
+  <div
+    v-if="!$store.getters.loading"
+    class="profile-form max-w-2xl pl-12 pb-12"
+  >
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">Tag</div>
       <div class="mb-8 flex">
@@ -16,7 +19,11 @@
       </el-form-item>
 
       <el-form-item label="Type" prop="type" class="flex-1">
-        <el-select v-model="form.type" clearable placeholder="Sélectionner un type">
+        <el-select
+          v-model="form.type"
+          clearable
+          placeholder="Sélectionner un type"
+        >
           <el-option
             v-for="item in $store.getters.taxonomies.tag_types.terms"
             :key="item.value"
@@ -37,7 +44,7 @@
         </item-description>
 
         <div v-show="imgPreview">
-          <div class="bg-blue-900 rounded-md p-3" style="max-width: 80px">
+          <div class="bg-blue-900 rounded-md p-3" style="max-width: 80px;">
             <img :src="imgPreview" alt="Icone" />
           </div>
 
@@ -45,11 +52,11 @@
             <el-button
               type="danger"
               icon="el-icon-delete"
-              @click.prevent="onDelete()"
               :loading="loadingDelete"
-            >Supprimer</el-button>
+              @click.prevent="onDelete()"
+              >Supprimer</el-button
+            >
           </div>
-
         </div>
         <div v-show="!imgPreview">
           <el-upload
@@ -72,37 +79,39 @@
       </div>
 
       <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
+        <el-button type="primary" :loading="loading" @click="onSubmit"
+          >Enregistrer</el-button
+        >
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { getTag, addOrUpdateTag, uploadImage } from "@/api/app";
-import ItemDescription from "@/components/forms/ItemDescription";
-import Crop from "@/mixins/Crop";
+import { getTag, addOrUpdateTag, uploadImage } from '@/api/app'
+import ItemDescription from '@/components/forms/ItemDescription'
+import Crop from '@/mixins/Crop'
 
 export default {
-  name: "TagForm",
+  name: 'TagForm',
   components: { ItemDescription },
   mixins: [Crop],
   props: {
     mode: {
       type: String,
-      required: true
+      required: true,
     },
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       loading: false,
       model: 'tag',
-      form: {}
-    };
+      form: {},
+    }
   },
   computed: {
     rules() {
@@ -110,67 +119,69 @@ export default {
         name: [
           {
             required: true,
-            message: "Veuillez renseigner un tag",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un tag',
+            trigger: 'blur',
+          },
         ],
         type: [
           {
             required: true,
-            message: "Veuillez renseigner un type",
-            trigger: "blur"
-          }
-        ]
-      };
-      return rules;
-    }
+            message: 'Veuillez renseigner un type',
+            trigger: 'blur',
+          },
+        ],
+      }
+      return rules
+    },
   },
   created() {
-    if (this.mode == "edit") {
-      this.$store.commit("setLoading", true);
+    if (this.mode == 'edit') {
+      this.$store.commit('setLoading', true)
       getTag(this.id)
-        .then(response => {
-          this.$store.commit("setLoading", false);
-          this.form = response.data;
+        .then((response) => {
+          this.$store.commit('setLoading', false)
+          this.form = response.data
           this.form.name = response.data.name.fr
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["tagForm"].validate(valid => {
+      this.loading = true
+      this.$refs['tagForm'].validate((valid) => {
         if (valid) {
           addOrUpdateTag(this.id, this.form)
             .then(() => {
-              this.loading = false;
+              this.loading = false
               if (this.img) {
-                uploadImage(this.form.id, this.model, this.img, null).then(() => {
-                  this.onSubmitEnd();
-                });
+                uploadImage(this.form.id, this.model, this.img, null).then(
+                  () => {
+                    this.onSubmitEnd()
+                  }
+                )
               } else {
-                this.onSubmitEnd();
+                this.onSubmitEnd()
               }
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
+      })
     },
     onSubmitEnd() {
-      this.loading = false;
-      this.$router.push("/dashboard/contents/tags");
+      this.loading = false
+      this.$router.push('/dashboard/contents/tags')
       this.$message({
-        message: "Le tag a été enregistré !",
-        type: "success"
-      });
-    }
-  }
-};
+        message: 'Le tag a été enregistré !',
+        type: 'success',
+      })
+    },
+  },
+}
 </script>

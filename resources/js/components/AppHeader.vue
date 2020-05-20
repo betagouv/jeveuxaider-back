@@ -8,42 +8,57 @@
         >
           <div class="flex-shrink-0 my-4 lg:my-0 order-1">
             <router-link :to="{ name: 'Homepage' }">
-              <img class="h-6" src="/images/logo-header.png" alt="Réserve Civique" />
+              <img
+                class="h-6"
+                src="/images/logo-header.png"
+                alt="Réserve Civique"
+              />
             </router-link>
           </div>
 
           <slot name="menu">
-            <div class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3">
+            <div
+              class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3"
+            >
               <div
                 class="links-wrapper flex flex-wrap items-center justify-center sm:justify-start -m-2"
               >
                 <router-link
                   to="/missions"
                   :class="{
-                    'bg-blue-700': isCurrentPath('/missions')
+                    'bg-blue-700': isCurrentPath('/missions'),
                   }"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition focus:bg-gray-700 hover:bg-blue-700"
-                >Trouver une mission</router-link>
+                >
+                  Trouver une mission
+                </router-link>
 
                 <router-link
-                  v-if="$store.getters.isLogged && $store.getters.noRole === true"
+                  v-if="
+                    $store.getters.isLogged && $store.getters.noRole === true
+                  "
                   to="/user/missions"
                   :class="{
-                    'bg-blue-700': isCurrentPath('/user/missions')
+                    'bg-blue-700': isCurrentPath('/user/missions'),
                   }"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                >Mes missions</router-link>
+                >
+                  Mes missions
+                </router-link>
                 <router-link
                   to="/regles-de-securite"
                   class="hidden sm:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
                   :class="{
-                    'bg-blue-700': isCurrentPath('/regles-de-securite')
+                    'bg-blue-700': isCurrentPath('/regles-de-securite'),
                   }"
-                >Règles de sécurité</router-link>
+                >
+                  Règles de sécurité
+                </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                >Toutes les initiatives solidaires</a>
+                  >Toutes les initiatives solidaires</a
+                >
               </div>
             </div>
           </slot>
@@ -51,28 +66,41 @@
           <div class="order-2 lg:order-3 ml-auto lg:ml-3">
             <div class="flex items-center -m-2">
               <div
-                class="flex items-center"
                 v-if="
                   $store.getters.isLogged &&
-                    $store.getters.contextRole != 'volontaire'
+                  $store.getters.contextRole != 'volontaire'
                 "
+                class="flex items-center"
               >
                 <router-link
                   to="/dashboard"
                   class="hidden lg:block bordermr-3 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:bg-blue-700"
-                >Tableau de bord</router-link>
-                <el-badge v-if="$store.getters.isLogged && $store.getters.reminders && $store.getters.reminders.waiting > 0" :value="$store.getters.reminders.waiting" :max="99" class="ml-3 mr-5">
+                >
+                  Tableau de bord
+                </router-link>
+                <el-badge
+                  v-if="
+                    $store.getters.isLogged &&
+                    $store.getters.reminders &&
+                    $store.getters.reminders.waiting > 0
+                  "
+                  :value="$store.getters.reminders.waiting"
+                  :max="99"
+                  class="ml-3 mr-5"
+                >
                   <router-link to="/dashboard">
-                    <i class="el-icon-bell text-white text-2xl"></i>
+                    <i class="el-icon-bell text-white text-2xl" />
                   </router-link>
                 </el-badge>
               </div>
-              <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
+              <dropdown-user v-if="$store.getters.isLogged" />
               <router-link
                 v-else
                 to="/login"
                 class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
-              >Se connecter</router-link>
+              >
+                Se connecter
+              </router-link>
             </div>
           </div>
         </div>
@@ -83,28 +111,28 @@
 
 <script>
 export default {
-  name: "AppHeader",
+  name: 'AppHeader',
   props: {
     background: {
       type: String,
-      default: "bg-blue-900"
+      default: 'bg-blue-900',
     },
     border: {
       type: String,
-      default: "border-b border-blue-800"
-    }
+      default: 'border-b border-blue-800',
+    },
   },
-  created(){
-    if(this.$store.getters.isLogged) {
+  created() {
+    if (this.$store.getters.isLogged) {
       this.$store.dispatch('reminders')
     }
   },
   methods: {
     isCurrentPath(path) {
-      return window.location.pathname === path;
-    }
-  }
-};
+      return window.location.pathname === path
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

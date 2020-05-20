@@ -5,12 +5,14 @@
         Structure
       </div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800">{{ form.name }}</div>
+        <div class="font-bold text-2xl text-gray-800">
+          {{ form.name }}
+        </div>
         <state-tag
           :state="form.state"
           class="relative ml-3"
-          style="top: 1px"
-        ></state-tag>
+          style="top: 1px;"
+        />
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
@@ -75,7 +77,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -93,7 +95,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -110,14 +112,14 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
         v-if="
           form.statut_juridique == 'Structure publique' &&
-            (form.structure_publique_type == 'Service de l\'Etat' ||
-              form.structure_publique_type == 'Etablissement public')
+          (form.structure_publique_type == 'Service de l\'Etat' ||
+            form.structure_publique_type == 'Etablissement public')
         "
         prop="structure_publique_etat_type"
       >
@@ -131,7 +133,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -148,7 +150,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -162,7 +164,7 @@
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 6 }"
           placeholder="Décrivez votre structure, en quelques mots"
-        ></el-input>
+        />
       </el-form-item>
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
@@ -185,7 +187,7 @@
             :key="item.id"
             :label="item.name"
             :value="item.id"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -203,14 +205,14 @@
             :key="item.value"
             :label="`${item.value} - ${item.label}`"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <algolia-places-input
         :value="form.full_address"
         @selected="setAddress"
         @clear="clearAddress"
-      ></algolia-places-input>
+      />
       <el-form-item label="Adresse" prop="address">
         <el-input v-model="form.address" disabled placeholder="Adresse" />
       </el-form-item>
@@ -231,35 +233,45 @@
         </el-form-item>
       </div>
       <div class="flex pt-2 items-center">
-        <el-button type="primary" :loading="loading" @click="onSubmit"
-          >Enregistrer</el-button
+        <el-button type="primary" :loading="loading" @click="onSubmit">
+          Enregistrer
+        </el-button>
+        <div
+          v-if="$store.getters.contextRole === 'responsable'"
+          class="text-red-500 ml-4 cursor-pointer hover:underline"
+          @click="onSubmitDelete"
         >
-        <div v-if="$store.getters.contextRole === 'responsable'" class="text-red-500 ml-4 cursor-pointer hover:underline" @click="onSubmitDelete">Supprimer ma structure</div>
+          Supprimer ma structure
+        </div>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { getStructure, addOrUpdateStructure, updateStructure } from "@/api/structure";
-import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
-import StateTag from "@/components/StateTag";
-import FormWithAddress from "@/mixins/FormWithAddress";
-import ItemDescription from "@/components/forms/ItemDescription";
+import {
+  getStructure,
+  addOrUpdateStructure,
+  updateStructure,
+} from '@/api/structure'
+import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
+import StateTag from '@/components/StateTag'
+import FormWithAddress from '@/mixins/FormWithAddress'
+import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
-  name: "StructureForm",
+  name: 'StructureForm',
   components: { AlgoliaPlacesInput, StateTag, ItemDescription },
   mixins: [FormWithAddress],
   props: {
     mode: {
       type: String,
-      required: true
+      required: true,
     },
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -269,125 +281,125 @@ export default {
         name: [
           {
             required: true,
-            message: "Veuillez renseigner un nom de structure",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un nom de structure',
+            trigger: 'blur',
+          },
         ],
         statut_juridique: [
           {
             required: true,
-            message: "Veuillez choisir un statut juridique",
-            trigger: "blur"
-          }
+            message: 'Veuillez choisir un statut juridique',
+            trigger: 'blur',
+          },
         ],
         department: {
           required: true,
-          message: "Le champ département est requis",
-          trigger: "blur"
+          message: 'Le champ département est requis',
+          trigger: 'blur',
         },
         address: [
           {
             required: true,
-            message: "Veuillez renseigner une adresse",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner une adresse',
+            trigger: 'blur',
+          },
         ],
         city: [
           {
             required: true,
-            message: "Veuillez renseigner un ville",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            message: 'Veuillez renseigner un ville',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   created() {
-    if (this.mode == "edit") {
-      this.$store.commit("setLoading", true);
+    if (this.mode == 'edit') {
+      this.$store.commit('setLoading', true)
       getStructure(this.$route.params.id)
-        .then(response => {
-          this.$store.commit("setLoading", false);
-          this.form = response.data;
+        .then((response) => {
+          this.$store.commit('setLoading', false)
+          this.form = response.data
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     }
   },
   methods: {
     uploadLogo(request) {
-      var reader = new FileReader();
-      reader.readAsDataURL(request.file);
-      reader.onload = e => {
-        this.loading = true;
+      var reader = new FileReader()
+      reader.readAsDataURL(request.file)
+      reader.onload = (e) => {
+        this.loading = true
         addOrUpdateStructure(this.id, { logo: e.target.result })
-          .then(response => {
-            this.form = response.data;
-            this.loading = false;
+          .then((response) => {
+            this.form = response.data
+            this.loading = false
             this.$message({
-              message: "Le logo a été enregistré !",
-              type: "success"
-            });
+              message: 'Le logo a été enregistré !',
+              type: 'success',
+            })
           })
           .catch(() => {
-            this.loading = false;
-          });
-      };
+            this.loading = false
+          })
+      }
     },
     beforeLogoUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 4;
+      const isLt5M = file.size / 1024 / 1024 < 4
       if (!isLt5M) {
         this.$message({
-          message: "Votre image ne doit pas éxcéder une taille de 4MB",
-          type: "error"
-        });
+          message: 'Votre image ne doit pas éxcéder une taille de 4MB',
+          type: 'error',
+        })
       }
-      return isLt5M;
+      return isLt5M
     },
     onSubmit() {
-      this.loading = true;
-      this.$refs["structureForm"].validate(valid => {
+      this.loading = true
+      this.$refs['structureForm'].validate((valid) => {
         if (valid) {
           addOrUpdateStructure(this.id, this.form)
             .then(() => {
-              this.loading = false;
-              this.$router.go(-1);
+              this.loading = false
+              this.$router.go(-1)
               this.$message({
-                message: "La structure a été enregistrée !",
-                type: "success"
-              });
+                message: 'La structure a été enregistrée !',
+                type: 'success',
+              })
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
+      })
     },
     onSubmitDelete() {
-        this.$confirm(
-          "Souhaitez-vous réellement supprimer votre structure de la Réserve Civique ?",
-          "Supprimer ma structure",
-          {
-            confirmButtonText: "Je confirme",
-            confirmButtonClass: "el-button--danger",
-            cancelButtonText: "Annuler",
-            center: true,
-            type: "error"
-          }
-        ).then(() => {
-          this.form.state = "Désinscrite"
-          updateStructure(this.form.id, this.form).then(() => {
-            this.$message({
-              type: "success",
-              message: `Votre structure ${this.form.name} a bien été supprimée.`
-            });
-            this.$router.push("/");
-          });
-        });
-    }
-  }
-};
+      this.$confirm(
+        'Souhaitez-vous réellement supprimer votre structure de la Réserve Civique ?',
+        'Supprimer ma structure',
+        {
+          confirmButtonText: 'Je confirme',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
+          center: true,
+          type: 'error',
+        }
+      ).then(() => {
+        this.form.state = 'Désinscrite'
+        updateStructure(this.form.id, this.form).then(() => {
+          this.$message({
+            type: 'success',
+            message: `Votre structure ${this.form.name} a bien été supprimée.`,
+          })
+          this.$router.push('/')
+        })
+      })
+    },
+  },
+}
 </script>

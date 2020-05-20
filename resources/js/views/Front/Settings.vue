@@ -17,7 +17,8 @@
           class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
         >
           <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
-            {{ $store.getters.user.profile.first_name }} {{ $store.getters.user.profile.last_name }}
+            {{ $store.getters.user.profile.first_name }}
+            {{ $store.getters.user.profile.last_name }}
           </h2>
 
           <el-form
@@ -74,11 +75,18 @@
                 <el-button
                   type="primary"
                   :loading="loading"
-                  @click="onSubmit"
                   class=""
-                  >Enregistrer les modifications
+                  @click="onSubmit"
+                >
+                  Enregistrer les modifications
                 </el-button>
-                <div v-if="$store.getters.isVolunteerOnly === true" class="text-red-500 ml-4 cursor-pointer hover:underline" @click="onSubmitDelete">Supprimer mon compte</div>
+                <div
+                  v-if="$store.getters.isVolunteerOnly === true"
+                  class="text-red-500 ml-4 cursor-pointer hover:underline"
+                  @click="onSubmitDelete"
+                >
+                  Supprimer mon compte
+                </div>
               </div>
             </div>
           </el-form>
@@ -90,19 +98,19 @@
 </template>
 
 <script>
-import { updatePassword, anonymizeUser } from "@/api/user";
+import { updatePassword, anonymizeUser } from '@/api/user'
 
 export default {
-  name: "FrontSettings",
+  name: 'FrontSettings',
   components: {},
   data() {
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
-        callback(new Error("Les mots de passe ne sont pas identiques"));
+        callback(new Error('Les mots de passe ne sont pas identiques'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loading: false,
       form: {},
@@ -110,73 +118,73 @@ export default {
         current_password: [
           {
             required: true,
-            message: "Ce champ est requis",
-            trigger: "change"
-          }
+            message: 'Ce champ est requis',
+            trigger: 'change',
+          },
         ],
         password: [
           {
             required: true,
-            message: "Choisissez votre mot de passe",
-            trigger: "change"
+            message: 'Choisissez votre mot de passe',
+            trigger: 'change',
           },
           {
             min: 8,
-            message: "Votre mot de passe doit contenir au moins 8 charactères",
-            trigger: "blur"
-          }
+            message: 'Votre mot de passe doit contenir au moins 8 charactères',
+            trigger: 'blur',
+          },
         ],
-        password_confirmation: [{ validator: validatePass2, trigger: "blur" }]
-      }
-    };
+        password_confirmation: [{ validator: validatePass2, trigger: 'blur' }],
+      },
+    }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["settingsForm"].validate(valid => {
+      this.loading = true
+      this.$refs['settingsForm'].validate((valid) => {
         if (valid) {
           updatePassword(this.form)
             .then(() => {
-              this.loading = false;
+              this.loading = false
               this.$message({
-                message: "Votre mot de passe a été modifié",
-                type: "success"
-              });
+                message: 'Votre mot de passe a été modifié',
+                type: 'success',
+              })
             })
             .catch(() => {
-              this.loading = false;
-            });
-          this.loading = false;
+              this.loading = false
+            })
+          this.loading = false
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
+      })
     },
     onSubmitDelete() {
-        this.$confirm(
-          "Attention, vos données seront supprimées et vous serez immédiatement déconnecté. Souhaitez-vous réellement supprimer votre compte ?",
-          "Supprimer mon compte",
-          {
-            confirmButtonText: "Je confirme",
-            confirmButtonClass: "el-button--danger",
-            cancelButtonText: "Annuler",
-            center: true,
-            type: "error"
-          }
-        ).then(() => {
-          anonymizeUser().then(() => {
-            this.$store.dispatch("auth/logout").then(() => {
-              this.$router.push("/");
-              this.$message({
-                type: "success",
-                message: `Votre compte a bien été supprimé.`
-              });
+      this.$confirm(
+        'Attention, vos données seront supprimées et vous serez immédiatement déconnecté. Souhaitez-vous réellement supprimer votre compte ?',
+        'Supprimer mon compte',
+        {
+          confirmButtonText: 'Je confirme',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
+          center: true,
+          type: 'error',
+        }
+      ).then(() => {
+        anonymizeUser().then(() => {
+          this.$store.dispatch('auth/logout').then(() => {
+            this.$router.push('/')
+            this.$message({
+              type: 'success',
+              message: `Votre compte a bien été supprimé.`,
             })
-          });
-        });
-    }
-  }
-};
+          })
+        })
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

@@ -14,7 +14,7 @@
         <span class="text-blue-800">Réserve Civique</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <el-form
       ref="loginForm"
       :model="form"
@@ -39,8 +39,9 @@
             <router-link
               to="/password/forgot"
               class="font-medium text-blue-800 hover:text-blue-900 focus:outline-none focus:underline transition ease-in-out duration-150"
-              >Mot de passe perdu ?</router-link
             >
+              Mot de passe perdu ?
+            </router-link>
           </div>
         </router-link>
       </div>
@@ -50,9 +51,9 @@
         <el-button
           type="primary"
           :loading="loading"
-          @click="onSubmit"
           style="height: 48px;"
           class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+          @click="onSubmit"
           >Je me connecte</el-button
         >
       </span>
@@ -60,7 +61,7 @@
     <div class="mt-6">
       <div class="relative">
         <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300"></div>
+          <div class="w-full border-t border-gray-300" />
         </div>
         <div class="relative flex justify-center text-sm leading-5">
           <span class="px-2 bg-white text-gray-500">OU</span>
@@ -84,8 +85,9 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
+    /*
     var checkLowercase = (rule, value, callback) => {
         if (value !== value.toLowerCase()) {
           callback(new Error('Merci de ne saisir que des minuscules'));
@@ -93,79 +95,79 @@ export default {
           callback();
         }
       };
+    */
     return {
       loading: false,
       form: {
-        email: "",
-        password: ""
+        email: '',
+        password: '',
       },
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
           // { validator: checkLowercase, trigger: 'blur' }
         ],
         password: [
           {
             required: true,
-            message: "Choisissez votre mot de passe",
-            trigger: "change"
+            message: 'Choisissez votre mot de passe',
+            trigger: 'change',
           },
           {
             min: 8,
-            message: "Votre mot de passe doit contenir au moins 8 charactères",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            message: 'Votre mot de passe doit contenir au moins 8 charactères',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["loginForm"].validate(valid => {
+      this.loading = true
+      this.$refs['loginForm'].validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch("auth/login", {
+            .dispatch('auth/login', {
               email: this.form.email,
-              password: this.form.password
+              password: this.form.password,
             })
             .then(() => {
               if (this.$route.query.redirect) {
-                this.$router.push(this.$route.query.redirect);
-              }
-              else {
+                this.$router.push(this.$route.query.redirect)
+              } else {
                 // console.log("noRole", this.$store.getters.noRole);
                 if (
                   this.$store.getters.noRole === true &&
-                  this.$store.getters.contextRole != "volontaire"
+                  this.$store.getters.contextRole != 'volontaire'
                 ) {
-                  this.$router.push("/register/step/norole");
+                  this.$router.push('/register/step/norole')
                 }
 
                 if (this.$store.getters.noRole === false) {
-                  this.$router.push("/dashboard");
+                  this.$router.push('/dashboard')
                 } else {
-                  this.$router.push("/missions");
+                  this.$router.push('/missions')
                 }
               }
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>

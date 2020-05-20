@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
           Structures
@@ -14,9 +14,9 @@
           v-if="$store.getters.contextRole == 'admin'"
           :to="{ name: 'StructureFormAdd' }"
         >
-          <el-button type="primary" icon="el-icon-plus"
-            >Nouvelle structure</el-button
-          >
+          <el-button type="primary" icon="el-icon-plus">
+            Nouvelle structure
+          </el-button>
         </router-link>
       </div>
     </div>
@@ -33,16 +33,18 @@
             icon="el-icon-s-operation"
             class="ml-4"
             @click="showFilters = !showFilters"
-            >Filtres avancés</el-button
           >
+            Filtres avancés
+          </el-button>
         </el-badge>
         <el-button
           v-else
           icon="el-icon-s-operation"
           class="ml-4"
           @click="showFilters = !showFilters"
-          >Filtres avancés</el-button
         >
+          Filtres avancés
+        </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
         <query-search-filter
@@ -74,11 +76,11 @@
           multiple
           :value="query['filter[department]']"
           :options="
-            $store.getters.taxonomies.departments.terms.map(term => {
+            $store.getters.taxonomies.departments.terms.map((term) => {
               return {
                 label: `${term.value} - ${term.label}`,
-                value: term.value
-              };
+                value: term.value,
+              }
             })
           "
           @changed="onFilterChange"
@@ -119,18 +121,20 @@
             size="small"
             class="m-1 ml-0"
             type="danger"
-            >Tête de réseau</el-tag
           >
-          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0" size="small">{{
-            scope.row.reseau_id | reseauFromValue
-          }}</el-tag>
+            Tête de réseau
+          </el-tag>
+          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0" size="small">
+            {{ scope.row.reseau_id | reseauFromValue }}
+          </el-tag>
           <el-tag
             v-if="scope.row.department"
             type="warning"
             class="m-1 ml-0"
             size="small"
-            >{{ scope.row.department | fullDepartmentFromValue }}</el-tag
           >
+            {{ scope.row.department | fullDepartmentFromValue }}
+          </el-tag>
           <el-tooltip
             v-if="scope.row.ceu"
             class="item"
@@ -138,23 +142,24 @@
             :content="scope.row.structure_publique_etat_type"
             placement="top"
           >
-            <el-tag size="small" class="m-1 ml-0" type="info">CEU</el-tag>
+            <el-tag size="small" class="m-1 ml-0" type="info">
+              CEU
+            </el-tag>
           </el-tooltip>
           <el-tag
             v-if="scope.row.missions_count > 0"
             type="info"
             class="m-1 ml-0"
             size="small"
-            >{{ scope.row.missions_count }}
-            {{
-              scope.row.missions_count | pluralize(["mission", "missions"])
-            }}</el-tag
           >
+            {{ scope.row.missions_count }}
+            {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="state" label="Statut" min-width="170">
         <template slot-scope="scope">
-          <state-tag :state="scope.row.state"></state-tag>
+          <state-tag :state="scope.row.state" />
         </template>
       </el-table-column>
       <el-table-column label="Actions" width="180">
@@ -166,16 +171,16 @@
             @click="
               $router.push({
                 name: 'Structure',
-                params: { id: scope.row.id }
+                params: { id: scope.row.id },
               })
             "
           >
-            <i class="el-icon-view mr-2"></i>Visualiser
+            <i class="el-icon-view mr-2" />Visualiser
             <el-dropdown-menu slot="dropdown">
               <router-link
                 :to="{
                   name: 'StructureFormEdit',
-                  params: { id: scope.row.id }
+                  params: { id: scope.row.id },
                 }"
               >
                 <el-dropdown-item>Modifier</el-dropdown-item>
@@ -183,7 +188,7 @@
               <router-link
                 :to="{
                   name: 'MissionFormAdd',
-                  params: { structureId: scope.row.id }
+                  params: { structureId: scope.row.id },
                 }"
               >
                 <el-dropdown-item>Ajouter une mission</el-dropdown-item>
@@ -191,7 +196,9 @@
               <router-link
                 :to="{ name: 'StructureMembers', params: { id: scope.row.id } }"
               >
-                <el-dropdown-item divided>Gérer l'équipe</el-dropdown-item>
+                <el-dropdown-item divided>
+                  Gérer l'équipe
+                </el-dropdown-item>
               </router-link>
             </el-dropdown-menu>
           </el-dropdown>
@@ -206,8 +213,7 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      >
-      </el-pagination>
+      />
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
@@ -224,41 +230,47 @@
 </template>
 
 <script>
-import { fetchStructures, exportStructures } from "@/api/structure";
-import TableWithVolet from "@/mixins/TableWithVolet";
-import TableWithFilters from "@/mixins/TableWithFilters";
-import StructureVolet from "@/layout/components/Volet/StructureVolet";
-import QueryFilter from "@/components/QueryFilter.vue";
-import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
-import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
-import fileDownload from "js-file-download";
-import StateTag from "@/components/StateTag";
+import { fetchStructures, exportStructures } from '@/api/structure'
+import TableWithVolet from '@/mixins/TableWithVolet'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import StructureVolet from '@/layout/components/Volet/StructureVolet'
+import QueryFilter from '@/components/QueryFilter.vue'
+import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
+import fileDownload from 'js-file-download'
+import StateTag from '@/components/StateTag'
 
 export default {
-  name: "Structures",
-  components: { StructureVolet, QueryFilter, QueryMainSearchFilter, QuerySearchFilter, StateTag},
+  name: 'Structures',
+  components: {
+    StructureVolet,
+    QueryFilter,
+    QueryMainSearchFilter,
+    QuerySearchFilter,
+    StateTag,
+  },
   mixins: [TableWithVolet, TableWithFilters],
   data() {
     return {
       loading: true,
-      tableData: []
-    };
+      tableData: [],
+    }
   },
   methods: {
     fetchRows() {
-      return fetchStructures(this.query);
+      return fetchStructures(this.query)
     },
     onExport() {
-      this.loading = true;
+      this.loading = true
       exportStructures(this.query)
-        .then(response => {
-          this.loading = false;
-          fileDownload(response.data, "structures.xlsx");
+        .then((response) => {
+          this.loading = false
+          fileDownload(response.data, 'structures.xlsx')
         })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
-};
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  },
+}
 </script>

@@ -2,27 +2,29 @@
   <div class="">
     <i
       class="el-icon-close cursor-pointer absolute text-xl"
-      style="right: 32px; top: 16px"
+      style="right: 32px; top: 16px;"
       @click="handleCloseVolet"
-    ></i>
-    <slot name="content" :row="row">TOTO</slot>
+    />
+    <slot name="content" :row="row">
+      TOTO
+    </slot>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "Volet",
+  name: 'Volet',
   computed: {
     ...mapGetters({
-      row: "volet/row"
-    })
+      row: 'volet/row',
+    }),
   },
   methods: {
     handleCloseVolet() {
-      this.$store.commit("volet/hide");
-    }
-  }
-};
+      this.$store.commit('volet/hide')
+    },
+  },
+}
 </script>

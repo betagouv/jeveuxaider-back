@@ -8,7 +8,14 @@
         class="absolute object-cover object-center w-full h-full"
       />
 
-      <div :class="['bg-blue-900', 'absolute', 'inset-0', {'opacity-75': collectivity.image}]"></div>
+      <div
+        :class="[
+          'bg-blue-900',
+          'absolute',
+          'inset-0',
+          { 'opacity-75': collectivity.image },
+        ]"
+      />
 
       <div class="relative pt-1 pb-12 lg:py-12">
         <AppHeader background="bg-transparent" border :showMenu="false">
@@ -22,16 +29,23 @@
         </AppHeader>
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
-            <h2 class="text-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl">
+            <h2
+              class="text-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
+            >
               Engagez-vous dans
               <br class="hidden sm:block" />
               <span class="text-white">votre département</span>
             </h2>
 
-            <p class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl">
+            <p
+              class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
+            >
               <!-- Le département <b>{{ collectivity.title }}</b> vous propose un espace d'engagement ouvert à tous, que vous soyez bénévole dans l’âme ou bien un acteur local du monde associatif. -->
 
-              <b>{{ collectivity.title }}</b> • Votre structure a besoin de renforts ? Vous souhaitez vous engager bénévolement au plus près de chez vous ? Rejoignez la Réserve Civique dans votre département.
+              <b>{{ collectivity.title }}</b> • Votre structure a besoin de
+              renforts ? Vous souhaitez vous engager bénévolement au plus près
+              de chez vous ? Rejoignez la Réserve Civique dans votre
+              département.
             </p>
 
             <div class="mt-5 sm:mt-8 sm:flex sm:justify-start">
@@ -107,8 +121,12 @@
           <div class="inline-block bg-blue-900 rounded-md p-3 text-center mb-5">
             <img class :src="$options.filters.domainIcon(domain.key)" style="width:28px;" />
           </div>
-          <div class="text-lg font-medium text-gray-900">{{ domain.key | cleanDomaineAction }}.</div>
-          <div class="mt-2 text-base text-gray-500">{{ domain.name }}</div>
+          <div class="text-lg font-medium text-gray-900">
+            {{ domain.key | cleanDomaineAction }}.
+          </div>
+          <div class="mt-2 text-base text-gray-500">
+            {{ domain.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -133,12 +151,18 @@
     <div class="bg-blue-900">
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
-          <h2 class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10">
+          <h2
+            class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
+          >
             <div>{{ collectivity.title }}</div>
-            <span class="font-bold">Trouvez une mission dans le département</span>
+            <span class="font-bold"
+              >Trouvez une mission dans le département</span
+            >
           </h2>
           <p class="text-xl leading-8 text-indigo-200 mt-2">
-            <router-link to="/regles-de-securite" target="_blank">Consulter les règles de sécurité ›</router-link>
+            <router-link to="/regles-de-securite" target="_blank">
+              Consulter les règles de sécurité ›
+            </router-link>
           </p>
         </div>
 
@@ -158,15 +182,15 @@ import { getCollectivity, getCollectivityStatistics } from "@/api/app";
 import MissionsSearch from "@/components/MissionsSearch";
 
 export default {
-  name: "FrontCollectivity",
+  name: 'FrontCollectivity',
   components: {
     MissionsSearch
   },
   props: {
     slug: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -176,7 +200,7 @@ export default {
     };
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     getCollectivity(this.slug)
       .then(response => {
         this.collectivity = { ...response.data };
@@ -188,9 +212,9 @@ export default {
         });
       })
       .catch(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

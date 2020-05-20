@@ -16,7 +16,7 @@
           <router-link
             :to="{
               name: 'Profile',
-              params: { id: row.id }
+              params: { id: row.id },
             }"
           >
             <div class="font-bold text-lg text-primary mb-3">
@@ -29,9 +29,9 @@
             :profile="row"
             size="small"
             class="flex items-center"
-          ></profile-roles-tags>
+          />
         </div>
-        <profile-infos :profile="row"></profile-infos>
+        <profile-infos :profile="row" />
       </el-card>
       <template v-if="$store.getters.contextRole === 'admin'">
         <el-form ref="profileForm" :model="form" label-position="top">
@@ -55,7 +55,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
@@ -83,7 +83,7 @@
                 :key="item.value"
                 :label="`${item.value} - ${item.label}`"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
@@ -98,48 +98,51 @@
 </template>
 
 <script>
-import Volet from "@/layout/components/Volet";
-import ProfileRolesTags from "@/components/ProfileRolesTags.vue";
-import { updateProfile } from "@/api/user";
-import VoletRow from "@/mixins/VoletRow";
-import ItemDescription from "@/components/forms/ItemDescription";
-import ProfileInfos from "@/components/infos/ProfileInfos";
+import Volet from '@/layout/components/Volet'
+import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
+import { updateProfile } from '@/api/user'
+import VoletRow from '@/mixins/VoletRow'
+import ItemDescription from '@/components/forms/ItemDescription'
+import ProfileInfos from '@/components/infos/ProfileInfos'
 
 export default {
-  name: "ProfileVolet",
+  name: 'ProfileVolet',
   components: { ProfileRolesTags, Volet, ItemDescription, ProfileInfos },
   mixins: [VoletRow],
   data() {
     return {
       loading: false,
-      form: {}
-    };
+      form: {},
+    }
   },
   methods: {
     onSubmit() {
-      this.$confirm("Êtes vous sur de vos changements ?<br>", "Confirmation", {
-        confirmButtonText: "Je confirme",
-        cancelButtonText: "Annuler",
+      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
+        confirmButtonText: 'Je confirme',
+        cancelButtonText: 'Annuler',
         dangerouslyUseHTMLString: true,
         center: true,
-        type: "warning"
+        type: 'warning',
       }).then(() => {
-        this.loading = true;
+        this.loading = true
         updateProfile(this.form.id, this.form)
-          .then(response => {
-            this.loading = false;
+          .then((response) => {
+            this.loading = false
             this.$message({
-              type: "success",
-              message: "Le profil a été mis à jour"
-            });
-            this.$store.commit("volet/setRow", { ...this.row, ...response.data });
-            this.$emit("updated", { ...this.form, ...response.data });
+              type: 'success',
+              message: 'Le profil a été mis à jour',
+            })
+            this.$store.commit('volet/setRow', {
+              ...this.row,
+              ...response.data,
+            })
+            this.$emit('updated', { ...this.form, ...response.data })
           })
           .catch(() => {
-            this.loading = false;
-          });
-      });
-    }
-  }
-};
+            this.loading = false
+          })
+      })
+    },
+  },
+}
 </script>

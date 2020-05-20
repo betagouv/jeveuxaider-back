@@ -62,97 +62,97 @@
 </template>
 
 <script>
-import { getStructure, inviteStructureMember } from "@/api/structure";
+import { getStructure, inviteStructureMember } from '@/api/structure'
 
 export default {
-  name: "StructureMembersAdd",
+  name: 'StructureMembersAdd',
   props: {
     id: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
-        callback(new Error("Merci de ne saisir que des minuscules"));
+        callback(new Error('Merci de ne saisir que des minuscules'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       structure: {},
       form: {
-        role: "responsable"
+        role: 'responsable',
       },
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' }
+          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {
             required: true,
-            message: "Prénom obligatoire",
-            trigger: "blur"
-          }
+            message: 'Prénom obligatoire',
+            trigger: 'blur',
+          },
         ],
         last_name: [
           {
             required: true,
-            message: "Nom obligatoire",
-            trigger: "blur"
-          }
-        ]
+            message: 'Nom obligatoire',
+            trigger: 'blur',
+          },
+        ],
       },
-      loading: false
-    };
+      loading: false,
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     getStructure(this.id)
-      .then(response => {
-        this.$store.commit("setLoading", false);
-        this.structure = response.data;
+      .then((response) => {
+        this.$store.commit('setLoading', false)
+        this.structure = response.data
       })
       .catch(() => {
-        this.$store.commit("setLoading", false);
-      });
+        this.$store.commit('setLoading', false)
+      })
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["structureMembersAdd"].validate(valid => {
+      this.loading = true
+      this.$refs['structureMembersAdd'].validate((valid) => {
         if (valid) {
           inviteStructureMember(this.id, this.form)
             .then(() => {
-              this.loading = false;
-              this.$router.push(`/dashboard/structure/${this.id}/members`);
+              this.loading = false
+              this.$router.push(`/dashboard/structure/${this.id}/members`)
               this.$message({
                 dangerouslyUseHTMLString: true,
                 message: `${this.form.first_name} ${this.form.last_name} fait maintenant partie de votre équipe. Une notification email lui a été envoyé.`,
-                type: "success"
-              });
+                type: 'success',
+              })
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

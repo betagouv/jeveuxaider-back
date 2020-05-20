@@ -4,15 +4,15 @@
       <div class="bg-white rounded-lg shadow-lg overflow-hidden">
         <div class="lg:flex">
           <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
-            <div class="w-full overflow-hidden" style="max-width: 765px">
+            <div class="w-full overflow-hidden" style="max-width: 765px;">
               <content-loader
                 width="765"
                 height="400"
-                primaryColor="#edf2f7"
-                secondaryColor="#edf2f7"
+                primary-color="#edf2f7"
+                secondary-color="#edf2f7"
                 :animate="false"
                 class="object-cover"
-                style="height:400px"
+                style="height: 400px;"
               >
                 <rect x="0" y="0" rx="3" ry="3" width="765" height="25" />
                 <rect x="0" y="50" rx="3" ry="3" width="450" height="25" />
@@ -29,13 +29,13 @@
           </div>
 
           <div class="aside text-center bg-gray-100 lg:flex-shrink-0">
-            <div class="py-8 px-6 lg:p-12" >
-              <div class="m-auto" style="width:260px;">
+            <div class="py-8 px-6 lg:p-12">
+              <div class="m-auto" style="width: 260px;">
                 <content-loader
                   width="290"
                   height="350"
-                  primaryColor="#edf2f7"
-                  secondaryColor="#edf2f7"
+                  primary-color="#edf2f7"
+                  secondary-color="#edf2f7"
                   :animate="false"
                 >
                   <rect x="45" y="0" rx="3" ry="3" width="200" height="25" />
@@ -56,12 +56,12 @@
 </template>
 
 <script>
-import { ContentLoader } from "vue-content-loader";
+import { ContentLoader } from 'vue-content-loader'
 
 export default {
-  name: "FrontMissionLoading",
+  name: 'FrontMissionLoading',
   components: {
-    ContentLoader
-  }
-};
+    ContentLoader,
+  },
+}
 </script>

@@ -40,8 +40,8 @@
       </el-tag>
     </el-tooltip>
     <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
-        Analyste
-      </el-tag>
+      Analyste
+    </el-tag>
     <el-tooltip
       v-if="profile.roles.responsable"
       class="item"
@@ -72,7 +72,7 @@
       placement="top"
     >
       <el-tag type="info" :size="size" class="m-1">
-        <i class="el-icon-info"></i> Invité
+        <i class="el-icon-info" /> Invité
       </el-tag>
     </el-tooltip>
   </div>
@@ -80,33 +80,33 @@
 
 <script>
 export default {
-  name: "",
+  name: '',
   props: {
     profile: {
       type: Object,
-      required: true
+      required: true,
     },
     size: {
       type: String,
       required: false,
-      default: "medium"
-    }
+      default: 'medium',
+    },
   },
   data() {
-    return {};
+    return {}
   },
   computed: {
     structure_as_responsable() {
       return this.profile.structures.filter(
-        structure => structure.pivot.role == "responsable"
-      )[0];
+        (structure) => structure.pivot.role == 'responsable'
+      )[0]
     },
     structures_as_tuteur() {
       return this.profile.structures.filter(
-        structure => structure.pivot.role == "tuteur"
-      )[0];
-    }
+        (structure) => structure.pivot.role == 'tuteur'
+      )[0]
+    },
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

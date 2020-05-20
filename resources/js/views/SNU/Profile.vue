@@ -13,58 +13,60 @@
             :profile="profile"
             size="medium"
             class="flex items-center ml-3"
-          ></profile-roles-tags>
+          />
         </div>
       </div>
       <router-link
         v-if="$store.getters.contextRole == 'admin'"
         :to="{ name: 'ProfileFormEdit', params: { id: profile.id } }"
       >
-        <el-button type="secondary" icon="el-icon-edit"
-          >Modifier la fiche</el-button
-        >
+        <el-button type="secondary" icon="el-icon-edit">
+          Modifier la fiche
+        </el-button>
       </router-link>
     </div>
     <div class="px-12 mb-12">
-      <div class="mb-6 text-2xl">Informations</div>
-      <profile-infos :profile="profile"></profile-infos>
+      <div class="mb-6 text-2xl">
+        Informations
+      </div>
+      <profile-infos :profile="profile" />
     </div>
   </div>
 </template>
 
 <script>
-import { getProfile } from "@/api/user";
-import ProfileInfos from "@/components/infos/ProfileInfos";
-import ProfileRolesTags from "@/components/ProfileRolesTags.vue";
+import { getProfile } from '@/api/user'
+import ProfileInfos from '@/components/infos/ProfileInfos'
+import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
 
 export default {
-  name: "Profile",
+  name: 'Profile',
   components: { ProfileRolesTags, ProfileInfos },
   props: {
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       loading: false,
       profile: {},
-      form: {}
-    };
+      form: {},
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     getProfile(this.id)
-      .then(response => {
-        this.$store.commit("setLoading", false);
-        this.profile = response.data;
+      .then((response) => {
+        this.$store.commit('setLoading', false)
+        this.profile = response.data
       })
       .catch(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
   },
 
-  methods: {}
-};
+  methods: {},
+}
 </script>

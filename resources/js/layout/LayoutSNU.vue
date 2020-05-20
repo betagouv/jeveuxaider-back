@@ -11,32 +11,32 @@
       v-if="$store.getters['volet/active'] && $store.getters['volet/row']"
       class="p-4 overflow-y-auto flex-none border-l bg-gray-100"
       name="volet"
-      style="width: 420px"
+      style="width: 420px;"
     />
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Sidebar from "./components/Sidebar";
-import store from "@/store";
+import { mapGetters } from 'vuex'
+import Sidebar from './components/Sidebar'
+import store from '@/store'
 
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: {
-    Sidebar
+    Sidebar,
   },
   beforeRouteEnter(to, from, next) {
     // called before the route that renders this component is confirmed.
     // does NOT have access to `this` component instance,
     // because it has not been created yet when this guard is called!
     if (store.getters.noRole) {
-      next("/register/step/norole");
+      next('/register/step/norole')
     }
-    next();
+    next()
   },
   computed: {
-    ...mapGetters(["isAppLoaded"])
-  }
-};
+    ...mapGetters(['isAppLoaded']),
+  },
+}
 </script>
