@@ -2,8 +2,12 @@
   <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus - Releases</div>
+        <div class="text-m text-gray-600 uppercase">
+          {{ $store.getters['user/contextRoleLabel'] }}
+        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">
+          Contenus - Releases
+        </div>
       </div>
       <div class>
         <new-content-dropdown></new-content-dropdown>
@@ -22,7 +26,11 @@
         />
       </div>
     </div>
-    <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
+    <el-table
+      v-loading="loading"
+      :data="tableData"
+      :highlight-current-row="true"
+    >
       <el-table-column label="#" min-width="70" align="center">
         <template slot-scope="scope">
           <div>{{ scope.row.id }}</div>
@@ -30,12 +38,16 @@
       </el-table-column>
       <el-table-column label="Question" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.title }}</div>
+          <div class="text-gray-900">
+            {{ scope.row.title }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
         <template slot-scope="scope">
-          <div class="text-sm text-gray-600">{{ scope.row.updated_at | fromNow }}</div>
+          <div class="text-sm text-gray-600">
+            {{ scope.row.updated_at | fromNow }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Actions" width="165">
@@ -47,9 +59,13 @@
             @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >
-            <i class="el-icon-edit mr-2"></i>Modifier
+            <i class="el-icon-edit mr-2" />Modifier
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="{ action: 'delete', id: scope.row.id }">Supprimer</el-dropdown-item>
+              <el-dropdown-item
+                :command="{ action: 'delete', id: scope.row.id }"
+              >
+                Supprimer
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -63,73 +79,73 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      ></el-pagination>
-      <div
-        class="text-secondary text-xs ml-3"
-      >Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats</div>
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { fetchReleases, deleteRelease } from "@/api/app";
-import TableWithFilters from "@/mixins/TableWithFilters";
-import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
-import ContentsMenu from "@/components/ContentsMenu";
-import NewContentDropdown from "@/components/NewContentDropdown";
+import { fetchReleases, deleteRelease } from '@/api/app'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
+import ContentsMenu from '@/components/ContentsMenu'
+import NewContentDropdown from '@/components/NewContentDropdown'
 
 export default {
-  name: "Releases",
+  name: 'Releases',
   components: {
     QueryMainSearchFilter,
     ContentsMenu,
-    NewContentDropdown
+    NewContentDropdown,
   },
   mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
-      tableData: []
-    };
+      tableData: [],
+    }
   },
   methods: {
     fetchRows() {
-      return fetchReleases(this.query);
+      return fetchReleases(this.query)
     },
     handleCommand(command) {
-      if (command.action == "delete") {
-        this.handleClickDelete(command.id);
+      if (command.action == 'delete') {
+        this.handleClickDelete(command.id)
       } else {
-        this.$router.push(command);
+        this.$router.push(command)
       }
     },
     handleClickEdit(id) {
       this.$router.push({
         name: `ReleaseFormEdit`,
-        params: { id: id }
-      });
+        params: { id: id },
+      })
     },
     handleClickDelete(id) {
       this.$confirm(
         `Êtes vous sur de vouloir supprimer cette release ?`,
-        "Supprimer cette release",
+        'Supprimer cette release',
         {
-          confirmButtonText: "Supprimer",
-          confirmButtonClass: "el-button--danger",
-          cancelButtonText: "Annuler",
+          confirmButtonText: 'Supprimer',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
           center: true,
-          type: "error"
+          type: 'error',
         }
       ).then(() => {
         deleteRelease(id).then(() => {
           this.$message({
-            type: "success",
-            message: `La release a été supprimée.`
-          });
-          this.fetchDatas();
-        });
-      });
-    }
-  }
-};
+            type: 'success',
+            message: `La release a été supprimée.`,
+          })
+          this.fetchDatas()
+        })
+      })
+    },
+  },
+}
 </script>

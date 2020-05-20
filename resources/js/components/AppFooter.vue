@@ -5,27 +5,32 @@
         <div class="max-w-xs">
           <div class="mb-8">
             <router-link to="/">
-            <div class="border-b border-gray-200 pb-6 mb-6">
-              <img
-                class="mx-auto lg:mx-0"
-                src="/images/logo-reserve-civique.png"
-                alt=""
-                style="max-width: 220px; height: auto;"
-              />
-            </div>
-            <div>
-              <img
-                class="mx-auto lg:mx-0"
-                src="/images/logo-footer.png"
-                alt=""
-                style="height:200px;"
-              />
-            </div>
+              <div class="border-b border-gray-200 pb-6 mb-6">
+                <img
+                  class="mx-auto lg:mx-0"
+                  src="/images/logo-reserve-civique.png"
+                  alt=""
+                  style="max-width: 220px; height: auto;"
+                />
+              </div>
+              <div>
+                <img
+                  class="mx-auto lg:mx-0"
+                  src="/images/logo-footer.png"
+                  alt=""
+                  style="height: 200px;"
+                />
+              </div>
             </router-link>
           </div>
           <div
             class="text-black"
-            style="max-width:260px; font-size:14px; line-height: 1.6; letter-spacing: 0.05em;"
+            style="
+              max-width: 260px;
+              font-size: 14px;
+              line-height: 1.6;
+              letter-spacing: 0.05em;
+            "
           >
             Trouvez une mission d'intérêt général auprès d'un organisme public
             ou associatif et faites vivre les valeurs de la République.
@@ -42,18 +47,30 @@
             <router-link
               class="block p-3 hover:underline"
               to="/regles-de-securite"
-              >Règles de sécurité</router-link
             >
-            <router-link class="block p-3 hover:underline" to="/faq"
-              >FAQ</router-link
-            >
+              Règles de sécurité
+            </router-link>
+            <router-link class="block p-3 hover:underline" to="/faq">
+              FAQ
+            </router-link>
             <router-link
               class="block p-3 hover:underline"
               to="/mentions-legales"
-              >Mentions légales</router-link
             >
-            <a class="block p-3 hover:underline" href="https://www.gouvernement.fr/info-coronavirus" target="_blank">Info Coronavirus</a>
-            <a class="block p-3 hover:underline" href="https://mobilisationemploi.gouv.fr/#/accueil" target="_blank">Mobilisation pour l'emploi</a>
+              Mentions légales
+            </router-link>
+            <a
+              class="block p-3 hover:underline"
+              href="https://www.gouvernement.fr/info-coronavirus"
+              target="_blank"
+              >Info Coronavirus</a
+            >
+            <a
+              class="block p-3 hover:underline"
+              href="https://mobilisationemploi.gouv.fr/#/accueil"
+              target="_blank"
+              >Mobilisation pour l'emploi</a
+            >
           </div>
           <div class="lg:max-w-1/4 text-black">
             <a
@@ -121,7 +138,7 @@
           </div>
         </div>
         <div class="mt-8 lg:mt-3">
-          <div class="mb-8" style="font-size:13px;">
+          <div class="mb-8" style="font-size: 13px;">
             Suivez la Réserve Civique
           </div>
           <div
@@ -156,11 +173,11 @@
 
 <script>
 export default {
-  name: "AppFooter",
+  name: 'AppFooter',
   methods: {
     isCurrentPath(path) {
-      return window.location.pathname === path;
-    }
-  }
-};
+      return window.location.pathname === path
+    },
+  },
+}
 </script>

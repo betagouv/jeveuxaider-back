@@ -23,7 +23,7 @@
         <span class="text-blue-800">modifié !</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div v-if="!submitted">
       <el-form
         ref="resetPasswordForm"
@@ -55,9 +55,9 @@
           <el-button
             type="primary"
             :loading="loading"
-            @click="onSubmit"
             style="height: 48px;"
             class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+            @click="onSubmit"
             >Modifier mon mot de passe</el-button
           >
         </span>
@@ -87,71 +87,71 @@
 </template>
 
 <script>
-import { resetPassword } from "@/api/auth";
+import { resetPassword } from '@/api/auth'
 
 export default {
-  name: "PasswordReset",
+  name: 'PasswordReset',
   data() {
     return {
       loading: false,
       submitted: false,
       form: {
-        email: "",
-        password: "",
-        password_confirmation: "",
-        token: ""
+        email: '',
+        password: '',
+        password_confirmation: '',
+        token: '',
       },
       rules: {
         password: [
           {
             required: true,
-            message: "Veuillez renseigner un mot de passe",
-            trigger: "blur"
+            message: 'Veuillez renseigner un mot de passe',
+            trigger: 'blur',
           },
           {
             min: 8,
-            message: "Votre mot de passe doit contenir au moins 8 caractères",
-            trigger: "blur"
-          }
+            message: 'Votre mot de passe doit contenir au moins 8 caractères',
+            trigger: 'blur',
+          },
         ],
         password_confirmation: [
           {
             required: true,
-            message: "Veuillez confirmer votre mot de passe",
-            trigger: "blur"
+            message: 'Veuillez confirmer votre mot de passe',
+            trigger: 'blur',
           },
           {
             min: 8,
-            message: "Votre mot de passe doit contenir au moins 8 caractères",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            message: 'Votre mot de passe doit contenir au moins 8 caractères',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   created() {
-    this.form.token = this.$route.params.token;
-    this.form.email = this.$route.query.email;
+    this.form.token = this.$route.params.token
+    this.form.email = this.$route.query.email
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["resetPasswordForm"].validate(valid => {
+      this.loading = true
+      this.$refs['resetPasswordForm'].validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           resetPassword(this.form)
             .then(() => {
-              this.loading = false;
-              this.submitted = true;
+              this.loading = false
+              this.submitted = true
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>

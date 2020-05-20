@@ -4,7 +4,9 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">Mon profil</h1>
+          <h1 class="text-3xl font-bold text-white">
+            Mon profil
+          </h1>
         </div>
       </div>
     </div>
@@ -61,14 +63,14 @@
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
                   <el-date-picker
+                    v-model="form.birthday"
                     type="date"
                     placeholder="Date de naissance"
-                    v-model="form.birthday"
                     autocomplete="off"
                     format="dd-MM-yyyy"
                     value-format="yyyy-MM-dd"
-                    style="width:100%;"
-                  ></el-date-picker>
+                    style="width: 100%;"
+                  />
                 </el-form-item>
                 <el-form-item
                   label="E-mail"
@@ -92,9 +94,10 @@
                 <el-button
                   type="primary"
                   :loading="loading"
-                  @click="onSubmit"
                   class=""
-                  >Enregistrer les modifications
+                  @click="onSubmit"
+                >
+                  Enregistrer les modifications
                 </el-button>
               </div>
             </div>
@@ -108,104 +111,104 @@
 
 <script>
 export default {
-  name: "FrontProfile",
+  name: 'FrontProfile',
   data() {
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
-        callback(new Error("Merci de ne saisir que des minuscules"));
+        callback(new Error('Merci de ne saisir que des minuscules'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loading: false,
       form: this.$store.getters.user.profile,
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' }
+          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {
             required: true,
-            message: "Prénom obligatoire",
-            trigger: "blur"
-          }
+            message: 'Prénom obligatoire',
+            trigger: 'blur',
+          },
         ],
         last_name: [
           {
             required: true,
-            message: "Nom obligatoire",
-            trigger: "blur"
-          }
+            message: 'Nom obligatoire',
+            trigger: 'blur',
+          },
         ],
         zip: [
           {
             required: true,
-            message: "Code postal obligatoire",
-            trigger: "blur"
+            message: 'Code postal obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^\d+$/,
-            message: "Ne doit contenir que des chiffres",
-            trigger: "blur"
+            message: 'Ne doit contenir que des chiffres',
+            trigger: 'blur',
           },
           {
             min: 5,
             max: 5,
-            message: "Format erroné",
-            trigger: "blur"
-          }
+            message: 'Format erroné',
+            trigger: 'blur',
+          },
         ],
         mobile: [
           {
             required: true,
-            message: "Téléphone obligatoire",
-            trigger: "blur"
+            message: 'Téléphone obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: "Le format du numéro de téléphone est incorrect",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["profileForm"].validate(valid => {
+      this.loading = true
+      this.$refs['profileForm'].validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch("user/updateProfile", this.form)
+            .dispatch('user/updateProfile', this.form)
             .then(() => {
-              this.loading = false;
+              this.loading = false
               this.$message({
-                message: "Votre profil a été mis à jour.",
-                type: "success"
-              });
+                message: 'Votre profil a été mis à jour.',
+                type: 'success',
+              })
             })
             .catch(() => {
-              this.loading = false;
-            });
-          this.loading = false;
+              this.loading = false
+            })
+          this.loading = false
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

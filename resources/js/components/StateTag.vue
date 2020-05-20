@@ -151,21 +151,21 @@
 
 <script>
 export default {
-  name: "StateTag",
+  name: 'StateTag',
   props: {
     state: {
       type: String,
-      required: true
+      required: true,
     },
     size: {
       type: String,
       required: false,
-      default: "medium"
-    }
+      default: 'medium',
+    },
   },
   data() {
-    return {};
+    return {}
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

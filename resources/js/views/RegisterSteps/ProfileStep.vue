@@ -7,26 +7,30 @@
         Responsable de structure.
       </p>
       <p>
-          Une question? Appelez-nous au<br /><span class="font-bold"><a href="tel:0184800189">
-           01 84 80 01 89</a> </span>
-          ou 
-          <button onclick="$crisp.push(['do', 'chat:open'])">chatez en cliquant sur le bouton en bas à droite.</button>
-      </p>  
-
+        Une question? Appelez-nous au
+        <br />
+        <span class="font-bold">
+          <a href="tel:0184800189">01 84 80 01 89</a>
+        </span>
+        ou
+        <button onclick="$crisp.push(['do', 'chat:open'])">
+          chatez en cliquant sur le bouton en bas à droite.
+        </button>
+      </p>
     </portal>
     <el-steps :active="1" align-center class="p-4 sm:p-8 border-b border-b-2">
       <el-step
         title="Profil"
         description="Je complète les informations de mon profil"
-      ></el-step>
+      />
       <el-step
         title="Structure"
         description="J'enregistre ma structure en tant que responsable"
-      ></el-step>
+      />
       <el-step
         title="Adresse"
         description="J'enregistre le lieu de mon établissement"
-      ></el-step>
+      />
     </el-steps>
 
     <div class="p-4 sm:p-12">
@@ -52,7 +56,7 @@
               taille maximale de 5 Mo
             </div>
           </el-upload>
-        </div> -->
+        </div>-->
       </div>
       <el-form
         ref="profileForm"
@@ -87,52 +91,52 @@
 
 <script>
 export default {
-  name: "ProfileStep",
+  name: 'ProfileStep',
   data() {
     return {
       loading: false,
-      activeName: "profil",
+      activeName: 'profil',
       form: {
         mobile: this.$store.getters.profile.mobile,
-        phone: this.$store.getters.profile.phone
+        phone: this.$store.getters.profile.phone,
       },
       rules: {
         mobile: [
           {
             required: true,
-            message: "Un numéro de téléphone est obligatoire",
-            trigger: "blur"
+            message: 'Un numéro de téléphone est obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: "Le format du numéro de téléphone est incorrect",
-            trigger: "blur"
-          }
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
         ],
         phone: {
           pattern: /^[+|\s|\d]*$/,
-          message: "Le format du numéro de téléphone est incorrect",
-          trigger: "blur"
-        }
-      }
-    };
+          message: 'Le format du numéro de téléphone est incorrect',
+          trigger: 'blur',
+        },
+      },
+    }
   },
   computed: {
     avatar() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.avatar
-        : null;
+        : null
     },
     firstName() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.first_name
-        : null;
+        : null
     },
     lastName() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.last_name
-        : null;
-    }
+        : null
+    },
   },
   methods: {
     // uploadAvatar(request) {
@@ -153,33 +157,33 @@ export default {
     //   return isLt5M;
     // },
     onSubmit() {
-      this.loading = true;
-      this.$refs["profileForm"].validate(valid => {
+      this.loading = true
+      this.$refs['profileForm'].validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch("user/updateProfile", {
+            .dispatch('user/updateProfile', {
               id: this.$store.getters.profile.id,
-              ...this.form
+              ...this.form,
             })
             .then(() => {
-              this.loading = false;
-              this.$router.push("/register/step/structure");
+              this.loading = false
+              this.$router.push('/register/step/structure')
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>
 ::v-deep .el-step__description
-    @apply hidden
+  @apply hidden
     @screen sm
-        @apply block
+      @apply block
 </style>

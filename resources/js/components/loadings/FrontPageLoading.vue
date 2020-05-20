@@ -2,14 +2,14 @@
   <div>
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
-        <div class="pt-14 overflow-hidden" style="height:85px">
+        <div class="pt-14 overflow-hidden" style="height: 85px;">
           <content-loader
             height="10"
-            primaryColor="#1e429f"
-            secondaryColor="#1e429f"
+            primary-color="#1e429f"
+            secondary-color="#1e429f"
             :animate="false"
             class="object-cover"
-            style="height:10px"
+            style="height: 10px;"
           >
             <rect x="0" y="0" rx="3" ry="3" width="200" height="10" />
           </content-loader>
@@ -25,11 +25,11 @@
             <content-loader
               width="680"
               height="350"
-              primaryColor="#edf2f7"
-              secondaryColor="#edf2f7"
+              primary-color="#edf2f7"
+              secondary-color="#edf2f7"
               :animate="false"
               class="object-cover"
-              style="height:350px"
+              style="height: 350px;"
             >
               <rect x="0" y="0" rx="3" ry="3" width="680" height="15" />
               <rect x="0" y="30" rx="3" ry="3" width="680" height="15" />
@@ -49,12 +49,12 @@
 </template>
 
 <script>
-import { ContentLoader } from "vue-content-loader";
+import { ContentLoader } from 'vue-content-loader'
 
 export default {
-  name: "FrontPageLoading",
+  name: 'FrontPageLoading',
   components: {
     ContentLoader,
-  }
-};
+  },
+}
 </script>

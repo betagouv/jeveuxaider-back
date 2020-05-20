@@ -5,7 +5,9 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">Missions auxquelles j'ai candidaté</h1>
+          <h1 class="text-3xl font-bold text-white">
+            Missions auxquelles j'ai candidaté
+          </h1>
         </div>
       </div>
     </div>
@@ -15,11 +17,13 @@
         <div
           v-if="participations.data && !participations.data.length"
           class="bg-white rounded-lg shadow-lg overflow-hidden px-6 py-8 lg:p-12"
-        >Vous n'avez aucune participation pour le moment.</div>
+        >
+          Vous n'avez aucune participation pour le moment.
+        </div>
 
         <div
-          v-else
           v-for="participation in participations.data"
+          v-else
           :key="participation.id"
           class="bg-white rounded-lg overflow-hidden shadow-lg mb-12"
         >
@@ -30,7 +34,10 @@
             >
               <div class="flex items-center px-6 py-8">
                 <div class="min-w-0 flex-1 flex items-start">
-                  <div class="hidden sm:block flex-shrink-0" style="margin-top:2px;">
+                  <div
+                    class="hidden sm:block flex-shrink-0"
+                    style="margin-top: 2px;"
+                  >
                     <img
                       v-if="participation.mission.structure.logo"
                       class="h-12 w-12 rounded-full"
@@ -40,18 +47,28 @@
                     <div
                       v-else
                       class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center"
-                    >{{ participation.mission.structure.name[0] }}</div>
+                    >
+                      {{ participation.mission.structure.name[0] }}
+                    </div>
                   </div>
-                  <div class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4">
+                  <div
+                    class="min-w-0 flex-1 sm:px-4 md:grid md:grid-cols-2 md:gap-4"
+                  >
                     <div class="col-span-2 lg:col-span-1 mb-4 md:mb-0">
+                      <div class="font-semibold text-blue-800 truncate">
+                        {{
+                          participation.mission.name
+                            | labelFromValue('mission_domaines')
+                        }}
+                      </div>
+                      <div class="font-semibold text-blue-800 truncate">
+                        {{ participation.mission.name }}
+                      </div>
                       <div
-                        class="font-semibold text-blue-800 truncate"
-                      >{{ participation.mission.name }}</div>
-                      <div class="mt-1 flex items-center text-sm ext-gray-900 font-semibold">
+                        class="mt-1 flex items-center text-sm ext-gray-900 font-semibold"
+                      >
                         <span class="truncate">
-                          {{
-                          participation.mission.structure.name
-                          }}
+                          {{ participation.mission.structure.name }}
                         </span>
                       </div>
                     </div>
@@ -59,7 +76,9 @@
                     <div
                       class="flex flex-wrap item-center -mx-2 -my-1 col-span-2 lg:col-span-1 text-sm"
                     >
-                      <div class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500">
+                      <div
+                        class="mx-2 my-1 flex items-center text-s leading-5 text-gray-500"
+                      >
                         <svg
                           class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
                           fill="currentColor"
@@ -72,7 +91,7 @@
                           />
                         </svg>
                         {{ participation.mission.city }} ({{
-                        participation.mission.department
+                          participation.mission.department
                         }})
                       </div>
                       <div
@@ -93,17 +112,24 @@
                         {{ participation.mission.periodicite }}
                       </div>
 
-                      <div class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500">
+                      <div
+                        class="mx-2 my-1 flex items-center text-sm leading-5 text-gray-500"
+                      >
                         <span
                           :class="participationStateTheme(participation)"
                           class="inline-flex font-semibold rounded-full"
-                        >{{ participation.state }}</span>
+                          >{{ participation.state }}</span
+                        >
                       </div>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    class="h-5 w-5 text-gray-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       fill-rule="evenodd"
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -115,7 +141,7 @@
             </a>
           </div>
 
-          <div  class="px-6 py-8">
+          <div class="px-6 py-8">
             <div class="flex flex-wrap -m-2">
               <div
                 class="m-2 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white"
@@ -137,9 +163,7 @@
 
               <a
                 v-if="canShowCoordonates(participation)"
-                :href="
-                  `mailto:${participation.mission.tuteur.email}`
-                "
+                :href="`mailto:${participation.mission.tuteur.email}`"
                 class="m-2"
               >
                 <button
@@ -166,7 +190,9 @@
                 type="button"
                 class="m-2 lg:ml-auto relative shadow-sm inline-flex items-center px-4 py-2 border border-red-500 text-red-500 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:bg-red-100"
                 @click="onClickCancel(participation)"
-              >Annuler ma candidature</button>
+              >
+                Annuler ma candidature
+              </button>
             </div>
           </div>
         </div>
@@ -178,75 +204,75 @@
 </template>
 
 <script>
-import { fetchProfileParticipations } from "@/api/user";
-import { cancelParticipation } from "@/api/participation";
+import { fetchProfileParticipations } from '@/api/user'
+import { cancelParticipation } from '@/api/participation'
 
 export default {
-  name: "FrontUserMissions",
+  name: 'FrontUserMissions',
   components: {},
   data() {
     return {
       loading: true,
-      participations: {}
-    };
+      participations: {},
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     fetchProfileParticipations(this.$store.getters.user.profile.id)
-      .then(response => {
-        this.form = response.data;
-        this.participations = { ...response.data };
-        this.$store.commit("setLoading", false);
-        this.loading = false;
+      .then((response) => {
+        this.form = response.data
+        this.participations = { ...response.data }
+        this.$store.commit('setLoading', false)
+        this.loading = false
       })
       .catch(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
   },
   methods: {
-    canShowCoordonates(participation){
+    canShowCoordonates(participation) {
       let validStates = [
-            'Mission validée',
-            'Mission en cours',
-            'Mission effectuée'
-      ];
-      return validStates.includes(participation.state) ? true : false;
+        'Mission validée',
+        'Mission en cours',
+        'Mission effectuée',
+      ]
+      return validStates.includes(participation.state) ? true : false
     },
-    onClickCancel(participation){
+    onClickCancel(participation) {
       this.$confirm(
-          `Vous êtes sur le point d'annuler votre candidature. Voulez-vous continuer ?`,
-          "Annuler ma candidature",
-          {
-            confirmButtonText: "Annuler ma candidature",
-            confirmButtonClass: "el-button--danger",
-            cancelButtonText: "Retour",
-            center: true,
-            type: "error"
-          }
-        ).then(() => {
-          cancelParticipation(participation.id).then(() => {
-            participation.state = 'Candidature annulée'
-            this.$message({
-              type: "success",
-              message: `Votre candidature a été annulée.`
-            });
-          });
-        });
+        `Vous êtes sur le point d'annuler votre candidature. Voulez-vous continuer ?`,
+        'Annuler ma candidature',
+        {
+          confirmButtonText: 'Annuler ma candidature',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Retour',
+          center: true,
+          type: 'error',
+        }
+      ).then(() => {
+        cancelParticipation(participation.id).then(() => {
+          participation.state = 'Candidature annulée'
+          this.$message({
+            type: 'success',
+            message: `Votre candidature a été annulée.`,
+          })
+        })
+      })
     },
     participationStateTheme(participation) {
       switch (participation.state) {
-        case "En attente de validation":
-          return "text-orange-400";
-        case "Validé":
-          return "text-green-800";
-        case "Mission en cours":
-          return "text-green-400";
-        case "Refusé":
-          return "text-red-600";
-        case "Terminé":
-          return "text-green-600";
+        case 'En attente de validation':
+          return 'text-orange-400'
+        case 'Validé':
+          return 'text-green-800'
+        case 'Mission en cours':
+          return 'text-green-400'
+        case 'Refusé':
+          return 'text-red-600'
+        case 'Terminé':
+          return 'text-green-600'
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

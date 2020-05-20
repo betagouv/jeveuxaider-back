@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-full" style="max-width: 420px">
+  <div class="mx-auto w-full" style="max-width: 420px;">
     <div>
       <router-link to="/">
         <img
@@ -13,7 +13,7 @@
         <span class="text-blue-800">maintenance</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div class>
       <p>
         Une opération de maintenance est en cours. Nous faisons au plus vite. 🚀
@@ -24,6 +24,6 @@
 
 <script>
 export default {
-  name: "Maintenance"
-};
+  name: 'Maintenance',
+}
 </script>

@@ -3,19 +3,19 @@
     <el-card shadow="never">
       <div class="bg-white p-4">
         <div class="flex mb-3">
-          <div class="label mb-3 text-lg font-bold text-secondary uppercase flex-1">Nouvelles créations</div>
+          <div
+            class="label mb-3 text-lg font-bold text-secondary uppercase flex-1"
+          >
+            Nouvelles créations
+          </div>
           <div class="actions">
-            <el-input-number
-              class="mr-3"
-              size="small"
-              v-model="year"
-            ></el-input-number>
+            <el-input-number v-model="year" class="mr-3" size="small" />
           </div>
         </div>
         <bar-chart
-          :height="150"
           v-if="!loading"
-          :chartData="chartData"
+          :height="150"
+          :chart-data="chartData"
           :options="options"
           class="p-4"
         />
@@ -25,16 +25,16 @@
 </template>
 
 <script>
-import BarChart from "@/components/charts/BarChart";
-import { chartCreated } from "@/api/app";
+import BarChart from '@/components/charts/BarChart'
+import { chartCreated } from '@/api/app'
 
 export default {
   components: { BarChart },
   props: {
     type: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -53,54 +53,67 @@ export default {
             {
               display: true,
               ticks: {
-                  precision:0
-              }
-            }
+                precision: 0,
+              },
+            },
           ],
           xAxes: [
             {
               display: true,
               gridLines: {
-                display: false
+                display: false,
               },
-            }
-          ]
+            },
+          ],
         },
-      }
-    };
+      },
+    }
   },
   computed: {
     chartData() {
       return {
-        labels: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juill.','Aout','Sept.','Oct.','Nov.','Déc.'],
+        labels: [
+          'Janv.',
+          'Févr.',
+          'Mars',
+          'Avril',
+          'Mai',
+          'Juin',
+          'Juill.',
+          'Aout',
+          'Sept.',
+          'Oct.',
+          'Nov.',
+          'Déc.',
+        ],
         datasets: [
           {
             label: 'Nouvelles créations',
-            backgroundColor: "#2C5283",
-            data: this.datas.items
-          }
-        ]
-      };
-    }
-  },
-  created() {
-    this.fetchDatas();
+            backgroundColor: '#2C5283',
+            data: this.datas.items,
+          },
+        ],
+      }
+    },
   },
   watch: {
-    year: function(val) {
-      this.fetchDatas();
-    }
+    year: function () {
+      this.fetchDatas()
+    },
+  },
+  created() {
+    this.fetchDatas()
   },
   methods: {
-    fetchDatas(params) {
+    fetchDatas() {
       chartCreated({
         type: this.type,
-        year: this.year
-      }).then(res => {
-        this.datas = res.data;
-        this.loading = false;
-      });
-    }
-  }
-};
+        year: this.year,
+      }).then((res) => {
+        this.datas = res.data
+        this.loading = false
+      })
+    },
+  },
+}
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-full" style="max-width: 420px">
+  <div class="mx-auto w-full" style="max-width: 420px;">
     <div>
       <router-link to="/">
         <img
@@ -13,7 +13,7 @@
         <span class="text-blue-800">obsolète</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div class="text-gray-700 font-light">
       <div class="mb-6 font-bold text-2xl text-gray-800">
         Pourquoi ai-je besoin d'un navigateur à jour ?
@@ -118,6 +118,6 @@
 
 <script>
 export default {
-  name: "BrowserOutdated"
-};
+  name: 'BrowserOutdated',
+}
 </script>

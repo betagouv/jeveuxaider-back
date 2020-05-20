@@ -16,7 +16,7 @@
           <span class="text-blue-800">introuvable</span>
         </h2>
       </div>
-      <div class="mt-8 border-t border-gray-200 pt-8"></div>
+      <div class="mt-8 border-t border-gray-200 pt-8" />
       <div class>
         <p>
           La page que vous souhaitez afficher n'existe pas ou a été modifiée.
@@ -35,6 +35,6 @@
 
 <script>
 export default {
-  name: "NotFound"
-};
+  name: 'NotFound',
+}
 </script>
