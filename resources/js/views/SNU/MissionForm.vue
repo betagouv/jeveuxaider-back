@@ -394,12 +394,9 @@ export default {
   data() {
     return {
       loading: false,
-      canEdit: false,
       modalVisible: false,
       form: {
-        state: this.template ? 'Validée' : 'En attente de validation',
         participations_max: 1,
-        template: this.template || null,
         ...this.mission,
       },
       domaines: [],
