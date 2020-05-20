@@ -132,7 +132,7 @@ export default {
           this.loading = true
           forgotPassword(this.form.email)
             .then(() => {
-              this.loading = false
+              this.loading = true
               this.submitted = true
             })
             .catch(() => {
