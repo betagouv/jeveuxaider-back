@@ -181,6 +181,23 @@
               ></el-option>
             </el-select>
           </el-form-item>
+
+           <el-form-item label="Tags" prop="tags">
+            <el-select
+              v-model="form.tags"
+              filterable
+              multiple
+              placeholder="Selectionner les tags"
+            >
+             <el-option
+                v-for="domaine in domaines"
+                :key="domaine.id"
+                :label="domaine.name.fr"
+                :value="domaine.name.fr"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item
             label="Commentaire par la structure"
             prop="information"
@@ -523,13 +540,15 @@ export default {
         if (valid) {
           if (this.id) {
             updateMission(this.id, this.form)
-              .then(() => {
+              .then(res => {
                 this.loading = false
-                this.$router.go(-1)
-                this.$message({
-                  message: 'La mission a été mise à jour !',
-                  type: 'success',
-                })
+                console.log(res.data)
+                
+                // this.$router.go(-1)
+                // this.$message({
+                //   message: 'La mission a été mise à jour !',
+                //   type: 'success',
+                // })
               })
               .catch(() => {
                 this.loading = false

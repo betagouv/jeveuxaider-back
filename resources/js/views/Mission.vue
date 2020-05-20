@@ -88,7 +88,7 @@
                     >Domaine d'action</h4>
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
-                  <div class="mt-8">DOMAINES</div>
+                  <div class="mt-8">Liste des domaines @TODO</div>
                  </div>
 
                 <div class="mt-12">

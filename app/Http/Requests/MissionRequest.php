@@ -56,7 +56,8 @@ class MissionRequest extends FormRequest
             'publics_beneficiaires' => '',
             'type' => '',
             'domaine_id' => 'required_without:template_id',
-            'template_id' => ''
+            'template_id' => '',
+            'tags' => ''
         ];
     }
 

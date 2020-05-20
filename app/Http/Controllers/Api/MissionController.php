@@ -52,6 +52,12 @@ class MissionController extends Controller
     {
         $mission->update($request->validated());
 
+        // if($request->has('tags')) {
+        //     foreach($request->input('tags') as $tag){
+        //         $mission->syncTags($request->input('tags'));
+        //     }
+        // }
+
         return $mission;
     }
 
