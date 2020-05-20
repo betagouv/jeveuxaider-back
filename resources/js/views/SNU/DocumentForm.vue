@@ -178,8 +178,6 @@
 <script>
 import {
   getDocument,
-  updateDocument,
-  addDocument,
   addOrUpdateDocument,
   uploadFile
 } from "@/api/app";

@@ -69,24 +69,24 @@ new Vue({
       this.$router.push("/browser-outdated");
     }
 
-    Crisp.on_load = function() {
+    Crisp.on_load = function() { // eslint-disable-line
         if (typeof store.getters.profile  !== 'undefined') {
-          $crisp.push(["set", "user:email", [store.getters.profile.email]]);
-          $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]);
+          $crisp.push(["set", "user:email", [store.getters.profile.email]]); // eslint-disable-line
+          $crisp.push(["set", "user:nickname", [store.getters.profile.full_name]]); // eslint-disable-line
         }
         if(typeof store.getters.profile.zip !== 'undefined'){
-          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]);
+          $crisp.push(["set", "session:data", ["code_postal",store.getters.profile.zip]]); // eslint-disable-line
         }
         if( (typeof store.getters.contextRole !== 'undefined') && (store.getters.contextRole != null)){
-          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]);
+          $crisp.push(["set", "session:data", ["role",store.getters.contextRole]]); // eslint-disable-line
          }
     };
 
-    router.afterEach((to, from) => {
+    router.afterEach(() => {
       store.commit("volet/hide");
       store.commit("setLoading", false);
     });
-    router.beforeEach((to, from, next) => {
+    router.beforeEach((next) => {
       store.commit("setLoading", true);
       next();
     });

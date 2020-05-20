@@ -187,8 +187,6 @@
 <script>
 import {
   getCollectivity,
-  updateCollectivity,
-  addCollectivity,
   addOrUpdateCollectivity,
   uploadImage
 } from "@/api/app";

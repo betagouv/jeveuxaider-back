@@ -2,13 +2,14 @@ module.exports = {
   env: {
     'browser': true,
     'es6': true,
+    'node': true,
   },
   parserOptions: {
     parser: 'babel-eslint'
   },
   extends: [
     // add more generic rulesets here, such as:
-    // 'eslint:recommended',
+    'eslint:recommended',
     'plugin:vue/recommended'
   ],
   plugins: [

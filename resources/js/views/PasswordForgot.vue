@@ -99,6 +99,7 @@ import { forgotPassword } from "@/api/auth";
 export default {
   name: "PasswordForgot",
   data() {
+    /*
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
         callback(new Error("Merci de ne saisir que des minuscules"));
@@ -106,6 +107,7 @@ export default {
         callback();
       }
     };
+    */
     return {
       loading: false,
       submitted: false,

@@ -298,7 +298,7 @@ export default {
       }).then(() => {
         this.loading = true;
         massValidationParticipation()
-          .then(response => {
+          .then(() => {
             this.loading = false;
             this.$message({
               type: "success",

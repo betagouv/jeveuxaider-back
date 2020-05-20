@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import { reminders } from "@/api/app";
-
 export default {
   data() {
     return {

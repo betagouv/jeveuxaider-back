@@ -86,7 +86,7 @@ export default {
     }
   },
   watch: {
-    year: function(val) {
+    year: function() {
       this.fetchDatas();
     }
   },
@@ -94,7 +94,7 @@ export default {
     this.fetchDatas();
   },
   methods: {
-    fetchDatas(params) {
+    fetchDatas() {
       chartCreated({
         type: this.type,
         year: this.year

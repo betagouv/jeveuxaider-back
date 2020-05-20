@@ -593,7 +593,7 @@ export default new Router({
         { path: "/403", component: Forbidden, name: 'Forbidden' },
         { path: "*", component: NotFound, name: 'NotFound' }
     ],
-    scrollBehavior(to, from, savedPosition) {
+    scrollBehavior() {
         return { x: 0, y: 0 }
     }
 });

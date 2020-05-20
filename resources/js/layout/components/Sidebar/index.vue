@@ -70,7 +70,6 @@ import MenuSuperviseur from "./MenuSuperviseur";
 import MenuTuteur from "./MenuTuteur";
 import MenuAnalyste from "./MenuAnalyste";
 import Profile from "./Profile";
-import { mapGetters } from "vuex";
 
 export default {
   name: "Sidebar",

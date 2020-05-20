@@ -444,7 +444,7 @@ export default {
               this.writeTimeout.cancel()
             }
 
-            this._onPopState = ({state}) => {
+            this._onPopState = () => {
               cb(this.routing.router.read());
             };
             window.addEventListener('popstate', this._onPopState);

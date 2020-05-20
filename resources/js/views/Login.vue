@@ -96,6 +96,7 @@
 export default {
   name: "Login",
   data() {
+    /*
     var checkLowercase = (rule, value, callback) => {
         if (value !== value.toLowerCase()) {
           callback(new Error('Merci de ne saisir que des minuscules'));
@@ -103,6 +104,7 @@ export default {
           callback();
         }
       };
+    */
     return {
       loading: false,
       form: {

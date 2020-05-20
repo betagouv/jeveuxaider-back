@@ -38,31 +38,22 @@ Vue.filter("cleanDomaineAction", function (domaine) {
   switch (domaine) {
     case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
       return "Aide alimentaire et d’urgence";
-      break;
     case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
       return "Garde exceptionnelle d’enfants";
-      break;
     case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
       return "Lien avec les personnes fragiles isolées";
-      break;
     case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
       return "Solidarité de proximité";
-      break;
     case "soutien_aux_personnes_agees_en_etablissement":
       return "Soutien aux personnes âgées en établissement";
-      break;
     case "soutien_scolaire_a_distance":
       return "Soutien scolaire";
-      break;
     case "fabrication_distribution_equipements":
       return "Fabrication et distribution d’équipements de protection grand public";
-      break;
     case "soutien_mobilisation_sanitaire":
       return "Soutien à la mobilisation sanitaire";
-      break;
     case "soutien_reprise_missions_service_public":
       return "Soutien à la reprise des missions de service public";
-      break;
     default:
       return domaine
   }

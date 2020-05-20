@@ -20,7 +20,7 @@ const state = {
 
 // actions
 const actions = {
-  async bootstrap({ commit, dispatch, getters }) {
+  async bootstrap({ commit }) {
     const { data } = await bootstrap();
     commit("setTaxonomies", data.taxonomies);
     commit("setReseaux", data.reseaux);

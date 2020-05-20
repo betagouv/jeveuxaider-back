@@ -387,6 +387,7 @@ export default {
       this.loading = true;
       this.$refs["collectivityForm"].validate(valid => {
         if (valid) {
+          /*
           submitCollectivity(this.form)
             .then(() => {
               this.loading = false;
@@ -400,6 +401,7 @@ export default {
             .catch(() => {
               this.loading = false;
             });
+          */
         }
       });
     }

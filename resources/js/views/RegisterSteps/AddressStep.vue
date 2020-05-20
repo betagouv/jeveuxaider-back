@@ -10,11 +10,11 @@
       <p>
         Une question? Appelez-nous au<br><span class="font-bold"><a href="tel:0184800189">
           01 84 80 01 89</a> </span>
-        ou 
+        ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
           chatez en cliquant sur le bouton en bas à droite.
         </button>
-      </p>  
+      </p>
     </portal>
     <el-steps
       :active="3"
@@ -146,7 +146,6 @@
 import { updateStructure } from "@/api/structure";
 import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
 import FormWithAddress from "@/mixins/FormWithAddress";
-import store from "@/store";
 
 export default {
   name: "AddressStep",
