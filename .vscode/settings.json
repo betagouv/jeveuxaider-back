@@ -1,5 +1,10 @@
 {
     "phpSniffer.standard": "PSR2",
     "intelephense.environment.documentRoot": "public",
-    "editor.formatOnSave": false
+     // On Save
+    "editor.formatOnSave": false,
+    "vetur.validation.template": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
 }
