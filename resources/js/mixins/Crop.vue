@@ -18,10 +18,14 @@ export default {
   },
   computed: {
     imgPreview() {
-      return this.cropImgSrc ? this.cropImgSrc :
-      this.imgSrc ? this.imgSrc :
-      (this.form.image && this.form.image.thumb) ? this.form.image.thumb : this.form.image
-    }
+      return this.cropImgSrc
+        ? this.cropImgSrc
+        : this.imgSrc
+        ? this.imgSrc
+        : this.form.image && this.form.image.thumb
+        ? this.form.image.thumb
+        : this.form.image
+    },
   },
   methods: {
     onSelectFile(file) {

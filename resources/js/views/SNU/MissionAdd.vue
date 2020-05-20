@@ -91,7 +91,7 @@
         </div>
       </template>
       <template v-else>
-        <div class="bg-gray-100 p-4 mb-4 rounded flex items-center text-sm">
+        <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
           <div class="mr-3">
             <div class="mb-1">Des modèles de missions sont à venir</div>
             <div class="text-xs text-gray-400">
@@ -164,8 +164,12 @@ export default {
       domaines: [],
     }
   },
-  created() {
-    if (this.step == 1 || this.step == 2) {
+  async created() {
+    if (this.step == 1) {
+      let { data } = await fetchTags({ 'filter[type]': 'domaine' })
+      this.domaines = data.data
+    }
+    if (this.step == 2) {
       fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
         this.domaine_id =
           this.$router.history.current.query.domaine || res.data.data[0].id
