@@ -4,7 +4,8 @@
         "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "npm run dev -- --watch",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --https --key /Users/jeremy/.config/valet/Certificates/covid.test.key --cert /Users/jeremy/.config/valet/Certificates/covid.test.crt --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "lint": "eslint --ext .js,.vue resources/js/"
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^18.0.0",
@@ -45,6 +46,9 @@
     },
     "devDependencies": {
         "cross-env": "^5.1",
+        "eslint": "^7.0.0",
+        "eslint-config-google": "^0.14.0",
+        "eslint-plugin-vue": "^6.2.2",
         "laravel-mix": "^4.0.7",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
