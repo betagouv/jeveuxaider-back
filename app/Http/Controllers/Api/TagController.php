@@ -5,9 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TagCreateRequest;
+use App\Http\Requests\Api\TagDeleteRequest;
 use App\Http\Requests\Api\TagUpdateRequest;
+use App\Http\Requests\Api\TagUploadRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\Tags\Tag;
+use App\Models\Tag;
+use Illuminate\Support\Str;
 
 class TagController extends Controller
 {
@@ -44,7 +47,34 @@ class TagController extends Controller
         return $tag;
     }
 
-    public function delete(Request $request, Tag $tag)
+    public function upload(TagUploadRequest $request, Tag $tag)
+    {
+
+        // Delete previous file
+        if ($media = $tag->getFirstMedia('tags')) {
+            $media->delete();
+        }
+
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(30);
+
+        $tag
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->toMediaCollection('tags');
+
+        return $tag;
+    }
+
+    public function uploadDelete(TagDeleteRequest $request, Tag $tag)
+    {
+        if ($media = $tag->getFirstMedia('tags')) {
+            $media->delete();
+        }
+    }
+
+    public function delete(TagDeleteRequest $request, Tag $tag)
     {
         return (string) $tag->delete();
     }

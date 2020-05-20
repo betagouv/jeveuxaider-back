@@ -12,9 +12,6 @@ export default {
     return {
       img: null,
       imgSrc: '',
-      imgMinWidth: 1600,
-      imgMinHeight: 600,
-      imgMaxSize: 4000000, // 4 MB
       cropImgSrc: '',
       dialogCropVisible: false,
       loadingDelete: false,
@@ -23,9 +20,10 @@ export default {
   },
   computed: {
     imgPreview() {
+      console.log('imgPreview', this.form.image)
       return this.cropImgSrc ? this.cropImgSrc :
       this.imgSrc ? this.imgSrc :
-      (this.form.image && this.form.image.thumb) ? this.form.image.thumb : null
+      (this.form.image && this.form.image.thumb) ? this.form.image.thumb : this.form.image
     }
   },
   methods: {
@@ -33,7 +31,7 @@ export default {
       if (!file.raw) {
         return false;
       }
-      if (file.size > this.imgMaxSize) {
+      if (this.imgMaxSize && file.size > this.imgMaxSize) {
         this.$message({
           message: `La taille ne doit pas dépasser ${this.$options.filters.prettyBytes(this.imgMaxSize)}`,
           type: "error"
@@ -47,6 +45,7 @@ export default {
         });
         return false;
       }
+
       if (typeof FileReader === 'function') {
         const reader = new FileReader();
         reader.onload = (readerEvent) => {
@@ -56,7 +55,7 @@ export default {
           image.onload = (imageEvent) => {
             var height = imageEvent.path[0].height;
             var width = imageEvent.path[0].width;
-            if (height < this.imgMinHeight || width < this.imgMinWidth) {
+            if (this.imgMinHeight && this.imgMinWidth && (height < this.imgMinHeight || width < this.imgMinWidth)) {
               this.$message({
                 message: `Résolution minimale: ${this.imgMinWidth} par ${this.imgMinHeight} pixels`,
                 type: "error"
@@ -101,7 +100,7 @@ export default {
     },
     onDelete() {
       this.loadingDelete = true
-      deleteImage(this.form.id, 'collectivity')
+      deleteImage(this.form.id, this.model)
         .then(() => {
           this.form.image = null
           this.img = null

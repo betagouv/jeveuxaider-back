@@ -153,6 +153,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('tag', 'Api\TagController@store');
     Route::post('tag/{tag}', 'Api\TagController@update');
     Route::delete('tag/{tag}', 'Api\TagController@delete');
+    Route::post('tag/{tag}/upload', 'Api\TagController@upload');
+    Route::delete('tag/{tag}/upload', 'Api\TagController@uploadDelete');
 
     // DOCUMENTS
     Route::get('document/{document}', 'Api\DocumentController@show');

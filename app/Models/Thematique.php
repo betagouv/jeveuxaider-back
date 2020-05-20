@@ -70,6 +70,6 @@ class Thematique extends Model implements HasMedia
 
     public function domaine()
     {
-        return $this->belongsTo('Spatie\Tags\Tag');
+        return $this->belongsTo('App\Models\Tag');
     }
 }

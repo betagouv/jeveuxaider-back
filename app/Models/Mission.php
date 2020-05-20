@@ -119,7 +119,7 @@ class Mission extends Model
 
     public function domaine()
     {
-        return $this->belongsTo('Spatie\Tags\Tag');
+        return $this->belongsTo('App\Models\Tag');
     }
 
     public function template()

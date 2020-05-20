@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Spatie\Tags\Tag;
+use App\Models\Tag;
 
 class TagPolicy
 {

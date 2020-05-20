@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use App\Http\Requests\TagRequest;
-use Spatie\Tags\Tag;
+use App\Models\Tag;
 
 class TagCreateRequest extends TagRequest
 {

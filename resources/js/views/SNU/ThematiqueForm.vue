@@ -129,7 +129,11 @@ export default {
       tags: [],
       form: {
         published: true,
-      }
+      },
+      model: 'thematique',
+      imgMinWidth: 1600,
+      imgMinHeight: 600,
+      imgMaxSize: 4000000, // 4 MB
     };
   },
   computed: {
@@ -173,7 +177,7 @@ export default {
               this.form = response.data;
               if(this.img) {
                 let cropSettings = this.$refs.cropper ? this.$refs.cropper.getData() : null
-                uploadImage(this.form.id, 'thematique', this.img, cropSettings)
+                uploadImage(this.form.id, this.model, this.img, cropSettings)
                   .then(() => {
                     this.onSubmitEnd()
                   })
