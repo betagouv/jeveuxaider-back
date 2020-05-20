@@ -4,7 +4,44 @@
     <div class="mb-8 font-bold text-2xl text-gray-800">
       Création d'une nouvelle mission
     </div>
-    <div v-if="step == 1" style="max-width: 600px;">
+    <!-- STEP 1 : Choix du domaine d'action -->
+    <div v-if="step == 1" class="max-w-3xl">
+      <div class="mb-6 text-xl text-gray-800 flex items-center">
+        <div>Choisissez le domaine d'action principal</div>
+      </div>
+      <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+        <i class="el-icon-info text-primary mt-1 mr-2"></i>
+        <div class="flex-1">
+          Texte pour sensibiliser aux Réserves Thématiques ?
+        </div>
+      </div>
+      <div class="flex flex-wrap">
+        <div
+          v-for="domaine in domaines"
+          :key="domaine.id"
+          class="flex flex-col bg-gray-100 p-6 m-2 text-center items-center rounded-md w-56"
+        >
+          <div
+            class="p-2 flex items-center justify-center bg-blue-900 h-14 w-14 rounded-md text-white mb-4"
+          >
+            <img v-if="domaine.image" :src="domaine.image" />
+          </div>
+          <div class="mb-4">{{ domaine.name.fr }}</div>
+          <el-button
+            plain
+            type="primary"
+            size="medium"
+            class="mt-auto"
+            @click="hangeSelectDomaine(domaine.id)"
+          >
+            Choisir
+          </el-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : Choix du modèle de mission -->
+    <div v-else-if="step == 2" style="max-width: 600px;">
       <div class="mb-6 text-xl text-gray-800 flex items-center">
         <div>À partir d'un modèle</div>
         <el-tag type="success" size="small" class="ml-2"
@@ -54,7 +91,7 @@
         </div>
       </template>
       <template v-else>
-        <div class="bg-gray-100 p-4 mb-4 rounded flex items-center text-sm">
+        <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
           <div class="mr-3">
             <div class="mb-1">Des modèles de missions sont à venir</div>
             <div class="text-xs text-gray-400">
@@ -92,6 +129,8 @@
         >
       </div>
     </div>
+
+    <!-- STEP 3 : formulaire -->
     <MissionForm v-else :mission="mission" />
   </div>
 </template>
@@ -125,10 +164,15 @@ export default {
       domaines: [],
     }
   },
-  created() {
+  async created() {
     if (this.step == 1) {
+      let { data } = await fetchTags({ 'filter[type]': 'domaine' })
+      this.domaines = data.data
+    }
+    if (this.step == 2) {
       fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
-        this.domaine_id = res.data.data[0] ? res.data.data[0].id : null
+        this.domaine_id =
+          this.$router.history.current.query.domaine || res.data.data[0].id
         this.domaines = res.data.data
         fetchMissionTemplates({ 'filter[domaine.id]': this.domaine_id }).then(
           (res) => {
@@ -139,6 +183,12 @@ export default {
     }
   },
   methods: {
+    hangeSelectDomaine(domaine_id) {
+      this.$router.push({
+        name: 'MissionFormAdd',
+        query: { step: 2, domaine: domaine_id },
+      })
+    },
     handleChangeDomaine(domaine_id) {
       fetchMissionTemplates({ 'filter[domaine.id]': domaine_id }).then(
         (res) => {
@@ -159,7 +209,7 @@ export default {
             structure: data,
           },
         },
-        query: { step: 2 },
+        query: { step: 3 },
       })
     },
   },

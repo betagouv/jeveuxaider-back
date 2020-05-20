@@ -18,12 +18,14 @@
       />
 
       <div class="relative pt-1 pb-12 lg:py-12">
-        <AppHeader background="bg-transparent" border :showMenu="false">
+        <AppHeader background="bg-transparent" border :show-menu="false">
           <template v-slot:menu>
             <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
               <div
                 class="text-xl md:text-2xl font-medium text-white leading-none"
-              >• {{ collectivity.title }}</div>
+              >
+                • {{ collectivity.title }}
+              </div>
             </div>
           </template>
         </AppHeader>
@@ -50,15 +52,17 @@
 
             <div class="mt-5 sm:mt-8 sm:flex sm:justify-start">
               <div class="text-center">
-                <div
-                  class="pb-1 text-sm font-medium text-gray-100"
-                >Structure publique ou associative</div>
+                <div class="pb-1 text-sm font-medium text-gray-100">
+                  Structure publique ou associative
+                </div>
                 <router-link to="/register/responsable" class="btn-primary">
                   <span class="text-lg font-bold">Proposer une mission</span>
                 </router-link>
               </div>
               <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                <div class="pb-1 text-sm font-medium text-gray-100">Bénévole</div>
+                <div class="pb-1 text-sm font-medium text-gray-100">
+                  Bénévole
+                </div>
                 <router-link to="/register/volontaire" class="btn-white">
                   <span class="text-lg font-bold">Je veux aider</span>
                 </router-link>
@@ -75,12 +79,19 @@
           <h2
             class="text-3xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-14 leading-none"
           >
-            <div class="text-blue-900">{{ collectivity.title }}</div>L'engagement en quelques chiffres
+            <div class="text-blue-900">{{ collectivity.title }}</div>
+            L'engagement en quelques chiffres
           </h2>
-          <p v-if="!loading" class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center">
+          <p
+            v-if="!loading"
+            class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center"
+          >
             Sur l'ensemble du territoire français,
-            <b>{{ statistics.national.volontaires_count|formatNumber }}</b> réservistes et
-            <b>{{ statistics.national.structures_count|formatNumber }}</b> structures publiques et associatives ont déjà rejoint la Réserve Civique.
+            <b>{{ statistics.national.volontaires_count | formatNumber }}</b>
+            réservistes et
+            <b>{{ statistics.national.structures_count | formatNumber }}</b>
+            structures publiques et associatives ont déjà rejoint la Réserve
+            Civique.
           </p>
 
           <dl
@@ -88,23 +99,27 @@
             class="mt-2 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
           >
             <div class="flex flex-col">
-              <dd
-                class="text-5xl leading-none font-bold text-gray-800"
-              >{{ statistics.volontaires_count|formatNumber }}</dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">Réservistes</dt>
+              <dd class="text-5xl leading-none font-bold text-gray-800">
+                {{ statistics.volontaires_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-gray-800">
+                Réservistes
+              </dt>
             </div>
             <div class="flex flex-col mt-10 sm:mt-0">
-              <dd
-                class="text-5xl leading-none font-bold text-gray-800"
-              >{{ statistics.structures_count|formatNumber }}</dd>
+              <dd class="text-5xl leading-none font-bold text-gray-800">
+                {{ statistics.structures_count | formatNumber }}
+              </dd>
               <dt class="mt-2 text-lg font-medium text-gray-800">Structures</dt>
             </div>
 
             <div class="flex flex-col mt-10 sm:mt-0">
-              <dd
-                class="text-5xl leading-none font-bold text-gray-800"
-              >{{ statistics.participations_count|formatNumber }}</dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">Mises en relation</dt>
+              <dd class="text-5xl leading-none font-bold text-gray-800">
+                {{ statistics.participations_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-gray-800">
+                Mises en relation
+              </dt>
             </div>
           </dl>
         </div>
@@ -114,7 +129,9 @@
     <div class="container mx-auto px-4">
       <div
         class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
-      >Parmi les domaines d'actions populaires</div>
+      >
+        Parmi les domaines d'actions populaires
+      </div>
 
       <div v-if="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         <div v-for="template in statistics.templates" :key="template.id">
@@ -134,16 +151,26 @@
     <div class="container mx-auto px-4">
       <div
         class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
-      >Retrouvez toutes les missions disponibles dans votre commune</div>
-      <div class="pb-16 flex flex-wrap items-center justify-center" v-if="!loading">
+      >
+        Retrouvez toutes les missions disponibles dans votre commune
+      </div>
+      <div
+        v-if="!loading"
+        class="pb-16 flex flex-wrap items-center justify-center"
+      >
         <div
           v-for="(city, key) in statistics.cities"
           :key="key"
           class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50"
         >
           <router-link
-            :to="`/missions?query=${city.name}&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(collectivity.department)}`"
-          >{{ city.name }}</router-link>
+            :to="`/missions?query=${
+              city.name
+            }&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(
+              collectivity.department
+            )}`"
+            >{{ city.name }}</router-link
+          >
         </div>
       </div>
     </div>
@@ -178,13 +205,13 @@
 </template>
 
 <script>
-import { getCollectivity, getCollectivityStatistics } from "@/api/app";
-import MissionsSearch from "@/components/MissionsSearch";
+import { getCollectivity, getCollectivityStatistics } from '@/api/app'
+import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
   name: 'FrontCollectivity',
   components: {
-    MissionsSearch
+    MissionsSearch,
   },
   props: {
     slug: {
@@ -196,20 +223,20 @@ export default {
     return {
       loading: true,
       collectivity: {},
-      statistics: null
-    };
+      statistics: null,
+    }
   },
   created() {
     this.$store.commit('setLoading', true)
     getCollectivity(this.slug)
-      .then(response => {
-        this.collectivity = { ...response.data };
-        getCollectivityStatistics(this.collectivity.id).then(response => {
+      .then((response) => {
+        this.collectivity = { ...response.data }
+        getCollectivityStatistics(this.collectivity.id).then((response) => {
           console.log(response.data)
-          this.statistics = { ...response.data };
-          this.$store.commit("setLoading", false);
-          this.loading = false;
-        });
+          this.statistics = { ...response.data }
+          this.$store.commit('setLoading', false)
+          this.loading = false
+        })
       })
       .catch(() => {
         this.loading = false
