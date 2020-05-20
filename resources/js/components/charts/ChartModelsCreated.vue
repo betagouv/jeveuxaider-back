@@ -3,19 +3,21 @@
     <el-card shadow="never">
       <div class="bg-white p-4">
         <div class="flex mb-3">
-          <div class="label mb-3 text-lg font-bold text-secondary uppercase flex-1">Nouvelles créations</div>
+          <div class="label mb-3 text-lg font-bold text-secondary uppercase flex-1">
+            Nouvelles créations
+          </div>
           <div class="actions">
             <el-input-number
+              v-model="year"
               class="mr-3"
               size="small"
-              v-model="year"
-            ></el-input-number>
+            />
           </div>
         </div>
         <bar-chart
-          :height="150"
           v-if="!loading"
-          :chartData="chartData"
+          :height="150"
+          :chart-data="chartData"
           :options="options"
           class="p-4"
         />
@@ -83,13 +85,13 @@ export default {
       };
     }
   },
-  created() {
-    this.fetchDatas();
-  },
   watch: {
     year: function(val) {
       this.fetchDatas();
     }
+  },
+  created() {
+    this.fetchDatas();
   },
   methods: {
     fetchDatas(params) {

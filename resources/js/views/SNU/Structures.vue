@@ -14,9 +14,12 @@
           v-if="$store.getters.contextRole == 'admin'"
           :to="{ name: 'StructureFormAdd' }"
         >
-          <el-button type="primary" icon="el-icon-plus"
-            >Nouvelle structure</el-button
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
           >
+            Nouvelle structure
+          </el-button>
         </router-link>
       </div>
     </div>
@@ -28,23 +31,32 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge
+          v-if="activeFilters"
+          :value="activeFilters"
+          type="primary"
+        >
           <el-button
             icon="el-icon-s-operation"
             class="ml-4"
             @click="showFilters = !showFilters"
-            >Filtres avancés</el-button
           >
+            Filtres avancés
+          </el-button>
         </el-badge>
         <el-button
           v-else
           icon="el-icon-s-operation"
           class="ml-4"
           @click="showFilters = !showFilters"
-          >Filtres avancés</el-button
         >
+          Filtres avancés
+        </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div
+        v-if="showFilters"
+        class="flex flex-wrap"
+      >
         <query-search-filter
           name="lieu"
           label="Lieu"
@@ -92,14 +104,21 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column width="70" align="center">
+      <el-table-column
+        width="70"
+        align="center"
+      >
         <template slot-scope="scope">
           <el-avatar class="bg-primary">
             {{ scope.row.name[0] }}
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Structure" min-width="320">
+      <el-table-column
+        prop="name"
+        label="Structure"
+        min-width="320"
+      >
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.name }}
@@ -112,25 +131,36 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Contextes" min-width="320">
+      <el-table-column
+        label="Contextes"
+        min-width="320"
+      >
         <template slot-scope="scope">
           <el-tag
             v-if="scope.row.is_reseau"
             size="small"
             class="m-1 ml-0"
             type="danger"
-            >Tête de réseau</el-tag
           >
-          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0" size="small">{{
-            scope.row.reseau_id | reseauFromValue
-          }}</el-tag>
+            Tête de réseau
+          </el-tag>
+          <el-tag
+            v-if="scope.row.reseau_id"
+            class="m-1 ml-0"
+            size="small"
+          >
+            {{
+              scope.row.reseau_id | reseauFromValue
+            }}
+          </el-tag>
           <el-tag
             v-if="scope.row.department"
             type="warning"
             class="m-1 ml-0"
             size="small"
-            >{{ scope.row.department | fullDepartmentFromValue }}</el-tag
           >
+            {{ scope.row.department | fullDepartmentFromValue }}
+          </el-tag>
           <el-tooltip
             v-if="scope.row.ceu"
             class="item"
@@ -138,26 +168,40 @@
             :content="scope.row.structure_publique_etat_type"
             placement="top"
           >
-            <el-tag size="small" class="m-1 ml-0" type="info">CEU</el-tag>
+            <el-tag
+              size="small"
+              class="m-1 ml-0"
+              type="info"
+            >
+              CEU
+            </el-tag>
           </el-tooltip>
           <el-tag
             v-if="scope.row.missions_count > 0"
             type="info"
             class="m-1 ml-0"
             size="small"
-            >{{ scope.row.missions_count }}
+          >
+            {{ scope.row.missions_count }}
             {{
               scope.row.missions_count | pluralize(["mission", "missions"])
-            }}</el-tag
-          >
+            }}
+          </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="170">
+      <el-table-column
+        prop="state"
+        label="Statut"
+        min-width="170"
+      >
         <template slot-scope="scope">
-          <state-tag :state="scope.row.state"></state-tag>
+          <state-tag :state="scope.row.state" />
         </template>
       </el-table-column>
-      <el-table-column label="Actions" width="180">
+      <el-table-column
+        label="Actions"
+        width="180"
+      >
         <template slot-scope="scope">
           <el-dropdown
             size="small"
@@ -170,7 +214,7 @@
               })
             "
           >
-            <i class="el-icon-view mr-2"></i>Visualiser
+            <i class="el-icon-view mr-2" />Visualiser
             <el-dropdown-menu slot="dropdown">
               <router-link
                 :to="{
@@ -191,7 +235,9 @@
               <router-link
                 :to="{ name: 'StructureMembers', params: { id: scope.row.id } }"
               >
-                <el-dropdown-item divided>Gérer l'équipe</el-dropdown-item>
+                <el-dropdown-item divided>
+                  Gérer l'équipe
+                </el-dropdown-item>
               </router-link>
             </el-dropdown-menu>
           </el-dropdown>
@@ -206,19 +252,25 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      >
-      </el-pagination>
+      />
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
-        <el-button icon="el-icon-download" size="small" @click="onExport">
+        <el-button
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
           Export
         </el-button>
       </div>
     </div>
     <portal to="volet">
-      <structure-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+      <structure-volet
+        @updated="onUpdatedRow"
+        @deleted="onDeletedRow"
+      />
     </portal>
   </div>
 </template>

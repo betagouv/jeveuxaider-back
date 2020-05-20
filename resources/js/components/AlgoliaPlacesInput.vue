@@ -1,13 +1,16 @@
 <template>
   <div class="el-form-item is-required">
-    <label :for="selector" class="el-form-item__label">Lieu</label>
+    <label
+      :for="selector"
+      class="el-form-item__label"
+    >Lieu</label>
     <input
       :id="selector"
       type="text"
       class="el-input__inner places-search"
       placeholder="Rechercher une adresse..."
       autocomplete="off"
-    />
+    >
   </div>
 </template>
 

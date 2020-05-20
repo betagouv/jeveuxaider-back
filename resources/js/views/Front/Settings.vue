@@ -74,11 +74,18 @@
                 <el-button
                   type="primary"
                   :loading="loading"
-                  @click="onSubmit"
                   class=""
-                  >Enregistrer les modifications
+                  @click="onSubmit"
+                >
+                  Enregistrer les modifications
                 </el-button>
-                <div v-if="$store.getters.isVolunteerOnly === true" class="text-red-500 ml-4 cursor-pointer hover:underline" @click="onSubmitDelete">Supprimer mon compte</div>
+                <div
+                  v-if="$store.getters.isVolunteerOnly === true"
+                  class="text-red-500 ml-4 cursor-pointer hover:underline"
+                  @click="onSubmitDelete"
+                >
+                  Supprimer mon compte
+                </div>
               </div>
             </div>
           </el-form>

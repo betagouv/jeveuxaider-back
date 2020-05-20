@@ -1,18 +1,33 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">{{ row.structure.name }}</div>
-      <el-card shadow="hover" class="overflow-visible">
-        <div slot="header" class="clearfix flex flex-col items-center">
+      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
+        {{ row.structure.name }}
+      </div>
+      <el-card
+        shadow="hover"
+        class="overflow-visible"
+      >
+        <div
+          slot="header"
+          class="clearfix flex flex-col items-center"
+        >
           <div class="-mt-10">
             <el-avatar
               v-if="row.structure.logo"
               :src="`${row.structure.logo}`"
               class="w-10 rounded-full border"
             />
-            <el-avatar v-else class="bg-primary">{{ row.structure.name[0] }}</el-avatar>
+            <el-avatar
+              v-else
+              class="bg-primary"
+            >
+              {{ row.structure.name[0] }}
+            </el-avatar>
           </div>
-          <div class="font-bold text-lg text-center my-3 flex">{{ row.name|labelFromValue('mission_domaines') }}</div>
+          <div class="font-bold text-lg text-center my-3 flex">
+            {{ row.name|labelFromValue('mission_domaines') }}
+          </div>
           <div class="flex items-center">
             <router-link
               :to="{
@@ -20,13 +35,18 @@
                 params: { id: row.id }
               }"
             >
-              <el-button icon="el-icon-edit" type="mini">Modifier</el-button>
+              <el-button
+                icon="el-icon-edit"
+                type="mini"
+              >
+                Modifier
+              </el-button>
             </router-link>
             <button
               v-if="
                 $store.getters.contextRole == 'admin' ||
                   $store.getters.contextRole == 'referent' ||
-                    $store.getters.contextRole == 'referent_regional'
+                  $store.getters.contextRole == 'referent_regional'
               "
               type="button"
               class="ml-2 el-button is-plain el-button--danger el-button--mini"
@@ -42,13 +62,21 @@
             type="warning"
             class="m-1 ml-0"
             size="small"
-          >{{ row.department | fullDepartmentFromValue }}</el-tag>
+          >
+            {{ row.department | fullDepartmentFromValue }}
+          </el-tag>
         </div>
-        <mission-infos :mission="row"></mission-infos>
+        <mission-infos :mission="row" />
       </el-card>
-      <el-form ref="missionForm" :model="form" label-position="top">
+      <el-form
+        ref="missionForm"
+        :model="form"
+        label-position="top"
+      >
         <template v-if="showAskValidation">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Publier la mission</div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Publier la mission
+          </div>
           <item-description>
             Une fois votre mission complétée, vous pouvez la publier pour qu'elle soit proposée aux utilisateurs.
           </item-description>
@@ -57,23 +85,34 @@
               type="primary"
               :loading="loading"
               @click="onAskValidationSubmit"
-            >Publier la mission</el-button>
+            >
+              Publier la mission
+            </el-button>
           </div>
         </template>
         <template v-if="showStatut">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut de la mission</div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Statut de la mission
+          </div>
           <item-description>
             Vous pouvez sélectionner le statut de la mission. A noter que des
             notifications emails seront envoyées.
           </item-description>
-          <el-form-item label="Statut" prop="state" class="flex-1">
-            <el-select v-model="form.state" placeholder="Statut">
+          <el-form-item
+            label="Statut"
+            prop="state"
+            class="flex-1"
+          >
+            <el-select
+              v-model="form.state"
+              placeholder="Statut"
+            >
               <el-option
                 v-for="item in statesAvailable"
                 :key="item.label"
                 :label="item.value"
                 :value="item.label"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
         </template>
@@ -101,8 +140,17 @@
             </el-select>
           </el-form-item>
         </template> -->
-        <div v-if="showStatut" class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
+        <div
+          v-if="showStatut"
+          class="flex pt-2"
+        >
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="onSubmit"
+          >
+            Enregistrer
+          </el-button>
         </div>
       </el-form>
     </template>
@@ -114,12 +162,11 @@ import Volet from "@/layout/components/Volet";
 import { updateMission, deleteMission } from "@/api/mission";
 import VoletRow from "@/mixins/VoletRow";
 import ItemDescription from "@/components/forms/ItemDescription";
-import YoungTeaser from "@/components/YoungTeaser";
 import MissionInfos from "@/components/infos/MissionInfos";
 
 export default {
   name: "MissionVolet",
-  components: { Volet, ItemDescription, YoungTeaser, MissionInfos },
+  components: { Volet, ItemDescription, MissionInfos },
   mixins: [VoletRow],
   data() {
     return {

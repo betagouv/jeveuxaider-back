@@ -3,7 +3,11 @@
     <div class="text-secondary text-xs uppercase font-semibold mb-2">
       {{ label }}
     </div>
-    <el-input v-model="input" :placeholder="placeholder" clearable />
+    <el-input
+      v-model="input"
+      :placeholder="placeholder"
+      clearable
+    />
   </div>
 </template>
 

@@ -1,15 +1,30 @@
 <template>
-  <div v-if="!$store.getters.loading && canEdit" class="mission-form pl-12 pb-12">
+  <div
+    v-if="!$store.getters.loading && canEdit"
+    class="mission-form pl-12 pb-12"
+  >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">Mission</div>
+      <div class="text-m text-gray-600 uppercase">
+        Mission
+      </div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800 max-w-3xl">{{ form.name|labelFromValue('mission_domaines') }}</div>
-        <state-tag :state="form.state" class="relative ml-3" style="top: 1px"></state-tag>
+        <div class="font-bold text-2xl text-gray-800 max-w-3xl">
+          {{ form.name|labelFromValue('mission_domaines') }}
+        </div>
+        <state-tag
+          :state="form.state"
+          class="relative ml-3"
+          style="top: 1px"
+        />
       </div>
     </template>
     <template v-else>
-      <div class="text-m text-gray-600 uppercase">Mission</div>
-      <div class="mb-12 font-bold text-2xl text-gray-800">Création d'une nouvelle mission</div>
+      <div class="text-m text-gray-600 uppercase">
+        Mission
+      </div>
+      <div class="mb-12 font-bold text-2xl text-gray-800">
+        Création d'une nouvelle mission
+      </div>
     </template>
     <div class="flex">
       <div style="max-width: 600px">
@@ -28,28 +43,47 @@
           label-position="top"
           :rules="rules"
         >
-          <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+          <div class="mb-6 text-xl text-gray-800">
+            Informations générales
+          </div>
 
-          <el-form-item v-if="form.structure" label="Ma structure" class>
-            <el-input v-model="form.structure.name" placeholder="Structure de la mission" disabled />
+          <el-form-item
+            v-if="form.structure"
+            label="Ma structure"
+            class
+          >
+            <el-input
+              v-model="form.structure.name"
+              placeholder="Structure de la mission"
+              disabled
+            />
           </el-form-item>
 
-          <el-form-item label="Domaine d'action" prop="name">
+          <el-form-item
+            label="Domaine d'action"
+            prop="name"
+          >
             <item-description>
               Choisissez parmi la liste des missions prioritaires face à la
               crise
             </item-description>
-            <el-select v-model="form.name" placeholder="Choisir un domaine d'action">
+            <el-select
+              v-model="form.name"
+              placeholder="Choisir un domaine d'action"
+            >
               <el-option
                 v-for="item in $store.getters.taxonomies.mission_domaines.terms"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
 
-          <el-form-item label="Type de mission" prop="type">
+          <el-form-item
+            label="Type de mission"
+            prop="type"
+          >
             <el-select
               v-model="form.type"
               placeholder="Selectionner un type de mission"
@@ -60,7 +94,7 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
 
@@ -72,24 +106,41 @@
               Précisez ce nombre en fonction de vos contraintes logistiques et
               votre capacité à accompagner les volontaires.
             </item-description>
-            <el-input-number v-model="form.participations_max" :step="1" :min="1" class="w-full"></el-input-number>
+            <el-input-number
+              v-model="form.participations_max"
+              :step="1"
+              :min="1"
+              class="w-full"
+            />
           </el-form-item>
 
-          <el-form-item label="Format de mission" prop="format">
-            <el-select v-model="form.format" placeholder="Selectionner un format de mission">
+          <el-form-item
+            label="Format de mission"
+            prop="format"
+          >
+            <el-select
+              v-model="form.format"
+              placeholder="Selectionner un format de mission"
+            >
               <el-option
                 v-for="item in $store.getters.taxonomies.mission_formats.terms"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
 
-          <div class="mt-12 mb-6 text-xl text-gray-800">Dates de la mission</div>
+          <div class="mt-12 mb-6 text-xl text-gray-800">
+            Dates de la mission
+          </div>
 
           <div class="flex">
-            <el-form-item label="Date de début" prop="start_date" class="flex-1 mr-2">
+            <el-form-item
+              label="Date de début"
+              prop="start_date"
+              class="flex-1 mr-2"
+            >
               <el-date-picker
                 v-model="form.start_date"
                 class="w-full"
@@ -97,9 +148,13 @@
                 placeholder="Date de début"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 default-time="09:00:00"
-              ></el-date-picker>
+              />
             </el-form-item>
-            <el-form-item label="Date de fin" prop="start_date" class="flex-1 ml-2">
+            <el-form-item
+              label="Date de fin"
+              prop="start_date"
+              class="flex-1 ml-2"
+            >
               <el-date-picker
                 v-model="form.end_date"
                 class="w-full"
@@ -107,7 +162,7 @@
                 placeholder="Date de fin"
                 default-time="18:00:00"
                 value-format="yyyy-MM-dd HH:mm:ss"
-              ></el-date-picker>
+              />
             </el-form-item>
           </div>
 
@@ -121,7 +176,7 @@
               type="textarea"
               :autosize="{ minRows: 2, maxRows: 6 }"
               placeholder="Informations complémentaires concernant les dates et horaires de la mission"
-            ></el-input>
+            />
           </el-form-item>
 
           <!-- <el-form-item
@@ -142,9 +197,15 @@
         </el-select>
           </el-form-item>-->
 
-          <div class="mt-12 mb-6 text-xl text-gray-800">Détail de la mission</div>
+          <div class="mt-12 mb-6 text-xl text-gray-800">
+            Détail de la mission
+          </div>
           <div class>
-            <el-form-item label="Commentaire par la structure" prop="description" class="flex-1">
+            <el-form-item
+              label="Commentaire par la structure"
+              prop="description"
+              class="flex-1"
+            >
               <item-description>
                 Décrivez précisément la mission (contexte, objectifs,
                 bénéficiaires, activités, utilité, ressources...). Celle-ci doit
@@ -157,10 +218,13 @@
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 6 }"
                 placeholder="Décrivez votre mission, en quelques mots"
-              ></el-input>
+              />
             </el-form-item>
 
-            <el-form-item label="Publics bénéficiaires" prop="publics_beneficiaires">
+            <el-form-item
+              label="Publics bénéficiaires"
+              prop="publics_beneficiaires"
+            >
               <el-select
                 v-model="form.publics_beneficiaires"
                 placeholder="Selectionner les publics bénéficiaires"
@@ -172,7 +236,7 @@
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
 
@@ -200,16 +264,25 @@
 
           <div
             class="mt-12 mb-6 flex text-xl text-gray-800"
-          >La localisation des publics bénéficiaires</div>
+          >
+            La localisation des publics bénéficiaires
+          </div>
 
-          <el-form-item label="Département" prop="department">
-            <el-select v-model="form.department" filterable placeholder="Département">
+          <el-form-item
+            label="Département"
+            prop="department"
+          >
+            <el-select
+              v-model="form.department"
+              filterable
+              placeholder="Département"
+            >
               <el-option
                 v-for="item in $store.getters.taxonomies.departments.terms"
                 :key="item.value"
                 :label="`${item.value} - ${item.label}`"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <algolia-places-input
@@ -217,50 +290,104 @@
             :value="form.full_address"
             @selected="setAddress"
             @clear="clearAddress"
-          ></algolia-places-input>
-          <el-form-item label="Adresse" prop="address">
-            <el-input v-model="form.address" disabled placeholder="Adresse" />
+          />
+          <el-form-item
+            label="Adresse"
+            prop="address"
+          >
+            <el-input
+              v-model="form.address"
+              disabled
+              placeholder="Adresse"
+            />
           </el-form-item>
           <div class="flex">
-            <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
-              <el-input v-model="form.zip" disabled placeholder="Code postal" />
+            <el-form-item
+              label="Code postal"
+              prop="zip"
+              class="flex-1 mr-2"
+            >
+              <el-input
+                v-model="form.zip"
+                disabled
+                placeholder="Code postal"
+              />
             </el-form-item>
-            <el-form-item label="Ville" prop="city" class="flex-1">
-              <el-input v-model="form.city" disabled placeholder="Ville" />
+            <el-form-item
+              label="Ville"
+              prop="city"
+              class="flex-1"
+            >
+              <el-input
+                v-model="form.city"
+                disabled
+                placeholder="Ville"
+              />
             </el-form-item>
           </div>
           <div class="flex">
-            <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
-              <el-input v-model="form.latitude" disabled placeholder="Latitude" />
+            <el-form-item
+              label="Latitude"
+              prop="latitude"
+              class="flex-1 mr-2"
+            >
+              <el-input
+                v-model="form.latitude"
+                disabled
+                placeholder="Latitude"
+              />
             </el-form-item>
-            <el-form-item label="Longitude" prop="longitude" class="flex-1">
-              <el-input v-model="form.longitude" disabled placeholder="Longitude" />
+            <el-form-item
+              label="Longitude"
+              prop="longitude"
+              class="flex-1"
+            >
+              <el-input
+                v-model="form.longitude"
+                disabled
+                placeholder="Longitude"
+              />
             </el-form-item>
           </div>
 
-          <div class="mt-12 mb-6 flex text-xl text-gray-800">Responsable de la mission</div>
+          <div class="mt-12 mb-6 flex text-xl text-gray-800">
+            Responsable de la mission
+          </div>
           <item-description>
             Les notifications lors de la prise de contact d'un volontaire
             concernant cette mission seront envoyées à cette personne.
-            <br />Vous pouvez également
+            <br>Vous pouvez également
             <span
               class="underline cursor-pointer"
               @click="onAddTuteurLinkClicked"
             >ajouter un nouveau membre</span>
             à votre équipe.
           </item-description>
-          <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
-            <el-select v-model="form.tuteur_id" placeholder="Sélectionner un responsable">
+          <el-form-item
+            label="Responsable"
+            prop="tuteur_id"
+            class="flex-1"
+          >
+            <el-select
+              v-model="form.tuteur_id"
+              placeholder="Sélectionner un responsable"
+            >
               <el-option
                 v-for="item in form.structure.members"
                 :key="item.id"
                 :label="item.full_name"
                 :value="item.id"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="onSubmit"
+            >
+              Enregistrer
+            </el-button>
             <!-- <el-button
           v-if="showAskValidation"
           type="primary"

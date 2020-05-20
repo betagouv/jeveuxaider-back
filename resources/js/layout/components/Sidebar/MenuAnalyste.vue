@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-menu-item index="/dashboard" :class="{'is-active': isActive('dashboard')}">
+    <el-menu-item
+      index="/dashboard"
+      :class="{'is-active': isActive('dashboard')}"
+    >
       <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
         v-else
@@ -10,7 +13,7 @@
         content="Tableau de bord"
         placement="right"
       >
-        <i class="el-icon-data-analysis"></i>
+        <i class="el-icon-data-analysis" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item v-if="$store.getters.sidebar">

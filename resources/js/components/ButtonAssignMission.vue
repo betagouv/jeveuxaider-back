@@ -5,8 +5,9 @@
     :loading="loading"
     :disabled="registrationsLeft == 0"
     @click.stop="onSubmit"
-    >Proposer cette mission</el-button
   >
+    Proposer cette mission
+  </el-button>
 </template>
 
 <script>

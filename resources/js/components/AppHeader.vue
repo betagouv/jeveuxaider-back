@@ -8,7 +8,11 @@
         >
           <div class="flex-shrink-0 my-4 lg:my-0 order-1">
             <router-link :to="{ name: 'Homepage' }">
-              <img class="h-6" src="/images/logo-header.png" alt="Réserve Civique" />
+              <img
+                class="h-6"
+                src="/images/logo-header.png"
+                alt="Réserve Civique"
+              >
             </router-link>
           </div>
 
@@ -23,7 +27,9 @@
                     'bg-blue-700': isCurrentPath('/missions')
                   }"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition focus:bg-gray-700 hover:bg-blue-700"
-                >Trouver une mission</router-link>
+                >
+                  Trouver une mission
+                </router-link>
 
                 <router-link
                   v-if="$store.getters.isLogged && $store.getters.noRole === true"
@@ -32,14 +38,18 @@
                     'bg-blue-700': isCurrentPath('/user/missions')
                   }"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                >Mes missions</router-link>
+                >
+                  Mes missions
+                </router-link>
                 <router-link
                   to="/regles-de-securite"
                   class="hidden sm:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
                   :class="{
                     'bg-blue-700': isCurrentPath('/regles-de-securite')
                   }"
-                >Règles de sécurité</router-link>
+                >
+                  Règles de sécurité
+                </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
@@ -51,28 +61,37 @@
           <div class="order-2 lg:order-3 ml-auto lg:ml-3">
             <div class="flex items-center -m-2">
               <div
-                class="flex items-center"
                 v-if="
                   $store.getters.isLogged &&
                     $store.getters.contextRole != 'volontaire'
                 "
+                class="flex items-center"
               >
                 <router-link
                   to="/dashboard"
                   class="hidden lg:block bordermr-3 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:bg-blue-700"
-                >Tableau de bord</router-link>
-                <el-badge v-if="$store.getters.isLogged && $store.getters.reminders && $store.getters.reminders.waiting > 0" :value="$store.getters.reminders.waiting" :max="99" class="ml-3 mr-5">
+                >
+                  Tableau de bord
+                </router-link>
+                <el-badge
+                  v-if="$store.getters.isLogged && $store.getters.reminders && $store.getters.reminders.waiting > 0"
+                  :value="$store.getters.reminders.waiting"
+                  :max="99"
+                  class="ml-3 mr-5"
+                >
                   <router-link to="/dashboard">
-                    <i class="el-icon-bell text-white text-2xl"></i>
+                    <i class="el-icon-bell text-white text-2xl" />
                   </router-link>
                 </el-badge>
               </div>
-              <dropdown-user v-if="$store.getters.isLogged"></dropdown-user>
+              <dropdown-user v-if="$store.getters.isLogged" />
               <router-link
                 v-else
                 to="/login"
                 class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
-              >Se connecter</router-link>
+              >
+                Se connecter
+              </router-link>
             </div>
           </div>
         </div>

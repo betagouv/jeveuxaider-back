@@ -6,8 +6,7 @@
       prefix-icon="el-icon-search"
       :placeholder="placeholder"
       clearable
-    >
-    </el-input>
+    />
   </div>
 </template>
 

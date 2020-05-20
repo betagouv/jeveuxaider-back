@@ -1,19 +1,27 @@
 <template>
-  <div v-if="!$store.getters.loading" class="structure-form pl-12 pb-12">
+  <div
+    v-if="!$store.getters.loading"
+    class="structure-form pl-12 pb-12"
+  >
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">
         Structure
       </div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800">{{ form.name }}</div>
+        <div class="font-bold text-2xl text-gray-800">
+          {{ form.name }}
+        </div>
         <state-tag
           :state="form.state"
           class="relative ml-3"
           style="top: 1px"
-        ></state-tag>
+        />
       </div>
     </template>
-    <div v-else class="mb-12 font-bold text-2xl text-gray-800">
+    <div
+      v-else
+      class="mb-12 font-bold text-2xl text-gray-800"
+    >
       Création d'une nouvelle structure d'accueil
     </div>
     <el-form
@@ -60,11 +68,20 @@
         </div>
       </div> -->
 
-      <el-form-item label="Nom de votre structure" prop="name">
-        <el-input v-model="form.name" placeholder="Nom de votre structure" />
+      <el-form-item
+        label="Nom de votre structure"
+        prop="name"
+      >
+        <el-input
+          v-model="form.name"
+          placeholder="Nom de votre structure"
+        />
       </el-form-item>
 
-      <el-form-item label="Statut juridique" prop="statut_juridique">
+      <el-form-item
+        label="Statut juridique"
+        prop="statut_juridique"
+      >
         <el-select
           v-model="form.statut_juridique"
           placeholder="Statut juridique"
@@ -75,7 +92,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -93,7 +110,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -110,7 +127,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -131,7 +148,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item
@@ -148,7 +165,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -162,7 +179,7 @@
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 6 }"
           placeholder="Décrivez votre structure, en quelques mots"
-        ></el-input>
+        />
       </el-form-item>
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
@@ -174,7 +191,11 @@
         superviseur de votre réseau de visualiser les missions et volontaires
         rattachés à votre structure.
       </item-description>
-      <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+      <el-form-item
+        label="Réseau national"
+        prop="reseau"
+        class="flex-1"
+      >
         <el-select
           v-model="form.reseau_id"
           clearable
@@ -185,14 +206,17 @@
             :key="item.id"
             :label="item.name"
             :value="item.id"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
         Lieu de l'établissement
       </div>
-      <el-form-item label="Département" prop="department">
+      <el-form-item
+        label="Département"
+        prop="department"
+      >
         <el-select
           v-model="form.department"
           filterable
@@ -203,38 +227,87 @@
             :key="item.value"
             :label="`${item.value} - ${item.label}`"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <algolia-places-input
         :value="form.full_address"
         @selected="setAddress"
         @clear="clearAddress"
-      ></algolia-places-input>
-      <el-form-item label="Adresse" prop="address">
-        <el-input v-model="form.address" disabled placeholder="Adresse" />
+      />
+      <el-form-item
+        label="Adresse"
+        prop="address"
+      >
+        <el-input
+          v-model="form.address"
+          disabled
+          placeholder="Adresse"
+        />
       </el-form-item>
       <div class="flex">
-        <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
-          <el-input v-model="form.zip" disabled placeholder="Code postal" />
+        <el-form-item
+          label="Code postal"
+          prop="zip"
+          class="flex-1 mr-2"
+        >
+          <el-input
+            v-model="form.zip"
+            disabled
+            placeholder="Code postal"
+          />
         </el-form-item>
-        <el-form-item label="Ville" prop="city" class="flex-1">
-          <el-input v-model="form.city" disabled placeholder="Ville" />
+        <el-form-item
+          label="Ville"
+          prop="city"
+          class="flex-1"
+        >
+          <el-input
+            v-model="form.city"
+            disabled
+            placeholder="Ville"
+          />
         </el-form-item>
       </div>
       <div class="flex">
-        <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
-          <el-input v-model="form.latitude" disabled placeholder="Latitude" />
+        <el-form-item
+          label="Latitude"
+          prop="latitude"
+          class="flex-1 mr-2"
+        >
+          <el-input
+            v-model="form.latitude"
+            disabled
+            placeholder="Latitude"
+          />
         </el-form-item>
-        <el-form-item label="Longitude" prop="longitude" class="flex-1">
-          <el-input v-model="form.longitude" disabled placeholder="Longitude" />
+        <el-form-item
+          label="Longitude"
+          prop="longitude"
+          class="flex-1"
+        >
+          <el-input
+            v-model="form.longitude"
+            disabled
+            placeholder="Longitude"
+          />
         </el-form-item>
       </div>
       <div class="flex pt-2 items-center">
-        <el-button type="primary" :loading="loading" @click="onSubmit"
-          >Enregistrer</el-button
+        <el-button
+          type="primary"
+          :loading="loading"
+          @click="onSubmit"
         >
-        <div v-if="$store.getters.contextRole === 'responsable'" class="text-red-500 ml-4 cursor-pointer hover:underline" @click="onSubmitDelete">Supprimer ma structure</div>
+          Enregistrer
+        </el-button>
+        <div
+          v-if="$store.getters.contextRole === 'responsable'"
+          class="text-red-500 ml-4 cursor-pointer hover:underline"
+          @click="onSubmitDelete"
+        >
+          Supprimer ma structure
+        </div>
       </div>
     </el-form>
   </div>

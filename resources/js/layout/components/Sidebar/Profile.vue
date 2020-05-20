@@ -14,18 +14,31 @@
             :src="`${$store.getters.user.profile.avatar}`"
             class="w-10 rounded-full border"
           />
-          <el-avatar v-else class="bg-primary">
+          <el-avatar
+            v-else
+            class="bg-primary"
+          >
             {{ $store.getters.user.profile.first_name[0]
             }}{{ $store.getters.user.profile.last_name[0] }}
           </el-avatar>
-          <div v-if="$store.getters.sidebar" class="flex flex-col ml-2">
-            <div class="text-black">{{ $store.getters.user.profile.first_name }}</div>
-            <div class="uppercase text-xs">{{ $store.getters["user/contextRoleLabel"] }}</div>
+          <div
+            v-if="$store.getters.sidebar"
+            class="flex flex-col ml-2"
+          >
+            <div class="text-black">
+              {{ $store.getters.user.profile.first_name }}
+            </div>
+            <div class="uppercase text-xs">
+              {{ $store.getters["user/contextRoleLabel"] }}
+            </div>
           </div>
         </div>
-        <i class="el-icon-arrow-down el-icon--right"></i>
+        <i class="el-icon-arrow-down el-icon--right" />
       </div>
-      <el-dropdown-menu slot="dropdown" style="max-width: 300px">
+      <el-dropdown-menu
+        slot="dropdown"
+        style="max-width: 300px"
+      >
         <div v-if="activeMenu == 'profile'">
           <!-- <router-link v-if="$store.getters.contextRole == 'responsable'" :to="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`">
             <el-dropdown-item class="flex items-center">
@@ -48,7 +61,10 @@
           >
             <el-dropdown-item>Gérer votre équipe</el-dropdown-item>
           </router-link>
-          <router-link v-if="$store.getters.contextRole == 'admin'" :to="`/dashboard/trash`">
+          <router-link
+            v-if="$store.getters.contextRole == 'admin'"
+            :to="`/dashboard/trash`"
+          >
             <el-dropdown-item>Corbeille</el-dropdown-item>
           </router-link>
           <el-dropdown-item
@@ -71,33 +87,40 @@
           >
             <div class="flex space-between items-center">
               Changer de rôle
-              <i class="el-icon-arrow-right ml-auto"></i>
+              <i class="el-icon-arrow-right ml-auto" />
             </div>
           </el-dropdown-item>
-          <el-dropdown-item v-if="isImpersonating" divided />
+          <el-dropdown-item
+            v-if="isImpersonating"
+            divided
+          />
           <el-dropdown-item
             v-if="isImpersonating"
             class="text-orange-500 flex space-between items-center"
             :command="{ action: 'stopImpersonate' }"
           >
             Unmasquarade
-            <i class="el-icon-s-custom ml-auto"></i>
+            <i class="el-icon-s-custom ml-auto" />
           </el-dropdown-item>
           <el-dropdown-item divided />
           <router-link to="/logout">
-            <el-dropdown-item class="text-red-500">Se déconnecter</el-dropdown-item>
+            <el-dropdown-item class="text-red-500">
+              Se déconnecter
+            </el-dropdown-item>
           </router-link>
         </div>
         <div v-if="activeMenu == 'role'">
           <el-dropdown-item :command="{ action: 'menu', value: 'profile' }">
-            <i class="el-icon-arrow-left"></i>Retour
+            <i class="el-icon-arrow-left" />Retour
           </el-dropdown-item>
-          <el-dropdown-item divided></el-dropdown-item>
+          <el-dropdown-item divided />
           <el-dropdown-item
             v-for="role in $store.getters.hasRoles"
             :key="role.key"
             :command="{ action: 'role', value: role.key }"
-          >{{ role.label }}</el-dropdown-item>
+          >
+            {{ role.label }}
+          </el-dropdown-item>
         </div>
       </el-dropdown-menu>
     </el-dropdown>

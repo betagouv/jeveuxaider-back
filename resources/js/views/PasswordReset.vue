@@ -1,12 +1,15 @@
 <template>
-  <div class="mx-auto w-full" style="max-width: 390px;">
+  <div
+    class="mx-auto w-full"
+    style="max-width: 390px;"
+  >
     <div>
       <router-link to="/">
         <img
           class="h-8 w-auto"
           src="/images/logo-header-dark.png"
           alt="Réserve Civique"
-        />
+        >
       </router-link>
       <h2
         v-if="!submitted"
@@ -23,7 +26,7 @@
         <span class="text-blue-800">modifié !</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div v-if="!submitted">
       <el-form
         ref="resetPasswordForm"
@@ -32,7 +35,10 @@
         :rules="rules"
         :hide-required-asterisk="true"
       >
-        <el-form-item label="Nouveau mot de passe" prop="password">
+        <el-form-item
+          label="Nouveau mot de passe"
+          prop="password"
+        >
           <el-input
             v-model="form.password"
             placeholder="Définir un mot de passe"
@@ -55,19 +61,18 @@
           <el-button
             type="primary"
             :loading="loading"
-            @click="onSubmit"
             style="height: 48px;"
             class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-            >Modifier mon mot de passe</el-button
-          >
+            @click="onSubmit"
+          >Modifier mon mot de passe</el-button>
         </span>
       </div>
     </div>
     <div v-else>
       <div class="mb-6 text-sm">
         Votre mot de passe a été mis à jour.
-        <br />
-        <br />Vous pouvez désormais vous connecter avec vos nouveaux
+        <br>
+        <br>Vous pouvez désormais vous connecter avec vos nouveaux
         identifiants.
       </div>
       <div class="mt-6 sm:col-span-">

@@ -10,7 +10,7 @@
         content="Tableau de bord"
         placement="right"
       >
-        <i class="el-icon-data-analysis"></i>
+        <i class="el-icon-data-analysis" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/structures">
@@ -23,7 +23,7 @@
         content="Structures"
         placement="right"
       >
-        <i class="el-icon-school"></i>
+        <i class="el-icon-school" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/missions">
@@ -36,7 +36,7 @@
         content="Missions"
         placement="right"
       >
-        <i class="el-icon-collection"></i>
+        <i class="el-icon-collection" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/participations">
@@ -49,7 +49,7 @@
         content="Participations"
         placement="right"
       >
-        <i class="el-icon-finished"></i>
+        <i class="el-icon-finished" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/profiles">
@@ -62,7 +62,7 @@
         content="Utilisateurs"
         placement="right"
       >
-        <i class="el-icon-user"></i>
+        <i class="el-icon-user" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item v-if="!isCollapsed">

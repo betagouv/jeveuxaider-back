@@ -9,25 +9,20 @@
       <el-menu :router="true">
         <menu-responsable
           v-if="$store.getters.contextRole == 'responsable'"
-          
         />
-        <menu-moderateur v-if="$store.getters.contextRole == 'admin'"  />
+        <menu-moderateur v-if="$store.getters.contextRole == 'admin'" />
         <menu-referent
           v-if="$store.getters.contextRole == 'referent'"
-          
         />
         <menu-referent-regional
           v-if="$store.getters.contextRole == 'referent_regional'"
-          
         />
         <menu-superviseur
           v-if="$store.getters.contextRole == 'superviseur'"
-          
         />
-        <menu-tuteur v-if="$store.getters.contextRole == 'tuteur'"  />
+        <menu-tuteur v-if="$store.getters.contextRole == 'tuteur'" />
         <menu-analyste
           v-if="$store.getters.contextRole == 'analyste'"
-          
         />
       </el-menu>
     </div>
@@ -40,16 +35,27 @@
         plain
         class="toggle-collapse"
         @click="handleCollapse"
-      ></el-button>
+      />
     </div>
 
     <div class="p-6 flex flex-col border-t border-gray-200 justify-center items-center">
       <router-link to="/">
-        <img v-if="$store.getters.sidebar" src="/images/logo-header-dark.png" />
-        <img v-else src="/images/logo-rc-square.png" />
+        <img
+          v-if="$store.getters.sidebar"
+          src="/images/logo-header-dark.png"
+        >
+        <img
+          v-else
+          src="/images/logo-rc-square.png"
+        >
       </router-link>
-      <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
-        <div class="text-xs text-gray-600 py-2">Nouveautés</div>
+      <router-link
+        v-if="$store.getters.sidebar"
+        to="/dashboard/news"
+      >
+        <div class="text-xs text-gray-600 py-2">
+          Nouveautés
+        </div>
       </router-link>
     </div>
   </el-aside>

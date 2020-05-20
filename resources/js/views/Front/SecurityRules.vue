@@ -5,7 +5,9 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">Règles de sécurité</h1>
+          <h1 class="text-3xl font-bold text-white">
+            Règles de sécurité
+          </h1>
         </div>
       </div>
     </div>
@@ -15,7 +17,9 @@
         <div class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16">
           <h2
             class="text-3xl leading-tight font-extrabold text-gray-900"
-          >Des gestes simples pour préserver votre santé et celle des autres</h2>
+          >
+            Des gestes simples pour préserver votre santé et celle des autres
+          </h2>
           <div class="mt-20">
             <ul class="md:grid md:grid-cols-2 md:col-gap-8 md:row-gap-10">
               <li>
@@ -23,7 +27,9 @@
                   <div class="flex-shrink-0">
                     <div
                       class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                    >1</div>
+                    >
+                      1
+                    </div>
                   </div>
                   <div class="ml-4">
                     <h5 class="text-lg text-gray-900">
@@ -40,7 +46,9 @@
                   <div class="flex-shrink-0">
                     <div
                       class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                    >2</div>
+                    >
+                      2
+                    </div>
                   </div>
                   <div class="ml-4">
                     <h5 class="text-lg text-gray-900">
@@ -56,7 +64,9 @@
                   <div class="flex-shrink-0">
                     <div
                       class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
-                    >3</div>
+                    >
+                      3
+                    </div>
                   </div>
                   <div class="ml-4">
                     <h5 class="text-lg text-gray-900">
@@ -88,7 +98,9 @@
                   <div class="flex-shrink-0">
                     <div
                       class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
-                    >4</div>
+                    >
+                      4
+                    </div>
                   </div>
                   <div class="ml-4">
                     <h5 class="text-lg text-gray-900">
@@ -103,7 +115,9 @@
                   <div class="flex-shrink-0">
                     <div
                       class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
-                    >5</div>
+                    >
+                      5
+                    </div>
                   </div>
                   <div class="ml-4">
                     <h5 class="text-lg text-gray-900">

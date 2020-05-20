@@ -1,8 +1,11 @@
 <template>
-  <div v-if="$store.getters.profile" class="register-step h-full ">
+  <div
+    v-if="$store.getters.profile"
+    class="register-step h-full "
+  >
     <portal to="register-steps-help">
       <p>
-        Bienvenue {{ $store.getters.profile.first_name }} ! <br />Veuillez
+        Bienvenue {{ $store.getters.profile.first_name }} ! <br>Veuillez
         selectionner <span class="font-bold">votre type de profil</span> pour
         finaliser la création de votre compte sur la plateforme.
       </p>
@@ -18,7 +21,9 @@
           class="w-full sm:w-64 border p-8 m-4 lg:m-8 rounded-lg flex flex-col text-center hover:border-primary"
           style="height: 270px"
         >
-          <div class="font-bold mb-4">Responsable</div>
+          <div class="font-bold mb-4">
+            Responsable
+          </div>
           <div class="text-gray-600 mb-4 flex-1">
             J'inscris ma structure en tant que responsable
           </div>
@@ -27,14 +32,18 @@
               name: 'ProfileStep'
             }"
           >
-            <el-button type="primary">Choisir</el-button>
+            <el-button type="primary">
+              Choisir
+            </el-button>
           </router-link>
         </div>
         <div
           class="w-full sm:w-64 border p-8 m-4 lg:m-8 rounded-lg flex flex-col text-center hover:border-primary"
           style="height: 270px"
         >
-          <div class="font-bold mb-4">Autre</div>
+          <div class="font-bold mb-4">
+            Autre
+          </div>
           <div class="text-gray-600 mb-4 flex-1">
             Je suis un tuteur, un référent départemental ou un superviseur
           </div>
@@ -43,7 +52,9 @@
               name: 'OtherStep'
             }"
           >
-            <el-button type="primary">Choisir</el-button>
+            <el-button type="primary">
+              Choisir
+            </el-button>
           </router-link>
         </div>
       </div>

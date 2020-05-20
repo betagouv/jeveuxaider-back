@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!$store.getters.loading" class="structure-view">
+  <div
+    v-if="!$store.getters.loading"
+    class="structure-view"
+  >
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
@@ -9,24 +12,32 @@
           <div class="font-bold text-2xl text-gray-800">
             {{ structure.name }}
           </div>
-          <state-tag :state="structure.state"></state-tag>
+          <state-tag :state="structure.state" />
           <el-tag
             v-if="structure.is_reseau"
             size="medium"
             class="m-1 ml-0"
             type="danger"
-            >Tête de réseau</el-tag
           >
-          <el-tag v-if="structure.reseau_id" class="m-1 ml-0" size="medium">{{
-            structure.reseau_id | reseauFromValue
-          }}</el-tag>
+            Tête de réseau
+          </el-tag>
+          <el-tag
+            v-if="structure.reseau_id"
+            class="m-1 ml-0"
+            size="medium"
+          >
+            {{
+              structure.reseau_id | reseauFromValue
+            }}
+          </el-tag>
           <el-tag
             v-if="structure.department"
             type="warning"
             class="m-1 ml-0"
             size="medium"
-            >{{ structure.department | fullDepartmentFromValue }}</el-tag
           >
+            {{ structure.department | fullDepartmentFromValue }}
+          </el-tag>
           <el-tooltip
             v-if="structure.ceu"
             class="item"
@@ -34,34 +45,48 @@
             :content="structure.structure_publique_etat_type"
             placement="top"
           >
-            <el-tag size="medium" class="m-1 ml-0" type="info">CEU</el-tag>
+            <el-tag
+              size="medium"
+              class="m-1 ml-0"
+              type="info"
+            >
+              CEU
+            </el-tag>
           </el-tooltip>
           <el-tag
             v-if="structure.missions_count > 0"
             type="info"
             class="m-1 ml-0"
             size="medium"
-            >{{ structure.missions_count }}
+          >
+            {{ structure.missions_count }}
             {{
               structure.missions_count | pluralize(["mission", "missions"])
-            }}</el-tag
-          >
+            }}
+          </el-tag>
         </div>
       </div>
       <router-link
         :to="{ name: 'StructureFormEdit', params: { id: structure.id } }"
       >
-        <el-button type="secondary" icon="el-icon-edit"
-          >Modifier la fiche</el-button
+        <el-button
+          type="secondary"
+          icon="el-icon-edit"
         >
+          Modifier la fiche
+        </el-button>
       </router-link>
     </div>
     <div class="px-12 mb-12">
-      <div class="mb-6 text-2xl">Informations</div>
-      <structure-infos :structure="structure"></structure-infos>
+      <div class="mb-6 text-2xl">
+        Informations
+      </div>
+      <structure-infos :structure="structure" />
     </div>
     <div class="px-12 mb-12">
-      <div class="mb-6 text-2xl">Équipe ({{ structure.members.length }})</div>
+      <div class="mb-6 text-2xl">
+        Équipe ({{ structure.members.length }})
+      </div>
       <item-description>
         Vous pouver
         <router-link
@@ -83,17 +108,17 @@
             }
           }"
         >
-          <span class="underline cursor-pointer"
-            >ajouter un membre</span
-          > </router-link
-        >.
+          <span
+            class="underline cursor-pointer"
+          >ajouter un membre</span>
+        </router-link>.
       </item-description>
       <div
         v-for="member in structure.members"
         :key="member.id"
         class="member py-4 px-6"
       >
-        <member-teaser :member="member"></member-teaser>
+        <member-teaser :member="member" />
       </div>
     </div>
     <div class="mb-12">
@@ -121,48 +146,78 @@
         :data="tableData"
         :highlight-current-row="true"
       >
-        <el-table-column width="70" align="center">
+        <el-table-column
+          width="70"
+          align="center"
+        >
           <template>
             <el-avatar class="bg-primary">
               {{ structure.name[0] }}
             </el-avatar>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="Mission" min-width="320">
+        <el-table-column
+          prop="name"
+          label="Mission"
+          min-width="320"
+        >
           <template slot-scope="scope">
             <div class="text-gray-900">
-              <v-clamp :max-lines="2" autoresize>
-              {{ scope.row.name|labelFromValue('mission_domaines') }}
+              <v-clamp
+                :max-lines="2"
+                autoresize
+              >
+                {{ scope.row.name|labelFromValue('mission_domaines') }}
               </v-clamp>
             </div>
             <div
               v-if="scope.row.structure"
               class="font-light text-gray-600 flex items-center"
             >
-              <div class="">{{ scope.row.structure.name }}</div>
+              <div class="">
+                {{ scope.row.structure.name }}
+              </div>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Dates" width="160">
+        <el-table-column
+          label="Dates"
+          width="160"
+        >
           <template slot-scope="scope">
-            <div v-if="scope.row.start_date" class="">
+            <div
+              v-if="scope.row.start_date"
+              class=""
+            >
               <span class="text-gray-400 mr-1 text-xs">Du</span>
               {{ scope.row.start_date | formatMedium }}
             </div>
-            <div v-if="scope.row.end_date" class="">
+            <div
+              v-if="scope.row.end_date"
+              class=""
+            >
               <span class="text-gray-400 mr-1 text-xs">Au</span>
               {{ scope.row.end_date | formatMedium }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Ville" width="185">
+        <el-table-column
+          label="Ville"
+          width="185"
+        >
           <template slot-scope="scope">
-            <div v-if="scope.row.city" class="">
+            <div
+              v-if="scope.row.city"
+              class=""
+            >
               {{ scope.row.city | cleanCity }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Places" width="90">
+        <el-table-column
+          label="Places"
+          width="90"
+        >
           <template slot-scope="scope">
             <div v-if="scope.row.has_places_left">
               {{ scope.row.participations_max - scope.row.participations_count }}
@@ -179,9 +234,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="state" label="Statut" min-width="170">
+        <el-table-column
+          prop="state"
+          label="Statut"
+          min-width="170"
+        >
           <template slot-scope="scope">
-            <state-tag :state="scope.row.state"></state-tag>
+            <state-tag :state="scope.row.state" />
           </template>
         </el-table-column>
         <el-table-column
@@ -196,7 +255,11 @@
             <router-link
               :to="{ name: 'MissionFormEdit', params: { id: scope.row.id } }"
             >
-              <el-button icon="el-icon-edit" size="mini" class="m-1">
+              <el-button
+                icon="el-icon-edit"
+                size="mini"
+                class="m-1"
+              >
                 Modifier
               </el-button>
             </router-link>
@@ -211,8 +274,7 @@
           :page-size="15"
           :current-page="Number(query.page)"
           @current-change="onPageChange"
-        >
-        </el-pagination>
+        />
         <div class="text-secondary text-xs ml-3">
           Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
         </div>

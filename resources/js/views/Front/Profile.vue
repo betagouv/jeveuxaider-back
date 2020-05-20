@@ -4,7 +4,9 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">Mon profil</h1>
+          <h1 class="text-3xl font-bold text-white">
+            Mon profil
+          </h1>
         </div>
       </div>
     </div>
@@ -39,21 +41,30 @@
                   prop="first_name"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input v-model="form.first_name" placeholder="Prénom" />
+                  <el-input
+                    v-model="form.first_name"
+                    placeholder="Prénom"
+                  />
                 </el-form-item>
                 <el-form-item
                   label="Nom"
                   prop="last_name"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input v-model="form.last_name" placeholder="Nom" />
+                  <el-input
+                    v-model="form.last_name"
+                    placeholder="Nom"
+                  />
                 </el-form-item>
                 <el-form-item
                   label="Code postal"
                   prop="zip"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input v-model="form.zip" placeholder="Code postal" />
+                  <el-input
+                    v-model="form.zip"
+                    placeholder="Code postal"
+                  />
                 </el-form-item>
                 <el-form-item
                   label="Date de naissance"
@@ -61,21 +72,24 @@
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
                   <el-date-picker
+                    v-model="form.birthday"
                     type="date"
                     placeholder="Date de naissance"
-                    v-model="form.birthday"
                     autocomplete="off"
                     format="dd-MM-yyyy"
                     value-format="yyyy-MM-dd"
                     style="width:100%;"
-                  ></el-date-picker>
+                  />
                 </el-form-item>
                 <el-form-item
                   label="E-mail"
                   prop="email"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input v-model.trim="form.email" placeholder="E-mail" />
+                  <el-input
+                    v-model.trim="form.email"
+                    placeholder="E-mail"
+                  />
                 </el-form-item>
                 <el-form-item
                   label="Téléphone mobile"
@@ -92,9 +106,10 @@
                 <el-button
                   type="primary"
                   :loading="loading"
-                  @click="onSubmit"
                   class=""
-                  >Enregistrer les modifications
+                  @click="onSubmit"
+                >
+                  Enregistrer les modifications
                 </el-button>
               </div>
             </div>

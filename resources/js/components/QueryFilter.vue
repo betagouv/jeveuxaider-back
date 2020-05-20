@@ -16,8 +16,7 @@
         :key="option.value"
         :label="option.label"
         :value="option.value"
-      >
-      </el-option>
+      />
     </el-select>
   </div>
 </template>

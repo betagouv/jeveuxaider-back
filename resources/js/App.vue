@@ -1,7 +1,14 @@
 <template>
-  <div id="app" v-if="isAppLoaded" class="h-full font-sans">
-    <transition name="fade" mode="out-in">
-        <router-view :key="$route.fullPath" />
+  <div
+    v-if="isAppLoaded"
+    id="app"
+    class="h-full font-sans"
+  >
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <router-view :key="$route.fullPath" />
     </transition>
   </div>
 </template>

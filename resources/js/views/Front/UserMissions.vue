@@ -5,21 +5,28 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">Missions auxquelles j'ai candidaté</h1>
+          <h1 class="text-3xl font-bold text-white">
+            Missions auxquelles j'ai candidaté
+          </h1>
         </div>
       </div>
     </div>
 
-    <div v-if="!loading" class="-mt-32">
+    <div
+      v-if="!loading"
+      class="-mt-32"
+    >
       <div class="container mx-auto px-4 my-12">
         <div
           v-if="participations.data && !participations.data.length"
           class="bg-white rounded-lg shadow-lg overflow-hidden px-6 py-8 lg:p-12"
-        >Vous n'avez aucune participation pour le moment.</div>
+        >
+          Vous n'avez aucune participation pour le moment.
+        </div>
 
         <div
-          v-else
           v-for="participation in participations.data"
+          v-else
           :key="participation.id"
           class="bg-white rounded-lg overflow-hidden shadow-lg mb-12"
         >
@@ -30,13 +37,16 @@
             >
               <div class="flex items-center px-6 py-8">
                 <div class="min-w-0 flex-1 flex items-start">
-                  <div class="hidden sm:block flex-shrink-0" style="margin-top:2px;">
+                  <div
+                    class="hidden sm:block flex-shrink-0"
+                    style="margin-top:2px;"
+                  >
                     <img
                       v-if="participation.mission.structure.logo"
                       class="h-12 w-12 rounded-full"
                       :src="participation.mission.structure.logo"
                       :alt="participation.mission.structure.name"
-                    />
+                    >
                     <div
                       v-else
                       class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center"
@@ -50,7 +60,7 @@
                       <div class="mt-1 flex items-center text-sm ext-gray-900 font-semibold">
                         <span class="truncate">
                           {{
-                          participation.mission.structure.name
+                            participation.mission.structure.name
                           }}
                         </span>
                       </div>
@@ -72,7 +82,7 @@
                           />
                         </svg>
                         {{ participation.mission.city }} ({{
-                        participation.mission.department
+                          participation.mission.department
                         }})
                       </div>
                       <div
@@ -103,7 +113,11 @@
                   </div>
                 </div>
                 <div>
-                  <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    class="h-5 w-5 text-gray-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       fill-rule="evenodd"
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -115,7 +129,7 @@
             </a>
           </div>
 
-          <div  class="px-6 py-8">
+          <div class="px-6 py-8">
             <div class="flex flex-wrap -m-2">
               <div
                 class="m-2 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white"
@@ -166,7 +180,9 @@
                 type="button"
                 class="m-2 lg:ml-auto relative shadow-sm inline-flex items-center px-4 py-2 border border-red-500 text-red-500 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:bg-red-100"
                 @click="onClickCancel(participation)"
-              >Annuler ma candidature</button>
+              >
+                Annuler ma candidature
+              </button>
             </div>
           </div>
         </div>

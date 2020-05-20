@@ -6,9 +6,13 @@
     style="width: 330px"
   >
     <div @click.prevent="onClick">
-      <div class="label mb-3 text-lg font-bold text-secondary">{{ label }}</div>
+      <div class="label mb-3 text-lg font-bold text-secondary">
+        {{ label }}
+      </div>
       <template v-if="data">
-        <div class="count text-primary font-medium text-2xl">{{ data.total|formatNumber }}</div>
+        <div class="count text-primary font-medium text-2xl">
+          {{ data.total|formatNumber }}
+        </div>
         <div class="mt-5">
           <div class="my-1">
             <span class>+{{ data.month|formatNumber }}</span>
@@ -21,7 +25,7 @@
         </div>
       </template>
       <template v-else>
-        <i class="el-icon-loading"></i>
+        <i class="el-icon-loading" />
       </template>
     </div>
   </el-card>

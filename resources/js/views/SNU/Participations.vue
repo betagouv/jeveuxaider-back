@@ -2,11 +2,20 @@
   <div class="missions has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Participations</div>
+        <div class="text-m text-gray-600 uppercase">
+          {{ $store.getters["user/contextRoleLabel"] }}
+        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">
+          Participations
+        </div>
       </div>
       <div v-if="$store.getters.contextRole == 'responsable'">
-        <el-button type="primary" @click="onMassValidation">Validation massive</el-button>
+        <el-button
+          type="primary"
+          @click="onMassValidation"
+        >
+          Validation massive
+        </el-button>
       </div>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
@@ -17,21 +26,32 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge
+          v-if="activeFilters"
+          :value="activeFilters"
+          type="primary"
+        >
           <el-button
             icon="el-icon-s-operation"
             class="ml-4"
             @click="showFilters = !showFilters"
-          >Filtres avancés</el-button>
+          >
+            Filtres avancés
+          </el-button>
         </el-badge>
         <el-button
           v-else
           icon="el-icon-s-operation"
           class="ml-4"
           @click="showFilters = !showFilters"
-        >Filtres avancés</el-button>
+        >
+          Filtres avancés
+        </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div
+        v-if="showFilters"
+        class="flex flex-wrap"
+      >
         <query-filter
           name="state"
           label="Statut"
@@ -93,48 +113,96 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column width="70" align="center">
+      <el-table-column
+        width="70"
+        align="center"
+      >
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">{{ scope.row.profile.short_name }}</el-avatar>
+          <el-avatar class="bg-primary">
+            {{ scope.row.profile.short_name }}
+          </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Volontaire" min-width="320">
+      <el-table-column
+        prop="name"
+        label="Volontaire"
+        min-width="320"
+      >
         <template slot-scope="scope">
           <template v-if="canShowProfileDetails(scope.row)">
-            <div class="text-gray-900">{{ scope.row.profile.full_name }}</div>
+            <div class="text-gray-900">
+              {{ scope.row.profile.full_name }}
+            </div>
             <div class="font-light text-gray-600">
-              <div class="text-xs">{{ scope.row.profile.email }}</div>
-              <div class="text-xs">{{ scope.row.profile.mobile }} - {{ scope.row.profile.zip }}</div>
+              <div class="text-xs">
+                {{ scope.row.profile.email }}
+              </div>
+              <div class="text-xs">
+                {{ scope.row.profile.mobile }} - {{ scope.row.profile.zip }}
+              </div>
             </div>
           </template>
           <template v-else>
-            <div class="text-gray-900">Anonyme</div>
+            <div class="text-gray-900">
+              Anonyme
+            </div>
             <div class="font-light text-gray-600 flex items-center">
-              <div class="text-xs">Coordonnées masquées</div>
+              <div class="text-xs">
+                Coordonnées masquées
+              </div>
             </div>
           </template>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Mission" min-width="320">
+      <el-table-column
+        prop="name"
+        label="Mission"
+        min-width="320"
+      >
         <template slot-scope="scope">
-          <div v-if="scope.row.mission" class="text-gray-900">
-            <v-clamp :max-lines="1" autoresize>#{{ scope.row.mission.id }} - {{ scope.row.mission.name|labelFromValue('mission_domaines') }}</v-clamp>
+          <div
+            v-if="scope.row.mission"
+            class="text-gray-900"
+          >
+            <v-clamp
+              :max-lines="1"
+              autoresize
+            >
+              #{{ scope.row.mission.id }} - {{ scope.row.mission.name|labelFromValue('mission_domaines') }}
+            </v-clamp>
           </div>
           <div
             v-if="scope.row.mission && scope.row.mission.structure"
             class="font-light text-gray-600 flex items-center"
           >
-            <div class="text-xs"><v-clamp :max-lines="1" autoresize>{{ scope.row.mission.structure.name }}</v-clamp></div>
+            <div class="text-xs">
+              <v-clamp
+                :max-lines="1"
+                autoresize
+              >
+                {{ scope.row.mission.structure.name }}
+              </v-clamp>
+            </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="170">
+      <el-table-column
+        prop="state"
+        label="Statut"
+        min-width="170"
+      >
         <template slot-scope="scope">
-          <state-tag :state="scope.row.state"></state-tag>
+          <state-tag :state="scope.row.state" />
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="Crée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.created_at | fromNow }}</template>
+      <el-table-column
+        prop="created_at"
+        label="Crée le"
+        min-width="120"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.created_at | fromNow }}
+        </template>
       </el-table-column>
     </el-table>
     <div class="m-3 flex items-center">
@@ -145,16 +213,27 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      ></el-pagination>
+      />
       <div
         class="text-secondary text-xs ml-3"
-      >Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats</div>
+      >
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
       <div class="ml-auto">
-        <el-button icon="el-icon-download" size="small" @click="onExport">Export</el-button>
+        <el-button
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
+          Export
+        </el-button>
       </div>
     </div>
     <portal to="volet">
-      <participation-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+      <participation-volet
+        @updated="onUpdatedRow"
+        @deleted="onDeletedRow"
+      />
     </portal>
   </div>
 </template>

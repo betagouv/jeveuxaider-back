@@ -1,20 +1,23 @@
 <template>
-  <div class="register mx-auto w-full" style="max-width: 620px;">
+  <div
+    class="register mx-auto w-full"
+    style="max-width: 620px;"
+  >
     <div>
       <router-link to="/">
         <img
           class="h-8 w-auto"
           src="/images/logo-header-dark.png"
           alt="Réserve Civique"
-        />
+        >
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Vous êtes une structure publique ou associative ?
-        <br />Rejoignez la
+        <br>Rejoignez la
         <span class="text-blue-800">Réserve Civique</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div>
       <h3 class="text-lg font-medium text-gray-900">
         Engagez-vous dans la lutte contre l’épidémie
@@ -46,14 +49,22 @@
             :disabled="disableFields"
           />
         </el-form-item>
-        <el-form-item label="Nom" prop="last_name" class="w-full sm:w-1/2 p-2">
+        <el-form-item
+          label="Nom"
+          prop="last_name"
+          class="w-full sm:w-1/2 p-2"
+        >
           <el-input
             v-model="form.last_name"
             placeholder="Nom"
             :disabled="disableFields"
           />
         </el-form-item>
-        <el-form-item label="E-mail" prop="email" class="w-full p-2">
+        <el-form-item
+          label="E-mail"
+          prop="email"
+          class="w-full p-2"
+        >
           <el-input
             v-model.trim="form.email"
             placeholder="E-mail"
@@ -82,15 +93,19 @@
             show-password
           />
         </el-form-item>
-        <el-form-item class="-mb-3 py-4 ml-2" prop="confidentialite">
+        <el-form-item
+          class="-mb-3 py-4 ml-2"
+          prop="confidentialite"
+        >
           <el-checkbox v-model="form.confidentialite">
             J'accepte la
             <router-link
               to="/politique-de-confidentialite"
               target="_blank"
               class="underline"
-              >politique de confidentialité</router-link
             >
+              politique de confidentialité
+            </router-link>
           </el-checkbox>
         </el-form-item>
       </div>
@@ -100,18 +115,17 @@
         <el-button
           type="primary"
           :loading="loading"
-          @click="onSubmit"
           style="height: 48px;"
           class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >J'inscris ma structure</el-button
-        >
+          @click="onSubmit"
+        >J'inscris ma structure</el-button>
       </span>
     </div>
 
     <div class="mt-6">
       <div class="relative">
         <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300"></div>
+          <div class="w-full border-t border-gray-300" />
         </div>
         <div class="relative flex justify-center text-sm">
           <span class="px-2 bg-white text-gray-500">OU</span>

@@ -4,8 +4,13 @@
       class="el-icon-close cursor-pointer absolute text-xl"
       style="right: 32px; top: 16px"
       @click="handleCloseVolet"
-    ></i>
-    <slot name="content" :row="row">TOTO</slot>
+    />
+    <slot
+      name="content"
+      :row="row"
+    >
+      TOTO
+    </slot>
   </div>
 </template>
 

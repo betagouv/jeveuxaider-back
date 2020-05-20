@@ -10,22 +10,34 @@
         </div>
       </div>
       <router-link :to="`/dashboard/structure/${id}/members/add`">
-        <el-button type="primary" icon="el-icon-plus">
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+        >
           Inviter un membre
         </el-button>
       </router-link>
     </div>
-    <el-divider></el-divider>
+    <el-divider />
     <div class="px-12">
-      <div class="text-sm font-medium text-secondary mb-4">Membres</div>
-      <div v-for="member in members" :key="member.id" class="member py-4 px-6">
+      <div class="text-sm font-medium text-secondary mb-4">
+        Membres
+      </div>
+      <div
+        v-for="member in members"
+        :key="member.id"
+        class="member py-4 px-6"
+      >
         <div class="flex items-center">
           <el-avatar
             class="bg-primary w-10 rounded-full"
           >
             {{ member.first_name[0] }}{{ member.last_name[0] }}
           </el-avatar>
-          <div class="flex flex-col ml-6" style="min-width:350px;">
+          <div
+            class="flex flex-col ml-6"
+            style="min-width:350px;"
+          >
             <div class="text-gray-800">
               {{ member.first_name }} {{ member.last_name }}
             </div>
@@ -45,8 +57,9 @@
             size="small"
             class="ml-4 h-full m-auto is-plain"
             @click="deleteConfirm(member)"
-            >Supprimer</el-button
           >
+            Supprimer
+          </el-button>
         </div>
       </div>
     </div>

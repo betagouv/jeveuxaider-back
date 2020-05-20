@@ -1,15 +1,24 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <el-card shadow="hover" class="overflow-visible mt-24">
-        <div slot="header" class="clearfix flex flex-col items-center">
+      <el-card
+        shadow="hover"
+        class="overflow-visible mt-24"
+      >
+        <div
+          slot="header"
+          class="clearfix flex flex-col items-center"
+        >
           <div class="-mt-10">
             <el-avatar
               v-if="row.avatar"
               :src="`${row.avatar}`"
               class="w-10 rounded-full border"
             />
-            <el-avatar v-else class="bg-primary">
+            <el-avatar
+              v-else
+              class="bg-primary"
+            >
               {{ row.first_name[0] }}{{ row.last_name[0] }}
             </el-avatar>
           </div>
@@ -29,12 +38,16 @@
             :profile="row"
             size="small"
             class="flex items-center"
-          ></profile-roles-tags>
+          />
         </div>
-        <profile-infos :profile="row"></profile-infos>
+        <profile-infos :profile="row" />
       </el-card>
       <template v-if="$store.getters.contextRole === 'admin'">
-        <el-form ref="profileForm" :model="form" label-position="top">
+        <el-form
+          ref="profileForm"
+          :model="form"
+          label-position="top"
+        >
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Superviseur réseau national
           </div>
@@ -44,7 +57,11 @@
             utilisateur de visualiser les missions et volontaires rattachés aux
             structures de ce réseau national.
           </item-description>
-          <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+          <el-form-item
+            label="Réseau national"
+            prop="reseau"
+            class="flex-1"
+          >
             <el-select
               v-model="form.reseau_id"
               clearable
@@ -55,7 +72,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
@@ -83,11 +100,15 @@
                 :key="item.value"
                 :label="`${item.value} - ${item.label}`"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button type="primary" :loading="loading" @click="onSubmit">
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="onSubmit"
+            >
               Enregistrer
             </el-button>
           </div>

@@ -9,14 +9,14 @@
             class="h-8 w-auto"
             src="/images/logo-header-dark.png"
             alt="Réserve Civique"
-          />
+          >
         </router-link>
         <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
           Page
           <span class="text-blue-800">inaccessible</span>
         </h2>
       </div>
-      <div class="mt-8 border-t border-gray-200 pt-8"></div>
+      <div class="mt-8 border-t border-gray-200 pt-8" />
       <div class>
         <p>La page que vous souhaitez afficher n'est pas accessible.</p>
       </div>
@@ -26,7 +26,7 @@
         class="absolute inset-0 h-full w-full object-cover"
         src="/images/bg_header_home.jpg"
         alt
-      />
+      >
     </div>
   </div>
 </template>

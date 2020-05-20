@@ -159,27 +159,21 @@ export default new Router({
             meta: { requiresAuth: true },
             children: [
                 {
-                    path: "/register/step/norole",
+                    path: "/register/step/structure",
                     component: () =>
-                        import(
-              /* webpackChunkName: "assets/js/no-role-step" */ "@/views/RegisterSteps/NoRoleStep.vue"
-                        ),
-                    name: "NoRoleStep"
+                        import(/* webpackChunkName: "assets/js/structure-step" */ "@/views/RegisterSteps/StructureStep.vue"),
+                    name: "StructureStep"
                 },
                 {
                     path: "/register/step/profile",
                     component: () =>
-                        import(
-              /* webpackChunkName: "assets/js/profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"
-                        ),
+                        import( /* webpackChunkName: "assets/js/profile-step" */ "@/views/RegisterSteps/ProfileStep.vue"),
                     name: "ProfileStep"
                 },
                 {
                     path: "/register/step/structure",
                     component: () =>
-                        import(
-              /* webpackChunkName: "assets/js/structure-step" */ "@/views/RegisterSteps/StructureStep.vue"
-                        ),
+                        import(/* webpackChunkName: "assets/js/structure-step" */ "@/views/RegisterSteps/StructureStep.vue"),
                     name: "StructureStep"
                 },
                 {

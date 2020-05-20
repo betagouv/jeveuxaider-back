@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-menu-item index="/dashboard" :class="{'is-active': isActive('dashboard')}">
+    <el-menu-item
+      index="/dashboard"
+      :class="{'is-active': isActive('dashboard')}"
+    >
       <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
         v-else
@@ -10,10 +13,13 @@
         content="Tableau de bord"
         placement="right"
       >
-        <i class="el-icon-data-analysis"></i>
+        <i class="el-icon-data-analysis" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item :index="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`" :class="{'is-active': isActive('structure')}">
+    <el-menu-item
+      :index="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`"
+      :class="{'is-active': isActive('structure')}"
+    >
       <span v-if="$store.getters.sidebar">Ma structure</span>
       <el-tooltip
         v-else
@@ -23,10 +29,13 @@
         content="Structures"
         placement="right"
       >
-        <i class="el-icon-school"></i>
+        <i class="el-icon-school" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/missions" :class="{'is-active': isActive('mission')}">
+    <el-menu-item
+      index="/dashboard/missions"
+      :class="{'is-active': isActive('mission')}"
+    >
       <span v-if="$store.getters.sidebar">Missions</span>
       <el-tooltip
         v-else
@@ -36,10 +45,13 @@
         content="Missions"
         placement="right"
       >
-        <i class="el-icon-collection"></i>
+        <i class="el-icon-collection" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/participations" :class="{'is-active': isActive('participation')}">
+    <el-menu-item
+      index="/dashboard/participations"
+      :class="{'is-active': isActive('participation')}"
+    >
       <span v-if="$store.getters.sidebar">Participations</span>
       <el-tooltip
         v-else
@@ -49,10 +61,13 @@
         content="Participations"
         placement="right"
       >
-        <i class="el-icon-finished"></i>
+        <i class="el-icon-finished" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/ressources" :class="{'is-active': isActive('ressources')}">
+    <el-menu-item
+      index="/dashboard/ressources"
+      :class="{'is-active': isActive('ressources')}"
+    >
       <span v-if="$store.getters.sidebar">Ressources</span>
       <el-tooltip
         v-else
@@ -62,7 +77,7 @@
         content="Ressources"
         placement="right"
       >
-        <i class="el-icon-help"></i>
+        <i class="el-icon-help" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item v-if="$store.getters.sidebar">

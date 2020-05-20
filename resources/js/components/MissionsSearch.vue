@@ -8,8 +8,8 @@
               <div class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16">
                 Les organisations en première ligne face à la crise proposent
                 actuellement leurs missions prioritaires.
-                <br />Elles seront mises en ligne très prochainement.
-                <br />Revenez demain pour les découvrir !
+                <br>Elles seront mises en ligne très prochainement.
+                <br>Revenez demain pour les découvrir !
               </div>
             </div>
           </div>
@@ -19,15 +19,24 @@
             :search-client="searchClient"
             :index-name="indexName"
           >
-            <ais-configure :hits-per-page.camel="10" :facet-filters.camel="facetFilters" />
+            <ais-configure
+              :hits-per-page.camel="10"
+              :facet-filters.camel="facetFilters"
+            />
 
-            <div ref="resultsWrapper" class="">
+            <div
+              ref="resultsWrapper"
+              class=""
+            >
               <div class="">
                 <ais-state-results>
-                  <template slot-scope="{ hits, nbHits, page, nbPages, hitsPerPage }">
+                  <template slot-scope="{ hits }">
                     <template v-if="hits.length > 0">
                       <ais-hits>
-                        <div slot="item" slot-scope="{ item }">
+                        <div
+                          slot="item"
+                          slot-scope="{ item }"
+                        >
                           <router-link
                             class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                             :to="`/missions/${item.id}`"
@@ -41,7 +50,7 @@
                                     class
                                     :src="$options.filters.domainIcon(item.domaine_action)"
                                     style="width:28px;"
-                                  />
+                                  >
                                 </div>
                                 <div class="min-w-0 flex-1 sm:pl-4">
                                   <div
@@ -51,7 +60,7 @@
                                       <div
                                         class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
                                         v-text="item.type"
-                                      ></div>
+                                      />
                                       <div
                                         class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                                       >
@@ -61,19 +70,19 @@
 
                                     <div
                                       v-if="
-                                    item.has_places_left && item.places_left > 0
-                                  "
+                                        item.has_places_left && item.places_left > 0
+                                      "
                                       class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
                                       style="background:#31c48d;"
                                     >
                                       <template>
                                         {{ item.places_left | formatNumber }}
                                         {{
-                                        item.places_left
-                                        | pluralize([
-                                        "volontaire recherché",
-                                        "volontaires recherchés"
-                                        ])
+                                          item.places_left
+                                            | pluralize([
+                                              "volontaire recherché",
+                                              "volontaires recherchés"
+                                            ])
                                         }}
                                       </template>
                                     </div>
@@ -81,7 +90,9 @@
                                       v-else
                                       class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
                                       style="background:#d2d6dc;"
-                                    >Complet</div>
+                                    >
+                                      Complet
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -100,9 +111,9 @@
                                 </svg>
                                 <span
                                   v-text="
-                                `${item.city} (${item.department}) - ${item.structure.name}`
-                              "
-                                ></span>
+                                    `${item.city} (${item.department}) - ${item.structure.name}`
+                                  "
+                                />
                               </div>
                             </div>
                           </router-link>
@@ -111,7 +122,9 @@
 
                       <div class="px-4 sm:px-6 md:px-8">
                         <div class="text-sm font-bold uppercase my-8 text-blue text-blue-600 text-center">
-                          <router-link :to="`/missions?menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(department)}`">Toutes les missions</router-link>
+                          <router-link :to="`/missions?menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(department)}`">
+                            Toutes les missions
+                          </router-link>
                         </div>
                         <!-- <div class="pagination w-full border-b-2 border-transparent">
                           <ais-pagination :padding="2" @page-change="scrollToTop">
@@ -203,7 +216,9 @@
                     <div
                       v-else
                       class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
-                    >Pas de résultats.</div>
+                    >
+                      Pas de résultats.
+                    </div>
                   </template>
                 </ais-state-results>
               </div>
@@ -218,12 +233,8 @@
 <script>
 import {
   AisInstantSearch,
-  AisSearchBox,
   AisHits,
-  AisPagination,
   AisStateResults,
-  AisMenuSelect,
-  AisClearRefinements,
   AisConfigure
 } from "vue-instantsearch";
 import algoliasearch from "algoliasearch/lite";
@@ -233,12 +244,8 @@ export default {
   name: "MissionsSearch",
   components: {
     AisInstantSearch,
-    AisSearchBox,
     AisHits,
-    AisPagination,
     AisStateResults,
-    AisMenuSelect,
-    AisClearRefinements,
     AisConfigure
   },
   props: {

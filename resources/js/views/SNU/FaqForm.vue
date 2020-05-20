@@ -1,23 +1,56 @@
 <template>
-  <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
+  <div
+    v-if="!$store.getters.loading"
+    class="profile-form max-w-2xl pl-12 pb-12"
+  >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">FAQ</div>
+      <div class="text-m text-gray-600 uppercase">
+        FAQ
+      </div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl">{{ form.title }}</div>
+        <div class="font-bold text-2xl">
+          {{ form.title }}
+        </div>
       </div>
     </template>
-    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle question</div>
+    <div
+      v-else
+      class="mb-12 font-bold text-2xl text-gray-800"
+    >
+      Nouvelle question
+    </div>
 
-    <el-form ref="faqForm" :model="form" label-position="top" :rules="rules">
-      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <el-form
+      ref="faqForm"
+      :model="form"
+      label-position="top"
+      :rules="rules"
+    >
+      <div class="mb-6 text-xl text-gray-800">
+        Informations générales
+      </div>
 
-      <el-form-item label="Question" prop="title">
-        <el-input v-model="form.title" placeholder="Question" />
+      <el-form-item
+        label="Question"
+        prop="title"
+      >
+        <el-input
+          v-model="form.title"
+          placeholder="Question"
+        />
       </el-form-item>
 
-      <el-form-item label="Poids de la question" prop="weight">
+      <el-form-item
+        label="Poids de la question"
+        prop="weight"
+      >
         <item-description>Les questions s'afficheront par ordre décroissant.</item-description>
-        <el-input-number v-model="form.weight" :step="1" :min="1" class="w-full"></el-input-number>
+        <el-input-number
+          v-model="form.weight"
+          :step="1"
+          :min="1"
+          class="w-full"
+        />
       </el-form-item>
 
       <!-- <el-form-item label="Description" prop="description" class="flex-1">
@@ -30,12 +63,25 @@
         ></el-input>
       </el-form-item>-->
 
-      <el-form-item label="Description" prop="description">
-        <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
+      <el-form-item
+        label="Description"
+        prop="description"
+      >
+        <ckeditor
+          v-model="form.description"
+          :editor="editor"
+          :config="editorConfig"
+        />
       </el-form-item>
 
       <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
+        <el-button
+          type="primary"
+          :loading="loading"
+          @click="onSubmit"
+        >
+          Enregistrer
+        </el-button>
       </div>
     </el-form>
   </div>

@@ -1,18 +1,27 @@
 <template>
-  <div class="register mx-auto w-full" style="max-width: 620px;">
+  <div
+    class="register mx-auto w-full"
+    style="max-width: 620px;"
+  >
     <div>
       <router-link to="/">
-        <img class="h-8 w-auto" src="/images/logo-header-dark.png" alt="Réserve Civique" />
+        <img
+          class="h-8 w-auto"
+          src="/images/logo-header-dark.png"
+          alt="Réserve Civique"
+        >
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Vous souhaitez rejoindre les volontaires ?
-        <br />Rejoignez la
+        <br>Rejoignez la
         <span class="text-blue-800">Réserve Civique</span>
       </h2>
     </div>
-    <div class="mt-8 border-t border-gray-200 pt-8"></div>
+    <div class="mt-8 border-t border-gray-200 pt-8" />
     <div>
-      <h3 class="text-lg font-medium text-gray-900">Engagez-vous dans la lutte contre l’épidémie</h3>
+      <h3 class="text-lg font-medium text-gray-900">
+        Engagez-vous dans la lutte contre l’épidémie
+      </h3>
       <p class="mt-1 text-sm text-gray-500">
         <router-link to="/regles-de-securite">
           Cet engagement nécessite un respect strict des règles sanitaires
@@ -23,7 +32,7 @@
     <template v-if="modeLigth">
       <div class="py-8">
         Quel élan de solidarité !
-        <br />Vous êtes actuellement très nombreux·ses à vouloir vous engager et notre plateforme rencontre des difficultés. Revenez dans quelques minutes pour vous inscrire. Nous avons plus que jamais besoin de vous !
+        <br>Vous êtes actuellement très nombreux·ses à vouloir vous engager et notre plateforme rencontre des difficultés. Revenez dans quelques minutes pour vous inscrire. Nous avons plus que jamais besoin de vous !
       </div>
     </template>
     <template v-else>
@@ -36,23 +45,66 @@
         class="mt-6"
       >
         <div class="flex flex-wrap -m-2">
-          <el-form-item label="Prénom" prop="first_name" class="w-full sm:w-1/2 p-2">
-            <el-input v-model="form.first_name" placeholder="Prénom" />
+          <el-form-item
+            label="Prénom"
+            prop="first_name"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.first_name"
+              placeholder="Prénom"
+            />
           </el-form-item>
-          <el-form-item label="Nom" prop="last_name" class="w-full sm:w-1/2 p-2">
-            <el-input v-model="form.last_name" placeholder="Nom" />
+          <el-form-item
+            label="Nom"
+            prop="last_name"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.last_name"
+              placeholder="Nom"
+            />
           </el-form-item>
-          <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 p-2">
-            <el-input v-model.trim="form.email" placeholder="E-mail" />
+          <el-form-item
+            label="E-mail"
+            prop="email"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model.trim="form.email"
+              placeholder="E-mail"
+            />
           </el-form-item>
-          <el-form-item label="Code Postal" prop="zip" class="w-full sm:w-1/2 p-2">
-            <el-input v-model="form.zip" placeholder="Code Postal" />
+          <el-form-item
+            label="Code Postal"
+            prop="zip"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.zip"
+              placeholder="Code Postal"
+            />
           </el-form-item>
-          <el-form-item label="Téléphone mobile" prop="mobile" class="w-full sm:w-1/2 p-2">
-            <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
+          <el-form-item
+            label="Téléphone mobile"
+            prop="mobile"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.mobile"
+              placeholder="Téléphone mobile"
+            />
           </el-form-item>
-          <el-form-item label="Date de naissance" prop="birthday" class="w-full sm:w-1/2 p-2">
-            <el-input v-model="form.birthday" placeholder="__/__/____" v-mask="'##/##/####'" />
+          <el-form-item
+            label="Date de naissance"
+            prop="birthday"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.birthday"
+              v-mask="'##/##/####'"
+              placeholder="__/__/____"
+            />
 
             <!-- <el-date-picker
               type="date"
@@ -64,7 +116,11 @@
               style="width:100%;"
             ></el-date-picker>-->
           </el-form-item>
-          <el-form-item label="Mot de passe" prop="password" class="w-full sm:w-1/2 p-2">
+          <el-form-item
+            label="Mot de passe"
+            prop="password"
+            class="w-full sm:w-1/2 p-2"
+          >
             <el-input
               v-model="form.password"
               placeholder="Choisissez votre mot de passe"
@@ -82,11 +138,16 @@
               show-password
             />
           </el-form-item>
-          <el-form-item class="-mb-3 py-4 ml-2" prop="service_civique">
+          <el-form-item
+            class="-mb-3 py-4 ml-2"
+            prop="service_civique"
+          >
             <el-checkbox
               v-model="form.service_civique"
               @change="handleServiceCiviqueChange"
-            >Je suis volontaire en Service Civique</el-checkbox>
+            >
+              Je suis volontaire en Service Civique
+            </el-checkbox>
           </el-form-item>
         </div>
       </el-form>
@@ -95,9 +156,9 @@
           <el-button
             type="primary"
             :loading="loading"
-            @click="onSubmit"
             style="height: 48px;"
             class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+            @click="onSubmit"
           >Je m'inscris en tant que volontaire</el-button>
         </span>
       </div>
@@ -106,7 +167,7 @@
     <div class="mt-6">
       <div class="relative">
         <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300"></div>
+          <div class="w-full border-t border-gray-300" />
         </div>
         <div class="relative flex justify-center text-sm">
           <span class="px-2 bg-white text-gray-500">OU</span>

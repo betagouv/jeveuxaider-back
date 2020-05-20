@@ -1,9 +1,19 @@
 <template>
   <div class="roles-tags">
-    <el-tag v-if="profile.roles.admin" type="danger" :size="size" class="m-1">
+    <el-tag
+      v-if="profile.roles.admin"
+      type="danger"
+      :size="size"
+      class="m-1"
+    >
       Admin
     </el-tag>
-    <el-tag v-if="profile.volontaire" type="info" :size="size" class="m-1">
+    <el-tag
+      v-if="profile.volontaire"
+      type="info"
+      :size="size"
+      class="m-1"
+    >
       Volontaire
     </el-tag>
     <el-tooltip
@@ -13,7 +23,11 @@
       :content="profile.referent_department | fullDepartmentFromValue"
       placement="top"
     >
-      <el-tag type="warning" :size="size" class="m-1">
+      <el-tag
+        type="warning"
+        :size="size"
+        class="m-1"
+      >
         Référent
       </el-tag>
     </el-tooltip>
@@ -24,7 +38,11 @@
       :content="profile.referent_region"
       placement="top"
     >
-      <el-tag type="warning" :size="size" class="m-1">
+      <el-tag
+        type="warning"
+        :size="size"
+        class="m-1"
+      >
         Régional
       </el-tag>
     </el-tooltip>
@@ -35,13 +53,22 @@
       :content="profile.reseau.name"
       placement="top"
     >
-      <el-tag type="" :size="size" class="m-1">
+      <el-tag
+        type=""
+        :size="size"
+        class="m-1"
+      >
         Superviseur
       </el-tag>
     </el-tooltip>
-    <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
-        Analyste
-      </el-tag>
+    <el-tag
+      v-if="profile.roles.analyste"
+      type=""
+      :size="size"
+      class="m-1"
+    >
+      Analyste
+    </el-tag>
     <el-tooltip
       v-if="profile.roles.responsable"
       class="item"
@@ -49,7 +76,11 @@
       :content="structure_as_responsable.name"
       placement="top"
     >
-      <el-tag type="info" :size="size" class="m-1">
+      <el-tag
+        type="info"
+        :size="size"
+        class="m-1"
+      >
         Responsable
       </el-tag>
     </el-tooltip>
@@ -60,7 +91,11 @@
       :content="structures_as_tuteur.name"
       placement="top"
     >
-      <el-tag type="info" :size="size" class="m-1">
+      <el-tag
+        type="info"
+        :size="size"
+        class="m-1"
+      >
         Tuteur
       </el-tag>
     </el-tooltip>
@@ -71,8 +106,12 @@
       content="Ce profil n'a pas créé son compte"
       placement="top"
     >
-      <el-tag type="info" :size="size" class="m-1">
-        <i class="el-icon-info"></i> Invité
+      <el-tag
+        type="info"
+        :size="size"
+        class="m-1"
+      >
+        <i class="el-icon-info" /> Invité
       </el-tag>
     </el-tooltip>
   </div>

@@ -1,14 +1,39 @@
 <template>
-  <el-menu :default-active="index" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="main" active>Général</el-menu-item>
-    <el-menu-item v-if="$store.getters.contextRole != 'responsable'" index="structures">Structures</el-menu-item>
-    <el-menu-item index="missions">Missions</el-menu-item>
-    <el-menu-item index="participations">Participations</el-menu-item>
-    <el-menu-item v-if="$store.getters.contextRole != 'responsable'" index="profiles">Utilisateurs</el-menu-item>
+  <el-menu
+    :default-active="index"
+    mode="horizontal"
+    @select="handleSelect"
+  >
+    <el-menu-item
+      index="main"
+      active
+    >
+      Général
+    </el-menu-item>
+    <el-menu-item
+      v-if="$store.getters.contextRole != 'responsable'"
+      index="structures"
+    >
+      Structures
+    </el-menu-item>
+    <el-menu-item index="missions">
+      Missions
+    </el-menu-item>
+    <el-menu-item index="participations">
+      Participations
+    </el-menu-item>
+    <el-menu-item
+      v-if="$store.getters.contextRole != 'responsable'"
+      index="profiles"
+    >
+      Utilisateurs
+    </el-menu-item>
     <el-menu-item
       v-if="$store.getters.contextRole != 'responsable'"
       index="departments"
-    >Départements</el-menu-item>
+    >
+      Départements
+    </el-menu-item>
   </el-menu>
 </template>
 

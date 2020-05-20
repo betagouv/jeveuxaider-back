@@ -9,10 +9,13 @@
           Utilisateurs
         </div>
       </div>
-      <div v-if="$store.getters.contextRole === 'admin'" class="">
+      <div
+        v-if="$store.getters.contextRole === 'admin'"
+        class=""
+      >
         <el-dropdown>
           <el-button type="primary">
-            <i class="el-icon-plus mr-1"></i> Inviter un utilisateur
+            <i class="el-icon-plus mr-1" /> Inviter un utilisateur
           </el-button>
           <el-dropdown-menu type="primary">
             <router-link
@@ -47,23 +50,32 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge
+          v-if="activeFilters"
+          :value="activeFilters"
+          type="primary"
+        >
           <el-button
             icon="el-icon-s-operation"
             class="ml-4"
             @click="showFilters = !showFilters"
-            >Filtres avancés</el-button
           >
+            Filtres avancés
+          </el-button>
         </el-badge>
         <el-button
           v-else
           icon="el-icon-s-operation"
           class="ml-4"
           @click="showFilters = !showFilters"
-          >Filtres avancés</el-button
         >
+          Filtres avancés
+        </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div
+        v-if="showFilters"
+        class="flex flex-wrap"
+      >
         <query-filter
           name="role"
           label="Rôle"
@@ -95,28 +107,43 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column width="70" align="center">
+      <el-table-column
+        width="70"
+        align="center"
+      >
         <template slot-scope="scope">
           <el-avatar class="bg-primary">
             {{ scope.row.short_name }}
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column label="Email" min-width="320">
+      <el-table-column
+        label="Email"
+        min-width="320"
+      >
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.full_name }}
           </div>
-          <div class="font-light text-gray-600 text-xs">{{ scope.row.email }}</div>
+          <div class="font-light text-gray-600 text-xs">
+            {{ scope.row.email }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column label="Roles" min-width="200">
+      <el-table-column
+        label="Roles"
+        min-width="200"
+      >
         <template slot-scope="scope">
-          <profile-roles-tags :profile="scope.row"></profile-roles-tags>
+          <profile-roles-tags :profile="scope.row" />
         </template>
       </el-table-column>
 
-      <el-table-column prop="created_at" label="Crée le" min-width="120">
+      <el-table-column
+        prop="created_at"
+        label="Crée le"
+        min-width="120"
+      >
         <template slot-scope="scope">
           {{ scope.row.created_at | fromNow }}
         </template>
@@ -135,7 +162,8 @@
           >
             <router-link
               :to="{ name: 'ProfileFormEdit', params: { id: scope.row.id } }"
-              ><i class="el-icon-edit mr-1"></i> Modifier
+            >
+              <i class="el-icon-edit mr-1" /> Modifier
             </router-link>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -150,7 +178,11 @@
             v-else
             :to="{ name: 'ProfileFormEdit', params: { id: scope.row.id } }"
           >
-            <el-button icon="el-icon-edit" size="mini" class="m-1">
+            <el-button
+              icon="el-icon-edit"
+              size="mini"
+              class="m-1"
+            >
               Modifier
             </el-button>
           </router-link>
@@ -165,15 +197,18 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      >
-      </el-pagination>
+      />
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
-        <el-button icon="el-icon-download" size="small" @click="onExport"
-          >Export</el-button
+        <el-button
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
         >
+          Export
+        </el-button>
       </div>
     </div>
     <portal to="volet">

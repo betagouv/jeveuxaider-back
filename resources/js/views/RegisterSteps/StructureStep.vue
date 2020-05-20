@@ -3,30 +3,36 @@
     <portal to="register-steps-help">
       <p>
         Dites-nous en plus sur votre structure !
-        <br />Ces
+        <br>Ces
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
       </p>
       <p>
-          Une question? Appelez-nous au<br /><span class="font-bold"><a href="tel:0184800189">
-           01 84 80 01 89</a> </span>
-          ou 
-          <button onclick="$crisp.push(['do', 'chat:open'])">chatez en cliquant sur le bouton en bas à droite.</button>
+        Une question? Appelez-nous au<br><span class="font-bold"><a href="tel:0184800189">
+          01 84 80 01 89</a> </span>
+        ou 
+        <button onclick="$crisp.push(['do', 'chat:open'])">
+          chatez en cliquant sur le bouton en bas à droite.
+        </button>
       </p>  
     </portal>
-    <el-steps :active="2" align-center class="p-4 sm:p-8 border-b-2">
+    <el-steps
+      :active="2"
+      align-center
+      class="p-4 sm:p-8 border-b-2"
+    >
       <el-step
         title="Profil"
         description="Je complète les informations de mon profil"
-      ></el-step>
+      />
       <el-step
         title="Structure"
         description="J'enregistre ma structure en tant que responsable"
-      ></el-step>
+      />
       <el-step
         title="Adresse"
         description="J'enregistre le lieu de mon établissement"
-      ></el-step>
+      />
     </el-steps>
     <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
@@ -36,11 +42,20 @@
       <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
         Logo de la structure
       </div> -->
-      <div v-show="false" class="mb-10">
+      <div
+        v-show="false"
+        class="mb-10"
+      >
         <div class="flex -m-4">
           <div class="m-4">
-            <div v-if="logoPreview" class="h-32 w-32 flex items-center">
-              <img :src="logoPreview" alt="Logo" />
+            <div
+              v-if="logoPreview"
+              class="h-32 w-32 flex items-center"
+            >
+              <img
+                :src="logoPreview"
+                alt="Logo"
+              >
             </div>
             <div
               v-else
@@ -60,7 +75,10 @@
               :on-change="onChangeLogo"
             >
               <el-button>Modifier</el-button>
-              <div slot="tip" class="el-upload__tip text-xs">
+              <div
+                slot="tip"
+                class="el-upload__tip text-xs"
+              >
                 Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
                 taille maximale de 5 Mo
               </div>
@@ -76,10 +94,19 @@
         :rules="rules"
         class="max-w-lg"
       >
-        <el-form-item label="Nom de votre structure" prop="name">
-          <el-input v-model="form.name" placeholder="Nom de votre structure" />
+        <el-form-item
+          label="Nom de votre structure"
+          prop="name"
+        >
+          <el-input
+            v-model="form.name"
+            placeholder="Nom de votre structure"
+          />
         </el-form-item>
-        <el-form-item label="Statut juridique" prop="statut_juridique">
+        <el-form-item
+          label="Statut juridique"
+          prop="statut_juridique"
+        >
           <el-select
             v-model="form.statut_juridique"
             placeholder="Statut juridique"
@@ -90,7 +117,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item
@@ -108,7 +135,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item
@@ -125,7 +152,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item
@@ -146,7 +173,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item
@@ -163,7 +190,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
 
@@ -177,7 +204,7 @@
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 6 }"
             placeholder="Décrivez votre structure, en quelques mots"
-          ></el-input>
+          />
         </el-form-item>
 
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
@@ -189,20 +216,32 @@
           superviseur de votre réseau de visualiser les missions et volontaires
           rattachés à votre structure.
         </item-description>
-        <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-          <el-select v-model="form.reseau_id" clearable placeholder="Aucun">
+        <el-form-item
+          label="Réseau national"
+          prop="reseau"
+          class="flex-1"
+        >
+          <el-select
+            v-model="form.reseau_id"
+            clearable
+            placeholder="Aucun"
+          >
             <el-option
               v-for="item in reseauxOptions"
               :key="item.id"
               :label="item.name"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit"
-            >Continuer</el-button
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="onSubmit"
           >
+            Continuer
+          </el-button>
         </div>
       </el-form>
     </div>

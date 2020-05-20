@@ -4,15 +4,24 @@
       <div class="text-xs text-gray-600 uppercase text-center mt-16 mb-12">
         {{ row.statut_juridique }}
       </div>
-      <el-card shadow="hover" class="overflow-visible relative">
-        <div slot="header" class="clearfix flex flex-col items-center">
+      <el-card
+        shadow="hover"
+        class="overflow-visible relative"
+      >
+        <div
+          slot="header"
+          class="clearfix flex flex-col items-center"
+        >
           <div class="-mt-10">
             <el-avatar
               v-if="row.logo"
               :src="`${row.logo}`"
               class="w-10 rounded-full border"
             />
-            <el-avatar v-else class="bg-primary">
+            <el-avatar
+              v-else
+              class="bg-primary"
+            >
               {{ row.name[0] }}
             </el-avatar>
           </div>
@@ -21,7 +30,8 @@
               name: 'Structure',
               params: { id: row.id }
             }"
-            ><div class="font-bold text-lg text-primary mb-3 text-center">
+          >
+            <div class="font-bold text-lg text-primary mb-3 text-center">
               {{ row.name }}
             </div>
           </router-link>
@@ -32,13 +42,18 @@
                 params: { id: row.id }
               }"
             >
-              <el-button icon="el-icon-edit" type="mini">Modifier</el-button>
+              <el-button
+                icon="el-icon-edit"
+                type="mini"
+              >
+                Modifier
+              </el-button>
             </router-link>
             <button
               v-if="
                 $store.getters.contextRole == 'admin' ||
                   $store.getters.contextRole == 'referent' ||
-                    $store.getters.contextRole == 'referent_regional'
+                  $store.getters.contextRole == 'referent_regional'
               "
               type="button"
               class="ml-2 el-button is-plain el-button--danger el-button--mini"
@@ -54,19 +69,27 @@
             size="small"
             class="m-1 ml-0"
             type="danger"
-            >Tête de réseau</el-tag
           >
-          <el-tag v-if="row.reseau_id" class="m-1 ml-0" size="small">{{
-            row.reseau_id | reseauFromValue
-          }}</el-tag>
+            Tête de réseau
+          </el-tag>
+          <el-tag
+            v-if="row.reseau_id"
+            class="m-1 ml-0"
+            size="small"
+          >
+            {{
+              row.reseau_id | reseauFromValue
+            }}
+          </el-tag>
 
           <el-tag
             v-if="row.department"
             type="warning"
             class="m-1 ml-0"
             size="small"
-            >{{ row.department | fullDepartmentFromValue }}</el-tag
           >
+            {{ row.department | fullDepartmentFromValue }}
+          </el-tag>
           <el-tooltip
             v-if="row.ceu"
             class="item"
@@ -74,10 +97,16 @@
             :content="row.structure_publique_etat_type"
             placement="top"
           >
-            <el-tag size="small" class="m-1 ml-0" type="info">CEU</el-tag>
+            <el-tag
+              size="small"
+              class="m-1 ml-0"
+              type="info"
+            >
+              CEU
+            </el-tag>
           </el-tooltip>
         </div>
-        <structure-infos :structure="row"></structure-infos>
+        <structure-infos :structure="row" />
 
         <div
           v-if="row.missions_count > 0"
@@ -89,37 +118,60 @@
               params: { id: row.id }
             }"
           >
-            <el-button v-if="row.missions_count == 1" type="primary"
-              >Voir la mission</el-button
+            <el-button
+              v-if="row.missions_count == 1"
+              type="primary"
             >
-            <el-button v-else type="primary"
-              >Voir les {{ row.missions_count }} missions</el-button
+              Voir la mission
+            </el-button>
+            <el-button
+              v-else
+              type="primary"
             >
+              Voir les {{ row.missions_count }} missions
+            </el-button>
           </router-link>
         </div>
       </el-card>
-      <el-form ref="structureForm" :model="form" label-position="top">
+      <el-form
+        ref="structureForm"
+        :model="form"
+        label-position="top"
+      >
         <template v-if="showStatut">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut de la structure</div>
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Statut de la structure
+          </div>
           <item-description>
             Vous pouvez sélectionner le statut de la structure. A noter que des
             notifications emails seront envoyées.
           </item-description>
-          <el-form-item label="Statut" prop="state" class="flex-1">
-            <el-select v-model="form.state" placeholder="Statut">
+          <el-form-item
+            label="Statut"
+            prop="state"
+            class="flex-1"
+          >
+            <el-select
+              v-model="form.state"
+              placeholder="Statut"
+            >
               <el-option
                 v-for="item in statesAvailable"
                 :key="item.label"
                 :label="item.value"
                 :value="item.label"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
-           <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmitState">
-            Enregistrer
-          </el-button>
-        </div>
+          <div class="flex pt-2">
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="onSubmitState"
+            >
+              Enregistrer
+            </el-button>
+          </div>
         </template>
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national
@@ -131,7 +183,11 @@
             superviseur de votre réseau de visualiser les missions et
             volontaires rattachés à votre structure.
           </item-description>
-          <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+          <el-form-item
+            label="Réseau national"
+            prop="reseau"
+            class="flex-1"
+          >
             <el-select
               v-model="form.reseau_id"
               clearable
@@ -142,11 +198,15 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
         </div>
-        <el-form-item label="Tête de réseau" prop="is_reseau" class="flex-1">
+        <el-form-item
+          label="Tête de réseau"
+          prop="is_reseau"
+          class="flex-1"
+        >
           <el-checkbox v-model="form.is_reseau">
             <span class="text-xs font-light text-gray-600">
               Cette structure est une tête de réseau
@@ -154,11 +214,14 @@
           </el-checkbox>
         </el-form-item>
         <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit">
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="onSubmit"
+          >
             Enregistrer
           </el-button>
         </div>
-
       </el-form>
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Équipe ({{ form.members.length }})
@@ -184,17 +247,17 @@
             }
           }"
         >
-          <span class="underline cursor-pointer"
-            >ajouter un membre</span
-          > </router-link
-        >.
+          <span
+            class="underline cursor-pointer"
+          >ajouter un membre</span>
+        </router-link>.
       </item-description>
       <div
         v-for="member in form.members"
         :key="member.id"
         class="member py-4 px-6"
       >
-        <member-teaser :member="member"></member-teaser>
+        <member-teaser :member="member" />
       </div>
     </template>
   </Volet>

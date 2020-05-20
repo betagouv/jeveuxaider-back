@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-menu-item index="/dashboard" :class="{'is-active': isActive('dashboard')}">
+    <el-menu-item
+      index="/dashboard"
+      :class="{'is-active': isActive('dashboard')}"
+    >
       <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
         v-else
@@ -10,10 +13,13 @@
         content="Tableau de bord"
         placement="right"
       >
-        <i class="el-icon-data-analysis"></i>
+        <i class="el-icon-data-analysis" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/missions" :class="{'is-active': isActive('mission')}">
+    <el-menu-item
+      index="/dashboard/missions"
+      :class="{'is-active': isActive('mission')}"
+    >
       <span v-if="$store.getters.sidebar">Missions</span>
       <el-tooltip
         v-else
@@ -23,7 +29,7 @@
         content="Missions"
         placement="right"
       >
-        <i class="el-icon-collection"></i>
+        <i class="el-icon-collection" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item
@@ -39,7 +45,7 @@
         content="Participations"
         placement="right"
       >
-        <i class="el-icon-finished"></i>
+        <i class="el-icon-finished" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item v-if="$store.getters.sidebar">

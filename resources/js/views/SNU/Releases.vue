@@ -2,12 +2,21 @@
   <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">{{ $store.getters["user/contextRoleLabel"] }}</div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Releases</div>
+        <div class="text-m text-gray-600 uppercase">
+          {{ $store.getters["user/contextRoleLabel"] }}
+        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">
+          Releases
+        </div>
       </div>
       <div class>
         <router-link :to="{ name: 'ReleaseFormAdd' }">
-          <el-button type="primary" icon="el-icon-plus">Nouvelle release</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+          >
+            Nouvelle release
+          </el-button>
         </router-link>
       </div>
     </div>
@@ -21,21 +30,45 @@
         />
       </div>
     </div>
-    <el-table v-loading="loading" :data="tableData" :highlight-current-row="true">
-      <el-table-column label="ID" min-width="70" align="center">
+    <el-table
+      v-loading="loading"
+      :data="tableData"
+      :highlight-current-row="true"
+    >
+      <el-table-column
+        label="ID"
+        min-width="70"
+        align="center"
+      >
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">{{ scope.row.id }}</el-avatar>
+          <el-avatar class="bg-primary">
+            {{ scope.row.id }}
+          </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column label="Titre" min-width="320">
+      <el-table-column
+        label="Titre"
+        min-width="320"
+      >
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.title }}</div>
+          <div class="text-gray-900">
+            {{ scope.row.title }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="Crée le" min-width="120">
-        <template slot-scope="scope">{{ scope.row.created_at | fromNow }}</template>
+      <el-table-column
+        prop="created_at"
+        label="Crée le"
+        min-width="120"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.created_at | fromNow }}
+        </template>
       </el-table-column>
-      <el-table-column label="Actions" width="165">
+      <el-table-column
+        label="Actions"
+        width="165"
+      >
         <template slot-scope="scope">
           <el-dropdown
             size="small"
@@ -49,9 +82,11 @@
             "
             @command="handleCommand"
           >
-            <i class="el-icon-edit mr-2"></i>Modifier
+            <i class="el-icon-edit mr-2" />Modifier
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="{ action: 'delete', id: scope.row.id }">Supprimer</el-dropdown-item>
+              <el-dropdown-item :command="{ action: 'delete', id: scope.row.id }">
+                Supprimer
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -65,10 +100,12 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      ></el-pagination>
+      />
       <div
         class="text-secondary text-xs ml-3"
-      >Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats</div>
+      >
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
     </div>
   </div>
 </template>

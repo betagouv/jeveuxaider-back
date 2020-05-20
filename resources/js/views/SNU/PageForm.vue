@@ -1,26 +1,64 @@
 <template>
-  <div v-if="!$store.getters.loading" class="profile-form max-w-2xl pl-12 pb-12">
+  <div
+    v-if="!$store.getters.loading"
+    class="profile-form max-w-2xl pl-12 pb-12"
+  >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">Page</div>
+      <div class="text-m text-gray-600 uppercase">
+        Page
+      </div>
       <div class="mb-8 flex">
-        <div class="font-bold text-2xl">{{ form.title }}</div>
+        <div class="font-bold text-2xl">
+          {{ form.title }}
+        </div>
       </div>
     </template>
-    <div v-else class="mb-12 font-bold text-2xl text-gray-800">Nouvelle page</div>
+    <div
+      v-else
+      class="mb-12 font-bold text-2xl text-gray-800"
+    >
+      Nouvelle page
+    </div>
 
-    <el-form ref="pageForm" :model="form" label-position="top" :rules="rules">
-      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <el-form
+      ref="pageForm"
+      :model="form"
+      label-position="top"
+      :rules="rules"
+    >
+      <div class="mb-6 text-xl text-gray-800">
+        Informations générales
+      </div>
 
-      <el-form-item label="Titre" prop="title">
-        <el-input v-model="form.title" placeholder="Titre" />
+      <el-form-item
+        label="Titre"
+        prop="title"
+      >
+        <el-input
+          v-model="form.title"
+          placeholder="Titre"
+        />
       </el-form-item>
 
-      <el-form-item label="Description" prop="description">
-        <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
+      <el-form-item
+        label="Description"
+        prop="description"
+      >
+        <ckeditor
+          v-model="form.description"
+          :editor="editor"
+          :config="editorConfig"
+        />
       </el-form-item>
 
       <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
+        <el-button
+          type="primary"
+          :loading="loading"
+          @click="onSubmit"
+        >
+          Enregistrer
+        </el-button>
       </div>
     </el-form>
   </div>
@@ -28,12 +66,10 @@
 
 <script>
 import { getPage, updatePage, addPage } from "@/api/app";
-import ItemDescription from "@/components/forms/ItemDescription";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
   name: "PageForm",
-  components: { ItemDescription },
   props: {
     mode: {
       type: String,

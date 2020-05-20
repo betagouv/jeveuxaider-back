@@ -3,7 +3,10 @@
     <el-avatar class="bg-primary w-10 rounded-full">
       {{ member.short_name }}
     </el-avatar>
-    <div class="flex flex-col ml-6" style="min-width:250px;">
+    <div
+      class="flex flex-col ml-6"
+      style="min-width:250px;"
+    >
       <router-link
         :to="{
           name: 'Profile',

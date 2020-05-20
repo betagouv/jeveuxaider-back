@@ -5,7 +5,9 @@
     <div class="bg-blue-900 pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">Mentions légales</h1>
+          <h1 class="text-3xl font-bold text-white">
+            Mentions légales
+          </h1>
         </div>
       </div>
     </div>
@@ -59,8 +61,8 @@
                 La plateforme est hébergée par :
               </p>
               <p>
-                <b>Scalingo SAS</b><br />
-                15 avenue du Rhin<br />
+                <b>Scalingo SAS</b><br>
+                15 avenue du Rhin<br>
                 67100 Strasbourg France
               </p>
             </div>
@@ -140,19 +142,18 @@
                 ministère de l’Education nationale et de la Jeunesse.
               </p>
               <p>
-                <b>Par voie postale&nbsp;:</b><br />
-                Ministère de l’Education nationale et de la Jeunesse<br />
-                A l’attention du délégué à la protection des données (DPD)<br />
-                110, rue de Grenelle<br />
-                75357 Paris Cedex 07<br />
+                <b>Par voie postale&nbsp;:</b><br>
+                Ministère de l’Education nationale et de la Jeunesse<br>
+                A l’attention du délégué à la protection des données (DPD)<br>
+                110, rue de Grenelle<br>
+                75357 Paris Cedex 07<br>
               </p>
               <p>
                 <b>Par voie électronique</b>, à l’adresse suivante&nbsp;:
                 <a
                   class="text-blue-900 hover:underline font-medium"
                   href="mailto:covid19@mail.reserve-civique.gouv.fr"
-                  >covid19@mail.reserve-civique.gouv.fr</a
-                >
+                >covid19@mail.reserve-civique.gouv.fr</a>
               </p>
             </div>
           </div>

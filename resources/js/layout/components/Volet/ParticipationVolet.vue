@@ -1,39 +1,80 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <el-card shadow="hover" class="overflow-visible mt-24">
-        <div slot="header" class="clearfix flex flex-col items-center">
+      <el-card
+        shadow="hover"
+        class="overflow-visible mt-24"
+      >
+        <div
+          slot="header"
+          class="clearfix flex flex-col items-center"
+        >
           <div class="-mt-10">
-            <el-avatar v-if="canShowProfileDetails" class="bg-primary">{{ row.profile.short_name }}</el-avatar>
-            <el-avatar v-else class="bg-primary">XX</el-avatar>
-          </div>
-          <div v-if="canShowProfileDetails" class="font-bold text-lg my-3">{{ row.profile.full_name }}</div>
-          <div v-else class="font-bold text-lg my-3">Anonyme</div>
-          <button
-              v-if="
-                $store.getters.contextRole == 'admin' ||
-                  $store.getters.contextRole == 'referent' ||
-                    $store.getters.contextRole == 'referent_regional'
-              "
-              type="button"
-              class="ml-2 el-button is-plain el-button--danger el-button--mini"
-              @click="onClickDelete"
+            <el-avatar
+              v-if="canShowProfileDetails"
+              class="bg-primary"
             >
-              <i class="el-icon-delete" />
-            </button>
+              {{ row.profile.short_name }}
+            </el-avatar>
+            <el-avatar
+              v-else
+              class="bg-primary"
+            >
+              XX
+            </el-avatar>
+          </div>
+          <div
+            v-if="canShowProfileDetails"
+            class="font-bold text-lg my-3"
+          >
+            {{ row.profile.full_name }}
+          </div>
+          <div
+            v-else
+            class="font-bold text-lg my-3"
+          >
+            Anonyme
+          </div>
+          <button
+            v-if="
+              $store.getters.contextRole == 'admin' ||
+                $store.getters.contextRole == 'referent' ||
+                $store.getters.contextRole == 'referent_regional'
+            "
+            type="button"
+            class="ml-2 el-button is-plain el-button--danger el-button--mini"
+            @click="onClickDelete"
+          >
+            <i class="el-icon-delete" />
+          </button>
         </div>
         <div class="flex items-center justify-center mb-4">
-          <state-tag :state="row.state" size="small" class="flex items-center"></state-tag>
-
+          <state-tag
+            :state="row.state"
+            size="small"
+            class="flex items-center"
+          />
         </div>
-        <participation-infos :participation="row"></participation-infos>
+        <participation-infos :participation="row" />
       </el-card>
       <template v-if="canChangeState">
-        <el-form ref="participationForm" :model="form" label-position="top">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Statut</div>
-          <item-description>Vous pouvez sélectionner le statut de la participation. A noter que des
-            notifications emails seront envoyées.</item-description>
-          <el-form-item label="Statut" prop="state" class="flex-1">
+        <el-form
+          ref="participationForm"
+          :model="form"
+          label-position="top"
+        >
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Statut
+          </div>
+          <item-description>
+            Vous pouvez sélectionner le statut de la participation. A noter que des
+            notifications emails seront envoyées.
+          </item-description>
+          <el-form-item
+            label="Statut"
+            prop="state"
+            class="flex-1"
+          >
             <el-select
               v-model="form.state"
               filterable
@@ -45,11 +86,17 @@
                 :key="item.value"
                 :label="`${item.label}`"
                 :value="item.value"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button type="primary" :loading="loading" @click="onSubmit">Enregistrer</el-button>
+            <el-button
+              type="primary"
+              :loading="loading"
+              @click="onSubmit"
+            >
+              Enregistrer
+            </el-button>
           </div>
         </el-form>
       </template>
