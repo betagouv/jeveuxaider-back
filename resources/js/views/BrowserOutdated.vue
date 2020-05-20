@@ -1,15 +1,12 @@
 <template>
-  <div
-    class="mx-auto w-full"
-    style="max-width: 420px"
-  >
+  <div class="mx-auto w-full" style="max-width: 420px;">
     <div>
       <router-link to="/">
         <img
           class="h-8 w-auto"
           src="/images/logo-header-dark.png"
           alt="Réserve Civique"
-        >
+        />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Votre navigateur est
@@ -121,6 +118,6 @@
 
 <script>
 export default {
-  name: "BrowserOutdated"
-};
+  name: 'BrowserOutdated',
+}
 </script>

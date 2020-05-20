@@ -12,19 +12,21 @@
                 class="h-6"
                 src="/images/logo-header.png"
                 alt="Réserve Civique"
-              >
+              />
             </router-link>
           </div>
 
           <slot name="menu">
-            <div class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3">
+            <div
+              class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3"
+            >
               <div
                 class="links-wrapper flex flex-wrap items-center justify-center sm:justify-start -m-2"
               >
                 <router-link
                   to="/missions"
                   :class="{
-                    'bg-blue-700': isCurrentPath('/missions')
+                    'bg-blue-700': isCurrentPath('/missions'),
                   }"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition focus:bg-gray-700 hover:bg-blue-700"
                 >
@@ -32,10 +34,12 @@
                 </router-link>
 
                 <router-link
-                  v-if="$store.getters.isLogged && $store.getters.noRole === true"
+                  v-if="
+                    $store.getters.isLogged && $store.getters.noRole === true
+                  "
                   to="/user/missions"
                   :class="{
-                    'bg-blue-700': isCurrentPath('/user/missions')
+                    'bg-blue-700': isCurrentPath('/user/missions'),
                   }"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
                 >
@@ -45,7 +49,7 @@
                   to="/regles-de-securite"
                   class="hidden sm:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
                   :class="{
-                    'bg-blue-700': isCurrentPath('/regles-de-securite')
+                    'bg-blue-700': isCurrentPath('/regles-de-securite'),
                   }"
                 >
                   Règles de sécurité
@@ -53,7 +57,8 @@
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
                   class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                >Toutes les initiatives solidaires</a>
+                  >Toutes les initiatives solidaires</a
+                >
               </div>
             </div>
           </slot>
@@ -63,7 +68,7 @@
               <div
                 v-if="
                   $store.getters.isLogged &&
-                    $store.getters.contextRole != 'volontaire'
+                  $store.getters.contextRole != 'volontaire'
                 "
                 class="flex items-center"
               >
@@ -74,7 +79,11 @@
                   Tableau de bord
                 </router-link>
                 <el-badge
-                  v-if="$store.getters.isLogged && $store.getters.reminders && $store.getters.reminders.waiting > 0"
+                  v-if="
+                    $store.getters.isLogged &&
+                    $store.getters.reminders &&
+                    $store.getters.reminders.waiting > 0
+                  "
                   :value="$store.getters.reminders.waiting"
                   :max="99"
                   class="ml-3 mr-5"
@@ -102,28 +111,28 @@
 
 <script>
 export default {
-  name: "AppHeader",
+  name: 'AppHeader',
   props: {
     background: {
       type: String,
-      default: "bg-blue-900"
+      default: 'bg-blue-900',
     },
     border: {
       type: String,
-      default: "border-b border-blue-800"
-    }
+      default: 'border-b border-blue-800',
+    },
   },
-  created(){
-    if(this.$store.getters.isLogged) {
+  created() {
+    if (this.$store.getters.isLogged) {
       this.$store.dispatch('reminders')
     }
   },
   methods: {
     isCurrentPath(path) {
-      return window.location.pathname === path;
-    }
-  }
-};
+      return window.location.pathname === path
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

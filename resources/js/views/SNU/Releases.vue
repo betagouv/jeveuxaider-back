@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
           Releases
@@ -11,10 +11,7 @@
       </div>
       <div class>
         <router-link :to="{ name: 'ReleaseFormAdd' }">
-          <el-button
-            type="primary"
-            icon="el-icon-plus"
-          >
+          <el-button type="primary" icon="el-icon-plus">
             Nouvelle release
           </el-button>
         </router-link>
@@ -35,40 +32,26 @@
       :data="tableData"
       :highlight-current-row="true"
     >
-      <el-table-column
-        label="ID"
-        min-width="70"
-        align="center"
-      >
+      <el-table-column label="ID" min-width="70" align="center">
         <template slot-scope="scope">
           <el-avatar class="bg-primary">
             {{ scope.row.id }}
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column
-        label="Titre"
-        min-width="320"
-      >
+      <el-table-column label="Titre" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.title }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="created_at"
-        label="Crée le"
-        min-width="120"
-      >
+      <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">
           {{ scope.row.created_at | fromNow }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="Actions"
-        width="165"
-      >
+      <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
           <el-dropdown
             size="small"
@@ -77,14 +60,16 @@
             @click="
               $router.push({
                 name: 'ReleaseFormEdit',
-                params: { id: scope.row.id }
+                params: { id: scope.row.id },
               })
             "
             @command="handleCommand"
           >
             <i class="el-icon-edit mr-2" />Modifier
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="{ action: 'delete', id: scope.row.id }">
+              <el-dropdown-item
+                :command="{ action: 'delete', id: scope.row.id }"
+              >
                 Supprimer
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -101,9 +86,7 @@
         :current-page="Number(query.page)"
         @current-change="onPageChange"
       />
-      <div
-        class="text-secondary text-xs ml-3"
-      >
+      <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
@@ -111,55 +94,55 @@
 </template>
 
 <script>
-import { fetchReleases, deleteRelease } from "@/api/app";
-import TableWithFilters from "@/mixins/TableWithFilters";
-import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
+import { fetchReleases, deleteRelease } from '@/api/app'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 
 export default {
-  name: "Releases",
+  name: 'Releases',
   components: {
-    QueryMainSearchFilter
+    QueryMainSearchFilter,
   },
   mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
       tableData: [],
-      totalRows: 0
-    };
+      totalRows: 0,
+    }
   },
   methods: {
     fetchRows() {
-      return fetchReleases(this.query);
+      return fetchReleases(this.query)
     },
     handleCommand(command) {
-      if (command.action == "delete") {
-        this.handleClickDelete(command.id);
+      if (command.action == 'delete') {
+        this.handleClickDelete(command.id)
       } else {
-        this.$router.push(command);
+        this.$router.push(command)
       }
     },
     handleClickDelete(id) {
       this.$confirm(
         `Êtes vous sur de vouloir supprimer cette release ?`,
-        "Supprimer la release",
+        'Supprimer la release',
         {
-          confirmButtonText: "Supprimer",
-          confirmButtonClass: "el-button--danger",
-          cancelButtonText: "Annuler",
+          confirmButtonText: 'Supprimer',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
           center: true,
-          type: "error"
+          type: 'error',
         }
       ).then(() => {
         deleteRelease(id).then(() => {
           this.$message({
-            type: "success",
-            message: `La release a été supprimée.`
-          });
-          this.fetchDatas();
-        });
-      });
-    }
-  }
-};
+            type: 'success',
+            message: `La release a été supprimée.`,
+          })
+          this.fetchDatas()
+        })
+      })
+    },
+  },
+}
 </script>

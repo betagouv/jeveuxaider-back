@@ -1,11 +1,6 @@
 <template>
   <div class="state-tag">
-    <el-tag
-      v-if="state == 'Brouillon'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
+    <el-tag v-if="state == 'Brouillon'" type="info" :size="size" class="m-1">
       Brouillon
     </el-tag>
     <el-tag
@@ -24,44 +19,19 @@
     >
       En attente de correction
     </el-tag>
-    <el-tag
-      v-if="state == 'Validée'"
-      type="success"
-      :size="size"
-      class="m-1"
-    >
+    <el-tag v-if="state == 'Validée'" type="success" :size="size" class="m-1">
       Validée
     </el-tag>
-    <el-tag
-      v-if="state == 'Refusée'"
-      type="danger"
-      :size="size"
-      class="m-1"
-    >
+    <el-tag v-if="state == 'Refusée'" type="danger" :size="size" class="m-1">
       Refusée
     </el-tag>
-    <el-tag
-      v-if="state == 'Signalée'"
-      type="danger"
-      :size="size"
-      class="m-1"
-    >
+    <el-tag v-if="state == 'Signalée'" type="danger" :size="size" class="m-1">
       Signalée
     </el-tag>
-    <el-tag
-      v-if="state == 'Annulée'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
+    <el-tag v-if="state == 'Annulée'" type="info" :size="size" class="m-1">
       Annulée
     </el-tag>
-    <el-tag
-      v-if="state == 'Archivée'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
+    <el-tag v-if="state == 'Archivée'" type="info" :size="size" class="m-1">
       Archivée
     </el-tag>
     <el-tag
@@ -181,21 +151,21 @@
 
 <script>
 export default {
-  name: "StateTag",
+  name: 'StateTag',
   props: {
     state: {
       type: String,
-      required: true
+      required: true,
     },
     size: {
       type: String,
       required: false,
-      default: "medium"
-    }
+      default: 'medium',
+    },
   },
   data() {
-    return {};
+    return {}
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

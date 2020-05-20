@@ -41,30 +41,21 @@
                   prop="first_name"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input
-                    v-model="form.first_name"
-                    placeholder="Prénom"
-                  />
+                  <el-input v-model="form.first_name" placeholder="Prénom" />
                 </el-form-item>
                 <el-form-item
                   label="Nom"
                   prop="last_name"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input
-                    v-model="form.last_name"
-                    placeholder="Nom"
-                  />
+                  <el-input v-model="form.last_name" placeholder="Nom" />
                 </el-form-item>
                 <el-form-item
                   label="Code postal"
                   prop="zip"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input
-                    v-model="form.zip"
-                    placeholder="Code postal"
-                  />
+                  <el-input v-model="form.zip" placeholder="Code postal" />
                 </el-form-item>
                 <el-form-item
                   label="Date de naissance"
@@ -78,7 +69,7 @@
                     autocomplete="off"
                     format="dd-MM-yyyy"
                     value-format="yyyy-MM-dd"
-                    style="width:100%;"
+                    style="width: 100%;"
                   />
                 </el-form-item>
                 <el-form-item
@@ -86,10 +77,7 @@
                   prop="email"
                   class="w-full sm:w-1/2 lg:w-1/3 p-2"
                 >
-                  <el-input
-                    v-model.trim="form.email"
-                    placeholder="E-mail"
-                  />
+                  <el-input v-model.trim="form.email" placeholder="E-mail" />
                 </el-form-item>
                 <el-form-item
                   label="Téléphone mobile"
@@ -123,104 +111,104 @@
 
 <script>
 export default {
-  name: "FrontProfile",
+  name: 'FrontProfile',
   data() {
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
-        callback(new Error("Merci de ne saisir que des minuscules"));
+        callback(new Error('Merci de ne saisir que des minuscules'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loading: false,
       form: this.$store.getters.user.profile,
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' }
+          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {
             required: true,
-            message: "Prénom obligatoire",
-            trigger: "blur"
-          }
+            message: 'Prénom obligatoire',
+            trigger: 'blur',
+          },
         ],
         last_name: [
           {
             required: true,
-            message: "Nom obligatoire",
-            trigger: "blur"
-          }
+            message: 'Nom obligatoire',
+            trigger: 'blur',
+          },
         ],
         zip: [
           {
             required: true,
-            message: "Code postal obligatoire",
-            trigger: "blur"
+            message: 'Code postal obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^\d+$/,
-            message: "Ne doit contenir que des chiffres",
-            trigger: "blur"
+            message: 'Ne doit contenir que des chiffres',
+            trigger: 'blur',
           },
           {
             min: 5,
             max: 5,
-            message: "Format erroné",
-            trigger: "blur"
-          }
+            message: 'Format erroné',
+            trigger: 'blur',
+          },
         ],
         mobile: [
           {
             required: true,
-            message: "Téléphone obligatoire",
-            trigger: "blur"
+            message: 'Téléphone obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: "Le format du numéro de téléphone est incorrect",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["profileForm"].validate(valid => {
+      this.loading = true
+      this.$refs['profileForm'].validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch("user/updateProfile", this.form)
+            .dispatch('user/updateProfile', this.form)
             .then(() => {
-              this.loading = false;
+              this.loading = false
               this.$message({
-                message: "Votre profil a été mis à jour.",
-                type: "success"
-              });
+                message: 'Votre profil a été mis à jour.',
+                type: 'success',
+              })
             })
             .catch(() => {
-              this.loading = false;
-            });
-          this.loading = false;
+              this.loading = false
+            })
+          this.loading = false
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

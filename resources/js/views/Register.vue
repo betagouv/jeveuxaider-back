@@ -1,15 +1,12 @@
 <template>
-  <div
-    class="register mx-auto w-full"
-    style="max-width: 700px;"
-  >
+  <div class="register mx-auto w-full" style="max-width: 700px;">
     <div>
       <router-link to="/">
         <img
           class="h-8 w-auto"
           src="/images/logo-header-dark.png"
           alt="Réserve Civique"
-        >
+        />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Rejoignez la
@@ -22,9 +19,7 @@
         Engagez-vous dans la lutte contre l’épidémie
       </h3>
       <p class="mt-1 text-sm leading-5 text-gray-500">
-        <router-link
-          to="/regles-de-securite"
-        >
+        <router-link to="/regles-de-securite">
           Cet engagement nécessite un respect strict des règles sanitaires
           applicables.
         </router-link>
@@ -34,7 +29,7 @@
       <div class="flex flex-wrap -m-4">
         <div
           class="w-full sm:w-64 border p-8 m-4 rounded-lg flex flex-col text-center hover:border-primary"
-          style="height: 270px"
+          style="height: 270px;"
         >
           <div class="mb-4 uppercase">
             Appel aux Citoyens
@@ -49,8 +44,8 @@
           </router-link>
         </div>
         <div
-          class="w-full sm:w-64 border p-8  m-4 rounded-lg flex flex-col text-center hover:border-primary"
-          style="height: 270px"
+          class="w-full sm:w-64 border p-8 m-4 rounded-lg flex flex-col text-center hover:border-primary"
+          style="height: 270px;"
         >
           <div class="mb-4 uppercase">
             Appel aux organismes
@@ -94,6 +89,6 @@
 
 <script>
 export default {
-  name: "Register"
-};
+  name: 'Register',
+}
 </script>

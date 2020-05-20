@@ -1,11 +1,8 @@
 <template>
-  <div
-    v-if="$store.getters.profile"
-    class="register-step h-full "
-  >
+  <div v-if="$store.getters.profile" class="register-step h-full">
     <portal to="register-steps-help">
       <p>
-        Bienvenue {{ $store.getters.profile.first_name }} ! <br>Veuillez
+        Bienvenue {{ $store.getters.profile.first_name }} ! <br />Veuillez
         selectionner <span class="font-bold">votre type de profil</span> pour
         finaliser la création de votre compte sur la plateforme.
       </p>
@@ -19,7 +16,7 @@
       </div>
       <router-link
         :to="{
-          name: 'NoRoleStep'
+          name: 'NoRoleStep',
         }"
       >
         <el-button>Retour</el-button>
@@ -30,6 +27,6 @@
 
 <script>
 export default {
-  name: "OtherStep"
-};
+  name: 'OtherStep',
+}
 </script>

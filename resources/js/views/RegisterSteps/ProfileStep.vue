@@ -1,28 +1,24 @@
 <template>
-  <div
-    v-if="$store.getters.profile"
-    class="register-step"
-  >
+  <div v-if="$store.getters.profile" class="register-step">
     <portal to="register-steps-help">
       <p>
-        Bienvenue {{ firstName }} ! <br>Commencez par
+        Bienvenue {{ firstName }} ! <br />Commencez par
         <span class="font-bold">compléter le profil</span> de votre compte
         Responsable de structure.
       </p>
       <p>
-        Une question? Appelez-nous au<br><span class="font-bold"><a href="tel:0184800189">
-          01 84 80 01 89</a> </span>
-        ou 
+        Une question? Appelez-nous au
+        <br />
+        <span class="font-bold">
+          <a href="tel:0184800189">01 84 80 01 89</a>
+        </span>
+        ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
           chatez en cliquant sur le bouton en bas à droite.
         </button>
       </p>
     </portal>
-    <el-steps
-      :active="1"
-      align-center
-      class="p-4 sm:p-8 border-b border-b-2"
-    >
+    <el-steps :active="1" align-center class="p-4 sm:p-8 border-b border-b-2">
       <el-step
         title="Profil"
         description="Je complète les informations de mon profil"
@@ -43,12 +39,7 @@
       </div>
       <div class="flex mt-6 mb-10">
         <div class="flex-1">
-          <el-avatar
-            :size="64"
-            class="bg-primary"
-            fit="cover"
-            :src="avatar"
-          >
+          <el-avatar :size="64" class="bg-primary" fit="cover" :src="avatar">
             <span v-if="firstName">{{ firstName[0] }}{{ lastName[0] }}</span>
           </el-avatar>
         </div>
@@ -65,7 +56,7 @@
               taille maximale de 5 Mo
             </div>
           </el-upload>
-        </div> -->
+        </div>-->
       </div>
       <el-form
         ref="profileForm"
@@ -79,28 +70,18 @@
           prop="mobile"
           class="w-full sm:w-1/2 lg:w-1/3 p-2"
         >
-          <el-input
-            v-model="form.mobile"
-            placeholder="Téléphone mobile"
-          />
+          <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
         </el-form-item>
         <el-form-item
           label="Téléphone fixe"
           prop="phone"
           class="w-full sm:w-1/2 lg:w-1/3 p-2"
         >
-          <el-input
-            v-model="form.phone"
-            placeholder="Téléphone fixe"
-          />
+          <el-input v-model="form.phone" placeholder="Téléphone fixe" />
         </el-form-item>
       </el-form>
       <div class="flex pt-2">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="onSubmit"
-        >
+        <el-button type="primary" :loading="loading" @click="onSubmit">
           Continuer
         </el-button>
       </div>
@@ -110,52 +91,52 @@
 
 <script>
 export default {
-  name: "ProfileStep",
+  name: 'ProfileStep',
   data() {
     return {
       loading: false,
-      activeName: "profil",
+      activeName: 'profil',
       form: {
         mobile: this.$store.getters.profile.mobile,
-        phone: this.$store.getters.profile.phone
+        phone: this.$store.getters.profile.phone,
       },
       rules: {
         mobile: [
           {
             required: true,
-            message: "Un numéro de téléphone est obligatoire",
-            trigger: "blur"
+            message: 'Un numéro de téléphone est obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: "Le format du numéro de téléphone est incorrect",
-            trigger: "blur"
-          }
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
         ],
         phone: {
           pattern: /^[+|\s|\d]*$/,
-          message: "Le format du numéro de téléphone est incorrect",
-          trigger: "blur"
-        }
-      }
-    };
+          message: 'Le format du numéro de téléphone est incorrect',
+          trigger: 'blur',
+        },
+      },
+    }
   },
   computed: {
     avatar() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.avatar
-        : null;
+        : null
     },
     firstName() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.first_name
-        : null;
+        : null
     },
     lastName() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.last_name
-        : null;
-    }
+        : null
+    },
   },
   methods: {
     // uploadAvatar(request) {
@@ -176,33 +157,33 @@ export default {
     //   return isLt5M;
     // },
     onSubmit() {
-      this.loading = true;
-      this.$refs["profileForm"].validate(valid => {
+      this.loading = true
+      this.$refs['profileForm'].validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch("user/updateProfile", {
+            .dispatch('user/updateProfile', {
               id: this.$store.getters.profile.id,
-              ...this.form
+              ...this.form,
             })
             .then(() => {
-              this.loading = false;
-              this.$router.push("/register/step/structure");
+              this.loading = false
+              this.$router.push('/register/step/structure')
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>
 ::v-deep .el-step__description
-    @apply hidden
+  @apply hidden
     @screen sm
-        @apply block
+      @apply block
 </style>

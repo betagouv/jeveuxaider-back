@@ -9,7 +9,7 @@
             class="h-8 w-auto"
             src="/images/logo-header-dark.png"
             alt="Réserve Civique"
-          >
+          />
         </router-link>
         <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
           Page
@@ -28,13 +28,13 @@
         class="absolute inset-0 h-full w-full object-cover"
         src="/images/bg_header_home.jpg"
         alt
-      >
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "NotFound"
-};
+  name: 'NotFound',
+}
 </script>

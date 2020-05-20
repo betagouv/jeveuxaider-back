@@ -2,21 +2,17 @@
   <div class>
     <div class="text-xs text-gray-600 flex flex-row flex-wrap">
       <template v-if="participation.mission">
-        <div
-          v-if="participation.mission.name"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.mission.name" class="card-item mb-2 flex">
           <div class="card-label">
             Mission
           </div>
           <div class="text-gray-900 flex-1">
-            {{ participation.mission.name|labelFromValue('mission_domaines') }}
+            {{
+              participation.mission.name | labelFromValue('mission_domaines')
+            }}
           </div>
         </div>
-        <div
-          v-if="participation.mission.type"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.mission.type" class="card-item mb-2 flex">
           <div class="card-label">
             Type
           </div>
@@ -24,10 +20,7 @@
             {{ participation.mission.type }}
           </div>
         </div>
-        <div
-          v-if="participation.mission.format"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.mission.format" class="card-item mb-2 flex">
           <div class="card-label">
             Format
           </div>
@@ -36,11 +29,15 @@
           </div>
         </div>
       </template>
-      <template v-if="participation.profile && participation.mission && (participation.mission.state != 'Signalée' || $store.getters.contextRole !== 'responsable')">
-        <div
-          v-if="participation.profile.email"
-          class="card-item mb-2 flex"
-        >
+      <template
+        v-if="
+          participation.profile &&
+          participation.mission &&
+          (participation.mission.state != 'Signalée' ||
+            $store.getters.contextRole !== 'responsable')
+        "
+      >
+        <div v-if="participation.profile.email" class="card-item mb-2 flex">
           <div class="card-label">
             Email
           </div>
@@ -48,10 +45,7 @@
             {{ participation.profile.email }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.email"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.profile.email" class="card-item mb-2 flex">
           <div class="card-label">
             Volontaire
           </div>
@@ -59,10 +53,7 @@
             {{ participation.profile.full_name }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.email"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.profile.email" class="card-item mb-2 flex">
           <div class="card-label">
             Mobile
           </div>
@@ -70,10 +61,7 @@
             {{ participation.profile.mobile }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.birthday"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.profile.birthday" class="card-item mb-2 flex">
           <div class="card-label">
             Anniversaire
           </div>
@@ -81,10 +69,7 @@
             {{ participation.profile.birthday }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.zip"
-          class="card-item mb-2 flex"
-        >
+        <div v-if="participation.profile.zip" class="card-item mb-2 flex">
           <div class="card-label">
             Code postal
           </div>
@@ -99,18 +84,18 @@
 
 <script>
 export default {
-  name: "ParticipationInfos",
+  name: 'ParticipationInfos',
   props: {
     participation: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
-    return {};
+    return {}
   },
   created() {},
 
-  methods: {}
-};
+  methods: {},
+}
 </script>

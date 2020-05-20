@@ -6,10 +6,7 @@
     <div class="w-full max-w-2xl my-12">
       <div class="header">
         <div class="mb-8 pb-8 border-b">
-          <img
-            src="/images/logo-header.png"
-            style="max-width: 50px;"
-          >
+          <img src="/images/logo-header.png" style="max-width: 50px;" />
         </div>
         <div class="header-titles flex-1">
           <div class="mb-12 font-bold text-3xl text-gray-800">
@@ -48,27 +45,27 @@
 </template>
 
 <script>
-import { fetchReleases } from "@/api/release";
+import { fetchReleases } from '@/api/release'
 
 export default {
-  name: "Releases",
+  name: 'Releases',
   data() {
     return {
       loading: true,
-      releases: []
-    };
+      releases: [],
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     fetchReleases()
-      .then(response => {
-        this.$store.commit("setLoading", false);
-        this.releases = response.data;
+      .then((response) => {
+        this.$store.commit('setLoading', false)
+        this.releases = response.data
       })
       .catch(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

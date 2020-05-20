@@ -1,22 +1,22 @@
 module.exports = {
   env: {
-    'browser': true,
-    'es6': true,
-    'node': true,
+    browser: true,
+    es6: true,
+    node: true,
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
   extends: [
     // add more generic rulesets here, such as:
     'eslint:recommended',
-    'plugin:vue/recommended'
+    'plugin:vue/recommended',
+    'prettier/vue',
+    'plugin:prettier/recommended',
   ],
-  plugins: [
-    'vue',
-  ],
+  plugins: ['vue'],
   rules: {
     // override/add rules settings here, such as:
-    'vue/no-v-html': 'off'
-  }
-};
+    'vue/no-v-html': 'off',
+  },
+}

@@ -1,23 +1,23 @@
 <script>
-import { deleteFile } from "@/api/app";
+import { deleteFile } from '@/api/app'
 
 export default {
-  name: "FileUpload",
+  name: 'FileUpload',
   data() {
     return {
       file: null,
       fileMaxSize: 10000000, // 10 MB
-      loadingDelete: false
-    };
+      loadingDelete: false,
+    }
   },
   computed: {},
   methods: {
-    onDownloadFile(file){
-        window.open(file.url,'_blank');
+    onDownloadFile(file) {
+      window.open(file.url, '_blank')
     },
     onSelectFile(file) {
       if (!file.raw) {
-        return false;
+        return false
       }
 
       if (file.size > this.fileMaxSize) {
@@ -25,26 +25,24 @@ export default {
           message: `La taille ne doit pas dépasser ${this.$options.filters.prettyBytes(
             this.fileMaxSize
           )}`,
-          type: "error"
-        });
-        return false;
+          type: 'error',
+        })
+        return false
       }
 
-      this.file = file.raw;
-
+      this.file = file.raw
     },
     onDeleteFile(model) {
-      this.loadingDelete = true;
+      this.loadingDelete = true
       deleteFile(this.form.id, model).then(() => {
-        this.form.file = null;
-        this.file = null;
-        this.loadingDelete = false;
-      });
-    }
-  }
-};
+        this.form.file = null
+        this.file = null
+        this.loadingDelete = false
+      })
+    },
+  },
+}
 </script>
-
 
 <style lang="sass" scoped>
 .preview-area

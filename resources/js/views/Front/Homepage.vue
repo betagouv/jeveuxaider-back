@@ -1,7 +1,11 @@
 <template>
   <div class>
     <div
-      style="background-image: url(/images/bg_header_home.jpg); background-size: cover; background-repeat: no-repeat;"
+      style="
+        background-image: url(/images/bg_header_home.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+      "
       class="pt-1 pb-12 md:py-12"
     >
       <AppHeader background="bg-transparent" />
@@ -12,8 +16,7 @@
           <h1 class="hide-br">
             Face à l’épidémie de
             <span class="italic font-bold">Covid-19</span>
-            <br>le Gouvernement appelle à la mobilisation
-            <br>générale des
+            <br />le Gouvernement appelle à la mobilisation <br />générale des
             solidarités.
           </h1>
         </div>
@@ -21,19 +24,21 @@
           <router-link
             to="/register/responsable"
             class="btn-primary m-3 w-full"
-            style="max-width:320px;"
+            style="max-width: 320px;"
           >
-            <span
-              class="uppercase font-light text-xxs"
-            >Je suis une structure publique ou associative</span>
+            <span class="uppercase font-light text-xxs"
+              >Je suis une structure publique ou associative</span
+            >
             <span class="text-lg font-bold">Proposer une mission</span>
           </router-link>
           <router-link
             to="/register/volontaire"
             class="btn-secondary m-3 w-full"
-            style="max-width:320px;"
+            style="max-width: 320px;"
           >
-            <span class="uppercase font-light text-xxs">Je suis volontaire</span>
+            <span class="uppercase font-light text-xxs"
+              >Je suis volontaire</span
+            >
             <span class="text-lg font-bold">Je veux aider</span>
           </router-link>
         </div>
@@ -42,14 +47,14 @@
 
     <div class="container mx-auto px-4">
       <div class="py-8 md:py-16 max-w-4xl mx-auto">
-        <div class="text-md sm:text-md lg:text-xl text-gray-900 text-center italic">
+        <div
+          class="text-md sm:text-md lg:text-xl text-gray-900 text-center italic"
+        >
           «&nbsp;Jamais de telles épreuves ne se surmontent en solitaire. C’est
           au contraire en solidaires, en disant «&nbsp;nous&nbsp;» plutôt qu’en
           pensant «&nbsp;je&nbsp;» que nous relèverons cet immense défi.&nbsp;»
         </div>
-        <div
-          class="text-md text-center text-gray-900"
-        >
+        <div class="text-md text-center text-gray-900">
           Emmanuel Macron, Président de la République, 12 mars 2020
         </div>
         <div class="mt-8 text-lg sm:text-xxl lg:text-2xl text-gray-900">
@@ -74,7 +79,7 @@
               class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl leading-tight hide-br"
             >
               Les 8 missions
-              <br>prioritaires
+              <br />prioritaires
             </h3>
           </div>
 
@@ -95,13 +100,7 @@
                 height="20"
                 patternUnits="userSpaceOnUse"
               >
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="4"
-                  fill="#e6e7eb"
-                />
+                <rect x="0" y="0" width="4" height="4" fill="#e6e7eb" />
               </pattern>
             </defs>
             <rect
@@ -121,9 +120,7 @@
                 1
               </div>
               <div class="mt-5">
-                <h5
-                  class="text-lg leading-6 font-semibold text-gray-900"
-                >
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">
                   Aide alimentaire et d’urgence.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
@@ -139,9 +136,7 @@
                 2
               </div>
               <div class="mt-5">
-                <h5
-                  class="text-lg leading-6 font-semibold text-gray-900"
-                >
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">
                   Garde exceptionnelle d’enfants.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
@@ -158,9 +153,7 @@
                 3
               </div>
               <div class="mt-5">
-                <h5
-                  class="text-lg leading-6 font-semibold text-gray-900"
-                >
+                <h5 class="text-lg leading-6 font-semibold text-gray-900">
                   Lien avec les personnes fragiles isolées.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
@@ -208,10 +201,12 @@
               </div>
               <div class="mt-5">
                 <h5 class="text-lg leading-6 font-semibold text-gray-900">
-                  Fabrication et distribution d’équipements de protection grand public.
+                  Fabrication et distribution d’équipements de protection grand
+                  public.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
-                  Je participe à la confection d’équipements de protection grand public ou à leur distribution.
+                  Je participe à la confection d’équipements de protection grand
+                  public ou à leur distribution.
                 </p>
               </div>
             </div>
@@ -226,7 +221,8 @@
                   Soutien à la mobilisation sanitaire.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
-                  J’aide les personnels des établissements de santé ou participe à une action à but sanitaire.
+                  J’aide les personnels des établissements de santé ou participe
+                  à une action à but sanitaire.
                 </p>
               </div>
             </div>
@@ -241,7 +237,8 @@
                   Soutien à la reprise des missions de service public.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
-                  Je contribue à la reprise des missions de service public en lien avec la population.
+                  Je contribue à la reprise des missions de service public en
+                  lien avec la population.
                 </p>
               </div>
             </div>
@@ -267,9 +264,11 @@
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           src="/images/structure.jpg"
-        >
+        />
       </div>
-      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start">
+      <div
+        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
+      >
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Face à la crise sanitaire du Covid 19, votre structure a besoin de
@@ -280,10 +279,7 @@
             prêter main forte, dans le respect des règles de sécurité.
           </p>
           <div class="mt-3">
-            <router-link
-              to="/register/responsable"
-              class="btn-primary"
-            >
+            <router-link to="/register/responsable" class="btn-primary">
               Proposer des missions
             </router-link>
           </div>
@@ -292,7 +288,9 @@
     </div>
 
     <div class="lg:flex">
-      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start">
+      <div
+        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
+      >
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Vous souhaitez vous engager au plus près de chez vous&nbsp;?
@@ -308,7 +306,8 @@
               target="_blank"
               class="btn-secondary"
               onclick="return tag.click.send({elem:this, name:'Kit_de_solidarite', level2:'0', type:'download'});"
-            >Télécharger le kit de solidarité de proximité</a>
+              >Télécharger le kit de solidarité de proximité</a
+            >
           </div>
         </div>
       </div>
@@ -316,7 +315,7 @@
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           src="/images/structure-2.jpg"
-        >
+        />
       </div>
     </div>
 
@@ -325,9 +324,11 @@
         <img
           class="object-cover object-center w-full h-full max-h-250 lg:max-h-full"
           src="/images/structure-3.jpg"
-        >
+        />
       </div>
-      <div class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start">
+      <div
+        class="border-t lg:border-t-0 lg:w-1/2 py-8 md:py-16 lg:p-16 lg:flex lg:justify-start"
+      >
         <div class="container mx-auto px-4 lg:mx-0 lg:px-0 lg:max-w-xl">
           <h2 class="titre-1">
             Vous souhaitez rejoindre une structure qui a besoin d'aide&nbsp;?
@@ -338,10 +339,7 @@
             démunis, gardez le lien avec une personne isolée...
           </p>
           <div class="mt-3">
-            <router-link
-              to="/missions"
-              class="btn-secondary"
-            >
+            <router-link to="/missions" class="btn-secondary">
               Trouver une mission
             </router-link>
           </div>
@@ -462,7 +460,10 @@
                 </div>
                 <div class="ml-4">
                   <h5 class="text-lg text-gray-900">
-                    <b>Âgé de 70 ans ou plus ou porteur d’une maladie chronique</b>, je ne m’engage que dans des missions à distance, depuis
+                    <b
+                      >Âgé de 70 ans ou plus ou porteur d’une maladie
+                      chronique</b
+                    >, je ne m’engage que dans des missions à distance, depuis
                     mon domicile, pour protéger au maximum ma santé et celle des
                     autres.
                   </h5>
@@ -565,63 +566,65 @@
     <div class="p-8 lg:p-20">
       <div class="relative max-w-4xl mx-auto">
         <div class="lg:text-center">
-          <h2 class="text-3xl leading-9 tracking-tight font-extrabold text-gray-900 sm:text-4xl sm:leading-10">
+          <h2
+            class="text-3xl leading-9 tracking-tight font-extrabold text-gray-900 sm:text-4xl sm:leading-10"
+          >
             S'informer c'est s'engager
           </h2>
-          <p class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4">
+          <p
+            class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
+          >
             Restez informé et soutenez l'emploi des secteurs prioritaires
           </p>
         </div>
-        <div class="mt-12 grid gap-12 max-w-lg lg:max-w-4xl mx-auto lg:grid-cols-2 lg:max-w-none">
+        <div
+          class="mt-12 grid gap-12 max-w-lg lg:max-w-4xl mx-auto lg:grid-cols-2 lg:max-w-none"
+        >
           <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
             <a
               href="https://www.gouvernement.fr/info-coronavirus"
               target="_blank"
             >
               <div class="flex-shrink-0">
-                <img
-                  class=" w-full object-cover"
-                  src="images/rcv.jpg"
-                  alt=""
-                >
+                <img class="w-full object-cover" src="images/rcv.jpg" alt="" />
               </div>
               <div class="flex-1 bg-white p-6 flex flex-col justify-between">
                 <div class="flex-1">
                   <p class="text-md leading-5 font-medium text-blue-800">
                     #RestezChezVous
                   </p>
-                  <h3 class="mt-2 text-xl leading-7 font-semibold text-gray-900">
+                  <h3
+                    class="mt-2 text-xl leading-7 font-semibold text-gray-900"
+                  >
                     Informations Coronavirus
                   </h3>
                   <p class="mt-3 text-base leading-6 text-gray-500">
-                    Tenez-vous informé des informations officielles sur le COVID-19 grâce au point de situation du gouvernement.
+                    Tenez-vous informé des informations officielles sur le
+                    COVID-19 grâce au point de situation du gouvernement.
                   </p>
                 </div>
               </div>
             </a>
           </div>
           <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-            <a
-              href="https://mobilisationemploi.gouv.fr/"
-              target="_blank"
-            >
+            <a href="https://mobilisationemploi.gouv.fr/" target="_blank">
               <div class="flex-shrink-0">
-                <img
-                  class="w-full object-cover"
-                  src="images/pole.jpg"
-                  alt=""
-                >
+                <img class="w-full object-cover" src="images/pole.jpg" alt="" />
               </div>
               <div class="flex-1 bg-white p-6 flex flex-col justify-between">
                 <div class="flex-1">
                   <p class="text-md leading-5 font-medium text-blue-800">
                     #TousMobilisés
                   </p>
-                  <h3 class="mt-2 text-xl leading-7 font-semibold text-gray-900">
+                  <h3
+                    class="mt-2 text-xl leading-7 font-semibold text-gray-900"
+                  >
                     Mobilisez-vous pour l'emploi
                   </h3>
                   <p class="mt-3 text-base leading-6 text-gray-500">
-                    Actuellement en recherche d’emploi ou en activité partielle, soutenez et venez travailler avec les salarié(e)s des secteurs prioritaires.
+                    Actuellement en recherche d’emploi ou en activité partielle,
+                    soutenez et venez travailler avec les salarié(e)s des
+                    secteurs prioritaires.
                   </p>
                 </div>
               </div>

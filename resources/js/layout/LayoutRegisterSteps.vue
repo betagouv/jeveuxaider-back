@@ -19,12 +19,9 @@
       <div
         class="flex sm:flex-col sm:flex-none items-center lg:mt-auto w-full sm:w-auto lg:w-full p-4 order-1 lg:order-2"
       >
-        <img
-          src="/images/logo-header.png"
-          class="logo sm:mb-2 lg:mb-8"
-        >
+        <img src="/images/logo-header.png" class="logo sm:mb-2 lg:mb-8" />
         <div
-          class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t "
+          class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t"
         >
           <div
             v-if="isImpersonating"
@@ -44,23 +41,20 @@
       </div>
     </div>
     <div class="main-content flex-grow flex flex-col">
-      <router-view
-        :key="$route.fullPath"
-        class="app-main"
-      />
+      <router-view :key="$route.fullPath" class="app-main" />
     </div>
   </el-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "RegisterSteps",
+  name: 'RegisterSteps',
   computed: {
-    ...mapGetters(["isAppLoaded", "isImpersonating"])
-  }
-};
+    ...mapGetters(['isAppLoaded', 'isImpersonating']),
+  },
+}
 </script>
 
 <style lang="sass" scoped>

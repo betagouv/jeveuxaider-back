@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
           Structures
@@ -14,10 +14,7 @@
           v-if="$store.getters.contextRole == 'admin'"
           :to="{ name: 'StructureFormAdd' }"
         >
-          <el-button
-            type="primary"
-            icon="el-icon-plus"
-          >
+          <el-button type="primary" icon="el-icon-plus">
             Nouvelle structure
           </el-button>
         </router-link>
@@ -31,11 +28,7 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge
-          v-if="activeFilters"
-          :value="activeFilters"
-          type="primary"
-        >
+        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
           <el-button
             icon="el-icon-s-operation"
             class="ml-4"
@@ -53,10 +46,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div
-        v-if="showFilters"
-        class="flex flex-wrap"
-      >
+      <div v-if="showFilters" class="flex flex-wrap">
         <query-search-filter
           name="lieu"
           label="Lieu"
@@ -86,11 +76,11 @@
           multiple
           :value="query['filter[department]']"
           :options="
-            $store.getters.taxonomies.departments.terms.map(term => {
+            $store.getters.taxonomies.departments.terms.map((term) => {
               return {
                 label: `${term.value} - ${term.label}`,
-                value: term.value
-              };
+                value: term.value,
+              }
             })
           "
           @changed="onFilterChange"
@@ -104,21 +94,14 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column
-        width="70"
-        align="center"
-      >
+      <el-table-column width="70" align="center">
         <template slot-scope="scope">
           <el-avatar class="bg-primary">
             {{ scope.row.name[0] }}
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Structure"
-        min-width="320"
-      >
+      <el-table-column prop="name" label="Structure" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.name }}
@@ -131,10 +114,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        label="Contextes"
-        min-width="320"
-      >
+      <el-table-column label="Contextes" min-width="320">
         <template slot-scope="scope">
           <el-tag
             v-if="scope.row.is_reseau"
@@ -144,14 +124,8 @@
           >
             Tête de réseau
           </el-tag>
-          <el-tag
-            v-if="scope.row.reseau_id"
-            class="m-1 ml-0"
-            size="small"
-          >
-            {{
-              scope.row.reseau_id | reseauFromValue
-            }}
+          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0" size="small">
+            {{ scope.row.reseau_id | reseauFromValue }}
           </el-tag>
           <el-tag
             v-if="scope.row.department"
@@ -168,11 +142,7 @@
             :content="scope.row.structure_publique_etat_type"
             placement="top"
           >
-            <el-tag
-              size="small"
-              class="m-1 ml-0"
-              type="info"
-            >
+            <el-tag size="small" class="m-1 ml-0" type="info">
               CEU
             </el-tag>
           </el-tooltip>
@@ -183,25 +153,16 @@
             size="small"
           >
             {{ scope.row.missions_count }}
-            {{
-              scope.row.missions_count | pluralize(["mission", "missions"])
-            }}
+            {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="state"
-        label="Statut"
-        min-width="170"
-      >
+      <el-table-column prop="state" label="Statut" min-width="170">
         <template slot-scope="scope">
           <state-tag :state="scope.row.state" />
         </template>
       </el-table-column>
-      <el-table-column
-        label="Actions"
-        width="180"
-      >
+      <el-table-column label="Actions" width="180">
         <template slot-scope="scope">
           <el-dropdown
             size="small"
@@ -210,7 +171,7 @@
             @click="
               $router.push({
                 name: 'Structure',
-                params: { id: scope.row.id }
+                params: { id: scope.row.id },
               })
             "
           >
@@ -219,7 +180,7 @@
               <router-link
                 :to="{
                   name: 'StructureFormEdit',
-                  params: { id: scope.row.id }
+                  params: { id: scope.row.id },
                 }"
               >
                 <el-dropdown-item>Modifier</el-dropdown-item>
@@ -227,7 +188,7 @@
               <router-link
                 :to="{
                   name: 'MissionFormAdd',
-                  params: { structureId: scope.row.id }
+                  params: { structureId: scope.row.id },
                 }"
               >
                 <el-dropdown-item>Ajouter une mission</el-dropdown-item>
@@ -257,60 +218,59 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
-        <el-button
-          icon="el-icon-download"
-          size="small"
-          @click="onExport"
-        >
+        <el-button icon="el-icon-download" size="small" @click="onExport">
           Export
         </el-button>
       </div>
     </div>
     <portal to="volet">
-      <structure-volet
-        @updated="onUpdatedRow"
-        @deleted="onDeletedRow"
-      />
+      <structure-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
     </portal>
   </div>
 </template>
 
 <script>
-import { fetchStructures, exportStructures } from "@/api/structure";
-import TableWithVolet from "@/mixins/TableWithVolet";
-import TableWithFilters from "@/mixins/TableWithFilters";
-import StructureVolet from "@/layout/components/Volet/StructureVolet";
-import QueryFilter from "@/components/QueryFilter.vue";
-import QuerySearchFilter from "@/components/QuerySearchFilter.vue";
-import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
-import fileDownload from "js-file-download";
-import StateTag from "@/components/StateTag";
+import { fetchStructures, exportStructures } from '@/api/structure'
+import TableWithVolet from '@/mixins/TableWithVolet'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import StructureVolet from '@/layout/components/Volet/StructureVolet'
+import QueryFilter from '@/components/QueryFilter.vue'
+import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
+import fileDownload from 'js-file-download'
+import StateTag from '@/components/StateTag'
 
 export default {
-  name: "Structures",
-  components: { StructureVolet, QueryFilter, QueryMainSearchFilter, QuerySearchFilter, StateTag},
+  name: 'Structures',
+  components: {
+    StructureVolet,
+    QueryFilter,
+    QueryMainSearchFilter,
+    QuerySearchFilter,
+    StateTag,
+  },
   mixins: [TableWithVolet, TableWithFilters],
   data() {
     return {
       loading: true,
-      tableData: []
-    };
+      tableData: [],
+    }
   },
   methods: {
     fetchRows() {
-      return fetchStructures(this.query);
+      return fetchStructures(this.query)
     },
     onExport() {
-      this.loading = true;
+      this.loading = true
       exportStructures(this.query)
-        .then(response => {
-          this.loading = false;
-          fileDownload(response.data, "structures.xlsx");
+        .then((response) => {
+          this.loading = false
+          fileDownload(response.data, 'structures.xlsx')
         })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
-};
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  },
+}
 </script>

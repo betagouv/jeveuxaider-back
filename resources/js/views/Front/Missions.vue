@@ -18,8 +18,8 @@
             class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
           >
             Les organisations en première ligne face à la crise proposent
-            actuellement leurs missions prioritaires.<br>
-            Elles seront mises en ligne très prochainement.<br>
+            actuellement leurs missions prioritaires.<br />
+            Elles seront mises en ligne très prochainement.<br />
             Revenez demain pour les découvrir !
           </div>
         </div>
@@ -39,7 +39,7 @@
             <div
               :class="[
                 { 'py-10': missionsAreReady },
-                { 'pt-10': !missionsAreReady }
+                { 'pt-10': !missionsAreReady },
               ]"
             >
               <h1 class="text-3xl font-bold text-white">
@@ -56,7 +56,9 @@
                 autofocus
                 placeholder="Mots-clés, ville, code postal, etc."
               >
-                <div slot-scope="{ currentRefinement, isSearchStalled, refine }">
+                <div
+                  slot-scope="{ currentRefinement, isSearchStalled, refine }"
+                >
                   <el-input
                     v-model="filters.query"
                     placeholder="Mots-clés, ville, code postal, etc."
@@ -73,7 +75,7 @@
                       height="10"
                       viewBox="0 0 40 40"
                       class="el-input__icon"
-                      style="width:14px;"
+                      style="width: 14px;"
                     >
                       <path
                         d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
@@ -120,7 +122,9 @@
                   <el-option
                     v-for="item in items"
                     :key="item.value"
-                    :label="`${$options.filters.cleanDomaineAction(item.label)} (${item.count})`"
+                    :label="`${$options.filters.cleanDomaineAction(
+                      item.label
+                    )} (${item.count})`"
                     :selected="item.isRefined"
                     :value="item.value"
                   />
@@ -131,8 +135,10 @@
                   slot-scope="{ canRefine, refine }"
                   class="py-2 md:p-4"
                   :class="{
-                    'cursor-not-allowed text-gray-400 hidden md:block': !canRefine && !$refs.searchbox.state.query,
-                    'cursor-pointer text-blue-300  md:text-primary block': canRefine || $refs.searchbox.state.query
+                    'cursor-not-allowed text-gray-400 hidden md:block':
+                      !canRefine && !$refs.searchbox.state.query,
+                    'cursor-pointer text-blue-300  md:text-primary block':
+                      canRefine || $refs.searchbox.state.query,
                   }"
                   @click.prevent="handleResetFilters(refine)"
                 >
@@ -143,10 +149,7 @@
           </div>
         </div>
 
-        <div
-          ref="resultsWrapper"
-          class="-mt-32"
-        >
+        <div ref="resultsWrapper" class="-mt-32">
           <div class="container mx-auto px-4 mt-4">
             <div
               v-if="!missionsAreReady"
@@ -161,10 +164,7 @@
               >
                 <template v-if="hits.length > 0">
                   <ais-hits>
-                    <div
-                      slot="item"
-                      slot-scope="{ item }"
-                    >
+                    <div slot="item" slot-scope="{ item }">
                       <router-link
                         class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                         :to="`/missions/${item.id}`"
@@ -176,9 +176,13 @@
                             >
                               <img
                                 class=""
-                                :src="$options.filters.domainIcon(item.domaine_action)"
-                                style="width:28px;"
-                              >
+                                :src="
+                                  $options.filters.domainIcon(
+                                    item.domaine_action
+                                  )
+                                "
+                                style="width: 28px;"
+                              />
                             </div>
                             <div class="min-w-0 flex-1 sm:pl-4">
                               <div
@@ -192,7 +196,10 @@
                                   <div
                                     class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                                   >
-                                    {{ item.name|labelFromValue('mission_domaines') }}
+                                    {{
+                                      item.name
+                                        | labelFromValue('mission_domaines')
+                                    }}
                                   </div>
                                 </div>
 
@@ -201,15 +208,15 @@
                                     item.has_places_left && item.places_left > 0
                                   "
                                   class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                                  style="background:#31c48d;"
+                                  style="background: #31c48d;"
                                 >
                                   <template>
                                     {{ item.places_left | formatNumber }}
                                     {{
                                       item.places_left
                                         | pluralize([
-                                          "volontaire recherché",
-                                          "volontaires recherchés"
+                                          'volontaire recherché',
+                                          'volontaires recherchés',
                                         ])
                                     }}
                                   </template>
@@ -217,7 +224,7 @@
                                 <div
                                   v-else
                                   class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                                  style="background:#d2d6dc;"
+                                  style="background: #d2d6dc;"
                                 >
                                   Complet
                                 </div>
@@ -251,26 +258,24 @@
                   </ais-hits>
 
                   <div class="px-4 sm:px-6 md:px-8">
-                    <div
-                      v-show="false"
-                      class="text-sm text-gray-700"
-                    >
-                      <span v-html="formatNbResults(nbHits, page, nbPages, hitsPerPage)" />
+                    <div v-show="false" class="text-sm text-gray-700">
+                      <span
+                        v-html="
+                          formatNbResults(nbHits, page, nbPages, hitsPerPage)
+                        "
+                      />
                       {{
                         nbHits
                           | pluralize([
-                            "mission disponible",
-                            "missions disponibles"
+                            'mission disponible',
+                            'missions disponibles',
                           ])
                       }}
                     </div>
                     <div
                       class="pagination w-full border-b-2 border-transparent"
                     >
-                      <ais-pagination
-                        :padding="2"
-                        @page-change="scrollToTop"
-                      >
+                      <ais-pagination :padding="2" @page-change="scrollToTop">
                         <ul
                           slot-scope="{
                             currentRefinement,
@@ -278,20 +283,24 @@
                             isFirstPage,
                             isLastPage,
                             refine,
-                            createURL
+                            createURL,
                           }"
                           class="ais-Pagination-list"
                         >
                           <li
                             class="ais-Pagination-item ais-Pagination-item--previousPage"
                             :class="[
-                              { 'ais-Pagination-item--disabled': isFirstPage }
+                              { 'ais-Pagination-item--disabled': isFirstPage },
                             ]"
                           >
                             <a
                               :href="createURL(currentRefinement - 1)"
                               class="ais-Pagination-link"
-                              @click.prevent="!isFirstPage ? refine(currentRefinement - 1) : null"
+                              @click.prevent="
+                                !isFirstPage
+                                  ? refine(currentRefinement - 1)
+                                  : null
+                              "
                             >
                               <svg
                                 class="mr-8 h-5 w-5 text-gray-400"
@@ -314,14 +323,18 @@
                             :class="[
                               {
                                 'ais-Pagination-item--selected':
-                                  currentRefinement === pageItem
-                              }
+                                  currentRefinement === pageItem,
+                              },
                             ]"
                           >
                             <a
                               :href="createURL(pageItem)"
                               class="ais-Pagination-link"
-                              @click.prevent="currentRefinement !== pageItem ? refine(pageItem) : null"
+                              @click.prevent="
+                                currentRefinement !== pageItem
+                                  ? refine(pageItem)
+                                  : null
+                              "
                             >
                               {{ pageItem + 1 }}
                             </a>
@@ -329,13 +342,17 @@
                           <li
                             class="ais-Pagination-item ais-Pagination-item--nextPage"
                             :class="[
-                              { 'ais-Pagination-item--disabled': isLastPage }
+                              { 'ais-Pagination-item--disabled': isLastPage },
                             ]"
                           >
                             <a
                               :href="createURL(currentRefinement + 1)"
                               class="ais-Pagination-link"
-                              @click.prevent="!isLastPage ? refine(currentRefinement + 1) : null"
+                              @click.prevent="
+                                !isLastPage
+                                  ? refine(currentRefinement + 1)
+                                  : null
+                              "
                             >
                               <span>Suivante</span>
                               <svg
@@ -382,16 +399,16 @@ import {
   AisStateResults,
   AisMenuSelect,
   AisClearRefinements,
-  AisConfigure
-} from "vue-instantsearch";
-import algoliasearch from "algoliasearch/lite";
-import "instantsearch.css/themes/algolia-min.css";
-import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings';
-import _ from "lodash"
-import qs from 'qs';
+  AisConfigure,
+} from 'vue-instantsearch'
+import algoliasearch from 'algoliasearch/lite'
+import 'instantsearch.css/themes/algolia-min.css'
+import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings'
+import _ from 'lodash'
+import qs from 'qs'
 
 export default {
-  name: "FrontMissions",
+  name: 'FrontMissions',
   components: {
     AisInstantSearch,
     AisSearchBox,
@@ -400,7 +417,7 @@ export default {
     AisStateResults,
     AisMenuSelect,
     AisClearRefinements,
-    AisConfigure
+    AisConfigure,
   },
   data() {
     return {
@@ -412,7 +429,7 @@ export default {
       filters: {
         query: null,
         department_name: null,
-        domaine_action: null
+        domaine_action: null,
       },
       forceWrite: false,
       routing: {
@@ -420,7 +437,7 @@ export default {
           read: () => {
             let query = this.parseQuery(this.$router.currentRoute.query)
             this.synchronizeFilters(query)
-            return query;
+            return query
           },
           write: (routeState) => {
             if (this.writeTimeout) {
@@ -428,7 +445,13 @@ export default {
             }
             if (this.forceWrite) {
               this.writeTimeout = _.debounce(() => {
-                window.history.pushState(routeState, '', `${this.$router.currentRoute.path}${this.stringifyQuery(routeState)}`);
+                window.history.pushState(
+                  routeState,
+                  '',
+                  `${this.$router.currentRoute.path}${this.stringifyQuery(
+                    routeState
+                  )}`
+                )
                 this.forceWrite = false
               }, 400)
               this.writeTimeout()
@@ -437,7 +460,7 @@ export default {
           createURL: (routeState) => {
             return this.$router.resolve({
               query: routeState,
-            }).href;
+            }).href
           },
           onUpdate: (cb) => {
             if (this.writeTimeout) {
@@ -445,36 +468,39 @@ export default {
             }
 
             this._onPopState = () => {
-              cb(this.routing.router.read());
-            };
-            window.addEventListener('popstate', this._onPopState);
+              cb(this.routing.router.read())
+            }
+            window.addEventListener('popstate', this._onPopState)
           },
           dispose: () => {
-            window.removeEventListener('popstate', this._onPopState);
+            window.removeEventListener('popstate', this._onPopState)
           },
         },
-        stateMapping: simpleMapping()
-      }
-    };
+        stateMapping: simpleMapping(),
+      },
+    }
   },
   computed: {
     modeLigth() {
       return process.env.MIX_MODE_APP_LIGTH
         ? JSON.parse(process.env.MIX_MODE_APP_LIGTH)
-        : false;
+        : false
     },
     indexName() {
-      return process.env.MIX_ALGOLIA_INDEX;
-    }
+      return process.env.MIX_ALGOLIA_INDEX
+    },
   },
   methods: {
     synchronizeFilters(state) {
       this.filters.query = state.query ? state.query : null
       if (state.menu) {
-        this.filters.department_name = state.menu.department_name ? state.menu.department_name : null
-        this.filters.domaine_action = state.menu.domaine_action ? state.menu.domaine_action : null
-      }
-      else {
+        this.filters.department_name = state.menu.department_name
+          ? state.menu.department_name
+          : null
+        this.filters.domaine_action = state.menu.domaine_action
+          ? state.menu.domaine_action
+          : null
+      } else {
         this.filters.department_name = null
         this.filters.domaine_action = null
       }
@@ -486,35 +512,35 @@ export default {
     handleResetFilters(refine) {
       this.forceWrite = true
       this.$refs.searchbox.state.clear()
-      refine();
-      this.filters.query = null;
-      this.filters.department_name = null;
-      this.filters.domaine_action = null;
+      refine()
+      this.filters.query = null
+      this.filters.department_name = null
+      this.filters.domaine_action = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
-      let begin = page * hitsPerPage + 1;
+      let begin = page * hitsPerPage + 1
       let end =
-        nbHits < (page + 1) * hitsPerPage ? nbHits : (page + 1) * hitsPerPage;
-      return `<span class="font-medium">${begin}</span> à <span class="font-medium">${end}</span> sur <span class="font-medium">${nbHits}</span>`;
+        nbHits < (page + 1) * hitsPerPage ? nbHits : (page + 1) * hitsPerPage
+      return `<span class="font-medium">${begin}</span> à <span class="font-medium">${end}</span> sur <span class="font-medium">${nbHits}</span>`
     },
     scrollToTop() {
-      this.$refs.resultsWrapper.scrollIntoView();
+      this.$refs.resultsWrapper.scrollIntoView()
     },
     transformItems(items) {
-      return items.map(item => ({
+      return items.map((item) => ({
         ...item,
-        label: item.label
-      }));
+        label: item.label,
+      }))
     },
     parseQuery(query) {
-      return qs.parse(query);
+      return qs.parse(query)
     },
     stringifyQuery(query) {
-      const result = qs.stringify(query);
-      return result ? '?' + result : '';
+      const result = qs.stringify(query)
+      return result ? '?' + result : ''
     },
-  }
-};
+  },
+}
 </script>
 
 <style lang="sass" scoped>
@@ -565,5 +591,4 @@ export default {
     ::v-deep .el-select .el-input__inner
       height: 56px
       @apply border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
-
 </style>

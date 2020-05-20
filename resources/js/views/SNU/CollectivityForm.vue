@@ -13,10 +13,7 @@
         </div>
       </div>
     </template>
-    <div
-      v-else
-      class="mb-12 font-bold text-2xl text-gray-800"
-    >
+    <div v-else class="mb-12 font-bold text-2xl text-gray-800">
       Nouvelle collectivité
     </div>
 
@@ -30,25 +27,17 @@
         Informations générales
       </div>
 
-      <el-form-item
-        label="Nom de la collectivité"
-        prop="title"
-      >
-        <el-input
-          v-model="form.title"
-          placeholder="Nom de la collectivité"
-        />
-        <item-description>Accessible à l'adresse : {{ baseUrl }}/territoires/{{ form.title|slugify }}</item-description>
+      <el-form-item label="Nom de la collectivité" prop="title">
+        <el-input v-model="form.title" placeholder="Nom de la collectivité" />
+        <item-description
+          >Accessible à l'adresse : {{ baseUrl }}/territoires/{{
+            form.title | slugify
+          }}</item-description
+        >
       </el-form-item>
 
-      <el-form-item
-        label="Type"
-        prop="type"
-      >
-        <el-select
-          v-model="form.type"
-          placeholder="Selectionner le type"
-        >
+      <el-form-item label="Type" prop="type">
+        <el-select v-model="form.type" placeholder="Selectionner le type">
           <el-option
             v-for="item in $store.getters.taxonomies.collectivities_types.terms"
             :key="item.value"
@@ -58,10 +47,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item
-        label="Département"
-        prop="department"
-      >
+      <el-form-item label="Département" prop="department">
         <el-select
           v-model="form.department"
           filterable
@@ -92,16 +78,14 @@
           Photo de la collectivité
         </div>
         <item-description>
-          Résolution minimale: {{ imgMinWidth }} par {{ imgMinHeight }} pixels<br>
+          Résolution minimale: {{ imgMinWidth }} par
+          {{ imgMinHeight }} pixels<br />
           Taille maximale: {{ imgMaxSize | prettyBytes }}
         </item-description>
 
         <div v-show="imgPreview">
           <div class="preview-area">
-            <img
-              :src="imgPreview"
-              alt="Cropped Image"
-            >
+            <img :src="imgPreview" alt="Cropped Image" />
           </div>
 
           <div class="actions mt-4">
@@ -129,7 +113,7 @@
             <vue-cropper
               ref="cropper"
               :src="imgSrc ? imgSrc : form.image ? form.image.original : null"
-              :aspect-ratio="8/3"
+              :aspect-ratio="8 / 3"
               :zoomable="false"
               :movable="false"
               :zoom-on-touch="false"
@@ -140,17 +124,12 @@
               preview=".preview"
               @cropmove="ensureMinWidth"
             />
-            <span
-              slot="footer"
-              class="dialog-footer"
-            >
+            <span slot="footer" class="dialog-footer">
               <el-button @click="onReset()">Réinitialiser</el-button>
               <el-button @click="dialogCropVisible = false">Annuler</el-button>
-              <el-button
-                type="primary"
-                :loading="loadingCrop"
-                @click="onCrop()"
-              >Valider</el-button>
+              <el-button type="primary" :loading="loadingCrop" @click="onCrop()"
+                >Valider</el-button
+              >
             </span>
           </el-dialog>
         </div>
@@ -165,18 +144,16 @@
           >
             <i class="el-icon-upload" />
             <div class="el-upload__text">
-              Glissez votre image ou <br><em>cliquez ici pour la selectionner</em>
+              Glissez votre image ou <br /><em
+                >cliquez ici pour la selectionner</em
+              >
             </div>
           </el-upload>
         </div>
       </div>
 
       <div class="flex pt-2">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="onSubmit"
-        >
+        <el-button type="primary" :loading="loading" @click="onSubmit">
           Enregistrer
         </el-button>
       </div>
@@ -188,24 +165,24 @@
 import {
   getCollectivity,
   addOrUpdateCollectivity,
-  uploadImage
-} from "@/api/app";
-import ItemDescription from "@/components/forms/ItemDescription";
-import Crop from "@/mixins/Crop";
+  uploadImage,
+} from '@/api/app'
+import ItemDescription from '@/components/forms/ItemDescription'
+import Crop from '@/mixins/Crop'
 
 export default {
-  name: "CollectivityForm",
+  name: 'CollectivityForm',
   components: { ItemDescription },
   mixins: [Crop],
   props: {
     mode: {
       type: String,
-      required: true
+      required: true,
     },
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -213,8 +190,8 @@ export default {
       loading: false,
       form: {
         type: 'department',
-      }
-    };
+      },
+    }
   },
   computed: {
     rules() {
@@ -222,73 +199,78 @@ export default {
         title: [
           {
             required: true,
-            message: "Veuillez renseigner un nom de collectivité",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un nom de collectivité',
+            trigger: 'blur',
+          },
         ],
-      };
+      }
 
-      if(this.form.type == 'department') {
+      if (this.form.type == 'department') {
         rules.department = [
           {
             required: true,
-            message: "Veuillez choisir un département",
-            trigger: "blur"
-          }
+            message: 'Veuillez choisir un département',
+            trigger: 'blur',
+          },
         ]
       }
 
-      return rules;
-    }
+      return rules
+    },
   },
   created() {
-    if (this.mode == "edit") {
-      this.$store.commit("setLoading", true);
+    if (this.mode == 'edit') {
+      this.$store.commit('setLoading', true)
       getCollectivity(this.id)
-        .then(response => {
-          this.$store.commit("setLoading", false);
-          this.form = response.data;
+        .then((response) => {
+          this.$store.commit('setLoading', false)
+          this.form = response.data
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["collectivityForm"].validate(valid => {
+      this.loading = true
+      this.$refs['collectivityForm'].validate((valid) => {
         if (valid) {
           addOrUpdateCollectivity(this.id, this.form)
             .then((response) => {
-              this.form = response.data;
-              if(this.img) {
-                let cropSettings = this.$refs.cropper ? this.$refs.cropper.getData() : null
-                uploadImage(this.form.id, 'collectivity', this.img, cropSettings)
-                  .then(() => {
-                    this.onSubmitEnd()
-                  })
-              }
-              else {
+              this.form = response.data
+              if (this.img) {
+                let cropSettings = this.$refs.cropper
+                  ? this.$refs.cropper.getData()
+                  : null
+                uploadImage(
+                  this.form.id,
+                  'collectivity',
+                  this.img,
+                  cropSettings
+                ).then(() => {
+                  this.onSubmitEnd()
+                })
+              } else {
                 this.onSubmitEnd()
               }
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
+      })
     },
     onSubmitEnd() {
-      this.loading = false;
-      this.$router.push('/dashboard/contents?type=Collectivités');
+      this.loading = false
+      this.$router.push('/dashboard/contents?type=Collectivités')
       this.$message({
-        message: "La collectivité a été enregistrée !",
-        type: "success"
-      });
-    }
-  }
-};
+        message: 'La collectivité a été enregistrée !',
+        type: 'success',
+      })
+    },
+  },
+}
 </script>

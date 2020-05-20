@@ -1,13 +1,6 @@
 <template>
-  <el-menu
-    :default-active="index"
-    mode="horizontal"
-    @select="handleSelect"
-  >
-    <el-menu-item
-      index="main"
-      active
-    >
+  <el-menu :default-active="index" mode="horizontal" @select="handleSelect">
+    <el-menu-item index="main" active>
       Général
     </el-menu-item>
     <el-menu-item
@@ -39,20 +32,19 @@
 
 <script>
 export default {
-  name: "DashboardMenu",
+  name: 'DashboardMenu',
   props: {
     index: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     handleSelect(index) {
-      index == "main"
-        ? this.$router.push("/dashboard")
-        : this.$router.push(`/dashboard/stats/${index}`);
-    }
-  }
-};
-
+      index == 'main'
+        ? this.$router.push('/dashboard')
+        : this.$router.push(`/dashboard/stats/${index}`)
+    },
+  },
+}
 </script>

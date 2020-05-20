@@ -2,7 +2,7 @@
   <div>
     <el-menu-item
       index="/dashboard"
-      :class="{'is-active': isActive('dashboard')}"
+      :class="{ 'is-active': isActive('dashboard') }"
     >
       <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
@@ -18,7 +18,7 @@
     </el-menu-item>
     <el-menu-item
       :index="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`"
-      :class="{'is-active': isActive('structure')}"
+      :class="{ 'is-active': isActive('structure') }"
     >
       <span v-if="$store.getters.sidebar">Ma structure</span>
       <el-tooltip
@@ -34,7 +34,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/missions"
-      :class="{'is-active': isActive('mission')}"
+      :class="{ 'is-active': isActive('mission') }"
     >
       <span v-if="$store.getters.sidebar">Missions</span>
       <el-tooltip
@@ -50,7 +50,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/participations"
-      :class="{'is-active': isActive('participation')}"
+      :class="{ 'is-active': isActive('participation') }"
     >
       <span v-if="$store.getters.sidebar">Participations</span>
       <el-tooltip
@@ -66,7 +66,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/ressources"
-      :class="{'is-active': isActive('ressources')}"
+      :class="{ 'is-active': isActive('ressources') }"
     >
       <span v-if="$store.getters.sidebar">Ressources</span>
       <el-tooltip
@@ -87,10 +87,10 @@
 </template>
 
 <script>
-import MenuActive from "@/mixins/MenuActive"
+import MenuActive from '@/mixins/MenuActive'
 
 export default {
-  name: "MenuResponsable",
-  mixins: [MenuActive]
-};
+  name: 'MenuResponsable',
+  mixins: [MenuActive],
+}
 </script>

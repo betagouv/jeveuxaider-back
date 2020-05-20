@@ -3,24 +3,21 @@
     <portal to="register-steps-help">
       <p>
         Dites-nous en plus sur votre structure !
-        <br>Ces
+        <br />Ces
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
       </p>
       <p>
-        Une question? Appelez-nous au<br><span class="font-bold"><a href="tel:0184800189">
-          01 84 80 01 89</a> </span>
-        ou 
+        Une question? Appelez-nous au<br /><span class="font-bold"
+          ><a href="tel:0184800189"> 01 84 80 01 89</a>
+        </span>
+        ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
           chatez en cliquant sur le bouton en bas à droite.
         </button>
-      </p>  
+      </p>
     </portal>
-    <el-steps
-      :active="2"
-      align-center
-      class="p-4 sm:p-8 border-b-2"
-    >
+    <el-steps :active="2" align-center class="p-4 sm:p-8 border-b-2">
       <el-step
         title="Profil"
         description="Je complète les informations de mon profil"
@@ -42,20 +39,11 @@
       <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
         Logo de la structure
       </div> -->
-      <div
-        v-show="false"
-        class="mb-10"
-      >
+      <div v-show="false" class="mb-10">
         <div class="flex -m-4">
           <div class="m-4">
-            <div
-              v-if="logoPreview"
-              class="h-32 w-32 flex items-center"
-            >
-              <img
-                :src="logoPreview"
-                alt="Logo"
-              >
+            <div v-if="logoPreview" class="h-32 w-32 flex items-center">
+              <img :src="logoPreview" alt="Logo" />
             </div>
             <div
               v-else
@@ -75,10 +63,7 @@
               :on-change="onChangeLogo"
             >
               <el-button>Modifier</el-button>
-              <div
-                slot="tip"
-                class="el-upload__tip text-xs"
-              >
+              <div slot="tip" class="el-upload__tip text-xs">
                 Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
                 taille maximale de 5 Mo
               </div>
@@ -94,19 +79,10 @@
         :rules="rules"
         class="max-w-lg"
       >
-        <el-form-item
-          label="Nom de votre structure"
-          prop="name"
-        >
-          <el-input
-            v-model="form.name"
-            placeholder="Nom de votre structure"
-          />
+        <el-form-item label="Nom de votre structure" prop="name">
+          <el-input v-model="form.name" placeholder="Nom de votre structure" />
         </el-form-item>
-        <el-form-item
-          label="Statut juridique"
-          prop="statut_juridique"
-        >
+        <el-form-item label="Statut juridique" prop="statut_juridique">
           <el-select
             v-model="form.statut_juridique"
             placeholder="Statut juridique"
@@ -158,8 +134,8 @@
         <el-form-item
           v-if="
             form.statut_juridique == 'Structure publique' &&
-              (form.structure_publique_type == 'Service de l\'Etat' ||
-                form.structure_publique_type == 'Etablissement public')
+            (form.structure_publique_type == 'Service de l\'Etat' ||
+              form.structure_publique_type == 'Etablissement public')
           "
           prop="structure_publique_etat_type"
         >
@@ -216,16 +192,8 @@
           superviseur de votre réseau de visualiser les missions et volontaires
           rattachés à votre structure.
         </item-description>
-        <el-form-item
-          label="Réseau national"
-          prop="reseau"
-          class="flex-1"
-        >
-          <el-select
-            v-model="form.reseau_id"
-            clearable
-            placeholder="Aucun"
-          >
+        <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+          <el-select v-model="form.reseau_id" clearable placeholder="Aucun">
             <el-option
               v-for="item in reseauxOptions"
               :key="item.id"
@@ -235,11 +203,7 @@
           </el-select>
         </el-form-item>
         <div class="flex pt-2">
-          <el-button
-            type="primary"
-            :loading="loading"
-            @click="onSubmit"
-          >
+          <el-button type="primary" :loading="loading" @click="onSubmit">
             Continuer
           </el-button>
         </div>
@@ -249,11 +213,11 @@
 </template>
 
 <script>
-import { addOrUpdateStructure, updateStructureLogo } from "@/api/structure";
-import ItemDescription from "@/components/forms/ItemDescription";
+import { addOrUpdateStructure, updateStructureLogo } from '@/api/structure'
+import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
-  name: "StructureStep",
+  name: 'StructureStep',
   components: { ItemDescription },
   data() {
     return {
@@ -264,102 +228,102 @@ export default {
       rules: {
         name: {
           required: true,
-          message: "Le nom de votre structure est requis",
-          trigger: "blur"
+          message: 'Le nom de votre structure est requis',
+          trigger: 'blur',
         },
         statut_juridique: {
           required: true,
-          message: "Veuillez renseigner la forme juridique de votre structure",
-          trigger: "blur"
+          message: 'Veuillez renseigner la forme juridique de votre structure',
+          trigger: 'blur',
         },
         mobile: [
           {
             required: true,
-            message: "Un numéro de téléphone est obligatoire",
-            trigger: "blur"
+            message: 'Un numéro de téléphone est obligatoire',
+            trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: "Le format du numéro de téléphone est incorrect",
-            trigger: "blur"
-          }
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
         ],
         phone: {
           pattern: /^[+|\s|\d]*$/,
-          message: "Le format du numéro de téléphone est incorrect",
-          trigger: "blur"
-        }
-      }
-    };
+          message: 'Le format du numéro de téléphone est incorrect',
+          trigger: 'blur',
+        },
+      },
+    }
   },
   computed: {
     reseauxOptions() {
-      return this.$store.getters.reseaux;
-    }
+      return this.$store.getters.reseaux
+    },
   },
   created() {
     this.structureId = this.$store.getters.structure_as_responsable
       ? this.$store.getters.structure_as_responsable.id
-      : null;
+      : null
   },
   methods: {
     uploadLogo(request) {
       updateStructureLogo(this.structureId, request.file)
         .then(() => {
-          this.loading = false;
+          this.loading = false
           // Get profile to get new role
-          this.$store.dispatch("user/get");
-          this.$router.push("/register/step/address");
+          this.$store.dispatch('user/get')
+          this.$router.push('/register/step/address')
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
     beforeLogoUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 5;
+      const isLt5M = file.size / 1024 / 1024 < 5
       if (!isLt5M) {
         this.$message({
-          message: "Votre image ne doit pas éxcéder une taille de 4MB",
-          type: "error"
-        });
-        this.loading = false;
-        this.logoPreview = null;
+          message: 'Votre image ne doit pas éxcéder une taille de 4MB',
+          type: 'error',
+        })
+        this.loading = false
+        this.logoPreview = null
       }
-      return isLt5M;
+      return isLt5M
     },
     onChangeLogo(file) {
-      var reader = new FileReader();
-      reader.readAsDataURL(file.raw);
-      reader.onload = e => {
-        this.logoPreview = e.target.result;
-      };
+      var reader = new FileReader()
+      reader.readAsDataURL(file.raw)
+      reader.onload = (e) => {
+        this.logoPreview = e.target.result
+      }
     },
     onSubmit() {
-      this.loading = true;
-      this.$refs["structureForm"].validate(valid => {
+      this.loading = true
+      this.$refs['structureForm'].validate((valid) => {
         if (valid) {
           addOrUpdateStructure(this.structureId, this.form)
-            .then(async response => {
-              this.structureId = response.data.id;
+            .then(async (response) => {
+              this.structureId = response.data.id
               if (this.$refs.logo.uploadFiles.length > 0) {
-                this.$refs.logo.submit();
+                this.$refs.logo.submit()
               } else {
                 // Get profile to get new role
-                await this.$store.dispatch("user/get");
-                this.$router.push("/register/step/address");
-                this.loading = false;
+                await this.$store.dispatch('user/get')
+                this.$router.push('/register/step/address')
+                this.loading = false
               }
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

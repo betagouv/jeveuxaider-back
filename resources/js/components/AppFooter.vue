@@ -11,21 +11,26 @@
                   src="/images/logo-reserve-civique.png"
                   alt=""
                   style="max-width: 220px; height: auto;"
-                >
+                />
               </div>
               <div>
                 <img
                   class="mx-auto lg:mx-0"
                   src="/images/logo-footer.png"
                   alt=""
-                  style="height:200px;"
-                >
+                  style="height: 200px;"
+                />
               </div>
             </router-link>
           </div>
           <div
             class="text-black"
-            style="max-width:260px; font-size:14px; line-height: 1.6; letter-spacing: 0.05em;"
+            style="
+              max-width: 260px;
+              font-size: 14px;
+              line-height: 1.6;
+              letter-spacing: 0.05em;
+            "
           >
             Trouvez une mission d'intérêt général auprès d'un organisme public
             ou associatif et faites vivre les valeurs de la République.
@@ -45,10 +50,7 @@
             >
               Règles de sécurité
             </router-link>
-            <router-link
-              class="block p-3 hover:underline"
-              to="/faq"
-            >
+            <router-link class="block p-3 hover:underline" to="/faq">
               FAQ
             </router-link>
             <router-link
@@ -61,73 +63,82 @@
               class="block p-3 hover:underline"
               href="https://www.gouvernement.fr/info-coronavirus"
               target="_blank"
-            >Info Coronavirus</a>
+              >Info Coronavirus</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://mobilisationemploi.gouv.fr/#/accueil"
               target="_blank"
-            >Mobilisation pour l'emploi</a>
+              >Mobilisation pour l'emploi</a
+            >
           </div>
           <div class="lg:max-w-1/4 text-black">
             <a
               class="block p-3 hover:underline"
               href="https://www.elysee.fr/"
               target="_blank"
-            >elysee.fr</a>
+              >elysee.fr</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://service-public.fr"
               target="_blank"
-            >service-public.fr</a>
+              >service-public.fr</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://legifrance.gouv.fr"
               target="_blank"
-            >legifrance.gouv.fr</a>
+              >legifrance.gouv.fr</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://data.gouv.fr"
               target="_blank"
-            >data.gouv.fr</a>
+              >data.gouv.fr</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://www.france.fr"
               target="_blank"
-            >france.fr</a>
+              >france.fr</a
+            >
           </div>
           <div class="lg:max-w-1/2 text-black">
             <a
               class="block p-3 hover:underline"
               href="https://www.service-civique.gouv.fr/"
               target="_blank"
-            >Service Civique</a>
+              >Service Civique</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://www.snu.gouv.fr/"
               target="_blank"
-            >Service National Universel</a>
+              >Service National Universel</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://www.corpseuropeensolidarite.fr/"
               target="_blank"
-            >Corps Européen de solidarité</a>
+              >Corps Européen de solidarité</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://www.service-public.fr/particuliers/vosdroits/F11444"
               target="_blank"
-            >Volontariat de solidarité internationale</a>
+              >Volontariat de solidarité internationale</a
+            >
             <a
               class="block p-3 hover:underline"
               href="https://garde-nationale.gouv.fr/"
               target="_blank"
-            >Garde Nationale</a>
+              >Garde Nationale</a
+            >
           </div>
         </div>
         <div class="mt-8 lg:mt-3">
-          <div
-            class="mb-8"
-            style="font-size:13px;"
-          >
+          <div class="mb-8" style="font-size: 13px;">
             Suivez la Réserve Civique
           </div>
           <div
@@ -138,26 +149,20 @@
               href="https://twitter.com/ReserveCivique"
               target="_blank"
             >
-              <img
-                src="/images/twitter_black.svg"
-                alt="Twitter"
-              >
+              <img src="/images/twitter_black.svg" alt="Twitter" />
             </a>
             <a
               class="m-2 flex-shrink-0 flex items-center justify-center border border-black rounded-full w-10 h-10 transition opacity-75 hover:opacity-100"
               href="https://www.facebook.com/reservecivique/"
               target="_blank"
             >
-              <img
-                src="/images/facebook_black.svg"
-                alt="Facebook"
-              >
+              <img src="/images/facebook_black.svg" alt="Facebook" />
             </a>
           </div>
         </div>
       </div>
     </div>
-    <hr class="border-grey-200 mt-4">
+    <hr class="border-grey-200 mt-4" />
     <div class="container mx-auto px-4 py-6">
       <div style="font-size: 10px; letter-spacing: 0.05em;">
         © RESERVE-CIVIQUE.GOUV.FR, 2020
@@ -168,11 +173,11 @@
 
 <script>
 export default {
-  name: "AppFooter",
+  name: 'AppFooter',
   methods: {
     isCurrentPath(path) {
-      return window.location.pathname === path;
-    }
-  }
-};
+      return window.location.pathname === path
+    },
+  },
+}
 </script>

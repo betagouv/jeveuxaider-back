@@ -11,40 +11,40 @@
 </template>
 
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 
 export default {
-  name: "QueryMainSearchFilter",
+  name: 'QueryMainSearchFilter',
   props: {
     initialValue: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     placeholder: {
       type: String,
       required: false,
-      default: "Rechercher par mots clés..."
-    }
+      default: 'Rechercher par mots clés...',
+    },
   },
   data() {
     return {
       input: this.initialValue,
-      debouncedInput: ""
-    };
+      debouncedInput: '',
+    }
   },
   watch: {
-    input: _.debounce(function(newVal) {
+    input: _.debounce(function (newVal) {
       if (!_.isNull(newVal)) {
-        this.$emit("changed", { name: this.name, value: newVal });
+        this.$emit('changed', { name: this.name, value: newVal })
       }
-    }, 500)
-  }
-};
+    }, 500),
+  },
+}
 </script>
 
 <style lang="sass">

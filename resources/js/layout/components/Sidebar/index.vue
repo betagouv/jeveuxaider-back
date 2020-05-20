@@ -7,23 +7,15 @@
     <profile class="border-b border-gray-200" />
     <div class="flex flex-col flex-1">
       <el-menu :router="true">
-        <menu-responsable
-          v-if="$store.getters.contextRole == 'responsable'"
-        />
+        <menu-responsable v-if="$store.getters.contextRole == 'responsable'" />
         <menu-moderateur v-if="$store.getters.contextRole == 'admin'" />
-        <menu-referent
-          v-if="$store.getters.contextRole == 'referent'"
-        />
+        <menu-referent v-if="$store.getters.contextRole == 'referent'" />
         <menu-referent-regional
           v-if="$store.getters.contextRole == 'referent_regional'"
         />
-        <menu-superviseur
-          v-if="$store.getters.contextRole == 'superviseur'"
-        />
+        <menu-superviseur v-if="$store.getters.contextRole == 'superviseur'" />
         <menu-tuteur v-if="$store.getters.contextRole == 'tuteur'" />
-        <menu-analyste
-          v-if="$store.getters.contextRole == 'analyste'"
-        />
+        <menu-analyste v-if="$store.getters.contextRole == 'analyste'" />
       </el-menu>
     </div>
 
@@ -38,21 +30,14 @@
       />
     </div>
 
-    <div class="p-6 flex flex-col border-t border-gray-200 justify-center items-center">
+    <div
+      class="p-6 flex flex-col border-t border-gray-200 justify-center items-center"
+    >
       <router-link to="/">
-        <img
-          v-if="$store.getters.sidebar"
-          src="/images/logo-header-dark.png"
-        >
-        <img
-          v-else
-          src="/images/logo-rc-square.png"
-        >
+        <img v-if="$store.getters.sidebar" src="/images/logo-header-dark.png" />
+        <img v-else src="/images/logo-rc-square.png" />
       </router-link>
-      <router-link
-        v-if="$store.getters.sidebar"
-        to="/dashboard/news"
-      >
+      <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
         <div class="text-xs text-gray-600 py-2">
           Nouveautés
         </div>
@@ -62,17 +47,17 @@
 </template>
 
 <script>
-import MenuResponsable from "./MenuResponsable";
-import MenuModerateur from "./MenuModerateur";
-import MenuReferent from "./MenuReferent";
-import MenuReferentRegional from "./MenuReferentRegional";
-import MenuSuperviseur from "./MenuSuperviseur";
-import MenuTuteur from "./MenuTuteur";
-import MenuAnalyste from "./MenuAnalyste";
-import Profile from "./Profile";
+import MenuResponsable from './MenuResponsable'
+import MenuModerateur from './MenuModerateur'
+import MenuReferent from './MenuReferent'
+import MenuReferentRegional from './MenuReferentRegional'
+import MenuSuperviseur from './MenuSuperviseur'
+import MenuTuteur from './MenuTuteur'
+import MenuAnalyste from './MenuAnalyste'
+import Profile from './Profile'
 
 export default {
-  name: "Sidebar",
+  name: 'Sidebar',
   components: {
     MenuResponsable,
     MenuModerateur,
@@ -81,19 +66,19 @@ export default {
     MenuSuperviseur,
     MenuTuteur,
     MenuAnalyste,
-    Profile
+    Profile,
   },
   computed: {
     asideWidth() {
-      return this.$store.getters.sidebar ? "232px" : "88px";
-    }
+      return this.$store.getters.sidebar ? '232px' : '88px'
+    },
   },
   methods: {
     handleCollapse() {
-      this.$store.commit("toggleSidebar");
-    }
-  }
-};
+      this.$store.commit('toggleSidebar')
+    },
+  },
+}
 </script>
 
 <style scoped lang="sass">

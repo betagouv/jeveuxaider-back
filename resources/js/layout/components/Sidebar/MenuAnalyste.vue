@@ -2,7 +2,7 @@
   <div>
     <el-menu-item
       index="/dashboard"
-      :class="{'is-active': isActive('dashboard')}"
+      :class="{ 'is-active': isActive('dashboard') }"
     >
       <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import MenuActive from "@/mixins/MenuActive"
+import MenuActive from '@/mixins/MenuActive'
 
 export default {
-  name: "MenuAnalyste",
-  mixins: [MenuActive]
-};
+  name: 'MenuAnalyste',
+  mixins: [MenuActive],
+}
 </script>

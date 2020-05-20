@@ -35,35 +35,35 @@
 </template>
 
 <script>
-import { getPage } from "@/api/app";
-import FrontPageLoading from "@/components/loadings/FrontPageLoading"
+import { getPage } from '@/api/app'
+import FrontPageLoading from '@/components/loadings/FrontPageLoading'
 
 export default {
-  name: "FrontPage",
+  name: 'FrontPage',
   components: {
-    FrontPageLoading
+    FrontPageLoading,
   },
   props: {
     id: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       loading: true,
-      page: null
-    };
+      page: null,
+    }
   },
   created() {
     getPage(this.id)
-      .then(response => {
-        this.page = response.data;
-        this.loading = false;
+      .then((response) => {
+        this.page = response.data
+        this.loading = false
       })
       .catch(() => {
-        this.loading = false;
-      });
-  }
-};
+        this.loading = false
+      })
+  },
+}
 </script>

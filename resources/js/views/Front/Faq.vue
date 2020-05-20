@@ -14,10 +14,10 @@
 
     <div class="-mt-32">
       <div class="container mx-auto px-4 my-12">
-        <div class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16">
-          <h2
-            class="text-3xl leading-tight font-extrabold text-gray-900"
-          >
+        <div
+          class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
+        >
+          <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
             FAQ relative à la mobilisation citoyenne
           </h2>
           <div class="mt-6 border-t-2 border-gray-100 pt-10">
@@ -52,10 +52,7 @@
                 </div>
               </div>
               <div class="p-4 w-full lg:w-1/2 text-gray-500">
-                <div
-                  class="faq-description"
-                  v-html="faq.description"
-                />
+                <div class="faq-description" v-html="faq.description" />
               </div>
             </div>
           </div>
@@ -68,28 +65,27 @@
 </template>
 
 <script>
-import { fetchFaqs } from "@/api/app";
+import { fetchFaqs } from '@/api/app'
 
 export default {
-  name: "FrontFaq",
+  name: 'FrontFaq',
   data() {
     return {
       loading: false,
-      faqs: {}
-    };
+      faqs: {},
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
-    fetchFaqs({pagination: 0})
-      .then(response => {
-        this.faqs = response.data.data;
-        this.$store.commit("setLoading", false);
-        this.loading = false;
+    this.$store.commit('setLoading', true)
+    fetchFaqs({ pagination: 0 })
+      .then((response) => {
+        this.faqs = response.data.data
+        this.$store.commit('setLoading', false)
+        this.loading = false
       })
       .catch(() => {
-        this.loading = false;
-      });
-  }
-};
+        this.loading = false
+      })
+  },
+}
 </script>
-

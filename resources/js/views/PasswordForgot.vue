@@ -1,15 +1,12 @@
 <template>
-  <div
-    class="mx-auto w-full"
-    style="max-width: 390px;"
-  >
+  <div class="mx-auto w-full" style="max-width: 390px;">
     <div>
       <router-link to="/">
         <img
           class="h-8 w-auto"
           src="/images/logo-header-dark.png"
           alt="Réserve Civique"
-        >
+        />
       </router-link>
       <h2
         v-if="!submitted"
@@ -39,14 +36,8 @@
         :rules="rules"
         :hide-required-asterisk="true"
       >
-        <el-form-item
-          label="Email"
-          prop="email"
-        >
-          <el-input
-            v-model.trim="form.email"
-            placeholder="Email"
-          />
+        <el-form-item label="Email" prop="email">
+          <el-input v-model.trim="form.email" placeholder="Email" />
         </el-form-item>
       </el-form>
       <div class="mt-8 sm:col-span-">
@@ -57,7 +48,8 @@
             style="height: 48px;"
             class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
             @click="onSubmit"
-          >Réinitialiser mon mot de passe</el-button>
+            >Réinitialiser mon mot de passe</el-button
+          >
         </span>
       </div>
       <div class="mt-6">
@@ -75,7 +67,9 @@
               <button
                 type="submit"
                 class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-              >J'ai déjà un compte</button>
+              >
+                J'ai déjà un compte
+              </button>
             </span>
           </router-link>
         </div>
@@ -85,8 +79,8 @@
       <div class="mb-6 text-sm">
         Une email contenant les instructions pour réinitialiser votre mot de
         passe vient de vous être envoyé.
-        <br>
-        <br>Si vous ne vous souvenez plus de votre email de connexion,
+        <br />
+        <br />Si vous ne vous souvenez plus de votre email de connexion,
         écrivez-nous à contact@reserve-civique.beta.gouv.fr.
       </div>
     </div>
@@ -94,10 +88,10 @@
 </template>
 
 <script>
-import { forgotPassword } from "@/api/auth";
+import { forgotPassword } from '@/api/auth'
 
 export default {
-  name: "PasswordForgot",
+  name: 'PasswordForgot',
   data() {
     /*
     var checkLowercase = (rule, value, callback) => {
@@ -112,43 +106,43 @@ export default {
       loading: false,
       submitted: false,
       form: {
-        email: ""
+        email: '',
       },
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
           // { validator: checkLowercase, trigger: "blur" }
-        ]
-      }
-    };
+        ],
+      },
+    }
   },
   methods: {
     onSubmit() {
-      this.$refs["forgotPasswordForm"].validate(valid => {
+      this.$refs['forgotPasswordForm'].validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           forgotPassword(this.form.email)
             .then(() => {
-              this.loading = false;
-              this.submitted = true;
+              this.loading = false
+              this.submitted = true
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>

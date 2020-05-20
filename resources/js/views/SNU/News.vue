@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
           Nouveautés
@@ -12,10 +12,7 @@
       <div class />
     </div>
 
-    <div
-      v-if="!$store.getters.loading"
-      class="max-w-3xl px-8"
-    >
+    <div v-if="!$store.getters.loading" class="max-w-3xl px-8">
       <div
         v-for="release in releases"
         :key="release.id"
@@ -26,14 +23,11 @@
             {{ release.title }}
           </div>
           <div class="text-lg font-medium text-gray-600">
-            {{ release.date|formatMedium }}
+            {{ release.date | formatMedium }}
           </div>
         </div>
         <div class="p-4 text-gray-500">
-          <div
-            class="release-description"
-            v-html="release.description"
-          />
+          <div class="release-description" v-html="release.description" />
         </div>
       </div>
     </div>
@@ -41,27 +35,27 @@
 </template>
 
 <script>
-import { fetchReleases } from "@/api/app";
+import { fetchReleases } from '@/api/app'
 
 export default {
-  name: "News",
+  name: 'News',
   data() {
     return {
       loading: true,
-      releases: []
-    };
+      releases: [],
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     fetchReleases({ pagination: 0 })
-      .then(response => {
-        this.releases = response.data.data;
-        this.$store.commit("setLoading", false);
-        this.loading = false;
+      .then((response) => {
+        this.releases = response.data.data
+        this.$store.commit('setLoading', false)
+        this.loading = false
       })
       .catch(() => {
-        this.loading = false;
-      });
-  }
-};
+        this.loading = false
+      })
+  },
+}
 </script>

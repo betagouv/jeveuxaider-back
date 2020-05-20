@@ -20,21 +20,15 @@
             >
               {{ $store.getters.structure_as_responsable.name[0] }}
             </el-avatar>
-            <v-clamp
-              :max-lines="1"
-              autoresize
-              class="flex-1"
-            >
-              {{
-                $store.getters.structure_as_responsable.name
-              }}
+            <v-clamp :max-lines="1" autoresize class="flex-1">
+              {{ $store.getters.structure_as_responsable.name }}
             </v-clamp>
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item
           v-if="
             $store.getters.contextRole != 'responsable' &&
-              $store.getters.contextRole != 'volontaire'
+            $store.getters.contextRole != 'volontaire'
           "
           command="/dashboard"
         >
@@ -47,15 +41,10 @@
         <el-dropdown-item command="/user/profile">
           Profil
         </el-dropdown-item>
-        <el-dropdown-item
-          command="/user/settings"
-        >
+        <el-dropdown-item command="/user/settings">
           Paramètres de compte
         </el-dropdown-item>
-        <el-dropdown-item
-          divided
-          command="/logout"
-        >
+        <el-dropdown-item divided command="/logout">
           Se déconnecter
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -65,11 +54,11 @@
 
 <script>
 export default {
-  name: "DropdownUser",
+  name: 'DropdownUser',
   methods: {
     handleCommand(command) {
-      this.$router.push(command);
-    }
-  }
-};
+      this.$router.push(command)
+    },
+  },
+}
 </script>

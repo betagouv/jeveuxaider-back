@@ -1,68 +1,68 @@
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 
 export default {
-  name: "TableWithFilters",
+  name: 'TableWithFilters',
   data() {
     return {
       query: {},
       totalRows: 0,
       fromRow: 0,
       toRow: 0,
-      showFilters: false
-    };
+      showFilters: false,
+    }
   },
   computed: {
     activeFilters() {
-      let count = 0;
+      let count = 0
       Object.entries(this.query).forEach(([key, value]) => {
-        if (key != "page" && key != "filter[search]") {
+        if (key != 'page' && key != 'filter[search]') {
           if ((!_.isEmpty(value) && value) || _.isBoolean(value)) {
-            count++;
+            count++
           }
         }
-      });
-      return count;
-    }
+      })
+      return count
+    },
   },
   created() {
-    this.query = { ...this.$route.query };
-    this.tableData = this.fetchDatas();
-    this.showFilters = this.activeFilters > 0 ? true : false;
+    this.query = { ...this.$route.query }
+    this.tableData = this.fetchDatas()
+    this.showFilters = this.activeFilters > 0 ? true : false
   },
   methods: {
     onPageChange(page) {
       this.$router.push({
         path: this.$router.history.current.fullpath,
-        query: { ...this.query, page: page }
-      });
+        query: { ...this.query, page: page },
+      })
     },
     onFilterChange(filter) {
-      console.log("CHANGE !")
+      console.log('CHANGE !')
       this.$router.push({
         path: this.$router.history.current.path,
         query: {
           ...this.query,
           [`filter[${filter.name}]`]: filter.value,
-          page: 1
-        }
-      });
+          page: 1,
+        },
+      })
     },
     fetchDatas() {
-      this.loading = true;
+      this.loading = true
       this.fetchRows(this.query)
-        .then(response => {
-          this.loading = false;
-          this.totalRows = response.data.total;
-          this.fromRow = response.data.from;
-          this.toRow = response.data.to;
-          this.tableData = response.data.data;
+        .then((response) => {
+          this.loading = false
+          this.totalRows = response.data.total
+          this.fromRow = response.data.from
+          this.toRow = response.data.to
+          this.tableData = response.data.data
         })
-        .catch(error => {
-          console.log(error);
-          this.loading = false;
-        });
-    }
-  }
-};
+        .catch((error) => {
+          console.log(error)
+          this.loading = false
+        })
+    },
+  },
+}
 </script>

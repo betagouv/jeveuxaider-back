@@ -23,59 +23,59 @@
 
 <script>
 export default {
-  name: "QueryFilter",
+  name: 'QueryFilter',
   props: {
     value: {
       type: [String, Number, Boolean, Array],
       required: false,
-      default: null
+      default: null,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     label: {
       type: String,
-      required: true
+      required: true,
     },
     placeholder: {
       type: String,
       required: false,
-      default: "Choisir"
+      default: 'Choisir',
     },
     options: {
       type: Array,
-      required: true
+      required: true,
     },
     multiple: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     formattedValue() {
-      if (this.value == "true") {
-        return "Oui";
-      } else if (this.value == "false") {
-        return "Non";
+      if (this.value == 'true') {
+        return 'Oui'
+      } else if (this.value == 'false') {
+        return 'Non'
       }
       if (
         this.multiple &&
         !(this.value instanceof Array) &&
         this.value !== null
       ) {
-        return [this.value];
+        return [this.value]
       }
-      return this.value;
-    }
+      return this.value
+    },
   },
   methods: {
     onChangeFilter(value) {
-      this.$emit("changed", { name: this.name, value: value });
-    }
-  }
-};
+      this.$emit('changed', { name: this.name, value: value })
+    },
+  },
+}
 </script>
 
 <style lang="sass">

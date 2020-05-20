@@ -1,31 +1,22 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <el-card
-        shadow="hover"
-        class="overflow-visible mt-24"
-      >
-        <div
-          slot="header"
-          class="clearfix flex flex-col items-center"
-        >
+      <el-card shadow="hover" class="overflow-visible mt-24">
+        <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
             <el-avatar
               v-if="row.avatar"
               :src="`${row.avatar}`"
               class="w-10 rounded-full border"
             />
-            <el-avatar
-              v-else
-              class="bg-primary"
-            >
+            <el-avatar v-else class="bg-primary">
               {{ row.first_name[0] }}{{ row.last_name[0] }}
             </el-avatar>
           </div>
           <router-link
             :to="{
               name: 'Profile',
-              params: { id: row.id }
+              params: { id: row.id },
             }"
           >
             <div class="font-bold text-lg text-primary mb-3">
@@ -43,11 +34,7 @@
         <profile-infos :profile="row" />
       </el-card>
       <template v-if="$store.getters.contextRole === 'admin'">
-        <el-form
-          ref="profileForm"
-          :model="form"
-          label-position="top"
-        >
+        <el-form ref="profileForm" :model="form" label-position="top">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Superviseur réseau national
           </div>
@@ -57,11 +44,7 @@
             utilisateur de visualiser les missions et volontaires rattachés aux
             structures de ce réseau national.
           </item-description>
-          <el-form-item
-            label="Réseau national"
-            prop="reseau"
-            class="flex-1"
-          >
+          <el-form-item label="Réseau national" prop="reseau" class="flex-1">
             <el-select
               v-model="form.reseau_id"
               clearable
@@ -104,11 +87,7 @@
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button
-              type="primary"
-              :loading="loading"
-              @click="onSubmit"
-            >
+            <el-button type="primary" :loading="loading" @click="onSubmit">
               Enregistrer
             </el-button>
           </div>
@@ -119,48 +98,51 @@
 </template>
 
 <script>
-import Volet from "@/layout/components/Volet";
-import ProfileRolesTags from "@/components/ProfileRolesTags.vue";
-import { updateProfile } from "@/api/user";
-import VoletRow from "@/mixins/VoletRow";
-import ItemDescription from "@/components/forms/ItemDescription";
-import ProfileInfos from "@/components/infos/ProfileInfos";
+import Volet from '@/layout/components/Volet'
+import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
+import { updateProfile } from '@/api/user'
+import VoletRow from '@/mixins/VoletRow'
+import ItemDescription from '@/components/forms/ItemDescription'
+import ProfileInfos from '@/components/infos/ProfileInfos'
 
 export default {
-  name: "ProfileVolet",
+  name: 'ProfileVolet',
   components: { ProfileRolesTags, Volet, ItemDescription, ProfileInfos },
   mixins: [VoletRow],
   data() {
     return {
       loading: false,
-      form: {}
-    };
+      form: {},
+    }
   },
   methods: {
     onSubmit() {
-      this.$confirm("Êtes vous sur de vos changements ?<br>", "Confirmation", {
-        confirmButtonText: "Je confirme",
-        cancelButtonText: "Annuler",
+      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
+        confirmButtonText: 'Je confirme',
+        cancelButtonText: 'Annuler',
         dangerouslyUseHTMLString: true,
         center: true,
-        type: "warning"
+        type: 'warning',
       }).then(() => {
-        this.loading = true;
+        this.loading = true
         updateProfile(this.form.id, this.form)
-          .then(response => {
-            this.loading = false;
+          .then((response) => {
+            this.loading = false
             this.$message({
-              type: "success",
-              message: "Le profil a été mis à jour"
-            });
-            this.$store.commit("volet/setRow", { ...this.row, ...response.data });
-            this.$emit("updated", { ...this.form, ...response.data });
+              type: 'success',
+              message: 'Le profil a été mis à jour',
+            })
+            this.$store.commit('volet/setRow', {
+              ...this.row,
+              ...response.data,
+            })
+            this.$emit('updated', { ...this.form, ...response.data })
           })
           .catch(() => {
-            this.loading = false;
-          });
-      });
-    }
-  }
-};
+            this.loading = false
+          })
+      })
+    },
+  },
+}
 </script>

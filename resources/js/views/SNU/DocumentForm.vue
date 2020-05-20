@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="!$store.getters.loading"
-    class="max-w-2xl pl-12 pb-12"
-  >
+  <div v-if="!$store.getters.loading" class="max-w-2xl pl-12 pb-12">
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">
         Document
@@ -13,10 +10,7 @@
         </div>
       </div>
     </template>
-    <div
-      v-else
-      class="mb-12 font-bold text-2xl text-gray-800"
-    >
+    <div v-else class="mb-12 font-bold text-2xl text-gray-800">
       Nouveau document
     </div>
 
@@ -30,21 +24,11 @@
         Informations générales
       </div>
 
-      <el-form-item
-        label="Nom du document"
-        prop="title"
-      >
-        <el-input
-          v-model="form.title"
-          placeholder="Nom du document"
-        />
+      <el-form-item label="Nom du document" prop="title">
+        <el-input v-model="form.title" placeholder="Nom du document" />
       </el-form-item>
 
-      <el-form-item
-        label="Description"
-        prop="description"
-        class="flex-1"
-      >
+      <el-form-item label="Description" prop="description" class="flex-1">
         <el-input
           v-model="form.description"
           name="description"
@@ -54,31 +38,19 @@
         />
       </el-form-item>
 
-      <el-form-item
-        label="Accessible pour les rôles"
-        prop="roles"
-      >
+      <el-form-item label="Accessible pour les rôles" prop="roles">
         <el-select
           v-model="form.roles"
           multiple
           placeholder="Sélectionner un rôle"
         >
-          <el-option
-            label="Référent"
-            value="referent"
-          />
-          <el-option
-            label="Responsable"
-            value="responsable"
-          />
+          <el-option label="Référent" value="referent" />
+          <el-option label="Responsable" value="responsable" />
         </el-select>
       </el-form-item>
 
       <div class="mb-6">
-        <div
-          v-if="!form.file"
-          class
-        >
+        <div v-if="!form.file" class>
           <el-upload
             v-if="!file"
             class="upload-demo"
@@ -92,27 +64,24 @@
             <i class="el-icon-upload" />
             <div class="el-upload__text">
               Glissez votre document ou
-              <br>
+              <br />
               <em>cliquez ici pour le selectionner</em>
             </div>
           </el-upload>
-          <div
-            v-else
-            class="flex items-center"
-          >
+          <div v-else class="flex items-center">
             <div
               class="mr-4 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center"
-              style="width: 50px; height: 50px"
+              style="width: 50px; height: 50px;"
             >
               <font-awesome-icon
                 size="lg"
-                :icon="file.type|icoFromMimeType"
+                :icon="file.type | icoFromMimeType"
               />
             </div>
             <div class="mr-8">
               <div>{{ file.name }}</div>
               <div class="text-sm text-gray-600">
-                {{ file.size|fileSizeOctets }}
+                {{ file.size | fileSizeOctets }}
               </div>
             </div>
             <div>
@@ -126,23 +95,20 @@
             </div>
           </div>
         </div>
-        <div
-          v-else
-          class="flex items-center"
-        >
+        <div v-else class="flex items-center">
           <div
             class="mr-4 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center"
-            style="width: 50px; height: 50px"
+            style="width: 50px; height: 50px;"
           >
             <font-awesome-icon
               size="lg"
-              :icon="form.file.mime_type|icoFromMimeType"
+              :icon="form.file.mime_type | icoFromMimeType"
             />
           </div>
           <div class="mr-8">
             <div>{{ form.file.file_name }}</div>
             <div class="text-sm text-gray-700">
-              {{ form.file.size|fileSizeOctets }}
+              {{ form.file.size | fileSizeOctets }}
             </div>
           </div>
           <div>
@@ -163,11 +129,7 @@
       </div>
 
       <div class="flex pt-2">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="onSubmit"
-        >
+        <el-button type="primary" :loading="loading" @click="onSubmit">
           Enregistrer
         </el-button>
       </div>
@@ -176,35 +138,31 @@
 </template>
 
 <script>
-import {
-  getDocument,
-  addOrUpdateDocument,
-  uploadFile
-} from "@/api/app";
-import FileUpload from "@/mixins/FileUpload";
+import { getDocument, addOrUpdateDocument, uploadFile } from '@/api/app'
+import FileUpload from '@/mixins/FileUpload'
 
 export default {
-  name: "DocumentForm",
+  name: 'DocumentForm',
   mixins: [FileUpload],
   props: {
     mode: {
       type: String,
-      required: true
+      required: true,
     },
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
       form: {
-        roles: ['referent', 'responsable']
+        roles: ['referent', 'responsable'],
       },
-      file: null
-    };
+      file: null,
+    }
   },
   computed: {
     rules() {
@@ -212,62 +170,62 @@ export default {
         title: [
           {
             required: true,
-            message: "Veuillez renseigner un titre",
-            trigger: "blur"
-          }
-        ]
-      };
-    }
+            message: 'Veuillez renseigner un titre',
+            trigger: 'blur',
+          },
+        ],
+      }
+    },
   },
   created() {
-    if (this.mode == "edit") {
-      this.$store.commit("setLoading", true);
+    if (this.mode == 'edit') {
+      this.$store.commit('setLoading', true)
       getDocument(this.id)
-        .then(response => {
-          this.$store.commit("setLoading", false);
-          this.form = response.data;
+        .then((response) => {
+          this.$store.commit('setLoading', false)
+          this.form = response.data
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     }
   },
   methods: {
     onRemoveFile() {
-      this.file = null;
-      this.form.file = null;
+      this.file = null
+      this.form.file = null
     },
     onSubmit() {
-      this.loading = true;
-      this.$refs["documentForm"].validate(valid => {
+      this.loading = true
+      this.$refs['documentForm'].validate((valid) => {
         if (valid) {
           addOrUpdateDocument(this.id, this.form)
-            .then(response => {
-              this.form = response.data;
+            .then((response) => {
+              this.form = response.data
               if (this.file) {
-                uploadFile(this.form.id, "document", this.file).then(() => {
-                  this.onSubmitEnd();
-                });
+                uploadFile(this.form.id, 'document', this.file).then(() => {
+                  this.onSubmitEnd()
+                })
               } else {
-                this.onSubmitEnd();
+                this.onSubmitEnd()
               }
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
+      })
     },
     onSubmitEnd() {
-      this.loading = false;
-      this.$router.push("/dashboard/contents?type=Documents");
+      this.loading = false
+      this.$router.push('/dashboard/contents?type=Documents')
       this.$message({
-        message: "Le document a été enregistrée !",
-        type: "success"
-      });
-    }
-  }
-};
+        message: 'Le document a été enregistrée !',
+        type: 'success',
+      })
+    },
+  },
+}
 </script>

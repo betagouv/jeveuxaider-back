@@ -73,12 +73,12 @@
 
 <script>
 export default {
-  name: "MenuSuperviseur",
+  name: 'MenuSuperviseur',
   props: {
     isCollapsed: {
       type: Boolean,
-      required: true
-    }
-  }
-};
+      required: true,
+    },
+  },
+}
 </script>

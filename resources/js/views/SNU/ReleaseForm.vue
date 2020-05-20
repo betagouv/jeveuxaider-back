@@ -13,10 +13,7 @@
         </div>
       </div>
     </template>
-    <div
-      v-else
-      class="mb-12 font-bold text-2xl text-gray-800"
-    >
+    <div v-else class="mb-12 font-bold text-2xl text-gray-800">
       Nouvelle release
     </div>
 
@@ -30,20 +27,11 @@
         Informations générales
       </div>
 
-      <el-form-item
-        label="Titre"
-        prop="title"
-      >
-        <el-input
-          v-model="form.title"
-          placeholder="Titre"
-        />
+      <el-form-item label="Titre" prop="title">
+        <el-input v-model="form.title" placeholder="Titre" />
       </el-form-item>
 
-      <el-form-item
-        label="Date"
-        prop="date"
-      >
+      <el-form-item label="Date" prop="date">
         <el-date-picker
           v-model="form.date"
           class="w-full"
@@ -54,10 +42,7 @@
         />
       </el-form-item>
 
-      <el-form-item
-        label="Description"
-        prop="description"
-      >
+      <el-form-item label="Description" prop="description">
         <ckeditor
           v-model="form.description"
           :editor="editor"
@@ -66,11 +51,7 @@
       </el-form-item>
 
       <div class="flex pt-2">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="onSubmit"
-        >
+        <el-button type="primary" :loading="loading" @click="onSubmit">
           Enregistrer
         </el-button>
       </div>
@@ -79,20 +60,20 @@
 </template>
 
 <script>
-import { getRelease, updateRelease, addRelease } from "@/api/app";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { getRelease, updateRelease, addRelease } from '@/api/app'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
-  name: "ReleaseForm",
+  name: 'ReleaseForm',
   props: {
     mode: {
       type: String,
-      required: true
+      required: true,
     },
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -100,9 +81,16 @@ export default {
       form: {},
       editor: ClassicEditor,
       editorConfig: {
-        toolbar: ["bold", "italic", "|", "link", "bulletedList", "numberedList"]
-      }
-    };
+        toolbar: [
+          'bold',
+          'italic',
+          '|',
+          'link',
+          'bulletedList',
+          'numberedList',
+        ],
+      },
+    }
   },
   computed: {
     rules() {
@@ -110,78 +98,78 @@ export default {
         title: [
           {
             required: true,
-            message: "Veuillez renseigner un titre",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un titre',
+            trigger: 'blur',
+          },
         ],
         description: [
           {
             required: true,
-            message: "Veuillez renseigner un nom",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un nom',
+            trigger: 'blur',
+          },
         ],
         date: [
           {
             required: true,
-            message: "Veuillez renseigner une date",
-            trigger: "blur"
-          }
-        ]
-      };
-      return rules;
-    }
+            message: 'Veuillez renseigner une date',
+            trigger: 'blur',
+          },
+        ],
+      }
+      return rules
+    },
   },
   created() {
-    if (this.mode == "edit") {
-      this.$store.commit("setLoading", true);
+    if (this.mode == 'edit') {
+      this.$store.commit('setLoading', true)
       getRelease(this.id)
-        .then(response => {
-          this.$store.commit("setLoading", false);
-          this.form = response.data;
+        .then((response) => {
+          this.$store.commit('setLoading', false)
+          this.form = response.data
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     }
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["releaseForm"].validate(valid => {
+      this.loading = true
+      this.$refs['releaseForm'].validate((valid) => {
         if (valid) {
           if (this.id) {
             updateRelease(this.form.id, this.form)
               .then(() => {
-                this.loading = false;
-                this.$router.push('/dashboard/contents?type=Releases');
+                this.loading = false
+                this.$router.push('/dashboard/contents?type=Releases')
                 this.$message({
-                  message: "La release a été enregistrée !",
-                  type: "success"
-                });
+                  message: 'La release a été enregistrée !',
+                  type: 'success',
+                })
               })
               .catch(() => {
-                this.loading = false;
-              });
+                this.loading = false
+              })
           } else {
             addRelease(this.form)
               .then(() => {
-                this.loading = false;
-                this.$router.push('/dashboard/contents?type=Releases');
+                this.loading = false
+                this.$router.push('/dashboard/contents?type=Releases')
                 this.$message({
-                  message: "La release a été enregistrée !",
-                  type: "success"
-                });
+                  message: 'La release a été enregistrée !',
+                  type: 'success',
+                })
               })
               .catch(() => {
-                this.loading = false;
-              });
+                this.loading = false
+              })
           }
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>

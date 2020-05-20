@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: "ItemDescription"
-};
+  name: 'ItemDescription',
+}
 </script>

@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
           Contenus
@@ -35,10 +35,7 @@
       </div>
     </div>
     <div class="px-12 mb-6 -mt-6">
-      <el-radio-group
-        v-model="type"
-        @change="handleChangeType"
-      >
+      <el-radio-group v-model="type" @change="handleChangeType">
         <el-radio-button label="Faqs" />
         <el-radio-button label="Releases" />
         <el-radio-button label="Pages" />
@@ -73,22 +70,14 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column
-        v-else
-        label="ID"
-        min-width="70"
-        align="center"
-      >
+      <el-table-column v-else label="ID" min-width="70" align="center">
         <template slot-scope="scope">
           <el-avatar class="bg-primary">
             {{ scope.row.id }}
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column
-        label="Titre"
-        min-width="320"
-      >
+      <el-table-column label="Titre" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.title }}
@@ -98,7 +87,10 @@
             class="font-light text-gray-600 text-xs"
           >
             <router-link
-              :to="{ name: 'CollectivitySlug', params: { slug: scope.row.slug } }"
+              :to="{
+                name: 'CollectivitySlug',
+                params: { slug: scope.row.slug },
+              }"
               target="_blank"
             >
               /territoires/{{ scope.row.slug }}
@@ -106,19 +98,12 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="created_at"
-        label="Crée le"
-        min-width="120"
-      >
+      <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">
           {{ scope.row.created_at | fromNow }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="Actions"
-        width="165"
-      >
+      <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
           <el-dropdown
             size="small"
@@ -129,7 +114,9 @@
           >
             <i class="el-icon-edit mr-2" />Modifier
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="{ action: 'delete', id: scope.row.id }">
+              <el-dropdown-item
+                :command="{ action: 'delete', id: scope.row.id }"
+              >
                 Supprimer
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -146,9 +133,7 @@
         :current-page="Number(query.page)"
         @current-change="onPageChange"
       />
-      <div
-        class="text-secondary text-xs ml-3"
-      >
+      <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
@@ -156,143 +141,143 @@
 </template>
 
 <script>
-import { fetchReleases, deleteRelease } from "@/api/app";
-import { fetchFaqs, deleteFaq } from "@/api/app";
-import { fetchPages, deletePage } from "@/api/app";
-import { fetchCollectivities, deleteCollectivity } from "@/api/app";
-import { fetchDocuments, deleteDocument } from "@/api/app";
-import TableWithFilters from "@/mixins/TableWithFilters";
-import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
+import { fetchReleases, deleteRelease } from '@/api/app'
+import { fetchFaqs, deleteFaq } from '@/api/app'
+import { fetchPages, deletePage } from '@/api/app'
+import { fetchCollectivities, deleteCollectivity } from '@/api/app'
+import { fetchDocuments, deleteDocument } from '@/api/app'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 
 export default {
-  name: "Contents",
+  name: 'Contents',
   components: {
-    QueryMainSearchFilter
+    QueryMainSearchFilter,
   },
   mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
-      type: "Faqs",
+      type: 'Faqs',
       tableData: [],
-      totalRows: 0
-    };
+      totalRows: 0,
+    }
   },
   created() {
-    this.type = this.$route.query.type ? this.$route.query.type : "Faqs";
-    this.query = { ...this.$router.history.current.query };
-    this.tableData = this.fetchDatas();
-    this.showFilters = this.activeFilters > 0 ? true : false;
+    this.type = this.$route.query.type ? this.$route.query.type : 'Faqs'
+    this.query = { ...this.$router.history.current.query }
+    this.tableData = this.fetchDatas()
+    this.showFilters = this.activeFilters > 0 ? true : false
   },
   methods: {
     handleChangeType() {
-      this.query.type = this.type;
-      this.query.page = 1;
-      this.fetchDatas();
+      this.query.type = this.type
+      this.query.page = 1
+      this.fetchDatas()
     },
     fetchRows() {
-      if (this.type == "Faqs") {
-        return fetchFaqs(this.query);
-      } else if (this.type == "Releases") {
-        return fetchReleases(this.query);
-      } else if (this.type == "Collectivités") {
-        return fetchCollectivities(this.query);
-      } else if (this.type == "Documents") {
-        return fetchDocuments(this.query);
+      if (this.type == 'Faqs') {
+        return fetchFaqs(this.query)
+      } else if (this.type == 'Releases') {
+        return fetchReleases(this.query)
+      } else if (this.type == 'Collectivités') {
+        return fetchCollectivities(this.query)
+      } else if (this.type == 'Documents') {
+        return fetchDocuments(this.query)
       } else {
-        return fetchPages(this.query);
+        return fetchPages(this.query)
       }
     },
     handleCommand(command) {
-      if (command.action == "delete") {
-        this.handleClickDelete(command.id);
+      if (command.action == 'delete') {
+        this.handleClickDelete(command.id)
       } else {
-        this.$router.push(command);
+        this.$router.push(command)
       }
     },
     handleClickEdit(id) {
-      if (this.type == "Faqs") {
+      if (this.type == 'Faqs') {
         this.$router.push({
-          name: "FaqFormEdit",
-          params: { id: id }
-        });
-      } else if (this.type == "Releases") {
+          name: 'FaqFormEdit',
+          params: { id: id },
+        })
+      } else if (this.type == 'Releases') {
         this.$router.push({
-          name: "ReleaseFormEdit",
-          params: { id: id }
-        });
-      } else if (this.type == "Collectivités") {
+          name: 'ReleaseFormEdit',
+          params: { id: id },
+        })
+      } else if (this.type == 'Collectivités') {
         this.$router.push({
-          name: "CollectivityFormEdit",
-          params: { id: id }
-        });
-      } else if (this.type == "Documents") {
+          name: 'CollectivityFormEdit',
+          params: { id: id },
+        })
+      } else if (this.type == 'Documents') {
         this.$router.push({
-          name: "DocumentFormEdit",
-          params: { id: id }
-        });
+          name: 'DocumentFormEdit',
+          params: { id: id },
+        })
       } else {
         this.$router.push({
-          name: "PageFormEdit",
-          params: { id: id }
-        });
+          name: 'PageFormEdit',
+          params: { id: id },
+        })
       }
     },
     handleClickDelete(id) {
       this.$confirm(
         `Êtes vous sur de vouloir supprimer cet item ?`,
-        "Supprimer cet item",
+        'Supprimer cet item',
         {
-          confirmButtonText: "Supprimer",
-          confirmButtonClass: "el-button--danger",
-          cancelButtonText: "Annuler",
+          confirmButtonText: 'Supprimer',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
           center: true,
-          type: "error"
+          type: 'error',
         }
       ).then(() => {
-        if (this.type == "Faqs") {
+        if (this.type == 'Faqs') {
           deleteFaq(id).then(() => {
             this.$message({
-              type: "success",
-              message: `La question a été supprimée.`
-            });
-            this.fetchDatas();
-          });
-        } else if (this.type == "Releases") {
+              type: 'success',
+              message: `La question a été supprimée.`,
+            })
+            this.fetchDatas()
+          })
+        } else if (this.type == 'Releases') {
           deleteRelease(id).then(() => {
             this.$message({
-              type: "success",
-              message: `La release a été supprimée.`
-            });
-            this.fetchDatas();
-          });
-        } else if (this.type == "Collectivités") {
+              type: 'success',
+              message: `La release a été supprimée.`,
+            })
+            this.fetchDatas()
+          })
+        } else if (this.type == 'Collectivités') {
           deleteCollectivity(id).then(() => {
             this.$message({
-              type: "success",
-              message: `La collectivité a été supprimée.`
-            });
-            this.fetchDatas();
-          });
-        } else if (this.type == "Documents") {
+              type: 'success',
+              message: `La collectivité a été supprimée.`,
+            })
+            this.fetchDatas()
+          })
+        } else if (this.type == 'Documents') {
           deleteDocument(id).then(() => {
             this.$message({
-              type: "success",
-              message: `Le document a été supprimée.`
-            });
-            this.fetchDatas();
-          });
+              type: 'success',
+              message: `Le document a été supprimée.`,
+            })
+            this.fetchDatas()
+          })
         } else {
           deletePage(id).then(() => {
             this.$message({
-              type: "success",
-              message: `La page a été supprimée.`
-            });
-            this.fetchDatas();
-          });
+              type: 'success',
+              message: `La page a été supprimée.`,
+            })
+            this.fetchDatas()
+          })
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>

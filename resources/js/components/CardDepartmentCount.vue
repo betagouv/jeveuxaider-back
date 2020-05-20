@@ -1,8 +1,5 @@
 <template>
-  <el-card
-    class="mb-5 p-5"
-    shadow="never"
-  >
+  <el-card class="mb-5 p-5" shadow="never">
     <div class="label mb-3 text-lg font-bold text-secondary uppercase">
       {{ label }}
     </div>
@@ -14,7 +11,7 @@
               Missions disponibles
             </div>
             <div class>
-              {{ data.total_missions_available|formatNumber }}
+              {{ data.total_missions_available | formatNumber }}
             </div>
           </div>
           <div class="mr-6 mt-6">
@@ -22,28 +19,21 @@
               Places disponibles
             </div>
             <div class>
-              {{ data.total_places_available|formatNumber }}
+              {{ data.total_places_available | formatNumber }}
             </div>
           </div>
         </div>
         <el-table
           :data="data.departments"
-          style="width: 100%"
+          style="width: 100%;"
           @row-click="onClickedRow"
         >
-          <el-table-column
-            prop="key"
-            label="#"
-            width="50"
-          >
+          <el-table-column prop="key" label="#" width="50">
             <template slot-scope="scope">
               <span>{{ scope.row.key }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="label"
-            label="Département"
-          >
+          <el-table-column prop="label" label="Département">
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.name }}</span>
             </template>
@@ -56,7 +46,9 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.structures_count|formatNumber }}</span>
+              <span class="text-gray-500">{{
+                scope.row.structures_count | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -67,7 +59,9 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.missions_count|formatNumber }}</span>
+              <span class="text-gray-500">{{
+                scope.row.missions_count | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -78,7 +72,9 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.participations_count|formatNumber }}</span>
+              <span class="text-gray-500">{{
+                scope.row.participations_count | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -89,7 +85,9 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.volontaires_count|formatNumber }}</span>
+              <span class="text-gray-500">{{
+                scope.row.volontaires_count | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -100,7 +98,9 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.service_civique_count|formatNumber }}</span>
+              <span class="text-gray-500">{{
+                scope.row.service_civique_count | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -111,7 +111,9 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.missions_available|formatNumber }}</span>
+              <span class="text-gray-500">{{
+                scope.row.missions_available | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -124,8 +126,11 @@
             <template slot-scope="scope">
               <el-tag :type="type(scope.row.places_available)">
                 <template v-if="scope.row.places_available > 0">
-                  {{ scope.row.places_available|formatNumber }}
-                  {{ scope.row.places_available| pluralize(["place restante", "places restantes"]) }}
+                  {{ scope.row.places_available | formatNumber }}
+                  {{
+                    scope.row.places_available
+                      | pluralize(['place restante', 'places restantes'])
+                  }}
                 </template>
                 <template v-else>
                   Aucune place restante
@@ -143,46 +148,46 @@
 </template>
 
 <script>
-import { statistics } from "../api/app";
+import { statistics } from '../api/app'
 export default {
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     link: {
       type: String,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      data: null
-    };
+      data: null,
+    }
   },
   created() {
-    statistics(this.name).then(response => {
-      this.data = response.data;
-    });
+    statistics(this.name).then((response) => {
+      this.data = response.data
+    })
   },
   methods: {
     type(places) {
       if (places < 10) {
-        return "danger";
+        return 'danger'
       } else if (places < 500) {
-        return "warning";
+        return 'warning'
       } else {
-        return "info";
+        return 'info'
       }
     },
     onClickedRow(row) {
-      this.$router.push(`/dashboard/missions?filter[department]=${row.key}`);
-    }
-  }
-};
+      this.$router.push(`/dashboard/missions?filter[department]=${row.key}`)
+    },
+  },
+}
 </script>

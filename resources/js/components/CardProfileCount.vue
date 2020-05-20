@@ -9,22 +9,16 @@
         {{ label }}
       </div>
       <template v-if="data">
-        <div
-          v-if="data"
-          class="count text-primary font-medium text-2xl"
-        >
-          {{ data.total|formatNumber }}
+        <div v-if="data" class="count text-primary font-medium text-2xl">
+          {{ data.total | formatNumber }}
         </div>
-        <div
-          v-if="data"
-          class="flex flex-wrap"
-        >
+        <div v-if="data" class="flex flex-wrap">
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">
               Volontaires
             </div>
             <div class>
-              {{ data.volontaire|formatNumber }}
+              {{ data.volontaire | formatNumber }}
             </div>
           </div>
           <div class="mr-6 mt-6">
@@ -32,7 +26,7 @@
               Responsables
             </div>
             <div class>
-              {{ data.responsable|formatNumber }}
+              {{ data.responsable | formatNumber }}
             </div>
           </div>
           <div class="mr-6 mt-6">
@@ -40,18 +34,21 @@
               Service civique
             </div>
             <div class>
-              {{ data.service_civique|formatNumber }}
+              {{ data.service_civique | formatNumber }}
             </div>
           </div>
           <template
-            v-if="$store.getters.contextRole == 'admin' || $store.getters.contextRole == 'analyste'"
+            v-if="
+              $store.getters.contextRole == 'admin' ||
+              $store.getters.contextRole == 'analyste'
+            "
           >
             <div class="mr-6 mt-6">
               <div class="text-gray-500 text-sm">
                 Départementaux
               </div>
               <div class>
-                {{ data.referent|formatNumber }}
+                {{ data.referent | formatNumber }}
               </div>
             </div>
             <div class="mr-6 mt-6">
@@ -59,7 +56,7 @@
                 Régionaux
               </div>
               <div class>
-                {{ data.referent_regional|formatNumber }}
+                {{ data.referent_regional | formatNumber }}
               </div>
             </div>
             <div class="mr-6 mt-6">
@@ -67,7 +64,7 @@
                 Superviseurs
               </div>
               <div class>
-                {{ data.superviseur|formatNumber }}
+                {{ data.superviseur | formatNumber }}
               </div>
             </div>
             <div class="mr-6 mt-6">
@@ -75,7 +72,7 @@
                 Modérateurs
               </div>
               <div class>
-                {{ data.admin|formatNumber }}
+                {{ data.admin | formatNumber }}
               </div>
             </div>
             <div class="mr-6 mt-6">
@@ -83,7 +80,7 @@
                 Invités
               </div>
               <div class>
-                {{ data.invited|formatNumber }}
+                {{ data.invited | formatNumber }}
               </div>
             </div>
           </template>
@@ -97,39 +94,39 @@
 </template>
 
 <script>
-import { statistics } from "../api/app";
+import { statistics } from '../api/app'
 export default {
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     link: {
       type: String,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      data: null
-    };
+      data: null,
+    }
   },
   created() {
-    statistics(this.name).then(response => {
-      this.data = response.data;
-    });
+    statistics(this.name).then((response) => {
+      this.data = response.data
+    })
   },
   methods: {
     onClick() {
-      if (this.link && this.$store.getters.contextRole != "analyste") {
-        this.$router.push(this.link);
+      if (this.link && this.$store.getters.contextRole != 'analyste') {
+        this.$router.push(this.link)
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

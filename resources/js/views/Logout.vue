@@ -4,9 +4,9 @@
 
 <script>
 export default {
-  name: "Logout",
+  name: 'Logout',
   created() {
-    this.$store.dispatch("auth/logout");
-  }
-};
+    this.$store.dispatch('auth/logout')
+  },
+}
 </script>

@@ -3,21 +3,15 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
           Tableau de bord
         </div>
       </div>
-      <div
-        v-if="$store.getters.contextRole === 'admin'"
-        class
-      >
+      <div v-if="$store.getters.contextRole === 'admin'" class>
         <el-dropdown @command="handleCommand">
-          <el-button
-            :loading="loading"
-            type="primary"
-          >
+          <el-button :loading="loading" type="primary">
             Exporter les données
           </el-button>
           <el-dropdown-menu type="primary">
@@ -80,42 +74,42 @@
 </template>
 
 <script>
-import DashboardMenu from "@/components/DashboardMenu";
-import CardCount from "@/components/CardCount";
-import ReminderReferent from "@/components/ReminderReferent";
-import ReminderResponsable from "@/components/ReminderResponsable";
-import { exportTable } from "@/api/app";
-import fileDownload from "js-file-download";
+import DashboardMenu from '@/components/DashboardMenu'
+import CardCount from '@/components/CardCount'
+import ReminderReferent from '@/components/ReminderReferent'
+import ReminderResponsable from '@/components/ReminderResponsable'
+import { exportTable } from '@/api/app'
+import fileDownload from 'js-file-download'
 
 export default {
-  name: "DashboardMain",
+  name: 'DashboardMain',
   components: {
     DashboardMenu,
     CardCount,
     ReminderReferent,
-    ReminderResponsable
+    ReminderResponsable,
   },
   data() {
     return {
-      loading: false
-    };
+      loading: false,
+    }
   },
   computed: {},
   methods: {
     handleCommand(command) {
-      this.loading = true;
-      this.export(command);
+      this.loading = true
+      this.export(command)
     },
     export(table) {
       exportTable(table)
-        .then(response => {
-          this.loading = false;
-          fileDownload(response.data, `${table}.csv`);
+        .then((response) => {
+          this.loading = false
+          fileDownload(response.data, `${table}.csv`)
         })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
-};
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  },
+}
 </script>

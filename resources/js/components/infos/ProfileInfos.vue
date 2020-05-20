@@ -1,9 +1,6 @@
 <template>
   <div class="text-xs text-gray-600">
-    <div
-      v-if="profile.mobile"
-      class="mb-2 flex"
-    >
+    <div v-if="profile.mobile" class="mb-2 flex">
       <div class="card-label">
         Membre
       </div>
@@ -11,10 +8,7 @@
         {{ profile.created_at | fromNow }}
       </div>
     </div>
-    <div
-      v-if="profile.email"
-      class="mb-2 flex"
-    >
+    <div v-if="profile.email" class="mb-2 flex">
       <div class="card-label">
         Email
       </div>
@@ -22,10 +16,7 @@
         {{ profile.email }}
       </div>
     </div>
-    <div
-      v-if="profile.mobile"
-      class="mb-2 flex"
-    >
+    <div v-if="profile.mobile" class="mb-2 flex">
       <div class="card-label">
         Portable
       </div>
@@ -33,10 +24,7 @@
         {{ profile.mobile }}
       </div>
     </div>
-    <div
-      v-if="profile.phone"
-      class="mb-2 flex"
-    >
+    <div v-if="profile.phone" class="mb-2 flex">
       <div class="card-label">
         Téléphone
       </div>
@@ -44,10 +32,7 @@
         {{ profile.phone }}
       </div>
     </div>
-    <div
-      v-if="profile.birthday"
-      class="mb-2 flex"
-    >
+    <div v-if="profile.birthday" class="mb-2 flex">
       <div class="card-label">
         Naissance
       </div>
@@ -55,10 +40,7 @@
         {{ profile.birthday }}
       </div>
     </div>
-    <div
-      v-if="profile.zip"
-      class="mb-2 flex"
-    >
+    <div v-if="profile.zip" class="mb-2 flex">
       <div class="card-label">
         Code postal
       </div>
@@ -71,18 +53,18 @@
 
 <script>
 export default {
-  name: "ProfileInfos",
+  name: 'ProfileInfos',
   props: {
     profile: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
-    return {};
+    return {}
   },
   created() {},
 
-  methods: {}
-};
+  methods: {},
+}
 </script>

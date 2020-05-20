@@ -9,12 +9,12 @@
       </div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl text-gray-800 max-w-3xl">
-          {{ form.name|labelFromValue('mission_domaines') }}
+          {{ form.name | labelFromValue('mission_domaines') }}
         </div>
         <state-tag
           :state="form.state"
           class="relative ml-3"
-          style="top: 1px"
+          style="top: 1px;"
         />
       </div>
     </template>
@@ -27,7 +27,7 @@
       </div>
     </template>
     <div class="flex">
-      <div style="max-width: 600px">
+      <div style="max-width: 600px;">
         <p class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
           Une question? Appelez-nous au
           <span class="font-bold">
@@ -47,11 +47,7 @@
             Informations générales
           </div>
 
-          <el-form-item
-            v-if="form.structure"
-            label="Ma structure"
-            class
-          >
+          <el-form-item v-if="form.structure" label="Ma structure" class>
             <el-input
               v-model="form.structure.name"
               placeholder="Structure de la mission"
@@ -59,10 +55,7 @@
             />
           </el-form-item>
 
-          <el-form-item
-            label="Domaine d'action"
-            prop="name"
-          >
+          <el-form-item label="Domaine d'action" prop="name">
             <item-description>
               Choisissez parmi la liste des missions prioritaires face à la
               crise
@@ -80,10 +73,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item
-            label="Type de mission"
-            prop="type"
-          >
+          <el-form-item label="Type de mission" prop="type">
             <el-select
               v-model="form.type"
               placeholder="Selectionner un type de mission"
@@ -114,10 +104,7 @@
             />
           </el-form-item>
 
-          <el-form-item
-            label="Format de mission"
-            prop="format"
-          >
+          <el-form-item label="Format de mission" prop="format">
             <el-select
               v-model="form.format"
               placeholder="Selectionner un format de mission"
@@ -262,16 +249,11 @@
             </el-form-item>-->
           </div>
 
-          <div
-            class="mt-12 mb-6 flex text-xl text-gray-800"
-          >
+          <div class="mt-12 mb-6 flex text-xl text-gray-800">
             La localisation des publics bénéficiaires
           </div>
 
-          <el-form-item
-            label="Département"
-            prop="department"
-          >
+          <el-form-item label="Département" prop="department">
             <el-select
               v-model="form.department"
               filterable
@@ -291,57 +273,26 @@
             @selected="setAddress"
             @clear="clearAddress"
           />
-          <el-form-item
-            label="Adresse"
-            prop="address"
-          >
-            <el-input
-              v-model="form.address"
-              disabled
-              placeholder="Adresse"
-            />
+          <el-form-item label="Adresse" prop="address">
+            <el-input v-model="form.address" disabled placeholder="Adresse" />
           </el-form-item>
           <div class="flex">
-            <el-form-item
-              label="Code postal"
-              prop="zip"
-              class="flex-1 mr-2"
-            >
-              <el-input
-                v-model="form.zip"
-                disabled
-                placeholder="Code postal"
-              />
+            <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
+              <el-input v-model="form.zip" disabled placeholder="Code postal" />
             </el-form-item>
-            <el-form-item
-              label="Ville"
-              prop="city"
-              class="flex-1"
-            >
-              <el-input
-                v-model="form.city"
-                disabled
-                placeholder="Ville"
-              />
+            <el-form-item label="Ville" prop="city" class="flex-1">
+              <el-input v-model="form.city" disabled placeholder="Ville" />
             </el-form-item>
           </div>
           <div class="flex">
-            <el-form-item
-              label="Latitude"
-              prop="latitude"
-              class="flex-1 mr-2"
-            >
+            <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
               <el-input
                 v-model="form.latitude"
                 disabled
                 placeholder="Latitude"
               />
             </el-form-item>
-            <el-form-item
-              label="Longitude"
-              prop="longitude"
-              class="flex-1"
-            >
+            <el-form-item label="Longitude" prop="longitude" class="flex-1">
               <el-input
                 v-model="form.longitude"
                 disabled
@@ -356,18 +307,15 @@
           <item-description>
             Les notifications lors de la prise de contact d'un volontaire
             concernant cette mission seront envoyées à cette personne.
-            <br>Vous pouvez également
+            <br />Vous pouvez également
             <span
               class="underline cursor-pointer"
               @click="onAddTuteurLinkClicked"
-            >ajouter un nouveau membre</span>
+              >ajouter un nouveau membre</span
+            >
             à votre équipe.
           </item-description>
-          <el-form-item
-            label="Responsable"
-            prop="tuteur_id"
-            class="flex-1"
-          >
+          <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
             <el-select
               v-model="form.tuteur_id"
               placeholder="Sélectionner un responsable"
@@ -381,11 +329,7 @@
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button
-              type="primary"
-              :loading="loading"
-              @click="onSubmit"
-            >
+            <el-button type="primary" :loading="loading" @click="onSubmit">
               Enregistrer
             </el-button>
             <!-- <el-button
@@ -402,7 +346,7 @@
         <div
           v-if="
             form.name ==
-              'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
+            'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
           "
           class="border rounded p-8"
         >
@@ -411,7 +355,7 @@
         <div
           v-if="
             form.name ==
-              'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
+            'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
           "
           class="border rounded p-8"
         >
@@ -420,7 +364,7 @@
         <div
           v-if="
             form.name ==
-              'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
+            'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
           "
           class="border rounded p-8"
         >
@@ -429,53 +373,38 @@
         <div
           v-if="
             form.name ==
-              'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
+            'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
           "
           class="border rounded p-8"
         >
           <SolidariteDeProximite />
         </div>
         <div
-          v-if="
-            form.name ==
-              'soutien_aux_personnes_agees_en_etablissement'
-          "
+          v-if="form.name == 'soutien_aux_personnes_agees_en_etablissement'"
           class="border rounded p-8"
         >
           <SoutienPersonnesAgeesEtablissement />
         </div>
         <div
-          v-if="
-            form.name ==
-              'soutien_scolaire_a_distance'
-          "
+          v-if="form.name == 'soutien_scolaire_a_distance'"
           class="border rounded p-8"
         >
           <SoutienScolaireDistance />
         </div>
         <div
-          v-if="
-            form.name ==
-              'fabrication_distribution_equipements'
-          "
+          v-if="form.name == 'fabrication_distribution_equipements'"
           class="border rounded p-8"
         >
           <FabricationDistributionEquipements />
         </div>
         <div
-          v-if="
-            form.name ==
-              'soutien_mobilisation_sanitaire'
-          "
+          v-if="form.name == 'soutien_mobilisation_sanitaire'"
           class="border rounded p-8"
         >
           <SoutienMobilisationSanitaire />
         </div>
         <div
-          v-if="
-            form.name ==
-              'soutien_reprise_missions_service_public'
-          "
+          v-if="form.name == 'soutien_reprise_missions_service_public'"
           class="border rounded p-8"
         >
           <SoutienRepriseMissionsServicePublic />
@@ -490,25 +419,25 @@ import {
   getMission,
   addMission,
   updateMission,
-  fetchMissions
-} from "@/api/mission";
-import { getStructure } from "@/api/structure";
-import AlgoliaPlacesInput from "@/components/AlgoliaPlacesInput";
-import StateTag from "@/components/StateTag";
-import FormWithAddress from "@/mixins/FormWithAddress";
-import ItemDescription from "@/components/forms/ItemDescription";
-import AideAlimentaireUrgence from "@/components/domaines/AideAlimentaireUrgence";
-import GardeExceptionnelleEnfants from "@/components/domaines/GardeExceptionnelleEnfants";
-import LienPersonnesFragilesIsolees from "@/components/domaines/LienPersonnesFragilesIsolees";
-import SolidariteDeProximite from "@/components/domaines/SolidariteDeProximite";
-import SoutienPersonnesAgeesEtablissement from "@/components/domaines/SoutienPersonnesAgeesEtablissement";
-import SoutienScolaireDistance from "@/components/domaines/SoutienScolaireDistance";
-import FabricationDistributionEquipements from "@/components/domaines/FabricationDistributionEquipements";
-import SoutienMobilisationSanitaire from "@/components/domaines/SoutienMobilisationSanitaire";
-import SoutienRepriseMissionsServicePublic from "@/components/domaines/SoutienRepriseMissionsServicePublic";
+  fetchMissions,
+} from '@/api/mission'
+import { getStructure } from '@/api/structure'
+import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
+import StateTag from '@/components/StateTag'
+import FormWithAddress from '@/mixins/FormWithAddress'
+import ItemDescription from '@/components/forms/ItemDescription'
+import AideAlimentaireUrgence from '@/components/domaines/AideAlimentaireUrgence'
+import GardeExceptionnelleEnfants from '@/components/domaines/GardeExceptionnelleEnfants'
+import LienPersonnesFragilesIsolees from '@/components/domaines/LienPersonnesFragilesIsolees'
+import SolidariteDeProximite from '@/components/domaines/SolidariteDeProximite'
+import SoutienPersonnesAgeesEtablissement from '@/components/domaines/SoutienPersonnesAgeesEtablissement'
+import SoutienScolaireDistance from '@/components/domaines/SoutienScolaireDistance'
+import FabricationDistributionEquipements from '@/components/domaines/FabricationDistributionEquipements'
+import SoutienMobilisationSanitaire from '@/components/domaines/SoutienMobilisationSanitaire'
+import SoutienRepriseMissionsServicePublic from '@/components/domaines/SoutienRepriseMissionsServicePublic'
 
 export default {
-  name: "MissionForm",
+  name: 'MissionForm',
   components: {
     AlgoliaPlacesInput,
     StateTag,
@@ -521,18 +450,18 @@ export default {
     SoutienScolaireDistance,
     FabricationDistributionEquipements,
     SoutienMobilisationSanitaire,
-    SoutienRepriseMissionsServicePublic
+    SoutienRepriseMissionsServicePublic,
   },
   mixins: [FormWithAddress],
   props: {
     structureId: {
       type: Number,
-      default: null
+      default: null,
     },
     id: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -540,30 +469,30 @@ export default {
       canEdit: false,
       mission: {},
       form: {
-        state: "En attente de validation",
-        participations_max: 1
+        state: 'En attente de validation',
+        participations_max: 1,
       },
       rules: {
         name: [
           {
             required: true,
             message: "Veuillez choisir un domaine d'action",
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         format: [
           {
             required: true,
-            message: "Veuillez choisir un format de mission",
-            trigger: "blur"
-          }
+            message: 'Veuillez choisir un format de mission',
+            trigger: 'blur',
+          },
         ],
         type: [
           {
             required: true,
-            message: "Veuillez choisir un type de mission",
-            trigger: "blur"
-          }
+            message: 'Veuillez choisir un type de mission',
+            trigger: 'blur',
+          },
         ],
         // periodicite: [
         //   {
@@ -575,9 +504,9 @@ export default {
         publics_beneficiaires: [
           {
             required: true,
-            message: "Veuillez choisir au moins un public bénéficiaire",
-            trigger: "blur"
-          }
+            message: 'Veuillez choisir au moins un public bénéficiaire',
+            trigger: 'blur',
+          },
         ],
         // publics_volontaires: [
         //   {
@@ -589,180 +518,180 @@ export default {
         description: [
           {
             required: true,
-            message: "Veuillez renseigner un descriptif de la mission",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un descriptif de la mission',
+            trigger: 'blur',
+          },
         ],
         department: [
           {
             required: true,
-            message: "Veuillez sélectionner un département",
-            trigger: "blur"
-          }
+            message: 'Veuillez sélectionner un département',
+            trigger: 'blur',
+          },
         ],
         address: [
           {
             required: true,
-            message: "Veuillez renseigner une adresse",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner une adresse',
+            trigger: 'blur',
+          },
         ],
         city: [
           {
             required: true,
-            message: "Veuillez renseigner un ville",
-            trigger: "blur"
-          }
+            message: 'Veuillez renseigner un ville',
+            trigger: 'blur',
+          },
         ],
         tuteur_id: [
           {
             required: true,
-            message: "Veuillez sélectionner le responsable de la mission",
-            trigger: "blur"
-          }
-        ]
-      }
-    };
+            message: 'Veuillez sélectionner le responsable de la mission',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
   },
   computed: {
     showAskValidation() {
-      return this.$store.getters.contextRole == "responsable" &&
+      return this.$store.getters.contextRole == 'responsable' &&
         (!this.mission.state ||
-          this.mission.state == "Brouillon" ||
-          this.mission.state == "En attente de correction")
+          this.mission.state == 'Brouillon' ||
+          this.mission.state == 'En attente de correction')
         ? true
-        : false;
+        : false
     },
     mode() {
-      return this.id ? "edit" : "add";
-    }
+      return this.id ? 'edit' : 'add'
+    },
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (to.name == "MissionFormEdit") {
-        fetchMissions({ "filter[id][]": vm.id }).then(response => {
+    next((vm) => {
+      if (to.name == 'MissionFormEdit') {
+        fetchMissions({ 'filter[id][]': vm.id }).then((response) => {
           if (response.data.total != 1) {
             vm.$message({
               message: "Vous n'avez pas les droits d'accéder à cette page",
-              type: "error"
-            });
-            next("/403");
+              type: 'error',
+            })
+            next('/403')
           } else {
-            vm.canEdit = true;
+            vm.canEdit = true
           }
-        });
+        })
       } else {
-        vm.canEdit = true;
+        vm.canEdit = true
       }
-    });
+    })
   },
   created() {
     if (this.structureId) {
-      this.$store.commit("setLoading", true);
+      this.$store.commit('setLoading', true)
       getStructure(this.structureId)
-        .then(response => {
-          this.$set(this.form, "structure", response.data);
+        .then((response) => {
+          this.$set(this.form, 'structure', response.data)
           if (
             response.data.members.filter(
-              member => member.id == this.$store.getters.user.profile.id
+              (member) => member.id == this.$store.getters.user.profile.id
             ).length > 0
           ) {
-            this.form.tuteur_id = this.$store.getters.user.profile.id;
+            this.form.tuteur_id = this.$store.getters.user.profile.id
           }
-          this.$store.commit("setLoading", false);
+          this.$store.commit('setLoading', false)
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     } else if (this.id) {
-      this.$store.commit("setLoading", true);
+      this.$store.commit('setLoading', true)
       getMission(this.id)
-        .then(response => {
-          this.form = response.data;
-          this.mission = { ...response.data };
-          this.$store.commit("setLoading", false);
+        .then((response) => {
+          this.form = response.data
+          this.mission = { ...response.data }
+          this.$store.commit('setLoading', false)
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     }
   },
   methods: {
     onAddTuteurLinkClicked() {
       let routeData = this.$router.resolve({
-        name: "StructureMembersAdd",
-        params: { id: this.form.structure.id }
-      });
-      window.open(routeData.href, "_blank");
+        name: 'StructureMembersAdd',
+        params: { id: this.form.structure.id },
+      })
+      window.open(routeData.href, '_blank')
     },
     onAskValidationSubmit() {
-      this.form.state = "En attente de validation";
-      this.addOrUpdateMission();
+      this.form.state = 'En attente de validation'
+      this.addOrUpdateMission()
     },
     onSubmit() {
-      if (this.form.structure && this.form.structure.state == "Validée") {
-        this.form.state = "Validée";
+      if (this.form.structure && this.form.structure.state == 'Validée') {
+        this.form.state = 'Validée'
       }
-      this.addOrUpdateMission();
+      this.addOrUpdateMission()
     },
     addOrUpdateMission() {
-      this.loading = true;
-      this.$refs["missionForm"].validate(valid => {
+      this.loading = true
+      this.$refs['missionForm'].validate((valid) => {
         if (valid) {
           if (this.id) {
             updateMission(this.id, this.form)
               .then(() => {
-                this.loading = false;
-                this.$router.go(-1);
+                this.loading = false
+                this.$router.go(-1)
                 this.$message({
-                  message: "La mission a été mise à jour !",
-                  type: "success"
-                });
+                  message: 'La mission a été mise à jour !',
+                  type: 'success',
+                })
               })
               .catch(() => {
-                this.loading = false;
-              });
+                this.loading = false
+              })
           } else if (this.structureId) {
             addMission(this.structureId, this.form)
               .then(() => {
-                this.loading = false;
-                this.$router.push(`/dashboard/missions`);
+                this.loading = false
+                this.$router.push(`/dashboard/missions`)
                 this.$message({
-                  message: "La mission a été ajoutée !",
-                  type: "success"
-                });
+                  message: 'La mission a été ajoutée !',
+                  type: 'success',
+                })
               })
               .catch(() => {
-                this.loading = false;
-              });
+                this.loading = false
+              })
           }
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
+      })
     },
     handleTypeChanged() {
-      if (this.form.type == "Mission à distance") {
+      if (this.form.type == 'Mission à distance') {
         // this.rules.address[0].required = false;
         // this.rules.city[0].required = false;
       } else {
         this.$confirm(
-          "Merci de bien respecter les règles de sécurités pour les missions en présentiel !<br>",
-          "Confirmation",
+          'Merci de bien respecter les règles de sécurités pour les missions en présentiel !<br>',
+          'Confirmation',
           {
-            confirmButtonText: "Je confirme",
-            cancelButtonText: "Annuler",
-            type: "warning",
+            confirmButtonText: 'Je confirme',
+            cancelButtonText: 'Annuler',
+            type: 'warning',
             center: true,
-            dangerouslyUseHTMLString: true
+            dangerouslyUseHTMLString: true,
           }
-        );
+        )
         // this.rules.address[0].required = true;
         // this.rules.city[0].required = true;
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

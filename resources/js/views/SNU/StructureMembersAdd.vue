@@ -20,10 +20,7 @@
         <div class="mb-6 text-xl text-gray-800">
           Rôle de l'utilisateur
         </div>
-        <el-radio-group
-          v-model="form.role"
-          class="flex flex-col"
-        >
+        <el-radio-group v-model="form.role" class="flex flex-col">
           <!-- <el-radio class="mb-6 flex items-center" label="tuteur">
             <div>Tuteur</div>
             <div class="description">
@@ -31,10 +28,7 @@
               missions.
             </div>
           </el-radio> -->
-          <el-radio
-            class="mb-6 flex items-center"
-            label="responsable"
-          >
+          <el-radio class="mb-6 flex items-center" label="responsable">
             <div>Responsable</div>
             <div class="description">
               Vous pouvez partager vos droits d'administration de votre compte
@@ -47,42 +41,18 @@
         </div>
 
         <div class="flex justify-between">
-          <el-form-item
-            label="Prénom"
-            prop="first_name"
-            class="flex-1 mr-1"
-          >
-            <el-input
-              v-model="form.first_name"
-              placeholder="Prénom"
-            />
+          <el-form-item label="Prénom" prop="first_name" class="flex-1 mr-1">
+            <el-input v-model="form.first_name" placeholder="Prénom" />
           </el-form-item>
-          <el-form-item
-            label="Nom"
-            prop="last_name"
-            class="flex-1 ml-1"
-          >
-            <el-input
-              v-model="form.last_name"
-              placeholder="Nom de famille"
-            />
+          <el-form-item label="Nom" prop="last_name" class="flex-1 ml-1">
+            <el-input v-model="form.last_name" placeholder="Nom de famille" />
           </el-form-item>
         </div>
-        <el-form-item
-          label="Email"
-          prop="email"
-        >
-          <el-input
-            v-model.trim="form.email"
-            placeholder="Email"
-          />
+        <el-form-item label="Email" prop="email">
+          <el-input v-model.trim="form.email" placeholder="Email" />
         </el-form-item>
         <div class="flex pt-2">
-          <el-button
-            type="primary"
-            :loading="loading"
-            @click="onSubmit"
-          >
+          <el-button type="primary" :loading="loading" @click="onSubmit">
             Ajouter un membre
           </el-button>
         </div>
@@ -92,97 +62,97 @@
 </template>
 
 <script>
-import { getStructure, inviteStructureMember } from "@/api/structure";
+import { getStructure, inviteStructureMember } from '@/api/structure'
 
 export default {
-  name: "StructureMembersAdd",
+  name: 'StructureMembersAdd',
   props: {
     id: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
-        callback(new Error("Merci de ne saisir que des minuscules"));
+        callback(new Error('Merci de ne saisir que des minuscules'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       structure: {},
       form: {
-        role: "responsable"
+        role: 'responsable',
       },
       rules: {
         email: [
           {
-            type: "email",
+            type: 'email',
             message: "Le format de l'email n'est pas correct",
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             required: true,
-            message: "Veuillez renseigner votre email",
-            trigger: "blur"
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' }
+          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {
             required: true,
-            message: "Prénom obligatoire",
-            trigger: "blur"
-          }
+            message: 'Prénom obligatoire',
+            trigger: 'blur',
+          },
         ],
         last_name: [
           {
             required: true,
-            message: "Nom obligatoire",
-            trigger: "blur"
-          }
-        ]
+            message: 'Nom obligatoire',
+            trigger: 'blur',
+          },
+        ],
       },
-      loading: false
-    };
+      loading: false,
+    }
   },
   created() {
-    this.$store.commit("setLoading", true);
+    this.$store.commit('setLoading', true)
     getStructure(this.id)
-      .then(response => {
-        this.$store.commit("setLoading", false);
-        this.structure = response.data;
+      .then((response) => {
+        this.$store.commit('setLoading', false)
+        this.structure = response.data
       })
       .catch(() => {
-        this.$store.commit("setLoading", false);
-      });
+        this.$store.commit('setLoading', false)
+      })
   },
   methods: {
     onSubmit() {
-      this.loading = true;
-      this.$refs["structureMembersAdd"].validate(valid => {
+      this.loading = true
+      this.$refs['structureMembersAdd'].validate((valid) => {
         if (valid) {
           inviteStructureMember(this.id, this.form)
             .then(() => {
-              this.loading = false;
-              this.$router.push(`/dashboard/structure/${this.id}/members`);
+              this.loading = false
+              this.$router.push(`/dashboard/structure/${this.id}/members`)
               this.$message({
                 dangerouslyUseHTMLString: true,
                 message: `${this.form.first_name} ${this.form.last_name} fait maintenant partie de votre équipe. Une notification email lui a été envoyé.`,
-                type: "success"
-              });
+                type: 'success',
+              })
             })
             .catch(() => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          this.loading = false;
+          this.loading = false
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="sass" scoped>

@@ -9,22 +9,16 @@
         {{ label }}
       </div>
       <template v-if="data">
-        <div
-          v-if="data"
-          class="count text-primary font-medium text-2xl"
-        >
-          {{ data.total|formatNumber }}
+        <div v-if="data" class="count text-primary font-medium text-2xl">
+          {{ data.total | formatNumber }}
         </div>
-        <div
-          v-if="data"
-          class="flex flex-wrap"
-        >
+        <div v-if="data" class="flex flex-wrap">
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">
               En attente
             </div>
             <div class>
-              {{ data.waiting|formatNumber }}
+              {{ data.waiting | formatNumber }}
             </div>
           </div>
           <div class="mr-6 mt-6">
@@ -32,7 +26,7 @@
               Validées
             </div>
             <div class>
-              {{ data.validated|formatNumber }}
+              {{ data.validated | formatNumber }}
             </div>
           </div>
           <div class="mr-6 mt-6">
@@ -40,7 +34,7 @@
               Signalées
             </div>
             <div class>
-              {{ data.signaled|formatNumber }}
+              {{ data.signaled | formatNumber }}
             </div>
           </div>
         </div>
@@ -53,39 +47,39 @@
 </template>
 
 <script>
-import { statistics } from "../api/app";
+import { statistics } from '../api/app'
 export default {
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     link: {
       type: String,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      data: null
-    };
+      data: null,
+    }
   },
   created() {
-    statistics(this.name).then(response => {
-      this.data = response.data;
-    });
+    statistics(this.name).then((response) => {
+      this.data = response.data
+    })
   },
   methods: {
     onClick() {
-      if (this.link && this.$store.getters.contextRole != "analyste") {
-        this.$router.push(this.link);
+      if (this.link && this.$store.getters.contextRole != 'analyste') {
+        this.$router.push(this.link)
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>

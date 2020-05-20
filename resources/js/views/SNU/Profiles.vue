@@ -3,16 +3,13 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters["user/contextRoleLabel"] }}
+          {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
           Utilisateurs
         </div>
       </div>
-      <div
-        v-if="$store.getters.contextRole === 'admin'"
-        class=""
-      >
+      <div v-if="$store.getters.contextRole === 'admin'" class="">
         <el-dropdown>
           <el-button type="primary">
             <i class="el-icon-plus mr-1" /> Inviter un utilisateur
@@ -29,7 +26,10 @@
               <el-dropdown-item>Référent départemental</el-dropdown-item>
             </router-link>
             <router-link
-              :to="{ name: 'ProfileFormAdd', params: { role: 'referent_regional' } }"
+              :to="{
+                name: 'ProfileFormAdd',
+                params: { role: 'referent_regional' },
+              }"
             >
               <el-dropdown-item>Référent régional</el-dropdown-item>
             </router-link>
@@ -50,11 +50,7 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge
-          v-if="activeFilters"
-          :value="activeFilters"
-          type="primary"
-        >
+        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
           <el-button
             icon="el-icon-s-operation"
             class="ml-4"
@@ -72,10 +68,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div
-        v-if="showFilters"
-        class="flex flex-wrap"
-      >
+      <div v-if="showFilters" class="flex flex-wrap">
         <query-filter
           name="role"
           label="Rôle"
@@ -90,11 +83,11 @@
           multiple
           :value="query['filter[referent_department]']"
           :options="
-            $store.getters.taxonomies.departments.terms.map(term => {
+            $store.getters.taxonomies.departments.terms.map((term) => {
               return {
                 label: `${term.value} - ${term.label}`,
-                value: term.value
-              };
+                value: term.value,
+              }
             })
           "
           @changed="onFilterChange"
@@ -107,20 +100,14 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column
-        width="70"
-        align="center"
-      >
+      <el-table-column width="70" align="center">
         <template slot-scope="scope">
           <el-avatar class="bg-primary">
             {{ scope.row.short_name }}
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column
-        label="Email"
-        min-width="320"
-      >
+      <el-table-column label="Email" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.full_name }}
@@ -130,20 +117,13 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        label="Roles"
-        min-width="200"
-      >
+      <el-table-column label="Roles" min-width="200">
         <template slot-scope="scope">
           <profile-roles-tags :profile="scope.row" />
         </template>
       </el-table-column>
 
-      <el-table-column
-        prop="created_at"
-        label="Crée le"
-        min-width="120"
-      >
+      <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">
           {{ scope.row.created_at | fromNow }}
         </template>
@@ -178,11 +158,7 @@
             v-else
             :to="{ name: 'ProfileFormEdit', params: { id: scope.row.id } }"
           >
-            <el-button
-              icon="el-icon-edit"
-              size="mini"
-              class="m-1"
-            >
+            <el-button icon="el-icon-edit" size="mini" class="m-1">
               Modifier
             </el-button>
           </router-link>
@@ -202,11 +178,7 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
-        <el-button
-          icon="el-icon-download"
-          size="small"
-          @click="onExport"
-        >
+        <el-button icon="el-icon-download" size="small" @click="onExport">
           Export
         </el-button>
       </div>
@@ -218,71 +190,74 @@
 </template>
 
 <script>
-import { fetchProfiles, exportProfiles } from "@/api/user";
-import TableWithVolet from "@/mixins/TableWithVolet";
-import TableWithFilters from "@/mixins/TableWithFilters";
-import QueryFilter from "@/components/QueryFilter.vue";
-import QueryMainSearchFilter from "@/components/QueryMainSearchFilter.vue";
-import ProfileVolet from "@/layout/components/Volet/ProfileVolet.vue";
-import ProfileRolesTags from "@/components/ProfileRolesTags.vue";
-import fileDownload from "js-file-download";
+import { fetchProfiles, exportProfiles } from '@/api/user'
+import TableWithVolet from '@/mixins/TableWithVolet'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import QueryFilter from '@/components/QueryFilter.vue'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
+import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
+import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
+import fileDownload from 'js-file-download'
 
 export default {
-  name: "Profiles",
+  name: 'Profiles',
   components: {
     ProfileRolesTags,
     ProfileVolet,
     QueryFilter,
-    QueryMainSearchFilter
+    QueryMainSearchFilter,
   },
   mixins: [TableWithVolet, TableWithFilters],
   data() {
     return {
       loading: true,
       tableData: [],
-      totalRows: 0
-    };
+      totalRows: 0,
+    }
   },
   computed: {
-    rolesList(){
-      if(this.$store.getters.contextRole == 'admin' || this.$store.getters.contextRole == 'analyste') {
+    rolesList() {
+      if (
+        this.$store.getters.contextRole == 'admin' ||
+        this.$store.getters.contextRole == 'analyste'
+      ) {
         return [
-            { label: 'Modérateur', value: 'admin' },
-            { label: 'Superviseur', value: 'superviseur' },
-            { label: 'Analyste', value: 'analyste' },
-            { label: 'Référent départemental', value: 'referent' },
-            { label: 'Référent régional', value: 'referent_regional' },
-            { label: 'Responsable', value: 'responsable' },
-            { label: 'Volontaire', value: 'volontaire' },
-          ]
+          { label: 'Modérateur', value: 'admin' },
+          { label: 'Superviseur', value: 'superviseur' },
+          { label: 'Analyste', value: 'analyste' },
+          { label: 'Référent départemental', value: 'referent' },
+          { label: 'Référent régional', value: 'referent_regional' },
+          { label: 'Responsable', value: 'responsable' },
+          { label: 'Volontaire', value: 'volontaire' },
+        ]
       } else {
         return [
-            { label: 'Responsable', value: 'responsable' },
-            { label: 'Volontaire', value: 'volontaire' },
-          ]
+          { label: 'Responsable', value: 'responsable' },
+          { label: 'Volontaire', value: 'volontaire' },
+        ]
       }
-    }
+    },
   },
   methods: {
     fetchRows() {
-      return fetchProfiles(this.query);
+      return fetchProfiles(this.query)
     },
     handleCommand(command) {
-      if (command.action == "impersonate") {
-        this.$store.dispatch("auth/impersonate", command.id);
+      if (command.action == 'impersonate') {
+        this.$store.dispatch('auth/impersonate', command.id)
       }
     },
     onExport() {
-      this.loading = true;
+      this.loading = true
       exportProfiles(this.query)
-        .then(response => {
-          this.loading = false;
-          fileDownload(response.data, "utilisateurs.xlsx");
+        .then((response) => {
+          this.loading = false
+          fileDownload(response.data, 'utilisateurs.xlsx')
         })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
-};
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  },
+}
 </script>

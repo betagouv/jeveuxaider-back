@@ -1,5 +1,5 @@
-import request from "../utils/request";
+import request from '../utils/request'
 
 export function fetchReleases() {
-  return request.get("/api/releases");
+  return request.get('/api/releases')
 }
