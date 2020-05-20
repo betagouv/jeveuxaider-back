@@ -104,6 +104,10 @@ export function getCollectivity(id) {
   return request.get(`/api/collectivity/${id}`);
 }
 
+export function getCollectivityStatistics(id) {
+  return request.get(`/api/collectivity/${id}/statistics`);
+}
+
 export function fetchCollectivities(params) {
   return request.get("/api/collectivities", { params });
 }

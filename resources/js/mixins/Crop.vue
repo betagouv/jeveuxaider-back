@@ -20,7 +20,6 @@ export default {
   },
   computed: {
     imgPreview() {
-      console.log('imgPreview', this.form.image)
       return this.cropImgSrc ? this.cropImgSrc :
       this.imgSrc ? this.imgSrc :
       (this.form.image && this.form.image.thumb) ? this.form.image.thumb : this.form.image

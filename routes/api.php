@@ -28,6 +28,7 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
+Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
 Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 
 Route::group(['middleware' => ['auth:api']], function () {
