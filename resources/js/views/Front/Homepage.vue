@@ -157,8 +157,8 @@
                   Lien avec les personnes fragiles isolées.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
-                  Je participe à maintenir le lien téléphone, visio, mail...
-                  avec des personnes fragiles isolées.
+                  Je participe à maintenir le lien avec des personnes fragiles
+                  isolées.
                 </p>
               </div>
             </div>
@@ -189,7 +189,7 @@
                   Soutien scolaire.
                 </h5>
                 <p class="mt-2 text-base leading-6 text-gray-500">
-                  J’aide à distance les élèves à faire leurs devoirs.
+                  J’aide les élèves à faire leurs devoirs.
                 </p>
               </div>
             </div>
