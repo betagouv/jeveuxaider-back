@@ -46,6 +46,7 @@ export default {
     this.$store.commit('setLoading', true)
     getMission(this.id).then((response) => {
       this.mission = response.data
+      this.mission.tags = response.data.tags.map(tag => tag.name.fr)
       this.$store.commit('setLoading', false)
     })
   },

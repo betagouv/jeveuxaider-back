@@ -12,7 +12,7 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          Texte pour sensibiliser aux Réserves Thématiques ?
+          Ce choix permet de classifier votre mission au sein des réserves thématiques
         </div>
       </div>
       <div class="flex flex-wrap">
@@ -202,6 +202,7 @@ export default {
         name: 'MissionFormAdd',
         params: {
           mission: {
+            domaine_id: template ? null : this.domaine_id,
             template_id: template ? template.id : null,
             template: template || null,
             state: template ? 'Validée' : 'En attente de validation', // TODO : cette logique devrait être côté PHP setState()

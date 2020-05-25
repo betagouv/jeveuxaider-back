@@ -102,7 +102,7 @@
               <el-input v-model="form.name" placeholder="Titre" />
             </el-form-item>
             <el-form-item
-              label="Domaine d'action"
+              label="Domaine d'action principal"
               prop="domaine_id"
               class="flex-1"
             >
@@ -509,8 +509,6 @@ export default {
   created() {
     fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
-      console.log('domaines', this.domaines)
-      console.log('mission form', this.form)
     })
   },
   async beforeRouteEnter(to, from, next) {
