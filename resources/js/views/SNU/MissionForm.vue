@@ -506,6 +506,9 @@ export default {
   created() {
     fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
+
+      console.log('domaines', this.domaines)
+      console.log('mission form', this.form)
     })
   },
   async beforeRouteEnter(to, from, next) {
@@ -542,13 +545,11 @@ export default {
             updateMission(this.id, this.form)
               .then(res => {
                 this.loading = false
-                console.log(res.data)
-                
-                // this.$router.go(-1)
-                // this.$message({
-                //   message: 'La mission a été mise à jour !',
-                //   type: 'success',
-                // })
+                this.$router.go(-1)
+                this.$message({
+                  message: 'La mission a été mise à jour !',
+                  type: 'success',
+                })
               })
               .catch(() => {
                 this.loading = false

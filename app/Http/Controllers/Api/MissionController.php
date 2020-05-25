@@ -45,18 +45,16 @@ class MissionController extends Controller
 
     public function show(Request $request, Int $id)
     {
-        return Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine'])->where('id', $id)->first();
+        return Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'tags'])->where('id', $id)->first();
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
         $mission->update($request->validated());
 
-        // if($request->has('tags')) {
-        //     foreach($request->input('tags') as $tag){
-        //         $mission->syncTags($request->input('tags'));
-        //     }
-        // }
+        if ($request->has('tags')) {
+            $mission->syncTagsWithType($request->input('tags'), 'domaine');
+        }
 
         return $mission;
     }

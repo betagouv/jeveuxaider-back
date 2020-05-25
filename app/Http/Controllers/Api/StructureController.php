@@ -156,10 +156,6 @@ class StructureController extends Controller
 
     public function addMission(MissionCreateRequest $request, Structure $structure)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
         $mission = $structure->addMission(array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]));
 
         return $mission;
