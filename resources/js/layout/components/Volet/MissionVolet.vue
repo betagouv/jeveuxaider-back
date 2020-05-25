@@ -221,15 +221,20 @@ export default {
       }
     },
     onAskValidationSubmit() {
-      if (this.form.structure.state == 'Validée') {
-        this.form.state = 'Validée'
-        this.onSubmit()
-      } else {
+      if (this.form.structure.state != 'Validée') {
         this.$message({
           type: 'error',
           message:
             'Votre structure doit être validée avant de pouvoir publier une mission',
         })
+        
+      } else {
+        if(this.form.template_id) {
+          this.form.state = 'Validée'
+        } else {
+          this.form.state = 'En attente de validation'
+        }
+        this.onSubmit()
       }
     },
     onSubmit() {

@@ -84,7 +84,7 @@
             plain
             type="primary"
             size="medium"
-            class="ml-auto h-full"
+            class="ml-3 h-full"
             @click="handleSelectTemplate(template)"
             >Choisir</el-button
           >

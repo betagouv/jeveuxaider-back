@@ -28,6 +28,7 @@
               <el-button
                 plain
                 type="primary"
+                class="ml-3"
                 @click.prevent="modalVisible = true"
                 >Détails</el-button
               >
