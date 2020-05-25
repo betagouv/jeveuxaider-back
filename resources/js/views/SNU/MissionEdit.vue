@@ -16,7 +16,7 @@
       ></state-tag>
     </div>
 
-    <MissionForm :mission="mission" />
+    <MissionForm :mission="mission" :structureId="mission.structure_id" />
   </div>
 </template>
 

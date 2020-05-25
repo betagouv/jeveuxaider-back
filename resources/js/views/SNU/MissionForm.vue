@@ -352,10 +352,9 @@
             Les notifications lors de la prise de contact d'un volontaire
             concernant cette mission seront envoyées à cette personne.
             <br />Vous pouvez également
-            <span
+            <router-link target= '_blank' :to="{name: 'StructureMembersAdd', params: {id: this.structureId }}"
               class="underline cursor-pointer"
-              @click="onAddTuteurLinkClicked"
-              >ajouter un nouveau membre</span
+              >ajouter un nouveau membre</router-link
             >
             à votre équipe.
           </item-description>
@@ -389,7 +388,7 @@
 </template>
 
 <script>
-import { addMission, updateMission, fetchMissions } from '@/api/mission'
+import { addStructureMission, updateMission, fetchMissions } from '@/api/mission'
 import { fetchTags } from '@/api/app'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
@@ -403,6 +402,10 @@ export default {
   },
   mixins: [FormWithAddress],
   props: {
+    structureId: {
+      type: Number,
+      default: null,
+    },
     mission: {
       type: Object,
       default: null,
@@ -506,7 +509,6 @@ export default {
   created() {
     fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
-
       console.log('domaines', this.domaines)
       console.log('mission form', this.form)
     })
@@ -527,13 +529,6 @@ export default {
     })
   },
   methods: {
-    onAddTuteurLinkClicked() {
-      let routeData = this.$router.resolve({
-        name: 'StructureMembersAdd',
-        params: { id: this.form.structure.id },
-      })
-      window.open(routeData.href, '_blank')
-    },
     onSubmit() {
       this.addOrUpdateMission()
     },
@@ -541,8 +536,8 @@ export default {
       this.loading = true
       this.$refs['missionForm'].validate((valid) => {
         if (valid) {
-          if (this.id) {
-            updateMission(this.id, this.form)
+          if (this.mission.id) {
+            updateMission(this.mission.id, this.form)
               .then(res => {
                 this.loading = false
                 this.$router.go(-1)
@@ -554,8 +549,8 @@ export default {
               .catch(() => {
                 this.loading = false
               })
-          } else if (this.form.structure_id) {
-            addMission(this.form.structure_id, this.form)
+          } else if (this.structureId) {
+            addStructureMission(this.structureId, this.form)
               .then(() => {
                 this.loading = false
                 this.$router.push(`/dashboard/missions`)

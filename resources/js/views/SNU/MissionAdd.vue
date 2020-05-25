@@ -131,7 +131,7 @@
     </div>
 
     <!-- STEP 3 : formulaire -->
-    <MissionForm v-else :mission="mission" />
+    <MissionForm v-else :mission="mission" :structureId="structureId" />
   </div>
 </template>
 
