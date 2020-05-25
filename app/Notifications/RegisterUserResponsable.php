@@ -43,7 +43,7 @@ class RegisterUserResponsable extends Notification
             ->subject('Votre compte a été validé')
             ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
             ->line('Vous vous êtes inscrit sur la plateforme de dépôt de missions de la Réserve Civique.')
-            ->line('Vous pouvez désormais ajouter la structure dans laquelle vous êtes investis et proposer des missions de volontariat dans le cadre de la crise sanitaire.')
+            ->line('Vous pouvez désormais ajouter la structure dans laquelle vous êtes investis et proposer des missions de volontariat.')
             ->action('Ajouter une structure', url(config('app.url')));
     }
 

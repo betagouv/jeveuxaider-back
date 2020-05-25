@@ -47,11 +47,10 @@ class MissionWaitingCorrection extends Notification
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
             ->subject('Vous devez modifier votre mission')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Vous avez déposé une proposition de mission dans le cadre de la crise sanitaire et nous vous en remercions.')
+            ->line('Vous avez déposé une proposition de mission et nous vous en remercions.')
             ->line('Néanmoins, nous n’avons pu valider votre mission.')
             ->line('Nous vous invitons à modifier en conséquence votre mission et la proposer à nouveau pour validation.')
             ->action('Modifier la mission', url(config('app.url') . '/mission/' . $this->mission->id . '/edit'))

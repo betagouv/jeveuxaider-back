@@ -55,7 +55,7 @@
                                     <div class="m-2 min-w-0 flex-shrink">
                                       <div
                                         class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                                        v-text="item.type"
+                                        v-text="item.domaine_name"
                                       />
                                       <div
                                         class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"

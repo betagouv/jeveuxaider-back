@@ -127,9 +127,7 @@
             >
               <item-description>
                 Décrivez précisément la mission (contexte, objectifs,
-                bénéficiaires, activités, utilité, ressources...). Celle-ci doit
-                être conforme aux règles sanitaires et aux directives du
-                gouvernement.
+                bénéficiaires, activités, utilité, ressources...).
               </item-description>
               <el-input
                 v-model="form.objectif"

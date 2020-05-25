@@ -50,22 +50,22 @@ class ProfileInvitationSent extends Notification
 
         if ($this->role == 'referent') {
             $message
-                ->line($this->user->profile->full_name . ' vous invite à devenir le référent du département ' . $notifiable->referent_department. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
+                ->line($this->user->profile->full_name . ' vous invite à devenir le référent du département ' . $notifiable->referent_department. ' sur la plateforme de dépôts de missions de la Réserve Civique.');
         }
 
         if ($this->role == 'referent_regional') {
             $message
-                ->line($this->user->profile->full_name . ' vous invite à devenir le référent de la région ' . $notifiable->referent_region. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
+                ->line($this->user->profile->full_name . ' vous invite à devenir le référent de la région ' . $notifiable->referent_region. ' sur la plateforme de dépôts de missions de la Réserve Civique.');
         }
 
         if ($this->role == 'superviseur') {
             $message
-                ->line($this->user->profile->full_name . ' vous invite à devenir le superviseur du réseau ' . $notifiable->reseau->name. ' sur la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
+                ->line($this->user->profile->full_name . ' vous invite à devenir le superviseur du réseau ' . $notifiable->reseau->name. ' sur la plateforme de dépôts de missions de la Réserve Civique.');
         }
 
         if ($this->role == 'analyste') {
             $message
-                ->line($this->user->profile->full_name . ' vous invite à accéder au tableau de bord de la plateforme de dépôts de missions dédiée à la crise sanitaire du Covid-19.');
+                ->line($this->user->profile->full_name . ' vous invite à accéder au tableau de bord de la plateforme de dépôts de missions de la Réserve Civique.');
         }
 
         if (!$notifiable->user) {
