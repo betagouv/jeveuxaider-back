@@ -45,7 +45,7 @@ class MissionController extends Controller
 
     public function show(Request $request, Int $id)
     {
-        return Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'tags'])->where('id', $id)->first();
+        return Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags'])->where('id', $id)->first();
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)
