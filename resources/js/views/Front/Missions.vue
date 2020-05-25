@@ -108,11 +108,33 @@
               </ais-menu-select>
               <ais-menu-select
                 class="flex-1"
-                attribute="domaine_action"
+                attribute="template_title"
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.domaine_action"
+                  v-model="filters.template_title"
+                  slot-scope="{ items, canRefine, refine }"
+                  :disabled="!canRefine"
+                  placeholder="Modèles"
+                  popper-class="domaines-actions"
+                  @change="handleFilters(refine, $event)"
+                >
+                  <el-option
+                    v-for="item in items"
+                    :key="item.value"
+                    :label="`${item.label} (${item.count})`"
+                    :selected="item.isRefined"
+                    :value="item.value"
+                  />
+                </el-select>
+              </ais-menu-select>
+              <ais-menu-select
+                class="flex-1"
+                attribute="domaine_name"
+                :transform-items="transformItems"
+              >
+                <el-select
+                  v-model="filters.domaine_name"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
                   placeholder="Domaines d'actions"
@@ -122,9 +144,7 @@
                   <el-option
                     v-for="item in items"
                     :key="item.value"
-                    :label="`${$options.filters.cleanDomaineAction(
-                      item.label
-                    )} (${item.count})`"
+                    :label="`${item.label} (${item.count})`"
                     :selected="item.isRefined"
                     :value="item.value"
                   />
@@ -176,11 +196,7 @@
                             >
                               <img
                                 class=""
-                                :src="
-                                  $options.filters.domainIcon(
-                                    item.domaine_action
-                                  )
-                                "
+                                :src="item.domaine_image"
                                 style="width: 28px;"
                               />
                             </div>
@@ -427,6 +443,7 @@ export default {
         query: null,
         department_name: null,
         domaine_action: null,
+        template_title: null,
       },
       forceWrite: false,
       routing: {

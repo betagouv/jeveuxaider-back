@@ -5,7 +5,8 @@
     <div class="bg-blue-900 pb-32">
       <div v-if="!loading" class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">{{ mission.name }}</h1>
+          <h1 v-if="mission.has_places_left" class="text-3xl font-bold text-white">Mission disponible</h1>
+          <h1 v-else class="text-3xl font-bold text-white">Mission complète</h1>
         </div>
         <div class="my-4 flex">
           <span v-if="mission.template" class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3">{{ mission.template.domaine.name.fr }}</span>
@@ -25,12 +26,10 @@
           <div class="bg-white rounded-lg shadow-lg">
             <div class="lg:flex">
               <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
-
-                <!-- <h3
+                <h3
                   class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
-                >{{ mission.name }}</h3> -->
-
-                <div class="">
+                >{{ mission.name }}</h3>
+                <div class="mt-8">
                   <div
                     class="flex flex-wrap justify-center sm:justify-start items-center text-center sm:text-left"
                   >
@@ -91,28 +90,10 @@
                   >{{ mission.type }}</span>
                 </div>
 
-                 <!-- <div class="mt-12">
-                  <div class="flex items-center">
-                    <h4
-                      class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >Domaine d'action</h4>
-                    <div class="flex-1 border-t-2 border-gray-200" />
-                  </div>
-                  <div class="mt-8 flex">
-                    <span v-if="mission.template" class="bg-blue-900 text-white rounded p-2 mr-2">{{ mission.template.domaine.name.fr }}</span>
-                    <span v-else class="bg-blue-900 text-white rounded p-2 mr-2">{{ mission.domaine.name.fr }}</span>
-                    <template v-if="mission.tags">
-                      <span v-for="tag in mission.tags" class="bg-secondary rounded p-2 mr-2">
-                        {{ tag.name.fr }}
-                      </span>
-                    </template>
-                  </div>
-                 </div> -->
-
                 <div class="mt-12">
                   <div class="flex items-center">
                     <h4
-                      class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >Objectif de la mission</h4>
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
@@ -122,7 +103,7 @@
                 <div class="mt-12">
                   <div class="flex items-center">
                     <h4
-                      class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >Description de la mission et règles à appliquer impérativement</h4>
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
@@ -132,7 +113,7 @@
                 <div class="mt-16">
                   <div class="flex items-center">
                     <h4
-                      class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >Publics bénéficiaires</h4>
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>

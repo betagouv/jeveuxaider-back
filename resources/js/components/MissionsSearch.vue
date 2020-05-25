@@ -44,11 +44,7 @@
                                 >
                                   <img
                                     class
-                                    :src="
-                                      $options.filters.domainIcon(
-                                        item.domaine_action
-                                      )
-                                    "
+                                    :src="item.domaine_image"
                                     style="width: 28px;"
                                   />
                                 </div>
