@@ -411,7 +411,7 @@
                     <img
                       v-if="otherMission.template"
                       class
-                      :src="otherMission.template.domaine.image"
+                      :src="otherMission.template.image"
                       style="width: 28px;"
                     />
                     <img
@@ -534,7 +534,6 @@ export default {
   created() {
     getMission(this.id)
       .then((response) => {
-        console.log('mission', response.data)
         this.form = response.data
         this.mission = { ...response.data }
         this.loading = false
