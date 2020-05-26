@@ -80,12 +80,13 @@
           </div>
           <item-description>
             Vous pouvez sélectionner le statut de la mission. A noter que des
-            notifications emails seront envoyées.
+            notifications emails seront envoyées .
           </item-description>
           <el-form-item label="Statut" prop="state" class="flex-1">
             <el-select v-model="form.state" placeholder="Statut">
               <el-option
                 v-for="item in statesAvailable"
+                :key="item.label"
                 :label="item.value"
                 :value="item.label"
               />
