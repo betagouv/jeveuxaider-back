@@ -16,7 +16,7 @@
     <div class="mt-8 border-t border-gray-200 pt-8" />
     <div>
       <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Engagez-vous dans la lutte contre l’épidémie
+        Engagez-vous pour faire vivre les valeurs de la République
       </h3>
       <p class="mt-1 text-sm leading-5 text-gray-500">
         <router-link to="/regles-de-securite">

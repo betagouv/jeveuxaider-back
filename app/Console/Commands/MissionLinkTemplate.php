@@ -46,7 +46,7 @@ class MissionLinkTemplate extends Command
             if ($template) {
                 $count = Mission::where('name', $key)->count();
                 Mission::where('name', $key)->update([
-                    // 'name' => null,
+                    'name' => null,
                     'template_id' => $template->id,
                 ]);
                 $this->info($count . ' missions(s) has been linked to template : ' . $template->title);
@@ -62,20 +62,26 @@ class MissionLinkTemplate extends Command
             case "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis":
                 $id = 1;
                 break;
+            case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
+                $id = 2;
+                break;
             case "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance":
                 $id = 3;
                 break;
             case "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)":
                 $id = 4;
                 break;
-            case "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.":
-                $id = 2;
+            case "fabrication_distribution_equipements":
+                $id = 5;
                 break;
             case "soutien_scolaire_a_distance":
                 $id = 6;
                 break;
-            case "fabrication_distribution_equipements":
-                $id = 5;
+            case "soutien_mobilisation_sanitaire":
+                $id = 7;
+                break;
+            case "soutien_reprise_missions_service_public":
+                $id = 8;
                 break;
         }
 
