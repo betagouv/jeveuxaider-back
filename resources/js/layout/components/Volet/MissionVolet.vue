@@ -86,7 +86,6 @@
             <el-select v-model="form.state" placeholder="Statut">
               <el-option
                 v-for="item in statesAvailable"
-                :key="item.label"
                 :label="item.value"
                 :value="item.label"
               />
@@ -253,9 +252,11 @@ export default {
           message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} volontaire(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées et une notification d'annulation sera envoyée aux volontaires initialement inscrits.`
         }
 
+         
+
         this.$confirm(message, 'Confirmation', {
           confirmButtonText: 'Je confirme',
-          cancelButtonText: 'Annuler',
+          cancelButtonText: 'Annuler'  ,
           type: 'warning',
           center: true,
           dangerouslyUseHTMLString: true,
