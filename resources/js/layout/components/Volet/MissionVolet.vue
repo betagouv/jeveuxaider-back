@@ -86,9 +86,7 @@
             <el-select v-model="form.state" placeholder="Statut">
               <el-option
                 v-for="item in statesAvailable"
-
                 :label="item.value"
-
                 :value="item.label"
               />
             </el-select>
