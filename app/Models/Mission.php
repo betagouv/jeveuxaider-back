@@ -87,7 +87,7 @@ class Mission extends Model
             'type' => $this->type,
             'template_title' => $this->template ? $this->template->title : null,
             'domaine_name' => $this->template ? $this->template->domaine->name : $this->domaine->name,
-            'domaine_image' => $this->template ? $this->template->domaine->image : $this->domaine->image,
+            'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
         ];
 
         if ($this->latitude && $this->longitude) {
