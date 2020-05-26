@@ -271,7 +271,8 @@ export default {
       ),
       filters: {
         department_name: null,
-        domaine_action: null,
+        domaine_name: null,
+        template_title: null,
       },
     }
   },
@@ -292,7 +293,8 @@ export default {
     handleResetFilters(refine) {
       refine()
       this.filters.department_name = null
-      this.filters.domaine_action = null
+      this.filters.domaine_name = null
+      this.filters.template_title = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
       let begin = page * hitsPerPage + 1
