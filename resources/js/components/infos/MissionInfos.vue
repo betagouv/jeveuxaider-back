@@ -82,12 +82,12 @@
         {{ mission.participations_max }}
       </div>
     </div>
-    <div v-if="mission.description" class="mb-2 flex">
+    <div v-if="mission.information" class="mb-2 flex">
       <div class="card-label">
-        Détails
+        Infos
       </div>
       <div class="text-gray-900 flex-1">
-        {{ mission.description }}
+        {{ mission.information }}
       </div>
     </div>
   </div>
