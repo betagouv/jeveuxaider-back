@@ -16,7 +16,7 @@
       ></state-tag>
     </div>
 
-    <MissionForm :mission="mission" :structureId="mission.structure_id" />
+    <MissionForm :mission="mission" :structure-id="mission.structure_id" />
   </div>
 </template>
 
@@ -46,7 +46,7 @@ export default {
     this.$store.commit('setLoading', true)
     getMission(this.id).then((response) => {
       this.mission = response.data
-      this.mission.tags = response.data.tags.map(tag => tag.name.fr)
+      this.mission.tags = response.data.tags.map((tag) => tag.name.fr)
       this.$store.commit('setLoading', false)
     })
   },

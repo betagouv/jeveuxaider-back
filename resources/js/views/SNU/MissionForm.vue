@@ -181,14 +181,14 @@
             </el-select>
           </el-form-item>
 
-           <el-form-item label="Tags" prop="tags">
+          <el-form-item label="Tags" prop="tags">
             <el-select
               v-model="form.tags"
               filterable
               multiple
               placeholder="Selectionner les tags"
             >
-             <el-option
+              <el-option
                 v-for="domaine in domaines"
                 :key="domaine.id"
                 :label="domaine.name.fr"
@@ -351,10 +351,16 @@
             Les notifications lors de la prise de contact d'un volontaire
             concernant cette mission seront envoyées à cette personne.
             <br />Vous pouvez également
-            <router-link target= '_blank' :to="{name: 'StructureMembersAdd', params: {id: this.structureId }}"
+            <router-link
+              target="_blank"
+              :to="{
+                name: 'StructureMembersAdd',
+                params: { id: structureId },
+              }"
               class="underline cursor-pointer"
-              >ajouter un nouveau membre</router-link
             >
+              ajouter un nouveau membre
+            </router-link>
             à votre équipe.
           </item-description>
           <el-form-item
@@ -387,7 +393,11 @@
 </template>
 
 <script>
-import { addStructureMission, updateMission, fetchMissions } from '@/api/mission'
+import {
+  addStructureMission,
+  updateMission,
+  fetchMissions,
+} from '@/api/mission'
 import { fetchTags } from '@/api/app'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
@@ -535,7 +545,7 @@ export default {
         if (valid) {
           if (this.mission.id) {
             updateMission(this.mission.id, this.form)
-              .then(res => {
+              .then(() => {
                 this.loading = false
                 this.$router.go(-1)
                 this.$message({

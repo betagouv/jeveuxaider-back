@@ -133,10 +133,13 @@
         Parmi les domaines d'actions populaires
       </div>
 
-      <div v-if="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <div
+        v-if="!loading"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+      >
         <div v-for="template in statistics.templates" :key="template.id">
           <div class="inline-block bg-blue-900 rounded-md p-3 text-center mb-5">
-            <img class :src="template.image" style="width:28px;" />
+            <img class :src="template.image" style="width: 28px;" />
           </div>
           <div class="text-lg font-medium text-gray-900">
             {{ template.title }}

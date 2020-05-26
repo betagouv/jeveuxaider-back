@@ -12,7 +12,8 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          Ce choix permet de classifier votre mission au sein des réserves thématiques
+          Ce choix permet de classifier votre mission au sein des réserves
+          thématiques
         </div>
       </div>
       <div class="flex flex-wrap">
@@ -84,7 +85,7 @@
             plain
             type="primary"
             size="medium"
-            class="ml-3 h-full"
+            class="ml-auto h-full"
             @click="handleSelectTemplate(template)"
             >Choisir</el-button
           >
@@ -131,7 +132,7 @@
     </div>
 
     <!-- STEP 3 : formulaire -->
-    <MissionForm v-else :mission="mission" :structureId="structureId" />
+    <MissionForm v-else :mission="mission" :structure-id="structureId" />
   </div>
 </template>
 

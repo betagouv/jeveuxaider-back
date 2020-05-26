@@ -21,13 +21,16 @@ class MissionObserver
      */
     public function created(Mission $mission)
     {
-        // if ($mission->state == 'En attente de validation') {
-        //     if ($mission->department) {
-        //         Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
-        //             $profile->notify(new MissionSubmitted($mission));
-        //         });
-        //     }
-        // }
+        if ($mission->state == 'En attente de validation') {
+            if ($mission->tuteur) {
+                $mission->tuteur->notify(new MissionWaitingValidation($mission));
+            }
+            if ($mission->department) {
+                Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
+                    $profile->notify(new MissionSubmitted($mission));
+                });
+            }
+        }
 
         if ($mission->state == 'Validée') {
             if ($mission->tuteur) {
