@@ -143,6 +143,24 @@
                   ></div>
                 </div>
 
+                <div
+                  v-if="mission.information && mission.state == 'Validée'"
+                  class="mt-12"
+                >
+                  <div class="flex items-center">
+                    <h4
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                    >
+                      Commentaires de la structure
+                    </h4>
+                    <div class="flex-1 border-t-2 border-gray-200" />
+                  </div>
+                  <div
+                    class="mt-8 ml-3 text-gray-700"
+                    v-html="mission.information"
+                  ></div>
+                </div>
+
                 <div class="mt-16">
                   <div class="flex items-center">
                     <h4
