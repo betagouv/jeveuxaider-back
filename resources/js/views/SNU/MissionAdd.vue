@@ -46,7 +46,7 @@
       <div class="mb-6 text-xl text-gray-800 flex items-center">
         <div>À partir d'un modèle</div>
         <el-tag type="success" size="small" class="ml-2"
-          >Publication automique</el-tag
+          >Publication automatique</el-tag
         >
       </div>
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
