@@ -118,7 +118,6 @@
             >
               <el-select
                 v-model="form.domaine_id"
-                clearable
                 placeholder="Sélectionner un domaine d'action"
               >
                 <el-option
@@ -138,7 +137,7 @@
                 v-model="form.objectif"
                 name="objectif"
                 type="textarea"
-                :autosize="{ minRows: 2, maxRows: 6 }"
+                :autosize="{ minRows: 4, maxRows: 6 }"
                 placeholder="Décrivez les enjeux et la finalité de la mission"
               ></el-input>
             </el-form-item>
@@ -151,7 +150,7 @@
                 v-model="form.description"
                 name="description"
                 type="textarea"
-                :autosize="{ minRows: 2, maxRows: 6 }"
+                :autosize="{ minRows: 4, maxRows: 6 }"
                 placeholder="Décrivez précisément le rôle et les activités du bénévole"
               ></el-input>
             </el-form-item>
@@ -199,7 +198,7 @@
               placeholder="Sélectionner les domaines d'action complémentaires"
             >
               <el-option
-                v-for="domaine in domaines"
+                v-for="domaine in secondaryDomaines"
                 :key="domaine.id"
                 :label="domaine.name.fr"
                 :value="domaine.name.fr"
@@ -216,7 +215,7 @@
               v-model="form.information"
               name="information"
               type="textarea"
-              :autosize="{ minRows: 3, maxRows: 6 }"
+              :autosize="{ minRows: 4, maxRows: 6 }"
               placeholder="Informations complémentaires à l'attention du réserviste, notamment les qualifications indispensables ou qui constitueraient un + (titulaire du permis b- d'un b-a-f-a- etc.)"
             ></el-input>
           </el-form-item>
@@ -297,7 +296,7 @@
             <el-input
               v-model="form.dates_infos"
               type="textarea"
-              :autosize="{ minRows: 2, maxRows: 6 }"
+              :autosize="{ minRows: 4, maxRows: 6 }"
               placeholder="Informations complémentaires concernant les dates et horaires ou les autres modalités pratiques"
             />
           </el-form-item>
@@ -523,6 +522,15 @@ export default {
   computed: {
     mode() {
       return this.mission.id ? 'edit' : 'add'
+    },
+    mainDomaineId() {
+      console.log(this.form.template)
+      return this.form.template
+        ? this.form.template.domaine.id
+        : this.form.domaine_id
+    },
+    secondaryDomaines() {
+      return this.domaines.filter((item) => item.id != this.mainDomaineId)
     },
   },
   created() {

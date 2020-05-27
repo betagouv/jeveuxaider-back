@@ -183,7 +183,7 @@ export default {
   data() {
     return {
       step: this.$router.history.current.query.step || 1,
-      template_id: null,
+      template_id: this.$router.history.current.query.template || null,
       templates: [],
       domaine_id: null,
       domaines: [],
@@ -224,6 +224,8 @@ export default {
     },
     async handleSelectTemplate(template) {
       const { data } = await getStructure(this.structureId)
+      console.log('template selected', template)
+      this.template_id = template.id
       this.$router.push({
         name: 'MissionFormAdd',
         params: {
@@ -237,7 +239,7 @@ export default {
             structure: data,
           },
         },
-        query: { step: 3 },
+        query: { step: 3, template: this.template_id },
       })
     },
   },

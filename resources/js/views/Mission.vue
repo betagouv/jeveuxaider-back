@@ -220,7 +220,10 @@
                   ></div>
                 </div>
 
-                <div class="mt-16">
+                <div
+                  v-if="mission.template && [4].includes(mission.template.id)"
+                  class="mt-16"
+                >
                   <div class="flex flex-wrap items-center">
                     <h4
                       class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
