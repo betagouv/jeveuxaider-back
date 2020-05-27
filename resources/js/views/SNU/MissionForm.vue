@@ -12,15 +12,23 @@
             principal, l'objectif et la description de la mission. Vous pouvez
             éditer les autres champs dont la localisation, les dates, le nombre
             de bénévoles recherchés et ajouter un commentaire pour préciser la
-            mission. La mission sera mise en ligne sans validation a priori.
+            mission. La mission est mise en ligne dès que vous décidez de la
+            publier.
           </div>
           <div v-else class="mb-6 text-md leading-snug text-gray-500">
-            En choisissant de rédiger intégralement votre mission, vous repartez
-            d'une feuille blanche et tous les champs de la mission seront
-            éditables. La mission sera publiée après validation par le référent
-            départemental de la Réserve Civique.
+            En choisissant de rédiger intégralement votre mission, tous les
+            champs de la mission sont éditables. La mission est publiée après
+            validation par le référent départemental de la Réserve Civique.
           </div>
         </template>
+
+        <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+          Une question? Appelez-nous au
+          <span class="font-bold">
+            <a href="tel:0184800189">&nbsp;01 84 80 01 89&nbsp;</a>
+          </span>
+          ou chatez en cliquant sur le bouton en bas à droite.
+        </div>
 
         <div v-if="form.template">
           <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
@@ -35,7 +43,7 @@
               type="primary"
               class="ml-3"
               @click.prevent="modalVisible = true"
-              >Détails</el-button
+              >Aperçu</el-button
             >
           </div>
 
@@ -75,14 +83,6 @@
             </div>
             <div class="mt-2" v-html="form.template.description"></div>
           </el-dialog>
-        </div>
-
-        <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-          Une question? Appelez-nous au
-          <span class="font-bold">
-            <a href="tel:0184800189">&nbsp;01 84 80 01 89&nbsp;</a>
-          </span>
-          ou chatez en cliquant sur le bouton en bas à droite.
         </div>
 
         <el-form
@@ -216,7 +216,7 @@
               name="information"
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 6 }"
-              placeholder="Informations complémentaires à l'attention du réserviste, notamment les qualifications indispensables ou qui constitueraient un + (titulaire du permis b- d'un b-a-f-a- etc.)"
+              placeholder="Informations complémentaires à l'attention du bénévole."
             ></el-input>
           </el-form-item>
           <el-form-item

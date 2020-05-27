@@ -55,12 +55,11 @@
     <!-- STEP 2 : Choix du modèle de mission -->
     <div v-else-if="step == 2" style="max-width: 600px;">
       <div class="mb-6 text-md leading-snug text-gray-500">
-        Vous pouvez proposer une mission de bénévolat à partir d'un modèle
-        prédéfini ou rédiger intégralement une mission. Les modèles vous
-        permettent de publier rapidement une nouvelle mission. Si aucun modèle
-        n'existe pour l'instant dans le domaine d'action que vous avez choisi,
-        pas d'inquiétude ! Vous avez la possibilité de rédiger votre mission
-        intégralement, dans le respect de la charte de la Réserve Civique.
+        Vous pouvez publier une mission de bénévolat à partir d'un modèle
+        prédéfini ou choisir de la rédiger intégralement dans le respect de la
+        <router-link class="text-primary" to="/charte-reserve-civique"
+          >charte</router-link
+        >.
       </div>
       <el-select
         v-model="domaine_id"
@@ -84,12 +83,9 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          En choisissant un modèle, certains champs de la mission sont
-          prédéfinis et non modifiables : le titre, le domaine d'action
-          principal, l'objectif et la description de la mission. Vous pouvez
-          éditer les autres champs dont la localisation, les dates, le nombre de
-          bénévoles recherchés et ajouter un commentaire pour préciser la
-          mission. La mission sera mise en ligne sans validation a priori.
+          En choisissant un modèle, vous publiez une mission plus rapidement. La
+          plupart des champs sont prédéfinis et la mission est mise en ligne dès
+          que vous décidez de la publier.
         </div>
       </div>
 
@@ -116,9 +112,11 @@
       <template v-else>
         <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
           <div class="mr-3">
-            <div class="mb-1">Des modèles de missions sont à venir</div>
+            <div class="mb-1">
+              Aucun modèle de mission dans ce domaine pour l'instant
+            </div>
             <div class="text-xs text-gray-400">
-              Revenez dans quelque temps pour les découvrir...
+              Choisissez de rédiger votre mission ci-dessous
             </div>
           </div>
         </div>
@@ -132,10 +130,9 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          En choisissant de rédiger intégralement votre mission, vous repartez
-          d'une feuille blanche et tous les champs de la mission seront
-          éditables. La mission sera publiée après validation par le référent
-          départemental de la Réserve Civique.
+          En choisissant de rédiger intégralement votre mission, tous les champs
+          sont éditables. La mission est publiée après validation par le
+          référent départemental de la Réserve Civique.
         </div>
       </div>
       <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
