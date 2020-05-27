@@ -353,9 +353,9 @@
             Responsable de la mission
           </div>
           <item-description>
-            Les notifications lors de la prise de contact d'un volontaire
-            concernant cette mission seront envoyées à cette personne.
-            <br />Vous pouvez également
+            Les notifications lors de la prise de contact d'un bénévole
+            concernant cette mission seront envoyées à cette personne. Vous
+            pouvez également
             <router-link
               target="_blank"
               :to="{
