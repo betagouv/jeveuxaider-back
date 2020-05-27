@@ -131,7 +131,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Mission" min-width="320">
+      <el-table-column prop="name" label="Mission" min-width="300">
         <template slot-scope="scope">
           <div class="text-gray-900">
             <v-clamp :max-lines="2" autoresize>{{ scope.row.name }}</v-clamp>

@@ -44,7 +44,7 @@
 
     <!-- STEP 2 : Choix du modèle de mission -->
     <div v-else-if="step == 2" style="max-width: 600px;">
-      <div class="mb-6 text-md">
+      <div class="mb-6 text-md leading-snug text-gray-500">
         Vous pouvez proposer une mission de bénévolat à partir d'un modèle
         prédéfini ou rédiger intégralement une mission. Les modèles vous
         permettent de publier rapidement une nouvelle mission. Si aucun modèle

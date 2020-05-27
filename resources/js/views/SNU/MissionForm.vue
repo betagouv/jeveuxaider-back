@@ -2,13 +2,88 @@
   <div class="mission-form">
     <div class="flex">
       <div style="max-width: 600px;">
-        <p class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+        <template v-if="mode == 'add'">
+          <div
+            v-if="form.template"
+            class="mb-6 text-md leading-snug text-gray-500"
+          >
+            En choisissant un modèle, certains champs de la mission sont
+            prédéfinis et non modifiables : le titre, le domaine d'action
+            principal, l'objectif et la description de la mission. Vous pouvez
+            éditer les autres champs dont la localisation, les dates, le nombre
+            de bénévoles recherchés et ajouter un commentaire pour préciser la
+            mission. La mission sera mise en ligne sans validation a priori.
+          </div>
+          <div v-else class="mb-6 text-md leading-snug text-gray-500">
+            En choisissant de rédiger intégralement votre mission, vous repartez
+            d'une feuille blanche et tous les champs de la mission seront
+            éditables. La mission sera publiée après validation par le référent
+            départemental de la Réserve Civique.
+          </div>
+        </template>
+
+        <div v-if="form.template">
+          <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
+            <div class="mr-3 flex-1">
+              <div class="mb-1">{{ form.template.title }}</div>
+              <div class="text-xs text-gray-400">
+                {{ form.template.subtitle }}
+              </div>
+            </div>
+            <el-button
+              plain
+              type="primary"
+              class="ml-3"
+              @click.prevent="modalVisible = true"
+              >Détails</el-button
+            >
+          </div>
+
+          <el-dialog
+            :title="form.template.title"
+            :visible.sync="modalVisible"
+            width="680"
+          >
+            <div class="flex items-center">
+              <h4
+                class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Titre de la mission
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div class="mt-2">{{ form.template.subtitle }}</div>
+            <div class="flex items-center mt-6">
+              <h4
+                class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Objectif de la mission
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div
+              class="mt-2 break-normal"
+              v-html="form.template.objectif"
+            ></div>
+            <div class="flex items-center mt-6">
+              <h4
+                class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Description de la mission et règles à suivre impérativement
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div class="mt-2" v-html="form.template.description"></div>
+          </el-dialog>
+        </div>
+
+        <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
           Une question? Appelez-nous au
           <span class="font-bold">
             <a href="tel:0184800189">&nbsp;01 84 80 01 89&nbsp;</a>
           </span>
           ou chatez en cliquant sur le bouton en bas à droite.
-        </p>
+        </div>
 
         <el-form
           ref="missionForm"
@@ -17,80 +92,6 @@
           label-position="top"
           :rules="rules"
         >
-          <div v-if="form.template">
-            <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
-              <div class="mr-3 flex-1">
-                <div class="mb-1">{{ form.template.title }}</div>
-                <div class="text-xs text-gray-400">
-                  {{ form.template.subtitle }}
-                </div>
-              </div>
-              <el-button
-                plain
-                type="primary"
-                class="ml-3"
-                @click.prevent="modalVisible = true"
-                >Détails</el-button
-              >
-            </div>
-
-            <!-- <div class="mb-6 text-xl text-gray-800">Choix du modèle</div>
-            <div class="border rounded p-6">
-              <div class="flex items-center">
-                <h4
-                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                >Domaine d'action</h4>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <p class="mt-6 ml-3 text-gray-700">{{ form.template.domaine.name.fr }}</p>
-              <div class="flex items-center mt-6">
-                <h4
-                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                >Titre de la mission</h4>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <p class="mt-6 ml-3 text-gray-700">{{ form.template.subtitle }}</p>
-              <el-button
-                class="mt-3"
-                size="small"
-                @click.prevent="modalVisible = true"
-              >Prévisualier le modèle</el-button>
-            </div>
-            -->
-            <el-dialog
-              :title="form.template.title"
-              :visible.sync="modalVisible"
-              width="680"
-            >
-              <div class="flex items-center">
-                <h4
-                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                >
-                  Titre de la mission
-                </h4>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <div class="mt-2">{{ form.template.subtitle }}</div>
-              <div class="flex items-center mt-6">
-                <h4
-                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                >
-                  Objectif de la mission
-                </h4>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <div class="mt-2" v-html="form.template.objectif"></div>
-              <div class="flex items-center mt-6">
-                <h4
-                  class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                >
-                  Description de la mission et règles à suivre impérativement
-                </h4>
-                <div class="flex-1 border-t-2 border-gray-200"></div>
-              </div>
-              <div class="mt-2" v-html="form.template.description"></div>
-            </el-dialog>
-          </div>
           <div class="mt-6 mb-6 text-xl text-gray-800">
             Détails de la mission
           </div>
@@ -100,7 +101,15 @@
               prop="name"
               class="flex-1 mr-2"
             >
-              <el-input v-model="form.name" placeholder="Titre" />
+              <item-description>
+                Le titre de la mission doit être une phrase qui précise l'action
+                du bénévole, par exemple "Je fais les courses de produits
+                essentiels pour mes voisins les plus fragiles"
+              </item-description>
+              <el-input
+                v-model="form.name"
+                placeholder="Décrivez l'action du bénévole en une phrase"
+              />
             </el-form-item>
             <el-form-item
               label="Domaine d'action principal"
@@ -125,16 +134,12 @@
               prop="objectif"
               class="flex-1"
             >
-              <item-description>
-                Décrivez précisément la mission (contexte, objectifs,
-                bénéficiaires, activités, utilité, ressources...).
-              </item-description>
               <el-input
                 v-model="form.objectif"
                 name="objectif"
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 6 }"
-                placeholder="Décrivez votre mission, en quelques mots"
+                placeholder="Décrivez les enjeux et la finalité de la mission"
               ></el-input>
             </el-form-item>
             <el-form-item
@@ -147,7 +152,7 @@
                 name="description"
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 6 }"
-                placeholder="Décrivez votre mission, en quelques mots"
+                placeholder="Décrivez précisément le rôle et les activités du bénévole"
               ></el-input>
             </el-form-item>
           </div>
@@ -216,12 +221,12 @@
             ></el-input>
           </el-form-item>
           <el-form-item
-            label="Nombre de volontaires susceptibles d’être accueillis de façon concomitante sur cette mission"
+            label="Nombre de bénévoles susceptibles d’être accueillis de façon concomitante sur cette mission"
             prop="participations_max"
           >
             <item-description>
               Précisez ce nombre en fonction de vos contraintes logistiques et
-              votre capacité à accompagner les volontaires.
+              votre capacité à accompagner les bénévoles.
             </item-description>
             <el-input-number
               v-model="form.participations_max"
@@ -285,7 +290,7 @@
           </div>
 
           <el-form-item
-            label="Informations complémentaires concernant les dates et horaires de la mission"
+            label="Informations complémentaires"
             prop="dates_infos"
             class="flex-1"
           >
@@ -293,7 +298,7 @@
               v-model="form.dates_infos"
               type="textarea"
               :autosize="{ minRows: 2, maxRows: 6 }"
-              placeholder="Informations complémentaires concernant les dates et horaires de la mission"
+              placeholder="Informations complémentaires concernant les dates et horaires ou les autres modalités pratiques"
             />
           </el-form-item>
 
@@ -517,7 +522,7 @@ export default {
   },
   computed: {
     mode() {
-      return this.id ? 'edit' : 'add'
+      return this.mission.id ? 'edit' : 'add'
     },
   },
   created() {
