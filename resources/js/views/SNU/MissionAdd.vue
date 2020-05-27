@@ -224,8 +224,7 @@ export default {
     },
     async handleSelectTemplate(template) {
       const { data } = await getStructure(this.structureId)
-      console.log('template selected', template)
-      this.template_id = template.id
+      this.template_id = template ? template.id : null
       this.$router.push({
         name: 'MissionFormAdd',
         params: {
