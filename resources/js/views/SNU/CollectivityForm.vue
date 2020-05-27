@@ -37,7 +37,7 @@
       </el-form-item>
 
       <el-form-item label="Type" prop="type">
-        <el-select v-model="form.type" placeholder="Selectionner le type">
+        <el-select v-model="form.type" placeholder="Sélectionner le type">
           <el-option
             v-for="item in $store.getters.taxonomies.collectivities_types.terms"
             :key="item.value"
@@ -145,7 +145,7 @@
             <i class="el-icon-upload" />
             <div class="el-upload__text">
               Glissez votre image ou <br /><em
-                >cliquez ici pour la selectionner</em
+                >cliquez ici pour la sélectionner</em
               >
             </div>
           </el-upload>

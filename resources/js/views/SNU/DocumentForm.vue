@@ -65,7 +65,7 @@
             <div class="el-upload__text">
               Glissez votre document ou
               <br />
-              <em>cliquez ici pour le selectionner</em>
+              <em>cliquez ici pour le sélectionner</em>
             </div>
           </el-upload>
           <div v-else class="flex items-center">

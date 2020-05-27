@@ -108,14 +108,14 @@
               </ais-menu-select>
               <ais-menu-select
                 class="flex-1"
-                attribute="template_title"
+                attribute="domaine_name"
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.template_title"
+                  v-model="filters.domaine_name"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
-                  placeholder="Modèles"
+                  placeholder="Domaines d'action"
                   popper-class="domaines-actions"
                   @change="handleFilters(refine, $event)"
                 >
@@ -130,15 +130,15 @@
               </ais-menu-select>
               <ais-menu-select
                 class="flex-1"
-                attribute="domaine_name"
+                attribute="template_title"
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.domaine_name"
+                  v-model="filters.template_title"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
-                  placeholder="Domaines d'actions"
-                  popper-class="domaines-actions"
+                  placeholder="Missions types"
+                  popper-class="missions-types"
                   @change="handleFilters(refine, $event)"
                 >
                   <el-option
@@ -150,6 +150,7 @@
                   />
                 </el-select>
               </ais-menu-select>
+
               <ais-clear-refinements>
                 <div
                   slot-scope="{ canRefine, refine }"
@@ -529,7 +530,8 @@ export default {
       refine()
       this.filters.query = null
       this.filters.department_name = null
-      this.filters.domaine_action = null
+      this.filters.domaine_name = null
+      this.filters.template_title = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
       let begin = page * hitsPerPage + 1

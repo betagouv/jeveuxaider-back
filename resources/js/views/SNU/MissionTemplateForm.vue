@@ -119,7 +119,7 @@
             <div class="el-upload__text">
               Glissez votre icone ou
               <br />
-              <em>cliquez ici pour la selectionner</em>
+              <em>cliquez ici pour la sélectionner</em>
             </div>
           </el-upload>
         </div>

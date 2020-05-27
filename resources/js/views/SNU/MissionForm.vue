@@ -155,7 +155,7 @@
           <el-form-item label="Type de mission" prop="type">
             <el-select
               v-model="form.type"
-              placeholder="Selectionner un type de mission"
+              placeholder="Sélectionner un type de mission"
               @change="handleTypeChanged()"
             >
               <el-option
@@ -170,7 +170,7 @@
           <el-form-item label="Format de mission" prop="format">
             <el-select
               v-model="form.format"
-              placeholder="Selectionner un format de mission"
+              placeholder="Sélectionner un format de mission"
             >
               <el-option
                 v-for="item in $store.getters.taxonomies.mission_formats.terms"
@@ -181,12 +181,17 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="Tags" prop="tags">
+          <el-form-item label="Domaines d'action complémentaires" prop="tags">
+            <item-description>
+              Le choix d'un ou plusieurs domaines d'action complémentaires
+              permettra à votre mission d'être référencée dans les domaines
+              d'action correspondant lors d'une recherche par les réservistes
+            </item-description>
             <el-select
               v-model="form.tags"
               filterable
               multiple
-              placeholder="Selectionner les tags"
+              placeholder="Sélectionner les domaines d'action complémentaires"
             >
               <el-option
                 v-for="domaine in domaines"
@@ -206,8 +211,8 @@
               v-model="form.information"
               name="information"
               type="textarea"
-              :autosize="{ minRows: 2, maxRows: 6 }"
-              placeholder="Décrivez votre mission, en quelques mots"
+              :autosize="{ minRows: 3, maxRows: 6 }"
+              placeholder="Informations complémentaires à l'attention du réserviste, notamment les qualifications indispensables ou qui constitueraient un + (titulaire du permis b- d'un b-a-f-a- etc.)"
             ></el-input>
           </el-form-item>
           <el-form-item
@@ -232,7 +237,7 @@
           >
             <el-select
               v-model="form.publics_beneficiaires"
-              placeholder="Selectionner les publics bénéficiaires"
+              placeholder="Sélectionner les publics bénéficiaires"
               multiple
             >
               <el-option

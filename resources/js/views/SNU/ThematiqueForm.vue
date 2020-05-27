@@ -114,7 +114,7 @@
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
               Glissez votre image ou <br /><em
-                >cliquez ici pour la selectionner</em
+                >cliquez ici pour la sélectionner</em
               >
             </div>
           </el-upload>

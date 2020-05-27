@@ -130,7 +130,7 @@
       <div
         class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
       >
-        Parmi les domaines d'actions populaires
+        Parmi les domaines d'action populaires
       </div>
 
       <div

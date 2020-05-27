@@ -7,13 +7,14 @@
     <!-- STEP 1 : Choix du domaine d'action -->
     <div v-if="step == 1" class="max-w-3xl">
       <div class="mb-6 text-xl text-gray-800 flex items-center">
-        <div>Choisissez le domaine d'action principal</div>
+        <div>Choisissez le domaine d'action de cette mission</div>
       </div>
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          Ce choix permet de classifier votre mission au sein des réserves
-          thématiques
+          La Réserve Civique vous permet de mobiliser des bénévoles dans dix
+          domaines d'action. Choisissez le domaine d'action principal pour
+          faciliter la recherche de mission.
         </div>
       </div>
       <div class="flex flex-wrap">
@@ -43,20 +44,13 @@
 
     <!-- STEP 2 : Choix du modèle de mission -->
     <div v-else-if="step == 2" style="max-width: 600px;">
-      <div class="mb-6 text-xl text-gray-800 flex items-center">
-        <div>À partir d'un modèle</div>
-        <el-tag type="success" size="small" class="ml-2"
-          >Publication automatique</el-tag
-        >
-      </div>
-      <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-        <i class="el-icon-info text-primary mt-1 mr-2"></i>
-        <div class="flex-1">
-          En choisissant un modèle, votre mission sera directement en ligne dès
-          sa publication.
-          <br />Le modèle inclue le choix du titre, de la thématique, de la
-          description et de l’objectif de la mission.
-        </div>
+      <div class="mb-6 text-md">
+        Vous pouvez proposer une mission de bénévolat à partir d'un modèle
+        prédéfini ou rédiger intégralement une mission. Les modèles vous
+        permettent de publier rapidement une nouvelle mission. Si aucun modèle
+        n'existe pour l'instant dans le domaine d'action que vous avez choisi,
+        pas d'inquiétude ! Vous avez la possibilité de rédiger votre mission
+        intégralement, dans le respect de la charte de la Réserve Civique.
       </div>
       <el-select
         v-model="domaine_id"
@@ -71,6 +65,24 @@
           :value="domaine.id"
         ></el-option>
       </el-select>
+      <div class="mb-6 text-xl text-gray-800 flex items-center">
+        <div>Publier une mission à partir d'un modèle</div>
+        <el-tag type="success" size="small" class="ml-2"
+          >Publication automatique</el-tag
+        >
+      </div>
+      <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+        <i class="el-icon-info text-primary mt-1 mr-2"></i>
+        <div class="flex-1">
+          En choisissant un modèle, certains champs de la mission sont
+          prédéfinis et non modifiables : le titre, le domaine d'action
+          principal, l'objectif et la description de la mission. Vous pouvez
+          éditer les autres champs dont la localisation, les dates, le nombre de
+          bénévoles recherchés et ajouter un commentaire pour préciser la
+          mission. La mission sera mise en ligne sans validation a priori.
+        </div>
+      </div>
+
       <template v-if="templates.length > 0">
         <div
           v-for="template in templates"
@@ -102,7 +114,7 @@
         </div>
       </template>
       <div class="mt-10 text-xl text-gray-800 flex items-center">
-        <div>À partir d'un modèle libre</div>
+        <div>Rédiger intégralement la mission</div>
         <el-tag type="warning" size="small" class="ml-2"
           >Validation par un référent</el-tag
         >
@@ -110,8 +122,10 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          Vous écrivez le contenu de votre mission. Celle-ci sera soumise à
-          validation du référent départemenntal avant d’être publiée.
+          En choisissant de rédiger intégralement votre mission, vous repartez
+          d'une feuille blanche et tous les champs de la mission seront
+          éditables. La mission sera publiée après validation par le référent
+          départemental de la Réserve Civique.
         </div>
       </div>
       <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
@@ -172,9 +186,10 @@ export default {
     }
     if (this.step == 2) {
       fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
-        this.domaine_id =
-          this.$router.history.current.query.domaine || res.data.data[0].id
         this.domaines = res.data.data
+        this.domaine_id =
+          parseInt(this.$router.history.current.query.domaine) ||
+          res.data.data[0].id
         fetchMissionTemplates({ 'filter[domaine.id]': this.domaine_id }).then(
           (res) => {
             this.templates = res.data.data

@@ -3,7 +3,7 @@
     <portal to="register-steps-help">
       <p>
         Bienvenue {{ $store.getters.profile.first_name }} ! <br />Veuillez
-        selectionner <span class="font-bold">votre type de profil</span> pour
+        sélectionner <span class="font-bold">votre type de profil</span> pour
         finaliser la création de votre compte sur la plateforme.
       </p>
     </portal>
