@@ -93,12 +93,12 @@ class MissionObserver
                 case 'Terminée':
                     if ($mission->tuteur) {
                         $mission->tuteur->notify(new MissionFinished($mission));
-                        foreach ($mission->participations->whereIn("state",["Mission validée", "Mission en cours"]) as $participation) {
+                        foreach ($mission->participations->whereIn("state", ["Mission validée", "Mission en cours"]) as $participation) {
                             $participation->update(['state' => 'Mission effectuée']);
                         }
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
                             $participation->update(['state' => 'Participation déclinée']);
-                        }  
+                        }
                     }
                     break;
             }

@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
-use Illuminate\Support\HtmlString;
 
 class ParticipationFinished extends Notification
 {
