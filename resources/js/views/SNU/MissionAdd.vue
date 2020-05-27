@@ -1,14 +1,24 @@
 <template>
   <div v-show="!$store.getters.loading" class="mission-form pl-12 pb-12">
-    <div class="text-m text-gray-600 uppercase">Mission</div>
-    <div class="mb-8 font-bold text-2xl text-gray-800">
+    <div class="text-m text-gray-600 uppercase">
       Création d'une nouvelle mission
+    </div>
+    <div class="mb-8 font-bold text-2xl text-gray-800">
+      <template v-if="step == 1"
+        >Choisissez le domaine d'action de cette mission</template
+      >
+      <template v-else-if="step == 2"
+        >Choisissez le type de modèle de cette mission</template
+      >
+      <template v-else>
+        <template v-if="template_id"
+          >Publier une mission à partir d'un modèle</template
+        >
+        <template v-else>Rédiger intégralement une mission</template>
+      </template>
     </div>
     <!-- STEP 1 : Choix du domaine d'action -->
     <div v-if="step == 1" class="max-w-3xl">
-      <div class="mb-6 text-xl text-gray-800 flex items-center">
-        <div>Choisissez le domaine d'action de cette mission</div>
-      </div>
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
