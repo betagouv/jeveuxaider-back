@@ -524,7 +524,6 @@ export default {
       return this.mission.id ? 'edit' : 'add'
     },
     mainDomaineId() {
-      console.log(this.form.template)
       return this.form.template
         ? this.form.template.domaine.id
         : this.form.domaine_id

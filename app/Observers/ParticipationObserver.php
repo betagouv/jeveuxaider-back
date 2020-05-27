@@ -8,6 +8,7 @@ use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
 use App\Notifications\ParticipationSignaled;
 use App\Notifications\ParticipationDeclined;
+use App\Notifications\ParticipationFinished;
 
 class ParticipationObserver
 {
@@ -49,6 +50,11 @@ class ParticipationObserver
                 case 'Mission signalée':
                     if ($participation->profile) {
                         $participation->profile->notify(new ParticipationSignaled($participation));
+                    }
+                    break;
+                case 'Mission effectuée':
+                    if ($participation->profile) {
+                        $participation->profile->notify(new ParticipationFinished($participation));
                     }
                     break;
                 case 'Participation déclinée':

@@ -31,6 +31,9 @@
     <el-tag v-if="state == 'Annulée'" type="info" :size="size" class="m-1">
       Annulée
     </el-tag>
+    <el-tag v-if="state == 'Terminée'" type="info" :size="size" class="m-1">
+      Terminée
+    </el-tag>
     <el-tag v-if="state == 'Archivée'" type="info" :size="size" class="m-1">
       Archivée
     </el-tag>

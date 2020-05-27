@@ -235,7 +235,6 @@ export default {
       .then((response) => {
         this.collectivity = { ...response.data }
         getCollectivityStatistics(this.collectivity.id).then((response) => {
-          console.log(response.data)
           this.statistics = { ...response.data }
           this.$store.commit('setLoading', false)
           this.loading = false
