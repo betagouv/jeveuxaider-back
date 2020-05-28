@@ -11,7 +11,7 @@ export function exportMissions(params) {
   })
 }
 
-export function addMission(structureId, mission) {
+export function addStructureMission(structureId, mission) {
   return request.post(`/api/structure/${structureId}/missions`, mission)
 }
 

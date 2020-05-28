@@ -18,7 +18,7 @@
       />
 
       <div class="relative pt-1 pb-12 lg:py-12">
-        <AppHeader background="bg-transparent" border="" :show-menu="false">
+        <AppHeader background="bg-transparent" border :show-menu="false">
           <template v-slot:menu>
             <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
               <div
@@ -79,9 +79,7 @@
           <h2
             class="text-3xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-14 leading-none"
           >
-            <div class="text-blue-900">
-              {{ collectivity.title }}
-            </div>
+            <div class="text-blue-900">{{ collectivity.title }}</div>
             L'engagement en quelques chiffres
           </h2>
           <p
@@ -89,10 +87,11 @@
             class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center"
           >
             Sur l'ensemble du territoire français,
-            <b>{{ collectivity.stats.volontaires_count_national }}</b>
+            <b>{{ statistics.national.volontaires_count | formatNumber }}</b>
             réservistes et
-            <b>{{ collectivity.stats.structures_count_national }}</b> structures
-            publiques et associatives ont déjà rejoint la Réserve Civique.
+            <b>{{ statistics.national.structures_count | formatNumber }}</b>
+            structures publiques et associatives ont déjà rejoint la Réserve
+            Civique.
           </p>
 
           <dl
@@ -101,7 +100,7 @@
           >
             <div class="flex flex-col">
               <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ collectivity.stats.volontaires_count }}
+                {{ statistics.volontaires_count | formatNumber }}
               </dd>
               <dt class="mt-2 text-lg font-medium text-gray-800">
                 Réservistes
@@ -109,16 +108,14 @@
             </div>
             <div class="flex flex-col mt-10 sm:mt-0">
               <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ collectivity.stats.structures_count }}
+                {{ statistics.structures_count | formatNumber }}
               </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">
-                Structures
-              </dt>
+              <dt class="mt-2 text-lg font-medium text-gray-800">Structures</dt>
             </div>
 
             <div class="flex flex-col mt-10 sm:mt-0">
               <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ collectivity.stats.participations_count }}
+                {{ statistics.participations_count | formatNumber }}
               </dd>
               <dt class="mt-2 text-lg font-medium text-gray-800">
                 Mises en relation
@@ -133,26 +130,22 @@
       <div
         class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
       >
-        Parmi les domaines d'actions populaires
+        Parmi les domaines d'action populaires
       </div>
 
       <div
         v-if="!loading"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
       >
-        <div v-for="(domain, key) in collectivity.stats.domains" :key="key">
+        <div v-for="template in statistics.templates" :key="template.id">
           <div class="inline-block bg-blue-900 rounded-md p-3 text-center mb-5">
-            <img
-              class
-              :src="$options.filters.domainIcon(domain.key)"
-              style="width: 28px;"
-            />
+            <img class :src="template.image" style="width: 28px;" />
           </div>
           <div class="text-lg font-medium text-gray-900">
-            {{ domain.key | cleanDomaineAction }}.
+            {{ template.title }}
           </div>
           <div class="mt-2 text-base text-gray-500">
-            {{ domain.name }}
+            {{ template.subtitle }}
           </div>
         </div>
       </div>
@@ -169,7 +162,7 @@
         class="pb-16 flex flex-wrap items-center justify-center"
       >
         <div
-          v-for="(city, key) in collectivity.stats.cities"
+          v-for="(city, key) in statistics.cities"
           :key="key"
           class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50"
         >
@@ -179,9 +172,8 @@
             }&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(
               collectivity.department
             )}`"
+            >{{ city.name }}</router-link
           >
-            {{ city.name }}
-          </router-link>
         </div>
       </div>
     </div>
@@ -207,7 +199,7 @@
         <missions-search
           :facet-filters="[`department: ${collectivity.department}`]"
           :department="collectivity.department"
-        />
+        ></missions-search>
       </div>
     </div>
 
@@ -216,7 +208,7 @@
 </template>
 
 <script>
-import { getCollectivity } from '@/api/app'
+import { getCollectivity, getCollectivityStatistics } from '@/api/app'
 import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
@@ -234,6 +226,7 @@ export default {
     return {
       loading: true,
       collectivity: {},
+      statistics: null,
     }
   },
   created() {
@@ -241,8 +234,11 @@ export default {
     getCollectivity(this.slug)
       .then((response) => {
         this.collectivity = { ...response.data }
-        this.$store.commit('setLoading', false)
-        this.loading = false
+        getCollectivityStatistics(this.collectivity.id).then((response) => {
+          this.statistics = { ...response.data }
+          this.$store.commit('setLoading', false)
+          this.loading = false
+        })
       })
       .catch(() => {
         this.loading = false

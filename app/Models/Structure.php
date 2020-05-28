@@ -204,8 +204,14 @@ class Structure extends Model
         return $this->load('members');
     }
 
-    public function addMission($mission)
+    public function addMission($values)
     {
-        return $this->missions()->create($mission);
+        $mission = $this->missions()->create($values);
+
+        if ($values['tags']) {
+            $mission->syncTagsWithType($values['tags'], 'domaine');
+        }
+
+        return $mission;
     }
 }

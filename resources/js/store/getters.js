@@ -13,6 +13,7 @@ const getters = {
   user: (state) => state.user.user,
   loading: (state) => state.loading,
   taxonomies: (state) => state.taxonomies,
+  thematiques: (state) => state.thematiques,
   release: (state) => state.release,
   isImpersonating: (state) =>
     state.auth.accessTokenImpersonate ? true : false,

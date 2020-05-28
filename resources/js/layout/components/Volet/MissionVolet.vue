@@ -12,12 +12,12 @@
               :src="`${row.structure.logo}`"
               class="w-10 rounded-full border"
             />
-            <el-avatar v-else class="bg-primary">
-              {{ row.structure.name[0] }}
-            </el-avatar>
+            <el-avatar v-else class="bg-primary">{{
+              row.structure.name[0]
+            }}</el-avatar>
           </div>
           <div class="font-bold text-lg text-center my-3 flex">
-            {{ row.name | labelFromValue('mission_domaines') }}
+            {{ row.name }}
           </div>
           <div class="flex items-center">
             <router-link
@@ -26,9 +26,7 @@
                 params: { id: row.id },
               }"
             >
-              <el-button icon="el-icon-edit" type="mini">
-                Modifier
-              </el-button>
+              <el-button icon="el-icon-edit" type="mini">Modifier</el-button>
             </router-link>
             <button
               v-if="
@@ -50,9 +48,8 @@
             type="warning"
             class="m-1 ml-0"
             size="small"
+            >{{ row.department | fullDepartmentFromValue }}</el-tag
           >
-            {{ row.department | fullDepartmentFromValue }}
-          </el-tag>
         </div>
         <mission-infos :mission="row" />
       </el-card>
@@ -70,9 +67,8 @@
               type="primary"
               :loading="loading"
               @click="onAskValidationSubmit"
+              >Publier la mission</el-button
             >
-              Publier la mission
-            </el-button>
           </div>
         </template>
         <template v-if="showStatut">
@@ -81,7 +77,7 @@
           </div>
           <item-description>
             Vous pouvez sélectionner le statut de la mission. A noter que des
-            notifications emails seront envoyées.
+            notifications emails seront envoyées .
           </item-description>
           <el-form-item label="Statut" prop="state" class="flex-1">
             <el-select v-model="form.state" placeholder="Statut">
@@ -117,11 +113,11 @@
               ></el-option>
             </el-select>
           </el-form-item>
-        </template> -->
+        </template>-->
         <div v-if="showStatut" class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit">
-            Enregistrer
-          </el-button>
+          <el-button type="primary" :loading="loading" @click="onSubmit"
+            >Enregistrer</el-button
+          >
         </div>
       </el-form>
     </template>
@@ -218,53 +214,68 @@ export default {
       }
     },
     onAskValidationSubmit() {
-      if (this.form.structure.state == 'Validée') {
-        this.form.state = 'Validée'
-        this.onSubmit()
-      } else {
+      if (this.form.structure.state != 'Validée') {
         this.$message({
           type: 'error',
           message:
             'Votre structure doit être validée avant de pouvoir publier une mission',
         })
+      } else {
+        if (this.form.template_id) {
+          this.form.state = 'Validée'
+        } else {
+          this.form.state = 'En attente de validation'
+        }
+        this.onSubmit()
       }
     },
     onSubmit() {
-      let message = 'Êtes vous sur de vos changements ?'
-
-      if (this.form.state == 'Annulée') {
-        message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les volontaires inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
-      }
-
-      if (this.form.state == 'Signalée') {
-        message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} volontaire(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées et une notification d'annulation sera envoyée aux volontaires initialement inscrits.`
-      }
-
-      this.$confirm(message, 'Confirmation', {
-        confirmButtonText: 'Je confirme',
-        cancelButtonText: 'Annuler',
-        type: 'warning',
-        center: true,
-        dangerouslyUseHTMLString: true,
-      })
-        .then(() => {
-          this.loading = true
-          updateMission(this.form.id, this.form)
-            .then(({ data }) => {
-              this.loading = false
-              this.$store.commit('volet/setRow', { ...this.row, ...data })
-              this.$message({
-                type: 'success',
-                message: 'La mission a été mise à jour',
-              })
-              this.$emit('updated', { ...this.form, ...data })
-            })
-            .catch((error) => {
-              this.loading = false
-              console.log(error)
-            })
+      if (
+        this.form.structure.state != 'Validée' &&
+        this.form.state == 'Validée'
+      ) {
+        this.$message({
+          type: 'error',
+          message:
+            'Vous devez valider la structure au préalable. Les missions en attente de validation seront ensuite automatiquement validées',
         })
-        .catch(() => {})
+      } else {
+        let message = 'Êtes vous sur de vos changements ?'
+
+        if (this.form.state == 'Annulée') {
+          message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les volontaires inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
+        }
+
+        if (this.form.state == 'Signalée') {
+          message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} volontaire(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées et une notification d'annulation sera envoyée aux volontaires initialement inscrits.`
+        }
+
+        this.$confirm(message, 'Confirmation', {
+          confirmButtonText: 'Je confirme',
+          cancelButtonText: 'Annuler',
+          type: 'warning',
+          center: true,
+          dangerouslyUseHTMLString: true,
+        })
+          .then(() => {
+            this.loading = true
+            updateMission(this.form.id, this.form)
+              .then(({ data }) => {
+                this.loading = false
+                this.$store.commit('volet/setRow', { ...this.row, ...data })
+                this.$message({
+                  type: 'success',
+                  message: 'La mission a été mise à jour',
+                })
+                this.$emit('updated', { ...this.form, ...data })
+              })
+              .catch((error) => {
+                this.loading = false
+                console.log(error)
+              })
+          })
+          .catch(() => {})
+      }
     },
   },
 }

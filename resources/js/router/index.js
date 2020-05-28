@@ -159,12 +159,12 @@ export default new Router({
       meta: { requiresAuth: true },
       children: [
         {
-          path: '/register/step/structure',
+          path: '/register/step/norole',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/structure-step" */ '@/views/RegisterSteps/StructureStep.vue'
+              /* webpackChunkName: "assets/js/no-role-step" */ '@/views/RegisterSteps/NoRoleStep.vue'
             ),
-          name: 'StructureStep',
+          name: 'NoRoleStep',
         },
         {
           path: '/register/step/profile',
@@ -331,11 +331,12 @@ export default new Router({
           path: '/dashboard/structure/:structureId/missions/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-add" */ '@/views/SNU/MissionForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-add" */ '@/views/SNU/MissionAdd.vue'
             ),
           name: 'MissionFormAdd',
           props: (route) => ({
             structureId: parseInt(route.params.structureId),
+            mission: { ...route.params.mission },
           }),
           meta: {
             roles: [
@@ -351,10 +352,10 @@ export default new Router({
           path: '/dashboard/mission/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-edit" */ '@/views/SNU/MissionForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-edit" */ '@/views/SNU/MissionEdit.vue'
             ),
           name: 'MissionFormEdit',
-          props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
+          props: (route) => ({ id: parseInt(route.params.id) }),
           meta: {
             roles: [
               'admin',
@@ -588,12 +589,89 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/contents',
+          path: '/dashboard/contents/faqs',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents" */ '@/views/SNU/Contents.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-faqs" */ '@/views/SNU/Faqs.vue'
             ),
-          name: 'Contents',
+          name: 'Faqs',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/releases',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-releases" */ '@/views/SNU/Releases.vue'
+            ),
+          name: 'Releases',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/pages',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-pages" */ '@/views/SNU/Pages.vue'
+            ),
+          name: 'Pages',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/collectivities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-collectivities" */ '@/views/SNU/Collectivities.vue'
+            ),
+          name: 'Collectivities',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/documents',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-documents" */ '@/views/SNU/Documents.vue'
+            ),
+          name: 'Documents',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/thematiques',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-thematiques" */ '@/views/SNU/Thematiques.vue'
+            ),
+          name: 'Thematiques',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/mission-templates',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-mission-templates" */ '@/views/SNU/MissionTemplates.vue'
+            ),
+          name: 'MissionTemplates',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/tags',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-tags" */ '@/views/SNU/Tags.vue'
+            ),
+          name: 'Tags',
           meta: {
             roles: ['admin'],
           },
@@ -689,6 +767,78 @@ export default new Router({
               /* webpackChunkName: "assets/js/dashboard-document-edit" */ '@/views/SNU/DocumentForm.vue'
             ),
           name: 'DocumentFormEdit',
+          props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/thematique/add',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-thematique-add" */ '@/views/SNU/ThematiqueForm.vue'
+            ),
+          name: 'ThematiqueFormAdd',
+          props: { mode: 'add' },
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/thematique/:id/edit',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-thematique-edit" */ '@/views/SNU/ThematiqueForm.vue'
+            ),
+          name: 'ThematiqueFormEdit',
+          props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/mission-template/add',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-mission-template-add" */ '@/views/SNU/MissionTemplateForm.vue'
+            ),
+          name: 'MissionTemplateFormAdd',
+          props: { mode: 'add' },
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/mission-template/:id/edit',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-mission-template-edit" */ '@/views/SNU/MissionTemplateForm.vue'
+            ),
+          name: 'MissionTemplateFormEdit',
+          props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/tag/add',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-tag-add" */ '@/views/SNU/TagForm.vue'
+            ),
+          name: 'TagFormAdd',
+          props: { mode: 'add' },
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/tag/:id/edit',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-tag-edit" */ '@/views/SNU/TagForm.vue'
+            ),
+          name: 'TagFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
           meta: {
             roles: ['admin'],

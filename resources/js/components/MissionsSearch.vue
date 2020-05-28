@@ -44,11 +44,7 @@
                                 >
                                   <img
                                     class
-                                    :src="
-                                      $options.filters.domainIcon(
-                                        item.domaine_action
-                                      )
-                                    "
+                                    :src="item.domaine_image"
                                     style="width: 28px;"
                                   />
                                 </div>
@@ -59,15 +55,12 @@
                                     <div class="m-2 min-w-0 flex-shrink">
                                       <div
                                         class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                                        v-text="item.type"
+                                        v-text="item.domaine_name"
                                       />
                                       <div
                                         class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                                       >
-                                        {{
-                                          item.name
-                                            | labelFromValue('mission_domaines')
-                                        }}
+                                        {{ item.name }}
                                       </div>
                                     </div>
 
@@ -278,7 +271,8 @@ export default {
       ),
       filters: {
         department_name: null,
-        domaine_action: null,
+        domaine_name: null,
+        template_title: null,
       },
     }
   },
@@ -299,7 +293,8 @@ export default {
     handleResetFilters(refine) {
       refine()
       this.filters.department_name = null
-      this.filters.domaine_action = null
+      this.filters.domaine_name = null
+      this.filters.template_title = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
       let begin = page * hitsPerPage + 1

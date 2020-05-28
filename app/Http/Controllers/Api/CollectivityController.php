@@ -13,6 +13,7 @@ use App\Filters\FiltersTitleBodySearch;
 use App\Http\Requests\Api\CollectivityUploadRequest;
 use Illuminate\Support\Str;
 use App\Models\Mission;
+use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
@@ -37,38 +38,52 @@ class CollectivityController extends Controller
             ? Collectivity::where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
-        $domains = config('taxonomies.mission_domaines.terms');
-        $dataDomains = Mission::selectRaw('missions.name, count(missions.city) as missions_count')
-            ->department($collectivity->department)
-            ->available()
-            ->groupBy('name')
-            ->take(6)
-            ->orderBy('missions_count', 'desc')
-            ->get();
-        foreach ($dataDomains as $key => $domain) {
-            $dataDomains[$key] = [
-                'key' => $domain->name,
-                'name' => $domains[$domain->name],
-                'missions_count' => $domain->missions_count
-            ];
-        }
+        return $collectivity;
+    }
 
-        $dataCities = Mission::selectRaw('missions.city, count(missions.city) as missions_count')
+    public function statistics($slugOrId)
+    {
+        $collectivity = (is_numeric($slugOrId))
+            ? Collectivity::where('id', $slugOrId)->firstOrFail()
+            : Collectivity::where('slug', $slugOrId)->firstOrFail();
+
+        $templates = [];
+
+        $templatesCollection = MissionTemplate::where('published', true)->get();
+        $templates = $templatesCollection->map(function ($template) use ($collectivity) {
+            return [
+                'id' => $template->id,
+                'title' => $template->title,
+                'subtitle' => $template->subtitle,
+                'missions_count' => Mission::where('template_id', $template->id)
+                    ->where('department', $collectivity->department)
+                    ->count(),
+                'image' => $template->image
+            ];
+        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
+
+        $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count')
             ->department($collectivity->department)
             ->available()
             ->groupBy('city')
             ->take(20)
             ->orderBy('missions_count', 'desc')
             ->get();
-        foreach ($dataCities as $key => $city) {
-            $dataCities[$key] = [
+        foreach ($cities as $key => $city) {
+            $cities[$key] = [
                 'name' => $city->city,
                 'missions_count' => $city->missions_count
             ];
         }
 
-        $collectivity->stats = [
-            'structures_count_national' => Structure::validated()->count(),
+
+        return [
+            'national' => [
+                'structures_count' => Structure::validated()->count(),
+                'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
+                    $query->where('context_role', 'volontaire');
+                })->count()
+            ],
             'missions_count' => Mission::department($collectivity->department)->available()->count(),
             'structures_count' => Structure::department($collectivity->department)->validated()->count(),
             'participations_count' => Participation::department($collectivity->department)->count(),
@@ -77,35 +92,10 @@ class CollectivityController extends Controller
                     $query->where('context_role', 'volontaire');
                 })
                 ->count(),
-            'volontaires_count_national' => Profile::whereHas('user', function (Builder $query) {
-                $query->where('context_role', 'volontaire');
-            })
-            ->count(),
-            'domains' => $dataDomains,
-            'cities' => $dataCities,
+            'templates' => $templates,
+            'cities' => $cities
         ];
-
-        return $collectivity;
     }
-
-    // public function submit(CollectivitySubmitRequest $request)
-    // {
-    //     if (!$request->validated()) {
-    //         return $request->validated();
-    //     }
-
-    //     $collectivity = Collectivity::create($request->validated());
-
-    //     $profile = Profile::whereEmail(request('email'))->first();
-
-    //     if (!$profile) {
-    //         $profile = Profile::create($request->validated());
-    //     }
-
-    //     $collectivity->profile()->save($profile);
-
-    //     return $collectivity;
-    // }
 
     public function store(CollectivityCreateRequest $request)
     {

@@ -6,16 +6,15 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Releases
+          Contenus - Releases
         </div>
       </div>
       <div class>
-        <router-link :to="{ name: 'ReleaseFormAdd' }">
-          <el-button type="primary" icon="el-icon-plus">
-            Nouvelle release
-          </el-button>
-        </router-link>
+        <new-content-dropdown></new-content-dropdown>
       </div>
+    </div>
+    <div class="px-12 mb-12">
+      <contents-menu index="/dashboard/contents/releases"></contents-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -32,23 +31,23 @@
       :data="tableData"
       :highlight-current-row="true"
     >
-      <el-table-column label="ID" min-width="70" align="center">
+      <el-table-column label="#" min-width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">
-            {{ scope.row.id }}
-          </el-avatar>
+          <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Titre" min-width="320">
+      <el-table-column label="Question" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.title }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="Crée le" min-width="120">
+      <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
         <template slot-scope="scope">
-          {{ scope.row.created_at | fromNow }}
+          <div class="text-sm text-gray-600">
+            {{ scope.row.updated_at | fromNow }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Actions" width="165">
@@ -57,12 +56,7 @@
             size="small"
             split-button
             trigger="click"
-            @click="
-              $router.push({
-                name: 'ReleaseFormEdit',
-                params: { id: scope.row.id },
-              })
-            "
+            @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >
             <i class="el-icon-edit mr-2" />Modifier
@@ -97,18 +91,21 @@
 import { fetchReleases, deleteRelease } from '@/api/app'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
+import ContentsMenu from '@/components/ContentsMenu'
+import NewContentDropdown from '@/components/NewContentDropdown'
 
 export default {
   name: 'Releases',
   components: {
     QueryMainSearchFilter,
+    ContentsMenu,
+    NewContentDropdown,
   },
   mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
       tableData: [],
-      totalRows: 0,
     }
   },
   methods: {
@@ -122,10 +119,16 @@ export default {
         this.$router.push(command)
       }
     },
+    handleClickEdit(id) {
+      this.$router.push({
+        name: `ReleaseFormEdit`,
+        params: { id: id },
+      })
+    },
     handleClickDelete(id) {
       this.$confirm(
         `Êtes vous sur de vouloir supprimer cette release ?`,
-        'Supprimer la release',
+        'Supprimer cette release',
         {
           confirmButtonText: 'Supprimer',
           confirmButtonClass: 'el-button--danger',

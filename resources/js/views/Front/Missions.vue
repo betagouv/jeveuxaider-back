@@ -108,28 +108,49 @@
               </ais-menu-select>
               <ais-menu-select
                 class="flex-1"
-                attribute="domaine_action"
+                attribute="domaine_name"
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.domaine_action"
+                  v-model="filters.domaine_name"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
-                  placeholder="Domaines d'actions"
+                  placeholder="Domaines d'action"
                   popper-class="domaines-actions"
                   @change="handleFilters(refine, $event)"
                 >
                   <el-option
                     v-for="item in items"
                     :key="item.value"
-                    :label="`${$options.filters.cleanDomaineAction(
-                      item.label
-                    )} (${item.count})`"
+                    :label="`${item.label} (${item.count})`"
                     :selected="item.isRefined"
                     :value="item.value"
                   />
                 </el-select>
               </ais-menu-select>
+              <ais-menu-select
+                class="flex-1"
+                attribute="template_title"
+                :transform-items="transformItems"
+              >
+                <el-select
+                  v-model="filters.template_title"
+                  slot-scope="{ items, canRefine, refine }"
+                  :disabled="!canRefine"
+                  placeholder="Missions types"
+                  popper-class="missions-types"
+                  @change="handleFilters(refine, $event)"
+                >
+                  <el-option
+                    v-for="item in items"
+                    :key="item.value"
+                    :label="`${item.label} (${item.count})`"
+                    :selected="item.isRefined"
+                    :value="item.value"
+                  />
+                </el-select>
+              </ais-menu-select>
+
               <ais-clear-refinements>
                 <div
                   slot-scope="{ canRefine, refine }"
@@ -176,11 +197,7 @@
                             >
                               <img
                                 class=""
-                                :src="
-                                  $options.filters.domainIcon(
-                                    item.domaine_action
-                                  )
-                                "
+                                :src="item.domaine_image"
                                 style="width: 28px;"
                               />
                             </div>
@@ -191,15 +208,12 @@
                                 <div class="m-2 min-w-0 flex-shrink">
                                   <div
                                     class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                                    v-text="item.type"
+                                    v-text="item.domaine_name"
                                   />
                                   <div
                                     class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                                   >
-                                    {{
-                                      item.name
-                                        | labelFromValue('mission_domaines')
-                                    }}
+                                    {{ item.name }}
                                   </div>
                                 </div>
 
@@ -430,6 +444,7 @@ export default {
         query: null,
         department_name: null,
         domaine_action: null,
+        template_title: null,
       },
       forceWrite: false,
       routing: {
@@ -515,7 +530,8 @@ export default {
       refine()
       this.filters.query = null
       this.filters.department_name = null
-      this.filters.domaine_action = null
+      this.filters.domaine_name = null
+      this.filters.template_title = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
       let begin = page * hitsPerPage + 1

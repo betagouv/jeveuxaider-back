@@ -18,7 +18,10 @@
     </el-menu-item>
     <el-menu-item
       :index="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`"
-      :class="{ 'is-active': isActive('structure') }"
+      :class="{
+        'is-active':
+          isActive('dashboard/structure') && !isActive('missions/add'),
+      }"
     >
       <span v-if="$store.getters.sidebar">Ma structure</span>
       <el-tooltip

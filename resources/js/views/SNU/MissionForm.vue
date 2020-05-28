@@ -1,40 +1,89 @@
 <template>
-  <div
-    v-if="!$store.getters.loading && canEdit"
-    class="mission-form pl-12 pb-12"
-  >
-    <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        Mission
-      </div>
-      <div class="mb-8 flex">
-        <div class="font-bold text-2xl text-gray-800 max-w-3xl">
-          {{ form.name | labelFromValue('mission_domaines') }}
-        </div>
-        <state-tag
-          :state="form.state"
-          class="relative ml-3"
-          style="top: 1px;"
-        />
-      </div>
-    </template>
-    <template v-else>
-      <div class="text-m text-gray-600 uppercase">
-        Mission
-      </div>
-      <div class="mb-12 font-bold text-2xl text-gray-800">
-        Création d'une nouvelle mission
-      </div>
-    </template>
+  <div class="mission-form">
     <div class="flex">
       <div style="max-width: 600px;">
-        <p class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+        <template v-if="mode == 'add'">
+          <div
+            v-if="form.template"
+            class="mb-6 text-md leading-snug text-gray-500"
+          >
+            En choisissant un modèle, certains champs de la mission sont
+            prédéfinis et non modifiables : le titre, le domaine d'action
+            principal, l'objectif et la description de la mission. Vous pouvez
+            éditer les autres champs dont la localisation, les dates, le nombre
+            de bénévoles recherchés et ajouter un commentaire pour préciser la
+            mission. La mission est mise en ligne dès que vous décidez de la
+            publier.
+          </div>
+          <div v-else class="mb-6 text-md leading-snug text-gray-500">
+            En choisissant de rédiger intégralement votre mission, tous les
+            champs de la mission sont éditables. La mission est publiée après
+            validation par le référent départemental de la Réserve Civique.
+          </div>
+        </template>
+
+        <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
           Une question? Appelez-nous au
           <span class="font-bold">
             <a href="tel:0184800189">&nbsp;01 84 80 01 89&nbsp;</a>
           </span>
           ou chatez en cliquant sur le bouton en bas à droite.
-        </p>
+        </div>
+
+        <div v-if="form.template">
+          <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
+            <div class="mr-3 flex-1">
+              <div class="mb-1">{{ form.template.title }}</div>
+              <div class="text-xs text-gray-400">
+                {{ form.template.subtitle }}
+              </div>
+            </div>
+            <el-button
+              plain
+              type="primary"
+              class="ml-3"
+              @click.prevent="modalVisible = true"
+              >Aperçu</el-button
+            >
+          </div>
+
+          <el-dialog
+            :title="form.template.title"
+            :visible.sync="modalVisible"
+            width="680"
+          >
+            <div class="flex items-center">
+              <h4
+                class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Titre de la mission
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div class="mt-2">{{ form.template.subtitle }}</div>
+            <div class="flex items-center mt-6">
+              <h4
+                class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Objectif de la mission
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div
+              class="mt-2 break-normal"
+              v-html="form.template.objectif"
+            ></div>
+            <div class="flex items-center mt-6">
+              <h4
+                class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Description de la mission et règles à suivre impérativement
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200"></div>
+            </div>
+            <div class="mt-2" v-html="form.template.description"></div>
+          </el-dialog>
+        </div>
 
         <el-form
           ref="missionForm"
@@ -43,40 +92,74 @@
           label-position="top"
           :rules="rules"
         >
-          <div class="mb-6 text-xl text-gray-800">
-            Informations générales
+          <div class="mt-6 mb-6 text-xl text-gray-800">
+            Détails de la mission
           </div>
-
-          <el-form-item v-if="form.structure" label="Ma structure" class>
-            <el-input
-              v-model="form.structure.name"
-              placeholder="Structure de la mission"
-              disabled
-            />
-          </el-form-item>
-
-          <el-form-item label="Domaine d'action" prop="name">
-            <item-description>
-              Choisissez parmi la liste des missions prioritaires face à la
-              crise
-            </item-description>
-            <el-select
-              v-model="form.name"
-              placeholder="Choisir un domaine d'action"
+          <div v-if="!form.template">
+            <el-form-item
+              label="Titre de la mission"
+              prop="name"
+              class="flex-1 mr-2"
             >
-              <el-option
-                v-for="item in $store.getters.taxonomies.mission_domaines.terms"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+              <item-description>
+                Le titre de la mission doit être une phrase qui précise l'action
+                du bénévole, par exemple "Je fais les courses de produits
+                essentiels pour mes voisins les plus fragiles"
+              </item-description>
+              <el-input
+                v-model="form.name"
+                placeholder="Décrivez l'action du bénévole en une phrase"
               />
-            </el-select>
-          </el-form-item>
+            </el-form-item>
+            <el-form-item
+              label="Domaine d'action principal"
+              prop="domaine_id"
+              class="flex-1"
+            >
+              <el-select
+                v-model="form.domaine_id"
+                placeholder="Sélectionner un domaine d'action"
+              >
+                <el-option
+                  v-for="domaine in domaines"
+                  :key="domaine.id"
+                  :label="domaine.name.fr"
+                  :value="domaine.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item
+              label="Objectif de la mission"
+              prop="objectif"
+              class="flex-1"
+            >
+              <el-input
+                v-model="form.objectif"
+                name="objectif"
+                type="textarea"
+                :autosize="{ minRows: 4, maxRows: 6 }"
+                placeholder="Décrivez les enjeux et la finalité de la mission"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="Description de la mission"
+              prop="description"
+              class="flex-1"
+            >
+              <el-input
+                v-model="form.description"
+                name="description"
+                type="textarea"
+                :autosize="{ minRows: 4, maxRows: 6 }"
+                placeholder="Décrivez précisément le rôle et les activités du bénévole"
+              ></el-input>
+            </el-form-item>
+          </div>
 
           <el-form-item label="Type de mission" prop="type">
             <el-select
               v-model="form.type"
-              placeholder="Selectionner un type de mission"
+              placeholder="Sélectionner un type de mission"
               @change="handleTypeChanged()"
             >
               <el-option
@@ -88,13 +171,61 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="Format de mission" prop="format">
+            <el-select
+              v-model="form.format"
+              placeholder="Sélectionner un format de mission"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.mission_formats.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="Domaines d'action complémentaires" prop="tags">
+            <item-description>
+              Le choix d'un ou plusieurs domaines d'action complémentaires
+              permettra à votre mission d'être référencée dans les domaines
+              d'action correspondant lors d'une recherche par les réservistes
+            </item-description>
+            <el-select
+              v-model="form.tags"
+              filterable
+              multiple
+              placeholder="Sélectionner les domaines d'action complémentaires"
+            >
+              <el-option
+                v-for="domaine in secondaryDomaines"
+                :key="domaine.id"
+                :label="domaine.name.fr"
+                :value="domaine.name.fr"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item
-            label="Nombre de volontaires susceptibles d’être accueillis de façon concomitante sur cette mission"
+            label="Commentaire par la structure"
+            prop="information"
+            class="flex-1"
+          >
+            <el-input
+              v-model="form.information"
+              name="information"
+              type="textarea"
+              :autosize="{ minRows: 4, maxRows: 6 }"
+              placeholder="Informations complémentaires à l'attention du bénévole."
+            ></el-input>
+          </el-form-item>
+          <el-form-item
+            label="Nombre de bénévoles susceptibles d’être accueillis de façon concomitante sur cette mission"
             prop="participations_max"
           >
             <item-description>
               Précisez ce nombre en fonction de vos contraintes logistiques et
-              votre capacité à accompagner les volontaires.
+              votre capacité à accompagner les bénévoles.
             </item-description>
             <el-input-number
               v-model="form.participations_max"
@@ -104,20 +235,24 @@
             />
           </el-form-item>
 
-          <el-form-item label="Format de mission" prop="format">
+          <el-form-item
+            label="Publics bénéficiaires"
+            prop="publics_beneficiaires"
+          >
             <el-select
-              v-model="form.format"
-              placeholder="Selectionner un format de mission"
+              v-model="form.publics_beneficiaires"
+              placeholder="Sélectionner les publics bénéficiaires"
+              multiple
             >
               <el-option
-                v-for="item in $store.getters.taxonomies.mission_formats.terms"
+                v-for="item in $store.getters.taxonomies
+                  .mission_publics_beneficiaires.terms"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
               />
             </el-select>
           </el-form-item>
-
           <div class="mt-12 mb-6 text-xl text-gray-800">
             Dates de la mission
           </div>
@@ -154,100 +289,17 @@
           </div>
 
           <el-form-item
-            label="Informations complémentaires concernant les dates et horaires de la mission"
+            label="Informations complémentaires"
             prop="dates_infos"
             class="flex-1"
           >
             <el-input
               v-model="form.dates_infos"
               type="textarea"
-              :autosize="{ minRows: 2, maxRows: 6 }"
-              placeholder="Informations complémentaires concernant les dates et horaires de la mission"
+              :autosize="{ minRows: 4, maxRows: 6 }"
+              placeholder="Informations complémentaires concernant les dates et horaires ou les autres modalités pratiques"
             />
           </el-form-item>
-
-          <!-- <el-form-item
-        label="Périodicité de la mission"
-        prop="periodicite"
-        class="flex-1"
-      >
-        <el-select
-          v-model="form.periodicite"
-          placeholder="Sélectionnez la périodicité"
-        >
-          <el-option
-            v-for="item in $store.getters.taxonomies.mission_periodicites.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-          </el-form-item>-->
-
-          <div class="mt-12 mb-6 text-xl text-gray-800">
-            Détail de la mission
-          </div>
-          <div class>
-            <el-form-item
-              label="Commentaire par la structure"
-              prop="description"
-              class="flex-1"
-            >
-              <item-description>
-                Décrivez précisément la mission (contexte, objectifs,
-                bénéficiaires, activités, utilité, ressources...). Celle-ci doit
-                être conforme aux règles sanitaires et aux directives du
-                gouvernement.
-              </item-description>
-              <el-input
-                v-model="form.description"
-                name="description"
-                type="textarea"
-                :autosize="{ minRows: 2, maxRows: 6 }"
-                placeholder="Décrivez votre mission, en quelques mots"
-              />
-            </el-form-item>
-
-            <el-form-item
-              label="Publics bénéficiaires"
-              prop="publics_beneficiaires"
-            >
-              <el-select
-                v-model="form.publics_beneficiaires"
-                placeholder="Selectionner les publics bénéficiaires"
-                multiple
-              >
-                <el-option
-                  v-for="item in $store.getters.taxonomies
-                    .mission_publics_beneficiaires.terms"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-
-            <!-- <el-form-item label="Publics volontaires" prop="publics_volontaires">
-          <item-description
-            >Votre mission apparaîtra dans les résultats de recherche lorsqu'un
-            ou plusieurs de ses publics bénéficiaires seront
-            saisis.</item-description
-          >
-          <el-select
-            v-model="form.publics_volontaires"
-            placeholder="Selectionner les publics volontaires"
-            multiple
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies
-                .mission_publics_volontaires.terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-            </el-form-item>-->
-          </div>
 
           <div class="mt-12 mb-6 flex text-xl text-gray-800">
             La localisation des publics bénéficiaires
@@ -305,17 +357,27 @@
             Responsable de la mission
           </div>
           <item-description>
-            Les notifications lors de la prise de contact d'un volontaire
-            concernant cette mission seront envoyées à cette personne.
-            <br />Vous pouvez également
-            <span
+            Les notifications lors de la prise de contact d'un bénévole
+            concernant cette mission seront envoyées à cette personne. Vous
+            pouvez également
+            <router-link
+              target="_blank"
+              :to="{
+                name: 'StructureMembersAdd',
+                params: { id: structureId },
+              }"
               class="underline cursor-pointer"
-              @click="onAddTuteurLinkClicked"
-              >ajouter un nouveau membre</span
             >
+              ajouter un nouveau membre
+            </router-link>
             à votre équipe.
           </item-description>
-          <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
+          <el-form-item
+            v-if="form.structure"
+            label="Responsable"
+            prop="tuteur_id"
+            class="flex-1"
+          >
             <el-select
               v-model="form.tuteur_id"
               placeholder="Sélectionner un responsable"
@@ -329,86 +391,11 @@
             </el-select>
           </el-form-item>
           <div class="flex pt-2">
-            <el-button type="primary" :loading="loading" @click="onSubmit">
-              Enregistrer
-            </el-button>
-            <!-- <el-button
-          v-if="showAskValidation"
-          type="primary"
-          :loading="loading"
-          @click="onAskValidationSubmit"
-          >Enregistrer et proposer la mission</el-button
-            >-->
+            <el-button type="primary" :loading="loading" @click="onSubmit"
+              >Enregistrer</el-button
+            >
           </div>
         </el-form>
-      </div>
-      <div class="flex-1 px-12">
-        <div
-          v-if="
-            form.name ==
-            'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
-          "
-          class="border rounded p-8"
-        >
-          <AideAlimentaireUrgence />
-        </div>
-        <div
-          v-if="
-            form.name ==
-            'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
-          "
-          class="border rounded p-8"
-        >
-          <GardeExceptionnelleEnfants />
-        </div>
-        <div
-          v-if="
-            form.name ==
-            'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
-          "
-          class="border rounded p-8"
-        >
-          <LienPersonnesFragilesIsolees />
-        </div>
-        <div
-          v-if="
-            form.name ==
-            'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
-          "
-          class="border rounded p-8"
-        >
-          <SolidariteDeProximite />
-        </div>
-        <div
-          v-if="form.name == 'soutien_aux_personnes_agees_en_etablissement'"
-          class="border rounded p-8"
-        >
-          <SoutienPersonnesAgeesEtablissement />
-        </div>
-        <div
-          v-if="form.name == 'soutien_scolaire_a_distance'"
-          class="border rounded p-8"
-        >
-          <SoutienScolaireDistance />
-        </div>
-        <div
-          v-if="form.name == 'fabrication_distribution_equipements'"
-          class="border rounded p-8"
-        >
-          <FabricationDistributionEquipements />
-        </div>
-        <div
-          v-if="form.name == 'soutien_mobilisation_sanitaire'"
-          class="border rounded p-8"
-        >
-          <SoutienMobilisationSanitaire />
-        </div>
-        <div
-          v-if="form.name == 'soutien_reprise_missions_service_public'"
-          class="border rounded p-8"
-        >
-          <SoutienRepriseMissionsServicePublic />
-        </div>
       </div>
     </div>
   </div>
@@ -416,41 +403,20 @@
 
 <script>
 import {
-  getMission,
-  addMission,
+  addStructureMission,
   updateMission,
   fetchMissions,
 } from '@/api/mission'
-import { getStructure } from '@/api/structure'
+import { fetchTags } from '@/api/app'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
-import StateTag from '@/components/StateTag'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import ItemDescription from '@/components/forms/ItemDescription'
-import AideAlimentaireUrgence from '@/components/domaines/AideAlimentaireUrgence'
-import GardeExceptionnelleEnfants from '@/components/domaines/GardeExceptionnelleEnfants'
-import LienPersonnesFragilesIsolees from '@/components/domaines/LienPersonnesFragilesIsolees'
-import SolidariteDeProximite from '@/components/domaines/SolidariteDeProximite'
-import SoutienPersonnesAgeesEtablissement from '@/components/domaines/SoutienPersonnesAgeesEtablissement'
-import SoutienScolaireDistance from '@/components/domaines/SoutienScolaireDistance'
-import FabricationDistributionEquipements from '@/components/domaines/FabricationDistributionEquipements'
-import SoutienMobilisationSanitaire from '@/components/domaines/SoutienMobilisationSanitaire'
-import SoutienRepriseMissionsServicePublic from '@/components/domaines/SoutienRepriseMissionsServicePublic'
 
 export default {
   name: 'MissionForm',
   components: {
     AlgoliaPlacesInput,
-    StateTag,
     ItemDescription,
-    AideAlimentaireUrgence,
-    GardeExceptionnelleEnfants,
-    LienPersonnesFragilesIsolees,
-    SolidariteDeProximite,
-    SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance,
-    FabricationDistributionEquipements,
-    SoutienMobilisationSanitaire,
-    SoutienRepriseMissionsServicePublic,
   },
   mixins: [FormWithAddress],
   props: {
@@ -458,25 +424,32 @@ export default {
       type: Number,
       default: null,
     },
-    id: {
-      type: Number,
+    mission: {
+      type: Object,
       default: null,
     },
   },
   data() {
     return {
       loading: false,
-      canEdit: false,
-      mission: {},
+      modalVisible: false,
       form: {
-        state: 'En attente de validation',
         participations_max: 1,
+        ...this.mission,
       },
+      domaines: [],
       rules: {
         name: [
           {
             required: true,
             message: "Veuillez choisir un domaine d'action",
+            trigger: 'blur',
+          },
+        ],
+        domaine_id: [
+          {
+            required: true,
+            message: "Veuillez choisir un domaine d'action principal",
             trigger: 'blur',
           },
         ],
@@ -494,13 +467,6 @@ export default {
             trigger: 'blur',
           },
         ],
-        // periodicite: [
-        //   {
-        //     required: true,
-        //     message: "Veuillez choisir une périodicité",
-        //     trigger: "blur"
-        //   }
-        // ],
         publics_beneficiaires: [
           {
             required: true,
@@ -508,13 +474,13 @@ export default {
             trigger: 'blur',
           },
         ],
-        // publics_volontaires: [
-        //   {
-        //     required: true,
-        //     message: "Veuillez choisir au moins un public volontaire",
-        //     trigger: "blur"
-        //   }
-        // ],
+        objectif: [
+          {
+            required: true,
+            message: 'Veuillez renseigner un objectif de la mission',
+            trigger: 'blur',
+          },
+        ],
         description: [
           {
             required: true,
@@ -554,92 +520,48 @@ export default {
     }
   },
   computed: {
-    showAskValidation() {
-      return this.$store.getters.contextRole == 'responsable' &&
-        (!this.mission.state ||
-          this.mission.state == 'Brouillon' ||
-          this.mission.state == 'En attente de correction')
-        ? true
-        : false
-    },
     mode() {
-      return this.id ? 'edit' : 'add'
+      return this.mission.id ? 'edit' : 'add'
+    },
+    mainDomaineId() {
+      return this.form.template
+        ? this.form.template.domaine.id
+        : this.form.domaine_id
+    },
+    secondaryDomaines() {
+      return this.domaines.filter((item) => item.id != this.mainDomaineId)
     },
   },
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
+  created() {
+    fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
+      this.domaines = response.data.data
+    })
+  },
+  async beforeRouteEnter(to, from, next) {
+    await next(async (vm) => {
       if (to.name == 'MissionFormEdit') {
-        fetchMissions({ 'filter[id][]': vm.id }).then((response) => {
+        await fetchMissions({ 'filter[id][]': vm.id }).then((response) => {
           if (response.data.total != 1) {
             vm.$message({
               message: "Vous n'avez pas les droits d'accéder à cette page",
               type: 'error',
             })
             next('/403')
-          } else {
-            vm.canEdit = true
           }
         })
-      } else {
-        vm.canEdit = true
       }
     })
   },
-  created() {
-    if (this.structureId) {
-      this.$store.commit('setLoading', true)
-      getStructure(this.structureId)
-        .then((response) => {
-          this.$set(this.form, 'structure', response.data)
-          if (
-            response.data.members.filter(
-              (member) => member.id == this.$store.getters.user.profile.id
-            ).length > 0
-          ) {
-            this.form.tuteur_id = this.$store.getters.user.profile.id
-          }
-          this.$store.commit('setLoading', false)
-        })
-        .catch(() => {
-          this.loading = false
-        })
-    } else if (this.id) {
-      this.$store.commit('setLoading', true)
-      getMission(this.id)
-        .then((response) => {
-          this.form = response.data
-          this.mission = { ...response.data }
-          this.$store.commit('setLoading', false)
-        })
-        .catch(() => {
-          this.loading = false
-        })
-    }
-  },
   methods: {
-    onAddTuteurLinkClicked() {
-      let routeData = this.$router.resolve({
-        name: 'StructureMembersAdd',
-        params: { id: this.form.structure.id },
-      })
-      window.open(routeData.href, '_blank')
-    },
-    onAskValidationSubmit() {
-      this.form.state = 'En attente de validation'
-      this.addOrUpdateMission()
-    },
     onSubmit() {
-      if (this.form.structure && this.form.structure.state == 'Validée') {
-        this.form.state = 'Validée'
-      }
       this.addOrUpdateMission()
     },
     addOrUpdateMission() {
       this.loading = true
       this.$refs['missionForm'].validate((valid) => {
         if (valid) {
-          if (this.id) {
-            updateMission(this.id, this.form)
+          if (this.mission.id) {
+            updateMission(this.mission.id, this.form)
               .then(() => {
                 this.loading = false
                 this.$router.go(-1)
@@ -652,7 +574,7 @@ export default {
                 this.loading = false
               })
           } else if (this.structureId) {
-            addMission(this.structureId, this.form)
+            addStructureMission(this.structureId, this.form)
               .then(() => {
                 this.loading = false
                 this.$router.push(`/dashboard/missions`)
@@ -671,10 +593,7 @@ export default {
       })
     },
     handleTypeChanged() {
-      if (this.form.type == 'Mission à distance') {
-        // this.rules.address[0].required = false;
-        // this.rules.city[0].required = false;
-      } else {
+      if (this.form.type == 'Mission en présentiel') {
         this.$confirm(
           'Merci de bien respecter les règles de sécurités pour les missions en présentiel !<br>',
           'Confirmation',
@@ -686,8 +605,6 @@ export default {
             dangerouslyUseHTMLString: true,
           }
         )
-        // this.rules.address[0].required = true;
-        // this.rules.city[0].required = true;
       }
     },
   },

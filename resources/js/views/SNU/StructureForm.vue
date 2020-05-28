@@ -171,10 +171,10 @@
         Réseau national
       </div>
       <item-description>
-        Si votre structure est membre d'un réseau national (La Croix Rouge,
-        Armée du Salut...), renseignez son nom. Vous permettez ainsi au
-        superviseur de votre réseau de visualiser les missions et volontaires
-        rattachés à votre structure.
+        Si votre structure est membre d'un réseau national (Les Banques
+        alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
+        ainsi au superviseur de votre réseau de visualiser les missions et
+        bénévoles rattachés à votre structure.
       </item-description>
       <el-form-item label="Réseau national" prop="reseau" class="flex-1">
         <el-select

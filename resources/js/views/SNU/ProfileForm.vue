@@ -88,10 +88,10 @@
             Superviseur réseau national
           </div>
           <item-description>
-            Si cet utilisateur est membre d'un réseau national (La Croix Rouge,
-            Armée du Salut...), renseignez son nom. Vous permettez à cet
-            utilisateur de visualiser les missions et volontaires rattachés aux
-            structures de ce réseau national.
+            Si cet utilisateur est membre d'un réseau national (Les Banques
+            alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
+            à cet utilisateur de visualiser les missions et bénévoles rattachés
+            aux structures de ce réseau national.
           </item-description>
           <el-form-item label="Réseau national" prop="reseau_id" class="flex-1">
             <el-select
@@ -115,7 +115,7 @@
           <item-description>
             Si cet utilisateur est référent régional, renseignez le nom de la
             région. Vous permettez à cet utilisateur de visualiser les missions
-            et volontaires rattachés aux structures de cette région.
+            et bénévoles rattachés aux structures de cette région.
           </item-description>
           <el-form-item label="Région" prop="referent_region" class="flex-1">
             <el-select
@@ -140,7 +140,7 @@
           <item-description>
             Si cet utilisateur est référent, renseignez le nom du département
             Vous permettez à cet utilisateur de visualiser les missions et
-            volontaires rattachés aux structures de ce département.
+            bénévoles rattachés aux structures de ce département.
           </item-description>
           <el-form-item
             label="Département"

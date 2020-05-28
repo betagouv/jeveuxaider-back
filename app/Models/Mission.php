@@ -7,15 +7,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use Spatie\Tags\HasTags;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable;
+    use SoftDeletes, Searchable, HasTags;
 
     protected $table = 'missions';
 
     protected $fillable = [
         'name',
+        'information',
+        'objectif',
         'description',
         'address',
         'zip',
@@ -36,7 +39,9 @@ class Mission extends Model
         'periodicite',
         'publics_beneficiaires',
         'publics_volontaires',
-        'type'
+        'type',
+        'domaine_id',
+        'template_id',
     ];
 
     protected $casts = [
@@ -50,12 +55,6 @@ class Mission extends Model
     ];
 
     protected $appends = ['full_address', 'has_places_left', 'participations_count'];
-
-    /*protected $with = [
-        'structure:id,name,city,address,zip,state',
-        'structure.members:id,first_name,last_name,mobile,email',
-        'tuteur:id,email,mobile,phone,first_name,last_name'
-    ];*/
 
     public function shouldBeSearchable()
     {
@@ -85,13 +84,16 @@ class Mission extends Model
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
             ] : null,
-            'type' => $this->type
+            'type' => $this->type,
+            'template_title' => $this->template ? $this->template->title : null,
+            'domaine_name' => $this->template ? $this->template->domaine->name : $this->domaine->name,
+            'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
         ];
 
         if ($this->latitude && $this->longitude) {
-            $mission["_geoloc"] = [
-                "lat" => $this->latitude,
-                "lng" => $this->longitude
+            $mission['_geoloc'] = [
+                'lat' => $this->latitude,
+                'lng' => $this->longitude
             ];
         }
 
@@ -118,6 +120,16 @@ class Mission extends Model
         return $this->hasMany('App\Models\Participation', 'mission_id');
     }
 
+    public function domaine()
+    {
+        return $this->belongsTo('App\Models\Tag');
+    }
+
+    public function template()
+    {
+        return $this->belongsTo('App\Models\MissionTemplate');
+    }
+
     public function getFullAddressAttribute()
     {
         return "{$this->address} {$this->zip} {$this->city}";
@@ -131,6 +143,21 @@ class Mission extends Model
     public function getParticipationsCountAttribute()
     {
         return $this->participations_max - $this->places_left;
+    }
+
+    public function getNameAttribute($value)
+    {
+        return $this->template_id ? $this->template->subtitle : $value;
+    }
+
+    public function getDescriptionAttribute($value)
+    {
+        return $this->template_id ? $this->template->description : $value;
+    }
+
+    public function getObjectifAttribute($value)
+    {
+        return $this->template_id ? $this->template->objectif : $value;
     }
 
     public function scopeHasPlacesLeft($query)

@@ -25,13 +25,15 @@ class MissionRequest extends FormRequest
     {
         return [
             'user_id' => 'sometimes|required',
-            'name' => 'sometimes|required|min:3|max:255',
+            'name' => 'required_without:template_id|min:3|max:255',
             'tuteur_id' => '',
             'start_date' => 'nullable|date_format:Y-m-d H:i:s',
             'end_date' => 'nullable|date_format:Y-m-d H:i:s|after:start_date',
             'structure_id' => '',
             'format' => 'sometimes|required',
-            'description' => '',
+            'information' => '',
+            'objectif' => 'required_without:template_id',
+            'description' => 'required_without:template_id',
             'address' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -43,7 +45,7 @@ class MissionRequest extends FormRequest
             'state' => [
                 function ($attribute, $value, $fail) {
                     if ($this->mission && $this->mission->state !== $value) { // State will  change
-                        if(! $this->user()->can('changeState', [$this->mission, $value])) {
+                        if (! $this->user()->can('changeState', [$this->mission, $value])) {
                             $fail('Vous n\'êtes pas autorisé à changer le statut de cette mission.');
                         }
                     }
@@ -52,7 +54,10 @@ class MissionRequest extends FormRequest
             'periodicite' => '',
             'publics_volontaires' => '',
             'publics_beneficiaires' => '',
-            'type' => ''
+            'type' => '',
+            'domaine_id' => 'required_without:template_id',
+            'template_id' => '',
+            'tags' => ''
         ];
     }
 
@@ -74,6 +79,7 @@ class MissionRequest extends FormRequest
             'end_date.date' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.date_format' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.after' => 'La date de fin doit être supérieur à celle de début',
+            'name.required_without' => 'Le nom de la mission est requis',
         ];
     }
 }

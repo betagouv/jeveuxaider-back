@@ -137,7 +137,7 @@
           <template slot-scope="scope">
             <div class="text-gray-900">
               <v-clamp :max-lines="2" autoresize>
-                {{ scope.row.name | labelFromValue('mission_domaines') }}
+                {{ scope.row.name }}
               </v-clamp>
             </div>
             <div

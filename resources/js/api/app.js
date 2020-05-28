@@ -106,6 +106,10 @@ export function getCollectivity(id) {
   return request.get(`/api/collectivity/${id}`)
 }
 
+export function getCollectivityStatistics(id) {
+  return request.get(`/api/collectivity/${id}/statistics`)
+}
+
 export function fetchCollectivities(params) {
   return request.get('/api/collectivities', { params })
 }
@@ -165,4 +169,78 @@ export function uploadFile(id, model, file) {
 
 export function deleteFile(id, model) {
   return request.delete(`/api/${model}/${id}/upload`)
+}
+
+export function updateThematique(id, thematique) {
+  return request.post(`/api/thematique/${id}`, thematique)
+}
+
+export function addOrUpdateThematique(id, thematique) {
+  return id ? updateThematique(id, thematique) : addThematique(thematique)
+}
+
+export function addThematique(thematique) {
+  return request.post('/api/thematique', thematique)
+}
+
+export function getThematique(id) {
+  return request.get(`/api/thematique/${id}`)
+}
+
+export function fetchThematiques(params) {
+  return request.get('/api/thematiques', { params })
+}
+
+export function deleteThematique(id) {
+  return request.delete(`/api/thematique/${id}`)
+}
+
+export function updateMissionTemplate(id, missionTemplate) {
+  return request.post(`/api/mission-template/${id}`, missionTemplate)
+}
+
+export function addOrUpdateMissionTemplate(id, missionTemplate) {
+  return id
+    ? updateMissionTemplate(id, missionTemplate)
+    : addMissionTemplate(missionTemplate)
+}
+
+export function addMissionTemplate(missionTemplate) {
+  return request.post('/api/mission-template', missionTemplate)
+}
+
+export function getMissionTemplate(id) {
+  return request.get(`/api/mission-template/${id}`)
+}
+
+export function fetchMissionTemplates(params) {
+  return request.get('/api/mission-templates', { params })
+}
+
+export function deleteMissionTemplate(id) {
+  return request.delete(`/api/mission-template/${id}`)
+}
+
+export function updateTag(id, tag) {
+  return request.post(`/api/tag/${id}`, tag)
+}
+
+export function addOrUpdateTag(id, tag) {
+  return id ? updateTag(id, tag) : addTag(tag)
+}
+
+export function addTag(tag) {
+  return request.post('/api/tag', tag)
+}
+
+export function getTag(id) {
+  return request.get(`/api/tag/${id}`)
+}
+
+export function fetchTags(params) {
+  return request.get('/api/tags', { params })
+}
+
+export function deleteTag(id) {
+  return request.delete(`/api/tag/${id}`)
 }

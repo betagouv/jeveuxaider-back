@@ -3,11 +3,36 @@
     <AppHeader />
 
     <div class="bg-blue-900 pb-32">
-      <div class="container mx-auto px-4">
+      <div v-if="!loading" class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">
+          <h1
+            v-if="mission.has_places_left"
+            class="text-3xl font-bold text-white"
+          >
             Mission disponible
           </h1>
+          <h1 v-else class="text-3xl font-bold text-white">Mission complète</h1>
+        </div>
+        <div class="my-4 flex">
+          <span
+            v-if="mission.template"
+            class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3"
+            >{{ mission.template.domaine.name.fr }}</span
+          >
+          <span
+            v-else
+            class="bg-gray-100 text-blue-900 rounded px-3 py-1 mr-3"
+            >{{ mission.domaine.name.fr }}</span
+          >
+          <template v-if="mission.tags">
+            <span
+              v-for="tag in mission.tags"
+              :key="tag.id"
+              class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3"
+            >
+              {{ tag.name.fr }}
+            </span>
+          </template>
         </div>
       </div>
     </div>
@@ -21,10 +46,9 @@
                 <h3
                   class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
                 >
-                  {{ mission.name | labelFromValue('mission_domaines') }}
+                  {{ mission.name }}
                 </h3>
-
-                <div class="mt-12">
+                <div class="mt-8">
                   <div
                     class="flex flex-wrap justify-center sm:justify-start items-center text-center sm:text-left"
                   >
@@ -86,114 +110,61 @@
                     class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
                     >{{ mission.type }}</span
                   >
-                  <!-- <span
-                  v-if="mission.periodicite"
-                  class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
-                  >{{ mission.periodicite }}</span
-                >-->
                 </div>
 
                 <div class="mt-12">
                   <div class="flex items-center">
                     <h4
-                      class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >
-                      Domaine d'action
+                      Objectif de la mission
                     </h4>
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
-                  <div class="mt-8">
-                    <ul class="flex flex-wrap -m-1">
-                      <li class="flex items-start w-full p-1">
-                        <div class="flex-shrink-0" style="margin-top: 2px;">
-                          <svg
-                            class="h-5 w-5 text-green-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <p class="ml-3 text-gray-700">
-                          {{
-                            mission.name | labelFromValue('mission_domaines')
-                          }}
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
+                  <div
+                    class="mt-8 ml-3 text-gray-700"
+                    v-html="mission.objectif"
+                  ></div>
                 </div>
+
                 <div class="mt-12">
-                  <div
-                    v-if="
-                      mission.name ==
-                      'Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis'
-                    "
-                  >
-                    <AideAlimentaireUrgence />
+                  <div class="flex items-center">
+                    <h4
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                    >
+                      Description de la mission et règles à appliquer
+                      impérativement
+                    </h4>
+                    <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
                   <div
-                    v-if="
-                      mission.name ==
-                      'Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance'
-                    "
-                  >
-                    <GardeExceptionnelleEnfants />
+                    class="mt-8 ml-3 text-gray-700"
+                    v-html="mission.description"
+                  ></div>
+                </div>
+
+                <div
+                  v-if="mission.information && mission.state == 'Validée'"
+                  class="mt-12"
+                >
+                  <div class="flex items-center">
+                    <h4
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                    >
+                      Commentaires de la structure
+                    </h4>
+                    <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
                   <div
-                    v-if="
-                      mission.name ==
-                      'Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)'
-                    "
-                  >
-                    <LienPersonnesFragilesIsolees />
-                  </div>
-                  <div
-                    v-if="
-                      mission.name ==
-                      'Je fais les courses de produits essentiels pour mes voisins les plus fragiles.'
-                    "
-                  >
-                    <SolidariteDeProximite />
-                  </div>
-                  <div
-                    v-if="
-                      mission.name ==
-                      'soutien_aux_personnes_agees_en_etablissement'
-                    "
-                  >
-                    <SoutienPersonnesAgeesEtablissement />
-                  </div>
-                  <div v-if="mission.name == 'soutien_scolaire_a_distance'">
-                    <SoutienScolaireDistance />
-                  </div>
-                  <div
-                    v-if="
-                      mission.name == 'fabrication_distribution_equipements'
-                    "
-                  >
-                    <FabricationDistributionEquipements />
-                  </div>
-                  <div v-if="mission.name == 'soutien_mobilisation_sanitaire'">
-                    <SoutienMobilisationSanitaire />
-                  </div>
-                  <div
-                    v-if="
-                      mission.name == 'soutien_reprise_missions_service_public'
-                    "
-                  >
-                    <SoutienRepriseMissionsServicePublic />
-                  </div>
+                    class="mt-8 ml-3 text-gray-700"
+                    v-html="mission.information"
+                  ></div>
                 </div>
 
                 <div class="mt-16">
                   <div class="flex items-center">
                     <h4
-                      class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >
                       Publics bénéficiaires
                     </h4>
@@ -229,43 +200,10 @@
                   </div>
                 </div>
 
-                <!-- <div class="mt-16">
-                <div class="flex items-center">
-                  <h4
-                    class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                  >
-                    Publics volontaires
-                  </h4>
-                  <div class="flex-1 border-t-2 border-gray-200"></div>
-                </div>
-                <div class="mt-8">
-                  <ul class="flex flex-wrap -m-1">
-                    <li
-                      v-for="(publicVolontaire,
-                      key) in mission.publics_volontaires"
-                      :key="key"
-                      class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                    >
-                      <div class="flex-shrink-0" style="margin-top: 2px;">
-                        <svg
-                          class="h-5 w-5 text-green-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <p class="ml-3 text-gray-700">{{ publicVolontaire }}</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>-->
-
-                <div v-if="mission.state == 'Validée'" class="mt-16">
+                <div
+                  v-if="mission.state == 'Validée' && mission.commentaire"
+                  class="mt-16"
+                >
                   <div class="flex flex-wrap items-center">
                     <h4
                       class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
@@ -276,13 +214,16 @@
                       class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0"
                     />
                   </div>
-
-                  <div class="mt-6 text-gray-500">
-                    <p>{{ mission.description }}</p>
-                  </div>
+                  <div
+                    class="mt-6 text-gray-500"
+                    v-html="mission.commentaire"
+                  ></div>
                 </div>
 
-                <div class="mt-16">
+                <div
+                  v-if="mission.template && [4].includes(mission.template.id)"
+                  class="mt-16"
+                >
                   <div class="flex flex-wrap items-center">
                     <h4
                       class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
@@ -356,9 +297,7 @@
                           | pluralize(['place restante', 'places restantes'])
                       }}
                     </div>
-                    <div v-else>
-                      Complet
-                    </div>
+                    <div v-else>Complet</div>
                   </div>
 
                   <div class="mt-4 text-sm">
@@ -405,25 +344,22 @@
                               v-if="canRegistered"
                               class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                               @click="handleClick"
+                              >Proposer votre aide</el-button
                             >
-                              Proposer votre aide
-                            </el-button>
                             <router-link
                               v-else
                               to="/user/missions"
                               class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                              >Vous êtes déjà inscrit !</router-link
                             >
-                              Vous êtes déjà inscrit !
-                            </router-link>
                           </template>
 
                           <template v-else>
                             <router-link
                               to="/login"
                               class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                              >Proposer votre aide</router-link
                             >
-                              Proposer votre aide
-                            </router-link>
                           </template>
                         </template>
                       </template>
@@ -431,9 +367,10 @@
                       <template v-else>
                         <span
                           class="bg-orange-300 inline-flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium"
-                          >Cette mission a le statut
-                          {{ mission.state.toLowerCase() }}</span
                         >
+                          Cette mission a le statut
+                          {{ mission.state.toLowerCase() }}
+                        </span>
                       </template>
                     </template>
                   </div>
@@ -475,8 +412,15 @@
                     class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center"
                   >
                     <img
+                      v-if="otherMission.template"
                       class
-                      :src="$options.filters.domainIcon(otherMission.name)"
+                      :src="otherMission.template.image"
+                      style="width: 28px;"
+                    />
+                    <img
+                      v-else
+                      class
+                      :src="otherMission.domaine.image"
                       style="width: 28px;"
                     />
                   </div>
@@ -492,10 +436,7 @@
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                         >
-                          {{
-                            otherMission.name
-                              | labelFromValue('mission_domaines')
-                          }}
+                          {{ otherMission.name }}
                         </div>
                       </div>
 
@@ -522,9 +463,7 @@
                               ])
                           }}
                         </template>
-                        <template v-else>
-                          Complet
-                        </template>
+                        <template v-else>Complet</template>
                       </div>
                     </div>
                   </div>
@@ -562,30 +501,12 @@
 import { getMission } from '@/api/mission'
 import { addParticipation } from '@/api/participation'
 import { fetchStructureAvailableMissions } from '@/api/structure'
-import AideAlimentaireUrgence from '@/components/domaines/AideAlimentaireUrgence'
-import GardeExceptionnelleEnfants from '@/components/domaines/GardeExceptionnelleEnfants'
-import LienPersonnesFragilesIsolees from '@/components/domaines/LienPersonnesFragilesIsolees'
-import SolidariteDeProximite from '@/components/domaines/SolidariteDeProximite'
-import SoutienPersonnesAgeesEtablissement from '@/components/domaines/SoutienPersonnesAgeesEtablissement'
-import SoutienScolaireDistance from '@/components/domaines/SoutienScolaireDistance'
-import FabricationDistributionEquipements from '@/components/domaines/FabricationDistributionEquipements'
-import SoutienMobilisationSanitaire from '@/components/domaines/SoutienMobilisationSanitaire'
-import SoutienRepriseMissionsServicePublic from '@/components/domaines/SoutienRepriseMissionsServicePublic'
 import FrontMissionLoading from '@/components/loadings/FrontMissionLoading'
 
 export default {
   name: 'Mission',
   components: {
     FrontMissionLoading,
-    AideAlimentaireUrgence,
-    GardeExceptionnelleEnfants,
-    LienPersonnesFragilesIsolees,
-    SolidariteDeProximite,
-    SoutienPersonnesAgeesEtablissement,
-    SoutienScolaireDistance,
-    FabricationDistributionEquipements,
-    SoutienMobilisationSanitaire,
-    SoutienRepriseMissionsServicePublic,
   },
   props: {
     id: {

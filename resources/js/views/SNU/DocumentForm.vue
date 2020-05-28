@@ -65,7 +65,7 @@
             <div class="el-upload__text">
               Glissez votre document ou
               <br />
-              <em>cliquez ici pour le selectionner</em>
+              <em>cliquez ici pour le sélectionner</em>
             </div>
           </el-upload>
           <div v-else class="flex items-center">
@@ -220,7 +220,7 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false
-      this.$router.push('/dashboard/contents?type=Documents')
+      this.$router.push('/dashboard/contents/documents')
       this.$message({
         message: 'Le document a été enregistrée !',
         type: 'success',

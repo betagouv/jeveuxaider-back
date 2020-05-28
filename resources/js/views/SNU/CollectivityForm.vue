@@ -37,7 +37,7 @@
       </el-form-item>
 
       <el-form-item label="Type" prop="type">
-        <el-select v-model="form.type" placeholder="Selectionner le type">
+        <el-select v-model="form.type" placeholder="Sélectionner le type">
           <el-option
             v-for="item in $store.getters.taxonomies.collectivities_types.terms"
             :key="item.value"
@@ -145,7 +145,7 @@
             <i class="el-icon-upload" />
             <div class="el-upload__text">
               Glissez votre image ou <br /><em
-                >cliquez ici pour la selectionner</em
+                >cliquez ici pour la sélectionner</em
               >
             </div>
           </el-upload>
@@ -191,6 +191,10 @@ export default {
       form: {
         type: 'department',
       },
+      model: 'collectivity',
+      imgMinWidth: 1600,
+      imgMinHeight: 600,
+      imgMaxSize: 4000000, // 4 MB
     }
   },
   computed: {
@@ -245,7 +249,7 @@ export default {
                   : null
                 uploadImage(
                   this.form.id,
-                  'collectivity',
+                  this.model,
                   this.img,
                   cropSettings
                 ).then(() => {
@@ -265,7 +269,7 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false
-      this.$router.push('/dashboard/contents?type=Collectivités')
+      this.$router.push('/dashboard/contents/collectivities')
       this.$message({
         message: 'La collectivité a été enregistrée !',
         type: 'success',

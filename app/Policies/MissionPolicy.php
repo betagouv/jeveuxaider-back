@@ -49,7 +49,7 @@ class MissionPolicy
     public function changeState(User $user, Mission $mission, $newState)
     {
         if (request()->header('Context-Role') == 'responsable') {
-            if ($newState == 'Brouillon' || $newState == 'Annulée') {
+            if (in_array($newState, ['Brouillon','En attente de validation','Annulée','Terminée'])) {
                 return true;
             } elseif ($newState == 'Validée') {
                 return $mission->structure->state == 'Validée' ? true : false;

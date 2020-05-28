@@ -48,13 +48,13 @@ class StructureObserver
                         $structure->user->profile->notify(new StructureValidated($structure));
                     }
                     if ($structure->missions) {
-                        foreach ($structure->missions as $mission) {
-                            if ($mission->state == 'En attente de validation') {
-                                $mission->update(['state' => 'Validée']);
-                            }
+                        foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
+                            $mission->update(['state' => 'Validée']);
+                        }
+                        foreach ($structure->missions->where("state", "Validée") as $mission) {
+                            $mission->searchable();
                         }
                     }
-                    // TODO : Envoyer les missions validées dans Algolia
                     break;
                 case 'Signalée':
                     if ($structure->user->profile) {

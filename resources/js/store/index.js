@@ -13,6 +13,7 @@ const state = {
   sidebar: true,
   loading: false,
   taxonomies: null,
+  thematiques: null,
   reseaux: null,
   release: null,
   reminders: null,
@@ -24,6 +25,7 @@ const actions = {
     const { data } = await bootstrap()
     commit('setTaxonomies', data.taxonomies)
     commit('setReseaux', data.reseaux)
+    commit('setThematiques', data.thematiques)
     if (data.user) {
       commit('user/setUser', data.user)
     } else {
@@ -48,6 +50,9 @@ const mutations = {
   },
   setTaxonomies: (state, taxonomies) => {
     state.taxonomies = taxonomies
+  },
+  setThematiques: (state, thematiques) => {
+    state.thematiques = thematiques
   },
   setReseaux: (state, reseaux) => {
     state.reseaux = reseaux

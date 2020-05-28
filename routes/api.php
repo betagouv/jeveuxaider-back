@@ -28,6 +28,8 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
+Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
+Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -105,6 +107,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // DOCUMENTS
     Route::get('documents', 'Api\DocumentController@index');
+
+    // MISSIONS TEMPLATES
+    Route::get('mission-templates', 'Api\MissionTemplateController@index');
+
+    // TAGS
+    Route::get('tags', 'Api\TagController@index');
 });
 
 // ONLY ADMIN
@@ -126,6 +134,30 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
     Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
+
+    // THEMATIQUES
+    Route::get('thematiques', 'Api\ThematiqueController@index');
+    Route::post('thematique', 'Api\ThematiqueController@store');
+    Route::post('thematique/{thematique}', 'Api\ThematiqueController@update');
+    Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
+    Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
+    Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');
+
+    // MISSION TEMPLATES
+    Route::get('mission-template/{missionTemplate}', 'Api\MissionTemplateController@show');
+    Route::post('mission-template', 'Api\MissionTemplateController@store');
+    Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
+    Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
+    Route::post('mission-template/{missionTemplate}/upload', 'Api\MissionTemplateController@upload');
+    Route::delete('mission-template/{missionTemplate}/upload', 'Api\MissionTemplateController@uploadDelete');
+
+    // TAGS
+    Route::get('tag/{tag}', 'Api\TagController@show');
+    Route::post('tag', 'Api\TagController@store');
+    Route::post('tag/{tag}', 'Api\TagController@update');
+    Route::delete('tag/{tag}', 'Api\TagController@delete');
+    Route::post('tag/{tag}/upload', 'Api\TagController@upload');
+    Route::delete('tag/{tag}/upload', 'Api\TagController@uploadDelete');
 
     // DOCUMENTS
     Route::get('document/{document}', 'Api\DocumentController@show');

@@ -21,13 +21,16 @@ class MissionObserver
      */
     public function created(Mission $mission)
     {
-        // if ($mission->state == 'En attente de validation') {
-        //     if ($mission->department) {
-        //         Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
-        //             $profile->notify(new MissionSubmitted($mission));
-        //         });
-        //     }
-        // }
+        if ($mission->state == 'En attente de validation') {
+            if ($mission->tuteur) {
+                $mission->tuteur->notify(new MissionWaitingValidation($mission));
+            }
+            if ($mission->department) {
+                Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
+                    $profile->notify(new MissionSubmitted($mission));
+                });
+            }
+        }
 
         if ($mission->state == 'Validée') {
             if ($mission->tuteur) {
@@ -81,10 +84,18 @@ class MissionObserver
                     break;
                 case 'Annulée':
                     if ($mission->tuteur) {
-                        if ($mission->participations->where("state", "En attente de validation")) {
-                            foreach ($mission->participations as $participation) {
-                                $participation->update(['state' => 'Mission annulée']);
-                            }
+                        foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
+                            $participation->update(['state' => 'Mission annulée']);
+                        }
+                    }
+                    break;
+                case 'Terminée':
+                    if ($mission->tuteur) {
+                        foreach ($mission->participations->whereIn("state", ["Mission validée", "Mission en cours"]) as $participation) {
+                            $participation->update(['state' => 'Mission effectuée']);
+                        }
+                        foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
+                            $participation->update(['state' => 'Participation déclinée']);
                         }
                     }
                     break;
