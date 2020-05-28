@@ -9,7 +9,6 @@ use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingCorrection;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
-use App\Notifications\MissionFinished;
 use App\Notifications\MissionSubmitted;
 
 class MissionObserver
@@ -92,7 +91,6 @@ class MissionObserver
                     break;
                 case 'Terminée':
                     if ($mission->tuteur) {
-                        $mission->tuteur->notify(new MissionFinished($mission));
                         foreach ($mission->participations->whereIn("state", ["Mission validée", "Mission en cours"]) as $participation) {
                             $participation->update(['state' => 'Mission effectuée']);
                         }
