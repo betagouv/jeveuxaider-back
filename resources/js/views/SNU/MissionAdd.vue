@@ -214,11 +214,12 @@ export default {
       })
     },
     handleChangeDomaine(domaine_id) {
-      fetchMissionTemplates({ 'filter[domaine.id]': domaine_id }).then(
-        (res) => {
-          this.templates = res.data.data
-        }
-      )
+      fetchMissionTemplates({
+        'filter[domaine.id]': domaine_id,
+        'filter[published]': true,
+      }).then((res) => {
+        this.templates = res.data.data
+      })
     },
     async handleSelectTemplate(template) {
       const { data } = await getStructure(this.structureId)
