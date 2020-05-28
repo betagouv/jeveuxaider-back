@@ -197,11 +197,12 @@ export default {
         this.domaine_id =
           parseInt(this.$router.history.current.query.domaine) ||
           res.data.data[0].id
-        fetchMissionTemplates({ 'filter[domaine.id]': this.domaine_id }).then(
-          (res) => {
-            this.templates = res.data.data
-          }
-        )
+        fetchMissionTemplates({
+          'filter[domaine.id]': this.domaine_id,
+          'filter[published]': true,
+        }).then((res) => {
+          this.templates = res.data.data
+        })
       })
     }
   },
