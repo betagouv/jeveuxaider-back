@@ -98,14 +98,6 @@
           @changed="onFilterChange"
         />
         <query-filter
-          type="select"
-          name="name"
-          :value="query['filter[name]']"
-          label="Domaine"
-          :options="$store.getters.taxonomies.mission_domaines.terms"
-          @changed="onFilterChange"
-        />
-        <query-filter
           name="place"
           label="Places restantes"
           :value="query['filter[place]']"
