@@ -199,7 +199,7 @@ export default {
           res.data.data[0].id
         fetchMissionTemplates({
           'filter[domaine.id]': this.domaine_id,
-          'filter[published]': true,
+          'filter[published]': 1,
         }).then((res) => {
           this.templates = res.data.data
         })
@@ -216,7 +216,7 @@ export default {
     handleChangeDomaine(domaine_id) {
       fetchMissionTemplates({
         'filter[domaine.id]': domaine_id,
-        'filter[published]': true,
+        'filter[published]': 1,
       }).then((res) => {
         this.templates = res.data.data
       })
