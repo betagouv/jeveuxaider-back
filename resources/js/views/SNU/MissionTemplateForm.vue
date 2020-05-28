@@ -91,7 +91,7 @@
         <item-description>Format accepté: SVG</item-description>
 
         <div v-show="imgPreview">
-          <div class="bg-blue-900 rounded-md p-3" style="max-width: 80px;">
+          <div class="bg-primary rounded-md p-3" style="max-width: 80px;">
             <img :src="imgPreview" alt="Icone" />
           </div>
 

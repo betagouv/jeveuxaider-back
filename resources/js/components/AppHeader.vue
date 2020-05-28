@@ -1,16 +1,20 @@
 <template>
   <header>
-    <div :class="background">
-      <div class="container mx-auto px-4">
+    <div class="bg-white">
+      <div class="container mx-auto">
         <div
           class="flex flex-wrap items-center justify-center pt-1 lg:pt-0 lg:h-16"
-          :class="border"
         >
-          <div class="flex-shrink-0 my-4 lg:my-0 order-1">
+          <div class="flex flex-shrink-0 my-4 lg:my-0 lg:mr-3 order-1">
+            <img
+              class="h-6 mr-3"
+              src="/images/marianne.svg"
+              alt="Réserve Civique"
+            />
             <router-link :to="{ name: 'Homepage' }">
               <img
                 class="h-6"
-                src="/images/logo-header.png"
+                src="/images/logo-reserve-civique_dark.svg"
                 alt="Réserve Civique"
               />
             </router-link>
@@ -20,15 +24,10 @@
             <div
               class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3"
             >
-              <div
-                class="links-wrapper flex flex-wrap items-center justify-center sm:justify-start -m-2"
-              >
+              <div class="flex space-x-10">
                 <router-link
                   to="/missions"
-                  :class="{
-                    'bg-blue-700': isCurrentPath('/missions'),
-                  }"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition focus:bg-gray-700 hover:bg-blue-700"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Trouver une mission
                 </router-link>
@@ -38,33 +37,27 @@
                     $store.getters.isLogged && $store.getters.noRole === true
                   "
                   to="/user/missions"
-                  :class="{
-                    'bg-blue-700': isCurrentPath('/user/missions'),
-                  }"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Mes missions
                 </router-link>
                 <router-link
                   to="/regles-de-securite"
-                  class="hidden sm:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                  :class="{
-                    'bg-blue-700': isCurrentPath('/regles-de-securite'),
-                  }"
+                  class="hidden sm:block text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Règles de sécurité
                 </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                  >Toutes les initiatives solidaires</a
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Initiatives solidaires</a
                 >
               </div>
             </div>
           </slot>
 
           <div class="order-2 lg:order-3 ml-auto lg:ml-3">
-            <div class="flex items-center -m-2">
+            <div class="flex items-center">
               <div
                 v-if="
                   $store.getters.isLogged &&
@@ -74,7 +67,7 @@
               >
                 <router-link
                   to="/dashboard"
-                  class="hidden lg:block bordermr-3 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:bg-blue-700"
+                  class="hidden lg:block mr-5 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Tableau de bord
                 </router-link>
@@ -97,7 +90,7 @@
               <router-link
                 v-else
                 to="/login"
-                class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
+                class="inline-flex items-center justify-center px-4 py-1 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
@@ -112,16 +105,6 @@
 <script>
 export default {
   name: 'AppHeader',
-  props: {
-    background: {
-      type: String,
-      default: 'bg-blue-900',
-    },
-    border: {
-      type: String,
-      default: 'border-b border-blue-800',
-    },
-  },
   created() {
     if (this.$store.getters.isLogged) {
       this.$store.dispatch('reminders')

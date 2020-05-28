@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-blue-900 pb-32">
+    <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-14 overflow-hidden" style="height: 85px;">
           <content-loader

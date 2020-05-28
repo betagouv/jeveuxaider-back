@@ -1,5 +1,16 @@
 <template>
   <div>
+    <AppHeader :show-menu="false">
+      <template v-slot:menu>
+        <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
+          <div
+            class="text-xl md:text-2xl font-medium text-gray-500 leading-none"
+          >
+            • {{ collectivity.title }}
+          </div>
+        </div>
+      </template>
+    </AppHeader>
     <div class="relative">
       <img
         v-if="collectivity.image && collectivity.image.large"
@@ -10,7 +21,7 @@
 
       <div
         :class="[
-          'bg-blue-900',
+          'bg-primary',
           'absolute',
           'inset-0',
           { 'opacity-75': collectivity.image },
@@ -18,17 +29,6 @@
       />
 
       <div class="relative pt-1 pb-12 lg:py-12">
-        <AppHeader background="bg-transparent" border :show-menu="false">
-          <template v-slot:menu>
-            <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
-              <div
-                class="text-xl md:text-2xl font-medium text-white leading-none"
-              >
-                • {{ collectivity.title }}
-              </div>
-            </div>
-          </template>
-        </AppHeader>
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
             <h2
@@ -138,7 +138,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
       >
         <div v-for="template in statistics.templates" :key="template.id">
-          <div class="inline-block bg-blue-900 rounded-md p-3 text-center mb-5">
+          <div class="inline-block bg-primary rounded-md p-3 text-center mb-5">
             <img class :src="template.image" style="width: 28px;" />
           </div>
           <div class="text-lg font-medium text-gray-900">
@@ -178,7 +178,7 @@
       </div>
     </div>
 
-    <div class="bg-blue-900">
+    <div class="bg-primary">
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
           <h2
