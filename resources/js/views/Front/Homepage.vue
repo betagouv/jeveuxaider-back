@@ -36,23 +36,23 @@
                   <p class="pb-1 text-xs leading-6 font-medium text-white">
                     Je suis bénévole
                   </p>
-                  <a
-                    href="#"
+                  <router-link
+                    to="/register/volontaire"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Je veux aider
-                  </a>
+                  </router-link>
                 </div>
                 <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
                   <p class="pb-1 text-xs leading-6 font-medium text-white">
                     Structure publique ou associative
                   </p>
-                  <a
-                    href="#"
+                  <router-link
+                    to="/register/responsable"
                     class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
                     Proposer une mission
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -102,6 +102,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/covid.svg"
                   alt=""
                 />
@@ -113,6 +114,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/sante.svg"
                   alt=""
                 />
@@ -124,6 +126,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/securite.svg"
                   alt=""
                 />
@@ -137,6 +140,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/education.svg"
                   alt=""
                 />
@@ -152,6 +156,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/sport.svg"
                   alt=""
                 />
@@ -165,6 +170,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/environnement.svg"
                   alt=""
                 />
@@ -178,6 +184,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/memoire.svg"
                   alt=""
                 />
@@ -191,6 +198,7 @@
               >
                 <img
                   class="h-7 pr-3 opacity-50"
+                  style="width: 40px;"
                   src="/images/vivre-ensemble.svg"
                   alt=""
                 />
@@ -218,7 +226,12 @@
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                     >
-                      <img class="h-7" src="/images/groceries.svg" alt="" />
+                      <img
+                        class="h-7"
+                        src="/images/groceries.svg"
+                        alt=""
+                        style="width: 28px;"
+                      />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -238,7 +251,12 @@
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                     >
-                      <img class="h-7" src="/images/teddy-bear.svg" alt="" />
+                      <img
+                        class="h-7"
+                        src="/images/teddy-bear.svg"
+                        alt=""
+                        style="width: 28px;"
+                      />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -258,7 +276,12 @@
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                     >
-                      <img class="h-7" src="/images/phone-handle.svg" alt="" />
+                      <img
+                        class="h-7"
+                        src="/images/phone-handle.svg"
+                        alt=""
+                        style="width: 28px;"
+                      />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -278,7 +301,12 @@
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                     >
-                      <img class="h-7" src="/images/basket.svg" alt="" />
+                      <img
+                        class="h-7"
+                        src="/images/basket.svg"
+                        alt=""
+                        style="width: 28px;"
+                      />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -384,7 +412,12 @@
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                       >
-                        <img class="h-7" src="/images/ecole.svg" alt="" />
+                        <img
+                          class="h-7"
+                          src="/images/ecole.svg"
+                          alt=""
+                          style="width: 28px;"
+                        />
                       </div>
                     </div>
                     <div class="ml-4">
@@ -403,7 +436,12 @@
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                       >
-                        <img class="h-7" src="/images/masque-2.svg" alt="" />
+                        <img
+                          class="h-7"
+                          src="/images/masque-2.svg"
+                          alt=""
+                          style="width: 28px;"
+                        />
                       </div>
                     </div>
                     <div class="ml-4">
@@ -424,7 +462,12 @@
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
                       >
-                        <img class="h-7" src="/images/sanitaire.svg" alt="" />
+                        <img
+                          class="h-7"
+                          src="/images/sanitaire.svg"
+                          alt=""
+                          style="width: 28px;"
+                        />
                       </div>
                     </div>
                     <div class="ml-4">
@@ -448,6 +491,7 @@
                           class="h-7"
                           src="/images/service-public.svg"
                           alt=""
+                          style="width: 28px;"
                         />
                       </div>
                     </div>
@@ -469,7 +513,7 @@
               <div class="pr-8 mt-10" width="520">
                 <img
                   class="relative mx-auto rounded-lg"
-                  src="/images/Celebrating.png"
+                  src="/images/celebrating.png"
                   alt=""
                 />
               </div>
@@ -490,7 +534,7 @@
         />
       </div>
       <div
-        class="relative max-w-screen-xl mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
+        class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
       >
         <div class="md:w-4/12 md:pl-0">
           <div
@@ -508,8 +552,9 @@
           </p>
           <div class="mt-8">
             <div class="inline-flex rounded-md shadow">
-              <a
-                href="#"
+              <router-link
+                to="/regles-de-securite"
+                target="_blank"
                 class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
               >
                 Consulter les règles de sécurité
@@ -524,17 +569,15 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-              </a>
+              </router-link>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-4 py-16 bg-gray-50 overflow-hidden lg:py-16">
-      <div
-        class="relative max-w-xl mx-auto px-8 sm:px-6 lg:px-8 lg:max-w-screen-xl"
-      >
+    <div class="py-16 bg-gray-50 overflow-hidden lg:py-16">
+      <div class="relative container mx-auto px-8 sm:px-6 lg:px-8">
         <div class="lg:text-center">
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
@@ -635,26 +678,26 @@
 
     <div class="bg-blue-800 border-b border-gray-200">
       <div
-        class="max-w-screen-xl mx-auto py-12 px-18 sm:px-16 lg:py-16 lg:flex lg:items-center lg:justify-between"
+        class="container mx-auto py-12 px-18 sm:px-16 lg:py-16 lg:flex lg:items-center lg:justify-between"
       >
         <h2
           class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10 text-center"
         >
           Votre structure a besoin de <span class="text-blu">bénévoles</span> ?
         </h2>
-        <a
-          href="#"
+        <router-link
+          to="/register/responsable"
           class="inline-flex shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white border border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
         >
           Publier une mission
-        </a>
+        </router-link>
       </div>
     </div>
 
     <div
       class="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8 shadow-lg"
     >
-      <div class="relative max-w-7xl mx-auto">
+      <div class="relative container mx-auto">
         <div class="text-center">
           <h2
             class="text-3xl leading-9 tracking-tight font-bold text-gray-900 sm:text-5xl sm:leading-10"
@@ -668,7 +711,7 @@
           </p>
         </div>
         <div
-          class="mt-12 grid gap-8 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none"
+          class="mt-12 grid max-w-5xl gap-8 mx-auto lg:grid-cols-3 lg:max-w-none"
         >
           <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
             <div class="flex-shrink-0">
@@ -776,7 +819,7 @@
         </span>
       </div>
 
-      <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative mt-14">
           <img class="mx-auto h-10 w-auto" src="/images/twitter.svg" alt="" />
 
