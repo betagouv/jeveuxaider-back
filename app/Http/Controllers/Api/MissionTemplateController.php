@@ -24,7 +24,7 @@ class MissionTemplateController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
                 AllowedFilter::exact('domaine.id'),
-                'published'
+                AllowedFilter::exact('published')
             )
             ->defaultSort('-updated_at')
             ->paginate($paginate);
