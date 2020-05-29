@@ -2,7 +2,7 @@
   <div>
     <AppHeader />
 
-    <div class="bg-blue-900 pb-12">
+    <div class="bg-primary pb-12">
       <div class="container mx-auto px-4">
         <div class="pt-10">
           <h1 class="text-3xl font-bold text-white">
@@ -37,7 +37,7 @@
             <div class="rounded-full shadow-md">
               <a
                 href="#form"
-                class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-500 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-500 hover:bg-primary focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                 >Créez la page de votre collectivité</a
               >
             </div>
@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <div class="bg-blue-900 relative">
+    <div class="bg-primary relative">
       <div class="container mx-auto pb-48 pt-16 px-4">
         <div class="max-w-6xl mx-auto text-center">
           <h2
@@ -260,7 +260,7 @@
                       class="block w-full text-center rounded-full shadow-lg"
                     >
                       <el-button
-                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-500 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-500 hover:bg-primary focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                         @click="handleSubmit"
                         >Proposer ma collectivité</el-button
                       >

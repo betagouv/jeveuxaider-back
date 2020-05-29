@@ -42,7 +42,7 @@
         <template slot-scope="scope">
           <div
             v-if="scope.row.image"
-            class="bg-blue-900 rounded-md p-2 inline-block"
+            class="bg-primary rounded-md p-2 inline-block"
             style="width: 40px; height: 40px;"
           >
             <img :src="scope.row.image" :alt="scope.row.title" />

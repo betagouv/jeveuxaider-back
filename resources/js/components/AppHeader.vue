@@ -1,16 +1,20 @@
 <template>
   <header>
-    <div :class="background">
-      <div class="container mx-auto px-4">
+    <div class="bg-white">
+      <div class="container mx-auto">
         <div
-          class="flex flex-wrap items-center justify-center pt-1 lg:pt-0 lg:h-16"
-          :class="border"
+          class="flex px-3 lg:px-0 flex-wrap items-center justify-between pt-1 lg:pt-0 lg:h-16"
         >
-          <div class="flex-shrink-0 my-4 lg:my-0 order-1">
+          <div class="flex flex-shrink-0 my-4 lg:my-0 lg:mr-3 order-1">
+            <img
+              class="h-6 mr-3"
+              src="/images/marianne.svg"
+              alt="Réserve Civique"
+            />
             <router-link :to="{ name: 'Homepage' }">
               <img
                 class="h-6"
-                src="/images/logo-header.png"
+                src="/images/logo-reserve-civique_dark.svg"
                 alt="Réserve Civique"
               />
             </router-link>
@@ -18,17 +22,12 @@
 
           <slot name="menu">
             <div
-              class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3"
+              class="mb-3 hidden lg:block lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto lg:order-2"
             >
-              <div
-                class="links-wrapper flex flex-wrap items-center justify-center sm:justify-start -m-2"
-              >
+              <div class="flex space-x-10">
                 <router-link
                   to="/missions"
-                  :class="{
-                    'bg-blue-700': isCurrentPath('/missions'),
-                  }"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition focus:bg-gray-700 hover:bg-blue-700"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Trouver une mission
                 </router-link>
@@ -38,33 +37,72 @@
                     $store.getters.isLogged && $store.getters.noRole === true
                   "
                   to="/user/missions"
-                  :class="{
-                    'bg-blue-700': isCurrentPath('/user/missions'),
-                  }"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Mes missions
                 </router-link>
-                <router-link
-                  to="/regles-de-securite"
-                  class="hidden sm:block m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                  :class="{
-                    'bg-blue-700': isCurrentPath('/regles-de-securite'),
-                  }"
+                <a
+                  href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
+                  target="_blank"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Initiatives solidaires</a
                 >
-                  Règles de sécurité
+                <a
+                  href="https://covid19.reserve-civique.gouv.fr/engagement"
+                  target="_blank"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Actualités</a
+                >
+              </div>
+            </div>
+
+            <div
+              v-show="showMobileMenu"
+              id="mobile-menu"
+              class="lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-5 lg:hidden"
+            >
+              <div class="flex flex-col text-center">
+                <router-link
+                  to="/missions"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Trouver une mission
+                </router-link>
+
+                <router-link
+                  v-if="
+                    $store.getters.isLogged && $store.getters.noRole === true
+                  "
+                  to="/user/missions"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Mes missions
                 </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
-                  class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:text-white hover:bg-blue-700"
-                  >Toutes les initiatives solidaires</a
+                  target="_blank"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Initiatives solidaires</a
                 >
+                <a
+                  href="https://covid19.reserve-civique.gouv.fr/engagement"
+                  target="_blank"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Actualités</a
+                >
+                <router-link
+                  v-if="!$store.getters.isLogged"
+                  to="/login"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Se connecter
+                </router-link>
               </div>
             </div>
           </slot>
 
-          <div class="order-2 lg:order-3 ml-auto lg:ml-3">
-            <div class="flex items-center -m-2">
+          <div class="order-3 ml-1 lg:ml-3">
+            <div class="flex items-center">
               <div
                 v-if="
                   $store.getters.isLogged &&
@@ -74,7 +112,7 @@
               >
                 <router-link
                   to="/dashboard"
-                  class="hidden lg:block bordermr-3 px-3 py-2 rounded-md text-sm font-medium text-white transition hover:bg-blue-700"
+                  class="hidden lg:block mr-5 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Tableau de bord
                 </router-link>
@@ -86,10 +124,12 @@
                   "
                   :value="$store.getters.reminders.waiting"
                   :max="99"
-                  class="ml-3 mr-5"
+                  class="hidden lg:block ml-2 mr-3"
                 >
                   <router-link to="/dashboard">
-                    <i class="el-icon-bell text-white text-2xl" />
+                    <i
+                      class="el-icon-bell text-gray-500 hover:text-gray-900 text-2xl"
+                    />
                   </router-link>
                 </el-badge>
               </div>
@@ -97,11 +137,17 @@
               <router-link
                 v-else
                 to="/login"
-                class="m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition bg-red-700 hover:bg-red-800"
+                class="hidden lg:block inline-flex items-center justify-center px-4 py-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
             </div>
+          </div>
+
+          <div class="block lg:hidden order-4">
+            <el-button type="primary" circle @click="toggleMenu">
+              <img src="/images/burger-menu.svg" style="width: 16px;" />
+            </el-button>
           </div>
         </div>
       </div>
@@ -112,15 +158,10 @@
 <script>
 export default {
   name: 'AppHeader',
-  props: {
-    background: {
-      type: String,
-      default: 'bg-blue-900',
-    },
-    border: {
-      type: String,
-      default: 'border-b border-blue-800',
-    },
+  data() {
+    return {
+      showMobileMenu: false,
+    }
   },
   created() {
     if (this.$store.getters.isLogged) {
@@ -128,6 +169,9 @@ export default {
     }
   },
   methods: {
+    toggleMenu() {
+      this.showMobileMenu = !this.showMobileMenu
+    },
     isCurrentPath(path) {
       return window.location.pathname === path
     },

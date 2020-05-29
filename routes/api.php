@@ -31,6 +31,8 @@ Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
 Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
 Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 
+Route::get('statistics/global', 'Api\StatisticsController@global');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-blue-900">
+    <div class="bg-primary">
       <div class="pt-16 pb-8">
         <template v-if="modeLigth">
           <div class="">
@@ -40,7 +40,7 @@
                             <div class="p-4 sm:p-6 md:p-8">
                               <div class="flex items-center">
                                 <div
-                                  class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center"
+                                  class="hidden sm:block flex-shrink-0 bg-primary rounded-md p-3 text-center"
                                 >
                                   <img
                                     class

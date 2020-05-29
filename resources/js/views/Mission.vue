@@ -2,7 +2,7 @@
   <div class="bg-gray-100">
     <AppHeader />
 
-    <div class="bg-blue-900 pb-32">
+    <div class="bg-primary pb-32">
       <div v-if="!loading" class="container mx-auto px-4">
         <div class="pt-10">
           <h1
@@ -409,7 +409,7 @@
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">
                   <div
-                    class="hidden sm:block flex-shrink-0 bg-blue-900 rounded-md p-3 text-center"
+                    class="hidden sm:block flex-shrink-0 bg-primary rounded-md p-3 text-center"
                   >
                     <img
                       v-if="otherMission.template"
