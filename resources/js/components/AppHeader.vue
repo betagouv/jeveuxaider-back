@@ -3,7 +3,7 @@
     <div class="bg-white">
       <div class="container mx-auto">
         <div
-          class="flex flex-wrap items-center justify-center pt-1 lg:pt-0 lg:h-16"
+          class="flex px-3 lg:px-0 flex-wrap items-center justify-between pt-1 lg:pt-0 lg:h-16"
         >
           <div class="flex flex-shrink-0 my-4 lg:my-0 lg:mr-3 order-1">
             <img
@@ -90,6 +90,13 @@
                   class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                   >Actualités</a
                 >
+                <router-link
+                  v-if="!$store.getters.isLogged"
+                  to="/login"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Se connecter
+                </router-link>
               </div>
             </div>
           </slot>
@@ -128,20 +135,16 @@
               <router-link
                 v-else
                 to="/login"
-                class="inline-flex items-center justify-center px-4 py-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
+                class="hidden lg:block inline-flex items-center justify-center px-4 py-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
             </div>
           </div>
 
-          <div class="block lg:hidden order-4 pl-2">
-            <el-button
-              type="primary"
-              circle
-              icon="el-icon-menu"
-              @click="toggleMenu"
-            >
+          <div class="block lg:hidden order-4">
+            <el-button type="primary" circle @click="toggleMenu">
+              <img src="/images/burger-menu.svg" style="width: 16px;" />
             </el-button>
           </div>
         </div>
