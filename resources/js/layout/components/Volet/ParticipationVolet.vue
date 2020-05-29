@@ -102,11 +102,7 @@ export default {
         : false
     },
     canChangeState() {
-      let state = [
-        'En attente de validation',
-        'Mission validée',
-        'Mission en cours',
-      ]
+      let state = ['En attente de validation', 'Mission validée']
       return state.includes(this.row.state) === true ? true : false
     },
   },

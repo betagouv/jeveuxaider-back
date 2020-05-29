@@ -28,7 +28,6 @@ class Participation extends Model
     const ACTIVE_STATUS = [
         'En attente de validation',
         'Mission validée',
-        'Mission en cours',
         'Mission effectuée'
     ];
 

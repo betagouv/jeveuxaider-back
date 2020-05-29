@@ -94,14 +94,6 @@
       Mission annulée
     </el-tag>
     <el-tag
-      v-if="state == 'Mission en cours'"
-      type="success"
-      :size="size"
-      class="m-1"
-    >
-      Mission en cours
-    </el-tag>
-    <el-tag
       v-if="state == 'Abandon de mission'"
       type="danger"
       :size="size"

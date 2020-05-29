@@ -225,11 +225,7 @@ export default {
   },
   methods: {
     canShowCoordonates(participation) {
-      let validStates = [
-        'Mission validée',
-        'Mission en cours',
-        'Mission effectuée',
-      ]
+      let validStates = ['Mission validée', 'Mission effectuée']
       return validStates.includes(participation.state) ? true : false
     },
     onClickCancel(participation) {
@@ -257,13 +253,9 @@ export default {
       switch (participation.state) {
         case 'En attente de validation':
           return 'text-orange-400'
-        case 'Validé':
+        case 'Mission validée':
           return 'text-green-800'
-        case 'Mission en cours':
-          return 'text-green-400'
-        case 'Refusé':
-          return 'text-red-600'
-        case 'Terminé':
+        case 'Mission effectuée':
           return 'text-green-600'
       }
     },

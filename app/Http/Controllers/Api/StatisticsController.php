@@ -133,7 +133,6 @@ class StatisticsController extends Controller
             'total' => Participation::role($request->header('Context-Role'))->count(),
             'waiting' => Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
             'validated' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission validée'])->count(),
-            'current' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission en cours'])->count(),
             'done' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission effectuée'])->count(),
             'canceled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission annulée'])->count(),
             'signaled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission signalée'])->count(),

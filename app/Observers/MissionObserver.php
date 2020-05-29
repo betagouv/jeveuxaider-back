@@ -91,7 +91,7 @@ class MissionObserver
                     break;
                 case 'Terminée':
                     if ($mission->tuteur) {
-                        foreach ($mission->participations->whereIn("state", ["Mission validée", "Mission en cours"]) as $participation) {
+                        foreach ($mission->participations->whereIn("state", ["Mission validée"]) as $participation) {
                             $participation->update(['state' => 'Mission effectuée']);
                         }
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
