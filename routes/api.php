@@ -12,6 +12,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
