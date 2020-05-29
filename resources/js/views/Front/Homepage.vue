@@ -48,7 +48,18 @@
                     Structure publique ou associative
                   </p>
                   <router-link
-                    to="/register/responsable"
+                    :to="
+                      $store.getters.isLogged &&
+                      $store.getters.contextRole == 'responsable'
+                        ? {
+                            name: 'MissionFormAdd',
+                            params: {
+                              structureId:
+                                $store.getters.structure_as_responsable.id,
+                            },
+                          }
+                        : '/register/responsable'
+                    "
                     class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
                     Proposer une mission
@@ -686,7 +697,17 @@
           Votre structure a besoin de <span class="text-blu">bénévoles</span> ?
         </h2>
         <router-link
-          to="/register/responsable"
+          :to="
+            $store.getters.isLogged &&
+            $store.getters.contextRole == 'responsable'
+              ? {
+                  name: 'MissionFormAdd',
+                  params: {
+                    structureId: $store.getters.structure_as_responsable.id,
+                  },
+                }
+              : '/register/responsable'
+          "
           class="inline-flex mt-3 lg:mt-0 shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white border border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
         >
           Publier une mission

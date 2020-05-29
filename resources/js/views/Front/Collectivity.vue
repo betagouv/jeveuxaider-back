@@ -55,7 +55,21 @@
                 <div class="pb-1 text-sm font-medium text-gray-100">
                   Structure publique ou associative
                 </div>
-                <router-link to="/register/responsable" class="btn-primary">
+                <router-link
+                  :to="
+                    $store.getters.isLogged &&
+                    $store.getters.contextRole == 'responsable'
+                      ? {
+                          name: 'MissionFormAdd',
+                          params: {
+                            structureId:
+                              $store.getters.structure_as_responsable.id,
+                          },
+                        }
+                      : '/register/responsable'
+                  "
+                  class="btn-primary"
+                >
                   <span class="text-lg font-bold">Proposer une mission</span>
                 </router-link>
               </div>
