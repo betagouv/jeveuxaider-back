@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mission;
 use App\Models\Participation;
 use Illuminate\Console\Command;
 
@@ -39,7 +38,6 @@ class ParticipationsMergeCurrentToValidated extends Command
      */
     public function handle()
     {
-
         $participations = Participation::where('state', 'Mission en cours');
 
         $count = $participations->count();
