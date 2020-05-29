@@ -49,8 +49,15 @@
                 </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
+                  target="_blank"
                   class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                   >Initiatives solidaires</a
+                >
+                <a
+                  href="https://covid19.reserve-civique.gouv.fr/engagement"
+                  target="_blank"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Actualités</a
                 >
               </div>
             </div>
@@ -90,7 +97,7 @@
               <router-link
                 v-else
                 to="/login"
-                class="inline-flex items-center justify-center px-4 py-1 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
+                class="inline-flex items-center justify-center px-4 py-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
