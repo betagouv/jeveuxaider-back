@@ -83,10 +83,32 @@
         />
         <query-filter
           type="select"
-          name="mission.name"
-          :value="query['filter[mission.name]']"
-          label="Domaine"
-          :options="$store.getters.taxonomies.mission_domaines.terms"
+          name="mission.template_id"
+          :value="query['filter[mission.template_id]']"
+          label="Missions types"
+          :options="
+            templates.map((template) => {
+              return {
+                label: template.title,
+                value: template.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
+          name="domaine"
+          :value="query['filter[domaine]']"
+          label="Domaines d'action"
+          :options="
+            domaines.map((domaine) => {
+              return {
+                label: domaine.name.fr,
+                value: domaine.id,
+              }
+            })
+          "
           @changed="onFilterChange"
         />
         <query-filter
@@ -202,6 +224,7 @@ import {
   exportParticipations,
   massValidationParticipation,
 } from '@/api/participation'
+import { fetchTags, fetchMissionTemplates } from '@/api/app'
 import StateTag from '@/components/StateTag'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
@@ -225,8 +248,18 @@ export default {
   data() {
     return {
       loading: true,
+      domaines: [],
+      templates: [],
       tableData: [],
     }
+  },
+  created() {
+    fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
+      this.domaines = res.data.data
+    })
+    fetchMissionTemplates().then((res) => {
+      this.templates = res.data.data
+    })
   },
   methods: {
     canShowProfileDetails(row) {

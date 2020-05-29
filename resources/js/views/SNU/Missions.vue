@@ -76,6 +76,36 @@
           @changed="onFilterChange"
         />
         <query-filter
+          type="select"
+          name="template_id"
+          :value="query['filter[template_id]']"
+          label="Missions types"
+          :options="
+            templates.map((template) => {
+              return {
+                label: template.title,
+                value: template.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
+          name="domaine"
+          :value="query['filter[domaine]']"
+          label="Domaines d'action"
+          :options="
+            domaines.map((domaine) => {
+              return {
+                label: domaine.name.fr,
+                value: domaine.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
           name="type"
           label="Type de mission"
           :value="query['filter[type]']"
@@ -246,6 +276,7 @@
 
 <script>
 import { fetchMissions, exportMissions, cloneMission } from '@/api/mission'
+import { fetchTags, fetchMissionTemplates } from '@/api/app'
 import StateTag from '@/components/StateTag'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
@@ -269,7 +300,17 @@ export default {
     return {
       loading: true,
       tableData: [],
+      domaines: [],
+      templates: [],
     }
+  },
+  created() {
+    fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
+      this.domaines = res.data.data
+    })
+    fetchMissionTemplates().then((res) => {
+      this.templates = res.data.data
+    })
   },
   methods: {
     fetchRows() {

@@ -13,6 +13,7 @@ use App\Filters\FiltersMissionCeu;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
+use App\Filters\FiltersMissionDomaine;
 
 class MissionsExport implements FromCollection, WithMapping, WithHeadings
 {
@@ -35,10 +36,12 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 'format',
                 'type',
                 'department',
+                'template_id',
                 AllowedFilter::custom('ceu', new FiltersMissionCeu),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('domaine', new FiltersMissionDomaine),
             ])
             ->defaultSort('-created_at')
             ->get();

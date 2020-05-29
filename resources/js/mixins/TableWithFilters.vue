@@ -17,7 +17,11 @@ export default {
       let count = 0
       Object.entries(this.query).forEach(([key, value]) => {
         if (key != 'page' && key != 'filter[search]') {
-          if ((!_.isEmpty(value) && value) || _.isBoolean(value)) {
+          if (
+            (!_.isEmpty(value) && value) ||
+            _.isBoolean(value) ||
+            _.isNumber(value)
+          ) {
             count++
           }
         }
@@ -38,7 +42,6 @@ export default {
       })
     },
     onFilterChange(filter) {
-      console.log('CHANGE !')
       this.$router.push({
         path: this.$router.history.current.path,
         query: {

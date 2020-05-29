@@ -15,6 +15,7 @@ use App\Exports\MissionsExport;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
+use App\Filters\FiltersMissionDomaine;
 use App\Http\Requests\Api\MissionDeleteRequest;
 
 class MissionController extends Controller
@@ -28,11 +29,13 @@ class MissionController extends Controller
             'format',
             'type',
             'department',
+            'template_id',
             AllowedFilter::exact('id'),
             AllowedFilter::custom('ceu', new FiltersMissionCeu),
             AllowedFilter::custom('search', new FiltersMissionSearch),
             AllowedFilter::custom('lieu', new FiltersMissionLieu),
             AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+            AllowedFilter::custom('domaine', new FiltersMissionDomaine),
         ])
         ->defaultSort('-updated_at')
         ->paginate(config('query-builder.results_per_page'));

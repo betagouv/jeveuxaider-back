@@ -10,6 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Filters\FiltersParticipationSearch;
 use App\Filters\FiltersParticipationLieu;
+use App\Filters\FiltersParticipationDomaine;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
@@ -26,10 +27,12 @@ class ParticipationController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
+                AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
                 'state',
                 'mission.department',
                 'mission.type',
                 'mission.name',
+                'mission.template_id',
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')

@@ -9,6 +9,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersParticipationSearch;
 use App\Filters\FiltersParticipationLieu;
+use App\Filters\FiltersParticipationDomaine;
 
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -31,10 +32,12 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
+                AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
                 'state',
                 'mission.department',
                 'mission.type',
                 'mission.name',
+                'mission.template_id',
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')
