@@ -76,6 +76,8 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             'responsable',
             'responsable_id',
             'responsable_email',
+            'domaine',
+            'template'
         ];
     }
 
@@ -108,6 +110,8 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->tuteur ? $mission->tuteur->full_name : '',
             $mission->tuteur ? $mission->tuteur->id : '',
             $mission->tuteur ? $mission->tuteur->email : '',
+            $mission->template ? $mission->template->domaine->name : $mission->domaine->name,
+            $mission->template ? $mission->template->title : '',
         ];
     }
 }
