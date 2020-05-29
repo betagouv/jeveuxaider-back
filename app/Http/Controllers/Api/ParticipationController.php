@@ -32,7 +32,7 @@ class ParticipationController extends Controller
                 'mission.department',
                 'mission.type',
                 'mission.name',
-                'mission.template_id',
+                AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')

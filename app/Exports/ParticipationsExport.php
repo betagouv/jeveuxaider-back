@@ -37,7 +37,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
                 'mission.department',
                 'mission.type',
                 'mission.name',
-                'mission.template_id',
+                AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')

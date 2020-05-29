@@ -29,7 +29,7 @@ class MissionController extends Controller
             'format',
             'type',
             'department',
-            'template_id',
+            AllowedFilter::exact('template_id'),
             AllowedFilter::exact('id'),
             AllowedFilter::custom('ceu', new FiltersMissionCeu),
             AllowedFilter::custom('search', new FiltersMissionSearch),

@@ -36,7 +36,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 'format',
                 'type',
                 'department',
-                'template_id',
+                AllowedFilter::exact('template_id'),
                 AllowedFilter::custom('ceu', new FiltersMissionCeu),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::custom('lieu', new FiltersMissionLieu),
