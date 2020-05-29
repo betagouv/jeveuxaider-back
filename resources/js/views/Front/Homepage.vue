@@ -98,10 +98,10 @@
             </p>
             <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-8">
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/covid.svg"
                   alt=""
@@ -110,10 +110,10 @@
               </div>
 
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/sante.svg"
                   alt=""
@@ -122,10 +122,10 @@
               </div>
 
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/securite.svg"
                   alt=""
@@ -136,10 +136,10 @@
               </div>
 
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/education.svg"
                   alt=""
@@ -152,10 +152,10 @@
 
             <div class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-3">
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/sport.svg"
                   alt=""
@@ -166,10 +166,10 @@
               </div>
 
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/environnement.svg"
                   alt=""
@@ -180,10 +180,10 @@
               </div>
 
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/memoire.svg"
                   alt=""
@@ -194,10 +194,10 @@
               </div>
 
               <div
-                class="col-span-1 block justify-center text-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 md:flex lg:flex"
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
                 <img
-                  class="h-7 pr-3 opacity-50"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
                   src="/images/vivre-ensemble.svg"
                   alt=""
@@ -678,7 +678,7 @@
 
     <div class="bg-blue-800 border-b border-gray-200">
       <div
-        class="container mx-auto py-12 px-18 sm:px-16 lg:py-16 lg:flex lg:items-center lg:justify-between"
+        class="container mx-auto flex flex-col items-center justify-center py-12 px-18 sm:px-16 lg:py-16 lg:flex-row lg:justify-between"
       >
         <h2
           class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10 text-center"
@@ -687,7 +687,7 @@
         </h2>
         <router-link
           to="/register/responsable"
-          class="inline-flex shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white border border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
+          class="inline-flex mt-3 lg:mt-0 shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white border border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
         >
           Publier une mission
         </router-link>
