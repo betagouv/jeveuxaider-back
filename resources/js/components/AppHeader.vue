@@ -22,7 +22,7 @@
 
           <slot name="menu">
             <div
-              class="mb-3 lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-3"
+              class="mb-3 hidden lg:block lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto lg:order-2"
             >
               <div class="flex space-x-10">
                 <router-link
@@ -41,12 +41,6 @@
                 >
                   Mes missions
                 </router-link>
-                <router-link
-                  to="/regles-de-securite"
-                  class="hidden sm:block text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                >
-                  Règles de sécurité
-                </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
                   target="_blank"
@@ -61,9 +55,46 @@
                 >
               </div>
             </div>
+
+            <div
+              v-show="showMobileMenu"
+              id="mobile-menu"
+              class="lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-5 lg:hidden"
+            >
+              <div class="flex flex-col text-center">
+                <router-link
+                  to="/missions"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Trouver une mission
+                </router-link>
+
+                <router-link
+                  v-if="
+                    $store.getters.isLogged && $store.getters.noRole === true
+                  "
+                  to="/user/missions"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Mes missions
+                </router-link>
+                <a
+                  href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
+                  target="_blank"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Initiatives solidaires</a
+                >
+                <a
+                  href="https://covid19.reserve-civique.gouv.fr/engagement"
+                  target="_blank"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >Actualités</a
+                >
+              </div>
+            </div>
           </slot>
 
-          <div class="order-2 lg:order-3 ml-auto lg:ml-3">
+          <div class="order-3 ml-1 lg:ml-3">
             <div class="flex items-center">
               <div
                 v-if="
@@ -103,6 +134,16 @@
               </router-link>
             </div>
           </div>
+
+          <div class="block lg:hidden order-4 pl-2">
+            <el-button
+              type="primary"
+              circle
+              icon="el-icon-menu"
+              @click="toggleMenu"
+            >
+            </el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -112,12 +153,20 @@
 <script>
 export default {
   name: 'AppHeader',
+  data() {
+    return {
+      showMobileMenu: false,
+    }
+  },
   created() {
     if (this.$store.getters.isLogged) {
       this.$store.dispatch('reminders')
     }
   },
   methods: {
+    toggleMenu() {
+      this.showMobileMenu = !this.showMobileMenu
+    },
     isCurrentPath(path) {
       return window.location.pathname === path
     },
