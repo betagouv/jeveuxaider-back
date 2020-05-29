@@ -649,6 +649,7 @@
           </div>
 
           <dl
+            v-if="statistics"
             class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
           >
             <div class="flex flex-col mt-10 sm:mt-0">
@@ -658,7 +659,7 @@
                 Réservistes
               </dt>
               <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
-                313 980
+                {{ statistics.profiles | formatNumber }}
               </dd>
             </div>
             <div class="flex flex-col mt-10 sm:mt-0">
@@ -668,7 +669,7 @@
                 Structures
               </dt>
               <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
-                3 878
+                {{ statistics.structures | formatNumber }}
               </dd>
             </div>
 
@@ -679,7 +680,7 @@
                 Mises en relation
               </dt>
               <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
-                107 528
+                {{ statistics.participations | formatNumber }}
               </dd>
             </div>
           </dl>
@@ -723,16 +724,16 @@
           <h2
             class="text-3xl leading-9 tracking-tight font-bold text-gray-900 sm:text-5xl sm:leading-10"
           >
-            S'informer c'est s'engager
+            Restez informé
           </h2>
           <p
             class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
           >
-            Restez informé de toute l'actualité de la <b>Réserve Civique</b>
+            L'actualité de l'engagement sur le blog de la <b>Réserve Civique</b>
           </p>
         </div>
         <div
-          class="mt-12 grid max-w-5xl gap-8 mx-auto lg:grid-cols-3 lg:max-w-none"
+          class="mt-12 grid container gap-8 mx-auto lg:grid-cols-3 lg:max-w-none"
         >
           <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
             <div class="flex-shrink-0">
@@ -926,3 +927,21 @@
       @screen lg
         @apply inline
 </style>
+
+<script>
+import { statistics } from '@/api/app'
+
+export default {
+  name: 'Homepage',
+  data() {
+    return {
+      statistics: null,
+    }
+  },
+  created() {
+    statistics('global').then((res) => {
+      this.statistics = res.data
+    })
+  },
+}
+</script>

@@ -14,6 +14,16 @@ use Illuminate\Database\Eloquent\Builder;
 
 class StatisticsController extends Controller
 {
+    public function global(Request $request)
+    {
+        return [
+            'missions' => Mission::count(),
+            'structures' => Structure::count(),
+            'participations' => Participation::count(),
+            'profiles' => Profile::count(),
+        ];
+    }
+
     public function missions(Request $request)
     {
         if ($request->has('type') && $request->input('type') == 'light') {

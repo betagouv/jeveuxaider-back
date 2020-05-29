@@ -124,10 +124,12 @@
                   "
                   :value="$store.getters.reminders.waiting"
                   :max="99"
-                  class="ml-3 mr-5"
+                  class="hidden lg:block ml-2 mr-3"
                 >
                   <router-link to="/dashboard">
-                    <i class="el-icon-bell text-white text-2xl" />
+                    <i
+                      class="el-icon-bell text-gray-500 hover:text-gray-900 text-2xl"
+                    />
                   </router-link>
                 </el-badge>
               </div>
