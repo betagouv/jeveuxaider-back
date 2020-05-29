@@ -7,8 +7,6 @@
         <div
           class="relative z-10 pb-0 sm:pb-16 md:pb-10 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-24"
         >
-          <div class="relative pt-6 px-4 sm:px-6 lg:px-8"></div>
-
           <div
             class="mt-10 mx-auto px-6 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-2 xl:mt-16"
           >
@@ -16,17 +14,15 @@
               <h1
                 class="text-4xl tracking-tight leading-10 font-bold text-white sm:text-5xl sm:leading-none md:text-6xl"
               >
-                La plateforme publique
-                <br />
-                de l'<span class="font-bold">engagement</span>
+                Engagez-vous dans la Réserve Civique
               </h1>
 
               <p
                 class="mt-3 text-base text-white sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-2xl lg:mx-0"
               >
-                Sur la Réserve Civique, trouvez une mission d'intérêt général
-                auprès d'un organisme public ou associatif et faites vivre les
-                valeurs de la République.
+                Trouvez une mission d’intérêt général auprès d’une organisation
+                publique ou associative et faites vivre les valeurs de la
+                République.
               </p>
 
               <div
@@ -34,18 +30,18 @@
               >
                 <div class="text-center">
                   <p class="pb-1 text-xs leading-6 font-medium text-white">
-                    Je suis bénévole
+                    Je veux aider
                   </p>
                   <router-link
                     to="/register/volontaire"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
-                    Je veux aider
+                    Devenir réserviste
                   </router-link>
                 </div>
                 <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
                   <p class="pb-1 text-xs leading-6 font-medium text-white">
-                    Structure publique ou associative
+                    Mon organisation a besoin de renfort
                   </p>
                   <router-link
                     :to="
@@ -78,7 +74,7 @@
     <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
       <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
         <img
-          class="hidden lg:block absolute left-full transform -translate-x-3/4 translate-y-1 opacity-50"
+          class="hidden lg:block absolute top-0 right-0 transform -translate-x-3/4 translate-y-1 opacity-50"
           src="/images/france.svg"
           width="904"
           alt=""
@@ -88,15 +84,15 @@
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
-            Faites vivre la fraternité
+            Faites vivre l’engagement
             <br class="xl:hidden" />
             <span class="text-blue-800">#FranceUnie</span>
           </h3>
           <p
             class="mt-4 max-w-5xl mx-auto text-center text-xl leading-7 text-gray-500"
           >
-            Plus de <b>300 000 bénévoles</b> prêtent déjà main forte aux
-            <b>4000 structures</b> inscrites à la Réserve Civique.
+            Rejoignez la Réserve Civique et soutenez de grandes causes, dans
+            tous les territoires.
           </p>
         </div>
 
@@ -105,7 +101,7 @@
             <p
               class="text-center text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
             >
-              Trouvez votre domaine d'actions
+              Trouvez votre domaine d'action
             </p>
             <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-8">
               <div
@@ -436,7 +432,7 @@
                         Soutien scolaire.
                       </h5>
                       <p class="mt-2 text-base leading-6 text-gray-500">
-                        J’aide les élèves à faire leurs devoirs.
+                        J’aide les élèves à étudier et faire leurs devoirs.
                       </p>
                     </div>
                   </div>
@@ -595,14 +591,13 @@
           >
             Rejoignez le mouvement
             <br class="xl:hidden" />
-            <span class="text-blue-800">#JeVeuxAider</span>
+            <span class="text-blue-800">#RéserveCivique</span>
           </h3>
           <p
             class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
           >
-            Sur l'ensemble du territoire français, des milliers de réservistes,
-            de structures et d'association ont déjà rejoint la
-            <b>Réserve Civique</b>.
+            Partout en France, des milliers de réservistes, organisations
+            publiques et associations sont déjà mobilisés sur le terrain.
           </p>
 
           <div class="relative mt-8 z-0 overflow-hidden text-center mx-auto">
@@ -666,7 +661,7 @@
               <dt
                 class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
               >
-                Structures
+                Organisations
               </dt>
               <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
                 {{ statistics.structures | formatNumber }}
@@ -695,7 +690,8 @@
         <h2
           class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10 text-center"
         >
-          Votre structure a besoin de <span class="text-blu">bénévoles</span> ?
+          Votre organisation a besoin de
+          <span class="text-blu">bénévoles</span> ?
         </h2>
         <router-link
           :to="
@@ -729,7 +725,7 @@
           <p
             class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
           >
-            L'actualité de l'engagement sur le blog de la <b>Réserve Civique</b>
+            L’actualité de l’engagement sur le blog de la <b>Réserve Civique</b>
           </p>
         </div>
         <div
