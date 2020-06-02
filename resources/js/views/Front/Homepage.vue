@@ -744,7 +744,7 @@
                 <p class="text-sm leading-5 font-medium text-blue-800">
                   <a
                     target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement"
+                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
                     class="hover:underline"
                   >
                     Actualités
@@ -752,7 +752,7 @@
                 </p>
                 <a
                   target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement#"
+                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/mission-accomplie-et-si-on-continuait-ensemble/"
                   class="block"
                 >
                   <h3
@@ -783,7 +783,7 @@
                 <p class="text-sm leading-5 font-medium text-blue-800">
                   <a
                     target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement"
+                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
                     class="hover:underline"
                   >
                     Actualités
@@ -791,13 +791,13 @@
                 </p>
                 <a
                   target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement"
+                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-evolue/"
                   class="block"
                 >
                   <h3
                     class="mt-2 text-xl leading-7 font-semibold text-gray-900"
                   >
-                    La Réserve Civique évolue
+                    La Réserve Civique évolue !
                   </h3>
                   <p class="mt-3 text-base leading-6 text-gray-500">
                     Missions, domaines d’action, blog … Découvrez toutes les
@@ -822,15 +822,15 @@
                 <p class="text-sm leading-5 font-medium text-blue-800">
                   <a
                     target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement"
+                    href="https://covid19.reserve-civique.gouv.fr/engagement/category/temoignage/"
                     class="hover:underline"
                   >
-                    Actualités
+                    Témoignage
                   </a>
                 </p>
                 <a
                   target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement"
+                  href="https://covid19.reserve-civique.gouv.fr/engagement/temoignage/florian-benevole-a-la-banque-alimentaire-de-dax-dans-les-landes-40/"
                   class="block"
                 >
                   <h3
@@ -852,14 +852,18 @@
       </div>
 
       <div class="text-center mt-10">
-        <span class="inline-flex">
+        <a
+          target="_blank"
+          href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+          class="inline-flex"
+        >
           <button
             type="button"
             class="rounded-md shadow-sm inline-flex items-center px-4 py-2 border border-gray-300 text-base leading-6 font-medium rounded-full text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"
           >
             Toute l'actualité
           </button>
-        </span>
+        </a>
       </div>
 
       <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
