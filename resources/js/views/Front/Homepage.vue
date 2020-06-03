@@ -735,7 +735,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-48 w-full object-cover"
-                src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
+                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/05/Success-scaled-uai-1032x580.jpg"
                 alt=""
               />
             </div>
@@ -774,7 +774,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-48 w-full object-cover"
-                src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
+                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/05/LOGO-RC-carre%CC%81-1-uai-1032x580.jpg"
                 alt=""
               />
             </div>
@@ -813,7 +813,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-48 w-full object-cover"
-                src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
+                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/05/ba-amiens-s2-170420-091757-5156-hd_0-scaled-uai-1032x580.jpg"
                 alt=""
               />
             </div>
