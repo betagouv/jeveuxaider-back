@@ -48,10 +48,10 @@ class ParticipationFinished extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Bravo ! Votre mission est terminée !')
+            ->subject('Votre mission est terminée !')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « ' . $this->participation->mission->name .' » est terminée !')
-            ->line('Nous vous remercions pour votre engagement.')
+            ->line('Félicitations, vous avez réalisé une mission auprès de « ' . $this->participation->mission->structure->name .' ».')
+            ->line('Nous vous invitons à poursuivre votre engagement sur jeveuxaider.gouv.fr')
             ->action('Toutes les missions', url(config('app.url').'/missions'));
     }
 
