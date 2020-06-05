@@ -187,20 +187,27 @@
       </el-table-column>
       <el-table-column label="Places" width="130">
         <template slot-scope="scope">
-          <div v-if="scope.row.has_places_left">
-            {{ scope.row.participations_max - scope.row.participations_count }}
-            {{
-              (scope.row.participations_max - scope.row.participations_count)
-                | pluralize(['place', 'places'])
-            }}
-          </div>
-          <div v-else>
-            Complet
-          </div>
-          <div class="font-light text-gray-600 text-xs">
-            {{ scope.row.participations_count }} /
-            {{ scope.row.participations_max }}
-          </div>
+          <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
+            N/A
+          </template>
+          <template v-else>
+            <div v-if="scope.row.has_places_left">
+              {{
+                scope.row.participations_max - scope.row.participations_count
+              }}
+              {{
+                (scope.row.participations_max - scope.row.participations_count)
+                  | pluralize(['place', 'places'])
+              }}
+            </div>
+            <div v-else>
+              Complet
+            </div>
+            <div class="font-light text-gray-600 text-xs">
+              {{ scope.row.participations_count }} /
+              {{ scope.row.participations_max }}
+            </div>
+          </template>
         </template>
       </el-table-column>
       <el-table-column prop="state" label="Statut" min-width="170">

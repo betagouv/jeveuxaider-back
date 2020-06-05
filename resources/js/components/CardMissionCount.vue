@@ -31,6 +31,14 @@
           </div>
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">
+              Terminées
+            </div>
+            <div class>
+              {{ data.finished | formatNumber }}
+            </div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">
               Annulées
             </div>
             <div class>
