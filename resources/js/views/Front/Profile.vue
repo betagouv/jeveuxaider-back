@@ -20,6 +20,89 @@
             {{ $store.getters.user.profile.last_name }}
           </h2>
 
+          <div class="mt-8 border-t border-gray-200 pt-8">
+            <h3 class="text-lg leading-tight font-medium text-gray-900">
+              Photo de profil
+            </h3>
+            <p class="mt-1 mb-8 text-sm text-gray-500">
+              Mettez votre profil en avant en choisissant une photo de profil.
+              (Taille minimale: 240x240)
+            </p>
+            <div v-show="imgPreview">
+              <div class="preview-area">
+                <img :src="imgPreview" alt="Cropped Image" />
+              </div>
+              <div class="actions mt-4">
+                <el-button
+                  type="secondary"
+                  @click.prevent="dialogCropVisible = true"
+                >
+                  Recadrer
+                </el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  :loading="loadingDelete"
+                  @click.prevent="onDelete()"
+                >
+                  Supprimer
+                </el-button>
+              </div>
+
+              <el-dialog
+                title="Recadrer"
+                :visible.sync="dialogCropVisible"
+                width="680"
+              >
+                <vue-cropper
+                  ref="cropper"
+                  :src="
+                    imgSrc ? imgSrc : form.image ? form.image.original : null
+                  "
+                  :aspect-ratio="1 / 1"
+                  :zoomable="false"
+                  :movable="false"
+                  :zoom-on-touch="false"
+                  :zoom-on-wheel="false"
+                  :auto-crop-area="1"
+                  :min-container-height="240"
+                  :min-container-width="240"
+                  preview=".preview"
+                  @cropmove="ensureMinWidth"
+                />
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="onReset()">Réinitialiser</el-button>
+                  <el-button @click="dialogCropVisible = false"
+                    >Annuler</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    :loading="loadingCrop"
+                    @click="onCrop()"
+                    >Valider</el-button
+                  >
+                </span>
+              </el-dialog>
+            </div>
+            <div v-show="!imgPreview">
+              <el-upload
+                class="upload-demo"
+                drag
+                action=""
+                :show-file-list="false"
+                :auto-upload="false"
+                :on-change="onSelectFile"
+              >
+                <i class="el-icon-upload" />
+                <div class="el-upload__text">
+                  Glissez votre image ou <br /><em
+                    >cliquez ici pour la sélectionner</em
+                  >
+                </div>
+              </el-upload>
+            </div>
+          </div>
+
           <el-form
             ref="profileForm"
             :model="form"
@@ -110,8 +193,12 @@
 </template>
 
 <script>
+import { uploadImage } from '@/api/app'
+import Crop from '@/mixins/Crop'
+
 export default {
   name: 'FrontProfile',
+  mixins: [Crop],
   data() {
     var checkLowercase = (rule, value, callback) => {
       if (value !== value.toLowerCase()) {
@@ -123,6 +210,10 @@ export default {
     return {
       loading: false,
       form: this.$store.getters.user.profile,
+      model: 'profile',
+      imgMinWidth: 240,
+      imgMinHeight: 240,
+      imgMaxSize: 2000000, // 2 MB
       rules: {
         email: [
           {
@@ -192,11 +283,29 @@ export default {
           this.$store
             .dispatch('user/updateProfile', this.form)
             .then(() => {
-              this.loading = false
-              this.$message({
-                message: 'Votre profil a été mis à jour.',
-                type: 'success',
-              })
+              if (this.img) {
+                let cropSettings = this.$refs.cropper
+                  ? this.$refs.cropper.getData()
+                  : null
+                uploadImage(
+                  this.form.id,
+                  this.model,
+                  this.img,
+                  cropSettings
+                ).then(() => {
+                  this.loading = false
+                  this.$message({
+                    message: 'Votre profil a été mis à jour.',
+                    type: 'success',
+                  })
+                })
+              } else {
+                this.loading = false
+                this.$message({
+                  message: 'Votre profil a été mis à jour.',
+                  type: 'success',
+                })
+              }
             })
             .catch(() => {
               this.loading = false
@@ -214,4 +323,7 @@ export default {
 <style lang="sass" scoped>
 ::v-deep .el-form-item
     @apply mb-3
+
+.preview-area
+  width: 150px
 </style>

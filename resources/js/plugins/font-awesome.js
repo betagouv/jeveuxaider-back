@@ -6,6 +6,7 @@ import {
   faFileExcel,
   faFilePdf,
   faFile,
+  faCloudUploadAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -14,5 +15,6 @@ library.add(faFileWord)
 library.add(faFileExcel)
 library.add(faFilePdf)
 library.add(faFile)
+library.add(faCloudUploadAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
