@@ -31,14 +31,6 @@
           </div>
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">
-              En cours
-            </div>
-            <div class>
-              {{ data.current | formatNumber }}
-            </div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">
               Effectuées
             </div>
             <div class>
