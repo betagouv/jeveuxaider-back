@@ -47,6 +47,12 @@
             </router-link>
             <router-link
               class="block p-3 hover:underline"
+              to="/charte-reserve-civique"
+            >
+              Charte
+            </router-link>
+            <router-link
+              class="block p-3 hover:underline"
               to="/mentions-legales"
             >
               Mentions légales
