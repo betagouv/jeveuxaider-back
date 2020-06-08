@@ -48,6 +48,8 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             'id',
+            'structure_id',
+            'structure_name',
             'mission_id',
             'mission_name',
             'responsable_name',
@@ -73,6 +75,8 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
 
         return [
             $participation->id,
+            $participation->mission ? $participation->mission->structure_id : '',
+            $participation->mission ? ($participation->mission->structure ? $participation->mission->structure->name : '') : '',
             $participation->mission_id,
             $participation->mission ? $participation->mission->name : '',
             $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->full_name : '',

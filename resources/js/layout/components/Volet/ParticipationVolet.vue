@@ -47,6 +47,9 @@
           <item-description>
             Vous pouvez sélectionner le statut de la participation. A noter que
             des notifications emails seront envoyées.
+            <span class="underline cursor-pointer" @click="showDescription">
+              Accéder à la description des statuts
+            </span>
           </item-description>
           <el-form-item label="Statut" prop="state" class="flex-1">
             <el-select
@@ -118,6 +121,22 @@ export default {
     },
   },
   methods: {
+    showDescription() {
+      let message = `
+      <div class="text-sm">
+        <div class="mb-2"><span class="font-semibold">En attente de validation</span>: vous n'avez pas encore décidé de valider ou non la candidature mais souhaitez garder une place à ce candidat</div>
+        <div class="mb-2"><span class="font-semibold">Candidature annulée</span>: le réserviste a retiré sa demande de participation</div>
+        <div class="mb-2"><span class="font-semibold">Participation déclinée</span>: vous ne retenez pas cette candidature, vous libérez la place pour un autre candidat</div>
+        <div class="mb-2"><span class="font-semibold">Mission validée</span>: vous acceptez la candidature, la mission va pouvoir commencer</div>
+        <div class="mb-2"><span class="font-semibold">Mission effectuée</span>: le réserviste a terminé sa mission</div>
+        <div class="mb-2"><span class="font-semibold">Mission abandonnée</span>: vous êtes sans nouvelles après avoir accepté sa participation et lui avoir indiqué où quand et comment commencer sa mission</div>
+        <div class="mb-2"><span class="font-semibold">Mission annulée</span>: vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le réserviste sera averti automatiquement
+      `
+      this.$alert(message, 'Description des status', {
+        confirmButtonText: 'OK',
+        dangerouslyUseHTMLString: true,
+      })
+    },
     onClickDelete() {
       this.$confirm(
         `La participation sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
@@ -142,13 +161,17 @@ export default {
       })
     },
     onSubmit() {
-      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
-        confirmButtonText: 'Je confirme',
-        cancelButtonText: 'Annuler',
-        dangerouslyUseHTMLString: true,
-        center: true,
-        type: 'warning',
-      }).then(() => {
+      this.$confirm(
+        'Êtes vous sur de vos changements ?<br><br> Une notification sera envoyée au réserviste<br><br>',
+        'Confirmation',
+        {
+          confirmButtonText: 'Je confirme',
+          cancelButtonText: 'Annuler',
+          dangerouslyUseHTMLString: true,
+          center: true,
+          type: 'warning',
+        }
+      ).then(() => {
         this.loading = true
         updateParticipation(this.form.id, this.form)
           .then((response) => {
