@@ -25,7 +25,7 @@ class StructureRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|required|min:3|max:255',
-            'user_id' => 'sometimes|required',
+            'user_id' => 'sometimes',
             'logo' => '',
             'siret' => '',
             'statut_juridique' => 'sometimes|required',

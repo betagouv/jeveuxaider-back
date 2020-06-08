@@ -120,9 +120,9 @@
                   v-if="
                     $store.getters.isLogged &&
                     $store.getters.reminders &&
-                    $store.getters.reminders.waiting > 0
+                    $store.getters.reminders.total > 0
                   "
-                  :value="$store.getters.reminders.waiting"
+                  :value="$store.getters.reminders.total"
                   :max="99"
                   class="hidden lg:block ml-2 mr-3"
                 >

@@ -1,6 +1,6 @@
 <template>
   <el-card
-    v-if="$store.getters.reminders && $store.getters.reminders.waiting"
+    v-if="$store.getters.reminders && $store.getters.reminders.total"
     shadow="never"
     class="p-5"
   >
@@ -19,9 +19,10 @@
       }"
     >
       <el-button type="primary" class="mt-2">
-        <template v-if="$store.getters.reminders.waiting > 1">
+        <template v-if="$store.getters.reminders.participations > 1">
           Afficher les
-          {{ $store.getters.reminders.waiting | formatNumber }} participations
+          {{ $store.getters.reminders.participations | formatNumber }}
+          participations
         </template>
         <template v-else>
           Afficher la participation

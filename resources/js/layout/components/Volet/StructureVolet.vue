@@ -168,42 +168,44 @@
           </el-button>
         </div>
       </el-form>
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">
-        Équipe ({{ form.members.length }})
-      </div>
-      <item-description>
-        Vous pouvez
-        <router-link
-          :to="{
-            name: 'StructureMembers',
-            params: {
-              id: form.id,
-            },
-          }"
+      <template v-if="form.members">
+        <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          Équipe ({{ form.members.length }})
+        </div>
+        <item-description>
+          Vous pouvez
+          <router-link
+            :to="{
+              name: 'StructureMembers',
+              params: {
+                id: form.id,
+              },
+            }"
+          >
+            <span class="underline cursor-pointer">gérer l'équipe</span>
+          </router-link>
+          ou
+          <router-link
+            :to="{
+              name: 'StructureMembersAdd',
+              params: {
+                id: form.id,
+              },
+            }"
+          >
+            <span class="underline cursor-pointer"
+              >ajouter un membre</span
+            > </router-link
+          >.
+        </item-description>
+        <div
+          v-for="member in form.members"
+          :key="member.id"
+          class="member py-4 px-6"
         >
-          <span class="underline cursor-pointer">gérer l'équipe</span>
-        </router-link>
-        ou
-        <router-link
-          :to="{
-            name: 'StructureMembersAdd',
-            params: {
-              id: form.id,
-            },
-          }"
-        >
-          <span class="underline cursor-pointer"
-            >ajouter un membre</span
-          > </router-link
-        >.
-      </item-description>
-      <div
-        v-for="member in form.members"
-        :key="member.id"
-        class="member py-4 px-6"
-      >
-        <member-teaser :member="member" />
-      </div>
+          <member-teaser :member="member" />
+        </div>
+      </template>
     </template>
   </Volet>
 </template>
@@ -320,13 +322,13 @@ export default {
           this.loading = true
           updateStructure(this.form.id, this.form)
             .then((response) => {
-              this.loading = false
               this.$store.commit('volet/setRow', response.data)
               this.$message({
                 type: 'success',
                 message: 'La structure a été mise à jour',
               })
               this.$emit('updated', response.data)
+              this.loading = false
             })
             .catch((error) => {
               this.loading = false

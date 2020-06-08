@@ -28,19 +28,25 @@ class ConfigController extends Controller
 
     public function reminders(Request $request)
     {
-        $count = 0;
 
         if ($request->header('Context-Role') == 'referent') {
-            $count = Structure::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+            $structures = Structure::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+            $missions = Mission::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+            return [ 
+                'total' => $structures + $missions,
+                'structures' => $structures,
+                'missions' => $missions
+            ];
         }
 
         if ($request->header('Context-Role') == 'responsable') {
-            $count = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+            $participations = Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count();
+            return [ 
+                'total' => $participations,
+                'participations' => $participations
+            ];
         }
 
-        return [
-            'waiting' => $count,
-        ];
     }
 
     private function release()

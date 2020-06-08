@@ -56,8 +56,7 @@
               placeholder="Sélectionner un statut"
             >
               <el-option
-                v-for="item in $store.getters.taxonomies
-                  .participation_workflow_states.terms"
+                v-for="item in statesAvailable"
                 :key="item.value"
                 :label="`${item.label}`"
                 :value="item.value"
@@ -104,6 +103,18 @@ export default {
     canChangeState() {
       let state = ['En attente de validation', 'Mission validée']
       return state.includes(this.row.state) === true ? true : false
+    },
+    statesAvailable() {
+      if (this.$store.getters.contextRole == 'responsable') {
+        return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+          (item) =>
+            item.value != 'Candidature annulée' &&
+            item.value != 'Mission signalée'
+        )
+      } else {
+        return this.$store.getters.taxonomies.participation_workflow_states
+          .terms
+      }
     },
   },
   methods: {
