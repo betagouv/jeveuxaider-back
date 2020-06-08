@@ -156,7 +156,7 @@
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
                   <div
-                    class="mt-8 ml-3 text-gray-700"
+                    class="mt-8 ml-3 text-gray-700 bg-gray-100 p-5 rounded"
                     v-html="mission.information"
                   ></div>
                 </div>
