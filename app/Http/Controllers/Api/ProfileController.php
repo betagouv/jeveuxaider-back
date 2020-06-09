@@ -16,6 +16,7 @@ use App\Filters\FiltersProfileRole;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -71,5 +72,55 @@ class ProfileController extends Controller
         $profile->update($request->validated());
 
         return $profile;
+    }
+
+    public function upload(ProfileUpdateRequest $request, Profile $profile)
+    {
+
+        // Delete previous file
+        if ($media = $profile->getFirstMedia('profiles')) {
+            $media->delete();
+        }
+
+        $data = $request->all();
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(30);
+
+        $cropSettings = json_decode($data['cropSettings']);
+        if (!empty($cropSettings)) {
+            $stringCropSettings = implode(",", [
+                $cropSettings->width,
+                $cropSettings->height,
+                $cropSettings->x,
+                $cropSettings->y
+            ]);
+        } else {
+            $pathName = $request->file('image')->getPathname();
+            $infos = getimagesize($pathName);
+            $stringCropSettings = implode(",", [
+                $infos[0],
+                $infos[1],
+                0,
+                0
+            ]);
+        }
+
+        $profile
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->withManipulations([
+                'thumb' => ['manualCrop' => $stringCropSettings]
+            ])
+            ->toMediaCollection('profiles');
+
+        return $profile;
+    }
+
+    public function uploadDelete(ProfileUpdateRequest $request, Profile $profile)
+    {
+        if ($media = $profile->getFirstMedia('profiles')) {
+            $media->delete();
+        }
     }
 }

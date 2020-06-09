@@ -7,11 +7,13 @@ use Illuminate\Notifications\Notifiable;
 use App\Helpers\Utils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Profile extends Model
+class Profile extends Model implements HasMedia
 {
-    use Notifiable;
+    use Notifiable, InteractsWithMedia;
 
     protected $table = 'profiles';
 
@@ -19,7 +21,6 @@ class Profile extends Model
         'first_name',
         'last_name',
         'email',
-        // 'avatar',
         'phone',
         'mobile',
         'reseau_id',
@@ -35,55 +36,38 @@ class Profile extends Model
         'is_analyste' => 'boolean',
     ];
 
-   // protected $appends = ['full_name', 'short_name', 'roles', 'has_user', 'volontaire'];
-    protected $appends = ['full_name', 'short_name'];
+    protected $appends = ['full_name', 'short_name', 'image'];
+
     protected $hidden = ['media', 'user'];
 
-    // protected $with = ['structures:id,name', 'reseau:id,name', 'participations'];
 
-    // public function setEmailAttribute($value)
-    // {
-    //     $this->attributes['email'] = strtolower($value);
-    // }
-
-    public function registerMediaCollections()
+    public function getImageAttribute()
     {
-        $this->addMediaCollection('avatars')->singleFile();
+        $media = $this->getFirstMedia('profiles');
+        if ($media) {
+            $mediaUrls = ['original' => $media->getFullUrl()];
+            foreach ($media->getGeneratedConversions() as $key => $conversion) {
+                $mediaUrls[$key] = $media->getUrl($key);
+            }
+            return $mediaUrls;
+        }
+        return null;
     }
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->width(120)->height(120);
+
+        $this->addMediaConversion('thumb')
+            ->width(320)
+            ->height(320)
+            ->nonQueued()
+            ->performOnCollections('profiles');
     }
 
     public function getHasUserAttribute()
     {
         return $this->user ? true : false;
     }
-
-    // public function setAvatarAttribute($avatar)
-    // {
-    //     if ($avatar == null) {
-    //         $avatar = $this->getMedia('avatars')->first();
-    //         if ($avatar) {
-    //             $avatar->delete();
-    //         }
-    //         return;
-    //     }
-
-    //     if (Str::startsWith($avatar, 'data:image')) {
-    //         $this->addMediaFromBase64($avatar)->toMediaCollection('avatars');
-    //     } elseif ($avatar instanceof UploadedFile) {
-    //         $this->addMedia($avatar)->toMediaCollection('avatars');
-    //     }
-    // }
-
-    // public function getAvatarAttribute()
-    // {
-    //     $avatar = $this->getMedia('avatars')->first();
-
-    //     return isset($avatar) ? $avatar->getFullUrl('thumb') : null;
-    // }
 
     public function getFullNameAttribute()
     {

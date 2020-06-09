@@ -41,6 +41,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('user/anonymize', 'Api\UserController@anonymize');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
+    Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
+    Route::delete('profile/{profile}/upload', 'Api\ProfileController@uploadDelete');
     Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');
 
     Route::post('structure', 'Api\StructureController@store');

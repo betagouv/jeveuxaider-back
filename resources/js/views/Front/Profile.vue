@@ -26,7 +26,7 @@
             </h3>
             <p class="mt-1 mb-8 text-sm text-gray-500">
               Mettez votre profil en avant en choisissant une photo de profil.
-              (Taille minimale: 240x240)
+              (Taille minimale: 320x320)
             </p>
             <div v-show="imgPreview">
               <div class="preview-area">
@@ -65,8 +65,8 @@
                   :zoom-on-touch="false"
                   :zoom-on-wheel="false"
                   :auto-crop-area="1"
-                  :min-container-height="240"
-                  :min-container-width="240"
+                  :min-container-height="320"
+                  :min-container-width="320"
                   preview=".preview"
                   @cropmove="ensureMinWidth"
                 />
@@ -211,8 +211,8 @@ export default {
       loading: false,
       form: this.$store.getters.user.profile,
       model: 'profile',
-      imgMinWidth: 240,
-      imgMinHeight: 240,
+      imgMinWidth: 320,
+      imgMinHeight: 320,
       imgMaxSize: 2000000, // 2 MB
       rules: {
         email: [
@@ -284,6 +284,7 @@ export default {
             .dispatch('user/updateProfile', this.form)
             .then(() => {
               if (this.img) {
+                console.log('upload image', this.img)
                 let cropSettings = this.$refs.cropper
                   ? this.$refs.cropper.getData()
                   : null
