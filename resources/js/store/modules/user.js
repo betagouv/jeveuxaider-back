@@ -1,10 +1,4 @@
-import {
-  getUser,
-  updateUser,
-  updateProfile,
-  updateProfileAvatar,
-  rolesList,
-} from '../../api/user'
+import { getUser, updateUser, updateProfile, rolesList } from '../../api/user'
 
 const state = {
   user: {},
@@ -54,18 +48,6 @@ const actions = {
   updateProfile({ commit }, profile) {
     return new Promise((resolve, reject) => {
       updateProfile(profile.id, profile)
-        .then((response) => {
-          commit('updateProfile', response.data)
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-  updateProfileAvatar({ commit }, profile) {
-    return new Promise((resolve, reject) => {
-      updateProfileAvatar(profile.id, profile.avatar)
         .then((response) => {
           commit('updateProfile', response.data)
           resolve(response)
