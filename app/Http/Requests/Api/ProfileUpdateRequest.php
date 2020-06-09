@@ -49,7 +49,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'skills' => '',
         ];
 
-        if(request()->user()->isAdmin()) {
+        if (request()->user()->isAdmin()) {
             $rules['referent_department'] = '';
             $rules['referent_region'] = '';
             $rules['reseau_id'] = '';
