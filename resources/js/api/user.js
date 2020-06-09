@@ -63,14 +63,6 @@ export function updateProfile(id, profile) {
   return request.post(`/api/profile/${id}`, profile)
 }
 
-export function updateProfileAvatar(id, avatar) {
-  var data = new FormData()
-  data.append('avatar', avatar)
-  return request.post(`/api/profile/${id}`, data, {
-    header: { 'Content-Type': 'multipart/form-data' },
-  })
-}
-
 export function updateUser(user) {
   return request.post('/api/user', user)
 }
