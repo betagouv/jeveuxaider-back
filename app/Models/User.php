@@ -29,7 +29,7 @@ class User extends Authenticatable
 
     public static function currentUser()
     {
-        if(! Auth::guard('api')->user()) {
+        if (! Auth::guard('api')->user()) {
             return null;
         }
 
