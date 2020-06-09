@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Tags\HasTags;
 
 class Profile extends Model implements HasMedia
 {
-    use Notifiable, InteractsWithMedia;
+    use Notifiable, InteractsWithMedia, HasTags;
 
     protected $table = 'profiles';
 
@@ -29,17 +30,21 @@ class Profile extends Model implements HasMedia
         'birthday',
         'zip',
         'service_civique',
-        'is_analyste'
+        'is_analyste',
+        'is_visible',
+        'disponibilities',
+        'description',
     ];
 
     protected $casts = [
         'is_analyste' => 'boolean',
+        'is_visible' => 'boolean',
+        'disponibilities' => 'array'
     ];
 
     protected $appends = ['full_name', 'short_name', 'image'];
 
     protected $hidden = ['media', 'user'];
-
 
     public function getImageAttribute()
     {
@@ -94,7 +99,7 @@ class Profile extends Model implements HasMedia
             case 'admin':
             case 'analyste':
                 return $query;
-            break;
+                break;
             case 'referent':
                 $departement = Auth::guard('api')->user()->profile->referent_department;
                 return $query
@@ -109,9 +114,8 @@ class Profile extends Model implements HasMedia
                             ->where('role', 'responsable')
                             ->whereNotNull('department')
                             ->where('department', $departement);
-                    })
-                ;
-            break;
+                    });
+                break;
             case 'referent_regional':
                 $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
                 return $query
@@ -130,18 +134,16 @@ class Profile extends Model implements HasMedia
                         foreach ($departements as $departement) {
                             $query->orWhere('zip', 'LIKE', $departement . '%');
                         }
-                    })
-                ;
-            break;
+                    });
+                break;
             case 'superviseur':
                 return $query
                     ->whereHas('structures', function (Builder $query) {
                         $query
                             ->whereNotNull('reseau_id')
                             ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                    })
-                ;
-            break;
+                    });
+                break;
         }
     }
 
@@ -194,6 +196,16 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Collectivity');
     }
 
+    public function getDomainesAttribute()
+    {
+        return $this->tagsWithType('domaine')->values();
+    }
+
+    public function getSkillsAttribute()
+    {
+        return $this->tagsWithType('competence')->values();
+    }
+
     public function isReferent()
     {
         return $this->referent_department ? true : false;
@@ -211,12 +223,12 @@ class Profile extends Model implements HasMedia
 
     public function isResponsable()
     {
-        return (boolean) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'responsable')->first();
+        return (bool) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'responsable')->first();
     }
 
     public function isTuteur()
     {
-        return (boolean) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'tuteur')->first();
+        return (bool) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'tuteur')->first();
     }
 
     public function isAdmin()

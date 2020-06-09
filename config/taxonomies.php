@@ -547,8 +547,29 @@ return [
         "vocabulary" => "Type de tag",
         "terms" => [
             "domaine" => "Domaine d'action",
+            "competence" => "Compétence",
             "other" => "Autre"
         ]
     ],
+
+     /*
+    |--------------------------------------------------------------------------
+    | PROFILE DISPOS
+    |--------------------------------------------------------------------------
+    |
+    */
+    'profile_disponibilities' => [
+        "vocabulary" => "Disponibilités",
+        "terms" => [
+            "flexible" => "Flexible",
+            "journee" => "En journée",
+            "soiree" => "En soirée",
+            "semaine" => "La semaine",
+            "weekend" => "Le week-end",
+            "jours_feries" => "Pendant les jours fériés",
+            "vacances" => "Pendant les vacances",
+        ]
+    ],
+
 
 ];

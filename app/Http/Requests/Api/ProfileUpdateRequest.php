@@ -42,6 +42,11 @@ class ProfileUpdateRequest extends ProfileRequest
             'zip' => 'nullable|postal_code:FR',
             'birthday' => 'nullable|date|before:-16 years',
             'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'is_visible' => 'boolean',
+            'disponibilities' => '',
+            'description' => '',
+            'domaines' => '',
+            'skills' => '',
         ];
 
         if(request()->user()->isAdmin()) {

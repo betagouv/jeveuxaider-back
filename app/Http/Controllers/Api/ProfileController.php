@@ -63,16 +63,26 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile = null)
     {
-        return Profile::with('structures:id,name')->find($profile->id)
-            ?: Profile::with('structures:id,name')->find($request->user()->profile->id);
+        return Profile::with(['structures:id,name'])->find($profile->id)
+            ?: Profile::with(['structures:id,name'])->find($request->user()->profile->id);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
 
+        if ($request->has('domaines')) {
+            $profile->syncTagsWithType($request->input('domaines'), 'domaine');
+        }
+
+        if ($request->has('skills')) {
+            $profile->syncTagsWithType($request->input('skills'), 'competence');
+        }
+
         // Hack pour éviter de le mettre append -> trop gourmand en queries
         $profile['roles'] = $profile->roles;
+        $profile['domaines'] = $profile->domaines;
+        $profile['skills'] = $profile->skills;
 
         return $profile;
     }
