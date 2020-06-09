@@ -148,7 +148,7 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">
+          <el-avatar v-if="scope.row.structure" class="bg-primary">
             {{ scope.row.structure.name[0] }}
           </el-avatar>
         </template>
