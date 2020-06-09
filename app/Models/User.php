@@ -27,11 +27,6 @@ class User extends Authenticatable
 
     protected $with = ['profile'];
 
-    // public function setEmailAttribute($value)
-    // {
-    //     $this->attributes['email'] = strtolower($value);
-    // }
-
     public static function currentUser()
     {
         if(! Auth::guard('api')->user()) {

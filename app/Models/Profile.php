@@ -221,12 +221,12 @@ class Profile extends Model implements HasMedia
 
     public function isAdmin()
     {
-        return $this->user ? $this->user->is_admin ? true : false : false;
+        return $this->user ? ($this->user->is_admin ? true : false) : false;
     }
 
     public function isVolontaire()
     {
-        return $this->user ? $this->user->context_role == 'volontaire' ? true : false : false;
+        return $this->user ? ($this->user->context_role == 'volontaire' ? true : false) : false;
     }
 
     public function getVolontaireAttribute()

@@ -71,6 +71,9 @@ class ProfileController extends Controller
     {
         $profile->update($request->validated());
 
+        // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $profile['roles'] = $profile->roles;
+
         return $profile;
     }
 
