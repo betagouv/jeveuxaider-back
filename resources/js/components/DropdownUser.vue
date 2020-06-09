@@ -3,10 +3,14 @@
     <el-dropdown @command="handleCommand">
       <el-avatar
         v-if="$store.getters.user.profile"
+        :src="
+          $store.getters.user.profile.image
+            ? $store.getters.user.profile.image.thumb
+            : null
+        "
         class="bg-primary text-white"
       >
-        {{ $store.getters.user.profile.first_name[0]
-        }}{{ $store.getters.user.profile.last_name[0] }}
+        {{ $store.getters.user.profile.short_name }}
       </el-avatar>
       <el-dropdown-menu slot="dropdown">
         <router-link

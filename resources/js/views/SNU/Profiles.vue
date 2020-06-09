@@ -102,7 +102,10 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">
+          <el-avatar
+            :src="scope.row.image ? scope.row.image.thumb : null"
+            class="bg-primary text-white"
+          >
             {{ scope.row.short_name }}
           </el-avatar>
         </template>
