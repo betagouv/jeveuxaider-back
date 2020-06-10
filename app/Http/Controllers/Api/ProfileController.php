@@ -84,6 +84,10 @@ class ProfileController extends Controller
         $profile['domaines'] = $profile->domaines;
         $profile['skills'] = $profile->skills;
 
+        if($profile->isResponsable()) {
+            $profile['structures'] = $profile->structures;
+        }
+
         return $profile;
     }
 

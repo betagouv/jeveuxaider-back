@@ -150,7 +150,7 @@ export default {
                   this.$store.getters.noRole === true &&
                   this.$store.getters.contextRole != 'volontaire'
                 ) {
-                  this.$router.push('/register/step/norole')
+                  this.$router.push('/register/responsable/step/norole')
                 }
 
                 if (this.$store.getters.noRole === false) {

@@ -238,7 +238,7 @@ export default {
             })
             .then(() => {
               this.loading = false
-              this.$router.push('/register/step/profile')
+              this.$router.push('/register/responsable/step/profile')
             })
             .catch(() => {
               this.loading = false

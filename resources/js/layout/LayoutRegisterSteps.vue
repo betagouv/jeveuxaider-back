@@ -50,7 +50,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'RegisterSteps',
+  name: 'LayoutRegisterSteps',
   computed: {
     ...mapGetters(['isAppLoaded', 'isImpersonating']),
   },

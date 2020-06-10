@@ -273,7 +273,7 @@ export default {
           this.loading = false
           // Get profile to get new role
           this.$store.dispatch('user/get')
-          this.$router.push('/register/step/address')
+          this.$router.push('/register/responsable/step/address')
         })
         .catch(() => {
           this.loading = false
@@ -310,7 +310,7 @@ export default {
               } else {
                 // Get profile to get new role
                 await this.$store.dispatch('user/get')
-                this.$router.push('/register/step/address')
+                this.$router.push('/register/responsable/step/address')
                 this.loading = false
               }
             })

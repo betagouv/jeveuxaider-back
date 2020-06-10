@@ -23,7 +23,7 @@ import FrontHomepage from '@/views/Front/Homepage'
 import FrontAbout from '@/views/Front/About'
 import FrontSecurityRules from '@/views/Front/SecurityRules'
 import FrontPolitiqueConfidentialite from '@/views/Front/PolitiqueConfidentialite'
-import FrontProfile from '@/views/Front/Profile'
+import FrontProfile from '@/views/Front/UserProfile'
 import FrontSettings from '@/views/Front/Settings'
 import FrontUserMissions from '@/views/Front/UserMissions'
 import FrontFaq from '@/views/Front/Faq'
@@ -153,50 +153,82 @@ export default new Router({
       ],
     },
     {
-      path: '/register/step',
+      path: '/register/responsable/step',
       component: LayoutRegisterSteps,
-      redirect: '/register/step/profile',
+      redirect: '/register/responsable/step/profile',
       meta: { requiresAuth: true },
       children: [
         {
-          path: '/register/step/norole',
+          path: '/register/responsable/step/norole',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/no-role-step" */ '@/views/RegisterSteps/NoRoleStep.vue'
+              /* webpackChunkName: "assets/js/no-role-step" */ '@/views/ResponsableSteps/NoRoleStep.vue'
             ),
           name: 'NoRoleStep',
         },
         {
-          path: '/register/step/profile',
+          path: '/register/responsable/step/profile',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/profile-step" */ '@/views/RegisterSteps/ProfileStep.vue'
+              /* webpackChunkName: "assets/js/profile-step" */ '@/views/ResponsableSteps/ProfileStep.vue'
             ),
           name: 'ProfileStep',
         },
         {
-          path: '/register/step/structure',
+          path: '/register/responsable/step/structure',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/structure-step" */ '@/views/RegisterSteps/StructureStep.vue'
+              /* webpackChunkName: "assets/js/structure-step" */ '@/views/ResponsableSteps/StructureStep.vue'
             ),
           name: 'StructureStep',
         },
         {
-          path: '/register/step/address',
+          path: '/register/responsable/step/address',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/address-step" */ '@/views/RegisterSteps/AddressStep.vue'
+              /* webpackChunkName: "assets/js/address-step" */ '@/views/ResponsableSteps/AddressStep.vue'
             ),
           name: 'AddressStep',
         },
         {
-          path: '/register/step/other',
+          path: '/register/responsable/step/other',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/no-role-step" */ '@/views/RegisterSteps/OtherStep.vue'
+              /* webpackChunkName: "assets/js/no-role-step" */ '@/views/ResponsableSteps/OtherStep.vue'
             ),
           name: 'OtherStep',
+        },
+      ],
+    },
+    {
+      path: '/register/reserviste/step',
+      component: LayoutRegisterSteps,
+      redirect: '/register/reserviste/step/preferences',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/register/reserviste/step/preferences',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/reserviste-preferences-step" */ '@/views/ReservisteSteps/PreferencesStep.vue'
+            ),
+          name: 'PreferencesStep',
+        },
+        {
+          path: '/register/reserviste/step/infos',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/reserviste-infos-step" */ '@/views/ReservisteSteps/InfosStep.vue'
+            ),
+          name: 'InfosStep',
+        },
+        {
+          path: '/register/reserviste/step/visibility',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/reserviste-visibility-step" */ '@/views/ReservisteSteps/VisibilityStep.vue'
+            ),
+          name: 'VisibilityStep',
         },
       ],
     },

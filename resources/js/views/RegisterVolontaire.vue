@@ -85,16 +85,6 @@
               v-mask="'##/##/####'"
               placeholder="__/__/____"
             />
-
-            <!-- <el-date-picker
-              type="date"
-              placeholder="Date de naissance"
-              v-model="form.birthday"
-              autocomplete="off"
-              format="dd-MM-yyyy"
-              value-format="yyyy-MM-dd"
-              style="width:100%;"
-            ></el-date-picker>-->
           </el-form-item>
           <el-form-item
             label="Mot de passe"
@@ -335,7 +325,7 @@ export default {
             })
             .then(() => {
               this.loading = false
-              this.$router.push('/missions')
+              this.$router.push('/register/reserviste/step')
             })
             .catch(() => {
               this.loading = false

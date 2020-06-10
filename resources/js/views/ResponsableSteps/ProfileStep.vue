@@ -150,7 +150,7 @@ export default {
             })
             .then(() => {
               this.loading = false
-              this.$router.push('/register/step/structure')
+              this.$router.push('/register/responsable/step/structure')
             })
             .catch(() => {
               this.loading = false

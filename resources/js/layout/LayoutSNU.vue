@@ -31,7 +31,7 @@ export default {
     // does NOT have access to `this` component instance,
     // because it has not been created yet when this guard is called!
     if (store.getters.noRole) {
-      next('/register/step/norole')
+      next('/register/responsable/step/norole')
     }
     next()
   },

@@ -39,7 +39,7 @@
                   <p class="mt-1 text-sm text-gray-500 max-w-xl">
                     En rendant votre profil visible, vous acceptez de recevoir
                     des propositions d'organisations publiques à la recherche de
-                    bénévoles.
+                    réservistes.
                   </p>
                 </div>
                 <div class="">
@@ -159,7 +159,7 @@
                     v-model="form.domaines"
                     multiple
                     filterable
-                    placeholder="Sélectionner vos compétences"
+                    placeholder="Sélectionner vos domaines d'action"
                   >
                     <el-option
                       v-for="domaine in domaines"
@@ -332,7 +332,7 @@ import Crop from '@/mixins/Crop'
 import { fetchTags } from '@/api/app'
 
 export default {
-  name: 'FrontProfile',
+  name: 'FrontUserProfile',
   mixins: [Crop],
   data() {
     var checkLowercase = (rule, value, callback) => {

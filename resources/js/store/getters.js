@@ -22,7 +22,7 @@ const getters = {
   profile: (state) => (state.user.user ? state.user.user.profile : null),
   contextRole: (state) => state.user.user.context_role,
   structure_as_responsable: (state, getters) => {
-    if (!getters.profile) {
+    if (!getters.profile && !getters.profile.structures) {
       return null
     }
     return getters.profile.structures.filter(

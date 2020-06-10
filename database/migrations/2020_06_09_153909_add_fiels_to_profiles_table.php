@@ -17,6 +17,8 @@ class AddFielsToProfilesTable extends Migration
             $table->boolean('is_visible')->default(false);
             $table->json('disponibilities')->nullable();
             $table->text('description')->nullable();
+            $table->text('frequence')->nullable();
+            $table->text('frequence_granularite')->nullable();
         });
     }
 
@@ -31,6 +33,8 @@ class AddFielsToProfilesTable extends Migration
             $table->dropColumn('is_visible');
             $table->dropColumn('disponibilities');
             $table->dropColumn('description');
+            $table->dropColumn('frequence');
+            $table->dropColumn('frequence_granularite');
         });
     }
 }
