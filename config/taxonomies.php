@@ -571,4 +571,26 @@ return [
         ]
     ],
 
+    'profile_frequences' => [
+        "vocabulary" => "Frequences",
+        "terms" => [
+            "1-2 heures" => "1-2 heures",
+            "2-3 heures" => "2-3 heures",
+            "4+ heures" => "4+ heures",
+            "1 jour" => "1 jour",
+            "2 jours " => "2 jours",
+            "3+ jours" => "3+ jours",
+        ]
+    ],
+
+    'profile_frequences_granularite' => [
+        "vocabulary" => "Frequences granularité",
+        "terms" => [
+            "jour" => "Par jour",
+            "semaine" => "Par semaine",
+            "mois" => "Par mois",
+            "annee" => "Par année",
+        ]
+    ],
+
 ];

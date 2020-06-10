@@ -64,8 +64,45 @@
             />
           </el-select>
         </el-form-item>
+        <div class="flex items-end">
+          <el-form-item
+            label="Fréquences"
+            prop="disponibilities"
+            class="w-full sm:w-1/2 pr-2"
+          >
+            <el-select
+              v-model="form.frequence"
+              placeholder="Sélectionner votre fréquence"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.profile_frequences
+                  .terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            prop="frequence_granularite"
+            class="w-full sm:w-1/2 pl-2"
+          >
+            <el-select
+              v-model="form.frequence_granularite"
+              placeholder="Par..."
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies
+                  .profile_frequences_granularite.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </div>
         <el-form-item
-          label="Description de la mission"
+          label="Descrivez vos motivations"
           prop="description"
           class="flex-1"
         >

@@ -34,6 +34,8 @@ class Profile extends Model implements HasMedia
         'is_visible',
         'disponibilities',
         'description',
+        'frequence',
+        'frequence_granularite',
     ];
 
     protected $casts = [
