@@ -154,7 +154,8 @@ export default {
       this.$refs['tagForm'].validate((valid) => {
         if (valid) {
           addOrUpdateTag(this.id, this.form)
-            .then(() => {
+            .then((response) => {
+              this.form = response.data
               this.loading = false
               if (this.img) {
                 uploadImage(this.form.id, this.model, this.img, null).then(
