@@ -42,7 +42,7 @@
           v-if="$store.getters.contextRole != 'volontaire'"
           divided
         />
-        <el-dropdown-item command="/user">
+        <el-dropdown-item command="/user/infos">
           Mon compte
         </el-dropdown-item>
         <el-dropdown-item
