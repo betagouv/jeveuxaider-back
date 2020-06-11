@@ -74,6 +74,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
             'missions',
             'user_id',
             'user_email',
+            'user_first_name',
+            'user_last_name',
         ];
     }
 
@@ -110,7 +112,9 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
             $structure->updated_at,
             $structure->missions->count(),
             $structure->user_id,
-            $structure->user ? $structure->user->email : ''
+            $structure->user ? $structure->user->email : '',
+            $structure->user && $structure->user->profile ? $structure->user->profile->first_name : '',
+            $structure->user && $structure->user->profile ? $structure->user->profile->last_name : '',
         ];
     }
 }
