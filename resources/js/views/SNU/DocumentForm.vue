@@ -56,7 +56,7 @@
             class="upload-demo"
             drag
             action
-            accept="application/pdf, text/plain, text/csv, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            accept="application/zip, application/x-rar-compressed, application/pdf, text/plain, text/csv, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
             :show-file-list="false"
             :auto-upload="false"
             :on-change="onSelectFile"

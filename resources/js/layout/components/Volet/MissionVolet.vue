@@ -1,18 +1,16 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
+      <div
+        v-if="row.structure.name"
+        class="text-xs text-gray-600 uppercase text-center mt-8 mb-12"
+      >
         {{ row.structure.name }}
       </div>
       <el-card shadow="hover" class="overflow-visible">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
-            <el-avatar
-              v-if="row.structure.logo"
-              :src="`${row.structure.logo}`"
-              class="w-10 rounded-full border"
-            />
-            <el-avatar v-else class="bg-primary">{{
+            <el-avatar v-if="row.structure.name" class="bg-primary">{{
               row.structure.name[0]
             }}</el-avatar>
           </div>

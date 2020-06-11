@@ -209,7 +209,35 @@
                   src="/images/vivre-ensemble.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800">Vivre ensemble </span>
+                <span class="font-semibold text-gray-800"
+                  >Solidarité et insertion
+                </span>
+              </div>
+              <div
+                class="col-span-1 lg:col-start-2 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              >
+                <img
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                  style="width: 40px;"
+                  src="/images/memoire.svg"
+                  alt=""
+                />
+                <span class="font-semibold text-gray-800"
+                  >Mémoire et citoyenneté
+                </span>
+              </div>
+              <div
+                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              >
+                <img
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                  style="width: 40px;"
+                  src="/images/cooperation.svg"
+                  alt=""
+                />
+                <span class="font-semibold text-gray-800"
+                  >Coopération internationale
+                </span>
               </div>
             </div>
           </div>
