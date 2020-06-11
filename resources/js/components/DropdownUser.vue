@@ -42,11 +42,14 @@
           v-if="$store.getters.contextRole != 'volontaire'"
           divided
         />
-        <el-dropdown-item command="/user/profile">
-          Profil
+        <el-dropdown-item command="/user">
+          Mon compte
         </el-dropdown-item>
-        <el-dropdown-item command="/user/settings">
-          Paramètres de compte
+        <el-dropdown-item
+          v-if="$store.getters.contextRole == 'volontaire'"
+          command="/user/missions"
+        >
+          Mes missions
         </el-dropdown-item>
         <el-dropdown-item divided command="/logout">
           Se déconnecter
@@ -66,3 +69,8 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.el-dropdown-menu
+    width: 200px
+</style>

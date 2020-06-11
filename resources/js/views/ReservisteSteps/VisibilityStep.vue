@@ -62,6 +62,11 @@
         </el-form-item>
       </el-form>
       <div class="flex pt-2">
+        <router-link :to="{ name: 'InfosStep' }" class="mr-2">
+          <el-button type="secondary">
+            Retour à l'étape précédente
+          </el-button>
+        </router-link>
         <el-button type="primary" :loading="loading" @click="onSubmit">
           Trouver des missions
         </el-button>
@@ -80,10 +85,7 @@ export default {
       rules: {},
     }
   },
-  created() {
-    delete this.form.skills
-    delete this.form.domaines
-  },
+  created() {},
   methods: {
     onSubmit() {
       this.loading = true

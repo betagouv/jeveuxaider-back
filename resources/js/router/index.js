@@ -5,6 +5,8 @@ import Router from 'vue-router'
 import Layout2Cols from '@/layout/Layout2Cols'
 import LayoutRegisterSteps from '@/layout/LayoutRegisterSteps'
 import LayoutSNU from '@/layout/LayoutSNU'
+import LayoutProfile from '@/layout/LayoutProfile.vue'
+
 /* Pages */
 import Login from '@/views/Login.vue'
 import Logout from '@/views/Logout.vue'
@@ -23,8 +25,6 @@ import FrontHomepage from '@/views/Front/Homepage'
 import FrontAbout from '@/views/Front/About'
 import FrontSecurityRules from '@/views/Front/SecurityRules'
 import FrontPolitiqueConfidentialite from '@/views/Front/PolitiqueConfidentialite'
-import FrontProfile from '@/views/Front/UserProfile'
-import FrontSettings from '@/views/Front/Settings'
 import FrontUserMissions from '@/views/Front/UserMissions'
 import FrontFaq from '@/views/Front/Faq'
 import FrontPage from '@/views/Front/Page'
@@ -879,14 +879,43 @@ export default new Router({
       ],
     },
     {
-      path: '/user/profile',
-      component: FrontProfile,
-      name: 'FrontProfile',
-    },
-    {
-      path: '/user/settings',
-      component: FrontSettings,
-      name: 'FrontSettings',
+      path: '/user',
+      component: LayoutProfile,
+      redirect: '/user/infos',
+      children: [
+        {
+          path: '/user/infos',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/front-user-infos" */ '@/views/Front/UserInfos.vue'
+            ),
+          name: 'FrontUserInfos',
+        },
+        {
+          path: '/user/preferences',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/front-user-preferences" */ '@/views/Front/UserPreferences.vue'
+            ),
+          name: 'FrontUserPreferences',
+        },
+        {
+          path: '/user/visibility',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/front-user-visibility" */ '@/views/Front/UserVisibility.vue'
+            ),
+          name: 'FrontUserVisibility',
+        },
+        {
+          path: '/user/settings',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/front-user-settings" */ '@/views/Front/UserSettings.vue'
+            ),
+          name: 'FrontUserSettings',
+        },
+      ],
     },
     {
       path: '/user/missions',

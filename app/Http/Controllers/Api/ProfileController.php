@@ -70,13 +70,19 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
+        $domaines = $request->input('domaines');
+        $skills = $request->input('skills');
 
-        if ($request->has('domaines')) {
-            $profile->syncTagsWithType($request->input('domaines'), 'domaine');
+        if ($domaines) {
+            if (is_string($domaines[0])) {
+                $profile->syncTagsWithType($domaines, 'domaine');
+            }
         }
 
-        if ($request->has('skills')) {
-            $profile->syncTagsWithType($request->input('skills'), 'competence');
+        if ($skills) {
+            if (is_string($skills[0])) {
+                $profile->syncTagsWithType($skills, 'competence');
+            }
         }
 
         // Hack pour éviter de le mettre append -> trop gourmand en queries
@@ -84,7 +90,7 @@ class ProfileController extends Controller
         $profile['domaines'] = $profile->domaines;
         $profile['skills'] = $profile->skills;
 
-        if($profile->isResponsable()) {
+        if ($profile->isResponsable()) {
             $profile['structures'] = $profile->structures;
         }
 

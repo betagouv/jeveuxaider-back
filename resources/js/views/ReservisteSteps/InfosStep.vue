@@ -45,6 +45,81 @@
         :rules="rules"
         class="max-w-xl"
       >
+        <div class="my-8">
+          <el-form-item label="Photo de profil" class="">
+            <div v-show="imgPreview">
+              <div class="preview-area" style="width: 150px; height: 150px;">
+                <img class="rounded" :src="imgPreview" alt="Cropped Image" />
+              </div>
+              <div class="actions mt-4">
+                <el-button
+                  type="secondary"
+                  @click.prevent="dialogCropVisible = true"
+                >
+                  Recadrer
+                </el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  :loading="loadingDelete"
+                  @click.prevent="onDelete()"
+                >
+                  Supprimer
+                </el-button>
+              </div>
+
+              <el-dialog
+                title="Recadrer"
+                :visible.sync="dialogCropVisible"
+                width="680"
+              >
+                <vue-cropper
+                  ref="cropper"
+                  :src="
+                    imgSrc ? imgSrc : form.image ? form.image.original : null
+                  "
+                  :aspect-ratio="1 / 1"
+                  :zoomable="false"
+                  :movable="false"
+                  :zoom-on-touch="false"
+                  :zoom-on-wheel="false"
+                  :auto-crop-area="1"
+                  :min-container-height="320"
+                  :min-container-width="320"
+                  preview=".preview"
+                  @cropmove="ensureMinWidth"
+                />
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="onReset()">Réinitialiser</el-button>
+                  <el-button @click="dialogCropVisible = false"
+                    >Annuler</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    :loading="loadingCrop"
+                    @click="onCrop()"
+                    >Valider</el-button
+                  >
+                </span>
+              </el-dialog>
+            </div>
+            <div v-show="!imgPreview">
+              <el-upload
+                drag
+                action=""
+                :show-file-list="false"
+                :auto-upload="false"
+                :on-change="onSelectFile"
+              >
+                <font-awesome-icon
+                  icon="user-astronaut"
+                  class="text-gray-400 hover:text-primary"
+                  style="width: 100px; height: 100px;"
+                />
+              </el-upload>
+            </div>
+          </el-form-item>
+        </div>
         <el-form-item
           label="Disponibilités"
           prop="disponibilities"
@@ -116,6 +191,11 @@
         </el-form-item>
       </el-form>
       <div class="flex pt-2">
+        <router-link :to="{ name: 'PreferencesStep' }" class="mr-2">
+          <el-button type="secondary">
+            Retour à l'étape précédente
+          </el-button>
+        </router-link>
         <el-button type="primary" :loading="loading" @click="onSubmit">
           Continuer
         </el-button>
@@ -125,31 +205,53 @@
 </template>
 
 <script>
+import { uploadImage } from '@/api/app'
+import Crop from '@/mixins/Crop'
+import { getProfile } from '@/api/user'
+
 export default {
   name: 'InfosStep',
+  mixins: [Crop],
   data() {
     return {
       loading: false,
-      form: this.$store.getters.user.profile,
+      form: {},
+      model: 'profile',
+      imgMinWidth: 320,
+      imgMinHeight: 320,
+      imgMaxSize: 2000000, // 2 MB
       rules: {},
     }
   },
   created() {
-    delete this.form.skills
-    delete this.form.domaines
+    getProfile(this.$store.getters.user.profile.id)
+      .then((response) => {
+        this.form = response.data
+      })
+      .catch(() => {
+        this.loading = false
+      })
   },
   methods: {
     onSubmit() {
       this.loading = true
       this.$refs['profileForm'].validate((valid) => {
         if (valid) {
+          if (this.img) {
+            let cropSettings = this.$refs.cropper
+              ? this.$refs.cropper.getData()
+              : null
+            uploadImage(this.form.id, this.model, this.img, cropSettings)
+          }
           this.$store
             .dispatch('user/updateProfile', {
               id: this.$store.getters.profile.id,
               ...this.form,
             })
-            .then(() => {
+            .then((response) => {
               this.loading = false
+              console.log('response', response)
+              this.form = response.data
               this.$router.push('/register/reserviste/step/visibility')
             })
             .catch(() => {
@@ -169,4 +271,9 @@ export default {
   @apply hidden
     @screen sm
       @apply block
+
+::v-deep .el-upload-dragger
+  @apply flex justify-center items-center
+  width: 150px
+  height: 150px
 </style>
