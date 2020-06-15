@@ -40,7 +40,7 @@
       <el-form-item
         label="Mes compétences"
         prop="skills"
-        class="flex-1 max-w-xl"
+        class="flex-1 max-w-xl mb-7"
       >
         <el-select
           v-model="form.skills"
@@ -62,6 +62,22 @@
             </el-option>
           </el-option-group>
         </el-select>
+      </el-form-item>
+
+      <el-form-item
+        :label="
+          form.is_visible
+            ? 'Votre profil est visible'
+            : 'Votre profil n\'est pas visible'
+        "
+        prop="is_visible"
+        class="mb-6"
+      >
+        <el-switch
+          v-model="form.is_visible"
+          active-color="#1E429F"
+          inactive-color="#959595"
+        ></el-switch>
       </el-form-item>
 
       <div class="mt-8">

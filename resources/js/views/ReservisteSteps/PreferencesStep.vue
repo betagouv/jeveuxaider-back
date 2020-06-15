@@ -30,89 +30,100 @@
       /> -->
     </el-steps>
 
-    <div class="p-4 sm:p-12 max-w-2xl">
-      <div class="font-bold text-2xl text-gray-800 mb-4">
-        Sélectionnez vos préférences
-      </div>
-      <div class="mb-8 text-md text-gray-600">
-        Enrichissez votre profil avec vos domaines d'action de prédilection
-        ainsi que les compétences que vous souhaitez mettre au service des
-        organisations publiques ou associatives.
-      </div>
-      <el-form
-        ref="profileForm"
-        :model="form"
-        label-position="top"
-        :rules="rules"
-        class="max-w-xl"
-      >
-        <el-form-item
-          label="Mes domaines d'action"
-          prop="domaines"
-          class="flex-1 max-w-xl"
+    <div
+      class="flex flex-col items-center lg:items-start lg:flex-row lg:justify-between"
+    >
+      <div class="p-4 sm:p-12 max-w-2xl order-2">
+        <div class="font-bold text-2xl text-gray-800 mb-4">
+          Sélectionnez vos préférences
+        </div>
+        <div class="mb-8 text-md text-gray-600">
+          Enrichissez votre profil avec vos domaines d'action de prédilection
+          ainsi que les compétences que vous souhaitez mettre au service des
+          organisations publiques ou associatives.
+        </div>
+        <el-form
+          ref="profileForm"
+          :model="form"
+          label-position="top"
+          :rules="rules"
+          class="max-w-xl"
         >
-          <el-select
-            v-model="form.domaines"
-            multiple
-            filterable
-            placeholder="Sélectionner vos domaines d'actions"
+          <el-form-item
+            label="Mes domaines d'action"
+            prop="domaines"
+            class="flex-1 max-w-xl"
           >
-            <el-option
-              v-for="domaine in domaines"
-              :key="domaine.id"
-              :label="domaine.name.fr"
-              :value="domaine.name.fr"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item
-          label="Mes compétences"
-          prop="skills"
-          class="flex-1 max-w-xl"
-        >
-          <el-select
-            v-model="form.skills"
-            multiple
-            filterable
-            placeholder="Sélectionner vos compétences"
-          >
-            <el-option-group
-              v-for="(skills, index) in skillGroups"
-              :key="index"
-              :label="index | labelFromValue('tag_groups')"
+            <el-select
+              v-model="form.domaines"
+              multiple
+              filterable
+              placeholder="Sélectionner vos domaines d'actions"
             >
               <el-option
-                v-for="item in skills"
-                :key="item.id"
-                :label="item.name.fr"
-                :value="item.name.fr"
-              >
-              </el-option>
-            </el-option-group>
-          </el-select>
-        </el-form-item>
+                v-for="domaine in domaines"
+                :key="domaine.id"
+                :label="domaine.name.fr"
+                :value="domaine.name.fr"
+              ></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item
-          :label="
-            form.is_visible
-              ? 'Votre profil est visible'
-              : 'Votre profil n\'est pas visible'
-          "
-          prop="is_visible"
-          class="mb-6"
-        >
-          <el-switch
-            v-model="form.is_visible"
-            active-color="#1E429F"
-            inactive-color="#959595"
-          ></el-switch>
-        </el-form-item>
-      </el-form>
-      <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">
-          Continuer
-        </el-button>
+          <el-form-item
+            label="Mes compétences"
+            prop="skills"
+            class="flex-1 max-w-xl"
+          >
+            <el-select
+              v-model="form.skills"
+              multiple
+              filterable
+              placeholder="Sélectionner vos compétences"
+            >
+              <el-option-group
+                v-for="(skills, index) in skillGroups"
+                :key="index"
+                :label="index | labelFromValue('tag_groups')"
+              >
+                <el-option
+                  v-for="item in skills"
+                  :key="item.id"
+                  :label="item.name.fr"
+                  :value="item.name.fr"
+                >
+                </el-option>
+              </el-option-group>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item
+            :label="
+              form.is_visible
+                ? 'Votre profil est visible'
+                : 'Votre profil n\'est pas visible'
+            "
+            prop="is_visible"
+            class="mb-6"
+          >
+            <el-switch
+              v-model="form.is_visible"
+              active-color="#1E429F"
+              inactive-color="#959595"
+            ></el-switch>
+          </el-form-item>
+        </el-form>
+        <div class="flex pt-2">
+          <el-button type="primary" :loading="loading" @click="onSubmit">
+            Continuer
+          </el-button>
+        </div>
+      </div>
+      <div class="p-4 mt-8 lg:mt-16 lg:mr-16 order-1 lg:order-3">
+        <img
+          src="/images/competences.png"
+          alt="Préférences"
+          style="max-width: 450px;"
+        />
       </div>
     </div>
   </div>
