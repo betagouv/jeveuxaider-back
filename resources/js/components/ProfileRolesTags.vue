@@ -75,6 +75,36 @@
         <i class="el-icon-info" /> Invité
       </el-tag>
     </el-tooltip>
+    <el-tooltip
+      v-if="profile.is_visible"
+      class="item"
+      effect="dark"
+      content="Ce profil est visible dans la recherche"
+      placement="top"
+    >
+      <el-tag type="" :size="size" class="m-1">
+        <i class="el-icon-search" /> Visible
+      </el-tag>
+    </el-tooltip>
+
+    <el-tag
+      v-if="profile.domaines.length > 0"
+      type="info"
+      :size="size"
+      class="m-1"
+    >
+      {{ profile.domaines.length }}
+      {{ profile.domaines.length | pluralize(['domaine', 'domaines']) }}
+    </el-tag>
+    <el-tag
+      v-if="profile.skills.length > 0"
+      type="info"
+      :size="size"
+      class="m-1"
+    >
+      {{ profile.skills.length }}
+      {{ profile.skills.length | pluralize(['compétence', 'compétences']) }}
+    </el-tag>
   </div>
 </template>
 

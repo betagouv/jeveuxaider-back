@@ -110,7 +110,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column label="Email" min-width="320">
+      <el-table-column label="Email" min-width="300">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.full_name }}
@@ -120,7 +120,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Roles" min-width="200">
+      <el-table-column label="Contextes" min-width="350">
         <template slot-scope="scope">
           <profile-roles-tags :profile="scope.row" />
         </template>

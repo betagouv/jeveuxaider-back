@@ -48,6 +48,26 @@
         {{ profile.zip }}
       </div>
     </div>
+    <div v-if="profile.skills" class="mb-2 flex">
+      <div class="card-label">
+        Domaines
+      </div>
+      <div class="text-gray-900 flex-1">
+        <span v-for="domaine in profile.domaines" :key="domaine.id">{{
+          domaine.name.fr
+        }}</span>
+      </div>
+    </div>
+    <div v-if="profile.skills" class="mb-2 flex">
+      <div class="card-label">
+        Compétences
+      </div>
+      <div class="text-gray-900 flex-1">
+        <span v-for="skill in profile.skills" :key="skill.id">{{
+          skill.name.fr
+        }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,7 +83,9 @@ export default {
   data() {
     return {}
   },
-  created() {},
+  created() {
+    console.log('volet profile', this.profile)
+  },
 
   methods: {},
 }

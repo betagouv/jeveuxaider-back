@@ -84,7 +84,9 @@ export function fetchProfileParticipations(id) {
 }
 
 export function fetchProfiles(params) {
-  return request.get('/api/profiles?append=roles,has_user', { params })
+  return request.get('/api/profiles?append=roles,has_user,skills,domaines', {
+    params,
+  })
 }
 
 export const rolesList = [
