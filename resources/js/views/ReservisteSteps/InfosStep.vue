@@ -24,10 +24,10 @@
         title="Informations"
         description="Je complète mes informations"
       />
-      <el-step
+      <!-- <el-step
         title="Visibilité"
-        description="Je rends mon profil visible des organisations publiques"
-      />
+        description="Je rends mon profil visible des organisations publiques ou associatives"
+      /> -->
     </el-steps>
 
     <div class="p-4 sm:p-12 max-w-2xl">
@@ -35,7 +35,7 @@
         Complétez votre profil
       </div>
       <div class="mb-8 text-md text-gray-600">
-        Enrichissez votre profil en décrivant vos attentes et en reseignant vos
+        Enrichissez votre profil en décrivant vos attentes et en renseignant vos
         disponibilités.
       </div>
       <el-form
@@ -197,7 +197,7 @@
           </el-button>
         </router-link>
         <el-button type="primary" :loading="loading" @click="onSubmit">
-          Continuer
+          Trouver des missions
         </el-button>
       </div>
     </div>
@@ -250,9 +250,8 @@ export default {
             })
             .then((response) => {
               this.loading = false
-              console.log('response', response)
               this.form = response.data
-              this.$router.push('/register/reserviste/step/visibility')
+              this.$router.push('/missions')
             })
             .catch(() => {
               this.loading = false

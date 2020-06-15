@@ -63,7 +63,7 @@
             "
             divided
           />
-          <router-link to="/user/profile">
+          <router-link to="/user/infos">
             <el-dropdown-item>Profil</el-dropdown-item>
           </router-link>
           <router-link to="/user/settings">

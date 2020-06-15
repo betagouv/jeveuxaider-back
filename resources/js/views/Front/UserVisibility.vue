@@ -5,7 +5,8 @@
     </div>
     <div class="mb-8 text-md text-gray-600">
       En rendant votre profil visible, vous acceptez de recevoir des
-      propositions d'organisations publiques à la recherche de réservistes.
+      propositions d'organisations publiques ou associatives à la recherche de
+      réservistes.
     </div>
 
     <el-form

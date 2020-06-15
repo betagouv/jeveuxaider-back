@@ -146,6 +146,9 @@ class Profile extends Model implements HasMedia
                             ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                     });
                 break;
+            default:
+                abort(403, 'This action is not authorized');
+                break;
         }
     }
 

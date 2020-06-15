@@ -19,13 +19,13 @@ class ProfilePolicy
 
     public function view(User $user, Profile $profile)
     {
-        $ids = Profile::role(request()->header('Context-Role'))->get()->pluck('id')->all();
-
-        if (in_array($profile->id, $ids)) {
+        if ($user->id == $profile->user_id) {
             return true;
         }
 
-        if ($user->id == $profile->user_id) {
+        $ids = Profile::role(request()->header('Context-Role'))->get()->pluck('id')->all();
+
+        if (in_array($profile->id, $ids)) {
             return true;
         }
 

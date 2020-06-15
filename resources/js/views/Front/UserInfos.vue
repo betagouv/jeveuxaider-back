@@ -5,7 +5,7 @@
     </div>
 
     <div class="mb-8 text-md text-gray-600">
-      Enrichissez votre profil en décrivant vos attentes et en reseignant vos
+      Enrichissez votre profil en décrivant vos attentes et en renseignant vos
       disponibilités.
     </div>
 

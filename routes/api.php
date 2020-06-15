@@ -53,7 +53,10 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('user/password', 'Api\UserController@updatePassword');
 
-    // AUTH
+    Route::get('tags', 'Api\TagController@index');
+
+    Route::get('profile/{profile?}', 'Api\ProfileController@show');
+
     Route::post('logout', 'Api\PassportController@logout');
 });
 
@@ -83,7 +86,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
-    Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
     // PARTICIPATIONS
     Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
@@ -116,9 +118,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // MISSIONS TEMPLATES
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
-
-    // TAGS
-    Route::get('tags', 'Api\TagController@index');
 });
 
 // ONLY ADMIN

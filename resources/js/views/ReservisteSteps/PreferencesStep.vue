@@ -24,10 +24,10 @@
         title="Informations"
         description="Je complète mes informations"
       />
-      <el-step
+      <!-- <el-step
         title="Visibilité"
-        description="Je rends mon profil visible des organisations publiques"
-      />
+        description="Je rends mon profil visible des organisations publiques ou associatives"
+      /> -->
     </el-steps>
 
     <div class="p-4 sm:p-12 max-w-2xl">
@@ -37,7 +37,7 @@
       <div class="mb-8 text-md text-gray-600">
         Enrichissez votre profil avec vos domaines d'action de prédilection
         ainsi que les compétences que vous souhaitez mettre au service des
-        organisations publiques.
+        organisations publiques ou associatives.
       </div>
       <el-form
         ref="profileForm"
@@ -77,13 +77,36 @@
             filterable
             placeholder="Sélectionner vos compétences"
           >
-            <el-option
-              v-for="skill in skills"
-              :key="skill.id"
-              :label="skill.name.fr"
-              :value="skill.name.fr"
-            ></el-option>
+            <el-option-group
+              v-for="(skills, index) in skillGroups"
+              :key="index"
+              :label="index | labelFromValue('tag_groups')"
+            >
+              <el-option
+                v-for="item in skills"
+                :key="item.id"
+                :label="item.name.fr"
+                :value="item.name.fr"
+              >
+              </el-option>
+            </el-option-group>
           </el-select>
+        </el-form-item>
+
+        <el-form-item
+          :label="
+            form.is_visible
+              ? 'Votre profil est visible'
+              : 'Votre profil n\'est pas visible'
+          "
+          prop="is_visible"
+          class="mb-6"
+        >
+          <el-switch
+            v-model="form.is_visible"
+            active-color="#1E429F"
+            inactive-color="#959595"
+          ></el-switch>
         </el-form-item>
       </el-form>
       <div class="flex pt-2">
@@ -97,6 +120,7 @@
 
 <script>
 import { fetchTags } from '@/api/app'
+import _ from 'lodash'
 
 export default {
   name: 'PreferencesStep',
@@ -109,12 +133,21 @@ export default {
       rules: {},
     }
   },
+  computed: {
+    skillGroups() {
+      return _.groupBy(this.skills, (skill) => skill.group)
+    },
+  },
   created() {
     fetchTags().then((response) => {
       this.skills = response.data.data.filter((tag) => tag.type == 'competence')
       this.domaines = response.data.data.filter((tag) => tag.type == 'domaine')
-      this.form.skills = this.form.skills.map((tag) => tag.name.fr)
-      this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+      if (this.form.skills && typeof this.form.skills[0] === 'object') {
+        this.form.skills = this.form.skills.map((tag) => tag.name.fr)
+      }
+      if (this.form.skills && typeof this.form.domaines[0] === 'object') {
+        this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+      }
     })
   },
   methods: {

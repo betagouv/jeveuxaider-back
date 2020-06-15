@@ -33,6 +33,26 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item
+        v-if="form.type == 'competence'"
+        label="Groupe"
+        prop="group"
+        class="flex-1"
+      >
+        <el-select
+          v-model="form.group"
+          clearable
+          placeholder="Sélectionner un type"
+        >
+          <el-option
+            v-for="item in $store.getters.taxonomies.tag_groups.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="Ordre" prop="order_column">
         <el-input v-model="form.order_column" placeholder="Ordre du tag" />
       </el-form-item>
@@ -130,6 +150,15 @@ export default {
             trigger: 'blur',
           },
         ],
+      }
+      if (this.form.type == 'competence') {
+        rules.group = [
+          {
+            required: true,
+            message: 'Veuillez renseigner un groupe',
+            trigger: 'blur',
+          },
+        ]
       }
       return rules
     },

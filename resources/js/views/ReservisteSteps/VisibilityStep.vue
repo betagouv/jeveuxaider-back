@@ -24,10 +24,10 @@
         title="Informations"
         description="Je complète mes informations"
       />
-      <el-step
+      <!-- <el-step
         title="Visibilité"
-        description="Je rends mon profil visible des organisations publiques"
-      />
+        description="Je rends mon profil visible des organisations publiques ou associatives"
+      /> -->
     </el-steps>
 
     <div class="p-4 sm:p-12 max-w-2xl">
@@ -36,7 +36,8 @@
       </div>
       <div class="mb-8 text-md text-gray-600">
         En rendant votre profil visible, vous acceptez de recevoir des
-        propositions d'organisations publiques à la recherche de réservistes.
+        propositions d'organisations publiques ou associatives à la recherche de
+        réservistes.
       </div>
       <el-form
         ref="profileForm"

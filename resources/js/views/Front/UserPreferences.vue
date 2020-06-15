@@ -48,12 +48,19 @@
           filterable
           placeholder="Sélectionner vos compétences"
         >
-          <el-option
-            v-for="skill in skills"
-            :key="skill.id"
-            :label="skill.name.fr"
-            :value="skill.name.fr"
-          ></el-option>
+          <el-option-group
+            v-for="(skills, index) in skillGroups"
+            :key="index"
+            :label="index | labelFromValue('tag_groups')"
+          >
+            <el-option
+              v-for="item in skills"
+              :key="item.id"
+              :label="item.name.fr"
+              :value="item.name.fr"
+            >
+            </el-option>
+          </el-option-group>
         </el-select>
       </el-form-item>
 
@@ -68,6 +75,7 @@
 
 <script>
 import { fetchTags } from '@/api/app'
+import _ from 'lodash'
 
 export default {
   name: 'FrontUserPreferences',
@@ -80,12 +88,21 @@ export default {
       rules: {},
     }
   },
+  computed: {
+    skillGroups() {
+      return _.groupBy(this.skills, (skill) => skill.group)
+    },
+  },
   created() {
     fetchTags().then((response) => {
       this.skills = response.data.data.filter((tag) => tag.type == 'competence')
       this.domaines = response.data.data.filter((tag) => tag.type == 'domaine')
-      this.form.skills = this.form.skills.map((tag) => tag.name.fr)
-      this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+      if (this.form.skills && typeof this.form.skills[0] === 'object') {
+        this.form.skills = this.form.skills.map((tag) => tag.name.fr)
+      }
+      if (this.form.skills && typeof this.form.domaines[0] === 'object') {
+        this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+      }
     })
   },
   methods: {

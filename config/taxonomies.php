@@ -554,6 +554,35 @@ return [
 
      /*
     |--------------------------------------------------------------------------
+    | TAGS GROUPS
+    |--------------------------------------------------------------------------
+    |
+    */
+    'tag_groups' => [
+        "vocabulary" => "Groupe de tag",
+        "terms" => [
+            "agriculture" => "Agriculture et Pêche, Espaces naturels et Espaces verts, Soins aux animaux",
+            "arts" => "Arts et Façonnage d'ouvrages d'art",
+            "banque_assurance_immobilier" => "Banque, Assurance, Immobilier",
+            "commerce_vente" => "Commerce, Vente et Grande distribution",
+            "communication_media" => "Communication, Média et Multimédia",
+            "construction_batiment" => "Construction, Bâtiment et Travaux publics",
+            "hotel_tourisme" => "Hôtellerie-Restauration, Tourisme, Loisirs et Animation",
+            "industrie" => "Industrie",
+            "installation_maintenance" => "Installation et Maintenance",
+            "sante" => "Santé",
+            "services_personne" => "Services à la personne et à la collectivité",
+            "spectacle" => "Spectacle",
+            "support" => "Support à l'entreprise",
+            "transport_logistique" => "Transport et Logistique",
+            "sociales" => "Compétences sociales / Interpersonnelles",
+            "personnes" => "Compétences personnes / Intrapersonnelles",
+            "méthodologiques" => "Compétences méthodologiques",
+        ]
+    ],
+
+     /*
+    |--------------------------------------------------------------------------
     | PROFILE DISPOS
     |--------------------------------------------------------------------------
     |
