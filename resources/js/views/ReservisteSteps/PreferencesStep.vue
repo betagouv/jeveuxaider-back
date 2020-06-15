@@ -118,7 +118,9 @@
           </el-button>
         </div>
       </div>
-      <div class="p-4 mt-8 lg:mt-16 lg:mr-16 order-1 lg:order-3">
+      <div
+        class="hidden lg:block p-4 mt-8 lg:mt-16 lg:mr-16 order-1 lg:order-3"
+      >
         <img
           src="/images/competences.png"
           alt="Préférences"
