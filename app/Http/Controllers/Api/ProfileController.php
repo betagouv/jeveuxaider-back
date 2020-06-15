@@ -11,6 +11,7 @@ use App\Http\Requests\Api\ProfileCreateRequest;
 use App\Notifications\ProfileInvitationSent;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProfilesExport;
+use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Http\Requests\ProfileRequest;
@@ -27,6 +28,8 @@ class ProfileController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
+                AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::exact('is_visible'),
                 'referent_department'
             )
             ->defaultSort('-created_at')

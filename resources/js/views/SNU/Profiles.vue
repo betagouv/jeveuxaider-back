@@ -92,6 +92,31 @@
           "
           @changed="onFilterChange"
         />
+        <query-filter
+          type="select"
+          name="domaines"
+          :value="query['filter[domaines]']"
+          label="Domaine d'action"
+          :options="
+            domaines.map((domaine) => {
+              return {
+                label: domaine.name.fr,
+                value: domaine.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          name="is_visible"
+          label="Visible"
+          :value="query['filter[is_visible]']"
+          :options="[
+            { label: 'Oui', value: true },
+            { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
     <el-table
@@ -203,6 +228,7 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
 import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
 import fileDownload from 'js-file-download'
+import { fetchTags } from '@/api/app'
 
 export default {
   name: 'Profiles',
@@ -218,6 +244,7 @@ export default {
       loading: true,
       tableData: [],
       totalRows: 0,
+      domaines: [],
     }
   },
   computed: {
@@ -242,6 +269,11 @@ export default {
         ]
       }
     },
+  },
+  created() {
+    fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
+      this.domaines = res.data.data
+    })
   },
   methods: {
     fetchRows() {

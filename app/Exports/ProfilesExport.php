@@ -9,6 +9,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
+use App\Filters\FiltersProfileTag;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -27,11 +28,14 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     public function collection()
     {
         return QueryBuilder::for(Profile::role($this->request->header('Context-Role')))
-            ->allowedFilters(
-                AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('role', new FiltersProfileRole),
-                'referent_department'
-            )
+        ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
+        ->allowedFilters(
+            AllowedFilter::custom('search', new FiltersProfileSearch),
+            AllowedFilter::custom('role', new FiltersProfileRole),
+            AllowedFilter::custom('domaines', new FiltersProfileTag),
+            AllowedFilter::exact('is_visible'),
+            'referent_department'
+        )
             ->defaultSort('-created_at')
             ->get();
     }
@@ -51,6 +55,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             'referent_region',
             'reseau_id',
             'service_civique',
+            'is_visible',
             'created_at',
             'updated_at',
         ];
@@ -71,6 +76,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             $profile->referent_region,
             $profile->reseau_id,
             $profile->service_civique,
+            $profile->is_visible,
             $profile->created_at,
             $profile->updated_at,
         ];
