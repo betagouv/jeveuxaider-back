@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="index" mode="vertical" @select="handleSelect">
+  <el-menu mode="vertical" @select="handleSelect">
     <el-menu-item
       index="/user/infos"
       :class="{

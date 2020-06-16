@@ -205,11 +205,9 @@
 <script>
 import { uploadImage } from '@/api/app'
 import Crop from '@/mixins/Crop'
-import UserMenu from '@/components/UserMenu'
 
 export default {
   name: 'FrontUserInfos',
-  components: { UserMenu },
   mixins: [Crop],
   data() {
     var checkLowercase = (rule, value, callback) => {
@@ -299,25 +297,32 @@ export default {
             let cropSettings = this.$refs.cropper
               ? this.$refs.cropper.getData()
               : null
-            uploadImage(this.form.id, this.model, this.img, cropSettings)
+            uploadImage(this.form.id, this.model, this.img, cropSettings).then(
+              () => {
+                this.updateProfile()
+              }
+            )
+          } else {
+            this.updateProfile()
           }
-          this.$store
-            .dispatch('user/updateProfile', this.form)
-            .then(() => {
-              this.loading = false
-              this.$message({
-                message: 'Vos informations ont été mises à jour.',
-                type: 'success',
-              })
-            })
-            .catch(() => {
-              this.loading = false
-            })
-          this.loading = false
         } else {
           this.loading = false
         }
       })
+    },
+    updateProfile() {
+      this.$store
+        .dispatch('user/updateProfile', this.form)
+        .then(() => {
+          this.loading = false
+          this.$message({
+            message: 'Vos informations ont été mises à jour.',
+            type: 'success',
+          })
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
   },
 }

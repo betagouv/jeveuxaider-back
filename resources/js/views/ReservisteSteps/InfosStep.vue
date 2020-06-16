@@ -260,25 +260,31 @@ export default {
             let cropSettings = this.$refs.cropper
               ? this.$refs.cropper.getData()
               : null
-            uploadImage(this.form.id, this.model, this.img, cropSettings)
+            uploadImage(this.form.id, this.model, this.img, cropSettings).then(
+              () => {
+                this.updateProfile()
+              }
+            )
           }
-          this.$store
-            .dispatch('user/updateProfile', {
-              id: this.$store.getters.profile.id,
-              ...this.form,
-            })
-            .then((response) => {
-              this.loading = false
-              this.form = response.data
-              this.$router.push('/missions')
-            })
-            .catch(() => {
-              this.loading = false
-            })
         } else {
           this.loading = false
         }
       })
+    },
+    updateProfile() {
+      this.$store
+        .dispatch('user/updateProfile', {
+          id: this.$store.getters.profile.id,
+          ...this.form,
+        })
+        .then((response) => {
+          this.loading = false
+          this.form = response.data
+          this.$router.push('/missions')
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
   },
 }
