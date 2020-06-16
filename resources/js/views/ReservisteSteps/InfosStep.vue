@@ -56,6 +56,7 @@
                 </div>
                 <div class="actions mt-4">
                   <el-button
+                    class="hidden lg:inline"
                     type="secondary"
                     @click.prevent="dialogCropVisible = true"
                   >
@@ -193,13 +194,18 @@
             ></el-input>
           </el-form-item>
         </el-form>
-        <div class="flex pt-2">
+        <div class="flex flex-wrap pt-2">
           <router-link :to="{ name: 'PreferencesStep' }" class="mr-2">
-            <el-button type="secondary">
+            <el-button type="secondary" class="mb-2">
               Retour à l'étape précédente
             </el-button>
           </router-link>
-          <el-button type="primary" :loading="loading" @click="onSubmit">
+          <el-button
+            type="primary"
+            class="mb-2"
+            :loading="loading"
+            @click="onSubmit"
+          >
             Trouver des missions
           </el-button>
         </div>
