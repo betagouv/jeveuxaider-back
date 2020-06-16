@@ -52,7 +52,7 @@
           </router-link>
           <router-link
             v-if="$store.getters.contextRole == 'admin'"
-            :to="`/dashboard/trash`"
+            :to="`/dashboard/trash/structures`"
           >
             <el-dropdown-item>Corbeille</el-dropdown-item>
           </router-link>

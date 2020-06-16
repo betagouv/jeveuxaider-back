@@ -11,7 +11,7 @@ class FiltersTrashSearch implements Filter
     {
         return $query
             ->where(function ($query) use ($value, $property) {
-                if ($property == 'Participations') {
+                if ($property == 'participations') {
                     $query
                         ->whereHas('mission', function (Builder $query) use ($value) {
                             $query

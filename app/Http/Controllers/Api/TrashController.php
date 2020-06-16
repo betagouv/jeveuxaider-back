@@ -13,22 +13,34 @@ use App\Models\Participation;
 
 class TrashController extends Controller
 {
-    public function index(Request $request)
+    public function structures(Request $request)
     {
-        if ($request->input('type') == 'Missions') {
-            $query = Mission::class;
-        } elseif ($request->input('type') == 'Structures') {
-            $query = Structure::class;
-        } elseif ($request->input('type') == 'Participations') {
-            $query = Participation::class;
-        } else {
-            $query = Structure::class;
-        }
-
-        return QueryBuilder::for($query)
+        return QueryBuilder::for(Structure::class)
             ->onlyTrashed()
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersTrashSearch, $request->input('type')),
+                AllowedFilter::custom('search', new FiltersTrashSearch, 'structures'),
+            ])
+            ->defaultSort('-deleted_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
+    public function missions(Request $request)
+    {
+        return QueryBuilder::for(Mission::class)
+            ->onlyTrashed()
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersTrashSearch, 'missions'),
+            ])
+            ->defaultSort('-deleted_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
+    public function participations(Request $request)
+    {
+        return QueryBuilder::for(Participation::with(['profile','mission']))
+            ->onlyTrashed()
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersTrashSearch, 'participations'),
             ])
             ->defaultSort('-deleted_at')
             ->paginate(config('query-builder.results_per_page'));

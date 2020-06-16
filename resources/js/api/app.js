@@ -16,8 +16,8 @@ export function chartCreated(params) {
   return request.get('/api/charts/created', { params })
 }
 
-export function fetchTrashItems(params) {
-  return request.get('/api/trash', { params })
+export function fetchTrashItems(type, params) {
+  return request.get(`/api/trash/${type}`, { params })
 }
 
 export function fetchFaqs(params) {

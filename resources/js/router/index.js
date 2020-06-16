@@ -558,12 +558,34 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/trash',
+          path: '/dashboard/trash/structures',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-trash" */ '@/views/SNU/Trash.vue'
+              /* webpackChunkName: "assets/js/dashboard-trash-structures" */ '@/views/SNU/TrashStructures.vue'
             ),
-          name: 'Trash',
+          name: 'TrashStructures',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/trash/missions',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-trash-missions" */ '@/views/SNU/TrashMissions.vue'
+            ),
+          name: 'TrashMissions',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/trash/participations',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-trash-participations" */ '@/views/SNU/TrashParticipations.vue'
+            ),
+          name: 'TrashParticipations',
           meta: {
             roles: ['admin'],
           },

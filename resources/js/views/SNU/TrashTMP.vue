@@ -6,19 +6,15 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
-          Corbeille
+          Corbeille - Structures
           <div class="text-gray-600 text-sm font-normal mt-2">
-            Affiche les objets supprimés par les référents
+            Affiche les structures supprimés par les référents
           </div>
         </div>
       </div>
     </div>
     <div class="px-12 mb-6 -mt-6">
-      <el-radio-group v-model="type" @change="handleChangeType">
-        <el-radio-button label="Structures" />
-        <el-radio-button label="Missions" />
-        <el-radio-button label="Participations" />
-      </el-radio-group>
+      <trash-menu></trash-menu>
     </div>
 
     <div class="px-12 mb-3 flex">
@@ -92,25 +88,19 @@ import { destroyMission } from '@/api/mission'
 import { destroyParticipation } from '@/api/participation'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
+import TrashMenu from '@/components/TrashMenu.vue'
 
 export default {
-  name: 'Trash',
-  components: { QueryMainSearchFilter },
+  name: 'TrashStructures',
+  components: { QueryMainSearchFilter, TrashMenu },
   mixins: [TableWithFilters],
   data() {
     return {
-      type: 'Structures',
       loading: true,
       tableData: [],
     }
   },
   methods: {
-    handleChangeType() {
-      this.tableData = []
-      this.query.type = this.type
-      this.query.page = 1
-      this.fetchDatas()
-    },
     handleDelete(row) {
       this.loading = true
       if (this.type == 'Structures') {

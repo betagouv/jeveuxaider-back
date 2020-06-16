@@ -126,7 +126,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('profile', 'Api\ProfileController@store');
 
     // TRASH
-    Route::get('trash', 'Api\TrashController@index');
+    Route::get('trash/structures', 'Api\TrashController@structures');
+    Route::get('trash/missions', 'Api\TrashController@missions');
+    Route::get('trash/participations', 'Api\TrashController@participations');
     Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
     Route::delete('collectivity/{id}/destroy', 'Api\CollectivityController@destroy');
     Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
