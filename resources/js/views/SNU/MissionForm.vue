@@ -195,6 +195,7 @@
               v-model="form.tags"
               filterable
               multiple
+              multiple-limit="3"
               placeholder="Sélectionner les domaines d'action complémentaires"
             >
               <el-option
