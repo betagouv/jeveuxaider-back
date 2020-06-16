@@ -1,14 +1,35 @@
 <template>
   <el-menu :default-active="index" mode="vertical" @select="handleSelect">
-    <el-menu-item index="/user/infos">Informations personnelles</el-menu-item>
-    <el-menu-item index="/user/preferences">Préférences</el-menu-item>
-    <el-menu-item index="/user/settings">Paramètres de compte</el-menu-item>
+    <el-menu-item
+      index="/user/infos"
+      :class="{
+        'is-active': isActive('user/infos'),
+      }"
+      >Informations personnelles</el-menu-item
+    >
+    <el-menu-item
+      index="/user/preferences"
+      :class="{
+        'is-active': isActive('user/preferences'),
+      }"
+      >Préférences</el-menu-item
+    >
+    <el-menu-item
+      index="/user/settings"
+      :class="{
+        'is-active': isActive('user/settings'),
+      }"
+      >Paramètres de compte</el-menu-item
+    >
   </el-menu>
 </template>
 
 <script>
+import MenuActive from '@/mixins/MenuActive'
+
 export default {
   name: 'ContentsMenu',
+  mixins: [MenuActive],
   computed: {
     index() {
       return 'TODO'
