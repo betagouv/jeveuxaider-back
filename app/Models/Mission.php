@@ -103,8 +103,8 @@ class Mission extends Model
     public function getDomainesAttribute()
     {
         $domaines = [];
-        $domaines[] = $this->template ? $this->template->domaine->name : $this->domaine->name;
         $domaines = $this->tagsWithType('domaine')->values()->pluck('name');
+        $domaines[] = $this->template ? $this->template->domaine->name : $this->domaine->name;
 
         return $domaines;
     }
