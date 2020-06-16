@@ -14,8 +14,6 @@ class ParticipationObserver
 {
     public function created(Participation $participation)
     {
-        $this->updateMission($participation);
-
         if ($participation->state == 'En attente de validation') {
             if ($participation->mission->tuteur) {
                 $participation->mission->tuteur->notify(new ParticipationWaitingValidation($participation));
@@ -27,8 +25,6 @@ class ParticipationObserver
     {
         $oldState = $participation->getOriginal('state');
         $newState = $participation->state;
-
-        $this->updateMission($participation);
 
         if ($oldState != $newState) {
             switch ($newState) {
@@ -68,15 +64,6 @@ class ParticipationObserver
 
     public function deleted(Participation $participation)
     {
-        // $oldState = $participation->getOriginal('state');
-        // $newState = $participation->state;
-
-        $this->updateMission($participation);
-    }
-
-    private function updateMission($participation)
-    {
-        // Permet de calculer le nombre de places restantes + Envoie à Algolia
         $participation->mission->update();
     }
 }

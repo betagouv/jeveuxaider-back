@@ -47,10 +47,6 @@ class ParticipationController extends Controller
 
     public function store(ParticipationCreateRequest $request)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
         $participationCount = Participation::where('profile_id', request("profile_id"))
             ->where('mission_id', request("mission_id"))->count();
 
@@ -62,6 +58,7 @@ class ParticipationController extends Controller
 
         if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
+            $mission->update(); // Places left & Algolia
             return $participation;
         }
 
@@ -70,11 +67,12 @@ class ParticipationController extends Controller
 
     public function update(ParticipationUpdateRequest $request, Participation $participation)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
         $participation->update($request->validated());
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
 
         return $participation;
     }

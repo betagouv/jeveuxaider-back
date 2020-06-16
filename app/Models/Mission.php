@@ -58,7 +58,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        return $this->structure()->first()->state == 'Validée' && $this->state == 'Validée' ? true : false;
+        return $this->structure->state == 'Validée' && $this->state == 'Validée' ? true : false;
     }
 
     public function searchableAs()

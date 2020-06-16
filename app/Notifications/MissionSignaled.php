@@ -48,7 +48,7 @@ class MissionSignaled extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a été refusée')
+            ->subject('Votre mission a été signalée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Votre mission « ' . $this->mission->name . ' » ne répond pas aux exigences de la Charte de la Réserve Civique et/ou aux règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la réserve civique.')
             ->line('Par conséquent, votre mission « ' . $this->mission->name . ' » a été signalée et dépubliée de la plateforme et les éventuels volontaires qui y étaient inscrits ont été notifiés de son annulation.')
