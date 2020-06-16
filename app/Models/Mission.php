@@ -75,7 +75,6 @@ class Mission extends Model
             'department' => $this->department,
             'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
             'zip' => $this->zip,
-            'domaine_action' => $this->name,
             'periodicite' => $this->periodicite,
             'has_places_left' => $this->has_places_left,
             'places_left' => $this->places_left,
@@ -88,6 +87,7 @@ class Mission extends Model
             'template_title' => $this->template ? $this->template->title : null,
             'domaine_name' => $this->template ? $this->template->domaine->name : $this->domaine->name,
             'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
+            'domaines' => $this->domaines,
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -98,6 +98,15 @@ class Mission extends Model
         }
 
         return $mission;
+    }
+
+    public function getDomainesAttribute()
+    {
+        $domaines = [];
+        $domaines[] = $this->template ? $this->template->domaine->name : $this->domaine->name;
+        $domaines = $this->tagsWithType('domaine')->values()->pluck('name');
+
+        return $domaines;
     }
 
     public function user()

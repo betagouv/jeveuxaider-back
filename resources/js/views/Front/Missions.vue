@@ -108,11 +108,11 @@
               </ais-menu-select>
               <ais-menu-select
                 class="flex-1"
-                attribute="domaine_name"
+                attribute="domaines"
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.domaine_name"
+                  v-model="filters.domaines"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
                   placeholder="Domaines d'action"
@@ -443,7 +443,7 @@ export default {
       filters: {
         query: null,
         department_name: null,
-        domaine_action: null,
+        domaines: null,
         template_title: null,
       },
       forceWrite: false,
@@ -512,12 +512,10 @@ export default {
         this.filters.department_name = state.menu.department_name
           ? state.menu.department_name
           : null
-        this.filters.domaine_action = state.menu.domaine_action
-          ? state.menu.domaine_action
-          : null
+        this.filters.domaines = state.menu.domaines ? state.menu.domaines : null
       } else {
         this.filters.department_name = null
-        this.filters.domaine_action = null
+        this.filters.domaines = null
       }
     },
     handleFilters(refine, $event) {
@@ -530,7 +528,7 @@ export default {
       refine()
       this.filters.query = null
       this.filters.department_name = null
-      this.filters.domaine_name = null
+      this.filters.domaines = null
       this.filters.template_title = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
