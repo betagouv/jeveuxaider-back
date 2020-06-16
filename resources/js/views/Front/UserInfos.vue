@@ -24,6 +24,7 @@
             </div>
             <div class="actions mt-4">
               <el-button
+                class="hidden lg:block"
                 type="secondary"
                 @click.prevent="dialogCropVisible = true"
               >

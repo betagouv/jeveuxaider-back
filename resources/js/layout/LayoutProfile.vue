@@ -20,10 +20,12 @@
             {{ $store.getters.user.profile.last_name }}
           </h2>
 
-          <div class="flex mt-8 pt-12 border-t border-gray-200">
-            <user-menu></user-menu>
+          <div
+            class="flex flex-col lg:flex-row mt-8 pt-8 border-t border-gray-200"
+          >
+            <user-menu class="bg-gray-100 lg:bg-transparent mb-4"></user-menu>
             <div
-              class="flex-1 px-12 pt-2 ml-12 border-l border-gray-200 max-w-2xl"
+              class="flex-1 px-1 lg:px-12 pt-2 lg:ml-12 lg:border-l lg:border-gray-200 max-w-2xl"
             >
               <router-view></router-view>
             </div>
