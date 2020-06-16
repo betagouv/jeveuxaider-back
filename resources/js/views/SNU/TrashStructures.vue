@@ -5,12 +5,12 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
-        <div class="mb-12 font-bold text-2xl text-gray-800">
+        <div class="mb-8 font-bold text-2xl text-gray-800">
           Corbeille - Structures
         </div>
       </div>
     </div>
-    <div class="px-12 mb-6 -mt-6">
+    <div class="px-12 mb-12">
       <trash-menu index="/dashboard/trash/structures"></trash-menu>
     </div>
 
