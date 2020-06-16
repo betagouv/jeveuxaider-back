@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     onClick() {
-      console.log('onCLick')
       if (this.link) {
         this.$router.push(this.link)
       }
