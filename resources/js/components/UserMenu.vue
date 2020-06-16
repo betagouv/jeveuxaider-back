@@ -30,11 +30,6 @@ import MenuActive from '@/mixins/MenuActive'
 export default {
   name: 'ContentsMenu',
   mixins: [MenuActive],
-  computed: {
-    index() {
-      return 'TODO'
-    },
-  },
   methods: {
     handleSelect(index) {
       this.$router.push(`${index}`)
