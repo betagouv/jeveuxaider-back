@@ -195,7 +195,7 @@
               v-model="form.tags"
               filterable
               multiple
-              multiple-limit="3"
+              :multiple-limit="3"
               placeholder="Sélectionner les domaines d'action complémentaires"
             >
               <el-option
@@ -303,8 +303,14 @@
           </el-form-item>
 
           <div class="mt-12 mb-6 flex text-xl text-gray-800">
-            La localisation des publics bénéficiaires
+            Le lieu où se déroule la mission
           </div>
+
+          <item-description>
+            Recruter au plus près du lieu de mission et des bénéficiaires permet
+            de faciliter l'engagement des bénévoles. Vous avez la possibilité de
+            dupliquer cette mission sur plusieurs lieux.
+          </item-description>
 
           <el-form-item label="Département" prop="department">
             <el-select
