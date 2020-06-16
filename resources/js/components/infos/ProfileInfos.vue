@@ -48,24 +48,56 @@
         {{ profile.zip }}
       </div>
     </div>
-    <div v-if="profile.skills" class="mb-2 flex">
+    <div v-if="profile.domaines.length > 0" class="mb-2 flex">
       <div class="card-label">
         Domaines
       </div>
       <div class="text-gray-900 flex-1">
-        <span v-for="domaine in profile.domaines" :key="domaine.id">{{
-          domaine.name.fr
-        }}</span>
+        {{
+          profile.domaines
+            .map(function (item) {
+              return item.name.fr
+            })
+            .join(', ')
+        }}
       </div>
     </div>
-    <div v-if="profile.skills" class="mb-2 flex">
+    <div v-if="profile.skills.length > 0" class="mb-2 flex">
       <div class="card-label">
         Compétences
       </div>
       <div class="text-gray-900 flex-1">
-        <span v-for="skill in profile.skills" :key="skill.id">{{
-          skill.name.fr
-        }}</span>
+        {{
+          profile.skills
+            .map(function (item) {
+              return item.name.fr
+            })
+            .join(', ')
+        }}
+      </div>
+    </div>
+    <div v-if="profile.disponibilities" class="mb-2 flex">
+      <div class="card-label">
+        Dispos
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ profile.disponibilities.join(', ') }}
+      </div>
+    </div>
+    <div v-if="profile.frequence" class="mb-2 flex">
+      <div class="card-label">
+        Durée
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ profile.frequence }} {{ profile.frequence_granularite }}
+      </div>
+    </div>
+    <div v-if="profile.description" class="mb-2 flex">
+      <div class="card-label">
+        Motivation
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ profile.description }}
       </div>
     </div>
   </div>
