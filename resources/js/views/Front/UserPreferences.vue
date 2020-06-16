@@ -7,7 +7,7 @@
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec vos domaines d'action de prédilection ainsi
       que les compétences que vous souhaitez mettre au service des organisations
-      publiques.
+      publiques ou associatives.
     </div>
 
     <el-form

@@ -105,6 +105,12 @@
             prop="is_visible"
             class="mb-6"
           >
+            <item-description>
+              Un profil visible vous offre plus de chances de trouver une
+              mission qui répond à votre envie d'engagement, en permettant à une
+              organisation publique ou associative de vous contacter en fonction
+              des domaines d'action que vous avez sélectionnés.
+            </item-description>
             <el-switch
               v-model="form.is_visible"
               active-color="#1E429F"
@@ -134,9 +140,13 @@
 <script>
 import { fetchTags } from '@/api/app'
 import _ from 'lodash'
+import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
   name: 'PreferencesStep',
+  components: {
+    ItemDescription,
+  },
   data() {
     return {
       loading: false,
