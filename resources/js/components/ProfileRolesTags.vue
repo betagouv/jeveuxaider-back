@@ -1,5 +1,5 @@
 <template>
-  <div class="roles-tags">
+  <div class="roles-tags flex items-center flex-wrap">
     <el-tag v-if="profile.roles.admin" type="danger" :size="size" class="m-1">
       Admin
     </el-tag>

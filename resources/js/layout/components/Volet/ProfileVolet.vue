@@ -25,11 +25,7 @@
           </router-link>
         </div>
         <div class="flex items-center justify-center mb-4">
-          <profile-roles-tags
-            :profile="row"
-            size="small"
-            class="flex items-center"
-          />
+          <profile-roles-tags :profile="row" size="small" />
         </div>
         <profile-infos :profile="row" />
       </el-card>
