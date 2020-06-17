@@ -11,6 +11,8 @@ use App\Http\Requests\Api\TagUploadRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Tag;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\FiltersTagName;
 
 class TagController extends Controller
 {
@@ -19,7 +21,7 @@ class TagController extends Controller
         $paginate = $request->has('pagination') ? $request->input('pagination') : config('query-builder.results_per_page');
 
         return QueryBuilder::for(Tag::class)
-            ->allowedFilters(['name', 'type'])
+            ->allowedFilters([AllowedFilter::custom('name', new FiltersTagName), 'type'])
             ->defaultSort('order_column')
             ->paginate($paginate);
     }
