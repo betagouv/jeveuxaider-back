@@ -81,7 +81,8 @@
               reserve-keyword
               remote
               :remote-method="fetchSkills"
-              placeholder="Sélectionner vos compétences"
+              placeholder="Rechercher et sélectionner vos compétences"
+              :loading="loading"
             >
               <el-option-group
                 v-for="(skills, index) in skillGroups"
@@ -179,9 +180,11 @@ export default {
   methods: {
     fetchSkills(query) {
       if (query !== '') {
+        this.loading = true
         fetchTags({ 'filter[type]': 'competence', 'filter[name]': query }).then(
           (response) => {
             this.optionsSkills = response.data.data
+            this.loading = false
           }
         )
       } else {
