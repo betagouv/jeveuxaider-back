@@ -43,7 +43,7 @@ class TagsCreateSkills extends Command
         foreach ($records as $rows) {
             $skill =  explode(';', $rows);
 
-            $tag = Tag::whereName($skill[1])->whereGroup($skill[0])->first();
+            $tag = Tag::findFromString($skill[1], 'competence');
             if (!$tag) {
                 Tag::create([
                     'name'=> $skill[1],
