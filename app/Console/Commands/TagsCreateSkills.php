@@ -38,40 +38,22 @@ class TagsCreateSkills extends Command
      */
     public function handle()
     {
-        $skillGroups = $this->fetchSkills();
+        $records = file(storage_path('app/skills.csv'), FILE_IGNORE_NEW_LINES);
 
-        foreach ($skillGroups as $group => $skills) {
-            foreach ($skills as $skill) {
-                $tag = Tag::whereName($skill)->whereGroup($group)->first();
-                if (!$tag) {
-                    Tag::create([
-                        'name'=> $skill,
-                        'group' => $group,
-                        'type' => 'competence'
-                    ]);
-                    $this->info($skill . ' has been created.');
-                } else {
-                    $this->warn($tag->name . ' already exists !');
-                }
+        foreach ($records as $rows) {
+            $skill =  explode(';', $rows);
+
+            $tag = Tag::whereName($skill[1])->whereGroup($skill[0])->first();
+            if (!$tag) {
+                Tag::create([
+                    'name'=> $skill[1],
+                    'group' => $skill[0],
+                    'type' => 'competence'
+                ]);
+                $this->info($skill[1] . ' has been created.');
+            } else {
+                $this->warn($tag->name . ' already exists !');
             }
         }
-    }
-
-    protected function fetchSkills()
-    {
-        return [
-            'agriculture' => [
-                'Agriculture 1',
-                'Agriculture 2',
-                'Agriculture 3',
-                'Agriculture 4',
-            ],
-            'sante' => [
-                'Santé 1',
-                'Santé 2',
-                'Santé 3',
-                'Santé 4',
-            ],
-        ];
     }
 }

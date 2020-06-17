@@ -78,6 +78,9 @@
               v-model="form.skills"
               multiple
               filterable
+              reserve-keyword
+              remote
+              :remote-method="fetchSkills"
               placeholder="Sélectionner vos compétences"
             >
               <el-option-group
@@ -152,28 +155,39 @@ export default {
       loading: false,
       domaines: null,
       skills: null,
+      optionsSkills: [],
       form: this.$store.getters.user.profile,
       rules: {},
     }
   },
   computed: {
     skillGroups() {
-      return _.groupBy(this.skills, (skill) => skill.group)
+      return _.groupBy(this.optionsSkills, (skill) => skill.group)
     },
   },
   created() {
-    fetchTags().then((response) => {
-      this.skills = response.data.data.filter((tag) => tag.type == 'competence')
-      this.domaines = response.data.data.filter((tag) => tag.type == 'domaine')
+    fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
+      this.domaines = response.data.data
       if (this.form.skills && typeof this.form.skills[0] === 'object') {
         this.form.skills = this.form.skills.map((tag) => tag.name.fr)
       }
-      if (this.form.skills && typeof this.form.domaines[0] === 'object') {
+      if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
         this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
       }
     })
   },
   methods: {
+    fetchSkills(query) {
+      if (query !== '') {
+        fetchTags({ 'filter[type]': 'competence', 'filter[name]': query }).then(
+          (response) => {
+            this.optionsSkills = response.data.data
+          }
+        )
+      } else {
+        this.optionsSkills = []
+      }
+    },
     onSubmit() {
       this.loading = true
       this.$refs['profileForm'].validate((valid) => {
