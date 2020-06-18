@@ -53,11 +53,11 @@ class MissionController extends Controller
 
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
-        $mission->update($request->validated());
-
         if ($request->has('tags')) {
             $mission->syncTagsWithType($request->input('tags'), 'domaine');
         }
+
+        $mission->update($request->validated());
 
         return $mission;
     }
