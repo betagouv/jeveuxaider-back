@@ -13,22 +13,22 @@
           </h1>
           <h1 v-else class="text-3xl font-bold text-white">Mission complète</h1>
         </div>
-        <div class="my-4 flex">
+        <div class="my-4 flex flex-wrap">
           <span
             v-if="mission.template"
-            class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3"
+            class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3 mt-3"
             >{{ mission.template.domaine.name.fr }}</span
           >
           <span
             v-else
-            class="bg-gray-100 text-blue-900 rounded px-3 py-1 mr-3"
+            class="bg-gray-100 text-blue-900 rounded px-3 py-1 mr-3 mt-3"
             >{{ mission.domaine.name.fr }}</span
           >
           <template v-if="mission.tags">
             <span
               v-for="tag in mission.tags"
               :key="tag.id"
-              class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3"
+              class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3 mt-3"
             >
               {{ tag.name.fr }}
             </span>
