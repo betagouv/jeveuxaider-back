@@ -37,11 +37,14 @@
       <el-table-column label="Tag" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name.fr }}</div>
+          <div v-if="scope.row.group" class="text-gray-600 text-sm">
+            {{ scope.row.group | labelFromValue('tag_groups') }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column label="Type" min-width="320">
+      <el-table-column label="Type">
         <template slot-scope="scope">
-          <div class="text-gray-900">
+          <div class="text-sm text-gray-600">
             {{ scope.row.type | labelFromValue('tag_types') }}
           </div>
         </template>
