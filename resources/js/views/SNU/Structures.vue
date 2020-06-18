@@ -116,74 +116,53 @@
       </el-table-column>
       <el-table-column label="Contextes" min-width="320">
         <template slot-scope="scope">
-          <el-tag
-            v-if="scope.row.is_reseau"
-            size="small"
-            class="m-1 ml-0"
-            type="danger"
-          >
+          <el-tag v-if="scope.row.is_reseau" class="m-1 ml-0" type="info">
             Tête de réseau
           </el-tag>
-          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0" size="small">
+          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0">
             {{ scope.row.reseau_id | reseauFromValue }}
           </el-tag>
-          <el-tag
-            v-if="scope.row.department"
-            type="warning"
-            class="m-1 ml-0"
-            size="small"
-          >
+          <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>
-          <el-tooltip
-            v-if="scope.row.ceu"
-            class="item"
-            effect="dark"
-            :content="scope.row.structure_publique_etat_type"
-            placement="top"
-          >
-            <el-tag size="small" class="m-1 ml-0" type="info">
-              CEU
-            </el-tag>
-          </el-tooltip>
           <el-tag
             v-if="scope.row.missions_count > 0"
             type="info"
             class="m-1 ml-0"
-            size="small"
           >
             {{ scope.row.missions_count }}
             {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="170">
+      <el-table-column prop="state" label="Statut" min-width="220">
         <template slot-scope="scope">
-          <state-tag :state="scope.row.state" />
+          <structure-dropdown-state
+            :form="scope.row"
+            @updated="onUpdatedRow"
+          ></structure-dropdown-state>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" width="180">
+      <el-table-column label="Actions" width="250">
         <template slot-scope="scope">
-          <el-dropdown
-            size="small"
-            split-button
-            trigger="click"
-            @click="
-              $router.push({
-                name: 'Structure',
-                params: { id: scope.row.id },
-              })
-            "
-          >
-            <i class="el-icon-view mr-2" />Visualiser
+          <el-dropdown size="small" split-button>
+            Choisissez une action
             <el-dropdown-menu slot="dropdown">
+              <router-link
+                :to="{
+                  name: 'Structure',
+                  params: { id: scope.row.id },
+                }"
+              >
+                <el-dropdown-item>Visualiser la structure</el-dropdown-item>
+              </router-link>
               <router-link
                 :to="{
                   name: 'StructureFormEdit',
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item>Modifier</el-dropdown-item>
+                <el-dropdown-item>Modifier la structure</el-dropdown-item>
               </router-link>
               <router-link
                 :to="{
@@ -194,7 +173,10 @@
                 <el-dropdown-item>Ajouter une mission</el-dropdown-item>
               </router-link>
               <router-link
-                :to="{ name: 'StructureMembers', params: { id: scope.row.id } }"
+                :to="{
+                  name: 'StructureMembers',
+                  params: { id: scope.row.id },
+                }"
               >
                 <el-dropdown-item divided>
                   Gérer l'équipe
@@ -239,6 +221,7 @@ import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import fileDownload from 'js-file-download'
 import StateTag from '@/components/StateTag'
+import StructureDropdownState from '@/components/StructureDropdownState'
 
 export default {
   name: 'Structures',
@@ -248,6 +231,7 @@ export default {
     QueryMainSearchFilter,
     QuerySearchFilter,
     StateTag,
+    StructureDropdownState,
   },
   mixins: [TableWithVolet, TableWithFilters],
   data() {
