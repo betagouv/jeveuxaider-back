@@ -497,9 +497,9 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
+            "Mission validée" => "Mission validée",
             "Candidature annulée" => "Candidature annulée",
             "Participation déclinée" => "Participation déclinée",
-            "Mission validée" => "Mission validée",
             "Mission effectuée" => "Mission effectuée",
             "Mission abandonnée" => "Mission abandonnée",
             "Mission annulée" => "Mission annulée",

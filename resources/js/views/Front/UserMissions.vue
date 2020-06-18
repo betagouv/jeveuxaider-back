@@ -236,8 +236,6 @@ export default {
           confirmButtonText: 'Annuler ma candidature',
           confirmButtonClass: 'el-button--danger',
           cancelButtonText: 'Retour',
-          center: true,
-          type: 'error',
         }
       ).then(() => {
         cancelParticipation(participation.id).then(() => {

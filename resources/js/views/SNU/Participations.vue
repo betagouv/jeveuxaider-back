@@ -134,7 +134,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Volontaire" min-width="320">
+      <el-table-column prop="name" label="Volontaire" width="320">
         <template slot-scope="scope">
           <template v-if="canShowProfileDetails(scope.row)">
             <div class="text-gray-900">
@@ -181,16 +181,19 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="170">
-        <template slot-scope="scope">
-          <state-tag :state="scope.row.state" />
-        </template>
-      </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
             {{ scope.row.created_at | fromNow }}
           </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="state" label="Statut" min-width="220">
+        <template slot-scope="scope">
+          <participation-dropdown-state
+            :form="scope.row"
+            @updated="onUpdatedRow"
+          ></participation-dropdown-state>
         </template>
       </el-table-column>
     </el-table>
@@ -225,20 +228,20 @@ import {
   massValidationParticipation,
 } from '@/api/participation'
 import { fetchTags, fetchMissionTemplates } from '@/api/app'
-import StateTag from '@/components/StateTag'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
 import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ParticipationVolet from '@/layout/components/Volet/ParticipationVolet.vue'
+import ParticipationDropdownState from '@/components/ParticipationDropdownState'
 
 import fileDownload from 'js-file-download'
 
 export default {
   name: 'Participations',
   components: {
-    StateTag,
+    ParticipationDropdownState,
     QueryFilter,
     QuerySearchFilter,
     QueryMainSearchFilter,

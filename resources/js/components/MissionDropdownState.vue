@@ -14,13 +14,18 @@
             :key="state.value"
             @click.native="onSubmitState(state.value)"
           >
-            <template v-if="state.value == 'Validée'"
+            <template
+              v-if="
+                form.state == 'En attente de validation' &&
+                state.value == 'Validée'
+              "
               >Valider la mission</template
             >
-            <template v-if="state.value == 'Terminée'"
+            <template
+              v-if="form.state == 'Validée' && state.value == 'Terminée'"
               >Terminer la mission</template
             >
-            <template v-if="state.value == 'Annulée'"
+            <template v-if="form.state == 'Validée' && state.value == 'Annulée'"
               >Annuler la mission</template
             >
             <template v-if="state.value == 'Signalée'"

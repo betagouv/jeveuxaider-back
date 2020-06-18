@@ -33,11 +33,6 @@ export default {
       type: Object,
       required: true,
     },
-    size: {
-      type: String,
-      required: false,
-      default: 'medium',
-    },
   },
   data() {
     return {
