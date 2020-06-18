@@ -166,7 +166,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Dates" width="160">
+      <!-- <el-table-column label="Dates" width="160">
         <template slot-scope="scope">
           <div v-if="scope.row.start_date" class>
             <span class="text-gray-400 mr-1 text-xs">Du</span>
@@ -177,7 +177,7 @@
             {{ scope.row.end_date | formatMedium }}
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="Ville" width="185">
         <template slot-scope="scope">
           <div v-if="scope.row.city" class>
@@ -185,7 +185,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Places" width="130">
+      <el-table-column label="Places" width="150">
         <template slot-scope="scope">
           <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
             N/A
@@ -210,50 +210,53 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="170">
+      <el-table-column prop="state" label="Statut" min-width="220">
         <template slot-scope="scope">
-          <state-tag :state="scope.row.state" />
+          <mission-dropdown-state
+            :form="scope.row"
+            @updated="onUpdatedRow"
+          ></mission-dropdown-state>
         </template>
       </el-table-column>
       <el-table-column
         v-if="!$store.getters['volet/active']"
         label="Actions"
-        width="165"
+        width="250"
       >
         <template slot-scope="scope">
           <el-dropdown
-            v-if="canClone()"
             size="small"
             split-button
             trigger="click"
-            @click="
-              $router.push({
-                name: 'MissionFormEdit',
-                params: { id: scope.row.id },
-              })
-            "
             @command="handleCommand"
           >
-            <i class="el-icon-edit mr-2" />Modifier
+            <i class="el-icon-edit mr-2" />Choisissez une action
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="`/missions/${scope.row.id}`">
-                Visualiser
-              </el-dropdown-item>
+              <router-link
+                :to="{
+                  name: 'Mission',
+                  params: { id: scope.row.id },
+                }"
+                target="_blank"
+              >
+                <el-dropdown-item>Visualiser la mission</el-dropdown-item>
+              </router-link>
+              <router-link
+                :to="{
+                  name: 'MissionFormEdit',
+                  params: { id: scope.row.id },
+                }"
+              >
+                <el-dropdown-item>Modifier la mission</el-dropdown-item>
+              </router-link>
               <el-dropdown-item
+                v-if="canClone()"
                 :command="{ action: 'clone', id: scope.row.id }"
               >
-                Dupliquer
+                Dupliquer la mission
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <router-link
-            v-else
-            :to="{ name: 'MissionFormEdit', params: { id: scope.row.id } }"
-          >
-            <el-button icon="el-icon-edit" size="mini" class="m-1">
-              Modifier
-            </el-button>
-          </router-link>
         </template>
       </el-table-column>
     </el-table>
@@ -284,7 +287,6 @@
 <script>
 import { fetchMissions, exportMissions, cloneMission } from '@/api/mission'
 import { fetchTags, fetchMissionTemplates } from '@/api/app'
-import StateTag from '@/components/StateTag'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
@@ -292,15 +294,16 @@ import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import MissionVolet from '@/layout/components/Volet/MissionVolet.vue'
 import fileDownload from 'js-file-download'
+import MissionDropdownState from '@/components/MissionDropdownState'
 
 export default {
   name: 'Missions',
   components: {
-    StateTag,
     QueryFilter,
     QuerySearchFilter,
     QueryMainSearchFilter,
     MissionVolet,
+    MissionDropdownState,
   },
   mixins: [TableWithFilters, TableWithVolet],
   data() {

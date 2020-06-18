@@ -143,7 +143,11 @@
           ></structure-dropdown-state>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" width="250">
+      <el-table-column
+        v-if="!$store.getters['volet/active']"
+        label="Actions"
+        width="250"
+      >
         <template slot-scope="scope">
           <el-dropdown size="small" split-button>
             Choisissez une action

@@ -67,38 +67,32 @@ export default {
   methods: {
     onSubmitState(state) {
       if (state == 'Validée') {
-        this.message = `Vous êtes sur le point de <b>valider</b> cette structure.`
+        this.message = `Vous êtes sur le point de <b>valider</b> une structure.`
         if (this.form.missions_count > 0) {
           this.message += `<br>Toutes ses missions en attente de validation seront également validées.`
         }
       }
 
       if (state == 'Signalée') {
-        this.message = `Vous êtes sur le point de signaler cette structure qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. La structure est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
+        this.message = `Vous êtes sur le point de signaler une structure qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. La structure est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
       }
 
       this.$confirm(this.message, 'Changement de statut', {
         confirmButtonText: 'Je confirme',
         cancelButtonText: 'Annuler',
-        type: 'warning',
-        center: true,
         dangerouslyUseHTMLString: true,
       })
         .then(() => {
-          this.loading = true
           this.form.state = state
           updateStructure(this.form.id, this.form)
             .then((response) => {
-              this.$store.commit('volet/setRow', response.data)
               this.$message({
                 type: 'success',
                 message: 'Le statut de la structure a été mis à jour',
               })
               this.$emit('updated', response.data)
-              this.loading = false
             })
             .catch((error) => {
-              this.loading = false
               this.errors = error.response.data.errors
             })
         })

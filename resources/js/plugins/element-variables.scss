@@ -26,6 +26,19 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   width: 100%;
 }
 
+.el-message-box {
+    padding: 20px!important;
+}
+
+.el-message-box__btns {
+    text-align: left;
+    padding: 5px 15px 20px 15px;
+}
+
+.el-message-box__content {
+    margin: 10px 0;
+}
+
 .el-message .el-message__content{
     line-height: 2rem !important;
 }
