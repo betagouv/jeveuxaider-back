@@ -224,7 +224,6 @@ import QueryFilter from '@/components/QueryFilter.vue'
 import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import fileDownload from 'js-file-download'
-import StateTag from '@/components/StateTag'
 import StructureDropdownState from '@/components/StructureDropdownState'
 
 export default {
@@ -234,7 +233,6 @@ export default {
     QueryFilter,
     QueryMainSearchFilter,
     QuerySearchFilter,
-    StateTag,
     StructureDropdownState,
   },
   mixins: [TableWithVolet, TableWithFilters],

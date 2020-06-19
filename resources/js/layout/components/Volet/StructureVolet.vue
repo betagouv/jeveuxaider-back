@@ -52,37 +52,16 @@
           </div>
         </div>
         <div class="flex flex-wrap items-center justify-center mb-4">
-          <el-tag
-            v-if="row.is_reseau"
-            size="small"
-            class="m-1 ml-0"
-            type="danger"
-          >
+          <el-tag v-if="row.is_reseau" size="small" class="m-1 ml-0">
             Tête de réseau
           </el-tag>
           <el-tag v-if="row.reseau_id" class="m-1 ml-0" size="small">
             {{ row.reseau_id | reseauFromValue }}
           </el-tag>
 
-          <el-tag
-            v-if="row.department"
-            type="warning"
-            class="m-1 ml-0"
-            size="small"
-          >
+          <el-tag v-if="row.department" class="m-1 ml-0" size="small">
             {{ row.department | fullDepartmentFromValue }}
           </el-tag>
-          <el-tooltip
-            v-if="row.ceu"
-            class="item"
-            effect="dark"
-            :content="row.structure_publique_etat_type"
-            placement="top"
-          >
-            <el-tag size="small" class="m-1 ml-0" type="info">
-              CEU
-            </el-tag>
-          </el-tooltip>
         </div>
         <structure-infos :structure="row" />
 
@@ -106,7 +85,7 @@
         </div>
       </el-card>
       <el-form ref="structureForm" :model="form" label-position="top">
-        <template v-if="showStatut">
+        <!-- <template v-if="showStatut">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Statut de la structure
           </div>
@@ -114,6 +93,11 @@
             Vous pouvez sélectionner le statut de la structure. A noter que des
             notifications emails seront envoyées.
           </item-description>
+          <structure-dropdown-state
+            :form="row"
+            size="big"
+            @updated="onUpdated"
+          ></structure-dropdown-state>
           <el-form-item label="Statut" prop="state" class="flex-1">
             <el-select v-model="form.state" placeholder="Statut">
               <el-option
@@ -129,7 +113,7 @@
               Enregistrer
             </el-button>
           </div>
-        </template>
+        </template> -->
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national
         </div>
@@ -217,6 +201,7 @@ import VoletRow from '@/mixins/VoletRow'
 import ItemDescription from '@/components/forms/ItemDescription'
 import MemberTeaser from '@/components/MemberTeaser'
 import StructureInfos from '@/components/infos/StructureInfos'
+import StructureDropdownState from '@/components/StructureDropdownState'
 
 export default {
   name: 'StructureVolet',
@@ -225,6 +210,7 @@ export default {
     ItemDescription,
     MemberTeaser,
     StructureInfos,
+    StructureDropdownState,
   },
   mixins: [VoletRow],
   data() {
@@ -336,6 +322,10 @@ export default {
             })
         })
         .catch(() => {})
+    },
+    onUpdated(row) {
+      this.$store.commit('volet/setRow', row)
+      this.$emit('updated', row)
     },
   },
 }

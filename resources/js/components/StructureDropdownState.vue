@@ -1,7 +1,9 @@
 <template>
   <div>
-    <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
-      <div style="min-width: 140px; text-align: left;">{{ form.state }}</div>
+    <el-dropdown v-if="canEditStatut" :size="size" split-button :type="type">
+      <div style="min-width: 140px;" class="text-left">
+        {{ form.state }}
+      </div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
           v-for="state in statesAvailable"
@@ -32,6 +34,11 @@ export default {
     form: {
       type: Object,
       required: true,
+    },
+    size: {
+      type: String,
+      required: false,
+      default: 'small',
     },
   },
   data() {

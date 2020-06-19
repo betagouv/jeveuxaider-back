@@ -69,7 +69,7 @@
             >
           </div>
         </template>
-        <template v-if="showStatut">
+        <!-- <template v-if="showStatut">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Statut de la mission
           </div>
@@ -88,35 +88,12 @@
             </el-select>
           </el-form-item>
         </template>
-        <!-- <template v-if="showTuteur">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">Responsable de la mission</div>
-          <item-description>
-            Sélectionner le responsable qui va s'occuper de la mission. Vous pouvez
-            également
-            <router-link
-              class="underline"
-              :to="{
-                name: 'StructureMembersAdd',
-                params: { id: form.structure.id }
-              }"
-            >ajouter un nouveau responsable</router-link>à votre équipe.
-          </item-description>
-          <el-form-item label="Responsable" prop="tuteur_id" class="flex-1">
-            <el-select v-model="form.tuteur_id" placeholder="Sélectionner un responsable">
-              <el-option
-                v-for="item in form.structure.members"
-                :key="item.id"
-                :label="item.full_name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </template>-->
         <div v-if="showStatut" class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit"
             >Enregistrer</el-button
           >
         </div>
+         -->
       </el-form>
     </template>
   </Volet>

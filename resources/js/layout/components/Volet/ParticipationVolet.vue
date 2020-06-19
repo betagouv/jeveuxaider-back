@@ -39,7 +39,7 @@
         </div>
         <participation-infos :participation="row" />
       </el-card>
-      <template v-if="canChangeState">
+      <!-- <template v-if="canChangeState">
         <el-form ref="participationForm" :model="form" label-position="top">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Statut
@@ -72,7 +72,7 @@
             </el-button>
           </div>
         </el-form>
-      </template>
+      </template> -->
     </template>
   </Volet>
 </template>
