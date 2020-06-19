@@ -188,7 +188,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="220">
+      <el-table-column prop="state" label="Statut" min-width="250">
         <template slot-scope="scope">
           <participation-dropdown-state
             :form="scope.row"

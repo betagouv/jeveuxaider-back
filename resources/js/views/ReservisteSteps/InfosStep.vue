@@ -265,6 +265,8 @@ export default {
                 this.updateProfile()
               }
             )
+          } else {
+            this.updateProfile()
           }
         } else {
           this.loading = false
