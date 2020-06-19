@@ -284,7 +284,7 @@
                       {{ mission.participations_max | formatNumber }}
                       {{
                         mission.participations_max
-                          | pluralize(['volontaire', 'volontaires'])
+                          | pluralize(['bénévole', 'bénévoles'])
                       }}
                     </span>
                   </div>
@@ -458,8 +458,8 @@
                           {{
                             otherMission.places_left
                               | pluralize([
-                                'volontaire recherché',
-                                'volontaires recherchés',
+                                'bénévole recherché',
+                                'bénévoles recherchés',
                               ])
                           }}
                         </template>
