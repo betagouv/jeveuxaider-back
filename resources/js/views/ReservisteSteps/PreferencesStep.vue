@@ -3,18 +3,14 @@
     <portal to="register-steps-help">
       <p>
         Bienvenue {{ $store.getters.user.profile.first_name }} ! <br />Complétez
-        votre profil de réservistes afin de mieux cibler
-        <span class="font-bold">vos attentes</span>.
+        votre profil de réserviste afin de mieux cibler
+        <span class="font-bold">votre recherche de mission</span>.
       </p>
       <p>
-        Une question? Appelez-nous au
+        Une question?
         <br />
-        <span class="font-bold">
-          <a href="tel:0184800189">01 84 80 01 89</a>
-        </span>
-        ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
-          chatez en cliquant sur le bouton en bas à droite.
+          Chatez en cliquant sur le bouton en bas à droite.
         </button>
       </p>
     </portal>
@@ -24,10 +20,6 @@
         title="Informations"
         description="Je complète mes informations"
       />
-      <!-- <el-step
-        title="Visibilité"
-        description="Je rends mon profil visible des organisations publiques ou associatives"
-      /> -->
     </el-steps>
 
     <div

@@ -5,8 +5,8 @@
     </div>
 
     <div class="mb-8 text-md text-gray-600">
-      Enrichissez votre profil en décrivant vos attentes et en renseignant vos
-      disponibilités.
+      Enrichissez votre profil en décrivant vos motivations et en renseignant
+      vos disponibilités.
     </div>
 
     <el-form
@@ -146,7 +146,7 @@
           reserve-keyword
           remote
           :remote-method="fetchSkills"
-          placeholder="Rechercher et sélectionner vos compétences"
+          placeholder="Ex : peinture en bâtiment, soins infirmiers, service en restauration..."
           :loading="loading"
         >
           <el-option-group
@@ -168,7 +168,7 @@
       <el-form-item label="Disponibilités" prop="disponibilities" class="mb-6">
         <el-select
           v-model="form.disponibilities"
-          placeholder="Sélectionner vos disponibilités"
+          placeholder="Sélectionnez vos disponibilités"
           multiple
         >
           <el-option
@@ -182,13 +182,13 @@
       </el-form-item>
       <div class="flex items-end">
         <el-form-item
-          label="Fréquences"
+          label="Fréquence"
           prop="disponibilities"
           class="w-full sm:w-1/2 pr-2"
         >
           <el-select
             v-model="form.frequence"
-            placeholder="Sélectionner votre fréquence"
+            placeholder="Sélectionnez votre fréquence"
           >
             <el-option
               v-for="item in $store.getters.taxonomies.profile_frequences.terms"
@@ -211,7 +211,7 @@
         </el-form-item>
       </div>
       <el-form-item
-        label="Descrivez vos motivations"
+        label="Décrivez vos motivations"
         prop="description"
         class="flex-1 mt-4"
       >

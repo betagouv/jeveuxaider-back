@@ -3,18 +3,14 @@
     <portal to="register-steps-help">
       <p>
         Bienvenue {{ $store.getters.user.profile.first_name }} ! <br />Complétez
-        votre profil de réservistes afin de mieux cibler
-        <span class="font-bold">vos attentes</span>.
+        votre profil de réserviste afin de mieux cibler
+        <span class="font-bold">votre recherche de mission</span>.
       </p>
       <p>
-        Une question? Appelez-nous au
+        Une question?
         <br />
-        <span class="font-bold">
-          <a href="tel:0184800189">01 84 80 01 89</a>
-        </span>
-        ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
-          chatez en cliquant sur le bouton en bas à droite.
+          Chatez en cliquant sur le bouton en bas à droite.
         </button>
       </p>
     </portal>
@@ -24,10 +20,6 @@
         title="Informations"
         description="Je complète mes informations"
       />
-      <!-- <el-step
-        title="Visibilité"
-        description="Je rends mon profil visible des organisations publiques ou associatives"
-      /> -->
     </el-steps>
 
     <div
@@ -38,8 +30,8 @@
           Complétez votre profil
         </div>
         <div class="mb-8 text-md text-gray-600">
-          Enrichissez votre profil en décrivant vos attentes et en renseignant
-          vos disponibilités.
+          Enrichissez votre profil en décrivant vos motivations et en
+          renseignant vos disponibilités.
         </div>
         <el-form
           ref="profileForm"
@@ -132,7 +124,7 @@
               reserve-keyword
               remote
               :remote-method="fetchSkills"
-              placeholder="Rechercher et sélectionner vos compétences"
+              placeholder="Ex : peinture en bâtiment, soins infirmiers, service en restauration..."
               :loading="loading"
             >
               <el-option-group
@@ -157,7 +149,7 @@
           >
             <el-select
               v-model="form.disponibilities"
-              placeholder="Sélectionner vos disponibilités"
+              placeholder="Sélectionnez vos disponibilités"
               multiple
             >
               <el-option
@@ -171,13 +163,13 @@
           </el-form-item>
           <div class="flex items-end">
             <el-form-item
-              label="Fréquences"
-              prop="disponibilities"
+              label="Fréquence"
+              prop="frequence"
               class="w-full sm:w-1/2 pr-2"
             >
               <el-select
                 v-model="form.frequence"
-                placeholder="Sélectionner votre fréquence"
+                placeholder="Sélectionnez votre fréquence"
               >
                 <el-option
                   v-for="item in $store.getters.taxonomies.profile_frequences
@@ -207,7 +199,7 @@
             </el-form-item>
           </div>
           <el-form-item
-            label="Descrivez vos motivations"
+            label="Décrivez vos motivations"
             prop="description"
             class="flex-1"
           >
@@ -232,7 +224,7 @@
             :loading="loading"
             @click="onSubmit"
           >
-            Trouver des missions
+            Enregistrer
           </el-button>
         </div>
       </div>

@@ -222,14 +222,6 @@ export default new Router({
             ),
           name: 'InfosStep',
         },
-        // {
-        //   path: '/register/reserviste/step/visibility',
-        //   component: () =>
-        //     import(
-        //       /* webpackChunkName: "assets/js/reserviste-visibility-step" */ '@/views/ReservisteSteps/VisibilityStep.vue'
-        //     ),
-        //   name: 'VisibilityStep',
-        // },
       ],
     },
     {
@@ -921,14 +913,6 @@ export default new Router({
             ),
           name: 'FrontUserPreferences',
         },
-        // {
-        //   path: '/user/visibility',
-        //   component: () =>
-        //     import(
-        //       /* webpackChunkName: "assets/js/front-user-visibility" */ '@/views/Front/UserVisibility.vue'
-        //     ),
-        //   name: 'FrontUserVisibility',
-        // },
         {
           path: '/user/settings',
           component: () =>
