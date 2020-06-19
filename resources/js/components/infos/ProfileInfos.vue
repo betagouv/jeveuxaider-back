@@ -115,10 +115,7 @@ export default {
   data() {
     return {}
   },
-  created() {
-    console.log('volet profile', this.profile)
-  },
-
+  created() {},
   methods: {},
 }
 </script>

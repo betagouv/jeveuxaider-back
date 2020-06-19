@@ -51,6 +51,14 @@
         >
           Mes missions
         </el-dropdown-item>
+        <el-dropdown-item
+          v-if="$store.getters.isImpersonating"
+          divided
+          class="text-orange-500"
+          :command="{ action: 'stopImpersonate' }"
+        >
+          Unmasquarade
+        </el-dropdown-item>
         <el-dropdown-item divided command="/logout">
           Se déconnecter
         </el-dropdown-item>
@@ -63,8 +71,12 @@
 export default {
   name: 'DropdownUser',
   methods: {
-    handleCommand(command) {
-      this.$router.push(command)
+    async handleCommand(command) {
+      if (command.action == 'stopImpersonate') {
+        await this.$store.dispatch('auth/stopImpersonate')
+      } else {
+        this.$router.push(command)
+      }
     },
   },
 }

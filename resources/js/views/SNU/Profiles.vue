@@ -161,26 +161,37 @@
       <el-table-column
         v-if="$store.getters.contextRole === 'admin'"
         label="Actions"
-        width="165"
+        min-width="250"
       >
         <template slot-scope="scope">
           <el-dropdown
             v-if="$store.getters.contextRole === 'admin' && scope.row.user_id"
             split-button
-            size="mini"
+            size="small"
             @command="handleCommand"
           >
-            <router-link
-              :to="{ name: 'ProfileFormEdit', params: { id: scope.row.id } }"
-            >
-              <i class="el-icon-edit mr-1" /> Modifier
-            </router-link>
+            Choisissez une action
             <el-dropdown-menu slot="dropdown">
+              <router-link
+                :to="{
+                  name: 'Profile',
+                  params: { id: scope.row.id },
+                }"
+                ><el-dropdown-item command=""
+                  >Visualiser le profil</el-dropdown-item
+                >
+              </router-link>
+              <router-link
+                :to="{ name: 'ProfileFormEdit', params: { id: scope.row.id } }"
+              >
+                <el-dropdown-item command=""
+                  >Modifier le profil</el-dropdown-item
+                >
+              </router-link>
               <el-dropdown-item
                 :command="{ action: 'impersonate', id: scope.row.user_id }"
-                class="px-4 py-2"
               >
-                <i class="el-icon-s-custom m-1" />Masquarade
+                Prendre sa place
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

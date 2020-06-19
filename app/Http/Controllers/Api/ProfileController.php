@@ -66,8 +66,8 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile = null)
     {
-        return Profile::with(['structures:id,name'])->find($profile->id)
-            ?: Profile::with(['structures:id,name'])->find($request->user()->profile->id);
+        return Profile::with(['structures:id,name'])->find($profile->id)->append('roles', 'has_user', 'skills', 'domaines')
+            ?: Profile::with(['structures:id,name'])->find($request->user()->profile->id)->append('roles', 'has_user', 'skills', 'domaines');
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)

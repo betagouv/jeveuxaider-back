@@ -119,7 +119,7 @@ export default {
     size: {
       type: String,
       required: false,
-      default: 'medium',
+      default: 'big',
     },
   },
   data() {

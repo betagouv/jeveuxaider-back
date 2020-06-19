@@ -239,7 +239,9 @@
                 }"
                 target="_blank"
               >
-                <el-dropdown-item>Visualiser la mission</el-dropdown-item>
+                <el-dropdown-item command=""
+                  >Visualiser la mission</el-dropdown-item
+                >
               </router-link>
               <router-link
                 :to="{
@@ -247,7 +249,9 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item>Modifier la mission</el-dropdown-item>
+                <el-dropdown-item command=""
+                  >Modifier la mission</el-dropdown-item
+                >
               </router-link>
               <el-dropdown-item
                 v-if="canClone()"

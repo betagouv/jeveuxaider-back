@@ -164,7 +164,10 @@ export default {
     }
   },
   created() {
-    if (this.$store.getters.isLogged) {
+    if (
+      this.$store.getters.isLogged &&
+      this.$store.getters.contextRole != 'volontaire'
+    ) {
       this.$store.dispatch('reminders')
     }
   },
