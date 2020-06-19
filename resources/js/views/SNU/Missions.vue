@@ -178,14 +178,14 @@
           </div>
         </template>
       </el-table-column> -->
-      <el-table-column label="Ville" width="185">
+      <el-table-column label="Ville" min-width="185">
         <template slot-scope="scope">
           <div v-if="scope.row.city" class>
             {{ scope.row.city | cleanCity }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Places" width="150">
+      <el-table-column label="Places" min-width="150">
         <template slot-scope="scope">
           <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
             N/A
@@ -230,7 +230,7 @@
             trigger="click"
             @command="handleCommand"
           >
-            <i class="el-icon-edit mr-2" />Choisissez une action
+            Choisissez une action
             <el-dropdown-menu slot="dropdown">
               <router-link
                 :to="{
