@@ -458,8 +458,8 @@
                           {{
                             otherMission.places_left
                               | pluralize([
-                                'volontaire recherché',
-                                'volontaires recherchés',
+                                'bénévole recherché',
+                                'bénévoles recherchés',
                               ])
                           }}
                         </template>
