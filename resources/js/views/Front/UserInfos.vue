@@ -152,7 +152,7 @@
           <el-option-group
             v-for="(skills, index) in skillGroups"
             :key="index"
-            :label="index | labelFromValue('tag_groups')"
+            :label="index"
           >
             <el-option
               v-for="item in skills"
@@ -323,7 +323,10 @@ export default {
   },
   computed: {
     skillGroups() {
-      return _.groupBy(this.optionsSkills, (skill) => skill.group)
+      return _.groupBy(
+        _.sortBy(this.optionsSkills, ['group']),
+        (skill) => skill.group
+      )
     },
   },
   created() {

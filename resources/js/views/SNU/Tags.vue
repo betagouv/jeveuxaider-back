@@ -38,7 +38,7 @@
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name.fr }}</div>
           <div v-if="scope.row.group" class="text-gray-600 text-sm">
-            {{ scope.row.group | labelFromValue('tag_groups') }}
+            {{ scope.row.group }}
           </div>
         </template>
       </el-table-column>
