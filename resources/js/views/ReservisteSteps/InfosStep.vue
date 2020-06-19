@@ -124,6 +124,32 @@
               </div>
             </el-form-item>
           </div>
+          <el-form-item label="Compétences" prop="skills" class="mb-6">
+            <el-select
+              v-model="form.skills"
+              multiple
+              filterable
+              reserve-keyword
+              remote
+              :remote-method="fetchSkills"
+              placeholder="Rechercher et sélectionner vos compétences"
+              :loading="loading"
+            >
+              <el-option-group
+                v-for="(skills, index) in skillGroups"
+                :key="index"
+                :label="index | labelFromValue('tag_groups')"
+              >
+                <el-option
+                  v-for="item in skills"
+                  :key="item.id"
+                  :label="item.name.fr"
+                  :value="item.name.fr"
+                >
+                </el-option>
+              </el-option-group>
+            </el-select>
+          </el-form-item>
           <el-form-item
             label="Disponibilités"
             prop="disponibilities"
@@ -210,7 +236,7 @@
           </el-button>
         </div>
       </div>
-      <div
+      <!-- <div
         class="hidden lg:block p-4 mt-8 lg:mt-16 lg:mr-16 order-1 lg:order-3"
       >
         <img
@@ -218,7 +244,7 @@
           alt="Préférences"
           style="max-width: 450px;"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -226,7 +252,8 @@
 <script>
 import { uploadImage } from '@/api/app'
 import Crop from '@/mixins/Crop'
-import { getProfile } from '@/api/user'
+import { fetchTags } from '@/api/app'
+import _ from 'lodash'
 
 export default {
   name: 'InfosStep',
@@ -234,24 +261,40 @@ export default {
   data() {
     return {
       loading: false,
-      form: {},
+      form: this.$store.getters.user.profile,
       model: 'profile',
       imgMinWidth: 320,
       imgMinHeight: 320,
       imgMaxSize: 2000000, // 2 MB
       rules: {},
+      skills: null,
+      optionsSkills: [],
     }
   },
+  computed: {
+    skillGroups() {
+      return _.groupBy(this.optionsSkills, (skill) => skill.group)
+    },
+  },
   created() {
-    getProfile(this.$store.getters.user.profile.id)
-      .then((response) => {
-        this.form = response.data
-      })
-      .catch(() => {
-        this.loading = false
-      })
+    if (this.form.skills && typeof this.form.skills[0] === 'object') {
+      this.form.skills = this.form.skills.map((tag) => tag.name.fr)
+    }
   },
   methods: {
+    fetchSkills(query) {
+      if (query !== '') {
+        this.loading = true
+        fetchTags({ 'filter[type]': 'competence', 'filter[name]': query }).then(
+          (response) => {
+            this.loading = false
+            this.optionsSkills = response.data.data
+          }
+        )
+      } else {
+        this.optionsSkills = []
+      }
+    },
     onSubmit() {
       this.loading = true
       this.$refs['profileForm'].validate((valid) => {

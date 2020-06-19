@@ -38,37 +38,6 @@
       </el-form-item>
 
       <el-form-item
-        label="Mes compétences"
-        prop="skills"
-        class="flex-1 max-w-xl mb-7"
-      >
-        <el-select
-          v-model="form.skills"
-          multiple
-          filterable
-          reserve-keyword
-          remote
-          :remote-method="fetchSkills"
-          placeholder="Rechercher et sélectionner vos compétences"
-          :loading="loading"
-        >
-          <el-option-group
-            v-for="(skills, index) in skillGroups"
-            :key="index"
-            :label="index | labelFromValue('tag_groups')"
-          >
-            <el-option
-              v-for="item in skills"
-              :key="item.id"
-              :label="item.name.fr"
-              :value="item.name.fr"
-            >
-            </el-option>
-          </el-option-group>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item
         :label="
           form.is_visible
             ? 'Votre profil est visible'
@@ -103,8 +72,7 @@ export default {
     return {
       loading: false,
       form: this.$store.getters.user.profile,
-      skills: null,
-      optionsSkills: [],
+
       domaines: null,
       rules: {},
     }
@@ -117,9 +85,6 @@ export default {
   created() {
     fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
-      if (this.form.skills && typeof this.form.skills[0] === 'object') {
-        this.form.skills = this.form.skills.map((tag) => tag.name.fr)
-      }
       if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
         this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
       }

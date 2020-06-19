@@ -134,6 +134,37 @@
         </el-form-item>
       </div>
 
+      <el-form-item
+        label="Compétences"
+        prop="skills"
+        class="flex-1 max-w-xl mb-7"
+      >
+        <el-select
+          v-model="form.skills"
+          multiple
+          filterable
+          reserve-keyword
+          remote
+          :remote-method="fetchSkills"
+          placeholder="Rechercher et sélectionner vos compétences"
+          :loading="loading"
+        >
+          <el-option-group
+            v-for="(skills, index) in skillGroups"
+            :key="index"
+            :label="index | labelFromValue('tag_groups')"
+          >
+            <el-option
+              v-for="item in skills"
+              :key="item.id"
+              :label="item.name.fr"
+              :value="item.name.fr"
+            >
+            </el-option>
+          </el-option-group>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="Disponibilités" prop="disponibilities" class="mb-6">
         <el-select
           v-model="form.disponibilities"
@@ -205,6 +236,8 @@
 <script>
 import { uploadImage } from '@/api/app'
 import Crop from '@/mixins/Crop'
+import { fetchTags } from '@/api/app'
+import _ from 'lodash'
 
 export default {
   name: 'FrontUserInfos',
@@ -222,6 +255,7 @@ export default {
       form: this.$store.getters.user.profile,
       skills: null,
       domaines: null,
+      optionsSkills: [],
       model: 'profile',
       imgMinWidth: 320,
       imgMinHeight: 320,
@@ -287,8 +321,30 @@ export default {
       },
     }
   },
-  created() {},
+  computed: {
+    skillGroups() {
+      return _.groupBy(this.optionsSkills, (skill) => skill.group)
+    },
+  },
+  created() {
+    if (this.form.skills && typeof this.form.skills[0] === 'object') {
+      this.form.skills = this.form.skills.map((tag) => tag.name.fr)
+    }
+  },
   methods: {
+    fetchSkills(query) {
+      if (query !== '') {
+        this.loading = true
+        fetchTags({ 'filter[type]': 'competence', 'filter[name]': query }).then(
+          (response) => {
+            this.loading = false
+            this.optionsSkills = response.data.data
+          }
+        )
+      } else {
+        this.optionsSkills = []
+      }
+    },
     onSubmit() {
       this.loading = true
       this.$refs['profileForm'].validate((valid) => {
