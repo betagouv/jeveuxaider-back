@@ -64,10 +64,7 @@
             divided
           />
           <router-link to="/user/infos">
-            <el-dropdown-item>Profil</el-dropdown-item>
-          </router-link>
-          <router-link to="/user/settings">
-            <el-dropdown-item>Paramètres de compte</el-dropdown-item>
+            <el-dropdown-item>Mon compte</el-dropdown-item>
           </router-link>
           <el-dropdown-item
             v-if="$store.getters.hasRoles && $store.getters.hasRoles.length > 1"
