@@ -1,9 +1,14 @@
 <template>
   <div>
     <template v-if="showAskValidation">
-      <el-button type="primary" size="small" @click="onAskValidationSubmit"
-        >Publier la mission</el-button
-      >
+      <el-dropdown size="small" split-button :type="type">
+        <div style="min-width: 140px; text-align: left;">{{ form.state }}</div>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="onAskValidationSubmit">
+            Publier la mission
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </template>
     <template v-else>
       <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
@@ -118,8 +123,12 @@ export default {
       }
     },
     onSubmitState(state) {
+      if (state == 'En attente de validation') {
+        this.message = `Une demande de publication va être envoyée aux référents de la plateforme.<br><br> Êtes vous sûr de vouloir continuer ?`
+      }
+
       if (state == 'Validée') {
-        this.message = `Vous êtes sur le point de <b>valider</b> une mission.`
+        this.message = `Vous êtes sur le point de <b>valider</b> cette mission. Elle sera à présent disponible dans la recherche.<br><br> Êtes vous sûr de vouloir continuer ?`
       }
 
       if (state == 'Terminée') {
