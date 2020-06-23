@@ -264,6 +264,7 @@ import {
   AisHits,
   AisStateResults,
   AisConfigure,
+  AisPagination,
 } from 'vue-instantsearch'
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia-min.css'
@@ -275,6 +276,7 @@ export default {
     AisHits,
     AisStateResults,
     AisConfigure,
+    AisPagination,
   },
   props: {
     facetFilters: {
