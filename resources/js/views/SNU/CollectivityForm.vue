@@ -55,7 +55,7 @@
         <el-select
           v-model="form.department"
           filterable
-          placeholder="Département"
+          placeholder="Sélectionnez le département"
         >
           <el-option
             v-for="item in $store.getters.taxonomies.departments.terms"
@@ -200,6 +200,7 @@ export default {
       loading: false,
       form: {
         type: 'department',
+        zips: [],
       },
       model: 'collectivity',
       imgMinWidth: 1600,
@@ -254,8 +255,8 @@ export default {
       this.$store.commit('setLoading', true)
       getCollectivity(this.id)
         .then((response) => {
-          this.$store.commit('setLoading', false)
           this.form = response.data
+          this.$store.commit('setLoading', false)
         })
         .catch(() => {
           this.loading = false
