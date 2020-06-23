@@ -517,7 +517,7 @@ return [
         "vocabulary" => "Types de collectivités",
         "terms" => [
             "department" => "Département",
-            "other" => "Autre"
+            "commune" => "Commune"
         ]
     ],
 

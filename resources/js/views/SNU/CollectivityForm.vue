@@ -47,7 +47,11 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="Département" prop="department">
+      <el-form-item
+        v-if="form.type == 'department'"
+        label="Département"
+        prop="department"
+      >
         <el-select
           v-model="form.department"
           filterable
@@ -62,16 +66,22 @@
         </el-select>
       </el-form-item>
 
-      <!-- <el-form-item label="Liste des codes postaux" prop="zips" class="flex-1">
-          <item-description>Séparer les codes postaux par des virgules. Ex: 75001,75002,75003</item-description>
-          <el-input
-            v-model="form.zips"
-            name="zips"
-            type="textarea"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-            placeholder="Codes postaux..."
-          ></el-input>
-        </el-form-item> -->
+      <el-form-item
+        v-if="form.type == 'commune'"
+        label="Liste des codes postaux"
+        prop="zips"
+        class="flex-1"
+      >
+        <el-select
+          v-model="form.zips"
+          multiple
+          allow-create
+          filterable
+          default-first-option
+          placeholder="Saisissez tous les codes postaux"
+        >
+        </el-select>
+      </el-form-item>
 
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">
@@ -207,6 +217,13 @@ export default {
             trigger: 'blur',
           },
         ],
+        type: [
+          {
+            required: true,
+            message: 'Veuillez renseigner le type de collectivité',
+            trigger: 'blur',
+          },
+        ],
       }
 
       if (this.form.type == 'department') {
@@ -214,6 +231,16 @@ export default {
           {
             required: true,
             message: 'Veuillez choisir un département',
+            trigger: 'blur',
+          },
+        ]
+      }
+
+      if (this.form.type == 'commune') {
+        rules.zips = [
+          {
+            required: true,
+            message: 'Veuillez saisir les codes postaux de la commune',
             trigger: 'blur',
           },
         ]

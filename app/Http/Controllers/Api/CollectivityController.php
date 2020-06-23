@@ -47,6 +47,19 @@ class CollectivityController extends Controller
             ? Collectivity::where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
+        if ($collectivity->type == 'department') {
+            return $this->statisticsDepartment($collectivity);
+        }
+
+        if ($collectivity->type == 'commune') {
+            return $this->statisticsCommune($collectivity);
+        }
+
+        return response('Wrong type', 402);
+    }
+
+    private function statisticsCommune($collectivity)
+    {
         $templates = [];
 
         $templatesCollection = MissionTemplate::where('published', true)->get();
@@ -56,8 +69,46 @@ class CollectivityController extends Controller
                 'title' => $template->title,
                 'subtitle' => $template->subtitle,
                 'missions_count' => Mission::where('template_id', $template->id)
-                    ->where('department', $collectivity->department)
-                    ->count(),
+                ->whereIn('zip', $collectivity->zips)
+                ->count(),
+                'image' => $template->image
+            ];
+        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
+
+        return [
+            'national' => [
+                'structures_count' => Structure::validated()->count(),
+                'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
+                    $query->where('context_role', 'volontaire');
+                })->count()
+            ],
+            'missions_count' => Mission::whereIn('zip', $collectivity->zips)->available()->count(),
+            'structures_count' => Structure::whereIn('zip', $collectivity->zips)->validated()->count(),
+            'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
+                $query->whereIn('zip', $collectivity->zips);
+            })->count(),
+            'volontaires_count' => Profile::where('zip', 'IN', $collectivity->zips)
+                ->whereHas('user', function (Builder $query) {
+                    $query->where('context_role', 'volontaire');
+                })
+                ->count(),
+            'templates' => $templates,
+        ];
+    }
+
+    private function statisticsDepartment($collectivity)
+    {
+        $templates = $cities = [];
+
+        $templatesCollection = MissionTemplate::where('published', true)->get();
+        $templates = $templatesCollection->map(function ($template) use ($collectivity) {
+            return [
+                'id' => $template->id,
+                'title' => $template->title,
+                'subtitle' => $template->subtitle,
+                'missions_count' => Mission::where('template_id', $template->id)
+                ->where('department', $collectivity->department)
+                ->count(),
                 'image' => $template->image
             ];
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
@@ -69,13 +120,13 @@ class CollectivityController extends Controller
             ->take(20)
             ->orderBy('missions_count', 'desc')
             ->get();
+
         foreach ($cities as $key => $city) {
             $cities[$key] = [
                 'name' => $city->city,
                 'missions_count' => $city->missions_count
             ];
         }
-
 
         return [
             'national' => [

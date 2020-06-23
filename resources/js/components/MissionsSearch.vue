@@ -24,6 +24,7 @@
             <ais-configure
               :hits-per-page.camel="10"
               :facet-filters.camel="facetFilters"
+              :filters.camel="queryFilters"
             />
 
             <div ref="resultsWrapper" class="">
@@ -120,7 +121,7 @@
                       </ais-hits>
 
                       <div class="px-4 sm:px-6 md:px-8">
-                        <div
+                        <!-- <div
                           class="text-sm font-bold uppercase my-8 text-blue text-blue-600 text-center"
                         >
                           <router-link
@@ -130,9 +131,14 @@
                           >
                             Toutes les missions
                           </router-link>
-                        </div>
-                        <!-- <div class="pagination w-full border-b-2 border-transparent">
-                          <ais-pagination :padding="2" @page-change="scrollToTop">
+                        </div> -->
+                        <div
+                          class="pagination w-full border-b-2 border-transparent"
+                        >
+                          <ais-pagination
+                            :padding="2"
+                            @page-change="scrollToTop"
+                          >
                             <ul
                               slot-scope="{
                                 currentRefinement,
@@ -141,20 +147,26 @@
                                 isFirstPage,
                                 isLastPage,
                                 refine,
-                                createURL
+                                createURL,
                               }"
                               class="ais-Pagination-list"
                             >
                               <li
                                 class="ais-Pagination-item ais-Pagination-item--previousPage"
                                 :class="[
-                              { 'ais-Pagination-item--disabled': isFirstPage }
-                            ]"
+                                  {
+                                    'ais-Pagination-item--disabled': isFirstPage,
+                                  },
+                                ]"
                               >
                                 <a
                                   :href="createURL(currentRefinement - 1)"
-                                  @click.prevent="!isFirstPage ? refine(currentRefinement - 1) : null"
                                   class="ais-Pagination-link"
+                                  @click.prevent="
+                                    !isFirstPage
+                                      ? refine(currentRefinement - 1)
+                                      : null
+                                  "
                                 >
                                   <svg
                                     class="mr-8 h-5 w-5 text-gray-400"
@@ -175,28 +187,39 @@
                                 :key="page"
                                 class="ais-Pagination-item"
                                 :class="[
-                              {
-                                'ais-Pagination-item--selected':
-                                  currentRefinement === page
-                              }
-                            ]"
+                                  {
+                                    'ais-Pagination-item--selected':
+                                      currentRefinement === page,
+                                  },
+                                ]"
                               >
                                 <a
                                   :href="createURL(page)"
-                                  @click.prevent="currentRefinement !== page ? refine(page) : null"
                                   class="ais-Pagination-link"
-                                >{{ page + 1 }}</a>
+                                  @click.prevent="
+                                    currentRefinement !== page
+                                      ? refine(page)
+                                      : null
+                                  "
+                                  >{{ page + 1 }}</a
+                                >
                               </li>
                               <li
                                 class="ais-Pagination-item ais-Pagination-item--nextPage"
                                 :class="[
-                              { 'ais-Pagination-item--disabled': isLastPage }
-                            ]"
+                                  {
+                                    'ais-Pagination-item--disabled': isLastPage,
+                                  },
+                                ]"
                               >
                                 <a
                                   :href="createURL(currentRefinement + 1)"
-                                  @click.prevent="!isLastPage ? refine(currentRefinement + 1) : null"
                                   class="ais-Pagination-link"
+                                  @click.prevent="
+                                    !isLastPage
+                                      ? refine(currentRefinement + 1)
+                                      : null
+                                  "
                                 >
                                   <span>Suivante</span>
                                   <svg
@@ -214,7 +237,7 @@
                               </li>
                             </ul>
                           </ais-pagination>
-                        </div> -->
+                        </div>
                       </div>
                     </template>
 
@@ -256,6 +279,10 @@ export default {
   props: {
     facetFilters: {
       type: Array,
+      default: null,
+    },
+    queryFilters: {
+      type: String,
       default: null,
     },
     department: {
