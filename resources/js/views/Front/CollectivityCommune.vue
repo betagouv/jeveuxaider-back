@@ -180,6 +180,39 @@
         <missions-search :query-filters="zipsFilter"></missions-search>
       </div>
     </div>
+
+    <div class="bg-gray-50 border-b border-gray-200">
+      <div
+        class="container mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
+      >
+        <h2
+          class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+        >
+          Votre organisation a besoin de
+          <span class="text-blue-800">bénévoles</span> ?
+        </h2>
+        <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
+          <div class="inline-flex rounded-full shadow">
+            <router-link
+              :to="
+                $store.getters.isLogged &&
+                $store.getters.contextRole == 'responsable'
+                  ? {
+                      name: 'MissionFormAdd',
+                      params: {
+                        structureId: $store.getters.structure_as_responsable.id,
+                      },
+                    }
+                  : '/register/responsable'
+              "
+              class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+            >
+              Rejoignez la Réserve Civique
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
