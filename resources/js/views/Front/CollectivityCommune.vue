@@ -21,17 +21,16 @@
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
             <h2
-              class="text-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
+              class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
             >
-              Rejoignez la Réserve Civique <br />du {{ collectivity.title }}
+              Rejoignez la Réserve Civique dans votre collectivité
             </h2>
 
             <p
               class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
             >
-              Trouvez une mission d’intérêt général auprès d’une organisation
-              publique ou associative et faites vivre les valeurs de la
-              République.
+              <b>{{ collectivity.title }}</b> • Trouvez une mission d'intérêt
+              général qui vous ressemble et faites vivre l’engagement local.
             </p>
 
             <div
@@ -82,11 +81,11 @@
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
-            Faites vivre l'engagement
-            <span class="text-blue-900">au {{ collectivity.title }}</span>
+            <span class="text-blue-900">{{ collectivity.title }}</span> : faites
+            vivre l'engagement !
           </h3>
           <p
-            class="mt-4 max-w-5xl mx-auto text-center text-xl leading-7 text-gray-500"
+            class="mt-4 max-w-2xl mx-auto text-center text-xl leading-7 text-gray-500"
           >
             Soutenez l'action des associations, collectivités et structures
             locales à travers différents types de missions :
@@ -172,7 +171,7 @@
           >
             Rejoignez le mouvement #RéserveCivique
           </h2>
-          <p class="text-xl leading-8 text-indigo-200 mt-2">
+          <p class="text-xl max-w-2xl mx-auto leading-8 text-indigo-200 mt-2">
             Partout en France, des milliers de réservistes, organisations
             publiques et associations sont déjà mobilisés sur le terrain.
           </p>

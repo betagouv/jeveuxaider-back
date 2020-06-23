@@ -27,6 +27,107 @@
               :filters.camel="queryFilters"
             />
 
+            <div
+              class="filters mb-3 md:flex md:rounded-lg md:shadow md:bg-white"
+            >
+              <ais-search-box
+                ref="searchbox"
+                class="flex-1"
+                autofocus
+                placeholder="Mots-clés, ville, code postal, etc."
+              >
+                <div
+                  slot-scope="{ currentRefinement, isSearchStalled, refine }"
+                >
+                  <el-input
+                    v-model="filters.query"
+                    placeholder="Mots-clés, ville, code postal, etc."
+                    clearable
+                    class="search-input"
+                    autocomplete="new-password"
+                    @input="handleFilters(refine, $event)"
+                  >
+                    <svg
+                      slot="prefix"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 40 40"
+                      class="el-input__icon"
+                      style="width: 14px;"
+                    >
+                      <path
+                        d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
+                        fillRule="evenodd"
+                        fill="#6a6f85"
+                      />
+                    </svg>
+                  </el-input>
+                </div>
+              </ais-search-box>
+              <ais-menu-select
+                class="flex-1"
+                attribute="domaines"
+                :transform-items="transformItems"
+              >
+                <el-select
+                  v-model="filters.domaines"
+                  slot-scope="{ items, canRefine, refine }"
+                  :disabled="!canRefine"
+                  placeholder="Domaines d'action"
+                  popper-class="domaines-actions"
+                  @change="handleFilters(refine, $event)"
+                >
+                  <el-option
+                    v-for="item in items"
+                    :key="item.value"
+                    :label="`${item.label} (${item.count})`"
+                    :selected="item.isRefined"
+                    :value="item.value"
+                  />
+                </el-select>
+              </ais-menu-select>
+              <ais-menu-select
+                class="flex-1"
+                attribute="template_title"
+                :transform-items="transformItems"
+              >
+                <el-select
+                  v-model="filters.template_title"
+                  slot-scope="{ items, canRefine, refine }"
+                  :disabled="!canRefine"
+                  placeholder="Missions types"
+                  popper-class="missions-types"
+                  @change="handleFilters(refine, $event)"
+                >
+                  <el-option
+                    v-for="item in items"
+                    :key="item.value"
+                    :label="`${item.label} (${item.count})`"
+                    :selected="item.isRefined"
+                    :value="item.value"
+                  />
+                </el-select>
+              </ais-menu-select>
+
+              <ais-clear-refinements>
+                <div
+                  slot-scope="{ canRefine, refine }"
+                  class="py-2 md:p-4"
+                  :class="{
+                    'cursor-not-allowed text-gray-400 hidden md:block':
+                      !canRefine && !$refs.searchbox.state.query,
+                    'cursor-pointer text-blue-300  md:text-primary block':
+                      canRefine || $refs.searchbox.state.query,
+                  }"
+                  @click.prevent="handleResetFilters(refine)"
+                >
+                  Réinitialiser
+                </div>
+              </ais-clear-refinements>
+            </div>
+
             <div ref="resultsWrapper" class="">
               <div class="">
                 <ais-state-results>
@@ -265,6 +366,9 @@ import {
   AisStateResults,
   AisConfigure,
   AisPagination,
+  AisSearchBox,
+  AisMenuSelect,
+  AisClearRefinements,
 } from 'vue-instantsearch'
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia-min.css'
@@ -277,6 +381,9 @@ export default {
     AisStateResults,
     AisConfigure,
     AisPagination,
+    AisSearchBox,
+    AisMenuSelect,
+    AisClearRefinements,
   },
   props: {
     facetFilters: {
@@ -285,7 +392,7 @@ export default {
     },
     queryFilters: {
       type: String,
-      default: null,
+      default: '',
     },
     department: {
       type: String,
@@ -315,12 +422,16 @@ export default {
       return process.env.MIX_ALGOLIA_INDEX
     },
   },
-  created() {
-    // this.searchClient.searchForFacetValues('department_name', '64 - Pyrénnées-Atlantiques')
-  },
   methods: {
+    handleFilters(refine, $event) {
+      this.forceWrite = true
+      refine($event)
+    },
     handleResetFilters(refine) {
+      this.forceWrite = true
+      this.$refs.searchbox.state.clear()
       refine()
+      this.filters.query = null
       this.filters.department_name = null
       this.filters.domaines = null
       this.filters.template_title = null
@@ -350,7 +461,7 @@ export default {
 ::v-deep .ais-SearchBox-submit
   left: 15px
 ::v-deep .ais-StateResults
-  @apply m-0 bg-white rounded-lg shadow overflow-hidden
+  @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
 ::v-deep .ais-Hits-list
   @apply m-0
 ::v-deep .ais-Hits-item
@@ -381,11 +492,15 @@ export default {
     font-size: 16px !important
     text-overflow: ellipsis
     @apply py-2 shadow rounded-lg my-1
-
+  ::v-deep .search-input
+    .el-input__inner
+      @apply rounded-l-lg outline-none pl-12
+  ::v-deep .el-input__prefix
+    left: 15px
   @screen md
-    ::v-deep input, ::v-deep select, ::v-deep .el-input__inner
+    ::v-deep input,
+    ::v-deep select,
+    ::v-deep .el-select .el-input__inner
       height: 56px
       @apply border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
-  ::v-deep .ais-SearchBox-input
-    @apply rounded-l-lg outline-none pl-12
 </style>
