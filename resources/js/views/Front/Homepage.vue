@@ -192,7 +192,7 @@
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   style="width: 40px;"
-                  src="/images/memoire.svg"
+                  src="/images/art.svg"
                   alt=""
                 />
                 <span class="font-semibold text-gray-800"
