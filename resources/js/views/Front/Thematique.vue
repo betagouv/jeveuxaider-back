@@ -127,7 +127,7 @@
         </div>
       </div>
 
-      <div class="bg-primary">
+      <div v-if="!$store.getters.loading" class="bg-primary">
         <div
           class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8"
         >
@@ -143,7 +143,6 @@
               soutenir ce domaine d'action.
             </p>
             <dl
-              v-if="!$store.getters.loading"
               class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
             >
               <div class="flex flex-col">
@@ -173,7 +172,7 @@
             </dl>
           </div>
           <missions-search
-            :query-filters="`domaine.name:${thematique.domaine}`"
+            :query-filters="`domaines:${thematique.domaine.name.fr}`"
           ></missions-search>
         </div>
       </div>
