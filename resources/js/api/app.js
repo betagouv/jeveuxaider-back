@@ -187,6 +187,10 @@ export function getThematique(id) {
   return request.get(`/api/thematique/${id}`)
 }
 
+export function getThematiqueStatistics(id) {
+  return request.get(`/api/thematique/${id}/statistics`)
+}
+
 export function fetchThematiques(params) {
   return request.get('/api/thematiques', { params })
 }

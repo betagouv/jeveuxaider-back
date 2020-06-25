@@ -32,6 +32,7 @@ Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
 Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
 Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
+Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 Route::get('statistics/global', 'Api\StatisticsController@global');
 

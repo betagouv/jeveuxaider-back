@@ -10,6 +10,8 @@ use App\Http\Requests\Api\ThematiqueDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\Api\ThematiqueUploadRequest;
 use Illuminate\Support\Str;
+use App\Models\MissionTemplate;
+use App\Models\Mission;
 
 class ThematiqueController extends Controller
 {
@@ -27,9 +29,39 @@ class ThematiqueController extends Controller
     {
         $thematique = (is_numeric($slugOrId))
             ? Thematique::where('id', $slugOrId)->firstOrFail()
-            : Thematique::where('slug', $slugOrId)->firstOrFail();
+            : Thematique::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
 
         return $thematique;
+    }
+
+    public function statistics($slugOrId)
+    {
+        $thematique = (is_numeric($slugOrId))
+            ? Thematique::where('id', $slugOrId)->firstOrFail()
+            : Thematique::where('slug', $slugOrId)->firstOrFail();
+
+        $templates = [];
+
+        $templatesCollection = MissionTemplate::where('published', true)->get();
+        $templates = $templatesCollection->map(function ($template) use ($thematique) {
+            return [
+                    'id' => $template->id,
+                    'title' => $template->title,
+                    'subtitle' => $template->subtitle,
+                    'missions_count' => Mission::where('template_id', $template->id)
+                        ->where('domaine_id', $thematique->id)
+                        ->count(),
+                    'image' => $template->image
+                ];
+        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
+
+        return [
+                'missions_count' => 0, // TODO
+                'structures_count' => 0, // TODO
+                'participations_count' => 0, // TODO
+                'volontaires_count' => 0, // TODO
+                'templates' => $templates,
+            ];
     }
 
     public function store(ThematiqueCreateRequest $request)

@@ -115,54 +115,6 @@
       </div>
     </div>
 
-    <!-- <div class="container mx-auto px-4">
-      <div class="py-16">
-        <div class="text-center">
-          <h3
-            class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
-          >
-            Rejoignez le mouvement
-            <span class="text-blue-900">#RéserveCivique</span>
-          </h3>
-          <p
-            class="mt-4 max-w-5xl mx-auto text-center text-xl leading-7 text-gray-500"
-          >
-            Partout en France, des milliers de réservistes, organisations
-            publiques et associations sont déjà mobilisés sur le terrain.
-          </p>
-
-          <dl
-            v-if="!$store.getters.loading"
-            class="mt-2 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
-          >
-            <div class="flex flex-col">
-              <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.volontaires_count | formatNumber }}
-              </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">
-                Réservistes
-              </dt>
-            </div>
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.structures_count | formatNumber }}
-              </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">Structures</dt>
-            </div>
-
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.participations_count | formatNumber }}
-              </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">
-                Mises en relation
-              </dt>
-            </div>
-          </dl>
-        </div>
-      </div>
-    </div> -->
-
     <div class="bg-primary">
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
@@ -175,6 +127,34 @@
             Partout en France, des milliers de réservistes, organisations
             publiques et associations sont déjà mobilisés sur le terrain.
           </p>
+          <dl
+            v-if="!$store.getters.loading"
+            class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
+          >
+            <div class="flex flex-col">
+              <dd class="text-5xl leading-none font-bold text-white">
+                {{ statistics.volontaires_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-white">
+                Réservistes
+              </dt>
+            </div>
+            <div class="flex flex-col mt-10 sm:mt-0">
+              <dd class="text-5xl leading-none font-bold text-white">
+                {{ statistics.structures_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-white">Structures</dt>
+            </div>
+
+            <div class="flex flex-col mt-10 sm:mt-0">
+              <dd class="text-5xl leading-none font-bold text-white">
+                {{ statistics.participations_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-white">
+                Mises en relation
+              </dt>
+            </div>
+          </dl>
         </div>
         <missions-search :query-filters="zipsFilter"></missions-search>
       </div>

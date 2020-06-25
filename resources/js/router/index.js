@@ -954,6 +954,15 @@ export default new Router({
       name: 'CollectivitySlug',
       props: (route) => ({ slug: route.params.slug }),
     },
+    {
+      path: '/thematiques/:slug',
+      component: () =>
+        import(
+          /* webpackChunkName: "assets/js/thematiques-slug" */ '@/views/Front/Thematique.vue'
+        ),
+      name: 'ThematiqueSlug',
+      props: (route) => ({ slug: route.params.slug }),
+    },
     { path: '/403', component: Forbidden, name: 'Forbidden' },
     { path: '*', component: NotFound, name: 'NotFound' },
   ],

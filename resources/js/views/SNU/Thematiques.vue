@@ -39,6 +39,16 @@
       <el-table-column label="Thématique" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="font-light text-gray-600 text-xs">
+            <router-link
+              :to="{
+                name: 'ThematiqueSlug',
+                params: { slug: scope.row.slug },
+              }"
+              target="_blank"
+              >/thematiques/{{ scope.row.slug }}</router-link
+            >
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">

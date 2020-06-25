@@ -76,22 +76,18 @@ class CollectivityController extends Controller
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
         return [
-            'national' => [
-                'structures_count' => Structure::validated()->count(),
-                'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
-                    $query->where('context_role', 'volontaire');
-                })->count()
-            ],
-            'missions_count' => Mission::whereIn('zip', $collectivity->zips)->available()->count(),
+            // 'national' => [
+            //     'structures_count' => Structure::validated()->count(),
+            //     'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
+            //         $query->where('context_role', 'volontaire');
+            //     })->count()
+            // ],
+            // 'missions_count' => Mission::whereIn('zip', $collectivity->zips)->available()->count(),
             'structures_count' => Structure::whereIn('zip', $collectivity->zips)->validated()->count(),
             'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
                 $query->whereIn('zip', $collectivity->zips);
             })->count(),
-            'volontaires_count' => Profile::where('zip', 'IN', $collectivity->zips)
-                ->whereHas('user', function (Builder $query) {
-                    $query->where('context_role', 'volontaire');
-                })
-                ->count(),
+            'volontaires_count' => Profile::where('zip', 'IN', $collectivity->zips)->count(),
             'templates' => $templates,
         ];
     }
@@ -129,20 +125,16 @@ class CollectivityController extends Controller
         }
 
         return [
-            'national' => [
-                'structures_count' => Structure::validated()->count(),
-                'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
-                    $query->where('context_role', 'volontaire');
-                })->count()
-            ],
-            'missions_count' => Mission::department($collectivity->department)->available()->count(),
+            // 'national' => [
+            //     'structures_count' => Structure::validated()->count(),
+            //     'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
+            //         $query->where('context_role', 'volontaire');
+            //     })->count()
+            // ],
+            // 'missions_count' => Mission::department($collectivity->department)->available()->count(),
             'structures_count' => Structure::department($collectivity->department)->validated()->count(),
             'participations_count' => Participation::department($collectivity->department)->count(),
-            'volontaires_count' => Profile::department($collectivity->department)
-                ->whereHas('user', function (Builder $query) {
-                    $query->where('context_role', 'volontaire');
-                })
-                ->count(),
+            'volontaires_count' => Profile::department($collectivity->department)->count(),
             'templates' => $templates,
             'cities' => $cities
         ];

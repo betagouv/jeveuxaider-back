@@ -275,62 +275,6 @@
       </div>
     </div>
 
-    <!-- <div class="container mx-auto px-4">
-      <div class="py-16">
-        <div class="text-center">
-          <h2
-            class="text-3xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-14 leading-none"
-          >
-            <div class="text-blue-900">{{ collectivity.title }}</div>
-            <div>Choisissez votre domaine d’action</div>
-          </h2>
-
-          <p
-            v-if="!loading"
-            class="mt-4 mx-auto max-w-3xl text-xl pb-8 text-gray-500 text-center"
-          >
-            Sur l'ensemble du territoire français,
-            <b>{{ statistics.national.volontaires_count | formatNumber }}</b>
-            réservistes et
-            <b>{{ statistics.national.structures_count | formatNumber }}</b>
-            structures publiques et associatives ont déjà rejoint la Réserve
-            Civique.
-          </p>
-
-          <dl
-            v-if="!loading"
-            class="mt-2 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
-          >
-            <div class="flex flex-col">
-              <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.volontaires_count | formatNumber }}
-              </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">
-                Réservistes
-              </dt>
-            </div>
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.structures_count | formatNumber }}
-              </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">Structures</dt>
-            </div>
-
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dd class="text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.participations_count | formatNumber }}
-              </dd>
-              <dt class="mt-2 text-lg font-medium text-gray-800">
-                Mises en relation
-              </dt>
-            </div>
-          </dl>
-
-
-        </div>
-      </div>
-    </div> -->
-
     <div class="bg-primary">
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
@@ -358,7 +302,7 @@
 </template>
 
 <script>
-import { getCollectivityStatistics } from '@/api/app'
+// import { getCollectivityStatistics } from '@/api/app'
 import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
@@ -378,11 +322,11 @@ export default {
     }
   },
   created() {
-    this.$store.commit('setLoading', true)
-    getCollectivityStatistics(this.collectivity.id).then((response) => {
-      this.statistics = { ...response.data }
-      this.$store.commit('setLoading', false)
-    })
+    // this.$store.commit('setLoading', true)
+    // getCollectivityStatistics(this.collectivity.id).then((response) => {
+    //   this.statistics = { ...response.data }
+    //   this.$store.commit('setLoading', false)
+    // })
   },
   methods: {},
 }
