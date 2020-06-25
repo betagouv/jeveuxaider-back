@@ -25,7 +25,9 @@ class ThematiqueUpdateRequest extends ThematiqueRequest
                 'max:255',
             ],
             'published' => 'boolean',
-            'domaine_id' => 'nullable'
+            'domaine_id' => 'nullable',
+            'description' => 'nullable',
+            'color' => 'required'
         ];
     }
 }

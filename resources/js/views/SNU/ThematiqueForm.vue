@@ -30,6 +30,19 @@
         >
       </el-form-item>
 
+      <el-form-item label="Description" prop="description" class="flex-1">
+        <el-input
+          v-model="form.description"
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 6 }"
+          placeholder="Description de cette réserve thématique"
+        />
+      </el-form-item>
+
+      <el-form-item label="Couleur" prop="color">
+        <el-input v-model="form.color" placeholder="Ex: blue-800, green-500" />
+      </el-form-item>
+
       <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
         <el-select
           v-model="form.domaine_id"

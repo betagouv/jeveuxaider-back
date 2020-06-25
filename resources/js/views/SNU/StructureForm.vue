@@ -29,39 +29,6 @@
         Informations générales
       </div>
 
-      <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
-        Logo de la structure
-      </div>
-      <div class="flex mb-10">
-        <div class="flex-1">
-          <div v-if="form.logo" class="h-32 w-32 flex items-center">
-            <img :src="form.logo" alt="Logo" />
-          </div>
-          <div
-            v-else
-            class="default-picture h-32 w-32 font-bold flex items-center justify-center text-white text-2xl bg-primary"
-          >
-            LOGO
-          </div>
-        </div>
-        <div class="ml-8 mb-auto">
-          <el-upload
-            ref="logo"
-            action=""
-            :http-request="uploadLogo"
-            accept="image/*"
-            :before-upload="beforeLogoUpload"
-            :auto-upload="id ? true : false"
-          >
-            <el-button>Modifier</el-button>
-            <div slot="tip" class="el-upload__tip text-xs">
-              Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
-              taille maximale de 5 Mo
-            </div>
-          </el-upload>
-        </div>
-      </div> -->
-
       <el-form-item label="Nom de votre structure" prop="name">
         <el-input v-model="form.name" placeholder="Nom de votre structure" />
       </el-form-item>

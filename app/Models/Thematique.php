@@ -18,7 +18,9 @@ class Thematique extends Model implements HasMedia
         'name',
         'slug',
         'domaine_id',
-        'published'
+        'published',
+        'description',
+        'color'
     ];
 
     protected $casts = [

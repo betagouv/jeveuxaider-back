@@ -22,10 +22,10 @@
 
         <div
           :class="[
-            'bg-primary',
+            `bg-${thematique.color}`,
             'absolute',
             'inset-0',
-            { 'opacity-75': thematique.image },
+            { 'opacity-90': thematique.image },
           ]"
         />
 
@@ -41,8 +41,7 @@
               <p
                 class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
               >
-                <b>{{ thematique.name }}</b> • Trouvez une mission de bénévolat
-                en France.
+                {{ thematique.description }}
               </p>
 
               <div
@@ -54,7 +53,8 @@
                   </p>
                   <router-link
                     to="/register/volontaire"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                    :class="`text-${thematique.color}`"
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
                   </router-link>
@@ -93,8 +93,10 @@
             <h3
               class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
             >
-              <span class="text-blue-900">{{ thematique.name }}</span> : faites
-              vivre l'engagement !
+              <span :class="`text-${thematique.color}`">{{
+                thematique.name
+              }}</span>
+              : faites vivre l'engagement !
             </h3>
             <p
               class="mt-4 max-w-2xl mx-auto text-center text-xl leading-7 text-gray-500"
@@ -111,7 +113,8 @@
             >
               <div v-for="template in statistics.templates" :key="template.id">
                 <div
-                  class="inline-block bg-primary rounded-md p-3 text-center mb-5"
+                  :class="`bg-${thematique.color}`"
+                  class="inline-block rounded-md p-3 text-center mb-5"
                 >
                   <img class :src="template.image" style="width: 28px;" />
                 </div>
@@ -127,7 +130,7 @@
         </div>
       </div>
 
-      <div v-if="!$store.getters.loading" class="bg-primary">
+      <div v-if="!$store.getters.loading" :class="`bg-${thematique.color}`">
         <div
           class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8"
         >
@@ -137,7 +140,7 @@
             >
               Rejoignez le mouvement #RéserveCivique
             </h2>
-            <p class="text-xl max-w-2xl mx-auto leading-8 text-indigo-200 mt-2">
+            <p class="text-xl max-w-2xl mx-auto leading-8 text-gray-200 mt-2">
               Sur l’ensemble du territoire français, des milliers de bénévoles
               et d’organisations se sont déjà ralliés à la Réserve Civique pour
               soutenir ce domaine d'action.
@@ -172,6 +175,7 @@
             </dl>
           </div>
           <missions-search
+            :color="thematique.color"
             :query-filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
           ></missions-search>
         </div>
@@ -185,7 +189,7 @@
             class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
           >
             Votre organisation a besoin de
-            <span class="text-blue-800">bénévoles</span> ?
+            <span :class="`text-${thematique.color}`">bénévoles</span> ?
           </h2>
           <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
             <div class="inline-flex rounded-full shadow">
@@ -202,7 +206,8 @@
                       }
                     : '/register/responsable'
                 "
-                class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                :class="`bg-${thematique.color}`"
+                class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
               >
                 Rejoignez la Réserve Civique
               </router-link>
