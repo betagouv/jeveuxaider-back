@@ -172,7 +172,7 @@
             </dl>
           </div>
           <missions-search
-            :query-filters="`domaines:${thematique.domaine.name.fr}`"
+            :query-filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
           ></missions-search>
         </div>
       </div>

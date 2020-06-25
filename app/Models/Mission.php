@@ -189,6 +189,15 @@ class Mission extends Model
         return $query->where('department', $value);
     }
 
+    public function scopeHasDomain($query, $domain_id)
+    {
+        return $query
+            ->where('domaine_id', $domain_id)
+            ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
+                $query->where('id', $domain_id);
+            });
+    }
+
     public function scopeName($query, $value)
     {
         return $query->where('name', $value);

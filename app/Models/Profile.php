@@ -169,6 +169,14 @@ class Profile extends Model implements HasMedia
         return $query->where('zip', 'LIKE', $value . '%');
     }
 
+    public function scopeHasDomain($query, $domain_id)
+    {
+        return $query
+            ->whereHas('tags', function (Builder $query) use ($domain_id) {
+                $query->where('id', $domain_id);
+            });
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');

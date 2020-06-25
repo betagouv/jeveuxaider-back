@@ -88,4 +88,15 @@ class Participation extends Model
                 $query->where('department', $value);
             });
     }
+
+    public function scopeHasDomain($query, $domain_id)
+    {
+        return $query
+            ->whereHas('mission', function (Builder $query) use ($domain_id) {
+                $query->where('domaine_id', $domain_id)
+                ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
+                    $query->where('id', $domain_id);
+                });
+            });
+    }
 }

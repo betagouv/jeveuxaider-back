@@ -12,6 +12,9 @@ use App\Http\Requests\Api\ThematiqueUploadRequest;
 use Illuminate\Support\Str;
 use App\Models\MissionTemplate;
 use App\Models\Mission;
+use App\Models\Participation;
+use App\Models\Profile;
+use App\Models\Structure;
 
 class ThematiqueController extends Controller
 {
@@ -56,10 +59,9 @@ class ThematiqueController extends Controller
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
         return [
-                'missions_count' => 0, // TODO
-                'structures_count' => 0, // TODO
-                'participations_count' => 0, // TODO
-                'volontaires_count' => 0, // TODO
+                'structures_count' => Structure::hasDomain($thematique->id)->count(), // TODO
+                'participations_count' => Participation::hasDomain($thematique->id)->count(), // TODO
+                'volontaires_count' => Profile::hasDomain($thematique->id)->count(), // TODO
                 'templates' => $templates,
             ];
     }

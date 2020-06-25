@@ -144,6 +144,17 @@ class Structure extends Model
             ->where('department', $value);
     }
 
+    public function scopeHasDomain($query, $domain_id)
+    {
+        return $query
+            ->whereHas('missions', function (Builder $query) use ($domain_id) {
+                $query->where('domaine_id', $domain_id)
+                ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
+                    $query->where('id', $domain_id);
+                });
+            });
+    }
+
     public function scopeValidated($query)
     {
         return $query->where('state', 'Validée');
