@@ -133,12 +133,10 @@ class StatisticsController extends Controller
         return [
             'total' => Participation::role($request->header('Context-Role'))->count(),
             'waiting' => Participation::role($request->header('Context-Role'))->whereIn('state', ['En attente de validation'])->count(),
-            'validated' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission validée'])->count(),
-            'done' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission effectuée'])->count(),
-            'canceled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission annulée'])->count(),
-            'signaled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission signalée'])->count(),
-            'abandoned' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Mission abandonnée'])->count(),
-            'declined' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Participation déclinée'])->count(),
+            'validated' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Validée'])->count(),
+            'refused' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Refusée'])->count(),
+            'done' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Effectuée'])->count(),
+            'canceled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Annulée'])->count()
         ];
     }
 

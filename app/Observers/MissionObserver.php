@@ -6,7 +6,6 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Notifications\MissionValidated;
-use App\Notifications\MissionWaitingCorrection;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
@@ -67,35 +66,26 @@ class MissionObserver
                         });
                     }
                     break;
-                case 'En attente de correction':
-                    if ($mission->tuteur) {
-                        $mission->tuteur->notify(new MissionWaitingCorrection($mission));
-                    }
-                    break;
                 case 'Signalée':
                     if ($mission->tuteur) {
                         $mission->tuteur->notify(new MissionSignaled($mission));
-                        if ($mission->participations) {
-                            foreach ($mission->participations as $participation) {
-                                $participation->update(['state' => 'Mission signalée']);
-                            }
-                        }
+                        $mission->participations->update(['state' => 'Annulée']);
                     }
                     break;
                 case 'Annulée':
                     if ($mission->tuteur) {
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
-                            $participation->update(['state' => 'Mission annulée']);
+                            $participation->update(['state' => 'Annulée']);
                         }
                     }
                     break;
                 case 'Terminée':
                     if ($mission->tuteur) {
-                        foreach ($mission->participations->whereIn("state", ["Mission validée"]) as $participation) {
-                            $participation->update(['state' => 'Mission effectuée']);
+                        foreach ($mission->participations->whereIn("state", ["Validée"]) as $participation) {
+                            $participation->update(['state' => 'Effectuée']);
                         }
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
-                            $participation->update(['state' => 'Participation déclinée']);
+                            $participation->update(['state' => 'Annulée']);
                         }
                     }
                     break;

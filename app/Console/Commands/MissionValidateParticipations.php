@@ -52,7 +52,7 @@ class MissionValidateParticipations extends Command
 
         $count = $participations->count();
         if ($this->confirm($count .' participation(s) will be validated for '.$mission->name. '(Structure: '. $mission->structure->name.')')) {
-            $participations->update(['state' => 'Mission validée']);
+            $participations->update(['state' => 'Validée']);
             $mission->save();
             $this->info($count . ' participation(s) has been validated. No notification has been sent.');
         }

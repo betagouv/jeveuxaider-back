@@ -83,7 +83,7 @@ class ParticipationController extends Controller
             abort(403, 'Cette participation ne vous appartient pas');
         }
 
-        $participation->update(['state' => 'Candidature annulée']);
+        $participation->update(['state' => 'Annulée']);
 
         return $participation;
     }
@@ -103,7 +103,7 @@ class ParticipationController extends Controller
     {
         $participations = Participation::role('responsable')->where('state', 'En attente de validation')->get();
         foreach ($participations as $participation) {
-            $participation->update(['state' => 'Mission validée']);
+            $participation->update(['state' => 'Validée']);
         }
     }
 }

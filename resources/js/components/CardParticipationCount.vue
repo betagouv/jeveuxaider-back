@@ -31,6 +31,14 @@
           </div>
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">
+              Refusées
+            </div>
+            <div class>
+              {{ data.refused | formatNumber }}
+            </div>
+          </div>
+          <div class="mr-6 mt-6">
+            <div class="text-gray-500 text-sm">
               Effectuées
             </div>
             <div class>
@@ -43,30 +51,6 @@
             </div>
             <div class>
               {{ data.canceled | formatNumber }}
-            </div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">
-              Signalées
-            </div>
-            <div class>
-              {{ data.signaled | formatNumber }}
-            </div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">
-              Abandonnées
-            </div>
-            <div class>
-              {{ data.abandoned | formatNumber }}
-            </div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">
-              Déclinées
-            </div>
-            <div class>
-              {{ data.declined | formatNumber }}
             </div>
           </div>
         </div>

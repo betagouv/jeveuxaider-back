@@ -6,7 +6,6 @@ use App\Models\Participation;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
-use App\Notifications\ParticipationSignaled;
 use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationFinished;
 
@@ -33,27 +32,22 @@ class ParticipationObserver
                         $participation->mission->tuteur->notify(new ParticipationWaitingValidation($participation));
                     }
                     break;
-                case 'Mission validée':
+                case 'Validée':
                     if ($participation->profile) {
                         $participation->profile->notify(new ParticipationValidated($participation));
                     }
                     break;
-                case 'Mission annulée':
+                case 'Annulée':
                     if ($participation->profile) {
                         $participation->profile->notify(new ParticipationCanceled($participation));
                     }
                     break;
-                case 'Mission signalée':
-                    if ($participation->profile) {
-                        $participation->profile->notify(new ParticipationSignaled($participation));
-                    }
-                    break;
-                case 'Mission effectuée':
+                case 'Effectuée':
                     if ($participation->profile) {
                         $participation->profile->notify(new ParticipationFinished($participation));
                     }
                     break;
-                case 'Participation déclinée':
+                case 'Refusée':
                     if ($participation->profile) {
                         $participation->profile->notify(new ParticipationDeclined($participation));
                     }

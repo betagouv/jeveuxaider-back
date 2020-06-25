@@ -11,14 +11,6 @@
     >
       En attente de validation
     </el-tag>
-    <el-tag
-      v-if="state == 'En attente de correction'"
-      type="warning"
-      :size="size"
-      class="m-1"
-    >
-      En attente de correction
-    </el-tag>
     <el-tag v-if="state == 'Validée'" type="success" :size="size" class="m-1">
       Validée
     </el-tag>
@@ -45,101 +37,20 @@
     >
       En attente de mission
     </el-tag>
-    <el-tag
-      v-if="state == 'Mission validée'"
-      type="success"
-      :size="size"
-      class="m-1"
-    >
-      Mission validée
+    <el-tag v-if="state == 'Validée'" type="success" :size="size" class="m-1">
+      Validée
     </el-tag>
-    <el-tag
-      v-if="state == 'Mission proposée'"
-      type="success"
-      :size="size"
-      class="m-1"
-    >
-      Mission proposée
+    <el-tag v-if="state == 'Refusée'" type="info" :size="size" class="m-1">
+      Refusée
     </el-tag>
-    <el-tag
-      v-if="state == 'Mission refusée'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Mission refusée
+    <el-tag v-if="state == 'Annulée'" type="info" :size="size" class="m-1">
+      Annulée
     </el-tag>
-    <el-tag
-      v-if="state == 'Participation déclinée'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Participation déclinée
+    <el-tag v-if="state == 'Effectuée'" type="" :size="size" class="m-1">
+      Effectuée
     </el-tag>
-    <el-tag
-      v-if="state == 'Candidature annulée'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Candidature annulée
-    </el-tag>
-    <el-tag
-      v-if="state == 'Mission annulée'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Mission annulée
-    </el-tag>
-    <el-tag
-      v-if="state == 'Abandon de mission'"
-      type="danger"
-      :size="size"
-      class="m-1"
-    >
-      Abandon de mission
-    </el-tag>
-    <el-tag
-      v-if="state == 'Exclusion de la mission'"
-      type="danger"
-      :size="size"
-      class="m-1"
-    >
-      Exclusion de la mission
-    </el-tag>
-    <el-tag
-      v-if="state == 'Arrêt de la mission'"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Arrêt de la mission
-    </el-tag>
-    <el-tag
-      v-if="state == 'Mission effectuée'"
-      type=""
-      :size="size"
-      class="m-1"
-    >
-      Mission effectuée
-    </el-tag>
-    <el-tag
-      v-if="state == 'Mission abandonnée'"
-      type=""
-      :size="size"
-      class="m-1"
-    >
-      Mission abandonnée
-    </el-tag>
-    <el-tag
-      v-if="state == 'Mission signalée'"
-      type="danger"
-      :size="size"
-      class="m-1"
-    >
-      Mission signalée
+    <el-tag v-if="state == 'Signalée'" type="danger" :size="size" class="m-1">
+      Signalée
     </el-tag>
   </div>
 </template>

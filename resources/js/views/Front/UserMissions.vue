@@ -225,7 +225,7 @@ export default {
   },
   methods: {
     canShowCoordonates(participation) {
-      let validStates = ['Mission validée', 'Mission effectuée']
+      let validStates = ['Validée', 'Effectuée']
       return validStates.includes(participation.state) ? true : false
     },
     onClickCancel(participation) {
@@ -239,7 +239,7 @@ export default {
         }
       ).then(() => {
         cancelParticipation(participation.id).then(() => {
-          participation.state = 'Candidature annulée'
+          participation.state = 'Annulée'
           this.$message({
             type: 'success',
             message: `Votre candidature a été annulée.`,
@@ -251,9 +251,9 @@ export default {
       switch (participation.state) {
         case 'En attente de validation':
           return 'text-orange-400'
-        case 'Mission validée':
+        case 'Validée':
           return 'text-green-800'
-        case 'Mission effectuée':
+        case 'Effectuée':
           return 'text-green-600'
       }
     },

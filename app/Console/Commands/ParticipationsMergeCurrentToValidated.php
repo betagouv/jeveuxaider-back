@@ -42,7 +42,7 @@ class ParticipationsMergeCurrentToValidated extends Command
 
         $count = $participations->count();
         if ($this->confirm($count .' participation(s) will be validated')) {
-            $participations->update(['state' => 'Mission validée']);
+            $participations->update(['state' => 'Validée']);
             $this->info($count . ' participation(s) has been validated. No notification has been sent.');
         }
     }

@@ -8,39 +8,21 @@
           :key="state.value"
           @click.native="onSubmitState(state.value)"
         >
-          <template v-if="state.value == 'Mission validée'"
+          <template v-if="state.value == 'Validée'"
             >Valider la participation</template
           >
           <template
             v-if="
               form.state == 'En attente de validation' &&
-              state.value == 'Participation déclinée'
+              state.value == 'Refusée'
             "
-            >Décliner la participation</template
+            >Refuser la participation</template
           >
-          <template v-if="state.value == 'Mission signalée'"
-            >Signaler la participation</template
-          >
-          <template
-            v-if="
-              form.state == 'Mission validée' &&
-              state.value == 'Mission annulée'
-            "
+          <template v-if="form.state == 'Validée' && state.value == 'Annulée'"
             >Annuler la participation</template
           >
-          <template
-            v-if="
-              form.state == 'Mission validée' &&
-              state.value == 'Mission effectuée'
-            "
+          <template v-if="form.state == 'Validée' && state.value == 'Effectuée'"
             >Terminer la mission</template
-          >
-          <template
-            v-if="
-              form.state == 'Mission validée' &&
-              state.value == 'Mission abandonnée'
-            "
-            >Le réserviste a abandonné</template
           >
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -75,36 +57,27 @@ export default {
       return 'default'
     },
     canEditStatut() {
-      return ['En attente de validation', 'Mission validée'].includes(
-        this.form.state
-      )
+      return ['En attente de validation', 'Validée'].includes(this.form.state)
         ? true
         : false
     },
     statesAvailable() {
       return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
         (item) =>
-          !['En attente de validation', 'Mission signalée'].includes(
-            item.value
-          ) && item.value != this.form.state
+          !['En attente de validation'].includes(item.value) &&
+          item.value != this.form.state
       )
     },
   },
   methods: {
     onSubmitState(state) {
-      if (state == 'Mission validée') {
+      if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le volontaire sera notifié de ce changement.`
       }
-      if (state == 'Mission effectuée') {
+      if (state == 'Effectuée') {
         this.message = `Le réserviste a terminé la mission. Il sera notifié de ce changement.`
       }
-      if (state == 'Mission abandonnée') {
-        this.message = `Vous êtes sans nouvelles après avoir accepté sa participation et lui avoir indiqué où quand et comment commencer sa mission. Le volontaire sera notifié de ce changement.`
-      }
-      if (state == 'Participation déclinée') {
-        this.message = `Vous ne retenez pas cette candidature, vous libérez la place pour un autre candidat. Le volontaire sera notifié de ce changement.`
-      }
-      if (state == 'Mission annulée') {
+      if (state == 'Annulée') {
         this.message = `Vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le réserviste sera averti automatiquement.`
       }
 
