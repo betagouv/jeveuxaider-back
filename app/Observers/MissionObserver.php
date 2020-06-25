@@ -69,6 +69,11 @@ class MissionObserver
                 case 'Signalée':
                     if ($mission->tuteur) {
                         $mission->tuteur->notify(new MissionSignaled($mission));
+                        // Notif ON
+                        foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
+                            $participation->update(['state' => 'Annulée']);
+                        }
+                        // Notif OFF
                         $mission->participations()->update(['state' => 'Annulée']);
                     }
                     break;
