@@ -350,8 +350,7 @@
         </div>
 
         <missions-search
-          :facet-filters="[`department: ${collectivity.department}`]"
-          :department="collectivity.department"
+          :query-filters="`department:${collectivity.department}`"
         ></missions-search>
       </div>
     </div>

@@ -140,7 +140,7 @@ export default {
       }
 
       if (state == 'Signalée') {
-        this.message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} volontaire(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées et une notification d'annulation sera envoyée aux volontaires initialement inscrits.`
+        this.message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} volontaire(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées.`
       }
 
       this.$confirm(this.message, 'Changement de statut', {

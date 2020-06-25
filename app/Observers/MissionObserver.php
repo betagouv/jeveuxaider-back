@@ -69,7 +69,7 @@ class MissionObserver
                 case 'Signalée':
                     if ($mission->tuteur) {
                         $mission->tuteur->notify(new MissionSignaled($mission));
-                        $mission->participations->update(['state' => 'Annulée']);
+                        $mission->participations()->update(['state' => 'Annulée']);
                     }
                     break;
                 case 'Annulée':

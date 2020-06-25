@@ -394,10 +394,6 @@ export default {
       type: String,
       default: '',
     },
-    department: {
-      type: String,
-      default: null,
-    },
   },
   data() {
     return {
