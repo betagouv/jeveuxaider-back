@@ -33,9 +33,13 @@
           class="lg:flex lg:flex-1 lg:justify-around mt-8 lg:mt-0"
         >
           <div class="lg:max-w-1/4 text-black">
-            <!-- <router-link class="block p-3 hover:underline" to="/a-propos"
-              >A propos</router-link
-            > -->
+            <a
+              class="block p-3 hover:underline"
+              href="https://reserve-civique.crisp.help/fr/"
+              target="_blank"
+            >
+              Centre d'aide
+            </a>
             <router-link
               class="block p-3 hover:underline"
               to="/regles-de-securite"

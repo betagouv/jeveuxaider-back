@@ -7,7 +7,7 @@
       v-if="$store.getters.contextRole != 'responsable'"
       index="structures"
     >
-      Structures
+      Organisations
     </el-menu-item>
     <el-menu-item index="missions">
       Missions

@@ -37,11 +37,21 @@
         <img v-if="$store.getters.sidebar" src="/images/logo-header-dark.png" />
         <img v-else src="/images/logo-rc-square.png" />
       </router-link>
-      <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
-        <div class="text-xs text-gray-600 py-2">
-          Nouveautés
-        </div>
-      </router-link>
+      <div class="flex justify-center items-center py-2">
+        <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
+          <div class="text-xs text-gray-600 hover:text-gray-800">
+            Nouveautés
+          </div>
+        </router-link>
+        <span class="mx-2 text-gray-700">-</span>
+        <a
+          class="text-xs text-gray-600 hover:text-gray-800"
+          href="https://reserve-civique.crisp.help/fr/"
+          target="_blank"
+        >
+          Centre d'aide
+        </a>
+      </div>
     </div>
   </el-aside>
 </template>
