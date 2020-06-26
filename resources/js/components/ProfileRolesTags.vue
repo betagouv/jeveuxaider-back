@@ -4,7 +4,7 @@
       Admin
     </el-tag>
     <el-tag v-if="profile.volontaire" type="info" :size="size" class="m-1">
-      Volontaire
+      Bénévole
     </el-tag>
     <el-tooltip
       v-if="profile.roles.referent"

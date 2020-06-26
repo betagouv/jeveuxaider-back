@@ -10,13 +10,15 @@
       <div class="el-dropdown-link flex justify-between p-6 items-center">
         <div class="flex">
           <el-avatar
-            v-if="$store.getters.user.profile.avatar"
-            :src="`${$store.getters.user.profile.avatar}`"
-            class="w-10 rounded-full border"
-          />
-          <el-avatar v-else class="bg-primary">
-            {{ $store.getters.user.profile.first_name[0]
-            }}{{ $store.getters.user.profile.last_name[0] }}
+            v-if="$store.getters.user.profile"
+            :src="
+              $store.getters.user.profile.image
+                ? $store.getters.user.profile.image.thumb
+                : null
+            "
+            class="bg-primary text-white"
+          >
+            {{ $store.getters.user.profile.short_name }}
           </el-avatar>
           <div v-if="$store.getters.sidebar" class="flex flex-col ml-2">
             <div class="text-black">

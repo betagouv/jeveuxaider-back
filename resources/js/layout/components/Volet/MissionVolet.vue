@@ -156,7 +156,7 @@ export default {
     onClickDelete() {
       if (this.row.participations_count > 0) {
         this.$alert(
-          'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs volontaires.',
+          'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
           'Supprimer la mission',
           {
             confirmButtonText: 'Retour',
@@ -218,15 +218,15 @@ export default {
         let message = 'Êtes vous sur de vos changements ?'
 
         if (this.form.state == 'Annulée') {
-          message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les volontaires inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
+          message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les bénévoles inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
         }
 
         if (this.form.state == 'Terminée') {
-          message = `Les participations en attente de validation seront automatiquement déclinées et celles validées passeront au statut mission effectuée.<br><br>Les volontaires seront notifiés de ces modifications.<br><br> Êtes vous sûr de vouloir continuer ?`
+          message = `Les participations en attente de validation seront automatiquement déclinées et celles validées passeront au statut mission effectuée.<br><br>Les bénévoles seront notifiés de ces modifications.<br><br> Êtes vous sûr de vouloir continuer ?`
         }
 
         if (this.form.state == 'Signalée') {
-          message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} volontaire(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des volontaires seront masquées.`
+          message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} bénévole(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées.`
         }
 
         this.$confirm(message, 'Confirmation', {
