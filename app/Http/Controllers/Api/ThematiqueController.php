@@ -45,7 +45,7 @@ class ThematiqueController extends Controller
 
         $templates = [];
 
-        $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->id)->get();
+        $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->domaine_id)->get();
         $templates = $templatesCollection->map(function ($template) {
             return [
                     'id' => $template->id,
@@ -58,9 +58,9 @@ class ThematiqueController extends Controller
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
         return [
-                'structures_count' => Structure::hasDomain($thematique->id)->count(), // TODO
-                'participations_count' => Participation::hasDomain($thematique->id)->count(), // TODO
-                'volontaires_count' => Profile::hasDomain($thematique->id)->count(), // TODO
+                'structures_count' => Structure::hasDomain($thematique->domaine_id)->count(), // TODO
+                'participations_count' => Participation::hasDomain($thematique->domaine_id)->count(), // TODO
+                'volontaires_count' => Profile::hasDomain($thematique->domaine_id)->count(), // TODO
                 'templates' => $templates,
             ];
     }
