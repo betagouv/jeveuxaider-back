@@ -106,9 +106,12 @@
             </p>
           </div>
 
-          <div class="relative mx-auto my-8 px-4">
+          <div
+            v-if="!$store.getters.loading"
+            class="relative mx-auto my-8 px-4"
+          >
             <div
-              v-if="!$store.getters.loading"
+              v-if="statistics.templates.length > 0"
               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
             >
               <div v-for="template in statistics.templates" :key="template.id">
@@ -295,10 +298,19 @@ export default {
     getThematique(this.slug)
       .then((response) => {
         this.thematique = { ...response.data }
-        getThematiqueStatistics(this.thematique.id).then((response) => {
-          this.statistics = { ...response.data }
-          this.$store.commit('setLoading', false)
-        })
+        if (!this.thematique.published) {
+          this.$message({
+            message: "Cette thématique n'est pas encore accessible !",
+            type: 'warning',
+          })
+          this.$router.push('/403')
+        } else {
+          getThematiqueStatistics(this.thematique.id).then((response) => {
+            this.statistics = { ...response.data }
+            console.log('templates', this.statistics.templates)
+            this.$store.commit('setLoading', false)
+          })
+        }
       })
       .catch(() => {})
   },

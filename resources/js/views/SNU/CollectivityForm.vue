@@ -162,6 +162,15 @@
         </div>
       </div>
 
+      <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
+      <item-description
+        >Si vous souhaitez rendre cette collectivité visible, cochez la
+        case.</item-description
+      >
+      <el-form-item prop="published" class="flex-1">
+        <el-checkbox v-model="form.published">En ligne</el-checkbox>
+      </el-form-item>
+
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">
           Enregistrer

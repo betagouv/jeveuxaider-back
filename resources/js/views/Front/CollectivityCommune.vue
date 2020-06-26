@@ -75,8 +75,11 @@
       </div>
     </div>
 
-    <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
-      <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
+    <div v-if="!loading" class="py-20 bg-gray-50 overflow-hidden shadow-lg">
+      <div
+        v-if="statistics.templates.length > 0"
+        class="relative container mx-auto px-6 sm:px-6 lg:px-8"
+      >
         <div class="relative">
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
@@ -94,7 +97,6 @@
 
         <div class="relative mx-auto my-8 px-4">
           <div
-            v-if="!$store.getters.loading"
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
             <div v-for="template in statistics.templates" :key="template.id">
@@ -178,7 +180,7 @@
             publiques et associations sont déjà mobilisés sur le terrain.
           </p>
           <dl
-            v-if="!$store.getters.loading"
+            v-if="!loading"
             class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
           >
             <div class="flex flex-col">
@@ -262,6 +264,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       statistics: null,
     }
   },
@@ -272,10 +275,10 @@ export default {
     },
   },
   created() {
-    this.$store.commit('setLoading', true)
+    this.loading = true
     getCollectivityStatistics(this.collectivity.id).then((response) => {
       this.statistics = { ...response.data }
-      this.$store.commit('setLoading', false)
+      this.loading = false
     })
   },
   methods: {},

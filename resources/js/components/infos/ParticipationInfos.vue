@@ -43,7 +43,7 @@
         </div>
         <div v-if="participation.profile.email" class="card-item mb-2 flex">
           <div class="card-label">
-            Volontaire
+            Bénévole
           </div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.full_name }}

@@ -72,7 +72,7 @@ export default {
   methods: {
     onSubmitState(state) {
       if (state == 'Validée') {
-        this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le volontaire sera notifié de ce changement.`
+        this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le bénévole sera notifié de ce changement.`
       }
       if (state == 'Effectuée') {
         this.message = `Le réserviste a terminé la mission. Il sera notifié de ce changement.`

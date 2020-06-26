@@ -24,6 +24,7 @@ class CollectivityRequest extends FormRequest
             'description' => '',
             'department' => '',
             'zips' => '',
+            'published' => 'boolean',
         ];
     }
 }

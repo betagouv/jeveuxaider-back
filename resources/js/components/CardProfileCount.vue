@@ -15,7 +15,7 @@
         <div v-if="data" class="flex flex-wrap">
           <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">
-              Volontaires
+              Bénévoles
             </div>
             <div class>
               {{ data.volontaire | formatNumber }}
