@@ -87,12 +87,46 @@
         </div>
       </div>
 
+      <div class="bg-white">
+        <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <p
+                class="text-center text-base leading-6 mt-2 font-semibold uppercase text-gray-800 tracking-wider"
+              >
+                Parmi les organisations
+              </p>
+            </div>
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-partenaire-1.jpg`"
+              />
+            </div>
+
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-partenaire-2.jpg`"
+              />
+            </div>
+
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-partenaire-3.jpg`"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         v-if="!$store.getters.loading"
         class="py-20 bg-gray-50 overflow-hidden shadow-lg"
       >
         <div
-          v-if="statistics.templates.length > 0"
+          v-if="statistics.templates.lenght > 0"
           class="relative container mx-auto px-6 sm:px-6 lg:px-8"
         >
           <div class="relative">
