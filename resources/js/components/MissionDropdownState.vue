@@ -136,7 +136,7 @@ export default {
       }
 
       if (state == 'Annulée') {
-        this.message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les bénévoles inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
+        this.message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations en attente de validation seront automatiquement annulées et ces bénévoles seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
       }
 
       if (state == 'Signalée') {
