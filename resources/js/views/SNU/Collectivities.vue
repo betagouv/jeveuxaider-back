@@ -51,6 +51,24 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="Contexte" min-width="320">
+        <template slot-scope="scope">
+          <el-tag
+            v-if="scope.row.published"
+            type="success"
+            class="m-1 ml-0"
+            size="small"
+            >En ligne</el-tag
+          >
+          <el-tag
+            v-if="!scope.row.published"
+            type="info"
+            class="m-1 ml-0"
+            size="small"
+            >Non publié</el-tag
+          >
+        </template>
+      </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">

@@ -45,14 +45,13 @@ class ThematiqueController extends Controller
 
         $templates = [];
 
-        $templatesCollection = MissionTemplate::where('published', true)->get();
-        $templates = $templatesCollection->map(function ($template) use ($thematique) {
+        $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->id)->get();
+        $templates = $templatesCollection->map(function ($template) {
             return [
                     'id' => $template->id,
                     'title' => $template->title,
                     'subtitle' => $template->subtitle,
                     'missions_count' => Mission::where('template_id', $template->id)
-                        ->where('domaine_id', $thematique->id)
                         ->count(),
                     'image' => $template->image
                 ];

@@ -21,12 +21,14 @@ class Collectivity extends Model implements HasMedia
         'type',
         'department',
         'description',
+        'published',
         'state',
         'profile_id',
     ];
 
     protected $casts = [
-        'zips' => 'array'
+        'zips' => 'array',
+        'published' => 'boolean',
     ];
 
     protected $attributes = [

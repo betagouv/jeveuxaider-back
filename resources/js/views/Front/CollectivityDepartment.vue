@@ -219,15 +219,15 @@
           </div>
         </div>
 
-        <div class="relative mx-auto my-8 px-4">
+        <div v-if="!loading" class="relative mx-auto my-8 px-4">
           <div
+            v-if="statistics.templates.length > 0"
             class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
           >
             Parmi les types de missions populaires
           </div>
 
           <div
-            v-if="!$store.getters.loading"
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
             <div v-for="template in statistics.templates" :key="template.id">
@@ -246,29 +246,28 @@
           </div>
         </div>
 
-        <div class="relative mx-auto my-8 px-4">
-          <div
-            class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
-          >
-            Retrouvez toutes les missions disponibles dans votre commune
-          </div>
-          <div
-            v-if="!$store.getters.loading"
-            class="pb-16 flex flex-wrap items-center justify-center"
-          >
+        <div v-if="!loading" class="relative mx-auto my-8 px-4">
+          <div v-if="statistics.templates.length > 0">
             <div
-              v-for="(city, key) in statistics.cities"
-              :key="key"
-              class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50"
+              class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"
             >
-              <router-link
-                :to="`/missions?query=${
-                  city.name
-                }&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(
-                  collectivity.department
-                )}`"
-                >{{ city.name }}</router-link
+              Retrouvez toutes les missions disponibles dans votre commune
+            </div>
+            <div class="pb-16 flex flex-wrap items-center justify-center">
+              <div
+                v-for="(city, key) in statistics.cities"
+                :key="key"
+                class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50"
               >
+                <router-link
+                  :to="`/missions?query=${
+                    city.name
+                  }&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(
+                    collectivity.department
+                  )}`"
+                  >{{ city.name }}</router-link
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -302,7 +301,7 @@
 </template>
 
 <script>
-// import { getCollectivityStatistics } from '@/api/app'
+import { getCollectivityStatistics } from '@/api/app'
 import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
@@ -318,15 +317,16 @@ export default {
   },
   data() {
     return {
+      loading: false,
       statistics: null,
     }
   },
   created() {
-    // this.$store.commit('setLoading', true)
-    // getCollectivityStatistics(this.collectivity.id).then((response) => {
-    //   this.statistics = { ...response.data }
-    //   this.$store.commit('setLoading', false)
-    // })
+    this.loading = true
+    getCollectivityStatistics(this.collectivity.id).then((response) => {
+      this.statistics = { ...response.data }
+      this.loading = false
+    })
   },
   methods: {},
 }

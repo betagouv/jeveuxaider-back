@@ -12,15 +12,20 @@
       </template>
     </AppHeader>
 
-    <template v-if="collectivity.type == 'department'">
-      <collectivity-department
-        :collectivity="collectivity"
-      ></collectivity-department>
-    </template>
+    <template v-if="!$store.getters.loading">
+      <template v-if="collectivity.type == 'department'">
+        <collectivity-department
+          :collectivity="collectivity"
+        ></collectivity-department>
+      </template>
 
-    <template v-if="collectivity.type == 'commune'">
-      <collectivity-commune :collectivity="collectivity"></collectivity-commune>
+      <template v-if="collectivity.type == 'commune'">
+        <collectivity-commune
+          :collectivity="collectivity"
+        ></collectivity-commune>
+      </template>
     </template>
+    <template v-else> LOADING</template>
 
     <AppFooter />
   </div>
@@ -53,6 +58,14 @@ export default {
     getCollectivity(this.slug)
       .then((response) => {
         this.collectivity = { ...response.data }
+        if (!this.collectivity.published) {
+          this.$message({
+            message: "Cette collectivité n'est pas encore accessible !",
+            type: 'warning',
+          })
+          this.$router.push('/403')
+        }
+        this.$store.commit('setLoading', false)
       })
       .catch(() => {})
   },
