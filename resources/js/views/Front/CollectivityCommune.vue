@@ -115,6 +115,56 @@
       </div>
     </div>
 
+    <div class="bg-white z-10">
+      <div>
+        <div class="grid grid-cols-2 gap-0 md:grid-cols-6 lg:grid-cols-6">
+          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
+            <img
+              :src="`/images/collectivites/${collectivity.slug}-1.jpg`"
+              height="auto"
+              width="auto"
+            />
+          </div>
+          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
+            <img
+              :src="`/images/collectivites/${collectivity.slug}-2.jpg`"
+              height="auto"
+              width="auto"
+            />
+          </div>
+          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
+            <img
+              :src="`/images/collectivites/${collectivity.slug}-3.jpg`"
+              height="auto"
+              width="auto"
+            />
+          </div>
+          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
+            <img
+              :src="`/images/collectivites/${collectivity.slug}-4.jpg`"
+              height="auto"
+              width="auto"
+            />
+          </div>
+          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
+            <img
+              :src="`/images/collectivites/${collectivity.slug}-5.jpg`"
+              height="auto"
+              width="auto"
+            />
+          </div>
+
+          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
+            <img
+              :src="`/images/collectivites/${collectivity.slug}-6.jpg`"
+              height="auto"
+              width="auto"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="bg-primary">
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">

@@ -48,12 +48,11 @@ import Volet from '@/layout/components/Volet'
 import StateTag from '@/components/StateTag.vue'
 import { updateParticipation, deleteParticipation } from '@/api/participation'
 import VoletRow from '@/mixins/VoletRow'
-import ItemDescription from '@/components/forms/ItemDescription'
 import ParticipationInfos from '@/components/infos/ParticipationInfos'
 
 export default {
   name: 'ParticipationVolet',
-  components: { StateTag, Volet, ItemDescription, ParticipationInfos },
+  components: { StateTag, Volet, ParticipationInfos },
   mixins: [VoletRow],
   data() {
     return {

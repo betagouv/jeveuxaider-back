@@ -201,7 +201,6 @@ import VoletRow from '@/mixins/VoletRow'
 import ItemDescription from '@/components/forms/ItemDescription'
 import MemberTeaser from '@/components/MemberTeaser'
 import StructureInfos from '@/components/infos/StructureInfos'
-import StructureDropdownState from '@/components/StructureDropdownState'
 
 export default {
   name: 'StructureVolet',
@@ -210,7 +209,6 @@ export default {
     ItemDescription,
     MemberTeaser,
     StructureInfos,
-    StructureDropdownState,
   },
   mixins: [VoletRow],
   data() {

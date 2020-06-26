@@ -62,10 +62,8 @@
 
 <script>
 import { updatePassword, anonymizeUser } from '@/api/user'
-import UserMenu from '@/components/UserMenu'
 export default {
   name: 'FrontUserSettings',
-  components: { UserMenu },
   data() {
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
