@@ -40,8 +40,6 @@ class AppServiceProvider extends ServiceProvider
         Participation::observe(ParticipationObserver::class);
         Profile::observe(ProfileObserver::class);
 
-        QueryBuilderRequest::setArrayValueDelimiter('|');
-
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);
         });
