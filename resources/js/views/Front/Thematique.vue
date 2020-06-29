@@ -35,7 +35,7 @@
               <h2
                 class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
               >
-                Rejoignez la Réserve Civique dans votre domaine d'action
+                {{ thematique.title }}
               </h2>
 
               <p
@@ -297,6 +297,48 @@
               >
                 Rejoignez la Réserve Civique
               </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white border-gray-200 border-b">
+        <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div
+            class="text-center pb-12 text-base leading-6 font-semibold uppercase text-gray-400 tracking-wider"
+          >
+            PARMI LES ORGANISATIONS DÉJÀ ACTIVES SUR LA RÉSERVE CIVIQUE
+          </div>
+          <div class="grid grid-cols-2 gap-8 lg:grid-cols-5">
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-active-1.jpg`"
+              />
+            </div>
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-active-2.jpg`"
+              />
+            </div>
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-active-3.jpg`"
+              />
+            </div>
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-active-4.jpg`"
+              />
+            </div>
+            <div class="col-span-1 flex justify-center lg:col-span-1">
+              <img
+                class="h-12"
+                :src="`/images/thematiques/${thematique.slug}-active-5.jpg`"
+              />
             </div>
           </div>
         </div>

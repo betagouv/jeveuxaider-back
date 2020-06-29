@@ -30,6 +30,10 @@
         >
       </el-form-item>
 
+      <el-form-item label="Titre de la thématique" prop="title">
+        <el-input v-model="form.title" placeholder="Titre de la thématique" />
+      </el-form-item>
+
       <el-form-item label="Description" prop="description" class="flex-1">
         <el-input
           v-model="form.description"

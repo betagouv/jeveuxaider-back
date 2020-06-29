@@ -23,6 +23,7 @@ class ThematiqueRequest extends FormRequest
             'published' => 'boolean',
             'domaine_id' => 'nullable',
             'description' => 'nullable',
+            'title' => 'required',
             'color' => 'required'
         ];
     }
