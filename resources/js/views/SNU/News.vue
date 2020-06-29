@@ -14,7 +14,7 @@
 
     <div v-if="!$store.getters.loading" class="max-w-3xl px-8">
       <div
-        v-for="release in releases"
+        v-for="release in tableData"
         :key="release.id"
         class="mb-12 bg-gray-100 p-8"
       >
@@ -30,32 +30,41 @@
           <div class="release-description" v-html="release.description" />
         </div>
       </div>
+      <div class="my-3 flex items-center">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="totalRows"
+          :page-size="15"
+          :current-page="Number(query.page)"
+          @current-change="onPageChange"
+        />
+        <div class="text-secondary text-xs ml-3">
+          Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { fetchReleases } from '@/api/app'
+import TableWithFilters from '@/mixins/TableWithFilters'
 
 export default {
   name: 'News',
+  mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
-      releases: [],
+      tableData: [],
     }
   },
-  created() {
-    this.$store.commit('setLoading', true)
-    fetchReleases({ pagination: 0 })
-      .then((response) => {
-        this.releases = response.data.data
-        this.$store.commit('setLoading', false)
-        this.loading = false
-      })
-      .catch(() => {
-        this.loading = false
-      })
+  created() {},
+  methods: {
+    fetchRows() {
+      return fetchReleases(this.query)
+    },
   },
 }
 </script>
