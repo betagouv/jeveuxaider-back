@@ -261,6 +261,7 @@
             </dl>
           </div>
           <missions-search
+            :active-filters="['department_name', 'template_title']"
             :color="thematique.color"
             :query-filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
           />

@@ -67,6 +67,30 @@
                 </div>
               </ais-search-box>
               <ais-menu-select
+                v-if="activeFilters.includes('department_name')"
+                class="flex-1"
+                attribute="department_name"
+                :transform-items="transformItems"
+                :limit="120"
+              >
+                <el-select
+                  v-model="filters.department_name"
+                  slot-scope="{ items, canRefine, refine }"
+                  :disabled="!canRefine"
+                  placeholder="Départements"
+                  popper-class="departments"
+                  @change="handleFilters(refine, $event)"
+                >
+                  <el-option
+                    v-for="item in items"
+                    :key="item.value"
+                    :label="`${item.label} (${item.count})`"
+                    :value="item.value"
+                  />
+                </el-select>
+              </ais-menu-select>
+              <ais-menu-select
+                v-if="activeFilters.includes('domaines')"
                 class="flex-1"
                 attribute="domaines"
                 :transform-items="transformItems"
@@ -89,6 +113,7 @@
                 </el-select>
               </ais-menu-select>
               <ais-menu-select
+                v-if="activeFilters.includes('template_title')"
                 class="flex-1"
                 attribute="template_title"
                 :transform-items="transformItems"
@@ -387,6 +412,12 @@ export default {
     AisClearRefinements,
   },
   props: {
+    activeFilters: {
+      type: Array,
+      default() {
+        return ['domaines', 'template_title']
+      },
+    },
     facetFilters: {
       type: Array,
       default: null,
