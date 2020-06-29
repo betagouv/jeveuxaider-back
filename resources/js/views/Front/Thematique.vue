@@ -247,7 +247,7 @@
                   {{ statistics.structures_count | formatNumber }}
                 </dd>
                 <dt class="mt-2 text-lg font-medium text-white">
-                  Structures
+                  Organisations
                 </dt>
               </div>
               <div class="flex flex-col mt-10 sm:mt-0">

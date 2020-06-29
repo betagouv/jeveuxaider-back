@@ -195,7 +195,7 @@
               <dd class="text-5xl leading-none font-bold text-white">
                 {{ statistics.structures_count | formatNumber }}
               </dd>
-              <dt class="mt-2 text-lg font-medium text-white">Structures</dt>
+              <dt class="mt-2 text-lg font-medium text-white">Organisations</dt>
             </div>
 
             <div class="flex flex-col mt-10 sm:mt-0">
