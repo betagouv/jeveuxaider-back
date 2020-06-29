@@ -12,7 +12,6 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Observers\ParticipationObserver;
 use App\Observers\ProfileObserver;
-use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class AppServiceProvider extends ServiceProvider
 {
