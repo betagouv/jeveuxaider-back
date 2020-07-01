@@ -71,6 +71,19 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
+    </div>
   </div>
 </template>
 
@@ -83,20 +96,26 @@ export default {
   mixins: [TableWithFilters],
   data() {
     return {
-      loading: false,
+      loading: true,
       tableData: [],
     }
   },
   methods: {
     fetchRows() {
-      return fetchActivities()
+      return fetchActivities(this.query)
     },
     type(subject_type) {
-      return subject_type == 'App\\Models\\Mission' ? 'Mission' : 'Autre'
+      return subject_type == 'App\\Models\\Mission'
+        ? 'Mission'
+        : subject_type == 'App\\Models\\Structure'
+        ? 'Structure'
+        : 'Autre'
     },
     linkSubject(row) {
       return row.subject_type == 'App\\Models\\Mission'
         ? `/dashboard/mission/${row.subject_id}/edit`
+        : row.subject_type == 'App\\Models\\Structure'
+        ? `/dashboard/structure/${row.subject_id}`
         : '#'
     },
     linkCauser(row) {
@@ -105,7 +124,6 @@ export default {
         : '#'
     },
     event(row) {
-      console.log(row)
       return row.description.split('|')[0]
     },
     causer(row) {

@@ -13,6 +13,6 @@ class ActivityController extends Controller
     {
         return QueryBuilder::for(Activity::class)
         ->defaultSort('-updated_at')
-        ->paginate(config('query-builder.results_per_page'));
+        ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 }

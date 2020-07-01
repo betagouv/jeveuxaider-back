@@ -7,10 +7,11 @@ use App\Helpers\Utils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Structure extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -63,9 +64,18 @@ class Structure extends Model
 
     protected $appends = ['full_address', 'ceu'];
 
-    // protected $withCount = ['missions'];
+    protected static $logFillable = true;
 
-    // protected $with = ['members:id,first_name,last_name,email,mobile'];
+    protected static $logOnlyDirty = true;
+
+    protected static $submitEmptyLogs = false;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $profile = Auth::guard('api')->user()->profile;
+
+        return $eventName . '|' . $profile->fullName . '|' . $profile->id  . '|' . $this->name;
+    }
 
     public function scopeRole($query, $contextRole)
     {
