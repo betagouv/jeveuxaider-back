@@ -100,6 +100,12 @@
         <i class="el-icon-help" />
       </el-tooltip>
     </el-menu-item>
+    <el-menu-item
+      index="/dashboard/activities"
+      :class="{ 'is-active': isActive('activities') }"
+    >
+      <span v-if="$store.getters.sidebar">Activité</span>
+    </el-menu-item>
   </div>
 </template>
 

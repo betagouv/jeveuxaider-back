@@ -248,3 +248,7 @@ export function fetchTags(params) {
 export function deleteTag(id) {
   return request.delete(`/api/tag/${id}`)
 }
+
+export function fetchActivities(params) {
+  return request.get('/api/activities', { params })
+}

@@ -119,6 +119,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // MISSIONS TEMPLATES
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
+
+    // ACTIVITIES
+    Route::get('activities', 'Api\ActivityController@index');
 });
 
 // ONLY ADMIN

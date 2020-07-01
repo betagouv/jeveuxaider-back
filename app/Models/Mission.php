@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use Spatie\Tags\HasTags;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable, HasTags;
+    use SoftDeletes, Searchable, HasTags, LogsActivity;
 
     protected $table = 'missions';
 
@@ -55,6 +56,19 @@ class Mission extends Model
     ];
 
     protected $appends = ['full_address', 'has_places_left', 'participations_count'];
+
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
+
+    protected static $submitEmptyLogs = false;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $profile = Auth::guard('api')->user()->profile;
+
+        return $eventName . '|' . $profile->fullName . '|' . $profile->id  . '|' . $this->name;
+    }
 
     public function shouldBeSearchable()
     {

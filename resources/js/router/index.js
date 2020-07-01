@@ -723,6 +723,17 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/activities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-activities" */ '@/views/SNU/Activities.vue'
+            ),
+          name: 'Activities',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
           path: '/dashboard/release/add',
           component: () =>
             import(
