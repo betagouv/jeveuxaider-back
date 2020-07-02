@@ -95,7 +95,11 @@
         </div>
          -->
       </el-form>
-      <table-activities :subject-id="row.id" subject-type="Mission" />
+      <table-activities
+        v-if="$store.getters.contextRole == 'admin'"
+        :subject-id="row.id"
+        subject-type="Mission"
+      />
     </template>
   </Volet>
 </template>

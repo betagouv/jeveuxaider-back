@@ -3,11 +3,17 @@
     <div class="uppercase text-secondary text-sm font-semibold mb-2 mt-8">
       Activité
     </div>
-    <el-table v-loading="loading" :data="tableData">
+    <el-table
+      ref="tableData"
+      v-loading="loading"
+      :data="tableData"
+      :highlight-current-row="true"
+      @row-click="rowClicked"
+    >
       <el-table-column type="expand">
         <template slot-scope="scope">
           <table
-            v-if="event(scope.row) == 'updated'"
+            v-if="scope.row.description == 'updated'"
             class="table-auto text-secondary text-sm"
           >
             <thead>
@@ -37,13 +43,16 @@
           <div class="text-xs text-secondary">
             {{ scope.row.updated_at | formatMediumWithTime }}
           </div>
-          <div class="text-xs -mt-1 text-gray-900">
-            <span v-if="event(scope.row) == 'updated'">modifié par</span>
-            <span v-else-if="event(scope.row) == 'deleted'">supprimé par</span>
-            <span v-else-if="event(scope.row) == 'created'">crée par</span>
-            <router-link :to="linkCauser(scope.row)">
-              {{ causer(scope.row) }}
-            </router-link>
+          <div class="text-sm">
+            <span v-if="scope.row.description == 'updated'">Modifié par</span>
+            <span v-else-if="scope.row.description == 'deleted'">
+              Supprimé par
+            </span>
+            <span v-else-if="scope.row.description == 'created'">Crée par</span>
+            {{ scope.row.data.full_name }}
+            <el-tag type="info" size="mini" class="uppercase text-xxs">
+              {{ scope.row.data.context_role }}
+            </el-tag>
           </div>
         </template>
       </el-table-column>
