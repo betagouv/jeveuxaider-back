@@ -15,7 +15,7 @@ class ActivityObserver
             "subject_title" => $activity->subject->name,
             "full_name" => $user->profile->fullName,
             "causer_id" => $user->profile->id,
-            "context_role" => $user->contextRole
+            "context_role" => $user->contextRole ?? 'volontaire'
         ];
     }
 }
