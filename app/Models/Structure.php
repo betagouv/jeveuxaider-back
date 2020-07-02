@@ -70,13 +70,6 @@ class Structure extends Model
 
     protected static $submitEmptyLogs = false;
 
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        $profile = Auth::guard('api')->user()->profile;
-
-        return $eventName . '|' . $profile->fullName . '|' . $profile->id  . '|' . $this->name;
-    }
-
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {

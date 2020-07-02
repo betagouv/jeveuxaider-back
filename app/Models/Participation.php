@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Participation extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     protected $table = 'participations';
 
@@ -23,13 +24,17 @@ class Participation extends Model
         'state',
     ];
 
-    // protected $with = ['mission', 'profile'];
-
     const ACTIVE_STATUS = [
         'En attente de validation',
         'Validée',
         'Effectuée'
     ];
+
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
+
+    protected static $submitEmptyLogs = false;
 
     public function mission()
     {

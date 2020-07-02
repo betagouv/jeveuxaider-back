@@ -11,10 +11,11 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Profile extends Model implements HasMedia
 {
-    use Notifiable, InteractsWithMedia, HasTags;
+    use Notifiable, InteractsWithMedia, HasTags, LogsActivity;
 
     protected $table = 'profiles';
 
@@ -47,6 +48,13 @@ class Profile extends Model implements HasMedia
     protected $appends = ['full_name', 'short_name', 'image'];
 
     protected $hidden = ['media', 'user'];
+
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
+
+    protected static $submitEmptyLogs = false;
+
 
     public function getImageAttribute()
     {

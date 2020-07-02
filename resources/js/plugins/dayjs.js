@@ -18,12 +18,16 @@ Vue.filter('formatMedium', function (date) {
   return dayjs(date).format('D MMMM YYYY')
 })
 
+Vue.filter('formatMediumWithTime', function (date) {
+  return dayjs(date).format('D MMMM YYYY à HH:mm')
+})
+
 Vue.filter('formatLong', function (date) {
   return dayjs(date).format('D MMMM YYYY')
 })
 
 Vue.filter('formatLongWithTime', function (date) {
-  return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
+  return dayjs(date).format('DD/MM/YYYY HH:mm')
 })
 
 Vue.filter('formatCustom', function (date, custom) {

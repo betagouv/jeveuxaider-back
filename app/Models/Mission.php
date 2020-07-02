@@ -63,13 +63,6 @@ class Mission extends Model
 
     protected static $submitEmptyLogs = false;
 
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        $profile = Auth::guard('api')->user()->profile;
-
-        return $eventName . '|' . $profile->fullName . '|' . $profile->id  . '|' . $this->name;
-    }
-
     public function shouldBeSearchable()
     {
         return $this->structure->state == 'Validée' && $this->state == 'Validée' ? true : false;
