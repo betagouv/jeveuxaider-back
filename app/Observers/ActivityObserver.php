@@ -12,9 +12,9 @@ class ActivityObserver
         $user = Auth::guard('api')->user();
 
         $activity->data = [
-            "subject_title" => $activity->subject->name,
-            "full_name" => $user->profile->fullName,
-            "causer_id" => $user->profile->id,
+            "subject_title" => $activity->subject->name ?? '',
+            "full_name" => $user->profile->fullName ?? '',
+            "causer_id" => $user->profile->id ?? '',
             "context_role" => $user->contextRole ?? 'volontaire'
         ];
     }
