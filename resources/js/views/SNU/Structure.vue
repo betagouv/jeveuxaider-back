@@ -6,8 +6,8 @@
           Structure
         </div>
         <div class="flex flex-wrap mb-8">
-          <div class="font-bold text-2xl text-gray-800">
-            {{ structure.name }}
+          <div class="font-bold text-2xl text-gray-800 mr-2">
+            Structure - {{ structure.name }}
           </div>
           <state-tag :state="structure.state" />
           <el-tag
@@ -29,26 +29,6 @@
           >
             {{ structure.department | fullDepartmentFromValue }}
           </el-tag>
-          <el-tooltip
-            v-if="structure.ceu"
-            class="item"
-            effect="dark"
-            :content="structure.structure_publique_etat_type"
-            placement="top"
-          >
-            <el-tag size="medium" class="m-1 ml-0" type="info">
-              CEU
-            </el-tag>
-          </el-tooltip>
-          <el-tag
-            v-if="structure.missions_count > 0"
-            type="info"
-            class="m-1 ml-0"
-            size="medium"
-          >
-            {{ structure.missions_count }}
-            {{ structure.missions_count | pluralize(['mission', 'missions']) }}
-          </el-tag>
         </div>
       </div>
       <router-link
@@ -59,6 +39,21 @@
         </el-button>
       </router-link>
     </div>
+    <el-menu
+      :default-active="$router.history.current.path"
+      mode="horizontal"
+      @select="$router.push($event)"
+    >
+      <el-menu-item index="/dashboard/structure/48">Informations</el-menu-item>
+      <el-menu-item index="/dashboard/structure/48/activities">
+        Activités
+      </el-menu-item>
+    </el-menu>
+
+    <!-- ça marche mais ca clignote. idée du Layout With tabs ? -->
+
+    <div v-if="!tab"></div>
+    <div v-else-if="tab == 'activities'">Activités tableau coming</div>
     <div class="px-12 mb-12">
       <div class="mb-6 text-2xl">
         Informations
@@ -68,7 +63,7 @@
     <div class="px-12 mb-12">
       <div class="mb-6 text-2xl">Équipe ({{ structure.members.length }})</div>
       <item-description>
-        Vous pouver
+        Vous pouvez
         <router-link
           :to="{
             name: 'StructureMembers',
@@ -253,6 +248,10 @@ export default {
   props: {
     id: {
       type: Number,
+      default: null,
+    },
+    tab: {
+      type: String,
       default: null,
     },
   },

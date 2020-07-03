@@ -432,6 +432,27 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/structure/:id/activities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-structure-view" */ '@/views/SNU/Structure.vue'
+            ),
+          name: 'Structure',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'activities',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
           path: '/dashboard/structure/:id/edit',
           component: () =>
             import(

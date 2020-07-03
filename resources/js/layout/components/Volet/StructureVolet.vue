@@ -29,6 +29,16 @@
           <div class="flex items-center">
             <router-link
               :to="{
+                name: 'Structure',
+                params: { id: row.id },
+              }"
+            >
+              <el-button class="mr-1" icon="el-icon-view" type="mini">
+                Voir
+              </el-button>
+            </router-link>
+            <router-link
+              :to="{
                 name: 'StructureFormEdit',
                 params: { id: row.id },
               }"
@@ -37,18 +47,18 @@
                 Modifier
               </el-button>
             </router-link>
-            <button
+            <el-button
               v-if="
                 $store.getters.contextRole == 'admin' ||
                 $store.getters.contextRole == 'referent' ||
                 $store.getters.contextRole == 'referent_regional'
               "
               type="button"
-              class="ml-2 el-button is-plain el-button--danger el-button--mini"
+              class="ml-1 el-button is-plain el-button--danger el-button--mini"
               @click="onClickDelete"
             >
               <i class="el-icon-delete" />
-            </button>
+            </el-button>
           </div>
         </div>
         <div class="flex flex-wrap items-center justify-center mb-4">
