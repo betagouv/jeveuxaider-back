@@ -97,7 +97,7 @@ export default {
         'filter[subject_id]': this.subjectId,
         'filter[subject_type]': this.subjectType,
       }
-      const { data } = await fetchActivities(query) // this.query
+      const { data } = await fetchActivities(query)
       this.tableData = data.data
       this.loading = false
     },

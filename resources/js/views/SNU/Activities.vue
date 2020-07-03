@@ -9,6 +9,24 @@
       </div>
     </div>
 
+    <div class="flex flex-wrap px-12 mb-3">
+      <query-search-filter
+        name="subject_id"
+        label="ID de l'objet"
+        placeholder="ex: 1494"
+        :initial-value="query['filter[subject_id]']"
+        @changed="onFilterChange"
+      />
+      <query-filter
+        type="select"
+        name="subject_type"
+        :value="query['filter[subject_type]']"
+        label="Type de l'objet"
+        :options="subjectTypes"
+        @changed="onFilterChange"
+      />
+    </div>
+
     <el-table
       ref="tableData"
       v-loading="loading"
@@ -100,14 +118,26 @@
 import { fetchActivities } from '@/api/app'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import ActivityUtils from '../../mixins/ActivityUtils.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
+import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 
 export default {
   name: 'Activities',
+  components: {
+    QueryFilter,
+    QuerySearchFilter,
+  },
   mixins: [TableWithFilters, ActivityUtils],
   data() {
     return {
       loading: true,
       tableData: [],
+      subjectTypes: [
+        { label: 'Mission', value: 'Mission' },
+        { label: 'Structure', value: 'Structure' },
+        { label: 'Participation', value: 'Participation' },
+        { label: 'Utilisateur', value: 'Profile' },
+      ],
     }
   },
   methods: {

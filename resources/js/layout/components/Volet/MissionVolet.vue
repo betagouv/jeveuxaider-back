@@ -95,11 +95,11 @@
         </div>
          -->
       </el-form>
-      <table-activities
+      <!--       <table-activities
         v-if="$store.getters.contextRole == 'admin'"
         :subject-id="row.id"
         subject-type="Mission"
-      />
+      /> -->
     </template>
   </Volet>
 </template>
@@ -110,11 +110,10 @@ import { updateMission, deleteMission } from '@/api/mission'
 import VoletRow from '@/mixins/VoletRow'
 import ItemDescription from '@/components/forms/ItemDescription'
 import MissionInfos from '@/components/infos/MissionInfos'
-import TableActivities from '@/components/TableActivities'
 
 export default {
   name: 'MissionVolet',
-  components: { Volet, ItemDescription, MissionInfos, TableActivities },
+  components: { Volet, ItemDescription, MissionInfos },
   mixins: [VoletRow],
   data() {
     return {
