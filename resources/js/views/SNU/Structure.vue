@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!$store.getters.loading" class="structure-view">
+  <div class="structure-view">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
@@ -7,9 +7,9 @@
         </div>
         <div class="flex flex-wrap mb-8">
           <div class="font-bold text-2xl text-gray-800 mr-2">
-            Structure - {{ structure.name }}
+            {{ structure.name }}
           </div>
-          <state-tag :state="structure.state" />
+          <state-tag v-if="structure.state" :state="structure.state" />
           <el-tag
             v-if="structure.is_reseau"
             size="medium"
@@ -21,230 +21,121 @@
           <el-tag v-if="structure.reseau_id" class="m-1 ml-0" size="medium">
             {{ structure.reseau_id | reseauFromValue }}
           </el-tag>
-          <el-tag
-            v-if="structure.department"
-            type="warning"
-            class="m-1 ml-0"
-            size="medium"
-          >
-            {{ structure.department | fullDepartmentFromValue }}
-          </el-tag>
         </div>
       </div>
-      <router-link
-        :to="{ name: 'StructureFormEdit', params: { id: structure.id } }"
-      >
-        <el-button type="secondary" icon="el-icon-edit">
-          Modifier la fiche
-        </el-button>
-      </router-link>
     </div>
     <el-menu
       :default-active="$router.history.current.path"
       mode="horizontal"
+      class="mb-8"
       @select="$router.push($event)"
     >
-      <el-menu-item index="/dashboard/structure/48">Informations</el-menu-item>
-      <el-menu-item index="/dashboard/structure/48/activities">
-        Activités
+      <el-menu-item :index="`/dashboard/structure/${id}`">
+        Informations
+      </el-menu-item>
+      <el-menu-item :index="`/dashboard/structure/${id}/missions`">
+        Missions
+        <span class="text-xs text-gray-600"
+          >({{ structure.missions_count }})</span
+        >
+      </el-menu-item>
+      <el-menu-item :index="`/dashboard/structure/${id}/activities`">
+        Activité
       </el-menu-item>
     </el-menu>
 
-    <!-- ça marche mais ca clignote. idée du Layout With tabs ? -->
-
-    <div v-if="!tab"></div>
-    <div v-else-if="tab == 'activities'">Activités tableau coming</div>
-    <div class="px-12 mb-12">
-      <div class="mb-6 text-2xl">
-        Informations
-      </div>
-      <structure-infos :structure="structure" />
-    </div>
-    <div class="px-12 mb-12">
-      <div class="mb-6 text-2xl">Équipe ({{ structure.members.length }})</div>
-      <item-description>
-        Vous pouvez
-        <router-link
-          :to="{
-            name: 'StructureMembers',
-            params: {
-              id: structure.id,
-            },
-          }"
-        >
-          <span class="underline cursor-pointer">gérer l'équipe</span>
-        </router-link>
-        ou
-        <router-link
-          :to="{
-            name: 'StructureMembersAdd',
-            params: {
-              id: structure.id,
-            },
-          }"
-        >
-          <span class="underline cursor-pointer"
-            >ajouter un membre</span
-          > </router-link
-        >.
-      </item-description>
-      <div
-        v-for="member in structure.members"
-        :key="member.id"
-        class="member py-4 px-6"
-      >
-        <member-teaser :member="member" />
-      </div>
-    </div>
-    <div class="mb-12">
-      <div class="px-12 mb-6 text-2xl">
-        Missions ({{ structure.missions_count }})
-      </div>
-      <div class="px-12 mb-3 flex flex-wrap">
-        <query-search-filter
-          name="search"
-          label="Recherche"
-          placeholder="Mots clés, etc..."
-          :initial-value="query['filter[search]']"
-          @changed="onFilterChange"
-        />
-        <query-search-filter
-          name="lieu"
-          label="Lieu"
-          placeholder="Ville ou code postal"
-          :initial-value="query['filter[lieu]']"
-          @changed="onFilterChange"
-        />
-      </div>
-      <el-table
-        v-loading="loading"
-        :data="tableData"
-        :highlight-current-row="true"
-      >
-        <el-table-column width="70" align="center">
-          <template>
-            <el-avatar class="bg-primary">
-              {{ structure.name[0] }}
-            </el-avatar>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="Mission" min-width="320">
-          <template slot-scope="scope">
-            <div class="text-gray-900">
-              <v-clamp :max-lines="2" autoresize>
-                {{ scope.row.name }}
-              </v-clamp>
+    <div v-if="!tab" class="px-12">
+      <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <el-card shadow="never" class="p-4">
+          <div class="flex justify-between">
+            <div class="mb-6 text-xl">
+              Informations
             </div>
-            <div
-              v-if="scope.row.structure"
-              class="font-light text-gray-600 flex items-center"
-            >
-              <div class="">
-                {{ scope.row.structure.name }}
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Dates" width="160">
-          <template slot-scope="scope">
-            <div v-if="scope.row.start_date" class="">
-              <span class="text-gray-400 mr-1 text-xs">Du</span>
-              {{ scope.row.start_date | formatMedium }}
-            </div>
-            <div v-if="scope.row.end_date" class="">
-              <span class="text-gray-400 mr-1 text-xs">Au</span>
-              {{ scope.row.end_date | formatMedium }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Ville" width="185">
-          <template slot-scope="scope">
-            <div v-if="scope.row.city" class="">
-              {{ scope.row.city | cleanCity }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Places" width="90">
-          <template slot-scope="scope">
-            <div v-if="scope.row.has_places_left">
-              {{
-                scope.row.participations_max - scope.row.participations_count
-              }}
-              {{
-                (scope.row.participations_max - scope.row.participations_count)
-                  | pluralize(['place', 'places'])
-              }}
-            </div>
-            <div v-else>
-              Complet
-            </div>
-            <div class="font-light text-gray-600 text-xs">
-              {{ scope.row.participations_count }} /
-              {{ scope.row.participations_max }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="state" label="Statut" min-width="170">
-          <template slot-scope="scope">
-            <state-tag :state="scope.row.state" />
-          </template>
-        </el-table-column>
-        <el-table-column
-          v-if="
-            $store.getters.contextRole !== 'referent' &&
-            !$store.getters['volet/active']
-          "
-          label="Actions"
-          width="165"
-        >
-          <template slot-scope="scope">
             <router-link
-              :to="{ name: 'MissionFormEdit', params: { id: scope.row.id } }"
+              :to="{ name: 'StructureFormEdit', params: { id: structure.id } }"
             >
-              <el-button icon="el-icon-edit" size="mini" class="m-1">
+              <el-button size="small" type="secondary" icon="el-icon-edit">
                 Modifier
               </el-button>
             </router-link>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="m-3 flex items-center">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="totalRows"
-          :page-size="15"
-          :current-page="Number(query.page)"
-          @current-change="onPageChange"
-        />
-        <div class="text-secondary text-xs ml-3">
-          Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
-        </div>
+          </div>
+          <structure-infos class="text-sm" :structure="structure" />
+        </el-card>
+        <el-card shadow="never" class="p-4">
+          <div class="flex justify-between">
+            <div v-if="structure.members" class="mb-6 text-xl">
+              Équipe
+            </div>
+            <div>
+              <router-link
+                :to="{
+                  name: 'StructureMembers',
+                  params: {
+                    id: structure.id,
+                  },
+                }"
+                class="mr-2"
+              >
+                <el-button size="small" type="secondary" icon="el-icon-edit">
+                  Gérer l'équipe
+                </el-button>
+              </router-link>
+              <router-link
+                :to="{
+                  name: 'StructureMembersAdd',
+                  params: {
+                    id: structure.id,
+                  },
+                }"
+              >
+                <el-button size="small" type="secondary" icon="el-icon-plus">
+                  Ajouter un membre
+                </el-button>
+              </router-link>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <member-teaser
+              v-for="member in structure.members"
+              :key="member.id"
+              class="member py-2"
+              :member="member"
+            />
+          </div>
+        </el-card>
       </div>
+    </div>
+    <div v-else-if="tab == 'activities'">
+      <TableActivities :table-data="activities" />
+    </div>
+    <div v-else-if="tab == 'missions'">
+      <TableMissions
+        :table-data="missions"
+        :on-updated-row="onUpdatedRowMissions"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { getStructure, fetchStructureMissions } from '@/api/structure'
+import { fetchActivities } from '@/api/app'
+import { getStructure } from '@/api/structure'
+import { fetchMissions } from '@/api/mission'
 import StructureInfos from '@/components/infos/StructureInfos'
-import TableWithVolet from '@/mixins/TableWithVolet'
-import TableWithFilters from '@/mixins/TableWithFilters'
+import TableActivities from '@/components/TableActivities'
+import TableMissions from '@/components/TableMissions'
 import StateTag from '@/components/StateTag'
-import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import MemberTeaser from '@/components/MemberTeaser'
-import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
   name: 'Structure',
   components: {
     StructureInfos,
     StateTag,
-    QuerySearchFilter,
     MemberTeaser,
-    ItemDescription,
+    TableActivities,
+    TableMissions,
   },
-  mixins: [TableWithVolet, TableWithFilters],
   props: {
     id: {
       type: Number,
@@ -259,24 +150,42 @@ export default {
     return {
       loading: false,
       structure: {},
-      form: {},
+      activities: [],
+      missions: [],
     }
   },
-  created() {
-    this.$store.commit('setLoading', true)
-    getStructure(this.id)
-      .then((response) => {
-        this.$store.commit('setLoading', false)
-        this.structure = response.data
+  async created() {
+    const response = await getStructure(this.id)
+    this.structure = response.data
+
+    if (this.tab == 'activities') {
+      const { data } = await fetchActivities({
+        'filter[subject_id]': this.id,
+        'filter[subject_type]': 'Structure',
       })
-      .catch(() => {
-        this.loading = false
+      this.activities = data.data
+    }
+    if (this.tab == 'missions') {
+      const { data } = await fetchMissions({
+        ...this.query,
+        'filter[structure_id]': this.id,
       })
+      this.missions = data.data
+    }
   },
   methods: {
-    fetchRows() {
-      return fetchStructureMissions(this.id, this.query)
+    onUpdatedRowMissions(row) {
+      let foundIndex = this.missions.findIndex((el) => el.id === row.id)
+      this.missions.splice(foundIndex, 1, row)
     },
   },
 }
 </script>
+
+<style scoped lang="sass">
+.el-menu--horizontal
+  @apply px-12
+  > .el-menu-item
+    @apply mr-8 p-0 font-medium
+    border-bottom: solid 3px #1e429f
+</style>

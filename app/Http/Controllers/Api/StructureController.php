@@ -49,23 +49,6 @@ class StructureController extends Controller
         return Excel::download(new StructuresExport($request), 'structures.xlsx');
     }
 
-    public function missions(StructureRequest $request, Structure $structure)
-    {
-        return QueryBuilder::for(Mission::class)
-            ->allowedFilters([
-                'domaines',
-                'state',
-                'format',
-                AllowedFilter::custom('ceu', new FiltersMissionCeu),
-                AllowedFilter::custom('search', new FiltersMissionSearch),
-                AllowedFilter::custom('lieu', new FiltersMissionLieu),
-                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
-            ])
-            ->where('structure_id', $structure->id)
-            ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
-    }
-
     public function availableMissions(Request $request, Structure $structure)
     {
         $query = QueryBuilder::for(Mission::with('domaine'))

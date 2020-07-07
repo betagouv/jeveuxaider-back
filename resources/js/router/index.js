@@ -435,12 +435,33 @@ export default new Router({
           path: '/dashboard/structure/:id/activities',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-view" */ '@/views/SNU/Structure.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-activities" */ '@/views/SNU/Structure.vue'
             ),
           name: 'Structure',
           props: (route) => ({
             id: parseInt(route.params.id),
             tab: 'activities',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/structure/:id/missions',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-structure-missions" */ '@/views/SNU/Structure.vue'
+            ),
+          name: 'Structure',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'missions',
           }),
           meta: {
             roles: [

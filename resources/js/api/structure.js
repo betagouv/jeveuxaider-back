@@ -27,10 +27,6 @@ export function getStructureMembers(id) {
   return request.get(`/api/structure/${id}/members`)
 }
 
-export function fetchStructureMissions(id, params) {
-  return request.get(`/api/structure/${id}/missions`, { params })
-}
-
 export function fetchStructureAvailableMissions(id, params) {
   return request.get(`/api/structure/${id}/availableMissions`, { params })
 }

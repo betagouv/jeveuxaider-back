@@ -48,6 +48,14 @@
         {{ structure.full_address }}
       </div>
     </div>
+    <div v-if="structure.department" class="mb-2 flex">
+      <div class="card-label">
+        Département
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.department | fullDepartmentFromValue }}
+      </div>
+    </div>
   </div>
 </template>
 

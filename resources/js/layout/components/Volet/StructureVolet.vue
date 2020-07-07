@@ -1,10 +1,10 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <div class="text-xs text-gray-600 uppercase text-center mt-16 mb-12">
+      <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
         {{ row.statut_juridique }}
       </div>
-      <el-card shadow="hover" class="overflow-visible relative">
+      <el-card shadow="never" class="overflow-visible relative">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
             <el-avatar
@@ -68,31 +68,8 @@
           <el-tag v-if="row.reseau_id" class="m-1 ml-0" size="small">
             {{ row.reseau_id | reseauFromValue }}
           </el-tag>
-
-          <el-tag v-if="row.department" class="m-1 ml-0" size="small">
-            {{ row.department | fullDepartmentFromValue }}
-          </el-tag>
         </div>
         <structure-infos :structure="row" />
-
-        <div
-          v-if="row.missions_count > 0"
-          class="font-bold text-lg text-primary mb-3 text-center mt-8"
-        >
-          <router-link
-            :to="{
-              name: 'Structure',
-              params: { id: row.id },
-            }"
-          >
-            <el-button v-if="row.missions_count == 1" type="primary">
-              Voir la mission
-            </el-button>
-            <el-button v-else type="primary">
-              Voir les {{ row.missions_count }} missions
-            </el-button>
-          </router-link>
-        </div>
       </el-card>
       <el-form ref="structureForm" :model="form" label-position="top">
         <!-- <template v-if="showStatut">

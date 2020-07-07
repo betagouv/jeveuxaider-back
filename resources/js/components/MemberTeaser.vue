@@ -1,6 +1,6 @@
 <template>
   <div class="member flex">
-    <el-avatar class="bg-primary w-10 rounded-full">
+    <el-avatar class="bg-primary w-10 rounded-full flex-none">
       {{ member.short_name }}
     </el-avatar>
     <div class="flex flex-col ml-6" style="min-width: 250px;">
@@ -11,7 +11,7 @@
         }"
         target="_blank"
       >
-        <div class="text-gray-800">
+        <div class="text-sm text-gray-700">
           {{ member.full_name }}
         </div>
       </router-link>

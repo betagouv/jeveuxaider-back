@@ -1,105 +1,121 @@
 <template>
-  <div>
-    <div class="uppercase text-secondary text-sm font-semibold mb-2 mt-8">
-      Activité
-    </div>
-    <el-table
-      ref="tableData"
-      v-loading="loading"
-      :data="tableData"
-      :highlight-current-row="true"
-      @row-click="rowClicked"
-    >
-      <el-table-column type="expand">
-        <template slot-scope="scope">
-          <table
-            v-if="scope.row.description == 'updated'"
-            class="table-auto text-secondary text-sm"
+  <el-table
+    ref="tableData"
+    :data="tableData"
+    :highlight-current-row="true"
+    @row-click="rowClicked"
+  >
+    <el-table-column type="expand">
+      <template slot-scope="scope">
+        <table
+          v-if="scope.row.description == 'updated'"
+          class="table-auto text-secondary text-sm"
+        >
+          <thead>
+            <tr>
+              <th class="px-4 py-2 border-t-0"></th>
+              <th class="px-4 py-2 border-t-0">Avant</th>
+              <th class="px-4 py-2 border-t-0">Après</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(value, name) in scope.row.properties.attributes"
+              :key="name"
+            >
+              <td class="border px-4 py-2">{{ name }}</td>
+              <td class="border px-4 py-2">
+                {{ scope.row.properties.old[name] }}
+              </td>
+              <td class="border px-4 py-2">{{ value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+    </el-table-column>
+    <el-table-column prop="updated_at" label="Date" width="170">
+      <template slot-scope="scope">
+        <div class="text-sm text-gray-900">
+          {{ scope.row.updated_at | formatLongWithTime }}
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column prop="subject" label="Objet" width="190">
+      <template slot-scope="scope">
+        <router-link :to="linkSubject(scope.row)">
+          <span class="text-sm"
+            >{{ type(scope.row.subject_type) }} #{{
+              scope.row.subject_id
+            }}</span
           >
-            <thead>
-              <tr>
-                <th class="px-4 py-2 border-t-0"></th>
-                <th class="px-4 py-2 border-t-0">Avant</th>
-                <th class="px-4 py-2 border-t-0">Après</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(value, name) in scope.row.properties.attributes"
-                :key="name"
-              >
-                <td class="border px-4 py-2">{{ name }}</td>
-                <td class="border px-4 py-2">
-                  {{ scope.row.properties.old[name] }}
-                </td>
-                <td class="border px-4 py-2">{{ value }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </template>
-      </el-table-column>
-      <el-table-column prop="change">
-        <template slot-scope="scope">
-          <div class="text-xs text-secondary">
-            {{ scope.row.updated_at | formatMediumWithTime }}
-          </div>
-          <div class="text-sm">
-            <span v-if="scope.row.description == 'updated'">Modifié par</span>
-            <span v-else-if="scope.row.description == 'deleted'">
-              Supprimé par
-            </span>
-            <span v-else-if="scope.row.description == 'created'">Crée par</span>
+        </router-link>
+      </template>
+    </el-table-column>
+    <el-table-column prop="change" label="Activité">
+      <template slot-scope="scope">
+        <div class="text-sm">
+          <span v-if="scope.row.description == 'updated'">Modifié par</span>
+          <span v-else-if="scope.row.description == 'deleted'">
+            Supprimé par
+          </span>
+          <span v-else-if="scope.row.description == 'created'">Crée par</span>
+          <router-link :to="linkCauser(scope.row)">
             {{ scope.row.data.full_name }}
-            <el-tag type="info" size="mini" class="uppercase text-xxs">
-              {{ scope.row.data.context_role }}
-            </el-tag>
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
+          </router-link>
+          <el-tag type="info" size="mini" class="uppercase text-xxs">
+            {{ scope.row.data.context_role }}
+          </el-tag>
+        </div>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script>
-import { fetchActivities } from '@/api/app'
-import ActivityUtils from '@/mixins/ActivityUtils'
-
 export default {
   name: 'TableActivities',
-  mixins: [ActivityUtils],
   props: {
-    subjectType: {
-      type: String,
+    tableData: {
+      type: Array,
       default: null,
-    },
-    subjectId: {
-      type: Number,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      loading: true,
-      tableData: [],
-    }
-  },
-  watch: {
-    subjectId: {
-      handler() {
-        this.fetchActivities()
-      },
-      immediate: true,
     },
   },
   methods: {
-    async fetchActivities() {
-      const query = {
-        'filter[subject_id]': this.subjectId,
-        'filter[subject_type]': this.subjectType,
+    type(subject_type) {
+      switch (subject_type) {
+        case 'App\\Models\\Mission':
+          return 'Mission'
+        case 'App\\Models\\Structure':
+          return 'Structure'
+        case 'App\\Models\\Participation':
+          return 'Participation'
+        case 'App\\Models\\Profile':
+          return 'Utilisateur'
+        default:
+          return 'Autre'
       }
-      const { data } = await fetchActivities(query)
-      this.tableData = data.data
-      this.loading = false
+    },
+    linkSubject(row) {
+      switch (row.subject_type) {
+        case 'App\\Models\\Mission':
+          return `/dashboard/mission/${row.subject_id}/edit`
+        case 'App\\Models\\Structure':
+          return `/dashboard/structure/${row.subject_id}`
+        case 'App\\Models\\Participation':
+          return `/dashboard/participations`
+        case 'App\\Models\\Profile':
+          return `/dashboard/profile/${row.subject_id}`
+        default:
+          return '#'
+      }
+    },
+    linkCauser(row) {
+      return row.causer_type == 'App\\Models\\User'
+        ? `/dashboard/profile/${row.data.causer_id}`
+        : '#'
+    },
+    rowClicked(row) {
+      this.$refs.tableData.toggleRowExpansion(row)
     },
   },
 }
@@ -107,8 +123,8 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep
-  table thead
-    display: none
-  .el-table td
-    padding: 6px 0px
+  a
+    @apply text-primary font-medium
+  .text-xxs
+    font-size: 10px !important
 </style>
