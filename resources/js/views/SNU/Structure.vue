@@ -167,7 +167,6 @@ export default {
     }
     if (this.tab == 'missions') {
       const { data } = await fetchMissions({
-        ...this.query,
         'filter[structure_id]': this.id,
       })
       this.missions = data.data

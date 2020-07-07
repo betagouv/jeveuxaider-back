@@ -17,14 +17,13 @@
             </el-avatar>
           </div>
           <router-link
+            class="font-semibold text-sm my-3 text-primary text-center"
             :to="{
               name: 'Structure',
               params: { id: row.id },
             }"
           >
-            <div class="font-bold text-lg text-primary mb-3 text-center">
-              {{ row.name }}
-            </div>
+            {{ row.name }}
           </router-link>
           <div class="flex items-center">
             <router-link

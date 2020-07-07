@@ -352,6 +352,66 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/mission/:id',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-mission-view" */ '@/views/SNU/Mission.vue'
+            ),
+          name: 'DashboardMissionView',
+          props: (route) => ({ id: parseInt(route.params.id) }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/mission/:id/activities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-mission-activities" */ '@/views/SNU/Mission.vue'
+            ),
+          name: 'DashboardMissionActivities',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'activities',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/mission/:id/participations',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-mission-participations" */ '@/views/SNU/Mission.vue'
+            ),
+          name: 'DashboardMissionParticipations',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'participations',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
           path: '/dashboard/structure/:structureId/missions/add',
           component: () =>
             import(

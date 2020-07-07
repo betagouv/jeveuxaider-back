@@ -7,17 +7,31 @@
       >
         {{ row.structure.name }}
       </div>
-      <el-card shadow="hover" class="overflow-visible">
+      <el-card shadow="never" class="overflow-visible">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
             <el-avatar v-if="row.structure.name" class="bg-primary">{{
               row.structure.name[0]
             }}</el-avatar>
           </div>
-          <div class="font-bold text-lg text-center my-3 flex">
-            {{ row.name }}
-          </div>
+          <router-link
+            class="font-semibold text-sm my-3 text-primary text-center"
+            :to="{
+              name: 'DashboardMissionView',
+              params: { id: row.id },
+            }"
+            >{{ row.name }}
+          </router-link>
           <div class="flex items-center">
+            <router-link
+              class="mr-2"
+              :to="{
+                name: 'DashboardMissionView',
+                params: { id: row.id },
+              }"
+            >
+              <el-button icon="el-icon-view" type="mini">Voir</el-button>
+            </router-link>
             <router-link
               :to="{
                 name: 'MissionFormEdit',
@@ -39,15 +53,6 @@
               <i class="el-icon-delete" />
             </button>
           </div>
-        </div>
-        <div class="flex items-center justify-center mb-4">
-          <el-tag
-            v-if="row.department"
-            type="warning"
-            class="m-1 ml-0"
-            size="small"
-            >{{ row.department | fullDepartmentFromValue }}</el-tag
-          >
         </div>
         <mission-infos :mission="row" />
       </el-card>

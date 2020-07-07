@@ -18,7 +18,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/structures"
-      :class="{ 'is-active': isActive('structure') }"
+      :class="{ 'is-active': isActive('/dashboard/structure') }"
     >
       <span v-if="$store.getters.sidebar">Structures</span>
       <el-tooltip
@@ -34,7 +34,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/missions"
-      :class="{ 'is-active': isActive('mission') }"
+      :class="{ 'is-active': isActive('/dashboard/mission') }"
     >
       <span v-if="$store.getters.sidebar">Missions</span>
       <el-tooltip
@@ -50,7 +50,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/participations"
-      :class="{ 'is-active': isActive('participation') }"
+      :class="{ 'is-active': isActive('/dashboard/participation') }"
     >
       <span v-if="$store.getters.sidebar">Participations</span>
       <el-tooltip
@@ -66,7 +66,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/profiles"
-      :class="{ 'is-active': isActive('profile') }"
+      :class="{ 'is-active': isActive('/dashboard/profile') }"
     >
       <span v-if="$store.getters.sidebar">Utilisateurs</span>
       <el-tooltip

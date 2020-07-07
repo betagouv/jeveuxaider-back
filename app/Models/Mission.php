@@ -161,6 +161,11 @@ class Mission extends Model
         return $this->participations_max - $this->places_left;
     }
 
+    public function getParticipationsTotalAttribute()
+    {
+        return $this->participations->count();
+    }
+
     public function getNameAttribute($value)
     {
         return $this->template_id ? $this->template->subtitle : $value;

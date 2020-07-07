@@ -37,7 +37,8 @@
     <el-menu-item
       index="/dashboard/missions"
       :class="{
-        'is-active': isActive('mission') && !isActive('mission-templates'),
+        'is-active':
+          isActive('/dashboard/mission') && !isActive('mission-templates'),
       }"
     >
       <span v-if="$store.getters.sidebar">Missions</span>
@@ -54,7 +55,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/participations"
-      :class="{ 'is-active': isActive('participation') }"
+      :class="{ 'is-active': isActive('/dashboard/participation') }"
     >
       <span v-if="$store.getters.sidebar">Participations</span>
       <el-tooltip
@@ -102,7 +103,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/activities"
-      :class="{ 'is-active': isActive('activities') }"
+      :class="{ 'is-active': isActive('/dashboard/activities') }"
     >
       <span v-if="$store.getters.sidebar">Activité</span>
     </el-menu-item>

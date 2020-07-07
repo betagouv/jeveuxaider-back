@@ -48,6 +48,14 @@
         {{ mission.full_address }}
       </div>
     </div>
+    <div v-if="mission.department" class="mb-2 flex">
+      <div class="card-label">
+        Département
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ mission.department | fullDepartmentFromValue }}
+      </div>
+    </div>
     <template v-if="mission.tuteur">
       <div v-if="mission.tuteur" class="mb-2 flex">
         <div class="card-label">
