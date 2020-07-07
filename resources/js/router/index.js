@@ -611,6 +611,27 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/profile/:id/activities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-profile-activities" */ '@/views/SNU/Profile.vue'
+            ),
+          name: 'DashboardProfileActivities',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'activities',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
           path: '/dashboard/profile/:role/add',
           component: () =>
             import(

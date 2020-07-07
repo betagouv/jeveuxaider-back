@@ -138,44 +138,6 @@
           </el-button>
         </div>
       </el-form>
-      <template v-if="form.members">
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Équipe ({{ form.members.length }})
-        </div>
-        <item-description>
-          Vous pouvez
-          <router-link
-            :to="{
-              name: 'StructureMembers',
-              params: {
-                id: form.id,
-              },
-            }"
-          >
-            <span class="underline cursor-pointer">gérer l'équipe</span>
-          </router-link>
-          ou
-          <router-link
-            :to="{
-              name: 'StructureMembersAdd',
-              params: {
-                id: form.id,
-              },
-            }"
-          >
-            <span class="underline cursor-pointer"
-              >ajouter un membre</span
-            > </router-link
-          >.
-        </item-description>
-        <div
-          v-for="member in form.members"
-          :key="member.id"
-          class="member py-4 px-6"
-        >
-          <member-teaser :member="member" />
-        </div>
-      </template>
     </template>
   </Volet>
 </template>
@@ -185,7 +147,6 @@ import Volet from '@/layout/components/Volet'
 import { updateStructure, deleteStructure } from '@/api/structure'
 import VoletRow from '@/mixins/VoletRow'
 import ItemDescription from '@/components/forms/ItemDescription'
-import MemberTeaser from '@/components/MemberTeaser'
 import StructureInfos from '@/components/infos/StructureInfos'
 
 export default {
@@ -193,7 +154,6 @@ export default {
   components: {
     Volet,
     ItemDescription,
-    MemberTeaser,
     StructureInfos,
   },
   mixins: [VoletRow],

@@ -90,7 +90,7 @@ export default {
     },
     onUpdatedRow: {
       type: Function,
-      default: null,
+      default: () => {},
     },
     onClickedRow: {
       type: Function,

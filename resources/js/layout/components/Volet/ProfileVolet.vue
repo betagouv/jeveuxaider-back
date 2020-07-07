@@ -1,7 +1,7 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <el-card shadow="hover" class="overflow-visible mt-24">
+      <el-card shadow="never" class="overflow-visible mt-12">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
             <el-avatar
@@ -14,14 +14,13 @@
             </el-avatar>
           </div>
           <router-link
+            class="font-bold text-lg text-primary mb-2 mt-3"
             :to="{
               name: 'Profile',
               params: { id: row.id },
             }"
           >
-            <div class="font-bold text-lg text-primary mb-3">
-              {{ row.full_name }}
-            </div>
+            {{ row.full_name }}
           </router-link>
         </div>
         <div class="flex items-center justify-center mb-4">
