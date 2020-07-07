@@ -1,7 +1,7 @@
 <template>
   <Volet>
     <template v-slot:content="{ row }">
-      <el-card shadow="hover" class="overflow-visible mt-24">
+      <el-card shadow="never" class="overflow-visible mt-24">
         <div slot="header" class="clearfix flex flex-col items-center">
           <div class="-mt-10">
             <el-avatar v-if="canShowProfileDetails" class="bg-primary">
@@ -11,24 +11,41 @@
               XX
             </el-avatar>
           </div>
-          <div v-if="canShowProfileDetails" class="font-bold text-lg my-3">
-            {{ row.profile.full_name }}
-          </div>
-          <div v-else class="font-bold text-lg my-3">
-            Anonyme
-          </div>
-          <button
-            v-if="
-              $store.getters.contextRole == 'admin' ||
-              $store.getters.contextRole == 'referent' ||
-              $store.getters.contextRole == 'referent_regional'
-            "
-            type="button"
-            class="ml-2 el-button is-plain el-button--danger el-button--mini"
-            @click="onClickDelete"
+          <router-link
+            class="font-bold text-primary text-lg my-3"
+            :to="{
+              name: 'DashboardParticipationView',
+              params: { id: row.id },
+            }"
           >
-            <i class="el-icon-delete" />
-          </button>
+            <span v-if="canShowProfileDetails">
+              {{ row.profile.full_name }}
+            </span>
+            <span v-else>Anonyme</span>
+          </router-link>
+          <div class="flex items-center">
+            <router-link
+              class="mr-1"
+              :to="{
+                name: 'DashboardParticipationView',
+                params: { id: row.id },
+              }"
+            >
+              <el-button icon="el-icon-view" type="mini">Voir</el-button>
+            </router-link>
+            <button
+              v-if="
+                $store.getters.contextRole == 'admin' ||
+                $store.getters.contextRole == 'referent' ||
+                $store.getters.contextRole == 'referent_regional'
+              "
+              type="button"
+              class="el-button is-plain el-button--danger el-button--mini"
+              @click="onClickDelete"
+            >
+              <i class="el-icon-delete" />
+            </button>
+          </div>
         </div>
         <div class="flex items-center justify-center mb-4">
           <state-tag

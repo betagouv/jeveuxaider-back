@@ -1,5 +1,9 @@
 import request from '../utils/request'
 
+export function getParticipation(id) {
+  return request.get(`/api/participation/${id}`)
+}
+
 export function fetchParticipations(params) {
   return request.get('/api/participations', { params })
 }

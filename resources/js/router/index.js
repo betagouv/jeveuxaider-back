@@ -652,6 +652,45 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/participation/:id',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-participation-view" */ '@/views/SNU/Participation.vue'
+            ),
+          name: 'DashboardParticipationView',
+          props: (route) => ({ id: parseInt(route.params.id) }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/participation/:id/activities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-participation-activities" */ '@/views/SNU/Participation.vue'
+            ),
+          name: 'DashboardParticipationActivities',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'activities',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
           path: '/dashboard/trash/structures',
           component: () =>
             import(

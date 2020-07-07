@@ -40,6 +40,11 @@ class ParticipationController extends Controller
         ;
     }
 
+    public function show(Request $request, Int $id)
+    {
+        return Participation::with(['mission', 'profile'])->where('id', $id)->first();
+    }
+
     public function export(Request $request)
     {
         return Excel::download(new ParticipationsExport($request), 'profiles.xlsx');

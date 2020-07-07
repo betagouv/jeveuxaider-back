@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('profiles', 'Api\ProfileController@index');
 
     // PARTICIPATIONS
+    Route::get('participation/{participation}', 'Api\ParticipationController@show');
     Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
     Route::get('participations', 'Api\ParticipationController@index');
     Route::post('participation/{participation}', 'Api\ParticipationController@update');

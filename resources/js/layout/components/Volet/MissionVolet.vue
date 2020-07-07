@@ -24,7 +24,7 @@
           </router-link>
           <div class="flex items-center">
             <router-link
-              class="mr-2"
+              class="mr-1"
               :to="{
                 name: 'DashboardMissionView',
                 params: { id: row.id },
@@ -47,7 +47,7 @@
                 $store.getters.contextRole == 'referent_regional'
               "
               type="button"
-              class="ml-2 el-button is-plain el-button--danger el-button--mini"
+              class="ml-1 el-button is-plain el-button--danger el-button--mini"
               @click="onClickDelete"
             >
               <i class="el-icon-delete" />
