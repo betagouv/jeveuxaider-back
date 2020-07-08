@@ -40,7 +40,7 @@
         >
       </el-menu-item>
       <el-menu-item :index="`/dashboard/structure/${id}/activities`">
-        Activité
+        Activités
       </el-menu-item>
     </el-menu>
 

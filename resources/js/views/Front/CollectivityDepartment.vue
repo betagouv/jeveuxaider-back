@@ -290,6 +290,35 @@
               Consulter les règles de sécurité ›
             </router-link>
           </p>
+
+          <dl
+            v-if="!loading"
+            class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
+          >
+            <div class="flex flex-col">
+              <dd class="text-5xl leading-none font-bold text-white">
+                {{ statistics.volontaires_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-white">
+                Réservistes
+              </dt>
+            </div>
+            <div class="flex flex-col mt-10 sm:mt-0">
+              <dd class="text-5xl leading-none font-bold text-white">
+                {{ statistics.structures_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-white">Organisations</dt>
+            </div>
+
+            <div class="flex flex-col mt-10 sm:mt-0">
+              <dd class="text-5xl leading-none font-bold text-white">
+                {{ statistics.participations_count | formatNumber }}
+              </dd>
+              <dt class="mt-2 text-lg font-medium text-white">
+                Mises en relation
+              </dt>
+            </div>
+          </dl>
         </div>
 
         <missions-search

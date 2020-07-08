@@ -23,7 +23,7 @@
         Informations
       </el-menu-item>
       <el-menu-item :index="`/dashboard/participation/${id}/activities`">
-        Activité
+        Activités
       </el-menu-item>
     </el-menu>
 

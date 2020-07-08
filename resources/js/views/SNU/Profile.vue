@@ -28,7 +28,7 @@
         Informations
       </el-menu-item>
       <el-menu-item :index="`/dashboard/profile/${id}/activities`">
-        Activité
+        Activités
       </el-menu-item>
     </el-menu>
 

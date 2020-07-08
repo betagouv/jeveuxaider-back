@@ -105,7 +105,7 @@
       index="/dashboard/activities"
       :class="{ 'is-active': isActive('/dashboard/activities') }"
     >
-      <span v-if="$store.getters.sidebar">Activité</span>
+      <span v-if="$store.getters.sidebar">Activités</span>
     </el-menu-item>
   </div>
 </template>
