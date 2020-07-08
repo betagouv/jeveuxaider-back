@@ -19,6 +19,10 @@
             }}</span>
             <span class="text-xs text-gray-500">missions disponibles</span>
           </div>
+          <div class="my-1">
+            <span class>{{ data.total_places | formatNumber }}</span>
+            <span class="text-xs text-gray-500">places offertes</span>
+          </div>
         </div>
       </template>
       <template v-else>
