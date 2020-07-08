@@ -253,7 +253,7 @@
             >
               Retrouvez toutes les missions disponibles dans votre commune
             </div>
-            <div class="pb-16 flex flex-wrap items-center justify-center">
+            <div class="flex flex-wrap items-center justify-center">
               <div
                 v-for="(city, key) in statistics.cities"
                 :key="key"

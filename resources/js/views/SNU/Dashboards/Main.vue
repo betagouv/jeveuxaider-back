@@ -46,6 +46,9 @@
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
+        <card-count-places-left
+          v-if="$store.getters.contextRole != 'responsable'"
+        />
         <card-count
           v-if="$store.getters.contextRole != 'responsable'"
           label="Structures"
@@ -76,6 +79,7 @@
 <script>
 import DashboardMenu from '@/components/DashboardMenu'
 import CardCount from '@/components/CardCount'
+import CardCountPlacesLeft from '@/components/CardCountPlacesLeft'
 import ReminderReferent from '@/components/ReminderReferent'
 import ReminderResponsable from '@/components/ReminderResponsable'
 import { exportTable } from '@/api/app'
@@ -86,6 +90,7 @@ export default {
   components: {
     DashboardMenu,
     CardCount,
+    CardCountPlacesLeft,
     ReminderReferent,
     ReminderResponsable,
   },

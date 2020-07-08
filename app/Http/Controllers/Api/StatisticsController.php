@@ -168,6 +168,13 @@ class StatisticsController extends Controller
             }
         }
 
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total_places_available' => $missionsCollection->sum('places_left'),
+                'total_missions_available' => $missionsCollection->count(),
+            ];
+        }
+
         foreach ($departements as $key => $value) {
             $departmentCollection = $missionsCollection->filter(function ($item) use ($key) {
                 return $item->department == $key;
@@ -191,16 +198,12 @@ class StatisticsController extends Controller
                         $query->where('service_civique', true);
                     })->count(),
                 'missions_available' => $departmentCollection->count(),
-                'places_available' => $departmentCollection->mapWithKeys(function ($item) {
-                    return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];
-                })->sum(),
+                'places_available' => $departmentCollection->sum('places_left'),
             ]);
         }
 
         return [
-            'total_places_available' => $missionsCollection->mapWithKeys(function ($item) {
-                return ['places_left_' . $item->id => $item->participations_max - $item->participations_count];
-            })->sum(),
+            'total_places_available' => $missionsCollection->sum('places_left'),
             'total_missions_available' => $missionsCollection->count(),
             'departments' => $datas
         ];
