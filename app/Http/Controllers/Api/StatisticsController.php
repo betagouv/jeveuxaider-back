@@ -146,6 +146,7 @@ class StatisticsController extends Controller
         $datas = collect();
 
         $missionsCollection = Mission::role($request->header('Context-Role'))
+            ->hasPlacesLeft()
             ->available()
             ->get();
 
@@ -170,7 +171,9 @@ class StatisticsController extends Controller
         if ($request->has('type') && $request->input('type') == 'light') {
             return [
                 'total_places_available' => $missionsCollection->sum('places_left'),
-                'total_places' => $missionsCollection->sum('participations_max'),
+                'total_places' => Mission::role($request->header('Context-Role'))
+                    ->available()
+                    ->get()->sum('participations_max'),
                 'total_missions_available' => $missionsCollection->count(),
             ];
         }
