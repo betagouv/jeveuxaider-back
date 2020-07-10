@@ -59,7 +59,7 @@ class ParticipationNewStates extends Command
             $this->info($count . ' participations updated.');
         }
 
-        $participationsCanceled = Participation::whereIn('state', ['Candidature annulée', 'Mission annulée', 'Mission abandonnée']);
+        $participationsCanceled = Participation::whereIn('state', ['Candidature annulée', 'Mission refusée', 'Mission signalée', 'Mission annulée', 'Mission abandonnée']);
         $count = $participationsCanceled->count();
         if ($this->confirm('Candidature annulée, Mission annulée, Mission abandonnée -> Annulée : '. $count)) {
             $participationsCanceled->update(['state' => 'Annulée']);

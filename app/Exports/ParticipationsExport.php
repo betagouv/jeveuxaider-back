@@ -69,8 +69,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($participation): array
     {
-        $hidden = (($participation->mission && $participation->mission->state == 'Signalée')
-         || $participation->state == 'Mission signalée') && $this->request->header('Context-Role') == 'responsable'
+        $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->request->header('Context-Role') == 'responsable'
          ? true : false;
 
         return [
