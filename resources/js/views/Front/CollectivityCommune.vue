@@ -13,7 +13,7 @@
           'bg-primary',
           'absolute',
           'inset-0',
-          { 'opacity-75': collectivity.image },
+          { 'opacity-50': collectivity.image },
         ]"
       />
 
@@ -37,7 +37,7 @@
               class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
             >
               <div class="text-center">
-                <p class="pb-1 text-xs leading-6 font-medium text-white">
+                <p class="text-xs leading-6 font-medium text-white">
                   Je veux aider
                 </p>
                 <router-link
@@ -48,7 +48,7 @@
                 </router-link>
               </div>
               <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                <p class="pb-1 text-xs leading-6 font-medium text-white">
+                <p class="text-xs leading-6 font-medium text-white">
                   Mon organisation a besoin de renfort
                 </p>
                 <router-link
