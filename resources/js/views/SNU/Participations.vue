@@ -170,6 +170,14 @@
             >
           </div>
           <div
+            v-if="scope.row.mission"
+            class="font-light text-gray-600 flex items-center"
+          >
+            <div class="text-xs">
+              {{ scope.row.mission.city }} ({{ scope.row.mission.zip }})
+            </div>
+          </div>
+          <div
             v-if="scope.row.mission && scope.row.mission.structure"
             class="font-light text-gray-600 flex items-center"
           >

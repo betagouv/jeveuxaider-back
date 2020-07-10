@@ -1,10 +1,22 @@
 <template>
   <div class="text-xs text-gray-600 flex flex-col">
     <template v-if="participation.mission">
+      <div v-if="participation.mission.structure" class="card-item mb-2 flex">
+        <div class="card-label">Structure</div>
+        <div class="text-gray-900 flex-1">
+          {{ participation.mission.structure.name }}
+        </div>
+      </div>
       <div v-if="participation.mission.name" class="card-item mb-2 flex">
         <div class="card-label">Mission</div>
         <div class="text-gray-900 flex-1">
           {{ participation.mission.name }}
+        </div>
+      </div>
+      <div v-if="participation.mission.name" class="card-item mb-2 flex">
+        <div class="card-label">Ville</div>
+        <div class="text-gray-900 flex-1">
+          {{ participation.mission.city }} - ({{ participation.mission.zip }})
         </div>
       </div>
       <div v-if="participation.mission.type" class="card-item mb-2 flex">
