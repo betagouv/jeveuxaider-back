@@ -617,7 +617,7 @@
               Rejoignez la Réserve Civique pour la nature
             </h2>
             <p class="mt-3 text-lg leading-7 text-white">
-              Trouvez une mission de bénévolat en France pour continuer à
+              Trouvez une mission de bénévolat en France pour contribuer à
               protéger l'environnement.
             </p>
             <div class="mt-8">
