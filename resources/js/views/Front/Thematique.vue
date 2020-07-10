@@ -4,7 +4,7 @@
       <template v-slot:menu>
         <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
           <div
-            class="text-xl md:text-2xl font-medium text-gray-500 leading-none"
+            class="text-xl md:text-xl font-medium text-gray-500 leading-none"
           >
             • {{ thematique.name }}
           </div>
@@ -25,7 +25,7 @@
             `bg-${thematique.color}`,
             'absolute',
             'inset-0',
-            { 'opacity-90': thematique.image },
+            { 'opacity-50': thematique.image },
           ]"
         />
 
@@ -48,7 +48,7 @@
                 class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
               >
                 <div class="text-center">
-                  <p class="pb-1 text-xs leading-6 font-medium text-white">
+                  <p class="text-xs leading-6 font-medium text-white">
                     Je veux aider
                   </p>
                   <router-link
@@ -60,7 +60,7 @@
                   </router-link>
                 </div>
                 <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                  <p class="pb-1 text-xs leading-6 font-medium text-white">
+                  <p class="text-xs leading-6 font-medium text-white">
                     Mon organisation a besoin de renfort
                   </p>
                   <router-link
@@ -99,21 +99,21 @@
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-partenaire-1.jpg`"
               />
             </div>
 
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-partenaire-2.jpg`"
               />
             </div>
 
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-partenaire-3.jpg`"
               />
             </div>
@@ -313,31 +313,31 @@
           <div class="grid grid-cols-2 gap-8 lg:grid-cols-5">
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-1.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-2.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-3.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-4.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-12"
+                class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-5.jpg`"
               />
             </div>

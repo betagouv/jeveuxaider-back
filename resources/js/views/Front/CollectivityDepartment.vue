@@ -13,7 +13,7 @@
           'bg-primary',
           'absolute',
           'inset-0',
-          { 'opacity-75': collectivity.image },
+          { 'opacity-50': collectivity.image },
         ]"
       />
 
@@ -39,7 +39,7 @@
               class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
             >
               <div class="text-center">
-                <p class="pb-1 text-xs leading-6 font-medium text-white">
+                <p class="text-xs leading-6 font-medium text-white">
                   Je veux aider
                 </p>
                 <router-link
@@ -50,7 +50,7 @@
                 </router-link>
               </div>
               <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                <p class="pb-1 text-xs leading-6 font-medium text-white">
+                <p class="text-xs leading-6 font-medium text-white">
                   Mon organisation a besoin de renfort
                 </p>
                 <router-link
@@ -100,126 +100,142 @@
           </p>
         </div>
 
-        <div class="relative my-8">
-          <div class="mx-auto py-12 lg:py-8">
-            <p
-              class="text-center text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+        <div class="relative mt-12 mb-8">
+          <div class="my-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:my-12">
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
             >
-              Trouvez votre domaine d'action
-            </p>
-            <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-8">
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/covid.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Mobilisation Covid19</span>
-              </div>
-
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/sante.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800">Santé pour tous</span>
-              </div>
-
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/securite.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800"
-                  >Prévention et protection</span
-                >
-              </div>
-
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/education.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800"
-                  >Education pour tous</span
-                >
-              </div>
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/covid.svg"
+                alt=""
+              />
+              <span class="font-semibold">Mobilisation Covid19</span>
             </div>
 
-            <div class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-3">
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/sport.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800"
-                  >Sport pour tous
-                </span>
-              </div>
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/sante.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800">Santé pour tous</span>
+            </div>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/securite.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Prévention et protection</span
               >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/environnement.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800"
-                  >Protection de la nature
-                </span>
-              </div>
+            </div>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/education.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Education pour tous</span
               >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/memoire.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800"
-                  >Art & Culture pour tous
-                </span>
-              </div>
+            </div>
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/sport.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800">Sport pour tous </span>
+            </div>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
-                  src="/images/vivre-ensemble.svg"
-                  alt=""
-                />
-                <span class="font-semibold text-gray-800">Vivre ensemble </span>
-              </div>
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/environnement.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Protection de la nature
+              </span>
+            </div>
+
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/art.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Art & Culture pour tous
+              </span>
+            </div>
+
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/vivre-ensemble.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Solidarité et insertion
+              </span>
+            </div>
+            <div
+              class="col-span-1 lg:col-start-2 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/memoire.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Mémoire et citoyenneté
+              </span>
+            </div>
+            <div
+              class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+            >
+              <img
+                class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                style="width: 40px;"
+                src="/images/cooperation.svg"
+                alt=""
+              />
+              <span class="font-semibold text-gray-800"
+                >Coopération internationale
+              </span>
             </div>
           </div>
         </div>
 
-        <div v-if="!loading" class="relative mx-auto my-8 px-4">
+        <div v-if="!loading" class="relative mx-auto mt-12 mb-8 px-4">
           <div
             v-if="statistics.templates.length > 0"
             class="mb-16 text-center text-base font-semibold uppercase text-gray-500 tracking-wider"

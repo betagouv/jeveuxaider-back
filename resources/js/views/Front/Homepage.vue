@@ -29,7 +29,7 @@
                 class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
               >
                 <div class="text-center">
-                  <p class="pb-1 text-xs leading-6 font-medium text-white">
+                  <p class="text-xs leading-6 font-medium text-white">
                     Je veux aider
                   </p>
                   <router-link
@@ -40,7 +40,7 @@
                   </router-link>
                 </div>
                 <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                  <p class="pb-1 text-xs leading-6 font-medium text-white">
+                  <p class="text-xs leading-6 font-medium text-white">
                     Mon organisation a besoin de renfort
                   </p>
                   <router-link
@@ -155,9 +155,6 @@
                   >Education pour tous</span
                 >
               </div>
-            </div>
-
-            <div class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-3">
               <div
                 class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
               >
