@@ -25,7 +25,7 @@
             `bg-${thematique.color}`,
             'absolute',
             'inset-0',
-            { 'opacity-50': thematique.image },
+            { 'opacity-75': thematique.image },
           ]"
         />
 

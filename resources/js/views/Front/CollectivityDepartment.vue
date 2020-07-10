@@ -13,7 +13,7 @@
           'bg-primary',
           'absolute',
           'inset-0',
-          { 'opacity-50': collectivity.image },
+          { 'opacity-75': collectivity.image },
         ]"
       />
 
