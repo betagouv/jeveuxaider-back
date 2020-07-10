@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
+    <div class="py-16 lg:py-20 bg-gray-50 overflow-hidden shadow-lg">
       <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
         <img
           class="hidden lg:block absolute top-0 right-0 transform -translate-x-3/4 translate-y-1 opacity-50"
@@ -82,7 +82,7 @@
 
         <div class="relative">
           <h3
-            class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
+            class="text-center text-4xl lg:text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:leading-10"
           >
             Faites vivre l’engagement
             <br class="xl:hidden" />
@@ -555,53 +555,119 @@
       </div>
     </div>
 
-    <div class="relative bg-gray-800">
-      <div
-        class="h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-12/12"
-      >
-        <img
-          class="w-full h-full object-cover"
-          src="/images/masque-photo.jpg"
-          alt="securité covid-19"
-        />
-      </div>
-      <div
-        class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
-      >
-        <div class="md:w-4/12 md:pl-0">
-          <div
-            class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
-          >
-            COVID-19
-          </div>
-          <h2
-            class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
-          >
-            Les 5 règles de sécurité des bénévoles
-          </h2>
-          <p class="mt-3 text-lg leading-7 text-gray-300">
-            Des gestes simples pour préserver votre santé et celle des autres.
-          </p>
-          <div class="mt-8">
-            <div class="inline-flex rounded-md shadow">
-              <router-link
-                to="/regles-de-securite"
-                target="_blank"
-                class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-              >
-                Consulter les règles de sécurité
-                <svg
-                  class="-mr-1 ml-3 h-5 w-5 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+    <div class="lg:grid lg:grid-cols-3">
+      <div class="relative">
+        <div class="bg-indigo-600 absolute h-full">
+          <img
+            class="w-full h-full object-cover"
+            src="/images/masque.jpg"
+            alt="securité covid-19"
+          />
+        </div>
+        <div
+          class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
+        >
+          <div class="">
+            <div
+              class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
+            >
+              COVID-19
+            </div>
+            <h2
+              class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
+            >
+              Les 5 règles de sécurité des bénévoles
+            </h2>
+            <p class="mt-3 text-lg leading-7 text-white">
+              Des gestes simples pour préserver votre santé et celle des autres.
+            </p>
+            <div class="mt-8">
+              <div class="inline-flex rounded-md shadow">
+                <router-link
+                  to="/regles-de-securite"
+                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5zM5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </router-link>
+                  Consulter les règles de sécurité
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="bg-indigo-600 absolute h-full">
+          <img
+            class="w-full h-full object-cover"
+            src="/images/nature.jpg"
+            alt="securité covid-19"
+          />
+        </div>
+        <div
+          class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
+        >
+          <div class="">
+            <div
+              class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
+            >
+              Protection de la nature
+            </div>
+            <h2
+              class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
+            >
+              Rejoignez la Réserve Civique pour la nature
+            </h2>
+            <p class="mt-3 text-lg leading-7 text-white">
+              Trouvez une mission de bénévolat en France pour continuer à
+              protéger l'environnement.
+            </p>
+            <div class="mt-8">
+              <div class="inline-flex rounded-md shadow">
+                <router-link
+                  to="/thematiques/protection-de-la-nature"
+                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                >
+                  Protection de la nature
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="bg-indigo-600 absolute h-full">
+          <img
+            class="w-full h-full object-cover"
+            src="/images/ecole.jpg"
+            alt="securité covid-19"
+          />
+        </div>
+        <div
+          class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
+        >
+          <div class="">
+            <div
+              class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
+            >
+              Éducation pour tous
+            </div>
+            <h2
+              class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
+            >
+              Rejoignez la Réserve Civique pour l'éducation
+            </h2>
+            <p class="mt-3 text-lg leading-7 text-white">
+              Trouvez une mission de bénévolat en France pour contribuer à
+              l'éducation pour tous.
+            </p>
+            <div class="mt-8">
+              <div class="inline-flex rounded-md shadow">
+                <router-link
+                  to="/thematiques/education-pour-tous"
+                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                >
+                  Éducation pour tous
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -612,7 +678,7 @@
       <div class="relative container mx-auto px-8 sm:px-6 lg:px-8">
         <div class="lg:text-center">
           <h3
-            class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
+            class="text-center text-4xl lg:text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:leading-10"
           >
             Rejoignez le mouvement
             <br class="xl:hidden" />

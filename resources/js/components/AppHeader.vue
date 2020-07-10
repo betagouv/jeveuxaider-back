@@ -1,5 +1,12 @@
 <template>
   <header>
+    <jdma-benevole
+      v-if="
+        $store.getters.isAppLoaded &&
+        $store.getters.isLogged &&
+        $store.getters.participationsValidated > 1
+      "
+    ></jdma-benevole>
     <div class="bg-white">
       <div class="container mx-auto">
         <div
@@ -156,8 +163,11 @@
 </template>
 
 <script>
+import JdmaBenevole from '@/components/JdmaBenevole.vue'
+
 export default {
   name: 'AppHeader',
+  components: { JdmaBenevole },
   data() {
     return {
       showMobileMenu: false,

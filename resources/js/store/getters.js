@@ -21,6 +21,12 @@ const getters = {
   reminders: (state) => state.reminders,
   profile: (state) => (state.user.user ? state.user.user.profile : null),
   contextRole: (state) => state.user.user.context_role,
+  showAvisBenevole: (state) => state.showAvisBenevole,
+  participationsValidated: (state, getters) => {
+    return getters.user.profile.participations.filter((participation) =>
+      ['Validée', 'Effectuée'].includes(participation.state)
+    ).length
+  },
   structure_as_responsable: (state, getters) => {
     if (!getters.profile && !getters.profile.structures) {
       return null

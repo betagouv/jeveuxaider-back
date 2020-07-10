@@ -17,6 +17,7 @@ const state = {
   reseaux: null,
   release: null,
   reminders: null,
+  showAvisBenevole: false,
 }
 
 // actions
@@ -28,6 +29,13 @@ const actions = {
     commit('setThematiques', data.thematiques)
     if (data.user) {
       commit('user/setUser', data.user)
+      if (
+        data.user.profile.participations.filter((participation) =>
+          ['Validée', 'Effectuée'].includes(participation.state)
+        ).length > 1
+      ) {
+        commit('setShowAvisBenevole', true)
+      }
     } else {
       // Access token plus valide
       commit('auth/deleteTokens')
@@ -68,6 +76,9 @@ const mutations = {
   },
   toggleSidebar: (state) => {
     state.sidebar = !state.sidebar
+  },
+  setShowAvisBenevole: (state, value) => {
+    state.showAvisBenevole = value
   },
 }
 
