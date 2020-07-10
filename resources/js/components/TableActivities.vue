@@ -23,7 +23,7 @@
               v-for="(value, name) in scope.row.properties.attributes"
               :key="name"
             >
-              <td class="border px-4 py-2">{{ name }}</td>
+              <td class="border px-4 py-2">{{ fieldName(name) }}</td>
               <td class="border px-4 py-2">
                 {{ scope.row.properties.old[name] }}
               </td>
@@ -81,6 +81,44 @@ export default {
     },
   },
   methods: {
+    fieldName(name) {
+      switch (name) {
+        case 'type':
+          return 'Type'
+        case 'zip':
+          return 'Code postal'
+        case 'is_visible':
+          return 'Visibilité'
+        case 'state':
+          return 'Statut'
+        case 'mobile':
+          return 'Téléphone mobile'
+        case 'statut_juridique':
+          return 'Statut juridique'
+        case 'association_types':
+          return "Type d'association"
+        case 'description':
+          return 'Descritpion'
+        case 'department':
+          return 'Département'
+        case 'participations_max':
+          return 'Nombre de bénévoles max'
+        case 'information':
+          return 'Information'
+        case 'first_name':
+          return 'Prénom'
+        case 'last_name':
+          return 'Nom'
+        case 'disponibilities':
+          return 'Disponibilités'
+        case 'frequence_granularite':
+          return 'Fréquence par'
+        case 'frequence':
+          return 'Fréquence volume'
+        default:
+          return name
+      }
+    },
     type(subject_type) {
       switch (subject_type) {
         case 'App\\Models\\Mission':
