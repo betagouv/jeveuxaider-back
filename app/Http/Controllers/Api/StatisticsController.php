@@ -228,10 +228,6 @@ class StatisticsController extends Controller
             ]);
         }
 
-        return [
-            'total_places_available' => $missionsCollection->sum('places_left'),
-            'total_missions_available' => $missionsCollection->count(),
-            'departments' => $datas
-        ];
+        return $datas;
     }
 }

@@ -1,33 +1,8 @@
 <template>
   <el-card class="mb-5 p-5" shadow="never">
-    <div class="label mb-3 text-lg font-bold text-secondary uppercase">
-      {{ label }}
-    </div>
     <template v-if="data">
       <div class="w-full">
-        <div class="flex flex-wrap mb-8 uppercase">
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">
-              Missions disponibles
-            </div>
-            <div class>
-              {{ data.total_missions_available | formatNumber }}
-            </div>
-          </div>
-          <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">
-              Places disponibles
-            </div>
-            <div class>
-              {{ data.total_places_available | formatNumber }}
-            </div>
-          </div>
-        </div>
-        <el-table
-          :data="data.departments"
-          style="width: 100%;"
-          @row-click="onClickedRow"
-        >
+        <el-table :data="data" style="width: 100%;" @row-click="onClickedRow">
           <el-table-column prop="key" label="#" width="50">
             <template slot-scope="scope">
               <span>{{ scope.row.key }}</span>
