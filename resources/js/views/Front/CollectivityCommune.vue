@@ -241,7 +241,7 @@
 </template>
 
 <script>
-import { getCollectivityStatistics } from '@/api/app'
+// import { getCollectivityStatistics } from '@/api/app'
 import MissionsSearch from '@/components/MissionsSearch'
 
 export default {

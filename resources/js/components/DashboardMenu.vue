@@ -27,6 +27,9 @@
     >
       Départements
     </el-menu-item>
+    <el-menu-item v-if="$store.getters.contextRole == 'admin'" index="domaines">
+      Domaines
+    </el-menu-item>
   </el-menu>
 </template>
 

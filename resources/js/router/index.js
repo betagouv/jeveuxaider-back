@@ -335,6 +335,17 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/stats/domaines',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-stats-departments" */ '@/views/SNU/Dashboards/Domaines.vue'
+            ),
+          name: 'StatsDomaines',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
           path: '/dashboard/missions',
           component: () =>
             import(

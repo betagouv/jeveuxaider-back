@@ -8,6 +8,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -138,6 +139,28 @@ class StatisticsController extends Controller
             'done' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Effectuée'])->count(),
             'canceled' => Participation::role($request->header('Context-Role'))->whereIn('state', ['Annulée'])->count()
         ];
+    }
+
+    public function domaines(Request $request)
+    {
+        $datas = collect();
+        $domainesCollection = Tag::where('type', 'domaine')->get();
+
+        foreach ($domainesCollection as $key => $domaine) {
+            $missionsAvailableCollection = Mission::role($request->header('Context-Role'))->available()->hasDomain($domaine->id)->get();
+            $datas->push([
+                'key' => $domaine->id,
+                'name' => $domaine->name,
+                'missions_count' => Mission::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
+                // 'structures_count' => Structure::role($request->header('Context-Role'))->department($key)->count(),
+                'participations_count' => Participation::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
+                'volontaires_count' => Profile::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
+                'missions_available' => $missionsAvailableCollection->count(),
+                'places_available' => $missionsAvailableCollection->sum('places_left'),
+            ]);
+        }
+
+        return $datas;
     }
 
     public function departments(Request $request)
