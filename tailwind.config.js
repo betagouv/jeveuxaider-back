@@ -320,6 +320,7 @@ module.exports = {
       250: '250px',
       full: '100%',
       screen: '100vh',
+      20: '5rem',
     },
     maxWidth: {
       xs: '20rem',

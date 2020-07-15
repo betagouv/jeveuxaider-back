@@ -121,7 +121,7 @@
         </div>
       </div>
 
-      <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
+      <div class="py-16 bg-gray-50 overflow-hidden shadow-lg">
         <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
           <div class="relative">
             <h3
@@ -136,7 +136,7 @@
               class="mt-4 max-w-2xl mx-auto text-center text-xl leading-7 text-gray-500"
             >
               Soutenez l'action des associations, collectivités et structures
-              éducatives à travers différents types de missions :
+              éducatives à travers différents types de missions.
             </p>
           </div>
 
