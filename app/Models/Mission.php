@@ -207,6 +207,9 @@ class Mission extends Model
             ->where('domaine_id', $domain_id)
             ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
                 $query->where('id', $domain_id);
+            })
+            ->orWhereHas('template', function (Builder $query) use ($domain_id) {
+                $query->where('domaine_id', $domain_id);
             });
     }
 

@@ -11,11 +11,7 @@ class FiltersParticipationDomaine implements Filter
     {
         return $query->where(function ($query) use ($value, $property) {
             $query->whereHas('mission', function (Builder $query) use ($value) {
-                $query
-                    ->where('domaine_id', $value)
-                    ->orWhereHas('template', function (Builder $query) use ($value) {
-                        $query->where('domaine_id', $value);
-                    });
+                $query->hasDomain($value);
             });
         });
     }
