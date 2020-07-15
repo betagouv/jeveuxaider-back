@@ -94,7 +94,7 @@
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
-            <span class="text-blue-900">{{ collectivity.title }}</span> : faites
+            <span class="text-blue-900">{{ collectivity.name }}</span> : faites
             vivre l'engagement !
           </h3>
           <p

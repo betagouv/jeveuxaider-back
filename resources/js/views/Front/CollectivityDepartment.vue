@@ -306,7 +306,7 @@
           <h2
             class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
           >
-            <div>{{ collectivity.title }}</div>
+            <div>{{ collectivity.name }}</div>
             <span class="font-bold"
               >Trouvez une mission dans le département</span
             >
