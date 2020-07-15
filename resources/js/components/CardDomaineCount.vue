@@ -3,7 +3,18 @@
     <template v-if="data">
       <div class="w-full">
         <el-table :data="data" style="width: 100%;" @row-click="onClickedRow">
-          <el-table-column prop="label" label="Domaine d'action">
+          <el-table-column label="" width="70" align="center">
+            <template slot-scope="scope">
+              <div
+                v-if="scope.row.image"
+                class="bg-primary rounded-md p-2 inline-block"
+                style="width: 40px; height: 40px;"
+              >
+                <img :src="scope.row.image" :alt="scope.row.name" />
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="label" label="Nom">
             <template slot-scope="scope">
               <span class="text-gray-500">{{ scope.row.name }}</span>
             </template>

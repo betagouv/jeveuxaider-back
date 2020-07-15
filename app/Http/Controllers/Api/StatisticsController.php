@@ -151,6 +151,7 @@ class StatisticsController extends Controller
             $datas->push([
                 'key' => $domaine->id,
                 'name' => $domaine->name,
+                'image' => $domaine->image,
                 'missions_count' => Mission::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
                 // 'structures_count' => Structure::role($request->header('Context-Role'))->department($key)->count(),
                 'participations_count' => Participation::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
