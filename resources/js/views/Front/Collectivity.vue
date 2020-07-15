@@ -6,7 +6,7 @@
           <div
             class="text-xl md:text-xl font-medium text-gray-500 leading-none"
           >
-            • {{ collectivity.title }}
+            • {{ collectivity.name }}
           </div>
         </div>
       </template>
@@ -25,7 +25,6 @@
         ></collectivity-commune>
       </template>
     </template>
-    <template v-else> LOADING</template>
 
     <AppFooter />
   </div>

@@ -18,12 +18,13 @@ class CollectivityUpdateRequest extends CollectivityRequest
         $collectivity = request()->route('collectivity');
 
         return [
-            'title' => [
+            'name' => [
                 'required',
                 Rule::unique('collectivities')->ignore($collectivity->id),
                 'min:3',
                 'max:255',
             ],
+            'title' => '',
             'type' => 'required',
             'description' => '',
             'department' => '',

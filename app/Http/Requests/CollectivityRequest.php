@@ -14,12 +14,13 @@ class CollectivityRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
+            'name' => [
                 'required',
                 'unique:collectivities',
                 'min:3',
                 'max:255',
             ],
+            'title' => '',
             'type' => 'required',
             'description' => '',
             'department' => '',

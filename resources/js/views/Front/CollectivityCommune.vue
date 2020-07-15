@@ -23,14 +23,24 @@
             <h2
               class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
             >
-              Rejoignez la Réserve Civique dans votre collectivité
+              <template v-if="collectivity.title">{{
+                collectivity.title
+              }}</template>
+              <template v-else
+                >Rejoignez la Réserve Civique dans votre collectivité</template
+              >
             </h2>
 
             <p
               class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
             >
-              <b>{{ collectivity.title }}</b> • Trouvez une mission d'intérêt
-              général qui vous ressemble et faites vivre l’engagement local.
+              <template v-if="collectivity.description">{{
+                collectivity.description
+              }}</template>
+              <template v-else>
+                <b>{{ collectivity.name }}</b> • Trouvez une mission d'intérêt
+                général qui vous ressemble et faites vivre l’engagement local.
+              </template>
             </p>
 
             <div

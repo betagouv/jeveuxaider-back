@@ -27,13 +27,29 @@
         Informations générales
       </div>
 
-      <el-form-item label="Nom de la collectivité" prop="title">
-        <el-input v-model="form.title" placeholder="Nom de la collectivité" />
+      <el-form-item label="Nom de la collectivité" prop="name">
+        <el-input v-model="form.name" placeholder="Nom de la collectivité" />
         <item-description
           >Accessible à l'adresse : {{ baseUrl }}/territoires/{{
-            form.title | slugify
+            form.name | slugify
           }}</item-description
         >
+      </el-form-item>
+
+      <el-form-item label="Titre de la page" prop="title">
+        <el-input
+          v-model="form.title"
+          placeholder="Rejoignez la Réserve Civique dans votre collectivité"
+        />
+      </el-form-item>
+
+      <el-form-item label="Description" prop="description" class="flex-1">
+        <el-input
+          v-model="form.description"
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 6 }"
+          placeholder="Trouvez une mission d'intérêt général qui vous ressemble et faites vivre l’engagement local."
+        />
       </el-form-item>
 
       <el-form-item label="Type" prop="type">
@@ -220,7 +236,7 @@ export default {
   computed: {
     rules() {
       let rules = {
-        title: [
+        name: [
           {
             required: true,
             message: 'Veuillez renseigner un nom de collectivité',

@@ -15,12 +15,13 @@ class Collectivity extends Model implements HasMedia
     protected $table = 'collectivities';
 
     protected $fillable = [
+        'name',
         'title',
+        'description',
         'slug',
         'zips',
         'type',
         'department',
-        'description',
         'published',
         'state',
         'profile_id',
@@ -52,9 +53,9 @@ class Collectivity extends Model implements HasMedia
         return null;
     }
 
-    public function setTitleAttribute($value)
+    public function setNameAttribute($value)
     {
-        $this->attributes['title'] = $value;
+        $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 

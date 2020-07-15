@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column label="Titre" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.title }}</div>
+          <div class="text-gray-900">{{ scope.row.name }}</div>
           <div class="font-light text-gray-600 text-xs">
             <router-link
               :to="{

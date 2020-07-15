@@ -21,18 +21,28 @@
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
             <h2
-              class="text-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
+              class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
             >
-              Rejoignez la Réserve Civique <br />dans votre département
+              <template v-if="collectivity.title">{{
+                collectivity.title
+              }}</template>
+              <template v-else
+                >Rejoignez la Réserve Civique dans votre département</template
+              >
             </h2>
 
             <p
               class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
             >
-              <b>{{ collectivity.title }}</b> • Votre organisation a besoin de
-              renfort localement ? Vous souhaitez vous engager bénévolement au
-              plus près de chez vous ? Rejoignez la Réserve Civique dans votre
-              département.
+              <template v-if="collectivity.description">{{
+                collectivity.description
+              }}</template>
+              <template v-else>
+                <b>{{ collectivity.name }}</b> • Votre organisation a besoin de
+                renfort localement ? Vous souhaitez vous engager bénévolement au
+                plus près de chez vous ? Rejoignez la Réserve Civique dans votre
+                département.
+              </template>
             </p>
 
             <div
