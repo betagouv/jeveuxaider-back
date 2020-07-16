@@ -27,7 +27,7 @@ Vue.filter('formatLong', function (date) {
 })
 
 Vue.filter('formatLongWithTime', function (date) {
-  return dayjs(date).format('DD/MM/YYYY HH:mm')
+  return dayjs(date).format('D MMMM YYYY - HH:mm')
 })
 
 Vue.filter('formatCustom', function (date, custom) {

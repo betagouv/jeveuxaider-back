@@ -29,7 +29,7 @@
         Début
       </div>
       <div class="text-gray-900 flex-1">
-        {{ mission.start_date | formatLong }}
+        {{ mission.start_date | formatLongWithTime }}
       </div>
     </div>
     <div v-if="mission.end_date" class="mb-2 flex">
@@ -37,7 +37,7 @@
         Fin
       </div>
       <div class="text-gray-900 flex-1">
-        {{ mission.end_date | formatLong }}
+        {{ mission.end_date | formatLongWithTime }}
       </div>
     </div>
     <div v-if="mission.full_address.length > 0" class="mb-2 flex">
