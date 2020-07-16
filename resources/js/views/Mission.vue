@@ -144,14 +144,19 @@
                 </div>
 
                 <div
-                  v-if="mission.information && mission.state == 'Validée'"
+                  v-if="
+                    (mission.state == 'Validée' ||
+                      mission.user_id == $store.getters.user.id ||
+                      $store.getters.contextRole == 'admin') &&
+                    mission.information
+                  "
                   class="mt-12"
                 >
                   <div class="flex items-center">
                     <h4
                       class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >
-                      Commentaires de la structure
+                      Commentaires de l'organisation
                     </h4>
                     <div class="flex-1 border-t-2 border-gray-200" />
                   </div>
@@ -198,26 +203,6 @@
                       </li>
                     </ul>
                   </div>
-                </div>
-
-                <div
-                  v-if="mission.state == 'Validée' && mission.commentaire"
-                  class="mt-16"
-                >
-                  <div class="flex flex-wrap items-center">
-                    <h4
-                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >
-                      Commentaire par l'organisation
-                    </h4>
-                    <div
-                      class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0"
-                    />
-                  </div>
-                  <div
-                    class="mt-6 text-gray-500"
-                    v-html="mission.commentaire"
-                  ></div>
                 </div>
 
                 <div
@@ -301,7 +286,9 @@
                   </div>
 
                   <div class="mt-4 text-sm">
-                    <div class="mt-6 flex items-center flex-wrap text-gray-500">
+                    <div
+                      class="mt-6 flex items-center justify-center flex-wrap text-gray-500"
+                    >
                       <div>
                         <svg
                           class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
