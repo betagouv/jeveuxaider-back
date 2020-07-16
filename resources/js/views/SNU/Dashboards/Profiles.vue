@@ -22,6 +22,7 @@
       <div class="lg:flex">
         <chart-models-created type="profiles" class="w-full lg:w-8/12" />
         <card-skill-count
+          v-if="$store.getters.contextRole == 'admin'"
           name="skills"
           class="w-full mt-6 lg:mt-0 lg:w-4/12 lg:ml-6"
         ></card-skill-count>
