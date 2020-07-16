@@ -147,14 +147,14 @@ class StatisticsController extends Controller
         $domainesCollection = Tag::where('type', 'domaine')->get();
 
         foreach ($domainesCollection as $key => $domaine) {
-            $missionsAvailableCollection = Mission::role($request->header('Context-Role'))->available()->hasDomain($domaine->id)->get();
+            $missionsAvailableCollection = Mission::role($request->header('Context-Role'))->available()->domaine($domaine->id)->get();
             $datas->push([
                 'key' => $domaine->id,
                 'name' => $domaine->name,
                 'image' => $domaine->image,
-                'missions_count' => Mission::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
-                'participations_count' => Participation::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
-                'volontaires_count' => Profile::role($request->header('Context-Role'))->hasDomain($domaine->id)->count(),
+                'missions_count' => Mission::role($request->header('Context-Role'))->domaine($domaine->id)->count(),
+                'participations_count' => Participation::role($request->header('Context-Role'))->domaine($domaine->id)->count(),
+                'volontaires_count' => Profile::role($request->header('Context-Role'))->domaine($domaine->id)->count(),
                 'missions_available' => $missionsAvailableCollection->count(),
                 'places_available' => $missionsAvailableCollection->sum('places_left'),
             ]);

@@ -147,7 +147,7 @@ class Structure extends Model
             ->where('department', $value);
     }
 
-    public function scopeHasDomain($query, $domain_id)
+    public function scopeDomaine($query, $domain_id)
     {
         return $query
             ->whereHas('missions', function (Builder $query) use ($domain_id) {

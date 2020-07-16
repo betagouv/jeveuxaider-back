@@ -94,7 +94,7 @@ class Participation extends Model
             });
     }
 
-    public function scopeHasDomain($query, $domain_id)
+    public function scopeDomaine($query, $domain_id)
     {
         return $query
             ->whereHas('mission', function (Builder $query) use ($domain_id) {

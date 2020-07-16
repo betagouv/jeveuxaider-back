@@ -10,7 +10,7 @@ class FiltersMissionDomaine implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value, $property) {
-            $query->hasDomain($value);
+            $query->domaine($value);
         });
     }
 }

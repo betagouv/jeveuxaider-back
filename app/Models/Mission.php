@@ -201,7 +201,7 @@ class Mission extends Model
         return $query->where('department', $value);
     }
 
-    public function scopeHasDomain($query, $domain_id)
+    public function scopeDomaine($query, $domain_id)
     {
         return $query
             ->where('domaine_id', $domain_id)

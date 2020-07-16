@@ -83,12 +83,11 @@
                 <template v-if="scope.row.places_available > 0">
                   {{ scope.row.places_available | formatNumber }}
                   {{
-                    scope.row.places_available
-                      | pluralize(['place restante', 'places restantes'])
+                    scope.row.places_available | pluralize(['place', 'places'])
                   }}
                 </template>
                 <template v-else>
-                  Aucune place restante
+                  Aucune place
                 </template>
               </el-tag>
             </template>

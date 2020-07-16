@@ -58,9 +58,9 @@ class ThematiqueController extends Controller
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
         return [
-                'structures_count' => Structure::hasDomain($thematique->domaine_id)->count(), // TODO
-                'participations_count' => Participation::hasDomain($thematique->domaine_id)->count(), // TODO
-                'volontaires_count' => Profile::hasDomain($thematique->domaine_id)->count(), // TODO
+                'structures_count' => Structure::domaine($thematique->domaine_id)->count(), // TODO
+                'participations_count' => Participation::domaine($thematique->domaine_id)->count(), // TODO
+                'volontaires_count' => Profile::domaine($thematique->domaine_id)->count(), // TODO
                 'templates' => $templates,
             ];
     }
