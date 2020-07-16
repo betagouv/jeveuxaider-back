@@ -342,13 +342,7 @@ export default new Router({
             ),
           name: 'StatsCollectivities',
           meta: {
-            roles: [
-              'admin',
-              'referent',
-              'referent_regional',
-              'superviseur',
-              'analyste',
-            ],
+            roles: ['admin', 'analyste'],
           },
         },
         {

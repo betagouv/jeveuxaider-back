@@ -28,12 +28,15 @@
       Départements
     </el-menu-item>
     <el-menu-item
-      v-if="$store.getters.contextRole != 'responsable'"
+      v-if="['admin', 'analyste'].includes($store.getters.contextRole)"
       index="collectivities"
     >
       Collectivités
     </el-menu-item>
-    <el-menu-item v-if="$store.getters.contextRole == 'admin'" index="domaines">
+    <el-menu-item
+      v-if="['admin', 'analyste'].includes($store.getters.contextRole)"
+      index="domaines"
+    >
       Domaines
     </el-menu-item>
   </el-menu>
