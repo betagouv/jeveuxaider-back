@@ -77,7 +77,7 @@
               250 000
             </p>
             <p class="mt-2 text-lg leading-6 font-medium text-indigo-200">
-              volontaires déjà inscrits
+              bénévoles déjà inscrits
             </p>
           </div>
           <div class="mt-10 sm:mt-0">

@@ -134,7 +134,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Volontaire" min-width="320">
+      <el-table-column prop="name" label="Bénévole" min-width="320">
         <template slot-scope="scope">
           <template v-if="canShowProfileDetails(scope.row)">
             <div class="text-gray-900">

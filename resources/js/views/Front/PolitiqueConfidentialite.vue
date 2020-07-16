@@ -50,7 +50,7 @@
               </li>
 
               <li>
-                - Pour les volontaires à des missions d’intérêts publics : nom,
+                - Pour les bénévoles à des missions d’intérêts publics : nom,
                 prénom, Adresse postale, code postal, adresse électronique,
                 numéro de téléphone, sexe, âge.
               </li>
@@ -77,7 +77,7 @@
                 <strong
                   >Pour les organisations publiques ou associatives et leurs
                   agents</strong
-                >, de proposer des missions aux volontaires, dans le respect des
+                >, de proposer des missions aux bénévoles, dans le respect des
                 règles de sécurité et des directives du gouvernement, notamment
                 l’aide alimentaire, l’aide d’urgence, la garde d’enfants, le
                 lien aux personnes fragiles isolées, la solidarité de proximité.
@@ -86,8 +86,7 @@
               <li>
                 -
                 <strong
-                  >Pour les volontaires à des missions d’intérêts
-                  publics</strong
+                  >Pour les bénévoles à des missions d’intérêts publics</strong
                 >, de trouver et répondre aux missions proposées, dans le
                 respect strict des règles légales et sanitaires applicables.
               </li>

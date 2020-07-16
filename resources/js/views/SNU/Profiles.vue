@@ -271,12 +271,12 @@ export default {
           { label: 'Référent départemental', value: 'referent' },
           { label: 'Référent régional', value: 'referent_regional' },
           { label: 'Responsable', value: 'responsable' },
-          { label: 'Volontaire', value: 'volontaire' },
+          { label: 'Bénévole', value: 'volontaire' },
         ]
       } else {
         return [
           { label: 'Responsable', value: 'responsable' },
-          { label: 'Volontaire', value: 'volontaire' },
+          { label: 'Bénévole', value: 'volontaire' },
         ]
       }
     },

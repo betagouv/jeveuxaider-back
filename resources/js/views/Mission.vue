@@ -274,7 +274,7 @@
                   <p
                     class="mt-6 text-sm tracking-wider text-gray-500 uppercase"
                   >
-                    La structure recherche
+                    L'organisation recherche
                   </p>
 
                   <div class="text-sm">

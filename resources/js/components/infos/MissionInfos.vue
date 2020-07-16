@@ -94,9 +94,7 @@
       <div class="card-label">
         Infos
       </div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.information }}
-      </div>
+      <div class="text-gray-900 flex-1" v-html="mission.information"></div>
     </div>
   </div>
 </template>
