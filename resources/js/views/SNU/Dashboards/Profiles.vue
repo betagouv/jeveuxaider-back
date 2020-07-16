@@ -19,7 +19,13 @@
         name="profiles"
         link="/dashboard/profiles"
       />
-      <chart-models-created type="profiles" class="max-w-4xl" />
+      <div class="lg:flex">
+        <chart-models-created type="profiles" class="w-full lg:w-8/12" />
+        <card-skill-count
+          name="skills"
+          class="w-full mt-6 lg:mt-0 lg:w-4/12 lg:ml-6"
+        ></card-skill-count>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +34,7 @@
 import DashboardMenu from '@/components/DashboardMenu'
 import CardProfileCount from '@/components/CardProfileCount'
 import ChartModelsCreated from '@/components/charts/ChartModelsCreated'
+import CardSkillCount from '@/components/CardSkillCount'
 
 export default {
   name: 'DashboardProfiles',
@@ -35,6 +42,7 @@ export default {
     DashboardMenu,
     CardProfileCount,
     ChartModelsCreated,
+    CardSkillCount,
   },
   data() {
     return {

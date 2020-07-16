@@ -64,6 +64,11 @@ class StatisticsController extends Controller
         ];
     }
 
+    public function skills(Request $request)
+    {
+        return Tag::where('type', 'competence')->withCount('profiles')->orderBy('profiles_count', 'desc')->limit(10)->get();
+    }
+
     public function profiles(Request $request)
     {
         if ($request->has('type') && $request->input('type') == 'light') {

@@ -22,4 +22,9 @@ class Tag extends SpatieTag implements HasMedia
         }
         return null;
     }
+
+    public function profiles()
+    {
+        return $this->morphedByMany(Profile::class, 'taggable');
+    }
 }
