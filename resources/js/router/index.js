@@ -335,10 +335,27 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/stats/collectivities',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-stats-collectivities" */ '@/views/SNU/Dashboards/Collectivities.vue'
+            ),
+          name: 'StatsCollectivities',
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'analyste',
+            ],
+          },
+        },
+        {
           path: '/dashboard/stats/domaines',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-departments" */ '@/views/SNU/Dashboards/Domaines.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-domaines" */ '@/views/SNU/Dashboards/Domaines.vue'
             ),
           name: 'StatsDomaines',
           meta: {

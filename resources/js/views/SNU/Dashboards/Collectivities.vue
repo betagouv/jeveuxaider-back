@@ -6,33 +6,33 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
-          Tableau de bord - Départements
+          Tableau de bord - Collectivités
         </div>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <dashboard-menu index="departments" />
+      <dashboard-menu index="collectivities" />
     </div>
     <div class="px-12">
-      <card-department-count label="Départements" name="departments" />
+      <card-collectivity-count label="Collectivités" name="collectivities" />
     </div>
   </div>
 </template>
 
 <script>
 import DashboardMenu from '@/components/DashboardMenu'
-import CardDepartmentCount from '@/components/CardDepartmentCount'
+import CardCollectivityCount from '@/components/CardCollectivityCount'
 
 export default {
-  name: 'DashboardDepartments',
+  name: 'DashboardCollectivities',
   components: {
     DashboardMenu,
-    CardDepartmentCount,
+    CardCollectivityCount,
   },
   data() {
     return {
       type: 'Collectivités',
-      activeIndex: 'departments',
+      activeIndex: 'collectivities',
       loading: false,
     }
   },

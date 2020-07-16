@@ -76,13 +76,6 @@ class CollectivityController extends Controller
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
         return [
-            // 'national' => [
-            //     'structures_count' => Structure::validated()->count(),
-            //     'volontaires_count' => Profile::whereHas('user', function (Builder $query) {
-            //         $query->where('context_role', 'volontaire');
-            //     })->count()
-            // ],
-            // 'missions_count' => Mission::whereIn('zip', $collectivity->zips)->available()->count(),
             'structures_count' => Structure::whereIn('zip', $collectivity->zips)->validated()->count(),
             'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
                 $query->whereIn('zip', $collectivity->zips);

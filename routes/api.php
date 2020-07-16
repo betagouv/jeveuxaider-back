@@ -106,6 +106,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     // STATISTICS
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
     Route::get('statistics/departments', 'Api\StatisticsController@departments');
+    Route::get('statistics/places', 'Api\StatisticsController@places');
+    Route::get('statistics/collectivities', 'Api\StatisticsController@collectivities');
     Route::get('statistics/structures', 'Api\StatisticsController@structures');
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
     Route::get('statistics/skills', 'Api\StatisticsController@skills');

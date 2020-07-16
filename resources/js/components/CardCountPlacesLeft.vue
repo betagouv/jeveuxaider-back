@@ -23,6 +23,10 @@
             <span class>{{ data.total_places | formatNumber }}</span>
             <span class="text-xs text-gray-500">places offertes</span>
           </div>
+          <div class="my-1">
+            <span class>{{ data.taux_occupation }}%</span>
+            <span class="text-xs text-gray-500"> de taux d'occupation</span>
+          </div>
         </div>
       </template>
       <template v-else>
@@ -43,7 +47,7 @@ export default {
     }
   },
   created() {
-    statistics('departments', { type: 'light' }).then((response) => {
+    statistics('places').then((response) => {
       this.data = response.data
     })
   },

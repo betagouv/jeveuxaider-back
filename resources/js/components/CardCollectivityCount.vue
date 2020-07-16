@@ -2,21 +2,27 @@
   <el-card class="mb-5 p-5" shadow="never">
     <template v-if="data">
       <div class="w-full">
-        <el-table :data="data" style="width: 100%;" @row-click="onClickedRow">
-          <el-table-column label="" width="70" align="center">
+        <el-table :data="data" style="width: 100%;">
+          <el-table-column prop="label" label="Collectivité">
             <template slot-scope="scope">
-              <div
-                v-if="scope.row.image"
-                class="bg-primary rounded-md p-2 inline-block"
-                style="width: 40px; height: 40px;"
-              >
-                <img :src="scope.row.image" :alt="scope.row.name" />
+              <div class="text-gray-900">{{ scope.row.name }}</div>
+              <div class="font-light text-gray-600 text-xs">
+                <template v-if="scope.row.published">Publiée</template>
+                <template v-else>Non publiée</template>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="label" label="Nom">
+          <el-table-column
+            prop="structures_count"
+            label="Orga."
+            width="100"
+            align="center"
+            sortable
+          >
             <template slot-scope="scope">
-              <span class="text-gray-900">{{ scope.row.name }}</span>
+              <span class="text-gray-500">{{
+                scope.row.structures_count | formatNumber
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -53,9 +59,12 @@
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{
-                scope.row.volontaires_count | formatNumber
-              }}</span>
+              <div class="text-gray-500">
+                {{ scope.row.volontaires_count | formatNumber }}
+              </div>
+              <div class="font-light text-gray-500 text-xs">
+                {{ scope.row.service_civique_count | formatNumber }} en SC
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -128,7 +137,7 @@
 </template>
 
 <script>
-import { statistics } from '../api/app'
+import { statistics } from '@/api/app'
 export default {
   props: {
     label: {
@@ -152,7 +161,6 @@ export default {
   },
   created() {
     statistics(this.name).then((response) => {
-      // console.log('domaines', response.data)
       this.data = response.data
     })
   },
@@ -165,9 +173,6 @@ export default {
       } else {
         return 'info'
       }
-    },
-    onClickedRow(row) {
-      this.$router.push(`/dashboard/missions?filter[domaine]=${row.key}`)
     },
   },
 }

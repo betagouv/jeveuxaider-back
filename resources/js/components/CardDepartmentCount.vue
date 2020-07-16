@@ -3,14 +3,14 @@
     <template v-if="data">
       <div class="w-full">
         <el-table :data="data" style="width: 100%;" @row-click="onClickedRow">
-          <el-table-column prop="key" label="#" width="50">
-            <template slot-scope="scope">
-              <span>{{ scope.row.key }}</span>
-            </template>
-          </el-table-column>
           <el-table-column prop="label" label="Département">
             <template slot-scope="scope">
-              <span class="text-gray-500">{{ scope.row.name }}</span>
+              <div class="text-gray-900">
+                {{ scope.row.name }}
+              </div>
+              <div class="font-light text-gray-600 text-xs">
+                {{ scope.row.key }}
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -54,28 +54,18 @@
           </el-table-column>
           <el-table-column
             prop="volontaires_count"
-            label="Volon."
+            label="Benev."
             width="100"
             align="center"
             sortable
           >
             <template slot-scope="scope">
-              <span class="text-gray-500">{{
-                scope.row.volontaires_count | formatNumber
-              }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="service_civique_count"
-            label="Volon. SC"
-            width="120"
-            align="center"
-            sortable
-          >
-            <template slot-scope="scope">
-              <span class="text-gray-500">{{
-                scope.row.service_civique_count | formatNumber
-              }}</span>
+              <div class="text-gray-500">
+                {{ scope.row.volontaires_count | formatNumber }}
+              </div>
+              <div class="font-light text-gray-500 text-xs">
+                {{ scope.row.service_civique_count | formatNumber }} en SC
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -92,9 +82,35 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="places"
+            label="Places"
+            width="100"
+            align="center"
+            sortable
+          >
+            <template slot-scope="scope">
+              <span class="text-gray-500">{{
+                scope.row.places | formatNumber
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="taux_occupation"
+            label="Occupation"
+            width="130"
+            align="center"
+            sortable
+          >
+            <template slot-scope="scope">
+              <span class="text-gray-500"
+                >{{ scope.row.taux_occupation }}%</span
+              >
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="places_available"
             label="Places dispos."
-            width="200"
+            width="150"
             align="center"
             sortable
           >
