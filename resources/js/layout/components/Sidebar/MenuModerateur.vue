@@ -22,13 +22,13 @@
         'is-active': isActive('structure') && !isActive('missions/add'),
       }"
     >
-      <span v-if="$store.getters.sidebar">Structures</span>
+      <span v-if="$store.getters.sidebar">Organisations</span>
       <el-tooltip
         v-else
         class="item"
         :open-delay="500"
         effect="dark"
-        content="Structures"
+        content="Organisations"
         placement="right"
       >
         <i class="el-icon-school" />

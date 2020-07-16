@@ -135,7 +135,7 @@
             <p
               class="mt-4 max-w-2xl mx-auto text-center text-xl leading-7 text-gray-500"
             >
-              Soutenez l'action des associations, collectivités et structures
+              Soutenez l'action des associations, collectivités et organisations
               éducatives à travers différents types de missions.
             </p>
           </div>

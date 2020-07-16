@@ -22,8 +22,8 @@
             d’information de la Réserve civique.
           </p>
           <p class="text-lg lg:text-xl font-medium text-gray-900">
-            La plateforme vise à permettre aux volontaires et aux structures de
-            se mobiliser face à l’urgence de la crise sanitaire Covid-19 en
+            La plateforme vise à permettre aux volontaires et aux organisations
+            de se mobiliser face à l’urgence de la crise sanitaire Covid-19 en
             permettant aux personnes morales de déposer des offres de mission et
             aux volontaires d’y répondre.
           </p>
@@ -115,9 +115,9 @@
               <p>
                 Les données à caractère personnel traitées dans le cadre de
                 cette plateforme ne sont ni vendues, ni cédées à des tiers.
-                Seuls les agents habilités et les représentants des structures
-                accueillant des volontaires ont accès aux informations dans la
-                limite de leur droit d’en connaitre.
+                Seuls les agents habilités et les représentants des
+                organisations accueillant des volontaires ont accès aux
+                informations dans la limite de leur droit d’en connaitre.
               </p>
               <p>
                 Pour plus d’informations, vous pouvez consulter notre politique

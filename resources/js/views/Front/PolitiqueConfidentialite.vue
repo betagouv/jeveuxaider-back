@@ -36,7 +36,7 @@
             </p>
             <p>
               Cette plateforme recueille des renseignements personnels afin de
-              faciliter la mise en relation entre bénévoles et structures
+              faciliter la mise en relation entre bénévoles et organisations
               d'accueil.
             </p>
             <h2 class="text-2xl text-gray-800 font-bold mt-8 pb-4">
@@ -45,8 +45,8 @@
             La plateforme traite les données à caractère personnel suivantes :
             <ul class="m-4">
               <li>
-                - Pour les agents des structures publiques ou associative : nom,
-                prénom, adresse électronique.
+                - Pour les agents des organisations publiques ou associative :
+                nom, prénom, adresse électronique.
               </li>
 
               <li>
@@ -75,7 +75,7 @@
               <li>
                 -
                 <strong
-                  >Pour les structures publiques ou associatives et leurs
+                  >Pour les organisations publiques ou associatives et leurs
                   agents</strong
                 >, de proposer des missions aux volontaires, dans le respect des
                 règles de sécurité et des directives du gouvernement, notamment

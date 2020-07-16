@@ -210,7 +210,7 @@
           </el-form-item>
 
           <el-form-item
-            label="Commentaire par la structure"
+            label="Commentaire par l'organisation"
             prop="information"
             class="flex-1"
           >

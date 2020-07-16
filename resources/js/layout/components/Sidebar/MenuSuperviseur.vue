@@ -14,13 +14,13 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/structures">
-      <span v-if="!isCollapsed">Structures</span>
+      <span v-if="!isCollapsed">Organisations</span>
       <el-tooltip
         v-else
         class="item"
         :open-delay="500"
         effect="dark"
-        content="Structures"
+        content="Organisations"
         placement="right"
       >
         <i class="el-icon-school" />

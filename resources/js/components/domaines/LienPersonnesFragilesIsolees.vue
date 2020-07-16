@@ -39,7 +39,7 @@
           <ul class="my-3">
             <li>- j’échange avec la personne, prends de ses nouvelles ;</li>
             <li>
-              - je fais remonter des alertes aux structures, si je le juge
+              - je fais remonter des alertes aux organisations, si je le juge
               nécessaire, sur l’état de santé – mentale ou physique – et les
               besoins exprimés de la personne contactée.
             </li>

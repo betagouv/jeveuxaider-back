@@ -6,7 +6,7 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
-          Tableau de bord - Structures
+          Tableau de bord - Organisations
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
     </div>
     <div class="px-12">
       <card-structure-count
-        label="Structures"
+        label="Organisations"
         name="structures"
         link="/dashboard/structures"
       />

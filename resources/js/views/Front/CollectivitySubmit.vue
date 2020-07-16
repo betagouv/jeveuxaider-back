@@ -58,7 +58,7 @@
           <h2
             class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
           >
-            Connectez les structures et leurs futurs bénévoles
+            Connectez les organisations et leurs futurs bénévoles
           </h2>
           <p class="text-xl leading-8 text-indigo-200 mt-2">
             Équilibrez l'offre et la demande sur votre territoire grâce à une
@@ -88,7 +88,7 @@
               3 000
             </p>
             <p class="mt-2 text-lg leading-6 font-medium text-indigo-200">
-              structures et associations
+              organisations et associations
             </p>
           </div>
           <div class="mt-10 sm:mt-0">

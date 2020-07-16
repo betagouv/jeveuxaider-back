@@ -208,7 +208,7 @@
                     <h4
                       class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
                     >
-                      Commentaire par la structure
+                      Commentaire par l'organisation
                     </h4>
                     <div
                       class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0"

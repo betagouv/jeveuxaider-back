@@ -6,7 +6,7 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Structures
+          Organisation
         </div>
       </div>
       <div>
@@ -15,7 +15,7 @@
           :to="{ name: 'StructureFormAdd' }"
         >
           <el-button type="primary" icon="el-icon-plus">
-            Nouvelle structure
+            Nouvelle organisation
           </el-button>
         </router-link>
       </div>
@@ -101,7 +101,7 @@
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Structure" min-width="320">
+      <el-table-column prop="name" label="Organisation" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">
             {{ scope.row.name }}

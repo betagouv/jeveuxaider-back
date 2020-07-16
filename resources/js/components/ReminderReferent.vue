@@ -5,12 +5,12 @@
     class="p-5"
   >
     <div class>
-      {{ $store.getters.user.profile.first_name }}, des structures
+      {{ $store.getters.user.profile.first_name }}, des organisations
       <span v-if="$store.getters.reminders.missions > 0"> et des missions</span>
       sont en attente de validation dans votre département.
     </div>
     <div class="text-gray-400 mt-3 mb-4">
-      En validant ces structures
+      En validant ces organisations
       <span v-if="$store.getters.reminders.missions > 0"> et ces missions</span
       >, vous permettez aux responsables de publier <br />leurs missions sur la
       plateforme.
@@ -25,10 +25,10 @@
       <el-button type="primary" class="mt-2">
         <template v-if="$store.getters.reminders.structures > 1">
           Afficher les
-          {{ $store.getters.reminders.structures | formatNumber }} structures
+          {{ $store.getters.reminders.structures | formatNumber }} organisations
         </template>
         <template v-else>
-          Afficher la structure
+          Afficher l'organisation
         </template>
       </el-button>
     </router-link>

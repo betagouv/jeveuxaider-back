@@ -23,13 +23,13 @@
           isActive('dashboard/structure') && !isActive('missions/add'),
       }"
     >
-      <span v-if="$store.getters.sidebar">Ma structure</span>
+      <span v-if="$store.getters.sidebar">Mon organisation</span>
       <el-tooltip
         v-else
         class="item"
         :open-delay="500"
         effect="dark"
-        content="Structures"
+        content="Mon organisation"
         placement="right"
       >
         <i class="el-icon-school" />

@@ -37,7 +37,7 @@
             Si cet utilisateur est membre d'un réseau national (Les Banques
             alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
             à cet utilisateur de visualiser les missions et bénévoles rattachés
-            aux structures de ce réseau national.
+            aux organisations de ce réseau national.
           </item-description>
           <el-form-item label="Réseau national" prop="reseau" class="flex-1">
             <el-select
@@ -59,7 +59,7 @@
           <item-description>
             Si cet utilisateur est référent, renseignez le nom du département
             Vous permettez à cet utilisateur de visualiser les missions et
-            bénévoles rattachés aux structures de ce département.
+            bénévoles rattachés aux organisations de ce département.
           </item-description>
 
           <el-form-item

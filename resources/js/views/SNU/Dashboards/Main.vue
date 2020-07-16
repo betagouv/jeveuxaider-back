@@ -16,7 +16,7 @@
           </el-button>
           <el-dropdown-menu type="primary">
             <el-dropdown-item command="structures">
-              Toutes les structures
+              Toutes les organisations
             </el-dropdown-item>
             <el-dropdown-item command="missions">
               Toutes les missions
@@ -51,7 +51,7 @@
         />
         <card-count
           v-if="$store.getters.contextRole != 'responsable'"
-          label="Structures"
+          label="Organisations"
           name="structures"
           link="/dashboard/stats/structures"
         />

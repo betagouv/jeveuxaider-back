@@ -15,7 +15,7 @@
           </el-table-column>
           <el-table-column
             prop="structures_count"
-            label="Struct."
+            label="Orga."
             width="100"
             align="center"
             sortable

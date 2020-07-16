@@ -6,7 +6,7 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Corbeille - Structures
+          Corbeille - Organisations
         </div>
       </div>
     </div>
