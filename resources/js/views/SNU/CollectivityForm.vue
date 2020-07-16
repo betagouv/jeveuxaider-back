@@ -47,7 +47,9 @@
         <el-input
           v-model="form.description"
           type="textarea"
-          :autosize="{ minRows: 2, maxRows: 6 }"
+          maxlength="210"
+          show-word-limit
+          :autosize="{ minRows: 5 }"
           placeholder="Trouvez une mission d'intérêt général qui vous ressemble et faites vivre l’engagement local."
         />
       </el-form-item>
