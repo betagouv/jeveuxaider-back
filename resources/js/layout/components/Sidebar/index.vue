@@ -34,7 +34,10 @@
       class="p-6 flex flex-col border-t border-gray-200 justify-center items-center"
     >
       <router-link to="/">
-        <img v-if="$store.getters.sidebar" src="/images/logo-header-dark.png" />
+        <img
+          v-if="$store.getters.sidebar"
+          src="/images/logo-header-dark-small.png"
+        />
         <img v-else src="/images/logo-rc-square.png" />
       </router-link>
       <div class="flex justify-center items-center py-2">
