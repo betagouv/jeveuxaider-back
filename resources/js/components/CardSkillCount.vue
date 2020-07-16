@@ -23,18 +23,9 @@
 import { statistics } from '../api/app'
 export default {
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
-    },
-    link: {
-      type: String,
-      required: false,
-      default: null,
     },
   },
   data() {
