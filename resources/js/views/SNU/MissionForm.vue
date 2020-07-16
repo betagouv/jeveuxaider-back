@@ -104,7 +104,7 @@
               <item-description>
                 Le titre de la mission doit être une phrase qui précise l'action
                 du bénévole, par exemple "Je fais les courses de produits
-                essentiels pour mes voisins les plus fragiles"
+                essentiels pour mes voisins les plus fragiles".
               </item-description>
               <el-input
                 v-model="form.name"
@@ -133,26 +133,28 @@
               prop="objectif"
               class="flex-1"
             >
-              <el-input
+              <item-description>
+                Décrivez les enjeux et la finalité de la mission.
+              </item-description>
+              <ckeditor
                 v-model="form.objectif"
-                name="objectif"
-                type="textarea"
-                :autosize="{ minRows: 4, maxRows: 6 }"
-                placeholder="Décrivez les enjeux et la finalité de la mission"
-              ></el-input>
+                :editor="editor"
+                :config="editorConfig"
+              ></ckeditor>
             </el-form-item>
             <el-form-item
               label="Description de la mission"
               prop="description"
               class="flex-1"
             >
-              <el-input
+              <item-description>
+                Décrivez précisément le rôle et les activités du bénévole.
+              </item-description>
+              <ckeditor
                 v-model="form.description"
-                name="description"
-                type="textarea"
-                :autosize="{ minRows: 4, maxRows: 6 }"
-                placeholder="Décrivez précisément le rôle et les activités du bénévole"
-              ></el-input>
+                :editor="editor"
+                :config="editorConfig"
+              ></ckeditor>
             </el-form-item>
           </div>
 
@@ -212,14 +214,16 @@
             prop="information"
             class="flex-1"
           >
-            <el-input
+            <item-description>
+              Informations complémentaires à l'attention du bénévole.
+            </item-description>
+            <ckeditor
               v-model="form.information"
-              name="information"
-              type="textarea"
-              :autosize="{ minRows: 4, maxRows: 6 }"
-              placeholder="Informations complémentaires à l'attention du bénévole."
-            ></el-input>
+              :editor="editor"
+              :config="editorConfig"
+            ></ckeditor>
           </el-form-item>
+
           <el-form-item
             label="Nombre de bénévoles susceptibles d’être accueillis de façon concomitante sur cette mission"
             prop="participations_max"
@@ -418,6 +422,7 @@ import { fetchTags } from '@/api/app'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import ItemDescription from '@/components/forms/ItemDescription'
+import CKEditorLight from '@/mixins/CKEditorLight.vue'
 
 export default {
   name: 'MissionForm',
@@ -425,7 +430,7 @@ export default {
     AlgoliaPlacesInput,
     ItemDescription,
   },
-  mixins: [FormWithAddress],
+  mixins: [FormWithAddress, CKEditorLight],
   props: {
     structureId: {
       type: Number,
