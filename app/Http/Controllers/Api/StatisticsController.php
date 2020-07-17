@@ -194,8 +194,8 @@ class StatisticsController extends Controller
                 'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
                     $query->whereIn('zip', $collectivity->zips);
                 })->count(),
-                'volontaires_count' => Profile::where('zip', 'IN', $collectivity->zips)->count(),
-                'service_civique_count' => Profile::where('zip', 'IN', $collectivity->zips)
+                'volontaires_count' => Profile::whereIn('zip', $collectivity->zips)->count(),
+                'service_civique_count' => Profile::whereIn('zip', $collectivity->zips)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
