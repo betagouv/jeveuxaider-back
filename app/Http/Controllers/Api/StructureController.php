@@ -59,7 +59,7 @@ class StructureController extends Controller
 
         // return response()->json(['message'=> 'Export en cours...', 'file' => $s3->url($filePath) ], 200);
 
-        return Excel::download(new StructuresExport($request), 'structures.xlsx');
+        return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
     }
 
     public function availableMissions(Request $request, Structure $structure)
