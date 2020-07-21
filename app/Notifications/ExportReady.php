@@ -48,7 +48,7 @@ class ExportReady extends Notification
             ->subject('Votre export est prêt')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Votre fichier d\'export est prêt à être téléchargé.')
-            ->action('Télécharger mon fichier', $this->filePath);
+            ->action('Télécharger', $this->filePath);
     }
 
     /**
