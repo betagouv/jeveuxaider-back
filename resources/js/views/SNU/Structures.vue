@@ -231,6 +231,7 @@ import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import fileDownload from 'js-file-download'
 import StructureDropdownState from '@/components/StructureDropdownState'
+import { Message } from 'element-ui'
 
 export default {
   name: 'Structures',
@@ -256,11 +257,15 @@ export default {
       this.loading = true
       exportStructures(this.query)
         .then((response) => {
+          console.log(response.data)
           this.loading = false
-          fileDownload(response.data, 'structures.xlsx')
+          // fileDownload(response.data, 'structures.xlsx')
         })
         .catch((error) => {
-          console.log(error)
+          Message({
+            message: error.response.data.message,
+            type: 'error',
+          })
         })
     },
   },

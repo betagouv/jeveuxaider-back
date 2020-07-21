@@ -15,13 +15,15 @@ use App\Http\Requests\StructureInvitationRequest;
 use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StructuresExport;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
+use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StructureController extends Controller
 {
@@ -43,7 +45,18 @@ class StructureController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new StructuresExport($request), 'structures.xlsx');
+        $s3 = Storage::disk('s3');
+        $fileName = Str::random(30).'.xlsx';
+        $filePath = 'public/'. env('APP_ENV').'/exports/'.$request->user()->id.'/'. $fileName;
+
+        (new StructuresExport($request->header('Context-Role')))
+            ->queue($filePath, 's3')
+            ->allOnQueue('exports')
+            ->chain([
+                new NotifyUserOfCompletedExport($request->user(), $s3->url($filePath)),
+            ]);
+
+        return response()->json(['message'=> 'Export en cours...', 'file' => $s3->url($filePath) ], 200);
     }
 
     public function availableMissions(Request $request, Structure $structure)

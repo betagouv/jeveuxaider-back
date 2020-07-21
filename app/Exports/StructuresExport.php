@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use Illuminate\Http\Request;
 use App\Models\Structure;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -12,14 +11,18 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureCeu;
 use App\Filters\FiltersStructureSearch;
 use App\Filters\FiltersStructureLieu;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class StructuresExport implements FromCollection, WithMapping, WithHeadings
+class StructuresExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
 {
-    private $request;
+    use Exportable;
 
-    public function __construct(Request $request)
+    private $role;
+
+    public function __construct($role)
     {
-        $this->request = $request;
+        $this->role = $role;
     }
 
     /**
@@ -27,7 +30,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return QueryBuilder::for(Structure::role($this->request->header('Context-Role')))
+        return QueryBuilder::for(Structure::role($this->role))
             ->allowedFilters([
                 'department',
                 'statut_juridique',

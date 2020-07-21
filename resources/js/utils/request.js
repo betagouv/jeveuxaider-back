@@ -33,6 +33,7 @@ request.interceptors.request.use(async (config) => {
 request.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log('ERROR', error.response)
     if (error.response && error.response.data) {
       if (
         error.response.data.message === 'Unauthenticated.' &&
@@ -48,6 +49,7 @@ request.interceptors.response.use(
       } else if (error.response.data.message) {
         Message({
           message: error.response.data.message,
+          dangerouslyUseHTMLString: true,
           type: 'error',
         })
       } else if (
@@ -55,10 +57,29 @@ request.interceptors.response.use(
       ) {
         store.dispatch('user/get')
       } else {
-        Message({
-          message: format_errors(error.response.data),
-          type: 'error',
-        })
+        console.log(error.config.responseType)
+        if (error.config.responseType == 'blob') {
+          console.log('OK BLOB')
+          return new Promise((resolve, reject) => {
+            let reader = new FileReader()
+            reader.onload = () => {
+              error.response.data = JSON.parse(reader.result)
+              resolve(Promise.reject(error))
+            }
+
+            reader.onerror = () => {
+              reject(error)
+            }
+
+            reader.readAsText(error.response.data)
+          })
+        } else {
+          Message({
+            message: format_errors(error.response.data),
+            dangerouslyUseHTMLString: true,
+            type: 'error',
+          })
+        }
       }
     }
     return Promise.reject(error)
