@@ -18,10 +18,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\StructuresExport;
 use Illuminate\Support\Facades\Auth;
-use App\Filters\FiltersMissionCeu;
-use App\Filters\FiltersMissionSearch;
-use App\Filters\FiltersMissionLieu;
-use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
@@ -32,6 +28,7 @@ class StructureController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members')->withCount('missions'))
+            ->allowedAppends('response_ratio')
             ->allowedFilters([
                 'department',
                 'state',
@@ -66,7 +63,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
+        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first()->append('response_ratio');
     }
 
     public function store(StructureCreateRequest $request)

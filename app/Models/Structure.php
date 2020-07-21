@@ -105,6 +105,19 @@ class Structure extends Model
         }
     }
 
+    public function getResponseRatioAttribute()
+    {
+        $participationsCount = Participation::whereIn('mission_id', $this->missions->pluck('id'))->count();
+
+        if ($this->missions->count() == 0 || !$participationsCount) {
+            return null;
+        }
+
+        $participationsWaitingCount = Participation::where('state', 'En attente de validation')->whereIn('mission_id', $this->missions->pluck('id'))->count();
+
+        return round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
+    }
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = Utils::ucfirst($value);

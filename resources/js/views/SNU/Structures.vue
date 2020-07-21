@@ -112,6 +112,12 @@
           >
             {{ scope.row.statut_juridique }}
           </div>
+          <div
+            v-if="scope.row.response_ratio !== null"
+            class="font-light text-gray-600 text-xs"
+          >
+            Taux de réponse : {{ scope.row.response_ratio }}%
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Contextes" min-width="320">

@@ -36,7 +36,7 @@ export function inviteStructureMember(id, member) {
 }
 
 export function fetchStructures(params) {
-  return request.get('/api/structures', { params })
+  return request.get('/api/structures?append=response_ratio', { params })
 }
 
 export function exportStructures(params) {

@@ -8,6 +8,12 @@
         {{ structure.state }}
       </div>
     </div>
+    <div v-if="structure.response_ratio" class="mb-2 flex">
+      <div class="card-label">
+        Tx réponse
+      </div>
+      <div class="text-gray-900 flex-1">{{ structure.response_ratio }}%</div>
+    </div>
     <div v-if="structure.statut_juridique" class="mb-2 flex">
       <div class="card-label">
         Statut
