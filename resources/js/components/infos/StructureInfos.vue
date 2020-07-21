@@ -8,7 +8,7 @@
         {{ structure.state }}
       </div>
     </div>
-    <div v-if="structure.response_ratio" class="mb-2 flex">
+    <div v-if="structure.response_ratio !== null" class="mb-2 flex">
       <div class="card-label">
         Tx réponse
       </div>
