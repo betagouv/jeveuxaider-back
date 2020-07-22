@@ -53,11 +53,19 @@
                   Je veux aider
                 </p>
                 <router-link
+                  v-if="!$store.getters.isLogged"
                   to="/register/volontaire"
                   class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                 >
                   Devenir réserviste
                 </router-link>
+                <a
+                  v-else
+                  href="#search"
+                  class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                >
+                  Trouver une mission
+                </a>
               </div>
               <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
                 <p class="text-xs leading-6 font-medium text-white">
@@ -300,7 +308,7 @@
       </div>
     </div>
 
-    <div class="bg-primary">
+    <div id="search" class="bg-primary">
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
           <h2
