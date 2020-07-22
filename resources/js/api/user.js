@@ -83,8 +83,8 @@ export function fetchProfileParticipations(id) {
   return request.get(`/api/profile/${id}/participations`)
 }
 
-export function fetchProfiles(params) {
-  return request.get('/api/profiles?append=roles,has_user,skills,domaines', {
+export function fetchProfiles(params, appends) {
+  return request.get(`/api/profiles?append=${appends.join(',')}`, {
     params,
   })
 }

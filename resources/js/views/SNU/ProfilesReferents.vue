@@ -6,7 +6,7 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Utilisateurs
+          Utilisateurs - Référents départementaux
         </div>
       </div>
       <div v-if="$store.getters.contextRole === 'admin'" class="">
@@ -16,34 +16,16 @@
           </el-button>
           <el-dropdown-menu type="primary">
             <router-link
-              :to="{ name: 'ProfileFormAdd', params: { role: 'superviseur' } }"
-            >
-              <el-dropdown-item>Superviseur national</el-dropdown-item>
-            </router-link>
-            <router-link
               :to="{ name: 'ProfileFormAdd', params: { role: 'referent' } }"
             >
               <el-dropdown-item>Référent départemental</el-dropdown-item>
-            </router-link>
-            <router-link
-              :to="{
-                name: 'ProfileFormAdd',
-                params: { role: 'referent_regional' },
-              }"
-            >
-              <el-dropdown-item>Référent régional</el-dropdown-item>
-            </router-link>
-            <router-link
-              :to="{ name: 'ProfileFormAdd', params: { role: 'analyste' } }"
-            >
-              <el-dropdown-item>Datas analyste</el-dropdown-item>
             </router-link>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
     </div>
-    <div v-if="$store.getters.contextRole === 'admin'" class="px-12 mb-12">
-      <profiles-menu index="/dashboard/profiles"></profiles-menu>
+    <div class="px-12 mb-12">
+      <profiles-menu index="/dashboard/profiles/referents"></profiles-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -73,13 +55,6 @@
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
         <query-filter
-          name="role"
-          label="Rôle"
-          :value="query['filter[role]']"
-          :options="rolesList"
-          @changed="onFilterChange"
-        />
-        <query-filter
           v-if="$store.getters.contextRole === 'admin'"
           name="referent_department"
           label="Référent"
@@ -93,31 +68,6 @@
               }
             })
           "
-          @changed="onFilterChange"
-        />
-        <query-filter
-          type="select"
-          name="domaines"
-          :value="query['filter[domaines]']"
-          label="Domaine d'action"
-          :options="
-            domaines.map((domaine) => {
-              return {
-                label: domaine.name.fr,
-                value: domaine.id,
-              }
-            })
-          "
-          @changed="onFilterChange"
-        />
-        <query-filter
-          name="is_visible"
-          label="Visible"
-          :value="query['filter[is_visible]']"
-          :options="[
-            { label: 'Oui', value: true },
-            { label: 'Non', value: false },
-          ]"
           @changed="onFilterChange"
         />
       </div>
@@ -148,12 +98,43 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Contextes" min-width="350">
+      <el-table-column label="Département" width="200">
         <template slot-scope="scope">
-          <profile-roles-tags :profile="scope.row" />
+          <div class="text-gray-600">
+            {{ scope.row.referent_department | fullDepartmentFromValue }}
+          </div>
         </template>
       </el-table-column>
-
+      <el-table-column label="# Structures" width="150" align="center">
+        <template slot-scope="scope">
+          <div class="text-gray-900">
+            {{ scope.row.referent_waiting_actions.structures | formatNumber }}
+          </div>
+          <div class="font-light text-gray-600 text-xs">
+            en attente
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="# Missions" width="150" align="center">
+        <template slot-scope="scope">
+          <div class="text-gray-900">
+            {{ scope.row.referent_waiting_actions.missions | formatNumber }}
+          </div>
+          <div class="font-light text-gray-600 text-xs">
+            en attente
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="# Actions" width="150" align="center">
+        <template slot-scope="scope">
+          <div class="text-gray-900">
+            {{ scope.row.referent_waiting_actions.total | formatNumber }}
+          </div>
+          <div class="font-light text-gray-600 text-xs">
+            en attente
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
@@ -164,7 +145,7 @@
       <el-table-column
         v-if="$store.getters.contextRole === 'admin'"
         label="Actions"
-        min-width="250"
+        width="250"
       >
         <template slot-scope="scope">
           <el-dropdown
@@ -240,15 +221,12 @@ import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryFilter from '@/components/QueryFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
-import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
 import fileDownload from 'js-file-download'
-import { fetchTags } from '@/api/app'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
 
 export default {
-  name: 'Profiles',
+  name: 'ProfilesReferents',
   components: {
-    ProfileRolesTags,
     ProfileVolet,
     QueryFilter,
     QueryMainSearchFilter,
@@ -260,44 +238,18 @@ export default {
       loading: true,
       tableData: [],
       totalRows: 0,
-      domaines: [],
     }
   },
-  computed: {
-    rolesList() {
-      if (
-        this.$store.getters.contextRole == 'admin' ||
-        this.$store.getters.contextRole == 'analyste'
-      ) {
-        return [
-          { label: 'Modérateur', value: 'admin' },
-          { label: 'Superviseur', value: 'superviseur' },
-          { label: 'Analyste', value: 'analyste' },
-          { label: 'Référent départemental', value: 'referent' },
-          { label: 'Référent régional', value: 'referent_regional' },
-          { label: 'Responsable', value: 'responsable' },
-          { label: 'Bénévole', value: 'volontaire' },
-        ]
-      } else {
-        return [
-          { label: 'Responsable', value: 'responsable' },
-          { label: 'Bénévole', value: 'volontaire' },
-        ]
-      }
-    },
-  },
-  created() {
-    fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
-      this.domaines = res.data.data
-    })
-  },
+  computed: {},
+  created() {},
   methods: {
     fetchRows() {
       return fetchProfiles(
         {
           ...this.query,
+          'filter[role]': 'referent',
         },
-        ['roles', 'has_user', 'skills', 'domaines']
+        ['roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions']
       )
     },
     handleCommand(command) {
@@ -307,10 +259,13 @@ export default {
     },
     onExport() {
       this.loading = true
-      exportProfiles(this.query)
+      exportProfiles({
+        ...this.query,
+        'filter[role]': 'referent',
+      })
         .then((response) => {
           this.loading = false
-          fileDownload(response.data, 'utilisateurs.xlsx')
+          fileDownload(response.data, 'referents.xlsx')
         })
         .catch((error) => {
           console.log(error)

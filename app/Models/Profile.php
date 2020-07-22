@@ -55,7 +55,6 @@ class Profile extends Model implements HasMedia
 
     protected static $submitEmptyLogs = false;
 
-
     public function getImageAttribute()
     {
         $media = $this->getFirstMedia('profiles');
@@ -86,6 +85,29 @@ class Profile extends Model implements HasMedia
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getReferentWaitingActionsAttribute()
+    {
+        $structures = Structure::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
+        $missions = Mission::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
+
+        return [
+            'total' => $structures + $missions,
+            'structures' => $structures,
+            'missions' => $missions
+        ];
+    }
+
+    public function getResponsableWaitingActionsAttribute()
+    {
+        $structure = $this->structures->first();
+
+        $participations = Participation::structure($structure->id)->where('state', 'En attente de validation')->count();
+
+        return [
+            'total' => $participations,
+        ];
     }
 
     public function getShortNameAttribute()

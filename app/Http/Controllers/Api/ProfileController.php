@@ -24,7 +24,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
-            ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
+            ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
@@ -40,9 +40,9 @@ class ProfileController extends Controller
     public function participations(Request $request, Profile $profile)
     {
         return QueryBuilder::for(Participation::with(['mission.tuteur', 'mission.structure']))
-        ->where('profile_id', $profile->id)
-        ->defaultSort('-updated_at')
-        ->paginate(config('query-builder.results_per_page'));
+            ->where('profile_id', $profile->id)
+            ->defaultSort('-updated_at')
+            ->paginate(config('query-builder.results_per_page'));
     }
 
     public function export(Request $request)

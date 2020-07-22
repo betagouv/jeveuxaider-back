@@ -94,6 +94,16 @@ class Participation extends Model
             });
     }
 
+    public function scopeStructure($query, $value)
+    {
+        return $query
+            ->whereHas('mission', function (Builder $query) use ($value) {
+                $query->whereHas('structure', function (Builder $query) use ($value) {
+                    $query->where('id', $value);
+                });
+            });
+    }
+
     public function scopeDomaine($query, $domain_id)
     {
         return $query

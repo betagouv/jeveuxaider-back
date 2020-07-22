@@ -621,6 +621,28 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/profiles/referents',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-profiles-referents" */ '@/views/SNU/ProfilesReferents.vue'
+            ),
+          name: 'DashboardProfilesReferent',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/profiles/responsables',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-profiles-responsables" */ '@/views/SNU/ProfilesResponsables.vue'
+            ),
+          name: 'DashboardProfilesReferent',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
           path: '/dashboard/profile/:id',
           component: () =>
             import(
