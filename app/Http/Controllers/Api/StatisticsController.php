@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Exports\CollectivitiesExport;
 use App\Exports\DepartmentsExport;
-use App\Filters\FiltersTitleBodySearch;
+use App\Filters\FiltersCollectivitySearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
@@ -188,7 +188,7 @@ class StatisticsController extends Controller
         $datas = QueryBuilder::for(Collectivity::where('type', 'commune')->where('state', 'validated'))
             ->allowedFilters([
                 'state',
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
             ])
             ->defaultSort('name')
             ->paginate(config('query-builder.results_per_page'));
@@ -263,7 +263,7 @@ class StatisticsController extends Controller
 
         $collectivities = QueryBuilder::for($query)
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
             ])
             ->defaultSort('department')
             ->paginate(config('query-builder.results_per_page'));
