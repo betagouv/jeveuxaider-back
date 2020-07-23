@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\CollectivitiesExport;
+use App\Exports\DepartmentsExport;
+use App\Filters\FiltersCollectivitySearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
@@ -13,6 +16,9 @@ use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Facades\Excel;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class StatisticsController extends Controller
 {
@@ -175,17 +181,25 @@ class StatisticsController extends Controller
 
     public function collectivities(Request $request)
     {
-        $collectivities = Collectivity::where('type', 'commune')
-        ->where('state', 'validated')
-        ->get();
+        if ($request->has('type') && $request->input('type') == 'export') {
+            return Excel::download(new CollectivitiesExport(), 'collectivities.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
 
-        $datas = collect();
+        $datas = QueryBuilder::for(Collectivity::where('type', 'commune')->where('state', 'validated'))
+            ->allowedFilters([
+                'state',
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
+            ])
+            ->defaultSort('name')
+            ->paginate(config('query-builder.results_per_page'));
 
-        foreach ($collectivities as $collectivity) {
+        $stats = collect();
+
+        foreach ($datas as $collectivity) {
             $missions = Mission::whereIn('zip', $collectivity->zips)->available()->get();
             $places_left = $missions->sum('places_left');
             $participations_max = $missions->sum('participations_max');
-            $datas->push([
+            $stats->push([
                 'id' => $collectivity->id,
                 'name' => $collectivity->name,
                 'published' => $collectivity->published,
@@ -206,7 +220,12 @@ class StatisticsController extends Controller
             ]);
         }
 
-        return $datas;
+        return [
+            'data' => $stats,
+            'from' => $datas->firstItem(),
+            'to' => $datas->lastItem(),
+            'total' => $datas->total(),
+        ];
     }
 
     public function places(Request $request)
@@ -228,64 +247,67 @@ class StatisticsController extends Controller
 
     public function departments(Request $request)
     {
-        $departements = config('taxonomies.departments.terms');
-        $datas = collect();
+        if ($request->has('type') && $request->input('type') == 'export') {
+            return Excel::download(new DepartmentsExport($request->header('Context-Role')), 'departments.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
 
-        $missionsCollection = Mission::role($request->header('Context-Role'))
-            ->hasPlacesLeft()
-            ->available()
-            ->get();
+        $query = Collectivity::where('type', 'department')->where('state', 'validated');
 
-        // Filter department based on user
         if ($request->header('Context-Role') == 'referent') {
-            $referentDepartement = Auth::guard('api')->user()->profile->referent_department;
-            foreach ($departements as $key => $departement) {
-                if ($key != $referentDepartement) {
-                    unset($departements[$key]);
-                }
-            }
+            $query->where('department', Auth::guard('api')->user()->profile->referent_department);
         }
+
         if ($request->header('Context-Role') == 'referent_regional') {
-            $referentRegionalDepartements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
-            foreach ($departements as $key => $departement) {
-                if (!in_array($key, $referentRegionalDepartements)) {
-                    unset($departements[$key]);
-                }
-            }
+            $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
         }
 
-        foreach ($departements as $key => $value) {
-            $departmentCollection = $missionsCollection->filter(function ($item) use ($key) {
-                return $item->department == $key;
-            });
+        $collectivities = QueryBuilder::for($query)
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
+            ])
+            ->defaultSort('department')
+            ->paginate(config('query-builder.results_per_page'));
 
-            $places_left = $departmentCollection->sum('places_left');
-            $participations_max = $departmentCollection->sum('participations_max');
+        $stats = collect();
 
-            $datas->push([
-                'key' => $key,
-                'name' => $value,
-                'missions_count' => Mission::role($request->header('Context-Role'))->department($key)->count(),
-                'structures_count' => Structure::role($request->header('Context-Role'))->department($key)->count(),
-                'participations_count' => Participation::role($request->header('Context-Role'))->department($key)->count(),
+        foreach ($collectivities as $collectivity) {
+            $missionsCollection = Mission::department($collectivity->department)
+                ->hasPlacesLeft()
+                ->available()
+                ->get();
+
+            $places_left = $missionsCollection->sum('places_left');
+            $participations_max = $missionsCollection->sum('participations_max');
+
+            $stats->push([
+                'key' => $collectivity->department,
+                'name' => $collectivity->name,
+                'missions_count' => Mission::role($request->header('Context-Role'))->department($collectivity->department)->count(),
+                'structures_count' => Structure::role($request->header('Context-Role'))->department($collectivity->department)->count(),
+                'participations_count' => Participation::role($request->header('Context-Role'))->department($collectivity->department)->count(),
                 'volontaires_count' => Profile::role($request->header('Context-Role'))
-                    ->department($key)
+                    ->department($collectivity->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('context_role', 'volontaire');
                     })
                     ->count(),
                 'service_civique_count' => Profile::role($request->header('Context-Role'))
-                    ->department($key)
+                    ->department($collectivity->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $departmentCollection->count(),
+                'missions_available' => $missionsCollection->count(),
                 'places_available' => $places_left,
                 'places' => $participations_max,
                 'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
             ]);
         }
 
-        return $datas;
+        return [
+            'data' => $stats,
+            'from' => $collectivities->firstItem(),
+            'to' => $collectivities->lastItem(),
+            'total' => $collectivities->total(),
+        ];
     }
 }
