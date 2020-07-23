@@ -107,6 +107,7 @@ class Profile extends Model implements HasMedia
 
         return [
             'total' => $participations,
+            'test' => $this->structures->first(),
         ];
     }
 

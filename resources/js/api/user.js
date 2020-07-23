@@ -47,6 +47,20 @@ export function exportProfiles(params) {
   })
 }
 
+export function exportProfilesReferents(params) {
+  return request.get(`/api/profiles/referents/export`, {
+    responseType: 'blob',
+    params,
+  })
+}
+
+export function exportProfilesResponsables(params) {
+  return request.get(`/api/profiles/responsables/export`, {
+    responseType: 'blob',
+    params,
+  })
+}
+
 export async function getUser() {
   return await request.get('/api/user')
 }
