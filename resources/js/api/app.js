@@ -8,6 +8,18 @@ export function statistics(name, params) {
   return request.get(`/api/statistics/${name}`, { params })
 }
 
+export function statisticsCollectivities(params) {
+  return request.get(`/api/statistics/collectivities`, { params })
+}
+
+export function statisticsDepartments(params) {
+  return request.get(`/api/statistics/departments`, { params })
+}
+
+export function exportStatistics(name, params) {
+  return request.get(`/api/statistics/${name}?type=export`, { params })
+}
+
 export function reminders() {
   return request.get('/api/reminders')
 }

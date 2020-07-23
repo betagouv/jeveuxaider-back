@@ -10,6 +10,7 @@ class FiltersCollectivitySearch implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query
-            ->where('name', 'LIKE', '%' . $value . '%');
+            ->where('name', 'LIKE', '%' . $value . '%')
+            ->orWhere('department', 'LIKE', '%' . $value . '%');
     }
 }
