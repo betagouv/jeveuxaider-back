@@ -165,12 +165,12 @@ class StatisticsController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersTagName),
             ])
-            ->defaultSort('name')
+            ->defaultSort('name->fr')
             ->paginate(config('query-builder.results_per_page'));
 
         $stats = collect();
 
-        foreach ($domaines as $key => $domaine) {
+        foreach ($domaines as $domaine) {
             $missionsAvailableCollection = Mission::role($request->header('Context-Role'))->available()->domaine($domaine->id)->get();
             $places_left = $missionsAvailableCollection->sum('places_left');
             $participations_max = $missionsAvailableCollection->sum('participations_max');

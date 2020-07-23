@@ -67,7 +67,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Structure" min-width="200">
+      <el-table-column label="Organisation" min-width="200">
         <template slot-scope="scope">
           <div v-if="scope.row.structures[0]" class="text-gray-600">
             {{ scope.row.structures[0].name }}

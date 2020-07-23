@@ -33,7 +33,7 @@ class DomainesExport implements FromCollection, WithHeadings
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersTagName),
             ])
-            ->defaultSort('name')
+            ->defaultSort('name->fr')
             ->get();
 
         $datas = collect();
