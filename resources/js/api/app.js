@@ -16,6 +16,10 @@ export function statisticsDepartments(params) {
   return request.get(`/api/statistics/departments`, { params })
 }
 
+export function statisticsDomaines(params) {
+  return request.get(`/api/statistics/domaines`, { params })
+}
+
 export function exportStatistics(name, params) {
   return request.get(`/api/statistics/${name}?type=export`, { params })
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Exports\CollectivitiesExport;
 use App\Exports\DepartmentsExport;
+use App\Exports\DomainesExport;
 use App\Filters\FiltersCollectivitySearch;
+use App\Filters\FiltersTagName;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
@@ -155,14 +157,24 @@ class StatisticsController extends Controller
 
     public function domaines(Request $request)
     {
-        $datas = collect();
-        $domainesCollection = Tag::where('type', 'domaine')->get();
+        if ($request->has('type') && $request->input('type') == 'export') {
+            return Excel::download(new DomainesExport($request->header('Context-Role')), 'domaines.csv', \Maatwebsite\Excel\Excel::CSV);
+        }
 
-        foreach ($domainesCollection as $key => $domaine) {
+        $domaines = QueryBuilder::for(Tag::where('type', 'domaine'))
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersTagName),
+            ])
+            ->defaultSort('name')
+            ->paginate(config('query-builder.results_per_page'));
+
+        $stats = collect();
+
+        foreach ($domaines as $key => $domaine) {
             $missionsAvailableCollection = Mission::role($request->header('Context-Role'))->available()->domaine($domaine->id)->get();
             $places_left = $missionsAvailableCollection->sum('places_left');
             $participations_max = $missionsAvailableCollection->sum('participations_max');
-            $datas->push([
+            $stats->push([
                 'key' => $domaine->id,
                 'name' => $domaine->name,
                 'image' => $domaine->image,
@@ -176,7 +188,12 @@ class StatisticsController extends Controller
             ]);
         }
 
-        return $datas;
+        return [
+            'data' => $stats,
+            'from' => $domaines->firstItem(),
+            'to' => $domaines->lastItem(),
+            'total' => $domaines->total(),
+        ];
     }
 
     public function collectivities(Request $request)

@@ -13,29 +13,186 @@
     <div class="px-12 mb-12">
       <dashboard-menu index="domaines" />
     </div>
-    <div class="px-12">
-      <card-domaine-count label="Domaines" name="domaines" />
+    <div class="px-12 mb-3 flex flex-wrap">
+      <div class="flex w-full mb-4">
+        <query-main-search-filter
+          name="search"
+          placeholder="Rechercher par mots clés..."
+          :initial-value="query['filter[search]']"
+          @changed="onFilterChange"
+        />
+      </div>
+    </div>
+    <el-table v-loading="loading" :data="tableData" style="width: 100%;">
+      <el-table-column label="" width="70" align="center">
+        <template slot-scope="scope">
+          <div
+            v-if="scope.row.image"
+            class="bg-primary rounded-md p-2 inline-block"
+            style="width: 40px; height: 40px;"
+          >
+            <img :src="scope.row.image" :alt="scope.row.name" />
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="label" label="Nom">
+        <template slot-scope="scope">
+          <span class="text-gray-900">{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="missions_count"
+        label="Miss."
+        width="90"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{
+            scope.row.missions_count | formatNumber
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="participations_count"
+        label="Partic."
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{
+            scope.row.participations_count | formatNumber
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="volontaires_count"
+        label="Benev."
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{
+            scope.row.volontaires_count | formatNumber
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="missions_available"
+        label="Miss. dispos."
+        width="140"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{
+            scope.row.missions_available | formatNumber
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="places" label="Places" width="100" align="center">
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{
+            scope.row.places | formatNumber
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="taux_occupation"
+        label="Occupation"
+        width="130"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{ scope.row.taux_occupation }}%</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="places_available"
+        label="Places dispos."
+        width="170"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-tag :type="type(scope.row.places_available)">
+            <template v-if="scope.row.places_available > 0">
+              {{ scope.row.places_available | formatNumber }}
+              {{ scope.row.places_available | pluralize(['place', 'places']) }}
+            </template>
+            <template v-else>
+              Aucune place
+            </template>
+          </el-tag>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <div class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      ></el-pagination>
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
+      <div class="ml-auto">
+        <el-button icon="el-icon-download" size="small" @click="onExport">
+          Export
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import DashboardMenu from '@/components/DashboardMenu'
-import CardDomaineCount from '@/components/CardDomaineCount'
+import { statisticsDomaines, exportStatistics } from '@/api/app'
+import { Message } from 'element-ui'
+import fileDownload from 'js-file-download'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 
 export default {
   name: 'DashboardDepartments',
   components: {
+    QueryMainSearchFilter,
     DashboardMenu,
-    CardDomaineCount,
   },
+  mixins: [TableWithFilters],
   data() {
     return {
-      activeIndex: 'domaines',
-      loading: false,
+      loading: true,
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+    fetchRows() {
+      return statisticsDomaines(this.query)
+    },
+    onExport() {
+      exportStatistics('domaines', this.query)
+        .then((response) => {
+          this.loading = false
+          fileDownload(response.data, 'domaines.csv')
+        })
+        .catch((error) => {
+          Message({
+            message: error.response.data.message,
+            type: 'error',
+          })
+        })
+    },
+    type(places) {
+      if (places < 10) {
+        return 'danger'
+      } else if (places < 500) {
+        return 'warning'
+      } else {
+        return 'info'
+      }
+    },
+  },
 }
 </script>
