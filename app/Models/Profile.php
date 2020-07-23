@@ -207,6 +207,16 @@ class Profile extends Model implements HasMedia
             });
     }
 
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        $collectivity = Collectivity::find($collectivity_id);
+
+        if ($collectivity->type == 'commune') {
+            return $query
+                ->whereIn('zip', $collectivity->zips);
+        }
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');

@@ -26,6 +26,7 @@ class CollectivityController extends Controller
         return QueryBuilder::for(Collectivity::class)
             ->allowedFilters([
                 'state',
+                'type',
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
             ->defaultSort('-created_at')

@@ -111,4 +111,11 @@ class Participation extends Model
                 $query->domaine($domain_id);
             });
     }
+
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        return $query->whereHas('mission', function (Builder $query) use ($collectivity_id) {
+            $query->collectivity($collectivity_id);
+        });
+    }
 }

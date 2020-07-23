@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Exports\ParticipationsExport;
+use App\Filters\FiltersParticipationCollectivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Participation;
@@ -28,6 +29,7 @@ class ParticipationController extends Controller
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
                 AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
+                AllowedFilter::custom('collectivity', new FiltersParticipationCollectivity),
                 'state',
                 'mission.department',
                 'mission.type',

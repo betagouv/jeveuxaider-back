@@ -85,6 +85,21 @@
           "
           @changed="onFilterChange"
         />
+        <query-filter
+          type="select"
+          name="collectivity"
+          :value="query['filter[collectivity]']"
+          label="Collectivité"
+          :options="
+            collectivities.map((collectivity) => {
+              return {
+                label: collectivity.name,
+                value: collectivity.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -232,6 +247,7 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import fileDownload from 'js-file-download'
 import StructureDropdownState from '@/components/StructureDropdownState'
 import { Message } from 'element-ui'
+import { fetchCollectivities } from '@/api/app'
 
 export default {
   name: 'Structures',
@@ -247,7 +263,16 @@ export default {
     return {
       loading: true,
       tableData: [],
+      collectivities: [],
     }
+  },
+  created() {
+    fetchCollectivities({
+      'filter[type]': 'commune',
+      'filter[state]': 'validated',
+    }).then((res) => {
+      this.collectivities = res.data.data
+    })
   },
   methods: {
     fetchRows() {
