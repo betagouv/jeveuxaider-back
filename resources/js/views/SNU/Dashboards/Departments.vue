@@ -23,7 +23,7 @@
         />
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%;">
+    <el-table v-loading="loading" :data="tableData" style="width: 100%;">
       <el-table-column width="70" label="#" align="center"
         ><template slot-scope="scope">
           <div class="text-gray-900">

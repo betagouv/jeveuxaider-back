@@ -24,6 +24,7 @@
       </div>
     </div>
     <el-table
+      v-loading="loading"
       :data="tableData"
       :highlight-current-row="false"
       style="width: 100%;"
