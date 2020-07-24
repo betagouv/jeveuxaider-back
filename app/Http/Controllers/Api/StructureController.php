@@ -57,7 +57,7 @@ class StructureController extends Controller
             ]);
             
 
-        return response()->json(['message'=> 'Export en cours...', 'file' => $s3->url($filePath) ], 200);
+        return response()->json(['message'=> 'Export en cours...'], 200);
 
 
         // return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
