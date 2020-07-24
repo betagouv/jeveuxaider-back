@@ -1,15 +1,5 @@
 <?php
 
-use App\Models\Mission;
-use Spatie\QueryBuilder\QueryBuilder;
-use App\Filters\FiltersMissionCeu;
-use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersMissionSearch;
-use App\Filters\FiltersMissionLieu;
-use App\Filters\FiltersMissionPlacesLeft;
-use App\Jobs\Export;
-use App\Models\User;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,11 +10,5 @@ use App\Models\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/', 'PagesController@home');
-// Route::get('/a-propos', 'PagesController@about');
-// Route::get('/confidentialite', 'PagesController@confidentiality');
-// Route::get('/centre-d-aide', 'PagesController@help');
-// Route::get('/regles-de-securite', 'PagesController@securityRules');
 
-// SPA VUE
 Route::get('/{any}', 'PagesController@spa')->where('any', '.*');
