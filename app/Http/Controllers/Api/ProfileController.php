@@ -17,6 +17,7 @@ use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
+use App\Filters\FiltersProfileMinParticipations;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -34,6 +35,7 @@ class ProfileController extends Controller
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::exact('is_visible'),
+                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
                 'referent_department'
             )
             ->defaultSort('-created_at')

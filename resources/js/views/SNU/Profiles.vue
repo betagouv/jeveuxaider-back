@@ -135,6 +135,18 @@
           ]"
           @changed="onFilterChange"
         />
+        <query-filter
+          name="min_participations"
+          label="Participations"
+          :value="query['filter[min_participations]']"
+          :options="[
+            { label: 'Au moins 1', value: 1 },
+            { label: 'Au moins 3', value: 3 },
+            { label: 'Au moins 5', value: 5 },
+            { label: 'Au moins 10', value: 10 },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
     <el-table
