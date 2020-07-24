@@ -7,6 +7,9 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
+use App\Jobs\Export;
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
