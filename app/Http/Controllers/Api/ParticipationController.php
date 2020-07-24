@@ -54,7 +54,7 @@ class ParticipationController extends Controller
 
     public function store(ParticipationCreateRequest $request)
     {
-        $participationCount = Participation::where('profile_id', request("profile_id"))
+        $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request("profile_id"))
             ->where('mission_id', request("mission_id"))->count();
 
         if ($participationCount > 0) {

@@ -516,7 +516,9 @@ export default {
     },
     hasParticipation() {
       return this.$store.getters.profile.participations.filter(
-        (participation) => participation.mission_id == this.id
+        (participation) =>
+          participation.mission_id == this.id &&
+          participation.state != 'Annulée'
       )
     },
     canRegistered() {

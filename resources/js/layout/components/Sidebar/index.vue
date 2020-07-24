@@ -40,7 +40,7 @@
         />
         <img v-else src="/images/logo-rc-square.png" />
       </router-link>
-      <div class="flex justify-center items-center py-2">
+      <div class="hidden md:flex md:justify-center md:items-center md:py-2">
         <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
           <div class="text-xs text-gray-600 hover:text-gray-800">
             Nouveautés
