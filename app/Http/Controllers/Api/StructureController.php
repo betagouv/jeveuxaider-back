@@ -51,7 +51,7 @@ class StructureController extends Controller
         $filePath = 'public/'. config('app.env').'/exports/'.$request->user()->id.'/'. $fileName;
 
         (new StructuresExport($request->header('Context-Role')))
-            ->queue($filePath, 's3', 'public')
+            ->queue($filePath, 's3')
             ->chain([
                 new NotifyUserOfCompletedExport($request->user(), $s3->url($filePath)),
             ]);
