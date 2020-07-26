@@ -174,6 +174,16 @@ return [
                 'tries' => 1,
             ],
         ],
+        
+        'preprod' => [
+            'supervisor-1' => [
+                'connection' => 'redis',
+                'queue' => ['default'],
+                'balance' => 'simple',
+                'processes' => 10,
+                'tries' => 1,
+            ],
+        ],
 
         'local' => [
             'supervisor-1' => [
