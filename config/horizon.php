@@ -174,9 +174,9 @@ return [
                 'tries' => 1,
             ],
         ],
-        
+
         'preprod' => [
-            'supervisor-1' => [
+            'supervisor-preprod' => [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
