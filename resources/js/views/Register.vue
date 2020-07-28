@@ -35,7 +35,7 @@
             Appel aux Citoyens
           </div>
           <div class="text-gray-600 mb-4 flex-1">
-            Je suis volontaire pour aider
+            Je suis bénévole pour aider
           </div>
           <router-link to="/register/volontaire">
             <el-button type="primary">
