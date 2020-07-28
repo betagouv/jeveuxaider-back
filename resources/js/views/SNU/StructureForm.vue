@@ -135,13 +135,15 @@
       </el-form-item>
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
-        Réseau national
+        Réseau national ou territorial
       </div>
       <item-description>
-        Si votre structure est membre d'un réseau national (Les Banques
-        alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
-        ainsi au superviseur de votre réseau de visualiser les missions et
-        bénévoles rattachés à votre structure.
+        Si votre structure est membre d'un réseau national ou territorial qui
+        figure dans le menu déroulant du champ ci-dessous, sélectionnez-le. Vous
+        permettrez au superviseur de votre réseau de visualiser les missions et
+        bénévoles rattachés à votre structure. Vous faciliterez également la
+        validation de votre structure par les autorités territoriales lors de
+        votre inscription.
       </item-description>
       <el-form-item label="Réseau national" prop="reseau" class="flex-1">
         <el-select
