@@ -124,7 +124,7 @@ export default {
         case 'App\\Models\\Mission':
           return 'Mission'
         case 'App\\Models\\Structure':
-          return 'Structure'
+          return 'Organisation'
         case 'App\\Models\\Participation':
           return 'Participation'
         case 'App\\Models\\Profile':

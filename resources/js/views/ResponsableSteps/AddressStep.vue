@@ -2,10 +2,10 @@
   <div class="register-step">
     <portal to="register-steps-help">
       <p>
-        Dites nous plus sur votre structure.<br />
+        Dites nous plus sur votre organisation.<br />
         Merci de
         <span class="font-bold">compléter l'adresse</span>
-        de votre structure d’accueil.
+        de votre organisation d’accueil.
       </p>
       <p>
         Une question? Appelez-nous au<br /><span class="font-bold"
@@ -23,8 +23,8 @@
         description="Je complète les informations de mon profil"
       />
       <el-step
-        title="Structure"
-        description="J'enregistre ma structure en tant que responsable"
+        title="Organisation"
+        description="J'enregistre mon organisation en tant que responsable"
       />
       <el-step
         title="Adresse"
@@ -33,7 +33,7 @@
     </el-steps>
     <div class="max-w-lg p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
-        Lieu de ma structure
+        Lieu de mon organisation
       </div>
       <el-form
         ref="etablissementForm"

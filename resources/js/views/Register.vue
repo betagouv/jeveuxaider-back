@@ -51,7 +51,7 @@
             Appel aux organismes
           </div>
           <div class="text-gray-600 mb-4 flex-1">
-            Je suis une structure publique ou associative
+            Je suis une organisation publique ou associative
           </div>
           <router-link to="/register/responsable">
             <el-button type="primary">

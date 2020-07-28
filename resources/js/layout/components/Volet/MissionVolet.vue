@@ -222,7 +222,7 @@ export default {
         this.$message({
           type: 'error',
           message:
-            'Vous devez valider la structure au préalable. Les missions en attente de validation seront ensuite automatiquement validées',
+            "Vous devez valider l'organisation au préalable. Les missions en attente de validation seront ensuite automatiquement validées",
         })
       } else {
         let message = 'Êtes vous sur de vos changements ?'

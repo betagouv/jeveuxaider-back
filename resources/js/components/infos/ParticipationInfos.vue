@@ -2,7 +2,7 @@
   <div class="text-xs text-gray-600 flex flex-col">
     <template v-if="participation.mission">
       <div v-if="participation.mission.structure" class="card-item mb-2 flex">
-        <div class="card-label">Structure</div>
+        <div class="card-label">Organisation</div>
         <div class="text-gray-900 flex-1">
           {{ participation.mission.structure.name }}
         </div>

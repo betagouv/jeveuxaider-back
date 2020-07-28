@@ -179,7 +179,7 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item>Visualiser la structure</el-dropdown-item>
+                <el-dropdown-item>Visualiser l'organisation</el-dropdown-item>
               </router-link>
               <router-link
                 :to="{
@@ -187,7 +187,7 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item>Modifier la structure</el-dropdown-item>
+                <el-dropdown-item>Modifier l'organisation</el-dropdown-item>
               </router-link>
               <router-link
                 :to="{
@@ -283,7 +283,7 @@ export default {
       exportStructures(this.query)
         .then((response) => {
           this.loading = false
-          fileDownload(response.data, 'structures.xlsx')
+          fileDownload(response.data, 'organisation.xlsx')
           /*
           Message({
             message:
