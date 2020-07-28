@@ -105,10 +105,10 @@
         </div>
         <div v-if="$store.getters.contextRole !== 'referent'">
           <item-description>
-            Si votre structure est membre d'un réseau national (Les Banques
+            Si votre organisation est membre d'un réseau national (Les Banques
             alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
             ainsi au superviseur de votre réseau de visualiser les missions et
-            bénévoles rattachés à votre structure.
+            bénévoles rattachés à votre organisation.
           </item-description>
           <el-form-item label="Réseau national" prop="reseau" class="flex-1">
             <el-select
@@ -238,7 +238,7 @@ export default {
       let message = 'Êtes vous sur de vos changements ?'
 
       if (this.form.state == 'Signalée') {
-        message = `Vous êtes sur le point de signaler une organisation qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. La structure est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
+        message = `Vous êtes sur le point de signaler une organisation qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. L'organisation est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
       }
 
       this.$confirm(message, 'Confirmation', {
