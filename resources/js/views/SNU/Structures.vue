@@ -283,12 +283,14 @@ export default {
       exportStructures(this.query)
         .then((response) => {
           this.loading = false
-          // fileDownload(response.data, 'structures.xlsx')
+          fileDownload(response.data, 'structures.xlsx')
+          /*
           Message({
             message:
               "Votre export est en cours de génération... Vous serez notifié lorsqu'il sera prêt !",
             type: 'success',
           })
+          */
         })
         .catch((error) => {
           Message({

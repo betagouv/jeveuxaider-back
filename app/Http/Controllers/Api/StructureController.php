@@ -48,6 +48,7 @@ class StructureController extends Controller
 
     public function export(Request $request)
     {
+        /*
         $s3 = Storage::disk('s3');
         $fileName = Str::random(30).'.xlsx';
         $filePath = 'public/'. config('app.env').'/exports/'.$request->user()->id.'/'. $fileName;
@@ -57,12 +58,10 @@ class StructureController extends Controller
             ->chain([
                 new NotifyUserOfCompletedExport($request->user(), $s3->url($filePath)),
             ]);
-            
 
         return response()->json(['message'=> 'Export en cours...'], 200);
-
-
-        // return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
+        */
+        return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
     }
 
     public function availableMissions(Request $request, Structure $structure)
