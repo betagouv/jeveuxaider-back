@@ -816,7 +816,7 @@
           <p
             class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
           >
-            L’actualité de l’engagement sur le blog de la <b>Réserve Civique</b>
+            Les actualités de l’engagement sur le blog de la <b>Réserve Civique</b>
           </p>
         </div>
         <div

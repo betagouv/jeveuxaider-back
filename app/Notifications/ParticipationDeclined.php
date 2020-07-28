@@ -50,8 +50,8 @@ class ParticipationDeclined extends Notification
         return (new MailMessage)
             ->subject('Votre participation a été déclinée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons bien reçu votre candidature pour une mission au sein de la structure ' . $this->participation->mission->structure->name. '.')
-            ->line('Néanmoins la structure ne pourra malheureusement pas vous accueillir dans le contexte actuel.')
+            ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation ' . $this->participation->mission->structure->name. '.')
+            ->line('Néanmoins l\'organisation ne pourra malheureusement pas vous accueillir dans le contexte actuel.')
             ->line('Encore merci pour votre engagement.')
         ;
     }

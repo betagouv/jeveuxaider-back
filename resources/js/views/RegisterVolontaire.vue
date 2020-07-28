@@ -288,7 +288,7 @@ export default {
     handleServiceCiviqueChange() {
       if (this.form.service_civique) {
         this.$confirm(
-          'Je suis actuellement sous contrat de Service Civique et certifie sur l’honneur que ma mission de Service Civique est, en accord avec mon organisme d’accueil en Service Civique, actuellement en tout ou partie suspendue dans le cadre des mesures prises pour la lutte contre la propagation du virus Covid-19.<br><br> Je me déclare volontaire pour rejoindre la Réserve civique jusqu’à la date de reprise, à temps complet, de ma mission au sein de mon organisme d’accueil en Service Civique.<br>',
+          'Je suis actuellement sous contrat de Service Civique et certifie sur l’honneur que ma mission de Service Civique est, en accord avec mon organisme d’accueil en Service Civique, actuellement en tout ou partie suspendue dans le cadre des mesures prises pour la lutte contre la propagation du virus Covid-19.<br><br> Je me déclare bénévole pour rejoindre la Réserve civique jusqu’à la date de reprise, à temps complet, de ma mission au sein de mon organisme d’accueil en Service Civique.<br>',
           'Confirmation',
           {
             confirmButtonText: 'Accepter',

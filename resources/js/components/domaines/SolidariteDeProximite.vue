@@ -52,8 +52,8 @@
             Pour sortir faire ces courses, j’évite d’emprunter les transports en
             commun lorsque cela est possible, notamment aux heures de pointe. Si
             j’emprunte les transports en commun en Ile-de-France, je me munis de
-            l’autorisation de déplacement et du justificatif fourni par la
-            structure au profit de laquelle je réalise la mission. Dans les
+            l’autorisation de déplacement et du justificatif fourni par
+            l'organisation au profit de laquelle je réalise la mission. Dans les
             magasins, je respecte les règles de sécurité et les gestes barrières
             afin de me protéger et de protéger les autres. Au moindre doute
             d’infection, je ne me mobilise pas et je reste chez moi.

@@ -31,6 +31,9 @@ class Kernel extends ConsoleKernel
         // Check Security updates
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->daily()->at('05:05');
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
+
+        // Horizon update dashboard metrics
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**

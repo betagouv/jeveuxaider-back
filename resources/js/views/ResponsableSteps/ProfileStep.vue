@@ -4,7 +4,7 @@
       <p>
         Bienvenue {{ firstName }} ! <br />Commencez par
         <span class="font-bold">compléter le profil</span> de votre compte
-        Responsable de structure.
+        Responsable de l'organisation.
       </p>
       <p>
         Une question? Contactez
@@ -29,8 +29,8 @@
         description="Je complète les informations de mon profil"
       />
       <el-step
-        title="Structure"
-        description="J'enregistre ma structure en tant que responsable"
+        title="Organisation"
+        description="J'enregistre mon organisation en tant que responsable"
       />
       <el-step
         title="Adresse"

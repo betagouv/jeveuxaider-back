@@ -54,7 +54,7 @@
             </li>
             <li>- la distribution/livraison des repas ;</li>
             <li>
-              - le cas échéant et en lien avec les personnels de la structure,
+              - le cas échéant et en lien avec les personnels de l'organisation,
               l’accueil et l’accompagnement des personnes vulnérables ou
               assignées dans un lieu pour raisons sanitaires.
             </li>
@@ -68,7 +68,7 @@
             commun lorsque cela est possible, notamment aux heures de pointe. Si
             j’emprunte les transports en commun en Ile-de-France, je me munis de
             l’autorisation de déplacement que j’aurai renseigné et du
-            justificatif fourni par la structure au profit de laquelle je
+            justificatif fourni par l'organisation au profit de laquelle je
             réalise la mission. Sur place, je respecte les règles de sécurité et
             les gestes barrières afin de me protéger et de protéger les autres.
             Au moindre doute d’infection, je ne me mobilise pas et je reste chez
