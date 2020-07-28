@@ -17,7 +17,7 @@ _ide_helper.php
 _ide_helper_models.php
 /public/assets/*
 /public/vendors~assets/*
-mix-manifest.json
+/public/mix-manifest.json
 package-lock.json
 .DS_Store
 .eslintcache
