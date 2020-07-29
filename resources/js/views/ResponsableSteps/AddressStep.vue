@@ -8,8 +8,13 @@
         de votre organisation d’accueil.
       </p>
       <p>
-        Une question? Appelez-nous au<br /><span class="font-bold"
-          ><a href="tel:0184800189"> 01 84 80 01 89</a>
+        Une question? Contactez <br /><span class="font-bold"
+          ><a
+            target="_blank"
+            href="mailto:contact@reserve-civique.on.crisp.email"
+          >
+            le support</a
+          >
         </span>
         ou
         <button onclick="$crisp.push(['do', 'chat:open'])">

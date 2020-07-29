@@ -7,10 +7,15 @@
         Responsable de l'organisation.
       </p>
       <p>
-        Une question? Appelez-nous au
+        Une question? Contactez
         <br />
         <span class="font-bold">
-          <a href="tel:0184800189">01 84 80 01 89</a>
+          <a
+            target="_blank"
+            href="mailto:contact@reserve-civique.on.crisp.email"
+          >
+            le support</a
+          >
         </span>
         ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
