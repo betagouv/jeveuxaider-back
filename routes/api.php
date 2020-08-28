@@ -35,6 +35,7 @@ Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 Route::get('statistics/global', 'Api\StatisticsController@global');
+Route::get('import/api-engagement', 'Api\EngagementController@import');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
