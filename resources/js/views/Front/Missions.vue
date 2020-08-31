@@ -109,6 +109,7 @@
               <ais-menu-select
                 class="flex-1"
                 attribute="domaines"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
@@ -131,6 +132,7 @@
               <ais-menu-select
                 class="flex-1"
                 attribute="template_title"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
