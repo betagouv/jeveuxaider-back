@@ -33,8 +33,8 @@ class EngagementController extends Controller
             'participations_max' => $mission['places'],
             'has_places_left' => true,
             'structure' => [
-                'id' => $mission['organizationId'],
-                'name' => $mission['organizationName'],
+                'id' => $mission['organizationId'] ?? null,
+                'name' => $mission['organizationName'] ?? null,
             ],
             // 'type' => $this->type, ( Mission en présentiel / Mission à distance )
             'template_title' => 'Titre du template',
