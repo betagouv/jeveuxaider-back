@@ -25,12 +25,13 @@ class EngagementController extends Controller
             'application_url' => $mission['applicationUrl'],
             'id' => $mission['_id'],
             'name' => $mission['title'],
-            'city' => $mission['city'] ?? 'Ville',
+            'city' => $mission['city'] ?? null,
             'department' => $mission['department'] ?? null,
             'department_name' => $mission['department'] ?? null,
             'zip' => $mission['postalCode'] ?? null,
             'places_left' => $mission['places'],
             'participations_max' => $mission['places'],
+            'has_places_left' => true,
             'structure' => [
                 'id' => $mission['organizationId'],
                 'name' => $mission['organizationName'],
@@ -39,7 +40,8 @@ class EngagementController extends Controller
             'template_title' => 'Titre du template',
             'domaine_name' => 'Protection de la nature',
             'domaine_image' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg', // Url de l'icone du domaine
-            'domaines' => ['Environnement'],
+            'domaines' => ['Protection de la nature'],
+            'provider' => 'api_engagement'
         ], $response['data']);
 
         // Send to Algolia
@@ -54,5 +56,21 @@ class EngagementController extends Controller
 
         return $missions;
         // return $response->json();
+    }
+
+    public function delete()
+    {
+        $client = SearchClient::create(
+            config('scout.algolia.id'),
+            config('scout.algolia.secret')
+        );
+
+        $res = $client
+            ->initIndex(config('scout.prefix').'_covid_missions')
+            ->deleteBy([
+            'facetFilters' => 'provider:api_engagement',
+        ]);
+
+        return $res->getBody();
     }
 }
