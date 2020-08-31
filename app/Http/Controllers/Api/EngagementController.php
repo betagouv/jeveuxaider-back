@@ -37,7 +37,7 @@ class EngagementController extends Controller
                 'name' => $mission['organizationName'] ?? null,
             ],
             // 'type' => $this->type, ( Mission en présentiel / Mission à distance )
-            'template_title' => 'Titre du template',
+            'template_title' => $mission['title'],
             'domaine_name' => 'Protection de la nature',
             'domaine_image' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg', // Url de l'icone du domaine
             'domaines' => ['Protection de la nature'],
