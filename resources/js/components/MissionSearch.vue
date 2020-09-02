@@ -64,6 +64,7 @@
     <div class="flex justify-between">
       <div class="flex items-start text-sm text-gray-500 mt-4">
         <svg
+          v-if="mission.city"
           class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -75,10 +76,12 @@
           />
         </svg>
         <span
+          v-if="mission.city"
           v-text="
             `${mission.city} (${mission.department}) - ${mission.structure.name}`
           "
         />
+        <span v-else v-text="`${mission.structure.name}`" />
       </div>
       <div v-if="mission.publisher_name" class="mt-1 text-sm flex items-center">
         <div class="mr-4">
