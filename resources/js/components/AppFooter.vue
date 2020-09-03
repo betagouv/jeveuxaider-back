@@ -167,7 +167,7 @@
     <hr class="border-grey-200 mt-4" />
     <div class="container mx-auto px-4 py-6">
       <div style="font-size: 10px; letter-spacing: 0.05em;">
-        © RESERVE-CIVIQUE.GOUV.FR, 2020
+        © RESERVE-CIVIQUE.GOUV.FR, 2020 Preprod version
       </div>
     </div>
   </footer>
