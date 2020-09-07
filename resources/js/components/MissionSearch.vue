@@ -2,7 +2,8 @@
   <div class="mission-search p-4 sm:p-6 md:p-8">
     <div class="flex items-center">
       <div
-        class="hidden sm:block flex-shrink-0 bg-primary rounded-md p-3 text-center"
+        class="hidden sm:block flex-shrink-0 rounded-md p-3 text-center"
+        :class="color ? `bg-${color}` : 'bg-primary'"
       >
         <img class="" :src="mission.domaine_image" style="width: 28px;" />
       </div>
@@ -109,6 +110,10 @@ export default {
   props: {
     mission: {
       type: Object,
+      default: null,
+    },
+    color: {
+      type: String,
       default: null,
     },
   },
