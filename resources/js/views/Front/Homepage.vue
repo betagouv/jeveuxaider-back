@@ -637,7 +637,7 @@
         <div class="bg-indigo-600 absolute h-full">
           <img
             class="w-full h-full object-cover"
-            src="/images/ecole.jpg"
+            src="/images/banner-solidarite.jpg"
             alt="securité covid-19"
           />
         </div>
@@ -648,24 +648,24 @@
             <div
               class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
             >
-              Éducation pour tous
+              Solidarité et insertion
             </div>
             <h2
               class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
             >
-              Rejoignez la Réserve Civique pour l'éducation
+              Rejoignez la Réserve Civique pour la solidarité et l'insertion
             </h2>
             <p class="mt-3 text-lg leading-7 text-white">
-              Trouvez une mission de bénévolat en France pour contribuer à
-              l'éducation pour tous.
+              Trouvez une mission de bénévolat en France pour contribuer à la
+              solidarité et l'insertion.
             </p>
             <div class="mt-8">
               <div class="inline-flex rounded-md shadow">
                 <router-link
-                  to="/thematiques/education-pour-tous"
+                  to="/thematiques/solidarite-et-insertion"
                   class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                 >
-                  Éducation pour tous
+                  Solidarité et Insertion
                 </router-link>
               </div>
             </div>
