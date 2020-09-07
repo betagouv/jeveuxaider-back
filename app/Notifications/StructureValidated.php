@@ -48,10 +48,10 @@ class StructureValidated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre structure a été validée')
+            ->subject('Votre organisation a été validée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Votre structure « ' . $this->structure->name . ' » vient d\'être validée.')
-            ->line('Vous pouvez désormais publier directement vos missions depuis votre espace structure.')
+            ->line('Votre organisation « ' . $this->structure->name . ' » vient d\'être validée.')
+            ->line('Vous pouvez désormais publier directement vos missions depuis votre espace organisation.')
             ->action('Mes missions', url(config('app.url').'/dashboard/missions'));
     }
 

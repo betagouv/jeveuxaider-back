@@ -97,6 +97,21 @@
         />
         <query-filter
           type="select"
+          name="collectivity"
+          :value="query['filter[collectivity]']"
+          label="Collectivité"
+          :options="
+            collectivities.map((collectivity) => {
+              return {
+                label: collectivity.name,
+                value: collectivity.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
           name="domaines"
           :value="query['filter[domaines]']"
           label="Domaine d'action"
@@ -117,6 +132,18 @@
           :options="[
             { label: 'Oui', value: true },
             { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
+        <query-filter
+          name="min_participations"
+          label="Participations"
+          :value="query['filter[min_participations]']"
+          :options="[
+            { label: 'Au moins 1', value: 1 },
+            { label: 'Au moins 3', value: 3 },
+            { label: 'Au moins 5', value: 5 },
+            { label: 'Au moins 10', value: 10 },
           ]"
           @changed="onFilterChange"
         />
@@ -242,7 +269,7 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
 import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
 import fileDownload from 'js-file-download'
-import { fetchTags } from '@/api/app'
+import { fetchTags, fetchCollectivities } from '@/api/app'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
 
 export default {
@@ -261,6 +288,7 @@ export default {
       tableData: [],
       totalRows: 0,
       domaines: [],
+      collectivities: [],
     }
   },
   computed: {
@@ -289,6 +317,12 @@ export default {
   created() {
     fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
       this.domaines = res.data.data
+    })
+    fetchCollectivities({
+      'filter[type]': 'commune',
+      'filter[state]': 'validated',
+    }).then((res) => {
+      this.collectivities = res.data.data
     })
   },
   methods: {

@@ -43,6 +43,9 @@ class CollectivitiesExport implements FromCollection, WithHeadings
                 'name' => $collectivity->name,
                 'published' => $collectivity->published,
                 'missions_count' => Mission::whereIn('zip', $collectivity->zips)->count(),
+                'missions_validated_count' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Validée')->count(),
+                'missions_refused_count' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Refusée')->count(),
+                'missions_finished_count' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Terminée')->count(),
                 'structures_count' => Structure::whereIn('zip', $collectivity->zips)->count(),
                 'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
                     $query->whereIn('zip', $collectivity->zips);
@@ -69,6 +72,9 @@ class CollectivitiesExport implements FromCollection, WithHeadings
             'name',
             'published',
             'missions_count',
+            'missions_validated_count',
+            'missions_refused_count',
+            'missions_finished_count',
             'structures_count',
             'participations_count',
             'volontaires_count',

@@ -2,7 +2,7 @@
   <div v-if="!$store.getters.loading" class="structure-form pl-12 pb-12">
     <template v-if="mode == 'edit'">
       <div class="text-m text-gray-600 uppercase">
-        Structure
+        Organisation
       </div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl text-gray-800">
@@ -16,7 +16,7 @@
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
-      Création d'une nouvelle structure d'accueil
+      Création d'une nouvelle organisation
     </div>
     <el-form
       ref="structureForm"
@@ -29,8 +29,8 @@
         Informations générales
       </div>
 
-      <el-form-item label="Nom de votre structure" prop="name">
-        <el-input v-model="form.name" placeholder="Nom de votre structure" />
+      <el-form-item label="Nom de votre organisation" prop="name">
+        <el-input v-model="form.name" placeholder="Nom de votre organisation" />
       </el-form-item>
 
       <el-form-item label="Statut juridique" prop="statut_juridique">
@@ -71,7 +71,7 @@
       >
         <el-select
           v-model="form.structure_publique_type"
-          placeholder="Choisissez le type de votre structure publique"
+          placeholder="Choisissez le type de votre organisation publique"
         >
           <el-option
             v-for="item in $store.getters.taxonomies.structure_publique_types
@@ -122,7 +122,7 @@
       </el-form-item>
 
       <el-form-item
-        label="Présentation synthétique de la structure"
+        label="Présentation synthétique de l'organisation"
         prop="description"
         class="flex-1"
       >
@@ -130,18 +130,20 @@
           v-model="form.description"
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 6 }"
-          placeholder="Décrivez votre structure, en quelques mots"
+          placeholder="Décrivez votre organisation, en quelques mots"
         />
       </el-form-item>
 
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
-        Réseau national
+        Réseau national ou territorial
       </div>
       <item-description>
-        Si votre structure est membre d'un réseau national (Les Banques
-        alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
-        ainsi au superviseur de votre réseau de visualiser les missions et
-        bénévoles rattachés à votre structure.
+        Si votre organisation est membre d'un réseau national ou territorial qui
+        figure dans le menu déroulant du champ ci-dessous, sélectionnez-le. Vous
+        permettrez au superviseur de votre réseau de visualiser les missions et
+        bénévoles rattachés à votre organisation. Vous faciliterez également la
+        validation de votre organisation par les autorités territoriales lors de
+        votre inscription.
       </item-description>
       <el-form-item label="Réseau national" prop="reseau" class="flex-1">
         <el-select
@@ -208,7 +210,7 @@
           class="text-red-500 ml-4 cursor-pointer hover:underline"
           @click="onSubmitDelete"
         >
-          Supprimer ma structure
+          Supprimer mon organisation
         </div>
       </div>
     </el-form>
@@ -248,7 +250,7 @@ export default {
         name: [
           {
             required: true,
-            message: 'Veuillez renseigner un nom de structure',
+            message: "Veuillez renseigner un nom d'organisation",
             trigger: 'blur',
           },
         ],
@@ -333,7 +335,7 @@ export default {
               this.loading = false
               this.$router.go(-1)
               this.$message({
-                message: 'La structure a été enregistrée !',
+                message: "L'organisation a été enregistrée !",
                 type: 'success',
               })
             })
@@ -347,8 +349,8 @@ export default {
     },
     onSubmitDelete() {
       this.$confirm(
-        'Souhaitez-vous réellement supprimer votre structure de la Réserve Civique ?',
-        'Supprimer ma structure',
+        'Souhaitez-vous réellement supprimer votre organisation de la Réserve Civique ?',
+        'Supprimer mon organisation',
         {
           confirmButtonText: 'Je confirme',
           confirmButtonClass: 'el-button--danger',
@@ -361,7 +363,7 @@ export default {
         updateStructure(this.form.id, this.form).then(() => {
           this.$message({
             type: 'success',
-            message: `Votre structure ${this.form.name} a bien été supprimée.`,
+            message: `Votre organisation ${this.form.name} a bien été supprimée.`,
           })
           this.$router.push('/')
         })

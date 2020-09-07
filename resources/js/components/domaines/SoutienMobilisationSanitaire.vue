@@ -62,8 +62,8 @@
             Pour me rendre sur site, j’évite d’emprunter les transports en
             commun lorsque cela est possible, notamment aux heures de pointe. Si
             j’emprunte les transports en commun en Ile-de-France, je me munis de
-            l’autorisation de déplacement et du justificatif fourni par la
-            structure au profit de laquelle je réalise la mission.
+            l’autorisation de déplacement et du justificatif fourni par
+            l'organisation au profit de laquelle je réalise la mission.
           </div>
           <div class="mt-3">
             Sur place, je respecte les règles de sécurité et les gestes

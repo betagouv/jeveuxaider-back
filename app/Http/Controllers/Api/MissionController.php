@@ -12,6 +12,7 @@ use App\Filters\FiltersMissionCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
+use App\Filters\FiltersMissionCollectivity;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
@@ -37,6 +38,7 @@ class MissionController extends Controller
             AllowedFilter::custom('lieu', new FiltersMissionLieu),
             AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
             AllowedFilter::custom('domaine', new FiltersMissionDomaine),
+            AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
         ])
         ->defaultSort('-updated_at')
         ->paginate(config('query-builder.results_per_page'));

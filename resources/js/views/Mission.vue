@@ -381,7 +381,7 @@
         >
           <div>
             <p class="text-2xl sm:leading-10 font-bold text-gray-900">
-              Autres missions proposées par cette structure
+              Autres missions proposées par cette organisation
             </p>
           </div>
         </div>
@@ -516,7 +516,9 @@ export default {
     },
     hasParticipation() {
       return this.$store.getters.profile.participations.filter(
-        (participation) => participation.mission_id == this.id
+        (participation) =>
+          participation.mission_id == this.id &&
+          participation.state != 'Annulée'
       )
     },
     canRegistered() {

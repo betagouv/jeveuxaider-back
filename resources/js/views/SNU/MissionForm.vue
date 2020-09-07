@@ -23,9 +23,14 @@
         </template>
 
         <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-          Une question? Appelez-nous au
+          Une question? Contactez
           <span class="font-bold">
-            <a href="tel:0184800189">&nbsp;01 84 80 01 89&nbsp;</a>
+            <a
+              target="_blank"
+              href="mailto:contact@reserve-civique.on.crisp.email"
+            >
+              le support</a
+            >
           </span>
           ou chatez en cliquant sur le bouton en bas à droite.
         </div>

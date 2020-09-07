@@ -107,6 +107,7 @@ class Profile extends Model implements HasMedia
 
         return [
             'total' => $participations,
+            'test' => $this->structures->first(),
         ];
     }
 
@@ -205,6 +206,16 @@ class Profile extends Model implements HasMedia
             ->whereHas('tags', function (Builder $query) use ($domain_id) {
                 $query->where('id', $domain_id);
             });
+    }
+
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        $collectivity = Collectivity::find($collectivity_id);
+
+        if ($collectivity->type == 'commune') {
+            return $query
+                ->whereIn('zip', $collectivity->zips);
+        }
     }
 
     public function user()

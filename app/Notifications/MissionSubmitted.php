@@ -50,7 +50,7 @@ class MissionSubmitted extends Notification
         return (new MailMessage)
             ->subject('Nouvelle mission d’intérêt général déposée dans votre département')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('La structure « ' . $this->mission->structure->name . ' » propose une mission : ' . $this->mission->name)
+            ->line('L\'organisation « ' . $this->mission->structure->name . ' » propose une mission : ' . $this->mission->name)
             ->line('Vous pouvez, sur votre espace personnel la consulter et valider cette mission.')
             ->action('Accéder à mon compte', url(config('app.url'). '/missions'));
     }

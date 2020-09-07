@@ -125,6 +125,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
+
+    // COLLECTIVITIES
+    Route::get('collectivities', 'Api\CollectivityController@index');
 });
 
 // ONLY ADMIN
@@ -142,7 +145,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
     // COLLECTIVITIES
-    Route::get('collectivities', 'Api\CollectivityController@index');
     Route::post('collectivity', 'Api\CollectivityController@store');
     Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
     Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
@@ -205,6 +207,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // TABLE EXPORT
     Route::post('{table}/export/table', 'Api\ConfigController@export');
+
+    Route::get('profiles/referents/export', 'Api\ProfileController@exportReferents');
+    Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
+
 
     Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
 });

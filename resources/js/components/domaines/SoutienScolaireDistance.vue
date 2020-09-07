@@ -61,13 +61,13 @@
           </ul>
           <div class="mt-3">
             Sur la base des besoins exprimés par les parents et/ou de l’élève,
-            en lien avec la structure, il s’agit de mettre à disposition des
+            en lien avec l'organisation, il s’agit de mettre à disposition des
             connaissances et compétences d'aide aux devoirs des élèves. Lorsque
             cette aide s’exerce à distance, les outils de communication son et
             vidéo et échanges de documents devront être maîtrisés par les deux
             parties. Lorsque je m’engage à prendre contact avec des jeunes
-            élèves, je m’engage à suivre les recommandations émises par la
-            structure.
+            élèves, je m’engage à suivre les recommandations émises par
+            l'organisation.
           </div>
           <div class="mt-3">
             Lorsqu’elle est réalisée à distance, cette mission est accessible à
@@ -91,8 +91,8 @@
             Pour les missions en présentiel, j’évite d’emprunter les transports
             en commun lorsque cela est possible, notamment aux heures de pointe.
             Si j’emprunte les transports en commun en Ile-de-France, je me munis
-            de l’autorisation de déplacement et du justificatif fourni par la
-            structure au profit de laquelle je réalise la mission.
+            de l’autorisation de déplacement et du justificatif fourni par
+            l'organisation au profit de laquelle je réalise la mission.
           </div>
         </div>
       </div>

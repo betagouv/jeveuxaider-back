@@ -2,14 +2,19 @@
   <div class="register-step">
     <portal to="register-steps-help">
       <p>
-        Dites-nous en plus sur votre structure !
+        Dites-nous en plus sur votre organisation !
         <br />Ces
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
       </p>
       <p>
-        Une question? Appelez-nous au<br /><span class="font-bold"
-          ><a href="tel:0184800189"> 01 84 80 01 89</a>
+        Une question? Contactez<br /><span class="font-bold"
+          ><a
+            target="_blank"
+            href="mailto:contact@reserve-civique.on.crisp.email"
+          >
+            le support</a
+          >
         </span>
         ou
         <button onclick="$crisp.push(['do', 'chat:open'])">
@@ -23,8 +28,8 @@
         description="Je complète les informations de mon profil"
       />
       <el-step
-        title="Structure"
-        description="J'enregistre ma structure en tant que responsable"
+        title="Organisation"
+        description="J'enregistre mon organisation en tant que responsable"
       />
       <el-step
         title="Adresse"
@@ -33,11 +38,11 @@
     </el-steps>
     <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
-        Ma structure
+        Mon organisation
       </div>
       <!-- TODO -->
       <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
-        Logo de la structure
+        Logo de l'organisation
       </div> -->
       <div v-show="false" class="mb-10">
         <div class="flex -m-4">
@@ -79,8 +84,11 @@
         :rules="rules"
         class="max-w-lg"
       >
-        <el-form-item label="Nom de votre structure" prop="name">
-          <el-input v-model="form.name" placeholder="Nom de votre structure" />
+        <el-form-item label="Nom de votre organisation" prop="name">
+          <el-input
+            v-model="form.name"
+            placeholder="Nom de votre organisation"
+          />
         </el-form-item>
         <el-form-item label="Statut juridique" prop="statut_juridique">
           <el-select
@@ -120,7 +128,7 @@
         >
           <el-select
             v-model="form.structure_publique_type"
-            placeholder="Choisissez le type de votre structure publique"
+            placeholder="Choisissez le type de votre organisation publique"
           >
             <el-option
               v-for="item in $store.getters.taxonomies.structure_publique_types
@@ -158,7 +166,7 @@
         >
           <el-select
             v-model="form.structure_privee_type"
-            placeholder="Choisissez le type de structure privée"
+            placeholder="Choisissez le type d'organisation privée"
           >
             <el-option
               v-for="item in $store.getters.taxonomies.structure_privee_types
@@ -171,7 +179,7 @@
         </el-form-item>
 
         <el-form-item
-          label="Présentation synthétique de la structure"
+          label="Présentation synthétique de l'organisation"
           prop="description"
           class="flex-1"
         >
@@ -179,18 +187,20 @@
             v-model="form.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 6 }"
-            placeholder="Décrivez votre structure, en quelques mots"
+            placeholder="Décrivez votre organisation, en quelques mots"
           />
         </el-form-item>
 
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Réseau national
+          Réseau national ou territorial
         </div>
         <item-description>
-          Si votre structure est membre d'un réseau national (Les Banques
-          alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
-          ainsi au superviseur de votre réseau de visualiser les missions et
-          bénévoles rattachés à votre structure.
+          Si votre organisation est membre d'un réseau national ou territorial
+          qui figure dans le menu déroulant du champ ci-dessous,
+          sélectionnez-le. Vous permettrez au superviseur de votre réseau de
+          visualiser les missions et bénévoles rattachés à votre organisation.
+          Vous faciliterez également la validation de votre organisation par les
+          autorités territoriales lors de votre inscription.
         </item-description>
         <el-form-item label="Réseau national" prop="reseau" class="flex-1">
           <el-select v-model="form.reseau_id" clearable placeholder="Aucun">
@@ -228,12 +238,13 @@ export default {
       rules: {
         name: {
           required: true,
-          message: 'Le nom de votre structure est requis',
+          message: 'Le nom de votre organisation est requis',
           trigger: 'blur',
         },
         statut_juridique: {
           required: true,
-          message: 'Veuillez renseigner la forme juridique de votre structure',
+          message:
+            'Veuillez renseigner la forme juridique de votre organisation',
           trigger: 'blur',
         },
         mobile: [

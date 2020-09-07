@@ -9,7 +9,7 @@ use App\Http\Requests\Api\CollectivityUpdateRequest;
 use App\Http\Requests\Api\CollectivityDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersTitleBodySearch;
+use App\Filters\FiltersTitleBodyNameSearch;
 use App\Http\Requests\Api\CollectivityUploadRequest;
 use Illuminate\Support\Str;
 use App\Models\Mission;
@@ -26,7 +26,8 @@ class CollectivityController extends Controller
         return QueryBuilder::for(Collectivity::class)
             ->allowedFilters([
                 'state',
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                'type',
+                AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));

@@ -22,7 +22,7 @@
             Responsable
           </div>
           <div class="text-gray-600 mb-4 flex-1">
-            J'inscris ma structure en tant que responsable
+            J'inscris mon organisation en tant que responsable
           </div>
           <router-link
             :to="{

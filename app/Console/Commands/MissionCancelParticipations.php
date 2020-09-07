@@ -52,7 +52,7 @@ class MissionCancelParticipations extends Command
             ->where('mission_id', $id);
 
         $count = $participations->count();
-        if ($this->confirm($count .' participation(s) will be cancelled for '.$mission->name. '(Structure: '. $mission->structure->name.')')) {
+        if ($this->confirm($count .' participation(s) will be cancelled for '.$mission->name. '(Organization: '. $mission->structure->name.')')) {
             $participations->update(['state' => 'Mission annulée']);
             $mission->save();
             $this->info($count . ' participation(s) has been canceled. No notification has been sent.');

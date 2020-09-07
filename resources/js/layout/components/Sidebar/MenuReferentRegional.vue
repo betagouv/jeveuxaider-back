@@ -81,7 +81,9 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item v-if="$store.getters.sidebar">
-      <a href="tel:0184800189">Aide:&nbsp;01 84 80 01 89&nbsp;</a>
+      <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
+        >Contacter le support</a
+      >
     </el-menu-item>
   </div>
 </template>

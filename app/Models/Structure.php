@@ -171,6 +171,16 @@ class Structure extends Model
             });
     }
 
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        $collectivity = Collectivity::find($collectivity_id);
+
+        if ($collectivity->type == 'commune') {
+            return $query
+                ->whereIn('zip', $collectivity->zips);
+        }
+    }
+
     public function scopeValidated($query)
     {
         return $query->where('state', 'Validée');

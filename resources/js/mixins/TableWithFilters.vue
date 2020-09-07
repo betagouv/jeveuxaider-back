@@ -55,7 +55,7 @@ export default {
       this.loading = true
       this.fetchRows(this.query)
         .then((response) => {
-          console.log('fetchDatas', response.data)
+          // console.log('fetchDatas', response.data)
           this.loading = false
           this.totalRows = response.data.total
           this.fromRow = response.data.from

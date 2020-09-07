@@ -98,6 +98,21 @@
         />
         <query-filter
           type="select"
+          name="collectivity"
+          :value="query['filter[collectivity]']"
+          label="Collectivité"
+          :options="
+            collectivities.map((collectivity) => {
+              return {
+                label: collectivity.name,
+                value: collectivity.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
           name="domaine"
           :value="query['filter[domaine]']"
           label="Domaines d'action"
@@ -235,7 +250,11 @@ import {
   exportParticipations,
   massValidationParticipation,
 } from '@/api/participation'
-import { fetchTags, fetchMissionTemplates } from '@/api/app'
+import {
+  fetchTags,
+  fetchMissionTemplates,
+  fetchCollectivities,
+} from '@/api/app'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
@@ -262,6 +281,7 @@ export default {
       domaines: [],
       templates: [],
       tableData: [],
+      collectivities: [],
     }
   },
   created() {
@@ -270,6 +290,12 @@ export default {
     })
     fetchMissionTemplates().then((res) => {
       this.templates = res.data.data
+    })
+    fetchCollectivities({
+      'filter[type]': 'commune',
+      'filter[state]': 'validated',
+    }).then((res) => {
+      this.collectivities = res.data.data
     })
   },
   methods: {
