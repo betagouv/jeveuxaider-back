@@ -45,6 +45,14 @@
           >
             <div class="mr-6 mt-6">
               <div class="text-gray-500 text-sm">
+                Collectivités
+              </div>
+              <div class>
+                {{ data.responsable_collectivity | formatNumber }}
+              </div>
+            </div>
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">
                 Départementaux
               </div>
               <div class>
