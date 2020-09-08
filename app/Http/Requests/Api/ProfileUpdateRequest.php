@@ -54,6 +54,7 @@ class ProfileUpdateRequest extends ProfileRequest
         if (request()->user()->isAdmin()) {
             $rules['referent_department'] = '';
             $rules['referent_region'] = '';
+            $rules['collectivity_id'] = '';
             $rules['reseau_id'] = '';
             $rules['is_analyste'] = 'boolean';
         }

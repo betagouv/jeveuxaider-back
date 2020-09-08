@@ -9,7 +9,7 @@
           Tableau de bord
         </div>
       </div>
-      <div v-if="$store.getters.contextRole === 'admin'" class>
+      <div v-if="$store.getters.contextRole === 'admin'">
         <el-dropdown @command="handleCommand">
           <el-button :loading="loading" type="primary">
             Exporter les données
@@ -99,7 +99,6 @@ export default {
       loading: false,
     }
   },
-  computed: {},
   methods: {
     handleCommand(command) {
       this.loading = true

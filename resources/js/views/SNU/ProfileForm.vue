@@ -162,6 +162,35 @@
             </el-select>
           </el-form-item>
         </template>
+        <template v-if="mode == 'edit'">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Responsable collectivité
+          </div>
+          <item-description>
+            Si cet utilisateur est responsable d'une collectivité, renseignez le
+            nom de la collectivité. Vous permettez à cet utilisateur de
+            visualiser les statistiques rattachées à cette collectivité.
+          </item-description>
+          <el-form-item
+            label="Collectivité"
+            prop="collectivity_id"
+            class="flex-1"
+          >
+            <el-select
+              v-model="form.collectivity_id"
+              filterable
+              clearable
+              placeholder="Collectivité"
+            >
+              <el-option
+                v-for="item in $store.getters.collectivities"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </template>
         <template v-if="mode == 'edit' || role == 'analyste'">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Datas analyste

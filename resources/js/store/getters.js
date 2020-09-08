@@ -18,6 +18,7 @@ const getters = {
   isImpersonating: (state) =>
     state.auth.accessTokenImpersonate ? true : false,
   reseaux: (state) => state.reseaux,
+  collectivities: (state) => state.collectivities,
   reminders: (state) => state.reminders,
   profile: (state) => (state.user.user ? state.user.user.profile : null),
   contextRole: (state) => state.user.user.context_role,

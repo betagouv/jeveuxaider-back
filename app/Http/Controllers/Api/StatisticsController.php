@@ -115,6 +115,7 @@ class StatisticsController extends Controller
                 break;
             case 'referent':
             case 'referent_regional':
+            case 'responsable_collectivity':
             case 'superviseur':
                 $total = Profile::role($request->header('Context-Role'))->count();
                 $volontaire = Profile::role($request->header('Context-Role'))

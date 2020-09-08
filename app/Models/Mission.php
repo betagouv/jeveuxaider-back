@@ -264,6 +264,9 @@ class Mission extends Model
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
             break;
+            case 'responsable_collectivity':
+                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
+            break;
         }
     }
 

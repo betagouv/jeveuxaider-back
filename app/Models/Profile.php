@@ -26,6 +26,7 @@ class Profile extends Model implements HasMedia
         'phone',
         'mobile',
         'reseau_id',
+        'collectivity_id',
         'referent_department',
         'referent_region',
         'birthday',
@@ -177,6 +178,9 @@ class Profile extends Model implements HasMedia
                             ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                     });
                 break;
+            case 'responsable_collectivity':
+                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
+                break;
             default:
                 abort(403, 'This action is not authorized');
                 break;
@@ -228,6 +232,11 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
+    public function collectivity()
+    {
+        return $this->belongsTo('App\Models\Collectivity');
+    }
+
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'tuteur_id');
@@ -275,6 +284,11 @@ class Profile extends Model implements HasMedia
         return $this->reseau ? true : false;
     }
 
+    public function isResponsableCollectivity()
+    {
+        return $this->collectivity ? true : false;
+    }
+
     public function isResponsable()
     {
         return (bool) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'responsable')->first();
@@ -308,6 +322,7 @@ class Profile extends Model implements HasMedia
             'referent_regional' => $this->isReferentRegional(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
+            'responsable_collectivity' => $this->isResponsableCollectivity(),
             'tuteur' => $this->isTuteur(),
             'analyste' => $this->is_analyste
         ];
