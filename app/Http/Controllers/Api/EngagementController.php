@@ -29,8 +29,8 @@ class EngagementController extends Controller
             'department' => $mission['departmentCode'] ?? null,
             'department_name' => isset($mission['departmentName']) ? $mission['departmentCode'] . ' - ' . $mission['departmentName'] : null,
             'zip' => $mission['postalCode'] ?? null,
-            'places_left' => $mission['places'],
-            'participations_max' => $mission['places'],
+            'places_left' => $mission['places'] ?? null,
+            'participations_max' => $mission['places'] ?? null,
             'has_places_left' => true,
             'structure' => [
                 'id' => $mission['organizationId'] ?? null,
