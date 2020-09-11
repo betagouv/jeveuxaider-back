@@ -816,7 +816,8 @@
           <p
             class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
           >
-            Les actualités de l’engagement sur le blog de la <b>Réserve Civique</b>
+            Les actualités de l’engagement sur le blog de la
+            <b>Réserve Civique</b>
           </p>
         </div>
         <div
@@ -826,7 +827,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-48 w-full object-cover"
-                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/05/Success-scaled-uai-1032x580.jpg"
+                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/Capture-d%E2%80%99e%CC%81cran-2020-09-09-a%CC%80-21.25.43.png"
                 alt=""
               />
             </div>
@@ -843,18 +844,20 @@
                 </p>
                 <a
                   target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/mission-accomplie-et-si-on-continuait-ensemble/"
+                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-sengage-pour-la-solidarite-et-linsertion/"
                   class="block"
                 >
                   <h3
                     class="mt-2 text-xl leading-7 font-semibold text-gray-900"
                   >
-                    Mission accomplie. Et si on continuait ensemble ?
+                    La Réserve Civique s'engage pour la solidarité et
+                    l'insertion !
                   </h3>
                   <p class="mt-3 text-base leading-6 text-gray-500">
-                    La Réserve Civique s’est massivement mobilisée au pic de la
-                    crise sanitaire. Aujourd’hui elle étend son action et
-                    devient la plateforme publique de l’engagement.
+                    La Réserve Civique, en partenariat avec les Banques
+                    Alimentaires et l'ANDES, vous propose des milliers de
+                    missions bénévoles pour faire grandir la solidarité en
+                    France.
                   </p>
                 </a>
               </div>
@@ -865,7 +868,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-48 w-full object-cover"
-                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/05/LOGO-RC-carre%CC%81-1-uai-1032x580.jpg"
+                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/1.IMG_1923-scaled-e1599639517199-uai-2064x1170.jpg"
                 alt=""
               />
             </div>
@@ -882,18 +885,18 @@
                 </p>
                 <a
                   target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-evolue/"
+                  href="https://covid19.reserve-civique.gouv.fr/engagement/focus/parole-dasso-causons-delie-les-langues-relie-les-cultures/"
                   class="block"
                 >
                   <h3
                     class="mt-2 text-xl leading-7 font-semibold text-gray-900"
                   >
-                    La Réserve Civique évolue !
+                    [Parole d’asso] CAUSONS délie les langues, relie les
+                    cultures
                   </h3>
                   <p class="mt-3 text-base leading-6 text-gray-500">
-                    Missions, domaines d’action, blog … Découvrez toutes les
-                    nouveautés de la Réserve Civique, au service de l’engagement
-                    de chacun, partout en France.
+                    Au-delà des langues, réinventons une solidarité
+                    participative, égalitaire et inclusive !
                   </p>
                 </a>
               </div>
@@ -904,7 +907,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-48 w-full object-cover"
-                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/05/ba-amiens-s2-170420-091757-5156-hd_0-scaled-uai-1032x580.jpg"
+                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/Facebook_couverture_Rentrée-des-Assos.jpg"
                 alt=""
               />
             </div>
@@ -913,27 +916,27 @@
                 <p class="text-sm leading-5 font-medium text-blue-800">
                   <a
                     target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement/category/temoignage/"
+                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
                     class="hover:underline"
                   >
-                    Témoignage
+                    Actualités
                   </a>
                 </p>
                 <a
                   target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/temoignage/florian-benevole-a-la-banque-alimentaire-de-dax-dans-les-landes-40/"
+                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/decouvrez-la-rentree-des-assos/"
                   class="block"
                 >
                   <h3
                     class="mt-2 text-xl leading-7 font-semibold text-gray-900"
                   >
-                    Florian, bénévole à la Banque Alimentaire de Dax, dans les
-                    Landes (40)
+                    Associations et collectivités : découvrez la Rentrée des
+                    Assos !
                   </h3>
                   <p class="mt-3 text-base leading-6 text-gray-500">
-                    « Le rôle de la Banque Alimentaire est crucial : sans elle,
-                    les associations n’auraient pas toutes les ressources
-                    nécessaires pour aider les plus démunis. »
+                    À partir du 16 septembre, cette plateforme numérique met les
+                    associations à l'honneur et référence leurs activités de
+                    rentrée.
                   </p>
                 </a>
               </div>
