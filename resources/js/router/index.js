@@ -26,6 +26,7 @@ import FrontAbout from '@/views/Front/About'
 import FrontSecurityRules from '@/views/Front/SecurityRules'
 import FrontPolitiqueConfidentialite from '@/views/Front/PolitiqueConfidentialite'
 import FrontUserMissions from '@/views/Front/UserMissions'
+import Missions from '@/views/Front/Missions'
 import FrontFaq from '@/views/Front/Faq'
 import FrontPage from '@/views/Front/Page'
 
@@ -1152,10 +1153,7 @@ export default new Router({
     },
     {
       path: '/missions',
-      component: () =>
-        import(
-          /* webpackChunkName: "assets/js/front-missions" */ '@/views/Front/Missions.vue'
-        ),
+      component: Missions,
       name: 'FrontMissions',
     },
     {

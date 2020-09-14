@@ -109,6 +109,7 @@
               <ais-menu-select
                 class="flex-1"
                 attribute="domaines"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
@@ -131,6 +132,7 @@
               <ais-menu-select
                 class="flex-1"
                 attribute="template_title"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
@@ -186,87 +188,20 @@
                 <template v-if="hits.length > 0">
                   <ais-hits>
                     <div slot="item" slot-scope="{ item }">
+                      <a
+                        v-if="item.provider == 'api_engagement'"
+                        class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                        :href="item.application_url"
+                        target="_blank"
+                      >
+                        <MissionSearch :mission="item" />
+                      </a>
                       <router-link
+                        v-else
                         class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                         :to="`/missions/${item.id}`"
                       >
-                        <div class="p-4 sm:p-6 md:p-8">
-                          <div class="flex items-center">
-                            <div
-                              class="hidden sm:block flex-shrink-0 bg-primary rounded-md p-3 text-center"
-                            >
-                              <img
-                                class=""
-                                :src="item.domaine_image"
-                                style="width: 28px;"
-                              />
-                            </div>
-                            <div class="min-w-0 flex-1 sm:pl-4">
-                              <div
-                                class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2"
-                              >
-                                <div class="m-2 min-w-0 flex-shrink">
-                                  <div
-                                    class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                                    v-text="item.domaine_name"
-                                  />
-                                  <div
-                                    class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                                  >
-                                    {{ item.name }}
-                                  </div>
-                                </div>
-
-                                <div
-                                  v-if="
-                                    item.has_places_left && item.places_left > 0
-                                  "
-                                  class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                                  style="background: #31c48d;"
-                                >
-                                  <template>
-                                    {{ item.places_left | formatNumber }}
-                                    {{
-                                      item.places_left
-                                        | pluralize([
-                                          'bénévole recherché',
-                                          'bénévoles recherchés',
-                                        ])
-                                    }}
-                                  </template>
-                                </div>
-                                <div
-                                  v-else
-                                  class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                                  style="background: #d2d6dc;"
-                                >
-                                  Complet
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div
-                            class="mt-4 flex items-start text-sm text-gray-500"
-                          >
-                            <svg
-                              class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                clip-rule="evenodd"
-                              />
-                            </svg>
-                            <span
-                              v-text="
-                                `${item.city} (${item.department}) - ${item.structure.name}`
-                              "
-                            />
-                          </div>
-                        </div>
+                        <MissionSearch :mission="item" />
                       </router-link>
                     </div>
                   </ais-hits>
@@ -418,6 +353,7 @@ import {
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia-min.css'
 import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings'
+import MissionSearch from '@/components/MissionSearch'
 import _ from 'lodash'
 import qs from 'qs'
 
@@ -432,6 +368,7 @@ export default {
     AisMenuSelect,
     AisClearRefinements,
     AisConfigure,
+    MissionSearch,
   },
   data() {
     return {
