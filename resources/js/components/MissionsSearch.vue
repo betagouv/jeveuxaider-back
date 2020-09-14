@@ -93,6 +93,7 @@
                 v-if="activeFilters.includes('domaines')"
                 class="flex-1"
                 attribute="domaines"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
@@ -116,6 +117,7 @@
                 v-if="activeFilters.includes('template_title')"
                 class="flex-1"
                 attribute="template_title"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
