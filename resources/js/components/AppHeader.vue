@@ -57,12 +57,15 @@
                 >
                   Mes missions
                 </router-link>
-                <div class="relative">
+                <div
+                  v-click-outside="() => (isOnDomains = false)"
+                  class="relative"
+                >
                   <button
                     type="button"
                     class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                     :class="isOnDomains ? 'text-gray-900' : 'text-gray-500'"
-                    @click="menuActive('domains')"
+                    @mouseover="menuActive('domains')"
                   >
                     <span>Domaines d'actions</span>
                     <svg
@@ -97,6 +100,7 @@
                           >
                             <a
                               href="/thematiques/solidarite-et-insertion"
+                              target="_blank"
                               class="-m-3 p-3 flex mb-2 items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <div
@@ -117,6 +121,7 @@
                             </a>
                             <a
                               href="/thematiques/education-pour-tous"
+                              target="_blank"
                               class="-m-3 p-3 flex mb-2 items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <div
@@ -137,6 +142,7 @@
                             </a>
                             <a
                               href="/thematiques/protection-de-la-nature"
+                              target="_blank"
                               class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <div
@@ -161,12 +167,15 @@
                     </div>
                   </transition>
                 </div>
-                <div class="relative">
+                <div
+                  v-click-outside="() => (isOnSinformer = false)"
+                  class="relative"
+                >
                   <button
                     type="button"
                     class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                     :class="isOnSinformer ? 'text-gray-900' : 'text-gray-500'"
-                    @click="menuActive('sinformer')"
+                    @mouseover="menuActive('sinformer')"
                   >
                     <span>S'informer</span>
                     <svg
@@ -201,6 +210,7 @@
                           >
                             <a
                               href="/engagement/actualites"
+                              target="_blank"
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
@@ -211,6 +221,7 @@
                             </a>
                             <a
                               href="/engagement/dispositifs"
+                              target="_blank"
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
@@ -222,6 +233,7 @@
 
                             <a
                               href="/engagement"
+                              target="_blank"
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
