@@ -37,7 +37,7 @@ class EngagementController extends Controller
                 'name' => $mission['organizationName'] ?? null,
             ],
             // 'type' => $this->type, ( Mission en présentiel / Mission à distance )
-            'template_title' => $mission['title'],
+            'template_title' => $this->getTemplate($mission),
             'domaine_name' => 'Protection de la nature',
             'domaine_image' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg', // Url de l'icone du domaine
             'domaines' => ['Protection de la nature'],
@@ -56,6 +56,29 @@ class EngagementController extends Controller
 
         return $missions;
         // return $response->json();
+    }
+
+    private function getTemplate($mission)
+    {
+        if (strpos($mission['title'], "J'alerte en cas d'urgence") !== false) {
+            return "J'alerte en cas d'urgence";
+        }
+        if (strpos($mission['title'], "J'observe la faune et la flore") !== false) {
+            return "J'observe la faune et la flore";
+        }
+        if (strpos($mission['title'], "J'aménage un espace naturel") !== false) {
+            return "J'aménage un espace naturel";
+        }
+        if (strpos($mission['title'], "Je ramasse des déchets") !== false) {
+            return "Je ramasse des déchets";
+        }
+        if (strpos($mission['title'], "Je protège la faune et la flore") !== false) {
+            return "Je protège la faune et la flore";
+        }
+        if (strpos($mission['title'], "Je découvre la biodiversité") !== false) {
+            return "Je découvre la biodiversité";
+        }
+        return $mission['title'];
     }
 
     public function delete()
