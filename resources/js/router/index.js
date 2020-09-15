@@ -1166,6 +1166,14 @@ export default new Router({
       props: (route) => ({ id: parseInt(route.params.id) }),
     },
     {
+      path: '/territoires',
+      component: () =>
+        import(
+          /* webpackChunkName: "assets/js/territories" */ '@/views/Front/Territories.vue'
+        ),
+      name: 'Territories',
+    },
+    {
       path: '/territoires/:slug',
       component: () =>
         import(

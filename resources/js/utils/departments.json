@@ -1,0 +1,398 @@
+[
+    {
+        "name": "Ain",
+        "group": "A"
+    },
+    {
+        "name": "Aisne",
+        "group": "A"
+    },
+    {
+        "name": "Allier",
+        "group": "A"
+    },
+    {
+        "name": "Alpes-de-Haute-Provence",
+        "group": "A"
+    },
+    {
+        "name": "Alpes-Maritimes",
+        "group": "A"
+    },
+    {
+        "name": "Ardèche",
+        "group": "A"
+    },
+    {
+        "name": "Ardennes",
+        "group": "A"
+    },
+    {
+        "name": "Ariège",
+        "group": "A"
+    },
+    {
+        "name": "Aube",
+        "group": "A"
+    },
+    {
+        "name": "Aude",
+        "group": "A"
+    },
+    {
+        "name": "Aveyron",
+        "group": "A"
+    },
+    {
+        "name": "Bas-Rhin",
+        "group": "B - C"
+    },
+    {
+        "name": "Bouches-du-Rhône",
+        "group": "B - C"
+    },
+    {
+        "name": "Calvados",
+        "group": "B - C"
+    },
+    {
+        "name": "Cantal",
+        "group": "B - C"
+    },
+    {
+        "name": "Charente",
+        "group": "B - C"
+    },
+    {
+        "name": "Charente-Maritime",
+        "group": "B - C"
+    },
+    {
+        "name": "Cher",
+        "group": "B - C"
+    },
+    {
+        "name": "Corrèze",
+        "group": "B - C"
+    },
+    {
+        "name": "Corse-du-Sud",
+        "group": "B - C"
+    },
+    {
+        "name": "Côte-d'Or",
+        "group": "B - C"
+    },
+    {
+        "name": "Côtes d'Armor",
+        "group": "B - C"
+    },
+    {
+        "name": "Creuse",
+        "group": "B - C"
+    },
+    {
+        "name": "Deux-Sèvres",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Dordogne",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Doubs",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Drôme",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Essonne",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Eure",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Eure-et-Loir",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Finistère",
+        "group": "D - E - F"
+    },
+    {
+        "name": "Gard",
+        "group": "G - H"
+    },
+    {
+        "name": "Gers",
+        "group": "G - H"
+    },
+    {
+        "name": "Gironde",
+        "group": "G - H"
+    },
+    {
+        "name": "Guadeloupe",
+        "group": "G - H"
+    },
+    {
+        "name": "Guyane",
+        "group": "G - H"
+    },
+    {
+        "name": "Haut-Rhin",
+        "group": "G - H"
+    },
+    {
+        "name": "Haute-Corse",
+        "group": "G - H"
+    },
+    {
+        "name": "Haute-Loire",
+        "group": "G - H"
+    },
+    {
+        "name": "Haute-Marne",
+        "group": "G - H"
+    },
+    {
+        "name": "Haute-Saône",
+        "group": "G - H"
+    },
+    {
+        "name": "Haute-Vienne",
+        "group": "G - H"
+    },
+    {
+        "name": "Hautes-Alpes",
+        "group": "G - H"
+    },
+    {
+        "name": "Hautes-Pyrénées",
+        "group": "G - H"
+    },
+    {
+        "name": "Hauts-de-Seine",
+        "group": "G - H"
+    },
+    {
+        "name": "Hérault",
+        "group": "G - H"
+    },
+    {
+        "name": "Ille-et-Vilaine",
+        "group": "I"
+    },
+    {
+        "name": "Indre",
+        "group": "I"
+    },
+    {
+        "name": "Indre-et-Loire",
+        "group": "I"
+    },
+    {
+        "name": "Isère",
+        "group": "I"
+    },
+    {
+        "name": "Jura",
+        "group": "J - L"
+    },
+    {
+        "name": "La Réunion",
+        "group": "J - L"
+    },
+    {
+        "name": "Landes",
+        "group": "J - L"
+    },
+    {
+        "name": "Loir-et-Cher",
+        "group": "J - L"
+    },
+    {
+        "name": "Loire",
+        "group": "J - L"
+    },
+    {
+        "name": "Loire-Atlantique",
+        "group": "J - L"
+    },
+    {
+        "name": "Loiret",
+        "group": "J - L"
+    },
+    {
+        "name": "Lot",
+        "group": "J - L"
+    },
+    {
+        "name": "Lot-et-Garonne",
+        "group": "J - L"
+    },
+    {
+        "name": "Lozère",
+        "group": "J - L"
+    },
+    {
+        "name": "Maine-et-Loire",
+        "group": "M - N"
+    },
+    {
+        "name": "Manche",
+        "group": "M - N"
+    },
+    {
+        "name": "Marne",
+        "group": "M - N"
+    },
+    {
+        "name": "Martinique",
+        "group": "M - N"
+    },
+    {
+        "name": "Mayenne",
+        "group": "M - N"
+    },
+    {
+        "name": "Mayotte",
+        "group": "M - N"
+    },
+    {
+        "name": "Meurthe-et-Moselle",
+        "group": "M - N"
+    },
+    {
+        "name": "Meuse",
+        "group": "M - N"
+    },
+    {
+        "name": "Morbihan",
+        "group": "M - N"
+    },
+    {
+        "name": "Moselle",
+        "group": "M - N"
+    },
+    {
+        "name": "Nièvre",
+        "group": "M - N"
+    },
+    {
+        "name": "Nord",
+        "group": "M - N"
+    },
+    {
+        "name": "Oise",
+        "group": "O - P"
+    },
+    {
+        "name": "Orne",
+        "group": "O - P"
+    },
+    {
+        "name": "Pas-de-Calais",
+        "group": "O - P"
+    },
+    {
+        "name": "Puy-de-Dôme",
+        "group": "O - P"
+    },
+    {
+        "name": "Pyrénées-Atlantiques",
+        "group": "O - P"
+    },
+    {
+        "name": "Pyrénées-Orientales",
+        "group": "O - P"
+    },
+    {
+        "name": "Paris",
+        "group": "O - P"
+    },
+    {
+        "name": "Rhône",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Saône-et-Loire",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Sarthe",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Savoie",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Seine-Maritime",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Seine-et-Marne",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Seine-St-Denis",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Somme",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Tarn",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Tarn-et-Garonne",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Territoire de Belfort",
+        "group": "R - S - T"
+    },
+    {
+        "name": "Var",
+        "group": "V - Y"
+    },
+    {
+        "name": "Vaucluse",
+        "group": "V - Y"
+    },
+    {
+        "name": "Vendée",
+        "group": "V - Y"
+    },
+    {
+        "name": "Vienne",
+        "group": "V - Y"
+    },
+    {
+        "name": "Vosges",
+        "group": "V - Y"
+    },
+    {
+        "name": "Val-de-Marne",
+        "group": "V - Y"
+    },
+    {
+        "name": "Val-D'Oise",
+        "group": "V - Y"
+    },
+    {
+        "name": "Yonne",
+        "group": "V - Y"
+    },
+    {
+        "name": "Yvelines",
+        "group": "V - Y"
+    }
+]

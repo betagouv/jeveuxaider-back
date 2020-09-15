@@ -1,0 +1,160 @@
+<template>
+  <div class="bg-gray-100">
+    <AppHeader />
+    <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
+      <div
+        class="relative max-w-xl mx-auto px-6 sm:px-6 lg:px-8 lg:max-w-screen-xl"
+      >
+        <img
+          class="hidden lg:block absolute transform translate-y-1 opacity-50"
+          style="left: 100%; transform: translateX(-75%) !important;"
+          src="images/france.svg"
+          width="904"
+          alt=""
+        />
+
+        <div class="relative">
+          <h3
+            class="text-center text-6xl leading-none font-bold tracking-tight text-gray-900"
+          >
+            Rejoignez la Réserve Civique
+            <br />
+            dans votre département
+          </h3>
+          <p
+            class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
+          >
+            Sur l'ensemble du territoire français, des milliers de réservistes,
+            de structures et d'association ont déjà rejoint la
+            <b>Réserve Civique</b>.
+          </p>
+        </div>
+
+        <!-- Search bar -->
+        <div class="flex-1 flex justify-between lg:mx-auto mt-10">
+          <div class="flex-1 flex bg-white z-20 px-8 shadow-md rounded-lg">
+            <form class="w-full flex md:ml-0 mb-0" action="#" method="GET">
+              <label for="search_field" class="sr-only">Recherche</label>
+              <div
+                class="relative w-full text-cool-gray-400 focus-within:text-cool-gray-600"
+              >
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pointer-events-none"
+                >
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  id="search_field"
+                  v-model="query"
+                  class="block w-full text-xl h-full pl-8 pr-6 py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:outline-none focus:placeholder-cool-gray-400"
+                  placeholder="Trouvez votre département"
+                  type="search"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="mx-auto py-12 lg:py-8">
+            <p
+              class="text-center text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+            >
+              Choisissez votre département
+            </p>
+
+            <div
+              v-for="group in groups"
+              v-if="
+                departments.filter(
+                  (department) =>
+                    department.group == group &&
+                    slugify(department.name).includes(slugify(query))
+                ).length > 0
+              "
+              :key="group"
+              class="mt-10 text-xl font-bold pl-2"
+            >
+              {{ group }}
+              <div class="mt-2 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-2">
+                <a
+                  v-for="department in departments.filter(
+                    (department) =>
+                      department.group == group &&
+                      slugify(department.name).includes(slugify(query))
+                  )"
+                  :key="department.name"
+                  href="#"
+                >
+                  <div
+                    class="col-span-1 flex justify-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                  >
+                    <span class="font-semibold">{{ department.name }}</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <AppFooter />
+  </div>
+</template>
+
+<script>
+import departments from '@/utils/departments.json'
+
+export default {
+  name: 'Territories',
+  data() {
+    return {
+      query: '',
+      departments: departments,
+      groups: [
+        'A',
+        'B - C',
+        'D - E - F',
+        'G - H',
+        'I',
+        'J - L',
+        'M - N',
+        'O - P',
+        'R - S - T',
+        'V - Y',
+      ],
+    }
+  },
+  methods: {
+    slugify(str) {
+      var map = {
+        '-': ' ',
+        '-': '_',
+        a: 'á|à|ã|â|À|Á|Ã|Â',
+        e: 'é|è|ê|É|È|Ê',
+        i: 'í|ì|î|Í|Ì|Î',
+        o: 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
+        u: 'ú|ù|û|ü|Ú|Ù|Û|Ü',
+        c: 'ç|Ç',
+        n: 'ñ|Ñ',
+      }
+      for (var pattern in map) {
+        str = str.replace(new RegExp(map[pattern], 'g'), pattern)
+      }
+      return str.toLowerCase()
+    },
+  },
+}
+</script>
+
+<style scoped>
+input::placeholder {
+  font-weight: 400 !important;
+}
+</style>
