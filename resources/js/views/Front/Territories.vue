@@ -19,7 +19,7 @@
           >
             Rejoignez la Réserve Civique
             <br />
-            dans votre département
+            dans votre territoire
           </h3>
           <p
             class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
