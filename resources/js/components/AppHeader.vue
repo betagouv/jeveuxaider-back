@@ -209,7 +209,7 @@
                             class="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
                           >
                             <a
-                              href="https://covid19.reserve-civique.gouv.fr/engagement/actualites"
+                              href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
                               target="_blank"
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
@@ -220,7 +220,7 @@
                               </p>
                             </a>
                             <a
-                              href="https://covid19.reserve-civique.gouv.fr/engagement/dispositifs"
+                              href="https://covid19.reserve-civique.gouv.fr/engagement/dispositifs/"
                               target="_blank"
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
