@@ -96,6 +96,7 @@ class Mission extends Model
             'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
             'domaines' => $this->domaines,
             'provider' => 'reserve_civique',
+            'post_date' => strtotime($this->created_at),
         ];
 
         if ($this->latitude && $this->longitude) {

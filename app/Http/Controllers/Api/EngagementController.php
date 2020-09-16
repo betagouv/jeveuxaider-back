@@ -41,7 +41,12 @@ class EngagementController extends Controller
             'domaine_name' => 'Protection de la nature',
             'domaine_image' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg', // Url de l'icone du domaine
             'domaines' => ['Protection de la nature'],
-            'provider' => 'api_engagement'
+            'provider' => 'api_engagement',
+            '_geoloc' => [
+                'lat' => $mission['location']['lat'] ? $mission['location']['lat'] : 0,
+                'lng' => $mission['location']['lon'] ? $mission['location']['lon'] : 0
+            ],
+            'post_date' => strtotime($mission['postedAt']),
         ], $response['data']);
 
         // Send to Algolia

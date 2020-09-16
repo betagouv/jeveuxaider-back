@@ -30,7 +30,10 @@
         :index-name="indexName"
         :routing="routing"
       >
-        <ais-configure :hits-per-page.camel="20" />
+        <ais-configure
+          :hits-per-page.camel="20"
+          :around-lat-lng-via-i-p.camel="true"
+        />
 
         <div class="bg-primary pb-32">
           <div class="container mx-auto px-4">
