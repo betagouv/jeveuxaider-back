@@ -90,7 +90,7 @@
                       slugify(department.name).includes(slugify(query))
                   )"
                   :key="department.name"
-                  :href="`/missions?menu[department_name]=${department.number} - ${department.name}`"
+                  :href="department.url"
                 >
                   <div
                     class="col-span-1 flex justify-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
