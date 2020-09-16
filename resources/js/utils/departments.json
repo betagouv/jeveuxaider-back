@@ -26,7 +26,7 @@
     },
     {
         "name": "Ardèche",
-        "url": "/territoires/ain",
+        "url": "/territoires/ardeche",
         "group": "A"
     },
     {
@@ -76,7 +76,7 @@
     },
     {
         "name": "Charente",
-        "url": "/territoires/ain",
+        "url": "/territoires/charente",
         "group": "B - C"
     },
     {
@@ -141,12 +141,12 @@
     },
     {
         "name": "Eure",
-        "url": "/territoires/ain",
+        "url": "/territoires/eure",
         "group": "D - E - F"
     },
     {
         "name": "Eure-et-Loir",
-        "url": "/territoires/ain",
+        "url": "/territoires/eure-et-loir",
         "group": "D - E - F"
     },
     {
@@ -251,7 +251,7 @@
     },
     {
         "name": "Jura",
-        "url": "/territoires/ain",
+        "url": "/territoires/jura",
         "group": "J - L"
     },
     {
