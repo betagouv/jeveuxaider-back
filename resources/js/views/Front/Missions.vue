@@ -134,7 +134,7 @@
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.template_title"
+                  v-model="filters.type"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
                   placeholder="Missions types"
@@ -489,7 +489,7 @@ export default {
       this.filters.query = null
       this.filters.department_name = null
       this.filters.domaines = null
-      this.filters.type = null
+      this.filters.template_title = null
       this.filters.type = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
