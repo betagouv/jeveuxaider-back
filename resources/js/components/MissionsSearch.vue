@@ -25,6 +25,7 @@
               :hits-per-page.camel="10"
               :facet-filters.camel="facetFilters"
               :filters.camel="queryFilters"
+              :around-lat-lng-via-i-p.camel="true"
             />
 
             <div
