@@ -43,8 +43,8 @@ class EngagementController extends Controller
             'domaines' => ['Protection de la nature'],
             'provider' => 'api_engagement',
             '_geoloc' => [
-                'lat' => $mission['location']['lat'] ? $mission['location']['lat'] : 0,
-                'lng' => $mission['location']['lon'] ? $mission['location']['lon'] : 0
+                'lat' => $mission['location'] && $mission['location']['lat'] ? $mission['location']['lat'] : 0,
+                'lng' => $mission['location'] && $mission['location']['lon'] ? $mission['location']['lon'] : 0
             ],
             'post_date' => strtotime($mission['postedAt']),
         ], $response['data']);
