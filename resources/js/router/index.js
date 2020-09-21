@@ -12,6 +12,7 @@ import Login from '@/views/Login.vue'
 import Logout from '@/views/Logout.vue'
 import Register from '@/views/Register.vue'
 import RegisterResponsable from '@/views/RegisterResponsable.vue'
+import RegisterCollectivity from '@/views/RegisterCollectivity.vue'
 import RegisterVolontaire from '@/views/RegisterVolontaire.vue'
 import RegisterInvitation from '@/views/RegisterInvitation.vue'
 import PasswordForgot from '@/views/PasswordForgot.vue'
@@ -129,6 +130,12 @@ export default new Router({
           meta: { requiresAnonymous: true },
         },
         {
+          path: '/register/collectivity',
+          name: 'RegisterCollectivity',
+          component: RegisterCollectivity,
+          meta: { requiresAnonymous: true },
+        },
+        {
           path: '/register/invitation',
           name: 'RegisterInvitation',
           component: RegisterInvitation,
@@ -198,6 +205,38 @@ export default new Router({
               /* webpackChunkName: "assets/js/no-role-step" */ '@/views/ResponsableSteps/OtherStep.vue'
             ),
           name: 'OtherStep',
+        },
+      ],
+    },
+    {
+      path: '/register/collectivity/step',
+      component: LayoutRegisterSteps,
+      redirect: '/register/collectivity/step/profile',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/register/collectivity/step/profile',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/collectivity-profile-step" */ '@/views/CollectivitySteps/ProfileStep.vue'
+            ),
+          name: 'CollectivityProfileStep',
+        },
+        {
+          path: '/register/collectivity/step/infos',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/collectivity-infos-step" */ '@/views/CollectivitySteps/InfosStep.vue'
+            ),
+          name: 'CollectivityInfoseStep',
+        },
+        {
+          path: '/register/collectivity/step/address',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/collectivity-address-step" */ '@/views/CollectivitySteps/AddressStep.vue'
+            ),
+          name: 'CollectivityAddressStep',
         },
       ],
     },
@@ -1181,6 +1220,14 @@ export default new Router({
         ),
       name: 'CollectivitySlug',
       props: (route) => ({ slug: route.params.slug }),
+    },
+    {
+      path: '/collectivite',
+      component: () =>
+        import(
+          /* webpackChunkName: "assets/js/collectivite-slug" */ '@/views/Front/CollectivityLandindPage.vue'
+        ),
+      name: 'CollectiviteLandindPage',
     },
     {
       path: '/thematiques/:slug',

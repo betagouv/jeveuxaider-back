@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
+Route::post('register/collectivity', 'Api\PassportController@registerCollectivity');
 Route::post('register/invitation', 'Api\PassportController@registerInvitation');
 Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
@@ -50,6 +51,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
+
+    Route::post('collectivity', 'Api\CollectivityController@store');
+    Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
 
     Route::post('participation', 'Api\ParticipationController@store');
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
@@ -147,8 +151,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
     // COLLECTIVITIES
-    Route::post('collectivity', 'Api\CollectivityController@store');
-    Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
     Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
     Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');

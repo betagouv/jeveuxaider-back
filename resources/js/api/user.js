@@ -31,6 +31,15 @@ export function registerResponsable(email, password, first_name, last_name) {
   })
 }
 
+export function registerCollectivity(email, password, first_name, last_name) {
+  return request.post('/api/register/collectivity', {
+    email,
+    password,
+    first_name,
+    last_name,
+  })
+}
+
 export function registerInvitation(email, password, first_name, last_name) {
   return request.post('/api/register/invitation', {
     email,

@@ -30,7 +30,7 @@ module.exports = {
       },
       gray: {
         50: '#f9fafb',
-        100: '#F7FAFC',
+        100: '#f4f5f7',
         200: '#edf2f7',
         300: '#d2d6dc',
         400: '#9fa6b2',
@@ -46,7 +46,7 @@ module.exports = {
         300: '#feb2b2',
         400: '#fc8181',
         500: '#f56565',
-        600: '#e53e3e',
+        600: '#e02424',
         700: '#EF4036', //Overriden (#c53030),
         800: '#9b2c2c',
         900: '#742a2a',
@@ -352,6 +352,7 @@ module.exports = {
       '1/2': '50%',
       '3/4': '75%',
       'screen-xl': '1280px',
+      'screen-lg': '1024px',
     },
     minHeight: {
       0: '0',

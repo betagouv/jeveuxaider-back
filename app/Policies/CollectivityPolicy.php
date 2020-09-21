@@ -24,11 +24,15 @@ class CollectivityPolicy
 
     public function create(User $user)
     {
-        return false;
+        return true;
     }
 
     public function update(User $user, Collectivity $collectivity)
     {
+        if ($user->profile->collectivity->id == $collectivity->id) {
+            return true;
+        }
+
         return false;
     }
 
