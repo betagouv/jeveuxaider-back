@@ -97,7 +97,7 @@ export default {
     this.collectivityId = this.$store.getters.collectivity_as_responsable
       ? this.$store.getters.collectivity_as_responsable.id
       : null
-    this.form = this.$store.getters.collectivity_as_responsable
+    this.form = this.$store.getters.collectivity_as_responsable || {}
   },
   methods: {
     onSubmit() {
