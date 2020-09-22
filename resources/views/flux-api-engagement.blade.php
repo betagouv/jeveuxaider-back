@@ -29,8 +29,41 @@
         @elseif ($mission->type == 'Mission à distance')
             <remote><![CDATA[full]]></remote>
         @endif
-        <activity><![CDATA[logistique]]></activity>
-        <domain><![CDATA[environnement]]></domain>
+        @php
+            $domain_id = $mission->template ? $mission->template->domaine->id : $mission->domaine->id;
+        @endphp
+        @switch($domain_id)
+        @case(1) {{-- Mobilisation covid-19 --}}
+            <activity><![CDATA[sante]]></activity>
+            @break
+        @case(2) {{-- Éducation pour tous  --}}
+            <activity><![CDATA[education]]></activity>
+            @break
+        @case(3) {{-- Santé pour tous  --}}
+            <activity><![CDATA[sante]]></activity>
+            @break
+        @case(4) {{-- Protection de la nature  --}}
+            <activity><![CDATA[environnement]]></activity>
+            @break
+        @case(6) {{-- Solidarité et insertion  --}}
+            <activity><![CDATA[solidarite-insertion]]></activity>
+            @break
+        @case(7) {{-- Sport pour tous  --}}
+            <activity><![CDATA[sport]]></activity>
+            @break
+        @case(8) {{-- Prévention et protection  --}}
+            <activity><![CDATA[autre]]></activity>
+            @break
+        @case(9) {{-- Mémoire et citoyenneté  --}}
+            <activity><![CDATA[vivre-ensemble]]></activity>
+            @break
+        @case(10) {{-- Coopération internationale  --}}
+            <activity><![CDATA[vivre-ensemble]]></activity>
+            @break
+        @case(11) {{-- Art et culture pour tous  --}}
+            <activity><![CDATA[culture-loisirs]]></activity>
+            @break
+        @endswitch
     </mission>
     @endforeach
 </source>
