@@ -44,7 +44,7 @@ class RegisterUserCollectivity extends Notification
             ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
             ->line('Vous vous êtes inscrit sur la plateforme de la Réserve Civique.')
             ->line('Vous pouvez désormais inscrire votre collectivité.')
-            ->action('Ajouter ma collectivité', url(config('app.url')));
+            ->action('Ajouter ma collectivité', url(config('app.url') . '/register/collectivity/step/infos'));
     }
 
     /**

@@ -24,7 +24,7 @@
     </portal>
     <el-steps :active="3" align-center class="p-8 border-b">
       <el-step
-        title="Profil"
+        title="Responsable collectivité"
         description="Je complète les informations de mon profil"
       />
       <el-step
@@ -32,7 +32,7 @@
         description="J'enregistre ma collectivité en tant que responsable"
       />
       <el-step
-        title="Adresse"
+        title="Localisation"
         description="J'enregistre le lieu de ma collectivité"
       />
     </el-steps>

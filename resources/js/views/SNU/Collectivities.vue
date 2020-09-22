@@ -69,6 +69,27 @@
           >
         </template>
       </el-table-column>
+      <el-table-column label="Statut" min-width="320">
+        <template slot-scope="scope">
+          <el-tag
+            v-if="scope.row.state == 'validated'"
+            type="success"
+            class="m-1 ml-0"
+            size="small"
+            >Validée</el-tag
+          >
+          <el-tag
+            v-else-if="scope.row.state == 'waiting'"
+            type="warning"
+            class="m-1 ml-0"
+            size="small"
+            >En attente de validation</el-tag
+          >
+          <el-tag v-else type="info" class="m-1 ml-0" size="small">
+            Refusée
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">

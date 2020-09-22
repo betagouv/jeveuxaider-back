@@ -4,9 +4,7 @@
     class="profile-form max-w-2xl pl-12 pb-12"
   >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        Collectivité
-      </div>
+      <div class="text-m text-gray-600 uppercase">Collectivité</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">
           {{ form.name }}
@@ -23,9 +21,7 @@
       label-position="top"
       :rules="rules"
     >
-      <div class="mb-6 text-xl text-gray-800">
-        Informations générales
-      </div>
+      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Nom de la collectivité" prop="name">
         <el-input v-model="form.name" placeholder="Nom de la collectivité" />
@@ -102,9 +98,7 @@
       </el-form-item>
 
       <div class="mb-6">
-        <div class="mb-6 text-xl text-gray-800">
-          Photo de la collectivité
-        </div>
+        <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
         <item-description>
           Résolution minimale: {{ imgMinWidth }} par
           {{ imgMinHeight }} pixels<br />
@@ -179,6 +173,18 @@
           </el-upload>
         </div>
       </div>
+
+      <el-form-item label="Statut" prop="state">
+        <el-select v-model="form.state" placeholder="Sélectionner le statut">
+          <el-option
+            v-for="item in $store.getters.taxonomies.collectivities_states
+              .terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
 
       <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
       <item-description

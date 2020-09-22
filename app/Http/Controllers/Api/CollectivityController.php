@@ -144,7 +144,7 @@ class CollectivityController extends Controller
         }
 
         // Sinon, on est dans le cas d'une inscription d'un Responsable Collectivité
-        $collectivity = Collectivity::create(array_merge($request->all(), ['published' => false, 'type' => 'commune']));
+        $collectivity = Collectivity::create(array_merge($request->all(), ['published' => false, 'type' => 'commune', 'state' => 'waiting']));
         $user->profile->collectivity_id = $collectivity->id;
         $user->profile->save();
 
