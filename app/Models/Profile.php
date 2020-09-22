@@ -254,10 +254,10 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation');
     }
 
-    public function collectivities()
-    {
-        return $this->hasMany('App\Models\Collectivity');
-    }
+    // public function collectivities()
+    // {
+    //     return $this->hasMany('App\Models\Collectivity');
+    // }
 
     public function getDomainesAttribute()
     {
@@ -286,7 +286,7 @@ class Profile extends Model implements HasMedia
 
     public function isResponsableCollectivity()
     {
-        return $this->collectivity ? true : false;
+        return $this->collectivity && $this->collectivity->state == 'validated'  ? true : false;
     }
 
     public function isResponsable()

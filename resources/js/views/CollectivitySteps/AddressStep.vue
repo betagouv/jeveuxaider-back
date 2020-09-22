@@ -36,7 +36,7 @@
         description="J'enregistre le lieu de ma collectivité"
       />
     </el-steps>
-    <div class="max-w-lg p-4 sm:p-12">
+    <div v-show="!showSuccessMessage" class="max-w-lg p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
         Codes postaux de ma collectivité
       </div>
@@ -64,6 +64,24 @@
         </div>
       </el-form>
     </div>
+    <div
+      v-show="showSuccessMessage"
+      class="max-w-2xl mx-auto text-center mt-12"
+    >
+      <h2 class="font-bold text-3xl text-gray-800 mb-6">
+        Votre demande d'inscription de collectivté a bien été enregistrée.
+      </h2>
+      <p class="font-xl text-secondary">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud.
+      </p>
+      <router-link to="/">
+        <el-button type="primary">
+          Aller à la page d'accueil
+        </el-button></router-link
+      >
+    </div>
   </div>
 </template>
 
@@ -75,6 +93,7 @@ export default {
   data() {
     return {
       loading: false,
+      showSuccessMessage: false,
       collectivityId: this.$store.getters.collectivity_as_responsable.id,
       form: this.$store.getters.collectivity_as_responsable,
       rules: {
@@ -94,7 +113,8 @@ export default {
           updateCollectivity(this.collectivityId, this.form)
             .then(() => {
               this.loading = false
-              this.$router.push('/dashboard')
+              this.showSuccessMessage = true
+              // this.$router.push('/dashboard')
             })
             .catch(() => {
               this.loading = false

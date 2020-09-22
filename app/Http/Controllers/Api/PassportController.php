@@ -74,6 +74,7 @@ class PassportController extends Controller
         $user = User::create([
             'name' => request("email"),
             'email' => request("email"),
+            'context_role' => 'volontaire', // On ne peut pas mettre collectivity car il doit être validé par un modérateur
             'password' => Hash::make(request("password"))
         ]);
 
