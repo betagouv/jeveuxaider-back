@@ -14,7 +14,7 @@ class EngagementController extends Controller
     {
         $missions = Mission::whereHas('structure', function (Builder $query) {
             $query->where('state', 'Validée');
-        })->where('state', 'Validée')->get();
+        })->where('state', 'Validée')->where('places_left', '>', 0)->get();
 
         return response()->view('flux-api-engagement', compact('missions'))->header('Content-Type', 'text/xml');
     }
