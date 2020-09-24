@@ -56,7 +56,12 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "paas": {
+            "php-config": [
+                "short_open_tag=off"
+              ]
+          }
     },
     "autoload": {
         "psr-4": {

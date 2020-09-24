@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <source>
    <publisher>Réserve Civique</publisher>
    <publisherurl>https://covid19.reserve-civique.gouv.fr</publisherurl>
@@ -34,34 +34,34 @@
         @endphp
         @switch($domain_id)
         @case(1) {{-- Mobilisation covid-19 --}}
-            <activity><![CDATA[sante]]></activity>
+            <domain><![CDATA[sante]]></domain>
             @break
         @case(2) {{-- Éducation pour tous  --}}
-            <activity><![CDATA[education]]></activity>
+            <domain><![CDATA[education]]></domain>
             @break
         @case(3) {{-- Santé pour tous  --}}
-            <activity><![CDATA[sante]]></activity>
+            <domain><![CDATA[sante]]></domain>
             @break
         @case(4) {{-- Protection de la nature  --}}
-            <activity><![CDATA[environnement]]></activity>
+            <domain><![CDATA[environnement]]></domain>
             @break
         @case(6) {{-- Solidarité et insertion  --}}
-            <activity><![CDATA[solidarite-insertion]]></activity>
+            <domain><![CDATA[solidarite-insertion]]></domain>
             @break
         @case(7) {{-- Sport pour tous  --}}
-            <activity><![CDATA[sport]]></activity>
+            <domain><![CDATA[sport]]></domain>
             @break
         @case(8) {{-- Prévention et protection  --}}
-            <activity><![CDATA[autre]]></activity>
+            <domain><![CDATA[autre]]></domain>
             @break
         @case(9) {{-- Mémoire et citoyenneté  --}}
-            <activity><![CDATA[vivre-ensemble]]></activity>
+            <domain><![CDATA[vivre-ensemble]]></domain>
             @break
         @case(10) {{-- Coopération internationale  --}}
-            <activity><![CDATA[vivre-ensemble]]></activity>
+            <domain><![CDATA[vivre-ensemble]]></domain>
             @break
         @case(11) {{-- Art et culture pour tous  --}}
-            <activity><![CDATA[culture-loisirs]]></activity>
+            <domain><![CDATA[culture-loisirs]]></domain>
             @break
         @endswitch
     </mission>
