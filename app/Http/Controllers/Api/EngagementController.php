@@ -4,10 +4,21 @@ namespace App\Http\Controllers\API;
 
 use Algolia\AlgoliaSearch\SearchClient;
 use App\Http\Controllers\Controller;
+use App\Models\Mission;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Eloquent\Builder;
 
 class EngagementController extends Controller
 {
+    public function feed()
+    {
+        $missions = Mission::whereHas('structure', function (Builder $query) {
+            $query->where('state', 'Validée');
+        })->where('state', 'Validée')->get();
+
+        return response()->view('flux-api-engagement', compact('missions'))->header('Content-Type', 'text/xml');
+    }
+
     public function import()
     {
         $response = Http::withHeaders([
