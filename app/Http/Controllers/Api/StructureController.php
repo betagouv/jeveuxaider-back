@@ -16,6 +16,7 @@ use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
+use App\Filters\FiltersStructureCollectivity;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
@@ -39,6 +40,7 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
             ])
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -46,6 +48,7 @@ class StructureController extends Controller
 
     public function export(Request $request)
     {
+        /*
         $s3 = Storage::disk('s3');
         $fileName = Str::random(30).'.xlsx';
         $filePath = 'public/'. config('app.env').'/exports/'.$request->user()->id.'/'. $fileName;
@@ -55,12 +58,10 @@ class StructureController extends Controller
             ->chain([
                 new NotifyUserOfCompletedExport($request->user(), $s3->url($filePath)),
             ]);
-            
 
         return response()->json(['message'=> 'Export en cours...'], 200);
-
-
-        // return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
+        */
+        return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
     }
 
     public function availableMissions(Request $request, Structure $structure)

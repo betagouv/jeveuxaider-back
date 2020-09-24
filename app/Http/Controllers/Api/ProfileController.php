@@ -11,9 +11,13 @@ use App\Http\Requests\Api\ProfileCreateRequest;
 use App\Notifications\ProfileInvitationSent;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProfilesExport;
+use App\Exports\ProfilesReferentsExport;
+use App\Exports\ProfilesResponsablesExport;
+use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
+use App\Filters\FiltersProfileMinParticipations;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -29,7 +33,9 @@ class ProfileController extends Controller
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::exact('is_visible'),
+                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
                 'referent_department'
             )
             ->defaultSort('-created_at')
@@ -48,6 +54,16 @@ class ProfileController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ProfilesExport($request), 'profiles.xlsx');
+    }
+
+    public function exportReferents(Request $request)
+    {
+        return Excel::download(new ProfilesReferentsExport(), 'referents.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function exportResponsables(Request $request)
+    {
+        return Excel::download(new ProfilesResponsablesExport(), 'responsables.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function store(ProfileCreateRequest $request)

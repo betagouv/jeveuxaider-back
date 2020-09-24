@@ -31,6 +31,15 @@ export function registerResponsable(email, password, first_name, last_name) {
   })
 }
 
+export function registerCollectivity(email, password, first_name, last_name) {
+  return request.post('/api/register/collectivity', {
+    email,
+    password,
+    first_name,
+    last_name,
+  })
+}
+
 export function registerInvitation(email, password, first_name, last_name) {
   return request.post('/api/register/invitation', {
     email,
@@ -42,6 +51,20 @@ export function registerInvitation(email, password, first_name, last_name) {
 
 export function exportProfiles(params) {
   return request.get(`/api/profiles/export`, {
+    responseType: 'blob',
+    params,
+  })
+}
+
+export function exportProfilesReferents(params) {
+  return request.get(`/api/profiles/referents/export`, {
+    responseType: 'blob',
+    params,
+  })
+}
+
+export function exportProfilesResponsables(params) {
+  return request.get(`/api/profiles/responsables/export`, {
     responseType: 'blob',
     params,
   })
@@ -94,8 +117,9 @@ export const rolesList = [
   { key: 'referent', label: 'Référent' },
   { key: 'referent_regional', label: 'Régional' },
   { key: 'superviseur', label: 'Superviseur' },
+  { key: 'responsable_collectivity', label: 'Responsable Collectivité' },
   { key: 'responsable', label: 'Responsable' },
   { key: 'tuteur', label: 'Tuteur' },
-  { key: 'volontaire', label: 'Volontaire' },
+  { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
 ]

@@ -5,15 +5,22 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">
-          Participations
-        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Participations</div>
       </div>
       <div v-if="$store.getters.contextRole == 'responsable'">
         <el-button type="primary" @click="onMassValidation">
           Validation massive
         </el-button>
       </div>
+    </div>
+    <div
+      v-if="
+        $store.getters.contextRole === 'admin' ||
+        $store.getters.contextRole === 'responsable'
+      "
+      class="px-12 mb-12"
+    >
+      <participations-menu index="/dashboard/participations" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -98,6 +105,21 @@
         />
         <query-filter
           type="select"
+          name="collectivity"
+          :value="query['filter[collectivity]']"
+          label="Collectivité"
+          :options="
+            collectivities.map((collectivity) => {
+              return {
+                label: collectivity.name,
+                value: collectivity.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
           name="domaine"
           :value="query['filter[domaine]']"
           label="Domaines d'action"
@@ -150,13 +172,9 @@
             </div>
           </template>
           <template v-else>
-            <div class="text-gray-900">
-              Anonyme
-            </div>
+            <div class="text-gray-900">Anonyme</div>
             <div class="font-light text-gray-600 flex items-center">
-              <div class="text-xs">
-                Coordonnées masquées
-              </div>
+              <div class="text-xs">Coordonnées masquées</div>
             </div>
           </template>
         </template>
@@ -235,7 +253,11 @@ import {
   exportParticipations,
   massValidationParticipation,
 } from '@/api/participation'
-import { fetchTags, fetchMissionTemplates } from '@/api/app'
+import {
+  fetchTags,
+  fetchMissionTemplates,
+  fetchCollectivities,
+} from '@/api/app'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
@@ -243,8 +265,8 @@ import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ParticipationVolet from '@/layout/components/Volet/ParticipationVolet.vue'
 import ParticipationDropdownState from '@/components/ParticipationDropdownState'
-
 import fileDownload from 'js-file-download'
+import ParticipationsMenu from '@/components/ParticipationsMenu.vue'
 
 export default {
   name: 'Participations',
@@ -254,6 +276,7 @@ export default {
     QuerySearchFilter,
     QueryMainSearchFilter,
     ParticipationVolet,
+    ParticipationsMenu,
   },
   mixins: [TableWithFilters, TableWithVolet],
   data() {
@@ -262,6 +285,7 @@ export default {
       domaines: [],
       templates: [],
       tableData: [],
+      collectivities: [],
     }
   },
   created() {
@@ -270,6 +294,12 @@ export default {
     })
     fetchMissionTemplates().then((res) => {
       this.templates = res.data.data
+    })
+    fetchCollectivities({
+      'filter[type]': 'commune',
+      'filter[state]': 'validated',
+    }).then((res) => {
+      this.collectivities = res.data.data
     })
   },
   methods: {

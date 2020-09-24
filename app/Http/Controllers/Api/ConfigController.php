@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Collectivity;
 use App\Models\Release;
 use App\Models\Structure;
 use App\Models\Mission;
@@ -23,6 +24,7 @@ class ConfigController extends Controller
             'taxonomies' => $this->taxonomies(),
             'thematiques' => $this->thematiques(),
             'reseaux' => $this->reseaux(),
+            'collectivities' => $this->collectivities(),
         ]);
     }
 
@@ -63,6 +65,16 @@ class ConfigController extends Controller
             return [
                 'id' => $structure->id,
                 'name' => $structure->name
+            ];
+        });
+    }
+
+    private function collectivities()
+    {
+        return Collectivity::where('type', 'commune')->get()->map(function ($collectivity) {
+            return [
+                'id' => $collectivity->id,
+                'name' => $collectivity->name
             ];
         });
     }

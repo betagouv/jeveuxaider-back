@@ -10,6 +10,7 @@ Vue.use(Vuex)
 
 const state = {
   isAppLoaded: false,
+  collectivities: null,
   sidebar: true,
   loading: false,
   taxonomies: null,
@@ -26,6 +27,7 @@ const actions = {
     const { data } = await bootstrap()
     commit('setTaxonomies', data.taxonomies)
     commit('setReseaux', data.reseaux)
+    commit('setCollectivities', data.collectivities)
     commit('setThematiques', data.thematiques)
     if (data.user) {
       commit('user/setUser', data.user)
@@ -61,6 +63,9 @@ const mutations = {
   },
   setThematiques: (state, thematiques) => {
     state.thematiques = thematiques
+  },
+  setCollectivities: (state, collectivities) => {
+    state.collectivities = collectivities
   },
   setReseaux: (state, reseaux) => {
     state.reseaux = reseaux

@@ -112,7 +112,7 @@ export default {
         this.$message({
           type: 'error',
           message:
-            'Votre structure doit être validée avant de pouvoir publier une mission',
+            'Votre organisation doit être validée avant de pouvoir publier une mission',
         })
       } else {
         if (this.form.template_id) {

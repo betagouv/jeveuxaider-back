@@ -4,12 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
-use App\Http\Requests\Api\CollectivityCreateRequest;
 use App\Http\Requests\Api\CollectivityUpdateRequest;
 use App\Http\Requests\Api\CollectivityDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Filters\FiltersTitleBodySearch;
+use App\Filters\FiltersTitleBodyNameSearch;
 use App\Http\Requests\Api\CollectivityUploadRequest;
 use Illuminate\Support\Str;
 use App\Models\Mission;
@@ -18,6 +17,8 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CollectivityController extends Controller
 {
@@ -26,7 +27,8 @@ class CollectivityController extends Controller
         return QueryBuilder::for(Collectivity::class)
             ->allowedFilters([
                 'state',
-                AllowedFilter::custom('search', new FiltersTitleBodySearch),
+                'type',
+                AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -133,13 +135,20 @@ class CollectivityController extends Controller
         ];
     }
 
-    public function store(CollectivityCreateRequest $request)
+    public function store(Request $request)
     {
-        if (!$request->validated()) {
-            return $request->validated();
+        $user = Auth::guard('api')->user();
+
+        if ($user->isAdmin()) {
+            return Collectivity::create($request->all());
         }
 
-        $collectivity = Collectivity::create($request->validated());
+        // Sinon, on est dans le cas d'une inscription d'un Responsable Collectivité
+        $collectivity = Collectivity::create(array_merge($request->all(), ['published' => false, 'type' => 'commune', 'state' => 'waiting']));
+        $user->profile->collectivity_id = $collectivity->id;
+        $user->profile->save();
+
+        // TODO : Notification à Sophie
 
         return $collectivity;
     }

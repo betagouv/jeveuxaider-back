@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          Structure
+          Organisation
         </div>
         <div class="flex flex-wrap mb-8">
           <div class="font-bold text-2xl text-gray-800 mr-2">

@@ -164,7 +164,7 @@
 </template>
 
 <script>
-import { fetchProfiles, exportProfiles } from '@/api/user'
+import { fetchProfiles, exportProfilesResponsables } from '@/api/user'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryFilter from '@/components/QueryFilter.vue'
@@ -172,6 +172,7 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
 import fileDownload from 'js-file-download'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
+import { Message } from 'element-ui'
 
 export default {
   name: 'ProfilesResponsables',
@@ -198,13 +199,7 @@ export default {
           ...this.query,
           'filter[role]': 'responsable',
         },
-        [
-          'roles',
-          'has_user',
-          'skills',
-          'domaines',
-          'responsable_waiting_actions',
-        ]
+        ['has_user', 'responsable_waiting_actions']
       )
     },
     handleCommand(command) {
@@ -214,13 +209,13 @@ export default {
     },
     onExport() {
       this.loading = true
-      exportProfiles({
+      exportProfilesResponsables({
         ...this.query,
-        'filter[role]': 'referent',
+        'filter[role]': 'responsable',
       })
         .then((response) => {
           this.loading = false
-          fileDownload(response.data, 'referents.xlsx')
+          fileDownload(response.data, 'responsables.csv')
         })
         .catch((error) => {
           console.log(error)

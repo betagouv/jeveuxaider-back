@@ -26,6 +26,7 @@ class Profile extends Model implements HasMedia
         'phone',
         'mobile',
         'reseau_id',
+        'collectivity_id',
         'referent_department',
         'referent_region',
         'birthday',
@@ -107,6 +108,7 @@ class Profile extends Model implements HasMedia
 
         return [
             'total' => $participations,
+            'test' => $this->structures->first(),
         ];
     }
 
@@ -176,6 +178,34 @@ class Profile extends Model implements HasMedia
                             ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                     });
                 break;
+            case 'responsable_collectivity':
+                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
+                break;
+            case 'responsable':
+                $zips = Auth::guard('api')->user()->profile->structures->map(function ($structure) {
+                    return substr($structure->zip, 0, 2);
+                })->toArray();
+                $missions = Mission::role('responsable')->available()->get();
+                $domains_ids = $missions->map(function ($mission) {
+                    $domaines = [];
+                    $domaines = $mission->tagsWithType('domaine')->values()->pluck('id');
+                    $domaines[] = $mission->template ? $mission->template->domaine->id : $mission->domaine->id;
+
+                    return $domaines;
+                })->flatten()->unique()->toArray();
+
+                $query
+                    ->where('is_visible', true)
+                    ->where(function ($query) use ($zips) {
+                        foreach ($zips as $zip) {
+                            $query->orWhere('zip', 'LIKE', $zip . '%');
+                        }
+                    })
+                    ->whereHas('tags', function (Builder $query) use ($domains_ids) {
+                        $query->whereIn('id', $domains_ids);
+                    });
+                return $query;
+                break;
             default:
                 abort(403, 'This action is not authorized');
                 break;
@@ -207,6 +237,16 @@ class Profile extends Model implements HasMedia
             });
     }
 
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        $collectivity = Collectivity::find($collectivity_id);
+
+        if ($collectivity->type == 'commune') {
+            return $query
+                ->whereIn('zip', $collectivity->zips);
+        }
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
@@ -215,6 +255,11 @@ class Profile extends Model implements HasMedia
     public function reseau()
     {
         return $this->belongsTo('App\Models\Structure');
+    }
+
+    public function collectivity()
+    {
+        return $this->belongsTo('App\Models\Collectivity');
     }
 
     public function missions()
@@ -234,10 +279,10 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation');
     }
 
-    public function collectivities()
-    {
-        return $this->hasMany('App\Models\Collectivity');
-    }
+    // public function collectivities()
+    // {
+    //     return $this->hasMany('App\Models\Collectivity');
+    // }
 
     public function getDomainesAttribute()
     {
@@ -262,6 +307,11 @@ class Profile extends Model implements HasMedia
     public function isSuperviseur()
     {
         return $this->reseau ? true : false;
+    }
+
+    public function isResponsableCollectivity()
+    {
+        return $this->collectivity && $this->collectivity->state == 'validated'  ? true : false;
     }
 
     public function isResponsable()
@@ -297,6 +347,7 @@ class Profile extends Model implements HasMedia
             'referent_regional' => $this->isReferentRegional(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
+            'responsable_collectivity' => $this->isResponsableCollectivity(),
             'tuteur' => $this->isTuteur(),
             'analyste' => $this->is_analyste
         ];

@@ -35,7 +35,7 @@
             Appel aux Citoyens
           </div>
           <div class="text-gray-600 mb-4 flex-1">
-            Je suis volontaire pour aider
+            Je suis bénévole pour aider
           </div>
           <router-link to="/register/volontaire">
             <el-button type="primary">
@@ -51,7 +51,7 @@
             Appel aux organismes
           </div>
           <div class="text-gray-600 mb-4 flex-1">
-            Je suis une structure publique ou associative
+            Je suis une organisation publique ou associative
           </div>
           <router-link to="/register/responsable">
             <el-button type="primary">

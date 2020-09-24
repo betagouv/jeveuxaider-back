@@ -95,6 +95,8 @@ class Mission extends Model
             'domaine_name' => $this->template ? $this->template->domaine->name : $this->domaine->name,
             'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
             'domaines' => $this->domaines,
+            'provider' => 'reserve_civique',
+            'post_date' => strtotime($this->created_at),
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -213,6 +215,16 @@ class Mission extends Model
             });
     }
 
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        $collectivity = Collectivity::find($collectivity_id);
+
+        if ($collectivity->type == 'commune') {
+            return $query
+                ->whereIn('zip', $collectivity->zips);
+        }
+    }
+
     public function scopeName($query, $value)
     {
         return $query->where('name', $value);
@@ -253,6 +265,9 @@ class Mission extends Model
                     ->whereHas('structure', function (Builder $query) {
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
+            break;
+            case 'responsable_collectivity':
+                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
             break;
         }
     }

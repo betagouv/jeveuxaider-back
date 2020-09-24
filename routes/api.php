@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
+Route::post('register/collectivity', 'Api\PassportController@registerCollectivity');
 Route::post('register/invitation', 'Api\PassportController@registerInvitation');
 Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
@@ -35,6 +36,8 @@ Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 Route::get('statistics/global', 'Api\StatisticsController@global');
+Route::get('api-engagement/import', 'Api\EngagementController@import');
+Route::get('api-engagement/delete', 'Api\EngagementController@delete');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -48,6 +51,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
+
+    Route::post('collectivity', 'Api\CollectivityController@store');
+    Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
 
     Route::post('participation', 'Api\ParticipationController@store');
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
@@ -94,6 +100,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::post('participation/{participation}', 'Api\ParticipationController@update');
     Route::post('participations/mass-validation', 'Api\ParticipationController@massValidation');
 
+    // NOTIFICATIONS BENEVOLES
+    Route::get('notifications-benevoles', 'Api\NotificationBenevoleController@index');
+    Route::post('notification-benevole', 'Api\NotificationBenevoleController@store');
+
     // EXPORT
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
@@ -125,6 +135,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
+
+    // COLLECTIVITIES
+    Route::get('collectivities', 'Api\CollectivityController@index');
 });
 
 // ONLY ADMIN
@@ -142,9 +155,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
     // COLLECTIVITIES
-    Route::get('collectivities', 'Api\CollectivityController@index');
-    Route::post('collectivity', 'Api\CollectivityController@store');
-    Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
     Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
     Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
@@ -205,6 +215,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // TABLE EXPORT
     Route::post('{table}/export/table', 'Api\ConfigController@export');
+
+    Route::get('profiles/referents/export', 'Api\ProfileController@exportReferents');
+    Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
+
 
     Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
 });

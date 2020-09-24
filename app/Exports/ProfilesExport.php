@@ -28,14 +28,14 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     public function collection()
     {
         return QueryBuilder::for(Profile::role($this->request->header('Context-Role')))
-        ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
-        ->allowedFilters(
-            AllowedFilter::custom('search', new FiltersProfileSearch),
-            AllowedFilter::custom('role', new FiltersProfileRole),
-            AllowedFilter::custom('domaines', new FiltersProfileTag),
-            AllowedFilter::exact('is_visible'),
-            'referent_department'
-        )
+            ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
+            ->allowedFilters(
+                AllowedFilter::custom('search', new FiltersProfileSearch),
+                AllowedFilter::custom('role', new FiltersProfileRole),
+                AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::exact('is_visible'),
+                'referent_department'
+            )
             ->defaultSort('-created_at')
             ->get();
     }
@@ -44,6 +44,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             'id',
+            'user_id',
             'full_name',
             'first_name',
             'last_name',
@@ -65,6 +66,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $profile->id,
+            $profile->user->id,
             $profile->full_name,
             $profile->first_name,
             $profile->last_name,

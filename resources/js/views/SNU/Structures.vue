@@ -6,7 +6,7 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Organisation
+          Organisations
         </div>
       </div>
       <div>
@@ -80,6 +80,21 @@
               return {
                 label: `${term.value} - ${term.label}`,
                 value: term.value,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
+          name="collectivity"
+          :value="query['filter[collectivity]']"
+          label="Collectivité"
+          :options="
+            collectivities.map((collectivity) => {
+              return {
+                label: collectivity.name,
+                value: collectivity.id,
               }
             })
           "
@@ -164,7 +179,7 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item>Visualiser la structure</el-dropdown-item>
+                <el-dropdown-item>Visualiser l'organisation</el-dropdown-item>
               </router-link>
               <router-link
                 :to="{
@@ -172,7 +187,7 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item>Modifier la structure</el-dropdown-item>
+                <el-dropdown-item>Modifier l'organisation</el-dropdown-item>
               </router-link>
               <router-link
                 :to="{
@@ -232,6 +247,7 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import fileDownload from 'js-file-download'
 import StructureDropdownState from '@/components/StructureDropdownState'
 import { Message } from 'element-ui'
+import { fetchCollectivities } from '@/api/app'
 
 export default {
   name: 'Structures',
@@ -247,7 +263,16 @@ export default {
     return {
       loading: true,
       tableData: [],
+      collectivities: [],
     }
+  },
+  created() {
+    fetchCollectivities({
+      'filter[type]': 'commune',
+      'filter[state]': 'validated',
+    }).then((res) => {
+      this.collectivities = res.data.data
+    })
   },
   methods: {
     fetchRows() {
@@ -258,12 +283,14 @@ export default {
       exportStructures(this.query)
         .then((response) => {
           this.loading = false
-          // fileDownload(response.data, 'structures.xlsx')
+          fileDownload(response.data, 'organisation.xlsx')
+          /*
           Message({
             message:
               "Votre export est en cours de génération... Vous serez notifié lorsqu'il sera prêt !",
             type: 'success',
           })
+          */
         })
         .catch((error) => {
           Message({

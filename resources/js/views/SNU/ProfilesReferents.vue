@@ -215,7 +215,7 @@
 </template>
 
 <script>
-import { fetchProfiles, exportProfiles } from '@/api/user'
+import { fetchProfiles, exportProfilesReferents } from '@/api/user'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryFilter from '@/components/QueryFilter.vue'
@@ -223,6 +223,7 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
 import fileDownload from 'js-file-download'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
+import { Message } from 'element-ui'
 
 export default {
   name: 'ProfilesReferents',
@@ -259,16 +260,19 @@ export default {
     },
     onExport() {
       this.loading = true
-      exportProfiles({
+      exportProfilesReferents({
         ...this.query,
         'filter[role]': 'referent',
       })
         .then((response) => {
           this.loading = false
-          fileDownload(response.data, 'referents.xlsx')
+          fileDownload(response.data, 'referents.csv')
         })
         .catch((error) => {
-          console.log(error)
+          Message({
+            message: error.response.data.message,
+            type: 'error',
+          })
         })
     },
   },

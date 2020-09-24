@@ -37,6 +37,9 @@ class FiltersProfileRole implements Filter
                     $query->where('role', 'responsable');
                 });
             break;
+            case 'responsable_collectivity':
+                return $query->whereNotNull('collectivity_id');
+            break;
             case 'tuteur':
                 return $query->whereHas('structures', function (Builder $query) use ($value) {
                     $query->where('role', 'tuteur');

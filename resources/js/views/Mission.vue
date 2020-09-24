@@ -184,7 +184,7 @@
                         :key="key"
                         class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
                       >
-                        <div class="flex-shrink-0" style="margin-top: 2px;">
+                        <div class="flex-shrink-0" style="margin-top: 2px">
                           <svg
                             class="h-5 w-5 text-green-400"
                             fill="currentColor"
@@ -229,7 +229,7 @@
                       >
                         Télécharger la fiche pratique
                         <svg
-                          style="margin-top: 2px;"
+                          style="margin-top: 2px"
                           data-v-18b25a0c
                           fill="currentColor"
                           viewBox="0 0 20 20"
@@ -381,7 +381,7 @@
         >
           <div>
             <p class="text-2xl sm:leading-10 font-bold text-gray-900">
-              Autres missions proposées par cette structure
+              Autres missions proposées par cette organisation
             </p>
           </div>
         </div>
@@ -404,13 +404,13 @@
                       v-if="otherMission.template"
                       class
                       :src="otherMission.template.image"
-                      style="width: 28px;"
+                      style="width: 28px"
                     />
                     <img
                       v-else
                       class
                       :src="otherMission.domaine.image"
-                      style="width: 28px;"
+                      style="width: 28px"
                     />
                   </div>
                   <div class="min-w-0 flex-1 sm:pl-4">
@@ -435,7 +435,7 @@
                           otherMission.places_left > 0
                         "
                         class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                        style="background: #31c48d;"
+                        style="background: #31c48d"
                       >
                         <template
                           v-if="
@@ -516,7 +516,9 @@ export default {
     },
     hasParticipation() {
       return this.$store.getters.profile.participations.filter(
-        (participation) => participation.mission_id == this.id
+        (participation) =>
+          participation.mission_id == this.id &&
+          participation.state != 'Annulée'
       )
     },
     canRegistered() {
@@ -546,7 +548,7 @@ export default {
   methods: {
     handleClick() {
       this.$confirm(
-        'Êtes vous sur de vouloir participer à cette mission ?<br>',
+        'Êtes-vous sûr de vouloir participer à cette mission ?<br>',
         'Confirmation',
         {
           center: true,

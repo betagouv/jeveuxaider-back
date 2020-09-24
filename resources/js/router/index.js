@@ -12,6 +12,7 @@ import Login from '@/views/Login.vue'
 import Logout from '@/views/Logout.vue'
 import Register from '@/views/Register.vue'
 import RegisterResponsable from '@/views/RegisterResponsable.vue'
+import RegisterCollectivity from '@/views/RegisterCollectivity.vue'
 import RegisterVolontaire from '@/views/RegisterVolontaire.vue'
 import RegisterInvitation from '@/views/RegisterInvitation.vue'
 import PasswordForgot from '@/views/PasswordForgot.vue'
@@ -26,6 +27,7 @@ import FrontAbout from '@/views/Front/About'
 import FrontSecurityRules from '@/views/Front/SecurityRules'
 import FrontPolitiqueConfidentialite from '@/views/Front/PolitiqueConfidentialite'
 import FrontUserMissions from '@/views/Front/UserMissions'
+import Missions from '@/views/Front/Missions'
 import FrontFaq from '@/views/Front/Faq'
 import FrontPage from '@/views/Front/Page'
 
@@ -128,6 +130,12 @@ export default new Router({
           meta: { requiresAnonymous: true },
         },
         {
+          path: '/register/collectivity',
+          name: 'RegisterCollectivity',
+          component: RegisterCollectivity,
+          meta: { requiresAnonymous: true },
+        },
+        {
           path: '/register/invitation',
           name: 'RegisterInvitation',
           component: RegisterInvitation,
@@ -201,6 +209,38 @@ export default new Router({
       ],
     },
     {
+      path: '/register/collectivity/step',
+      component: LayoutRegisterSteps,
+      redirect: '/register/collectivity/step/profile',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/register/collectivity/step/profile',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/collectivity-profile-step" */ '@/views/CollectivitySteps/ProfileStep.vue'
+            ),
+          name: 'CollectivityProfileStep',
+        },
+        {
+          path: '/register/collectivity/step/infos',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/collectivity-infos-step" */ '@/views/CollectivitySteps/InfosStep.vue'
+            ),
+          name: 'CollectivityInfoseStep',
+        },
+        {
+          path: '/register/collectivity/step/address',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/collectivity-address-step" */ '@/views/CollectivitySteps/AddressStep.vue'
+            ),
+          name: 'CollectivityAddressStep',
+        },
+      ],
+    },
+    {
       path: '/register/reserviste/step',
       component: LayoutRegisterSteps,
       redirect: '/register/reserviste/step/preferences',
@@ -243,6 +283,7 @@ export default new Router({
               'referent_regional',
               'superviseur',
               'responsable',
+              'responsable_collectivity',
               'analyste',
             ],
           },
@@ -259,6 +300,7 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
+              'responsable_collectivity',
               'superviseur',
               'analyste',
             ],
@@ -276,6 +318,7 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
+              'responsable_collectivity',
               'superviseur',
               'analyste',
               'responsable',
@@ -294,6 +337,7 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
+              'responsable_collectivity',
               'superviseur',
               'analyste',
               'responsable',
@@ -312,6 +356,7 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
+              'responsable_collectivity',
               'superviseur',
               'analyste',
             ],
@@ -714,6 +759,17 @@ export default new Router({
               'superviseur',
               'responsable',
             ],
+          },
+        },
+        {
+          path: '/dashboard/participations/trouver-des-benevoles',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/trouver-des-benevoles" */ '@/views/SNU/TrouverDesBenevoles.vue'
+            ),
+          name: 'TrouverDesBenevoles',
+          meta: {
+            roles: ['responsable'],
           },
         },
         {
@@ -1147,10 +1203,7 @@ export default new Router({
     },
     {
       path: '/missions',
-      component: () =>
-        import(
-          /* webpackChunkName: "assets/js/front-missions" */ '@/views/Front/Missions.vue'
-        ),
+      component: Missions,
       name: 'FrontMissions',
     },
     {
@@ -1163,6 +1216,14 @@ export default new Router({
       props: (route) => ({ id: parseInt(route.params.id) }),
     },
     {
+      path: '/territoires',
+      component: () =>
+        import(
+          /* webpackChunkName: "assets/js/territories" */ '@/views/Front/Territories.vue'
+        ),
+      name: 'Territories',
+    },
+    {
       path: '/territoires/:slug',
       component: () =>
         import(
@@ -1170,6 +1231,14 @@ export default new Router({
         ),
       name: 'CollectivitySlug',
       props: (route) => ({ slug: route.params.slug }),
+    },
+    {
+      path: '/collectivite',
+      component: () =>
+        import(
+          /* webpackChunkName: "assets/js/collectivite-slug" */ '@/views/Front/CollectivityLandindPage.vue'
+        ),
+      name: 'CollectiviteLandindPage',
     },
     {
       path: '/thematiques/:slug',

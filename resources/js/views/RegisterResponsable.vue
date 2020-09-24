@@ -9,7 +9,7 @@
         />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
-        Vous êtes une structure publique ou associative ?
+        Vous êtes une organisation publique ou associative ?
         <br />Rejoignez la
         <span class="text-blue-800">Réserve Civique</span>
       </h2>
@@ -104,7 +104,7 @@
           style="height: 48px;"
           class="w-full flex items-center justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
           @click="onSubmit"
-          >J'inscris ma structure</el-button
+          >J'inscris mon organisation</el-button
         >
       </span>
     </div>

@@ -48,11 +48,11 @@ class StructureSubmitted extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Une structure est en attente de validation')
+            ->subject('Une organisation est en attente de validation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('La structure « ' . $this->structure->name . ' » vient de s\'inscrire dans votre département et est en attente de modération.')
-            ->line('Les missions proposées par cette structure ne seront publiées qu\'après validation de la structure.')
-            ->line('Pour valider ou signaler cette structure, rendez vous dans votre espace référent.')
+            ->line('L\organisation « ' . $this->structure->name . ' » vient de s\'inscrire dans votre département et est en attente de modération.')
+            ->line('Les missions proposées par cette organisation ne seront publiées qu\'après validation de l\'organisation.')
+            ->line('Pour valider ou signaler cette organisation, rendez vous dans votre espace référent.')
             ->action('Mon espace référent', url(config('app.url').'/dashboard/structures?filter[state]=En attente de validation'));
     }
 

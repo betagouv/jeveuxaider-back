@@ -73,10 +73,10 @@
       <el-form ref="structureForm" :model="form" label-position="top">
         <!-- <template v-if="showStatut">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Statut de la structure
+            Statut de l'organisation
           </div>
           <item-description>
-            Vous pouvez sélectionner le statut de la structure. A noter que des
+            Vous pouvez sélectionner le statut de l'organisation. A noter que des
             notifications emails seront envoyées.
           </item-description>
           <structure-dropdown-state
@@ -105,10 +105,10 @@
         </div>
         <div v-if="$store.getters.contextRole !== 'referent'">
           <item-description>
-            Si votre structure est membre d'un réseau national (Les Banques
+            Si votre organisation est membre d'un réseau national (Les Banques
             alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
             ainsi au superviseur de votre réseau de visualiser les missions et
-            bénévoles rattachés à votre structure.
+            bénévoles rattachés à votre organisation.
           </item-description>
           <el-form-item label="Réseau national" prop="reseau" class="flex-1">
             <el-select
@@ -128,7 +128,7 @@
         <el-form-item label="Tête de réseau" prop="is_reseau" class="flex-1">
           <el-checkbox v-model="form.is_reseau">
             <span class="text-xs font-light text-gray-600">
-              Cette structure est une tête de réseau
+              Cette organisation est une tête de réseau
             </span>
           </el-checkbox>
         </el-form-item>
@@ -179,8 +179,8 @@ export default {
     onClickDelete() {
       if (this.row.missions_count > 0) {
         this.$alert(
-          'Il est impossible de supprimer une structure qui contient des missions.',
-          'Supprimer la structure',
+          'Il est impossible de supprimer une organisation qui contient des missions.',
+          "Supprimer l'organisation",
           {
             confirmButtonText: 'Retour',
             type: 'warning',
@@ -188,8 +188,8 @@ export default {
         )
       } else {
         this.$confirm(
-          `La structure ${this.row.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-          'Supprimer la structure',
+          `L'organisation ${this.row.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
+          "Supprimer l'organisation",
           {
             confirmButtonText: 'Supprimer',
             confirmButtonClass: 'el-button--danger',
@@ -202,7 +202,7 @@ export default {
           deleteStructure(this.row.id).then(() => {
             this.$message({
               type: 'success',
-              message: `La structure ${this.row.name} a été supprimée.`,
+              message: `L'organisation ${this.row.name} a été supprimée.`,
             })
             this.$emit('deleted', this.row)
             this.$store.commit('volet/setRow', null)
@@ -224,7 +224,7 @@ export default {
             this.loading = false
             this.$message({
               type: 'success',
-              message: 'La structure a été mise à jour',
+              message: "L'organisation a été mise à jour",
             })
             this.$emit('updated', response.data)
           })
@@ -238,7 +238,7 @@ export default {
       let message = 'Êtes vous sur de vos changements ?'
 
       if (this.form.state == 'Signalée') {
-        message = `Vous êtes sur le point de signaler une structure qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. La structure est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
+        message = `Vous êtes sur le point de signaler une organisation qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. L'organisation est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
       }
 
       this.$confirm(message, 'Confirmation', {
@@ -255,7 +255,7 @@ export default {
               this.$store.commit('volet/setRow', response.data)
               this.$message({
                 type: 'success',
-                message: 'La structure a été mise à jour',
+                message: "L'organisation a été mise à jour",
               })
               this.$emit('updated', response.data)
               this.loading = false

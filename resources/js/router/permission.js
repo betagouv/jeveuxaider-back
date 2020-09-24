@@ -62,7 +62,11 @@ router.beforeEach(async (to, from, next) => {
     }
     next()
   }
-  if (process.env.MIX_MAINTENANCE_MODE == 1 && to.name != 'Maintenance') {
+  if (
+    process.env.MIX_MAINTENANCE_MODE == 1 &&
+    to.name != 'Maintenance' &&
+    to.query.skip === undefined
+  ) {
     next('/maintenance')
   }
 })

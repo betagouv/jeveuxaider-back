@@ -18,6 +18,7 @@ const getters = {
   isImpersonating: (state) =>
     state.auth.accessTokenImpersonate ? true : false,
   reseaux: (state) => state.reseaux,
+  collectivities: (state) => state.collectivities,
   reminders: (state) => state.reminders,
   profile: (state) => (state.user.user ? state.user.user.profile : null),
   contextRole: (state) => state.user.user.context_role,
@@ -34,6 +35,12 @@ const getters = {
     return getters.profile.structures.filter(
       (structure) => structure.pivot.role == 'responsable'
     )[0]
+  },
+  collectivity_as_responsable: (state, getters) => {
+    if (!getters.profile && !getters.profile.collectivity) {
+      return null
+    }
+    return getters.profile.collectivity
   },
   noRole: (state, getters) => {
     if (!getters.profile) {

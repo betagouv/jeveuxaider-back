@@ -124,8 +124,8 @@ return [
         "vocabulary" => "Statut Juridique",
         "terms" => [
             "Association" => "Association",
-            "Structure publique" => "Structure publique",
-            "Structure privée" => "Structure privée",
+            "Structure publique" => "Organisation publique",
+            "Structure privée" => "Organisation privée",
             "Autre" => "Autre",
         ]
     ],
@@ -280,7 +280,7 @@ return [
         "vocabulary" => "Domaines de mission",
         "terms" => [
             "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis" => "Je distribue des produits de première nécessité (aliments, hygiène, …) et des repas aux plus démunis, dans la rue ou au sein d’établissements (accueil de jour, centres d’hébergement, hôtels accueillant des personnes en isolement).",
-            "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants des personnels indispensables à la gestion de la crise sanitaire ou d’une structure de l’Aide Sociale à l’Enfance",
+            "Je garde des enfants de soignants ou d’une structure de l’Aide Sociale à l’Enfance" => "Je garde des enfants des personnels indispensables à la gestion de la crise sanitaire ou d’une organisation de l’Aide Sociale à l’Enfance",
             "Je maintiens un lien (téléphone, visio, mail, …) avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)" => "Je maintien un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)",
             "Je fais les courses de produits essentiels pour mes voisins les plus fragiles." => "Je fais les courses de produits essentiels pour mes voisins les plus fragiles.",
             //"soutien_aux_personnes_agees_en_etablissement" => "J’aide les personnels des EHPAD sur des tâches du quotidien et/ou les résidents à maintenir un lien avec leurs proches grâce aux outils numériques.",
@@ -302,7 +302,7 @@ return [
         "terms" => [
             "Personnes âgées" => "Personnes âgées",
             "Personnes en situation de handicap" => "Personnes en situation de handicap",
-            "Personnes à la rue" => "Personnes à la rue",
+            "Personnes à la rue" => "Personnes en difficulté",
             "Parents" => "Parents",
             "jeunes_enfants" => "Jeunes / enfants",
             "Tous publics" => "Tous publics"
@@ -529,8 +529,7 @@ return [
         "terms" => [
             "waiting" => "En attente de validation",
             "validated" => "Validée",
-            "signaled" => "Signalée",
-            "archived" => "Archivée",
+            "refused" => "Refusée",
         ]
     ],
 

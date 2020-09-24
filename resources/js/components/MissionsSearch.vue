@@ -25,6 +25,7 @@
               :hits-per-page.camel="10"
               :facet-filters.camel="facetFilters"
               :filters.camel="queryFilters"
+              :around-lat-lng-via-i-p.camel="true"
             />
 
             <div
@@ -55,7 +56,7 @@
                       height="10"
                       viewBox="0 0 40 40"
                       class="el-input__icon"
-                      style="width: 14px;"
+                      style="width: 14px"
                     >
                       <path
                         d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
@@ -93,6 +94,7 @@
                 v-if="activeFilters.includes('domaines')"
                 class="flex-1"
                 attribute="domaines"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
@@ -116,6 +118,7 @@
                 v-if="activeFilters.includes('template_title')"
                 class="flex-1"
                 attribute="template_title"
+                :limit="100"
                 :transform-items="transformItems"
               >
                 <el-select
@@ -124,6 +127,30 @@
                   :disabled="!canRefine"
                   placeholder="Missions types"
                   popper-class="missions-types"
+                  @change="handleFilters(refine, $event)"
+                >
+                  <el-option
+                    v-for="item in items"
+                    :key="item.value"
+                    :label="`${item.label} (${item.count})`"
+                    :selected="item.isRefined"
+                    :value="item.value"
+                  />
+                </el-select>
+              </ais-menu-select>
+
+              <ais-menu-select
+                class="flex-1"
+                attribute="type"
+                :limit="100"
+                :transform-items="transformItems"
+              >
+                <el-select
+                  v-model="filters.type"
+                  slot-scope="{ items, canRefine, refine }"
+                  :disabled="!canRefine"
+                  placeholder="En présentiel / À distance"
+                  popper-class="missions-presentiel"
                   @change="handleFilters(refine, $event)"
                 >
                   <el-option
@@ -154,229 +181,144 @@
             </div>
 
             <div ref="resultsWrapper" class="">
-              <div class="">
-                <ais-state-results>
-                  <template slot-scope="{ hits }">
-                    <template v-if="hits.length > 0">
-                      <ais-hits>
-                        <div slot="item" slot-scope="{ item }">
-                          <router-link
-                            class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                            :to="`/missions/${item.id}`"
+              <ais-state-results>
+                <template slot-scope="{ hits }">
+                  <template v-if="hits.length > 0">
+                    <ais-hits>
+                      <div slot="item" slot-scope="{ item }">
+                        <a
+                          v-if="item.provider == 'api_engagement'"
+                          class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :href="item.application_url"
+                          target="_blank"
+                        >
+                          <MissionSearch :mission="item" :color="color" />
+                        </a>
+                        <router-link
+                          v-else
+                          class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :to="`/missions/${item.id}`"
+                        >
+                          <MissionSearch :mission="item" :color="color" />
+                        </router-link>
+                      </div>
+                    </ais-hits>
+
+                    <div class="px-4 sm:px-6 md:px-8">
+                      <div
+                        class="pagination w-full border-b-2 border-transparent"
+                      >
+                        <ais-pagination :padding="2" @page-change="scrollToTop">
+                          <ul
+                            slot-scope="{
+                              currentRefinement,
+                              nbPages,
+                              pages,
+                              isFirstPage,
+                              isLastPage,
+                              refine,
+                              createURL,
+                            }"
+                            class="ais-Pagination-list"
                           >
-                            <div class="p-4 sm:p-6 md:p-8">
-                              <div class="flex items-center">
-                                <div
-                                  :class="`bg-${color}`"
-                                  class="hidden sm:block flex-shrink-0 rounded-md p-3 text-center"
-                                >
-                                  <img
-                                    class
-                                    :src="item.domaine_image"
-                                    style="width: 28px;"
-                                  />
-                                </div>
-                                <div class="min-w-0 flex-1 sm:pl-4">
-                                  <div
-                                    class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2"
-                                  >
-                                    <div class="m-2 min-w-0 flex-shrink">
-                                      <div
-                                        class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                                        v-text="item.domaine_name"
-                                      />
-                                      <div
-                                        class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
-                                      >
-                                        {{ item.name }}
-                                      </div>
-                                    </div>
-
-                                    <div
-                                      v-if="
-                                        item.has_places_left &&
-                                        item.places_left > 0
-                                      "
-                                      :class="`bg-${color}`"
-                                      class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                                    >
-                                      <template>
-                                        {{ item.places_left | formatNumber }}
-                                        {{
-                                          item.places_left
-                                            | pluralize([
-                                              'bénévole recherché',
-                                              'bénévoles recherchés',
-                                            ])
-                                        }}
-                                      </template>
-                                    </div>
-                                    <div
-                                      v-else
-                                      class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                                      style="background: #d2d6dc;"
-                                    >
-                                      Complet
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div
-                                class="mt-4 flex items-start text-sm text-gray-500"
+                            <li
+                              class="ais-Pagination-item ais-Pagination-item--previousPage"
+                              :class="[
+                                {
+                                  'ais-Pagination-item--disabled': isFirstPage,
+                                },
+                              ]"
+                            >
+                              <a
+                                :href="createURL(currentRefinement - 1)"
+                                class="ais-Pagination-link"
+                                @click.prevent="
+                                  !isFirstPage
+                                    ? refine(currentRefinement - 1)
+                                    : null
+                                "
                               >
                                 <svg
-                                  class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
+                                  class="mr-8 h-5 w-5 text-gray-400"
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
                                   <path
                                     fill-rule="evenodd"
-                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                    d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
                                     clip-rule="evenodd"
                                   />
                                 </svg>
-                                <span
-                                  v-text="
-                                    `${item.city} (${item.department}) - ${item.structure.name}`
-                                  "
-                                />
-                              </div>
-                            </div>
-                          </router-link>
-                        </div>
-                      </ais-hits>
-
-                      <div class="px-4 sm:px-6 md:px-8">
-                        <!-- <div
-                          class="text-sm font-bold uppercase my-8 text-blue text-blue-600 text-center"
-                        >
-                          <router-link
-                            :to="`/missions?menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(
-                              department
-                            )}`"
-                          >
-                            Toutes les missions
-                          </router-link>
-                        </div> -->
-                        <div
-                          class="pagination w-full border-b-2 border-transparent"
-                        >
-                          <ais-pagination
-                            :padding="2"
-                            @page-change="scrollToTop"
-                          >
-                            <ul
-                              slot-scope="{
-                                currentRefinement,
-                                nbPages,
-                                pages,
-                                isFirstPage,
-                                isLastPage,
-                                refine,
-                                createURL,
-                              }"
-                              class="ais-Pagination-list"
+                                <span>Précédente</span>
+                              </a>
+                            </li>
+                            <li
+                              v-for="page in pages"
+                              :key="page"
+                              class="ais-Pagination-item"
+                              :class="[
+                                {
+                                  'ais-Pagination-item--selected':
+                                    currentRefinement === page,
+                                },
+                              ]"
                             >
-                              <li
-                                class="ais-Pagination-item ais-Pagination-item--previousPage"
-                                :class="[
-                                  {
-                                    'ais-Pagination-item--disabled': isFirstPage,
-                                  },
-                                ]"
+                              <a
+                                :href="createURL(page)"
+                                class="ais-Pagination-link"
+                                @click.prevent="
+                                  currentRefinement !== page
+                                    ? refine(page)
+                                    : null
+                                "
+                                >{{ page + 1 }}</a
                               >
-                                <a
-                                  :href="createURL(currentRefinement - 1)"
-                                  class="ais-Pagination-link"
-                                  @click.prevent="
-                                    !isFirstPage
-                                      ? refine(currentRefinement - 1)
-                                      : null
-                                  "
-                                >
-                                  <svg
-                                    class="mr-8 h-5 w-5 text-gray-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                                      clip-rule="evenodd"
-                                    />
-                                  </svg>
-                                  <span>Précédente</span>
-                                </a>
-                              </li>
-                              <li
-                                v-for="page in pages"
-                                :key="page"
-                                class="ais-Pagination-item"
-                                :class="[
-                                  {
-                                    'ais-Pagination-item--selected':
-                                      currentRefinement === page,
-                                  },
-                                ]"
+                            </li>
+                            <li
+                              class="ais-Pagination-item ais-Pagination-item--nextPage"
+                              :class="[
+                                {
+                                  'ais-Pagination-item--disabled': isLastPage,
+                                },
+                              ]"
+                            >
+                              <a
+                                :href="createURL(currentRefinement + 1)"
+                                class="ais-Pagination-link"
+                                @click.prevent="
+                                  !isLastPage
+                                    ? refine(currentRefinement + 1)
+                                    : null
+                                "
                               >
-                                <a
-                                  :href="createURL(page)"
-                                  class="ais-Pagination-link"
-                                  @click.prevent="
-                                    currentRefinement !== page
-                                      ? refine(page)
-                                      : null
-                                  "
-                                  >{{ page + 1 }}</a
+                                <span>Suivante</span>
+                                <svg
+                                  class="ml-8 h-5 w-5 text-gray-400"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
                                 >
-                              </li>
-                              <li
-                                class="ais-Pagination-item ais-Pagination-item--nextPage"
-                                :class="[
-                                  {
-                                    'ais-Pagination-item--disabled': isLastPage,
-                                  },
-                                ]"
-                              >
-                                <a
-                                  :href="createURL(currentRefinement + 1)"
-                                  class="ais-Pagination-link"
-                                  @click.prevent="
-                                    !isLastPage
-                                      ? refine(currentRefinement + 1)
-                                      : null
-                                  "
-                                >
-                                  <span>Suivante</span>
-                                  <svg
-                                    class="ml-8 h-5 w-5 text-gray-400"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"
-                                    />
-                                  </svg>
-                                </a>
-                              </li>
-                            </ul>
-                          </ais-pagination>
-                        </div>
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                  />
+                                </svg>
+                              </a>
+                            </li>
+                          </ul>
+                        </ais-pagination>
                       </div>
-                    </template>
-
-                    <div
-                      v-else
-                      class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
-                    >
-                      Pas de résultats.
                     </div>
                   </template>
-                </ais-state-results>
-              </div>
+
+                  <div
+                    v-else
+                    class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
+                  >
+                    Pas de résultats.
+                  </div>
+                </template>
+              </ais-state-results>
             </div>
           </ais-instant-search>
         </template>
@@ -398,6 +340,7 @@ import {
 } from 'vue-instantsearch'
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia-min.css'
+import MissionSearch from '@/components/MissionSearch'
 
 export default {
   name: 'MissionsSearch',
@@ -410,12 +353,13 @@ export default {
     AisSearchBox,
     AisMenuSelect,
     AisClearRefinements,
+    MissionSearch,
   },
   props: {
     activeFilters: {
       type: Array,
       default() {
-        return ['domaines', 'template_title']
+        return ['domaines', 'template_title', 'type']
       },
     },
     facetFilters: {
@@ -441,6 +385,7 @@ export default {
         department_name: null,
         domaines: null,
         template_title: null,
+        type: null,
       },
     }
   },
@@ -467,6 +412,7 @@ export default {
       this.filters.department_name = null
       this.filters.domaines = null
       this.filters.template_title = null
+      this.filters.type = null
     },
     formatNbResults(nbHits, page, nbPages, hitsPerPage) {
       let begin = page * hitsPerPage + 1

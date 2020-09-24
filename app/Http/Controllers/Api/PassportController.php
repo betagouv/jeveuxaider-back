@@ -16,6 +16,7 @@ use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
+use App\Notifications\RegisterUserCollectivity;
 
 //use App\Rules\Lowercase;
 
@@ -38,7 +39,7 @@ class PassportController extends Controller
             $profile = Profile::create($request->validated());
         }
 
-        
+
         $user->profile()->save($profile);
 
         $notification = new RegisterUserVolontaire($user);
@@ -62,6 +63,28 @@ class PassportController extends Controller
         }
 
         $notification = new RegisterUserResponsable($user);
+        $user->profile()->save($profile);
+        $user->notify($notification);
+
+        return $user;
+    }
+
+    public function registerCollectivity(RegisterResponsableRequest $request)
+    {
+        $user = User::create([
+            'name' => request("email"),
+            'email' => request("email"),
+            'context_role' => 'volontaire', // On ne peut pas mettre collectivity car il doit être validé par un modérateur
+            'password' => Hash::make(request("password"))
+        ]);
+
+        $profile = Profile::whereEmail(request('email'))->first();
+
+        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
+            $profile = Profile::create($request->validated());
+        }
+
+        $notification = new RegisterUserCollectivity($user);
         $user->profile()->save($profile);
         $user->notify($notification);
 

@@ -16,6 +16,9 @@
         <menu-superviseur v-if="$store.getters.contextRole == 'superviseur'" />
         <menu-tuteur v-if="$store.getters.contextRole == 'tuteur'" />
         <menu-analyste v-if="$store.getters.contextRole == 'analyste'" />
+        <menu-responsable-collectivity
+          v-if="$store.getters.contextRole == 'responsable_collectivity'"
+        />
       </el-menu>
     </div>
 
@@ -40,7 +43,7 @@
         />
         <img v-else src="/images/logo-rc-square.png" />
       </router-link>
-      <div class="flex justify-center items-center py-2">
+      <div class="hidden md:flex md:justify-center md:items-center md:py-2">
         <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
           <div class="text-xs text-gray-600 hover:text-gray-800">
             Nouveautés
@@ -67,6 +70,7 @@ import MenuReferentRegional from './MenuReferentRegional'
 import MenuSuperviseur from './MenuSuperviseur'
 import MenuTuteur from './MenuTuteur'
 import MenuAnalyste from './MenuAnalyste'
+import MenuResponsableCollectivity from './MenuResponsableCollectivity'
 import Profile from './Profile'
 
 export default {
@@ -79,6 +83,7 @@ export default {
     MenuSuperviseur,
     MenuTuteur,
     MenuAnalyste,
+    MenuResponsableCollectivity,
     Profile,
   },
   computed: {

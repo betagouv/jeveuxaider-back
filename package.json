@@ -3,7 +3,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "yarn dev -- --watch",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --https --key /Users/jeremy/.config/valet/Certificates/covid.test.key --cert /Users/jeremy/.config/valet/Certificates/covid.test.crt --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --https --config=node_modules/laravel-mix/setup/webpack.config.js",
         "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "lint": "eslint --ext .js,.vue resources/js/"
     },
@@ -32,10 +32,12 @@
         "portal-vue": "^2.1.7",
         "slugify": "^1.4.0",
         "tailwindcss": "^1.1.4",
+        "v-click-outside": "^3.1.1",
         "vue": "^2.6.11",
         "vue-analytics": "^5.22.1",
         "vue-chartjs": "^3.5.0",
         "vue-clamp": "^0.2.2",
+        "vue-click-outside": "^1.1.0",
         "vue-content-loader": "^0.2.3",
         "vue-cropperjs": "^4.1.0",
         "vue-filter-pretty-bytes": "^0.1.4",

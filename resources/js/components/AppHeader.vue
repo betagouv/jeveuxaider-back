@@ -6,15 +6,18 @@
         $store.getters.isLogged &&
         $store.getters.participationsValidated > 1
       "
-    ></jdma-benevole>
-    <div class="bg-white">
-      <div class="container mx-auto">
+    />
+    <div class="z-10 relative bg-white shadow-sm">
+      <div class="relative z-10 shadow">
+        <!-- flex px-4 justify-between items-center py-5 sm:py-4 md:justify-start
+        md:space-x-7 -->
+
         <div
           class="flex px-3 lg:px-0 flex-wrap items-center justify-between pt-1 lg:pt-0 lg:h-16"
         >
-          <div class="flex flex-shrink-0 my-4 lg:my-0 lg:mr-3 order-1">
+          <div class="flex items-center">
             <img
-              class="h-6 mr-3"
+              class="ml-4 mr-6 h-4 w-auto"
               src="/images/marianne.svg"
               alt="Réserve Civique"
             />
@@ -29,7 +32,7 @@
 
           <slot name="menu">
             <div
-              class="mb-3 hidden lg:block lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto lg:order-2"
+              class="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between lg:mx-12"
             >
               <div class="flex space-x-10">
                 <router-link
@@ -37,6 +40,12 @@
                   class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Trouver une mission
+                </router-link>
+                <router-link
+                  to="/territoires"
+                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  Territoires
                 </router-link>
 
                 <router-link
@@ -48,18 +57,207 @@
                 >
                   Mes missions
                 </router-link>
-                <a
-                  href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
-                  target="_blank"
-                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                  >Initiatives solidaires</a
+                <div
+                  v-click-outside="() => (isOnDomains = false)"
+                  class="relative"
                 >
-                <a
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
-                  target="_blank"
-                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                  >Actualités</a
+                  <button
+                    type="button"
+                    class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                    :class="isOnDomains ? 'text-gray-900' : 'text-gray-500'"
+                    @mouseover="menuActive('domains')"
+                  >
+                    <span>Domaines d'actions</span>
+                    <svg
+                      class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      :class="isOnDomains ? 'text-gray-600' : 'text-gray-400'"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  <transition
+                    enter-active-class="transition ease-out duration-200"
+                    enter-class="opacity-0 translate-y-1"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-150"
+                    leave-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 translate-y-1"
+                  >
+                    <div
+                      v-show="isOnDomains"
+                      class="absolute transform mt-3 px-2 w-screen max-w-xs sm:px-0"
+                    >
+                      <div class="rounded-lg shadow-lg">
+                        <div class="rounded-lg shadow-xs overflow-hidden">
+                          <div
+                            class="z-20 relative bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2"
+                          >
+                            <a
+                              href="/thematiques/solidarite-et-insertion"
+                              target="_blank"
+                              class="-m-3 p-3 flex mb-2 items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <div
+                                class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-red-600 text-white sm:h-12 sm:w-12"
+                              >
+                                <img
+                                  class="h-7"
+                                  src="/images/vivre-ensemble-white.svg"
+                                  alt=""
+                                />
+                              </div>
+
+                              <p
+                                class="text-base mt-2 leading-8 font-medium text-gray-900"
+                              >
+                                Solidarité et insertion
+                              </p>
+                            </a>
+                            <a
+                              href="/thematiques/education-pour-tous"
+                              target="_blank"
+                              class="-m-3 p-3 flex mb-2 items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <div
+                                class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-blue-900 text-white sm:h-12 sm:w-12"
+                              >
+                                <img
+                                  class="h-7"
+                                  src="/images/education-white.svg"
+                                  alt=""
+                                />
+                              </div>
+
+                              <p
+                                class="text-base mt-2 leading-8 font-medium text-gray-900"
+                              >
+                                Éducation pour tous
+                              </p>
+                            </a>
+                            <a
+                              href="/thematiques/protection-de-la-nature"
+                              target="_blank"
+                              class="-m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <div
+                                class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-green-700 text-white sm:h-12 sm:w-12"
+                              >
+                                <img
+                                  class="h-7"
+                                  src="/images/treehouse-white.svg"
+                                  alt=""
+                                />
+                              </div>
+
+                              <p
+                                class="text-base mt-2 leading-8 font-medium text-gray-900"
+                              >
+                                Protection de la nature
+                              </p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </transition>
+                </div>
+                <div
+                  v-click-outside="() => (isOnSinformer = false)"
+                  class="relative"
                 >
+                  <button
+                    type="button"
+                    class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                    :class="isOnSinformer ? 'text-gray-900' : 'text-gray-500'"
+                    @mouseover="menuActive('sinformer')"
+                  >
+                    <span>S'informer</span>
+                    <svg
+                      class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      :class="isOnSinformer ? 'text-gray-600' : 'text-gray-400'"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  <transition
+                    enter-active-class="transition ease-out duration-200"
+                    enter-class="opacity-0 translate-y-1"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-150"
+                    leave-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 translate-y-1"
+                  >
+                    <div
+                      v-show="isOnSinformer"
+                      class="absolute transform mt-3 px-2 w-screen max-w-xs sm:px-0"
+                    >
+                      <div class="rounded-lg shadow-lg">
+                        <div class="rounded-lg shadow-xs overflow-hidden">
+                          <div
+                            class="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
+                          >
+                            <a
+                              href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+                              target="_blank"
+                              class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <p
+                                class="text-base leading-6 font-medium text-gray-900"
+                              >
+                                Le blog de l'engagement
+                              </p>
+                            </a>
+                            <a
+                              href="https://covid19.reserve-civique.gouv.fr/engagement/dispositifs/"
+                              target="_blank"
+                              class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <p
+                                class="text-base leading-6 font-medium text-gray-900"
+                              >
+                                Les dispositifs publics d’engagement civique
+                              </p>
+                            </a>
+
+                            <a
+                              href="/engagement"
+                              target="_blank"
+                              class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <p
+                                class="text-base leading-6 font-medium text-gray-900"
+                              >
+                                Toutes les initiatives solidaires
+                              </p>
+                            </a>
+                            <a
+                              href="/regles-de-securite"
+                              class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
+                            >
+                              <p
+                                class="text-base leading-6 font-medium text-gray-900"
+                              >
+                                Les 5 règles de sécurité des bénévoles
+                              </p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </transition>
+                </div>
               </div>
             </div>
 
@@ -108,7 +306,7 @@
             </div>
           </slot>
 
-          <div class="order-3 ml-1 lg:ml-3">
+          <div class="order-3 ml-1 lg:ml-3 flex items-center">
             <div class="flex items-center">
               <div
                 v-if="
@@ -149,12 +347,11 @@
                 Se connecter
               </router-link>
             </div>
-          </div>
-
-          <div class="block lg:hidden order-4">
-            <el-button type="primary" circle @click="toggleMenu">
-              <img src="/images/burger-menu.svg" style="width: 16px;" />
-            </el-button>
+            <div class="block lg:hidden order-4 ml-3">
+              <el-button type="primary" circle @click="toggleMenu">
+                <img src="/images/burger-menu.svg" style="width: 16px" />
+              </el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -170,6 +367,8 @@ export default {
   components: { JdmaBenevole },
   data() {
     return {
+      isOnDomains: false,
+      isOnSinformer: false,
       showMobileMenu: false,
     }
   },
@@ -187,6 +386,16 @@ export default {
     },
     isCurrentPath(path) {
       return window.location.pathname === path
+    },
+    menuActive(menu) {
+      if (menu == 'sinformer') {
+        this.isOnDomains = false
+        this.isOnSinformer = true
+      }
+      if (menu == 'domains') {
+        this.isOnDomains = true
+        this.isOnSinformer = false
+      }
     },
   },
 }

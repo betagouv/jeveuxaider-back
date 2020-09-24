@@ -65,7 +65,7 @@ export default {
       tableData: [],
       subjectTypes: [
         { label: 'Mission', value: 'Mission' },
-        { label: 'Structure', value: 'Structure' },
+        { label: 'Organisation', value: 'Structure' },
         { label: 'Participation', value: 'Participation' },
         { label: 'Utilisateur', value: 'Profile' },
       ],

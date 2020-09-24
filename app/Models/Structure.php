@@ -102,6 +102,9 @@ class Structure extends Model
                     ->whereNotNull('reseau_id')
                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
             break;
+            case 'responsable_collectivity':
+                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
+            break;
         }
     }
 
@@ -169,6 +172,16 @@ class Structure extends Model
                     $query->where('id', $domain_id);
                 });
             });
+    }
+
+    public function scopeCollectivity($query, $collectivity_id)
+    {
+        $collectivity = Collectivity::find($collectivity_id);
+
+        if ($collectivity->type == 'commune') {
+            return $query
+                ->whereIn('zip', $collectivity->zips);
+        }
     }
 
     public function scopeValidated($query)
