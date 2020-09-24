@@ -762,6 +762,17 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/participations/trouver-des-benevoles',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/trouver-des-benevoles" */ '@/views/SNU/TrouverDesBenevoles.vue'
+            ),
+          name: 'TrouverDesBenevoles',
+          meta: {
+            roles: ['responsable'],
+          },
+        },
+        {
           path: '/dashboard/participation/:id',
           component: () =>
             import(

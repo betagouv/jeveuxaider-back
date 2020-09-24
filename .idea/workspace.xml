@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="996900a6-1e08-4269-855c-86fcffa2cef0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/Models/Profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/api/participation.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/api/participation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/views/SNU/Participations.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/views/SNU/Participations.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hx6KsojmS8V12s0LJBZYbFEsA8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="996900a6-1e08-4269-855c-86fcffa2cef0" name="Default Changelist" comment="" />
+      <created>1600940336566</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600940336566</updated>
+      <workItem from="1600940338298" duration="207000" />
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="653" y="298" key="SettingsEditor" timestamp="1600940510037">
+      <screen x="0" y="23" width="2304" height="1273" />
+    </state>
+    <state x="653" y="298" key="SettingsEditor/0.23.2304.1273@0.23.2304.1273" timestamp="1600940510037" />
+    <state x="950" y="580" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1600940432196">
+      <screen x="0" y="23" width="2304" height="1273" />
+    </state>
+    <state x="950" y="580" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.2304.1273@0.23.2304.1273" timestamp="1600940432196" />
+  </component>
+</project>

@@ -181,6 +181,31 @@ class Profile extends Model implements HasMedia
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
+            case 'responsable':
+                $zips = Auth::guard('api')->user()->profile->structures->map(function ($structure) {
+                    return substr($structure->zip, 0, 2);
+                })->toArray();
+                $missions = Mission::role('responsable')->available()->get();
+                $domains_ids = $missions->map(function ($mission) {
+                    $domaines = [];
+                    $domaines = $mission->tagsWithType('domaine')->values()->pluck('id');
+                    $domaines[] = $mission->template ? $mission->template->domaine->id : $mission->domaine->id;
+
+                    return $domaines;
+                })->flatten()->unique()->toArray();
+
+                $query
+                    ->where('is_visible', true)
+                    ->where(function ($query) use ($zips) {
+                        foreach ($zips as $zip) {
+                            $query->orWhere('zip', 'LIKE', $zip . '%');
+                        }
+                    })
+                    ->whereHas('tags', function (Builder $query) use ($domains_ids) {
+                        $query->whereIn('id', $domains_ids);
+                    });
+                return $query;
+                break;
             default:
                 abort(403, 'This action is not authorized');
                 break;

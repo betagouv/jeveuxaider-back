@@ -100,6 +100,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::post('participation/{participation}', 'Api\ParticipationController@update');
     Route::post('participations/mass-validation', 'Api\ParticipationController@massValidation');
 
+    // NOTIFICATIONS BENEVOLES
+    Route::get('notifications-benevoles', 'Api\NotificationBenevoleController@index');
+    Route::post('notification-benevole', 'Api\NotificationBenevoleController@store');
+
     // EXPORT
     Route::get('structures/export', 'Api\StructureController@export');
     Route::get('missions/export', 'Api\MissionController@export');
