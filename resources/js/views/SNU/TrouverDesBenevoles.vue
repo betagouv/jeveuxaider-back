@@ -90,32 +90,45 @@
       </el-table-column>
       <el-table-column prop="name" label="Domaines d'actions" min-width="320">
         <template slot-scope="scope">
+          <el-tag type="info" class="m-1">
+            {{
+              scope.row.tags.filter((tag) => tag.type == 'domaine')[0].name.fr
+            }}
+          </el-tag>
           <el-tag
-            v-for="domain in scope.row.tags.filter(
-              (tag) => tag.type == 'domaine'
-            )"
-            :key="domain.id"
+            v-if="
+              scope.row.tags.filter((tag) => tag.type == 'domaine').length > 1
+            "
             type="info"
             class="m-1"
           >
-            {{ domain.name.fr }}
+            +
+            {{
+              scope.row.tags.filter((tag) => tag.type == 'domaine').length - 1
+            }}
+            domaines
           </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Disponnibilités" min-width="320">
         <template slot-scope="scope">
-          <div
-            v-for="disponibility in scope.row.disponibilities"
-            :key="disponibility"
-            class="text-secondary text-sm"
-          >
+          <div class="text-secondary text-sm">
+            <!-- TODO : Implode with " / "  -->
             {{
-              $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                (dispo) => dispo.value == disponibility
-              )[0].label
+              scope.row.disponibilities
+                .map(
+                  (disponibility) =>
+                    $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                      (dispo) => dispo.value == disponibility
+                    )[0].label
+                )
+                .join(' / ')
             }}
           </div>
-          <div class="text-secondary text-sm">
+          <div
+            v-if="scope.row.frequence && scope.row.frequence_granularite"
+            class="text-secondary text-sm"
+          >
             {{ scope.row.frequence }} par {{ scope.row.frequence_granularite }}
           </div>
         </template>
@@ -175,7 +188,7 @@
       </div>
     </div>
     <portal to="volet">
-      <participation-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+      <profile-volet />
     </portal>
   </div>
 </template>
@@ -191,14 +204,14 @@ import {
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
-import ParticipationVolet from '@/layout/components/Volet/ParticipationVolet.vue'
+import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
 import ParticipationsMenu from '@/components/ParticipationsMenu.vue'
 
 export default {
   name: 'Participations',
   components: {
     QueryFilter,
-    ParticipationVolet,
+    ProfileVolet,
     ParticipationsMenu,
   },
   mixins: [TableWithFilters, TableWithVolet],
