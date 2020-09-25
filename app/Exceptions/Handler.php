@@ -57,6 +57,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof \Laravel\Passport\Exceptions\OAuthServerException) {
+            if ($exception->getCode() === 10) {
+                $transPayload = trans('auth.invalid_credentials');
+                return response()->json($transPayload, 401);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }
