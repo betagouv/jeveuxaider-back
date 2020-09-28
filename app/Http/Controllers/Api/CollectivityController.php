@@ -16,9 +16,11 @@ use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Notifications\CollectivityWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class CollectivityController extends Controller
 {
@@ -148,7 +150,9 @@ class CollectivityController extends Controller
         $user->profile->collectivity_id = $collectivity->id;
         $user->profile->save();
 
-        // TODO : Notification à Sophie
+        Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
+            ->route('slack', 'https://hooks.slack.com/services/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')
+            ->notify(new CollectivityWaitingValidation($collectivity));
 
         return $collectivity;
     }

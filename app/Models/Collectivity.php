@@ -73,4 +73,9 @@ class Collectivity extends Model implements HasMedia
             ->nonQueued()
             ->performOnCollections('collectivities');
     }
+
+    public function profiles()
+    {
+        return $this->hasMany('App\Models\Profile');
+    }
 }

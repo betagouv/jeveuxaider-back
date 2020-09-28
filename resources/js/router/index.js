@@ -1064,7 +1064,7 @@ export default new Router({
           name: 'CollectivityFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
           meta: {
-            roles: ['admin'],
+            roles: ['admin', 'responsable_collectivity'],
           },
         },
         {

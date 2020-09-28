@@ -24,7 +24,11 @@
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Nom de la collectivité" prop="name">
-        <el-input v-model="form.name" placeholder="Nom de la collectivité" />
+        <el-input
+          v-model="form.name"
+          :disabled="!canEditField"
+          placeholder="Nom de la collectivité"
+        />
         <item-description
           >Accessible à l'adresse : {{ baseUrl }}/territoires/{{
             form.name | slugify
@@ -50,7 +54,11 @@
         />
       </el-form-item>
 
-      <el-form-item label="Type" prop="type">
+      <el-form-item
+        v-if="$store.getters.contextRole == 'admin'"
+        label="Type"
+        prop="type"
+      >
         <el-select v-model="form.type" placeholder="Sélectionner le type">
           <el-option
             v-for="item in $store.getters.taxonomies.collectivities_types.terms"
@@ -88,6 +96,7 @@
       >
         <el-select
           v-model="form.zips"
+          :disabled="!canEditField"
           multiple
           allow-create
           filterable
@@ -174,7 +183,11 @@
         </div>
       </div>
 
-      <el-form-item label="Statut" prop="state">
+      <el-form-item
+        v-if="$store.getters.contextRole == 'admin'"
+        label="Statut"
+        prop="state"
+      >
         <el-select v-model="form.state" placeholder="Sélectionner le statut">
           <el-option
             v-for="item in $store.getters.taxonomies.collectivities_states
@@ -185,15 +198,16 @@
           />
         </el-select>
       </el-form-item>
-
-      <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
-      <item-description
-        >Si vous souhaitez rendre cette collectivité visible, cochez la
-        case.</item-description
-      >
-      <el-form-item prop="published" class="flex-1">
-        <el-checkbox v-model="form.published">En ligne</el-checkbox>
-      </el-form-item>
+      <template v-if="$store.getters.contextRole == 'admin'">
+        <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
+        <item-description
+          >Si vous souhaitez rendre cette collectivité visible, cochez la
+          case.</item-description
+        >
+        <el-form-item prop="published" class="flex-1">
+          <el-checkbox v-model="form.published">En ligne</el-checkbox>
+        </el-form-item>
+      </template>
 
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">
@@ -242,6 +256,15 @@ export default {
     }
   },
   computed: {
+    canEditField() {
+      if (this.form.state != 'validated') {
+        return true
+      }
+      if (this.$store.getters.contextRole == 'admin') {
+        return true
+      }
+      return false
+    },
     rules() {
       let rules = {
         name: [

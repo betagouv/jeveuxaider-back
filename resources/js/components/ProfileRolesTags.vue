@@ -138,9 +138,6 @@ export default {
       )[0]
     },
   },
-  created() {
-    console.log(this.profile)
-  },
   methods: {},
 }
 </script>

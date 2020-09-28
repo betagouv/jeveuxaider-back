@@ -72,9 +72,8 @@
         Votre demande d'inscription de collectivté a bien été enregistrée.
       </h2>
       <p class="font-xl text-secondary">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud.
+        Vous recevrez un email de confirmation lorsque votre compte aura été
+        validé par l'équipe de la Réserve Civique.
       </p>
       <router-link to="/">
         <el-button type="primary">
