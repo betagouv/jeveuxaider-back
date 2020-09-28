@@ -112,7 +112,7 @@
       </el-table-column>
       <el-table-column prop="name" label="Disponnibilités" min-width="320">
         <template slot-scope="scope">
-          <div class="text-secondary text-sm">
+          <div v-if="scope.row.disponibilities" class="text-secondary text-sm">
             <!-- TODO : Implode with " / "  -->
             {{
               scope.row.disponibilities
