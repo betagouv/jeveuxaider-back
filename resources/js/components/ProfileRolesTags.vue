@@ -13,9 +13,7 @@
       :content="profile.referent_department | fullDepartmentFromValue"
       placement="top"
     >
-      <el-tag type="warning" :size="size" class="m-1">
-        Référent
-      </el-tag>
+      <el-tag type="warning" :size="size" class="m-1"> Référent </el-tag>
     </el-tooltip>
     <el-tooltip
       v-if="profile.roles.referent_regional"
@@ -24,9 +22,7 @@
       :content="profile.referent_region"
       placement="top"
     >
-      <el-tag type="warning" :size="size" class="m-1">
-        Régional
-      </el-tag>
+      <el-tag type="warning" :size="size" class="m-1"> Régional </el-tag>
     </el-tooltip>
     <el-tooltip
       v-if="profile.roles.superviseur"
@@ -35,9 +31,7 @@
       :content="profile.reseau.name"
       placement="top"
     >
-      <el-tag type="" :size="size" class="m-1">
-        Superviseur
-      </el-tag>
+      <el-tag type="" :size="size" class="m-1"> Superviseur </el-tag>
     </el-tooltip>
     <el-tooltip
       v-if="profile.roles.responsable_collectivity"
@@ -60,9 +54,7 @@
       :content="structure_as_responsable.name"
       placement="top"
     >
-      <el-tag type="info" :size="size" class="m-1">
-        Responsable
-      </el-tag>
+      <el-tag type="info" :size="size" class="m-1"> Responsable </el-tag>
     </el-tooltip>
     <el-tooltip
       v-if="profile.roles.tuteur"
@@ -71,9 +63,7 @@
       :content="structures_as_tuteur.name"
       placement="top"
     >
-      <el-tag type="info" :size="size" class="m-1">
-        Tuteur
-      </el-tag>
+      <el-tag type="info" :size="size" class="m-1"> Tuteur </el-tag>
     </el-tooltip>
     <el-tooltip
       v-if="!profile.has_user"
@@ -147,6 +137,9 @@ export default {
         (structure) => structure.pivot.role == 'tuteur'
       )[0]
     },
+  },
+  created() {
+    console.log(this.profile)
   },
   methods: {},
 }

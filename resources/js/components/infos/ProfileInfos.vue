@@ -36,7 +36,10 @@
         {{ profile.zip }}
       </div>
     </div>
-    <div v-if="profile.domaines.length > 0" class="mb-2 flex">
+    <div
+      v-if="profile.domaines && profile.domaines.length > 0"
+      class="mb-2 flex"
+    >
       <div class="card-label">Domaines</div>
       <div class="text-gray-900 flex-1">
         {{
@@ -48,7 +51,7 @@
         }}
       </div>
     </div>
-    <div v-if="profile.skills.length > 0" class="mb-2 flex">
+    <div v-if="profile.skills && profile.skills.length > 0" class="mb-2 flex">
       <div class="card-label">Compétences</div>
       <div class="text-gray-900 flex-1">
         {{

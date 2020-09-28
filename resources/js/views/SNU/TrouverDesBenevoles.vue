@@ -89,7 +89,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Domaines d'actions" min-width="320">
-        <template slot-scope="scope">
+        <template v-if="scope.row.tags" slot-scope="scope">
           <el-tag type="info" class="m-1">
             {{
               scope.row.tags.filter((tag) => tag.type == 'domaine')[0].name.fr
@@ -244,10 +244,12 @@ export default {
     },
     missionsMatchingBenevole(benevole) {
       return this.missions.filter((mission) =>
-        this.containsAny(
-          benevole.domaines.map((domain) => domain.name.fr),
-          mission.domaines
-        )
+        benevole.domaines
+          ? this.containsAny(
+              benevole.domaines.map((domain) => domain.name.fr),
+              mission.domaines
+            )
+          : []
       )
     },
     containsAny(source, target) {
