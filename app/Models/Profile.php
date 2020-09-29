@@ -183,7 +183,7 @@ class Profile extends Model implements HasMedia
                 break;
             case 'responsable':
                 // Get missions validées
-                $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
+                $missions = Mission::role('responsable')->available()->hasPlacesLeft()->latest()->limit(15)->get();
                 $query
                     ->where('is_visible', true)
                     ->where(function (Builder $query) use ($missions) {
