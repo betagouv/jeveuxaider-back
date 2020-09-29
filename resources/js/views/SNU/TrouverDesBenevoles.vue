@@ -18,12 +18,12 @@
     </div>
     <el-card shadow="never" class="mx-12 -mt-6 mb-4 p-3">
       <div>
-        Proposer directement vos missions aux bénévoles les plus actifs.
+        Proposez directement vos missions aux bénévoles les plus actifs.
       </div>
       <div class="text-gray-400 mt-3">
-        Les bénévoles ci-dessous sont sélectionnés selon les domaines d'action
-        de vos missions et leurs zones géographiques.<br />
-        Un e-mail proposant votre mission leur sera envoyé.
+        Les bénévoles ci-dessous sont sélectionnés en fonction des domaines
+        d'action et codes postaux de vos missions. <br />En cliquant sur
+        "Proposer une mission", un e-mail leur sera envoyé.
       </div>
     </el-card>
     <div class="px-12 mb-3 flex flex-wrap">
@@ -110,7 +110,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Disponnibilités" min-width="320">
+      <el-table-column prop="name" label="Disponibilités" min-width="320">
         <template slot-scope="scope">
           <div v-if="scope.row.disponibilities" class="text-secondary text-sm">
             <!-- TODO : Implode with " / "  -->
@@ -275,10 +275,10 @@ export default {
     },
     handleSendNotfication(benevole, mission) {
       this.$confirm(
-        `<span class="font-semibold">${benevole.first_name} ${benevole.last_name[0]}</span> recevra un email pour l'inviter à participer à votre mission <span class="font-semibold">${mission.name}</span>.`,
-        'Envoyer une notification email',
+        `<span class="font-semibold">${benevole.first_name} ${benevole.last_name[0]}</span> recevra un e-mail pour l'inviter à participer à votre mission <span class="font-semibold">${mission.name}</span>.`,
+        'Envoyer une notification e-mail',
         {
-          confirmButtonText: `Envoyer un email à ${benevole.first_name} ${benevole.last_name[0]}`,
+          confirmButtonText: `Envoyer un e-mail à ${benevole.first_name} ${benevole.last_name[0]}`,
           confirmButtonClass: 'el-button--primary',
           cancelButtonText: 'Annuler',
           center: true,
@@ -288,7 +288,7 @@ export default {
         addNotificationBenevole(mission.id, benevole.id).then(() => {
           this.$message({
             type: 'success',
-            message: `Un email a été envoyé à ${benevole.first_name} ${benevole.last_name[0]}.`,
+            message: `Un e-mail a été envoyé à ${benevole.first_name} ${benevole.last_name[0]}.`,
           })
         })
         this.notifications.push({ profile_id: benevole.id })
