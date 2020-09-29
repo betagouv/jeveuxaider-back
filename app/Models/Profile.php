@@ -182,27 +182,17 @@ class Profile extends Model implements HasMedia
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
             case 'responsable':
-                $zips = Auth::guard('api')->user()->profile->structures->map(function ($structure) {
-                    return substr($structure->zip, 0, 2);
-                })->toArray();
-                $missions = Mission::role('responsable')->available()->get();
-                $domains_ids = $missions->map(function ($mission) {
-                    $domaines = [];
-                    $domaines = $mission->tagsWithType('domaine')->values()->pluck('id');
-                    $domaines[] = $mission->template ? $mission->template->domaine->id : $mission->domaine->id;
-
-                    return $domaines;
-                })->flatten()->unique()->toArray();
-
+                // Get missions validées
+                $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
                 $query
                     ->where('is_visible', true)
-                    ->where(function ($query) use ($zips) {
-                        foreach ($zips as $zip) {
-                            $query->orWhere('zip', 'LIKE', $zip . '%');
+                    ->where(function (Builder $query) use ($missions) {
+                        foreach ($missions as $mission) {
+                            $query->orWhere(function (Builder $query) use ($mission) {
+                                $query->where('zip', 'LIKE', substr($mission->zip, 0, 2) . '%')
+                                      ->withAnyTags($mission->domaines);
+                            });
                         }
-                    })
-                    ->whereHas('tags', function (Builder $query) use ($domains_ids) {
-                        $query->whereIn('id', $domains_ids);
                     });
                 return $query;
                 break;

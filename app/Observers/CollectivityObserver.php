@@ -11,8 +11,6 @@ class CollectivityObserver
 {
     public function updated(Collectivity $collectivity)
     {
-        debug('coucou');
-        debug($collectivity->profiles);
         $oldState = $collectivity->getOriginal('state');
         $newState = $collectivity->state;
 

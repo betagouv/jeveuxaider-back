@@ -27,37 +27,28 @@
       </div>
     </el-card>
     <div class="px-12 mb-3 flex flex-wrap">
-      <div class="flex w-full mb-4">
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
-          <el-button
-            icon="el-icon-s-operation"
-            @click="showFilters = !showFilters"
-          >
-            Filtres avancés
-          </el-button>
-        </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
-      </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div class="flex flex-wrap">
         <query-filter
           type="select"
-          name="domaines"
-          :value="query['filter[domaines]']"
-          label="Domaines d'action"
+          name="match_mission"
+          :value="query['filter[match_mission]']"
+          label="Missions"
           :options="
-            domaines.map((domaine) => {
+            missions.map((mission) => {
               return {
-                label: domaine.name.fr,
-                value: domaine.id,
+                label: mission.name,
+                value: mission.id,
               }
             })
           "
+          @changed="onFilterChange"
+        />
+        <query-filter
+          type="select"
+          name="disponibilities"
+          :value="query['filter[disponibilities]']"
+          label="Disponibilités"
+          :options="$store.getters.taxonomies.profile_disponibilities.terms"
           @changed="onFilterChange"
         />
       </div>
@@ -143,11 +134,7 @@
             "
             trigger="click"
           >
-            <el-button
-              size="small"
-              type="primary"
-              :disabled="!isBenevoleMatchingOneMission(scope.row)"
-            >
+            <el-button size="small" type="primary">
               Proposer une mission<i
                 class="el-icon-arrow-down el-icon--right"
               ></i>
@@ -164,9 +151,6 @@
                 </el-dropdown-item>
               </div>
             </el-dropdown-menu>
-            <div v-if="!isBenevoleMatchingOneMission(scope.row)">
-              Aucune missions ne correspond aux critères du bénévole
-            </div>
           </el-dropdown>
           <div v-else class="text-sm font-semibold text-green-500">
             E-mail envoyé !
@@ -239,17 +223,13 @@ export default {
     this.fetchNotificationsBenevoles()
   },
   methods: {
-    isBenevoleMatchingOneMission(benevole) {
-      return this.missionsMatchingBenevole(benevole).length > 0
-    },
     missionsMatchingBenevole(benevole) {
-      return this.missions.filter((mission) =>
-        benevole.domaines
-          ? this.containsAny(
-              benevole.domaines.map((domain) => domain.name.fr),
-              mission.domaines
-            )
-          : []
+      return this.missions.filter(
+        (mission) =>
+          this.containsAny(
+            benevole.domaines.map((domain) => domain.id),
+            mission.domaines.map((domain) => domain.id)
+          ) && mission.zip.substr(0, 2) == benevole.zip.substr(0, 2)
       )
     },
     containsAny(source, target) {
@@ -261,6 +241,7 @@ export default {
     },
     fetchRows() {
       // Un domaine d'action en commun
+      console.log('fetch profiles')
       return fetchProfiles(
         {
           ...this.query,
