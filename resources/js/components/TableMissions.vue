@@ -56,9 +56,7 @@
                 | pluralize(['place', 'places'])
             }}
           </div>
-          <div v-else>
-            Complet
-          </div>
+          <div v-else>Complet</div>
           <div class="font-light text-gray-600 text-xs">
             {{ scope.row.participations_count }} /
             {{ scope.row.participations_max }}

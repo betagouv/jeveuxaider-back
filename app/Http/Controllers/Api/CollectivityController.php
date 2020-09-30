@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
-use App\Http\Requests\Api\CollectivityCreateRequest;
 use App\Http\Requests\Api\CollectivityUpdateRequest;
 use App\Http\Requests\Api\CollectivityDeleteRequest;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -17,7 +16,11 @@ use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Notifications\CollectivityWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class CollectivityController extends Controller
 {
@@ -134,13 +137,22 @@ class CollectivityController extends Controller
         ];
     }
 
-    public function store(CollectivityCreateRequest $request)
+    public function store(Request $request)
     {
-        if (!$request->validated()) {
-            return $request->validated();
+        $user = Auth::guard('api')->user();
+
+        if ($user->isAdmin()) {
+            return Collectivity::create($request->all());
         }
 
-        $collectivity = Collectivity::create($request->validated());
+        // Sinon, on est dans le cas d'une inscription d'un Responsable Collectivité
+        $collectivity = Collectivity::create(array_merge($request->all(), ['published' => false, 'type' => 'commune', 'state' => 'waiting']));
+        $user->profile->collectivity_id = $collectivity->id;
+        $user->profile->save();
+
+        Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
+            ->route('slack', 'https://hooks.slack.com/services/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')
+            ->notify(new CollectivityWaitingValidation($collectivity));
 
         return $collectivity;
     }

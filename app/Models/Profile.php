@@ -181,6 +181,21 @@ class Profile extends Model implements HasMedia
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
+            case 'responsable':
+                // Get missions validées
+                $missions = Mission::role('responsable')->available()->hasPlacesLeft()->latest()->limit(15)->get();
+                $query
+                    ->where('is_visible', true)
+                    ->where(function (Builder $query) use ($missions) {
+                        foreach ($missions as $mission) {
+                            $query->orWhere(function (Builder $query) use ($mission) {
+                                $query->where('zip', 'LIKE', substr($mission->zip, 0, 2) . '%')
+                                      ->withAnyTags($mission->domaines);
+                            });
+                        }
+                    });
+                return $query;
+                break;
             default:
                 abort(403, 'This action is not authorized');
                 break;
@@ -254,10 +269,10 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation');
     }
 
-    public function collectivities()
-    {
-        return $this->hasMany('App\Models\Collectivity');
-    }
+    // public function collectivities()
+    // {
+    //     return $this->hasMany('App\Models\Collectivity');
+    // }
 
     public function getDomainesAttribute()
     {
@@ -286,7 +301,7 @@ class Profile extends Model implements HasMedia
 
     public function isResponsableCollectivity()
     {
-        return $this->collectivity ? true : false;
+        return $this->collectivity && $this->collectivity->state == 'validated'  ? true : false;
     }
 
     public function isResponsable()

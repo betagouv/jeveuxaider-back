@@ -24,7 +24,7 @@
           </router-link>
         </div>
         <div class="flex items-center justify-center mb-4">
-          <profile-roles-tags :profile="row" size="small" />
+          <profile-roles-tags v-if="row.roles" :profile="row" size="small" />
         </div>
         <profile-infos :profile="row" />
       </el-card>

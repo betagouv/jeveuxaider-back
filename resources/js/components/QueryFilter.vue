@@ -67,6 +67,17 @@ export default {
       ) {
         return [this.value]
       }
+
+      if (
+        this.value &&
+        this.options[0] &&
+        this.options[0].value &&
+        this.options[0].label
+      ) {
+        return this.options.filter((option) => this.value == option.value)[0]
+          .label
+      }
+
       return this.value
     },
   },
