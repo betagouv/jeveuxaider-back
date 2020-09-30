@@ -308,19 +308,25 @@
 
           <div class="order-3 ml-1 lg:ml-3 flex items-center">
             <div class="flex items-center">
-              <div
-                v-if="
-                  $store.getters.isLogged &&
-                  $store.getters.contextRole != 'volontaire'
-                "
-                class="flex items-center"
-              >
+              <div class="flex items-center">
                 <router-link
+                  v-if="
+                    $store.getters.isLogged &&
+                    $store.getters.contextRole != 'volontaire'
+                  "
                   to="/dashboard"
                   class="hidden lg:block mr-5 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Tableau de bord
                 </router-link>
+                <el-badge
+                  v-if="$store.getters.isLogged"
+                  :value="200"
+                  :max="99"
+                  class="hidden lg:block py-1 mr-8 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  <router-link to="/messages"> Messages </router-link>
+                </el-badge>
                 <el-badge
                   v-if="
                     $store.getters.isLogged &&
