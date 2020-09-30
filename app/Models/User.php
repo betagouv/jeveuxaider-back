@@ -66,6 +66,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Structure');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message', 'from_id');
+    }
+
+    public function conversations()
+    {
+        return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
+    }
+
     public function getContextRoleAttribute()
     {
         if ($this->attributes['context_role'] == null || $this->attributes['context_role'] == 'volontaire') {
