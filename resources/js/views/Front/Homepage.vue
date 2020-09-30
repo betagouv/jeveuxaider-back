@@ -104,138 +104,132 @@
               Trouvez votre domaine d'action
             </p>
             <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-8">
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Mobilisation%20covid-19"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/covid.svg"
                   alt=""
                 />
                 <span class="font-semibold">Mobilisation Covid19</span>
-              </div>
+              </router-link>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Santé%20pour%20tous"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/sante.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800">Santé pour tous</span>
-              </div>
+                <span class="font-semibold">Santé pour tous</span>
+              </router-link>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Prévention%20et%20protection"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/securite.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Prévention et protection</span
-                >
-              </div>
+                <span class="font-semibold">Prévention et protection</span>
+              </router-link>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Éducation%20pour%20tous"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/education.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Education pour tous</span
-                >
-              </div>
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+                <span class="font-semibold">Education pour tous</span>
+              </router-link>
+              <router-link
+                to="/missions?menu[domaines]=Sport%20pour%20tous"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/sport.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Sport pour tous
-                </span>
-              </div>
+                <span class="font-semibold">Sport pour tous </span>
+              </router-link>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Protection%20de%20la%20nature"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/environnement.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Protection de la nature
-                </span>
-              </div>
+                <span class="font-semibold">Protection de la nature </span>
+              </router-link>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Art%20et%20culture%20pour%20tous"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/art.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Art & Culture pour tous
-                </span>
-              </div>
+                <span class="font-semibold">Art & Culture pour tous </span>
+              </router-link>
 
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+              <router-link
+                to="/missions?menu[domaines]=Solidarité%20et%20insertion"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/vivre-ensemble.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Solidarité et insertion
-                </span>
-              </div>
-              <div
-                class="col-span-1 lg:col-start-2 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+                <span class="font-semibold">Solidarité et insertion </span>
+              </router-link>
+              <router-link
+                to="/missions?menu[domaines]=Mémoire%20et%20citoyenneté"
+                class="col-span-1 lg:col-start-2 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/memoire.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Mémoire et citoyenneté
-                </span>
-              </div>
-              <div
-                class="col-span-1 flex flex-col justify-center items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:text-gray-900 lg:flex-row"
+                <span class="font-semibold">Mémoire et citoyenneté </span>
+              </router-link>
+              <router-link
+                to="/missions?menu[domaines]=Coopération%20internationale"
+                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px;"
+                  style="width: 40px"
                   src="/images/cooperation.svg"
                   alt=""
                 />
-                <span class="font-semibold text-gray-800"
-                  >Coopération internationale
-                </span>
-              </div>
+                <span class="font-semibold">Coopération internationale </span>
+              </router-link>
             </div>
           </div>
         </div>
@@ -262,7 +256,7 @@
                         class="h-7"
                         src="/images/groceries.svg"
                         alt=""
-                        style="width: 28px;"
+                        style="width: 28px"
                       />
                     </div>
                   </div>
@@ -287,7 +281,7 @@
                         class="h-7"
                         src="/images/teddy-bear.svg"
                         alt=""
-                        style="width: 28px;"
+                        style="width: 28px"
                       />
                     </div>
                   </div>
@@ -312,7 +306,7 @@
                         class="h-7"
                         src="/images/phone-handle.svg"
                         alt=""
-                        style="width: 28px;"
+                        style="width: 28px"
                       />
                     </div>
                   </div>
@@ -337,7 +331,7 @@
                         class="h-7"
                         src="/images/basket.svg"
                         alt=""
-                        style="width: 28px;"
+                        style="width: 28px"
                       />
                     </div>
                   </div>
@@ -448,7 +442,7 @@
                           class="h-7"
                           src="/images/ecole.svg"
                           alt=""
-                          style="width: 28px;"
+                          style="width: 28px"
                         />
                       </div>
                     </div>
@@ -472,7 +466,7 @@
                           class="h-7"
                           src="/images/masque-2.svg"
                           alt=""
-                          style="width: 28px;"
+                          style="width: 28px"
                         />
                       </div>
                     </div>
@@ -498,7 +492,7 @@
                           class="h-7"
                           src="/images/sanitaire.svg"
                           alt=""
-                          style="width: 28px;"
+                          style="width: 28px"
                         />
                       </div>
                     </div>
@@ -523,7 +517,7 @@
                           class="h-7"
                           src="/images/service-public.svg"
                           alt=""
-                          style="width: 28px;"
+                          style="width: 28px"
                         />
                       </div>
                     </div>
