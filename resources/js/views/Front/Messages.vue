@@ -53,7 +53,10 @@
         <div class="sticky top-0 bg-white p-6 border-b border-cool-gray-200">
           <div class="flex justify-between">
             <div class="md:hidden" @click="onPanelLeftToggle">BACK</div>
-            <h1 class="text-lg leading-8 font-bold text-gray-900">
+            <h1
+              v-if="activeConversation"
+              class="text-lg leading-8 font-bold text-gray-900"
+            >
               {{ fromUser(activeConversation).profile.first_name }}
               {{ fromUser(activeConversation).profile.last_name }}
             </h1>
@@ -261,7 +264,8 @@ export default {
     },
   },
   created() {
-    this.activeConversation = this.conversations[0]
+    this.activeConversation =
+      this.windowWidth >= 768 ? this.conversations[0] : null
   },
   mounted() {
     this.onResize()
@@ -288,10 +292,16 @@ export default {
       this.showPanelRight = this.windowWidth >= 1280 ? true : false
     },
     onPanelLeftToggle() {
-      // this.activeConversation = null
+      console.log('TODO 3 - Update readAt for real...')
+      this.currentUser(this.activeConversation).readAt = Math.floor(
+        new Date().getTime() / 1000
+      )
+      this.activeConversation = null
+
       if (this.windowWidth < 768) {
         this.showPanelCenter = false
       }
+
       this.showPanelLeft = !this.showPanelLeft
     },
     onTeaserClick(conversation) {
@@ -344,10 +354,12 @@ export default {
 .panel--left,
 .panel--center,
 .panel--right
-  transition: all .25s
+  transition: opacity .25s
   opacity: 1
   pointer-events: auto
   @apply flex flex-col max-w-full
+  @screen md
+    transition: all .25s
   &.hide
     flex: 0 1 0%
     width: 0
