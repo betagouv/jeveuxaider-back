@@ -76,6 +76,26 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
     }
 
+    public function startConversation($user, $participation)
+    {
+        $conversation = Conversation::create([
+            'participation_id' => $participation->id
+        ]);
+        $conversation->users()->attach([$this->id, $user->id]);
+        $conversation->save();
+
+        return $conversation;
+    }
+
+    public function sendMessage($conversation_id, $content)
+    {
+        return $this->messages()->create([
+            'content' => $content,
+            'conversation_id' => $conversation_id,
+            'type' => 'chat'
+        ]);
+    }
+
     public function getContextRoleAttribute()
     {
         if ($this->attributes['context_role'] == null || $this->attributes['context_role'] == 'volontaire') {

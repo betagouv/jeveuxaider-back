@@ -16,6 +16,7 @@ use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Models\Mission;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -54,6 +55,7 @@ class ParticipationController extends Controller
 
     public function store(ParticipationCreateRequest $request)
     {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
         $participationCount = Participation::where('state', '!=', 'Annulée')->where('profile_id', request("profile_id"))
             ->where('mission_id', request("mission_id"))->count();
 
@@ -65,6 +67,7 @@ class ParticipationController extends Controller
 
         if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
+            $currentUser->startConversation($mission->tuteur, $participation);
             $mission->update(); // Places left & Algolia
             return $participation;
         }

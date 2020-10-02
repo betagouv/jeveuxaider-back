@@ -10,6 +10,7 @@ class Conversation extends Model
 
     protected $fillable = [
         'read_at',
+        'participation_id',
     ];
 
     public function messages()
@@ -20,5 +21,10 @@ class Conversation extends Model
     public function users()
     {
         return $this->belongsToMany('App\Models\User', 'conversations_users');
+    }
+
+    public function participation()
+    {
+        return $this->hasOne('App\Models\Participation');
     }
 }

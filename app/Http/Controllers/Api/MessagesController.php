@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
@@ -22,8 +24,16 @@ class MessagesController extends Controller
         ]);
 
         $user2 = User::find(60);
-        // TODO : unique user_id + conversation_id ( first or new ? create or fail ? )
-        $conversation->users()->attach($user2);
+        //$conversation->users()->attach($user2);
+
+        return $message;
+    }
+    
+    public function store(Request $request)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        $message = $currentUser->sendMessage(request('conversation_id'), request('content'));
 
         return $message;
     }

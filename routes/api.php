@@ -40,6 +40,7 @@ Route::get('api-engagement/delete', 'Api\EngagementController@delete');
 
 
 
+Route::post('messages', 'Api\MessagesController@store');
 Route::get('messages/test', 'Api\MessagesController@test');
 
 Route::group(['middleware' => ['auth:api']], function () {

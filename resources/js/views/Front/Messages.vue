@@ -146,7 +146,7 @@ export default {
               readAt: 1601460537,
             },
             {
-              id: 15,
+              id: 1,
               profile: {
                 email: 'kevin@codeconut.fr',
                 first_name: 'Tintin',
@@ -175,7 +175,7 @@ export default {
             },
             {
               from: {
-                id: 15,
+                id: 1,
                 profile: {
                   email: 'kevin@codeconut.fr',
                   first_name: 'Kevin',
@@ -221,7 +221,7 @@ export default {
               readAt: 1601460537,
             },
             {
-              id: 15,
+              id: 1,
               profile: {
                 email: 'kevin@codeconut.fr',
                 first_name: 'Tintin',
