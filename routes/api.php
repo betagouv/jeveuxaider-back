@@ -38,9 +38,6 @@ Route::get('statistics/global', 'Api\StatisticsController@global');
 Route::get('api-engagement/import', 'Api\EngagementController@import');
 Route::get('api-engagement/delete', 'Api\EngagementController@delete');
 
-
-
-Route::post('messages', 'Api\MessagesController@store');
 Route::get('messages/test', 'Api\MessagesController@test');
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -64,6 +61,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('tags', 'Api\TagController@index');
 
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
+
+    // MESSAGES
+    Route::get('conversations', 'Api\MessagesController@index');
+    Route::get('messages', 'Api\MessagesController@index');
+    Route::post('messages', 'Api\MessagesController@store');
 
     Route::post('logout', 'Api\PassportController@logout');
 });

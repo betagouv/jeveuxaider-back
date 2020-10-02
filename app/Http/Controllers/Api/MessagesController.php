@@ -7,9 +7,18 @@ use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MessagesController extends Controller
 {
+    public function index(Request $request)
+    {
+        // TODO : Get Conversations of current user ( scope ? )
+        return QueryBuilder::for(Conversation::with('messages'))
+            ->defaultSort('-updated_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
     public function test()
     {
         $user = User::find(1);
