@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu-item index="/dashboard">
-      <span v-if="!isCollapsed">Tableau de bord</span>
+      <span v-if="$store.getters.sidebar">Tableau de bord</span>
       <el-tooltip
         v-else
         class="item"
@@ -14,7 +14,7 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/structures">
-      <span v-if="!isCollapsed">Organisations</span>
+      <span v-if="$store.getters.sidebar">Organisations</span>
       <el-tooltip
         v-else
         class="item"
@@ -27,7 +27,7 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/missions">
-      <span v-if="!isCollapsed">Missions</span>
+      <span v-if="$store.getters.sidebar">Missions</span>
       <el-tooltip
         v-else
         class="item"
@@ -40,7 +40,7 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/participations">
-      <span v-if="!isCollapsed">Participations</span>
+      <span v-if="$store.getters.sidebar">Participations</span>
       <el-tooltip
         v-else
         class="item"
@@ -53,7 +53,7 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item index="/dashboard/profiles">
-      <span v-if="!isCollapsed">Utilisateurs</span>
+      <span v-if="$store.getters.sidebar">Utilisateurs</span>
       <el-tooltip
         v-else
         class="item"
@@ -65,7 +65,7 @@
         <i class="el-icon-user" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item v-if="!isCollapsed">
+    <el-menu-item v-if="$store.getters.sidebar">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
         >Contacter le support</a
       >
@@ -74,13 +74,10 @@
 </template>
 
 <script>
+import MenuActive from '@/mixins/MenuActive'
+
 export default {
   name: 'MenuSuperviseur',
-  props: {
-    isCollapsed: {
-      type: Boolean,
-      required: true,
-    },
-  },
+  mixins: [MenuActive],
 }
 </script>
