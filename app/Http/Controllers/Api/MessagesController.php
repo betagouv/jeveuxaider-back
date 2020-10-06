@@ -14,7 +14,7 @@ class MessagesController extends Controller
     public function index(Request $request)
     {
         // TODO : Get Conversations of current user ( scope ? )
-        return QueryBuilder::for(Conversation::with('messages'))
+        return QueryBuilder::for(Conversation::with(['messages', 'messages.from', 'users']))
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
@@ -37,13 +37,12 @@ class MessagesController extends Controller
 
         return $message;
     }
-    
+
     public function store(Request $request)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
-
         $message = $currentUser->sendMessage(request('conversation_id'), request('content'));
 
-        return $message;
+        return Conversation::find(request('conversation_id'))->with(['messages', 'messages.from', 'users'])->first();
     }
 }

@@ -12,8 +12,8 @@
           :class="[{ 'font-bold': isNew }]"
         >
           <span class="truncate text-sm pr-2">{{ message }}</span>
-          <span class="flex-none text-gray-500 text-xs">
-            {{ (date * 1000) | formatCustom('D MMM') }}
+          <span v-if="date" class="flex-none text-gray-500 text-xs">
+            {{ date | formatCustom('D MMM') }}
           </span>
         </div>
 
@@ -37,18 +37,18 @@ export default {
     },
     message: {
       type: String,
-      required: true,
+      default: null,
     },
     thumbnail: {
       type: String,
       default: undefined,
     },
     date: {
-      type: Number,
-      required: true,
+      type: String,
+      default: null,
     },
     status: {
-      type: Boolean,
+      type: Number,
       required: true,
     },
     isNew: {
@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     formatStatus() {
-      return this.status ? 'En cours' : 'Archivé'
+      return this.status == 1 ? 'En cours' : 'Archivé'
     },
   },
 }

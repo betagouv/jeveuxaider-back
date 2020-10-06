@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="mb-4">
     <div class="flex items-start">
       <el-avatar :src="thumbnail" class="flex-none bg-primary text-white mr-4">
         {{ shortName }}
@@ -8,10 +8,12 @@
         <div class="flex items-baseline">
           <span class="font-bold mr-2">{{ name }}</span>
           <span class="text-gray-500 font-light text-sm">
-            {{ (date * 1000) | formatCustom('D MMM HH:mm') }}
+            {{ date | formatCustom('D MMM HH[h]mm') }}
           </span>
         </div>
-        <div>{{ message }}</div>
+        <div>
+          <slot></slot>
+        </div>
       </div>
     </div>
   </div>
@@ -29,17 +31,13 @@ export default {
       type: String,
       required: true,
     },
-    message: {
-      type: String,
-      required: true,
-    },
     thumbnail: {
       type: String,
       default: undefined,
     },
     date: {
-      type: Number,
-      required: true,
+      type: String,
+      default: null,
     },
   },
   computed: {

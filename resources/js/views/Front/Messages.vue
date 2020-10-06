@@ -23,8 +23,16 @@
                   ? fromUser(conversation).profile.image.thumb
                   : null
               "
-              :message="lastMessage(conversation).content"
-              :date="lastMessage(conversation).timestamp"
+              :message="
+                lastMessage(conversation)
+                  ? lastMessage(conversation).content
+                  : null
+              "
+              :date="
+                lastMessage(conversation)
+                  ? lastMessage(conversation).created_at
+                  : null
+              "
               :status="conversation.status"
               class="cursor-pointer hover:bg-gray-100 transition"
               :class="[
@@ -34,12 +42,7 @@
                     activeConversation.id == conversation.id,
                 },
               ]"
-              :is-new="
-                lastMessage(conversation).timestamp >
-                currentUser(conversation).readAt
-                  ? true
-                  : false
-              "
+              :is-new="isNew(conversation)"
               @click.native="onTeaserClick(conversation)"
             />
           </div>
@@ -68,6 +71,7 @@
             ></button>
           </div>
         </div>
+
         <div class="panel--container">
           <div class="panel--content">
             <template v-if="activeConversation">
@@ -81,10 +85,34 @@
                     ? message.from.profile.image.thumb
                     : null
                 "
-                :message="message.content"
-                :date="message.timestamp"
-              />
+                :date="message.created_at"
+              >
+                <nl2br tag="p" :text="message.content" />
+              </MessageFull>
             </template>
+          </div>
+        </div>
+
+        <div class="sticky bottom-0 bg-white p-6">
+          <div class="m-auto w-full" style="max-width: 550px">
+            <div
+              class="px-4 py-2 pr-2 border flex items-end"
+              style="border-radius: 8px"
+            >
+              <textarea-autosize
+                v-model="newMessage"
+                placeholder="Saisissez un message"
+                rows="1"
+                :max-height="120"
+                class="w-full outline-none leading-tight custom-scrollbar"
+                @keydown.enter.exact.prevent.native="addMessage"
+              />
+              <img
+                class="w-5 h-5 ml-2 cursor-pointer"
+                src="/images/send.svg"
+                @click="addMessage"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -113,6 +141,8 @@
 import MessageDetails from '@/components/messages/MessageDetails.vue'
 import MessageTeaser from '@/components/messages/MessageTeaser.vue'
 import MessageFull from '@/components/messages/MessageFull.vue'
+import { fetchConversations, addMessage } from '@/api/conversations'
+import dayjs from 'dayjs'
 
 export default {
   name: 'Messages',
@@ -128,144 +158,35 @@ export default {
       showPanelRight: false,
       windowWidth: window.innerWidth,
       activeConversation: null,
-      conversations: [
-        {
-          id: 1,
-          status: true, // archiché ou actif
-          participation: {},
-          users: [
-            {
-              id: 2,
-              profile: {
-                email: 'tintin@milou.fr',
-                first_name: 'Tintin',
-                last_name: 'Milou',
-                short_name: 'TM',
-                image: null,
-              },
-              readAt: 1601460537,
-            },
-            {
-              id: 1,
-              profile: {
-                email: 'kevin@codeconut.fr',
-                first_name: 'Tintin',
-                last_name: 'Milou',
-                short_name: 'KV',
-                image: null,
-              },
-              readAt: 1601460653,
-            },
-          ],
-          messages: [
-            {
-              from: {
-                id: 2,
-                profile: {
-                  email: 'tintin@milou.fr',
-                  first_name: 'Tintin',
-                  last_name: 'Milou',
-                  short_name: 'TM',
-                  image: null,
-                },
-              },
-              content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris cursus vestibulum mollis. Sed rhoncus vehicula dolor, at suscipit magna luctus eget. Mauris eu dignissim odio. Vivamus vestibulum mi vel dapibus facilisis.',
-              timestamp: 1601460537,
-            },
-            {
-              from: {
-                id: 1,
-                profile: {
-                  email: 'kevin@codeconut.fr',
-                  first_name: 'Kevin',
-                  last_name: 'Vaissaud',
-                  short_name: 'KV',
-                  image: null,
-                },
-              },
-              content: 'Bonjour monsieur ! bla bla bla et re bla bla bla',
-              timestamp: 1601460653,
-            },
-            {
-              from: {
-                id: 2,
-                profile: {
-                  email: 'tintin@milou.fr',
-                  first_name: 'Tintin',
-                  last_name: 'Milou',
-                  short_name: 'TM',
-                  image: null,
-                },
-              },
-              content:
-                'Praesent euismod et sapien et maximus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi dignissim luctus dapibus. Cras eget dui bibendum, ultrices dui et, accumsan elit.',
-              timestamp: 1601480021,
-            },
-          ],
-        },
-        {
-          id: 2,
-          status: false, // archiché ou actif
-          participation: {},
-          users: [
-            {
-              id: 3,
-              profile: {
-                email: 'michel@sardou.fr',
-                first_name: 'Michel',
-                last_name: 'Sardou',
-                short_name: 'MS',
-                image: null,
-              },
-              readAt: 1601460537,
-            },
-            {
-              id: 1,
-              profile: {
-                email: 'kevin@codeconut.fr',
-                first_name: 'Tintin',
-                last_name: 'Milou',
-                short_name: 'KV',
-                image: null,
-              },
-              readAt: 1601460500,
-            },
-          ],
-          messages: [
-            {
-              from: {
-                id: 3,
-                profile: {
-                  email: 'michel@sardou.fr',
-                  first_name: 'Michel',
-                  last_name: 'Sardou',
-                  short_name: 'MS',
-                  image: null,
-                },
-              },
-              content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris cursus vestibulum mollis. Sed rhoncus vehicula dolor, at suscipit magna luctus eget. Mauris eu dignissim odio. Vivamus vestibulum mi vel dapibus facilisis.',
-              timestamp: 1601460537,
-            },
-          ],
-        },
-      ],
+      newMessage: '',
+      conversations: [],
     }
   },
   watch: {
     activeConversation(newConversation, oldConversation) {
       if (oldConversation) {
         console.log('TODO 1 - Update readAt for real...')
-        this.currentUser(oldConversation).readAt = Math.floor(
-          new Date().getTime() / 1000
-        )
+        this.currentUser(oldConversation).pivot.read_at = dayjs().unix()
       }
     },
   },
   created() {
-    this.activeConversation =
-      this.windowWidth >= 768 ? this.conversations[0] : null
+    this.$store.commit('setLoading', true)
+    fetchConversations(this.$store.getters.user.profile.id)
+      .then((response) => {
+        if (response.data && response.data.data) {
+          this.conversations = response.data.data
+          this.activeConversation =
+            this.windowWidth >= 768 && this.conversations[0]
+              ? this.conversations[0]
+              : null
+        }
+        this.$store.commit('setLoading', false)
+        this.loading = false
+      })
+      .catch(() => {
+        this.loading = false
+      })
   },
   mounted() {
     this.onResize()
@@ -277,9 +198,7 @@ export default {
     window.removeEventListener('resize', this.onResize)
 
     console.log('TODO 2 - Update readAt for real...')
-    this.currentUser(this.activeConversation).readAt = Math.floor(
-      new Date().getTime() / 1000
-    )
+    this.currentUser(this.activeConversation).pivot.read_at = dayjs().unix()
   },
   methods: {
     onResize() {
@@ -293,9 +212,7 @@ export default {
     },
     onPanelLeftToggle() {
       console.log('TODO 3 - Update readAt for real...')
-      this.currentUser(this.activeConversation).readAt = Math.floor(
-        new Date().getTime() / 1000
-      )
+      this.currentUser(this.activeConversation).pivot.read_at = dayjs().unix()
       this.activeConversation = null
 
       if (this.windowWidth < 768) {
@@ -346,6 +263,39 @@ export default {
     lastMessage(conversation) {
       return conversation.messages[conversation.messages.length - 1]
     },
+    isNew(conversation) {
+      if (this.lastMessage(conversation) && this.currentUser(conversation)) {
+        if (!this.currentUser(conversation).pivot.read_at) {
+          return true
+        }
+
+        const messageTimestamp = dayjs(
+          this.lastMessage(conversation).created_at
+        ).unix()
+        return messageTimestamp > this.currentUser(conversation).pivot.read_at
+          ? true
+          : false
+      }
+      return false
+    },
+    addMessage() {
+      addMessage({
+        content: this.newMessage,
+        conversation_id: this.activeConversation.id,
+      }).then((response) => {
+        this.activeConversation = response.data
+        this.newMessage = ''
+        this.conversations.splice(
+          this.conversations.findIndex(
+            (el) => el.id === this.activeConversation.id
+          ),
+          1,
+          response.data
+        )
+        console.log('TODO 4 - Update readAt for real...')
+        this.currentUser(this.activeConversation).pivot.read_at = dayjs().unix()
+      })
+    },
   },
 }
 </script>
@@ -380,12 +330,10 @@ export default {
   @screen md
     flex: 1 1 0%
   .panel--container
-    @apply flex-col-reverse
+    @apply flex-col-reverse flex-1
     .panel--content
-      max-width: 600px
-      @apply m-auto pt-4
-      // min-height: 3000px
-      // background: linear-gradient(#e66465, #9198e5)
+      max-width: 550px
+      @apply mx-auto mb-auto w-full pt-4
 
 .panel--right
   width: 100%

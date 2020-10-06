@@ -9,7 +9,6 @@ class Conversation extends Model
     protected $table = 'conversations';
 
     protected $fillable = [
-        'read_at',
         'participation_id',
     ];
 
@@ -20,7 +19,7 @@ class Conversation extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'conversations_users');
+        return $this->belongsToMany('App\Models\User', 'conversations_users')->withPivot('read_at');
     }
 
     public function participation()
