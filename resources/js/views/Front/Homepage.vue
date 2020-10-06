@@ -169,7 +169,7 @@
               </router-link>
 
               <router-link
-                to="/missions?menu[domaines]=Protection%20de%20la%20nature"
+                to="/thematiques/protection-de-la-nature"
                 class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
@@ -195,7 +195,7 @@
               </router-link>
 
               <router-link
-                to="/missions?menu[domaines]=Solidarité%20et%20insertion"
+                to="/thematiques/solidarite-et-insertion"
                 class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img
