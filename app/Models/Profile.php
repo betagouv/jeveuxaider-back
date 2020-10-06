@@ -184,6 +184,9 @@ class Profile extends Model implements HasMedia
             case 'responsable':
                 // Get missions validées
                 $missions = Mission::role('responsable')->available()->hasPlacesLeft()->latest()->limit(15)->get();
+                if ($missions->count() == 0) {
+                    return $query->where('id', -1);
+                }
                 $query
                     ->where('is_visible', true)
                     ->where(function (Builder $query) use ($missions) {
