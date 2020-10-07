@@ -7,7 +7,7 @@
       <div>
         <div class="flex items-baseline">
           <span class="font-bold mr-2">{{ name }}</span>
-          <span class="text-gray-500 font-light text-sm">
+          <span v-if="date" class="text-gray-500 font-light text-sm">
             {{ date | formatCustom('D MMM HH[h]mm') }}
           </span>
         </div>

@@ -7,7 +7,10 @@
         :class="[{ hide: !showPanelLeft }]"
         class="panel--left border-r border-cool-gray-200"
       >
-        <div class="sticky top-0 bg-white p-6 border-b border-cool-gray-200">
+        <div
+          class="sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+          style="min-height: 77px"
+        >
           <h1 class="text-lg leading-8 font-bold text-gray-900">Messages</h1>
         </div>
         <div class="panel--container">
@@ -33,7 +36,7 @@
                   ? lastMessage(conversation).created_at
                   : null
               "
-              :status="conversation.status"
+              :status="conversation.participation.state"
               class="cursor-pointer hover:bg-gray-100 transition"
               :class="[
                 {
@@ -53,17 +56,51 @@
         :class="[{ hide: !showPanelCenter }]"
         class="panel--center border-r border-cool-gray-200"
       >
-        <div class="sticky top-0 bg-white p-6 border-b border-cool-gray-200">
-          <div class="flex justify-between">
+        <div
+          class="sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+          style="min-height: 77px"
+        >
+          <div class="flex flex-1 justify-between items-center">
             <div class="md:hidden" @click="onPanelLeftToggle">BACK</div>
-            <h1
-              v-if="activeConversation"
-              class="text-lg leading-8 font-bold text-gray-900"
-            >
-              {{ fromUser(activeConversation).profile.first_name }}
-              {{ fromUser(activeConversation).profile.last_name }}
-            </h1>
+            <div v-if="activeConversation">
+              <h1 class="text-lg leading-8 font-bold text-gray-900">
+                {{ fromUser(activeConversation).profile.first_name }}
+                {{ fromUser(activeConversation).profile.last_name }}
+              </h1>
+              <div class="text-sm text-gray-500 font-light">
+                {{ activeConversation.participation.mission.city }} ·
+                {{
+                  activeConversation.participation.mission.start_date
+                    | formatCustom('D MMM')
+                }}
+                <template
+                  v-if="
+                    activeConversation.participation.mission.start_date.substring(
+                      0,
+                      10
+                    ) !=
+                    activeConversation.participation.mission.end_date.substring(
+                      0,
+                      10
+                    )
+                  "
+                >
+                  –
+                  {{
+                    activeConversation.participation.mission.end_date
+                      | formatCustom('D MMM YYYY')
+                  }}
+                </template>
+                <template v-else>
+                  {{
+                    activeConversation.participation.mission.start_date
+                      | formatCustom('YYYY')
+                  }}
+                </template>
+              </div>
+            </div>
             <button
+              class="text-xs flex-none rounded-full px-3 py-1 border hover:border-black transition"
               @click="onPanelRightToggle"
               v-html="
                 showPanelRight ? 'Masquer les détails' : 'Voir les détails'
@@ -75,20 +112,30 @@
         <div class="panel--container">
           <div class="panel--content">
             <template v-if="activeConversation">
-              <MessageFull
-                v-for="message in activeConversation.messages"
-                :key="message.id"
-                :name="message.from.profile.first_name"
-                :short-name="message.from.profile.short_name"
-                :thumbnail="
-                  message.from.profile.image
-                    ? message.from.profile.image.thumb
-                    : null
-                "
-                :date="message.created_at"
-              >
-                <nl2br tag="p" :text="message.content" />
-              </MessageFull>
+              <template v-if="activeConversation.messages.length">
+                <MessageFull
+                  v-for="message in activeConversation.messages"
+                  :key="message.id"
+                  :name="message.from.profile.first_name"
+                  :short-name="message.from.profile.short_name"
+                  :thumbnail="
+                    message.from.profile.image
+                      ? message.from.profile.image.thumb
+                      : null
+                  "
+                  :date="message.created_at"
+                >
+                  <nl2br tag="p" :text="message.content" />
+                </MessageFull>
+              </template>
+              <template v-else>
+                <div class="text-center text-gray-500 font-light">
+                  Ceci est le tout début de votre conversation avec
+                  {{ fromUser(activeConversation).profile.first_name }}
+                  !<br />
+                  N'hésitez pas à lui envoyer un message ;)
+                </div>
+              </template>
             </template>
           </div>
         </div>
@@ -96,7 +143,7 @@
         <div class="sticky bottom-0 bg-white p-6">
           <div class="m-auto w-full" style="max-width: 550px">
             <div
-              class="px-4 py-2 pr-2 border flex items-end"
+              class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
               style="border-radius: 8px"
             >
               <textarea-autosize
@@ -105,12 +152,12 @@
                 rows="1"
                 :max-height="120"
                 class="w-full outline-none leading-tight custom-scrollbar"
-                @keydown.enter.exact.prevent.native="addMessage"
+                @keydown.enter.exact.prevent.native="onAddMessage"
               />
-              <img
-                class="w-5 h-5 ml-2 cursor-pointer"
-                src="/images/send.svg"
-                @click="addMessage"
+              <font-awesome-icon
+                icon="paper-plane"
+                class="w-5 h-5 ml-2 cursor-pointer transition text-gray-300 hover:text-primary"
+                @click="onAddMessage"
               />
             </div>
           </div>
@@ -118,10 +165,17 @@
       </div>
 
       <div :class="[{ hide: !showPanelRight }]" class="panel--right">
-        <div class="sticky top-0 bg-white p-6 border-b border-cool-gray-200">
-          <div class="flex justify-between">
+        <div
+          class="sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+          style="min-height: 77px"
+        >
+          <div class="flex flex-1 justify-between">
             <h1 class="text-lg leading-8 font-bold text-gray-900">Détails</h1>
-            <button @click="onPanelRightToggle">X</button>
+            <font-awesome-icon
+              icon="times"
+              class="w-6 h-6 p-1 flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black"
+              @click="onPanelRightToggle"
+            />
           </div>
         </div>
         <div class="panel--container">
@@ -166,7 +220,7 @@ export default {
     activeConversation(newConversation, oldConversation) {
       if (oldConversation) {
         console.log('TODO 1 - Update readAt for real...')
-        this.currentUser(oldConversation).pivot.read_at = dayjs().unix()
+        this.currentUser(oldConversation).pivot.read_at = dayjs().format()
       }
     },
   },
@@ -198,7 +252,7 @@ export default {
     window.removeEventListener('resize', this.onResize)
 
     console.log('TODO 2 - Update readAt for real...')
-    this.currentUser(this.activeConversation).pivot.read_at = dayjs().unix()
+    this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
   },
   methods: {
     onResize() {
@@ -212,7 +266,7 @@ export default {
     },
     onPanelLeftToggle() {
       console.log('TODO 3 - Update readAt for real...')
-      this.currentUser(this.activeConversation).pivot.read_at = dayjs().unix()
+      this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
       this.activeConversation = null
 
       if (this.windowWidth < 768) {
@@ -272,19 +326,23 @@ export default {
         const messageTimestamp = dayjs(
           this.lastMessage(conversation).created_at
         ).unix()
-        return messageTimestamp > this.currentUser(conversation).pivot.read_at
-          ? true
-          : false
+        const userTimestamp = dayjs(
+          this.currentUser(conversation).pivot.read_at
+        ).unix()
+
+        return messageTimestamp > userTimestamp ? true : false
       }
       return false
     },
-    addMessage() {
+    onAddMessage() {
+      // todo only if content !
       addMessage({
         content: this.newMessage,
         conversation_id: this.activeConversation.id,
       }).then((response) => {
-        this.activeConversation = response.data
         this.newMessage = ''
+
+        console.log(response.data)
         this.conversations.splice(
           this.conversations.findIndex(
             (el) => el.id === this.activeConversation.id
@@ -292,8 +350,12 @@ export default {
           1,
           response.data
         )
+        this.activeConversation = response.data
+
         console.log('TODO 4 - Update readAt for real...')
-        this.currentUser(this.activeConversation).pivot.read_at = dayjs().unix()
+        this.currentUser(
+          this.activeConversation
+        ).pivot.read_at = dayjs().format()
       })
     },
   },
@@ -323,6 +385,8 @@ export default {
   @screen md
     width: 375px
     @apply flex-none
+    > *
+      width: 375px
 
 .panel--center
   width: 100%
@@ -338,6 +402,8 @@ export default {
 .panel--right
   width: 100%
   @screen md
-    width: 375px
+    width: 415px
     @apply flex-none
+    > *
+      width: 415px
 </style>

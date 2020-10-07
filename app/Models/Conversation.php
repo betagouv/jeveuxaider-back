@@ -24,6 +24,6 @@ class Conversation extends Model
 
     public function participation()
     {
-        return $this->hasOne('App\Models\Participation');
+        return $this->belongsTo('App\Models\Participation');
     }
 }

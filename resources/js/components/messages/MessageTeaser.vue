@@ -9,7 +9,7 @@
 
         <div
           class="flex justify-between items-baseline"
-          :class="[{ 'font-bold': isNew }]"
+          :class="[{ 'font-bold': isNew }, { 'font-light': !isNew }]"
         >
           <span class="truncate text-sm pr-2">{{ message }}</span>
           <span v-if="date" class="flex-none text-gray-500 text-xs">
@@ -17,7 +17,7 @@
           </span>
         </div>
 
-        <div class="text-gray-500 text-sm">{{ formatStatus }}</div>
+        <div class="text-gray-500 text-sm font-light">{{ status }}</div>
       </div>
     </div>
   </div>
@@ -48,17 +48,12 @@ export default {
       default: null,
     },
     status: {
-      type: Number,
+      type: String,
       required: true,
     },
     isNew: {
       type: Boolean,
       required: true,
-    },
-  },
-  computed: {
-    formatStatus() {
-      return this.status == 1 ? 'En cours' : 'Archivé'
     },
   },
 }

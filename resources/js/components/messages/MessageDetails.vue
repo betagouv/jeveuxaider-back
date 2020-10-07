@@ -2,44 +2,82 @@
   <div class="message--details">
     <section>
       <div class="text-sm text-gray-500 mb-4 font-light">
-        [VILLE] · 99 févr. – 99 févr
+        {{ participation.mission.city }} ·
+        {{ participation.mission.start_date | formatCustom('D MMM') }}
+        <template
+          v-if="
+            participation.mission.start_date.substring(0, 10) !=
+            participation.mission.end_date.substring(0, 10)
+          "
+        >
+          –
+          {{ participation.mission.end_date | formatCustom('D MMM YYYY') }}
+        </template>
+        <template v-else>
+          {{ participation.mission.start_date | formatCustom('YYYY') }}
+        </template>
       </div>
       <h2 class="text-xl leading-8 font-bold text-gray-900">
-        Votre mission chez [NOM STRUCTURE]
+        Votre mission chez {{ participation.mission.structure.name }}
       </h2>
     </section>
 
     <section>
-      <div class="mb-4">[IMAGE MISSION]</div>
+      <div class="mb-4">
+        <img
+          class="bg-primary rounded-md p-3"
+          :src="participation.mission.domaine.image"
+          width="56px"
+        />
+      </div>
       <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
-        [TITRE MISSION]
+        {{ participation.mission.name }}
       </h3>
-      <div>Votre participation est [STATUT PARTICIPATION]</div>
+      <div class="font-light">
+        Votre participation est
+        <span class="font-bold text-primary">{{
+          participation.state | lowercase
+        }}</span>
+      </div>
 
       <hr class="my-6" />
 
       <div class="flex mb-6">
-        <div class="w-1/2 border-r">
+        <div class="w-1/2 border-r pr-4">
           <div class="text-sm text-gray-500 mb-4 font-light">Début</div>
-          <div>lun. 55 déc.</div>
-          <div class="text-2xl">09:30</div>
+          <div class="font-light">
+            {{ participation.mission.start_date | formatCustom('ddd D MMM') }}
+          </div>
+          <div class="text-2xl">
+            {{ participation.mission.start_date | formatCustom('HH[h]mm') }}
+          </div>
         </div>
         <div class="w-1/2 ml-4">
           <div class="text-sm text-gray-500 mb-4 font-light">Fin</div>
-          <div>dim. 77 déc.</div>
-          <div class="text-2xl">99:99</div>
+          <div class="font-light">
+            {{ participation.mission.end_date | formatCustom('ddd D MMM') }}
+          </div>
+          <div class="text-2xl">
+            {{ participation.mission.end_date | formatCustom('HH[h]mm') }}
+          </div>
         </div>
       </div>
 
       <div class="mb-6">
         <div class="text-sm text-gray-500 mb-4 font-light">Adresse</div>
-        <div>[ADRESSE MISSION]</div>
+        <div class="font-light">
+          {{ participation.mission.address }}<br />
+          {{ participation.mission.zip }} {{ participation.mission.city }}
+        </div>
       </div>
 
       <div class="mb-6">
         <div class="-m-2">
           <div
-            v-for="tag in tags"
+            v-for="tag in [
+              participation.mission.format,
+              participation.mission.type,
+            ]"
             :key="tag"
             class="px-4 py-1 m-2 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
           >
@@ -53,14 +91,14 @@
       <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
         Objectif de la mission
       </h3>
-      <div style="height: 300px">[OBJECTIF MISSION]</div>
+      <div class="font-light" v-html="participation.mission.objectif"></div>
     </section>
 
     <section>
       <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
         Description de la mission
       </h3>
-      <div style="height: 300px">[DESCRIPTION MISSION]</div>
+      <div class="font-light" v-html="participation.mission.description"></div>
     </section>
 
     <section>
@@ -69,9 +107,10 @@
       </h3>
       <ul>
         <li
-          v-for="beneficiaryPublic in beneficiaryPublics"
+          v-for="beneficiaryPublic in participation.mission
+            .publics_beneficiaires"
           :key="beneficiaryPublic"
-          class="flex items-start"
+          class="flex items-start font-light"
         >
           <div class="flex-shrink-0" style="margin-top: 2px">
             <svg
@@ -86,7 +125,7 @@
               />
             </svg>
           </div>
-          <p class="ml-3 text-gray-700">
+          <p class="ml-3">
             {{ beneficiaryPublic }}
           </p>
         </li>
@@ -97,7 +136,7 @@
       <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
         Commentaires de l'organisation
       </h3>
-      <div style="height: 300px">[COMMENTAIRE MISSION]</div>
+      <div class="font-light">{{ participation.mission.information }}</div>
     </section>
   </div>
 </template>
@@ -105,11 +144,14 @@
 <script>
 export default {
   name: 'MessageDetails',
+  props: {
+    participation: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
-    return {
-      tags: ['Tag 1', 'Tag 2'],
-      beneficiaryPublics: ['Public 1', 'Public 2'],
-    }
+    return {}
   },
 }
 </script>
