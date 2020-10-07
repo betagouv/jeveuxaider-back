@@ -8,8 +8,7 @@
         class="panel--left border-r border-cool-gray-200"
       >
         <div
-          class="sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
-          style="min-height: 77px"
+          class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center"
         >
           <h1 class="text-lg leading-8 font-bold text-gray-900">Messages</h1>
         </div>
@@ -57,12 +56,19 @@
         class="panel--center border-r border-cool-gray-200"
       >
         <div
-          class="sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
-          style="min-height: 77px"
+          class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
         >
-          <div class="flex flex-1 justify-between items-center">
-            <div class="md:hidden" @click="onPanelLeftToggle">BACK</div>
-            <div v-if="activeConversation">
+          <div class="flex flex-wrap flex-1 justify-between items-center">
+            <button
+              class="order-1 md:hidden text-xs flex-none rounded-full px-3 py-1 mr-2 my-4 sm:my-0 border hover:border-black transition"
+              @click="onPanelLeftToggle"
+            >
+              Retour
+            </button>
+            <div
+              v-if="activeConversation"
+              class="order-4 w-full sm:w-auto sm:order-2 mb-4 sm:mb-0"
+            >
               <h1 class="text-lg leading-8 font-bold text-gray-900">
                 {{ fromUser(activeConversation).profile.first_name }}
                 {{ fromUser(activeConversation).profile.last_name }}
@@ -100,7 +106,7 @@
               </div>
             </div>
             <button
-              class="text-xs flex-none rounded-full px-3 py-1 border hover:border-black transition"
+              class="order-3 ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
               @click="onPanelRightToggle"
               v-html="
                 showPanelRight ? 'Masquer les détails' : 'Voir les détails'
@@ -147,6 +153,7 @@
               style="border-radius: 8px"
             >
               <textarea-autosize
+                v-if="showPanelCenter"
                 v-model="newMessage"
                 placeholder="Saisissez un message"
                 rows="1"
@@ -166,8 +173,7 @@
 
       <div :class="[{ hide: !showPanelRight }]" class="panel--right">
         <div
-          class="sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
-          style="min-height: 77px"
+          class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
         >
           <div class="flex flex-1 justify-between">
             <h1 class="text-lg leading-8 font-bold text-gray-900">Détails</h1>
@@ -335,28 +341,27 @@ export default {
       return false
     },
     onAddMessage() {
-      // todo only if content !
-      addMessage({
-        content: this.newMessage,
-        conversation_id: this.activeConversation.id,
-      }).then((response) => {
-        this.newMessage = ''
+      if (this.newMessage.length) {
+        addMessage({
+          content: this.newMessage,
+          conversation_id: this.activeConversation.id,
+        }).then((response) => {
+          this.newMessage = ''
+          this.conversations.splice(
+            this.conversations.findIndex(
+              (el) => el.id === this.activeConversation.id
+            ),
+            1,
+            response.data
+          )
+          this.activeConversation = response.data
 
-        console.log(response.data)
-        this.conversations.splice(
-          this.conversations.findIndex(
-            (el) => el.id === this.activeConversation.id
-          ),
-          1,
-          response.data
-        )
-        this.activeConversation = response.data
-
-        console.log('TODO 4 - Update readAt for real...')
-        this.currentUser(
-          this.activeConversation
-        ).pivot.read_at = dayjs().format()
-      })
+          console.log('TODO 4 - Update readAt for real...')
+          this.currentUser(
+            this.activeConversation
+          ).pivot.read_at = dayjs().format()
+        })
+      }
     },
   },
 }
@@ -377,6 +382,8 @@ export default {
     width: 0
     opacity: 0
     pointer-events: none
+  .panel--header
+    min-height: 77px
   .panel--container
     @apply flex flex-col overflow-y-auto
 
@@ -394,7 +401,7 @@ export default {
   @screen md
     flex: 1 1 0%
   .panel--container
-    @apply flex-col-reverse flex-1
+    @apply flex-col-reverse flex-1 px-6
     .panel--content
       max-width: 550px
       @apply mx-auto mb-auto w-full pt-4
