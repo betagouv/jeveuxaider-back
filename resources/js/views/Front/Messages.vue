@@ -53,12 +53,14 @@
 
       <div
         :class="[{ hide: !showPanelCenter }]"
-        class="panel--center border-r border-cool-gray-200"
+        class="panel--center min-w-0 border-r border-cool-gray-200"
       >
         <div
           class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
         >
-          <div class="flex flex-wrap flex-1 justify-between items-center">
+          <div
+            class="min-w-0 flex flex-wrap sm:flex-no-wrap flex-1 justify-between items-center"
+          >
             <button
               class="order-1 md:hidden text-xs flex-none rounded-full px-3 py-1 mr-2 my-4 sm:my-0 border hover:border-black transition"
               @click="onPanelLeftToggle"
@@ -67,13 +69,13 @@
             </button>
             <div
               v-if="activeConversation"
-              class="order-4 w-full sm:w-auto sm:order-2 mb-4 sm:mb-0"
+              class="order-4 w-full sm:w-auto sm:order-2 mb-4 sm:mb-0 sm:truncate"
             >
-              <h1 class="text-lg leading-8 font-bold text-gray-900">
+              <h1 class="text-lg leading-8 font-bold text-gray-900 sm:truncate">
                 {{ fromUser(activeConversation).profile.first_name }}
                 {{ fromUser(activeConversation).profile.last_name }}
               </h1>
-              <div class="text-sm text-gray-500 font-light">
+              <div class="text-sm text-gray-500 font-light sm:truncate">
                 {{ activeConversation.participation.mission.city }} ·
                 {{
                   activeConversation.participation.mission.start_date
@@ -137,8 +139,9 @@
               <template v-else>
                 <div class="text-center text-gray-500 font-light">
                   Ceci est le tout début de votre conversation avec
-                  {{ fromUser(activeConversation).profile.first_name }}
-                  !<br />
+                  {{
+                    fromUser(activeConversation).profile.first_name
+                  }}&nbsp;!<br />
                   N'hésitez pas à lui envoyer un message ;)
                 </div>
               </template>
