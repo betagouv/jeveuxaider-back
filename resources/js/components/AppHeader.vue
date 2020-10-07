@@ -323,7 +323,7 @@
                 </router-link>
                 <el-badge
                   v-if="$store.getters.isLogged"
-                  :value="200"
+                  :value="$store.getters.user.nbUnreadConversations"
                   :max="99"
                   class="hidden lg:block mr-3 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
@@ -334,8 +334,12 @@
                   </router-link>
                 </el-badge>
                 <el-badge
-                  v-if="$store.getters.isLogged"
-                  :value="99"
+                  v-if="
+                    $store.getters.isLogged &&
+                    $store.getters.reminders &&
+                    $store.getters.reminders.total > 0
+                  "
+                  :value="$store.getters.reminders.total"
                   :max="99"
                   class="hidden lg:block ml-2 mr-3"
                 >

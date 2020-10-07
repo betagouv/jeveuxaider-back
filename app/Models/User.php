@@ -32,11 +32,12 @@ class User extends Authenticatable
         if (! Auth::guard('api')->user()) {
             return null;
         }
-
-        $user = User::with(['profile.structures', 'profile.participations'])->where('id', Auth::guard('api')->user()->id)->first();
+        $id = Auth::guard('api')->user()->id;
+        $user = User::with(['profile.structures', 'profile.participations'])->where('id', $id)->first();
         $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $user['nbUnreadConversations'] = self::getNbUnreadConversations($id);
 
         return $user;
     }
@@ -126,5 +127,15 @@ class User extends Authenticatable
         $this->profile->save();
 
         return $this;
+    }
+
+    public static function getNbUnreadConversations($id)
+    {
+        return User::find($id)->conversations()
+            ->whereHas('messages')
+            ->where(function ($query) {
+                $query->where('conversations_users.read_at', '<', date('Y-m-d H:m:s'))
+                    ->orWhere('conversations_users.read_at', null);
+            })->count();
     }
 }
