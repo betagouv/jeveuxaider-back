@@ -15,7 +15,7 @@
         <div class="panel--container">
           <div class="panel--content">
             <!-- TODO Afficher statut de la mission -->
-            <MessageTeaser
+            <ConversationTeaser
               v-for="conversation in conversations"
               :key="conversation.id"
               :name="fromUser(conversation).profile.first_name"
@@ -121,7 +121,7 @@
           <div class="panel--content">
             <template v-if="activeConversation">
               <template v-if="activeConversation.messages.length">
-                <MessageFull
+                <!--                 <MessageFull
                   v-for="message in activeConversation.messages"
                   :key="message.id"
                   :name="message.from.profile.first_name"
@@ -134,7 +134,7 @@
                   :date="message.created_at"
                 >
                   <nl2br tag="p" :text="message.content" />
-                </MessageFull>
+                </MessageFull> -->
               </template>
               <template v-else>
                 <div class="text-center text-gray-500 font-light">
@@ -202,16 +202,20 @@
 
 <script>
 import MessageDetails from '@/components/messages/MessageDetails.vue'
-import MessageTeaser from '@/components/messages/MessageTeaser.vue'
+import ConversationTeaser from '@/components/messages/ConversationTeaser.vue'
 import MessageFull from '@/components/messages/MessageFull.vue'
-import { fetchConversations, addMessage } from '@/api/conversations'
+import {
+  fetchConversations,
+  fetchMessages,
+  addMessage,
+} from '@/api/conversations'
 import dayjs from 'dayjs'
 
 export default {
   name: 'Messages',
   components: {
     MessageDetails,
-    MessageTeaser,
+    ConversationTeaser,
     MessageFull,
   },
   data() {
@@ -229,21 +233,25 @@ export default {
     activeConversation(newConversation, oldConversation) {
       if (oldConversation) {
         console.log('TODO 1 - Update readAt for real...')
-        this.currentUser(oldConversation).pivot.read_at = dayjs().format()
+        // this.currentUser(oldConversation).pivot.read_at = dayjs().format()
       }
+      // TODO : fetchMessages de la première conversation
+      fetchMessages(newConversation.id).then((response) => {
+        console.log(response)
+        newConversation.messages = response.data.data
+      })
     },
   },
   created() {
     this.$store.commit('setLoading', true)
-    fetchConversations(this.$store.getters.user.profile.id)
+    // TODO : Filtrer sur utilisateur courant : this.$store.getters.user.profile.id
+    fetchConversations()
       .then((response) => {
-        if (response.data && response.data.data) {
-          this.conversations = response.data.data
-          this.activeConversation =
-            this.windowWidth >= 768 && this.conversations[0]
-              ? this.conversations[0]
-              : null
-        }
+        this.conversations = response.data.data
+        this.activeConversation =
+          this.windowWidth >= 768 && this.conversations[0]
+            ? this.conversations[0]
+            : null
         this.$store.commit('setLoading', false)
         this.loading = false
       })
@@ -259,9 +267,6 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
-
-    console.log('TODO 2 - Update readAt for real...')
-    this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
   },
   methods: {
     onResize() {
@@ -274,8 +279,6 @@ export default {
       this.showPanelRight = this.windowWidth >= 1280 ? true : false
     },
     onPanelLeftToggle() {
-      console.log('TODO 3 - Update readAt for real...')
-      this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
       this.activeConversation = null
 
       if (this.windowWidth < 768) {
@@ -324,13 +327,15 @@ export default {
       })[0]
     },
     lastMessage(conversation) {
+      console.log(conversation)
+      console.log(conversation.messages.length)
       return conversation.messages[conversation.messages.length - 1]
     },
     isNew(conversation) {
       if (this.lastMessage(conversation) && this.currentUser(conversation)) {
-        if (!this.currentUser(conversation).pivot.read_at) {
+        /*if (!this.currentUser(conversation).pivot.read_at) {
           return true
-        }
+        }*/
 
         const messageTimestamp = dayjs(
           this.lastMessage(conversation).created_at
@@ -344,7 +349,7 @@ export default {
       return false
     },
     onAddMessage() {
-      if (this.newMessage.length) {
+      if (this.newMessage.trim().length) {
         addMessage({
           content: this.newMessage,
           conversation_id: this.activeConversation.id,
@@ -358,11 +363,6 @@ export default {
             response.data
           )
           this.activeConversation = response.data
-
-          console.log('TODO 4 - Update readAt for real...')
-          this.currentUser(
-            this.activeConversation
-          ).pivot.read_at = dayjs().format()
         })
       }
     },

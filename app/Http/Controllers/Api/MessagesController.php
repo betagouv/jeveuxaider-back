@@ -7,35 +7,12 @@ use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class MessagesController extends Controller
 {
-    public function index(Request $request)
-    {
-        // TODO : Get Conversations of current user ( scope ? )
-        return QueryBuilder::for(Conversation::with(['messages.from', 'users', 'participation.mission.domaine', 'participation.mission.structure:id,name']))
-            ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
-    }
-
     public function test()
     {
-        $user = User::find(1);
-        //$conversation = Conversation::create();
-        //$conversation->save();
-        $conversation = Conversation::find(1);
-
-        $message = $user->messages()->create([
-            'content' => 'Hello World !',
-            'conversation_id' => $conversation->id,
-            'type' => 'chat'
-        ]);
-
-        $user2 = User::find(60);
-        //$conversation->users()->attach($user2);
-
-        return $message;
+        return 'coucou';
     }
 
     public function store(Request $request)

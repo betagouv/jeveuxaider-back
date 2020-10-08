@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'MessageTeaser',
+  name: 'ConversationTeaser',
   props: {
     name: {
       type: String,

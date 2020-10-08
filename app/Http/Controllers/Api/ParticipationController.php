@@ -67,7 +67,7 @@ class ParticipationController extends Controller
 
         if ($mission && $mission->has_places_left) {
             $participation = Participation::create($request->validated());
-            $currentUser->startConversation($mission->tuteur, $participation);
+            $currentUser->startConversation($mission->tuteur->user, $participation);
             $mission->update(); // Places left & Algolia
             return $participation;
         }
