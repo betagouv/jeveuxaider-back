@@ -149,7 +149,11 @@
           </div>
         </div>
 
-        <div class="panel--container">
+        <div
+          ref="messagesContainer"
+          class="panel--container"
+          @scroll="onScroll"
+        >
           <div class="panel--content">
             <template v-if="activeConversation">
               <template v-if="messages.length">
@@ -262,6 +266,9 @@ export default {
       activeConversationId: this.$router.currentRoute.params.id ?? null,
       conversations: [],
       messages: [],
+      currentPage: 1,
+      lastPage: null,
+      newMessageCount: 0,
     }
   },
   computed: {
@@ -287,6 +294,7 @@ export default {
       if (newConversation) {
         fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
+          this.lastPage = response.data.last_page
         })
       }
     },
@@ -303,7 +311,6 @@ export default {
     })
   },
   mounted() {
-    this.onResize()
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
       this.showPanelLeft = false
       this.showPanelCenter = true
@@ -311,11 +318,14 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
       window.addEventListener('popstate', this.handleHistoryChange)
+      // window.addEventListener('scroll', this.onScroll)
+      this.onResize()
     })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('popstate', this.handleHistoryChange)
+    // window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
     onResize() {
@@ -333,6 +343,23 @@ export default {
       ) {
         this.activeConversationId = this.conversations[0].id
       }
+    },
+    onScroll() {
+      if (
+        this.currentPage < this.lastPage &&
+        this.$refs['messagesContainer'].scrollTop == 0
+      ) {
+        this.fetchNextPage()
+      }
+    },
+    fetchNextPage() {
+      fetchMessages(this.activeConversationId, {
+        page: this.currentPage + 1,
+        itemsPerPage: 15 + this.newMessageCount,
+      }).then((response) => {
+        this.messages = [...this.messages, ...response.data.data]
+        this.currentPage = response.data.current_page
+      })
     },
     onPanelLeftToggle() {
       this.activeConversationId = null
@@ -429,15 +456,9 @@ export default {
           content: this.newMessage,
           conversation_id: this.activeConversation.id,
         }).then((response) => {
+          this.newMessageCount++
           this.newMessage = ''
-          this.conversations.splice(
-            this.conversations.findIndex(
-              (el) => el.id === this.activeConversation.id
-            ),
-            1,
-            response.data
-          )
-          this.messages = response.data
+          this.messages = [response.data, ...this.messages]
         })
       }
     },
