@@ -38,13 +38,19 @@
         >
           Tableau de bord
         </el-dropdown-item>
+        <router-link
+          v-if="$store.getters.contextRole == 'responsable_collectivity'"
+          :to="`/dashboard/collectivity/${$store.getters.collectivity_as_responsable.id} /edit`"
+        >
+          <el-dropdown-item class="flex items-center">
+            Ma collectivité
+          </el-dropdown-item>
+        </router-link>
         <el-dropdown-item
           v-if="$store.getters.contextRole != 'volontaire'"
           divided
         />
-        <el-dropdown-item command="/user/infos">
-          Mon compte
-        </el-dropdown-item>
+        <el-dropdown-item command="/user/infos"> Mon compte </el-dropdown-item>
         <el-dropdown-item
           v-if="$store.getters.contextRole == 'volontaire'"
           command="/user/missions"

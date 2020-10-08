@@ -36,6 +36,12 @@ const getters = {
       (structure) => structure.pivot.role == 'responsable'
     )[0]
   },
+  collectivity_as_responsable: (state, getters) => {
+    if (!getters.profile && !getters.profile.collectivity) {
+      return null
+    }
+    return getters.profile.collectivity
+  },
   noRole: (state, getters) => {
     if (!getters.profile) {
       return null

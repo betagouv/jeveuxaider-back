@@ -95,7 +95,9 @@ class Mission extends Model
             'template_title' => $this->template ? $this->template->title : null,
             'domaine_name' => $this->template ? $this->template->domaine->name : $this->domaine->name,
             'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
-            'domaines' => $this->domaines,
+            'domaines' => $this->domaines->map(function ($domaine) {
+                return $domaine->name;
+            }),
             'provider' => 'reserve_civique',
             'post_date' => strtotime($this->created_at),
         ];
@@ -112,12 +114,21 @@ class Mission extends Model
 
     public function getDomainesAttribute()
     {
-        $domaines = [];
-        $domaines = $this->tagsWithType('domaine')->values()->pluck('name');
-        $domaines[] = $this->template ? $this->template->domaine->name : $this->domaine->name;
-
-        return $domaines;
+        return collect([
+            $this->template ? $this->template->domaine : $this->domaine, // domaine principal
+            ...$this->tagsWithType('domaine')->values() // domaines secondaires
+        ]);
     }
+    /*
+        public function getDomainesAttribute()
+        {
+            $domaines = [];
+            $domaines = $this->tagsWithType('domaine')->values()->pluck('name');
+            $domaines[] = $this->template ? $this->template->domaine->name : $this->domaine->name;
+
+            return $domaines;
+        }
+        */
 
     public function user()
     {

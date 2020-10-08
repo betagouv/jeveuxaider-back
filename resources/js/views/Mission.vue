@@ -275,14 +275,17 @@
                   </div>
 
                   <div class="mt-4 text-sm">
-                    <div v-if="mission.has_places_left">
+                    <div v-if="mission.has_places_left === true">
                       {{ mission.places_left | formatNumber }}
                       {{
                         mission.places_left
                           | pluralize(['place restante', 'places restantes'])
                       }}
                     </div>
-                    <div v-else>Complet</div>
+                    <div v-else-if="mission.has_places_left === false">
+                      Complet
+                    </div>
+                    <div v-else>Nombre de places non défini</div>
                   </div>
 
                   <div class="mt-4 text-sm">

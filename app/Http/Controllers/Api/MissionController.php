@@ -24,6 +24,7 @@ class MissionController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure'))
+        ->allowedAppends('domaines')
         ->allowedFilters([
             'name',
             'state',

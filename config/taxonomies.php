@@ -529,8 +529,7 @@ return [
         "terms" => [
             "waiting" => "En attente de validation",
             "validated" => "Validée",
-            "signaled" => "Signalée",
-            "archived" => "Archivée",
+            "refused" => "Refusée",
         ]
     ],
 

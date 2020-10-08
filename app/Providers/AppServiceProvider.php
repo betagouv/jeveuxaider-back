@@ -11,8 +11,10 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Observers\ParticipationObserver;
+use App\Observers\CollectivityObserver;
 use App\Observers\ProfileObserver;
 use App\Models\Activity;
+use App\Models\Collectivity;
 use App\Observers\ActivityObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Structure::observe(StructureObserver::class);
         Mission::observe(MissionObserver::class);
         Participation::observe(ParticipationObserver::class);
+        Collectivity::observe(CollectivityObserver::class);
         Profile::observe(ProfileObserver::class);
         Activity::observe(ActivityObserver::class);
 
