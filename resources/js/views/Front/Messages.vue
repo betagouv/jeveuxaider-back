@@ -8,14 +8,40 @@
         class="panel--left border-r border-cool-gray-200"
       >
         <div
-          class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center"
+          class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
         >
           <h1 class="text-lg leading-8 font-bold text-gray-900">Messages</h1>
+
+          <el-dropdown trigger="click" @command="handleFilters">
+            <span class="el-dropdown-link">
+              <button
+                class="ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
+              >
+                Filtres
+              </button>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                :command="{ status: 1 }"
+                :class="{ active: filters.status == 1 }"
+                class="font-light"
+              >
+                Conversations actives
+              </el-dropdown-item>
+              <el-dropdown-item
+                :command="{ status: 0 }"
+                :class="{ active: filters.status == 0 }"
+                class="font-light"
+              >
+                Conversations archivées
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
         <div class="panel--container">
           <div class="panel--content">
             <MessageTeaser
-              v-for="conversation in conversations"
+              v-for="conversation in filteredConversations"
               :key="conversation.id"
               :name="fromUser(conversation).profile.first_name"
               :short-name="fromUser(conversation).profile.short_name"
@@ -205,6 +231,7 @@ import MessageTeaser from '@/components/messages/MessageTeaser.vue'
 import MessageFull from '@/components/messages/MessageFull.vue'
 import { fetchConversations, addMessage } from '@/api/conversations'
 import dayjs from 'dayjs'
+import qs from 'qs'
 
 export default {
   name: 'Messages',
@@ -221,8 +248,16 @@ export default {
       windowWidth: window.innerWidth,
       activeConversation: null,
       newMessage: '',
+      filters: { status: 1 },
       conversations: [],
     }
+  },
+  computed: {
+    filteredConversations() {
+      return this.conversations.filter((c) => {
+        return c.status == this.filters.status
+      })
+    },
   },
   watch: {
     activeConversation(newConversation, oldConversation) {
@@ -303,6 +338,7 @@ export default {
       this.showPanelLeft = !this.showPanelLeft
     },
     onTeaserClick(conversation) {
+      this.newMessage = ''
       this.activeConversation = conversation
       if (this.windowWidth < 768) {
         this.showPanelLeft = false
@@ -316,19 +352,25 @@ export default {
       )
     },
     handleHistoryChange(event) {
-      console.log('handleHistoryChange')
-      if (event.state && event.state.id) {
-        const index = this.conversations.findIndex(
-          (el) => el.id == event.state.id
-        )
-        this.activeConversation =
-          index != -1 ? this.conversations[index] : this.conversations[0]
-      } else {
-        this.activeConversation =
-          this.windowWidth >= 768 && this.conversations[0]
-            ? this.conversations[0]
-            : null
+      let activeIndex = -1
+
+      if (event.state) {
+        if (event.state.id) {
+          activeIndex = this.conversations.findIndex(
+            (el) => el.id == event.state.id
+          )
+        }
+        if (event.state.filters) {
+          this.filters = event.state.filters
+        }
       }
+
+      this.activeConversation =
+        activeIndex != -1
+          ? this.conversations[activeIndex]
+          : this.windowWidth >= 768
+          ? this.conversations[0]
+          : null
 
       this.onResize()
     },
@@ -406,6 +448,24 @@ export default {
         })
       }
     },
+    handleFilters(filters) {
+      this.filters = filters
+      this.activeConversation = this.filteredConversations.length
+        ? this.filteredConversations[0]
+        : null
+      window.history.pushState(
+        {
+          id: this.activeConversation ? this.activeConversation.id : null,
+          filters: filters,
+        },
+        '',
+        `${window.location.pathname}${this.stringifyQuery(filters)}`
+      )
+    },
+    stringifyQuery(query) {
+      const result = qs.stringify(query)
+      return result ? '?' + result : ''
+    },
   },
 }
 </script>
@@ -456,4 +516,11 @@ export default {
     @apply flex-none
     > *
       width: 415px
+
+::v-deep .el-dropdown-menu__item:not(.is-disabled)
+  @apply text-gray-500
+  &:hover
+    @apply bg-gray-200 text-gray-500
+  &.active
+    @apply bg-gray-200 text-black
 </style>
