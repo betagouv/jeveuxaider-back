@@ -14,7 +14,6 @@
         </div>
         <div class="panel--container">
           <div class="panel--content">
-            <!-- TODO Afficher statut de la mission -->
             <MessageTeaser
               v-for="conversation in conversations"
               :key="conversation.id"
@@ -239,10 +238,23 @@ export default {
       .then((response) => {
         if (response.data && response.data.data) {
           this.conversations = response.data.data
-          this.activeConversation =
-            this.windowWidth >= 768 && this.conversations[0]
-              ? this.conversations[0]
-              : null
+          if (this.$router.currentRoute.name == 'messagesId') {
+            const messageId = this.$router.currentRoute.params.id
+            const index = this.conversations.findIndex(
+              (el) => el.id == messageId
+            )
+            this.activeConversation =
+              index != -1 ? this.conversations[index] : this.conversations[0]
+            if (this.windowWidth < 768) {
+              this.showPanelLeft = false
+              this.showPanelCenter = true
+            }
+          } else {
+            this.activeConversation =
+              this.windowWidth >= 768 && this.conversations[0]
+                ? this.conversations[0]
+                : null
+          }
         }
         this.$store.commit('setLoading', false)
         this.loading = false
@@ -255,13 +267,17 @@ export default {
     this.onResize()
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
+      window.addEventListener('popstate', this.handleHistoryChange)
     })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('popstate', this.handleHistoryChange)
 
-    console.log('TODO 2 - Update readAt for real...')
-    this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
+    if (this.activeConversation) {
+      console.log('TODO 2 - Update readAt for real...')
+      this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
+    }
   },
   methods: {
     onResize() {
@@ -272,10 +288,12 @@ export default {
       this.showPanelCenter =
         this.activeConversation || this.windowWidth >= 768 ? true : false
       this.showPanelRight = this.windowWidth >= 1280 ? true : false
+
+      if (this.windowWidth >= 768 && !this.activeConversation) {
+        this.activeConversation = this.conversations[0]
+      }
     },
     onPanelLeftToggle() {
-      console.log('TODO 3 - Update readAt for real...')
-      this.currentUser(this.activeConversation).pivot.read_at = dayjs().format()
       this.activeConversation = null
 
       if (this.windowWidth < 768) {
@@ -285,12 +303,34 @@ export default {
       this.showPanelLeft = !this.showPanelLeft
     },
     onTeaserClick(conversation) {
+      this.activeConversation = conversation
       if (this.windowWidth < 768) {
         this.showPanelLeft = false
       }
-
-      this.activeConversation = conversation
       this.showPanelCenter = true
+
+      window.history.pushState(
+        { id: conversation.id },
+        '',
+        `/messages/${conversation.id}`
+      )
+    },
+    handleHistoryChange(event) {
+      console.log('handleHistoryChange')
+      if (event.state && event.state.id) {
+        const index = this.conversations.findIndex(
+          (el) => el.id == event.state.id
+        )
+        this.activeConversation =
+          index != -1 ? this.conversations[index] : this.conversations[0]
+      } else {
+        this.activeConversation =
+          this.windowWidth >= 768 && this.conversations[0]
+            ? this.conversations[0]
+            : null
+      }
+
+      this.onResize()
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
@@ -359,7 +399,7 @@ export default {
           )
           this.activeConversation = response.data
 
-          console.log('TODO 4 - Update readAt for real...')
+          console.log('TODO 3 - Update readAt for real...')
           this.currentUser(
             this.activeConversation
           ).pivot.read_at = dayjs().format()
