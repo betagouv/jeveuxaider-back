@@ -88,6 +88,15 @@ class User extends Authenticatable
         return $conversation;
     }
 
+    public function markConversationAsRead($conversation)
+    {
+        $this->conversations()->updateExistingPivot($conversation->id, [
+            'read_at' => Carbon::now()
+        ]);
+    }
+
+    // TODO markConversationAsActive, markConversationAsArchived
+
     public function sendMessage($conversation_id, $content)
     {
         return $this->messages()->create([

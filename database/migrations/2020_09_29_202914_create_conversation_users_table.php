@@ -21,6 +21,7 @@ class CreateConversationUsersTable extends Migration
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
             $table->dateTime('read_at')->nullable();
             $table->unique(['user_id', 'conversation_id']);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

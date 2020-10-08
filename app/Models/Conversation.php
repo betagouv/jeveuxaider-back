@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class Conversation extends Model
 {
@@ -25,5 +27,13 @@ class Conversation extends Model
     public function participation()
     {
         return $this->belongsTo('App\Models\Participation');
+    }
+
+
+    public function scopeRole($query)
+    {
+        return $query->whereHas('users', function (Builder $subquery) {
+            $subquery->where('users.id', Auth::guard('api')->user()->id);
+        });
     }
 }

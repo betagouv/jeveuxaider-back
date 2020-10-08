@@ -428,8 +428,8 @@ export default {
     },
     handleFilters(filters) {
       this.filters = filters
-      this.activeConversation = this.filteredConversations.length
-        ? this.filteredConversations[0]
+      this.activeConversation.id = this.filteredConversations.length
+        ? this.filteredConversations[0].id
         : null
       window.history.pushState(
         {
