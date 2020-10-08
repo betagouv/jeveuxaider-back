@@ -8,15 +8,41 @@
         class="panel--left border-r border-cool-gray-200"
       >
         <div
-          class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center"
+          class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
         >
           <h1 class="text-lg leading-8 font-bold text-gray-900">Messages</h1>
+
+          <el-dropdown trigger="click" @command="handleFilters">
+            <span class="el-dropdown-link">
+              <button
+                class="ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
+              >
+                Filtres
+              </button>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                :command="{ status: 1 }"
+                :class="{ active: filters.status == 1 }"
+                class="font-light"
+              >
+                Conversations actives
+              </el-dropdown-item>
+              <el-dropdown-item
+                :command="{ status: 0 }"
+                :class="{ active: filters.status == 0 }"
+                class="font-light"
+              >
+                Conversations archivées
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
         <div class="panel--container">
           <div class="panel--content">
             <!-- TODO Afficher statut de la mission -->
             <ConversationTeaser
-              v-for="conversation in conversations"
+              v-for="conversation in filteredConversations"
               :key="conversation.id"
               :name="fromUser(conversation).profile.first_name"
               :short-name="fromUser(conversation).profile.short_name"
@@ -41,7 +67,7 @@
                 {
                   'bg-gray-200':
                     activeConversation &&
-                    activeConversation.id == conversation.id,
+                    activeConversationId == conversation.id,
                 },
               ]"
               :is-new="isNew(conversation)"
@@ -120,9 +146,9 @@
         <div class="panel--container">
           <div class="panel--content">
             <template v-if="activeConversation">
-              <template v-if="activeConversation.messages.length">
-                <!--                 <MessageFull
-                  v-for="message in activeConversation.messages"
+              <template v-if="messages.length">
+                <MessageFull
+                  v-for="message in messages"
                   :key="message.id"
                   :name="message.from.profile.first_name"
                   :short-name="message.from.profile.short_name"
@@ -134,7 +160,7 @@
                   :date="message.created_at"
                 >
                   <nl2br tag="p" :text="message.content" />
-                </MessageFull> -->
+                </MessageFull>
               </template>
               <template v-else>
                 <div class="text-center text-gray-500 font-light">
@@ -210,6 +236,7 @@ import {
   addMessage,
 } from '@/api/conversations'
 import dayjs from 'dayjs'
+import qs from 'qs'
 
 export default {
   name: 'Messages',
@@ -224,92 +251,127 @@ export default {
       showPanelCenter: false,
       showPanelRight: false,
       windowWidth: window.innerWidth,
-      activeConversation: null,
       newMessage: '',
+      filters: { status: 1 },
+      activeConversationId: this.$router.currentRoute.params.id ?? null,
       conversations: [],
+      messages: [],
     }
   },
+  computed: {
+    activeConversation() {
+      return this.conversations.find(
+        (conversation) => conversation.id == this.activeConversationId
+      )
+    },
+    filteredConversations() {
+      return this.conversations.filter((c) => {
+        return c.status == this.filters.status
+      })
+    },
+    isMobile() {
+      return this.windowWidth < 768
+    },
+    isDesktop() {
+      return this.windowWidth >= 1280
+    },
+  },
   watch: {
-    activeConversation(newConversation, oldConversation) {
-      if (oldConversation) {
-        console.log('TODO 1 - Update readAt for real...')
-        // this.currentUser(oldConversation).pivot.read_at = dayjs().format()
-      }
-      // TODO : fetchMessages de la première conversation
+    activeConversation(newConversation) {
       fetchMessages(newConversation.id).then((response) => {
-        console.log(response)
-        newConversation.messages = response.data.data
+        this.messages = response.data.data
       })
     },
   },
   created() {
     this.$store.commit('setLoading', true)
     // TODO : Filtrer sur utilisateur courant : this.$store.getters.user.profile.id
-    fetchConversations()
-      .then((response) => {
-        this.conversations = response.data.data
-        this.activeConversation =
-          this.windowWidth >= 768 && this.conversations[0]
-            ? this.conversations[0]
-            : null
-        this.$store.commit('setLoading', false)
-        this.loading = false
-      })
-      .catch(() => {
-        this.loading = false
-      })
+    fetchConversations().then((response) => {
+      this.conversations = response.data.data
+      if (!this.activeConversationId && !this.isMobile) {
+        this.activeConversationId = this.conversations[0].id
+      }
+      this.$store.commit('setLoading', false)
+    })
   },
   mounted() {
     this.onResize()
+    if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
+      this.showPanelLeft = false
+      this.showPanelCenter = true
+    }
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
+      window.addEventListener('popstate', this.handleHistoryChange)
     })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('popstate', this.handleHistoryChange)
   },
   methods: {
     onResize() {
       this.windowWidth = window.innerWidth
-
       this.showPanelLeft =
-        !this.activeConversation || this.windowWidth >= 768 ? true : false
+        !this.activeConversation || !this.isMobile ? true : false
       this.showPanelCenter =
-        this.activeConversation || this.windowWidth >= 768 ? true : false
-      this.showPanelRight = this.windowWidth >= 1280 ? true : false
+        this.activeConversation || !this.isMobile ? true : false
+      this.showPanelRight = this.isDesktop ? true : false
+
+      if (
+        !this.isMobile &&
+        !this.activeConversationId &&
+        this.conversations.length > 0
+      ) {
+        this.activeConversationId = this.conversations[0].id
+      }
     },
     onPanelLeftToggle() {
-      this.activeConversation = null
+      this.activeConversationId = null
 
-      if (this.windowWidth < 768) {
+      if (this.isMobile) {
         this.showPanelCenter = false
       }
 
       this.showPanelLeft = !this.showPanelLeft
     },
     onTeaserClick(conversation) {
-      if (this.windowWidth < 768) {
+      this.newMessage = ''
+      this.activeConversationId = conversation.id
+      if (this.isMobile) {
         this.showPanelLeft = false
       }
-
-      this.activeConversation = conversation
       this.showPanelCenter = true
+
+      window.history.pushState(
+        { id: conversation.id },
+        '',
+        `/messages/${conversation.id}`
+      )
+    },
+    handleHistoryChange(event) {
+      if (event.state && event.state.id && !this.isMobile) {
+        this.activeConversationId = event.state.id
+      } else if (!event.state.id && this.isMobile) {
+        this.showPanelLeft = true
+        this.showPanelCenter = false
+      }
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
         // Show
-        if (this.windowWidth < 768) {
+        if (this.isMobile) {
           this.showPanelCenter = true
           this.showPanelLeft = false
-        } else if (this.windowWidth < 1280) {
+        } else if (!this.isDesktop) {
           this.showPanelLeft = !this.showPanelLeft
         }
       } else {
         // Hide
-        if (this.windowWidth < 768) {
+        if (this.isMobile) {
           this.showPanelCenter = false
           this.showPanelLeft = false
-        } else if (this.windowWidth < 1280) {
+        } else if (!this.isDesktop) {
           this.showPanelLeft = !this.showPanelLeft
         }
       }
@@ -327,8 +389,6 @@ export default {
       })[0]
     },
     lastMessage(conversation) {
-      console.log(conversation)
-      console.log(conversation.messages.length)
       return conversation.messages[conversation.messages.length - 1]
     },
     isNew(conversation) {
@@ -362,9 +422,27 @@ export default {
             1,
             response.data
           )
-          this.activeConversation = response.data
+          this.messages = response.data
         })
       }
+    },
+    handleFilters(filters) {
+      this.filters = filters
+      this.activeConversation = this.filteredConversations.length
+        ? this.filteredConversations[0]
+        : null
+      window.history.pushState(
+        {
+          id: this.activeConversation ? this.activeConversation.id : null,
+          filters: filters,
+        },
+        '',
+        `${window.location.pathname}${this.stringifyQuery(filters)}`
+      )
+    },
+    stringifyQuery(query) {
+      const result = qs.stringify(query)
+      return result ? '?' + result : ''
     },
   },
 }
@@ -416,4 +494,11 @@ export default {
     @apply flex-none
     > *
       width: 415px
+
+::v-deep .el-dropdown-menu__item:not(.is-disabled)
+  @apply text-gray-500
+  &:hover
+    @apply bg-gray-200 text-gray-500
+  &.active
+    @apply bg-gray-200 text-black
 </style>

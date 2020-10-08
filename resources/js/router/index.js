@@ -1257,6 +1257,13 @@ export default new Router({
       component: Messages,
       meta: { requiresAuth: true },
     },
+    {
+      path: '/messages/:id',
+      component: Messages,
+      name: 'messagesId',
+      props: (route) => ({ id: route.params.id }),
+      meta: { requiresAuth: true },
+    },
   ],
   scrollBehavior() {
     return { x: 0, y: 0 }

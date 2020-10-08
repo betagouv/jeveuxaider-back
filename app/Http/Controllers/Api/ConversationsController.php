@@ -26,6 +26,7 @@ class ConversationsController extends Controller
     public function messages(Request $request, Conversation $conversation)
     {
         // TODO : Fill readAt for current user
+        // TODO : Renvoyer les 10 derniers par odre croissant
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from']))
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
