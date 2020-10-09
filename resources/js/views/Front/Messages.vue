@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col overflow-hidden">
     <AppHeader />
 
-    <div class="flex overflow-hidden">
+    <div class="h-full flex overflow-hidden">
       <div
         :class="[{ hide: !showPanelLeft }]"
         class="panel--left border-r border-cool-gray-200"
@@ -40,7 +40,12 @@
         </div>
         <div class="panel--container">
           <div class="panel--content">
-            <!-- TODO Afficher statut de la mission -->
+            <div
+              v-if="filteredConversations.length == 0"
+              class="p-6 font-light"
+            >
+              Aucune conversation
+            </div>
             <ConversationTeaser
               v-for="conversation in filteredConversations"
               :key="conversation.id"
@@ -134,6 +139,7 @@
               </div>
             </div>
             <button
+              v-if="activeConversationId"
               class="order-3 ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
               @click="onPanelRightToggle"
               v-html="
@@ -143,12 +149,16 @@
           </div>
         </div>
 
-        <div class="panel--container">
+        <div
+          ref="messagesContainer"
+          class="panel--container"
+          @scroll="onScroll"
+        >
           <div class="panel--content">
             <template v-if="activeConversation">
               <template v-if="messages.length">
                 <MessageFull
-                  v-for="message in messages"
+                  v-for="message in messages.slice().reverse()"
                   :key="message.id"
                   :name="message.from.profile.first_name"
                   :short-name="message.from.profile.short_name"
@@ -175,7 +185,7 @@
           </div>
         </div>
 
-        <div class="sticky bottom-0 bg-white p-6">
+        <div v-if="activeConversationId" class="sticky bottom-0 bg-white p-6">
           <div class="m-auto w-full" style="max-width: 550px">
             <div
               class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
@@ -256,6 +266,9 @@ export default {
       activeConversationId: this.$router.currentRoute.params.id ?? null,
       conversations: [],
       messages: [],
+      currentPage: 1,
+      lastPage: null,
+      newMessageCount: 0,
     }
   },
   computed: {
@@ -278,9 +291,12 @@ export default {
   },
   watch: {
     activeConversation(newConversation) {
-      fetchMessages(newConversation.id).then((response) => {
-        this.messages = response.data.data
-      })
+      if (newConversation) {
+        fetchMessages(newConversation.id).then((response) => {
+          this.messages = response.data.data
+          this.lastPage = response.data.last_page
+        })
+      }
     },
   },
   created() {
@@ -295,7 +311,6 @@ export default {
     })
   },
   mounted() {
-    this.onResize()
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
       this.showPanelLeft = false
       this.showPanelCenter = true
@@ -303,11 +318,14 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
       window.addEventListener('popstate', this.handleHistoryChange)
+      // window.addEventListener('scroll', this.onScroll)
+      this.onResize()
     })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('popstate', this.handleHistoryChange)
+    // window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
     onResize() {
@@ -326,6 +344,23 @@ export default {
         this.activeConversationId = this.conversations[0].id
       }
     },
+    onScroll() {
+      if (
+        this.currentPage < this.lastPage &&
+        this.$refs['messagesContainer'].scrollTop == 0
+      ) {
+        this.fetchNextPage()
+      }
+    },
+    fetchNextPage() {
+      fetchMessages(this.activeConversationId, {
+        page: this.currentPage + 1,
+        itemsPerPage: 15 + this.newMessageCount,
+      }).then((response) => {
+        this.messages = [...this.messages, ...response.data.data]
+        this.currentPage = response.data.current_page
+      })
+    },
     onPanelLeftToggle() {
       this.activeConversationId = null
 
@@ -334,6 +369,8 @@ export default {
       }
 
       this.showPanelLeft = !this.showPanelLeft
+
+      window.history.pushState({ id: null }, '', `/messages`)
     },
     onTeaserClick(conversation) {
       this.newMessage = ''
@@ -350,9 +387,14 @@ export default {
       )
     },
     handleHistoryChange(event) {
-      if (event.state && event.state.id && !this.isMobile) {
+      if (event.state && event.state.id) {
         this.activeConversationId = event.state.id
-      } else if (!event.state.id && this.isMobile) {
+        if (this.isMobile) {
+          this.showPanelLeft = false
+          this.showPanelCenter = true
+        }
+      } else if (this.isMobile) {
+        this.activeConversationId = null
         this.showPanelLeft = true
         this.showPanelCenter = false
       }
@@ -414,31 +456,15 @@ export default {
           content: this.newMessage,
           conversation_id: this.activeConversation.id,
         }).then((response) => {
+          this.newMessageCount++
           this.newMessage = ''
-          this.conversations.splice(
-            this.conversations.findIndex(
-              (el) => el.id === this.activeConversation.id
-            ),
-            1,
-            response.data
-          )
-          this.messages = response.data
+          this.messages = [response.data, ...this.messages]
         })
       }
     },
     handleFilters(filters) {
       this.filters = filters
-      this.activeConversation.id = this.filteredConversations.length
-        ? this.filteredConversations[0].id
-        : null
-      window.history.pushState(
-        {
-          id: this.activeConversation ? this.activeConversation.id : null,
-          filters: filters,
-        },
-        '',
-        `${window.location.pathname}${this.stringifyQuery(filters)}`
-      )
+      this.activeConversationId = null
     },
     stringifyQuery(query) {
       const result = qs.stringify(query)
