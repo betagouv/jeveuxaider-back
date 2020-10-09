@@ -372,6 +372,71 @@
           </div>
         </div>
       </div>
+      <el-dialog
+        title="Envoyer un message au responsable de la mission"
+        width="100%"
+        :visible.sync="dialogParticipateVisible"
+        style="max-width: 600px; margin: auto"
+      >
+        <div class="mb-2" style="color: #606266; font-size: 14px">
+          Résumé de la mission
+        </div>
+        <div class="bg-cool-gray-100 p-4 rounded-md">
+          <div class="text-lg font-bold text-gray-800">{{ mission.name }}</div>
+          <div class="md:flex mt-2 mb-4">
+            <div class="uppercase font-semibold text-gray-500 mb-2 md:mb-0">
+              {{ structure.name }}
+            </div>
+            <div
+              class="md:ml-2 ml-0 flex flex-wrap items-center justify-start text-sm leading-tight text-gray-500 -m-1"
+            >
+              <svg
+                class="flex-shrink-0 h-4 w-4 text-gray-400 w-full sm:w-auto"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span v-if="mission.full_address" class="ml-1">
+                {{ mission.full_address }}
+              </span>
+            </div>
+          </div>
+
+          <div class="text-center sm:text-left">
+            <span
+              class="px-4 py-1 mr-2 mt-3 inline-flex text-sm font-semibold rounded-full bg-white text-gray-500"
+              >{{ mission.format }}</span
+            >
+            <span
+              class="px-4 py-1 mr-2 mt-3 inline-flex text-sm font-semibold rounded-full bg-white text-gray-500"
+              >{{ mission.type }}</span
+            >
+          </div>
+        </div>
+        <el-form :model="form" class="mt-4">
+          <el-form-item label="Votre message">
+            <el-input
+              v-model="form.allo"
+              :autosize="{ minRows: 3, maxRows: 8 }"
+              type="textarea"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogParticipateVisible = false">
+            Annuler
+          </el-button>
+          <el-button type="primary" @click="dialogParticipateVisible = false"
+            >Proposer mon aide</el-button
+          >
+        </span>
+      </el-dialog>
     </template>
     <template v-else>
       <front-mission-loading />
@@ -511,6 +576,8 @@ export default {
       loading: true,
       mission: {},
       otherMissions: {},
+      dialogParticipateVisible: false,
+      form: null,
     }
   },
   computed: {
@@ -550,34 +617,50 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$confirm(
-        'Êtes-vous sûr de vouloir participer à cette mission ?<br>',
-        'Confirmation',
-        {
-          center: true,
-          confirmButtonText: 'Oui, je participe',
-          cancelButtonText: 'Annuler',
-          // type: "warning",
-          dangerouslyUseHTMLString: true,
-        }
-      )
+      this.dialogParticipateVisible = true
+      /*
+      addParticipation(this.mission.id, this.$store.getters.profile.id)
         .then(() => {
-          this.loading = true
-          addParticipation(this.mission.id, this.$store.getters.profile.id)
-            .then(() => {
-              this.$router.push('/user/missions')
-              this.$message({
-                message:
-                  'Votre participation a été enregistrée et est en attente de validation !',
-                type: 'success',
-              })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          this.$router.push('/messages')
+          this.$message({
+            message:
+              'Votre participation a été enregistrée et est en attente de validation !',
+            type: 'success',
+          })
+          this.loading = false
         })
-        .catch(() => {})
+        .catch(() => {
+          this.loading = false
+        })
+        */
+      // this.$confirm(
+      //   'Êtes-vous sûr de vouloir participer à cette mission ?<br>',
+      //   'Confirmation',
+      //   {
+      //     center: true,
+      //     confirmButtonText: 'Oui, je participe',
+      //     cancelButtonText: 'Annuler',
+      //     // type: "warning",
+      //     dangerouslyUseHTMLString: true,
+      //   }
+      // )
+      //   .then(() => {
+      //     this.loading = true
+      //     addParticipation(this.mission.id, this.$store.getters.profile.id)
+      //       .then(() => {
+      //         this.$router.push('/user/missions')
+      //         this.$message({
+      //           message:
+      //             'Votre participation a été enregistrée et est en attente de validation !',
+      //           type: 'success',
+      //         })
+      //         this.loading = false
+      //       })
+      //       .catch(() => {
+      //         this.loading = false
+      //       })
+      //   })
+      //   .catch(() => {})
     },
   },
 }
