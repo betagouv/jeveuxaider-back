@@ -19,6 +19,10 @@ class MessagesController extends Controller
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $message = $currentUser->sendMessage(request('conversation_id'), request('content'));
         $message->from; // HACK
+
+        // Trigger updated_at refresh.
+        $message->conversation->touch();
+
         return $message;
     }
 }

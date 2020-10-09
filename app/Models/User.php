@@ -143,7 +143,7 @@ class User extends Authenticatable
         return User::find($id)->conversations()
             ->whereHas('messages')
             ->where(function ($query) {
-                $query->where('conversations_users.read_at', '<', date('Y-m-d H:m:s'))
+                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
             })->count();
     }

@@ -303,6 +303,12 @@ export default {
         fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
           this.lastPage = response.data.last_page
+
+          // Fake update of nbUnreadConversations
+          if (!this.hasRead(newConversation)) {
+            this.$store.getters.user.nbUnreadConversations--
+          }
+
           this.currentUser(newConversation).pivot.read_at = dayjs().format(
             'YYYY-MM-DD HH:mm:ss'
           )
@@ -442,17 +448,22 @@ export default {
       return conversation.messages[conversation.messages.length - 1]
     },
     hasRead(conversation) {
+      console.log('hasRead')
+
       if (this.lastMessage(conversation)) {
         if (!this.currentUser(conversation).pivot.read_at) {
           return false
         }
 
-        const messageTimestamp = dayjs(
-          this.lastMessage(conversation).created_at
-        ).unix()
+        const messageTimestamp = dayjs(conversation.updated_at).unix()
         const userTimestamp = dayjs(
           this.currentUser(conversation).pivot.read_at
         ).unix()
+
+        if (conversation.id == 6) {
+          console.log(messageTimestamp)
+          console.log(userTimestamp)
+        }
 
         return messageTimestamp > userTimestamp ? false : true
       }
@@ -467,6 +478,11 @@ export default {
           this.newMessageCount++
           this.newMessage = ''
           this.messages = [response.data, ...this.messages]
+          // Update last message in the corresponding conversation teaser
+          this.activeConversation.messages = [
+            ...this.activeConversation.messages,
+            response.data,
+          ]
         })
       }
     },
