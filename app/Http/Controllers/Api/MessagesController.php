@@ -20,6 +20,7 @@ class MessagesController extends Controller
         $message = $currentUser->sendMessage(request('conversation_id'), request('content'));
         $message->from; // HACK
 
+        $currentUser->markConversationAsRead($message->conversation);
         // Trigger updated_at refresh.
         $message->conversation->touch();
 
