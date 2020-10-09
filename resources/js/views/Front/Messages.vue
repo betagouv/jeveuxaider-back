@@ -57,13 +57,13 @@
                   : null
               "
               :message="
-                lastMessage(conversation)
-                  ? lastMessage(conversation).content
+                conversation.latest_message
+                  ? conversation.latest_message.content
                   : null
               "
               :date="
-                lastMessage(conversation)
-                  ? lastMessage(conversation).created_at
+                conversation.latest_message
+                  ? conversation.latest_message.created_at
                   : null
               "
               :status="conversation.participation.state"
@@ -444,13 +444,8 @@ export default {
         return user.id == this.$store.getters.user.id
       })[0]
     },
-    lastMessage(conversation) {
-      return conversation.messages[conversation.messages.length - 1]
-    },
     hasRead(conversation) {
-      console.log('hasRead')
-
-      if (this.lastMessage(conversation)) {
+      if (conversation.latest_message) {
         if (!this.currentUser(conversation).pivot.read_at) {
           return false
         }
@@ -459,11 +454,6 @@ export default {
         const userTimestamp = dayjs(
           this.currentUser(conversation).pivot.read_at
         ).unix()
-
-        if (conversation.id == 6) {
-          console.log(messageTimestamp)
-          console.log(userTimestamp)
-        }
 
         return messageTimestamp > userTimestamp ? false : true
       }
@@ -479,10 +469,7 @@ export default {
           this.newMessage = ''
           this.messages = [response.data, ...this.messages]
           // Update last message in the corresponding conversation teaser
-          this.activeConversation.messages = [
-            ...this.activeConversation.messages,
-            response.data,
-          ]
+          this.activeConversation.latest_message = response.data
         })
       }
     },

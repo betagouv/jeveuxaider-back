@@ -14,7 +14,7 @@ class ConversationsController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Conversation::role()->with(['messages', 'users', 'participation.mission.domaine', 'participation.mission.structure:id,name']))
+        return QueryBuilder::for(Conversation::role()->with(['latestMessage', 'users', 'participation.mission.domaine', 'participation.mission.structure:id,name']))
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }

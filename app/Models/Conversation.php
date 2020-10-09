@@ -19,6 +19,11 @@ class Conversation extends Model
         return $this->hasMany('App\Models\Message');
     }
 
+    public function latestMessage()
+    {
+        return $this->hasOne('App\Models\Message')->latest();
+    }
+
     public function users()
     {
         return $this->belongsToMany('App\Models\User', 'conversations_users')->withPivot('read_at');
