@@ -75,7 +75,7 @@
                     activeConversationId == conversation.id,
                 },
               ]"
-              :is-new="isNew(conversation)"
+              :has-read="hasRead(conversation)"
               @click.native="onTeaserClick(conversation)"
             />
           </div>
@@ -303,6 +303,9 @@ export default {
         fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
           this.lastPage = response.data.last_page
+          this.currentUser(newConversation).pivot.read_at = dayjs().format(
+            'YYYY-MM-DD HH:mm:ss'
+          )
         })
       }
     },
@@ -325,14 +328,12 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
       window.addEventListener('popstate', this.handleHistoryChange)
-      // window.addEventListener('scroll', this.onScroll)
       this.onResize()
     })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('popstate', this.handleHistoryChange)
-    // window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
     onResize() {
@@ -440,11 +441,11 @@ export default {
     lastMessage(conversation) {
       return conversation.messages[conversation.messages.length - 1]
     },
-    isNew(conversation) {
-      if (this.lastMessage(conversation) && this.currentUser(conversation)) {
-        /*if (!this.currentUser(conversation).pivot.read_at) {
-          return true
-        }*/
+    hasRead(conversation) {
+      if (this.lastMessage(conversation)) {
+        if (!this.currentUser(conversation).pivot.read_at) {
+          return false
+        }
 
         const messageTimestamp = dayjs(
           this.lastMessage(conversation).created_at
@@ -453,9 +454,9 @@ export default {
           this.currentUser(conversation).pivot.read_at
         ).unix()
 
-        return messageTimestamp > userTimestamp ? true : false
+        return messageTimestamp > userTimestamp ? false : true
       }
-      return false
+      return true
     },
     onAddMessage() {
       if (this.newMessage.trim().length) {

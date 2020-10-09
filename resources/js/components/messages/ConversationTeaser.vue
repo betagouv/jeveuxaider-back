@@ -5,11 +5,11 @@
         {{ shortName }}
       </el-avatar>
       <div class="flex-1 min-w-0">
-        <div :class="[{ 'font-bold': isNew }]">{{ name }}</div>
+        <div :class="[{ 'font-bold': !hasRead }]">{{ name }}</div>
 
         <div
           class="flex justify-between items-baseline"
-          :class="[{ 'font-bold': isNew }, { 'font-light': !isNew }]"
+          :class="[{ 'font-bold': !hasRead }, { 'font-light': hasRead }]"
         >
           <span class="truncate text-sm pr-2">{{ message }}</span>
           <span v-if="date" class="flex-none text-gray-500 text-xs">
@@ -56,7 +56,7 @@ export default {
       type: String,
       required: true,
     },
-    isNew: {
+    hasRead: {
       type: Boolean,
       required: true,
     },
