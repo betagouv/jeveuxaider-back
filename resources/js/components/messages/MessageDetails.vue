@@ -2,18 +2,22 @@
   <div class="message--details">
     <section>
       <div class="text-sm text-gray-500 mb-4 font-light">
-        {{ participation.mission.city }} ·
-        {{ participation.mission.start_date | formatCustom('D MMM') }}
+        {{ participation.mission.city }}
+        <span v-if="participation.mission.start_date">
+          ·
+          {{ participation.mission.start_date | formatCustom('D MMM') }}
+        </span>
         <template
           v-if="
+            participation.mission.start_date &&
             participation.mission.start_date.substring(0, 10) !=
-            participation.mission.end_date.substring(0, 10)
+              participation.mission.end_date.substring(0, 10)
           "
         >
           –
           {{ participation.mission.end_date | formatCustom('D MMM YYYY') }}
         </template>
-        <template v-else>
+        <template v-else-if="participation.mission.start_date">
           {{ participation.mission.start_date | formatCustom('YYYY') }}
         </template>
       </div>
@@ -23,7 +27,7 @@
     </section>
 
     <section>
-      <div class="mb-4">
+      <div v-if="participation.mission.domaine" class="mb-4">
         <img
           class="bg-primary rounded-md p-3"
           :src="participation.mission.domaine.image"
@@ -43,7 +47,10 @@
       <hr class="my-6" />
 
       <div class="flex mb-6">
-        <div class="w-1/2 border-r pr-4">
+        <div
+          v-if="participation.mission.start_date"
+          class="w-1/2 border-r pr-4"
+        >
           <div class="text-sm text-gray-500 mb-4 font-light">Début</div>
           <div class="font-light">
             {{ participation.mission.start_date | formatCustom('ddd D MMM') }}
@@ -52,7 +59,7 @@
             {{ participation.mission.start_date | formatCustom('HH[h]mm') }}
           </div>
         </div>
-        <div class="w-1/2 ml-4">
+        <div v-if="participation.mission.end_date" class="w-1/2 ml-4">
           <div class="text-sm text-gray-500 mb-4 font-light">Fin</div>
           <div class="font-light">
             {{ participation.mission.end_date | formatCustom('ddd D MMM') }}

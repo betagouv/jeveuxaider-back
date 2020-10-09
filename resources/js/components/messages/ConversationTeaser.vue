@@ -17,7 +17,12 @@
           </span>
         </div>
 
-        <div class="text-gray-500 text-sm font-light">{{ status }}</div>
+        <div
+          class="text-sm font-light"
+          :class="classParticipationStatus(status)"
+        >
+          {{ status }}
+        </div>
       </div>
     </div>
   </div>
@@ -54,6 +59,20 @@ export default {
     isNew: {
       type: Boolean,
       required: true,
+    },
+  },
+  methods: {
+    classParticipationStatus(status) {
+      switch (status) {
+        case 'En attente de validation':
+          return 'text-orange-400 font-semibold'
+        case 'Validée':
+          return 'text-green-800 font-semibold'
+        case 'Effectuée':
+          return 'text-green-600 font-semibold'
+        default:
+          return 'text-gray-500'
+      }
     },
   },
 }

@@ -17,7 +17,7 @@
               <button
                 class="ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
               >
-                Filtres
+                Filtres ( coming )
               </button>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -107,21 +107,25 @@
                 {{ fromUser(activeConversation).profile.last_name }}
               </h1>
               <div class="text-sm text-gray-500 font-light sm:truncate">
-                {{ activeConversation.participation.mission.city }} ·
-                {{
-                  activeConversation.participation.mission.start_date
-                    | formatCustom('D MMM')
-                }}
+                {{ activeConversation.participation.mission.city }}
+                <span v-if="activeConversation.participation.mission.start_date"
+                  >·
+                  {{
+                    activeConversation.participation.mission.start_date
+                      | formatCustom('D MMM')
+                  }}</span
+                >
                 <template
                   v-if="
+                    activeConversation.participation.mission.start_date &&
                     activeConversation.participation.mission.start_date.substring(
                       0,
                       10
                     ) !=
-                    activeConversation.participation.mission.end_date.substring(
-                      0,
-                      10
-                    )
+                      activeConversation.participation.mission.end_date.substring(
+                        0,
+                        10
+                      )
                   "
                 >
                   –
@@ -278,9 +282,13 @@ export default {
       )
     },
     filteredConversations() {
+      return this.conversations
+      // TODO
+      /*
       return this.conversations.filter((c) => {
         return c.status == this.filters.status
       })
+      */
     },
     isMobile() {
       return this.windowWidth < 768
@@ -301,7 +309,6 @@ export default {
   },
   created() {
     this.$store.commit('setLoading', true)
-    // TODO : Filtrer sur utilisateur courant : this.$store.getters.user.profile.id
     fetchConversations().then((response) => {
       this.conversations = response.data.data
       if (!this.activeConversationId && !this.isMobile) {
