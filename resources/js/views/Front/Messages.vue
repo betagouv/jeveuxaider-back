@@ -481,13 +481,6 @@ export default {
           return false
         }
 
-        // HACK - see https://monosnap.com/file/zgpnPSIpHUxXC2MHrqDnUWKzy735X9
-        if (
-          conversation.latest_message.from_id == this.$store.getters.user.id
-        ) {
-          return true
-        }
-
         const messageTimestamp = dayjs(conversation.updated_at).unix()
         const userTimestamp = dayjs(
           this.currentUser(conversation).pivot.read_at
