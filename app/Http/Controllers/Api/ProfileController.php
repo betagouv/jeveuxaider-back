@@ -22,6 +22,7 @@ use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersDisponibility;
 use App\Http\Requests\ProfileRequest;
+use App\Models\Mission;
 use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Str;
@@ -30,7 +31,16 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        // TODO : if responsable, check que match_mission présent et mission dans les missions du responsable
+        // TODO : Mettre dans ProfileRequest ?
+        if ($request->header('Context-Role') == 'responsable') {
+            if (!request('filter')['match_mission']) {
+                abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+            }
+            $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
+            if (!$missions->contains(request('filter')['match_mission'])) {
+                abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+            }
+        }
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
             ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(

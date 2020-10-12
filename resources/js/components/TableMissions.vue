@@ -60,6 +60,7 @@
               }}
             </div>
             <router-link
+              v-if="scope.row.state == 'Validée'"
               :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
             >
               <el-button size="mini" round> Trouver des bénévoles </el-button>
