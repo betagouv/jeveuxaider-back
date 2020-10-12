@@ -14,7 +14,7 @@
     <el-table-column prop="name" label="Mission" min-width="300">
       <template slot-scope="scope">
         <div class="text-gray-900">
-          <v-clamp :max-lines="2" autoresize>{{ scope.row.name }}</v-clamp>
+          <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
         </div>
         <div
           v-if="scope.row.structure"
@@ -36,25 +36,34 @@
           </div>
         </template>
       </el-table-column> -->
-    <el-table-column label="Ville" min-width="185">
+    <el-table-column label="Ville">
       <template slot-scope="scope">
         <div v-if="scope.row.city" class>
           {{ scope.row.city | cleanCity }}
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="Places" min-width="150">
+    <el-table-column label="Places" min-width="250">
       <template slot-scope="scope">
         <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
           N/A
         </template>
         <template v-else>
-          <div v-if="scope.row.has_places_left">
-            {{ scope.row.participations_max - scope.row.participations_count }}
-            {{
-              (scope.row.participations_max - scope.row.participations_count)
-                | pluralize(['place', 'places'])
-            }}
+          <div v-if="scope.row.has_places_left" class="flex">
+            <div style="width: 90px">
+              {{
+                scope.row.participations_max - scope.row.participations_count
+              }}
+              {{
+                (scope.row.participations_max - scope.row.participations_count)
+                  | pluralize(['place', 'places'])
+              }}
+            </div>
+            <router-link
+              :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
+            >
+              <el-button size="mini" round> Trouver des bénévoles </el-button>
+            </router-link>
           </div>
           <div v-else>Complet</div>
           <div class="font-light text-gray-600 text-xs">

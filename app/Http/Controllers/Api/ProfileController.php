@@ -19,6 +19,7 @@ use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersMatchMission;
+use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersDisponibility;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Participation;
@@ -29,10 +30,12 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
+        // TODO : if responsable, check que match_mission présent et mission dans les missions du responsable
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
             ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
+                AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),

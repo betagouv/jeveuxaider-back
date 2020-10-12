@@ -762,14 +762,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/participations/trouver-des-benevoles',
+          path: '/dashboard/mission/:id/trouver-des-benevoles',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/trouver-des-benevoles" */ '@/views/SNU/TrouverDesBenevoles.vue'
+              /* webpackChunkName: "assets/js/mission-trouver-des-benevoles" */ '@/views/SNU/MissionTrouverDesBenevoles.vue'
             ),
-          name: 'TrouverDesBenevoles',
+          name: 'MissionTrouverDesBenevoles',
+          props: (route) => ({ id: parseInt(route.params.id) }),
           meta: {
-            roles: ['responsable'],
+            roles: ['admin', 'responsable'],
           },
         },
         {

@@ -187,17 +187,7 @@ class Profile extends Model implements HasMedia
                 if ($missions->count() == 0) {
                     return $query->where('id', -1);
                 }
-                $query
-                    ->where('is_visible', true)
-                    ->where(function (Builder $query) use ($missions) {
-                        foreach ($missions as $mission) {
-                            $query->orWhere(function (Builder $query) use ($mission) {
-                                $query->where('zip', 'LIKE', substr($mission->zip, 0, 2) . '%')
-                                      ->withAnyTags($mission->domaines);
-                            });
-                        }
-                    });
-                return $query;
+                return $query->where('is_visible', true);
                 break;
             default:
                 abort(403, 'This action is not authorized');
