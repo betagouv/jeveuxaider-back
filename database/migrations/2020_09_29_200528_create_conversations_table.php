@@ -15,8 +15,8 @@ class CreateConversationsTable extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('participation_id')->nullable();
-            $table->foreign('participation_id')->references('id')->on('participations')->onDelete('cascade');
+            $table->unsignedInteger('conversable_id')->nullable();
+            $table->string('conversable_type')->nullable();
             $table->timestamps();
         });
     }

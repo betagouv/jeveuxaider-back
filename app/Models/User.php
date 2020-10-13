@@ -77,11 +77,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
     }
 
-    public function startConversation($user, $participation)
+    public function startConversation($user, $conversable)
     {
-        $conversation = Conversation::create([
-            'participation_id' => $participation->id
-        ]);
+        $conversation = Conversation::create();
+        $conversation->conversable()->associate($conversable);
         $conversation->users()->attach([$this->id, $user->id]);
         $conversation->save();
 

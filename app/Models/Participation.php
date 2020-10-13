@@ -46,6 +46,11 @@ class Participation extends Model
         return $this->belongsTo('App\Models\Profile');
     }
 
+    public function conversation()
+    {
+        return $this->morphOne('App\Models\Conversation', 'conversable');
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {

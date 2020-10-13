@@ -24,11 +24,10 @@ class Conversation extends Model
         return $this->belongsToMany('App\Models\User', 'conversations_users')->withPivot('read_at');
     }
 
-    public function participation()
+    public function conversable()
     {
-        return $this->belongsTo('App\Models\Participation');
+        return $this->morphTo();
     }
-
 
     public function scopeRole($query)
     {

@@ -66,7 +66,7 @@
                   ? lastMessage(conversation).created_at
                   : null
               "
-              :status="conversation.participation.state"
+              :status="conversation.conversable.state"
               class="cursor-pointer hover:bg-gray-100 transition"
               :class="[
                 {
@@ -107,22 +107,22 @@
                 {{ fromUser(activeConversation).profile.last_name }}
               </h1>
               <div class="text-sm text-gray-500 font-light sm:truncate">
-                {{ activeConversation.participation.mission.city }}
-                <span v-if="activeConversation.participation.mission.start_date"
+                {{ activeConversation.conversable.mission.city }}
+                <span v-if="activeConversation.conversable.mission.start_date"
                   >·
                   {{
-                    activeConversation.participation.mission.start_date
+                    activeConversation.conversable.mission.start_date
                       | formatCustom('D MMM')
                   }}</span
                 >
                 <template
                   v-if="
-                    activeConversation.participation.mission.start_date &&
-                    activeConversation.participation.mission.start_date.substring(
+                    activeConversation.conversable.mission.start_date &&
+                    activeConversation.conversable.mission.start_date.substring(
                       0,
                       10
                     ) !=
-                      activeConversation.participation.mission.end_date.substring(
+                      activeConversation.conversable.mission.end_date.substring(
                         0,
                         10
                       )
@@ -130,13 +130,13 @@
                 >
                   –
                   {{
-                    activeConversation.participation.mission.end_date
+                    activeConversation.conversable.mission.end_date
                       | formatCustom('D MMM YYYY')
                   }}
                 </template>
                 <template v-else>
                   {{
-                    activeConversation.participation.mission.start_date
+                    activeConversation.conversable.mission.start_date
                       | formatCustom('YYYY')
                   }}
                 </template>
@@ -231,7 +231,7 @@
           <div class="panel--content">
             <MessageDetails
               v-if="activeConversation"
-              :participation="activeConversation.participation"
+              :participation="activeConversation.conversable"
             />
           </div>
         </div>
@@ -314,7 +314,11 @@ export default {
     this.$store.commit('setLoading', true)
     fetchConversations().then((response) => {
       this.conversations = response.data.data
-      if (!this.activeConversationId && !this.isMobile) {
+      if (
+        !this.activeConversationId &&
+        !this.isMobile &&
+        this.conversations[0]
+      ) {
         this.activeConversationId = this.conversations[0].id
       }
       this.$store.commit('setLoading', false)
