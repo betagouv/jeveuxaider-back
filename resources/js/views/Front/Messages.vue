@@ -41,6 +41,30 @@
           </div>
           <div class="panel--container">
             <div class="panel--content">
+              <div class="m-4">
+                <el-input
+                  v-model="conversationFilters.search"
+                  placeholder="Rechercher un utilisateur"
+                  clearable
+                >
+                  <svg
+                    slot="prefix"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 40 40"
+                    class="el-input__icon ml-2 mr-3"
+                    style="width: 14px"
+                  >
+                    <path
+                      d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
+                      fillRule="evenodd"
+                      fill="#6a6f85"
+                    />
+                  </svg>
+                </el-input>
+              </div>
               <div
                 v-if="filteredConversations.length == 0"
                 class="p-6 font-light"
@@ -203,6 +227,7 @@
                   v-if="showPanelCenter"
                   v-model="newMessage"
                   placeholder="Saisissez un message"
+                  :disabled="$store.getters.contextRole == 'admin'"
                   rows="1"
                   :max-height="120"
                   class="w-full outline-none leading-tight custom-scrollbar"
@@ -274,6 +299,7 @@ import {
 } from '@/api/conversations'
 import dayjs from 'dayjs'
 import qs from 'qs'
+import _ from 'lodash'
 
 export default {
   name: 'Messages',
@@ -289,9 +315,10 @@ export default {
       showPanelRight: false,
       windowWidth: window.innerWidth,
       newMessage: '',
-      filters: { status: 1 },
+      filters: { status: 1, search: '' },
       activeConversationId: this.$router.currentRoute.params.id ?? null,
       conversations: [],
+      conversationFilters: { status: 1 },
       messages: [],
       currentPage: 1,
       lastPage: null,
@@ -314,6 +341,9 @@ export default {
       })
       */
     },
+    search() {
+      return this.conversationFilters.search
+    },
     isMobile() {
       return this.windowWidth < 768
     },
@@ -322,6 +352,9 @@ export default {
     },
   },
   watch: {
+    search() {
+      this.debouncedFetchConversations()
+    },
     activeConversation(newConversation) {
       if (newConversation) {
         fetchMessages(newConversation.id).then((response) => {
@@ -334,22 +367,18 @@ export default {
           if (!this.hasRead(newConversation)) {
             this.$store.getters.user.nbUnreadConversations--
           }
-
-          this.currentUser(newConversation).pivot.read_at = dayjs().format(
-            'YYYY-MM-DD HH:mm:ss'
-          )
+          if (this.$store.getters.contextRole != 'admin') {
+            this.currentUser(newConversation).pivot.read_at = dayjs().format(
+              'YYYY-MM-DD HH:mm:ss'
+            )
+          }
         })
       }
     },
   },
   created() {
-    fetchConversations().then((response) => {
-      this.conversations = response.data.data
-      if (!this.activeConversationId && !this.isMobile) {
-        this.activeConversationId = this.conversations[0].id
-      }
-      this.loading = false
-    })
+    this.debouncedFetchConversations = _.debounce(this.fetchConversations, 500)
+    this.fetchConversations()
   },
   mounted() {
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
@@ -367,6 +396,18 @@ export default {
     window.removeEventListener('popstate', this.handleHistoryChange)
   },
   methods: {
+    fetchConversations() {
+      fetchConversations({
+        ['filter[search]']: this.conversationFilters.search,
+        page: 1,
+      }).then((response) => {
+        this.conversations = response.data.data
+        if (!this.activeConversationId && !this.isMobile) {
+          this.activeConversationId = this.conversations[0].id
+        }
+        this.loading = false
+      })
+    },
     onResize() {
       this.windowWidth = window.innerWidth
       this.showPanelLeft =
@@ -476,17 +517,19 @@ export default {
       })[0]
     },
     hasRead(conversation) {
+      if (this.$store.getters.contextRole == 'admin') {
+        return true
+      }
+
       if (conversation.latest_message) {
         if (!this.currentUser(conversation).pivot.read_at) {
           return false
         }
 
-        const messageTimestamp = dayjs(conversation.updated_at).unix()
-        const userTimestamp = dayjs(
-          this.currentUser(conversation).pivot.read_at
-        ).unix()
-
-        return messageTimestamp > userTimestamp ? false : true
+        return dayjs(conversation.updated_at).unix() >
+          dayjs(this.currentUser(conversation).pivot.read_at).unix()
+          ? false
+          : true
       }
       return true
     },

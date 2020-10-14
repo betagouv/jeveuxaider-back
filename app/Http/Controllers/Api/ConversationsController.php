@@ -9,12 +9,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Filters\FiltersConversationSearch;
 
 class ConversationsController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Conversation::role()->with(['latestMessage', 'users', 'participation.mission.domaine', 'participation.mission.structure:id,name']))
+        return QueryBuilder::for(Conversation::role($request->header('Context-Role'))->with(['latestMessage', 'users', 'participation.mission.domaine', 'participation.mission.structure:id,name']))
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersConversationSearch),
+            ])
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
