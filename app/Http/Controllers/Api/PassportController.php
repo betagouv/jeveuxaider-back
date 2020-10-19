@@ -112,8 +112,10 @@ class PassportController extends Controller
 
     public function logout(Request $request)
     {
-        $id = (new Parser())->parse($request->bearerToken())->getHeader('jti');
-        $token = Token::find($id);
+        $bearerToken = request()->bearerToken();
+        $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+        $token = Token::find($tokenId);
+
         $token->revoke();
 
         return $token;
