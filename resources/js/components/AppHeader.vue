@@ -13,7 +13,7 @@
         md:space-x-7 -->
 
         <div
-          class="flex px-3 lg:px-0 flex-wrap items-center justify-between pt-1 lg:pt-0 lg:h-16"
+          class="flex px-3 lg:px-0 flex-wrap items-center justify-between py-1 lg:py-0 lg:h-16"
         >
           <div class="flex items-center">
             <img
@@ -32,18 +32,20 @@
 
           <slot name="menu">
             <div
-              class="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between lg:mx-12"
+              class="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between lg:mx-6 xl:mx-12"
             >
-              <div class="flex space-x-10">
+              <div
+                class="flex w-full space-x-4 xl:space-x-10 justify-around xl:justify-start"
+              >
                 <router-link
                   to="/missions"
-                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  class="sm:text-sm xl:text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 flex-none"
                 >
                   Trouver une mission
                 </router-link>
                 <router-link
                   to="/territoires"
-                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  class="sm:text-sm xl:text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 flex-none"
                 >
                   Territoires
                 </router-link>
@@ -53,7 +55,7 @@
                     $store.getters.isLogged && $store.getters.noRole === true
                   "
                   to="/user/missions"
-                  class="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  class="sm:text-sm xl:text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 flex-none"
                 >
                   Mes missions
                 </router-link>
@@ -63,13 +65,13 @@
                 >
                   <button
                     type="button"
-                    class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                    class="group inline-flex items-center space-x-2 sm:text-sm xl:text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 flex-none"
                     :class="isOnDomains ? 'text-gray-900' : 'text-gray-500'"
                     @mouseover="menuActive('domains')"
                   >
                     <span>Domaines d'actions</span>
                     <svg
-                      class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                      class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       :class="isOnDomains ? 'text-gray-600' : 'text-gray-400'"
@@ -114,7 +116,7 @@
                               </div>
 
                               <p
-                                class="text-base mt-2 leading-8 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base mt-2 leading-8 font-medium text-gray-900"
                               >
                                 Solidarité et insertion
                               </p>
@@ -135,7 +137,7 @@
                               </div>
 
                               <p
-                                class="text-base mt-2 leading-8 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base mt-2 leading-8 font-medium text-gray-900"
                               >
                                 Éducation pour tous
                               </p>
@@ -156,7 +158,7 @@
                               </div>
 
                               <p
-                                class="text-base mt-2 leading-8 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base mt-2 leading-8 font-medium text-gray-900"
                               >
                                 Protection de la nature
                               </p>
@@ -173,13 +175,13 @@
                 >
                   <button
                     type="button"
-                    class="group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                    class="group inline-flex items-center space-x-2 sm:text-sm xl:text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 flex-none"
                     :class="isOnSinformer ? 'text-gray-900' : 'text-gray-500'"
                     @mouseover="menuActive('sinformer')"
                   >
                     <span>S'informer</span>
                     <svg
-                      class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                      class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       :class="isOnSinformer ? 'text-gray-600' : 'text-gray-400'"
@@ -201,7 +203,7 @@
                   >
                     <div
                       v-show="isOnSinformer"
-                      class="absolute transform mt-3 px-2 w-screen max-w-xs sm:px-0"
+                      class="absolute lg:right-0 xl:right-auto transform mt-3 px-2 w-screen max-w-xs sm:px-0"
                     >
                       <div class="rounded-lg shadow-lg">
                         <div class="rounded-lg shadow-xs overflow-hidden">
@@ -214,7 +216,7 @@
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
-                                class="text-base leading-6 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
                               >
                                 Le blog de l'engagement
                               </p>
@@ -225,7 +227,7 @@
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
-                                class="text-base leading-6 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
                               >
                                 Les dispositifs publics d’engagement civique
                               </p>
@@ -237,7 +239,7 @@
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
-                                class="text-base leading-6 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
                               >
                                 Toutes les initiatives solidaires
                               </p>
@@ -247,7 +249,7 @@
                               class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                             >
                               <p
-                                class="text-base leading-6 font-medium text-gray-900"
+                                class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
                               >
                                 Les 5 règles de sécurité des bénévoles
                               </p>
@@ -306,18 +308,16 @@
             </div>
           </slot>
 
-          <div class="order-3 ml-1 lg:ml-3 flex items-center">
+          <div class="order-3 ml-1 lg:ml-0 flex items-center">
             <div class="flex items-center">
-              <div
-                v-if="
-                  $store.getters.isLogged &&
-                  $store.getters.contextRole != 'volontaire'
-                "
-                class="flex items-center"
-              >
+              <div class="flex items-center">
                 <router-link
+                  v-if="
+                    $store.getters.isLogged &&
+                    $store.getters.contextRole != 'volontaire'
+                  "
                   to="/dashboard"
-                  class="hidden lg:block mr-5 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  class="hidden lg:block mr-5 sm:text-sm xl:text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Tableau de bord
                 </router-link>
@@ -342,7 +342,7 @@
               <router-link
                 v-else
                 to="/login"
-                class="hidden lg:block inline-flex items-center justify-center px-4 py-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
+                class="hidden lg:block items-center justify-center px-4 py-2 mr-2 border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
