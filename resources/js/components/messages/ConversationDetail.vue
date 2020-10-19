@@ -160,7 +160,7 @@
 import ParticipationDropdownState from '@/components/ParticipationDropdownState'
 
 export default {
-  name: 'MessageDetails',
+  name: 'ConversationDetail',
   components: {
     ParticipationDropdownState,
   },

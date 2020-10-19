@@ -12,8 +12,8 @@
             class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
           >
             <h1 class="text-lg leading-8 font-bold text-gray-900">Messages</h1>
-
-            <el-dropdown trigger="click" @command="handleFilters">
+            <!-- 
+            <el-dropdown trigger="click">
               <span class="el-dropdown-link">
                 <button
                   class="ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
@@ -37,7 +37,7 @@
                   Conversations archivées
                 </el-dropdown-item>
               </el-dropdown-menu>
-            </el-dropdown>
+            </el-dropdown> -->
           </div>
           <div class="panel--container">
             <div class="panel--content">
@@ -65,14 +65,11 @@
                   </svg>
                 </el-input>
               </div>
-              <div
-                v-if="filteredConversations.length == 0"
-                class="p-6 font-light"
-              >
+              <div v-if="conversations.length == 0" class="p-6 font-light">
                 Aucune conversation
               </div>
               <ConversationTeaser
-                v-for="conversation in filteredConversations"
+                v-for="conversation in conversations"
                 :key="conversation.id"
                 :name="fromUser(conversation).profile.first_name"
                 :short-name="fromUser(conversation).profile.short_name"
@@ -97,7 +94,7 @@
                   {
                     'bg-gray-200':
                       activeConversation &&
-                      activeConversationId == conversation.id,
+                      activeConversation.id == conversation.id,
                   },
                 ]"
                 :has-read="hasRead(conversation)"
@@ -146,6 +143,7 @@
                   <template
                     v-if="
                       activeConversation.participation.mission.start_date &&
+                      activeConversation.participation.mission.end_date &&
                       activeConversation.participation.mission.start_date.substring(
                         0,
                         10
@@ -162,7 +160,11 @@
                         | formatCustom('D MMM YYYY')
                     }}
                   </template>
-                  <template v-else>
+                  <template
+                    v-else-if="
+                      activeConversation.participation.mission.start_date
+                    "
+                  >
                     {{
                       activeConversation.participation.mission.start_date
                         | formatCustom('YYYY')
@@ -171,7 +173,7 @@
                 </div>
               </div>
               <button
-                v-if="activeConversationId"
+                v-if="activeConversation"
                 class="order-3 ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
                 @click="onPanelRightToggle"
                 v-html="
@@ -189,7 +191,7 @@
             <div class="panel--content">
               <template v-if="activeConversation">
                 <template v-if="messages.length">
-                  <MessageFull
+                  <ConversationMessages
                     v-for="message in messages.slice().reverse()"
                     :key="message.id"
                     :name="message.from.profile.first_name"
@@ -202,7 +204,7 @@
                     :date="message.created_at"
                   >
                     <nl2br tag="p" :text="message.content" />
-                  </MessageFull>
+                  </ConversationMessages>
                 </template>
                 <template v-else>
                   <div class="text-center text-gray-500 font-light">
@@ -217,7 +219,7 @@
             </div>
           </div>
 
-          <div v-if="activeConversationId" class="sticky bottom-0 bg-white p-6">
+          <div v-if="activeConversation" class="sticky bottom-0 bg-white p-6">
             <div class="m-auto w-full" style="max-width: 550px">
               <div
                 class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
@@ -258,7 +260,7 @@
           </div>
           <div class="panel--container">
             <div class="panel--content">
-              <MessageDetails
+              <ConversationDetail
                 v-if="activeConversation"
                 :participation="activeConversation.participation"
               />
@@ -289,24 +291,24 @@
 </template>
 
 <script>
-import MessageDetails from '@/components/messages/MessageDetails.vue'
+import ConversationDetail from '@/components/messages/ConversationDetail.vue'
 import ConversationTeaser from '@/components/messages/ConversationTeaser.vue'
-import MessageFull from '@/components/messages/MessageFull.vue'
+import ConversationMessages from '@/components/messages/ConversationMessages.vue'
 import {
   fetchConversations,
   fetchMessages,
   addMessage,
 } from '@/api/conversations'
 import dayjs from 'dayjs'
-import qs from 'qs'
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Messages',
   components: {
-    MessageDetails,
+    ConversationDetail,
     ConversationTeaser,
-    MessageFull,
+    ConversationMessages,
   },
   data() {
     return {
@@ -316,8 +318,6 @@ export default {
       windowWidth: window.innerWidth,
       newMessage: '',
       filters: { status: 1, search: '' },
-      activeConversationId: this.$router.currentRoute.params.id ?? null,
-      conversations: [],
       conversationFilters: { status: 1 },
       messages: [],
       currentPage: 1,
@@ -327,20 +327,10 @@ export default {
     }
   },
   computed: {
-    activeConversation() {
-      return this.conversations.find(
-        (conversation) => conversation.id == this.activeConversationId
-      )
-    },
-    filteredConversations() {
-      return this.conversations
-      // TODO
-      /*
-      return this.conversations.filter((c) => {
-        return c.status == this.filters.status
-      })
-      */
-    },
+    ...mapGetters({
+      conversations: 'conversation/conversations',
+      activeConversation: 'conversation/activeConversation',
+    }),
     search() {
       return this.conversationFilters.search
     },
@@ -376,9 +366,13 @@ export default {
       }
     },
   },
-  created() {
+  async created() {
     this.debouncedFetchConversations = _.debounce(this.fetchConversations, 500)
-    this.fetchConversations()
+    await this.fetchConversations()
+    this.$store.commit(
+      'conversation/setActiveConversationId',
+      this.$router.currentRoute.params.id ?? this.conversations[0].id
+    )
   },
   mounted() {
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
@@ -387,26 +381,20 @@ export default {
     }
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
-      window.addEventListener('popstate', this.handleHistoryChange)
       this.onResize()
     })
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
-    window.removeEventListener('popstate', this.handleHistoryChange)
   },
   methods: {
-    fetchConversations() {
-      fetchConversations({
+    async fetchConversations() {
+      const { data } = await fetchConversations({
         ['filter[search]']: this.conversationFilters.search,
         page: 1,
-      }).then((response) => {
-        this.conversations = response.data.data
-        if (!this.activeConversationId && !this.isMobile) {
-          this.activeConversationId = this.conversations[0].id
-        }
-        this.loading = false
       })
+      this.$store.commit('conversation/setConversations', data.data)
+      this.loading = false
     },
     onResize() {
       this.windowWidth = window.innerWidth
@@ -415,14 +403,6 @@ export default {
       this.showPanelCenter =
         this.activeConversation || !this.isMobile ? true : false
       this.showPanelRight = this.isDesktop ? true : false
-
-      if (
-        !this.isMobile &&
-        !this.activeConversationId &&
-        this.conversations.length > 0
-      ) {
-        this.activeConversationId = this.conversations[0].id
-      }
     },
     onScroll() {
       let scrollHeight =
@@ -437,7 +417,7 @@ export default {
       }
     },
     fetchNextPage() {
-      fetchMessages(this.activeConversationId, {
+      fetchMessages(this.activeConversation.id, {
         page: this.currentPage + 1,
         itemsPerPage: 15 + this.newMessageCount,
       }).then((response) => {
@@ -446,44 +426,30 @@ export default {
       })
     },
     onPanelLeftToggle() {
-      this.activeConversationId = null
-
       if (this.isMobile) {
         this.showPanelCenter = false
       }
-
       this.showPanelLeft = !this.showPanelLeft
 
       window.history.pushState({ id: null }, '', `/messages`)
     },
     onTeaserClick(conversation) {
-      if (conversation.id != this.activeConversationId) {
-        this.newMessage = ''
-        this.activeConversationId = conversation.id
-        if (this.isMobile) {
-          this.showPanelLeft = false
-        }
-        this.showPanelCenter = true
+      if (conversation.id == this.activeConversation.id) return
+      this.newMessage = ''
+      this.$store.commit(
+        'conversation/setActiveConversationId',
+        conversation.id
+      )
+      if (this.isMobile) {
+        this.showPanelLeft = false
+      }
+      this.showPanelCenter = true
 
-        window.history.pushState(
-          { id: conversation.id },
-          '',
-          `/messages/${conversation.id}`
-        )
-      }
-    },
-    handleHistoryChange(event) {
-      if (event.state && event.state.id) {
-        this.activeConversationId = event.state.id
-        if (this.isMobile) {
-          this.showPanelLeft = false
-          this.showPanelCenter = true
-        }
-      } else if (this.isMobile) {
-        this.activeConversationId = null
-        this.showPanelLeft = true
-        this.showPanelCenter = false
-      }
+      window.history.pushState(
+        { id: conversation.id },
+        '',
+        `/messages/${conversation.id}`
+      )
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
@@ -547,14 +513,6 @@ export default {
           this.activeConversation.latest_message = response.data
         })
       }
-    },
-    handleFilters(filters) {
-      this.filters = filters
-      this.activeConversationId = null
-    },
-    stringifyQuery(query) {
-      const result = qs.stringify(query)
-      return result ? '?' + result : ''
     },
   },
 }
