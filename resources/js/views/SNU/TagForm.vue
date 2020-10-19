@@ -59,12 +59,12 @@
 
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Icone</div>
-        <item-description>
+        <item-description container-class="mb-2">
           Format accepté: SVG
         </item-description>
 
         <div v-show="imgPreview">
-          <div class="bg-primary rounded-md p-3" style="max-width: 80px;">
+          <div class="bg-primary rounded-md p-3" style="max-width: 80px">
             <img :src="imgPreview" alt="Icone" />
           </div>
 

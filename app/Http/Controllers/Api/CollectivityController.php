@@ -178,11 +178,15 @@ class CollectivityController extends Controller
 
         $cropSettings = json_decode($data['cropSettings']);
         if (!empty($cropSettings)) {
+            // Ensure proper coordinates
+            $x = $cropSettings->x < 0 ? 0 : $cropSettings->x;
+            $y = $cropSettings->y < 0 ? 0 : $cropSettings->y;
+
             $stringCropSettings = implode(",", [
                 $cropSettings->width,
                 $cropSettings->height,
-                $cropSettings->x,
-                $cropSettings->y
+                $x,
+                $y
             ]);
         } else {
             $pathName = $request->file('image')->getPathname();

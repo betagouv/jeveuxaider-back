@@ -67,10 +67,9 @@
       </el-form-item>
 
       <div class="mb-6 mt-12 flex text-xl text-gray-800">Visibilité</div>
-      <item-description
-        >Si vous souhaitez rendre ce modèle visible, cochez la
-        case.</item-description
-      >
+      <item-description container-class="mb-3">
+        Si vous souhaitez rendre ce modèle visible, cochez la case.
+      </item-description>
       <el-form-item prop="published" class="flex-1">
         <el-checkbox v-model="form.published">En ligne</el-checkbox>
       </el-form-item>
@@ -78,20 +77,22 @@
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Mission prioritaire
       </div>
-      <item-description
-        >Les modèles de missions prioritaires sont mises en avant lors de la
-        création d'une nouvelle mission.</item-description
-      >
+      <item-description container-class="mb-3">
+        Les modèles de missions prioritaires sont mises en avant lors de la
+        création d'une nouvelle mission.
+      </item-description>
       <el-form-item prop="priority" class="flex-1">
         <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
       </el-form-item>
 
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Icone</div>
-        <item-description>Format accepté: SVG</item-description>
+        <item-description container-class="mb-3">
+          Format accepté: SVG
+        </item-description>
 
         <div v-show="imgPreview">
-          <div class="bg-primary rounded-md p-3" style="max-width: 80px;">
+          <div class="bg-primary rounded-md p-3" style="max-width: 80px">
             <img :src="imgPreview" alt="Icone" />
           </div>
 

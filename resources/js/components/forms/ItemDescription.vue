@@ -1,6 +1,9 @@
 <template>
-  <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-    <i class="el-icon-info text-primary mt-1 mr-2" />
+  <div
+    :class="[containerClass]"
+    class="text-xs leading-snug text-gray-500 flex items-baseline"
+  >
+    <i class="el-icon-info text-primary mr-2 flex-none" />
     <div class="flex-1">
       <slot />
     </div>
@@ -10,5 +13,11 @@
 <script>
 export default {
   name: 'ItemDescription',
+  props: {
+    containerClass: {
+      type: String,
+      default: 'mt-2',
+    },
+  },
 }
 </script>

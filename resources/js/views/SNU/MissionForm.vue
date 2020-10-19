@@ -1,7 +1,7 @@
 <template>
   <div class="mission-form">
     <div class="flex">
-      <div style="max-width: 600px;">
+      <div style="max-width: 600px">
         <template v-if="mode == 'add'">
           <div
             v-if="form.template"
@@ -106,7 +106,7 @@
               prop="name"
               class="flex-1 mr-2"
             >
-              <item-description>
+              <item-description container-class="mb-3">
                 Le titre de la mission doit être une phrase qui précise l'action
                 du bénévole, par exemple "Je fais les courses de produits
                 essentiels pour mes voisins les plus fragiles".
@@ -138,7 +138,7 @@
               prop="objectif"
               class="flex-1"
             >
-              <item-description>
+              <item-description container-class="mb-3">
                 Décrivez les enjeux et la finalité de la mission.
               </item-description>
               <ckeditor
@@ -152,7 +152,7 @@
               prop="description"
               class="flex-1"
             >
-              <item-description>
+              <item-description container-class="mb-3">
                 Décrivez précisément le rôle et les activités du bénévole.
               </item-description>
               <ckeditor
@@ -193,7 +193,7 @@
           </el-form-item>
 
           <el-form-item label="Domaines d'action complémentaires" prop="tags">
-            <item-description>
+            <item-description container-class="mb-3">
               Le choix d'un ou plusieurs domaines d'action complémentaires
               permettra à votre mission d'être référencée dans les domaines
               d'action correspondant lors d'une recherche par les réservistes
@@ -219,7 +219,7 @@
             prop="information"
             class="flex-1"
           >
-            <item-description>
+            <item-description container-class="mb-3">
               Informations complémentaires à l'attention du bénévole.
             </item-description>
             <ckeditor
@@ -233,7 +233,7 @@
             label="Nombre de bénévoles susceptibles d’être accueillis de façon concomitante sur cette mission"
             prop="participations_max"
           >
-            <item-description>
+            <item-description container-class="mb-3">
               Précisez ce nombre en fonction de vos contraintes logistiques et
               votre capacité à accompagner les bénévoles.
             </item-description>
@@ -315,7 +315,7 @@
             Le lieu où se déroule la mission
           </div>
 
-          <item-description>
+          <item-description container-class="mb-6">
             Recruter au plus près du lieu de mission et des bénéficiaires permet
             de faciliter l'engagement des bénévoles. Vous avez la possibilité de
             dupliquer cette mission sur plusieurs lieux.
@@ -372,7 +372,7 @@
           <div class="mt-12 mb-6 flex text-xl text-gray-800">
             Responsable de la mission
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Les notifications lors de la prise de contact d'un bénévole
             concernant cette mission seront envoyées à cette personne. Vous
             pouvez également

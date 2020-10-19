@@ -61,7 +61,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Publier la mission
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Une fois votre mission complétée, vous pouvez la publier pour
             qu'elle soit proposée aux utilisateurs.
           </item-description>
@@ -78,7 +78,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Statut de la mission
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Vous pouvez sélectionner le statut de la mission. A noter que des
             notifications emails seront envoyées .
           </item-description>

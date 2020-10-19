@@ -23,11 +23,11 @@
 
       <el-form-item label="Nom de la thématique" prop="name">
         <el-input v-model="form.name" placeholder="Nom de la thématique" />
-        <item-description
-          >Accessible à l'adresse : {{ baseUrl }}/thematiques/{{
+        <item-description>
+          Accessible à l'adresse : {{ baseUrl }}/thematiques/{{
             form.name | slugify
-          }}</item-description
-        >
+          }}
+        </item-description>
       </el-form-item>
 
       <el-form-item label="Titre de la thématique" prop="title">
@@ -64,7 +64,7 @@
 
       <div class="mb-6">
         <div class="mb-6 text-xl text-gray-800">Photo de la thématique</div>
-        <item-description>
+        <item-description container-class="mb-2">
           Résolution minimale: {{ imgMinWidth }} par
           {{ imgMinHeight }} pixels<br />
           Taille maximale: {{ imgMaxSize | prettyBytes }}
@@ -139,10 +139,9 @@
       </div>
 
       <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
-      <item-description
-        >Si vous souhaitez rendre cette thématique visible, cochez la
-        case.</item-description
-      >
+      <item-description container-class="mb-6">
+        Si vous souhaitez rendre cette thématique visible, cochez la case.
+      </item-description>
       <el-form-item prop="published" class="flex-1">
         <el-checkbox v-model="form.published">En ligne</el-checkbox>
       </el-form-item>
