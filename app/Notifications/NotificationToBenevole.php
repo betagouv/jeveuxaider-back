@@ -55,7 +55,7 @@ class NotificationToBenevole extends Notification
             ->line("")
             ->line("La mission :")
             ->line("**{$this->notificationBenevole->mission->name}**")
-            ->action('Proposer votre aide', url(config('app.url')."/missions/{$this->notificationBenevole->mission->id}"))
+            ->action('Proposer votre aide', url(config('app.url')."/missions/{$this->notificationBenevole->mission->id}?utm_source=mktplace"))
             ->line('Nous comptons sur vous pour faire vivre l’engagement. Merci !');
     }
 
