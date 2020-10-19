@@ -73,6 +73,12 @@
               target="_blank"
               >Mobilisation pour l'emploi</a
             >
+            <a
+              class="block p-3 hover:underline"
+              href="https://covid19.reserve-civique.gouv.fr/engagement/communication/"
+              target="_blank"
+              >Kit de communication</a
+            >
           </div>
           <div class="lg:max-w-1/4 text-black">
             <a
