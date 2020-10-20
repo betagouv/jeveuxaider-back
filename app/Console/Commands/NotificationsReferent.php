@@ -44,7 +44,7 @@ class NotificationsReferent extends Command
         $nb_jours_notif = 10;
 
         $structuresByDepartment = Structure::where('state', 'En attente de validation')
-          ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
+          //->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
