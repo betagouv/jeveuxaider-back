@@ -51,7 +51,7 @@ class NotificationsReferent extends Command
           ->groupBy('department')->toArray();
 
         $missionsByDepartment = Mission::where('state', 'En attente de validation')
-          ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
+          //->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
