@@ -32,6 +32,9 @@ class Kernel extends ConsoleKernel
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->daily()->at('05:05');
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
 
+        // Todo
+        //schedule notif referent, daily lun-vend,at8am
+
 
         // Horizon update dashboard metrics
         //  $schedule->command('horizon:snapshot')->everyFiveMinutes();
