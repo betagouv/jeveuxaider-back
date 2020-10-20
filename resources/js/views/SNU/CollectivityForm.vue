@@ -29,11 +29,11 @@
           :disabled="!canEditField"
           placeholder="Nom de la collectivité"
         />
-        <item-description
-          >Accessible à l'adresse : {{ baseUrl }}/territoires/{{
+        <item-description>
+          Accessible à l'adresse : {{ baseUrl }}/territoires/{{
             form.name | slugify
-          }}</item-description
-        >
+          }}
+        </item-description>
       </el-form-item>
 
       <el-form-item label="Titre de la page" prop="title">
@@ -106,82 +106,23 @@
         </el-select>
       </el-form-item>
 
-      <div class="mb-6">
-        <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
-        <item-description>
-          Résolution minimale: {{ imgMinWidth }} par
-          {{ imgMinHeight }} pixels<br />
-          Taille maximale: {{ imgMaxSize | prettyBytes }}
-        </item-description>
+      <ImageField
+        :model="model"
+        :model-id="form.id ? form.id : null"
+        :min-width="1600"
+        :min-height="600"
+        :field="form.image"
+        :aspect-ratio="8 / 3"
+        label="Bannière"
+        @add-or-crop="cropBanniere = $event"
+      ></ImageField>
 
-        <div v-show="imgPreview">
-          <div class="preview-area">
-            <img :src="imgPreview" alt="Cropped Image" />
-          </div>
-
-          <div class="actions mt-4">
-            <el-button
-              type="secondary"
-              @click.prevent="dialogCropVisible = true"
-            >
-              Recadrer
-            </el-button>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              :loading="loadingDelete"
-              @click.prevent="onDelete()"
-            >
-              Supprimer
-            </el-button>
-          </div>
-
-          <el-dialog
-            title="Recadrer"
-            :visible.sync="dialogCropVisible"
-            width="680"
-          >
-            <vue-cropper
-              ref="cropper"
-              :src="imgSrc ? imgSrc : form.image ? form.image.original : null"
-              :aspect-ratio="8 / 3"
-              :zoomable="false"
-              :movable="false"
-              :zoom-on-touch="false"
-              :zoom-on-wheel="false"
-              :auto-crop-area="1"
-              :min-container-height="240"
-              :min-container-width="640"
-              preview=".preview"
-              @cropmove="ensureMinWidth"
-            />
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="onReset()">Réinitialiser</el-button>
-              <el-button @click="dialogCropVisible = false">Annuler</el-button>
-              <el-button type="primary" :loading="loadingCrop" @click="onCrop()"
-                >Valider</el-button
-              >
-            </span>
-          </el-dialog>
-        </div>
-        <div v-show="!imgPreview">
-          <el-upload
-            class="upload-demo"
-            drag
-            action=""
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-change="onSelectFile"
-          >
-            <i class="el-icon-upload" />
-            <div class="el-upload__text">
-              Glissez votre image ou <br /><em
-                >cliquez ici pour la sélectionner</em
-              >
-            </div>
-          </el-upload>
-        </div>
-      </div>
+      <!-- <ImageField
+        :min-width="600"
+        :min-height="600"
+        :field="form.image"
+        label="Logo"
+      ></ImageField> -->
 
       <el-form-item
         v-if="$store.getters.contextRole == 'admin'"
@@ -200,10 +141,9 @@
       </el-form-item>
       <template v-if="$store.getters.contextRole == 'admin'">
         <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
-        <item-description
-          >Si vous souhaitez rendre cette collectivité visible, cochez la
-          case.</item-description
-        >
+        <item-description container-class="mb-6">
+          Si vous souhaitez rendre cette collectivité visible, cochez la case.
+        </item-description>
         <el-form-item prop="published" class="flex-1">
           <el-checkbox v-model="form.published">En ligne</el-checkbox>
         </el-form-item>
@@ -225,12 +165,11 @@ import {
   uploadImage,
 } from '@/api/app'
 import ItemDescription from '@/components/forms/ItemDescription'
-import Crop from '@/mixins/Crop'
+import ImageField from '@/components/forms/ImageField.vue'
 
 export default {
   name: 'CollectivityForm',
-  components: { ItemDescription },
-  mixins: [Crop],
+  components: { ItemDescription, ImageField },
   props: {
     mode: {
       type: String,
@@ -250,9 +189,7 @@ export default {
         zips: [],
       },
       model: 'collectivity',
-      imgMinWidth: 1600,
-      imgMinHeight: 600,
-      imgMaxSize: 4000000, // 4 MB
+      cropBanniere: null,
     }
   },
   computed: {
@@ -327,15 +264,12 @@ export default {
           addOrUpdateCollectivity(this.id, this.form)
             .then((response) => {
               this.form = response.data
-              if (this.img) {
-                let cropSettings = this.$refs.cropper
-                  ? this.$refs.cropper.getData()
-                  : null
+              if (this.cropBanniere) {
                 uploadImage(
                   this.form.id,
                   this.model,
-                  this.img,
-                  cropSettings
+                  this.cropBanniere.blob,
+                  this.cropBanniere.cropSettings
                 ).then(() => {
                   this.onSubmitEnd()
                 })

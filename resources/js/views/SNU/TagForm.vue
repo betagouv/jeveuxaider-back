@@ -57,46 +57,20 @@
         <el-input v-model="form.order_column" placeholder="Ordre du tag" />
       </el-form-item>
 
-      <div class="mb-6">
-        <div class="mb-6 text-xl text-gray-800">Icone</div>
-        <item-description container-class="mb-2">
-          Format accepté: SVG
-        </item-description>
-
-        <div v-show="imgPreview">
-          <div class="bg-primary rounded-md p-3" style="max-width: 80px">
-            <img :src="imgPreview" alt="Icone" />
-          </div>
-
-          <div class="actions mt-4">
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              :loading="loadingDelete"
-              @click.prevent="onDelete()"
-              >Supprimer</el-button
-            >
-          </div>
-        </div>
-        <div v-show="!imgPreview">
-          <el-upload
-            class="upload-demo"
-            drag
-            action
-            accept="image/svg+xml"
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-change="onSelectFile"
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              Glissez votre icone ou
-              <br />
-              <em>cliquez ici pour la sélectionner</em>
-            </div>
-          </el-upload>
-        </div>
-      </div>
+      <ImageField
+        :crop="false"
+        accepted-files="image/svg+xml"
+        :model="model"
+        :model-id="form.id ? form.id : null"
+        :field="form.image"
+        :max-size="1000000"
+        :preview-width="80"
+        preview-area-class="bg-primary rounded-md p-3"
+        label="Icone"
+        label-class="mb-6 text-xl text-gray-800"
+        description="Format accepté: SVG"
+        @add-or-crop="icone = $event"
+      ></ImageField>
 
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit"
@@ -109,13 +83,11 @@
 
 <script>
 import { getTag, addOrUpdateTag, uploadImage } from '@/api/app'
-import ItemDescription from '@/components/forms/ItemDescription'
-import Crop from '@/mixins/Crop'
+import ImageField from '@/components/forms/ImageField.vue'
 
 export default {
   name: 'TagForm',
-  components: { ItemDescription },
-  mixins: [Crop],
+  components: { ImageField },
   props: {
     mode: {
       type: String,
@@ -131,6 +103,7 @@ export default {
       loading: false,
       model: 'tag',
       form: {},
+      icone: null,
     }
   },
   computed: {
@@ -184,14 +157,15 @@ export default {
         if (valid) {
           addOrUpdateTag(this.id, this.form)
             .then((response) => {
-              this.form = response.data
-              this.loading = false
-              if (this.img) {
-                uploadImage(this.form.id, this.model, this.img, null).then(
-                  () => {
-                    this.onSubmitEnd()
-                  }
-                )
+              if (this.icone) {
+                uploadImage(
+                  response.data.id,
+                  this.model,
+                  this.icone.blob,
+                  null
+                ).then(() => {
+                  this.onSubmitEnd()
+                })
               } else {
                 this.onSubmitEnd()
               }
