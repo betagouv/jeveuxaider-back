@@ -25,15 +25,17 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Backups
-        $schedule->command('backup:clean')->daily()->at('05:00');
-        $schedule->command('backup:run')->daily()->at('05:00')->withoutOverlapping();
+        //$schedule->command('backup:clean')->daily()->at('05:00');
+        //$schedule->command('backup:run')->daily()->at('05:00')->withoutOverlapping();
 
         // Check Security updates
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->daily()->at('05:05');
+        $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->everyMinute();
+        $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->everyMinute();
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
 
         // Horizon update dashboard metrics
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        //  $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**
