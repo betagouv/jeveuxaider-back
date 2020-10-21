@@ -155,8 +155,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
     // COLLECTIVITIES
-    Route::post('collectivity/{collectivity}/upload', 'Api\CollectivityController@upload');
-    Route::delete('collectivity/{collectivity}/upload', 'Api\CollectivityController@uploadDelete');
+    Route::post('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@upload');
+    Route::delete('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
 
     // THEMATIQUES

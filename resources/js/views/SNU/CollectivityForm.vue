@@ -111,18 +111,41 @@
         :model-id="form.id ? form.id : null"
         :min-width="1600"
         :min-height="600"
-        :field="form.image"
+        :field="form.banner"
+        field-name="banner"
         :aspect-ratio="8 / 3"
         label="Bannière"
-        @add-or-crop="cropBanniere = $event"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
       ></ImageField>
 
-      <!-- <ImageField
-        :min-width="600"
-        :min-height="600"
-        :field="form.image"
+      <ImageField
+        :model="model"
+        :model-id="form.id ? form.id : null"
+        :max-size="1000000"
+        :field="form.logo"
+        field-name="logo"
+        :aspect-ratio="0"
         label="Logo"
-      ></ImageField> -->
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
+
+      <ImageField
+        v-for="index in 6"
+        :key="index"
+        :model="model"
+        :model-id="form.id ? form.id : null"
+        :max-size="2000000"
+        :min-width="640"
+        :min-height="640"
+        :aspect-ratio="1"
+        :field="form[`image_${index}`]"
+        :field-name="`image_${index}`"
+        :label="`Illustration #${index}`"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
 
       <el-form-item
         v-if="$store.getters.contextRole == 'admin'"
@@ -189,7 +212,7 @@ export default {
         zips: [],
       },
       model: 'collectivity',
-      cropBanniere: null,
+      uploads: [],
     }
   },
   computed: {
@@ -257,6 +280,24 @@ export default {
     }
   },
   methods: {
+    handleAddOrCrop($event) {
+      const existingIndex = this.uploads.findIndex(
+        (upload) => upload.fieldName === $event.fieldName
+      )
+      if (existingIndex != -1) {
+        this.uploads.splice(existingIndex, 1, $event)
+      } else {
+        this.uploads.push($event)
+      }
+    },
+    handleDelete($event) {
+      this.uploads.splice(
+        this.uploads.findIndex(
+          (upload) => upload.fieldName === $event.fieldName
+        ),
+        1
+      )
+    },
     onSubmit() {
       this.loading = true
       this.$refs['collectivityForm'].validate((valid) => {
@@ -264,18 +305,7 @@ export default {
           addOrUpdateCollectivity(this.id, this.form)
             .then((response) => {
               this.form = response.data
-              if (this.cropBanniere) {
-                uploadImage(
-                  this.form.id,
-                  this.model,
-                  this.cropBanniere.blob,
-                  this.cropBanniere.cropSettings
-                ).then(() => {
-                  this.onSubmitEnd()
-                })
-              } else {
-                this.onSubmitEnd()
-              }
+              this.uploadImages()
             })
             .catch(() => {
               this.loading = false
@@ -283,6 +313,26 @@ export default {
         } else {
           this.loading = false
         }
+      })
+    },
+    uploadImages() {
+      const promises = []
+
+      this.uploads.forEach((upload) => {
+        promises.push(
+          uploadImage(
+            this.form.id,
+            this.model,
+            upload.blob,
+            upload.cropSettings,
+            upload.fieldName
+          ).then(() => {
+            console.log('UPLOAD DONE ' + upload.fieldName)
+          })
+        )
+      })
+      Promise.all(promises).then(() => {
+        this.onSubmitEnd()
       })
     },
     onSubmitEnd() {

@@ -164,11 +164,11 @@ class CollectivityController extends Controller
         return $collectivity;
     }
 
-    public function upload(CollectivityUploadRequest $request, Collectivity $collectivity)
+    public function upload(CollectivityUploadRequest $request, Collectivity $collectivity, String $field)
     {
 
         // Delete previous file
-        if ($media = $collectivity->getFirstMedia('collectivities')) {
+        if ($media = $collectivity->getFirstMedia('collectivities', ['field' => $field])) {
             $media->delete();
         }
 
@@ -178,15 +178,11 @@ class CollectivityController extends Controller
 
         $cropSettings = json_decode($data['cropSettings']);
         if (!empty($cropSettings)) {
-            // Ensure proper coordinates
-            $x = $cropSettings->x < 0 ? 0 : $cropSettings->x;
-            $y = $cropSettings->y < 0 ? 0 : $cropSettings->y;
-
             $stringCropSettings = implode(",", [
                 $cropSettings->width,
                 $cropSettings->height,
-                $x,
-                $y
+                $cropSettings->x,
+                $cropSettings->y
             ]);
         } else {
             $pathName = $request->file('image')->getPathname();
@@ -203,6 +199,7 @@ class CollectivityController extends Controller
             ->addMedia($request->file('image'))
             ->usingName($name)
             ->usingFileName($name . '.' . $extension)
+            ->withCustomProperties(['field' => $field])
             ->withManipulations([
                 'large' => ['manualCrop' => $stringCropSettings],
                 'thumb' => ['manualCrop' => $stringCropSettings]
@@ -212,9 +209,9 @@ class CollectivityController extends Controller
         return $collectivity;
     }
 
-    public function uploadDelete(CollectivityDeleteRequest $request, Collectivity $collectivity)
+    public function uploadDelete(CollectivityDeleteRequest $request, Collectivity $collectivity, String $field)
     {
-        if ($media = $collectivity->getFirstMedia('collectivities')) {
+        if ($media = $collectivity->getFirstMedia('collectivities', ['field' => $field])) {
             $media->delete();
         }
     }

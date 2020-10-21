@@ -50,7 +50,8 @@
               :preview-width="150"
               :field="form.image"
               label="Photo de profil"
-              @add-or-crop="cropAvatar = $event"
+              @add-or-crop="avatar = $event"
+              @delete="avatar = null"
             ></ImageField>
           </div>
           <el-form-item label="Compétences" prop="skills" class="mb-6">
@@ -200,7 +201,7 @@ export default {
       rules: {},
       skills: null,
       optionsSkills: [],
-      cropAvatar: null,
+      avatar: null,
     }
   },
   computed: {
@@ -234,12 +235,12 @@ export default {
       this.loading = true
       this.$refs['profileForm'].validate((valid) => {
         if (valid) {
-          if (this.cropAvatar) {
+          if (this.avatar) {
             uploadImage(
               this.form.id,
               this.model,
-              this.cropAvatar.blob,
-              this.cropAvatar.cropSettings
+              this.avatar.blob,
+              this.avatar.cropSettings
             ).then(() => {
               this.updateProfile()
             })

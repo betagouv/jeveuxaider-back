@@ -39,8 +39,11 @@
         title="Recadrer"
         :visible.sync="dialogCropVisible"
         width="680"
+        :close-on-click-modal="false"
+        @close="onModalClose"
       >
         <vue-cropper
+          v-if="dialogCropVisible"
           ref="cropper"
           :src="imgSrc ? imgSrc : field ? field.original : null"
           :aspect-ratio="aspectRatio"
@@ -49,9 +52,11 @@
           :zoom-on-touch="false"
           :zoom-on-wheel="false"
           :auto-crop-area="1"
-          :min-container-height="240"
+          :min-container-height="320"
           :min-container-width="640"
+          :view-mode="2"
           preview=".preview"
+          @ready="onCropperReady"
           @cropmove="ensureMinDimensions"
         />
         <span slot="footer" class="dialog-footer">
@@ -116,6 +121,10 @@ export default {
       type: [Object, String],
       default: null,
     },
+    fieldName: {
+      type: String,
+      default: null,
+    },
     label: {
       type: String,
       required: true,
@@ -158,6 +167,7 @@ export default {
       loadingDelete: false,
       loadingCrop: false,
       initialField: this.field ? this.field : null,
+      cropData: null,
     }
   },
   computed: {
@@ -199,10 +209,10 @@ export default {
       if (!file.raw) {
         return false
       }
-      if (this.imgMaxSize && file.size > this.imgMaxSize) {
+      if (this.maxSize && file.size > this.maxSize) {
         this.$message({
           message: `La taille ne doit pas dépasser ${this.$options.filters.prettyBytes(
-            this.imgMaxSize
+            this.maxSize
           )}`,
           type: 'error',
         })
@@ -240,7 +250,10 @@ export default {
               if (this.$refs.cropper) {
                 this.$refs.cropper.replace(this.imgSrc)
               }
-              this.$emit('add-or-crop', { blob: this.img })
+              this.$emit('add-or-crop', {
+                blob: this.img,
+                fieldName: this.fieldName,
+              })
             }
           }
         }
@@ -269,7 +282,11 @@ export default {
       const cropSettings = this.$refs.cropper
         ? this.$refs.cropper.getData()
         : null
-      this.$emit('add-or-crop', { blob: this.img, cropSettings: cropSettings })
+      this.$emit('add-or-crop', {
+        blob: this.img,
+        cropSettings: cropSettings,
+        fieldName: this.fieldName,
+      })
     },
     onReset() {
       this.$refs.cropper.reset()
@@ -277,7 +294,7 @@ export default {
     onDelete() {
       this.loadingDelete = true
       if (this.modelId) {
-        deleteImage(this.modelId, this.model).then(() => {
+        deleteImage(this.modelId, this.model, this.fieldName).then(() => {
           this.deleteImage()
         })
       } else {
@@ -305,6 +322,16 @@ export default {
       this.imgSrc = ''
       this.cropImgSrc = ''
       this.loadingDelete = false
+      this.cropData = null
+      this.$emit('delete', { fieldName: this.fieldName })
+    },
+    onModalClose() {
+      this.cropData = this.$refs.cropper.getData()
+    },
+    onCropperReady() {
+      if (this.cropData) {
+        this.$refs.cropper.setData(this.cropData)
+      }
     },
   },
 }
@@ -313,12 +340,4 @@ export default {
 <style lang="sass" scoped>
 .preview-area
   width: var(--preview-area__width)
-
-.preview
-  width: 100%
-  height: calc(372px * (85 / 128))
-  overflow: hidden
-
-.cropped-image img
-  max-width: 100%
 </style>

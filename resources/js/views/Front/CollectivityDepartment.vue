@@ -2,8 +2,8 @@
   <div>
     <div class="relative">
       <img
-        v-if="collectivity.image && collectivity.image.large"
-        :src="collectivity.image.large"
+        v-if="collectivity.banner && collectivity.banner.large"
+        :src="collectivity.banner.large"
         :alt="collectivity.title"
         class="absolute object-cover object-center w-full h-full"
       />
@@ -13,7 +13,7 @@
           'bg-primary',
           'absolute',
           'inset-0',
-          { 'opacity-75': collectivity.image },
+          { 'opacity-75': collectivity.banner },
         ]"
       />
 
@@ -125,7 +125,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/covid.svg"
                 alt=""
               />
@@ -137,7 +137,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/sante.svg"
                 alt=""
               />
@@ -149,7 +149,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/securite.svg"
                 alt=""
               />
@@ -163,7 +163,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/education.svg"
                 alt=""
               />
@@ -176,7 +176,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/sport.svg"
                 alt=""
               />
@@ -188,7 +188,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/environnement.svg"
                 alt=""
               />
@@ -202,7 +202,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/art.svg"
                 alt=""
               />
@@ -216,7 +216,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/vivre-ensemble.svg"
                 alt=""
               />
@@ -229,7 +229,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/memoire.svg"
                 alt=""
               />
@@ -242,7 +242,7 @@
             >
               <img
                 class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                style="width: 40px;"
+                style="width: 40px"
                 src="/images/cooperation.svg"
                 alt=""
               />
@@ -268,7 +268,7 @@
               <div
                 class="inline-block bg-primary rounded-md p-3 text-center mb-5"
               >
-                <img class :src="template.image" style="width: 28px;" />
+                <img class :src="template.image" style="width: 28px" />
               </div>
               <div class="text-lg font-medium text-gray-900">
                 {{ template.title }}
@@ -333,9 +333,7 @@
               <dd class="text-5xl leading-none font-bold text-white">
                 {{ statistics.volontaires_count | formatNumber }}
               </dd>
-              <dt class="mt-2 text-lg font-medium text-white">
-                Réservistes
-              </dt>
+              <dt class="mt-2 text-lg font-medium text-white">Réservistes</dt>
             </div>
             <div class="flex flex-col mt-10 sm:mt-0">
               <dd class="text-5xl leading-none font-bold text-white">

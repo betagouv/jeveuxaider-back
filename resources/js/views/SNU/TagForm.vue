@@ -70,6 +70,7 @@
         label-class="mb-6 text-xl text-gray-800"
         description="Format accepté: SVG"
         @add-or-crop="icone = $event"
+        @delete="icone = null"
       ></ImageField>
 
       <div class="flex pt-2">

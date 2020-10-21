@@ -70,7 +70,8 @@
         :aspect-ratio="8 / 3"
         :field="form.image"
         label="Photo de la thématique"
-        @add-or-crop="cropPhoto = $event"
+        @add-or-crop="photo = $event"
+        @delete="photo = null"
       ></ImageField>
 
       <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
@@ -122,7 +123,7 @@ export default {
         published: true,
       },
       model: 'thematique',
-      cropPhoto: null,
+      photo: null,
     }
   },
   computed: {
@@ -164,12 +165,12 @@ export default {
           addOrUpdateThematique(this.id, this.form)
             .then((response) => {
               this.form = response.data
-              if (this.cropPhoto) {
+              if (this.photo) {
                 uploadImage(
                   this.form.id,
                   this.model,
-                  this.cropPhoto.blob,
-                  this.cropPhoto.cropSettings
+                  this.photo.blob,
+                  this.photo.cropSettings
                 ).then(() => {
                   this.onSubmitEnd()
                 })
