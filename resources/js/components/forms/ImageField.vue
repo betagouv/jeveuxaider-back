@@ -54,7 +54,7 @@
           :auto-crop-area="1"
           :min-container-height="320"
           :min-container-width="640"
-          :view-mode="2"
+          :view-mode="3"
           preview=".preview"
           @ready="onCropperReady"
           @cropmove="ensureMinDimensions"

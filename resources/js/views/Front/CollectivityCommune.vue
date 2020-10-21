@@ -251,7 +251,7 @@ export default {
       return this.collectivity[`image_${key}`] &&
         this.collectivity[`image_${key}`].large
         ? this.collectivity[`image_${key}`].large
-        : `/images/collectivites/${this.collectivity.slug}-1.jpg`
+        : null
     },
   },
 }

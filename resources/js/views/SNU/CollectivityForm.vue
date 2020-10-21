@@ -119,33 +119,35 @@
         @delete="handleDelete($event)"
       ></ImageField>
 
-      <ImageField
-        :model="model"
-        :model-id="form.id ? form.id : null"
-        :max-size="1000000"
-        :field="form.logo"
-        field-name="logo"
-        :aspect-ratio="0"
-        label="Logo"
-        @add-or-crop="handleAddOrCrop($event)"
-        @delete="handleDelete($event)"
-      ></ImageField>
+      <template v-if="form.type == 'commune'">
+        <ImageField
+          :model="model"
+          :model-id="form.id ? form.id : null"
+          :max-size="1000000"
+          :field="form.logo"
+          field-name="logo"
+          :aspect-ratio="0"
+          label="Logo"
+          @add-or-crop="handleAddOrCrop($event)"
+          @delete="handleDelete($event)"
+        ></ImageField>
 
-      <ImageField
-        v-for="index in 6"
-        :key="index"
-        :model="model"
-        :model-id="form.id ? form.id : null"
-        :max-size="2000000"
-        :min-width="640"
-        :min-height="640"
-        :aspect-ratio="1"
-        :field="form[`image_${index}`]"
-        :field-name="`image_${index}`"
-        :label="`Illustration #${index}`"
-        @add-or-crop="handleAddOrCrop($event)"
-        @delete="handleDelete($event)"
-      ></ImageField>
+        <ImageField
+          v-for="index in 6"
+          :key="index"
+          :model="model"
+          :model-id="form.id ? form.id : null"
+          :max-size="2000000"
+          :min-width="640"
+          :min-height="640"
+          :aspect-ratio="1"
+          :field="form[`image_${index}`]"
+          :field-name="`image_${index}`"
+          :label="`Illustration #${index}`"
+          @add-or-crop="handleAddOrCrop($event)"
+          @delete="handleDelete($event)"
+        ></ImageField>
+      </template>
 
       <el-form-item
         v-if="$store.getters.contextRole == 'admin'"
@@ -326,9 +328,7 @@ export default {
             upload.blob,
             upload.cropSettings,
             upload.fieldName
-          ).then(() => {
-            console.log('UPLOAD DONE ' + upload.fieldName)
-          })
+          )
         )
       })
       Promise.all(promises).then(() => {
