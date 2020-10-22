@@ -36,13 +36,53 @@ class Collectivity extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $appends = ['image'];
+    protected $appends = ['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
 
     protected $hidden = ['media'];
 
-    public function getImageAttribute()
+    public function getBannerAttribute()
     {
-        $media = $this->getFirstMedia('collectivities');
+        return $this->getMediaUrls('banner');
+    }
+
+    public function getLogoAttribute()
+    {
+        return $this->getMediaUrls('logo');
+    }
+
+    public function getImage1Attribute()
+    {
+        return $this->getMediaUrls('image_1');
+    }
+
+    public function getImage2Attribute()
+    {
+        return $this->getMediaUrls('image_2');
+    }
+
+    public function getImage3Attribute()
+    {
+        return $this->getMediaUrls('image_3');
+    }
+
+    public function getImage4Attribute()
+    {
+        return $this->getMediaUrls('image_4');
+    }
+
+    public function getImage5Attribute()
+    {
+        return $this->getMediaUrls('image_5');
+    }
+
+    public function getImage6Attribute()
+    {
+        return $this->getMediaUrls('image_6');
+    }
+
+    protected function getMediaUrls($field)
+    {
+        $media = $this->getFirstMedia('collectivities', ['field' => $field]);
         if ($media) {
             $mediaUrls = ['original' => $media->getFullUrl()];
             foreach ($media->getGeneratedConversions() as $key => $conversion) {

@@ -4,9 +4,7 @@
     class="profile-form max-w-2xl pl-12 pb-12"
   >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        Profil
-      </div>
+      <div class="text-m text-gray-600 uppercase">Profil</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">
           {{ form.first_name }} {{ form.last_name }}
@@ -28,9 +26,7 @@
       label-position="top"
       :rules="rules"
     >
-      <div class="mb-6 text-xl text-gray-800">
-        Informations générales
-      </div>
+      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Email" prop="email">
         <el-input
@@ -77,7 +73,7 @@
             autocomplete="off"
             format="dd-MM-yyyy"
             value-format="yyyy-MM-dd"
-            style="width: 100%;"
+            style="width: 100%"
           />
         </el-form-item>
       </div>
@@ -87,7 +83,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Superviseur réseau national
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est membre d'un réseau national (Les Banques
             alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
             à cet utilisateur de visualiser les missions et bénévoles rattachés
@@ -112,7 +108,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Référent régional
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est référent régional, renseignez le nom de la
             région. Vous permettez à cet utilisateur de visualiser les missions
             et bénévoles rattachés aux organisations de cette région.
@@ -137,7 +133,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Référent départemental
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est référent, renseignez le nom du département
             Vous permettez à cet utilisateur de visualiser les missions et
             bénévoles rattachés aux organisations de ce département.
@@ -166,7 +162,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Responsable collectivité
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est responsable d'une collectivité, renseignez le
             nom de la collectivité. Vous permettez à cet utilisateur de
             visualiser les statistiques rattachées à cette collectivité.
@@ -195,7 +191,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Datas analyste
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est un datas analyste, cochez la case. Il aura
             accès au tableau de bord et à tous ses indicateurs.
           </item-description>

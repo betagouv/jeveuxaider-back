@@ -4,9 +4,7 @@
     class="profile-form max-w-2xl pl-12 pb-12"
   >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        FAQ
-      </div>
+      <div class="text-m text-gray-600 uppercase">FAQ</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">
           {{ form.title }}
@@ -18,18 +16,16 @@
     </div>
 
     <el-form ref="faqForm" :model="form" label-position="top" :rules="rules">
-      <div class="mb-6 text-xl text-gray-800">
-        Informations générales
-      </div>
+      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Question" prop="title">
         <el-input v-model="form.title" placeholder="Question" />
       </el-form-item>
 
       <el-form-item label="Poids de la question" prop="weight">
-        <item-description
-          >Les questions s'afficheront par ordre décroissant.</item-description
-        >
+        <item-description container-class="mb-3">
+          Les questions s'afficheront par ordre décroissant.
+        </item-description>
         <el-input-number
           v-model="form.weight"
           :step="1"

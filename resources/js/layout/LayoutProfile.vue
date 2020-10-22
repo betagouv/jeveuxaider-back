@@ -1,12 +1,11 @@
 <template>
   <div class="bg-gray-100">
     <AppHeader />
+
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">
-            Mon compte
-          </h1>
+          <h1 class="text-3xl font-bold text-white">Mon compte</h1>
         </div>
       </div>
     </div>
@@ -33,137 +32,16 @@
         </div>
       </div>
     </div>
+
     <AppFooter />
   </div>
 </template>
 
 <script>
-import { uploadImage } from '@/api/app'
-import Crop from '@/mixins/Crop'
 import UserMenu from '@/components/UserMenu'
 
 export default {
   name: 'FrontUserInfos',
   components: { UserMenu },
-  mixins: [Crop],
-  data() {
-    var checkLowercase = (rule, value, callback) => {
-      if (value !== value.toLowerCase()) {
-        callback(new Error('Merci de ne saisir que des minuscules'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      loading: false,
-      form: this.$store.getters.user.profile,
-      skills: null,
-      domaines: null,
-      model: 'profile',
-      imgMinWidth: 320,
-      imgMinHeight: 320,
-      imgMaxSize: 2000000, // 2 MB
-      rules: {
-        email: [
-          {
-            type: 'email',
-            message: "Le format de l'email n'est pas correct",
-            trigger: 'blur',
-          },
-          {
-            required: true,
-            message: 'Veuillez renseigner votre email',
-            trigger: 'blur',
-          },
-          { validator: checkLowercase, trigger: 'blur' },
-        ],
-        first_name: [
-          {
-            required: true,
-            message: 'Prénom obligatoire',
-            trigger: 'blur',
-          },
-        ],
-        last_name: [
-          {
-            required: true,
-            message: 'Nom obligatoire',
-            trigger: 'blur',
-          },
-        ],
-        zip: [
-          {
-            required: true,
-            message: 'Code postal obligatoire',
-            trigger: 'blur',
-          },
-          {
-            pattern: /^\d+$/,
-            message: 'Ne doit contenir que des chiffres',
-            trigger: 'blur',
-          },
-          {
-            min: 5,
-            max: 5,
-            message: 'Format erroné',
-            trigger: 'blur',
-          },
-        ],
-        mobile: [
-          {
-            required: true,
-            message: 'Téléphone obligatoire',
-            trigger: 'blur',
-          },
-          {
-            pattern: /^[+|\s|\d]*$/,
-            message: 'Le format du numéro de téléphone est incorrect',
-            trigger: 'blur',
-          },
-        ],
-      },
-    }
-  },
-  created() {},
-  methods: {
-    onSubmit() {
-      this.loading = true
-      this.$refs['profileForm'].validate((valid) => {
-        if (valid) {
-          if (this.img) {
-            let cropSettings = this.$refs.cropper
-              ? this.$refs.cropper.getData()
-              : null
-            uploadImage(this.form.id, this.model, this.img, cropSettings)
-          }
-          this.$store
-            .dispatch('user/updateProfile', this.form)
-            .then(() => {
-              this.loading = false
-              this.$message({
-                message: 'Vos informations ont été mises à jour.',
-                type: 'success',
-              })
-            })
-            .catch(() => {
-              this.loading = false
-            })
-          this.loading = false
-        } else {
-          this.loading = false
-        }
-      })
-    },
-  },
 }
 </script>
-
-<style lang="sass" scoped>
-::v-deep .el-form-item
-    @apply mb-3
-
-::v-deep .el-upload-dragger
-  @apply flex justify-center items-center
-  width: 150px
-  height: 150px
-</style>

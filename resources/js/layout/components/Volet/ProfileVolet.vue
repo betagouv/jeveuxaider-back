@@ -33,7 +33,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Superviseur réseau national
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est membre d'un réseau national (Les Banques
             alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
             à cet utilisateur de visualiser les missions et bénévoles rattachés
@@ -56,7 +56,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Référent départemental
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Si cet utilisateur est référent, renseignez le nom du département
             Vous permettez à cet utilisateur de visualiser les missions et
             bénévoles rattachés aux organisations de ce département.
