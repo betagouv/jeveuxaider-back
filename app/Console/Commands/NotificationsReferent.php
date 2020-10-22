@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
-use App\Notifications\ReferentWaitingMissionAndOrganization;
+use App\Notifications\ReferentDailyTodo;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
@@ -75,7 +75,8 @@ class NotificationsReferent extends Command
 
             $this->info($department . ' has ' . count($structures) . ' organisations, and ' . count($missions) . ' missions');
             $referents = Profile::where('referent_department', $department)->get();
-            Notification::send($referents, new ReferentWaitingMissionAndOrganization($structures, $missions));
+            $this->info($referents->pluck('email'));
+            Notification::send($referents, new ReferentDailyTodo($structures, $missions));
         }
     }
 

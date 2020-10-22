@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ReferentWaitingMissionAndOrganization extends Notification
+class ReferentDailyTodo extends Notification
 {
     use Queueable;
 
