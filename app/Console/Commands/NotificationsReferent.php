@@ -75,7 +75,7 @@ class NotificationsReferent extends Command
 
             $this->info($department . ' has ' . count($structures) . ' organisations, and ' . count($missions) . ' missions');
             $referents = Profile::where('referent_department', $department)->get();
-            //Notification::send($referents, new ReferentWaitingMissionAndOrganization($structures, $missions));
+            Notification::send($referents, new ReferentWaitingMissionAndOrganization($structures, $missions));
         }
     }
 
