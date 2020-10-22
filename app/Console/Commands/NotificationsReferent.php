@@ -44,14 +44,14 @@ class NotificationsReferent extends Command
         $nb_jours_notif = 10;
 
         $structuresByDepartment = Structure::where('state', 'En attente de validation')
-          //->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
+          ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
           ->groupBy('department')->toArray();
 
         $missionsByDepartment = Mission::where('state', 'En attente de validation')
-          //->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
+          ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
@@ -60,11 +60,11 @@ class NotificationsReferent extends Command
         $structuresAndMissionsByDepartment = $this->mergeArrays($missionsByDepartment, $structuresByDepartment);
 
         foreach ($structuresAndMissionsByDepartment as $department => $structuresAndMissions) {
-            $structures = array_filter($structuresAndMissions, function ($item) {
-                return !isset($item['structure_id']);
+            $structures = array_filter($structuresAndMissions, function ($structureOrMission) {
+                return array_key_exists('siret', $structureOrMission);
             });
-            $missions = array_filter($structuresAndMissions, function ($item) {
-                return isset($item['structure_id']);
+            $missions = array_filter($structuresAndMissions, function ($structureOrMission) {
+                return array_key_exists('structure_id', $structureOrMission);
             });
 
             $this->info($department . ' has ' . count($structures) . ' organisations, and ' . count($missions) . ' missions');
@@ -75,7 +75,6 @@ class NotificationsReferent extends Command
 
     private function mergeArrays($ar1, $ar2)
     {
-        return $ar1;
         foreach ($ar2 as $key => $value) {
             if (isset($ar1[$key])) {
                 array_push($ar1[$key], ...$value);
