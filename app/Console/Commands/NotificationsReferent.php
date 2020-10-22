@@ -5,8 +5,10 @@ namespace App\Console\Commands;
 use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Notifications\ReferentWaitingMissionAndOrganization;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 
 class NotificationsReferent extends Command
 {
@@ -50,12 +52,16 @@ class NotificationsReferent extends Command
           ->get()
           ->groupBy('department')->toArray();
 
+        $this->info(implode(', ', array_keys($structuresByDepartment)) . ' départements avec des structures en attente');
+
         $missionsByDepartment = Mission::where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
           ->groupBy('department')->toArray();
+
+        $this->info(implode(', ', array_keys($missionsByDepartment)) . ' départements avec des missions en attente');
 
         $structuresAndMissionsByDepartment = $this->mergeArrays($missionsByDepartment, $structuresByDepartment);
 
@@ -68,8 +74,8 @@ class NotificationsReferent extends Command
             });
 
             $this->info($department . ' has ' . count($structures) . ' organisations, and ' . count($missions) . ' missions');
-            $referents = Profile::where('referent_department', $department)->get()->pluck('email');
-            $this->info($referents);
+            $referents = Profile::where('referent_department', $department)->get();
+            //Notification::send($referents, new ReferentWaitingMissionAndOrganization($structures, $missions));
         }
     }
 
