@@ -54,6 +54,7 @@ class ReferentDailyTodo extends Notification
             } else {
                 $mailMessage->line('- ' . count($this->structures) . ' nouvelles organisations en attente de validation');
             }
+            $mailMessage->action('Gérer les nouvelles organisations', url(config('app.url') . '/dashboard/structures?filter[state]=En%20attente%20de%20validation'));
         }
         if (count($this->missions) > 0) {
             if (count($this->missions) == 1) {
@@ -61,9 +62,10 @@ class ReferentDailyTodo extends Notification
             } else {
                 $mailMessage->line('- ' . count($this->missions) . ' nouvelles missions en attente de validation');
             }
+            $mailMessage->action('Gérer les nouvelles missions', url(config('app.url') . '/dashboard/missions?filter[state]=En%20attente%20de%20validation'));
         }
-        $mailMessage->action('Je me connecte', url(config('app.url') . '/dashboard'))
-            ->line('Merci beaucoup par avance pour votre action.');
+        
+        $mailMessage->line('Merci beaucoup par avance pour votre action.');
 
         return $mailMessage;
     }

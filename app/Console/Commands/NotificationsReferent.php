@@ -47,7 +47,6 @@ class NotificationsReferent extends Command
 
         $structuresByDepartment = Structure::where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
-          ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
           ->groupBy('department')->toArray();
@@ -56,7 +55,6 @@ class NotificationsReferent extends Command
 
         $missionsByDepartment = Mission::where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
-          ->where('created_at', '<=', Carbon::now()->subDays(1)->endOfDay())
           ->whereNotNull('department')
           ->get()
           ->groupBy('department')->toArray();
