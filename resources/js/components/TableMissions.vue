@@ -9,7 +9,7 @@
         <div class="text-secondary text-sm">#{{ scope.row.id }}</div>
       </template>
     </el-table-column>
-    <el-table-column prop="name" label="Mission" min-width="260">
+    <el-table-column prop="name" label="Mission" width="300">
       <template slot-scope="scope">
         <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
         <div v-if="scope.row.structure">
@@ -22,11 +22,13 @@
     <el-table-column label="Ville">
       <template slot-scope="scope">
         <div v-if="scope.row.city" class>
-          {{ scope.row.city | cleanCity }}
+          <v-clamp :max-lines="1" autoresize>{{
+            scope.row.city | cleanCity
+          }}</v-clamp>
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="Places" min-width="180">
+    <el-table-column label="Places" width="280">
       <template slot-scope="scope">
         <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
           N/A
@@ -75,57 +77,11 @@
         ></mission-dropdown-state>
       </template>
     </el-table-column>
-    <el-table-column
-      v-if="!$store.getters['volet/active']"
-      label="Actions"
-      width="250"
-    >
-      <template slot-scope="scope">
-        <el-dropdown
-          size="small"
-          split-button
-          trigger="click"
-          @command="handleCommand"
-        >
-          Choisissez une action
-          <el-dropdown-menu slot="dropdown">
-            <router-link
-              :to="{
-                name: 'Mission',
-                params: { id: scope.row.id },
-              }"
-              target="_blank"
-            >
-              <el-dropdown-item command=""
-                >Visualiser la mission</el-dropdown-item
-              >
-            </router-link>
-            <router-link
-              :to="{
-                name: 'MissionFormEdit',
-                params: { id: scope.row.id },
-              }"
-            >
-              <el-dropdown-item command=""
-                >Modifier la mission</el-dropdown-item
-              >
-            </router-link>
-            <el-dropdown-item
-              v-if="canClone()"
-              :command="{ action: 'clone', id: scope.row.id }"
-            >
-              Dupliquer la mission
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </template>
-    </el-table-column>
   </el-table>
 </template>
 
 <script>
 import MissionDropdownState from '@/components/MissionDropdownState'
-import { cloneMission } from '@/api/mission'
 
 export default {
   name: 'TableMissions',
@@ -144,34 +100,6 @@ export default {
     onClickedRow: {
       type: Function,
       default: () => {},
-    },
-  },
-  methods: {
-    handleCommand(command) {
-      if (command.action == 'clone') {
-        this.clone(command.id)
-      } else {
-        this.$router.push(command)
-      }
-    },
-    canClone() {
-      let roles = ['admin', 'referent', 'responsable']
-      return roles.includes(this.$store.getters.contextRole)
-    },
-    clone(id) {
-      this.loading = true
-      cloneMission(id).then((response) => {
-        this.$router
-          .push({
-            path: `/dashboard/mission/${response.data.id}/edit`,
-          })
-          .then(() => {
-            this.$message({
-              message: 'La mission a été dupliquée !',
-              type: 'success',
-            })
-          })
-      })
     },
   },
 }
