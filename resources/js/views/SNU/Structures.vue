@@ -5,9 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">
-          Organisations
-        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Organisations</div>
       </div>
       <div>
         <router-link
@@ -109,29 +107,16 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column width="70" align="center">
+      <el-table-column width="70" label="Id" align="center">
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">
-            {{ scope.row.name[0] }}
-          </el-avatar>
+          <div class="text-secondary text-sm">#{{ scope.row.id }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Organisation" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.name }}
-          </div>
-          <div
-            v-if="scope.row.statut_juridique"
-            class="font-light text-gray-600 text-xs"
-          >
+          <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
+          <div v-if="scope.row.statut_juridique" class="text-secondary text-xs">
             {{ scope.row.statut_juridique }}
-          </div>
-          <div
-            v-if="scope.row.response_ratio !== null"
-            class="font-light text-gray-600 text-xs"
-          >
-            Taux de réponse : {{ scope.row.response_ratio }}%
           </div>
         </template>
       </el-table-column>
@@ -154,6 +139,20 @@
             {{ scope.row.missions_count }}
             {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
           </el-tag>
+          <el-tag v-if="scope.row.response_ratio !== null" type="info">
+            Taux de réponse : {{ scope.row.response_ratio }}%
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="!$store.getters['volet/active']"
+        label="Crée le"
+        min-width="120"
+      >
+        <template slot-scope="scope">
+          <div class="text-sm text-secondary">
+            {{ scope.row.created_at | fromNow }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="state" label="Statut" min-width="250">
@@ -203,9 +202,7 @@
                   params: { id: scope.row.id },
                 }"
               >
-                <el-dropdown-item divided>
-                  Gérer l'équipe
-                </el-dropdown-item>
+                <el-dropdown-item divided> Gérer l'équipe </el-dropdown-item>
               </router-link>
             </el-dropdown-menu>
           </el-dropdown>
