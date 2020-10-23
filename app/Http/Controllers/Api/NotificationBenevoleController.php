@@ -22,7 +22,7 @@ class NotificationBenevoleController extends Controller
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'))
+            ->paginate(1000)
         ;
     }
 

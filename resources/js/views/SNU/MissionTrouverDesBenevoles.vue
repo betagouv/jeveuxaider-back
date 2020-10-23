@@ -218,9 +218,11 @@ export default {
       )
     },
     fetchNotificationsBenevoles() {
-      fetchNofiticationsBenevoles().then((res) => {
-        this.notifications = res.data.data
-      })
+      fetchNofiticationsBenevoles({ 'filter[mission.id]': this.id }).then(
+        (res) => {
+          this.notifications = res.data.data
+        }
+      )
     },
     handleSendNotfication(benevole) {
       this.$confirm(
