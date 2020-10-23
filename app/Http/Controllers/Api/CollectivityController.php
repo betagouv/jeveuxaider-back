@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Collectivity;
 use App\Http\Requests\Api\CollectivityUpdateRequest;
 use App\Http\Requests\Api\CollectivityDeleteRequest;
@@ -18,13 +19,12 @@ use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\CollectivityWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class CollectivityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return QueryBuilder::for(Collectivity::class)
             ->allowedFilters([
@@ -33,7 +33,7 @@ class CollectivityController extends Controller
                 AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function show($slugOrId)
