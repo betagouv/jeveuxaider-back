@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
-class NotificationsReferent extends Command
+class SendNotificationTodoToReferents extends Command
 {
     /**
      * The name and signature of the console command.

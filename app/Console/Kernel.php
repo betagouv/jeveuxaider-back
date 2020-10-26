@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\NotificationsReferent;
+use App\Console\Commands\SendNotificationTodoToReferents;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
         
         
-        $schedule->command(NotificationsReferent::class)->weekdays()->daily()->at('08:00');
+        $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:00');
 
         // Todo
         //schedule notif referent, daily lun-vend,at8am
