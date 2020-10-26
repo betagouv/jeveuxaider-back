@@ -589,7 +589,7 @@ export default {
       dialogParticipateVisible: false,
       form: {
         content:
-          'Bonjour,\n\nJe souhaite participer à cette mission et apporter mon aide. \n\nJe me tiens disponible pour échanger et débuter la mission 🙂',
+          'Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂',
       },
       rules: {
         content: [
