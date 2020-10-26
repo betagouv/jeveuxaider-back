@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col overflow-hidden">
     <AppHeader />
 
-    <template v-if="!loading && conversations">
+    <template v-if="conversations">
       <div class="h-full flex overflow-hidden">
         <div
           :class="[{ hide: !showPanelLeft }]"
@@ -41,7 +41,7 @@
           </div>
           <div class="panel--container">
             <div class="panel--content">
-              <div class="m-4">
+              <div v-if="$store.getters.contextRole == 'admin'" class="m-4">
                 <el-input
                   v-model="conversationFilters.search"
                   placeholder="Rechercher un utilisateur"
@@ -88,7 +88,13 @@
                     ? conversation.latest_message.created_at
                     : null
                 "
-                :status="conversation.participation.state"
+                :status="conversation.conversable.state"
+                conversable-type="Participation"
+                :nametype="
+                  $store.getters.contextRole == 'volontaire'
+                    ? conversation.conversable.mission.structure.name
+                    : null
+                "
                 class="cursor-pointer hover:bg-gray-100 transition"
                 :class="[
                   {
@@ -131,24 +137,23 @@
                   {{ fromUser(activeConversation).profile.last_name }}
                 </h1>
                 <div class="text-sm text-gray-500 font-light sm:truncate">
-                  {{ activeConversation.participation.mission.city }}
-                  <span
-                    v-if="activeConversation.participation.mission.start_date"
+                  {{ activeConversation.conversable.mission.city }}
+                  <span v-if="activeConversation.conversable.mission.start_date"
                     >·
                     {{
-                      activeConversation.participation.mission.start_date
+                      activeConversation.conversable.mission.start_date
                         | formatCustom('D MMM')
                     }}</span
                   >
                   <template
                     v-if="
-                      activeConversation.participation.mission.start_date &&
-                      activeConversation.participation.mission.end_date &&
-                      activeConversation.participation.mission.start_date.substring(
+                      activeConversation.conversable.mission.start_date &&
+                      activeConversation.conversable.mission.end_date &&
+                      activeConversation.conversable.mission.start_date.substring(
                         0,
                         10
                       ) !=
-                        activeConversation.participation.mission.end_date.substring(
+                        activeConversation.conversable.mission.end_date.substring(
                           0,
                           10
                         )
@@ -156,17 +161,17 @@
                   >
                     –
                     {{
-                      activeConversation.participation.mission.end_date
+                      activeConversation.conversable.mission.end_date
                         | formatCustom('D MMM YYYY')
                     }}
                   </template>
                   <template
                     v-else-if="
-                      activeConversation.participation.mission.start_date
+                      activeConversation.conversable.mission.start_date
                     "
                   >
                     {{
-                      activeConversation.participation.mission.start_date
+                      activeConversation.conversable.mission.start_date
                         | formatCustom('YYYY')
                     }}
                   </template>
@@ -262,7 +267,7 @@
             <div class="panel--content">
               <ConversationDetail
                 v-if="activeConversation"
-                :participation="activeConversation.participation"
+                :participation="activeConversation.conversable"
               />
             </div>
           </div>

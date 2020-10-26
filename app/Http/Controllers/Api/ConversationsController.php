@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\Conversation;
+use App\Models\Participation;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +18,11 @@ class ConversationsController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Conversation::role($request->header('Context-Role'))->with(['latestMessage', 'users', 'participation.mission.domaine', 'participation.mission.structure:id,name']))
+        return QueryBuilder::for(Conversation::role()->with(['messages', 'users', 'conversable' => function (MorphTo $morphTo) {
+            $morphTo->morphWith([
+                        Participation::class => ['mission.structure:id,name', 'mission.domaine'],
+                    ]);
+        }]))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersConversationSearch),
             ])

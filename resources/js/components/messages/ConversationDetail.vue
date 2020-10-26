@@ -1,28 +1,8 @@
 <template>
   <div class="message--details">
     <section>
-      <div class="text-sm text-gray-500 mb-4 font-light">
-        {{ participation.mission.city }}
-        <span v-if="participation.mission.start_date">
-          ·
-          {{ participation.mission.start_date | formatCustom('D MMM') }}
-        </span>
-        <template
-          v-if="
-            participation.mission.start_date &&
-            participation.mission.start_date.substring(0, 10) !=
-              participation.mission.end_date.substring(0, 10)
-          "
-        >
-          –
-          {{ participation.mission.end_date | formatCustom('D MMM YYYY') }}
-        </template>
-        <template v-else-if="participation.mission.start_date">
-          {{ participation.mission.start_date | formatCustom('YYYY') }}
-        </template>
-      </div>
       <h2 class="text-xl leading-8 font-bold text-gray-900">
-        Votre mission chez {{ participation.mission.structure.name }}
+        Mission proposée par {{ participation.mission.structure.name }}
       </h2>
     </section>
 
@@ -38,10 +18,18 @@
         {{ participation.mission.name }}
       </h3>
       <div class="font-light">
-        Votre participation est
-        <span class="font-bold text-primary">{{
-          participation.state | lowercase
-        }}</span>
+        La participation est
+        <span
+          class="font-bold text-primary"
+          :class="{
+            'text-orange-400':
+              participation.state == 'En attente de validation',
+            'text-green-800': participation.state == 'Validée',
+            'text-green-600': participation.state == 'Effectuée',
+            'text-red-500': participation.state == 'Refusée',
+          }"
+          >{{ participation.state | lowercase }}</span
+        >
       </div>
       <participation-dropdown-state
         v-if="
@@ -77,8 +65,10 @@
           </div>
         </div>
       </div>
-
-      <div class="mb-6">
+      <div
+        v-if="participation.mission.type == 'Mission en présentiel'"
+        class="mb-6"
+      >
         <div class="text-sm text-gray-500 mb-4 font-light">Adresse</div>
         <div class="font-light">
           {{ participation.mission.address }}<br />

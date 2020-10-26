@@ -5,8 +5,12 @@
         {{ shortName }}
       </el-avatar>
       <div class="flex-1 min-w-0">
-        <div :class="[{ 'font-bold': !hasRead }]">{{ name }}</div>
-
+        <div class="flex items-center">
+          <div :class="[{ 'font-bold': !hasRead }]">{{ name }}</div>
+          <div v-if="nametype" class="text-secondary ml-2 text-sm truncate">
+            • {{ nametype }}
+          </div>
+        </div>
         <div
           class="flex justify-between items-baseline"
           :class="[{ 'font-bold': !hasRead }, { 'font-light': hasRead }]"
@@ -21,6 +25,9 @@
           class="text-sm font-light"
           :class="classParticipationStatus(status)"
         >
+          <span v-if="conversableType" class="text-secondary font-normal"
+            >{{ conversableType }} :</span
+          >
           {{ status }}
         </div>
       </div>
@@ -55,6 +62,14 @@ export default {
     status: {
       type: String,
       required: true,
+    },
+    conversableType: {
+      type: String,
+      default: null,
+    },
+    nametype: {
+      type: String,
+      default: null,
     },
     hasRead: {
       type: Boolean,

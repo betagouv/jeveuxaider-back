@@ -35,7 +35,7 @@ class Conversation extends Model
     }
 
 
-    public function scopeRole($query, $contextRole)
+    public function scopeRole($query, $contextRole = null)
     {
         switch ($contextRole) {
             case 'admin':

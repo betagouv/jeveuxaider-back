@@ -376,7 +376,7 @@
         </div>
       </div>
       <el-dialog
-        title="Envoyer un message au responsable de la mission"
+        title="Participer à la mission"
         width="100%"
         :visible.sync="dialogParticipateVisible"
         style="max-width: 600px; margin: auto"
@@ -413,10 +413,6 @@
           <div class="text-left">
             <span
               class="px-4 py-1 mr-2 mt-3 inline-flex text-sm font-semibold rounded-full bg-white text-gray-500"
-              >{{ mission.format }}</span
-            >
-            <span
-              class="px-4 py-1 mr-2 mt-3 inline-flex text-sm font-semibold rounded-full bg-white text-gray-500"
               >{{ mission.type }}</span
             >
           </div>
@@ -428,9 +424,13 @@
           class="mt-4"
           :hide-required-asterisk="true"
         >
-          <el-form-item label="Votre message" prop="content">
+          <el-form-item
+            label="Vous allez être mis en relation avec le responsable de la mission"
+            prop="content"
+          >
             <el-input
               v-model="form.content"
+              placeholder=""
               :autosize="{ minRows: 3, maxRows: 8 }"
               type="textarea"
               :autofocus="true"
@@ -588,7 +588,8 @@ export default {
       otherMissions: {},
       dialogParticipateVisible: false,
       form: {
-        content: '',
+        content:
+          'Bonjour,\n\nJe souhaite participer à cette mission et apporter mon aide. \n\nJe me tiens disponible pour échanger et débuter la mission 🙂',
       },
       rules: {
         content: [
@@ -675,4 +676,6 @@ export default {
 .aside
   @screen lg
     max-width: 410px
+::v-deep .el-dialog__title
+  @apply text-gray-800 text-xl font-bold
 </style>
