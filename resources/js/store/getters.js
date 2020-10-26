@@ -24,9 +24,11 @@ const getters = {
   contextRole: (state) => state.user.user.context_role,
   showAvisBenevole: (state) => state.showAvisBenevole,
   participationsValidated: (state, getters) => {
-    return getters.user.profile.participations.filter((participation) =>
-      ['Validée', 'Effectuée'].includes(participation.state)
-    ).length
+    return getters.user.profile.participations
+      ? getters.user.profile.participations.filter((participation) =>
+          ['Validée', 'Effectuée'].includes(participation.state)
+        ).length
+      : 0
   },
   structure_as_responsable: (state, getters) => {
     if (!getters.profile && !getters.profile.structures) {

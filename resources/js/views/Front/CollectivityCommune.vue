@@ -2,8 +2,8 @@
   <div>
     <div class="relative">
       <img
-        v-if="collectivity.image && collectivity.image.large"
-        :src="collectivity.image.large"
+        v-if="collectivity.banner && collectivity.banner.large"
+        :src="collectivity.banner.large"
         :alt="collectivity.title"
         class="absolute object-cover object-center w-full h-full"
       />
@@ -13,7 +13,7 @@
           'bg-primary',
           'absolute',
           'inset-0',
-          { 'opacity-75': collectivity.image },
+          { 'opacity-75': collectivity.banner },
         ]"
       />
 
@@ -96,12 +96,7 @@
     <div class="py-16 bg-gray-50 overflow-hidden shadow-lg">
       <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
         <div class="flex flex-col items-center">
-          <img
-            class="max-h-20 mb-3"
-            :src="`/images/collectivites/${collectivity.slug}-logo.jpg`"
-            height="auto"
-            width="auto"
-          />
+          <img class="max-h-20 mb-3" :src="logo" height="auto" width="auto" />
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
@@ -121,48 +116,12 @@
     <div class="bg-white z-10">
       <div>
         <div class="grid grid-cols-2 gap-0 md:grid-cols-6 lg:grid-cols-6">
-          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
-            <img
-              :src="`/images/collectivites/${collectivity.slug}-1.jpg`"
-              height="auto"
-              width="auto"
-            />
-          </div>
-          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
-            <img
-              :src="`/images/collectivites/${collectivity.slug}-2.jpg`"
-              height="auto"
-              width="auto"
-            />
-          </div>
-          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
-            <img
-              :src="`/images/collectivites/${collectivity.slug}-3.jpg`"
-              height="auto"
-              width="auto"
-            />
-          </div>
-          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
-            <img
-              :src="`/images/collectivites/${collectivity.slug}-4.jpg`"
-              height="auto"
-              width="auto"
-            />
-          </div>
-          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
-            <img
-              :src="`/images/collectivites/${collectivity.slug}-5.jpg`"
-              height="auto"
-              width="auto"
-            />
-          </div>
-
-          <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
-            <img
-              :src="`/images/collectivites/${collectivity.slug}-6.jpg`"
-              height="auto"
-              width="auto"
-            />
+          <div
+            v-for="index in 6"
+            :key="index"
+            class="col-span-1 justify-center md:col-span-2 lg:col-span-1"
+          >
+            <img :src="illustration(index)" height="auto" width="auto" />
           </div>
         </div>
       </div>
@@ -274,6 +233,11 @@ export default {
       let zips = this.collectivity.zips.map((zip) => 'zip:' + zip)
       return zips.join(' OR ')
     },
+    logo() {
+      return this.collectivity.logo && this.collectivity.logo.thumb
+        ? this.collectivity.logo.thumb
+        : `/images/collectivites/${this.collectivity.slug}-logo.jpg`
+    },
   },
   created() {
     // this.loading = true
@@ -282,6 +246,13 @@ export default {
     //   this.loading = false
     // })
   },
-  methods: {},
+  methods: {
+    illustration(key) {
+      return this.collectivity[`image_${key}`] &&
+        this.collectivity[`image_${key}`].large
+        ? this.collectivity[`image_${key}`].large
+        : null
+    },
+  },
 }
 </script>

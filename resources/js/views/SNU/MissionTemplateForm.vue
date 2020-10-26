@@ -67,10 +67,9 @@
       </el-form-item>
 
       <div class="mb-6 mt-12 flex text-xl text-gray-800">Visibilité</div>
-      <item-description
-        >Si vous souhaitez rendre ce modèle visible, cochez la
-        case.</item-description
-      >
+      <item-description container-class="mb-3">
+        Si vous souhaitez rendre ce modèle visible, cochez la case.
+      </item-description>
       <el-form-item prop="published" class="flex-1">
         <el-checkbox v-model="form.published">En ligne</el-checkbox>
       </el-form-item>
@@ -78,52 +77,29 @@
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
         Mission prioritaire
       </div>
-      <item-description
-        >Les modèles de missions prioritaires sont mises en avant lors de la
-        création d'une nouvelle mission.</item-description
-      >
+      <item-description container-class="mb-3">
+        Les modèles de missions prioritaires sont mises en avant lors de la
+        création d'une nouvelle mission.
+      </item-description>
       <el-form-item prop="priority" class="flex-1">
         <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
       </el-form-item>
 
-      <div class="mb-6">
-        <div class="mb-6 text-xl text-gray-800">Icone</div>
-        <item-description>Format accepté: SVG</item-description>
-
-        <div v-show="imgPreview">
-          <div class="bg-primary rounded-md p-3" style="max-width: 80px;">
-            <img :src="imgPreview" alt="Icone" />
-          </div>
-
-          <div class="actions mt-4">
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              :loading="loadingDelete"
-              @click.prevent="onDelete()"
-              >Supprimer</el-button
-            >
-          </div>
-        </div>
-        <div v-show="!imgPreview">
-          <el-upload
-            class="upload-demo"
-            drag
-            action
-            accept="image/svg+xml"
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-change="onSelectFile"
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              Glissez votre icone ou
-              <br />
-              <em>cliquez ici pour la sélectionner</em>
-            </div>
-          </el-upload>
-        </div>
-      </div>
+      <ImageField
+        :crop="false"
+        accepted-files="image/svg+xml"
+        :model="model"
+        :model-id="form.id ? form.id : null"
+        :field="form.image"
+        :max-size="1000000"
+        :preview-width="80"
+        preview-area-class="bg-primary rounded-md p-3"
+        label="Icone"
+        label-class="mb-6 text-xl text-gray-800"
+        description="Format accepté: SVG"
+        @add-or-crop="icone = $event"
+        @delete="icone = null"
+      ></ImageField>
 
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit"
@@ -142,13 +118,13 @@ import {
   uploadImage,
 } from '@/api/app'
 import ItemDescription from '@/components/forms/ItemDescription'
-import Crop from '@/mixins/Crop'
 import CKEditorLight from '@/mixins/CKEditorLight.vue'
+import ImageField from '@/components/forms/ImageField.vue'
 
 export default {
   name: 'MissionTemplateForm',
-  components: { ItemDescription },
-  mixins: [Crop, CKEditorLight],
+  components: { ItemDescription, ImageField },
+  mixins: [CKEditorLight],
   props: {
     mode: {
       type: String,
@@ -168,6 +144,7 @@ export default {
         published: true,
         priority: false,
       },
+      icone: null,
     }
   },
   computed: {
@@ -235,13 +212,17 @@ export default {
       this.$refs['missionTemplateForm'].validate((valid) => {
         if (valid) {
           addOrUpdateMissionTemplate(this.id, this.form)
-            .then(() => {
-              if (this.img) {
-                uploadImage(this.form.id, this.model, this.img, null).then(
-                  () => {
-                    this.onSubmitEnd()
-                  }
-                )
+            .then((response) => {
+              this.form = response.data
+              if (this.icone) {
+                uploadImage(
+                  this.form.id,
+                  this.model,
+                  this.icone.blob,
+                  null
+                ).then(() => {
+                  this.onSubmitEnd()
+                })
               } else {
                 this.onSubmitEnd()
               }

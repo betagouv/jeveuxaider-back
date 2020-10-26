@@ -5,9 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">
-          Utilisateurs
-        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Utilisateurs</div>
       </div>
       <div v-if="$store.getters.contextRole === 'admin'" class="">
         <el-dropdown>
@@ -325,6 +323,7 @@ export default {
     fetchCollectivities({
       'filter[type]': 'commune',
       'filter[state]': 'validated',
+      pagination: 1000,
     }).then((res) => {
       this.collectivities = res.data.data
     })

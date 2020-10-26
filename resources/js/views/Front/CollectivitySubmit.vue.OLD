@@ -5,9 +5,7 @@
     <div class="bg-primary pb-12">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">
-            Appel aux collectivités
-          </h1>
+          <h1 class="text-3xl font-bold text-white">Appel aux collectivités</h1>
         </div>
       </div>
     </div>
@@ -84,9 +82,7 @@
             <p class="mt-2 text-lg leading-8 font-medium text-indigo-200">
               Pas moins de
             </p>
-            <p class="text-4xl leading-none font-extrabold text-white">
-              3 000
-            </p>
+            <p class="text-4xl leading-none font-extrabold text-white">3 000</p>
             <p class="mt-2 text-lg leading-6 font-medium text-indigo-200">
               organisations et associations
             </p>
@@ -95,9 +91,7 @@
             <p class="mt-2 text-lg leading-8 font-medium text-indigo-200">
               Un taux moyen de
             </p>
-            <p class="text-4xl leading-none font-extrabold text-white">
-              65%
-            </p>
+            <p class="text-4xl leading-none font-extrabold text-white">65%</p>
             <p class="mt-2 text-lg leading-6 font-medium text-indigo-200">
               de remplissage de missions
             </p>
@@ -238,10 +232,10 @@
                               prop="zips"
                               class="flex-1"
                             >
-                              <item-description
-                                >Séparer les codes postaux par des virgules. Ex:
-                                75001,75002,75003</item-description
-                              >
+                              <item-description>
+                                Séparer les codes postaux par des virgules. Ex:
+                                75001,75002,75003
+                              </item-description>
                               <el-input
                                 v-model="form.zips"
                                 name="zips"

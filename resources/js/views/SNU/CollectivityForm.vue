@@ -29,11 +29,11 @@
           :disabled="!canEditField"
           placeholder="Nom de la collectivité"
         />
-        <item-description
-          >Accessible à l'adresse : {{ baseUrl }}/territoires/{{
+        <item-description>
+          Accessible à l'adresse : {{ baseUrl }}/territoires/{{
             form.name | slugify
-          }}</item-description
-        >
+          }}
+        </item-description>
       </el-form-item>
 
       <el-form-item label="Titre de la page" prop="title">
@@ -106,82 +106,48 @@
         </el-select>
       </el-form-item>
 
-      <div class="mb-6">
-        <div class="mb-6 text-xl text-gray-800">Photo de la collectivité</div>
-        <item-description>
-          Résolution minimale: {{ imgMinWidth }} par
-          {{ imgMinHeight }} pixels<br />
-          Taille maximale: {{ imgMaxSize | prettyBytes }}
-        </item-description>
+      <ImageField
+        :model="model"
+        :model-id="form.id ? form.id : null"
+        :min-width="1600"
+        :min-height="600"
+        :field="form.banner"
+        field-name="banner"
+        :aspect-ratio="8 / 3"
+        label="Bannière"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
 
-        <div v-show="imgPreview">
-          <div class="preview-area">
-            <img :src="imgPreview" alt="Cropped Image" />
-          </div>
+      <template v-if="form.type == 'commune'">
+        <ImageField
+          :model="model"
+          :model-id="form.id ? form.id : null"
+          :max-size="1000000"
+          :field="form.logo"
+          field-name="logo"
+          :aspect-ratio="0"
+          label="Logo"
+          @add-or-crop="handleAddOrCrop($event)"
+          @delete="handleDelete($event)"
+        ></ImageField>
 
-          <div class="actions mt-4">
-            <el-button
-              type="secondary"
-              @click.prevent="dialogCropVisible = true"
-            >
-              Recadrer
-            </el-button>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              :loading="loadingDelete"
-              @click.prevent="onDelete()"
-            >
-              Supprimer
-            </el-button>
-          </div>
-
-          <el-dialog
-            title="Recadrer"
-            :visible.sync="dialogCropVisible"
-            width="680"
-          >
-            <vue-cropper
-              ref="cropper"
-              :src="imgSrc ? imgSrc : form.image ? form.image.original : null"
-              :aspect-ratio="8 / 3"
-              :zoomable="false"
-              :movable="false"
-              :zoom-on-touch="false"
-              :zoom-on-wheel="false"
-              :auto-crop-area="1"
-              :min-container-height="240"
-              :min-container-width="640"
-              preview=".preview"
-              @cropmove="ensureMinWidth"
-            />
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="onReset()">Réinitialiser</el-button>
-              <el-button @click="dialogCropVisible = false">Annuler</el-button>
-              <el-button type="primary" :loading="loadingCrop" @click="onCrop()"
-                >Valider</el-button
-              >
-            </span>
-          </el-dialog>
-        </div>
-        <div v-show="!imgPreview">
-          <el-upload
-            class="upload-demo"
-            drag
-            action=""
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-change="onSelectFile"
-          >
-            <i class="el-icon-upload" />
-            <div class="el-upload__text">
-              Glissez votre image ou <br /><em
-                >cliquez ici pour la sélectionner</em
-              >
-            </div>
-          </el-upload>
-        </div>
-      </div>
+        <ImageField
+          v-for="index in 6"
+          :key="index"
+          :model="model"
+          :model-id="form.id ? form.id : null"
+          :max-size="2000000"
+          :min-width="640"
+          :min-height="640"
+          :aspect-ratio="1"
+          :field="form[`image_${index}`]"
+          :field-name="`image_${index}`"
+          :label="`Illustration #${index}`"
+          @add-or-crop="handleAddOrCrop($event)"
+          @delete="handleDelete($event)"
+        ></ImageField>
+      </template>
 
       <el-form-item
         v-if="$store.getters.contextRole == 'admin'"
@@ -200,10 +166,9 @@
       </el-form-item>
       <template v-if="$store.getters.contextRole == 'admin'">
         <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
-        <item-description
-          >Si vous souhaitez rendre cette collectivité visible, cochez la
-          case.</item-description
-        >
+        <item-description container-class="mb-6">
+          Si vous souhaitez rendre cette collectivité visible, cochez la case.
+        </item-description>
         <el-form-item prop="published" class="flex-1">
           <el-checkbox v-model="form.published">En ligne</el-checkbox>
         </el-form-item>
@@ -225,12 +190,11 @@ import {
   uploadImage,
 } from '@/api/app'
 import ItemDescription from '@/components/forms/ItemDescription'
-import Crop from '@/mixins/Crop'
+import ImageField from '@/components/forms/ImageField.vue'
 
 export default {
   name: 'CollectivityForm',
-  components: { ItemDescription },
-  mixins: [Crop],
+  components: { ItemDescription, ImageField },
   props: {
     mode: {
       type: String,
@@ -250,9 +214,7 @@ export default {
         zips: [],
       },
       model: 'collectivity',
-      imgMinWidth: 1600,
-      imgMinHeight: 600,
-      imgMaxSize: 4000000, // 4 MB
+      uploads: [],
     }
   },
   computed: {
@@ -320,6 +282,24 @@ export default {
     }
   },
   methods: {
+    handleAddOrCrop($event) {
+      const existingIndex = this.uploads.findIndex(
+        (upload) => upload.fieldName === $event.fieldName
+      )
+      if (existingIndex != -1) {
+        this.uploads.splice(existingIndex, 1, $event)
+      } else {
+        this.uploads.push($event)
+      }
+    },
+    handleDelete($event) {
+      this.uploads.splice(
+        this.uploads.findIndex(
+          (upload) => upload.fieldName === $event.fieldName
+        ),
+        1
+      )
+    },
     onSubmit() {
       this.loading = true
       this.$refs['collectivityForm'].validate((valid) => {
@@ -327,21 +307,7 @@ export default {
           addOrUpdateCollectivity(this.id, this.form)
             .then((response) => {
               this.form = response.data
-              if (this.img) {
-                let cropSettings = this.$refs.cropper
-                  ? this.$refs.cropper.getData()
-                  : null
-                uploadImage(
-                  this.form.id,
-                  this.model,
-                  this.img,
-                  cropSettings
-                ).then(() => {
-                  this.onSubmitEnd()
-                })
-              } else {
-                this.onSubmitEnd()
-              }
+              this.uploadImages()
             })
             .catch(() => {
               this.loading = false
@@ -349,6 +315,24 @@ export default {
         } else {
           this.loading = false
         }
+      })
+    },
+    uploadImages() {
+      const promises = []
+
+      this.uploads.forEach((upload) => {
+        promises.push(
+          uploadImage(
+            this.form.id,
+            this.model,
+            upload.blob,
+            upload.cropSettings,
+            upload.fieldName
+          )
+        )
+      })
+      Promise.all(promises).then(() => {
+        this.onSubmitEnd()
       })
     },
     onSubmitEnd() {

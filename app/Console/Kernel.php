@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\SendNotificationTodoToModerateurs;
+use App\Console\Commands\SendNotificationTodoToReferents;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,15 +27,22 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Backups
-        $schedule->command('backup:clean')->daily()->at('05:00');
-        $schedule->command('backup:run')->daily()->at('05:00')->withoutOverlapping();
+        //$schedule->command('backup:clean')->daily()->at('05:00');
+        //$schedule->command('backup:run')->daily()->at('05:00')->withoutOverlapping();
 
         // Check Security updates
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecurityMailCommand::class)->daily()->at('05:05');
         $schedule->command(\Jorijn\LaravelSecurityChecker\Console\SecuritySlackCommand::class)->daily()->at('05:10');
 
+        $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
+        $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:00');
+
+        // Todo
+        //schedule notif referent, daily lun-vend,at8am
+
+
         // Horizon update dashboard metrics
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        //  $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**

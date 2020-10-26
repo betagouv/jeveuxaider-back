@@ -70,7 +70,7 @@
             prop="is_visible"
             class="mb-6"
           >
-            <item-description>
+            <item-description container-class="mb-6">
               Un profil visible vous offre plus de chances de trouver une
               mission qui répond à votre envie d'engagement, en permettant à une
               organisation publique ou associative de vous contacter en fonction

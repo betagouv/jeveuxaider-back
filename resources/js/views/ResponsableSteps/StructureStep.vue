@@ -37,9 +37,7 @@
       />
     </el-steps>
     <div class="p-4 sm:p-12">
-      <div class="font-bold text-2xl text-gray-800 mb-6">
-        Mon organisation
-      </div>
+      <div class="font-bold text-2xl text-gray-800 mb-6">Mon organisation</div>
       <!-- TODO -->
       <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
         Logo de l'organisation
@@ -194,7 +192,7 @@
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
           Réseau national ou territorial
         </div>
-        <item-description>
+        <item-description container-class="mb-6">
           Si votre organisation est membre d'un réseau national ou territorial
           qui figure dans le menu déroulant du champ ci-dessous,
           sélectionnez-le. Vous permettrez au superviseur de votre réseau de

@@ -1,18 +1,12 @@
 <template>
   <div v-if="!$store.getters.loading" class="structure-form pl-12 pb-12">
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        Organisation
-      </div>
+      <div class="text-m text-gray-600 uppercase">Organisation</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl text-gray-800">
           {{ form.name }}
         </div>
-        <state-tag
-          :state="form.state"
-          class="relative ml-3"
-          style="top: 1px;"
-        />
+        <state-tag :state="form.state" class="relative ml-3" style="top: 1px" />
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
@@ -25,9 +19,7 @@
       label-position="top"
       :rules="rules"
     >
-      <div class="mb-6 text-xl text-gray-800">
-        Informations générales
-      </div>
+      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Nom de votre organisation" prop="name">
         <el-input v-model="form.name" placeholder="Nom de votre organisation" />
@@ -137,7 +129,7 @@
       <div class="mt-12 mb-6 flex text-xl text-gray-800">
         Réseau national ou territorial
       </div>
-      <item-description>
+      <item-description container-class="mb-6">
         Si votre organisation est membre d'un réseau national ou territorial qui
         figure dans le menu déroulant du champ ci-dessous, sélectionnez-le. Vous
         permettrez au superviseur de votre réseau de visualiser les missions et

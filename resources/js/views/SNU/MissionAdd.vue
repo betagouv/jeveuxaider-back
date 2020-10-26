@@ -53,7 +53,7 @@
     </div>
 
     <!-- STEP 2 : Choix du modèle de mission -->
-    <div v-else-if="step == 2" style="max-width: 600px;">
+    <div v-else-if="step == 2" style="max-width: 600px">
       <div class="mb-6 text-md leading-snug text-gray-500">
         Vous pouvez publier une mission de bénévolat à partir d'un modèle
         prédéfini ou choisir de la rédiger intégralement dans le respect de la
@@ -200,6 +200,7 @@ export default {
         fetchMissionTemplates({
           'filter[domaine.id]': this.domaine_id,
           'filter[published]': 1,
+          pagination: 1000,
         }).then((res) => {
           this.templates = res.data.data
         })
@@ -217,6 +218,7 @@ export default {
       fetchMissionTemplates({
         'filter[domaine.id]': domaine_id,
         'filter[published]': 1,
+        pagination: 1000,
       }).then((res) => {
         this.templates = res.data.data
       })

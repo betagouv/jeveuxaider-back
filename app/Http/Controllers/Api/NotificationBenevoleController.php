@@ -22,7 +22,7 @@ class NotificationBenevoleController extends Controller
                 AllowedFilter::exact('mission.id')
             )
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'))
+            ->paginate(1000)
         ;
     }
 
@@ -31,7 +31,7 @@ class NotificationBenevoleController extends Controller
         $NotificationBenevoleCount = NotificationBenevole::where('profile_id', request("profile_id"))->where('mission_id', request("mission_id"))->count();
 
         if ($NotificationBenevoleCount > 0) {
-            abort(402, "Vous avez déjà envoyé une notification à ce bénévole !");
+            abort(402, "Vous avez déjà envoyé un e-mail à ce bénévole !");
         }
 
         $notificationBenevole = NotificationBenevole::create(

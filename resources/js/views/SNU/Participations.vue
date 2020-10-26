@@ -13,15 +13,6 @@
         </el-button>
       </div>
     </div>
-    <div
-      v-if="
-        $store.getters.contextRole === 'admin' ||
-        $store.getters.contextRole === 'responsable'
-      "
-      class="px-12 mb-12"
-    >
-      <participations-menu index="/dashboard/participations" />
-    </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
         <query-main-search-filter
@@ -266,7 +257,6 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ParticipationVolet from '@/layout/components/Volet/ParticipationVolet.vue'
 import ParticipationDropdownState from '@/components/ParticipationDropdownState'
 import fileDownload from 'js-file-download'
-import ParticipationsMenu from '@/components/ParticipationsMenu.vue'
 
 export default {
   name: 'Participations',
@@ -276,7 +266,6 @@ export default {
     QuerySearchFilter,
     QueryMainSearchFilter,
     ParticipationVolet,
-    ParticipationsMenu,
   },
   mixins: [TableWithFilters, TableWithVolet],
   data() {
@@ -292,12 +281,13 @@ export default {
     fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
       this.domaines = res.data.data
     })
-    fetchMissionTemplates().then((res) => {
+    fetchMissionTemplates({ pagination: 1000 }).then((res) => {
       this.templates = res.data.data
     })
     fetchCollectivities({
       'filter[type]': 'commune',
       'filter[state]': 'validated',
+      pagination: 1000,
     }).then((res) => {
       this.collectivities = res.data.data
     })

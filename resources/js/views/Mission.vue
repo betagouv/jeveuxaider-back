@@ -319,6 +319,9 @@
                         <div v-if="!mission.start_date && !mission.end_date">
                           Disponibilité aussitôt que possible
                         </div>
+                        <div v-if="mission.dates_infos" class="mt-3">
+                          {{ mission.dates_infos }}
+                        </div>
                       </div>
                     </div>
                   </div>

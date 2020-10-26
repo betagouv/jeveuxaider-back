@@ -42,9 +42,7 @@
                 params: { id: row.id },
               }"
             >
-              <el-button icon="el-icon-edit" type="mini">
-                Modifier
-              </el-button>
+              <el-button icon="el-icon-edit" type="mini"> Modifier </el-button>
             </router-link>
             <el-button
               v-if="
@@ -75,7 +73,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Statut de l'organisation
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Vous pouvez sélectionner le statut de l'organisation. A noter que des
             notifications emails seront envoyées.
           </item-description>
@@ -100,11 +98,9 @@
             </el-button>
           </div>
         </template> -->
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Réseau national
-        </div>
+        <div class="mb-6 mt-12 flex text-xl text-gray-800">Réseau national</div>
         <div v-if="$store.getters.contextRole !== 'referent'">
-          <item-description>
+          <item-description container-class="mb-6">
             Si votre organisation est membre d'un réseau national (Les Banques
             alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
             ainsi au superviseur de votre réseau de visualiser les missions et

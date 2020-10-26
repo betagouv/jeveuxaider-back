@@ -1,46 +1,46 @@
 <template>
   <div class="missions">
-    <div class="header px-12 flex">
+    <div class="header px-12 flex border-b border-gray-200 pb-4">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters['user/contextRoleLabel'] }}
+        <div class="text-m text-gray-600 uppercase">Trouver des bénévoles</div>
+        <div class="mb-1 font-bold text-2xl text-gray-800">
+          {{ mission.name }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Participations</div>
+        <div class="text-xl text-gray-800 flex items-center">
+          <div class="border-r leading-none border-gray-300 mr-3 pr-3">
+            {{ mission.format }}
+          </div>
+          <div class="border-r leading-none border-gray-300 mr-3 pr-3">
+            {{ mission.places_left }}
+            {{
+              mission.places_left
+                | pluralize(['place disponible', 'places disponibles'])
+            }}
+          </div>
+          <div>
+            {{ mission.participations_max - mission.places_left }}/{{
+              mission.participations_max
+            }}
+          </div>
+        </div>
       </div>
     </div>
-    <div
-      v-if="$store.getters.contextRole === 'responsable'"
-      class="px-12 mb-12"
-    >
-      <participations-menu
-        index="/dashboard/participations/trouver-des-benevoles"
-      />
-    </div>
-    <el-card shadow="never" class="mx-12 -mt-6 mb-4 p-3">
-      <div>
+    <div class="px-12 mb-4 mt-4">
+      <div class="text-lg font-semibold">
         Proposez directement vos missions aux bénévoles les plus actifs.
       </div>
-      <div class="text-gray-400 mt-3">
+      <div class="text-gray-500 mt-1">
         Les bénévoles ci-dessous sont sélectionnés en fonction des domaines
-        d'action et codes postaux de vos missions. <br />En cliquant sur
-        "Proposer une mission", un e-mail leur sera envoyé.
+        d'action et codes postaux de la mission. <br />En cliquant sur "Proposer
+        une mission", un e-mail leur sera envoyé.
       </div>
-    </el-card>
-    <div class="px-12 mb-3 flex flex-wrap">
-      <div class="flex flex-wrap">
-        <query-filter
-          type="select"
-          name="match_mission"
-          :value="query['filter[match_mission]']"
-          label="Missions"
-          :options="
-            missions.map((mission) => {
-              return {
-                label: mission.name,
-                value: mission.id,
-              }
-            })
-          "
+      <div class="mt-6 flex flex-wrap">
+        <query-search-filter
+          name="postal_code"
+          :initial-value="query['filter[postal_code]']"
+          :value="query['filter[postal_code]']"
+          label="Lieu"
+          placeholder="Code postal"
           @changed="onFilterChange"
         />
         <query-filter
@@ -79,6 +79,28 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column prop="name" label="Disponibilités" min-width="320">
+        <template slot-scope="scope">
+          <div v-if="scope.row.disponibilities" class="text-secondary text-sm">
+            {{
+              scope.row.disponibilities
+                .map(
+                  (disponibility) =>
+                    $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                      (dispo) => dispo.value == disponibility
+                    )[0].label
+                )
+                .join(' / ')
+            }}
+          </div>
+          <div
+            v-if="scope.row.frequence && scope.row.frequence_granularite"
+            class="text-secondary text-sm"
+          >
+            {{ scope.row.frequence }} par {{ scope.row.frequence_granularite }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="name" label="Domaines d'actions" min-width="320">
         <template v-if="scope.row.tags" slot-scope="scope">
           <el-tag type="info" class="m-1">
@@ -101,57 +123,21 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Disponibilités" min-width="320">
-        <template slot-scope="scope">
-          <div v-if="scope.row.disponibilities" class="text-secondary text-sm">
-            <!-- TODO : Implode with " / "  -->
-            {{
-              scope.row.disponibilities
-                .map(
-                  (disponibility) =>
-                    $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                      (dispo) => dispo.value == disponibility
-                    )[0].label
-                )
-                .join(' / ')
-            }}
-          </div>
-          <div
-            v-if="scope.row.frequence && scope.row.frequence_granularite"
-            class="text-secondary text-sm"
-          >
-            {{ scope.row.frequence }} par {{ scope.row.frequence_granularite }}
-          </div>
-        </template>
-      </el-table-column>
       <el-table-column label="Actions" width="360">
         <template slot-scope="scope">
-          <el-dropdown
+          <el-button
             v-if="
               notifications.filter(
                 (notification) => notification.profile_id == scope.row.id
               ).length == 0
             "
-            trigger="click"
+            size="small"
+            type="success"
+            round
+            @click="handleSendNotfication(scope.row)"
           >
-            <el-button size="small" type="primary">
-              Proposer une mission<i
-                class="el-icon-arrow-down el-icon--right"
-              ></i>
-            </el-button>
-            <el-dropdown-menu v-if="missions" slot="dropdown">
-              <div
-                v-for="mission in missionsMatchingBenevole(scope.row)"
-                :key="mission.id"
-                @click="handleSendNotfication(scope.row, mission)"
-              >
-                <el-dropdown-item>
-                  {{ mission.name }}
-                  <span v-if="mission.city">- {{ mission.city }}</span>
-                </el-dropdown-item>
-              </div>
-            </el-dropdown-menu>
-          </el-dropdown>
+            Proposer la mission
+          </el-button>
           <div v-else class="text-sm font-semibold text-green-500">
             E-mail envoyé !
           </div>
@@ -180,7 +166,7 @@
 <script>
 import { fetchProfiles } from '@/api/user'
 import { fetchTags } from '@/api/app'
-import { fetchMissions } from '@/api/mission'
+import { getMission } from '@/api/mission'
 import {
   addNotificationBenevole,
   fetchNofiticationsBenevoles,
@@ -188,34 +174,33 @@ import {
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
+import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
-import ParticipationsMenu from '@/components/ParticipationsMenu.vue'
 
 export default {
   name: 'Participations',
   components: {
     QueryFilter,
     ProfileVolet,
-    ParticipationsMenu,
+    QuerySearchFilter,
   },
   mixins: [TableWithFilters, TableWithVolet],
+  props: {
+    id: { type: Number, required: true },
+  },
   data() {
     return {
       loading: true,
       domaines: [],
       tableData: [],
-      missions: [],
       notifications: [],
+      mission: {},
     }
   },
   created() {
-    fetchMissions({
-      'filter[structure_id]': this.$store.getters.structure_as_responsable.id,
-      'filter[state]': 'Validée',
-      'filter[place]': true,
-      append: 'domaines',
-    }).then((res) => {
-      this.missions = res.data.data
+    getMission(this.id).then((res) => {
+      console.log(res)
+      this.mission = res.data
     })
     fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
       this.domaines = res.data.data
@@ -223,40 +208,25 @@ export default {
     this.fetchNotificationsBenevoles()
   },
   methods: {
-    missionsMatchingBenevole(benevole) {
-      return this.missions.filter(
-        (mission) =>
-          this.containsAny(
-            benevole.domaines.map((domain) => domain.id),
-            mission.domaines.map((domain) => domain.id)
-          ) && mission.zip.substr(0, 2) == benevole.zip.substr(0, 2)
-      )
-    },
-    containsAny(source, target) {
-      return (
-        source.filter(function (item) {
-          return target.indexOf(item) > -1
-        }).length > 0
-      )
-    },
     fetchRows() {
-      // Un domaine d'action en commun
-      console.log('fetch profiles')
       return fetchProfiles(
         {
+          'filter[match_mission]': this.id,
           ...this.query,
         },
         ['roles', 'has_user', 'skills', 'domaines']
       )
     },
     fetchNotificationsBenevoles() {
-      fetchNofiticationsBenevoles().then((res) => {
-        this.notifications = res.data.data
-      })
+      fetchNofiticationsBenevoles({ 'filter[mission.id]': this.id }).then(
+        (res) => {
+          this.notifications = res.data.data
+        }
+      )
     },
-    handleSendNotfication(benevole, mission) {
+    handleSendNotfication(benevole) {
       this.$confirm(
-        `<span class="font-semibold">${benevole.first_name} ${benevole.last_name[0]}</span> recevra un e-mail pour l'inviter à participer à votre mission <span class="font-semibold">${mission.name}</span>.`,
+        `<span class="font-semibold">${benevole.first_name} ${benevole.last_name[0]}</span> recevra un e-mail pour l'inviter à participer à votre mission <span class="font-semibold">${this.mission.name}</span>.`,
         'Envoyer une notification e-mail',
         {
           confirmButtonText: `Envoyer un e-mail à ${benevole.first_name} ${benevole.last_name[0]}`,
@@ -266,7 +236,7 @@ export default {
           dangerouslyUseHTMLString: true,
         }
       ).then(() => {
-        addNotificationBenevole(mission.id, benevole.id).then(() => {
+        addNotificationBenevole(this.mission.id, benevole.id).then(() => {
           this.$message({
             type: 'success',
             message: `Un e-mail a été envoyé à ${benevole.first_name} ${benevole.last_name[0]}.`,

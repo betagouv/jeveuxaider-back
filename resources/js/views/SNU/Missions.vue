@@ -5,9 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">
-          Missions
-        </div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Missions</div>
       </div>
       <div>
         <router-link
@@ -223,12 +221,13 @@ export default {
     fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
       this.domaines = res.data.data
     })
-    fetchMissionTemplates().then((res) => {
+    fetchMissionTemplates({ pagination: 1000 }).then((res) => {
       this.templates = res.data.data
     })
     fetchCollectivities({
       'filter[type]': 'commune',
       'filter[state]': 'validated',
+      pagination: 1000,
     }).then((res) => {
       this.collectivities = res.data.data
     })

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 import { Message } from 'element-ui'
+import router from '../router'
 
 // For sercurity reason
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
@@ -34,7 +35,18 @@ request.interceptors.response.use(
   (response) => response,
   (error) => {
     console.log('ERROR', error.response)
-    if (error.response && error.response.data) {
+    if (error.response.status == 403) {
+      console.log('ERROR DATA', error.response.data)
+      router.push('/403')
+      if (error.response.data.message) {
+        Message({
+          message: error.response.data.message,
+          dangerouslyUseHTMLString: true,
+          type: 'error',
+        })
+      }
+    }
+    else if (error.response && error.response.data) {
       if (
         error.response.data.message === 'Unauthenticated.' &&
         store.getters.isLogged

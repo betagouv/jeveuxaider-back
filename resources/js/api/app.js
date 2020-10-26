@@ -138,17 +138,23 @@ export function destroyCollectivity(id) {
   return request.delete(`/api/collectivity/${id}/destroy`)
 }
 
-export function uploadImage(id, model, image, cropSettings) {
+export function uploadImage(id, model, image, cropSettings, fieldName = null) {
   var data = new FormData()
   data.append('image', image)
   data.append('cropSettings', JSON.stringify(cropSettings))
-  return request.post(`/api/${model}/${id}/upload`, data, {
-    'Content-Type': 'multipart/form-data',
-  })
+  return fieldName
+    ? request.post(`/api/${model}/${id}/upload/${fieldName}`, data, {
+        'Content-Type': 'multipart/form-data',
+      })
+    : request.post(`/api/${model}/${id}/upload`, data, {
+        'Content-Type': 'multipart/form-data',
+      })
 }
 
-export function deleteImage(id, model) {
-  return request.delete(`/api/${model}/${id}/upload`)
+export function deleteImage(id, model, fieldName = null) {
+  return fieldName
+    ? request.delete(`/api/${model}/${id}/upload/${fieldName}`)
+    : request.delete(`/api/${model}/${id}/upload`)
 }
 
 export function addDocument(document) {

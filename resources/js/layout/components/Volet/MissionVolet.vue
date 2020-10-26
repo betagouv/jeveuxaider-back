@@ -40,6 +40,14 @@
             >
               <el-button icon="el-icon-edit" type="mini">Modifier</el-button>
             </router-link>
+            <el-button
+              v-if="canClone"
+              class="ml-1"
+              icon="el-icon-document-copy"
+              type="mini"
+              @click="clone(row.id)"
+              >Dupliquer</el-button
+            >
             <button
               v-if="
                 $store.getters.contextRole == 'admin' ||
@@ -61,7 +69,7 @@
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Publier la mission
           </div>
-          <item-description>
+          <item-description container-class="mb-6">
             Une fois votre mission complétée, vous pouvez la publier pour
             qu'elle soit proposée aux utilisateurs.
           </item-description>
@@ -74,44 +82,14 @@
             >
           </div>
         </template>
-        <!-- <template v-if="showStatut">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Statut de la mission
-          </div>
-          <item-description>
-            Vous pouvez sélectionner le statut de la mission. A noter que des
-            notifications emails seront envoyées .
-          </item-description>
-          <el-form-item label="Statut" prop="state" class="flex-1">
-            <el-select v-model="form.state" placeholder="Statut">
-              <el-option
-                v-for="item in statesAvailable"
-                :key="item.label"
-                :label="item.value"
-                :value="item.label"
-              />
-            </el-select>
-          </el-form-item>
-        </template>
-        <div v-if="showStatut" class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit"
-            >Enregistrer</el-button
-          >
-        </div>
-         -->
       </el-form>
-      <!--       <table-activities
-        v-if="$store.getters.contextRole == 'admin'"
-        :subject-id="row.id"
-        subject-type="Mission"
-      /> -->
     </template>
   </Volet>
 </template>
 
 <script>
 import Volet from '@/layout/components/Volet'
-import { updateMission, deleteMission } from '@/api/mission'
+import { updateMission, cloneMission, deleteMission } from '@/api/mission'
 import VoletRow from '@/mixins/VoletRow'
 import ItemDescription from '@/components/forms/ItemDescription'
 import MissionInfos from '@/components/infos/MissionInfos'
@@ -132,37 +110,27 @@ export default {
         ? true
         : false
     },
-    showStatut() {
-      let show = false
-      if (this.row.state == 'Validée') {
-        show = true
-      }
-      if (
-        this.$store.getters.contextRole == 'admin' ||
-        this.$store.getters.contextRole == 'referent' ||
-        this.$store.getters.contextRole == 'referent_regional'
-      ) {
-        show = true
-      }
-      return show
+    canClone() {
+      let roles = ['admin', 'referent', 'responsable']
+      return roles.includes(this.$store.getters.contextRole)
     },
-    statesAvailable() {
-      if (this.$store.getters.contextRole == 'responsable') {
-        return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
-          (item) =>
-            item.value != 'Signalée' && item.value != 'En attente de validation'
-        )
-      } else {
-        return this.$store.getters.taxonomies.mission_workflow_states.terms
-      }
-    },
-    // showTuteur() {
-    //   return this.$store.getters.contextRole != "tuteur" && !this.row.tuteur_id
-    //     ? true
-    //     : false;
-    // }
   },
   methods: {
+    clone(id) {
+      this.loading = true
+      cloneMission(id).then((response) => {
+        this.$router
+          .push({
+            path: `/dashboard/mission/${response.data.id}/edit`,
+          })
+          .then(() => {
+            this.$message({
+              message: 'La mission a été dupliquée !',
+              type: 'success',
+            })
+          })
+      })
+    },
     onClickDelete() {
       if (this.row.participations_count > 0) {
         this.$alert(

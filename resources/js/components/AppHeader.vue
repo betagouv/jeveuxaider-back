@@ -355,7 +355,7 @@
               <router-link
                 v-else
                 to="/login"
-                class="hidden lg:block inline-flex items-center justify-center px-4 py-2 mr-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
+                class="hidden lg:block items-center justify-center px-4 py-2 mr-2 border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
