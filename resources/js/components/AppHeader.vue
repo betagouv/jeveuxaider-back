@@ -13,7 +13,7 @@
         md:space-x-7 -->
 
         <div
-          class="flex px-3 lg:px-0 flex-wrap items-center justify-between pt-1 lg:pt-0 lg:h-16"
+          class="flex px-3 lg:px-0 flex-wrap items-center justify-between py-1 lg:py-0 lg:h-16"
         >
           <div class="flex items-center">
             <img
@@ -271,7 +271,7 @@
               <div class="flex flex-col text-center">
                 <router-link
                   to="/missions"
-                  class="py-2 border-t border-gray-200 sm:text-sm xl:text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   Trouver une mission
                 </router-link>
@@ -324,6 +324,7 @@
                 <el-badge
                   v-if="$store.getters.isLogged"
                   :value="$store.getters.user.nbUnreadConversations"
+                  :hidden="!$store.getters.user.nbUnreadConversations"
                   :max="99"
                   class="hidden lg:block mr-3 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
@@ -354,12 +355,12 @@
               <router-link
                 v-else
                 to="/login"
-                class="hidden lg:block inline-flex items-center justify-center px-4 py-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
+                class="hidden lg:block inline-flex items-center justify-center px-4 py-2 mr-2 rounded-md border border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
               >
                 Se connecter
               </router-link>
             </div>
-            <div class="block lg:hidden order-4 ml-3">
+            <div class="block lg:hidden order-4 ml-3 my-1">
               <el-button type="primary" circle @click="toggleMenu">
                 <img src="/images/burger-menu.svg" style="width: 16px" />
               </el-button>

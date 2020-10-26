@@ -43,6 +43,14 @@
           participation.state | lowercase
         }}</span>
       </div>
+      <participation-dropdown-state
+        v-if="
+          $store.getters.contextRole == 'responsable' ||
+          $store.getters.contextRole == 'admin'
+        "
+        class="mt-3"
+        :form="participation"
+      />
 
       <hr class="my-6" />
 
@@ -149,8 +157,13 @@
 </template>
 
 <script>
+import ParticipationDropdownState from '@/components/ParticipationDropdownState'
+
 export default {
-  name: 'MessageDetails',
+  name: 'ConversationDetail',
+  components: {
+    ParticipationDropdownState,
+  },
   props: {
     participation: {
       type: Object,

@@ -144,7 +144,7 @@
               </router-link>
 
               <router-link
-                to="/missions?menu[domaines]=Éducation%20pour%20tous"
+                to="/thematiques/education-pour-tous"
                 class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
               >
                 <img

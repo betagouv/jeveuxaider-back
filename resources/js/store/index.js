@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import user from './modules/user'
 import volet from './modules/volet'
+import conversation from './modules/conversation'
 import getters from './getters'
 import { bootstrap, reminders } from '../api/app'
 
@@ -92,6 +93,7 @@ export default new Vuex.Store({
     auth,
     user,
     volet,
+    conversation,
   },
   state,
   getters,
