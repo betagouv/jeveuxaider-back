@@ -441,7 +441,13 @@ export default {
       window.history.pushState({ id: null }, '', `/messages`)
     },
     onTeaserClick(conversation) {
-      if (conversation.id == this.activeConversation.id) return
+      if (
+        this.activeConversation &&
+        conversation.id == this.activeConversation.id
+      ) {
+        return
+      }
+
       this.newMessage = ''
       this.$store.commit(
         'conversation/setActiveConversationId',
