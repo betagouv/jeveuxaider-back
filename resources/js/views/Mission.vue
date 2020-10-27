@@ -1,329 +1,179 @@
 <template>
-  <div class="bg-gray-100">
+  <div>
     <AppHeader />
 
-    <div class="bg-primary pb-32">
-      <div v-if="!loading" class="container mx-auto px-4">
-        <div class="pt-10">
-          <h1
-            v-if="mission.has_places_left"
-            class="text-3xl font-bold text-white"
-          >
-            Mission disponible
-          </h1>
-          <h1 v-else class="text-3xl font-bold text-white">Mission complète</h1>
-        </div>
-        <div class="my-4 flex flex-wrap">
-          <span
-            v-if="mission.template"
-            class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3 mt-3"
-            >{{ mission.template.domaine.name.fr }}</span
-          >
-          <span
-            v-else
-            class="bg-gray-100 text-blue-900 rounded px-3 py-1 mr-3 mt-3"
-            >{{ mission.domaine.name.fr }}</span
-          >
-          <template v-if="mission.tags">
-            <span
-              v-for="tag in mission.tags"
-              :key="tag.id"
-              class="bg-gray-100 text-blue-900 rounded px-2 py-1 mr-3 mt-3"
-            >
-              {{ tag.name.fr }}
-            </span>
-          </template>
-        </div>
-      </div>
+    <div class="absolute" style="height: 360px">
+      <img
+        src="/images/bg_header_mission.jpg"
+        class="object-cover w-full h-full"
+      />
+      <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
     </div>
 
     <template v-if="!loading">
-      <div class="-mt-32 mb-12">
-        <div class="container mx-auto px-4 mt-12">
+      <div class="relative mt-10 mb-12">
+        <div class="container mx-auto px-4">
           <div class="bg-white rounded-lg shadow-lg">
             <div class="lg:flex">
               <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
+                <div class="mb-4">
+                  <div class="-m-2 flex flex-wrap">
+                    <span
+                      v-if="mission.template"
+                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
+                      >{{ mission.template.domaine.name.fr }}</span
+                    >
+                    <span
+                      v-else
+                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
+                      >{{ mission.domaine.name.fr }}</span
+                    >
+                    <template v-if="mission.tags">
+                      <span
+                        v-for="tag in mission.tags"
+                        :key="tag.id"
+                        class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
+                      >
+                        {{ tag.name.fr }}
+                      </span>
+                    </template>
+                  </div>
+                </div>
+
                 <h3
-                  class="text-2xl leading-tight font-extrabold text-gray-900 sm:text-3xl"
+                  class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
                 >
                   {{ mission.name }}
                 </h3>
-                <div class="mt-8">
-                  <div
-                    class="flex flex-wrap justify-center sm:justify-start items-center text-center sm:text-left"
-                  >
-                    <div v-if="structure" class="flex-shrink-0 sm:pr-4">
-                      <img
-                        v-if="structure.logo"
-                        class="h-14 w-14 rounded-full"
-                        :src="structure.logo"
-                        alt
-                      />
-                      <div
-                        v-else
-                        class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center"
-                      >
-                        {{ structure.name[0] }}
-                      </div>
-                    </div>
-                    <div>
-                      <h3
-                        v-if="structure"
-                        class="text-2xl leading-tight font-medium text-gray-900"
-                      >
-                        {{ structure.name }}
-                      </h3>
 
-                      <div class="mt-4 sm:mt-2">
-                        <div
-                          class="flex flex-wrap items-center justify-center sm:justify-start text-sm leading-tight text-gray-500 -m-1"
+                <div class="mb-8">
+                  <ul
+                    class="mt-5 lg:grid lg:grid-cols-12 lg:gap-x-6 lg:gap-y-5"
+                  >
+                    <li class="flex items-start lg:col-span-6">
+                      <div class="flex-shrink-0">
+                        <template
+                          v-if="mission.type == 'Mission en présentiel'"
                         >
-                          <svg
-                            class="flex-shrink-0 m-1 h-5 w-5 text-gray-400 w-full sm:w-auto"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                          <span v-if="mission.full_address" class="m-1">
-                            {{ mission.full_address }}
-                          </span>
-                          <span v-else-if="mission.departement" class="m-1"
-                            >Département : {{ mission.departement }}</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mt-8 text-center sm:text-left">
-                  <span
-                    class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
-                    >{{ mission.format }}</span
-                  >
-                  <span
-                    class="px-4 py-1 mr-2 mt-4 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
-                    >{{ mission.type }}</span
-                  >
-                </div>
-
-                <div class="mt-12">
-                  <div class="flex items-center">
-                    <h4
-                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >
-                      Objectif de la mission
-                    </h4>
-                    <div class="flex-1 border-t-2 border-gray-200" />
-                  </div>
-                  <div
-                    class="mt-8 ml-3 text-gray-700"
-                    v-html="mission.objectif"
-                  ></div>
-                </div>
-
-                <div class="mt-12">
-                  <div class="flex items-center">
-                    <h4
-                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >
-                      Description de la mission et règles à appliquer
-                      impérativement
-                    </h4>
-                    <div class="flex-1 border-t-2 border-gray-200" />
-                  </div>
-                  <div
-                    class="mt-8 ml-3 text-gray-700"
-                    v-html="mission.description"
-                  ></div>
-                </div>
-
-                <div
-                  v-if="
-                    (mission.state == 'Validée' ||
-                      mission.user_id == $store.getters.user.id ||
-                      $store.getters.contextRole == 'admin') &&
-                    mission.information
-                  "
-                  class="mt-12"
-                >
-                  <div class="flex items-center">
-                    <h4
-                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >
-                      Commentaires de l'organisation
-                    </h4>
-                    <div class="flex-1 border-t-2 border-gray-200" />
-                  </div>
-                  <div
-                    class="mt-8 ml-3 text-gray-700 bg-gray-100 p-5 rounded"
-                    v-html="mission.information"
-                  ></div>
-                </div>
-
-                <div class="mt-16">
-                  <div class="flex items-center">
-                    <h4
-                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >
-                      Publics bénéficiaires
-                    </h4>
-                    <div class="flex-1 border-t-2 border-gray-200" />
-                  </div>
-
-                  <div class="mt-8">
-                    <ul class="flex flex-wrap -m-1">
-                      <li
-                        v-for="(publicBeneficiaire,
-                        key) in mission.publics_beneficiaires"
-                        :key="key"
-                        class="flex items-start lg:col-span-1 w-full sm:w-1/2 p-1"
-                      >
-                        <div class="flex-shrink-0" style="margin-top: 2px">
-                          <svg
-                            class="h-5 w-5 text-green-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <p class="ml-3 text-gray-700">
-                          {{ publicBeneficiaire }}
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div
-                  v-if="mission.template && [4].includes(mission.template.id)"
-                  class="mt-16"
-                >
-                  <div class="flex flex-wrap items-center">
-                    <h4
-                      class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-                    >
-                      Quelques pistes pour l'écoute téléphonique
-                    </h4>
-                    <div
-                      class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0"
-                    />
-                  </div>
-
-                  <div class="mt-6 text-gray-500">
-                    <p>
-                      <a
-                        class="inline-flex items-center hover:underline"
-                        target="_blank"
-                        href="/files/PFP_Asso_Fiche_telephonie_COVID19__2020_03_23_.pdf"
-                      >
-                        Télécharger la fiche pratique
-                        <svg
-                          style="margin-top: 2px"
-                          data-v-18b25a0c
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          class="h-4 w-4 text-gray-400"
-                        >
-                          <path
-                            data-v-18b25a0c
-                            fill-rule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd"
+                          <img
+                            src="/images/picker.svg"
+                            width="29"
+                            class="mt-2"
                           />
-                        </svg>
-                      </a>
-                    </p>
-                  </div>
+                        </template>
+                        <template v-else>
+                          <img
+                            src="/images/maison.svg"
+                            width="29"
+                            class="mt-2"
+                          />
+                        </template>
+                      </div>
+                      <p class="ml-4 text-md font-bold leading-5 text-gray-900">
+                        <span
+                          class="uppercase text-sm text-gray-500 font-medium"
+                        >
+                          <template
+                            v-if="mission.type == 'Mission en présentiel'"
+                          >
+                            Mission en présentiel
+                          </template>
+                          <template v-else> Mission à distance </template>
+                        </span>
+
+                        <br />
+
+                        <template
+                          v-if="mission.type == 'Mission en présentiel'"
+                        >
+                          {{ mission.full_address }}
+                        </template>
+                        <template v-else
+                          >Réalisez cette mission depuis chez vous</template
+                        >
+                      </p>
+                    </li>
+
+                    <li class="mt-5 flex items-start lg:col-span-6 lg:mt-0">
+                      <div class="flex-shrink-0">
+                        <img src="/images/public.svg" width="22" class="mt-2" />
+                      </div>
+
+                      <div
+                        class="ml-4 text-md font-bold leading-5 text-gray-900"
+                      >
+                        <span
+                          class="uppercase text-sm text-gray-500 font-medium"
+                          >Bénéficiaires</span
+                        ><br />
+                        <div
+                          v-for="(publicBeneficiaire,
+                          key) in mission.publics_beneficiaires"
+                          :key="key"
+                        >
+                          {{ publicBeneficiaire }}
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <hr class="border-gray-200 mb-8" />
+
+                <div>
+                  <span class="text-lg font-medium">
+                    <span>{{ structureType }}</span>
+                    <b class="text-blue-800">
+                      {{ structure.name }}
+                    </b>
+                  </span>
+                </div>
+
+                <div class="mt-2 text-base leading-7 text-gray-600">
+                  <ReadMore
+                    more-str="Lire plus"
+                    :text="structure.description"
+                    :max-chars="250"
+                  ></ReadMore>
                 </div>
               </div>
 
               <div
-                class="aside text-center bg-gray-100 lg:rounded-r-lg lg:flex-shrink-0"
+                class="aside text-center bg-blue-800 rounded-b-lg lg:rounded-b-none lg:rounded-r-lg lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center"
               >
-                <div class="sticky top-0 py-8 px-6 lg:p-12">
-                  <p class="text-3xl leading-none font-extrabold text-gray-900">
-                    Rejoignez
-                    <br />le mouvement
-                  </p>
-                  <p
-                    class="mt-6 text-sm tracking-wider text-gray-500 uppercase"
+                <div class="py-8 px-6 lg:p-12">
+                  <div
+                    class="text-base leading-6 text-indigo-200 mb-4 lg:mb-12"
+                    v-html="formattedDate"
+                  ></div>
+
+                  <div
+                    class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
                   >
-                    L'organisation recherche
-                  </p>
-
-                  <div class="text-sm">
-                    <span
-                      class="px-6 py-1 shadow-md inline-flex text-lg font-semibold rounded-full bg-green-100 text-green-800"
-                    >
-                      {{ mission.participations_max | formatNumber }}
-                      {{
-                        mission.participations_max
-                          | pluralize(['bénévole', 'bénévoles'])
-                      }}
-                    </span>
-                  </div>
-
-                  <div class="mt-4 text-sm">
-                    <div v-if="mission.has_places_left === true">
+                    <template v-if="mission.has_places_left === true">
                       {{ mission.places_left | formatNumber }}
                       {{
                         mission.places_left
-                          | pluralize(['place restante', 'places restantes'])
+                          | pluralize([
+                            'place disponible',
+                            'places disponibles',
+                          ])
                       }}
-                    </div>
-                    <div v-else-if="mission.has_places_left === false">
+                    </template>
+                    <template v-else-if="mission.has_places_left === false">
                       Complet
-                    </div>
-                    <div v-else>Nombre de places non défini</div>
+                    </template>
+                    <template v-else>Nombre de places non défini</template>
                   </div>
-
-                  <div class="mt-4 text-sm">
-                    <div
-                      class="mt-6 flex items-center justify-center flex-wrap text-gray-500"
-                    >
-                      <div>
-                        <svg
-                          class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <div v-if="mission.start_date" class="w-full sm:w-auto">
-                          <span class="text-gray-400 mr-1 text-xs">Du</span>
-                          <span class="mr-1">
-                            {{ mission.start_date | formatLongWithTime }}
-                          </span>
-                        </div>
-                        <div v-if="mission.end_date" class="w-full sm:w-auto">
-                          <span class="text-gray-400 mr-1 text-xs">Au</span>
-                          {{ mission.end_date | formatLongWithTime }}
-                        </div>
-                        <div v-if="!mission.start_date && !mission.end_date">
-                          Disponibilité aussitôt que possible
-                        </div>
-                        <div v-if="mission.dates_infos" class="mt-3">
-                          {{ mission.dates_infos }}
-                        </div>
-                      </div>
-                    </div>
+                  <div class="text-indigo-300 text-sm mt-1">
+                    {{ mission.participations_max | formatNumber }}
+                    {{
+                      mission.participations_max
+                        | pluralize([
+                          'bénévole recherché',
+                          'bénévoles recherchés',
+                        ])
+                    }}
                   </div>
 
                   <div
@@ -337,14 +187,14 @@
                           <template v-if="$store.getters.isLogged">
                             <el-button
                               v-if="canRegistered"
-                              class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                               @click="handleClick"
-                              >Proposer votre aide</el-button
+                              >Je propose mon aide</el-button
                             >
                             <router-link
                               v-else
                               to="/user/missions"
-                              class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-green-800 bg-green-100 hover:bg-green-200 cursor-pointer focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                               >Vous êtes déjà inscrit !</router-link
                             >
                           </template>
@@ -352,7 +202,7 @@
                           <template v-else>
                             <router-link
                               to="/login"
-                              class="inline-flex items-center justify-center text-xl px-10 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                               >Proposer votre aide</router-link
                             >
                           </template>
@@ -361,7 +211,7 @@
 
                       <template v-else>
                         <span
-                          class="bg-orange-300 inline-flex items-center justify-center px-10 py-3 rounded-md text-sm font-medium"
+                          class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full bg-orange-500 text-white"
                         >
                           Cette mission a le statut
                           {{ mission.state.toLowerCase() }}
@@ -369,7 +219,307 @@
                       </template>
                     </template>
                   </div>
+
+                  <template
+                    v-if="
+                      mission.state &&
+                      mission.state == 'Validée' &&
+                      mission.has_places_left &&
+                      $store.getters.isLogged
+                    "
+                  >
+                    <div
+                      class="mt-8 lg:mt-12 block text-center text-sm leading-2 font-medium text-indigo-300 max-w-xs mx-auto"
+                    >
+                      À plusieurs on est meilleur ! Et si vous partagiez cette
+                      mission à votre entourage ?
+                    </div>
+
+                    <div class="mt-5">
+                      <div class="-m-3 flex justify-center">
+                        <!-- Mail -->
+                        <a
+                          :href="`mailto:?&subject=${mission.name}&body=${baseUrl}${$router.currentRoute.fullPath}`"
+                          class="m-3 text-indigo-300 hover:text-white transition"
+                        >
+                          <svg
+                            x="0px"
+                            y="0px"
+                            viewBox="0 0 41 38"
+                            style="enable-background: new 0 0 41 38"
+                            xml:space="preserve"
+                            class="h-6 w-7"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M37.6,7.9v22.2H3.4V7.9H37.6z M41,4.8H0v28.5h41V4.8z M37.6,30.1L26.4,19.6l-5.9,5.5l-5.8-5.6L3.4,30.1L12,17.4 L3.4,7.9l17.1,11.8l17-11.8L29,17.4L37.6,30.1z"
+                            />
+                          </svg>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a
+                          target="_blank"
+                          :href="`https://www.facebook.com/sharer/sharer.php?u=${baseUrl}${$router.currentRoute.fullPath}`"
+                          class="m-3 text-indigo-300 hover:text-white transition"
+                        >
+                          <svg class="h-6 w-6" viewBox="0 0 155.139 155.139">
+                            <path
+                              d="m89.584 155.139v-70.761h23.742l3.562-27.585h-27.304v-17.609c0-7.984 2.208-13.425 13.67-13.425l14.595-.006v-24.673c-2.524-.328-11.188-1.08-21.272-1.08-21.057 0-35.473 12.853-35.473 36.452v20.341h-23.814v27.585h23.814v70.761z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a
+                          target="_blank"
+                          :href="`https://twitter.com/intent/tweet?url=${baseUrl}${$router.currentRoute.fullPath}`"
+                          class="m-3 text-indigo-300 hover:text-white transition"
+                        >
+                          <svg
+                            class="w-6 h-6"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
+                            ></path>
+                          </svg>
+                        </a>
+
+                        <!-- Linkedin -->
+                        <a
+                          target="_blank"
+                          :href="`https://www.linkedin.com/shareArticle?mini=true&url=${baseUrl}${$router.currentRoute.fullPath}`"
+                          class="m-3 text-indigo-300 hover:text-white transition"
+                        >
+                          <svg
+                            class="w-6 h-6"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </template>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="
+              (mission.state == 'Validée' ||
+                mission.user_id == $store.getters.user.id ||
+                $store.getters.contextRole == 'admin') &&
+              mission.information
+            "
+            class="comment-wrapper mt-20 lg:text-center"
+          >
+            <div class="comment-wrapper--icon absolute mt-1">
+              <svg
+                class="z-1 mr-28 h-32 w-32 text-blue-100"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 144 144"
+              >
+                <path
+                  stroke-width="2"
+                  d="M41.485 15C17.753 31.753 1 59.208 1 89.455c0 24.664 14.891 39.09 32.109 39.09 16.287 0 28.386-13.03 28.386-28.387 0-15.356-10.703-26.524-24.663-26.524-2.792 0-6.515.465-7.446.93 2.327-15.821 17.218-34.435 32.11-43.742L41.485 15zm80.04 0c-23.268 16.753-40.02 44.208-40.02 74.455 0 24.664 14.891 39.09 32.109 39.09 15.822 0 28.386-13.03 28.386-28.387 0-15.356-11.168-26.524-25.129-26.524-2.792 0-6.049.465-6.98.93 2.327-15.821 16.753-34.435 31.644-43.742L121.525 15z"
+                ></path>
+              </svg>
+            </div>
+            <h3
+              class="z-10 relative text-2xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+            >
+              Le mot de l'association
+            </h3>
+
+            <div
+              class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-9 text-gray-500 lg:mx-auto"
+            >
+              <ReadMore
+                more-str="Lire plus"
+                :text="mission.information"
+                :max-chars="235"
+              ></ReadMore>
+            </div>
+            <div class="mt-6">
+              <span class="text-lg font-medium">
+                <span>{{ structureType }}</span>
+                <b class="text-blue-800">
+                  {{ structure.name }}
+                </b>
+              </span>
+            </div>
+          </div>
+
+          <hr class="border-gray-200 my-12" />
+
+          <ul class="md:grid md:grid-cols-2 gap-x-12">
+            <li>
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <div
+                    class="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-blue-800 rounded-lg"
+                  >
+                    <svg
+                      class="h-6 w-6 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg leading-6 font-bold text-gray-900">
+                    Objectifs de votre mission
+                  </h4>
+                  <div class="mt-2 text-base leading-7 text-gray-500">
+                    <ReadMore
+                      more-str="Lire plus"
+                      :text="mission.objectif"
+                      :max-chars="380"
+                    ></ReadMore>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="mt-10 md:mt-0">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <div
+                    class="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-blue-800 rounded-lg"
+                  >
+                    <svg
+                      class="h-6 w-6 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg leading-6 font-bold text-gray-900">
+                    Règles à appliquer
+                  </h4>
+                  <div class="mt-2 text-base leading-7 text-gray-500">
+                    <ReadMore
+                      more-str="Lire plus"
+                      :text="mission.description"
+                      :max-chars="380"
+                    ></ReadMore>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <div
+            v-if="mission.template && [4].includes(mission.template.id)"
+            class="mt-16"
+          >
+            <div class="flex flex-wrap items-center">
+              <h4
+                class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+              >
+                Quelques pistes pour l'écoute téléphonique
+              </h4>
+              <div class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0" />
+            </div>
+
+            <div class="mt-6 text-gray-500">
+              <p>
+                <a
+                  class="inline-flex items-center hover:underline"
+                  target="_blank"
+                  href="/files/PFP_Asso_Fiche_telephonie_COVID19__2020_03_23_.pdf"
+                >
+                  Télécharger la fiche pratique
+                  <svg
+                    style="margin-top: 2px"
+                    data-v-18b25a0c
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    class="h-4 w-4 text-gray-400"
+                  >
+                    <path
+                      data-v-18b25a0c
+                      fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <hr class="border-gray-200 my-12" />
+
+          <div class="text-center pb-20">
+            <h2
+              class="text-4xl leading-9 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
+            >
+              Prêt à rejoindre le mouvement&nbsp;?
+            </h2>
+            <p
+              class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-7 sm:leading-9 text-gray-500 lg:mx-auto"
+            >
+              Inscrivez-vous à la mission et
+              <span class="lowercase" v-html="structureType"></span> vous
+              recontactera dans les plus brefs délais. Vous pourrez aussi
+              échanger avec elle pour obtenir plus de précisions.
+            </p>
+            <div class="mt-10 flex justify-center z-10 relative">
+              <template
+                v-if="
+                  mission.state &&
+                  mission.state == 'Validée' &&
+                  mission.has_places_left &&
+                  $store.getters.isLogged
+                "
+              >
+                <div class="rounded-full shadow-lg">
+                  <button
+                    class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-xl sm:text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    @click="handleClick"
+                  >
+                    Je propose mon aide
+                  </button>
+                </div>
+              </template>
+            </div>
+            <div class="mt-8 z-1">
+              <div class="text-center justify-center">
+                <img
+                  class="mx-auto w-full h-auto md:w-auto md:h-full opacity-50"
+                  src="/images/chacunpourtous.png"
+                  style="max-height: 7rem"
+                />
               </div>
             </div>
           </div>
@@ -497,11 +647,14 @@ import { getMission } from '@/api/mission'
 import { addParticipation } from '@/api/participation'
 import { fetchStructureAvailableMissions } from '@/api/structure'
 import FrontMissionLoading from '@/components/loadings/FrontMissionLoading'
+import ReadMore from '@/components/ReadMore'
+import dayjs from 'dayjs'
 
 export default {
   name: 'Mission',
   components: {
     FrontMissionLoading,
+    ReadMore,
   },
   props: {
     id: {
@@ -514,11 +667,21 @@ export default {
       loading: true,
       mission: {},
       otherMissions: {},
+      baseUrl: process.env.MIX_API_BASE_URL,
     }
   },
   computed: {
     structure() {
       return this.mission.structure
+    },
+    structureType() {
+      const status = this.$options.filters
+        .labelFromValue(
+          this.structure.statut_juridique,
+          'structure_legal_status'
+        )
+        .toLowerCase()
+      return `L'${status}`
     },
     hasParticipation() {
       return this.$store.getters.profile.participations.filter(
@@ -529,6 +692,28 @@ export default {
     },
     canRegistered() {
       return this.hasParticipation.length > 0 ? false : true
+    },
+    formattedDate() {
+      const startDate = this.mission.start_date
+      const endDate = this.mission.end_date
+
+      if (!endDate) {
+        return null
+      }
+
+      if (dayjs(startDate).format('YYYY') != dayjs(endDate).format('YYYY')) {
+        return `Du <b class="text-white">${dayjs(startDate).format(
+          'D MMMM YYYY'
+        )}</b> au <b class="text-white">${dayjs(endDate).format(
+          'D MMMM YYYY'
+        )}</b>`
+      } else {
+        return `Du <b class="text-white">${dayjs(startDate).format(
+          'D MMMM'
+        )}</b> au <b class="text-white">${dayjs(endDate).format(
+          'D MMMM YYYY'
+        )}</b>`
+      }
     },
   },
   created() {
@@ -554,7 +739,7 @@ export default {
   methods: {
     handleClick() {
       this.$confirm(
-        'Êtes-vous sûr de vouloir participer à cette mission ?<br>',
+        'Êtes-vous sûr de vouloir participer à cette mission&nbsp;?<br>',
         'Confirmation',
         {
           center: true,
@@ -590,4 +775,16 @@ export default {
 .aside
   @screen lg
     max-width: 410px
+    @apply flex-none w-full
+
+.comment-wrapper
+  min-height: 200px
+  @screen lg
+    @apply relative
+  .comment-wrapper--icon
+    @apply hidden
+    @screen lg
+      @apply block
+    @screen xl
+      left: 5%
 </style>

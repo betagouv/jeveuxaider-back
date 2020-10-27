@@ -22,17 +22,16 @@
           </div>
         </template>
 
-        <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-          Une question? Contactez
-          <span class="font-bold">
-            <a
-              target="_blank"
-              href="mailto:contact@reserve-civique.on.crisp.email"
-            >
-              le support</a
-            >
-          </span>
-          ou chatez en cliquant sur le bouton en bas à droite.
+        <div class="mt-2 mb-6 text-xs leading-snug text-gray-500">
+          <span>Une question? Contactez </span>
+          <a
+            target="_blank"
+            href="mailto:contact@reserve-civique.on.crisp.email"
+            class="font-bold"
+          >
+            le support</a
+          >
+          <span> ou chatez en cliquant sur le bouton en bas à droite.</span>
         </div>
 
         <div v-if="form.template">
