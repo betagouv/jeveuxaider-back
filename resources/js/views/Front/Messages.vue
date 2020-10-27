@@ -376,7 +376,9 @@ export default {
     await this.fetchConversations()
     this.$store.commit(
       'conversation/setActiveConversationId',
-      this.$router.currentRoute.params.id ?? this.conversations[0].id
+      this.$router.currentRoute.params.id ?? this.conversations[0]
+        ? this.conversations[0].id
+        : null
     )
   },
   mounted() {
