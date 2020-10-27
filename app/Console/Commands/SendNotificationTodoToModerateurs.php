@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
+use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\ModerateurDailyTodo;
 use Illuminate\Console\Command;
@@ -50,19 +51,14 @@ class SendNotificationTodoToModerateurs extends Command
           ->get()
           ->groupBy('department')->toArray();
 
-        $this->info(implode(', ', array_keys($structuresByDepartment)) . ' départements avec des structures en attente');
-
         $missionsByDepartment = Mission::where('state', 'En attente de validation')
           ->where('created_at', '<', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->whereNotNull('department')
           ->get()
           ->groupBy('department')->toArray();
 
-        $this->info(implode(', ', array_keys($missionsByDepartment)) . ' départements avec des missions en attente');
-
         $structuresAndMissionsByDepartment = $this->mergeArrays($missionsByDepartment, $structuresByDepartment);
 
-        
         $byDeparment = [];
         foreach ($structuresAndMissionsByDepartment as $department => $structuresAndMissions) {
             $structures = array_filter($structuresAndMissions, function ($structureOrMission) {
@@ -71,12 +67,12 @@ class SendNotificationTodoToModerateurs extends Command
             $missions = array_filter($structuresAndMissions, function ($structureOrMission) {
                 return array_key_exists('structure_id', $structureOrMission);
             });
+            $byDeparment[$department]['department_name'] = config('taxonomies.departments.terms')[$department];
             $byDeparment[$department]['missions'] = $missions;
             $byDeparment[$department]['structures'] = $structures;
-
-            $this->info($department . ' has ' . count($structures) . ' organisations, and ' . count($missions) . ' missions');
+            $byDeparment[$department]['referents'] = Profile::where('referent_department', $department)->get();
         }
-        Notification::route('mail', 'gabrielle@todo.fr')->notify(new ModerateurDailyTodo($byDeparment));
+        Notification::route('mail', 'gabrielle.bxn@gmail.com')->notify(new ModerateurDailyTodo($byDeparment));
     }
 
     private function mergeArrays($ar1, $ar2)

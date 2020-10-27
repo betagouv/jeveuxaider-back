@@ -61,7 +61,7 @@
                 </router-link>
                 <div
                   v-click-outside="() => (isOnDomains = false)"
-                  class="relative"
+                  class="relative flex-none"
                 >
                   <button
                     type="button"
@@ -69,7 +69,7 @@
                     :class="isOnDomains ? 'text-gray-900' : 'text-gray-500'"
                     @mouseover="menuActive('domains')"
                   >
-                    <span>Domaines d'actions</span>
+                    <span class="flex-none">Domaines d'actions</span>
                     <svg
                       class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
                       viewBox="0 0 20 20"
@@ -171,7 +171,7 @@
                 </div>
                 <div
                   v-click-outside="() => (isOnSinformer = false)"
-                  class="relative"
+                  class="relative flex-none"
                 >
                   <button
                     type="button"
@@ -179,7 +179,7 @@
                     :class="isOnSinformer ? 'text-gray-900' : 'text-gray-500'"
                     @mouseover="menuActive('sinformer')"
                   >
-                    <span>S'informer</span>
+                    <span class="flex-none">S'informer</span>
                     <svg
                       class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
                       viewBox="0 0 20 20"
@@ -322,6 +322,19 @@
                   Tableau de bord
                 </router-link>
                 <el-badge
+                  v-if="$store.getters.isLogged"
+                  :value="$store.getters.user.nbUnreadConversations"
+                  :hidden="!$store.getters.user.nbUnreadConversations"
+                  :max="99"
+                  class="hidden lg:block mr-3 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  <router-link to="/messages">
+                    <i
+                      class="el-icon-message text-gray-500 hover:text-gray-900 text-2xl"
+                    />
+                  </router-link>
+                </el-badge>
+                <el-badge
                   v-if="
                     $store.getters.isLogged &&
                     $store.getters.reminders &&
@@ -347,7 +360,7 @@
                 Se connecter
               </router-link>
             </div>
-            <div class="block lg:hidden order-4 ml-3">
+            <div class="block lg:hidden order-4 ml-3 my-1">
               <el-button type="primary" circle @click="toggleMenu">
                 <img src="/images/burger-menu.svg" style="width: 16px" />
               </el-button>

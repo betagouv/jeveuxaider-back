@@ -167,6 +167,17 @@ button:focus
   align-items: center
   justify-content: center
 
+.custom-scrollbar
+  &::-webkit-scrollbar-track
+    border-radius: 10px
+    background-color: rgba(30, 66, 59, .15)
+
+  &::-webkit-scrollbar
+    width: 5px
+
+  &::-webkit-scrollbar-thumb
+    border-radius: 10px
+    @apply bg-primary
 
 .el-step__title.is-process, .el-step__description.is-process
     color: #6a6f85 !important

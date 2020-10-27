@@ -32,11 +32,12 @@ class User extends Authenticatable
         if (! Auth::guard('api')->user()) {
             return null;
         }
-
-        $user = User::with(['profile.structures', 'profile.participations'])->where('id', Auth::guard('api')->user()->id)->first();
+        $id = Auth::guard('api')->user()->id;
+        $user = User::with(['profile.structures', 'profile.participations'])->where('id', $id)->first();
         $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $user['nbUnreadConversations'] = self::getNbUnreadConversations($id);
 
         return $user;
     }
@@ -64,6 +65,44 @@ class User extends Authenticatable
     public function structures()
     {
         return $this->hasMany('App\Models\Structure');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message', 'from_id');
+    }
+
+    public function conversations()
+    {
+        return $this->belongsToMany('App\Models\Conversation', 'conversations_users');
+    }
+
+    public function startConversation($user, $conversable)
+    {
+        $conversation = Conversation::create();
+        $conversation->conversable()->associate($conversable);
+        $conversation->users()->attach([$this->id, $user->id]);
+        $conversation->save();
+
+        return $conversation;
+    }
+
+    public function markConversationAsRead($conversation)
+    {
+        $this->conversations()->updateExistingPivot($conversation->id, [
+            'read_at' => Carbon::now()
+        ]);
+    }
+
+    // TODO markConversationAsActive, markConversationAsArchived
+
+    public function sendMessage($conversation_id, $content)
+    {
+        return $this->messages()->create([
+            'content' => $content,
+            'conversation_id' => $conversation_id,
+            'type' => 'chat'
+        ]);
     }
 
     public function getContextRoleAttribute()
@@ -96,5 +135,15 @@ class User extends Authenticatable
         $this->profile->save();
 
         return $this;
+    }
+
+    public static function getNbUnreadConversations($id)
+    {
+        return User::find($id)->conversations()
+            ->whereHas('messages')
+            ->where(function ($query) {
+                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+                    ->orWhere('conversations_users.read_at', null);
+            })->count();
     }
 }

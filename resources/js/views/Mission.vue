@@ -188,7 +188,7 @@
                             <el-button
                               v-if="canRegistered"
                               class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              @click="handleClick"
+                              @click="handleClickParticipate"
                               >Je propose mon aide</el-button
                             >
                             <router-link
@@ -501,7 +501,7 @@
                 <div class="rounded-full shadow-lg">
                   <button
                     class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-xl sm:text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                    @click="handleClick"
+                    @click="handleClickParticipate"
                   >
                     Je propose mon aide
                   </button>
@@ -520,6 +520,82 @@
           </div>
         </div>
       </div>
+      <el-dialog
+        :close-on-click-modal="false"
+        title="Participer à la mission"
+        width="100%"
+        :visible.sync="dialogParticipateVisible"
+        style="max-width: 600px; margin: auto"
+      >
+        <div class="mb-2" style="color: #606266; font-size: 14px">
+          Résumé de la mission
+        </div>
+        <div class="bg-cool-gray-100 p-4 rounded-md">
+          <div class="text-lg font-bold text-gray-800">{{ mission.name }}</div>
+          <div class="md:flex mt-2 mb-4">
+            <div class="uppercase font-semibold text-gray-500 mb-2 md:mb-0">
+              {{ structure.name }}
+            </div>
+            <div
+              v-if="
+                mission.full_address && mission.type == 'Mission en présentiel'
+              "
+              class="md:ml-2 ml-0 flex flex-wrap items-center justify-start text-sm leading-tight text-gray-500 -m-1"
+            >
+              <svg
+                class="flex-shrink-0 h-4 w-4 text-gray-400 w-auto"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="ml-1">
+                {{ mission.full_address }}
+              </span>
+            </div>
+          </div>
+
+          <div class="text-left">
+            <span
+              class="px-4 py-1 mr-2 mt-3 inline-flex text-sm font-semibold rounded-full bg-white text-gray-500"
+              >{{ mission.type }}</span
+            >
+          </div>
+        </div>
+        <el-form
+          ref="participateForm"
+          :model="form"
+          :rules="rules"
+          class="mt-4"
+          :hide-required-asterisk="true"
+        >
+          <el-form-item
+            label="Vous allez être mis en relation avec le responsable de la mission"
+            prop="content"
+          >
+            <el-input
+              v-model="form.content"
+              placeholder=""
+              :autosize="{ minRows: 3, maxRows: 8 }"
+              type="textarea"
+              :autofocus="true"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogParticipateVisible = false">
+            Annuler
+          </el-button>
+          <el-button type="primary" @click="handleSubmitFormParticipate"
+            >Proposer mon aide</el-button
+          >
+        </span>
+      </el-dialog>
     </template>
     <template v-else>
       <front-mission-loading />
@@ -558,7 +634,9 @@
                       style="width: 28px"
                     />
                     <img
-                      v-else
+                      v-else-if="
+                        otherMission.domaine && otherMission.domaine.image
+                      "
                       class
                       :src="otherMission.domaine.image"
                       style="width: 28px"
@@ -663,6 +741,25 @@ export default {
       mission: {},
       otherMissions: {},
       baseUrl: process.env.MIX_API_BASE_URL,
+      dialogParticipateVisible: false,
+      form: {
+        content:
+          'Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂',
+      },
+      rules: {
+        content: [
+          {
+            required: true,
+            message: 'Entrez un message.',
+            trigger: 'blur',
+          },
+          {
+            min: 10,
+            message: 'Votre message est trop court.',
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   computed: {
@@ -714,7 +811,6 @@ export default {
   created() {
     getMission(this.id)
       .then((response) => {
-        this.form = response.data
         this.mission = { ...response.data }
         this.loading = false
         fetchStructureAvailableMissions(this.mission.structure.id, {
@@ -732,23 +828,16 @@ export default {
       })
   },
   methods: {
-    handleClick() {
-      this.$confirm(
-        'Êtes-vous sûr de vouloir participer à cette mission&nbsp;?<br>',
-        'Confirmation',
-        {
-          center: true,
-          confirmButtonText: 'Oui, je participe',
-          cancelButtonText: 'Annuler',
-          // type: "warning",
-          dangerouslyUseHTMLString: true,
-        }
-      )
-        .then(() => {
-          this.loading = true
-          addParticipation(this.mission.id, this.$store.getters.profile.id)
+    handleSubmitFormParticipate() {
+      this.$refs['participateForm'].validate((valid) => {
+        if (valid) {
+          addParticipation(
+            this.mission.id,
+            this.$store.getters.profile.id,
+            this.form.content
+          )
             .then(() => {
-              this.$router.push('/user/missions')
+              this.$router.push('/messages')
               this.$message({
                 message:
                   'Votre participation a été enregistrée et est en attente de validation !',
@@ -759,8 +848,11 @@ export default {
             .catch(() => {
               this.loading = false
             })
-        })
-        .catch(() => {})
+        }
+      })
+    },
+    handleClickParticipate() {
+      this.dialogParticipateVisible = true
     },
   },
 }
@@ -782,4 +874,7 @@ export default {
       @apply block
     @screen xl
       left: 5%
+
+::v-deep .el-dialog__title
+  @apply text-gray-800 text-xl font-bold
 </style>

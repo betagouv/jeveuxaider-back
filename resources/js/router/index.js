@@ -30,6 +30,7 @@ import FrontUserMissions from '@/views/Front/UserMissions'
 import Missions from '@/views/Front/Missions'
 import FrontFaq from '@/views/Front/Faq'
 import FrontPage from '@/views/Front/Page'
+import Messages from '@/views/Front/Messages'
 
 // Fix for NavigationDuplicated error -> need to add catch to push promise.
 const originalPush = Router.prototype.push
@@ -1252,6 +1253,18 @@ export default new Router({
     },
     { path: '/403', component: Forbidden, name: 'Forbidden' },
     { path: '*', component: NotFound, name: 'NotFound' },
+    {
+      path: '/messages',
+      component: Messages,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/messages/:id',
+      component: Messages,
+      name: 'messagesId',
+      props: (route) => ({ id: route.params.id }),
+      meta: { requiresAuth: true },
+    },
   ],
   scrollBehavior() {
     return { x: 0, y: 0 }

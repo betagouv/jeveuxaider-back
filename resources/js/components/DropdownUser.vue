@@ -51,10 +51,7 @@
           divided
         />
         <el-dropdown-item command="/user/infos"> Mon compte </el-dropdown-item>
-        <el-dropdown-item
-          v-if="$store.getters.contextRole == 'volontaire'"
-          command="/user/missions"
-        >
+        <el-dropdown-item command="/user/missions">
           Mes missions
         </el-dropdown-item>
         <el-dropdown-item

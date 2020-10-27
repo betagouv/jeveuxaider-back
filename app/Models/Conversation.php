@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+
+class Conversation extends Model
+{
+    protected $table = 'conversations';
+
+    protected $fillable = [
+        'participation_id',
+    ];
+
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Message');
+    }
+
+    public function latestMessage()
+    {
+        return $this->hasOne('App\Models\Message')->latest();
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'conversations_users')->withPivot('read_at');
+    }
+
+    public function conversable()
+    {
+        return $this->morphTo();
+    }
+
+
+    public function scopeRole($query, $contextRole = null)
+    {
+        switch ($contextRole) {
+            case 'admin':
+                return $query;
+            break;
+            default:
+                return $query->whereHas('users', function (Builder $subquery) {
+                    $subquery->where('users.id', Auth::guard('api')->user()->id);
+                });
+            break;
+        }
+    }
+}
