@@ -440,18 +440,13 @@
 
           <div
             v-if="mission.template && [4].includes(mission.template.id)"
-            class="mt-16"
+            class="mt-16 text-center"
           >
-            <div class="flex flex-wrap items-center">
-              <h4
-                class="pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
-              >
-                Quelques pistes pour l'écoute téléphonique
-              </h4>
-              <div class="flex-1 border-t-2 border-gray-200 mt-2 sm:mt-0" />
-            </div>
+            <h4 class="text-lg leading-6 font-bold text-gray-900">
+              Quelques pistes pour l'écoute téléphonique
+            </h4>
 
-            <div class="mt-6 text-gray-500">
+            <div class="mt-2 text-gray-500">
               <p>
                 <a
                   class="inline-flex items-center hover:underline"
