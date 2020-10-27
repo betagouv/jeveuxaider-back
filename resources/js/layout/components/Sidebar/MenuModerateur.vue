@@ -101,6 +101,19 @@
         <i class="el-icon-help" />
       </el-tooltip>
     </el-menu-item>
+    <el-menu-item index="/messages">
+      <el-badge
+        v-if="$store.getters.isLogged"
+        :value="5"
+        :hidden="$store.getters.user.nbUnreadConversations"
+        :max="99"
+      >
+        <span v-if="$store.getters.sidebar">Messages</span>
+        <!-- <i
+            class="el-icon-message text-gray-500 hover:text-gray-900 text-2xl"
+          /> -->
+      </el-badge>
+    </el-menu-item>
     <el-menu-item
       index="/dashboard/activities"
       :class="{ 'is-active': isActive('/dashboard/activities') }"
@@ -118,3 +131,9 @@ export default {
   mixins: [MenuActive],
 }
 </script>
+
+<style lang="sass" scoped>
+::v-deep .el-badge__content.is-fixed
+  top: 13px
+  right: -5px
+</style>
