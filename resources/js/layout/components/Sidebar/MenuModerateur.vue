@@ -103,16 +103,23 @@
     </el-menu-item>
     <el-menu-item index="/messages">
       <el-badge
-        v-if="$store.getters.isLogged"
-        :value="5"
-        :hidden="$store.getters.user.nbUnreadConversations"
+        v-if="$store.getters.sidebar"
+        :value="$store.getters.user.nbUnreadConversations"
+        :hidden="!$store.getters.user.nbUnreadConversations"
         :max="99"
       >
-        <span v-if="$store.getters.sidebar">Messages</span>
-        <!-- <i
-            class="el-icon-message text-gray-500 hover:text-gray-900 text-2xl"
-          /> -->
+        <span>Messagerie</span>
       </el-badge>
+      <el-tooltip
+        v-else
+        class="item"
+        :open-delay="500"
+        effect="dark"
+        content="Messagerie"
+        placement="right"
+      >
+        <i class="el-icon-message" />
+      </el-tooltip>
     </el-menu-item>
     <el-menu-item
       index="/dashboard/activities"

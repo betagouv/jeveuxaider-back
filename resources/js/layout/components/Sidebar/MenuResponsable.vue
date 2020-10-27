@@ -56,15 +56,25 @@
       :class="{ 'is-active': isActive('/dashboard/participation') }"
     >
       <span v-if="$store.getters.sidebar">Participations</span>
+    </el-menu-item>
+    <el-menu-item index="/messages">
+      <el-badge
+        v-if="$store.getters.sidebar"
+        :value="$store.getters.user.nbUnreadConversations"
+        :hidden="!$store.getters.user.nbUnreadConversations"
+        :max="99"
+      >
+        <span>Messagerie</span>
+      </el-badge>
       <el-tooltip
         v-else
         class="item"
         :open-delay="500"
         effect="dark"
-        content="Participations"
+        content="Messagerie"
         placement="right"
       >
-        <i class="el-icon-finished" />
+        <i class="el-icon-message" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item

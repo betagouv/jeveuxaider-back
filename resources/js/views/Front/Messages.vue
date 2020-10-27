@@ -480,9 +480,12 @@ export default {
       this.showPanelRight = !this.showPanelRight
     },
     fromUser(conversation) {
-      return conversation.users.filter((user) => {
+      console.log(conversation)
+      const user = conversation.users.filter((user) => {
         return user.id != this.$store.getters.user.id
       })[0]
+      console.log(user)
+      return user
     },
     currentUser(conversation) {
       return conversation.users.filter((user) => {
