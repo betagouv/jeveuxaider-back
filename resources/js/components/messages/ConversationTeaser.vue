@@ -12,11 +12,11 @@
           </div>
         </div>
         <div
-          class="flex justify-between items-baseline"
-          :class="[{ 'font-bold': !hasRead }, { 'font-light': hasRead }]"
+          class="flex justify-between items-baseline text-gray-800"
+          :class="[{ 'font-bold': !hasRead }]"
         >
           <span class="truncate text-sm pr-2">{{ message }}</span>
-          <span v-if="date" class="flex-none text-gray-500 text-xs">
+          <span v-if="date" class="flex-none text-secondary text-sm">
             {{ date | formatCustom('D MMM') }}
           </span>
         </div>
