@@ -82,16 +82,8 @@
                     ? fromUser(conversation).profile.image.thumb
                     : null
                 "
-                :message="
-                  conversation.latest_message
-                    ? conversation.latest_message.content
-                    : null
-                "
-                :date="
-                  conversation.latest_message
-                    ? conversation.latest_message.created_at
-                    : null
-                "
+                :message="conversation.latest_message.content"
+                :date="conversation.latest_message.created_at"
                 :status="conversation.conversable.state"
                 conversable-type="Participation"
                 :nametype="
@@ -586,10 +578,10 @@ export default {
 .panel--left
   flex: 1 1 0%
   @screen md
-    width: 375px
+    width: 415px
     @apply flex-none
     > *
-      width: 375px
+      width: 415px
 
 .panel--center
   width: 100%
