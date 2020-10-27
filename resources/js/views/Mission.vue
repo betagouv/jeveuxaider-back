@@ -223,14 +223,7 @@
                     </template>
                   </div>
 
-                  <template
-                    v-if="
-                      mission.state &&
-                      mission.state == 'Validée' &&
-                      mission.has_places_left &&
-                      $store.getters.isLogged
-                    "
-                  >
+                  <template v-if="mission.state && mission.state == 'Validée'">
                     <div
                       class="mt-8 lg:mt-12 block text-center text-sm leading-2 font-medium text-indigo-300 max-w-xs mx-auto"
                     >
@@ -493,22 +486,42 @@
               échanger avec elle pour obtenir plus de précisions.
             </p>
             <div class="mt-10 flex justify-center z-10 relative">
-              <template
-                v-if="
-                  mission.state &&
-                  mission.state == 'Validée' &&
-                  mission.has_places_left &&
-                  $store.getters.isLogged
-                "
-              >
-                <div class="rounded-full shadow-lg">
-                  <button
-                    class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-xl sm:text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                    @click="handleClickParticipate"
+              <template v-if="mission.state">
+                <template v-if="mission.state == 'Validée'">
+                  <template v-if="mission.has_places_left">
+                    <template v-if="$store.getters.isLogged">
+                      <el-button
+                        v-if="canRegistered"
+                        class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        @click="handleClickParticipate"
+                        >Je propose mon aide</el-button
+                      >
+                      <router-link
+                        v-else
+                        to="/user/missions"
+                        class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        >Vous êtes déjà inscrit !</router-link
+                      >
+                    </template>
+
+                    <template v-else>
+                      <router-link
+                        to="/login"
+                        class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        >Proposer votre aide</router-link
+                      >
+                    </template>
+                  </template>
+                </template>
+
+                <template v-else>
+                  <span
+                    class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full bg-orange-500 text-white"
                   >
-                    Je propose mon aide
-                  </button>
-                </div>
+                    Cette mission a le statut
+                    {{ mission.state.toLowerCase() }}
+                  </span>
+                </template>
               </template>
             </div>
             <div class="mt-8 z-1">
