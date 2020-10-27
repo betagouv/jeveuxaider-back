@@ -111,7 +111,10 @@
                           key) in mission.publics_beneficiaires"
                           :key="key"
                         >
-                          {{ publicBeneficiaire }}
+                          {{
+                            publicBeneficiaire
+                              | labelFromValue('mission_publics_beneficiaires')
+                          }}
                         </div>
                       </div>
                     </li>
