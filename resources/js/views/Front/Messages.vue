@@ -39,7 +39,11 @@
               </el-dropdown-menu>
             </el-dropdown> -->
           </div>
-          <div class="panel--container">
+          <div
+            ref="conversationsContainer"
+            class="panel--container"
+            @scroll="onScrollConversations"
+          >
             <div class="panel--content">
               <div v-if="$store.getters.contextRole == 'admin'" class="m-4">
                 <el-input
@@ -326,7 +330,9 @@ export default {
       conversationFilters: { status: 1 },
       messages: [],
       currentPage: 1,
+      currentPageConversation: 1,
       lastPage: null,
+      lastPageConversation: null,
       newMessageCount: 0,
       loading: true,
     }
@@ -400,6 +406,7 @@ export default {
         ['filter[search]']: this.conversationFilters.search,
         page: 1,
       })
+      this.lastPageConversation = data.last_page
       this.$store.commit('conversation/setConversations', data.data)
       this.loading = false
     },
@@ -423,6 +430,19 @@ export default {
         this.fetchNextPage()
       }
     },
+    onScrollConversations() {
+      const isBottom =
+        this.$refs['conversationsContainer'].offsetHeight +
+          this.$refs['conversationsContainer'].scrollTop ==
+        this.$refs['conversationsContainer'].scrollHeight
+
+      if (
+        this.currentPageConversation < this.lastPageConversation &&
+        isBottom
+      ) {
+        this.fetchNextPageConversations()
+      }
+    },
     fetchNextPage() {
       fetchMessages(this.activeConversation.id, {
         page: this.currentPage + 1,
@@ -430,6 +450,18 @@ export default {
       }).then((response) => {
         this.messages = [...this.messages, ...response.data.data]
         this.currentPage = response.data.current_page
+      })
+    },
+    fetchNextPageConversations() {
+      fetchConversations({
+        ['filter[search]']: this.conversationFilters.search,
+        page: this.currentPageConversation + 1,
+      }).then((response) => {
+        this.$store.commit('conversation/setConversations', [
+          ...this.conversations,
+          ...response.data.data,
+        ])
+        this.currentPageConversation = response.data.current_page
       })
     },
     onPanelLeftToggle() {
