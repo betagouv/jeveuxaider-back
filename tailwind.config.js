@@ -77,8 +77,8 @@ module.exports = {
         100: '#def7ec', // Override, #f0fff4
         200: '#c6f6d5',
         300: '#9ae6b4',
-        400: '#68d391',
-        500: '#48bb78',
+        400: '#31c48d', // Override, #68d391
+        500: '#0e9f6e', // Override, #48bb78
         600: '#38a169',
         700: '#057A55',
         800: '#03543f', // Override, #276749
@@ -318,6 +318,14 @@ module.exports = {
       normal: '1.5',
       relaxed: '1.625',
       loose: '2',
+      3: '.75rem',
+      4: '1rem',
+      5: '1.25rem',
+      6: '1.5rem',
+      7: '1.75rem',
+      8: '2rem',
+      9: '2.25rem',
+      10: '2.5rem',
     },
     listStyleType: {
       none: 'none',
