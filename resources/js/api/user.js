@@ -22,12 +22,19 @@ export function registerVolontaire(
   })
 }
 
-export function registerResponsable(email, password, first_name, last_name) {
+export function registerResponsable(
+  email,
+  password,
+  first_name,
+  last_name,
+  structure_name
+) {
   return request.post('/api/register/responsable', {
     email,
     password,
     first_name,
     last_name,
+    structure_name,
   })
 }
 
