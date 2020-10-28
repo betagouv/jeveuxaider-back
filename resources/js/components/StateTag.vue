@@ -43,6 +43,14 @@
     <el-tag v-if="state == 'Signalée'" type="danger" :size="size" class="m-1">
       Signalée
     </el-tag>
+    <el-tag
+      v-if="state == 'Désinscrite'"
+      type="danger"
+      :size="size"
+      class="m-1"
+    >
+      Désinscrite
+    </el-tag>
   </div>
 </template>
 
