@@ -136,6 +136,13 @@
                       :hide-required-asterisk="true"
                     >
                       <div class="flex flex-wrap -m-2">
+                        <el-form-item prop="structure_name" class="w-full p-2">
+                          <el-input
+                            v-model="form.structure_name"
+                            placeholder="Votre organisation"
+                            :disabled="disableFields"
+                          />
+                        </el-form-item>
                         <el-form-item
                           prop="first_name"
                           class="w-full sm:w-1/2 p-2"
@@ -402,59 +409,6 @@
 
     <AppFooter />
   </div>
-
-  <!-- <div class="register mx-auto w-full" style="max-width: 620px;">
-    <div>
-      <router-link to="/">
-        <img
-          class="h-8 w-auto"
-          src="/images/logo-header-dark-small.png"
-          alt="Réserve Civique"
-        />
-      </router-link>
-      <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
-        Vous êtes une organisation publique ou associative ?
-        <br />Rejoignez la
-        <span class="text-blue-800">Réserve Civique</span>
-      </h2>
-    </div>
-    <div class="mt-8 border-t border-gray-200 pt-8" />
-    <div>
-      <h3 class="text-lg font-medium text-gray-900">
-        Engagez-vous pour faire vivre les valeurs de la République
-      </h3>
-      <p class="mt-1 text-sm text-gray-500">
-        <router-link to="/regles-de-securite">
-          Cet engagement nécessite un respect strict des règles sanitaires
-          applicables.
-        </router-link>
-      </p>
-    </div>
-
-
-    <div class="mt-6">
-      <div class="relative">
-        <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300" />
-        </div>
-        <div class="relative flex justify-center text-sm">
-          <span class="px-2 bg-white text-gray-500">OU</span>
-        </div>
-      </div>
-      <div class="mt-6 sm:col-span-">
-        <router-link to="/login">
-          <span class="block w-full rounded-md shadow-sm">
-            <button
-              type="submit"
-              class="w-full flex items-center justify-center py-2 px-4 border border-transparent font-medium border border-gray-300 rounded rounded-md bg-white text-sm font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-            >
-              J'ai déjà un compte
-            </button>
-          </span>
-        </router-link>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -468,13 +422,6 @@ export default {
         callback()
       }
     }
-    // var validateConfidentialite = (rule, value, callback) => {
-    //   if (this.form.confidentialite === false) {
-    //     callback(new Error("Merci d'accepter la politique de confidentialité"))
-    //   } else {
-    //     callback()
-    //   }
-    // }
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
         callback(new Error('Les mots de passe ne sont pas identiques'))
@@ -490,7 +437,7 @@ export default {
         first_name: '',
         last_name: '',
         password: '',
-        // confidentialite: false,
+        structure_name: '',
       },
       rules: {
         email: [
@@ -520,6 +467,13 @@ export default {
             trigger: 'blur',
           },
         ],
+        structure_name: [
+          {
+            required: true,
+            message: 'Nom de votre organisation obligatoire',
+            trigger: 'blur',
+          },
+        ],
         password: [
           {
             required: true,
@@ -533,9 +487,6 @@ export default {
           },
         ],
         password_confirmation: [{ validator: validatePass2, trigger: 'blur' }],
-        // confidentialite: [
-        //   { validator: validateConfidentialite, trigger: 'blur' },
-        // ],
       },
     }
   },
@@ -547,6 +498,7 @@ export default {
     },
   },
   created() {
+    // @Jerem: Est-ce que ca te parle ? Utile ?
     if (this.$route.query.email) {
       this.form.email = this.$route.query.email
       this.form.first_name = this.$route.query.first_name
@@ -565,6 +517,7 @@ export default {
               password: this.form.password,
               first_name: this.form.first_name,
               last_name: this.form.last_name,
+              structure_name: this.form.structure_name,
             })
             .then(() => {
               this.loading = false
