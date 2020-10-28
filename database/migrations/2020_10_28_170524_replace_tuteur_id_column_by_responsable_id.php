@@ -13,7 +13,7 @@ class ReplaceTuteurIdColumnByResponsableId extends Migration
      */
     public function up()
     {
-        Schema::table('missions', function(Blueprint $table) {
+        Schema::table('missions', function (Blueprint $table) {
             $table->dropForeign(['tuteur_id']);
             $table->dropIndex(['tuteur_id']);
             $table->renameColumn('tuteur_id', 'responsable_id');
@@ -32,13 +32,13 @@ class ReplaceTuteurIdColumnByResponsableId extends Migration
      */
     public function down()
     {
-        Schema::table('missions', function(Blueprint $table) {
+        Schema::table('missions', function (Blueprint $table) {
             $table->dropForeign(['responsable_id']);
             $table->dropIndex(['responsable_id']);
             $table->renameColumn('responsable_id', 'tuteur_id');
             $table->foreign('tuteur_id')
-            	->references('id')
-            	->on('profiles')
+                ->references('id')
+                ->on('profiles')
                 ->onDelete('set null');
             $table->index(['tuteur_id']);
         });
