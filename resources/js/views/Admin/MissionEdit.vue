@@ -12,7 +12,7 @@
       <state-tag
         :state="mission.state"
         class="relative ml-3"
-        style="top: 1px;"
+        style="top: 1px"
       ></state-tag>
     </div>
 
@@ -22,7 +22,7 @@
 
 <script>
 import { getMission } from '@/api/mission'
-import MissionForm from '@/views/SNU/MissionForm'
+import MissionForm from '@/views/Admin/MissionForm'
 import StateTag from '@/components/StateTag'
 
 export default {

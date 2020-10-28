@@ -11,7 +11,7 @@
       v-if="$store.getters['volet/active'] && $store.getters['volet/row']"
       class="p-4 overflow-y-auto flex-none border-l bg-gray-100"
       name="volet"
-      style="width: 420px;"
+      style="width: 420px"
     />
   </el-container>
 </template>
@@ -22,7 +22,7 @@ import Sidebar from './components/Sidebar'
 import store from '@/store'
 
 export default {
-  name: 'Layout',
+  name: 'LayoutDashboard',
   components: {
     Sidebar,
   },

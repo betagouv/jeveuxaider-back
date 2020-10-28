@@ -160,7 +160,7 @@
 <script>
 import { fetchMissionTemplates, fetchTags } from '@/api/app'
 import { getStructure } from '@/api/structure'
-import MissionForm from '@/views/SNU/MissionForm'
+import MissionForm from '@/views/Admin/MissionForm'
 
 export default {
   name: 'MissionAdd',
