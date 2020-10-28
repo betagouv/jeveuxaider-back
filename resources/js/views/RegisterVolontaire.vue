@@ -1,5 +1,5 @@
 <template>
-  <div class="register mx-auto w-full" style="max-width: 620px;">
+  <div class="register mx-auto w-full" style="max-width: 620px">
     <div>
       <router-link to="/">
         <img
@@ -82,7 +82,7 @@
           >
             <el-input
               v-model="form.birthday"
-              v-mask="'##/##/####'"
+              v-mask="'99/99/9999'"
               placeholder="__/__/____"
             />
           </el-form-item>
@@ -94,6 +94,7 @@
             <el-input
               v-model="form.password"
               placeholder="Choisissez votre mot de passe"
+              autocomplete="new-password"
               show-password
             />
           </el-form-item>
@@ -123,7 +124,7 @@
           <el-button
             type="primary"
             :loading="loading"
-            style="height: 48px;"
+            style="height: 48px"
             class="w-full flex items-center justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
             @click="onSubmit"
             >Je m'inscris en tant que bénévole</el-button
@@ -188,7 +189,7 @@ export default {
         password: '',
         mobile: '',
         zip: '',
-        birthday: '',
+        birthday: null,
         service_civique: false,
       },
       rules: {

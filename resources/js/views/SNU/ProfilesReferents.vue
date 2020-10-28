@@ -110,9 +110,7 @@
           <div class="text-gray-900">
             {{ scope.row.referent_waiting_actions.structures | formatNumber }}
           </div>
-          <div class="font-light text-gray-600 text-xs">
-            en attente
-          </div>
+          <div class="font-light text-gray-600 text-xs">en attente</div>
         </template>
       </el-table-column>
       <el-table-column label="# Missions" width="150" align="center">
@@ -120,9 +118,7 @@
           <div class="text-gray-900">
             {{ scope.row.referent_waiting_actions.missions | formatNumber }}
           </div>
-          <div class="font-light text-gray-600 text-xs">
-            en attente
-          </div>
+          <div class="font-light text-gray-600 text-xs">en attente</div>
         </template>
       </el-table-column>
       <el-table-column label="# Actions" width="150" align="center">
@@ -130,9 +126,7 @@
           <div class="text-gray-900">
             {{ scope.row.referent_waiting_actions.total | formatNumber }}
           </div>
-          <div class="font-light text-gray-600 text-xs">
-            en attente
-          </div>
+          <div class="font-light text-gray-600 text-xs">en attente</div>
         </template>
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">

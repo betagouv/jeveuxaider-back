@@ -69,6 +69,7 @@ export default {
       }
 
       if (
+        !this.multiple &&
         this.value &&
         this.options[0] &&
         this.options[0].value &&
