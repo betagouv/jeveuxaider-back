@@ -497,15 +497,6 @@ export default {
         : false
     },
   },
-  created() {
-    // @Jerem: Est-ce que ca te parle ? Utile ?
-    if (this.$route.query.email) {
-      this.form.email = this.$route.query.email
-      this.form.first_name = this.$route.query.first_name
-      this.form.last_name = this.$route.query.last_name
-      this.disableFields = true
-    }
-  },
   methods: {
     onSubmit() {
       this.loading = true
