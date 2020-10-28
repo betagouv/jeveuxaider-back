@@ -101,7 +101,7 @@
                     <p
                       class="text-center text-base text-gray-800 sm:text-xl lg:text-lg xl:text-xl"
                     >
-                      Vous souhaitez soutenir de <b>grandes causes</b> ?
+                      Vous souhaitez soutenir de <b>grandes causes</b>&nbsp;?
                     </p>
                     <h3
                       class="mt-2 text-center text-4xl leading-9 font-bold text-gray-900 sm:-mx-6 tracking-tight"
@@ -189,6 +189,7 @@
                             v-model="form.password"
                             placeholder="Mot de passe"
                             show-password
+                            autocomplete="new-password"
                           />
                         </el-form-item>
                         <el-form-item
@@ -339,11 +340,7 @@
                 <div
                   class="flex-shrink-0 inline-flex rounded-full border-2 border-gray-200"
                 >
-                  <img
-                    class="h-12 w-12 rounded-full"
-                    src="/images/bene2.png"
-                    alt=""
-                  />
+                  <img class="h-12 w-12 rounded-full" src="/images/bene2.png" />
                 </div>
                 <div class="ml-4">
                   <div class="text-base leading-6 font-medium text-gray-900">
@@ -410,16 +407,15 @@
         </div>
       </div>
       <div class="mt-16">
-        <div class="text-center justify-center">
+        <div class="px-4">
           <img
             class="h-10 mx-auto opacity-75 mb-4"
             src="/images/logo-gray.svg"
-            alt=""
           />
           <img
-            class="h-24 mx-auto opacity-50"
+            class="w-full sm:h-24 sm:w-auto mx-auto opacity-50"
             src="/images/chacunpourtous.png"
-            alt=""
+            style="max-width: 420px"
           />
         </div>
       </div>
@@ -460,7 +456,7 @@ export default {
         password: '',
         mobile: '',
         zip: '',
-        birthday: '',
+        birthday: null,
         service_civique: false,
       },
       rules: {

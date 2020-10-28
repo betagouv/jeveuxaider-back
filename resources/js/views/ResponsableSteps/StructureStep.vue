@@ -2,7 +2,7 @@
   <div class="register-step">
     <portal to="register-steps-help">
       <p>
-        Dites-nous en plus sur votre organisation !
+        Dites-nous en plus sur votre organisation&nbsp;!
         <br />Ces
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
