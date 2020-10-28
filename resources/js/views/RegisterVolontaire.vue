@@ -82,7 +82,7 @@
           >
             <el-input
               v-model="form.birthday"
-              v-mask="'##/##/####'"
+              v-mask="'99/99/9999'"
               placeholder="__/__/____"
             />
           </el-form-item>
