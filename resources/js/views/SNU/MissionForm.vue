@@ -390,11 +390,11 @@
           <el-form-item
             v-if="form.structure"
             label="Responsable"
-            prop="tuteur_id"
+            prop="responsable_id"
             class="flex-1"
           >
             <el-select
-              v-model="form.tuteur_id"
+              v-model="form.responsable_id"
               placeholder="Sélectionner un responsable"
             >
               <el-option
@@ -525,7 +525,7 @@ export default {
             trigger: 'blur',
           },
         ],
-        tuteur_id: [
+        responsable_id: [
           {
             required: true,
             message: 'Veuillez sélectionner le responsable de la mission',

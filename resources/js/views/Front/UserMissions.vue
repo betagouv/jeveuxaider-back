@@ -36,7 +36,7 @@
                 <div class="min-w-0 flex-1 flex items-start">
                   <div
                     class="hidden sm:block flex-shrink-0"
-                    style="margin-top: 2px;"
+                    style="margin-top: 2px"
                   >
                     <img
                       v-if="participation.mission.structure.logo"
@@ -151,13 +151,13 @@
                 </svg>
                 <span>
                   Responsable :
-                  {{ participation.mission.tuteur.full_name }}
+                  {{ participation.mission.responsable.full_name }}
                 </span>
               </div>
 
               <a
                 v-if="canShowCoordonates(participation)"
-                :href="`mailto:${participation.mission.tuteur.email}`"
+                :href="`mailto:${participation.mission.responsable.email}`"
                 class="m-2"
               >
                 <button
@@ -175,7 +175,7 @@
                       clip-rule="evenodd"
                     />
                   </svg>
-                  <span>{{ participation.mission.tuteur.email }}</span>
+                  <span>{{ participation.mission.responsable.email }}</span>
                 </button>
               </a>
 

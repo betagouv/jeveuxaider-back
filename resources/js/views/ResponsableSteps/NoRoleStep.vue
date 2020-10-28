@@ -16,11 +16,9 @@
       <div class="flex flex-wrap -m-4 lg:-m-8">
         <div
           class="w-full sm:w-64 border p-8 m-4 lg:m-8 rounded-lg flex flex-col text-center hover:border-primary"
-          style="height: 270px;"
+          style="height: 270px"
         >
-          <div class="font-bold mb-4">
-            Responsable
-          </div>
+          <div class="font-bold mb-4">Responsable</div>
           <div class="text-gray-600 mb-4 flex-1">
             J'inscris mon organisation en tant que responsable
           </div>
@@ -29,29 +27,23 @@
               name: 'ProfileStep',
             }"
           >
-            <el-button type="primary">
-              Choisir
-            </el-button>
+            <el-button type="primary"> Choisir </el-button>
           </router-link>
         </div>
         <div
           class="w-full sm:w-64 border p-8 m-4 lg:m-8 rounded-lg flex flex-col text-center hover:border-primary"
-          style="height: 270px;"
+          style="height: 270px"
         >
-          <div class="font-bold mb-4">
-            Autre
-          </div>
+          <div class="font-bold mb-4">Autre</div>
           <div class="text-gray-600 mb-4 flex-1">
-            Je suis un tuteur, un référent départemental ou un superviseur
+            Je suis un référent départemental, superviseur ou autre
           </div>
           <router-link
             :to="{
               name: 'OtherStep',
             }"
           >
-            <el-button type="primary">
-              Choisir
-            </el-button>
+            <el-button type="primary"> Choisir </el-button>
           </router-link>
         </div>
       </div>

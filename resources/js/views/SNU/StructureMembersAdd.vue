@@ -17,17 +17,8 @@
         label-position="top"
         :rules="rules"
       >
-        <div class="mb-6 text-xl text-gray-800">
-          Rôle de l'utilisateur
-        </div>
+        <div class="mb-6 text-xl text-gray-800">Rôle de l'utilisateur</div>
         <el-radio-group v-model="form.role" class="flex flex-col">
-          <!-- <el-radio class="mb-6 flex items-center" label="tuteur">
-            <div>Tuteur</div>
-            <div class="description">
-              Vous pourrez ensuite assigner chaque tuteur à une ou plusieurs
-              missions.
-            </div>
-          </el-radio> -->
           <el-radio class="mb-6 flex items-center" label="responsable">
             <div>Responsable</div>
             <div class="description">

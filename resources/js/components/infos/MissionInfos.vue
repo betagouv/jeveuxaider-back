@@ -48,23 +48,24 @@
         {{ mission.department | fullDepartmentFromValue }}
       </div>
     </div>
-    <template v-if="mission.tuteur">
-      <div v-if="mission.tuteur" class="mb-2 flex">
+    <template v-if="mission.responsable">
+      <div v-if="mission.responsable" class="mb-2 flex">
         <div class="card-label">Responsable</div>
         <div class="text-gray-900 flex-1">
-          {{ mission.tuteur.first_name }} {{ mission.tuteur.last_name }}
+          {{ mission.responsable.first_name }}
+          {{ mission.responsable.last_name }}
         </div>
       </div>
-      <div v-if="mission.tuteur.mobile" class="mb-2 flex">
+      <div v-if="mission.responsable.mobile" class="mb-2 flex">
         <div class="card-label">Portable</div>
         <div class="text-gray-900 flex-1">
-          {{ mission.tuteur.mobile }}
+          {{ mission.responsable.mobile }}
         </div>
       </div>
-      <div v-if="mission.tuteur.phone" class="mb-2 flex">
+      <div v-if="mission.responsable.phone" class="mb-2 flex">
         <div class="card-label">Téléphone</div>
         <div class="text-gray-900 flex-1">
-          {{ mission.tuteur.phone }}
+          {{ mission.responsable.phone }}
         </div>
       </div>
     </template>

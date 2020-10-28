@@ -62,7 +62,7 @@ class ProfileController extends Controller
 
     public function participations(Request $request, Profile $profile)
     {
-        return QueryBuilder::for(Participation::with(['mission.tuteur', 'mission.structure']))
+        return QueryBuilder::for(Participation::with(['mission.responsable', 'mission.structure']))
             ->where('profile_id', $profile->id)
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));

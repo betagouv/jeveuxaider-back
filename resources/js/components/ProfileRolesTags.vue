@@ -57,15 +57,6 @@
       <el-tag type="info" :size="size" class="m-1"> Responsable </el-tag>
     </el-tooltip>
     <el-tooltip
-      v-if="profile.roles.tuteur"
-      class="item"
-      effect="dark"
-      :content="structures_as_tuteur.name"
-      placement="top"
-    >
-      <el-tag type="info" :size="size" class="m-1"> Tuteur </el-tag>
-    </el-tooltip>
-    <el-tooltip
       v-if="!profile.has_user"
       class="item"
       effect="dark"
@@ -130,11 +121,6 @@ export default {
     structure_as_responsable() {
       return this.profile.structures.filter(
         (structure) => structure.pivot.role == 'responsable'
-      )[0]
-    },
-    structures_as_tuteur() {
-      return this.profile.structures.filter(
-        (structure) => structure.pivot.role == 'tuteur'
       )[0]
     },
   },

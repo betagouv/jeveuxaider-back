@@ -119,7 +119,6 @@ export const rolesList = [
   { key: 'superviseur', label: 'Superviseur' },
   { key: 'responsable_collectivity', label: 'Responsable Collectivité' },
   { key: 'responsable', label: 'Responsable' },
-  { key: 'tuteur', label: 'Tuteur' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
 ]

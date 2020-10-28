@@ -36,7 +36,7 @@ class Mission extends Model
         'state',
         'participations_max',
         'dates_infos',
-        'tuteur_id',
+        'responsable_id',
         'periodicite',
         'publics_beneficiaires',
         'publics_volontaires',
@@ -140,7 +140,7 @@ class Mission extends Model
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function tuteur()
+    public function responsable()
     {
         return $this->belongsTo('App\Models\Profile');
     }
@@ -253,11 +253,6 @@ class Mission extends Model
                 // Missions des structures dont je suis responsable
                 return $query
                     ->whereIn('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id'));
-            break;
-            case 'tuteur':
-                // Missions dont je suis le tuteur
-                return $query
-                    ->where('tuteur_id', Auth::guard('api')->user()->profile->id);
             break;
             case 'referent':
                 // Missions qui sont dans mon département

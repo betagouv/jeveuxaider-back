@@ -234,7 +234,7 @@ export default {
             template_id: template ? template.id : null,
             template: template || null,
             state: template ? 'Validée' : 'En attente de validation', // TODO : cette logique devrait être côté PHP setState()
-            tuteur_id: this.$store.getters.user.profile.id,
+            responsable_id: this.$store.getters.user.profile.id,
             structure_id: this.structureId,
             structure: data,
           },
