@@ -2,7 +2,7 @@
   <div class="register-step">
     <portal to="register-steps-help">
       <p>
-        Dites-nous en plus sur votre organisation !
+        Dites-nous en plus sur votre organisation&nbsp;!
         <br />Ces
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
@@ -221,7 +221,7 @@
 </template>
 
 <script>
-import { addOrUpdateStructure, updateStructureLogo } from '@/api/structure'
+import { updateStructure, updateStructureLogo } from '@/api/structure'
 import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
@@ -271,9 +271,12 @@ export default {
     },
   },
   created() {
-    this.structureId = this.$store.getters.structure_as_responsable
-      ? this.$store.getters.structure_as_responsable.id
-      : null
+    const structure = this.$store.getters.structure_as_responsable
+    this.structureId = structure ? structure.id : null
+
+    if (this.structureId) {
+      this.form.name = structure.name
+    }
   },
   methods: {
     uploadLogo(request) {
@@ -311,7 +314,8 @@ export default {
       this.loading = true
       this.$refs['structureForm'].validate((valid) => {
         if (valid) {
-          addOrUpdateStructure(this.structureId, this.form)
+          // TODO update structure seulement parce qu'elle est deja créée
+          updateStructure(this.structureId, this.form)
             .then(async (response) => {
               this.structureId = response.data.id
               if (this.$refs.logo.uploadFiles.length > 0) {

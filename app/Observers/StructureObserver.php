@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Profile;
 use App\Models\Structure;
-use App\Notifications\StructureWaitingValidation;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
@@ -24,9 +23,6 @@ class StructureObserver
         }
 
         if ($structure->state == 'En attente de validation') {
-            if ($structure->user->profile) {
-                $structure->user->profile->notify(new StructureWaitingValidation($structure));
-            }
             if ($structure->department) {
                 Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
                     $profile->notify(new StructureSubmitted($structure));

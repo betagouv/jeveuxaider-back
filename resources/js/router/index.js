@@ -119,18 +119,6 @@ export default new Router({
           meta: { requiresAnonymous: true },
         },
         {
-          path: '/register/volontaire',
-          name: 'RegisterVolontaire',
-          component: RegisterVolontaire,
-          meta: { requiresAnonymous: true },
-        },
-        {
-          path: '/register/responsable',
-          name: 'RegisterResponsable',
-          component: RegisterResponsable,
-          meta: { requiresAnonymous: true },
-        },
-        {
           path: '/register/collectivity',
           name: 'RegisterCollectivity',
           component: RegisterCollectivity,
@@ -1264,6 +1252,18 @@ export default new Router({
       name: 'messagesId',
       props: (route) => ({ id: route.params.id }),
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/register/volontaire',
+      name: 'RegisterVolontaire',
+      component: RegisterVolontaire,
+      meta: { requiresAnonymous: true },
+    },
+    {
+      path: '/register/responsable',
+      name: 'RegisterResponsable',
+      component: RegisterResponsable,
+      meta: { requiresAnonymous: true },
     },
   ],
   scrollBehavior() {

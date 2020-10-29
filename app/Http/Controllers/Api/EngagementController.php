@@ -31,7 +31,7 @@ class EngagementController extends Controller
         do {
             $response = Http::withHeaders([
                 'apikey' => config('app.api_engagement_key'),
-            ])->get("http://api.jobsmail.tech/v0/mission?limit=$limit&skip=$done");
+            ])->get("http://api.jobsmail.tech/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport");
 
             if (!$response->successful()) {
                 return false;
@@ -138,10 +138,10 @@ class EngagementController extends Controller
 
         switch ($mission['remote']) {
             case 'no':
-                return 'Mission en présentiel ';
+                return 'Mission en présentiel';
                 break;
             case 'possible':
-                return 'Mission en présentiel ';
+                return 'Mission en présentiel';
                 break;
             case 'full':
                 return 'Mission à distance';

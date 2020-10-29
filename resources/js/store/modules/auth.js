@@ -52,7 +52,8 @@ const actions = {
         user.email,
         user.password,
         user.first_name,
-        user.last_name
+        user.last_name,
+        user.structure_name
       )
         .then(() => {
           dispatch('login', user).then((response) => {

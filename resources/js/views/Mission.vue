@@ -19,14 +19,9 @@
                 <div class="mb-4">
                   <div class="-m-2 flex flex-wrap">
                     <span
-                      v-if="mission.template"
+                      v-if="domainName(mission)"
                       class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
-                      >{{ mission.template.domaine.name.fr }}</span
-                    >
-                    <span
-                      v-else
-                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
-                      >{{ mission.domaine.name.fr }}</span
+                      >{{ domainName(mission) }}</span
                     >
                     <template v-if="mission.tags">
                       <span
@@ -664,8 +659,9 @@
                     >
                       <div class="m-2 min-w-0 flex-shrink">
                         <div
+                          v-if="domainName(otherMission)"
                           class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                          v-text="otherMission.type"
+                          v-text="domainName(otherMission)"
                         />
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
@@ -699,27 +695,40 @@
                         </template>
                         <template v-else>Complet</template>
                       </div>
+                      <div
+                        v-else
+                        class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
+                        style="background: #d2d6dc"
+                      >
+                        <span v-if="otherMission.has_places_left === false"
+                          >Complet</span
+                        >
+                        <span v-else>Nombre de places non défini</span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="mt-4 flex items-start text-sm text-gray-500">
-                  <svg
-                    class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                <div
+                  class="flex items-center text-s leading-5 text-gray-500 mt-4"
+                >
                   <span
+                    v-if="
+                      otherMission.city &&
+                      otherMission.type == 'Mission en présentiel'
+                    "
                     v-text="
-                      `${otherMission.city} (${otherMission.department}) - ${mission.structure.name}`
+                      `${mission.structure.name} - ${otherMission.city} (${otherMission.department})`
                     "
                   />
+                  <span v-else v-text="`${mission.structure.name}`" />
+
+                  <span
+                    v-if="otherMission.type"
+                    class="ml-3 mt-1 px-2.5 mx-auto py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-lg text-gray-500 bg-white"
+                  >
+                    {{ otherMission.type | labelFromValue('mission_types') }}
+                  </span>
                 </div>
               </div>
             </router-link>
@@ -869,6 +878,16 @@ export default {
     },
     handleClickParticipate() {
       this.dialogParticipateVisible = true
+    },
+    domainName(mission) {
+      return mission.domaine && mission.domaine.name && mission.domaine.name.fr
+        ? mission.domaine.name.fr
+        : mission.template &&
+          mission.template.domaine &&
+          mission.template.domaine.name &&
+          mission.template.domaine.name.fr
+        ? mission.template.domaine.name.fr
+        : null
     },
   },
 }
