@@ -664,8 +664,9 @@
                     >
                       <div class="m-2 min-w-0 flex-shrink">
                         <div
+                          v-if="domainName(otherMission)"
                           class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                          v-text="otherMission.domaine_name"
+                          v-text="domainName(otherMission)"
                         />
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
@@ -880,6 +881,16 @@ export default {
     },
     handleClickParticipate() {
       this.dialogParticipateVisible = true
+    },
+    domainName(mission) {
+      return mission.domaine && mission.domaine.name && mission.domaine.name.fr
+        ? mission.domaine.name.fr
+        : mission.template &&
+          mission.template.domaine &&
+          mission.template.domaine.name &&
+          mission.template.domaine.name.fr
+        ? mission.template.domaine.name.fr
+        : null
     },
   },
 }
