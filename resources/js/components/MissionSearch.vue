@@ -74,9 +74,10 @@
         <span v-else v-text="`${mission.structure.name}`" />
 
         <span
+          v-if="mission.type"
           class="ml-3 mt-1 px-2.5 mx-auto py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-lg text-gray-500 bg-white"
         >
-          {{ mission.type | labelFromValue('mission_types') }}
+          {{ mission.type.trim() | labelFromValue('mission_types') }}
         </span>
       </div>
       <div v-if="mission.publisher_name" class="mt-1 text-sm flex items-center">
