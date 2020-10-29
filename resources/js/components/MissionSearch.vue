@@ -77,12 +77,11 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span
-          v-if="mission.city"
-          v-text="
-            `${mission.city} (${mission.department}) - ${mission.structure.name}`
-          "
-        />
+        <span v-if="mission.city">
+          {{ mission.city }}
+          <span v-if="mission.department">({{ mission.department }})</span> -
+          {{ mission.structure.name }}
+        </span>
         <span v-else v-text="`${mission.structure.name}`" />
       </div>
       <div v-if="mission.publisher_name" class="mt-1 text-sm flex items-center">
