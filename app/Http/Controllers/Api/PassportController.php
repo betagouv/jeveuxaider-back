@@ -16,7 +16,9 @@ use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
+use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Notifications\RegisterUserCollectivity;
+use App\Models\Structure;
 
 //use App\Rules\Lowercase;
 
@@ -48,7 +50,7 @@ class PassportController extends Controller
         return $user;
     }
 
-    public function registerResponsable(RegisterResponsableRequest $request)
+    public function registerResponsable(RegisterResponsableWithStructureRequest $request)
     {
         $user = User::create([
             'name' => request("email"),
@@ -61,9 +63,13 @@ class PassportController extends Controller
         if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
             $profile = Profile::create($request->validated());
         }
-
-        $notification = new RegisterUserResponsable($user);
         $user->profile()->save($profile);
+
+        $structure = Structure::create(
+            ['user_id' => $user->id, 'name' => request('structure_name')]
+        );
+
+        $notification = new RegisterUserResponsable($structure);
         $user->notify($notification);
 
         return $user;
