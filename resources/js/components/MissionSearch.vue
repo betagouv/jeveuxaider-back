@@ -14,7 +14,7 @@
           <div class="m-2 min-w-0 flex-shrink">
             <div
               class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-              v-text="mission.domaine_name"
+              v-text="mission.structure.name"
             />
             <div
               class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate flex"
@@ -22,8 +22,8 @@
               <span class="truncate"> {{ mission.name }}</span>
               <svg
                 v-if="mission.provider == 'api_engagement'"
-                style="width: 20px; display: none"
-                class="ml-2 external-link"
+                style="width: 20px"
+                class="lg:hidden ml-2 external-link"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -63,24 +63,44 @@
       </div>
     </div>
 
-    <div class="flex justify-between">
-      <div class="flex items-center text-s leading-5 text-gray-500 mt-4">
-        <span
+    <div class="flex flex-col lg:flex-row lg:justify-between">
+      <div
+        class="flex items-center flex-wrap text-s leading-5 text-gray-500 mt-4"
+      >
+        <template
           v-if="mission.city && mission.type == 'Mission en présentiel'"
-          v-text="
-            `${mission.structure.name} - ${mission.city} (${mission.department})`
-          "
-        />
-        <span v-else v-text="`${mission.structure.name}`" />
+        >
+          <span
+            v-if="mission.department"
+            class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+            >Mission en présentiel - {{ mission.city }} ({{
+              mission.department
+            }})</span
+          >
+          <span
+            v-else
+            class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+            >Mission en présentiel - {{ mission.city }}</span
+          >
+        </template>
+        <template v-else>
+          <span
+            class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+            >Mission à distance</span
+          >
+        </template>
 
         <span
-          v-if="mission.type"
-          class="ml-3 mt-1 px-2.5 mx-auto py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-lg text-gray-500 bg-white"
+          v-for="domaine in mission.domaines"
+          :key="domaine"
+          class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+          >{{ domaine }}</span
         >
-          {{ mission.type.trim() | labelFromValue('mission_types') }}
-        </span>
       </div>
-      <div v-if="mission.publisher_name" class="mt-1 text-sm flex items-center">
+      <div
+        v-if="mission.publisher_name"
+        class="mt-3 lg:mt-1 text-sm flex items-center"
+      >
         <div class="mr-4">
           <div class="text-gray-500">Mission proposée par</div>
           <div class="font-bold text-black">
