@@ -91,10 +91,9 @@
         </template>
 
         <span
-          v-for="domaine in mission.domaines"
-          :key="domaine"
+          v-if="mission.domaines[0]"
           class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
-          >{{ domaine }}</span
+          >{{ mission.domaines[0] }}</span
         >
       </div>
       <div

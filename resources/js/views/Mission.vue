@@ -742,10 +742,9 @@
                   </template>
 
                   <span
-                    v-for="domaine in otherMission.domaines"
-                    :key="domaine.id"
+                    v-if="otherMission.domaines[0]"
                     class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
-                    >{{ domaine.name.fr }}</span
+                    >{{ otherMission.domaines[0].name.fr }}</span
                   >
                 </div>
               </div>
