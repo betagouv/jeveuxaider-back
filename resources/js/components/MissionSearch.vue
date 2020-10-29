@@ -19,7 +19,7 @@
             <div
               class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate flex"
             >
-              <span> {{ mission.name }}</span>
+              <span class="truncate"> {{ mission.name }}</span>
               <svg
                 v-if="mission.provider == 'api_engagement'"
                 style="width: 20px; display: none"
@@ -64,26 +64,20 @@
     </div>
 
     <div class="flex justify-between">
-      <div class="flex items-start text-sm text-gray-500 mt-4">
-        <svg
-          v-if="mission.city"
-          class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-            clip-rule="evenodd"
-          />
-        </svg>
+      <div class="flex items-center text-s leading-5 text-gray-500 mt-4">
         <span
-          v-if="mission.city"
+          v-if="mission.city && mission.type == 'Mission en présentiel'"
           v-text="
-            `${mission.city} (${mission.department}) - ${mission.structure.name}`
+            `${mission.structure.name} - ${mission.city} (${mission.department})`
           "
         />
         <span v-else v-text="`${mission.structure.name}`" />
+
+        <span
+          class="ml-3 mt-1 px-2.5 mx-auto py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-lg text-gray-500 bg-white"
+        >
+          {{ mission.type | labelFromValue('mission_types') }}
+        </span>
       </div>
       <div v-if="mission.publisher_name" class="mt-1 text-sm flex items-center">
         <div class="mr-4">
