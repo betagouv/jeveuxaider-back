@@ -1,9 +1,7 @@
 <template>
   <div v-if="!$store.getters.loading" class="max-w-2xl pl-12 pb-12">
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">
-        Document
-      </div>
+      <div class="text-m text-gray-600 uppercase">Document</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">
           {{ form.title }}
@@ -20,9 +18,7 @@
       label-position="top"
       :rules="rules"
     >
-      <div class="mb-6 text-xl text-gray-800">
-        Informations générales
-      </div>
+      <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Nom du document" prop="title">
         <el-input v-model="form.title" placeholder="Nom du document" />
@@ -71,7 +67,7 @@
           <div v-else class="flex items-center">
             <div
               class="mr-4 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center"
-              style="width: 50px; height: 50px;"
+              style="width: 50px; height: 50px"
             >
               <font-awesome-icon
                 size="lg"
@@ -98,7 +94,7 @@
         <div v-else class="flex items-center">
           <div
             class="mr-4 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center"
-            style="width: 50px; height: 50px;"
+            style="width: 50px; height: 50px"
           >
             <font-awesome-icon
               size="lg"
@@ -128,6 +124,20 @@
         </div>
       </div>
 
+      <div v-if="form.roles.includes('referent')" class="flex my-8 bg-gray-50">
+        <el-form-item class="p-4 mb-0" prop="notification">
+          <el-checkbox v-model="sendNotificationsToReferent">
+            <template v-if="form.id"
+              >Notifier les référents de la mise à jour de cette
+              ressource</template
+            >
+            <template v-else
+              >Notifier les référents de l'ajout de cette ressource</template
+            >
+          </el-checkbox>
+        </el-form-item>
+      </div>
+
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">
           Enregistrer
@@ -138,7 +148,12 @@
 </template>
 
 <script>
-import { getDocument, addOrUpdateDocument, uploadFile } from '@/api/app'
+import {
+  getDocument,
+  addOrUpdateDocument,
+  uploadFile,
+  notifyDocument,
+} from '@/api/app'
 import FileUpload from '@/mixins/FileUpload'
 
 export default {
@@ -161,6 +176,7 @@ export default {
       form: {
         roles: ['referent', 'responsable'],
       },
+      sendNotificationsToReferent: false,
       file: null,
     }
   },
@@ -225,6 +241,22 @@ export default {
         message: 'Le document a été enregistrée !',
         type: 'success',
       })
+      if (this.sendNotificationsToReferent) {
+        notifyDocument(this.form.id)
+          .then((response) => {
+            console.log('nn', response.data)
+            this.$message({
+              message:
+                'Une notification a été envoyée à  ' +
+                response.data.notify_count +
+                ' référents',
+              type: 'success',
+            })
+          })
+          .catch(() => {
+            //
+          })
+      }
     },
   },
 }

@@ -165,6 +165,10 @@ export function updateDocument(id, document) {
   return request.post(`/api/document/${id}`, document)
 }
 
+export function notifyDocument(id) {
+  return request.post(`/api/document/${id}/notify/`)
+}
+
 export function addOrUpdateDocument(id, document) {
   return id ? updateDocument(id, document) : addDocument(document)
 }

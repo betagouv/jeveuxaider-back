@@ -198,6 +198,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('document/{document}/upload', 'Api\DocumentController@uploadDelete');
     Route::delete('document/{document}', 'Api\DocumentController@delete');
 
+    Route::post('document/{document}/notify', 'Api\DocumentController@notify');
+
     // FAQ
     Route::post('faq', 'Api\FaqController@store');
     Route::post('faq/{faq}', 'Api\FaqController@update');
