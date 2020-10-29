@@ -127,7 +127,10 @@
                   </span>
                 </div>
 
-                <div class="mt-2 text-base leading-7 text-gray-600">
+                <div
+                  v-if="structure.description"
+                  class="mt-2 text-base leading-7 text-gray-600"
+                >
                   <ReadMore
                     more-str="Lire plus"
                     :text="structure.description"
@@ -659,10 +662,10 @@
                     >
                       <div class="m-2 min-w-0 flex-shrink">
                         <div
-                          v-if="domainName(otherMission)"
                           class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                          v-text="domainName(otherMission)"
-                        />
+                        >
+                          {{ mission.structure.name }}
+                        </div>
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                         >
@@ -710,25 +713,40 @@
                 </div>
 
                 <div
-                  class="flex items-center text-s leading-5 text-gray-500 mt-4"
+                  class="flex items-center flex-wrap text-s leading-5 text-gray-500 mt-4"
                 >
-                  <span
+                  <template
                     v-if="
                       otherMission.city &&
                       otherMission.type == 'Mission en présentiel'
                     "
-                    v-text="
-                      `${mission.structure.name} - ${otherMission.city} (${otherMission.department})`
-                    "
-                  />
-                  <span v-else v-text="`${mission.structure.name}`" />
+                  >
+                    <span
+                      v-if="otherMission.department"
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                      >Mission en présentiel - {{ otherMission.city }} ({{
+                        otherMission.department
+                      }})</span
+                    >
+                    <span
+                      v-else
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                      >Mission en présentiel - {{ otherMission.city }}</span
+                    >
+                  </template>
+                  <template v-else>
+                    <span
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                      >Mission à distance</span
+                    >
+                  </template>
 
                   <span
-                    v-if="otherMission.type"
-                    class="ml-3 mt-1 px-2.5 mx-auto py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-lg text-gray-500 bg-white"
+                    v-for="domaine in otherMission.domaines"
+                    :key="domaine.id"
+                    class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                    >{{ domaine.name.fr }}</span
                   >
-                    {{ otherMission.type | labelFromValue('mission_types') }}
-                  </span>
                 </div>
               </div>
             </router-link>
@@ -840,6 +858,7 @@ export default {
         this.loading = false
         fetchStructureAvailableMissions(this.mission.structure.id, {
           exclude: this.id,
+          append: 'domaines',
         })
           .then((response) => {
             this.otherMissions = response.data
