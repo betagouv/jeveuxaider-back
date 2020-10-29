@@ -138,10 +138,10 @@ class EngagementController extends Controller
 
         switch ($mission['remote']) {
             case 'no':
-                return 'Mission en présentiel ';
+                return 'Mission en présentiel';
                 break;
             case 'possible':
-                return 'Mission en présentiel ';
+                return 'Mission en présentiel';
                 break;
             case 'full':
                 return 'Mission à distance';
