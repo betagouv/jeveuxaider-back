@@ -19,14 +19,9 @@
                 <div class="mb-4">
                   <div class="-m-2 flex flex-wrap">
                     <span
-                      v-if="mission.template"
+                      v-if="domainName(mission)"
                       class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
-                      >{{ mission.template.domaine.name.fr }}</span
-                    >
-                    <span
-                      v-else
-                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
-                      >{{ mission.domaine.name.fr }}</span
+                      >{{ domainName(mission) }}</span
                     >
                     <template v-if="mission.tags">
                       <span
@@ -719,18 +714,20 @@
                 >
                   <span
                     v-if="
-                      mission.city && mission.type == 'Mission en présentiel'
+                      otherMission.city &&
+                      otherMission.type == 'Mission en présentiel'
                     "
                     v-text="
-                      `${mission.structure.name} - ${mission.city} (${mission.department})`
+                      `${mission.structure.name} - ${otherMission.city} (${otherMission.department})`
                     "
                   />
                   <span v-else v-text="`${mission.structure.name}`" />
 
                   <span
+                    v-if="otherMission.type"
                     class="ml-3 mt-1 px-2.5 mx-auto py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-lg text-gray-500 bg-white"
                   >
-                    {{ mission.type | labelFromValue('mission_types') }}
+                    {{ otherMission.type | labelFromValue('mission_types') }}
                   </span>
                 </div>
               </div>
