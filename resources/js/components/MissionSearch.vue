@@ -5,7 +5,7 @@
         class="hidden sm:block flex-shrink-0 rounded-md p-3 text-center"
         :class="color ? `bg-${color}` : 'bg-primary'"
       >
-        <img class="" :src="mission.domaine_image" style="width: 28px" />
+        <img class="" :src="mission.domaine_image" style="width: 28px;" />
       </div>
       <div class="min-w-0 flex-1 sm:pl-4">
         <div
@@ -17,13 +17,13 @@
               v-text="mission.structure.name"
             />
             <div
-              class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate flex"
+              class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate flex items-center"
             >
               <span class="truncate"> {{ mission.name }}</span>
               <svg
                 v-if="mission.provider == 'api_engagement'"
-                style="width: 20px"
-                class="lg:hidden ml-2 external-link"
+                style="width: 20px; display: none;"
+                class="ml-2 external-link"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -41,7 +41,7 @@
           <div
             v-if="mission.has_places_left && mission.places_left > 0"
             class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-            style="background: #31c48d"
+            style="background: #31c48d;"
           >
             <template>
               {{ mission.places_left | formatNumber }}
@@ -54,7 +54,7 @@
           <div
             v-else
             class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-            style="background: #d2d6dc"
+            style="background: #d2d6dc;"
           >
             <span v-if="mission.has_places_left === false">Complet</span>
             <span v-else>Nombre de places non défini</span>
@@ -108,7 +108,7 @@
         </div>
         <div>
           <img
-            style="max-width: 90px"
+            style="max-width: 90px;"
             :src="mission.publisher_logo"
             :alt="mission.publisher_name"
           />

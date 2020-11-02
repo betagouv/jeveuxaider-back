@@ -30,6 +30,7 @@ class CollectivityController extends Controller
             ->allowedFilters([
                 'state',
                 'type',
+                AllowedFilter::exact('published'),
                 AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])
             ->defaultSort('-created_at')
