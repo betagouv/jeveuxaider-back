@@ -92,35 +92,30 @@
           <div v-if="tab == 'departments'" class="mx-auto">
             <div
               v-for="group in departmentGroups"
-              v-if="
-                departments.filter(
-                  (department) =>
-                    department.group == group &&
-                    slugify(department.name).includes(slugify(query))
-                ).length > 0
-              "
               :key="group"
               class="mt-10 text-xl font-bold pl-2"
             >
-              {{ group }}
-              <div
-                class="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:mt-2"
-              >
-                <a
-                  v-for="department in departments.filter(
-                    (department) =>
-                      department.group == group &&
-                      slugify(department.name).includes(slugify(query))
-                  )"
-                  :key="department.name"
-                  :href="department.url"
+              <div v-if="departmentsFilteredByLetters(group).length > 0">
+                {{ group }}
+                <div
+                  class="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:mt-2"
                 >
-                  <div
-                    class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                  <a
+                    v-for="department in departments.filter(
+                      (department) =>
+                        department.group == group &&
+                        slugify(department.name).includes(slugify(query))
+                    )"
+                    :key="department.name"
+                    :href="department.url"
                   >
-                    <span class="font-semibold">{{ department.name }}</span>
-                  </div>
-                </a>
+                    <div
+                      class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                    >
+                      <span class="font-semibold">{{ department.name }}</span>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -130,22 +125,25 @@
               :key="i"
               class="mt-10 text-xl font-bold pl-2"
             >
-              {{ group[0] }} - {{ group[group.length - 1] }}
-              <div
-                v-if="collectivitiesFilteredByLetters(group).length > 0"
-                class="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:mt-2"
-              >
-                <a
-                  v-for="collectivity in collectivitiesFilteredByLetters(group)"
-                  :key="collectivity.id"
-                  :href="`territoires/${collectivity.slug}`"
+              <div v-if="collectivitiesFilteredByLetters(group).length > 0">
+                {{ group[0] }} - {{ group[group.length - 1] }}
+                <div
+                  class="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:mt-2"
                 >
-                  <div
-                    class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                  <a
+                    v-for="collectivity in collectivitiesFilteredByLetters(
+                      group
+                    )"
+                    :key="collectivity.id"
+                    :href="`territoires/${collectivity.slug}`"
                   >
-                    <span class="font-semibold">{{ collectivity.name }}</span>
-                  </div>
-                </a>
+                    <div
+                      class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                    >
+                      <span class="font-semibold">{{ collectivity.name }}</span>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -217,6 +215,13 @@ export default {
         (item) =>
           letters.includes(item.name[0]) &&
           this.slugify(item.name).includes(this.slugify(this.query))
+      )
+    },
+    departmentsFilteredByLetters(letters) {
+      return this.departments.filter(
+        (department) =>
+          department.group == letters &&
+          this.slugify(department.name).includes(this.slugify(this.query))
       )
     },
     slugify(str) {
