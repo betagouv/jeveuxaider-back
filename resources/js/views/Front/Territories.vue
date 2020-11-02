@@ -53,7 +53,7 @@
                   id="search_field"
                   v-model="query"
                   class="block w-full text-xl h-full pl-8 pr-6 py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:outline-none focus:placeholder-cool-gray-400"
-                  placeholder="Trouvez votre département ou votre commune"
+                  placeholder="Trouvez votre département ou votre collectivité"
                   type="search"
                 />
               </div>
@@ -83,7 +83,7 @@
               class="ml-4 px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'collectivities'"
             >
-              Communes ({{ collectivitiesCount }})
+              Collectivités ({{ collectivitiesCount }})
             </span>
           </nav>
         </div>
