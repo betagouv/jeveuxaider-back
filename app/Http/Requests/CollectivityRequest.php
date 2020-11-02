@@ -17,7 +17,7 @@ class CollectivityRequest extends FormRequest
             'name' => [
                 'required',
                 'unique:collectivities',
-                'min:3',
+                'min:2',
                 'max:255',
             ],
             'title' => '',
