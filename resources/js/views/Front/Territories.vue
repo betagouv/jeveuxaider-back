@@ -67,7 +67,7 @@
               :class="
                 tab == 'departments'
                   ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
-                  : 'text-gray-500 hover:text-gray-700 bg-white'
+                  : 'text-gray-500 hover:text-blue-800 bg-white'
               "
               class="px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'departments'"
@@ -78,7 +78,7 @@
               :class="
                 tab == 'collectivities'
                   ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
-                  : 'text-gray-500 hover:text-gray-700 bg-white'
+                  : 'text-gray-500 hover:text-blue-800 bg-white'
               "
               class="ml-4 px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'collectivities'"
