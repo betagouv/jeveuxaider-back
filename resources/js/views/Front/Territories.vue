@@ -62,14 +62,14 @@
         </div>
 
         <div class="relative my-8">
-          <nav class="flex justify-start">
+          <nav class="flex justify-center">
             <span
               :class="
                 tab == 'departments'
-                  ? 'text-blue-800 bg-blue-100 focus:text-blue-800 focus:bg-blue-100'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
+                  : 'text-gray-500 hover:text-gray-700 bg-white'
               "
-              class="px-3 py-4 cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              class="px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'departments'"
             >
               Départements ({{ departmentsCount }})
@@ -77,10 +77,10 @@
             <span
               :class="
                 tab == 'collectivities'
-                  ? 'text-blue-800 bg-blue-100 focus:text-blue-800 focus:bg-blue-100'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
+                  : 'text-gray-500 hover:text-gray-700 bg-white'
               "
-              class="ml-4 px-3 py-4 cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              class="ml-4 px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'collectivities'"
             >
               Communes ({{ collectivitiesCount }})
