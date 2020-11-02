@@ -46,7 +46,7 @@ class RegisterUserResponsable extends Notification
             ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
             ->line('Vous vous êtes inscrit sur la plateforme de dépôt de missions de la Réserve Civique.')
             ->line('Votre organisation « ' . $this->structure->name . ' » est en cours de validation.')
-            ->line('Vous pouvez désormais proposer des missions de volontariat qui seront visibles sur la plateforme une fois votre organisation validée.')
+            ->line('Vous pouvez désormais proposer des missions de bénévolat qui seront visibles sur la plateforme une fois votre organisation validée.')
             ->action('Créer une mission', url(config('app.url') . '/dashboard/structure/' . $this->structure->id . '/missions/add'));
     }
 

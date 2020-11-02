@@ -177,7 +177,7 @@
                         >
                           <el-input
                             v-model="form.birthday"
-                            v-mask="'##/##/####'"
+                            v-mask="'99/99/9999'"
                             placeholder="Date de naissance"
                           />
                         </el-form-item>
@@ -281,7 +281,7 @@
             <img
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/logo_article1.png"
-              style="max-height: 3rem"
+              style="max-height: 3rem;"
             />
 
             <img
@@ -295,12 +295,12 @@
             <img
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="/images/logo_banquealimentaire.png"
-              style="max-width: 11rem"
+              style="max-width: 11rem;"
             />
             <img
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/logo-jagis-pour-la-nature.svg"
-              style="max-height: 3rem"
+              style="max-height: 3rem;"
             />
           </div>
         </div>
@@ -415,7 +415,7 @@
           <img
             class="w-full sm:h-24 sm:w-auto mx-auto opacity-50"
             src="/images/chacunpourtous.png"
-            style="max-width: 420px"
+            style="max-width: 420px;"
           />
         </div>
       </div>
