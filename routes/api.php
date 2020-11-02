@@ -30,6 +30,7 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
+Route::get('collectivities', 'Api\CollectivityController@index');
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
 Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
 Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
@@ -142,9 +143,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
-
-    // COLLECTIVITIES
-    Route::get('collectivities', 'Api\CollectivityController@index');
 });
 
 // ONLY ADMIN
