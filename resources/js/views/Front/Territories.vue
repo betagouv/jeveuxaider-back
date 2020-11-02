@@ -7,7 +7,7 @@
       >
         <img
           class="hidden lg:block absolute transform translate-y-1 opacity-50"
-          style="left: 100%; transform: translateX(-75%) !important"
+          style="left: 100%; transform: translateX(-75%) !important;"
           src="images/france.svg"
           width="904"
           alt=""
@@ -53,7 +53,7 @@
                   id="search_field"
                   v-model="query"
                   class="block w-full text-xl h-full pl-8 pr-6 py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:outline-none focus:placeholder-cool-gray-400"
-                  placeholder="Trouvez votre département"
+                  placeholder="Trouvez votre département ou votre commune"
                   type="search"
                 />
               </div>
@@ -61,16 +61,37 @@
           </div>
         </div>
 
-        <div class="relative">
-          <div class="mx-auto py-12 lg:py-8">
-            <p
-              class="text-center text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+        <div class="relative my-8">
+          <nav class="flex justify-start">
+            <span
+              :class="
+                tab == 'departments'
+                  ? 'text-blue-800 bg-blue-100 focus:text-blue-800 focus:bg-blue-100'
+                  : 'text-gray-500 hover:text-gray-700'
+              "
+              class="px-3 py-4 cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              @click="tab = 'departments'"
             >
-              Choisissez votre département
-            </p>
+              Départements ({{ departmentsCount }})
+            </span>
+            <span
+              :class="
+                tab == 'collectivities'
+                  ? 'text-blue-800 bg-blue-100 focus:text-blue-800 focus:bg-blue-100'
+                  : 'text-gray-500 hover:text-gray-700'
+              "
+              class="ml-4 px-3 py-4 cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              @click="tab = 'collectivities'"
+            >
+              Communes ({{ collectivitiesCount }})
+            </span>
+          </nav>
+        </div>
 
+        <div class="relative">
+          <div v-if="tab == 'departments'" class="mx-auto">
             <div
-              v-for="group in groups"
+              v-for="group in departmentGroups"
               v-if="
                 departments.filter(
                   (department) =>
@@ -82,7 +103,9 @@
               class="mt-10 text-xl font-bold pl-2"
             >
               {{ group }}
-              <div class="mt-2 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-2">
+              <div
+                class="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:mt-2"
+              >
                 <a
                   v-for="department in departments.filter(
                     (department) =>
@@ -93,9 +116,34 @@
                   :href="department.url"
                 >
                   <div
-                    class="col-span-1 flex justify-center py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                    class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
                   >
                     <span class="font-semibold">{{ department.name }}</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div v-if="tab == 'collectivities'" class="mx-auto">
+            <div
+              v-for="(group, i) in collectivityGroups"
+              :key="i"
+              class="mt-10 text-xl font-bold pl-2"
+            >
+              {{ group[0] }} - {{ group[group.length - 1] }}
+              <div
+                v-if="collectivitiesFilteredByLetters(group).length > 0"
+                class="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 lg:mt-2"
+              >
+                <a
+                  v-for="collectivity in collectivitiesFilteredByLetters(group)"
+                  :key="collectivity.id"
+                  :href="`territoires/${collectivity.slug}`"
+                >
+                  <div
+                    class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                  >
+                    <span class="font-semibold">{{ collectivity.name }}</span>
                   </div>
                 </a>
               </div>
@@ -110,14 +158,24 @@
 
 <script>
 import departments from '@/utils/departments.json'
+import { fetchCollectivities } from '@/api/app'
 
 export default {
   name: 'Territories',
   data() {
     return {
       query: '',
+      tab: 'departments',
       departments: departments,
-      groups: [
+      collectivities: [],
+      collectivityGroups: [
+        ['A', 'B', 'C', 'D', 'E'],
+        ['F', 'G', 'H', 'I', 'J'],
+        ['K', 'L', 'M', 'N', 'O'],
+        ['P', 'Q', 'R', 'S', 'T'],
+        ['U', 'V', 'W', 'X', 'Y', 'Z'],
+      ],
+      departmentGroups: [
         'A',
         'B - C',
         'D - E - F',
@@ -131,11 +189,39 @@ export default {
       ],
     }
   },
+  computed: {
+    collectivitiesCount() {
+      return this.collectivities.filter((item) =>
+        this.slugify(item.name).includes(this.slugify(this.query))
+      ).length
+    },
+    departmentsCount() {
+      return this.departments.filter((item) =>
+        this.slugify(item.name).includes(this.slugify(this.query))
+      ).length
+    },
+  },
+  created() {
+    fetchCollectivities({
+      'filter[type]': 'commune',
+      'filter[state]': 'validated',
+      'filter[published]': true,
+      pagination: 999,
+    }).then((res) => {
+      this.collectivities = res.data.data
+    })
+  },
   methods: {
+    collectivitiesFilteredByLetters(letters) {
+      return this.collectivities.filter(
+        (item) =>
+          letters.includes(item.name[0]) &&
+          this.slugify(item.name).includes(this.slugify(this.query))
+      )
+    },
     slugify(str) {
       var map = {
         '-': ' ',
-        '-': '_',
         a: 'á|à|ã|â|À|Á|Ã|Â',
         e: 'é|è|ê|É|È|Ê',
         i: 'í|ì|î|Í|Ì|Î',
