@@ -31,7 +31,7 @@
         Activités
       </el-menu-item>
       <el-menu-item :index="`/dashboard/profile/${id}/historic`">
-        Historiques
+        Historique
       </el-menu-item>
     </el-menu>
 
@@ -103,7 +103,8 @@ export default {
 
     if (this.tab == 'activities') {
       const { data } = await fetchActivities({
-        'filter[causer_id]': this.id,
+        'filter[causer_id]': this.profile.user_id,
+        'filter[causer_type]': 'User',
       })
       this.activities = data.data
     }

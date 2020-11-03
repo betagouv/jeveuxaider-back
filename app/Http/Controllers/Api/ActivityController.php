@@ -15,6 +15,7 @@ class ActivityController extends Controller
         return QueryBuilder::for(Activity::class)
         ->allowedFilters([
             'subject_type',
+            'causer_type',
             AllowedFilter::exact('subject_id'),
             AllowedFilter::exact('causer_id'),
         ])
