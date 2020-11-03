@@ -75,7 +75,7 @@
           </el-form-item>
         </div>
 
-        <div class="flex">
+        <div class="flex hidden">
           <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
             <el-input v-model="form.latitude" disabled placeholder="Latitude" />
           </el-form-item>

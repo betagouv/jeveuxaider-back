@@ -1,7 +1,7 @@
 <template>
   <div class="mission-form">
     <div class="flex">
-      <div style="max-width: 600px">
+      <div style="max-width: 600px;">
         <template v-if="mode == 'add'">
           <div
             v-if="form.template"
@@ -351,7 +351,7 @@
               <el-input v-model="form.city" disabled placeholder="Ville" />
             </el-form-item>
           </div>
-          <div class="flex">
+          <div class="flex hidden">
             <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
               <el-input
                 v-model="form.latitude"

@@ -6,7 +6,11 @@
         <div class="font-bold text-2xl text-gray-800">
           {{ form.name }}
         </div>
-        <state-tag :state="form.state" class="relative ml-3" style="top: 1px" />
+        <state-tag
+          :state="form.state"
+          class="relative ml-3"
+          style="top: 1px;"
+        />
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
@@ -185,7 +189,7 @@
           <el-input v-model="form.city" disabled placeholder="Ville" />
         </el-form-item>
       </div>
-      <div class="flex">
+      <div class="flex hidden">
         <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
           <el-input v-model="form.latitude" disabled placeholder="Latitude" />
         </el-form-item>
