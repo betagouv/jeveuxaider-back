@@ -6,10 +6,8 @@ use Spatie\Activitylog\Models\Activity as SpatieActivity;
 
 class Activity extends SpatieActivity
 {
-     protected $casts = [
+    protected $casts = [
         'properties' => 'collection',
         'data' => 'array',
     ];
 }
-
-

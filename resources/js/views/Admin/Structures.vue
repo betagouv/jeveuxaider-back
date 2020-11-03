@@ -147,7 +147,7 @@
       <el-table-column
         v-if="!$store.getters['volet/active']"
         label="Crée le"
-        min-width="120"
+        min-width="130"
       >
         <template slot-scope="scope">
           <div class="text-sm text-secondary">

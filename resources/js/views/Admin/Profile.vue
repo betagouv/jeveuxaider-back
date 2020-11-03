@@ -30,6 +30,9 @@
       <el-menu-item :index="`/dashboard/profile/${id}/activities`">
         Activités
       </el-menu-item>
+      <el-menu-item :index="`/dashboard/profile/${id}/historic`">
+        Historiques
+      </el-menu-item>
     </el-menu>
 
     <div v-if="!tab" class="px-12 grid grid-cols-1 gap-4 xl:grid-cols-2">
@@ -49,6 +52,9 @@
         </div>
         <profile-infos v-if="profile.roles" :profile="profile" />
       </el-card>
+    </div>
+    <div v-else-if="tab == 'historic'">
+      <TableActivities :table-data="historic" />
     </div>
     <div v-else-if="tab == 'activities'">
       <TableActivities :table-data="activities" />
@@ -80,16 +86,24 @@ export default {
     return {
       profile: {},
       activities: [],
+      historic: [],
     }
   },
   async created() {
     const response = await getProfile(this.id)
     this.profile = response.data
 
-    if (this.tab == 'activities') {
+    if (this.tab == 'historic') {
       const { data } = await fetchActivities({
         'filter[subject_id]': this.id,
         'filter[subject_type]': 'Profile',
+      })
+      this.historic = data.data
+    }
+
+    if (this.tab == 'activities') {
+      const { data } = await fetchActivities({
+        'filter[causer_id]': this.id,
       })
       this.activities = data.data
     }

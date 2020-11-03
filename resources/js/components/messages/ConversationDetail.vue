@@ -117,7 +117,7 @@
           :key="beneficiaryPublic"
           class="flex items-start font-light"
         >
-          <div class="flex-shrink-0" style="margin-top: 2px">
+          <div class="flex-shrink-0" style="margin-top: 2px;">
             <svg
               class="h-5 w-5 text-green-400"
               fill="currentColor"
@@ -141,7 +141,7 @@
       <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
         Commentaires de l'organisation
       </h3>
-      <div class="font-light">{{ participation.mission.information }}</div>
+      <div class="font-light" v-html="participation.mission.information"></div>
     </section>
   </div>
 </template>
