@@ -952,6 +952,33 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/collectivity/:id',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-collectivity-view" */ '@/views/Admin/Collectivity.vue'
+            ),
+          name: 'DashboardCollectivity',
+          props: (route) => ({ id: parseInt(route.params.id) }),
+          meta: {
+            roles: ['admin', 'referent', 'referent_regional'],
+          },
+        },
+        {
+          path: '/dashboard/collectivity/:id/history',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-collectivity-history" */ '@/views/Admin/Collectivity.vue'
+            ),
+          name: 'DashboardCollectivityHistory',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'history',
+          }),
+          meta: {
+            roles: ['admin', 'referent', 'referent_regional'],
+          },
+        },
+        {
           path: '/dashboard/contents/departments',
           component: () =>
             import(
