@@ -710,15 +710,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/profile/:id/historic',
+          path: '/dashboard/profile/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profile-historic" */ '@/views/Admin/Profile.vue'
+              /* webpackChunkName: "assets/js/dashboard-profile-history" */ '@/views/Admin/Profile.vue'
             ),
-          name: 'DashboardProfileHistoric',
+          name: 'DashboardProfileHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'historic',
+            tab: 'history',
           }),
           meta: {
             roles: [

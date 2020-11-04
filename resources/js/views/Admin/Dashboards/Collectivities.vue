@@ -33,9 +33,15 @@
       <el-table-column prop="label" label="Collectivité">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
-          <div class="font-light text-gray-600 text-xs">
-            <template v-if="scope.row.published">Publiée</template>
-            <template v-else>Non publiée</template>
+          <div class="font-light text-gray-600 text-xs flex">
+            <div>
+              <template v-if="scope.row.published">Publiée</template>
+              <template v-else>Non publiée</template>
+            </div>
+            <div class="px-1">-</div>
+            <div>
+              {{ scope.row.state | labelFromValue('collectivities_states') }}
+            </div>
           </div>
         </template>
       </el-table-column>

@@ -40,12 +40,19 @@
         </div>
       </template>
     </el-table-column>
+    <el-table-column prop="type" label="Type" width="120">
+      <template slot-scope="scope">
+        <div class="text-sm text-gray-900">
+          {{ type(scope.row.subject_type) }}
+        </div>
+      </template>
+    </el-table-column>
     <el-table-column prop="subject" label="Objet" min-width="190">
       <template slot-scope="scope">
         <router-link :to="linkSubject(scope.row)">
-          <span v-if="scope.row.data.subject_title" class="text-sm">{{
-            scope.row.data.subject_title
-          }}</span>
+          <span v-if="scope.row.data.subject_title" class="text-sm">
+            {{ scope.row.data.subject_title }} #{{ scope.row.subject_id }}</span
+          >
           <span v-else class="text-sm"
             >{{ type(scope.row.subject_type) }} #{{
               scope.row.subject_id

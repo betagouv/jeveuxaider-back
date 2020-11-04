@@ -17,6 +17,7 @@ use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
+use App\Models\Activity;
 use App\Notifications\RegisterUserCollectivity;
 use App\Models\Structure;
 
@@ -68,6 +69,21 @@ class PassportController extends Controller
         $structure = Structure::create(
             ['user_id' => $user->id, 'name' => request('structure_name')]
         );
+
+        // UPDATE LOG
+        $activity = Activity::where('subject_type', 'App\Models\Structure')
+            ->where('subject_id', $structure->id)
+            ->where('description', 'created')
+            ->update([
+                'causer_id' => $user->id,
+                'causer_type' => 'App\Models\User',
+                'data' => [
+                    "subject_title" => $structure->name,
+                    "full_name" => $profile->full_name,
+                    "causer_id" => $profile->id,
+                    "context_role" => 'responsable'
+                ]
+            ]);
 
         $notification = new RegisterUserResponsable($structure);
         $user->notify($notification);

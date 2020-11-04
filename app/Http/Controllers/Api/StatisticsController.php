@@ -204,7 +204,7 @@ class StatisticsController extends Controller
             return Excel::download(new CollectivitiesExport(), 'collectivities.csv', \Maatwebsite\Excel\Excel::CSV);
         }
 
-        $datas = QueryBuilder::for(Collectivity::where('type', 'commune')->where('state', 'validated'))
+        $datas = QueryBuilder::for(Collectivity::where('type', 'commune'))
             ->allowedFilters([
                 'state',
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
@@ -222,6 +222,7 @@ class StatisticsController extends Controller
                 'id' => $collectivity->id,
                 'name' => $collectivity->name,
                 'published' => $collectivity->published,
+                'state' => $collectivity->state,
                 'missions_count' => Mission::whereIn('zip', $collectivity->zips)->count(),
                 'structures_count' => Structure::whereIn('zip', $collectivity->zips)->count(),
                 'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {

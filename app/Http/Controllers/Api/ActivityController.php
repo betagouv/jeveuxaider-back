@@ -19,7 +19,7 @@ class ActivityController extends Controller
             AllowedFilter::exact('subject_id'),
             AllowedFilter::exact('causer_id'),
         ])
-        ->defaultSort('-updated_at')
+        ->defaultSort('-id')
         ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 }
