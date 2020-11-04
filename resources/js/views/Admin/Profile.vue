@@ -2,9 +2,7 @@
   <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          Utilisateur
-        </div>
+        <div class="text-m text-gray-600 uppercase">Utilisateur</div>
         <div class="mb-8 flex">
           <div class="font-bold text-2xl text-gray-800">
             {{ profile.first_name }} {{ profile.last_name }}
@@ -39,9 +37,7 @@
       <div class="px-12 grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">
-              Informations
-            </div>
+            <div class="mb-6 text-xl">Informations</div>
             <router-link
               v-if="$store.getters.contextRole == 'admin'"
               :to="{ name: 'ProfileFormEdit', params: { id: profile.id } }"
@@ -105,12 +101,11 @@ export default {
       tableData: [],
     }
   },
-  async created() {
-    const response = await getProfile(this.id)
-    this.profile = response.data
-  },
   methods: {
-    fetchRows() {
+    async fetchRows() {
+      const response = await getProfile(this.id)
+      this.profile = response.data
+
       if (this.tab == 'history') {
         return fetchActivities({
           'filter[subject_id]': this.id,
