@@ -139,6 +139,8 @@ export default {
           return 'Participation'
         case 'App\\Models\\Profile':
           return 'Utilisateur'
+        case 'App\\Models\\Collectivity':
+          return 'Collectivité'
         default:
           return 'Autre'
       }
@@ -149,6 +151,8 @@ export default {
           return `/dashboard/mission/${row.subject_id}/edit`
         case 'App\\Models\\Structure':
           return `/dashboard/structure/${row.subject_id}`
+        case 'App\\Models\\Collectivity':
+          return `/dashboard/collectivity/${row.subject_id}`
         case 'App\\Models\\Participation':
           return `/dashboard/participations`
         case 'App\\Models\\Profile':

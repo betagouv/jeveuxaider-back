@@ -24,12 +24,23 @@ use Illuminate\Support\Facades\Notification;
 
 class CollectivityController extends Controller
 {
-    public function index(Request $request)
+    public function collectivities(Request $request)
     {
-        return QueryBuilder::for(Collectivity::class)
+        return QueryBuilder::for(Collectivity::where('type', 'commune'))
             ->allowedFilters([
                 'state',
-                'type',
+                AllowedFilter::exact('published'),
+                AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    }
+
+    public function departments(Request $request)
+    {
+        return QueryBuilder::for(Collectivity::where('type', 'department'))
+            ->allowedFilters([
+                'state',
                 AllowedFilter::exact('published'),
                 AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])

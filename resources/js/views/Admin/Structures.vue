@@ -265,7 +265,6 @@ export default {
   },
   created() {
     fetchCollectivities({
-      'filter[type]': 'commune',
       'filter[state]': 'validated',
       pagination: 1000,
     }).then((res) => {

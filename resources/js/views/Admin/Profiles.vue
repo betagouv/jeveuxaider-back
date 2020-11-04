@@ -321,7 +321,6 @@ export default {
       this.domaines = res.data.data
     })
     fetchCollectivities({
-      'filter[type]': 'commune',
       'filter[state]': 'validated',
       pagination: 1000,
     }).then((res) => {

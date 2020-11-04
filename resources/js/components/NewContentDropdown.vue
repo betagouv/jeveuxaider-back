@@ -14,7 +14,7 @@
         <el-dropdown-item>Nouvelle page</el-dropdown-item>
       </router-link>
       <router-link :to="{ name: 'CollectivityFormAdd' }">
-        <el-dropdown-item>Nouvelle collectivité</el-dropdown-item>
+        <el-dropdown-item>Nouveau département</el-dropdown-item>
       </router-link>
       <router-link :to="{ name: 'DocumentFormAdd' }">
         <el-dropdown-item>Nouveau document</el-dropdown-item>
