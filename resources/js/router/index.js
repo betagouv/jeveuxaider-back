@@ -426,15 +426,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/mission/:id/activities',
+          path: '/dashboard/mission/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-activities" */ '@/views/Admin/Mission.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-history" */ '@/views/Admin/Mission.vue'
             ),
-          name: 'DashboardMissionActivities',
+          name: 'DashboardMissionHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'activities',
+            tab: 'history',
           }),
           meta: {
             roles: [
@@ -548,15 +548,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/structure/:id/activities',
+          path: '/dashboard/structure/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-activities" */ '@/views/Admin/Structure.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-history" */ '@/views/Admin/Structure.vue'
             ),
-          name: 'Structure',
+          name: 'DashboardStructureHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'activities',
+            tab: 'history',
           }),
           meta: {
             roles: [
@@ -802,15 +802,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/participation/:id/activities',
+          path: '/dashboard/participation/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-participation-activities" */ '@/views/Admin/Participation.vue'
+              /* webpackChunkName: "assets/js/dashboard-participation-history" */ '@/views/Admin/Participation.vue'
             ),
-          name: 'DashboardParticipationActivities',
+          name: 'DashboardParticipationHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'activities',
+            tab: 'history',
           }),
           meta: {
             roles: [

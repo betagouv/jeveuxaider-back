@@ -31,8 +31,8 @@
           ({{ mission.participations_total }})
         </span>
       </el-menu-item>
-      <el-menu-item :index="`/dashboard/mission/${id}/activities`">
-        Activités
+      <el-menu-item :index="`/dashboard/mission/${id}/history`">
+        Historique
       </el-menu-item>
     </el-menu>
 
@@ -53,7 +53,7 @@
         </el-card>
       </div>
     </div>
-    <div v-else-if="tab == 'activities'">
+    <div v-else-if="tab == 'history'">
       <TableActivities :table-data="activities" />
     </div>
     <div v-else-if="tab == 'participations'">
@@ -100,7 +100,7 @@ export default {
     const response = await getMission(this.id)
     this.mission = response.data
 
-    if (this.tab == 'activities') {
+    if (this.tab == 'history') {
       const { data } = await fetchActivities({
         'filter[subject_id]': this.id,
         'filter[subject_type]': 'Mission',
