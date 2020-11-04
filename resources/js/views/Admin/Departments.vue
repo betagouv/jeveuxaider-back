@@ -6,9 +6,15 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Collectivités
+          Contenus - Départements
         </div>
       </div>
+      <div class>
+        <new-content-dropdown></new-content-dropdown>
+      </div>
+    </div>
+    <div class="px-12 mb-12">
+      <contents-menu index="/dashboard/contents/departments"></contents-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -18,51 +24,12 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
-          <el-button
-            icon="el-icon-s-operation"
-            class="ml-4"
-            @click="showFilters = !showFilters"
-          >
-            Filtres avancés
-          </el-button>
-        </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
-      </div>
-      <div v-if="showFilters" class="flex flex-wrap">
-        <query-filter
-          v-if="$store.getters.contextRole === 'admin'"
-          name="state"
-          label="Statut"
-          multiple
-          :value="query['filter[state]']"
-          :options="$store.getters.taxonomies.collectivities_states.terms"
-          @changed="onFilterChange"
-        />
-        <query-filter
-          name="published"
-          label="Publiée"
-          :value="query['filter[published]']"
-          :options="[
-            { label: 'Oui', value: true },
-            { label: 'Non', value: false },
-          ]"
-          @changed="onFilterChange"
-        />
       </div>
     </div>
     <el-table
       v-loading="loading"
       :data="tableData"
       :highlight-current-row="true"
-      @row-click="onClickedRow"
     >
       <el-table-column label="#" min-width="70" align="center">
         <template slot-scope="scope">
@@ -72,11 +39,7 @@
       <el-table-column label="Titre" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
-          <div class="font-light text-gray-600 text-xs flex items-center">
-            <div
-              :class="scope.row.published ? 'bg-green-600' : 'bg-red-800'"
-              class="rounded-full h-2 w-2 mr-2"
-            ></div>
+          <div class="font-light text-gray-600 text-xs">
             <router-link
               :to="{
                 name: 'CollectivitySlug',
@@ -88,6 +51,45 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="Contexte" min-width="320">
+        <template slot-scope="scope">
+          <el-tag
+            v-if="scope.row.published"
+            type="success"
+            class="m-1 ml-0"
+            size="small"
+            >En ligne</el-tag
+          >
+          <el-tag
+            v-if="!scope.row.published"
+            type="info"
+            class="m-1 ml-0"
+            size="small"
+            >Non publié</el-tag
+          >
+        </template>
+      </el-table-column>
+      <el-table-column label="Statut" min-width="320">
+        <template slot-scope="scope">
+          <el-tag
+            v-if="scope.row.state == 'validated'"
+            type="success"
+            class="m-1 ml-0"
+            size="small"
+            >Validée</el-tag
+          >
+          <el-tag
+            v-else-if="scope.row.state == 'waiting'"
+            type="warning"
+            class="m-1 ml-0"
+            size="small"
+            >En attente de validation</el-tag
+          >
+          <el-tag v-else type="info" class="m-1 ml-0" size="small">
+            Refusée
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
@@ -95,34 +97,21 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" width="250">
+      <el-table-column label="Actions" width="165">
         <template slot-scope="scope">
-          <collectivity-dropdown-state
-            :form="scope.row"
-            @updated="onUpdatedRow"
-          ></collectivity-dropdown-state>
-        </template>
-      </el-table-column>
-      <el-table-column
-        v-if="!$store.getters['volet/active']"
-        label="Actions"
-        width="250"
-      >
-        <template slot-scope="scope">
-          <el-dropdown size="small" split-button @command="handleCommand">
-            Choisissez une action
+          <el-dropdown
+            size="small"
+            split-button
+            trigger="click"
+            @click="handleClickEdit(scope.row.id)"
+            @command="handleCommand"
+          >
+            <i class="el-icon-edit mr-2"></i>Modifier
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                :command="{
-                  name: 'CollectivityFormEdit',
-                  params: { id: scope.row.id },
-                }"
-                >Modifier la collectivité</el-dropdown-item
-              >
-              <el-dropdown-item
                 :command="{ action: 'delete', id: scope.row.id }"
-                >Supprimer la collectivité
-              </el-dropdown-item>
+                >Supprimer</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -141,30 +130,24 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
-    <portal to="volet">
-      <collectivity-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
-    </portal>
   </div>
 </template>
 
 <script>
-import { fetchCollectivities, deleteCollectivity } from '@/api/app'
-import TableWithVolet from '@/mixins/TableWithVolet'
+import { fetchDepartments, deleteCollectivity } from '@/api/app'
 import TableWithFilters from '@/mixins/TableWithFilters'
-import QueryFilter from '@/components/QueryFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
-import CollectivityDropdownState from '@/components/CollectivityDropdownState'
-import CollectivityVolet from '@/layout/components/Volet/CollectivityVolet'
+import ContentsMenu from '@/components/ContentsMenu'
+import NewContentDropdown from '@/components/NewContentDropdown'
 
 export default {
   name: 'Collectivities',
   components: {
-    QueryFilter,
     QueryMainSearchFilter,
-    CollectivityDropdownState,
-    CollectivityVolet,
+    ContentsMenu,
+    NewContentDropdown,
   },
-  mixins: [TableWithFilters, TableWithVolet],
+  mixins: [TableWithFilters],
   data() {
     return {
       loading: true,
@@ -173,7 +156,7 @@ export default {
   },
   methods: {
     fetchRows() {
-      return fetchCollectivities(this.query)
+      return fetchDepartments(this.query)
     },
     handleCommand(command) {
       if (command.action == 'delete') {
@@ -181,6 +164,12 @@ export default {
       } else {
         this.$router.push(command)
       }
+    },
+    handleClickEdit(id) {
+      this.$router.push({
+        name: `CollectivityFormEdit`,
+        params: { id: id },
+      })
     },
     handleClickDelete(id) {
       this.$confirm(

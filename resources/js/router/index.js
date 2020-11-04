@@ -941,12 +941,23 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/contents/collectivities',
+          path: '/dashboard/collectivities',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-collectivities" */ '@/views/Admin/Collectivities.vue'
+              /* webpackChunkName: "assets/js/dashboard-collectivities" */ '@/views/Admin/Collectivities.vue'
             ),
-          name: 'Collectivities',
+          name: 'DashboardStructures',
+          meta: {
+            roles: ['admin'],
+          },
+        },
+        {
+          path: '/dashboard/contents/departments',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-departments" */ '@/views/Admin/Departments.vue'
+            ),
+          name: 'Departments',
           meta: {
             roles: ['admin'],
           },

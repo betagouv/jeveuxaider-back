@@ -337,7 +337,7 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false
-      this.$router.push('/dashboard/contents/collectivities')
+      this.$router.push('/dashboard/collectivities')
       this.$message({
         message: 'La collectivité a été enregistrée !',
         type: 'success',
