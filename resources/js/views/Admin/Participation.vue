@@ -22,8 +22,8 @@
       <el-menu-item :index="`/dashboard/participation/${id}`">
         Informations
       </el-menu-item>
-      <el-menu-item :index="`/dashboard/participation/${id}/activities`">
-        Activités
+      <el-menu-item :index="`/dashboard/participation/${id}/history`">
+        Historique
       </el-menu-item>
     </el-menu>
 
@@ -37,7 +37,7 @@
         <participation-infos :participation="participation" />
       </el-card>
     </div>
-    <div v-else-if="tab == 'activities'">
+    <div v-else-if="tab == 'history'">
       <TableActivities :table-data="activities" />
     </div>
   </div>
@@ -77,7 +77,7 @@ export default {
     const response = await getParticipation(this.id)
     this.participation = response.data
 
-    if (this.tab == 'activities') {
+    if (this.tab == 'history') {
       const { data } = await fetchActivities({
         'filter[subject_id]': this.id,
         'filter[subject_type]': 'Participation',
