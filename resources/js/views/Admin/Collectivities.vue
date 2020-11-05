@@ -74,7 +74,7 @@
           <div class="text-gray-900">{{ scope.row.name }}</div>
           <div class="font-light text-gray-600 text-xs flex items-center">
             <div
-              :class="scope.row.published ? 'bg-green-600' : 'bg-red-800'"
+              :class="scope.row.published ? 'bg-green-500' : 'bg-red-500'"
               class="rounded-full h-2 w-2 mr-2"
             ></div>
             <router-link

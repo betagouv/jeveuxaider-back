@@ -221,7 +221,7 @@
 </template>
 
 <script>
-import { updateStructure, updateStructureLogo } from '@/api/structure'
+import { addOrUpdateStructure, updateStructureLogo } from '@/api/structure'
 import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
@@ -314,8 +314,7 @@ export default {
       this.loading = true
       this.$refs['structureForm'].validate((valid) => {
         if (valid) {
-          // TODO update structure seulement parce qu'elle est deja créée
-          updateStructure(this.structureId, this.form)
+          addOrUpdateStructure(this.structureId, this.form)
             .then(async (response) => {
               this.structureId = response.data.id
               if (this.$refs.logo.uploadFiles.length > 0) {

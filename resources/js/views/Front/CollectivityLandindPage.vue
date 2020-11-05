@@ -320,6 +320,6 @@
 
 <script>
 export default {
-  name: 'FrontMissions',
+  name: 'CollectivityLandindPage',
 }
 </script>
