@@ -337,7 +337,17 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false
-      this.$router.push('/dashboard/collectivities')
+      if (
+        this.form.type == 'commune' &&
+        this.$store.getters.contextRole == 'admin'
+      ) {
+        this.$router.push('/dashboard/collectivities')
+      } else if (this.form.type == 'department') {
+        this.$router.push('/dashboard/contents/departments')
+      } else {
+        // NO REDIRECT
+      }
+
       this.$message({
         message: 'La collectivité a été enregistrée !',
         type: 'success',

@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('collectivity', 'Api\CollectivityController@store');
     Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
+    Route::post('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@upload');
+    Route::delete('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@uploadDelete');
 
     Route::post('participation', 'Api\ParticipationController@store');
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
@@ -161,8 +163,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
     // COLLECTIVITIES
-    Route::post('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@upload');
-    Route::delete('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
 
     // THEMATIQUES
