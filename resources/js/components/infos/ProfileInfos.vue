@@ -1,9 +1,17 @@
 <template>
   <div class="text-xs text-gray-600">
     <div v-if="profile.created_at" class="mb-2 flex">
-      <div class="card-label">Membre</div>
+      <div class="card-label">Créé le</div>
       <div class="text-gray-900 flex-1">
-        {{ profile.created_at | fromNow }}
+        {{ profile.created_at | formatMediumWithTime }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Modifié le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ participation.updated_at | formatMediumWithTime }}
       </div>
     </div>
     <div v-if="profile.email && canViewPrivateData" class="mb-2 flex">

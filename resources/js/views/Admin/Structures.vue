@@ -120,7 +120,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Contextes" min-width="320">
+      <el-table-column label="Contextes" min-width="300">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.is_reseau" class="m-1 ml-0" type="info">
             Tête de réseau
@@ -144,7 +144,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         v-if="!$store.getters['volet/active']"
         label="Crée le"
         min-width="130"
@@ -154,7 +154,7 @@
             {{ scope.row.created_at | fromNow }}
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="state" label="Statut" min-width="250">
         <template slot-scope="scope">
           <structure-dropdown-state

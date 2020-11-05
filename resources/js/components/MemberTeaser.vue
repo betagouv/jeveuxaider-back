@@ -15,8 +15,11 @@
           {{ member.full_name }}
         </div>
       </router-link>
-      <div class="uppercase text-xs text-secondary">
-        {{ member.pivot.role }}
+      <!-- <div class="uppercase text-xs text-secondary">
+        Responsable
+      </div> -->
+      <div class="text-xs text-secondary">
+        {{ member.email }} - {{ member.mobile }}
       </div>
     </div>
   </div>

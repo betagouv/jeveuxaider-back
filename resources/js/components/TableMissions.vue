@@ -9,7 +9,7 @@
         <div class="text-secondary text-sm">#{{ scope.row.id }}</div>
       </template>
     </el-table-column>
-    <el-table-column prop="name" label="Mission" width="300">
+    <el-table-column prop="name" label="Mission" min-width="300">
       <template slot-scope="scope">
         <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
         <div v-if="scope.row.structure">
@@ -37,7 +37,7 @@
           <div class="flex items-center justify-between">
             <div class="leading-snug">
               <div v-if="scope.row.has_places_left" class="flex">
-                <div style="width: 90px">
+                <div style="width: 90px;">
                   {{ scope.row.places_left }}
                   {{ scope.row.places_left | pluralize(['place', 'places']) }}
                 </div>
@@ -58,7 +58,7 @@
         </template>
       </template>
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       v-if="!$store.getters['volet/active']"
       label="Crée le"
       min-width="120"
@@ -68,8 +68,8 @@
           {{ scope.row.created_at | fromNow }}
         </div>
       </template>
-    </el-table-column>
-    <el-table-column prop="state" label="Statut" min-width="200">
+    </el-table-column> -->
+    <el-table-column prop="state" label="Statut" width="250">
       <template slot-scope="scope">
         <mission-dropdown-state
           :form="scope.row"

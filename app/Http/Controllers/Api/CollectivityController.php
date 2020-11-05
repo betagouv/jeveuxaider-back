@@ -51,7 +51,7 @@ class CollectivityController extends Controller
     public function show($slugOrId)
     {
         $collectivity = (is_numeric($slugOrId))
-            ? Collectivity::where('id', $slugOrId)->firstOrFail()
+            ? Collectivity::with('profiles')->where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
         return $collectivity;

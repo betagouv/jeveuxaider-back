@@ -1,5 +1,21 @@
 <template>
   <div class="text-xs text-gray-600 relative">
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Créée le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ collectivity.created_at | formatMediumWithTime }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Modifiée le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ collectivity.updated_at | formatMediumWithTime }}
+      </div>
+    </div>
     <div v-if="collectivity.state" class="mb-2 flex">
       <div class="card-label">
         Statut
@@ -18,7 +34,7 @@
     </div>
     <div v-if="collectivity.zips" class="mb-2 flex">
       <div class="card-label">
-        Codes postaux
+        Codes post.
       </div>
       <div class="text-gray-900 flex-1">
         {{ collectivity.zips.join(', ') }}

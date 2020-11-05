@@ -88,13 +88,13 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
+      <!-- <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
             {{ scope.row.updated_at | fromNow }}
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="state" label="Statut" width="250">
         <template slot-scope="scope">
           <collectivity-dropdown-state
@@ -112,6 +112,13 @@
           <el-dropdown size="small" split-button @command="handleCommand">
             Choisissez une action
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                :command="{
+                  name: 'DashboardCollectivity',
+                  params: { id: scope.row.id },
+                }"
+                >Visualiser la collectivité</el-dropdown-item
+              >
               <el-dropdown-item
                 :command="{
                   name: 'CollectivityFormEdit',

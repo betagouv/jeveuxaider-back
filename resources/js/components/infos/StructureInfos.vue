@@ -1,5 +1,21 @@
 <template>
   <div class="text-xs text-gray-600 relative">
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Créée le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.created_at | formatMediumWithTime }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Modifiée le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.updated_at | formatMediumWithTime }}
+      </div>
+    </div>
     <div v-if="structure.state" class="mb-2 flex">
       <div class="card-label">
         Statut

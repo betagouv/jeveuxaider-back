@@ -55,13 +55,13 @@
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div v-if="collectivity.members" class="mb-6 text-xl">
-              Équipe
+            <div v-if="collectivity.profiles" class="mb-6 text-xl">
+              Responsables
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <member-teaser
-              v-for="member in collectivity.members"
+              v-for="member in collectivity.profiles"
               :key="member.id"
               class="member py-2"
               :member="member"
@@ -87,7 +87,7 @@ import StateTag from '@/components/StateTag'
 import MemberTeaser from '@/components/MemberTeaser'
 
 export default {
-  name: 'Structure',
+  name: 'DashboardCollectivity',
   components: {
     CollectivityInfos,
     StateTag,
@@ -126,7 +126,7 @@ export default {
     }
     // if (this.tab == 'missions') {
     //   const { data } = await fetchMissions({
-    //     'filter[structure_id]': this.id,
+    //     'filter[collectivity_id]': this.id,
     //   })
     //   this.missions = data.data
     // }
