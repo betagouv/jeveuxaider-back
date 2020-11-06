@@ -588,7 +588,11 @@
           :hide-required-asterisk="true"
         >
           <el-form-item
-            label="Vous allez être mis en relation avec le responsable de la mission"
+            :label="
+              mission.tuteur
+                ? `Vous allez être mis en relation avec ${mission.tuteur.first_name}, le responsable de la mission`
+                : 'Vous allez être mis en relation avec le responsable de la mission'
+            "
             prop="content"
           >
             <el-input
@@ -785,8 +789,7 @@ export default {
       baseUrl: process.env.MIX_API_BASE_URL,
       dialogParticipateVisible: false,
       form: {
-        content:
-          'Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂',
+        content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },
       rules: {
         content: [
@@ -855,6 +858,9 @@ export default {
       .then((response) => {
         this.mission = { ...response.data }
         this.loading = false
+        if (this.mission.tuteur && this.$store.getters.profile) {
+          this.form.content = `Bonjour ${this.mission.tuteur.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
+        }
         fetchStructureAvailableMissions(this.mission.structure.id, {
           exclude: this.id,
           append: 'domaines',
