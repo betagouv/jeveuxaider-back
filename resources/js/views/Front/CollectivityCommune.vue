@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <div class="py-16 bg-gray-50 overflow-hidden shadow-lg">
+    <div class="py-16 bg-white overflow-hidden shadow-lg">
       <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
         <div class="flex flex-col items-center">
           <img

@@ -279,6 +279,11 @@
               src="/images/logo-jagis-pour-la-nature.svg"
               style="max-height: 3rem"
             />
+            <img
+              class="min-w-0 m-4 sm:m-8 object-contain"
+              src="/images/institut-de-l-engagement.png"
+              style="max-height: 3rem"
+            />
           </div>
         </div>
       </div>
