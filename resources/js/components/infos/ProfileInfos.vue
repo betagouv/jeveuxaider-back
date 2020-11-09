@@ -7,9 +7,7 @@
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">
-        Modifié le
-      </div>
+      <div class="card-label">Modifié le</div>
       <div class="text-gray-900 flex-1">
         {{ participation.updated_at | formatMediumWithTime }}
       </div>

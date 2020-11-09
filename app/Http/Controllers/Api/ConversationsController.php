@@ -20,7 +20,7 @@ class ConversationsController extends Controller
     {
         return QueryBuilder::for(Conversation::role($request->header('Context-Role'))->with(['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
             $morphTo->morphWith([
-                        Participation::class => ['mission.structure:id,name', 'mission.domaine'],
+                        Participation::class => ['mission.structure:id,name', 'mission.domaine', 'mission.tuteur', 'profile'],
                     ]);
         }]))
             ->allowedFilters([

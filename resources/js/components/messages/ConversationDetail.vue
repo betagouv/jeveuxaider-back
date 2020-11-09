@@ -4,7 +4,119 @@
       <h2 class="text-xl leading-8 font-bold text-gray-900">
         Mission proposée par {{ participation.mission.structure.name }}
       </h2>
+      <div
+        v-if="participation.mission.tuteur"
+        class="text-lg leading-8 font-semibold text-secondary"
+      >
+        Responsable : {{ participation.mission.tuteur.full_name }}
+      </div>
     </section>
+
+    <template v-if="$store.getters.contextRole === 'responsable'">
+      <section>
+        <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
+          À propos de {{ participation.profile.full_name }}
+        </h3>
+
+        <div
+          v-if="participation.profile.email && canViewPrivateData"
+          class="mb-2 flex"
+        >
+          <div class="text-gray-500 w-24 text-sm">Email</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.email }}
+          </div>
+        </div>
+        <div
+          v-if="participation.profile.mobile && canViewPrivateData"
+          class="mb-2 flex"
+        >
+          <div class="text-gray-500 w-24 text-sm">Portable</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.mobile }}
+          </div>
+        </div>
+        <div
+          v-if="participation.profile.phone && canViewPrivateData"
+          class="mb-2 flex"
+        >
+          <div class="text-gray-500 w-24 text-sm">Téléphone</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.phone }}
+          </div>
+        </div>
+        <div
+          v-if="participation.profile.birthday && canViewPrivateData"
+          class="mb-2 flex"
+        >
+          <div class="text-gray-500 w-24 text-sm">Naissance</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.birthday }}
+          </div>
+        </div>
+        <div v-if="participation.profile.zip" class="mb-2 flex">
+          <div class="text-gray-500 w-24 text-sm">Code postal</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.zip }}
+          </div>
+        </div>
+        <div
+          v-if="
+            participation.profile.domaines &&
+            participation.profile.domaines.length > 0
+          "
+          class="mb-2 flex"
+        >
+          <div class="text-gray-500 w-24 text-sm">Domaines</div>
+          <div class="text-gray-900 flex-1">
+            {{
+              participation.profile.domaines
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </div>
+        </div>
+        <div
+          v-if="
+            participation.profile.skills &&
+            participation.profile.skills.length > 0
+          "
+          class="mb-2 flex"
+        >
+          <div class="text-gray-500 w-24 text-sm">Compétences</div>
+          <div class="text-gray-900 flex-1">
+            {{
+              participation.profile.skills
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </div>
+        </div>
+        <div v-if="participation.profile.disponibilities" class="mb-2 flex">
+          <div class="text-gray-500 w-24 text-sm">Dispos</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.disponibilities.join(', ') }}
+          </div>
+        </div>
+        <div v-if="participation.profile.frequence" class="mb-2 flex">
+          <div class="text-gray-500 w-24 text-sm">Durée</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.frequence }} par
+            {{ participation.profile.frequence_granularite }}
+          </div>
+        </div>
+        <div v-if="participation.profile.description" class="mb-2 flex">
+          <div class="text-gray-500 w-24 text-sm">Motivation</div>
+          <div class="text-gray-900 flex-1">
+            {{ participation.profile.description }}
+          </div>
+        </div>
+      </section>
+    </template>
 
     <section>
       <div v-if="participation.mission.domaine" class="mb-4">
@@ -91,58 +203,65 @@
         </div>
       </div>
     </section>
+    <template v-if="$store.getters.contextRole !== 'responsable'">
+      <section>
+        <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
+          Objectif de la mission
+        </h3>
+        <div class="font-light" v-html="participation.mission.objectif"></div>
+      </section>
 
-    <section>
-      <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
-        Objectif de la mission
-      </h3>
-      <div class="font-light" v-html="participation.mission.objectif"></div>
-    </section>
+      <section>
+        <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
+          Description de la mission
+        </h3>
+        <div
+          class="font-light"
+          v-html="participation.mission.description"
+        ></div>
+      </section>
 
-    <section>
-      <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
-        Description de la mission
-      </h3>
-      <div class="font-light" v-html="participation.mission.description"></div>
-    </section>
+      <section>
+        <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
+          Public bénéficiaire
+        </h3>
+        <ul>
+          <li
+            v-for="beneficiaryPublic in participation.mission
+              .publics_beneficiaires"
+            :key="beneficiaryPublic"
+            class="flex items-start font-light"
+          >
+            <div class="flex-shrink-0" style="margin-top: 2px">
+              <svg
+                class="h-5 w-5 text-green-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <p class="ml-3">
+              {{ beneficiaryPublic }}
+            </p>
+          </li>
+        </ul>
+      </section>
 
-    <section>
-      <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
-        Public bénéficiaire
-      </h3>
-      <ul>
-        <li
-          v-for="beneficiaryPublic in participation.mission
-            .publics_beneficiaires"
-          :key="beneficiaryPublic"
-          class="flex items-start font-light"
-        >
-          <div class="flex-shrink-0" style="margin-top: 2px;">
-            <svg
-              class="h-5 w-5 text-green-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-          <p class="ml-3">
-            {{ beneficiaryPublic }}
-          </p>
-        </li>
-      </ul>
-    </section>
-
-    <section>
-      <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
-        Commentaires de l'organisation
-      </h3>
-      <div class="font-light" v-html="participation.mission.information"></div>
-    </section>
+      <section>
+        <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
+          Commentaires de l'organisation
+        </h3>
+        <div
+          class="font-light"
+          v-html="participation.mission.information"
+        ></div>
+      </section>
+    </template>
   </div>
 </template>
 
