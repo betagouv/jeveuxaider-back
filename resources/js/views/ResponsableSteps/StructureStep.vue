@@ -201,7 +201,12 @@
           autorités territoriales lors de votre inscription.
         </item-description>
         <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-          <el-select v-model="form.reseau_id" clearable placeholder="Aucun">
+          <el-select
+            v-model="form.reseau_id"
+            clearable
+            placeholder="Aucun"
+            filterable
+          >
             <el-option
               v-for="item in reseauxOptions"
               :key="item.id"

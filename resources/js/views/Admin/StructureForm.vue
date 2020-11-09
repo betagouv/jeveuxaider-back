@@ -6,11 +6,7 @@
         <div class="font-bold text-2xl text-gray-800">
           {{ form.name }}
         </div>
-        <state-tag
-          :state="form.state"
-          class="relative ml-3"
-          style="top: 1px;"
-        />
+        <state-tag :state="form.state" class="relative ml-3" style="top: 1px" />
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
@@ -145,6 +141,7 @@
         <el-select
           v-model="form.reseau_id"
           clearable
+          filterable
           placeholder="Réseau national"
         >
           <el-option
