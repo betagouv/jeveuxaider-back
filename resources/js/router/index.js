@@ -946,9 +946,9 @@ export default new Router({
             import(
               /* webpackChunkName: "assets/js/dashboard-collectivities" */ '@/views/Admin/Collectivities.vue'
             ),
-          name: 'DashboardStructures',
+          name: 'DashboardCollectivities',
           meta: {
-            roles: ['admin'],
+            roles: ['admin', 'referent', 'referent_regional'],
           },
         },
         {

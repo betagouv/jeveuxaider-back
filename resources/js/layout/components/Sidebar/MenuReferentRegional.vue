@@ -17,6 +17,24 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item
+      index="/dashboard/collectivities"
+      :class="{
+        'is-active': isActive('/dashboard/collectivities'),
+      }"
+    >
+      <span v-if="$store.getters.sidebar">Collectivités</span>
+      <el-tooltip
+        v-else
+        class="item"
+        :open-delay="500"
+        effect="dark"
+        content="Collectivités"
+        placement="right"
+      >
+        <i class="el-icon-office-building" />
+      </el-tooltip>
+    </el-menu-item>
+    <el-menu-item
       index="/dashboard/structures"
       :class="{ 'is-active': isActive('/dashboard/structure') }"
     >

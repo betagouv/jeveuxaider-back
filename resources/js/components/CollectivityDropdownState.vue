@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dropdown v-if="canEditStatut" :size="size" split-button :type="type">
-      <div style="min-width: 140px;" class="text-left">
+      <div style="min-width: 140px" class="text-left">
         {{ form.state | labelFromValue('collectivities_states') }}
       </div>
       <el-dropdown-menu slot="dropdown">
@@ -56,7 +56,10 @@ export default {
       return 'default'
     },
     canEditStatut() {
-      return ['waiting'].includes(this.form.state) ? true : false
+      return ['waiting'].includes(this.form.state) &&
+        this.$store.getters.contextRole === 'admin'
+        ? true
+        : false
     },
     statesAvailable() {
       return this.$store.getters.taxonomies.collectivities_states.terms.filter(

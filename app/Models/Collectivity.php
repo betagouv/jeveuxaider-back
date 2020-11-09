@@ -8,6 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Auth;
 
 class Collectivity extends Model implements HasMedia
 {
@@ -124,5 +125,59 @@ class Collectivity extends Model implements HasMedia
     public function profiles()
     {
         return $this->hasMany('App\Models\Profile');
+    }
+
+    public function scopeRole($query, $contextRole)
+    {
+        switch ($contextRole) {
+            case 'admin':
+            case 'analyste':
+                return $query;
+            break;
+            case 'referent':
+                $department = Auth::guard('api')->user()->profile->referent_department;
+                $zips = self::where('type', 'commune')
+                    ->get()
+                    ->pluck('zips')
+                    ->flatten()
+                    ->filter(function ($item) use ($department) {
+                        return substr($item, 0, 2) == $department;
+                    })
+                    ->toArray();
+
+                if ($zips) {
+                    foreach ($zips as $zip) {
+                        $query->orWhereJsonContains('zips', $zip);
+                    }
+                    return $query;
+                }
+                    return $query->where('id', -1); // Hack pour ne rien retourner
+                
+            break;
+            case 'referent_regional':
+
+                $departments = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];;
+                $zips = self::where('type', 'commune')
+                    ->get()
+                    ->pluck('zips')
+                    ->flatten()
+                    ->filter(function ($item) use ($departments) {
+                        return in_array(substr($item, 0, 2), $departments);
+                    })
+                    ->toArray();
+
+                if ($zips) {
+                    foreach ($zips as $zip) {
+                        $query->orWhereJsonContains('zips', $zip);
+                    }
+                    return $query;
+                }
+                    return $query->where('id', -1); // Hack pour ne rien retourner
+                
+            break;
+            case 'responsable_collectivity':
+                return $query->where('id', Auth::guard('api')->user()->profile->collectivity->id);
+            break;
+        }
     }
 }

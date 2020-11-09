@@ -26,7 +26,7 @@ class CollectivityController extends Controller
 {
     public function collectivities(Request $request)
     {
-        return QueryBuilder::for(Collectivity::where('type', 'commune'))
+        return QueryBuilder::for(Collectivity::role($request->header('Context-Role'))->where('type', 'commune'))
             ->allowedFilters([
                 'state',
                 AllowedFilter::exact('published'),
