@@ -9,7 +9,7 @@
     <div class="mb-2 flex">
       <div class="card-label">Modifié le</div>
       <div class="text-gray-900 flex-1">
-        {{ participation.updated_at | formatMediumWithTime }}
+        {{ profile.updated_at | formatMediumWithTime }}
       </div>
     </div>
     <div v-if="profile.email && canViewPrivateData" class="mb-2 flex">
