@@ -110,6 +110,7 @@ export default {
         return fetchActivities({
           'filter[subject_id]': this.id,
           'filter[subject_type]': 'Profile',
+          page: this.$route.query.page || 1,
         })
       }
 
@@ -117,6 +118,7 @@ export default {
         return fetchActivities({
           'filter[causer_id]': this.profile.user_id,
           'filter[causer_type]': 'User',
+          page: this.$route.query.page || 1,
         })
       }
     },
