@@ -162,7 +162,7 @@
                   :class="`bg-${thematique.color}`"
                   class="inline-block rounded-md p-3 text-center mb-5"
                 >
-                  <img class :src="template.image" style="width: 28px;" />
+                  <img class :src="template.image" style="width: 28px" />
                 </div>
                 <div class="text-lg font-medium text-gray-900">
                   {{ template.title }}
@@ -251,9 +251,7 @@
                 <dd class="text-5xl leading-none font-bold text-white">
                   {{ statistics.volontaires_count | formatNumber }}
                 </dd>
-                <dt class="mt-2 text-lg font-medium text-white">
-                  Réservistes
-                </dt>
+                <dt class="mt-2 text-lg font-medium text-white">Réservistes</dt>
               </div>
               <div class="flex flex-col mt-10 sm:mt-0">
                 <dd class="text-5xl leading-none font-bold text-white">
