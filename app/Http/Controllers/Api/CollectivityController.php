@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersCollectivitiesDepartment;
+use App\Filters\FiltersCollectivitySearch;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Collectivity;
@@ -30,7 +32,8 @@ class CollectivityController extends Controller
             ->allowedFilters([
                 'state',
                 AllowedFilter::exact('published'),
-                AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
+                AllowedFilter::custom('department', new FiltersCollectivitiesDepartment),
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));

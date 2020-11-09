@@ -25,7 +25,11 @@
       Départements
     </el-menu-item>
     <el-menu-item
-      v-if="['admin', 'analyste'].includes($store.getters.contextRole)"
+      v-if="
+        ['admin', 'analyste', 'referent', 'referent_regional'].includes(
+          $store.getters.contextRole
+        )
+      "
       index="collectivities"
     >
       Collectivités

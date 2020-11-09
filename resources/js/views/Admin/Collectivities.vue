@@ -36,7 +36,6 @@
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
         <query-filter
-          v-if="$store.getters.contextRole === 'admin'"
           name="state"
           label="Statut"
           multiple
@@ -52,6 +51,22 @@
             { label: 'Oui', value: true },
             { label: 'Non', value: false },
           ]"
+          @changed="onFilterChange"
+        />
+        <query-filter
+          v-if="$store.getters.contextRole === 'admin'"
+          name="department"
+          label="Département"
+          multiple
+          :value="query['filter[department]']"
+          :options="
+            $store.getters.taxonomies.departments.terms.map((term) => {
+              return {
+                label: `${term.value} - ${term.label}`,
+                value: term.value,
+              }
+            })
+          "
           @changed="onFilterChange"
         />
       </div>

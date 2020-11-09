@@ -201,10 +201,10 @@ class StatisticsController extends Controller
     public function collectivities(Request $request)
     {
         if ($request->has('type') && $request->input('type') == 'export') {
-            return Excel::download(new CollectivitiesExport(), 'collectivities.csv', \Maatwebsite\Excel\Excel::CSV);
+            return Excel::download(new CollectivitiesExport($request->header('Context-Role')), 'collectivities.csv', \Maatwebsite\Excel\Excel::CSV);
         }
 
-        $datas = QueryBuilder::for(Collectivity::where('type', 'commune'))
+        $datas = QueryBuilder::for(Collectivity::role($request->header('Context-Role'))->where('type', 'commune'))
             ->allowedFilters([
                 'state',
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
