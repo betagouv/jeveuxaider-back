@@ -23,7 +23,7 @@
           <el-avatar class="bg-primary w-10 rounded-full">
             {{ member.first_name[0] }}{{ member.last_name[0] }}
           </el-avatar>
-          <div class="flex flex-col ml-6" style="min-width: 350px;">
+          <div class="flex flex-col ml-6" style="min-width: 350px">
             <div class="text-gray-800">
               {{ member.first_name }} {{ member.last_name }}
             </div>
@@ -31,7 +31,8 @@
               {{ member.pivot.role }}
             </div> -->
             <div class="text-xs text-secondary">
-              {{ member.email }} - {{ member.mobile }}
+              <div class="break-all">{{ member.email }}</div>
+              <div class="">{{ member.mobile }}</div>
             </div>
           </div>
           <el-button

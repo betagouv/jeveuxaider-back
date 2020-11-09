@@ -1,9 +1,9 @@
 <template>
-  <div class="member flex items-center">
+  <div class="member flex items-center overflow-hidden">
     <el-avatar class="bg-primary w-10 rounded-full flex-none">
       {{ member.short_name }}
     </el-avatar>
-    <div class="flex flex-col ml-6" style="min-width: 250px">
+    <div class="flex flex-col ml-6" style="">
       <router-link
         :to="{
           name: 'Profile',
@@ -15,12 +15,9 @@
           {{ member.full_name }}
         </div>
       </router-link>
-      <!-- <div class="uppercase text-xs text-secondary">
-        Responsable
-      </div> -->
       <div class="text-xs text-secondary">
-        {{ member.email }}<br />
-        {{ member.mobile }}
+        <div class="break-all">{{ member.email }}</div>
+        <div class="">{{ member.mobile }}</div>
       </div>
     </div>
   </div>
