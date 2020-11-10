@@ -1,17 +1,19 @@
 <template>
   <div class="text-xs text-gray-600 flex flex-col">
     <div class="mb-2 flex">
-      <div class="card-label">
-        Créée le
+      <div class="card-label">Id</div>
+      <div class="text-gray-900 flex-1">
+        {{ participation.id }}
       </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">Créée le</div>
       <div class="text-gray-900 flex-1">
         {{ participation.created_at | formatMediumWithTime }}
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">
-        Modifiée le
-      </div>
+      <div class="card-label">Modifiée le</div>
       <div class="text-gray-900 flex-1">
         {{ participation.updated_at | formatMediumWithTime }}
       </div>

@@ -57,11 +57,6 @@
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
             <div class="mb-6 text-xl">Informations</div>
-            <router-link :to="{ name: 'MissionFormEdit', params: { id } }">
-              <el-button size="small" type="secondary" icon="el-icon-edit">
-                Modifier
-              </el-button>
-            </router-link>
           </div>
           <mission-infos v-if="mission" :mission="mission" />
         </el-card>

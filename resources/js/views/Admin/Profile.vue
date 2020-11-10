@@ -57,6 +57,9 @@
     <template v-if="!tab">
       <div class="px-12 grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
+          <div class="flex justify-between">
+            <div class="mb-6 text-xl">Informations</div>
+          </div>
           <profile-infos v-if="profile.roles" :profile="profile" />
         </el-card>
       </div>
