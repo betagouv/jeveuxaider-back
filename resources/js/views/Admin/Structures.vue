@@ -12,9 +12,7 @@
           v-if="$store.getters.contextRole == 'admin'"
           :to="{ name: 'StructureFormAdd' }"
         >
-          <el-button type="primary" icon="el-icon-plus">
-            Nouvelle organisation
-          </el-button>
+          <el-button type="primary">Créer une organisation</el-button>
         </router-link>
       </div>
     </div>
@@ -109,7 +107,7 @@
     >
       <el-table-column width="70" label="Id" align="center">
         <template slot-scope="scope">
-          <div class="text-secondary text-sm">#{{ scope.row.id }}</div>
+          <div class="text-secondary text-sm">{{ scope.row.id }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Organisation" min-width="320">
@@ -144,17 +142,13 @@
           </el-tag>
         </template>
       </el-table-column>
-      <!-- <el-table-column
-        v-if="!$store.getters['volet/active']"
-        label="Crée le"
-        min-width="130"
-      >
+      <el-table-column label="Créée le" min-width="120">
         <template slot-scope="scope">
           <div class="text-sm text-secondary">
             {{ scope.row.created_at | fromNow }}
           </div>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column prop="state" label="Statut" min-width="250">
         <template slot-scope="scope">
           <structure-dropdown-state
@@ -163,7 +157,7 @@
           ></structure-dropdown-state>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         v-if="!$store.getters['volet/active']"
         label="Actions"
         width="250"
@@ -207,7 +201,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <div class="m-3 flex items-center">
       <el-pagination

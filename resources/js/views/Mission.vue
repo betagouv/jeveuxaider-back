@@ -333,7 +333,7 @@
             <h3
               class="z-10 relative text-2xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
-              Le mot de l'association
+              Le mot de l'organisation
             </h3>
 
             <div

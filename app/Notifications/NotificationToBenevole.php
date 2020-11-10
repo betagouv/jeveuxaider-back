@@ -50,7 +50,7 @@ class NotificationToBenevole extends Notification
         return (new MailMessage)
             ->subject("{$this->notificationBenevole->mission->structure->name} vous propose une mission de bénévolat")
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line("L'association {$this->notificationBenevole->mission->structure->name} vous propose une nouvelle mission de bénévolat dans le domaine d'action **{$this->notificationBenevole->mission->domaines[0]->name}**.")
+            ->line("L'organisation {$this->notificationBenevole->mission->structure->name} vous propose une nouvelle mission de bénévolat dans le domaine d'action **{$this->notificationBenevole->mission->domaines[0]->name}**.")
             ->line("Votre profil correspond à celui des bénévoles recherchés.")
             ->line("")
             ->line("La mission :")

@@ -10,9 +10,7 @@
         </div>
       </div>
       <router-link :to="`/dashboard/structure/${id}/members/add`">
-        <el-button type="primary" icon="el-icon-plus">
-          Inviter un membre
-        </el-button>
+        <el-button type="primary"> Inviter un membre </el-button>
       </router-link>
     </div>
     <el-divider />
