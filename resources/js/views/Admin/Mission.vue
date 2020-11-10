@@ -77,7 +77,14 @@
           </el-card>
           <el-card v-if="mission.structure" shadow="never" class="p-4">
             <div class="flex justify-between">
-              <div class="mb-6 text-xl">Organisation</div>
+              <router-link
+                :to="{
+                  name: 'Structure',
+                  params: { id: mission.structure.id },
+                }"
+                class="mb-6 text-xl hover:text-blue-800"
+                >{{ mission.structure.name }}</router-link
+              >
             </div>
             <structure-infos :structure="mission.structure" />
           </el-card>
