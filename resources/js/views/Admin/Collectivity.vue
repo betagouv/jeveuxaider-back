@@ -64,7 +64,7 @@
           <div class="flex justify-between">
             <div class="mb-6 text-xl">Informations</div>
           </div>
-          <collectivity-infos class="text-sm" :collectivity="collectivity" />
+          <collectivity-infos :collectivity="collectivity" />
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">

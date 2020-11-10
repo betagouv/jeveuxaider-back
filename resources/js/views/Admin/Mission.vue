@@ -18,10 +18,18 @@
             Modifier la mission
           </router-link>
           <el-dropdown-menu slot="dropdown">
+            <router-link
+              :to="{
+                name: 'Mission',
+                params: { id: mission.id },
+              }"
+              target="_blank"
+            >
+              <el-dropdown-item> Visualiser la mission</el-dropdown-item>
+            </router-link>
             <el-dropdown-item :command="{ action: 'clone' }"
               >Dupliquer la mission</el-dropdown-item
             >
-
             <el-dropdown-item divided :command="{ action: 'delete' }">
               Supprimer la mission
             </el-dropdown-item>
@@ -60,6 +68,20 @@
           </div>
           <mission-infos v-if="mission" :mission="mission" />
         </el-card>
+        <div class="">
+          <el-card v-if="mission.tuteur" shadow="never" class="p-4 mb-4">
+            <div class="flex justify-between">
+              <div class="mb-6 text-xl">Responsable</div>
+            </div>
+            <member-teaser class="member py-2" :member="mission.tuteur" />
+          </el-card>
+          <el-card v-if="mission.structure" shadow="never" class="p-4">
+            <div class="flex justify-between">
+              <div class="mb-6 text-xl">Organisation</div>
+            </div>
+            <structure-infos :structure="mission.structure" />
+          </el-card>
+        </div>
       </div>
     </div>
     <div v-else-if="tab == 'history'">
@@ -74,11 +96,13 @@
 <script>
 import { fetchActivities } from '@/api/app'
 import { getMission, cloneMission, deleteMission } from '@/api/mission'
+import StructureInfos from '@/components/infos/StructureInfos'
 import { fetchParticipations } from '@/api/participation'
 import TableActivities from '@/components/TableActivities'
 import StateTag from '@/components/StateTag'
 import MissionInfos from '@/components/infos/MissionInfos'
 import TableParticipations from '@/components/TableParticipations'
+import MemberTeaser from '@/components/MemberTeaser'
 
 export default {
   name: 'Mission',
@@ -87,6 +111,8 @@ export default {
     TableActivities,
     TableParticipations,
     MissionInfos,
+    StructureInfos,
+    MemberTeaser,
   },
   props: {
     id: {
@@ -109,6 +135,7 @@ export default {
   async created() {
     const response = await getMission(this.id)
     this.mission = response.data
+
     this.loading = false
 
     if (this.tab == 'history') {

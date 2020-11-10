@@ -93,7 +93,7 @@
           <div class="flex justify-between">
             <div class="mb-6 text-xl">Organisation</div>
           </div>
-          <structure-infos class="text-sm" :structure="structure" />
+          <structure-infos :structure="structure" />
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
