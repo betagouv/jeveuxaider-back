@@ -69,6 +69,7 @@
             format="dd-MM-yyyy"
             value-format="yyyy-MM-dd"
             style="width: 100%"
+            :picker-options="{ firstDayOfWeek: 1 }"
           />
         </el-form-item>
       </div>
