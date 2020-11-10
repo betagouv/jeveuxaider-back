@@ -1,87 +1,71 @@
 <template>
   <div class="text-xs text-gray-600 relative">
     <div class="mb-2 flex">
-      <div class="card-label">
-        Créée le
+      <div class="card-label">Id</div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.id }}
       </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">Créée le</div>
       <div class="text-gray-900 flex-1">
         {{ structure.created_at | formatMediumWithTime }}
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">
-        Modifiée le
-      </div>
+      <div class="card-label">Modifiée le</div>
       <div class="text-gray-900 flex-1">
         {{ structure.updated_at | formatMediumWithTime }}
       </div>
     </div>
     <div v-if="structure.state" class="mb-2 flex">
-      <div class="card-label">
-        Statut
-      </div>
+      <div class="card-label">Statut</div>
       <div class="text-gray-900 flex-1">
         {{ structure.state }}
       </div>
     </div>
     <div v-if="structure.response_ratio !== null" class="mb-2 flex">
-      <div class="card-label">
-        Tx réponse
-      </div>
+      <div class="card-label">Tx réponse</div>
       <div class="text-gray-900 flex-1">{{ structure.response_ratio }}%</div>
     </div>
     <div v-if="structure.statut_juridique" class="mb-2 flex">
-      <div class="card-label">
-        Statut
-      </div>
+      <div class="card-label">Statut</div>
       <div class="text-gray-900 flex-1">
         {{ structure.statut_juridique }}
       </div>
     </div>
     <div v-if="structure.structure_publique_type" class="mb-2 flex">
-      <div class="card-label">
-        Type
-      </div>
+      <div class="card-label">Type</div>
       <div class="text-gray-900 flex-1">
         {{ structure.structure_publique_type }}
       </div>
     </div>
     <div v-if="structure.association_types" class="mb-2 flex">
-      <div class="card-label">
-        Agréements
-      </div>
+      <div class="card-label">Agréements</div>
       <div class="text-gray-900 flex-1">
         {{ structure.association_types.join(', ') }}
       </div>
     </div>
     <div v-if="structure.structure_publique_etat_type" class="mb-2 flex">
-      <div class="card-label">
-        Corps
-      </div>
+      <div class="card-label">Corps</div>
       <div class="text-gray-900 flex-1">
         {{ structure.structure_publique_etat_type }}
       </div>
     </div>
     <div v-if="structure.full_address" class="mb-2 flex">
-      <div class="card-label">
-        Adresse
-      </div>
+      <div class="card-label">Adresse</div>
       <div class="text-gray-900 flex-1">
         {{ structure.full_address }}
       </div>
     </div>
     <div v-if="structure.department" class="mb-2 flex">
-      <div class="card-label">
-        Département
-      </div>
+      <div class="card-label">Département</div>
       <div class="text-gray-900 flex-1">
         {{ structure.department | fullDepartmentFromValue }}
       </div>
     </div>
     <div v-if="structure.description" class="mb-2 flex">
-      <div class="card-label">
-        Description
-      </div>
+      <div class="card-label">Description</div>
       <div class="text-gray-900 flex-1">
         <ReadMore
           more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"

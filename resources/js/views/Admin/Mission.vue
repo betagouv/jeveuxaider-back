@@ -2,15 +2,39 @@
   <div class="mission-view">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          Mission
-        </div>
-        <div v-if="mission" class="flex flex-wrap mb-8">
+        <div class="text-m text-gray-600 uppercase">Mission</div>
+        <div v-if="mission" class="flex flex-wrap mb-8 max-w-xl">
           <div class="font-bold text-2xl text-gray-800 mr-2">
             {{ mission.name }}
           </div>
           <state-tag :state="mission.state" />
         </div>
+      </div>
+      <div v-if="mission">
+        <el-dropdown split-button type="primary" @command="handleCommand">
+          <router-link
+            :to="{ name: 'MissionFormEdit', params: { id: mission.id } }"
+          >
+            Modifier la mission
+          </router-link>
+          <el-dropdown-menu slot="dropdown">
+            <router-link
+              :to="{
+                name: 'Mission',
+                params: { id: mission.id },
+              }"
+              target="_blank"
+            >
+              <el-dropdown-item> Visualiser la mission</el-dropdown-item>
+            </router-link>
+            <el-dropdown-item :command="{ action: 'clone' }"
+              >Dupliquer la mission</el-dropdown-item
+            >
+            <el-dropdown-item divided :command="{ action: 'delete' }">
+              Supprimer la mission
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
     <el-menu
@@ -40,17 +64,31 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">
-              Informations
-            </div>
-            <router-link :to="{ name: 'MissionFormEdit', params: { id } }">
-              <el-button size="small" type="secondary" icon="el-icon-edit">
-                Modifier
-              </el-button>
-            </router-link>
+            <div class="mb-6 text-xl">Informations</div>
           </div>
           <mission-infos v-if="mission" :mission="mission" />
         </el-card>
+        <div v-if="mission">
+          <el-card v-if="mission.tuteur" shadow="never" class="p-4 mb-4">
+            <div class="flex justify-between">
+              <div class="mb-6 text-xl">Responsable</div>
+            </div>
+            <member-teaser class="member py-2" :member="mission.tuteur" />
+          </el-card>
+          <el-card v-if="mission.structure" shadow="never" class="p-4">
+            <div class="flex justify-between">
+              <router-link
+                :to="{
+                  name: 'Structure',
+                  params: { id: mission.structure.id },
+                }"
+                class="mb-6 text-xl hover:text-blue-800"
+                >{{ mission.structure.name }}</router-link
+              >
+            </div>
+            <structure-infos :structure="mission.structure" />
+          </el-card>
+        </div>
       </div>
     </div>
     <div v-else-if="tab == 'history'">
@@ -64,12 +102,14 @@
 
 <script>
 import { fetchActivities } from '@/api/app'
-import { getMission } from '@/api/mission'
+import { getMission, cloneMission, deleteMission } from '@/api/mission'
+import StructureInfos from '@/components/infos/StructureInfos'
 import { fetchParticipations } from '@/api/participation'
 import TableActivities from '@/components/TableActivities'
 import StateTag from '@/components/StateTag'
 import MissionInfos from '@/components/infos/MissionInfos'
 import TableParticipations from '@/components/TableParticipations'
+import MemberTeaser from '@/components/MemberTeaser'
 
 export default {
   name: 'Mission',
@@ -78,6 +118,8 @@ export default {
     TableActivities,
     TableParticipations,
     MissionInfos,
+    StructureInfos,
+    MemberTeaser,
   },
   props: {
     id: {
@@ -91,6 +133,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       mission: null,
       activities: [],
       participations: [],
@@ -99,6 +142,8 @@ export default {
   async created() {
     const response = await getMission(this.id)
     this.mission = response.data
+
+    this.loading = false
 
     if (this.tab == 'history') {
       const { data } = await fetchActivities({
@@ -114,6 +159,64 @@ export default {
       })
       this.participations = data.data
     }
+  },
+  methods: {
+    handleCommand(command) {
+      if (command.action == 'delete') {
+        this.handleDelete()
+      }
+      if (command.action == 'clone') {
+        this.hanldleClone()
+      }
+    },
+    hanldleClone() {
+      this.loading = true
+      cloneMission(this.mission.id).then((response) => {
+        this.$router
+          .push({
+            path: `/dashboard/mission/${response.data.id}/edit`,
+          })
+          .then(() => {
+            this.$message({
+              message: 'La mission a été dupliquée !',
+              type: 'success',
+            })
+          })
+      })
+    },
+    handleDelete() {
+      if (this.mission.participations_count > 0) {
+        this.$alert(
+          'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
+          'Supprimer la mission',
+          {
+            confirmButtonText: 'Retour',
+            type: 'warning',
+            center: true,
+          }
+        )
+      } else {
+        this.$confirm(
+          `La mission ${this.mission.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
+          'Supprimer la mission',
+          {
+            confirmButtonText: 'Supprimer',
+            confirmButtonClass: 'el-button--danger',
+            cancelButtonText: 'Annuler',
+            center: true,
+            type: 'error',
+          }
+        ).then(() => {
+          deleteMission(this.mission.id).then(() => {
+            this.$message({
+              type: 'success',
+              message: `La mission ${this.mission.name} a été supprimée.`,
+            })
+            this.$router.push('/dashboard/missions')
+          })
+        })
+      }
+    },
   },
 }
 </script>

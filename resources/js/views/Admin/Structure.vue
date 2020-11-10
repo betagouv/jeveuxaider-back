@@ -21,6 +21,51 @@
           </el-tag>
         </div>
       </div>
+      <div>
+        <el-dropdown
+          v-if="$store.getters.contextRole == 'admin'"
+          split-button
+          type="primary"
+          @command="handleCommand"
+        >
+          <router-link
+            :to="{ name: 'StructureFormEdit', params: { id: structure.id } }"
+          >
+            Modifier l'organisation
+          </router-link>
+          <el-dropdown-menu slot="dropdown">
+            <router-link
+              :to="{
+                name: 'MissionFormAdd',
+                params: { structureId: structure.id },
+              }"
+            >
+              <el-dropdown-item>Ajouter une mission</el-dropdown-item>
+            </router-link>
+            <router-link
+              :to="{
+                name: 'StructureMembers',
+                params: { id: structure.id },
+              }"
+            >
+              <el-dropdown-item> Gérer les membres </el-dropdown-item>
+            </router-link>
+            <router-link
+              :to="{
+                name: 'StructureMembersAdd',
+                params: {
+                  id: structure.id,
+                },
+              }"
+            >
+              <el-dropdown-item> Ajouter un membre </el-dropdown-item>
+            </router-link>
+            <el-dropdown-item :command="{ action: 'delete' }" divided>
+              Supprimer l'organisation
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
     <el-menu
       :default-active="$router.history.current.path"
@@ -46,47 +91,13 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">Informations</div>
-            <router-link
-              :to="{ name: 'StructureFormEdit', params: { id: structure.id } }"
-            >
-              <el-button size="small" type="secondary" icon="el-icon-edit">
-                Modifier
-              </el-button>
-            </router-link>
+            <div class="mb-6 text-xl">Organisation</div>
           </div>
-          <structure-infos class="text-sm" :structure="structure" />
+          <structure-infos :structure="structure" />
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div v-if="structure.members" class="mb-6 text-xl">Équipe</div>
-            <div>
-              <router-link
-                :to="{
-                  name: 'StructureMembers',
-                  params: {
-                    id: structure.id,
-                  },
-                }"
-                class="mr-2"
-              >
-                <el-button size="small" type="secondary" icon="el-icon-edit">
-                  Gérer l'équipe
-                </el-button>
-              </router-link>
-              <router-link
-                :to="{
-                  name: 'StructureMembersAdd',
-                  params: {
-                    id: structure.id,
-                  },
-                }"
-              >
-                <el-button size="small" type="secondary" icon="el-icon-plus">
-                  Ajouter un membre
-                </el-button>
-              </router-link>
-            </div>
+            <div v-if="structure.members" class="mb-6 text-xl">Membres</div>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <member-teaser
@@ -130,7 +141,7 @@
 
 <script>
 import { fetchActivities } from '@/api/app'
-import { getStructure } from '@/api/structure'
+import { getStructure, deleteStructure } from '@/api/structure'
 import { fetchMissions } from '@/api/mission'
 import StructureInfos from '@/components/infos/StructureInfos'
 import TableActivities from '@/components/TableActivities'
@@ -184,6 +195,45 @@ export default {
         return fetchMissions({
           'filter[structure_id]': this.id,
           page: this.$route.query.page || 1,
+        })
+      }
+    },
+    handleCommand(command) {
+      if (command.action == 'delete') {
+        this.handleDeleteStructure()
+      }
+    },
+    handleDeleteStructure() {
+      if (this.structure.missions_count > 0) {
+        this.$alert(
+          'Il est impossible de supprimer une organisation qui contient des missions.',
+          "Supprimer l'organisation",
+          {
+            confirmButtonText: 'Retour',
+            type: 'warning',
+            center: true,
+          }
+        )
+      } else {
+        this.$confirm(
+          `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
+          "Supprimer l'organisation",
+          {
+            confirmButtonText: 'Supprimer',
+            confirmButtonClass: 'el-button--danger',
+            cancelButtonText: 'Annuler',
+            center: true,
+            dangerouslyUseHTMLString: true,
+            type: 'error',
+          }
+        ).then(() => {
+          deleteStructure(this.structure.id).then(() => {
+            this.$message({
+              type: 'success',
+              message: `L'organisation ${this.structure.name} a été supprimée.`,
+            })
+            this.$router.push('/dashboard/structures')
+          })
         })
       }
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="mission-form">
     <div class="flex">
-      <div style="max-width: 600px;">
+      <div style="max-width: 600px">
         <template v-if="mode == 'add'">
           <div
             v-if="form.template"
@@ -279,6 +279,7 @@
                 placeholder="Date de début"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 default-time="09:00:00"
+                :picker-options="{ firstDayOfWeek: 1 }"
               />
             </el-form-item>
             <el-form-item
@@ -293,6 +294,7 @@
                 placeholder="Date de fin"
                 default-time="18:00:00"
                 value-format="yyyy-MM-dd HH:mm:ss"
+                :picker-options="{ firstDayOfWeek: 1 }"
               />
             </el-form-item>
           </div>

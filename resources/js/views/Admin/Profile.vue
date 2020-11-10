@@ -15,6 +15,27 @@
           />
         </div>
       </div>
+      <div>
+        <el-dropdown
+          v-if="$store.getters.contextRole == 'admin'"
+          split-button
+          type="primary"
+          @command="handleCommand"
+        >
+          <router-link
+            :to="{ name: 'ProfileFormEdit', params: { id: profile.id } }"
+          >
+            Modifier l'utilisateur
+          </router-link>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item
+              :command="{ action: 'impersonate', id: profile.user_id }"
+            >
+              Prendre sa place
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
     <el-menu
       :default-active="$router.history.current.path"
@@ -38,14 +59,6 @@
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
             <div class="mb-6 text-xl">Informations</div>
-            <router-link
-              v-if="$store.getters.contextRole == 'admin'"
-              :to="{ name: 'ProfileFormEdit', params: { id: profile.id } }"
-            >
-              <el-button type="secondary" icon="el-icon-edit">
-                Modifier la fiche
-              </el-button>
-            </router-link>
           </div>
           <profile-infos v-if="profile.roles" :profile="profile" />
         </el-card>
@@ -102,6 +115,11 @@ export default {
     }
   },
   methods: {
+    handleCommand(command) {
+      if (command.action == 'impersonate') {
+        this.$store.dispatch('auth/impersonate', command.id)
+      }
+    },
     async fetchRows() {
       const response = await getProfile(this.id)
       this.profile = response.data

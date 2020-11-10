@@ -77,12 +77,12 @@
       :highlight-current-row="true"
       @row-click="onClickedRow"
     >
-      <el-table-column label="#" min-width="70" align="center">
+      <el-table-column width="70" label="Id" align="center">
         <template slot-scope="scope">
-          <div>{{ scope.row.id }}</div>
+          <div class="text-secondary text-sm">{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Titre" min-width="320">
+      <el-table-column label="Collectivité" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
           <div class="font-light text-gray-600 text-xs flex items-center">
@@ -101,13 +101,13 @@
           </div>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
+      <el-table-column prop="updated_at" label="Créée le" width="120">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
-            {{ scope.row.updated_at | fromNow }}
+            {{ scope.row.created_at | fromNow }}
           </div>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column prop="state" label="Statut" width="250">
         <template slot-scope="scope">
           <collectivity-dropdown-state
@@ -116,7 +116,7 @@
           ></collectivity-dropdown-state>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         v-if="!$store.getters['volet/active']"
         label="Actions"
         width="250"
@@ -148,7 +148,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <div class="m-3 flex items-center">
       <el-pagination
@@ -203,27 +203,6 @@ export default {
       } else {
         this.$router.push(command)
       }
-    },
-    handleClickDelete(id) {
-      this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette collectivité ?`,
-        'Supprimer cette collectivité',
-        {
-          confirmButtonText: 'Supprimer',
-          confirmButtonClass: 'el-button--danger',
-          cancelButtonText: 'Annuler',
-          center: true,
-          type: 'error',
-        }
-      ).then(() => {
-        deleteCollectivity(id).then(() => {
-          this.$message({
-            type: 'success',
-            message: `La collectivité a été supprimée.`,
-          })
-          this.fetchDatas()
-        })
-      })
     },
   },
 }

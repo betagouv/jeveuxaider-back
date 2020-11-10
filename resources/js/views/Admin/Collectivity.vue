@@ -2,9 +2,7 @@
   <div class="structure-view">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          Collectivité
-        </div>
+        <div class="text-m text-gray-600 uppercase">Collectivité</div>
         <div class="flex flex-wrap mb-8">
           <div class="font-bold text-2xl text-gray-800 mr-2">
             {{ collectivity.name }}
@@ -17,6 +15,33 @@
             Hors ligne
           </el-tag>
         </div>
+      </div>
+      <div v-if="collectivity">
+        <el-dropdown split-button type="primary" @command="handleCommand">
+          <router-link
+            :to="{
+              name: 'CollectivityFormEdit',
+              params: { id: collectivity.id },
+            }"
+          >
+            Modifier la collectivité
+          </router-link>
+          <el-dropdown-menu slot="dropdown">
+            <router-link
+              :to="{
+                name: 'CollectivitySlug',
+                params: { slug: collectivity.slug },
+              }"
+              target="_blank"
+            >
+              <el-dropdown-item> Visualiser la collectivité</el-dropdown-item>
+            </router-link>
+
+            <el-dropdown-item divided :command="{ action: 'delete' }">
+              Supprimer la collectivité
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
     <el-menu
@@ -37,21 +62,9 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">
-              Informations
-            </div>
-            <router-link
-              :to="{
-                name: 'CollectivityFormEdit',
-                params: { id: collectivity.id },
-              }"
-            >
-              <el-button size="small" type="secondary" icon="el-icon-edit">
-                Modifier
-              </el-button>
-            </router-link>
+            <div class="mb-6 text-xl">Informations</div>
           </div>
-          <collectivity-infos class="text-sm" :collectivity="collectivity" />
+          <collectivity-infos :collectivity="collectivity" />
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
@@ -78,7 +91,7 @@
 
 <script>
 import { fetchActivities } from '@/api/app'
-import { getCollectivity } from '@/api/app'
+import { getCollectivity, deleteCollectivity } from '@/api/app'
 import { fetchMissions } from '@/api/mission'
 import CollectivityInfos from '@/components/infos/CollectivityInfos'
 import TableActivities from '@/components/TableActivities'
@@ -136,6 +149,34 @@ export default {
     //   let foundIndex = this.missions.findIndex((el) => el.id === row.id)
     //   this.missions.splice(foundIndex, 1, row)
     // },
+    handleCommand(command) {
+      if (command.action == 'delete') {
+        this.handleClickDelete(command.id)
+      } else {
+        this.$router.push(command)
+      }
+    },
+    handleClickDelete() {
+      this.$confirm(
+        `Êtes vous sur de vouloir supprimer cette collectivité ?`,
+        'Supprimer cette collectivité',
+        {
+          confirmButtonText: 'Supprimer',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
+          center: true,
+          type: 'error',
+        }
+      ).then(() => {
+        deleteCollectivity(this.collectivity.id).then(() => {
+          this.$message({
+            type: 'success',
+            message: `La collectivité a été supprimée.`,
+          })
+          this.$router.push('/dashboard/collectivities')
+        })
+      })
+    },
   },
 }
 </script>

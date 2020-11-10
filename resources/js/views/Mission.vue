@@ -120,7 +120,7 @@
 
                 <div>
                   <span class="text-lg font-medium">
-                    <span>{{ structureType }}</span>
+                    <span>L'organisation</span>
                     <b class="text-blue-800">
                       {{ structure.name }}
                     </b>
@@ -333,7 +333,7 @@
             <h3
               class="z-10 relative text-2xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
-              Le mot de l'association
+              Le mot de l'organisation
             </h3>
 
             <div
@@ -347,7 +347,7 @@
             </div>
             <div class="mt-6">
               <span class="text-lg font-medium">
-                <span>{{ structureType }}</span>
+                <span>L'organisation</span>
                 <b class="text-blue-800">
                   {{ structure.name }}
                 </b>
@@ -478,10 +478,9 @@
             <p
               class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-7 sm:leading-9 text-gray-500 lg:mx-auto"
             >
-              Inscrivez-vous à la mission et
-              <span class="lowercase" v-html="structureType"></span> vous
-              recontactera dans les plus brefs délais. Vous pourrez aussi
-              échanger avec elle pour obtenir plus de précisions.
+              Inscrivez-vous à la mission et l'organisation vous recontactera
+              dans les plus brefs délais. Vous pourrez aussi échanger avec elle
+              pour obtenir plus de précisions.
             </p>
             <div class="mt-10 flex justify-center z-10 relative">
               <template v-if="mission.state">
