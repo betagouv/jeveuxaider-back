@@ -202,7 +202,7 @@
 
                           <template v-else>
                             <router-link
-                              to="/login"
+                              to="/register/volontaire"
                               class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                               >Proposer votre aide</router-link
                             >
@@ -504,7 +504,7 @@
 
                     <template v-else>
                       <router-link
-                        to="/login"
+                        to="/register/volontaire"
                         class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                         >Proposer votre aide</router-link
                       >
