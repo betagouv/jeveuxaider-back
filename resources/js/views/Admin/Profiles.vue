@@ -9,9 +9,7 @@
       </div>
       <div v-if="$store.getters.contextRole === 'admin'" class="">
         <el-dropdown>
-          <el-button type="primary">
-            <i class="el-icon-plus mr-1" /> Inviter un utilisateur
-          </el-button>
+          <el-button type="primary"> Inviter un utilisateur </el-button>
           <el-dropdown-menu type="primary">
             <router-link
               :to="{ name: 'ProfileFormAdd', params: { role: 'superviseur' } }"
@@ -106,6 +104,13 @@
               }
             })
           "
+          @changed="onFilterChange"
+        />
+        <query-search-filter
+          name="postal_code"
+          label="Code postal"
+          placeholder="Code postal"
+          :initial-value="query['filter[postal_code]']"
           @changed="onFilterChange"
         />
         <query-filter
@@ -263,6 +268,7 @@ import { fetchProfiles, exportProfiles } from '@/api/user'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryFilter from '@/components/QueryFilter.vue'
+import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layout/components/Volet/ProfileVolet.vue'
 import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
@@ -276,6 +282,7 @@ export default {
     ProfileRolesTags,
     ProfileVolet,
     QueryFilter,
+    QuerySearchFilter,
     QueryMainSearchFilter,
     ProfilesMenu,
   },
