@@ -10,7 +10,6 @@ import LayoutProfile from '@/layout/LayoutProfile.vue'
 /* Pages */
 import Login from '@/views/Login.vue'
 import Logout from '@/views/Logout.vue'
-import Register from '@/views/Register.vue'
 import RegisterResponsable from '@/views/RegisterResponsable.vue'
 import RegisterCollectivity from '@/views/RegisterCollectivity.vue'
 import RegisterVolontaire from '@/views/RegisterVolontaire.vue'
@@ -112,12 +111,7 @@ export default new Router({
           component: Login,
           meta: { requiresAnonymous: true },
         },
-        {
-          path: '/register',
-          name: 'Register',
-          component: Register,
-          meta: { requiresAnonymous: true },
-        },
+
         {
           path: '/register/collectivity',
           name: 'RegisterCollectivity',
