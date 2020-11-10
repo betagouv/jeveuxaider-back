@@ -2,9 +2,7 @@
   <div class="structure-view">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          Organisation
-        </div>
+        <div class="text-m text-gray-600 uppercase">Organisation</div>
         <div class="flex flex-wrap mb-8">
           <div class="font-bold text-2xl text-gray-800 mr-2">
             {{ structure.name }}
@@ -48,9 +46,7 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">
-              Informations
-            </div>
+            <div class="mb-6 text-xl">Informations</div>
             <router-link
               :to="{ name: 'StructureFormEdit', params: { id: structure.id } }"
             >
@@ -63,9 +59,7 @@
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div v-if="structure.members" class="mb-6 text-xl">
-              Équipe
-            </div>
+            <div v-if="structure.members" class="mb-6 text-xl">Équipe</div>
             <div>
               <router-link
                 :to="{
@@ -106,14 +100,31 @@
       </div>
     </div>
     <div v-else-if="tab == 'history'">
-      <TableActivities :table-data="activities" />
+      <TableActivities :table-data="tableData" />
     </div>
     <div v-else-if="tab == 'missions'">
       <TableMissions
-        :table-data="missions"
-        :on-updated-row="onUpdatedRowMissions"
+        :table-data="tableData"
+        :on-updated-row="onUpdatedRow"
+        :on-clicked-row="onClickedRow"
       />
     </div>
+    <div v-if="tab" class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
+    </div>
+    <portal to="volet">
+      <mission-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
@@ -123,9 +134,12 @@ import { getStructure } from '@/api/structure'
 import { fetchMissions } from '@/api/mission'
 import StructureInfos from '@/components/infos/StructureInfos'
 import TableActivities from '@/components/TableActivities'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import TableWithVolet from '@/mixins/TableWithVolet'
 import TableMissions from '@/components/TableMissions'
 import StateTag from '@/components/StateTag'
 import MemberTeaser from '@/components/MemberTeaser'
+import MissionVolet from '@/layout/components/Volet/MissionVolet.vue'
 
 export default {
   name: 'Structure',
@@ -135,7 +149,9 @@ export default {
     MemberTeaser,
     TableActivities,
     TableMissions,
+    MissionVolet,
   },
+  mixins: [TableWithFilters, TableWithVolet],
   props: {
     id: {
       type: Number,
@@ -150,32 +166,26 @@ export default {
     return {
       loading: false,
       structure: {},
-      activities: [],
-      missions: [],
-    }
-  },
-  async created() {
-    const response = await getStructure(this.id)
-    this.structure = response.data
-
-    if (this.tab == 'history') {
-      const { data } = await fetchActivities({
-        'filter[subject_id]': this.id,
-        'filter[subject_type]': 'Structure',
-      })
-      this.activities = data.data
-    }
-    if (this.tab == 'missions') {
-      const { data } = await fetchMissions({
-        'filter[structure_id]': this.id,
-      })
-      this.missions = data.data
+      tableData: [],
     }
   },
   methods: {
-    onUpdatedRowMissions(row) {
-      let foundIndex = this.missions.findIndex((el) => el.id === row.id)
-      this.missions.splice(foundIndex, 1, row)
+    async fetchRows() {
+      const response = await getStructure(this.id)
+      this.structure = response.data
+
+      if (this.tab == 'history') {
+        return fetchActivities({
+          'filter[subject_id]': this.id,
+          'filter[subject_type]': 'Structure',
+        })
+      }
+      if (this.tab == 'missions') {
+        return fetchMissions({
+          'filter[structure_id]': this.id,
+          page: this.$route.query.page || 1,
+        })
+      }
     },
   },
 }
