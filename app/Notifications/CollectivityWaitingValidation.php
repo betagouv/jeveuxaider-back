@@ -70,7 +70,7 @@ class CollectivityWaitingValidation extends Notification
         return (new SlackMessage)
                     ->from('Réserve Civique')
                     ->success()
-                    ->to('#collectivités')
+                    ->to('#collectivités-déploiement')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
                     ->attachment(function ($attachment) use ($collectivity) {
                         $attachment->title($collectivity->name, url(config('app.url') . '/dashboard/collectivity/' . $collectivity->id . '/edit'));
