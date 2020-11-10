@@ -68,7 +68,7 @@
           </div>
           <mission-infos v-if="mission" :mission="mission" />
         </el-card>
-        <div class="">
+        <div v-if="mission">
           <el-card v-if="mission.tuteur" shadow="never" class="p-4 mb-4">
             <div class="flex justify-between">
               <div class="mb-6 text-xl">Responsable</div>
