@@ -2,6 +2,8 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersProfileCollectivity;
+use App\Filters\FiltersProfilePostalCode;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -33,6 +35,8 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
+                AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::exact('is_visible'),
                 'referent_department'
             )

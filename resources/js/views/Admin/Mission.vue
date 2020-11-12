@@ -30,7 +30,11 @@
             <el-dropdown-item :command="{ action: 'clone' }"
               >Dupliquer la mission</el-dropdown-item
             >
-            <el-dropdown-item divided :command="{ action: 'delete' }">
+            <el-dropdown-item
+              v-if="$store.getters.contextRole != 'responsable'"
+              divided
+              :command="{ action: 'delete' }"
+            >
               Supprimer la mission
             </el-dropdown-item>
           </el-dropdown-menu>

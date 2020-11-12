@@ -11,9 +11,7 @@
       </div>
       <div v-if="$store.getters.contextRole === 'admin'" class="">
         <el-dropdown>
-          <el-button type="primary">
-            <i class="el-icon-plus mr-1" /> Inviter un utilisateur
-          </el-button>
+          <el-button type="primary"> Inviter un utilisateur </el-button>
           <el-dropdown-menu type="primary">
             <router-link
               :to="{ name: 'ProfileFormAdd', params: { role: 'referent' } }"

@@ -17,9 +17,7 @@
             },
           }"
         >
-          <el-button type="primary" icon="el-icon-plus">
-            Nouvelle mission
-          </el-button>
+          <el-button type="primary"> Créer une mission </el-button>
         </router-link>
       </div>
     </div>
