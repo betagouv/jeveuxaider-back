@@ -91,6 +91,8 @@ class StructureController extends Controller
             return $request->validated();
         }
 
+        // TODO : Attach collectivity if collectivty
+
         $structure = Structure::create(
             array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
         );
@@ -103,6 +105,8 @@ class StructureController extends Controller
         if (!$request->validated()) {
             return $request->validated();
         }
+
+        // TODO : Attach collectivity if collectivty
 
         $structure->update($request->validated());
 

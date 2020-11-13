@@ -38,43 +38,6 @@
     </el-steps>
     <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">Mon organisation</div>
-      <!-- TODO -->
-      <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
-        Logo de l'organisation
-      </div> -->
-      <div v-show="false" class="mb-10">
-        <div class="flex -m-4">
-          <div class="m-4">
-            <div v-if="logoPreview" class="h-32 w-32 flex items-center">
-              <img :src="logoPreview" alt="Logo" />
-            </div>
-            <div
-              v-else
-              class="default-picture h-32 w-32 font-bold flex items-center justify-center text-white text-2xl bg-primary"
-            >
-              LOGO
-            </div>
-          </div>
-          <div class="m-4">
-            <el-upload
-              ref="logo"
-              action=""
-              :http-request="uploadLogo"
-              accept="image/*"
-              :before-upload="beforeLogoUpload"
-              :auto-upload="false"
-              :on-change="onChangeLogo"
-            >
-              <el-button>Modifier</el-button>
-              <div slot="tip" class="el-upload__tip text-xs">
-                Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
-                taille maximale de 5 Mo
-              </div>
-            </el-upload>
-          </div>
-        </div>
-      </div>
-      <!-- END TODO -->
       <el-form
         ref="structureForm"
         :model="form"
@@ -208,7 +171,7 @@
             filterable
           >
             <el-option
-              v-for="item in reseauxOptions"
+              v-for="item in $store.getters.reseaux"
               :key="item.id"
               :label="item.name"
               :value="item.id"
@@ -269,11 +232,6 @@ export default {
         },
       },
     }
-  },
-  computed: {
-    reseauxOptions() {
-      return this.$store.getters.reseaux
-    },
   },
   created() {
     const structure = this.$store.getters.structure_as_responsable

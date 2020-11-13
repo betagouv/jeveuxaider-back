@@ -75,18 +75,37 @@
           </el-form-item>
         </div>
 
-        <div class="flex hidden">
-          <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
-            <el-input v-model="form.latitude" disabled placeholder="Latitude" />
-          </el-form-item>
-          <el-form-item label="Longitude" prop="longitude" class="flex-1">
-            <el-input
-              v-model="form.longitude"
-              disabled
-              placeholder="Longitude"
-            />
-          </el-form-item>
+        <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          Codes postaux de votre collectivité
         </div>
+        <item-description container-class="mb-6">
+          En tant que collectivité, vous aurez accès au statistiques des
+          organisations enregistrées avec vos codes postaux. <br />Vous aurez
+          aussi la possibilité de gérer la page de votre collectivité qui
+          listera toutes les missions dans votre collectivité. Par exemple pour
+          Bayonne :
+          <a
+            href="https://covid19.reserve-civique.gouv.fr/territoires/bayonne"
+            target="_blank"
+            >https://covid19.reserve-civique.gouv.fr/territoires/bayonne</a
+          >
+        </item-description>
+        <el-form-item
+          label="Liste des codes postaux"
+          prop="zips"
+          class="flex-1"
+        >
+          <el-select
+            v-model="form.zips"
+            multiple
+            allow-create
+            filterable
+            default-first-option
+            placeholder="Saisissez tous les codes postaux"
+          >
+          </el-select>
+        </el-form-item>
+
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">
             Valider
@@ -101,10 +120,11 @@
 import { updateStructure } from '@/api/structure'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
+import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
   name: 'AddressStep',
-  components: { AlgoliaPlacesInput },
+  components: { AlgoliaPlacesInput, ItemDescription },
   mixins: [FormWithAddress],
   data() {
     return {

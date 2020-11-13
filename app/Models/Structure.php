@@ -174,6 +174,11 @@ class Structure extends Model
             });
     }
 
+    public function collectivity()
+    {
+        return $this->belongsTo('App\Models\Collectivity');
+    }
+
     public function scopeCollectivity($query, $collectivity_id)
     {
         $collectivity = Collectivity::find($collectivity_id);

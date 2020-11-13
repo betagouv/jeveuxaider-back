@@ -48,6 +48,11 @@ class Collectivity extends Model implements HasMedia
 
     protected static $submitEmptyLogs = false;
 
+    public function structure()
+    {
+        return $this->hasOne('App\Models\Structure');
+    }
+
     public function getBannerAttribute()
     {
         return $this->getMediaUrls('banner');
