@@ -168,7 +168,6 @@ class ApiEngagement
         'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0
       ],
       'post_date' => strtotime($mission['postedAt']),
-      'all' => $mission,
     ];
     }
 }
