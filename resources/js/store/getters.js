@@ -24,7 +24,7 @@ const getters = {
   contextRole: (state) => state.user.user.context_role,
   showAvisBenevole: (state) => state.showAvisBenevole,
   participationsValidated: (state, getters) => {
-    return getters.user.profile.participations
+    return getters.user.profile && getters.user.profile.participations
       ? getters.user.profile.participations.filter((participation) =>
           ['Validée', 'Effectuée'].includes(participation.state)
         ).length
