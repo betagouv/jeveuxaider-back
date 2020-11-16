@@ -240,11 +240,6 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function collectivity()
-    {
-        return $this->belongsTo('App\Models\Collectivity');
-    }
-
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'tuteur_id');
@@ -294,7 +289,12 @@ class Profile extends Model implements HasMedia
 
     public function isResponsableCollectivity()
     {
-        return $this->collectivity && $this->collectivity->state == 'validated'  ? true : false;
+        return (bool) $this->structures()
+            ->whereHas('collectivity', function (Builder $query) {
+                $query->where('state', 'validated');
+            })
+            ->wherePivot('role', 'responsable')
+            ->first();
     }
 
     public function isResponsable()

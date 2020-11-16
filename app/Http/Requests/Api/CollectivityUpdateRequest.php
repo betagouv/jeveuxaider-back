@@ -30,6 +30,7 @@ class CollectivityUpdateRequest extends CollectivityRequest
             'department' => '',
             'zips' => '',
             'state' => '',
+            'structure_id' => '',
             'published' => 'boolean',
         ];
     }

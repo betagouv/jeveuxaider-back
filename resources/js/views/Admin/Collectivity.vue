@@ -66,20 +66,18 @@
           </div>
           <collectivity-infos :collectivity="collectivity" />
         </el-card>
-        <el-card shadow="never" class="p-4">
+        <el-card v-if="collectivity.structure" shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div v-if="collectivity.profiles" class="mb-6 text-xl">
-              Responsables
-            </div>
+            <router-link
+              :to="{
+                name: 'Structure',
+                params: { id: collectivity.structure.id },
+              }"
+              class="mb-6 text-xl hover:text-blue-800"
+              >{{ collectivity.structure.name }}</router-link
+            >
           </div>
-          <div class="grid grid-cols-2 gap-3">
-            <member-teaser
-              v-for="member in collectivity.profiles"
-              :key="member.id"
-              class="member py-2"
-              :member="member"
-            />
-          </div>
+          <structure-infos :structure="collectivity.structure" />
         </el-card>
       </div>
     </div>
@@ -92,10 +90,9 @@
 <script>
 import { fetchActivities } from '@/api/app'
 import { getCollectivity, deleteCollectivity } from '@/api/app'
-import { fetchMissions } from '@/api/mission'
+import StructureInfos from '@/components/infos/StructureInfos'
 import CollectivityInfos from '@/components/infos/CollectivityInfos'
 import TableActivities from '@/components/TableActivities'
-import TableMissions from '@/components/TableMissions'
 import StateTag from '@/components/StateTag'
 import MemberTeaser from '@/components/MemberTeaser'
 
@@ -106,7 +103,7 @@ export default {
     StateTag,
     MemberTeaser,
     TableActivities,
-    TableMissions,
+    StructureInfos,
   },
   props: {
     id: {

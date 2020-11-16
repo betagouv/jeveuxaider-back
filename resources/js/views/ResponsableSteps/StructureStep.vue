@@ -189,7 +189,7 @@
 </template>
 
 <script>
-import { addOrUpdateStructure, updateStructureLogo } from '@/api/structure'
+import { addOrUpdateStructure } from '@/api/structure'
 import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
@@ -200,7 +200,6 @@ export default {
       loading: false,
       structureId: null,
       form: {},
-      logoPreview: null,
       rules: {
         name: {
           required: true,
@@ -234,66 +233,24 @@ export default {
     }
   },
   created() {
-    const structure = this.$store.getters.structure_as_responsable
-    this.structureId = structure ? structure.id : null
-
-    if (this.structureId) {
-      this.form.name = structure.name
-    }
+    this.form = this.$store.getters.structure_as_responsable || null
   },
   methods: {
-    uploadLogo(request) {
-      updateStructureLogo(this.structureId, request.file)
-        .then(() => {
-          this.loading = false
-          // Get profile to get new role
-          this.$store.dispatch('user/get')
-          this.$router.push('/register/responsable/step/address')
-        })
-        .catch(() => {
-          this.loading = false
-        })
-    },
-    beforeLogoUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 5
-      if (!isLt5M) {
-        this.$message({
-          message: 'Votre image ne doit pas éxcéder une taille de 4MB',
-          type: 'error',
-        })
-        this.loading = false
-        this.logoPreview = null
-      }
-      return isLt5M
-    },
-    onChangeLogo(file) {
-      var reader = new FileReader()
-      reader.readAsDataURL(file.raw)
-      reader.onload = (e) => {
-        this.logoPreview = e.target.result
-      }
-    },
     onSubmit() {
-      this.loading = true
       this.$refs['structureForm'].validate((valid) => {
         if (valid) {
+          this.loading = true
           addOrUpdateStructure(this.structureId, this.form)
             .then(async (response) => {
               this.structureId = response.data.id
-              if (this.$refs.logo.uploadFiles.length > 0) {
-                this.$refs.logo.submit()
-              } else {
-                // Get profile to get new role
-                await this.$store.dispatch('user/get')
-                this.$router.push('/register/responsable/step/address')
-                this.loading = false
-              }
+              // Get profile to get new role
+              await this.$store.dispatch('user/get')
+              this.$router.push('/register/responsable/step/address')
+              this.loading = false
             })
             .catch(() => {
               this.loading = false
             })
-        } else {
-          this.loading = false
         }
       })
     },

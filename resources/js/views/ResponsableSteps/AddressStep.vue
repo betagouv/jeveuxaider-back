@@ -74,37 +74,38 @@
             <el-input v-model="form.city" disabled placeholder="Ville" />
           </el-form-item>
         </div>
-
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Codes postaux de votre collectivité
-        </div>
-        <item-description container-class="mb-6">
-          En tant que collectivité, vous aurez accès au statistiques des
-          organisations enregistrées avec vos codes postaux. <br />Vous aurez
-          aussi la possibilité de gérer la page de votre collectivité qui
-          listera toutes les missions dans votre collectivité. Par exemple pour
-          Bayonne :
-          <a
-            href="https://covid19.reserve-civique.gouv.fr/territoires/bayonne"
-            target="_blank"
-            >https://covid19.reserve-civique.gouv.fr/territoires/bayonne</a
+        <template v-if="collectivity">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Codes postaux de votre collectivité
+          </div>
+          <item-description container-class="mb-6">
+            En tant que collectivité, vous aurez accès au statistiques des
+            organisations enregistrées avec vos codes postaux. <br />Vous aurez
+            aussi la possibilité de gérer la page de votre collectivité qui
+            listera toutes les missions dans votre collectivité. Par exemple
+            pour Bayonne :
+            <a
+              href="https://covid19.reserve-civique.gouv.fr/territoires/bayonne"
+              target="_blank"
+              >https://covid19.reserve-civique.gouv.fr/territoires/bayonne</a
+            >
+          </item-description>
+          <el-form-item
+            label="Liste des codes postaux"
+            prop="zips"
+            class="flex-1"
           >
-        </item-description>
-        <el-form-item
-          label="Liste des codes postaux"
-          prop="zips"
-          class="flex-1"
-        >
-          <el-select
-            v-model="form.zips"
-            multiple
-            allow-create
-            filterable
-            default-first-option
-            placeholder="Saisissez tous les codes postaux"
-          >
-          </el-select>
-        </el-form-item>
+            <el-select
+              v-model="collectivity.zips"
+              multiple
+              allow-create
+              filterable
+              default-first-option
+              placeholder="Saisissez tous les codes postaux"
+            >
+            </el-select>
+          </el-form-item>
+        </template>
 
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">
@@ -118,6 +119,7 @@
 
 <script>
 import { updateStructure } from '@/api/structure'
+import { updateCollectivity } from '@/api/app'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import ItemDescription from '@/components/forms/ItemDescription'
@@ -130,6 +132,7 @@ export default {
     return {
       loading: false,
       structureId: this.$store.getters.structure_as_responsable.id,
+      collectivity: {},
       form: {},
       rules: {
         lieu: {
@@ -155,13 +158,27 @@ export default {
       },
     }
   },
+  created() {
+    this.form = this.$store.getters.structure_as_responsable || null
+    this.collectivity = this.form.collectivity || null
+  },
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs['etablissementForm'].validate((valid) => {
+      this.$refs['etablissementForm'].validate(async (valid) => {
         if (valid) {
           updateStructure(this.structureId, this.form)
             .then(() => {
+              console.log(this.form.collectivity)
+              console.log(this.form.collectivity)
+              if (this.collectivity.id) {
+                updateCollectivity(
+                  this.collectivity.id,
+                  this.collectivity
+                ).then(() => {
+                  this.$router.push(`/dashboard`)
+                })
+              }
               this.loading = false
               this.$router.push(
                 `/dashboard/structure/${this.structureId}/missions/add`

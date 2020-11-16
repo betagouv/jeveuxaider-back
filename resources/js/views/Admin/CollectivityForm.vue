@@ -149,28 +149,44 @@
         ></ImageField>
       </template>
 
-      <el-form-item
-        v-if="$store.getters.contextRole == 'admin'"
-        label="Statut"
-        prop="state"
-      >
-        <el-select v-model="form.state" placeholder="Sélectionner le statut">
-          <el-option
-            v-for="item in $store.getters.taxonomies.collectivities_states
-              .terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
       <template v-if="$store.getters.contextRole == 'admin'">
         <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
         <item-description container-class="mb-6">
-          Si vous souhaitez rendre cette collectivité visible, cochez la case.
+          Si vous souhaitez mettre en ligne la page de cette collectivité,
+          cochez la case.
         </item-description>
         <el-form-item prop="published" class="flex-1">
           <el-checkbox v-model="form.published">En ligne</el-checkbox>
+        </el-form-item>
+      </template>
+      <template v-if="form.type == 'commune'">
+        <div class="mb-6 flex text-xl text-gray-800">Organisation liée</div>
+        <item-description container-class="mb-6">
+          Si le statut de la collectivité est validée, les responsables de
+          l'organisation ont accès au tableau de bord de la collectivité. Ils
+          peuvent aussi modifier la page de la collectivité.
+        </item-description>
+        <el-form-item
+          label="Id de l'organisation"
+          prop="structure_id"
+          class="flex-1"
+        >
+          <el-input v-model="form.structure_id" placeholder="ex: 4350" />
+        </el-form-item>
+        <el-form-item
+          v-if="$store.getters.contextRole == 'admin'"
+          label="Statut"
+          prop="state"
+        >
+          <el-select v-model="form.state" placeholder="Sélectionner le statut">
+            <el-option
+              v-for="item in $store.getters.taxonomies.collectivities_states
+                .terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
       </template>
 

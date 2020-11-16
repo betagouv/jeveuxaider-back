@@ -27,6 +27,7 @@ class Collectivity extends Model implements HasMedia
         'published',
         'state',
         'profile_id',
+        'structure_id',
     ];
 
     protected $casts = [
@@ -50,7 +51,7 @@ class Collectivity extends Model implements HasMedia
 
     public function structure()
     {
-        return $this->hasOne('App\Models\Structure');
+        return $this->belongsTo('App\Models\Structure');
     }
 
     public function getBannerAttribute()
