@@ -192,38 +192,6 @@ export default new Router({
       ],
     },
     {
-      path: '/register/collectivity/step',
-      component: LayoutRegisterSteps,
-      redirect: '/register/collectivity/step/profile',
-      meta: { requiresAuth: true },
-      children: [
-        {
-          path: '/register/collectivity/step/profile',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/collectivity-profile-step" */ '@/views/CollectivitySteps/ProfileStep.vue'
-            ),
-          name: 'CollectivityProfileStep',
-        },
-        {
-          path: '/register/collectivity/step/infos',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/collectivity-infos-step" */ '@/views/CollectivitySteps/InfosStep.vue'
-            ),
-          name: 'CollectivityInfoseStep',
-        },
-        {
-          path: '/register/collectivity/step/address',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/collectivity-address-step" */ '@/views/CollectivitySteps/AddressStep.vue'
-            ),
-          name: 'CollectivityAddressStep',
-        },
-      ],
-    },
-    {
       path: '/register/reserviste/step',
       component: LayoutRegisterSteps,
       redirect: '/register/reserviste/step/preferences',
@@ -266,7 +234,6 @@ export default new Router({
               'referent_regional',
               'superviseur',
               'responsable',
-              'responsable_collectivity',
               'analyste',
             ],
           },
@@ -283,7 +250,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
             ],
@@ -301,7 +267,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
               'responsable',
@@ -320,7 +285,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
               'responsable',
@@ -339,7 +303,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
             ],
@@ -1099,6 +1062,18 @@ export default new Router({
           },
         },
         {
+          path: '/collectivity/:id/dashboard',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard" */ '@/views/Admin/Dashboards/Main.vue'
+            ),
+          name: 'DashboardCollectivity',
+          props: (route) => ({ id: parseInt(route.params.id) }),
+          meta: {
+            roles: ['admin', 'referent', 'referent_regional'],
+          },
+        },
+        {
           path: '/dashboard/collectivity/:id/edit',
           component: () =>
             import(
@@ -1107,7 +1082,7 @@ export default new Router({
           name: 'CollectivityFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
           meta: {
-            roles: ['admin', 'responsable_collectivity'],
+            roles: ['admin', 'responsable'],
           },
         },
         {

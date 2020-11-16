@@ -1,10 +1,37 @@
 <template>
   <div>
+    <el-submenu index="1">
+      <template slot="title"
+        ><i class="el-icon-school"></i
+        >{{
+          $store.getters.structure_as_responsable.collectivity.name
+        }}</template
+      >
+      <el-menu-item
+        :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/dashboard`"
+        :class="{
+          'is-active': isActive(
+            `dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/dashboard`
+          ),
+        }"
+        >Tableau de bord
+      </el-menu-item>
+      <el-menu-item
+        :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`"
+        :class="{
+          'is-active': isActive(
+            `dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`
+          ),
+        }"
+        >Modifier ma page
+      </el-menu-item>
+    </el-submenu>
+
     <el-menu-item
       index="/dashboard"
       :class="{ 'is-active': isActive('dashboard') }"
     >
-      <span v-if="$store.getters.sidebar">Tableau de bord</span>
+      <div v-if="$store.getters.sidebar">Tableau de bord</div>
       <el-tooltip
         v-else
         class="item"

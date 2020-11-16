@@ -36,7 +36,7 @@
         description="J'enregistre le lieu de mon établissement"
       />
     </el-steps>
-    <div class="max-w-lg p-4 sm:p-12">
+    <div v-show="!showSuccessMessage" class="max-w-lg p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
         Lieu de mon organisation
       </div>
@@ -114,6 +114,26 @@
         </div>
       </el-form>
     </div>
+    <div
+      v-show="showSuccessMessage"
+      class="max-w-2xl mx-auto text-center mt-12"
+    >
+      <h2 class="font-bold text-3xl text-gray-800 mb-6">
+        Votre demande d'inscription de collectivté a bien été enregistrée.
+      </h2>
+      <p class="font-xl text-secondary">
+        Vous recevrez un email de confirmation lorsque votre compte aura été
+        validé par l'équipe de la Réserve Civique.
+      </p>
+      <div class="">
+        <router-link class="mr-4" to="/dashboard">
+          <el-button type="primary"> Tableau de bord </el-button>
+        </router-link>
+        <router-link to="/">
+          <el-button type="primary"> Aller à la page d'accueil </el-button>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -134,6 +154,7 @@ export default {
       structureId: this.$store.getters.structure_as_responsable.id,
       collectivity: {},
       form: {},
+      showSuccessMessage: false,
       rules: {
         lieu: {
           required: true,
@@ -175,14 +196,15 @@ export default {
                   this.collectivity.id,
                   this.collectivity
                 ).then(() => {
-                  this.$router.push(`/dashboard`)
+                  this.loading = false
+                  this.showSuccessMessage = true
                 })
+              } else {
+                this.loading = false
+                this.$router.push(
+                  `/dashboard/structure/${this.structureId}/missions/add`
+                )
               }
-              console.log('go router push mission add', this.structureId)
-              this.loading = false
-              this.$router.push(
-                `/dashboard/structure/${this.structureId}/missions/add`
-              )
             })
             .catch(() => {
               this.loading = false

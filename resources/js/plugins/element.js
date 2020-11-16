@@ -49,6 +49,8 @@ import {
   Step,
   Badge,
   Dialog,
+  Submenu,
+  MenuItemGroup,
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
@@ -108,6 +110,8 @@ Vue.use(Steps)
 Vue.use(Step)
 Vue.use(Badge)
 Vue.use(Dialog)
+Vue.use(Submenu)
+Vue.use(MenuItemGroup)
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = (option) => Message({ duration: 5000, ...option })

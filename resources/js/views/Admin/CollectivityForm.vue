@@ -159,7 +159,9 @@
           <el-checkbox v-model="form.published">En ligne</el-checkbox>
         </el-form-item>
       </template>
-      <template v-if="form.type == 'commune'">
+      <template
+        v-if="form.type == 'commune' && $store.getters.contextRole == 'admin'"
+      >
         <div class="mb-6 flex text-xl text-gray-800">Organisation liée</div>
         <item-description container-class="mb-6">
           Si le statut de la collectivité est validée, les responsables de
@@ -173,11 +175,7 @@
         >
           <el-input v-model="form.structure_id" placeholder="ex: 4350" />
         </el-form-item>
-        <el-form-item
-          v-if="$store.getters.contextRole == 'admin'"
-          label="Statut"
-          prop="state"
-        >
+        <el-form-item label="Statut" prop="state">
           <el-select v-model="form.state" placeholder="Sélectionner le statut">
             <el-option
               v-for="item in $store.getters.taxonomies.collectivities_states
