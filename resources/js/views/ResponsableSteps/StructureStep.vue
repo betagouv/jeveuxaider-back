@@ -189,7 +189,7 @@
 </template>
 
 <script>
-import { addOrUpdateStructure } from '@/api/structure'
+import { updateStructure } from '@/api/structure'
 import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
@@ -198,7 +198,7 @@ export default {
   data() {
     return {
       loading: false,
-      structureId: null,
+      structureId: this.$store.getters.structure_as_responsable.id,
       form: {},
       rules: {
         name: {
@@ -240,13 +240,12 @@ export default {
       this.$refs['structureForm'].validate((valid) => {
         if (valid) {
           this.loading = true
-          addOrUpdateStructure(this.structureId, this.form)
-            .then(async (response) => {
-              this.structureId = response.data.id
+          updateStructure(this.structureId, this.form)
+            .then(async () => {
               // Get profile to get new role
               await this.$store.dispatch('user/get')
-              this.$router.push('/register/responsable/step/address')
               this.loading = false
+              this.$router.push('/register/responsable/step/address')
             })
             .catch(() => {
               this.loading = false

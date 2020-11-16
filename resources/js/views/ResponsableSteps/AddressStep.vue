@@ -41,7 +41,7 @@
         Lieu de mon organisation
       </div>
       <el-form
-        ref="etablissementForm"
+        ref="addressForm"
         :model="form"
         label-position="top"
         :rules="rules"
@@ -165,13 +165,12 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs['etablissementForm'].validate(async (valid) => {
+      this.$refs['addressForm'].validate(async (valid) => {
         if (valid) {
           updateStructure(this.structureId, this.form)
             .then(() => {
-              console.log(this.form.collectivity)
-              console.log(this.form.collectivity)
-              if (this.collectivity.id) {
+              console.log('collectivity ?', this.collectivity)
+              if (this.collectivity) {
                 updateCollectivity(
                   this.collectivity.id,
                   this.collectivity
@@ -179,6 +178,7 @@ export default {
                   this.$router.push(`/dashboard`)
                 })
               }
+              console.log('go router push mission add', this.structureId)
               this.loading = false
               this.$router.push(
                 `/dashboard/structure/${this.structureId}/missions/add`
