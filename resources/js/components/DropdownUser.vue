@@ -19,6 +19,10 @@
         >
           <el-dropdown-item class="flex items-center">
             <el-avatar
+              v-if="
+                $store.getters.structure_as_responsable &&
+                $store.getters.structure_as_responsable.name
+              "
               class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border"
               :src="`${$store.getters.structure_as_responsable.logo}`"
             >

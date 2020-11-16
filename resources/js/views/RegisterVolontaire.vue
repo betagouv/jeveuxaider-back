@@ -177,7 +177,7 @@
                         >
                           <el-input
                             v-model="form.birthday"
-                            v-mask="'99/99/9999'"
+                            v-mask="'##/##/####'"
                             placeholder="Date de naissance"
                           />
                         </el-form-item>
@@ -281,7 +281,7 @@
             <img
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/logo_article1.png"
-              style="max-height: 3rem;"
+              style="max-height: 3rem"
             />
 
             <img
@@ -295,12 +295,12 @@
             <img
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="/images/logo_banquealimentaire.png"
-              style="max-width: 11rem;"
+              style="max-width: 11rem"
             />
             <img
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/logo-jagis-pour-la-nature.svg"
-              style="max-height: 3rem;"
+              style="max-height: 3rem"
             />
           </div>
         </div>
@@ -415,7 +415,7 @@
           <img
             class="w-full sm:h-24 sm:w-auto mx-auto opacity-50"
             src="/images/chacunpourtous.png"
-            style="max-width: 420px;"
+            style="max-width: 420px"
           />
         </div>
       </div>
@@ -491,11 +491,6 @@ export default {
           {
             required: true,
             message: 'Date de naissance obligatoire',
-            trigger: 'blur',
-          },
-          {
-            pattern: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/,
-            message: 'Format accepté: 24/12/1990',
             trigger: 'blur',
           },
         ],
@@ -576,10 +571,13 @@ export default {
       this.loading = true
       this.$refs['registerVolontaireForm'].validate((valid) => {
         if (valid) {
+          console.log(this.form.birthday)
           let birthdayValidFormat = dayjs(
             this.form.birthday,
             'DD/MM/YYYY'
           ).format('YYYY-MM-DD')
+          console.log(birthdayValidFormat)
+          //this.loading = false
           this.$store
             .dispatch('auth/registerVolontaire', {
               email: this.form.email,

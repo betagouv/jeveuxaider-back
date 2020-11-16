@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Profile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StructureInvitationRequest extends FormRequest
@@ -24,7 +25,15 @@ class StructureInvitationRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required',
+            'email' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $profile = Profile::where('email', $value)->first();
+                    if ($profile && $profile->has('structures')) {
+                        $fail('Cet email appartient déjà à une organisation.');
+                    }
+                }
+            ],
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
             'role' => 'required|in:responsable,tuteur'
