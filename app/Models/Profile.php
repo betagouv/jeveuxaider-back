@@ -295,7 +295,7 @@ class Profile extends Model implements HasMedia
             ->wherePivot('role', 'responsable')
             ->first();
 
-        if(!$structure) {
+        if (!$structure) {
             return null;
         }
         return $structure->collectivity;
