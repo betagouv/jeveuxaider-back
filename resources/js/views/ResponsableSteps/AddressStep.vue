@@ -190,7 +190,6 @@ export default {
         if (valid) {
           updateStructure(this.structureId, this.form)
             .then(() => {
-              console.log('collectivity ?', this.collectivity)
               if (this.collectivity) {
                 updateCollectivity(
                   this.collectivity.id,

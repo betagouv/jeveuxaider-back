@@ -219,6 +219,19 @@ export default {
       default: null,
     },
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (vm.$store.getters.contextRole == 'admin') {
+        return
+      }
+      if (
+        vm.$store.getters.structure_as_responsable.collectivity.id !=
+        to.params.id
+      ) {
+        vm.$router.push('/403')
+      }
+    })
+  },
   data() {
     return {
       baseUrl: process.env.MIX_API_BASE_URL,
