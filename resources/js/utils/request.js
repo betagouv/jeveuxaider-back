@@ -16,6 +16,10 @@ const request = axios.create({
 request.interceptors.request.use(async (config) => {
   if (store.getters.contextRole) {
     config.headers['Context-Role'] = store.getters.contextRole
+    // Hack en attendant refactoring
+    if (router.history.current.name == 'DashboardCollectivityMain') {
+      config.headers['Context-Role'] = 'responsable_collectivity'
+    }
   }
   if (!config.headers.Authorization) {
     if (store.state.auth.accessTokenImpersonate) {
@@ -45,8 +49,7 @@ request.interceptors.response.use(
           type: 'error',
         })
       }
-    }
-    else if (error.response && error.response.data) {
+    } else if (error.response && error.response.data) {
       if (
         error.response.data.message === 'Unauthenticated.' &&
         store.getters.isLogged

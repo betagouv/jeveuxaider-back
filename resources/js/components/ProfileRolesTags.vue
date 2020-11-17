@@ -33,17 +33,6 @@
     >
       <el-tag type="" :size="size" class="m-1"> Superviseur </el-tag>
     </el-tooltip>
-    <el-tooltip
-      v-if="profile.roles.responsable_collectivity"
-      class="item"
-      effect="dark"
-      :content="profile.collectivity.name"
-      placement="top"
-    >
-      <el-tag type="" :size="size" class="m-1">
-        Responsable collectivité
-      </el-tag>
-    </el-tooltip>
     <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
       Analyste
     </el-tag>

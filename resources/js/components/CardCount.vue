@@ -3,7 +3,7 @@
     shadow="never"
     class="mr-5 mb-5 p-5 uppercase"
     :class="{ 'hover:border-blue-900 cursor-pointer': link }"
-    style="width: 330px;"
+    style="width: 330px"
   >
     <div @click.prevent="onClick">
       <div class="label mb-3 text-lg font-bold text-secondary">
@@ -56,9 +56,11 @@ export default {
     }
   },
   created() {
-    statistics(this.name, { type: 'light' }).then((response) => {
-      this.data = response.data
-    })
+    statistics(this.name, { type: 'light', role: this.$route.query.role }).then(
+      (response) => {
+        this.data = response.data
+      }
+    )
   },
   methods: {
     onClick() {

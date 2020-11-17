@@ -16,10 +16,7 @@
       Utilisateurs
     </el-menu-item>
     <el-menu-item
-      v-if="
-        $store.getters.contextRole != 'responsable' &&
-        $store.getters.contextRole != 'responsable_collectivity'
-      "
+      v-if="$store.getters.contextRole != 'responsable'"
       index="departments"
     >
       Départements

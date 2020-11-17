@@ -239,6 +239,17 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/collectivity',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-collectivity" */ '@/views/Admin/Dashboards/Main.vue'
+            ),
+          name: 'DashboardCollectivityMain',
+          meta: {
+            roles: ['responsable'],
+          },
+        },
+        {
           path: '/dashboard/stats/structures',
           component: () =>
             import(
@@ -1059,18 +1070,6 @@ export default new Router({
           props: { mode: 'add' },
           meta: {
             roles: ['admin'],
-          },
-        },
-        {
-          path: '/collectivity/:id/dashboard',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/dashboard" */ '@/views/Admin/Dashboards/Main.vue'
-            ),
-          name: 'DashboardCollectivity',
-          props: (route) => ({ id: parseInt(route.params.id) }),
-          meta: {
-            roles: ['admin', 'referent', 'referent_regional'],
           },
         },
         {

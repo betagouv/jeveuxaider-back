@@ -8,14 +8,22 @@
         }}</template
       >
       <el-menu-item
-        :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/dashboard`"
+        v-if="$store.getters.profile.roles.responsable_collectivity == true"
+        index="/dashboard/collectivity"
         :class="{
-          'is-active': isActive(
-            `dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/dashboard`
-          ),
+          'is-active': isActive('dashboard/collectivity'),
         }"
         >Tableau de bord
       </el-menu-item>
+      <el-tooltip
+        v-else
+        class="item"
+        effect="dark"
+        content="Votre collectivité est en cours de validation."
+        placement="top"
+      >
+        <el-menu-item disabled>Tableau de bord </el-menu-item>
+      </el-tooltip>
       <el-menu-item
         :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`"
         :class="{
