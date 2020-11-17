@@ -43,7 +43,7 @@
             class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
             style="background: #31c48d"
           >
-            <template v-if="mission.publisher_name == 'benevolt'">
+            <template v-if="mission.publisher_name == 'Benevolt'">
               Plusieurs bénévoles recherchés
             </template>
             <template v-else>
