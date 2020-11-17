@@ -288,13 +288,17 @@ class Profile extends Model implements HasMedia
 
     public function getCollectivityAttribute()
     {
-        return $this->structures()
+        $structure = $this->structures()
             ->whereHas('collectivity', function (Builder $query) {
                 $query->where('state', 'validated');
             })
             ->wherePivot('role', 'responsable')
-            ->first()
-            ->collectivity;
+            ->first();
+
+        if(!$structure) {
+            return null;
+        }
+        return $structure->collectivity;
     }
 
     public function isResponsableCollectivity()
