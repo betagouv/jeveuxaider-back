@@ -26,7 +26,6 @@ class Profile extends Model implements HasMedia
         'phone',
         'mobile',
         'reseau_id',
-        'collectivity_id',
         'referent_department',
         'referent_region',
         'birthday',
@@ -287,14 +286,20 @@ class Profile extends Model implements HasMedia
         return $this->reseau ? true : false;
     }
 
-    public function isResponsableCollectivity()
+    public function getCollectivityAttribute()
     {
-        return (bool) $this->structures()
+        return $this->structures()
             ->whereHas('collectivity', function (Builder $query) {
                 $query->where('state', 'validated');
             })
             ->wherePivot('role', 'responsable')
-            ->first();
+            ->first()
+            ->collectivity;
+    }
+
+    public function isResponsableCollectivity()
+    {
+        return (bool) $this->collectivity;
     }
 
     public function isResponsable()

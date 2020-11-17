@@ -17,7 +17,11 @@ request.interceptors.request.use(async (config) => {
   if (store.getters.contextRole) {
     config.headers['Context-Role'] = store.getters.contextRole
     // Hack en attendant refactoring
-    if (router.history.current.name == 'DashboardCollectivityMain') {
+    if (
+      router.history.current.name == 'DashboardCollectivityMain' ||
+      router.history.current.name == 'CollectivityStatsMissions' ||
+      router.history.current.name == 'CollectivityStatsParticipations'
+    ) {
       config.headers['Context-Role'] = 'responsable_collectivity'
     }
   }

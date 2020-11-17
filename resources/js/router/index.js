@@ -303,6 +303,42 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/collectivity/stats/missions',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-stats-missions" */ '@/views/Admin/Dashboards/Missions.vue'
+            ),
+          name: 'CollectivityStatsMissions',
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'analyste',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/collectivity/stats/participations',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-stats-participations" */ '@/views/Admin/Dashboards/Participations.vue'
+            ),
+          name: 'CollectivityStatsParticipations',
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'analyste',
+              'responsable',
+            ],
+          },
+        },
+        {
           path: '/dashboard/stats/profiles',
           component: () =>
             import(

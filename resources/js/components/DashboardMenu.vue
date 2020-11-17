@@ -51,9 +51,19 @@ export default {
   },
   methods: {
     handleSelect(index) {
-      index == 'main'
-        ? this.$router.push('/dashboard')
-        : this.$router.push(`/dashboard/stats/${index}`)
+      if (
+        this.$router.history.current.name == 'DashboardCollectivityMain' ||
+        this.$router.history.current.name == 'CollectivityStatsMissions' ||
+        this.$router.history.current.name == 'CollectivityStatsParticipations'
+      ) {
+        index == 'main'
+          ? this.$router.push('/dashboard/collectivity')
+          : this.$router.push(`/dashboard/collectivity/stats/${index}`)
+      } else {
+        index == 'main'
+          ? this.$router.push('/dashboard')
+          : this.$router.push(`/dashboard/stats/${index}`)
+      }
     },
   },
 }
