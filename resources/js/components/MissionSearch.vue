@@ -100,7 +100,9 @@
         >
       </div>
       <div
-        v-if="mission.publisher_name"
+        v-if="
+          mission.publisher_name && mission.publisher_name != 'Réserve Civique'
+        "
         class="mt-3 lg:mt-1 text-sm flex items-center"
       >
         <div class="mr-4">
