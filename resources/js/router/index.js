@@ -11,7 +11,6 @@ import LayoutProfile from '@/layout/LayoutProfile.vue'
 import Login from '@/views/Login.vue'
 import Logout from '@/views/Logout.vue'
 import RegisterResponsable from '@/views/RegisterResponsable.vue'
-import RegisterCollectivity from '@/views/RegisterCollectivity.vue'
 import RegisterVolontaire from '@/views/RegisterVolontaire.vue'
 import RegisterInvitation from '@/views/RegisterInvitation.vue'
 import PasswordForgot from '@/views/PasswordForgot.vue'
@@ -109,13 +108,6 @@ export default new Router({
           path: '/login',
           name: 'Login',
           component: Login,
-          meta: { requiresAnonymous: true },
-        },
-
-        {
-          path: '/register/collectivity',
-          name: 'RegisterCollectivity',
-          component: RegisterCollectivity,
           meta: { requiresAnonymous: true },
         },
         {
