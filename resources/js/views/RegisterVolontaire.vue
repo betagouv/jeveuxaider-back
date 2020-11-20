@@ -571,13 +571,10 @@ export default {
       this.loading = true
       this.$refs['registerVolontaireForm'].validate((valid) => {
         if (valid) {
-          console.log(this.form.birthday)
           let birthdayValidFormat = dayjs(
             this.form.birthday,
             'DD/MM/YYYY'
           ).format('YYYY-MM-DD')
-          console.log(birthdayValidFormat)
-          //this.loading = false
           this.$store
             .dispatch('auth/registerVolontaire', {
               email: this.form.email,

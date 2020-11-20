@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-full" style="max-width: 390px;">
+  <div class="mx-auto w-full" style="max-width: 390px">
     <div>
       <router-link to="/">
         <img
@@ -36,8 +36,11 @@
         :rules="rules"
         :hide-required-asterisk="true"
       >
-        <el-form-item label="Email" prop="email">
-          <el-input v-model.trim="form.email" placeholder="Email" />
+        <el-form-item prop="email">
+          <el-input
+            v-model.trim="form.email"
+            placeholder="Saisissez votre email"
+          />
         </el-form-item>
       </el-form>
       <div class="mt-8 sm:col-span-">
@@ -45,33 +48,17 @@
           <el-button
             type="primary"
             :loading="loading"
-            style="height: 48px;"
-            class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+            style="height: 48px"
+            class="w-full flex justify-center items-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
             @click="onSubmit"
             >Réinitialiser mon mot de passe</el-button
           >
         </span>
       </div>
       <div class="mt-6">
-        <div class="relative">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-300" />
-          </div>
-          <div class="relative flex justify-center text-sm leading-5">
-            <span class="px-2 bg-white text-gray-500">OU</span>
-          </div>
-        </div>
-        <div class="mt-6 sm:col-span-">
-          <router-link to="/login">
-            <span class="block w-full rounded-md shadow-sm">
-              <button
-                type="submit"
-                class="w-full flex justify-center py-2 px-4 border border-transparent text-s font-medium rounded-md border border-gray-300 rounded-md bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
-              >
-                J'ai déjà un compte
-              </button>
-            </span>
-          </router-link>
+        <div class="border-gray-300 pb-4 text-sm">
+          Vous allez recevoir un email qui vous permettra de créer un nouveau
+          mot de passe.
         </div>
       </div>
     </div>

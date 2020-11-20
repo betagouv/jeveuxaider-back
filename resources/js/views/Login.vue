@@ -109,7 +109,7 @@ export default {
     return {
       loading: false,
       form: {
-        email: '',
+        email: this.$route.query.email ? this.$route.query.email : '',
         password: '',
       },
       rules: {

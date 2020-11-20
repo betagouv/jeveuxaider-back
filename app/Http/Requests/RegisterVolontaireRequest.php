@@ -49,7 +49,7 @@ class RegisterVolontaireRequest extends FormRequest
             'last_name.required' => 'Un nom est requis',
             'last_name.min' => 'Votre nom doit contenir au moins :min lettres',
             'email.required' => 'Un email est requis',
-            'email.unique' => 'Cet email est déjà pris',
+            'email.unique' => 'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.',
             'email.email' => 'Cet email est mal formaté',
             'password.required' => 'Un mot de passe est requis',
             'password.min' => 'Votre mot de passe doit contenir au moins :min caractères',
