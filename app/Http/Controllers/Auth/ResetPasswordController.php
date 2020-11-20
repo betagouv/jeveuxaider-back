@@ -59,6 +59,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => 'Impossible de réinitialiser votre mot de passe'], 401);
+        return response()->json(['message' => 'Ce lien a expiré. Merci de refaire votre demande de réinitialisation de mot de passe.'], 401);
     }
 }
