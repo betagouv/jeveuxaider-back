@@ -11,7 +11,7 @@ export function registerVolontaire(
   service_civique
 ) {
   return request.post('/api/register/volontaire', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
@@ -30,7 +30,7 @@ export function registerResponsable(
   structure_name
 ) {
   return request.post('/api/register/responsable', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
@@ -40,7 +40,7 @@ export function registerResponsable(
 
 export function registerCollectivity(email, password, first_name, last_name) {
   return request.post('/api/register/collectivity', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
@@ -49,7 +49,7 @@ export function registerCollectivity(email, password, first_name, last_name) {
 
 export function registerInvitation(email, password, first_name, last_name) {
   return request.post('/api/register/invitation', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,

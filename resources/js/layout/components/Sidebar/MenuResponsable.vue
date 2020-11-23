@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-submenu index="1">
+    <el-submenu
+      v-if="$store.getters.structure_as_responsable.collectivity"
+      index="1"
+    >
       <template slot="title"
         ><i class="el-icon-school"></i
         >{{
