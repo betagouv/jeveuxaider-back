@@ -124,6 +124,7 @@ return [
         "vocabulary" => "Statut Juridique",
         "terms" => [
             "Association" => "Association",
+            "Collectivité" => "Collectivité",
             "Structure publique" => "Organisation publique",
             "Structure privée" => "Organisation privée",
             "Autre" => "Autre",
@@ -159,7 +160,6 @@ return [
     'structure_publique_types' => [
         "vocabulary" => "Types structure publique",
         "terms" => [
-            "Collectivité territoriale" => "Collectivité territoriale",
             "Etablissement scolaire" => "Etablissement scolaire",
             "Etablissement public de santé" => "Etablissement public de santé",
             "Etablissement public" => "Etablissement public",

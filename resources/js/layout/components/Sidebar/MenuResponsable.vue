@@ -22,7 +22,7 @@
         content="Votre collectivité est en cours de validation."
         placement="top"
       >
-        <el-menu-item disabled>Tableau de bord </el-menu-item>
+        <el-menu-item disabled>Statistiques de la page </el-menu-item>
       </el-tooltip>
       <el-menu-item
         :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`"
@@ -31,7 +31,7 @@
             `dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`
           ),
         }"
-        >Modifier ma page
+        >Éditer la page
       </el-menu-item>
     </el-submenu>
 

@@ -101,8 +101,9 @@
                     <p
                       class="text-center text-base text-gray-800 sm:text-xl lg:text-lg xl:text-xl"
                     >
-                      Vous êtes une <b>organisation publique</b> ou
-                      <b>associative</b>&nbsp;?
+                      Vous êtes une <strong>organisation publique</strong>, une
+                      <strong>collectivité</strong> ou une
+                      <strong>association</strong> ?
                     </p>
                     <h3
                       class="mt-2 text-center text-4xl leading-9 font-bold text-gray-900 sm:-mx-6 tracking-tight"
