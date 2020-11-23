@@ -19,12 +19,15 @@ class ApiEngagement
         do {
             $response = Http::withHeaders([
         'apikey' => config('app.api_engagement_key'),
-      ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport");
+      ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble");
 
   
             // Send to Algolia
-            $missions = array_map(fn ($mission) =>
-      $this->formatMission($mission), $response['data']);
+            $missions = array_map(
+                fn ($mission) =>
+              $this->formatMission($mission),
+                $response['data']
+            );
             $client->initIndex(config('scout.prefix') . '_covid_missions')->saveObjects($missions);
 
             $total = $response['total'];
@@ -92,19 +95,19 @@ class ApiEngagement
         return ['name' => 'Éducation pour tous', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/152/IIgYOvFa9Lx5zDz.svg'];
         break;
       case 'emploi':
-        return ['name' => 'Emploi', 'logo' => ''];
+        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
         break;
       case 'sport':
         return ['name' => 'Sport pour tous', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/157/ai45u4kEBbOJ820.svg'];
         break;
       case 'humanitaire':
-        return ['name' => 'Humanitaire', 'logo' => ''];
+        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
         break;
       case 'animaux':
-        return ['name' => 'Animaux', 'logo' => ''];
+        return ['name' => 'Protection de la nature', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg'];
         break;
       case 'vivre-ensemble':
-        return ['name' => 'Vivre ensemble', 'logo' => ''];
+        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
         break;
       case 'autre':
         return ['name' => 'Autre', 'logo' => ''];

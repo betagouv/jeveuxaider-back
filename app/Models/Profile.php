@@ -55,6 +55,11 @@ class Profile extends Model implements HasMedia
 
     protected static $submitEmptyLogs = false;
 
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
     public function getImageAttribute()
     {
         $media = $this->getFirstMedia('profiles');

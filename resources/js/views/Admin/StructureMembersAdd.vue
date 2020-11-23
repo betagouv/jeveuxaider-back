@@ -17,9 +17,7 @@
         label-position="top"
         :rules="rules"
       >
-        <div class="mb-6 text-xl text-gray-800">
-          Rôle de l'utilisateur
-        </div>
+        <div class="mb-6 text-xl text-gray-800">Rôle de l'utilisateur</div>
         <el-radio-group v-model="form.role" class="flex flex-col">
           <!-- <el-radio class="mb-6 flex items-center" label="tuteur">
             <div>Tuteur</div>
@@ -73,13 +71,6 @@ export default {
     },
   },
   data() {
-    var checkLowercase = (rule, value, callback) => {
-      if (value !== value.toLowerCase()) {
-        callback(new Error('Merci de ne saisir que des minuscules'))
-      } else {
-        callback()
-      }
-    }
     return {
       structure: {},
       form: {
@@ -97,7 +88,6 @@ export default {
             message: 'Veuillez renseigner votre email',
             trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {

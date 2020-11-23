@@ -9,7 +9,8 @@
         />
       </router-link>
       <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
-        Invitation à rejoindre la
+        Vous êtes responsable d'une collectivité ?
+        <br />Rejoignez la
         <span class="text-blue-800">Réserve Civique</span>
       </h2>
     </div>
@@ -26,7 +27,7 @@
       </p>
     </div>
     <el-form
-      ref="registerInvitationForm"
+      ref="registerForm"
       :model="form"
       label-position="top"
       :rules="rules"
@@ -81,6 +82,18 @@
             show-password
           />
         </el-form-item>
+        <el-form-item class="-mb-3 py-4 ml-2" prop="confidentialite">
+          <el-checkbox v-model="form.confidentialite">
+            J'accepte la
+            <router-link
+              to="/politique-de-confidentialite"
+              target="_blank"
+              class="underline"
+            >
+              politique de confidentialité
+            </router-link>
+          </el-checkbox>
+        </el-form-item>
       </div>
     </el-form>
     <div class="mt-8 sm:col-span-">
@@ -89,19 +102,49 @@
           type="primary"
           :loading="loading"
           style="height: 48px"
-          class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+          class="w-full flex items-center justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
           @click="onSubmit"
-          >Je m'inscris</el-button
+          >J'inscris ma collectivité</el-button
         >
       </span>
+    </div>
+
+    <div class="mt-6">
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300" />
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-2 bg-white text-gray-500">OU</span>
+        </div>
+      </div>
+      <div class="mt-6 sm:col-span-">
+        <router-link to="/login">
+          <span class="block w-full rounded-md shadow-sm">
+            <button
+              type="submit"
+              class="w-full flex items-center justify-center py-2 px-4 border border-transparent font-medium border border-gray-300 rounded rounded-md bg-white text-sm font-medium text-gray-500 hover:text-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out"
+            >
+              J'ai déjà un compte
+            </button>
+          </span>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RegisterInvitation',
+  name: 'RegisterCollectivity',
   data() {
+    var validateConfidentialite = (rule, value, callback) => {
+      if (this.form.confidentialite === false) {
+        callback(new Error("Merci d'accepter la politique de confidentialité"))
+      } else {
+        callback()
+      }
+    }
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
         callback(new Error('Les mots de passe ne sont pas identiques'))
@@ -117,6 +160,7 @@ export default {
         first_name: '',
         last_name: '',
         password: '',
+        confidentialite: false,
       },
       rules: {
         email: [
@@ -158,6 +202,9 @@ export default {
           },
         ],
         password_confirmation: [{ validator: validatePass2, trigger: 'blur' }],
+        confidentialite: [
+          { validator: validateConfidentialite, trigger: 'blur' },
+        ],
       },
     }
   },
@@ -172,10 +219,10 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs['registerInvitationForm'].validate((valid) => {
+      this.$refs['registerForm'].validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch('auth/registerInvitation', {
+            .dispatch('auth/registerCollectivity', {
               email: this.form.email,
               password: this.form.password,
               first_name: this.form.first_name,
@@ -183,7 +230,7 @@ export default {
             })
             .then(() => {
               this.loading = false
-              this.$router.push('/dashboard')
+              this.$router.push('/register/collectivity/step/profile')
             })
             .catch(() => {
               this.loading = false

@@ -21,8 +21,6 @@ use App\Models\Activity;
 use App\Notifications\RegisterUserCollectivity;
 use App\Models\Structure;
 
-//use App\Rules\Lowercase;
-
 class PassportController extends Controller
 {
     use SendsPasswordResetEmails;
@@ -36,7 +34,7 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::whereEmail(request('email'))->first();
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
         if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
             $profile = Profile::create($request->validated());
@@ -59,7 +57,7 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::whereEmail(request('email'))->first();
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
         if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
             $profile = Profile::create($request->validated());
@@ -100,7 +98,7 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::whereEmail(request('email'))->first();
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
         if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
             $profile = Profile::create($request->validated());
@@ -121,7 +119,7 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::whereEmail(request('email'))->first();
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
         if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
             $profile = Profile::create($request->validated());
@@ -159,7 +157,7 @@ class PassportController extends Controller
         }
 
         $response = $this->broker()->sendResetLink(
-            $request->only('email')
+            ['email' => strtolower($request->input('email'))]
         );
         return $response == Password::RESET_LINK_SENT
             ? response()->json(['message' => 'Un lien de réinitialisation de votre mot de passe a été envoyé par mail'], 201)

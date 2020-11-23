@@ -96,11 +96,31 @@
       </div>
     </div>
     <div v-else-if="tab == 'history'">
-      <TableActivities :table-data="activities" />
+      <TableActivities :table-data="tableData" />
     </div>
     <div v-else-if="tab == 'participations'">
-      <TableParticipations :table-data="participations" />
+      <TableParticipations
+        :table-data="tableData"
+        :on-updated-row="onUpdatedRow"
+        :on-clicked-row="onClickedRow"
+      />
     </div>
+    <div v-if="tab" class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
+    </div>
+    <portal to="volet">
+      <participation-volet @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
@@ -109,11 +129,14 @@ import { fetchActivities } from '@/api/app'
 import { getMission, cloneMission, deleteMission } from '@/api/mission'
 import StructureInfos from '@/components/infos/StructureInfos'
 import { fetchParticipations } from '@/api/participation'
+import TableWithFilters from '@/mixins/TableWithFilters'
+import TableWithVolet from '@/mixins/TableWithVolet'
 import TableActivities from '@/components/TableActivities'
 import StateTag from '@/components/StateTag'
 import MissionInfos from '@/components/infos/MissionInfos'
 import TableParticipations from '@/components/TableParticipations'
 import MemberTeaser from '@/components/MemberTeaser'
+import ParticipationVolet from '@/layout/components/Volet/ParticipationVolet.vue'
 
 export default {
   name: 'Mission',
@@ -124,7 +147,9 @@ export default {
     MissionInfos,
     StructureInfos,
     MemberTeaser,
+    ParticipationVolet,
   },
+  mixins: [TableWithFilters, TableWithVolet],
   props: {
     id: {
       type: Number,
@@ -139,32 +164,32 @@ export default {
     return {
       loading: true,
       mission: null,
-      activities: [],
-      participations: [],
+      tableData: [],
     }
   },
   async created() {
-    const response = await getMission(this.id)
-    this.mission = response.data
-
     this.loading = false
-
-    if (this.tab == 'history') {
-      const { data } = await fetchActivities({
-        'filter[subject_id]': this.id,
-        'filter[subject_type]': 'Mission',
-      })
-      this.activities = data.data
-    }
-
-    if (this.tab == 'participations') {
-      const { data } = await fetchParticipations({
-        'filter[mission.id]': this.id,
-      })
-      this.participations = data.data
-    }
   },
   methods: {
+    async fetchRows() {
+      const response = await getMission(this.id)
+      this.mission = response.data
+
+      if (this.tab == 'history') {
+        return fetchActivities({
+          'filter[subject_id]': this.id,
+          'filter[subject_type]': 'Mission',
+          page: this.$route.query.page || 1,
+        })
+      }
+
+      if (this.tab == 'participations') {
+        return fetchParticipations({
+          'filter[mission.id]': this.id,
+          page: this.$route.query.page || 1,
+        })
+      }
+    },
     handleCommand(command) {
       if (command.action == 'delete') {
         this.handleDelete()

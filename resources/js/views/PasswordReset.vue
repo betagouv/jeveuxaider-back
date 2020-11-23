@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-full" style="max-width: 390px;">
+  <div class="mx-auto w-full" style="max-width: 390px">
     <div>
       <router-link to="/">
         <img
@@ -55,8 +55,8 @@
           <el-button
             type="primary"
             :loading="loading"
-            style="height: 48px;"
-            class="w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+            style="height: 48px"
+            class="w-full flex justify-center items-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
             @click="onSubmit"
             >Modifier mon mot de passe</el-button
           >

@@ -129,11 +129,11 @@ class StructureController extends Controller
 
     public function addMember(StructureInvitationRequest $request, Structure $structure)
     {
-        $profile = Profile::whereEmail(request('email'))->first();
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
         $user = $request->user();
         $role = request('role');
 
-        if ($structure->members()->whereEmail(request('email'))->first()) {
+        if ($structure->members()->where('email', 'ILIKE', request('email'))->first()) {
             return response()->json(['errors' => [
                 'members' => ['Ce profil appartient déjà à l\'équipe']
             ]], 422);

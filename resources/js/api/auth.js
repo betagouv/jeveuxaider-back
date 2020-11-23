@@ -6,7 +6,7 @@ export function login(email, password) {
     grant_type: 'password',
     client_id: process.env.MIX_OAUTH_CLIENT_ID,
     client_secret: process.env.MIX_OAUTH_CLIENT_SECRET,
-    username: email,
+    username: email.toLowerCase(),
     password: password,
     scope: '*',
   })

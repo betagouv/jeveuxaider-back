@@ -97,19 +97,10 @@
 export default {
   name: 'Login',
   data() {
-    /*
-    var checkLowercase = (rule, value, callback) => {
-        if (value !== value.toLowerCase()) {
-          callback(new Error('Merci de ne saisir que des minuscules'));
-        } else {
-          callback();
-        }
-      };
-    */
     return {
       loading: false,
       form: {
-        email: '',
+        email: this.$route.query.email ? this.$route.query.email : '',
         password: '',
       },
       rules: {
@@ -124,7 +115,6 @@ export default {
             message: 'Veuillez renseigner votre email',
             trigger: 'blur',
           },
-          // { validator: checkLowercase, trigger: 'blur' }
         ],
         password: [
           {
