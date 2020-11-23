@@ -29,7 +29,7 @@ class StructureInvitationRequest extends FormRequest
                 'required',
                 function ($attribute, $value, $fail) {
                     $profile = Profile::where('email', $value)->first();
-                    if ($profile && $profile->has('structures')) {
+                    if ($profile && $profile->structures->count() > 0) {
                         $fail('Cet email appartient déjà à une organisation.');
                     }
                 }
