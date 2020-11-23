@@ -201,11 +201,12 @@
                           </template>
 
                           <template v-else>
-                            <router-link
-                              to="/register/volontaire"
+                            <button
                               class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Proposer votre aide</router-link
+                              @click="dialogProposerAide = true"
                             >
+                              Proposer votre aide
+                            </button>
                           </template>
                         </template>
                       </template>
@@ -502,11 +503,12 @@
                     </template>
 
                     <template v-else>
-                      <router-link
-                        to="/register/volontaire"
+                      <button
                         class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Proposer votre aide</router-link
+                        @click="dialogProposerAide = true"
                       >
+                        Proposer votre aide
+                      </button>
                     </template>
                   </template>
                 </template>
@@ -612,6 +614,37 @@
             >Proposer mon aide</el-button
           >
         </span>
+      </el-dialog>
+      <el-dialog
+        :close-on-click-modal="false"
+        title="Avez vous un compte ?"
+        width="100%"
+        :visible.sync="dialogProposerAide"
+        style="max-width: 500px; margin: auto; text-align: center"
+      >
+        <div class="text-center mb-8">
+          Vous n'êtes pas connecté. <br />Merci de vous identifier ou de créer
+          un compte.
+        </div>
+        <div class="flex items-center justify-center">
+          <el-button @click="dialogParticipateVisible = false">
+            <router-link
+              :to="`/login?redirect=${$route.path}?showDialogParticipate=true`"
+              @click="dialogParticipateVisible = false"
+            >
+              Se connecter
+            </router-link>
+          </el-button>
+          <el-button type="primary" @click="handleSubmitFormParticipate">
+            <router-link
+              :to="`/register/volontaire?redirect=${$route.path}?showDialogParticipate=true`"
+              type="primary"
+              @click="handleSubmitFormParticipate"
+            >
+              S'inscrire
+            </router-link>
+          </el-button>
+        </div>
       </el-dialog>
     </template>
     <template v-else>
@@ -786,7 +819,9 @@ export default {
       mission: {},
       otherMissions: {},
       baseUrl: process.env.MIX_API_BASE_URL,
-      dialogParticipateVisible: false,
+      dialogParticipateVisible:
+        Boolean(this.$route.query.showDialogParticipate) || false,
+      dialogProposerAide: false,
       form: {
         content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },

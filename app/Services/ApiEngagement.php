@@ -23,8 +23,11 @@ class ApiEngagement
 
   
             // Send to Algolia
-            $missions = array_map(fn ($mission) =>
-      $this->formatMission($mission), $response['data']);
+            $missions = array_map(
+                fn ($mission) =>
+              $this->formatMission($mission),
+                $response['data']
+            );
             $client->initIndex(config('scout.prefix') . '_covid_missions')->saveObjects($missions);
 
             $total = $response['total'];
