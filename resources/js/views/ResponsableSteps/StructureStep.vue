@@ -151,33 +151,34 @@
             placeholder="Décrivez votre organisation, en quelques mots"
           />
         </el-form-item>
-
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Réseau national ou territorial
-        </div>
-        <item-description container-class="mb-6">
-          Si votre organisation est membre d'un réseau national ou territorial
-          qui figure dans le menu déroulant du champ ci-dessous,
-          sélectionnez-le. Vous permettrez au superviseur de votre réseau de
-          visualiser les missions et bénévoles rattachés à votre organisation.
-          Vous faciliterez également la validation de votre organisation par les
-          autorités territoriales lors de votre inscription.
-        </item-description>
-        <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-          <el-select
-            v-model="form.reseau_id"
-            clearable
-            placeholder="Aucun"
-            filterable
-          >
-            <el-option
-              v-for="item in $store.getters.reseaux"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
+        <template v-if="form.statut_juridique != 'Collectivité'">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Réseau national ou territorial
+          </div>
+          <item-description container-class="mb-6">
+            Si votre organisation est membre d'un réseau national ou territorial
+            qui figure dans le menu déroulant du champ ci-dessous,
+            sélectionnez-le. Vous permettrez au superviseur de votre réseau de
+            visualiser les missions et bénévoles rattachés à votre organisation.
+            Vous faciliterez également la validation de votre organisation par
+            les autorités territoriales lors de votre inscription.
+          </item-description>
+          <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+            <el-select
+              v-model="form.reseau_id"
+              clearable
+              placeholder="Aucun"
+              filterable
+            >
+              <el-option
+                v-for="item in $store.getters.reseaux"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </template>
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">
             Continuer

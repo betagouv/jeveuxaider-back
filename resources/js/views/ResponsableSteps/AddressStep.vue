@@ -38,7 +38,10 @@
     </el-steps>
     <div v-show="!showSuccessMessage" class="max-w-lg p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
-        Lieu de mon organisation
+        <template v-if="form.statut_juridique == 'Collectivité'">
+          Lieu de ma collectivité
+        </template>
+        <template v-else>Lieu de mon organisation</template>
       </div>
       <el-form
         ref="addressForm"
@@ -119,7 +122,7 @@
       class="max-w-2xl mx-auto text-center mt-12"
     >
       <h2 class="font-bold text-3xl text-gray-800 mb-6">
-        Votre demande d'inscription de collectivté a bien été enregistrée.
+        Votre demande d'inscription de collectivité a bien été enregistrée.
       </h2>
       <p class="font-xl text-secondary">
         Vous recevrez un email de confirmation lorsque votre compte aura été

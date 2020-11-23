@@ -49,10 +49,12 @@ class CollectivityValidated extends Notification
     {
         return (new MailMessage)
             ->subject('Votre collectivité "'. $this->collectivity->name .'" a été validée!')
-            ->greeting('Bonjour,')
-            ->line('**'.$this->collectivity->name . '** a rejoint la Réserve Civique !')
-            ->line('Vous avez désormais le rôle de **Responsable Collectivité**.')
-            ->line('Connectez-vous au tableau de bord pour visualiser les statistiques dans votre collectivité.')
+            ->greeting('Bonjour '. $notifiable->first_name .',')
+            ->line('Le compte  **'.$this->collectivity->name . '** a été validé et rejoint la Réserve Civique.')
+            ->line('Vous pouvez désormais vous connecter à votre espace pour :')
+            ->line('- Editer les éléments visuels et textuels de votre page (une page personnalisée est une page engagée !')
+            ->line('- Visualiser les statistiques de votre collectivité')
+            ->line('- Publier des missions de bénévolat')
             ->action('Voir le tableau de bord', url(config('app.url') . '/dashboard'))
         ;
     }

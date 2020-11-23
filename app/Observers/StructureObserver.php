@@ -96,9 +96,9 @@ class StructureObserver
         }
 
         // STRUCTURE PUBLIQUE TYPE
-        $oldStructureType = $structure->getOriginal('structure_publique_type');
-        $newStructureType = $structure->structure_publique_type;
-        if ($oldStructureType != $newStructureType && $newStructureType == 'Collectivité territoriale') {
+        $oldStructureType = $structure->getOriginal('statut_juridique');
+        $newStructureType = $structure->statut_juridique;
+        if ($oldStructureType != $newStructureType && $newStructureType == 'Collectivité') {
             $this->createCollectivity($structure);
         }
     }
