@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\Lowercase;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterResponsableWithStructureRequest extends FormRequest
@@ -25,7 +24,7 @@ class RegisterResponsableWithStructureRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required','email', 'unique:users', new Lowercase],
+            'email' => ['required','email', 'unique:users'],
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',

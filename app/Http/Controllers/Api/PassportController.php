@@ -21,8 +21,6 @@ use App\Models\Activity;
 use App\Notifications\RegisterUserCollectivity;
 use App\Models\Structure;
 
-//use App\Rules\Lowercase;
-
 class PassportController extends Controller
 {
     use SendsPasswordResetEmails;
@@ -159,7 +157,7 @@ class PassportController extends Controller
         }
 
         $response = $this->broker()->sendResetLink(
-            $request->only('email')
+            ['email' => strtolower($request->input('email'))]
         );
         return $response == Password::RESET_LINK_SENT
             ? response()->json(['message' => 'Un lien de réinitialisation de votre mot de passe a été envoyé par mail'], 201)
