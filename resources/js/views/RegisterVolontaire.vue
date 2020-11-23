@@ -588,7 +588,11 @@ export default {
             })
             .then(() => {
               this.loading = false
-              this.$router.push('/register/reserviste/step')
+              if (this.$route.query.redirect) {
+                this.$router.push(this.$route.query.redirect)
+              } else {
+                this.$router.push('/register/reserviste/step')
+              }
             })
             .catch(() => {
               this.loading = false
