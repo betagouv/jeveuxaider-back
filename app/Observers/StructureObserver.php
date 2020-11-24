@@ -28,13 +28,13 @@ class StructureObserver
         if ($structure->state == 'En attente de validation') {
             if ($structure->department) {
                 Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
-                    $profile->notify(new StructureSubmitted($structure));
+                    // TODO ENLEVER QUAND SCRIPT FINIT  $profile->notify(new StructureSubmitted($structure));
                 });
             }
         }
 
-        if ($structure->structure_publique_type == 'Collectivité territoriale') {
-            $this->createCollectivity($structure);
+        if ($structure->statut_juridique == 'Collectivité') {
+            // TODO ENLEVER QUAND SCRIPT FINIT $this->createCollectivity($structure);
         }
     }
 
@@ -99,7 +99,7 @@ class StructureObserver
         $oldStructureType = $structure->getOriginal('statut_juridique');
         $newStructureType = $structure->statut_juridique;
         if ($oldStructureType != $newStructureType && $newStructureType == 'Collectivité') {
-            $this->createCollectivity($structure);
+            // TODO ENLEVER QUAND SCRIPT FINIT $this->createCollectivity($structure);
         }
     }
 
