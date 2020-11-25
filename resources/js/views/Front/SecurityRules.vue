@@ -5,9 +5,7 @@
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">
-            Règles de sécurité
-          </h1>
+          <h1 class="text-3xl font-bold text-white">Règles de sécurité</h1>
         </div>
       </div>
     </div>
@@ -141,7 +139,11 @@
 </template>
 
 <script>
+import metadatas from '@/utils/metadatas.json'
+
 export default {
-  name: 'FrontMissions',
+  name: 'FrontSecurityRules',
+  metaInfo: metadatas.filter((item) => item.name == 'FrontSecurityRules')[0]
+    .metaInfo,
 }
 </script>

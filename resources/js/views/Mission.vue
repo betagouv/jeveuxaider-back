@@ -803,6 +803,22 @@ import dayjs from 'dayjs'
 
 export default {
   name: 'Mission',
+  metaInfo() {
+    return {
+      title: this.mission.name,
+      meta: [
+        {
+          name: 'description',
+          content: this.mission.objectif
+            ? this.$truncate(
+                this.mission.objectif.replace(/<\/?[^>]+>/gi, ' '),
+                160
+              )
+            : '',
+        },
+      ],
+    }
+  },
   components: {
     FrontMissionLoading,
     ReadMore,
@@ -887,6 +903,7 @@ export default {
       }
     },
   },
+
   created() {
     getMission(this.id)
       .then((response) => {

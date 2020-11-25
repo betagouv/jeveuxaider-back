@@ -3,7 +3,7 @@
     <div class="relative">
       <img
         :src="banner"
-        :alt="collectivity.title"
+        :alt="collectivity.name"
         class="absolute object-cover object-center w-full h-full"
       />
 
@@ -102,6 +102,7 @@
         <div class="flex flex-col items-center">
           <img
             v-if="logo"
+            alt=""
             class="max-h-20 mb-3"
             :src="logo"
             height="auto"
@@ -131,7 +132,7 @@
             :key="index"
             class="col-span-1 justify-center md:col-span-2 lg:col-span-1"
           >
-            <img :src="illustration(index)" height="auto" width="auto" />
+            <img :src="illustration(index)" alt="" height="auto" width="auto" />
           </div>
         </div>
       </div>
@@ -223,6 +224,23 @@ import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
   name: 'FrontCollectivityCommune',
+  metaInfo() {
+    return {
+      title: this.collectivity.title
+        ? this.collectivity.title
+        : 'Rejoignez la Réserve Civique dans votre collectivité - ' +
+          this.collectivity.name,
+      meta: [
+        {
+          name: 'description',
+          content: this.collectivity.description
+            ? this.collectivity.description
+            : this.collectivity.name +
+              ' - Trouvez une mission d’intérêt général qui vous ressemble et faites vivre l’engagement local.',
+        },
+      ],
+    }
+  },
   components: {
     MissionsSearch,
   },

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="relative">
+    <div v-if="collectivity" class="relative">
       <img
         v-if="collectivity.banner && collectivity.banner.large"
         :src="collectivity.banner.large"
-        :alt="collectivity.title"
+        alt=""
         class="absolute object-cover object-center w-full h-full"
       />
 
@@ -20,7 +20,7 @@
       <div class="relative pt-1 pb-12 lg:py-12">
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
-            <h2
+            <h1
               class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
             >
               <template v-if="collectivity.title">{{
@@ -29,7 +29,7 @@
               <template v-else
                 >Rejoignez la Réserve Civique dans votre département</template
               >
-            </h2>
+            </h1>
 
             <p
               class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
@@ -367,6 +367,23 @@ import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
   name: 'FrontCollectivityDepartment',
+  metaInfo() {
+    return {
+      title: this.collectivity.title
+        ? this.collectivity.title
+        : 'Rejoignez la Réserve Civique dans votre département - ' +
+          this.collectivity.name,
+      meta: [
+        {
+          name: 'description',
+          content: this.collectivity.description
+            ? this.collectivity.description
+            : this.collectivity.name +
+              ' - Votre organisation a besoin de renfort localement ? Vous souhaitez vous engager bénévolement au plus près de chez vous ? Rejoignez la Réserve Civique dans votre département.',
+        },
+      ],
+    }
+  },
   components: {
     MissionsSearch,
   },

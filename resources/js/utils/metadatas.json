@@ -78,5 +78,53 @@
         }
       }
     ]
+  },
+  {
+    "name": "FrontSecurityRules",
+    "metaInfo": {
+      "title": "Règles de sécurité",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Des gestes simples pour préserver votre santé et celle des autres."
+        }
+      ]
+    }
+  },
+  {
+    "name": "Login",
+    "metaInfo": {
+      "title": "Connexion à l'espace de la Réserve Civique",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Connectez-vous à votre espace de la Réserve Civique pour suivre vos missions."
+        }
+      ]
+    }
+  },
+  {
+    "name": "RegisterVolontaire",
+    "metaInfo": {
+      "title": "Devenez bénévole avec la Réserve Civique",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Vous souhaitez soutenir de grandes causes ? Rejoignez le mouvement en vous créant un compte."
+        }
+      ]
+    }
+  },
+  {
+    "name": "RegisterResponsable",
+    "metaInfo": {
+      "title": "nscrivez votre organisation en quelques clics",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Vous êtes une organisation publique, une collectivité ou une association ? Trouvez des bénévoles avec la Réserve Civique."
+        }
+      ]
+    }
   }
 ]

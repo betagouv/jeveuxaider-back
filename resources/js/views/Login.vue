@@ -8,11 +8,11 @@
           alt="Réserve Civique"
         />
       </router-link>
-      <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+      <h1 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
         Connexion à l'espace de la
         <br />
         <span class="text-blue-800">Réserve Civique</span>
-      </h2>
+      </h1>
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8" />
     <el-form
@@ -94,8 +94,11 @@
 </template>
 
 <script>
+import metadatas from '@/utils/metadatas.json'
+
 export default {
   name: 'Login',
+  metaInfo: metadatas.filter((item) => item.name == 'Login')[0].metaInfo,
   data() {
     return {
       loading: false,

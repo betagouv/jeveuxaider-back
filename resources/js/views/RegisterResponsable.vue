@@ -5,6 +5,7 @@
     <div class="bg-blue-800">
       <img
         class="py-2 lg:p-2 object-cover w-full h-64 lg:h-auto"
+        alt=""
         src="/images/cover-inscription.jpg"
       />
 
@@ -257,30 +258,36 @@
         <div class="overflow-hidden">
           <div class="flex flex-wrap items-center justify-center -m-4 sm:-m-8">
             <img
+              alt=""
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/logo_article1.png"
               style="max-height: 3rem"
             />
 
             <img
+              alt=""
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="/images/logo_aphp.png"
             />
             <img
+              alt=""
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="/images/logo_emmaus.png"
             />
             <img
+              alt=""
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="/images/logo_banquealimentaire.png"
               style="max-width: 11rem"
             />
             <img
+              alt=""
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/logo-jagis-pour-la-nature.svg"
               style="max-height: 3rem"
             />
             <img
+              alt=""
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="/images/institut-de-l-engagement.png"
               style="max-height: 3rem"
@@ -298,7 +305,7 @@
           class="p-8 sm:p-12 sm:px-24 lg:px-12 lg:flex lg:flex-col bg-white rounded-lg shadow-lg"
         >
           <div class="md:flex-shrink-0">
-            <img class="h-10 mt-4" src="/images/lafourmiliere.png" />
+            <img alt="" class="h-10 mt-4" src="/images/lafourmiliere.png" />
           </div>
 
           <blockquote class="mt-8 lg:flex-grow lg:flex lg:flex-col">
@@ -329,6 +336,7 @@
                   class="flex-shrink-0 inline-flex rounded-full border-2 border-gray-200"
                 >
                   <img
+                    alt=""
                     class="h-12 w-12 rounded-full"
                     src="/images/clement.jpg"
                   />
@@ -349,7 +357,7 @@
           class="p-8 sm:p-12 sm:px-24 lg:px-12 lg:flex lg:flex-col bg-white rounded-lg shadow-lg"
         >
           <div class="md:flex-shrink-0">
-            <img class="h-10 mt-4" src="/images/gip.png" />
+            <img alt="" class="h-10 mt-4" src="/images/gip.png" />
           </div>
 
           <blockquote class="mt-8 lg:flex-grow lg:flex lg:flex-col">
@@ -403,10 +411,12 @@
       <div class="mt-16">
         <div class="px-4">
           <img
+            alt=""
             class="h-10 mx-auto opacity-75 mb-4"
             src="/images/logo-gray.svg"
           />
           <img
+            alt=""
             class="w-full sm:h-24 sm:w-auto mx-auto opacity-50"
             src="/images/chacunpourtous.png"
             style="max-width: 420px"
@@ -420,8 +430,12 @@
 </template>
 
 <script>
+import metadatas from '@/utils/metadatas.json'
+
 export default {
-  name: 'RegisterVolontaire',
+  name: 'RegisterResponsable',
+  metaInfo: metadatas.filter((item) => item.name == 'RegisterResponsable')[0]
+    .metaInfo,
   data() {
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
