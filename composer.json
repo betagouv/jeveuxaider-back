@@ -33,6 +33,7 @@
         "spatie/laravel-backup": "^6.7",
         "spatie/laravel-medialibrary": "^8.0.0",
         "spatie/laravel-query-builder": "^2.0",
+        "spatie/laravel-sitemap": "^5.8",
         "spatie/laravel-tags": "^2.6"
     },
     "require-dev": {
