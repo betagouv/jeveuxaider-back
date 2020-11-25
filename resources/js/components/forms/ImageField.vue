@@ -45,6 +45,9 @@
         <vue-cropper
           v-if="dialogCropVisible"
           ref="cropper"
+          :check-orientation="false"
+          cross-origin="anonymous"
+          crossorigin="anonymous"
           :src="imgSrc ? imgSrc : field ? field.original : null"
           :aspect-ratio="aspectRatio"
           :zoomable="false"
