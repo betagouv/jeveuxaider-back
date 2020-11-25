@@ -35,11 +35,11 @@
                   </div>
                 </div>
 
-                <h3
+                <h1
                   class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
                 >
                   {{ mission.name }}
-                </h3>
+                </h1>
 
                 <div class="mb-8">
                   <ul
@@ -810,7 +810,7 @@ export default {
         {
           name: 'description',
           content: this.mission.objectif
-            ? this.$truncate(
+            ? this.$options.filters.truncate(
                 this.mission.objectif.replace(/<\/?[^>]+>/gi, ' '),
                 160
               )
