@@ -10,7 +10,7 @@
                   class="mx-auto lg:mx-0"
                   src="/images/logo-footer.png"
                   alt=""
-                  style="height: 200px;"
+                  style="height: 200px"
                 />
               </div>
             </router-link>
@@ -146,7 +146,7 @@
           </div>
         </div>
         <div class="mt-8 lg:mt-3">
-          <div class="mb-8" style="font-size: 13px;">
+          <div class="mb-8" style="font-size: 13px">
             Suivez la Réserve Civique
           </div>
           <div
@@ -172,8 +172,8 @@
     </div>
     <hr class="border-grey-200 mt-4" />
     <div class="container mx-auto px-4 py-6">
-      <div style="font-size: 10px; letter-spacing: 0.05em;">
-        © RESERVE-CIVIQUE.GOUV.FR, 2020 Preprod version
+      <div style="font-size: 10px; letter-spacing: 0.05em">
+        © RESERVE-CIVIQUE.GOUV.FR, 2020
       </div>
     </div>
   </footer>
