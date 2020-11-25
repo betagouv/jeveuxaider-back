@@ -61,10 +61,10 @@ class GenerateSitemap extends Command
       ->setPriority(0.2));
 
         // Missions
-        $sitemap->add(Url::create('/missions')
-      ->setLastModificationDate(Carbon::yesterday())
-      ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-      ->setPriority(0.8));
+        // $sitemap->add(Url::create('/missions')
+        //   ->setLastModificationDate(Carbon::yesterday())
+        //   ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
+        //   ->setPriority(0.8));
 
         // Départements
         $departements = Collectivity::where('type', 'department')->get();

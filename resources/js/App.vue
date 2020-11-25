@@ -11,8 +11,9 @@ import { mapGetters } from 'vuex'
 
 export default {
   metaInfo: {
-    title: 'Engagez-vous dans la Réserve Civique',
-    titleTemplate: '%s | JeVeuxAider.gouv.fr',
+    title:
+      'Je veux aider | Trouver des missions de bénévolat sur la Réserve Civique',
+    // titleTemplate: '%s | JeVeuxAider.gouv.fr',
   },
   computed: {
     ...mapGetters(['isAppLoaded']),

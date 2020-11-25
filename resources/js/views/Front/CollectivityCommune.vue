@@ -226,17 +226,15 @@ export default {
   name: 'FrontCollectivityCommune',
   metaInfo() {
     return {
-      title: this.collectivity.title
-        ? this.collectivity.title
-        : 'Rejoignez la Réserve Civique dans votre collectivité - ' +
-          this.collectivity.name,
+      title: this.collectivity.name
+        ? this.collectivity.name +
+          ' | Trouvez des missions de bénévolat près de chez vous'
+        : '',
       meta: [
         {
           name: 'description',
-          content: this.collectivity.description
-            ? this.collectivity.description
-            : this.collectivity.name +
-              ' - Trouvez une mission d’intérêt général qui vous ressemble et faites vivre l’engagement local.',
+          content:
+            'Rejoignez la Réserve Civique et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 320 000 bénévoles déjà inscrits',
         },
       ],
     }

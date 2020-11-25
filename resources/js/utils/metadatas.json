@@ -3,11 +3,11 @@
     "name": "Homepage",
     "slug": "/",
     "metaInfo": {
-      "title": "Engagez-vous dans la Réserve Civique",
+      "title": "Je veux aider | Trouver des missions de bénévolat sur la Réserve Civique",
       "meta": [
         {
           "name": "description",
-          "content": "Trouvez une mission d’intérêt général auprès d’une organisation publique ou associative et faites vivre les valeurs de la République."
+          "content": "Rejoignez Je Veux Aider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
         }
       ]
     }
@@ -21,6 +21,10 @@
         {
           "name": "description",
           "content": "Découvrez les missions disponibles près de chez vous ou à distance."
+        },
+        {
+          "name": "robots",
+          "content": "noindex"
         }
       ]
     }
@@ -29,7 +33,7 @@
     "name": "Territories",
     "slug": "/territoires",
     "metaInfo": {
-      "title": "Rejoignez la Réserve Civique dans votre territoire",
+      "title": "Départements et collectivités | Bénévolat sur le territoire français",
       "meta": [
         {
           "name": "description",
@@ -44,7 +48,7 @@
       {
         "slug": "solidarite-et-insertion",
         "metaInfo": {
-          "title": "Rejoignez la Réserve Civique pour la solidarité et l'insertion",
+          "title": "Solidarité et insertion | Missions de bénévolat",
           "meta": [
             {
               "name": "description",
@@ -56,7 +60,7 @@
       {
         "slug": "education-pour-tous",
         "metaInfo": {
-          "title": "Rejoignez la Réserve Civique pour l'éducation",
+          "title": "Éducation pour tous | Missions de bénévolat",
           "meta": [
             {
               "name": "description",
@@ -68,7 +72,7 @@
       {
         "slug": "protection-de-la-nature",
         "metaInfo": {
-          "title": "Rejoignez la Réserve Civique pour la nature",
+          "title": "Protection de la nature | Missions de bénévolat",
           "meta": [
             {
               "name": "description",
@@ -94,11 +98,11 @@
   {
     "name": "Login",
     "metaInfo": {
-      "title": "Connexion à l'espace de la Réserve Civique",
+      "title": "Connexion à mon espace Je Veux Aider",
       "meta": [
         {
           "name": "description",
-          "content": "Connectez-vous à votre espace de la Réserve Civique pour suivre vos missions."
+          "content": "Connectez-vous à votre espace bénévole."
         }
       ]
     }
@@ -106,11 +110,11 @@
   {
     "name": "RegisterVolontaire",
     "metaInfo": {
-      "title": "Devenez bénévole avec la Réserve Civique",
+      "title": "Devenir bénévole et trouvez une mission de bénévolat sur Je Veux Aider",
       "meta": [
         {
           "name": "description",
-          "content": "Vous souhaitez soutenir de grandes causes ? Rejoignez le mouvement en vous créant un compte."
+          "content": "Trouvez des missions en quelques clics - Devenez bénévole près de chez vous ou à distance - Faites vivre l'engagement de chacun pour tous !"
         }
       ]
     }
@@ -118,11 +122,11 @@
   {
     "name": "RegisterResponsable",
     "metaInfo": {
-      "title": "nscrivez votre organisation en quelques clics",
+      "title": "Trouver des bénévoles sur Je Veux Aider",
       "meta": [
         {
           "name": "description",
-          "content": "Vous êtes une organisation publique, une collectivité ou une association ? Trouvez des bénévoles avec la Réserve Civique."
+          "content": "Inscrivez votre organisation en quelques clics - Publiez vos missions de bénévolat - Trouvez des bénévoles motivés et disponibles"
         }
       ]
     }

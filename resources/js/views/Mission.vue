@@ -805,14 +805,16 @@ export default {
   name: 'Mission',
   metaInfo() {
     return {
-      title: this.mission.name,
+      title: this.mission.name
+        ? 'Bénévolat pour ' + this.structure.name + ' | ' + this.mission.name
+        : this.mission.name,
       meta: [
         {
           name: 'description',
-          content: this.mission.objectif
+          content: this.structure
             ? this.$options.filters.truncate(
-                this.mission.objectif.replace(/<\/?[^>]+>/gi, ' '),
-                160
+                this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
+                156
               )
             : '',
         },

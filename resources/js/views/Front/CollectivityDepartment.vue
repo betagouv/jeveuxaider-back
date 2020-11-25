@@ -369,17 +369,15 @@ export default {
   name: 'FrontCollectivityDepartment',
   metaInfo() {
     return {
-      title: this.collectivity.title
-        ? this.collectivity.title
-        : 'Rejoignez la Réserve Civique dans votre département - ' +
-          this.collectivity.name,
+      title: this.collectivity.name
+        ? this.collectivity.name +
+          ' | Trouvez des missions de bénévolat près de chez vous'
+        : '',
       meta: [
         {
           name: 'description',
-          content: this.collectivity.description
-            ? this.collectivity.description
-            : this.collectivity.name +
-              ' - Votre organisation a besoin de renfort localement ? Vous souhaitez vous engager bénévolement au plus près de chez vous ? Rejoignez la Réserve Civique dans votre département.',
+          content:
+            'Rejoignez la Réserve Civique et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 320 000 bénévoles déjà inscrits',
         },
       ],
     }
