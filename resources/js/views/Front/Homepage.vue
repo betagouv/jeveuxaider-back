@@ -1058,9 +1058,11 @@
 
 <script>
 import { statistics } from '@/api/app'
+import metadatas from '@/utils/metadatas.json'
 
 export default {
   name: 'Homepage',
+  metaInfo: metadatas.filter((item) => item.name == 'Homepage')[0].metaInfo,
   data() {
     return {
       statistics: null,

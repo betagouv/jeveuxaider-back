@@ -44,12 +44,12 @@
                 { 'pt-10': !missionsAreReady },
               ]"
             >
-              <h2 class="text-4xl leading-9 font-semibold text-white mb-3">
+              <h1 class="text-4xl leading-9 font-semibold text-white mb-3">
                 Trouvez une mission de bénévolat
-              </h2>
-              <h3 class="text-2xl leading-6 text-white">
+              </h1>
+              <p class="text-2xl leading-6 text-white">
                 Missions disponibles près de chez vous ou à distance
-              </h3>
+              </p>
             </div>
             <div
               v-if="missionsAreReady"
@@ -386,9 +386,12 @@ import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings'
 import MissionSearch from '@/components/MissionSearch'
 import _ from 'lodash'
 import qs from 'qs'
+import metadatas from '@/utils/metadatas.json'
 
 export default {
   name: 'FrontMissions',
+  metaInfo: metadatas.filter((item) => item.name == 'FrontMissions')[0]
+    .metaInfo,
   components: {
     AisInstantSearch,
     AisSearchBox,

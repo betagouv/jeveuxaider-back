@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Homepage",
+    "slug": "/",
+    "metaInfo": {
+      "title": "Engagez-vous dans la Réserve Civique",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Trouvez une mission d’intérêt général auprès d’une organisation publique ou associative et faites vivre les valeurs de la République."
+        }
+      ]
+    }
+  },
+  {
+    "name": "FrontMissions",
+    "slug": "/missions",
+    "metaInfo": {
+      "title": "Trouvez une mission de bénévolat",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Découvrez les missions disponibles près de chez vous ou à distance."
+        }
+      ]
+    }
+  },
+  {
+    "name": "Territories",
+    "slug": "/territoires",
+    "metaInfo": {
+      "title": "Rejoignez la Réserve Civique dans votre territoire",
+      "meta": [
+        {
+          "name": "description",
+          "content": "Sur l'ensemble du territoire français, des milliers de réservistes, de structures et d'association ont déjà rejoint la Réserve Civique."
+        }
+      ]
+    }
+  },
+  {
+    "name": "Thematiques",
+    "pages": [
+      {
+        "slug": "solidarite-et-insertion",
+        "metaInfo": {
+          "title": "Rejoignez la Réserve Civique pour la solidarité et l'insertion",
+          "meta": [
+            {
+              "name": "description",
+              "content": "Trouvez une mission de bénévolat en France pour contribuer à la solidarité et l'insertion."
+            }
+          ]
+        }
+      },
+      {
+        "slug": "education-pour-tous",
+        "metaInfo": {
+          "title": "Rejoignez la Réserve Civique pour l'éducation",
+          "meta": [
+            {
+              "name": "description",
+              "content": "Trouvez une mission de bénévolat en France pour contribuer à l'éducation pour tous."
+            }
+          ]
+        }
+      },
+      {
+        "slug": "protection-de-la-nature",
+        "metaInfo": {
+          "title": "Rejoignez la Réserve Civique pour la nature",
+          "meta": [
+            {
+              "name": "description",
+              "content": "Trouvez une mission de bénévolat en France pour contribuer à protéger l’environnement."
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

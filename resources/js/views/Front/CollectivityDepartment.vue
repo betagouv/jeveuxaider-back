@@ -268,7 +268,7 @@
               <div
                 class="inline-block bg-primary rounded-md p-3 text-center mb-5"
               >
-                <img class :src="template.image" style="width: 28px" />
+                <img alt="" :src="template.image" style="width: 28px" />
               </div>
               <div class="text-lg font-medium text-gray-900">
                 {{ template.title }}

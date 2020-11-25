@@ -10,6 +10,10 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  metaInfo: {
+    title: 'Engagez-vous dans la Réserve Civique',
+    titleTemplate: '%s | JeVeuxAider.gouv.fr',
+  },
   computed: {
     ...mapGetters(['isAppLoaded']),
   },

@@ -679,7 +679,7 @@
                   >
                     <img
                       v-if="otherMission.template"
-                      class
+                      alt=""
                       :src="otherMission.template.image"
                       style="width: 28px"
                     />
@@ -687,7 +687,7 @@
                       v-else-if="
                         otherMission.domaine && otherMission.domaine.image
                       "
-                      class
+                      alt=""
                       :src="otherMission.domaine.image"
                       style="width: 28px"
                     />

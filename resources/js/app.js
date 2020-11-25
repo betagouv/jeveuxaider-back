@@ -25,11 +25,17 @@ import DropdownUser from '@/components/DropdownUser'
 import VClamp from 'vue-clamp'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import vClickOutside from 'v-click-outside'
+import VueMeta from 'vue-meta'
 
 Vue.component('AppHeader', AppHeader)
 Vue.component('AppFooter', AppFooter)
 Vue.component('DropdownUser', DropdownUser)
 Vue.component('VClamp', VClamp)
+
+Vue.use(VueMeta, {
+  // optional pluginOptions
+  refreshOnceOnNavigation: true,
+})
 
 Vue.use(Vue2Filters)
 Vue.use(PortalVue)

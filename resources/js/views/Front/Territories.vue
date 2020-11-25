@@ -7,7 +7,7 @@
       >
         <img
           class="hidden lg:block absolute transform translate-y-1 opacity-50"
-          style="left: 100%; transform: translateX(-75%) !important;"
+          style="left: 100%; transform: translateX(-75%) !important"
           src="images/france.svg"
           width="904"
           alt=""
@@ -157,9 +157,11 @@
 <script>
 import departments from '@/utils/departments.json'
 import { fetchCollectivities } from '@/api/app'
+import metadatas from '@/utils/metadatas.json'
 
 export default {
   name: 'Territories',
+  metaInfo: metadatas.filter((item) => item.name == 'Territories')[0].metaInfo,
   data() {
     return {
       query: '',

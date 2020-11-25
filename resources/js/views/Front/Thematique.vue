@@ -109,6 +109,7 @@
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 class="h-10"
+                alt=""
                 :src="`/images/thematiques/${thematique.slug}-partenaire-1.jpg`"
               />
             </div>
@@ -116,6 +117,7 @@
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 class="h-10"
+                alt=""
                 :src="`/images/thematiques/${thematique.slug}-partenaire-2.jpg`"
               />
             </div>
@@ -123,6 +125,7 @@
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 class="h-10"
+                alt=""
                 :src="`/images/thematiques/${thematique.slug}-partenaire-3.jpg`"
               />
             </div>
@@ -162,7 +165,7 @@
                   :class="`bg-${thematique.color}`"
                   class="inline-block rounded-md p-3 text-center mb-5"
                 >
-                  <img class :src="template.image" style="width: 28px" />
+                  <img alt="" :src="template.image" style="width: 28px" />
                 </div>
                 <div class="text-lg font-medium text-gray-900">
                   {{ template.title }}
@@ -182,6 +185,7 @@
             <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
               <img
                 :src="`/images/thematiques/${thematique.slug}-1.jpg`"
+                alt=""
                 height="auto"
                 width="auto"
               />
@@ -189,6 +193,7 @@
             <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
               <img
                 :src="`/images/thematiques/${thematique.slug}-6.jpg`"
+                alt=""
                 height="auto"
                 width="auto"
               />
@@ -196,6 +201,7 @@
             <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
               <img
                 :src="`/images/thematiques/${thematique.slug}-5.jpg`"
+                alt=""
                 height="auto"
                 width="auto"
               />
@@ -203,6 +209,7 @@
             <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
               <img
                 :src="`/images/thematiques/${thematique.slug}-3.jpg`"
+                alt=""
                 height="auto"
                 width="auto"
               />
@@ -210,6 +217,7 @@
             <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
               <img
                 :src="`/images/thematiques/${thematique.slug}-4.jpg`"
+                alt=""
                 height="auto"
                 width="auto"
               />
@@ -217,6 +225,7 @@
             <div class="col-span-1 justify-center md:col-span-2 lg:col-span-1">
               <img
                 :src="`/images/thematiques/${thematique.slug}-2.jpg`"
+                alt=""
                 height="auto"
                 width="auto"
               />
@@ -324,30 +333,35 @@
           <div class="grid grid-cols-2 gap-8 lg:grid-cols-5">
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
+                alt=""
                 class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-1.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
+                alt=""
                 class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-2.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
+                alt=""
                 class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-3.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
+                alt=""
                 class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-4.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
+                alt=""
                 class="h-10"
                 :src="`/images/thematiques/${thematique.slug}-active-5.jpg`"
               />
@@ -363,9 +377,15 @@
 <script>
 import { getThematique, getThematiqueStatistics } from '@/api/app'
 import MissionsSearch from '@/components/MissionsSearch'
+import metadatas from '@/utils/metadatas.json'
 
 export default {
   name: 'FrontThematique',
+  metaInfo() {
+    return metadatas
+      .filter((item) => item.name == 'Thematiques')[0]
+      .pages.filter((item) => item.slug == this.slug)[0].metaInfo
+  },
   components: {
     MissionsSearch,
   },
@@ -396,7 +416,6 @@ export default {
         } else {
           getThematiqueStatistics(this.thematique.id).then((response) => {
             this.statistics = { ...response.data }
-            console.log('templates', this.statistics.templates)
             this.$store.commit('setLoading', false)
           })
         }

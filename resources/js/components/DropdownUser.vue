@@ -3,6 +3,7 @@
     <el-dropdown @command="handleCommand">
       <el-avatar
         v-if="$store.getters.user.profile"
+        :alt="$store.getters.user.profile.full_name"
         :src="
           $store.getters.user.profile.image
             ? $store.getters.user.profile.image.thumb
