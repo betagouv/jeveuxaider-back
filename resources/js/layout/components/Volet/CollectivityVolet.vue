@@ -58,6 +58,15 @@
         </div>
         <collectivity-infos :collectivity="row" />
       </el-card>
+      <div class="text-lg mt-6 mb-2">Responsables</div>
+      <el-card shadow="never" class="overflow-visible relative">
+        <member-teaser
+          v-for="member in row.structure.members"
+          :key="member.id"
+          class="member py-2"
+          :member="member"
+        />
+      </el-card>
     </template>
   </Volet>
 </template>
@@ -66,15 +75,15 @@
 import Volet from '@/layout/components/Volet'
 import { deleteCollectivity } from '@/api/app'
 import VoletRow from '@/mixins/VoletRow'
-import ItemDescription from '@/components/forms/ItemDescription'
+import MemberTeaser from '@/components/MemberTeaser'
 import CollectivityInfos from '@/components/infos/CollectivityInfos'
 
 export default {
   name: 'CollectivityVolet',
   components: {
     Volet,
-    ItemDescription,
     CollectivityInfos,
+    MemberTeaser,
   },
   mixins: [VoletRow],
   data() {
