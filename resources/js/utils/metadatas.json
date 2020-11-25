@@ -8,6 +8,22 @@
         {
           "name": "description",
           "content": "Rejoignez Je Veux Aider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
+        },
+        {
+          "name": "og:title",
+          "content": "Je veux aider | Trouver des missions de bénévolat sur la Réserve Civique"
+        },
+        {
+          "name": "og:description",
+          "content": "Rejoignez Je Veux Aider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -25,6 +41,22 @@
         {
           "name": "robots",
           "content": "noindex"
+        },
+        {
+          "name": "og:title",
+          "content": "Trouvez une mission de bénévolat"
+        },
+        {
+          "name": "og:description",
+          "content": "Découvrez les missions disponibles près de chez vous ou à distance."
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/missions"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -38,6 +70,22 @@
         {
           "name": "description",
           "content": "Sur l'ensemble du territoire français, des milliers de réservistes, de structures et d'association ont déjà rejoint la Réserve Civique."
+        },
+        {
+          "name": "og:title",
+          "content": "Départements et collectivités | Bénévolat sur le territoire français"
+        },
+        {
+          "name": "og:description",
+          "content": "Sur l'ensemble du territoire français, des milliers de réservistes, de structures et d'association ont déjà rejoint la Réserve Civique."
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/territoires"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -53,6 +101,22 @@
             {
               "name": "description",
               "content": "Trouvez une mission de bénévolat en France pour contribuer à la solidarité et l'insertion."
+            },
+            {
+              "name": "og:title",
+              "content": "Solidarité et insertion | Missions de bénévolat"
+            },
+            {
+              "name": "og:description",
+              "content": "Trouvez une mission de bénévolat en France pour contribuer à la solidarité et l'insertion."
+            },
+            {
+              "name": "og:url",
+              "content": "https://covid19.reserve-civique.gouv.fr/thematiques/solidarite-et-insertion"
+            },
+            {
+              "name": "og:image",
+              "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
             }
           ]
         }
@@ -65,6 +129,22 @@
             {
               "name": "description",
               "content": "Trouvez une mission de bénévolat en France pour contribuer à l'éducation pour tous."
+            },
+            {
+              "name": "og:title",
+              "content": "Éducation pour tous | Missions de bénévolat"
+            },
+            {
+              "name": "og:description",
+              "content": "Trouvez une mission de bénévolat en France pour contribuer à l'éducation pour tous."
+            },
+            {
+              "name": "og:url",
+              "content": "https://covid19.reserve-civique.gouv.fr/thematiques/education-pour-tous"
+            },
+            {
+              "name": "og:image",
+              "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
             }
           ]
         }
@@ -77,6 +157,22 @@
             {
               "name": "description",
               "content": "Trouvez une mission de bénévolat en France pour contribuer à protéger l’environnement."
+            },
+            {
+              "name": "og:title",
+              "content": "Protection de la nature | Missions de bénévolat"
+            },
+            {
+              "name": "og:description",
+              "content": "Trouvez une mission de bénévolat en France pour contribuer à protéger l’environnement."
+            },
+            {
+              "name": "og:url",
+              "content": "https://covid19.reserve-civique.gouv.fr/thematiques/protection-de-la-nature"
+            },
+            {
+              "name": "og:image",
+              "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
             }
           ]
         }
@@ -91,6 +187,22 @@
         {
           "name": "description",
           "content": "Des gestes simples pour préserver votre santé et celle des autres."
+        },
+        {
+          "name": "og:title",
+          "content": "Règles de sécurité"
+        },
+        {
+          "name": "og:description",
+          "content": "Des gestes simples pour préserver votre santé et celle des autres."
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/regles-de-securite"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -103,6 +215,22 @@
         {
           "name": "description",
           "content": "Connectez-vous à votre espace bénévole."
+        },
+        {
+          "name": "og:title",
+          "content": "Connexion à mon espace Je Veux Aider"
+        },
+        {
+          "name": "og:description",
+          "content": "Connectez-vous à votre espace bénévole."
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/login"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -115,6 +243,22 @@
         {
           "name": "description",
           "content": "Trouvez des missions en quelques clics - Devenez bénévole près de chez vous ou à distance - Faites vivre l'engagement de chacun pour tous !"
+        },
+        {
+          "name": "og:title",
+          "content": "Devenir bénévole et trouvez une mission de bénévolat sur Je Veux Aider"
+        },
+        {
+          "name": "og:description",
+          "content": "Trouvez des missions en quelques clics - Devenez bénévole près de chez vous ou à distance - Faites vivre l'engagement de chacun pour tous !"
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/register/benevole"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -127,6 +271,22 @@
         {
           "name": "description",
           "content": "Inscrivez votre organisation en quelques clics - Publiez vos missions de bénévolat - Trouvez des bénévoles motivés et disponibles"
+        },
+        {
+          "name": "og:title",
+          "content": "Trouver des bénévoles sur Je Veux Aider"
+        },
+        {
+          "name": "og:description",
+          "content": "Inscrivez votre organisation en quelques clics - Publiez vos missions de bénévolat - Trouvez des bénévoles motivés et disponibles"
+        },
+        {
+          "name": "og:url",
+          "content": "https://covid19.reserve-civique.gouv.fr/register/responsable"
+        },
+        {
+          "name": "og:image",
+          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
         }
       ]
     }
