@@ -1,8 +1,6 @@
 <template>
   <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
-    <ol
-      class="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8"
-    >
+    <ol class="w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
       <li class="flex">
         <div class="flex items-center">
           <router-link to="/" class="text-gray-400 hover:text-gray-500">
