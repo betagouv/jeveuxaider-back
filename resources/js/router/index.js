@@ -1252,13 +1252,16 @@ export default new Router({
       name: 'FrontMissions',
     },
     {
-      path: '/missions/:id',
+      path: '/missions/:id/:slug',
       component: () =>
         import(
           /* webpackChunkName: "assets/js/mission" */ '@/views/Mission.vue'
         ),
       name: 'Mission',
-      props: (route) => ({ id: parseInt(route.params.id) }),
+      props: (route) => ({
+        id: parseInt(route.params.id),
+        slug: parseInt(route.params.slug),
+      }),
     },
     {
       path: '/territoires',

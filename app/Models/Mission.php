@@ -79,6 +79,7 @@ class Mission extends Model
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
+            'slug' => $this->slug,
             'city' => $this->city,
             'department' => $this->department,
             'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],

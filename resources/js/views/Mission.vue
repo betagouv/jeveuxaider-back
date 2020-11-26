@@ -670,7 +670,7 @@
           >
             <router-link
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-              :to="`/missions/${otherMission.id}`"
+              :to="`/missions/${otherMission.id}/${otherMission.slug}`"
             >
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">
@@ -811,12 +811,13 @@ export default {
       meta: [
         {
           name: 'description',
-          content: this.structure
-            ? this.$options.filters.truncate(
-                this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
-                156
-              )
-            : '',
+          content:
+            this.structure && this.structure.description
+              ? this.$options.filters.truncate(
+                  this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
+                  156
+                )
+              : '',
         },
       ],
     }
