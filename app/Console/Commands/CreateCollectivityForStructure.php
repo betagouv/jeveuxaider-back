@@ -47,7 +47,10 @@ class CreateCollectivityForStructure extends Command
                 ->orWhere('name', 'like', 'commune%')
                 ->orWhere('name', 'like', 'Commune%')
                 ->orWhere('name', 'like', 'Ville%')
-                ->orWhere('name', 'like', 'ville%');
+                ->orWhere('name', 'like', 'ville%')
+                ->orWhere('name', 'like', 'VILLE%')
+                ->orWhere('name', 'like', 'COMMUNE%')
+                ->orWhere('name', 'like', 'MAIRIE%');
         })
         ->get();
         

@@ -105,8 +105,6 @@ class StructureObserver
 
     private function createCollectivity($structure)
     {
-        // TODO : Enlever quand script terminé
-        /*
         $collectivity = Collectivity::create([
             'name' => $structure->city ?? $structure->name,
             'zips' => $structure->zip ? [$structure->zip] : [],
@@ -116,11 +114,8 @@ class StructureObserver
             'state' => 'waiting'
         ]);
         $collectivity->save();
-        */
-        /*
         Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
         ->route('slack', 'https://hooks.slack.com/services/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')
         ->notify(new CollectivityWaitingValidation($collectivity));
-        */
     }
 }
