@@ -1,16 +1,21 @@
 <template>
   <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
-    <ol class="w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
+    <ol
+      class="w-full max-w-full mx-auto overflow-x-auto whitespace-no-wrap px-4 flex space-x-4 sm:px-6 lg:px-8"
+    >
       <li class="flex">
         <div class="flex items-center">
-          <router-link to="/" class="text-gray-400 hover:text-gray-500">
+          <router-link
+            to="/"
+            class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+          >
             Accueil
           </router-link>
         </div>
       </li>
 
       <li v-for="item in items" :key="item.link" class="flex">
-        <div class="flex items-center">
+        <div class="flex items-center w-auto">
           <svg
             class="flex-shrink-0 w-6 h-full text-gray-200"
             viewBox="0 0 24 44"

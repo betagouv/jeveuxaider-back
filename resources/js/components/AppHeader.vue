@@ -9,26 +9,21 @@
     />
     <div class="z-10 relative bg-white shadow-sm">
       <div class="relative z-10 shadow">
-        <!-- flex px-4 justify-between items-center py-5 sm:py-4 md:justify-start
-        md:space-x-7 -->
-
         <div
-          class="flex px-3 lg:px-0 flex-wrap items-center justify-between py-1 lg:py-0 lg:h-16"
+          class="flex flex-wrap px-3 lg:px-0 items-center justify-between py-1 lg:py-0 lg:h-16"
         >
-          <div class="flex items-center">
+          <router-link :to="{ name: 'Homepage' }" class="flex items-center">
             <img
               class="ml-4 mr-6 h-4 w-auto"
               src="/images/marianne.svg"
               alt="Réserve Civique"
             />
-            <router-link :to="{ name: 'Homepage' }">
-              <img
-                class="h-6"
-                src="/images/logo-reserve-civique_dark.svg"
-                alt="Réserve Civique"
-              />
-            </router-link>
-          </div>
+            <img
+              class="h-6"
+              src="/images/logo-reserve-civique_dark.svg"
+              alt="Réserve Civique"
+            />
+          </router-link>
 
           <slot name="menu">
             <div
@@ -285,6 +280,21 @@
                 >
                   Mes missions
                 </router-link>
+                <router-link
+                  v-if="$store.getters.isLogged"
+                  to="/messages"
+                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                >
+                  <el-badge
+                    v-if="$store.getters.isLogged"
+                    :value="$store.getters.user.nbUnreadConversations"
+                    :hidden="!$store.getters.user.nbUnreadConversations"
+                    :max="99"
+                    class="block mr-3 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  >
+                    Mes messages
+                  </el-badge>
+                </router-link>
                 <a
                   href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
                   target="_blank"
@@ -362,10 +372,8 @@
                 Se connecter
               </router-link>
             </div>
-            <div class="block lg:hidden order-4 ml-3 my-1">
-              <el-button type="primary" circle @click="toggleMenu">
-                <img src="/images/burger-menu.svg" style="width: 16px" />
-              </el-button>
+            <div class="block lg:hidden order-4 ml-3 my-1" @click="toggleMenu">
+              <img src="/images/burger-menu.svg" style="width: 24px" />
             </div>
           </div>
         </div>
