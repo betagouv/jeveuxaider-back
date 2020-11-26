@@ -101,7 +101,7 @@ class GenerateSitemap extends Command
       })
       ->get();
         foreach ($missions as $mission) {
-            $sitemap->add(Url::create('/missions/' . $mission->id)
+            $sitemap->add(Url::create('/missions/' . $mission->id . '/' . $mission->slug)
         ->setLastModificationDate($mission->updated_at)
         ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
         ->setPriority(0.4));
