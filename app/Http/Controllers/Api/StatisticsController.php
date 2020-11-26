@@ -105,7 +105,10 @@ class StatisticsController extends Controller
                     'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
                     'referent_regional' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_region')->count(),
                     'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
-                    'responsable_collectivity' => Profile::role($request->header('Context-Role'))->whereHas('collectivity')->count(),
+                    'responsable_collectivity' => Profile::role($request->header('Context-Role'))
+                        ->whereHas('structures', function (Builder $query) {
+                            $query->whereHas('collectivity');
+                        })->count(),
                     'admin' => Profile::role($request->header('Context-Role'))
                         ->whereHas('user', function (Builder $query) {
                             $query->where('is_admin', true);
