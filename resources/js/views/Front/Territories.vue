@@ -1,6 +1,12 @@
 <template>
   <div class="bg-gray-100">
     <AppHeader />
+    <breadcrumb
+      :items="[
+        { label: 'Départements et collectivités', link: '/territoires' },
+      ]"
+    />
+
     <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
       <div
         class="relative max-w-xl mx-auto px-6 sm:px-6 lg:px-8 lg:max-w-screen-xl"

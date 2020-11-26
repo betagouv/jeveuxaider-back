@@ -21,6 +21,7 @@ import VueTheMask from 'vue-the-mask'
 
 import AppHeader from '@/components/AppHeader'
 import AppFooter from '@/components/AppFooter'
+import Breadcrumb from '@/components/Breadcrumb'
 import DropdownUser from '@/components/DropdownUser'
 import VClamp from 'vue-clamp'
 import CKEditor from '@ckeditor/ckeditor5-vue'
@@ -29,6 +30,7 @@ import VueMeta from 'vue-meta'
 
 Vue.component('AppHeader', AppHeader)
 Vue.component('AppFooter', AppFooter)
+Vue.component('Breadcrumb', Breadcrumb)
 Vue.component('DropdownUser', DropdownUser)
 Vue.component('VClamp', VClamp)
 

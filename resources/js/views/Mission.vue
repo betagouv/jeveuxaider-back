@@ -1,16 +1,29 @@
 <template>
   <div>
     <AppHeader />
-
-    <div class="absolute" style="height: 360px">
-      <img
-        src="/images/bg_header_mission.jpg"
-        class="object-cover w-full h-full"
-      />
-      <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
-    </div>
-
     <template v-if="!loading">
+      <breadcrumb
+        :items="[
+          { label: 'Missions', link: '/missions' },
+          {
+            label: domainName(mission),
+            link: `/missions?menu[domaines]=${domainName(mission)}`,
+          },
+          {
+            label: `Bénévolat ${mission.structure.name} à ${mission.city}`,
+            h1: true,
+          },
+        ]"
+      />
+
+      <div class="absolute" style="height: 360px">
+        <img
+          src="/images/bg_header_mission.jpg"
+          class="object-cover w-full h-full"
+        />
+        <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
+      </div>
+
       <div class="relative mt-10 mb-12">
         <div class="container mx-auto px-4">
           <div class="bg-white rounded-lg shadow-lg">
@@ -35,11 +48,11 @@
                   </div>
                 </div>
 
-                <h1
+                <h2
                   class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
                 >
                   {{ mission.name }}
-                </h1>
+                </h2>
 
                 <div class="mb-8">
                   <ul
@@ -119,12 +132,12 @@
                 <hr class="border-gray-200 mb-8" />
 
                 <div>
-                  <span class="text-lg font-medium">
+                  <h2 class="text-lg font-medium">
                     <span>L'organisation</span>
                     <b class="text-blue-800">
                       {{ structure.name }}
                     </b>
-                  </span>
+                  </h2>
                 </div>
 
                 <div

@@ -11,7 +11,11 @@
         </div>
       </template>
     </AppHeader>
-    <div>
+
+    <div v-if="!loading">
+      <breadcrumb
+        :items="[{ label: 'Thématiques' }, { label: thematique.name }]"
+      />
       <div class="relative">
         <img
           v-if="thematique.image && thematique.image.large"

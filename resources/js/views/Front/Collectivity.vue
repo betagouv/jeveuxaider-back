@@ -14,12 +14,24 @@
 
     <template v-if="!$store.getters.loading">
       <template v-if="collectivity.type == 'department'">
+        <breadcrumb
+          :items="[
+            { label: 'Départements', link: '/territoires' },
+            { label: collectivity.name },
+          ]"
+        />
         <collectivity-department
           :collectivity="collectivity"
         ></collectivity-department>
       </template>
 
       <template v-if="collectivity.type == 'commune'">
+        <breadcrumb
+          :items="[
+            { label: 'Collectivités', link: '/territoires' },
+            { label: collectivity.name },
+          ]"
+        />
         <collectivity-commune
           :collectivity="collectivity"
         ></collectivity-commune>

@@ -2,6 +2,8 @@
   <div class="bg-gray-100">
     <AppHeader />
 
+    <breadcrumb :items="[{ label: 'Missions', link: '/missions' }]" />
+
     <template v-if="modeLigth">
       <div class="bg-primary pb-32">
         <div class="container mx-auto px-4">

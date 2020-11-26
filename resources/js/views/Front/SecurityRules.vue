@@ -2,6 +2,8 @@
   <div>
     <AppHeader />
 
+    <breadcrumb :items="[{ label: 'Règles de sécurité' }]" />
+
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
