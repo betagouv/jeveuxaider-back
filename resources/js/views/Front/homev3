@@ -1,0 +1,452 @@
+
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Réserve Civique | Home</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer></script>
+
+
+  
+</head>
+
+<body>
+
+
+<div class="relative bg-gray-100 pt-16 pb-28 px-4 sm:px-6 lg:px-8  ">
+ 
+  <div class="relative max-w-6xl mx-auto">
+
+    
+    
+    <div data-v-a493ac30="" class="text-center">
+    
+    
+    <h2 data-v-a493ac30="" class="text-3xl leading-9 tracking-tight font-bold text-gray-900 sm:text-5xl sm:leading-10">
+  Restez informé
+</h2> <p data-v-a493ac30="" class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4">
+  Les actualités de l’engagement sur le blog de l'engagement</p></div> <div data-v-a493ac30="" class="mt-12 grid container gap-6 mx-auto lg:grid-cols-3 lg:max-w-none"><div data-v-a493ac30="" class="flex flex-col rounded-lg shadow-lg overflow-hidden"><div data-v-a493ac30="" class="flex-shrink-0"><img data-v-a493ac30="" src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/10/cest-la-vi%CC%81e-1-scaled-uai-1032x580.png" alt="" class="h-48 w-full object-cover"></div> <div data-v-a493ac30="" class="flex-1 bg-white p-8 flex flex-col justify-between"><div data-v-a493ac30="" class="flex-1"><p data-v-a493ac30="" class="text-sm leading-5 font-medium text-blue-800"><a data-v-a493ac30="" target="_blank" href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/" class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500  hover:text-blue-800">
+          Actualités
+        </a></p> <a data-v-a493ac30="" target="_blank" href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-sengage-pour-la-solidarite-et-linsertion/" class="block"><h3 data-v-a493ac30="" class="mt-2 text-2xl leading-7 font-bold text-gray-800  tracking-tight">
+          La Réserve Civique s'engage pour la solidarité et
+          l'insertion !
+        </h3> <p data-v-a493ac30="" class="mt-3 text-base leading-6 text-gray-500">
+          La Réserve Civique, en partenariat avec les Banques
+          Alimentaires et l'ANDES, vous propose des milliers de
+          missions bénévoles pour faire grandir la solidarité.
+        </p></a></div></div></div>
+        
+        <div data-v-a493ac30="" class="flex flex-col rounded-lg shadow-lg overflow-hidden"><div data-v-a493ac30="" class="flex-shrink-0"><img data-v-a493ac30="" src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/BD%EF%BF%BDADN.fev20%C2%A9GovinSorel_GOV7369-uai-1032x580.jpg" alt="" class="h-48 w-full object-cover"></div> <div data-v-a493ac30="" class="flex-1 bg-white p-8 flex flex-col justify-between"><div data-v-a493ac30="" class="flex-1"><p data-v-a493ac30="" class="text-sm leading-5 font-medium text-blue-800"><a data-v-a493ac30="" target="_blank" href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/" class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500  hover:text-blue-800">
+          Actualités
+        </a></p> <a data-v-a493ac30="" target="_blank" href="https://covid19.reserve-civique.gouv.fr/engagement/focus/parole-dasso-causons-delie-les-langues-relie-les-cultures/" class="block"><h3 data-v-a493ac30="" class="mt-2 text-2xl leading-7 font-bold text-gray-800  tracking-tight">
+          [Parole d’asso] CAUSONS délie les langues, relie les
+          cultures
+        </h3> <p data-v-a493ac30="" class="mt-3 text-base leading-6 text-gray-500">
+          Au-delà des langues, réinventons une solidarité
+          participative, égalitaire et inclusive !
+        </p></a></div></div></div> <div data-v-a493ac30="" class="flex flex-col rounded-lg shadow-lg overflow-hidden"><div data-v-a493ac30="" class="flex-shrink-0"><img data-v-a493ac30="" src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/tutorat-zdc-3-sur-18-retouche%CC%81-scaled-uai-1032x580.jpg" alt="" class="h-48 w-full object-cover"></div> <div data-v-a493ac30="" class="flex-1 bg-white p-8 flex flex-col justify-between"><div data-v-a493ac30="" class="flex-1"><p data-v-a493ac30="" class="text-sm leading-5 font-medium text-blue-800"><a data-v-a493ac30="" target="_blank" href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/" class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500  hover:text-blue-800">
+          Actualités
+        </a></p> <a data-v-a493ac30="" target="_blank" href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/decouvrez-la-rentree-des-assos/" class="block"><h3 data-v-a493ac30="" class="mt-2 text-2xl leading-7 font-bold text-gray-800  tracking-tight">
+          Associations et collectivités : découvrez la Rentrée des
+          Assos
+        </h3> <p data-v-a493ac30="" class="mt-3 text-base leading-6 text-gray-500">
+          À partir du 16 septembre, cette plateforme numérique met les
+          associations à l'honneur et référence leurs activités de
+          rentrée.
+        </p></a></div></div></div></div></div> 
+        
+        
+        <div data-v-a493ac30="" class="text-center mt-12 pb-6">
+
+          <a href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/" target="_blank" class=" m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800">
+           Plus d'articles</a>
+
+          
+        </div> 
+
+</div>
+
+
+<!-- Feature section with brand panel -->
+<div class="relative pb-10 -mt-20 ">
+
+  <div class="relative max-w-6xl    mx-auto ">
+    <div class="max-w-screen-xl mx-auto md:grid gap-6 md:grid-cols-2 ">
+      <div class="m-2 lg:m-0 p-9 m:p-12 pb-8  md:flex md:flex-col rounded-lg shadow-lg bg-gradient-to-r from-blue-900 to-blue-800">
+     
+      
+        <h2 class="text-3xl  leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10">
+          <span class="block">Un e-mail par mois pour plus d'engagement</span>
+        
+        </h2>
+        <p class="mt-3 max-w-3xl text-lg leading-6 text-blue-200" id="newsletter-headline">
+          Chaque mois, nous vous proposons de nouvelles missions de bénévolat à distance ou près de chez vous.
+        </p>
+        <form class="sm:flex mt-9" aria-labelledby="newsletter-headline">
+          <input aria-label="Email address" type="email" required class="appearance-none shadow-lg w-full px-5 py-3 border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out" placeholder="Votre e-mail">
+          <div class="mt-3 rounded-full shadow-lg sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+            <button class="w-full flex items-center justify-center px-6 py-3 text-lg leading-8 font-medium rounded-full shadow-lg text-white bg-green-400 hover:text-white hover:scale-105 transform  transition duration-150 ease-in-out">
+             S'inscrire
+            </button>
+          </div>
+        </form>
+        <div class="mt-2 ml-6  text-sm leading-5 text-blue-200 text-center lg:text-left">
+         Nous veillons à respecter votre 
+          <a href="#" class="font-medium underline">
+            vie privée
+          </a>
+        </div>
+
+      </div>
+      <div class="m-2 lg:m-0 p-9 m:p-12  rounded-lg shadow-lg bg-gradient-to-r from-blue-800 to-blue-900">
+         
+        <h2 class="text-3xl  leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10">
+          <span class="block">Echangez avec la communauté #JeVeuxAider</span>
+        
+        </h2>
+        <p class="mt-3 max-w-3xl text-lg leading-6 text-blue-200" id="newsletter-headline">
+          Posez toutes vos questions aux bénévoles et à l'équipe dans le groupe Facebook
+        </p>
+        <a href="https://www.facebook.com/reservecivique" target="_blank" class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center text-lg leading-7 font-medium text-blue-800 hover:scale-105 transform  transition duration-150 ease-in-out">
+          <svg class="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+          </svg>
+          Rejoindre le groupe</a>
+
+
+      </div>
+   
+    </div>
+
+
+
+
+ 
+  </div>
+</div>
+
+
+<!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<!-- This component requires Tailwind CSS >= 1.5.1 and @tailwindcss/ui >= 0.4.0 -->
+<div class="relative bg-gray-50  mt-10 border-b border-t border-gray-200 ">
+  <div class="relative lg:grid lg:grid-cols-2 gap-4 max-w-7xl mx-auto">
+    <div class="lg:col-start-1 border-r  border-gray-200">
+    <div class="p-8 lg:p-15">
+      <img src="images/helping-hand.svg" alt="" class="ml-1 h-12 opacity-50 mb-4">
+        <p class="leading-6 text-blue-800 font-semibold tracking-wide uppercase">associations et organisations publiques </p>
+        <h1 class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">Facilitez le recrutement<br class="hidden lg:block"> de vos bénévoles </h1>
+        <ul class="">
+          <li class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p class="ml-3 text-xl leading-6  text-gray-600">
+             Inscrivez votre organisation en quelques clics
+            </p>
+          </li>
+          <li class="mt-4 flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p class="ml-3 text-xl leading-6  text-gray-600">
+             Publiez vos missions de bénévolat
+            </p>
+          </li>
+          <li class="mt-4 flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p class="ml-3 text-xl leading-6  text-gray-600">
+              Trouvez des bénévoles motivés et disponibles
+            </p>
+       
+
+          </li>
+          
+        </ul>
+
+        <a href="https://covid19.reserve-civique.gouv.fr/register/responsable" class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3  text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform  transition duration-150 ease-in-out">
+          Inscrire mon organisation
+        </a>
+      </div>
+    </div>
+    <div class="lg:col-start-2  ">
+      <div class="p-8 lg:p-15">
+        <img src="images/townhall.svg" alt="" class="ml-1 h-12 opacity-50 mb-4">
+        <p class="leading-6 text-blue-800 font-semibold tracking-wide uppercase">Collectivités et territoires</p>
+        <h1 class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
+          Favorisez l'engagement local<br class="hidden lg:block"> de vos citoyens
+
+
+         </h1>
+        <ul class="">
+          <li class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p class="ml-3 text-xl leading-6  text-gray-600">
+            Créez une page dédiée à votre collectivité
+            </p>
+          </li>
+          <li class="mt-4 flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p class="ml-3 text-xl leading-6  text-gray-600">
+             Centralisez les missions des organisations locales
+            </p>
+          </li>
+          <li class="mt-4 flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p class="ml-3 text-xl leading-6  text-gray-600">
+              Encouragez et valorisez l'engagement de vos citoyens
+            </p>
+       
+
+          </li>
+          
+        </ul>  
+        <a href="https://covid19.reserve-civique.gouv.fr/collectivite" class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform  transition duration-150 ease-in-out">
+          Inscrire ma collectivité
+        </a>
+      
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<footer data-v-a493ac30="" class="bg-white text-black text-center lg:text-left"><div class="container mt-8 mx-auto px-4 py-8"><div class="flex flex-col lg:flex-row items-center lg:items-start"><div class="max-w-xs"><div class="mb-8"><a href="/" aria-current="page" class="router-link-exact-active router-link-active"><div><img src="http://paulette.studio/RC/pages/images/logo-footer.png" alt="" class="mx-auto lg:mx-0" style="height: 180px;"></div></a></div> <div class="text-black" style="max-width: 260px; font-size: 14px; line-height: 1.6; letter-spacing: 0.05em;">
+  Trouvez une mission d'intérêt général auprès d'un organisme public
+  ou associatif et faites vivre les valeurs de la République.
+</div></div> <div id="menu-footer" class="lg:flex lg:flex-1 lg:justify-around text-base "><div class="lg:max-w-1/4 text-black"><a href="https://reserve-civique.crisp.help/fr/" target="_blank" class="block p-3 hover:underline">
+    Centre d'aide
+  </a> <a href="/regles-de-securite" class="block p-3 hover:underline">
+    Règles de sécurité
+  </a> <a href="/faq" class="block p-3 hover:underline">
+    FAQ
+  </a> <a href="/charte-reserve-civique" class="block p-3 hover:underline">
+    Charte
+  </a> <a href="/mentions-legales" class="block p-3 hover:underline">
+    Mentions légales
+  </a> <a href="https://www.gouvernement.fr/info-coronavirus" target="_blank" class="block p-3 hover:underline">Info Coronavirus</a> <a href="https://mobilisationemploi.gouv.fr/#/accueil" target="_blank" class="block p-3 hover:underline">Mobilisation pour l'emploi</a> <a href="https://covid19.reserve-civique.gouv.fr/engagement/communication/" target="_blank" class="block p-3 hover:underline">Kit de communication</a></div> <div class="lg:max-w-1/4 text-black"><a href="https://www.elysee.fr/" target="_blank" class="block p-3 hover:underline">elysee.fr</a> <a href="https://service-public.fr" target="_blank" class="block p-3 hover:underline">service-public.fr</a> <a href="https://legifrance.gouv.fr" target="_blank" class="block p-3 hover:underline">legifrance.gouv.fr</a> <a href="https://data.gouv.fr" target="_blank" class="block p-3 hover:underline">data.gouv.fr</a> <a href="https://www.france.fr" target="_blank" class="block p-3 hover:underline">france.fr</a></div> <div class="lg:max-w-1/2 text-black"><a href="https://www.service-civique.gouv.fr/" target="_blank" class="block p-3 hover:underline">Service Civique</a> <a href="https://www.snu.gouv.fr/" target="_blank" class="block p-3 hover:underline">Service National Universel</a> <a href="https://www.corpseuropeensolidarite.fr/" target="_blank" class="block p-3 hover:underline">Corps Européen de solidarité</a> <a href="https://www.service-public.fr/particuliers/vosdroits/F11444" target="_blank" class="block p-3 hover:underline">Volontariat de solidarité internationale</a> <a href="https://garde-nationale.gouv.fr/" target="_blank" class="block p-3 hover:underline">Garde Nationale</a></div></div> 
+  
+  </div></div> 
+<hr class="border-grey-200 mt-4"> 
+
+<div class="container mx-auto px-4 py-6"><div style="font-size: 10px; letter-spacing: 0.05em;">
+© RESERVE-CIVIQUE.GOUV.FR, 2020 
+
+
+<!--
+
+  <footer class="mt-12 max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+    <h2 class="sr-only">Footer</h2>
+    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+      <div class="grid grid-cols-2 gap-8 xl:col-span-2">
+        <div class="md:grid md:grid-cols-2 md:gap-8">
+          <div>
+            <h4 class="text-sm leading-5 font-semibold text-gray-400 tracking-wider uppercase">
+              Solutions
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Marketing
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Analytics
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Commerce
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Insights
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-12 md:mt-0">
+            <h4 class="text-sm leading-5 font-semibold text-gray-400 tracking-wider uppercase">
+              Support
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Documentation
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Guides
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  API Status
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="md:grid md:grid-cols-2 md:gap-8">
+          <div>
+            <h4 class="text-sm leading-5 font-semibold text-gray-400 tracking-wider uppercase">
+              Company
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Jobs
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Press
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Partners
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-12 md:mt-0">
+            <h4 class="text-sm leading-5 font-semibold text-gray-400 tracking-wider uppercase">
+              Legal
+            </h4>
+            <ul class="mt-4 space-y-4">
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Claim
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Privacy
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                  Terms
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 xl:mt-0">
+        <h4 class="text-sm leading-5 font-semibold text-gray-400 tracking-wider uppercase">
+          La Newsletter de l'engagement
+        </h4>
+        <p class="mt-4 text-gray-500 text-base leading-6">
+          Chaque mois, nous vous proposons de nouvelles missions de bénévolat.
+        </p>
+        <form class="mt-4 sm:flex sm:max-w-md">
+          <label for="emailAddress" class="sr-only">E-mail</label>
+          <input type="email" id="emailAddress" required class="appearance-none min-w-0 w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 text-base leading-6 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline focus:placeholder-gray-400 transition duration-150 ease-in-out" placeholder="Votre e-mail">
+          <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+            <button type="submit" class="w-full bg-green-400 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base leading-6 font-medium text-white transition duration-150 ease-in-out">
+             S'inscrire
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+ 
+
+<div class="relative mt-20">
+  <div class="absolute inset-0 flex flex-col" aria-hidden="true">
+    <div class="flex-1 bg-gray-50"></div>
+    <div class="flex-1"></div>
+  </div>
+  <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-16">
+    <div class="bg-gradient-to-r from-blue-800 to-blue-900 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
+      <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-16 xl:px-24">
+        <div class="lg:self-center">
+          <div class="text-base leading-8 font-semibold uppercase tracking-wider text-blue-200">
+            COVID-19
+          </div>
+          <h2 class="text-3xl leading-9 font-bold text-white sm:text-4xl sm:leading-10 tracking-tight">
+            <span class="">Les 5 règles de sécurité des bénévoles</span>
+       
+          </h2>
+          <p class="mt-4 text-lg leading-6 text-blue-200">Des gestes simples pour préserver votre santé et celle des autres.
+
+          </p>
+          <a href="#" class="mt-6 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-800 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+            Consulter les règles de sécurité
+          Heroicon name: external-link
+            <svg class="-mr-1 ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="relative pb-3/5 -mt-6 md:pb-1/2">
+        <img class="absolute inset-0 w-full h-full transform translate-x-6 translate-y-6 rounded-md object-cover object-left sm:-translate-x-2 lg:translate-y-4" src="images/17Mask.png" alt="Groupe facebook">
+      </div>
+    </div>
+  </div>
+</div>
+
+-->
+
+</body>
+
+</html>

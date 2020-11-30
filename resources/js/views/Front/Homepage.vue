@@ -2,1005 +2,496 @@
   <div class>
     <AppHeader />
 
-    <div class="relative bg-blue-800 overflow-hidden z-0 shadow-lg">
-      <div class="container mx-auto">
-        <div
-          class="relative z-10 pb-0 sm:pb-16 md:pb-10 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-24"
-        >
-          <div
-            class="mt-10 mx-auto px-6 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-2 xl:mt-16"
-          >
-            <div class="sm:text-center lg:text-left">
-              <h1
-                class="text-4xl tracking-tight leading-10 font-bold text-white sm:text-5xl sm:leading-none md:text-6xl"
-              >
-                Engagez-vous dans la Réserve Civique
-              </h1>
-
-              <p
-                class="mt-3 text-base text-white sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-2xl lg:mx-0"
-              >
-                Trouvez une mission d’intérêt général auprès d’une organisation
-                publique ou associative et faites vivre les valeurs de la
-                République.
-              </p>
-
-              <div
-                class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
-              >
-                <div class="text-center">
-                  <p class="text-xs leading-6 font-medium text-white">
-                    Je veux aider
-                  </p>
-                  <router-link
-                    to="/register/volontaire"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
-                  >
-                    Devenir réserviste
-                  </router-link>
-                </div>
-                <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                  <p class="text-xs leading-6 font-medium text-white">
-                    Mon organisation a besoin de renfort
-                  </p>
-                  <router-link
-                    :to="
-                      $store.getters.isLogged &&
-                      $store.getters.contextRole == 'responsable'
-                        ? {
-                            name: 'MissionFormAdd',
-                            params: {
-                              structureId:
-                                $store.getters.structure_as_responsable.id,
-                            },
-                          }
-                        : '/register/responsable'
-                    "
-                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
-                  >
-                    Proposer une mission
-                  </router-link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <img class="mt-10 p-12 object-cover" src="/images/success.png" alt="" />
-      </div>
-    </div>
-
-    <div class="py-16 lg:py-20 bg-gray-50 overflow-hidden shadow-lg">
-      <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
-        <img
-          class="hidden lg:block absolute top-0 right-0 transform -translate-x-3/4 translate-y-1 opacity-50"
-          src="/images/france.svg"
-          width="904"
-          alt=""
-        />
-
-        <div class="relative">
-          <h3
-            class="text-center text-4xl lg:text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:leading-10"
-          >
-            Faites vivre l’engagement
-            <br class="xl:hidden" />
-            <span class="text-blue-800">#FranceUnie</span>
-          </h3>
-          <p
-            class="mt-4 max-w-5xl mx-auto text-center text-xl leading-7 text-gray-500"
-          >
-            Rejoignez la Réserve Civique et soutenez de grandes causes, dans
-            tous les territoires.
-          </p>
-        </div>
-
-        <div class="relative">
-          <div class="mx-auto py-12 lg:py-8">
-            <p
-              class="text-center text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
-            >
-              Trouvez votre domaine d'action
-            </p>
-            <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:mt-8">
-              <router-link
-                to="/missions?menu[domaines]=Mobilisation%20covid-19"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/covid.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Mobilisation Covid19</span>
-              </router-link>
-
-              <router-link
-                to="/missions?menu[domaines]=Santé%20pour%20tous"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/sante.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Santé pour tous</span>
-              </router-link>
-
-              <router-link
-                to="/missions?menu[domaines]=Prévention%20et%20protection"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/securite.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Prévention et protection</span>
-              </router-link>
-
-              <router-link
-                to="/thematiques/education-pour-tous"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/education.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Education pour tous</span>
-              </router-link>
-              <router-link
-                to="/missions?menu[domaines]=Sport%20pour%20tous"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/sport.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Sport pour tous </span>
-              </router-link>
-
-              <router-link
-                to="/thematiques/protection-de-la-nature"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/environnement.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Protection de la nature </span>
-              </router-link>
-
-              <router-link
-                to="/missions?menu[domaines]=Art%20et%20culture%20pour%20tous"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/art.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Art & Culture pour tous </span>
-              </router-link>
-
-              <router-link
-                to="/thematiques/solidarite-et-insertion"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/vivre-ensemble.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Solidarité et insertion </span>
-              </router-link>
-              <router-link
-                to="/missions?menu[domaines]=Mémoire%20et%20citoyenneté"
-                class="col-span-1 lg:col-start-2 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/memoire.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Mémoire et citoyenneté </span>
-              </router-link>
-              <router-link
-                to="/missions?menu[domaines]=Coopération%20internationale"
-                class="col-span-1 flex flex-col justify-center cursor-pointer hover:text-blue-800 items-center text-center p-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border lg:flex-row"
-              >
-                <img
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  style="width: 40px"
-                  src="/images/cooperation.svg"
-                  alt=""
-                />
-                <span class="font-semibold">Coopération internationale </span>
-              </router-link>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="relative mt-2 lg:mt-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center"
-        >
-          <div class="relative">
-            <h4
-              class="text-2xl leading-8 font-bold text-gray-900 tracking-tight sm:text-3xl sm:leading-9"
-            >
-              Les missions prioritaires
-              <span class="text-blue-800">#Covid19</span>
-            </h4>
-
-            <ul class="mt-10 pr-12">
-              <li>
-                <router-link
-                  class="flex"
-                  to="/missions?menu%5Btemplate_title%5D=Aide%20alimentaire%20et%20d%27urgence"
-                >
-                  <div class="flex-shrink-0">
-                    <div
-                      class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                    >
-                      <img
-                        class="h-7"
-                        src="/images/groceries.svg"
-                        alt=""
-                        style="width: 28px"
-                      />
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <h5
-                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                    >
-                      Aide alimentaire et d’urgence
-                    </h5>
-                    <p class="mt-2 text-base leading-6 text-gray-500">
-                      Je distribue des produits de première nécessité (aliments,
-                      hygiène…) et des repas aux plus démunis.
-                    </p>
-                  </div>
-                </router-link>
-              </li>
-              <li class="mt-10">
-                <router-link
-                  class="flex"
-                  to="missions?menu%5Btemplate_title%5D=Garde%20exceptionnelle%20d%27enfants"
-                >
-                  <div class="flex-shrink-0">
-                    <div
-                      class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                    >
-                      <img
-                        class="h-7"
-                        src="/images/teddy-bear.svg"
-                        alt=""
-                        style="width: 28px"
-                      />
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <h5
-                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                    >
-                      Garde exceptionnelle d’enfants
-                    </h5>
-                    <p class="mt-2 text-base leading-6 text-gray-500">
-                      J’aide à garder des enfants de soignants ou d’une
-                      structure de l’Aide Sociale à l’Enfance.
-                    </p>
-                  </div>
-                </router-link>
-              </li>
-              <li class="mt-10">
-                <router-link
-                  class="flex"
-                  to="missions?menu%5Btemplate_title%5D=Lien%20avec%20les%20personnes%20fragiles%20isolées"
-                >
-                  <div class="flex-shrink-0">
-                    <div
-                      class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                    >
-                      <img
-                        class="h-7"
-                        src="/images/phone-handle.svg"
-                        alt=""
-                        style="width: 28px"
-                      />
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <h5
-                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                    >
-                      Lien avec les personnes fragiles isolées.
-                    </h5>
-                    <p class="mt-2 text-base leading-6 text-gray-500">
-                      Je participe à maintenir le lien avec des personnes
-                      fragiles isolées.
-                    </p>
-                  </div>
-                </router-link>
-              </li>
-              <li class="mt-10">
-                <router-link
-                  class="flex"
-                  to="missions?menu%5Btemplate_title%5D=Solidarité%20de%20proximité"
-                >
-                  <div class="flex-shrink-0">
-                    <div
-                      class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                    >
-                      <img
-                        class="h-7"
-                        src="/images/basket.svg"
-                        alt=""
-                        style="width: 28px"
-                      />
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <h5
-                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                    >
-                      Solidarité de proximité.
-                    </h5>
-                    <p class="mt-2 text-base leading-6 text-gray-500">
-                      Je fais les courses de produits essentiels pour mes
-                      voisins les plus fragiles.
-                    </p>
-                  </div>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-
-          <div class="mt-10 -mx-4 relative lg:mt-0">
-            <svg
-              class="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden sm:hidden md:hidden"
-              width="784"
-              height="404"
-              fill="none"
-              viewBox="0 0 784 404"
-            >
-              <defs>
-                <pattern
-                  id="ca9667ae-9f92-4be7-abcb-9e3d727f2941"
-                  x="0"
-                  y="0"
-                  width="20"
-                  height="20"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <rect
-                    x="0"
-                    y="0"
-                    width="4"
-                    height="4"
-                    class="text-gray-200"
-                    fill="currentColor"
-                  />
-                </pattern>
-              </defs>
-              <rect
-                width="784"
-                height="404"
-                fill="url(#ca9667ae-9f92-4be7-abcb-9e3d727f2941)"
-              />
-            </svg>
-
-            <div class="mx-4 mt-10" width="520">
-              <img
-                class="relative mx-auto rounded-lg"
-                src="/images/missions-prio.png"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-
-        <svg
-          class="hidden lg:block absolute right-full transform translate-x-1/2 translate-y-12"
-          width="404"
-          height="784"
-          fill="none"
-          viewBox="0 0 404 784"
-        >
-          <defs>
-            <pattern
-              id="64e643ad-2176-4f86-b3d7-f2c5da3b6a6d"
-              x="0"
-              y="0"
-              width="20"
-              height="20"
-              patternUnits="userSpaceOnUse"
-            >
-              <rect
-                x="0"
-                y="0"
-                width="4"
-                height="4"
-                class="text-gray-200"
-                fill="currentColor"
-              />
-            </pattern>
-          </defs>
-          <rect
-            width="404"
-            height="784"
-            fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)"
-          />
-        </svg>
-
-        <div class="relative mt-12 sm:mt-16 lg:mt-8">
-          <div
-            class="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center"
-          >
-            <div class="lg:col-start-2">
-              <ul class="mt-10">
-                <li>
-                  <router-link
-                    class="flex"
-                    to="missions?menu%5Btemplate_title%5D=Soutien%20scolaire"
-                  >
-                    <div class="flex-shrink-0">
-                      <div
-                        class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                      >
-                        <img
-                          class="h-7"
-                          src="/images/ecole.svg"
-                          alt=""
-                          style="width: 28px"
-                        />
-                      </div>
-                    </div>
-                    <div class="ml-4">
-                      <h5
-                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                      >
-                        Soutien scolaire.
-                      </h5>
-                      <p class="mt-2 text-base leading-6 text-gray-500">
-                        J’aide les élèves à étudier et faire leurs devoirs.
-                      </p>
-                    </div>
-                  </router-link>
-                </li>
-                <li class="mt-10 pr-12">
-                  <router-link
-                    class="flex"
-                    to="missions?menu%5Btemplate_title%5D=Fabrication%20et%20distribution%20d%27équipements%20de%20protection"
-                  >
-                    <div class="flex-shrink-0">
-                      <div
-                        class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                      >
-                        <img
-                          class="h-7"
-                          src="/images/masque-2.svg"
-                          alt=""
-                          style="width: 28px"
-                        />
-                      </div>
-                    </div>
-                    <div class="ml-4">
-                      <h5
-                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                      >
-                        Fabrication et distribution d’équipements de protection
-                        grand public.
-                      </h5>
-                      <p class="mt-2 text-base leading-6 text-gray-500">
-                        Je participe à la confection d’équipements de protection
-                        grand public ou à leur distribution.
-                      </p>
-                    </div>
-                  </router-link>
-                </li>
-                <li class="mt-10">
-                  <router-link
-                    class="flex"
-                    to="missions?menu%5Btemplate_title%5D=Soutien%20à%20la%20mobilisation%20sanitaire"
-                  >
-                    <div class="flex-shrink-0">
-                      <div
-                        class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                      >
-                        <img
-                          class="h-7"
-                          src="/images/sanitaire.svg"
-                          alt=""
-                          style="width: 28px"
-                        />
-                      </div>
-                    </div>
-                    <div class="ml-4">
-                      <h5
-                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                      >
-                        Soutien à la mobilisation sanitaire.
-                      </h5>
-                      <p class="mt-2 text-base leading-6 text-gray-500">
-                        J’aide les personnels des établissements de santé ou
-                        participe à une action à but sanitaire.
-                      </p>
-                    </div>
-                  </router-link>
-                </li>
-                <li class="mt-10">
-                  <router-link
-                    class="flex"
-                    to="missions?menu%5Btemplate_title%5D=Soutien%20à%20la%20reprise%20de%20missions%20de%20service%20public"
-                  >
-                    <div class="flex-shrink-0">
-                      <div
-                        class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
-                      >
-                        <img
-                          class="h-7"
-                          src="/images/service-public.svg"
-                          alt=""
-                          style="width: 28px"
-                        />
-                      </div>
-                    </div>
-                    <div class="ml-4">
-                      <h5
-                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
-                      >
-                        Soutien à la reprise des missions de service public.
-                      </h5>
-                      <p class="mt-2 text-base leading-6 text-gray-500">
-                        Je contribue à la reprise des missions de service public
-                        en lien avec la population.
-                      </p>
-                    </div>
-                  </router-link>
-                </li>
-              </ul>
-            </div>
-
-            <div class="mt-10 relative lg:mt-0 lg:col-start-1">
-              <div class="pr-8 mt-10" width="520">
-                <img
-                  class="relative mx-auto rounded-lg"
-                  src="/images/celebrating.png"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="lg:grid lg:grid-cols-3">
-      <div class="relative">
-        <div class="bg-indigo-600 absolute h-full">
-          <img
-            class="w-full h-full object-cover"
-            src="/images/masque.jpg"
-            alt="securité covid-19"
-          />
-        </div>
-        <div
-          class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
-        >
-          <div class="">
-            <div
-              class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
-            >
-              COVID-19
-            </div>
-            <h2
-              class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
-            >
-              Les 5 règles de sécurité des bénévoles
-            </h2>
-            <p class="mt-3 text-lg leading-7 text-white">
-              Des gestes simples pour préserver votre santé et celle des autres.
-            </p>
-            <div class="mt-8">
-              <div class="inline-flex rounded-md shadow">
-                <router-link
-                  to="/regles-de-securite"
-                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                >
-                  Consulter les règles de sécurité
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="relative">
-        <div class="bg-indigo-600 absolute h-full">
-          <img
-            class="w-full h-full object-cover"
-            src="/images/ecole.png"
-            alt="Éducation pour tous"
-          />
-        </div>
-        <div
-          class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
-        >
-          <div class="">
-            <div
-              class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
-            >
-              Éducation pour tous
-            </div>
-            <h2
-              class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
-            >
-              Rejoignez la Réserve Civique pour l'éducation
-            </h2>
-            <p class="mt-3 text-lg leading-7 text-white">
-              Trouvez une mission de bénévolat en France pour contribuer à
-              l'éducation pour tous.
-            </p>
-            <div class="mt-8">
-              <div class="inline-flex rounded-md shadow">
-                <router-link
-                  to="/thematiques/education-pour-tous"
-                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                >
-                  Éducation pour tous
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="relative">
-        <div class="bg-indigo-600 absolute h-full">
-          <img
-            class="w-full h-full object-cover"
-            src="/images/banner-solidarite.jpg"
-            alt="securité covid-19"
-          />
-        </div>
-        <div
-          class="relative container mx-auto px-8 py-12 sm:px-6 lg:px-8 lg:py-16"
-        >
-          <div class="">
-            <div
-              class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
-            >
-              Solidarité et insertion
-            </div>
-            <h2
-              class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
-            >
-              Rejoignez la Réserve Civique pour la solidarité et l'insertion
-            </h2>
-            <p class="mt-3 text-lg leading-7 text-white">
-              Trouvez une mission de bénévolat en France pour contribuer à la
-              solidarité et l'insertion.
-            </p>
-            <div class="mt-8">
-              <div class="inline-flex rounded-md shadow">
-                <router-link
-                  to="/thematiques/solidarite-et-insertion"
-                  class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                >
-                  Solidarité et Insertion
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="py-16 bg-gray-50 overflow-hidden lg:py-16">
-      <div class="relative container mx-auto px-8 sm:px-6 lg:px-8">
-        <div class="lg:text-center">
-          <h3
-            class="text-center text-4xl lg:text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:leading-10"
-          >
-            Rejoignez le mouvement
-            <br class="xl:hidden" />
-            <span class="text-blue-800">#RéserveCivique</span>
-          </h3>
-          <p
-            class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
-          >
-            Partout en France, des milliers de réservistes, organisations
-            publiques et associations sont déjà mobilisés sur le terrain.
-          </p>
-
-          <div class="relative mt-8 z-0 overflow-hidden text-center mx-auto">
-            <img
-              class="relative z-0 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-1.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-7.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-3.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-9.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-6.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-5.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-8.jpg"
-              alt=""
-            />
-            <img
-              class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-              src="/images/avatar-2.jpg"
-              alt=""
-            />
-          </div>
-
-          <dl
-            v-if="statistics"
-            class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
-          >
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dt
-                class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
-              >
-                Réservistes
-              </dt>
-              <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.profiles | formatNumber }}
-              </dd>
-            </div>
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dt
-                class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
-              >
-                Organisations
-              </dt>
-              <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.structures | formatNumber }}
-              </dd>
-            </div>
-
-            <div class="flex flex-col mt-10 sm:mt-0">
-              <dt
-                class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
-              >
-                Mises en relation
-              </dt>
-              <dd class="order-1 text-5xl leading-none font-bold text-gray-800">
-                {{ statistics.participations | formatNumber }}
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-blue-800 border-b border-gray-200">
+    <div class="relative bg-blue-800 overflow-hidden z-10">
       <div
-        class="container mx-auto flex flex-col items-center justify-center py-12 px-18 sm:px-16 lg:py-16 lg:flex-row lg:justify-between"
+        class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900 z-10"
+      ></div>
+
+      <img
+        class="opacity-50 z-1 object-cover absolute h-screen lg:h-auto"
+        src="/images/hero.jpg"
+      />
+
+      <div
+        class="p-10 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
         <h2
-          class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10 text-center"
+          class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white"
         >
-          Votre organisation a besoin de
-          <span class="text-blu">bénévoles</span> ?
+          Je veux <br class="lg:hidden" />
+          <span
+            class="typewrite"
+            data-period="1000"
+            data-type='[ "aider", "vivre des moments forts", "une société solidaire", "me rendre utile", "faire vivre les valeurs de la République" ]'
+            ><span class="wrap"></span>
+          </span>
         </h2>
-        <router-link
-          :to="
-            $store.getters.isLogged &&
-            $store.getters.contextRole == 'responsable'
-              ? {
-                  name: 'MissionFormAdd',
-                  params: {
-                    structureId: $store.getters.structure_as_responsable.id,
-                  },
-                }
-              : '/register/responsable'
-          "
-          class="inline-flex mt-3 lg:mt-0 shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
+        <p
+          class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
         >
-          Publier une mission
+          Devenez bénévole et trouvez des missions en quelques clics
+          <br class="hidden lg:block" />
+          <b>près de chez vous</b> ou <b>à distance</b>
+        </p>
+
+        <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-5">
+          <div class="rounded-full shadow-lg">
+            <router-link
+              to="/missions"
+              class="flex items-center shadow-lg justify-center px-8 py-3 border border-transparent text-2xl leading-6 font-medium rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            >
+              Je veux aider
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-blue-900 pt-6">
+      <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2
+            class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-5xl sm:leading-10"
+          >
+            Plus de 330 000 bénévoles
+          </h2>
+          <p class="mt-3 text-xl lg:text-2xl leading-7 text-blue-200 sm:mt-4">
+            soutiennent des milliers d'associations et d'organisations publiques
+          </p>
+        </div>
+      </div>
+      <div class="mt-10 pb-12 bg-gray-50">
+        <div class="relative">
+          <div class="absolute inset-0 h-1/2 bg-blue-900"></div>
+          <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+              <dl
+                class="rounded-lg bg-white py-1 shadow-lg grid grid-cols-2 lg:grid-cols-5"
+              >
+                <div
+                  class="flex lg:flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                >
+                  <img
+                    class="mx-auto mt-2 lg:mt-0 h-8 lg:h-11"
+                    src="/images/logo-jagis-pour-la-nature.svg"
+                  />
+                </div>
+                <div
+                  class="flex lg:flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                >
+                  <img
+                    class="mx-auto h-12 lg:h-16"
+                    src="/images/logo_banquealimentaire.png"
+                  />
+                </div>
+                <div
+                  class="flex flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                >
+                  <img class="px-6" src="/images/logo_emmaus.png" />
+                </div>
+                <div
+                  class="flex flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                >
+                  <img class="px-6" src="/images/logo_aphp.png" />
+                </div>
+                <div
+                  class="flex flex-col border-gray-100 py-4 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
+                >
+                  parmi Plus de
+                  <span class="text-4xl font-bold">4000</span>
+                  organisations
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 pt-6 shadow-sm z-20 relative">
+      <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto text-center">
+          <span
+            class="text-2xl lg:text-3xl leading-8 lg:leading-10 block lg:inline-flex font-bold tracking-tight text-gray-800"
+          >
+            <span class="block lg:inline-flex">
+              Trouvez une mission de bénévolat</span
+            >
+
+            <a
+              href="#"
+              class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
+            >
+              près de chez vous</a
+            >
+            <span class="block lg:inline-flex my-4 lg:my-0">ou</span>
+
+            <a
+              href="#"
+              class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
+            >
+              à distance</a
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray50 pb-20">
+      <p
+        class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+      >
+        Parmi les missions prioritaires
+      </p>
+      <div
+        class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3 lg:max-w-none"
+      >
+        <router-link
+          v-for="mission in missions_prioritaires"
+          :key="mission.name"
+          :to="mission.link"
+          class="flex max-w-lg mx-auto flex-col rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition duration-150 ease-in-out"
+        >
+          <div class="flex-shrink-0">
+            <div class="absolute transform translate-y-px ml-6 mt-5">
+              <div class="flex justify-center transform">
+                <span
+                  class="inline-flex shadow-lg text-xs rounded-full bg-pink-100 px-3 py-1 leading-5 font-semibold tracking-wider uppercase text-pink-700"
+                >
+                  Mission prioritaire
+                </span>
+              </div>
+            </div>
+            <a href="#">
+              <img
+                class="h-48 w-full object-cover"
+                :src="mission.image"
+                :alt="mission.name"
+            /></a>
+          </div>
+          <div class="flex-1 bg-white p-8 pt-4 flex flex-col justify-between">
+            <div class="flex-1">
+              <div
+                class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
+              >
+                {{ mission.thematique }}
+              </div>
+              <h3 class="text-xl leading-7 font-bold text-gray-900">
+                {{ mission.name }}
+              </h3>
+            </div>
+            <div class="mt-4 flex items-center">
+              <div class="flex-shrink-0">
+                <div
+                  class="hidden sm:block flex-shrink-0 rounded-md p-2 text-center bg-blue-800"
+                >
+                  <img :src="mission.thematique_image" style="width: 28px" />
+                </div>
+              </div>
+              <div class="ml-4">
+                <p
+                  class="text-sm leading-5 tracking-tight font-medium text-gray-800"
+                  v-html="mission.nb_missions_text"
+                ></p>
+              </div>
+            </div>
+          </div>
         </router-link>
       </div>
     </div>
 
     <div
-      class="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8 shadow-lg"
+      class="relative bg-gray-100 pt-16 pb-10 px-4 sm:px-6 lg:px-8 shadow-lg z-10"
     >
-      <div class="relative container mx-auto">
+      <div class="relative max-w-6xl mx-auto">
         <div class="text-center">
           <h2
-            class="text-3xl leading-9 tracking-tight font-bold text-gray-900 sm:text-5xl sm:leading-10"
+            class="text-3xl leading-9 tracking-tight font-bold text-gray-800 sm:text-5xl sm:leading-10"
           >
-            Restez informé
+            Trouvez votre domaine d'action
           </h2>
-          <p
-            class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <router-link
+            to="/missions?menu[domaines]=Solidarité%20et%20insertion"
+            class="bg-red-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
-            Les actualités de l’engagement sur le blog de la
-            <b>Réserve Civique</b>
+            <div class="bg-white px-4 py-2 sm:px-6">
+              <div class="text-sm leading-5">
+                <span
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                >
+                  solidarité et insertion</span
+                >
+              </div>
+            </div>
+
+            <div class="px-4 py-5 sm:p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
+                  <img
+                    src="/images/vivre-ensemble.svg"
+                    style="width: 36px"
+                    class="opacity-50"
+                  />
+                </div>
+                <div class="ml-4 w-0 flex-1">
+                  <h3 class="text-xl leading-6 font-semibold text-white">
+                    Venez en aide aux plus démunis et aux personnes isolées
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            to="/missions?menu[domaines]=Protection%20de%20la%20nature"
+            class="bg-green-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+          >
+            <div class="bg-gray-50 px-4 py-2 sm:px-6">
+              <div class="text-sm leading-5">
+                <span
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                  >protection de la nature</span
+                >
+              </div>
+            </div>
+            <div class="px-4 py-5 sm:p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
+                  <img
+                    src="/images/environnement.svg"
+                    style="width: 36px"
+                    class="opacity-50"
+                  />
+                </div>
+                <div class="ml-4 w-0 flex-1">
+                  <h3 class="text-xl leading-6 font-semibold text-white">
+                    Participez à des activités en pleine nature pour protéger
+                    l'environnement
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </router-link>
+
+          <router-link
+            to="/missions?menu[domaines]=Éducation%20pour%20tous"
+            class="bg-blue-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+          >
+            <div class="bg-gray-50 px-4 py-2 sm:px-6">
+              <div class="text-sm leading-5">
+                <span
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                  >éducation pour tous</span
+                >
+              </div>
+            </div>
+            <div class="px-4 py-5 sm:p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
+                  <img
+                    src="/images/education.svg"
+                    style="width: 36px"
+                    class="opacity-50"
+                  />
+                </div>
+                <div class="ml-4 w-0 flex-1">
+                  <h3 class="text-xl leading-6 font-semibold text-white">
+                    Soutenez les parcours scolaires et professionnels des jeunes
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </router-link>
+        </div>
+      </div>
+      <div class="relative max-w-screen-xl text-center mx-auto">
+        <div class="max-w-md mx-auto lg:max-w-screen-xl">
+          <p
+            class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+          >
+            les autres domaines d'action
           </p>
+          <div class="px-0 lg:px-2 py-8 lg:flex lg:items-center">
+            <div class="flex-1">
+              <router-link
+                v-for="domaine in domaines"
+                :key="domaine.name"
+                :to="domaine.link"
+                class="mx-0 my-2 lg:m-2 inline-flex px-6 py-4 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
+              >
+                <img
+                  :src="domaine.image"
+                  :alt="domaine.name"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
+                  style="width: 40px"
+                />
+                {{ domaine.name }}
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="relative bg-gradient-to-r from-blue-800 to-blue-900 overflow-hidden pt-20 pb-6 z-0"
+    >
+      <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
+        <div class="relative h-full max-w-screen-xl mx-auto opacity-25">
+          <img
+            class="hidden lg:block absolute left-full transform -translate-x-3/4 -translate-y-20 opacity-75"
+            src="images/france_dark.svg"
+            width="1530"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="relative pb-12">
+        <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+          <div class="text-center mb-10">
+            <h2
+              class="text-3xl leading-9 tracking-tight font-bold text-white sm:text-5xl sm:leading-10"
+            >
+              Rejoignez le mouvement
+              <span class="text-blue-200">#JeVeuxAider</span>
+            </h2>
+            <p
+              class="mt-4 mb-8 text-center max-w-4xl text-2xl leading-7 text-blue-200 lg:mx-auto"
+            >
+              Des milliers de bénévoles, associations et collectivités en font
+              déjà partie.
+            </p>
+          </div>
         </div>
         <div
-          class="mt-12 grid container gap-8 mx-auto lg:grid-cols-3 lg:max-w-none"
+          class="max-w-screen-xl mx-auto md:grid gap-6 md:grid-cols-2 px-4 md:px-6 lg:px-8"
         >
-          <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-            <div class="flex-shrink-0">
-              <img
-                class="h-48 w-full object-cover"
-                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/Capture-d%E2%80%99e%CC%81cran-2020-09-09-a%CC%80-21.25.43.png"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 bg-white p-10 flex flex-col justify-between">
-              <div class="flex-1">
-                <p class="text-sm leading-5 font-medium text-blue-800">
-                  <a
-                    target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
-                    class="hover:underline"
-                  >
-                    Actualités
-                  </a>
-                </p>
-                <a
-                  target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-sengage-pour-la-solidarite-et-linsertion/"
-                  class="block"
+          <div
+            class="p-14 pb-10 md:flex md:flex-col bg-white rounded-lg shadow-lg"
+          >
+            <blockquote class="md:flex-grow md:flex md:flex-col">
+              <div
+                class="relative text-lg leading-7 font-medium text-gray-800 md:flex-grow"
+              >
+                <svg
+                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                  fill="currentColor"
+                  viewBox="0 0 32 32"
                 >
-                  <h3
-                    class="mt-2 text-xl leading-7 font-semibold text-gray-900"
-                  >
-                    La Réserve Civique s'engage pour la solidarité et
-                    l'insertion !
-                  </h3>
-                  <p class="mt-3 text-base leading-6 text-gray-500">
-                    La Réserve Civique, en partenariat avec les Banques
-                    Alimentaires et l'ANDES, vous propose des milliers de
-                    missions bénévoles pour faire grandir la solidarité en
-                    France.
-                  </p>
-                </a>
+                  <path
+                    d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"
+                  />
+                </svg>
+                <p class="relative">
+                  J’ai eu la chance de pouvoir me rendre utile en faisant une
+                  distribution de repas pour les SDF de Nancy. Une expérience
+                  qui ne laisse pas indifférent … J'ai des souvenirs plein la
+                  tête. Maintenant je continue mon chemin avec la Réserve
+                  Civique en participant à différentes missions. Je me sens
+                  utile et citoyenne !
+                </p>
               </div>
-            </div>
+              <footer class="mt-6">
+                <div class="flex">
+                  <div class="flex-shrink-0 inline-flex rounded-full">
+                    <img
+                      class="h-14 w-14 mt-1 rounded-full shadow-lg"
+                      src="images/sante-3.jpg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="ml-5">
+                    <div class="text-base leading-6 font-medium text-gray-900">
+                      Nathalie
+                      <span
+                        class="text-base leading-6 font-medium text-gray-400"
+                      >
+                        · Bénévole</span
+                      >
+                    </div>
+                    <img
+                      class="h-9"
+                      src="images/logo_banquealimentaire.png"
+                      alt="logo"
+                    />
+                  </div>
+                </div>
+              </footer>
+            </blockquote>
           </div>
-
-          <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-            <div class="flex-shrink-0">
-              <img
-                class="h-48 w-full object-cover"
-                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/1.IMG_1923-scaled-e1599639517199-uai-2064x1170.jpg"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 bg-white p-10 flex flex-col justify-between">
-              <div class="flex-1">
-                <p class="text-sm leading-5 font-medium text-blue-800">
-                  <a
-                    target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
-                    class="hover:underline"
-                  >
-                    Actualités
-                  </a>
-                </p>
-                <a
-                  target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/focus/parole-dasso-causons-delie-les-langues-relie-les-cultures/"
-                  class="block"
+          <div
+            class="p-14 pb-10 mt-4 md:mt-0 md:flex md:flex-col bg-white rounded-lg shadow-lg"
+          >
+            <blockquote class="md:flex-grow md:flex md:flex-col">
+              <div
+                class="relative text-lg leading-7 font-medium text-gray-800 md:flex-grow"
+              >
+                <svg
+                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                  fill="currentColor"
+                  viewBox="0 0 32 32"
                 >
-                  <h3
-                    class="mt-2 text-xl leading-7 font-semibold text-gray-900"
-                  >
-                    [Parole d’asso] CAUSONS délie les langues, relie les
-                    cultures
-                  </h3>
-                  <p class="mt-3 text-base leading-6 text-gray-500">
-                    Au-delà des langues, réinventons une solidarité
-                    participative, égalitaire et inclusive !
-                  </p>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-            <div class="flex-shrink-0">
-              <img
-                class="h-48 w-full object-cover"
-                src="https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/Facebook_couverture_Rentrée-des-Assos.jpg"
-                alt=""
-              />
-            </div>
-            <div class="flex-1 bg-white p-10 flex flex-col justify-between">
-              <div class="flex-1">
-                <p class="text-sm leading-5 font-medium text-blue-800">
-                  <a
-                    target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
-                    class="hover:underline"
-                  >
-                    Actualités
-                  </a>
+                  <path
+                    d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"
+                  />
+                </svg>
+                <p class="relative">
+                  La puissance de mobilisation de la Réserve Civique est
+                  impressionnante ! Nous avons reçu 170 nouvelles candidatures
+                  de bénévoles en moins de 6 semaines. La Réserve Civique est
+                  clairement l’un des meilleurs canaux en termes d’efficacité du
+                  temps investi et de nombre de retours.
                 </p>
-                <a
-                  target="_blank"
-                  href="https://covid19.reserve-civique.gouv.fr/engagement/actualite/decouvrez-la-rentree-des-assos/"
-                  class="block"
-                >
-                  <h3
-                    class="mt-2 text-xl leading-7 font-semibold text-gray-900"
-                  >
-                    Associations et collectivités : découvrez la Rentrée des
-                    Assos !
-                  </h3>
-                  <p class="mt-3 text-base leading-6 text-gray-500">
-                    À partir du 16 septembre, cette plateforme numérique met les
-                    associations à l'honneur et référence leurs activités de
-                    rentrée.
-                  </p>
-                </a>
               </div>
-            </div>
+              <footer class="mt-6">
+                <div class="flex">
+                  <div class="flex-shrink-0 inline-flex rounded-full">
+                    <img
+                      class="h-14 w-14 mt-0 rounded-full shadow-lg"
+                      src="/images/clement.jpeg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="ml-5">
+                    <div class="text-base leading-6 font-medium text-gray-900">
+                      Clément Debosque
+                      <span
+                        class="text-base leading-6 font-medium text-gray-400"
+                      >
+                        · Responsable</span
+                      >
+                    </div>
+                    <img
+                      class="h-6"
+                      src="/images/lafourmiliere.png"
+                      alt="logo"
+                    />
+                  </div>
+                </div>
+              </footer>
+            </blockquote>
           </div>
         </div>
       </div>
-
-      <div class="text-center mt-10">
-        <a
-          target="_blank"
-          href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
-          class="inline-flex"
-        >
-          <button
-            type="button"
-            class="shadow-sm inline-flex items-center px-4 py-2 border border-gray-300 text-base leading-6 font-medium rounded-full text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"
+      <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative mt-10 pb-12">
+          <svg
+            class="mx-auto h-16 w-16 text-blue-200"
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 24 24"
           >
-            Toute l'actualité
-          </button>
-        </a>
-      </div>
-
-      <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative mt-14">
-          <img class="mx-auto h-10 w-auto" src="/images/twitter.svg" alt="" />
+            <path
+              d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+            />
+          </svg>
 
           <blockquote class="mt-8">
             <div
-              class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-gray-700"
+              class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-white"
             >
               <p>
                 &ldquo; Le virus est toujours là. Comment se protéger les uns
@@ -1014,32 +505,361 @@
                 <div class="md:flex-shrink-0">
                   <img
                     class="mx-auto h-12 w-12 rounded-full shadow-lg"
-                    src="/images/logo_carre_rc.jpg"
+                    src="images/logo_carre_rc.jpg"
                     alt=""
                   />
                 </div>
                 <div
                   class="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center"
                 >
-                  <div class="text-base leading-6 font-medium text-gray-900">
+                  <div class="text-base leading-6 font-medium text-white">
                     Réserve Civique #JeVeuxAider
                   </div>
 
                   <svg
-                    class="hidden md:block mx-1 h-5 w-5 text-blue-500"
+                    class="hidden md:block mx-1 h-5 w-5 text-blue-200"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
                     <path d="M11 0h3L9 20H6l5-20z" />
                   </svg>
 
-                  <div class="text-base leading-6 font-medium text-gray-500">
+                  <div class="text-base leading-6 font-medium text-blue-200">
                     @ReserveCivique
                   </div>
                 </div>
               </div>
             </footer>
           </blockquote>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative bg-gray-100 pt-16 pb-28 px-4 sm:px-6 lg:px-8">
+      <div class="relative max-w-6xl mx-auto">
+        <div class="text-center">
+          <h2
+            class="text-3xl leading-9 tracking-tight font-bold text-gray-900 sm:text-5xl sm:leading-10"
+          >
+            Restez informé
+          </h2>
+          <p
+            class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
+          >
+            Les actualités de l’engagement sur le blog de l'engagement
+          </p>
+        </div>
+        <div
+          class="mt-12 grid container gap-6 mx-auto lg:grid-cols-3 lg:max-w-none"
+        >
+          <div
+            v-for="actualite in actualites"
+            :key="actualite.title"
+            class="flex flex-col rounded-lg shadow-lg overflow-hidden"
+          >
+            <div class="flex-shrink-0">
+              <img
+                :src="actualite.image"
+                :alt="actualite.title"
+                class="h-48 w-full object-cover"
+              />
+            </div>
+            <div class="flex-1 bg-white p-8 flex flex-col justify-between">
+              <div class="flex-1">
+                <p class="text-sm leading-5 font-medium text-blue-800">
+                  <a
+                    target="_blank"
+                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+                    class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
+                  >
+                    Actualités
+                  </a>
+                </p>
+                <a target="_blank" :href="actualite.link" class="block"
+                  ><h3
+                    class="mt-2 text-2xl leading-7 font-bold text-gray-800 tracking-tight"
+                  >
+                    {{ actualite.title }}
+                  </h3>
+                  <p class="mt-3 text-base leading-6 text-gray-500">
+                    {{ actualite.teaser }}
+                  </p></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12 pb-6">
+        <a
+          href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+          target="_blank"
+          class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
+        >
+          Plus d'articles</a
+        >
+      </div>
+    </div>
+    <div class="relative pb-10 -mt-20">
+      <div class="relative max-w-6xl mx-auto">
+        <div class="max-w-screen-xl mx-auto md:grid gap-6 md:grid-cols-2">
+          <div
+            class="m-2 lg:m-0 p-9 m:p-12 pb-8 md:flex md:flex-col rounded-lg shadow-lg bg-gradient-to-r from-blue-900 to-blue-800"
+          >
+            <h2
+              class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10"
+            >
+              <span class="block"
+                >Un e-mail par mois pour plus d'engagement</span
+              >
+            </h2>
+            <p
+              id="newsletter-headline"
+              class="mt-3 max-w-3xl text-lg leading-6 text-blue-200"
+            >
+              Chaque mois, nous vous proposons de nouvelles missions de
+              bénévolat à distance ou près de chez vous.
+            </p>
+            <form class="sm:flex mt-9" aria-labelledby="newsletter-headline">
+              <input
+                aria-label="Email address"
+                type="email"
+                required
+                class="appearance-none shadow-lg w-full px-5 py-3 border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
+                placeholder="Votre e-mail"
+              />
+              <div
+                class="mt-3 rounded-full shadow-lg sm:mt-0 sm:ml-3 sm:flex-shrink-0"
+              >
+                <button
+                  class="w-full flex items-center justify-center px-6 py-3 text-lg leading-8 font-medium rounded-full shadow-lg text-white bg-green-400 hover:text-white hover:scale-105 transform transition duration-150 ease-in-out"
+                >
+                  S'inscrire
+                </button>
+              </div>
+            </form>
+            <div
+              class="mt-2 ml-6 text-sm leading-5 text-blue-200 text-center lg:text-left"
+            >
+              Nous veillons à respecter votre
+              <a href="#" class="font-medium underline"> vie privée </a>
+            </div>
+          </div>
+          <div
+            class="m-2 lg:m-0 p-9 m:p-12 rounded-lg shadow-lg bg-gradient-to-r from-blue-800 to-blue-900"
+          >
+            <h2
+              class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10"
+            >
+              <span class="block"
+                >Echangez avec la communauté #JeVeuxAider</span
+              >
+            </h2>
+            <p
+              id="newsletter-headline"
+              class="mt-3 max-w-3xl text-lg leading-6 text-blue-200"
+            >
+              Posez toutes vos questions aux bénévoles et à l'équipe dans le
+              groupe Facebook
+            </p>
+            <a
+              href="https://www.facebook.com/reservecivique"
+              target="_blank"
+              class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center text-lg leading-7 font-medium text-blue-800 hover:scale-105 transform transition duration-150 ease-in-out"
+            >
+              <svg class="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  fill-rule="evenodd"
+                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Rejoindre le groupe</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative bg-gray-50 mt-10 border-b border-t border-gray-200">
+      <div class="relative lg:grid lg:grid-cols-2 gap-4 max-w-6xl mx-auto">
+        <div class="lg:col-start-1 border-r border-gray-200">
+          <div class="p-8 lg:p-15">
+            <img
+              src="images/helping-hand.svg"
+              alt=""
+              class="ml-1 h-12 opacity-50 mb-4"
+            />
+            <p
+              class="leading-6 text-blue-800 font-semibold tracking-wide uppercase"
+            >
+              associations et organisations publiques
+            </p>
+            <h1
+              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+            >
+              Facilitez le recrutement<br class="hidden lg:block" />
+              de vos bénévoles
+            </h1>
+            <ul class="">
+              <li class="flex items-start">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-6 w-6 text-green-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <p class="ml-3 text-xl leading-6 text-gray-600">
+                  Inscrivez votre organisation en quelques clics
+                </p>
+              </li>
+              <li class="mt-4 flex items-start">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-6 w-6 text-green-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <p class="ml-3 text-xl leading-6 text-gray-600">
+                  Publiez vos missions de bénévolat
+                </p>
+              </li>
+              <li class="mt-4 flex items-start">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-6 w-6 text-green-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <p class="ml-3 text-xl leading-6 text-gray-600">
+                  Trouvez des bénévoles motivés et disponibles
+                </p>
+              </li>
+            </ul>
+
+            <router-link
+              to="/register/responsable"
+              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
+            >
+              Inscrire mon organisation
+            </router-link>
+          </div>
+        </div>
+        <div class="lg:col-start-2">
+          <div class="p-8 lg:p-15">
+            <img
+              src="images/townhall.svg"
+              alt=""
+              class="ml-1 h-12 opacity-50 mb-4"
+            />
+            <p
+              class="leading-6 text-blue-800 font-semibold tracking-wide uppercase"
+            >
+              Collectivités et territoires
+            </p>
+            <h1
+              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+            >
+              Favorisez l'engagement local<br class="hidden lg:block" />
+              de vos citoyens
+            </h1>
+            <ul class="">
+              <li class="flex items-start">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-6 w-6 text-green-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <p class="ml-3 text-xl leading-6 text-gray-600">
+                  Créez une page dédiée à votre collectivité
+                </p>
+              </li>
+              <li class="mt-4 flex items-start">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-6 w-6 text-green-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <p class="ml-3 text-xl leading-6 text-gray-600">
+                  Centralisez les missions des organisations locales
+                </p>
+              </li>
+              <li class="mt-4 flex items-start">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-6 w-6 text-green-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <p class="ml-3 text-xl leading-6 text-gray-600">
+                  Encouragez et valorisez l'engagement de vos citoyens
+                </p>
+              </li>
+            </ul>
+            <router-link
+              to="/collectivite"
+              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
+            >
+              Inscrire ma collectivité
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -1057,19 +877,177 @@
 </style>
 
 <script>
-import { statistics } from '@/api/app'
-
 export default {
   name: 'Homepage',
   data() {
     return {
-      statistics: null,
+      missions_prioritaires: [
+        {
+          thematique: 'Solidarité et Insertion',
+          thematique_image:
+            'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg',
+          name:
+            'Je distribue des produits de première nécessité et des repas aux plus démunis, dans la rue ou au sein d’établissements.',
+          image: '/images/cover-produit.png',
+          link:
+            '/missions?menu%5Btemplate_title%5D=Aide%20alimentaire%20et%20d%27urgence',
+          nb_missions_text: '345 missions disponibles <br><b>en présentiel</b>',
+        },
+        {
+          thematique: 'Solidarité et Insertion',
+          thematique_image:
+            'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg',
+          name:
+            'Je maintiens un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)',
+          image: '/images/cover-call.png',
+          link:
+            '/missions?menu%5Btemplate_title%5D=Lien%20avec%20les%20personnes%20fragiles%20isolées',
+          nb_missions_text:
+            '298 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
+        },
+        {
+          thematique: 'Éducation pour tous',
+          thematique_image:
+            'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/152/IIgYOvFa9Lx5zDz.svg',
+          name:
+            'J’apporte un soutien aux enfants et jeunes, notamment dans les quartiers populaires, zones rurales et territoires fragiles.',
+          image: '/images/cover-ecole.png',
+          link:
+            '/missions?menu%5Btemplate_title%5D=Mentorat%20d’un%20enfant%20ou%20d’un%20jeune',
+          nb_missions_text:
+            '267 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
+        },
+      ],
+      domaines: [
+        {
+          name: 'Mobilisation Covid19',
+          image: '/images/covid.svg',
+          link: '/missions?menu%5Bdomaines%5D=Mobilisation%20covid-19',
+        },
+        {
+          name: 'Santé pour tous',
+          image: '/images/sante.svg',
+          link: '/missions?menu%5Bdomaines%5D=Santé%20pour%20tous',
+        },
+        {
+          name: 'Prévention et protection',
+          image: '/images/securite.svg',
+          link: '/missions?menu%5Bdomaines%5D=Prévention%20et%20protection',
+        },
+        {
+          name: 'Sport pour tous',
+          image: '/images/sport.svg',
+          link: '/missions?menu%5Bdomaines%5D=Sport%20pour%20tous',
+        },
+        {
+          name: 'Art & Culture pour tous',
+          image: '/images/art.svg',
+          link: '/missions?menu%5Bdomaines%5D=Art%20et%20culture%20pour%20tous',
+        },
+        {
+          name: 'Mémoire et citoyenneté',
+          image: '/images/memoire.svg',
+          link: '/missions?menu%5Bdomaines%5D=Mémoire%20et%20citoyenneté',
+        },
+        {
+          name: 'Coopération internationale',
+          image: '/images/cooperation.svg',
+          link: '/missions?menu%5Bdomaines%5D=Coopération%20internationale',
+        },
+      ],
+      actualites: [
+        {
+          title:
+            "La Réserve Civique s'engage pour la solidarité et l'insertion !",
+          link:
+            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-sengage-pour-la-solidarite-et-linsertion/',
+          image:
+            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/10/cest-la-vi%CC%81e-1-scaled-uai-1032x580.png',
+          teaser:
+            "La Réserve Civique, en partenariat avec les Banques Alimentaires et l'ANDES, vous propose des milliers de missions bénévoles pour faire grandir la solidarité.",
+        },
+        {
+          title:
+            '[Parole d’asso] CAUSONS délie les langues, relie les cultures',
+          link:
+            'https://covid19.reserve-civique.gouv.fr/engagement/focus/parole-dasso-causons-delie-les-langues-relie-les-cultures/',
+          image:
+            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/BD%EF%BF%BDADN.fev20%C2%A9GovinSorel_GOV7369-uai-1032x580.jpg',
+          teaser:
+            'Au-delà des langues, réinventons une solidarité participative, égalitaire et inclusive !',
+        },
+        {
+          title:
+            'Associations et collectivités : découvrez la Rentrée des Assos',
+          link:
+            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/decouvrez-la-rentree-des-assos/',
+          image:
+            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/tutorat-zdc-3-sur-18-retouche%CC%81-scaled-uai-1032x580.jpg',
+          teaser:
+            "À partir du 16 septembre, cette plateforme numérique met les associations à l'honneur et référence leurs activités de rentrée.",
+        },
+      ],
     }
   },
-  created() {
-    statistics('global').then((res) => {
-      this.statistics = res.data
-    })
+  mounted() {
+    var TxtType = function (el, toRotate, period) {
+      this.toRotate = toRotate
+      this.el = el
+      this.loopNum = 0
+      this.period = parseInt(period, 10) || 1000
+      this.txt = ''
+      this.tick()
+      this.isDeleting = false
+    }
+
+    TxtType.prototype.tick = function () {
+      var i = this.loopNum % this.toRotate.length
+      var fullTxt = this.toRotate[i]
+
+      if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1)
+      } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1)
+      }
+
+      this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>'
+
+      var that = this
+      var delta = 140 - Math.random() * 100
+
+      if (this.isDeleting) {
+        delta /= 2
+      }
+
+      if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period
+        this.isDeleting = true
+      } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false
+        this.loopNum++
+        delta = 500
+      }
+
+      setTimeout(function () {
+        that.tick()
+      }, delta)
+    }
+
+    window.onload = function () {
+      var elements = document.getElementsByClassName('typewrite')
+      for (var i = 0; i < elements.length; i++) {
+        var toRotate = elements[i].getAttribute('data-type')
+        var period = elements[i].getAttribute('data-period')
+        if (toRotate) {
+          new TxtType(elements[i], JSON.parse(toRotate), period)
+        }
+      }
+      // INJECT CSS
+      var css = document.createElement('style')
+      css.type = 'text/css'
+      css.innerHTML = '.typewrite > .wrap { border-right: 0.06em solid #bdbdbd}'
+      document.body.appendChild(css)
+    }
   },
 }
 </script>
