@@ -1,13 +1,9 @@
 <template>
   <div class="bg-gray-100">
-    <AppHeader />
-
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
-          <h1 class="text-3xl font-bold text-white">
-            Mentions légales
-          </h1>
+          <h1 class="text-3xl font-bold text-white">Mentions légales</h1>
         </div>
       </div>
     </div>
@@ -57,9 +53,7 @@
               </div>
             </div>
             <div class="p-4 w-full lg:w-1/2 text-gray-500">
-              <p>
-                La plateforme est hébergée par :
-              </p>
+              <p>La plateforme est hébergée par :</p>
               <p>
                 <b>Scalingo SAS</b><br />
                 15 avenue du Rhin<br />
@@ -161,8 +155,6 @@
         </div>
       </div>
     </div>
-
-    <AppFooter />
   </div>
 </template>
 

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <AppHeader />
-
     <template v-if="!loading">
       <div class="bg-primary pb-32">
         <div class="container mx-auto px-4">
@@ -19,7 +17,7 @@
             class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16 text-gray-700 items-center"
           >
             <div
-              style="max-width: 680px;"
+              style="max-width: 680px"
               class="mx-auto wysiwyg-field"
               v-html="page.description"
             />

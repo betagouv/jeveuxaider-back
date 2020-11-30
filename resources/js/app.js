@@ -28,6 +28,20 @@ import CKEditor from '@ckeditor/ckeditor5-vue'
 import vClickOutside from 'v-click-outside'
 import VueMeta from 'vue-meta'
 
+import DefaultLayout from '@/layouts/DefaultLayout'
+import NoHeaderLayout from '@/layouts/NoHeaderLayout'
+import TwoColsLayout from '@/layouts/TwoColsLayout'
+import DashboardLayout from '@/layouts/DashboardLayout'
+import ProfileLayout from '@/layouts/ProfileLayout'
+import RegisterStepsLayout from '@/layouts/RegisterStepsLayout'
+
+Vue.component('DefaultLayout', DefaultLayout)
+Vue.component('NoHeaderLayout', NoHeaderLayout)
+Vue.component('TwoColsLayout', TwoColsLayout)
+Vue.component('DashboardLayout', DashboardLayout)
+Vue.component('ProfileLayout', ProfileLayout)
+Vue.component('RegisterStepsLayout', RegisterStepsLayout)
+
 Vue.component('AppHeader', AppHeader)
 Vue.component('AppFooter', AppFooter)
 Vue.component('Breadcrumb', Breadcrumb)
@@ -35,7 +49,6 @@ Vue.component('DropdownUser', DropdownUser)
 Vue.component('VClamp', VClamp)
 
 Vue.use(VueMeta, {
-  // optional pluginOptions
   refreshOnceOnNavigation: true,
 })
 
@@ -59,19 +72,9 @@ Vue.use(VueAnalytics, {
 
 Vue.use(VueTheMask)
 
-// Vue.directive('mask', {
-//   bind: function (el, binding) {
-//     Inputmask(binding.value).mask(el.getElementsByTagName('INPUT')[0])
-//   },
-// })
-
 new Vue({
   router,
   store,
-  components: {
-    AppHeader,
-    AppFooter,
-  },
   async created() {
     await this.$store.dispatch('bootstrap')
     // Non supported version of browser (IE < 11)

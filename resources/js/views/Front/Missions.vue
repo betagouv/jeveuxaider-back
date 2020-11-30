@@ -1,7 +1,5 @@
 <template>
   <div class="bg-gray-100">
-    <AppHeader />
-
     <breadcrumb :items="[{ label: 'Missions', link: '/missions' }]" />
 
     <template v-if="modeLigth">

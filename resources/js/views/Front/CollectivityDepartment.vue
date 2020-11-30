@@ -76,7 +76,7 @@
                     $store.getters.isLogged &&
                     $store.getters.contextRole == 'responsable'
                       ? {
-                          name: 'MissionFormAdd',
+                          name: 'DashboardMissionFormAdd',
                           params: {
                             structureId:
                               $store.getters.structure_as_responsable.id,

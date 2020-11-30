@@ -37,15 +37,13 @@
         ></collectivity-commune>
       </template>
     </template>
-
-    <AppFooter />
   </div>
 </template>
 
 <script>
 import { getCollectivity } from '@/api/app'
-import CollectivityDepartment from '@/views/Front/CollectivityDepartment'
-import CollectivityCommune from '@/views/Front/CollectivityCommune'
+import CollectivityDepartment from '@/views/front/CollectivityDepartment'
+import CollectivityCommune from '@/views/front/CollectivityCommune'
 
 export default {
   name: 'FrontCollectivity',

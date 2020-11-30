@@ -1,7 +1,5 @@
 <template>
   <div class>
-    <AppHeader />
-
     <div class="relative bg-blue-800 overflow-hidden z-0 shadow-lg">
       <div class="container mx-auto">
         <div
@@ -48,7 +46,7 @@
                       $store.getters.isLogged &&
                       $store.getters.contextRole == 'responsable'
                         ? {
-                            name: 'MissionFormAdd',
+                            name: 'DashboardMissionFormAdd',
                             params: {
                               structureId:
                                 $store.getters.structure_as_responsable.id,
@@ -823,7 +821,7 @@
             $store.getters.isLogged &&
             $store.getters.contextRole == 'responsable'
               ? {
-                  name: 'MissionFormAdd',
+                  name: 'DashboardMissionFormAdd',
                   params: {
                     structureId: $store.getters.structure_as_responsable.id,
                   },
@@ -1043,8 +1041,6 @@
         </div>
       </div>
     </div>
-
-    <AppFooter />
   </div>
 </template>
 

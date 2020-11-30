@@ -9,12 +9,10 @@
     />
     <div class="z-10 relative bg-white shadow-sm">
       <div class="relative z-10 shadow">
-        <div
-          class="flex flex-wrap px-3 lg:px-0 items-center justify-between py-1 lg:py-0 lg:h-16"
-        >
+        <div class="flex flex-wrap p-3 items-center justify-between">
           <router-link :to="{ name: 'Homepage' }" class="flex items-center">
             <img
-              class="ml-4 mr-6 h-4 w-auto"
+              class="lg:ml-4 mr-6 h-6 w-auto"
               src="/images/marianne.svg"
               alt="Réserve Civique"
             />
@@ -261,7 +259,7 @@
             <div
               v-show="showMobileMenu"
               id="mobile-menu"
-              class="lg:ml-4 lg:mr-auto lg:mb-0 w-full lg:w-auto order-5 lg:hidden"
+              class="pt-3 w-full order-5 lg:hidden"
             >
               <div class="flex flex-col text-center">
                 <router-link

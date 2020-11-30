@@ -1,7 +1,5 @@
 <template>
   <div>
-    <AppHeader />
-
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
         <div class="pt-10">
@@ -17,7 +15,7 @@
         <div
           class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16 text-gray-700 items-center"
         >
-          <div style="max-width: 680px;" class="mx-auto">
+          <div style="max-width: 680px" class="mx-auto">
             <h2 class="text-4xl font-bold text-black mb-8">
               Politique de confidentialité
             </h2>
@@ -251,29 +249,15 @@
 
             <table class="border">
               <tr class="border text-gray-700">
-                <td class="p-2">
-                  Partenaire
-                </td>
-                <td class="p-2">
-                  Pays destinataire
-                </td>
-                <td class="p-2">
-                  Traitement réalisé
-                </td>
-                <td class="p-2">
-                  Garanties
-                </td>
+                <td class="p-2">Partenaire</td>
+                <td class="p-2">Pays destinataire</td>
+                <td class="p-2">Traitement réalisé</td>
+                <td class="p-2">Garanties</td>
               </tr>
               <tr class="border text-gray-700">
-                <td class="p-2">
-                  Scalingo SAS
-                </td>
-                <td class="p-2">
-                  France
-                </td>
-                <td class="p-2">
-                  Hébergement
-                </td>
+                <td class="p-2">Scalingo SAS</td>
+                <td class="p-2">France</td>
+                <td class="p-2">Hébergement</td>
                 <td class="p-2">
                   <a
                     target="_blank"
@@ -285,9 +269,7 @@
               </tr>
             </table>
 
-            <h2 class="text-2xl text-gray-800 font-bold mt-8 pb-4">
-              Cookies
-            </h2>
+            <h2 class="text-2xl text-gray-800 font-bold mt-8 pb-4">Cookies</h2>
             <p>
               La présente plateforme n’utilise pas de cookies, trackers ou
               service tiers.

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <AppHeader />
-
     <breadcrumb :items="[{ label: 'Règles de sécurité' }]" />
 
     <div class="bg-primary pb-32">
