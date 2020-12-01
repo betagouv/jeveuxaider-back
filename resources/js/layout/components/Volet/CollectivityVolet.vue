@@ -59,13 +59,21 @@
         <collectivity-infos :collectivity="row" />
       </el-card>
       <div class="text-lg mt-6 mb-2">Responsables</div>
-      <el-card shadow="never" class="overflow-visible relative">
+      <el-card
+        v-if="row.structure"
+        shadow="never"
+        class="overflow-visible relative"
+      >
         <member-teaser
           v-for="member in row.structure.members"
           :key="member.id"
           class="member py-2"
           :member="member"
         />
+      </el-card>
+      <el-card v-else shadow="never" class="overflow-visible relative">
+        Cette collectivité n'a pas d'organisation liée, donc pas de
+        responsables.
       </el-card>
     </template>
   </Volet>
