@@ -16,7 +16,7 @@
         :class="{
           'is-active': isActive('dashboard/collectivity'),
         }"
-        >Tableau de bord
+        >Statistiques de la page
       </el-menu-item>
       <el-tooltip
         v-else
