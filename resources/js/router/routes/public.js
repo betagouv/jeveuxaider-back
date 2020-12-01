@@ -57,7 +57,7 @@ export default routeOptions.map((route) => {
     name: route.singleName ? route.singleName : route.name,
     component: () =>
       import(
-        /* webpackChunkName: "assets/js/[request]" */ `@/views/front/${route.name}.vue`
+        /* webpackChunkName: "assets/js/[request]" */ `@/views/public/${route.name}.vue`
       ),
   }
 })

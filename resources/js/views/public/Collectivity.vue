@@ -42,8 +42,8 @@
 
 <script>
 import { getCollectivity } from '@/api/app'
-import CollectivityDepartment from '@/views/front/CollectivityDepartment'
-import CollectivityCommune from '@/views/front/CollectivityCommune'
+import CollectivityDepartment from '@/views/public/CollectivityDepartment'
+import CollectivityCommune from '@/views/public/CollectivityCommune'
 
 export default {
   name: 'FrontCollectivity',

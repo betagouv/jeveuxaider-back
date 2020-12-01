@@ -801,7 +801,6 @@
         </ul>
       </div>
     </div>
-    <AppFooter />
   </div>
 </template>
 
