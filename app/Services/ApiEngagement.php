@@ -21,7 +21,7 @@ class ApiEngagement
         'apikey' => config('app.api_engagement_key'),
       ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble");
 
-  
+
             // Send to Algolia
             $missions = array_map(
                 fn ($mission) =>
@@ -53,7 +53,7 @@ class ApiEngagement
         return $res->getBody();
     }
 
-    private function formatTitle($mission)
+    private function formatTemplateTitle($mission)
     {
         if (strpos($mission['title'], "J'alerte en cas d'urgence") !== false) {
             return "J'alerte en cas d'urgence";
@@ -73,7 +73,7 @@ class ApiEngagement
         if (strpos($mission['title'], "Je découvre la biodiversité") !== false) {
             return "Je découvre la biodiversité";
         }
-        return $mission['title'];
+        return null;
     }
 
     private function formatDomain($mission)
@@ -161,7 +161,7 @@ class ApiEngagement
         'name' => $mission['organizationName'] ?? null,
       ],
       'type' => $this->formatRemote($mission),
-      'template_title' => $this->formatTitle($mission),
+      'template_title' => $this->formatTemplateTitle($mission),
       'domaine_name' => $this->formatDomain($mission)['name'],
       'domaine_image' => $this->formatDomain($mission)['logo'], // Url de l'icone du domaine
       'domaines' => [$this->formatDomain($mission)['name']],
