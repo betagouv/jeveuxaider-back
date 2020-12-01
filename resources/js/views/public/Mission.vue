@@ -1,16 +1,28 @@
 <template>
   <div>
-    <AppHeader />
-
-    <div class="absolute" style="height: 360px">
-      <img
-        src="/images/bg_header_mission.jpg"
-        class="object-cover w-full h-full"
-      />
-      <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
-    </div>
-
     <template v-if="!loading">
+      <breadcrumb
+        :items="[
+          { label: 'Missions', link: '/missions' },
+          {
+            label: domainName(mission),
+            link: `/missions?menu[domaines]=${domainName(mission)}`,
+          },
+          {
+            label: `Bénévolat ${mission.structure.name} à ${mission.city}`,
+            h1: true,
+          },
+        ]"
+      />
+
+      <div class="absolute" style="height: 360px">
+        <img
+          src="/images/bg_header_mission.jpg"
+          class="object-cover w-full h-full"
+        />
+        <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
+      </div>
+
       <div class="relative mt-10 mb-12">
         <div class="container mx-auto px-4">
           <div class="bg-white rounded-lg shadow-lg">
@@ -35,11 +47,11 @@
                   </div>
                 </div>
 
-                <h3
+                <h2
                   class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
                 >
                   {{ mission.name }}
-                </h3>
+                </h2>
 
                 <div class="mb-8">
                   <ul
@@ -119,12 +131,12 @@
                 <hr class="border-gray-200 mb-8" />
 
                 <div>
-                  <span class="text-lg font-medium">
+                  <h2 class="text-lg font-medium">
                     <span>L'organisation</span>
                     <b class="text-blue-800">
                       {{ structure.name }}
                     </b>
-                  </span>
+                  </h2>
                 </div>
 
                 <div
@@ -670,7 +682,7 @@
           >
             <router-link
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-              :to="`/missions/${otherMission.id}`"
+              :to="`/missions/${otherMission.id}/${otherMission.slug}`"
             >
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">
@@ -679,7 +691,7 @@
                   >
                     <img
                       v-if="otherMission.template"
-                      class
+                      alt=""
                       :src="otherMission.template.image"
                       style="width: 28px"
                     />
@@ -687,7 +699,7 @@
                       v-else-if="
                         otherMission.domaine && otherMission.domaine.image
                       "
-                      class
+                      alt=""
                       :src="otherMission.domaine.image"
                       style="width: 28px"
                     />
@@ -789,7 +801,6 @@
         </ul>
       </div>
     </div>
-    <AppFooter />
   </div>
 </template>
 
@@ -803,6 +814,25 @@ import dayjs from 'dayjs'
 
 export default {
   name: 'Mission',
+  metaInfo() {
+    return {
+      title: this.mission.name
+        ? 'Bénévolat pour ' + this.structure.name + ' | ' + this.mission.name
+        : this.mission.name,
+      meta: [
+        {
+          name: 'description',
+          content:
+            this.structure && this.structure.description
+              ? this.$options.filters.truncate(
+                  this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
+                  156
+                )
+              : '',
+        },
+      ],
+    }
+  },
   components: {
     FrontMissionLoading,
     ReadMore,
@@ -887,6 +917,7 @@ export default {
       }
     },
   },
+
   created() {
     getMission(this.id)
       .then((response) => {

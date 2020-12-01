@@ -73,11 +73,11 @@
           <mission-infos v-if="mission" :mission="mission" />
         </el-card>
         <div v-if="mission">
-          <el-card v-if="mission.tuteur" shadow="never" class="p-4 mb-4">
+          <el-card v-if="mission.responsable" shadow="never" class="p-4 mb-4">
             <div class="flex justify-between">
               <div class="mb-6 text-xl">Responsable</div>
             </div>
-            <member-teaser class="member py-2" :member="mission.tuteur" />
+            <member-teaser class="member py-2" :member="mission.responsable" />
           </el-card>
           <el-card v-if="mission.structure" shadow="never" class="p-4">
             <div class="flex justify-between">

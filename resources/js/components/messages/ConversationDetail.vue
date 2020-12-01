@@ -5,10 +5,10 @@
         Mission proposée par {{ participation.mission.structure.name }}
       </h2>
       <div
-        v-if="participation.mission.tuteur"
+        v-if="participation.mission.responsable"
         class="text-lg leading-8 font-semibold text-secondary"
       >
-        Responsable : {{ participation.mission.tuteur.full_name }}
+        Responsable : {{ participation.mission.responsable.full_name }}
       </div>
     </section>
 
