@@ -45,6 +45,9 @@
         <vue-cropper
           v-if="dialogCropVisible"
           ref="cropper"
+          :check-orientation="false"
+          cross-origin="anonymous"
+          crossorigin="anonymous"
           :src="imgSrc ? imgSrc : field ? field.original : null"
           :aspect-ratio="aspectRatio"
           :zoomable="false"
@@ -233,8 +236,15 @@ export default {
           let image = new Image()
           image.src = readerEvent.target.result
           image.onload = (imageEvent) => {
-            var height = imageEvent.path[0].height
-            var width = imageEvent.path[0].width
+            let height = 0
+            let width = 0
+            if (imageEvent.path) {
+              height = imageEvent.path[0].height
+              width = imageEvent.path[0].width
+            } else {
+              height = imageEvent.originalTarget.height
+              width = imageEvent.originalTarget.width
+            }
             if (
               this.minHeight &&
               this.minWidth &&

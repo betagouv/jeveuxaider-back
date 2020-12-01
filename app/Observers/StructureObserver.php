@@ -28,13 +28,13 @@ class StructureObserver
         if ($structure->state == 'En attente de validation') {
             if ($structure->department) {
                 Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
-                    // TODO ENLEVER QUAND SCRIPT FINIT  $profile->notify(new StructureSubmitted($structure));
+                    $profile->notify(new StructureSubmitted($structure));
                 });
             }
         }
 
         if ($structure->statut_juridique == 'Collectivité') {
-            // TODO ENLEVER QUAND SCRIPT FINIT $this->createCollectivity($structure);
+            $this->createCollectivity($structure);
         }
     }
 
@@ -99,12 +99,14 @@ class StructureObserver
         $oldStructureType = $structure->getOriginal('statut_juridique');
         $newStructureType = $structure->statut_juridique;
         if ($oldStructureType != $newStructureType && $newStructureType == 'Collectivité') {
-            // TODO ENLEVER QUAND SCRIPT FINIT $this->createCollectivity($structure);
+            $this->createCollectivity($structure);
         }
     }
 
     private function createCollectivity($structure)
     {
+        // TODO : Enlever quand script terminé
+        /*
         $collectivity = Collectivity::create([
             'name' => $structure->city ?? $structure->name,
             'zips' => $structure->zip ? [$structure->zip] : [],
@@ -114,9 +116,11 @@ class StructureObserver
             'state' => 'waiting'
         ]);
         $collectivity->save();
-        
+        */
+        /*
         Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
         ->route('slack', 'https://hooks.slack.com/services/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')
         ->notify(new CollectivityWaitingValidation($collectivity));
+        */
     }
 }

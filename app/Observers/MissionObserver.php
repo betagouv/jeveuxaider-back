@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\Utils;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -103,6 +104,12 @@ class MissionObserver
         // Calcul Places Left
         $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
+
+        $slug = 'benevolat-'.$mission->structure->name;
+        if ($mission->city) {
+            $slug .= '-' . $mission->city;
+        }
+        $mission->slug = Utils::slug($slug);
     }
 
     /**

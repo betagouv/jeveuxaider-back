@@ -47,8 +47,9 @@ class CreateStructureForCollectivity extends Command
                     'user_id' => $collectivity->profiles[0]->user->id,
                     'name' => $collectivity->name,
                     'statut_juridique' => 'Collectivité',
-                    'department' => $collectivity->department,
-                    'zip' => $collectivity->zips[0]
+                    'department' => $collectivity->department ?? substr($collectivity->zips[0], 0, 2),
+                    'zip' => $collectivity->zips[0],
+                    'state' => 'Validée'
                 ]);
                 $collectivity->structure_id = $structure->id;
                 $collectivity->save();

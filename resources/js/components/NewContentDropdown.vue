@@ -4,28 +4,38 @@
       <i class="el-icon-plus mr-1"></i> Ajouter un contenu
     </el-button>
     <el-dropdown-menu type="primary">
-      <router-link :to="{ name: 'FaqFormAdd' }">
+      <router-link :to="{ name: 'DashboardFaqForm', params: { mode: 'add' } }">
         <el-dropdown-item>Nouvelle question</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'ReleaseFormAdd' }">
+      <router-link
+        :to="{ name: 'DashboardReleaseForm', params: { mode: 'add' } }"
+      >
         <el-dropdown-item>Nouvelle release</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'PageFormAdd' }">
+      <router-link :to="{ name: 'DashboardPageForm', params: { mode: 'add' } }">
         <el-dropdown-item>Nouvelle page</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'CollectivityFormAdd' }">
+      <router-link
+        :to="{ name: 'DashboardCollectivityForm', params: { mode: 'add' } }"
+      >
         <el-dropdown-item>Nouveau département</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'DocumentFormAdd' }">
+      <router-link
+        :to="{ name: 'DashboardDocumentForm', params: { mode: 'add' } }"
+      >
         <el-dropdown-item>Nouveau document</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'ThematiqueFormAdd' }">
+      <router-link
+        :to="{ name: 'DashboardThematiqueForm', params: { mode: 'add' } }"
+      >
         <el-dropdown-item>Nouvelle thématique</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'MissionTemplateFormAdd' }">
+      <router-link
+        :to="{ name: 'DashboardMissionTemplateForm', params: { mode: 'add' } }"
+      >
         <el-dropdown-item>Nouveau modèle</el-dropdown-item>
       </router-link>
-      <router-link :to="{ name: 'TagFormAdd' }">
+      <router-link :to="{ name: 'DashboardTagFormAdd' }">
         <el-dropdown-item>Nouveau tag</el-dropdown-item>
       </router-link>
     </el-dropdown-menu>
