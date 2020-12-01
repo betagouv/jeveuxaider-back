@@ -26,8 +26,8 @@
             class="bg-white rounded-lg overflow-hidden shadow-lg mb-12"
           >
             <div class="border-b border-gray-200">
-              <a
-                :href="`/missions/${participation.mission.id}`"
+              <router-link
+                :to="`/missions/${participation.mission.id}/${participation.mission.slug}`"
                 class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
               >
                 <div class="flex items-center px-6 py-8">
@@ -130,7 +130,7 @@
                     </svg>
                   </div>
                 </div>
-              </a>
+              </router-link>
             </div>
 
             <div class="px-6 py-8">
@@ -149,13 +149,13 @@
                   </svg>
                   <span>
                     Responsable :
-                    {{ participation.mission.tuteur.full_name }}
+                    {{ participation.mission.responsable.full_name }}
                   </span>
                 </div>
 
                 <a
                   v-if="canShowCoordonates(participation)"
-                  :href="`mailto:${participation.mission.tuteur.email}`"
+                  :href="`mailto:${participation.mission.responsable.email}`"
                   class="m-2"
                 >
                   <button
@@ -173,7 +173,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <span>{{ participation.mission.tuteur.email }}</span>
+                    <span>{{ participation.mission.responsable.email }}</span>
                   </button>
                 </a>
 
