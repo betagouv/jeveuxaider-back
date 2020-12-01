@@ -43,7 +43,7 @@ class RegisterUserVolontaire extends Notification
             ->subject('Votre compte a été validé')
             ->greeting('Félicitations ' . $notifiable->profile->full_name . ' !')
             ->line('Vous vous êtes inscrit sur la plateforme de la Réserve Civique.')
-            ->line('Vous pouvez désormais participer à des missions de volontariat.')
+            ->line('Vous pouvez désormais participer à des missions de bénévolat.')
             ->action('Trouver une mission', url(config('app.url').'/missions'));
     }
 

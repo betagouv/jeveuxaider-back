@@ -1,10 +1,48 @@
 <template>
   <div>
+    <el-submenu
+      v-if="$store.getters.structure_as_responsable.collectivity"
+      index="1"
+    >
+      <template slot="title"
+        ><i class="el-icon-school"></i
+        >{{
+          $store.getters.structure_as_responsable.collectivity.name
+        }}</template
+      >
+      <el-menu-item
+        v-if="$store.getters.profile.roles.responsable_collectivity == true"
+        index="/dashboard/collectivity"
+        :class="{
+          'is-active': isActive('dashboard/collectivity'),
+        }"
+        >Tableau de bord
+      </el-menu-item>
+      <el-tooltip
+        v-else
+        class="item"
+        effect="dark"
+        content="Votre collectivité est en cours de validation."
+        placement="top"
+      >
+        <el-menu-item disabled>Statistiques de la page </el-menu-item>
+      </el-tooltip>
+      <el-menu-item
+        :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`"
+        :class="{
+          'is-active': isActive(
+            `dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`
+          ),
+        }"
+        >Éditer la page
+      </el-menu-item>
+    </el-submenu>
+
     <el-menu-item
       index="/dashboard"
       :class="{ 'is-active': isActive('dashboard') }"
     >
-      <span v-if="$store.getters.sidebar">Tableau de bord</span>
+      <div v-if="$store.getters.sidebar">Tableau de bord</div>
       <el-tooltip
         v-else
         class="item"

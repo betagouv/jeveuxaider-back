@@ -14,12 +14,12 @@
           <div class="m-2 min-w-0 flex-shrink">
             <div
               class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-              v-text="mission.domaine_name"
+              v-text="mission.structure.name"
             />
             <div
-              class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate flex"
+              class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate flex items-center"
             >
-              <span> {{ mission.name }}</span>
+              <span class="truncate"> {{ mission.name }}</span>
               <svg
                 v-if="mission.provider == 'api_engagement'"
                 style="width: 20px; display: none"
@@ -43,7 +43,15 @@
             class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
             style="background: #31c48d"
           >
-            <template>
+            <template
+              v-if="
+                mission.publisher_name == 'Benevolt' ||
+                mission.places_left == 999
+              "
+            >
+              Plusieurs bénévoles recherchés
+            </template>
+            <template v-else>
               {{ mission.places_left | formatNumber }}
               {{
                 mission.places_left
@@ -63,28 +71,45 @@
       </div>
     </div>
 
-    <div class="flex justify-between">
-      <div class="flex items-start text-sm text-gray-500 mt-4">
-        <svg
-          v-if="mission.city"
-          class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-          fill="currentColor"
-          viewBox="0 0 20 20"
+    <div class="flex flex-col lg:flex-row lg:justify-between">
+      <div
+        class="flex items-center flex-wrap text-s leading-5 text-gray-500 mt-4"
+      >
+        <template
+          v-if="mission.city && mission.type == 'Mission en présentiel'"
         >
-          <path
-            fill-rule="evenodd"
-            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span v-if="mission.city">
-          {{ mission.city }}
-          <span v-if="mission.department">({{ mission.department }})</span> -
-          {{ mission.structure.name }}
-        </span>
-        <span v-else v-text="`${mission.structure.name}`" />
+          <span
+            v-if="mission.department"
+            class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+            >Mission en présentiel - {{ mission.city }} ({{
+              mission.department
+            }})</span
+          >
+          <span
+            v-else
+            class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+            >Mission en présentiel - {{ mission.city }}</span
+          >
+        </template>
+        <template v-else>
+          <span
+            class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+            >Mission à distance</span
+          >
+        </template>
+
+        <span
+          v-if="mission.domaines[0]"
+          class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+          >{{ mission.domaines[0] }}</span
+        >
       </div>
-      <div v-if="mission.publisher_name" class="mt-1 text-sm flex items-center">
+      <div
+        v-if="
+          mission.publisher_name && mission.publisher_name != 'Réserve Civique'
+        "
+        class="mt-3 lg:mt-1 text-sm flex items-center"
+      >
         <div class="mr-4">
           <div class="text-gray-500">Mission proposée par</div>
           <div class="font-bold text-black">

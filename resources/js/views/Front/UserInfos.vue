@@ -69,6 +69,7 @@
             format="dd-MM-yyyy"
             value-format="yyyy-MM-dd"
             style="width: 100%"
+            :picker-options="{ firstDayOfWeek: 1 }"
           />
         </el-form-item>
       </div>
@@ -184,13 +185,6 @@ export default {
     ImageField,
   },
   data() {
-    var checkLowercase = (rule, value, callback) => {
-      if (value !== value.toLowerCase()) {
-        callback(new Error('Merci de ne saisir que des minuscules'))
-      } else {
-        callback()
-      }
-    }
     return {
       loading: false,
       form: this.$store.getters.user.profile,
@@ -210,7 +204,6 @@ export default {
             message: 'Veuillez renseigner votre email',
             trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {

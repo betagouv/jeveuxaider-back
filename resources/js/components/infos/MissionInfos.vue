@@ -6,6 +6,22 @@
         {{ mission.id }}
       </div>
     </div>
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Créée le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ mission.created_at | formatMediumWithTime }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">
+        Modifiée le
+      </div>
+      <div class="text-gray-900 flex-1">
+        {{ mission.updated_at | formatMediumWithTime }}
+      </div>
+    </div>
     <div v-if="mission.state" class="mb-2 flex">
       <div class="card-label">Statut</div>
       <div class="text-gray-900 flex-1">
@@ -76,15 +92,55 @@
       </div>
     </div>
     <div v-if="mission.information" class="mb-2 flex">
-      <div class="card-label">Infos</div>
-      <div class="text-gray-900 flex-1" v-html="mission.information"></div>
+      <div class="card-label">
+        Informations
+      </div>
+      <div class="text-gray-900 flex-1">
+        <ReadMore
+          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+          more-str="Lire plus"
+          :text="mission.information"
+          :max-chars="120"
+        ></ReadMore>
+      </div>
+    </div>
+    <div v-if="mission.objectif" class="mb-2 flex">
+      <div class="card-label">
+        Objectifs
+      </div>
+      <div class="text-gray-900 flex-1">
+        <ReadMore
+          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+          more-str="Lire plus"
+          :text="mission.objectif"
+          :max-chars="120"
+        ></ReadMore>
+      </div>
+    </div>
+    <div v-if="mission.description" class="mb-2 flex">
+      <div class="card-label">
+        Règles
+      </div>
+      <div class="text-gray-900 flex-1">
+        <ReadMore
+          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+          more-str="Lire plus"
+          :text="mission.description"
+          :max-chars="120"
+        ></ReadMore>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import ReadMore from '@/components/ReadMore'
+
 export default {
   name: 'MissionInfos',
+  components: {
+    ReadMore,
+  },
   props: {
     mission: {
       type: Object,

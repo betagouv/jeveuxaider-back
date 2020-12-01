@@ -11,7 +11,7 @@ class FiltersCollectivitySearch implements Filter
     {
         return $query->where(function ($query) use ($value, $property) {
             $query
-                ->where('name', 'LIKE', '%' . $value . '%')
+                ->where('name', 'ILIKE', '%' . $value . '%')
                 ->orWhere('department', $value)
                 ->orWhereJsonContains('zips', $value);
         });

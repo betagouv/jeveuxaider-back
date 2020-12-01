@@ -30,6 +30,8 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
+Route::get('collectivities', 'Api\CollectivityController@collectivities');
+Route::get('departments', 'Api\CollectivityController@departments');
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
 Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
 Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
@@ -56,6 +58,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('collectivity', 'Api\CollectivityController@store');
     Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
+    Route::post('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@upload');
+    Route::delete('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@uploadDelete');
 
     Route::post('participation', 'Api\ParticipationController@store');
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
@@ -142,9 +146,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
-
-    // COLLECTIVITIES
-    Route::get('collectivities', 'Api\CollectivityController@index');
 });
 
 // ONLY ADMIN
@@ -162,8 +163,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
     // COLLECTIVITIES
-    Route::post('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@upload');
-    Route::delete('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@uploadDelete');
     Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
 
     // THEMATIQUES
@@ -197,6 +196,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('document/{document}/upload', 'Api\DocumentController@upload');
     Route::delete('document/{document}/upload', 'Api\DocumentController@uploadDelete');
     Route::delete('document/{document}', 'Api\DocumentController@delete');
+
+    Route::post('document/{document}/notify', 'Api\DocumentController@notify');
 
     // FAQ
     Route::post('faq', 'Api\FaqController@store');

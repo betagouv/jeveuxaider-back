@@ -351,7 +351,9 @@
                   </router-link>
                 </el-badge>
               </div>
-              <dropdown-user v-if="$store.getters.isLogged" />
+              <dropdown-user
+                v-if="$store.getters.isLogged && $store.getters.user.profile"
+              />
               <router-link
                 v-else
                 to="/login"

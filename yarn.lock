@@ -4492,11 +4492,6 @@ ini@^1.3.4, ini@^1.3.5:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
 
-inputmask@^5.0.3:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.5.tgz#93af99c35fc108d590e9bbd3ec6cc9b9a2e7c2ed"
-  integrity sha512-9gqau4tb0oaxYiymLC43KU/aAXHVofya7ilGIxqKONbSh7LNKRHmpw6mhuH2D4yykRlcNhS9zI/FOsrAQmltQA==
-
 insert-css@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/insert-css/-/insert-css-2.0.0.tgz#eb5d1097b7542f4c79ea3060d3aee07d053880f4"
@@ -8380,6 +8375,11 @@ vue-textarea-autosize@^1.1.1:
   integrity sha512-B33Mg5ZDEfj/whhoPBLg25qqAdGHGM2NjDT99Qi5MXRyeLmXb4C3s6EprAHqy3nU0cooWXFU+IekI5DpoEbnFg==
   dependencies:
     core-js "^2.6.5"
+
+vue-the-mask@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/vue-the-mask/-/vue-the-mask-0.11.1.tgz#91ee01008354ae57bccc79bb61b65f32d971d9d5"
+  integrity sha512-UquSfnSWejD0zAfcD+3jJ1chUAkOAyoxya9Lxh9acCRtrlmGcAIvd0cQYraWqKenbuZJUdum+S174atv2AuEHQ==
 
 vue2-filters@^0.10.0:
   version "0.10.0"

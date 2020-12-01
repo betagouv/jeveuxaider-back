@@ -36,12 +36,15 @@
         description="J'enregistre le lieu de mon établissement"
       />
     </el-steps>
-    <div class="max-w-lg p-4 sm:p-12">
+    <div v-show="!showSuccessMessage" class="max-w-lg p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">
-        Lieu de mon organisation
+        <template v-if="form.statut_juridique == 'Collectivité'">
+          Lieu de ma collectivité
+        </template>
+        <template v-else>Lieu de mon organisation</template>
       </div>
       <el-form
-        ref="etablissementForm"
+        ref="addressForm"
         :model="form"
         label-position="top"
         :rules="rules"
@@ -74,19 +77,39 @@
             <el-input v-model="form.city" disabled placeholder="Ville" />
           </el-form-item>
         </div>
+        <template v-if="collectivity">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Codes postaux de votre collectivité
+          </div>
+          <item-description container-class="mb-6">
+            En tant que collectivité, vous aurez accès au statistiques des
+            organisations enregistrées avec vos codes postaux. <br />Vous aurez
+            aussi la possibilité de gérer la page de votre collectivité qui
+            listera toutes les missions dans votre collectivité. Par exemple
+            pour Bayonne :
+            <a
+              href="https://covid19.reserve-civique.gouv.fr/territoires/bayonne"
+              target="_blank"
+              >https://covid19.reserve-civique.gouv.fr/territoires/bayonne</a
+            >
+          </item-description>
+          <el-form-item
+            label="Liste des codes postaux"
+            prop="zips"
+            class="flex-1"
+          >
+            <el-select
+              v-model="collectivity.zips"
+              multiple
+              allow-create
+              filterable
+              default-first-option
+              placeholder="Saisissez tous les codes postaux"
+            >
+            </el-select>
+          </el-form-item>
+        </template>
 
-        <div class="flex">
-          <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
-            <el-input v-model="form.latitude" disabled placeholder="Latitude" />
-          </el-form-item>
-          <el-form-item label="Longitude" prop="longitude" class="flex-1">
-            <el-input
-              v-model="form.longitude"
-              disabled
-              placeholder="Longitude"
-            />
-          </el-form-item>
-        </div>
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">
             Valider
@@ -94,23 +117,47 @@
         </div>
       </el-form>
     </div>
+    <div
+      v-show="showSuccessMessage"
+      class="max-w-2xl mx-auto text-center mt-12"
+    >
+      <h2 class="font-bold text-3xl text-gray-800 mb-6">
+        Votre demande d'inscription de collectivité a bien été enregistrée.
+      </h2>
+      <p class="font-xl text-secondary">
+        Vous recevrez un email de confirmation lorsque votre compte aura été
+        validé par l'équipe de la Réserve Civique.
+      </p>
+      <div class="">
+        <router-link class="mr-4" to="/dashboard">
+          <el-button type="primary"> Tableau de bord </el-button>
+        </router-link>
+        <router-link to="/">
+          <el-button type="primary"> Aller à la page d'accueil </el-button>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { updateStructure } from '@/api/structure'
+import { updateCollectivity } from '@/api/app'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
+import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
   name: 'AddressStep',
-  components: { AlgoliaPlacesInput },
+  components: { AlgoliaPlacesInput, ItemDescription },
   mixins: [FormWithAddress],
   data() {
     return {
       loading: false,
       structureId: this.$store.getters.structure_as_responsable.id,
+      collectivity: {},
       form: {},
+      showSuccessMessage: false,
       rules: {
         lieu: {
           required: true,
@@ -135,17 +182,31 @@ export default {
       },
     }
   },
+  created() {
+    this.form = this.$store.getters.structure_as_responsable || null
+    this.collectivity = this.form.collectivity || null
+  },
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs['etablissementForm'].validate((valid) => {
+      this.$refs['addressForm'].validate(async (valid) => {
         if (valid) {
           updateStructure(this.structureId, this.form)
             .then(() => {
-              this.loading = false
-              this.$router.push(
-                `/dashboard/structure/${this.structureId}/missions/add`
-              )
+              if (this.collectivity) {
+                updateCollectivity(
+                  this.collectivity.id,
+                  this.collectivity
+                ).then(() => {
+                  this.loading = false
+                  this.showSuccessMessage = true
+                })
+              } else {
+                this.loading = false
+                this.$router.push(
+                  `/dashboard/structure/${this.structureId}/missions/add`
+                )
+              }
             })
             .catch(() => {
               this.loading = false

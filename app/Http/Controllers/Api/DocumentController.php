@@ -11,6 +11,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersTitleBodySearch;
 use App\Http\Requests\Api\DocumentUploadRequest;
+use App\Models\Profile;
+use App\Notifications\DocumentSubmitted;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
@@ -21,7 +23,7 @@ class DocumentController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
             ])
-            ->defaultSort('-created_at')
+            ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
@@ -69,5 +71,20 @@ class DocumentController extends Controller
     public function delete(DocumentDeleteRequest $request, Document $document)
     {
         return (string) $document->delete();
+    }
+
+    public function notify(Request $request, Document $document)
+    {
+        $referents = Profile::whereNotNull('referent_department')->get();
+
+        if (!empty($referents)) {
+            foreach ($referents as $referent) {
+                $referent->notify(new DocumentSubmitted($document));
+            }
+        } else {
+            return response('No referent has been notified', 402);
+        }
+
+        return response(['message' => 'Notifications has been sent.', 'notify_count' => count($referents)]);
     }
 }

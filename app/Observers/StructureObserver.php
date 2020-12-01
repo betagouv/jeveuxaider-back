@@ -2,12 +2,14 @@
 
 namespace App\Observers;
 
+use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
-use App\Notifications\StructureWaitingValidation;
+use App\Notifications\CollectivityWaitingValidation;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
+use Illuminate\Support\Facades\Notification;
 
 class StructureObserver
 {
@@ -24,14 +26,15 @@ class StructureObserver
         }
 
         if ($structure->state == 'En attente de validation') {
-            if ($structure->user->profile) {
-                $structure->user->profile->notify(new StructureWaitingValidation($structure));
-            }
             if ($structure->department) {
                 Profile::where('referent_department', $structure->department)->get()->map(function ($profile) use ($structure) {
-                    $profile->notify(new StructureSubmitted($structure));
+                    // TODO ENLEVER QUAND SCRIPT FINIT  $profile->notify(new StructureSubmitted($structure));
                 });
             }
+        }
+
+        if ($structure->statut_juridique == 'Collectivité') {
+            // TODO ENLEVER QUAND SCRIPT FINIT $this->createCollectivity($structure);
         }
     }
 
@@ -91,5 +94,29 @@ class StructureObserver
                 }
             }
         }
+
+        // STRUCTURE PUBLIQUE TYPE
+        $oldStructureType = $structure->getOriginal('statut_juridique');
+        $newStructureType = $structure->statut_juridique;
+        if ($oldStructureType != $newStructureType && $newStructureType == 'Collectivité') {
+            // TODO ENLEVER QUAND SCRIPT FINIT $this->createCollectivity($structure);
+        }
+    }
+
+    private function createCollectivity($structure)
+    {
+        $collectivity = Collectivity::create([
+            'name' => $structure->city ?? $structure->name,
+            'zips' => $structure->zip ? [$structure->zip] : [],
+            'structure_id' => $structure->id,
+            'published' => false,
+            'type' => 'commune',
+            'state' => 'waiting'
+        ]);
+        $collectivity->save();
+        
+        Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
+        ->route('slack', 'https://hooks.slack.com/services/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')
+        ->notify(new CollectivityWaitingValidation($collectivity));
     }
 }

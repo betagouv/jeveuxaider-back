@@ -16,16 +16,17 @@
       Utilisateurs
     </el-menu-item>
     <el-menu-item
-      v-if="
-        $store.getters.contextRole != 'responsable' &&
-        $store.getters.contextRole != 'responsable_collectivity'
-      "
+      v-if="$store.getters.contextRole != 'responsable'"
       index="departments"
     >
       Départements
     </el-menu-item>
     <el-menu-item
-      v-if="['admin', 'analyste'].includes($store.getters.contextRole)"
+      v-if="
+        ['admin', 'analyste', 'referent', 'referent_regional'].includes(
+          $store.getters.contextRole
+        )
+      "
       index="collectivities"
     >
       Collectivités
@@ -50,9 +51,19 @@ export default {
   },
   methods: {
     handleSelect(index) {
-      index == 'main'
-        ? this.$router.push('/dashboard')
-        : this.$router.push(`/dashboard/stats/${index}`)
+      if (
+        this.$router.history.current.name == 'DashboardCollectivityMain' ||
+        this.$router.history.current.name == 'CollectivityStatsMissions' ||
+        this.$router.history.current.name == 'CollectivityStatsParticipations'
+      ) {
+        index == 'main'
+          ? this.$router.push('/dashboard/collectivity')
+          : this.$router.push(`/dashboard/collectivity/stats/${index}`)
+      } else {
+        index == 'main'
+          ? this.$router.push('/dashboard')
+          : this.$router.push(`/dashboard/stats/${index}`)
+      }
     },
   },
 }

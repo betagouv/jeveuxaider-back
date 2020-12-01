@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersCollectivitiesDepartment;
 use App\Filters\FiltersCollectivitySearch;
 use App\Models\Structure;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -19,15 +20,24 @@ class CollectivitiesExport implements FromCollection, WithHeadings
 {
     use Exportable;
 
+    private $role;
+
+    public function __construct($role)
+    {
+        $this->role = $role;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        $collectivities = QueryBuilder::for(Collectivity::where('type', 'commune')->where('state', 'validated'))
+        $collectivities = QueryBuilder::for(Collectivity::role($this->role)->where('type', 'commune'))
             ->allowedFilters([
                 'state',
+                AllowedFilter::exact('published'),
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
+                AllowedFilter::custom('department', new FiltersCollectivitiesDepartment),
             ])
             ->defaultSort('name')
             ->get();

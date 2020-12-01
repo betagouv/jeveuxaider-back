@@ -26,6 +26,7 @@
               :facet-filters.camel="facetFilters"
               :filters.camel="queryFilters"
               :around-lat-lng-via-i-p.camel="true"
+              :around-radius.camel="'all'"
             />
 
             <div
@@ -78,6 +79,7 @@
                   v-model="filters.department_name"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
+                  filterable
                   placeholder="Départements"
                   popper-class="departments"
                   @change="handleFilters(refine, $event)"

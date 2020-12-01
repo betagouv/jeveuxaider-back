@@ -19,14 +19,9 @@
                 <div class="mb-4">
                   <div class="-m-2 flex flex-wrap">
                     <span
-                      v-if="mission.template"
+                      v-if="domainName(mission)"
                       class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
-                      >{{ mission.template.domaine.name.fr }}</span
-                    >
-                    <span
-                      v-else
-                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
-                      >{{ mission.domaine.name.fr }}</span
+                      >{{ domainName(mission) }}</span
                     >
                     <template v-if="mission.tags">
                       <span
@@ -125,14 +120,17 @@
 
                 <div>
                   <span class="text-lg font-medium">
-                    <span>{{ structureType }}</span>
+                    <span>L'organisation</span>
                     <b class="text-blue-800">
                       {{ structure.name }}
                     </b>
                   </span>
                 </div>
 
-                <div class="mt-2 text-base leading-7 text-gray-600">
+                <div
+                  v-if="structure.description"
+                  class="mt-2 text-base leading-7 text-gray-600"
+                >
                   <ReadMore
                     more-str="Lire plus"
                     :text="structure.description"
@@ -203,11 +201,12 @@
                           </template>
 
                           <template v-else>
-                            <router-link
-                              to="/login"
+                            <button
                               class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Proposer votre aide</router-link
+                              @click="dialogProposerAide = true"
                             >
+                              Proposer votre aide
+                            </button>
                           </template>
                         </template>
                       </template>
@@ -335,7 +334,7 @@
             <h3
               class="z-10 relative text-2xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
-              Le mot de l'association
+              Le mot de l'organisation
             </h3>
 
             <div
@@ -349,7 +348,7 @@
             </div>
             <div class="mt-6">
               <span class="text-lg font-medium">
-                <span>{{ structureType }}</span>
+                <span>L'organisation</span>
                 <b class="text-blue-800">
                   {{ structure.name }}
                 </b>
@@ -480,10 +479,9 @@
             <p
               class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-7 sm:leading-9 text-gray-500 lg:mx-auto"
             >
-              Inscrivez-vous à la mission et
-              <span class="lowercase" v-html="structureType"></span> vous
-              recontactera dans les plus brefs délais. Vous pourrez aussi
-              échanger avec elle pour obtenir plus de précisions.
+              Inscrivez-vous à la mission et l'organisation vous recontactera
+              dans les plus brefs délais. Vous pourrez aussi échanger avec elle
+              pour obtenir plus de précisions.
             </p>
             <div class="mt-10 flex justify-center z-10 relative">
               <template v-if="mission.state">
@@ -505,11 +503,12 @@
                     </template>
 
                     <template v-else>
-                      <router-link
-                        to="/login"
+                      <button
                         class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Proposer votre aide</router-link
+                        @click="dialogProposerAide = true"
                       >
+                        Proposer votre aide
+                      </button>
                     </template>
                   </template>
                 </template>
@@ -590,7 +589,11 @@
           :hide-required-asterisk="true"
         >
           <el-form-item
-            label="Vous allez être mis en relation avec le responsable de la mission"
+            :label="
+              mission.tuteur
+                ? `Vous allez être mis en relation avec ${mission.tuteur.first_name}, le responsable de la mission`
+                : 'Vous allez être mis en relation avec le responsable de la mission'
+            "
             prop="content"
           >
             <el-input
@@ -611,6 +614,37 @@
             >Proposer mon aide</el-button
           >
         </span>
+      </el-dialog>
+      <el-dialog
+        :close-on-click-modal="false"
+        title="Avez vous un compte ?"
+        width="100%"
+        :visible.sync="dialogProposerAide"
+        style="max-width: 500px; margin: auto; text-align: center"
+      >
+        <div class="text-center mb-8">
+          Vous n'êtes pas connecté. <br />Merci de vous identifier ou de créer
+          un compte.
+        </div>
+        <div class="flex items-center justify-center">
+          <el-button @click="dialogParticipateVisible = false">
+            <router-link
+              :to="`/login?redirect=${$route.path}?showDialogParticipate=true`"
+              @click="dialogParticipateVisible = false"
+            >
+              Se connecter
+            </router-link>
+          </el-button>
+          <el-button type="primary" @click="handleSubmitFormParticipate">
+            <router-link
+              :to="`/register/volontaire?redirect=${$route.path}?showDialogParticipate=true`"
+              type="primary"
+              @click="handleSubmitFormParticipate"
+            >
+              S'inscrire
+            </router-link>
+          </el-button>
+        </div>
       </el-dialog>
     </template>
     <template v-else>
@@ -665,8 +699,9 @@
                       <div class="m-2 min-w-0 flex-shrink">
                         <div
                           class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
-                          v-text="otherMission.type"
-                        />
+                        >
+                          {{ mission.structure.name }}
+                        </div>
                         <div
                           class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                         >
@@ -699,27 +734,54 @@
                         </template>
                         <template v-else>Complet</template>
                       </div>
+                      <div
+                        v-else
+                        class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
+                        style="background: #d2d6dc"
+                      >
+                        <span v-if="otherMission.has_places_left === false"
+                          >Complet</span
+                        >
+                        <span v-else>Nombre de places non défini</span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="mt-4 flex items-start text-sm text-gray-500">
-                  <svg
-                    class="flex-shrink-0 mr-2 h-5 w-5 text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  <span
-                    v-text="
-                      `${otherMission.city} (${otherMission.department}) - ${mission.structure.name}`
+                <div
+                  class="flex items-center flex-wrap text-s leading-5 text-gray-500 mt-4"
+                >
+                  <template
+                    v-if="
+                      otherMission.city &&
+                      otherMission.type == 'Mission en présentiel'
                     "
-                  />
+                  >
+                    <span
+                      v-if="otherMission.department"
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                      >Mission en présentiel - {{ otherMission.city }} ({{
+                        otherMission.department
+                      }})</span
+                    >
+                    <span
+                      v-else
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                      >Mission en présentiel - {{ otherMission.city }}</span
+                    >
+                  </template>
+                  <template v-else>
+                    <span
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                      >Mission à distance</span
+                    >
+                  </template>
+
+                  <span
+                    v-if="otherMission.domaines[0]"
+                    class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
+                    >{{ otherMission.domaines[0].name.fr }}</span
+                  >
                 </div>
               </div>
             </router-link>
@@ -757,10 +819,11 @@ export default {
       mission: {},
       otherMissions: {},
       baseUrl: process.env.MIX_API_BASE_URL,
-      dialogParticipateVisible: false,
+      dialogParticipateVisible:
+        Boolean(this.$route.query.showDialogParticipate) || false,
+      dialogProposerAide: false,
       form: {
-        content:
-          'Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂',
+        content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },
       rules: {
         content: [
@@ -829,8 +892,12 @@ export default {
       .then((response) => {
         this.mission = { ...response.data }
         this.loading = false
+        if (this.mission.tuteur && this.$store.getters.profile) {
+          this.form.content = `Bonjour ${this.mission.tuteur.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
+        }
         fetchStructureAvailableMissions(this.mission.structure.id, {
           exclude: this.id,
+          append: 'domaines',
         })
           .then((response) => {
             this.otherMissions = response.data
@@ -869,6 +936,16 @@ export default {
     },
     handleClickParticipate() {
       this.dialogParticipateVisible = true
+    },
+    domainName(mission) {
+      return mission.domaine && mission.domaine.name && mission.domaine.name.fr
+        ? mission.domaine.name.fr
+        : mission.template &&
+          mission.template.domaine &&
+          mission.template.domaine.name &&
+          mission.template.domaine.name.fr
+        ? mission.template.domaine.name.fr
+        : null
     },
   },
 }

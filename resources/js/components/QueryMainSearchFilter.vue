@@ -1,6 +1,7 @@
 <template>
   <div class="query-main-search-filter flex-1">
     <el-input
+      ref="input"
       v-model="input"
       class=""
       prefix-icon="el-icon-search"
@@ -33,6 +34,7 @@ export default {
   },
   data() {
     return {
+      test: true,
       input: this.initialValue,
       debouncedInput: '',
     }
@@ -43,6 +45,9 @@ export default {
         this.$emit('changed', { name: this.name, value: newVal })
       }
     }, 500),
+  },
+  mounted() {
+    this.$refs.input.focus()
   },
 }
 </script>

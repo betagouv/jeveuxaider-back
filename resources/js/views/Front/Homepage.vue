@@ -34,7 +34,7 @@
                   </p>
                   <router-link
                     to="/register/volontaire"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
                   </router-link>
@@ -56,7 +56,7 @@
                           }
                         : '/register/responsable'
                     "
-                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
+                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
                     Proposer une mission
                   </router-link>
@@ -247,7 +247,10 @@
 
             <ul class="mt-10 pr-12">
               <li>
-                <div class="flex">
+                <router-link
+                  class="flex"
+                  to="/missions?menu%5Btemplate_title%5D=Aide%20alimentaire%20et%20d%27urgence"
+                >
                   <div class="flex-shrink-0">
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -261,7 +264,9 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                    <h5
+                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                    >
                       Aide alimentaire et d’urgence
                     </h5>
                     <p class="mt-2 text-base leading-6 text-gray-500">
@@ -269,10 +274,13 @@
                       hygiène…) et des repas aux plus démunis.
                     </p>
                   </div>
-                </div>
+                </router-link>
               </li>
               <li class="mt-10">
-                <div class="flex">
+                <router-link
+                  class="flex"
+                  to="missions?menu%5Btemplate_title%5D=Garde%20exceptionnelle%20d%27enfants"
+                >
                   <div class="flex-shrink-0">
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -286,7 +294,9 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                    <h5
+                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                    >
                       Garde exceptionnelle d’enfants
                     </h5>
                     <p class="mt-2 text-base leading-6 text-gray-500">
@@ -294,10 +304,13 @@
                       structure de l’Aide Sociale à l’Enfance.
                     </p>
                   </div>
-                </div>
+                </router-link>
               </li>
               <li class="mt-10">
-                <div class="flex">
+                <router-link
+                  class="flex"
+                  to="missions?menu%5Btemplate_title%5D=Lien%20avec%20les%20personnes%20fragiles%20isolées"
+                >
                   <div class="flex-shrink-0">
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -311,7 +324,9 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                    <h5
+                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                    >
                       Lien avec les personnes fragiles isolées.
                     </h5>
                     <p class="mt-2 text-base leading-6 text-gray-500">
@@ -319,10 +334,13 @@
                       fragiles isolées.
                     </p>
                   </div>
-                </div>
+                </router-link>
               </li>
               <li class="mt-10">
-                <div class="flex">
+                <router-link
+                  class="flex"
+                  to="missions?menu%5Btemplate_title%5D=Solidarité%20de%20proximité"
+                >
                   <div class="flex-shrink-0">
                     <div
                       class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -336,7 +354,9 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                    <h5
+                      class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                    >
                       Solidarité de proximité.
                     </h5>
                     <p class="mt-2 text-base leading-6 text-gray-500">
@@ -344,7 +364,7 @@
                       voisins les plus fragiles.
                     </p>
                   </div>
-                </div>
+                </router-link>
               </li>
             </ul>
           </div>
@@ -433,7 +453,10 @@
             <div class="lg:col-start-2">
               <ul class="mt-10">
                 <li>
-                  <div class="flex">
+                  <router-link
+                    class="flex"
+                    to="missions?menu%5Btemplate_title%5D=Soutien%20scolaire"
+                  >
                     <div class="flex-shrink-0">
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -447,17 +470,22 @@
                       </div>
                     </div>
                     <div class="ml-4">
-                      <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                      <h5
+                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                      >
                         Soutien scolaire.
                       </h5>
                       <p class="mt-2 text-base leading-6 text-gray-500">
                         J’aide les élèves à étudier et faire leurs devoirs.
                       </p>
                     </div>
-                  </div>
+                  </router-link>
                 </li>
                 <li class="mt-10 pr-12">
-                  <div class="flex">
+                  <router-link
+                    class="flex"
+                    to="missions?menu%5Btemplate_title%5D=Fabrication%20et%20distribution%20d%27équipements%20de%20protection"
+                  >
                     <div class="flex-shrink-0">
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -471,7 +499,9 @@
                       </div>
                     </div>
                     <div class="ml-4">
-                      <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                      <h5
+                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                      >
                         Fabrication et distribution d’équipements de protection
                         grand public.
                       </h5>
@@ -480,10 +510,13 @@
                         grand public ou à leur distribution.
                       </p>
                     </div>
-                  </div>
+                  </router-link>
                 </li>
                 <li class="mt-10">
-                  <div class="flex">
+                  <router-link
+                    class="flex"
+                    to="missions?menu%5Btemplate_title%5D=Soutien%20à%20la%20mobilisation%20sanitaire"
+                  >
                     <div class="flex-shrink-0">
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -497,7 +530,9 @@
                       </div>
                     </div>
                     <div class="ml-4">
-                      <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                      <h5
+                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                      >
                         Soutien à la mobilisation sanitaire.
                       </h5>
                       <p class="mt-2 text-base leading-6 text-gray-500">
@@ -505,10 +540,13 @@
                         participe à une action à but sanitaire.
                       </p>
                     </div>
-                  </div>
+                  </router-link>
                 </li>
                 <li class="mt-10">
-                  <div class="flex">
+                  <router-link
+                    class="flex"
+                    to="missions?menu%5Btemplate_title%5D=Soutien%20à%20la%20reprise%20de%20missions%20de%20service%20public"
+                  >
                     <div class="flex-shrink-0">
                       <div
                         class="flex-shrink-0 bg-blue-800 rounded-lg p-3 text-white text-center"
@@ -522,7 +560,9 @@
                       </div>
                     </div>
                     <div class="ml-4">
-                      <h5 class="text-lg leading-6 font-semibold text-gray-900">
+                      <h5
+                        class="text-lg leading-6 font-semibold text-gray-900 hover:text-blue-800"
+                      >
                         Soutien à la reprise des missions de service public.
                       </h5>
                       <p class="mt-2 text-base leading-6 text-gray-500">
@@ -530,7 +570,7 @@
                         en lien avec la population.
                       </p>
                     </div>
-                  </div>
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -592,8 +632,8 @@
         <div class="bg-indigo-600 absolute h-full">
           <img
             class="w-full h-full object-cover"
-            src="/images/nature.jpg"
-            alt="securité covid-19"
+            src="/images/ecole.png"
+            alt="Éducation pour tous"
           />
         </div>
         <div
@@ -603,24 +643,24 @@
             <div
               class="text-base leading-6 font-semibold uppercase tracking-wider text-gray-300"
             >
-              Protection de la nature
+              Éducation pour tous
             </div>
             <h2
               class="mt-2 text-white text-3xl leading-9 font-bold tracking-tight sm:text-4xl sm:leading-10"
             >
-              Rejoignez la Réserve Civique pour la nature
+              Rejoignez la Réserve Civique pour l'éducation
             </h2>
             <p class="mt-3 text-lg leading-7 text-white">
               Trouvez une mission de bénévolat en France pour contribuer à
-              protéger l'environnement.
+              l'éducation pour tous.
             </p>
             <div class="mt-8">
               <div class="inline-flex rounded-md shadow">
                 <router-link
-                  to="/thematiques/protection-de-la-nature"
+                  to="/thematiques/education-pour-tous"
                   class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-gray-900 bg-white hover:text-gray-600 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                 >
-                  Protection de la nature
+                  Éducation pour tous
                 </router-link>
               </div>
             </div>
@@ -790,7 +830,7 @@
                 }
               : '/register/responsable'
           "
-          class="inline-flex mt-3 lg:mt-0 shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white border border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
+          class="inline-flex mt-3 lg:mt-0 shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
         >
           Publier une mission
         </router-link>
@@ -947,7 +987,7 @@
         >
           <button
             type="button"
-            class="rounded-md shadow-sm inline-flex items-center px-4 py-2 border border-gray-300 text-base leading-6 font-medium rounded-full text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"
+            class="shadow-sm inline-flex items-center px-4 py-2 border border-gray-300 text-base leading-6 font-medium rounded-full text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"
           >
             Toute l'actualité
           </button>

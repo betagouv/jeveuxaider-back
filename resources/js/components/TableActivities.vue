@@ -40,10 +40,20 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column prop="subject" label="Objet" width="190">
+    <el-table-column prop="type" label="Type" width="120">
+      <template slot-scope="scope">
+        <div class="text-sm text-gray-900">
+          {{ type(scope.row.subject_type) }}
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column prop="subject" label="Objet" min-width="190">
       <template slot-scope="scope">
         <router-link :to="linkSubject(scope.row)">
-          <span class="text-sm"
+          <span v-if="scope.row.data.subject_title" class="text-sm">
+            {{ scope.row.data.subject_title }} #{{ scope.row.subject_id }}</span
+          >
+          <span v-else class="text-sm"
             >{{ type(scope.row.subject_type) }} #{{
               scope.row.subject_id
             }}</span
@@ -51,7 +61,7 @@
         </router-link>
       </template>
     </el-table-column>
-    <el-table-column prop="change" label="Activité">
+    <el-table-column prop="change" label="Activité" width="350">
       <template slot-scope="scope">
         <div class="text-sm">
           <span v-if="scope.row.description == 'updated'">Modifié par</span>
@@ -129,6 +139,8 @@ export default {
           return 'Participation'
         case 'App\\Models\\Profile':
           return 'Utilisateur'
+        case 'App\\Models\\Collectivity':
+          return 'Collectivité'
         default:
           return 'Autre'
       }
@@ -139,6 +151,8 @@ export default {
           return `/dashboard/mission/${row.subject_id}/edit`
         case 'App\\Models\\Structure':
           return `/dashboard/structure/${row.subject_id}`
+        case 'App\\Models\\Collectivity':
+          return `/dashboard/collectivity/${row.subject_id}`
         case 'App\\Models\\Participation':
           return `/dashboard/participations`
         case 'App\\Models\\Profile':

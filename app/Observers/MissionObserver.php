@@ -101,7 +101,8 @@ class MissionObserver
     public function saving(Mission $mission)
     {
         // Calcul Places Left
-        $mission->places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
+        $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
+        $mission->places_left = $places_left < 0 ? 0 : $places_left;
     }
 
     /**

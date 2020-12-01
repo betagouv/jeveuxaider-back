@@ -99,6 +99,7 @@ class Mission extends Model
                 return $domaine->name;
             }),
             'provider' => 'reserve_civique',
+            'publisher_name' => 'Réserve Civique',
             'post_date' => strtotime($this->created_at),
         ];
 

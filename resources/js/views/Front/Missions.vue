@@ -33,6 +33,7 @@
         <ais-configure
           :hits-per-page.camel="20"
           :around-lat-lng-via-i-p.camel="true"
+          :around-radius.camel="'all'"
         />
 
         <div class="bg-primary pb-32">
@@ -43,9 +44,12 @@
                 { 'pt-10': !missionsAreReady },
               ]"
             >
-              <h1 class="text-3xl font-bold text-white">
-                Missions disponibles
-              </h1>
+              <h2 class="text-4xl leading-9 font-semibold text-white mb-3">
+                Trouvez une mission de bénévolat
+              </h2>
+              <h3 class="text-2xl leading-6 text-white">
+                Missions disponibles près de chez vous ou à distance
+              </h3>
             </div>
             <div
               v-if="missionsAreReady"
@@ -76,7 +80,7 @@
                       height="10"
                       viewBox="0 0 40 40"
                       class="el-input__icon"
-                      style="width: 14px;"
+                      style="width: 14px"
                     >
                       <path
                         d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
@@ -96,6 +100,7 @@
                   v-model="filters.department_name"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
+                  filterable
                   placeholder="Départements"
                   @change="handleFilters(refine, $event)"
                 >
@@ -137,7 +142,7 @@
                 :transform-items="transformItems"
               >
                 <el-select
-                  v-model="filters.missions_types"
+                  v-model="filters.template_title"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
                   placeholder="Missions types"
@@ -476,9 +481,13 @@ export default {
           ? state.menu.department_name
           : null
         this.filters.domaines = state.menu.domaines ? state.menu.domaines : null
+        this.filters.template_title = state.menu.template_title
+          ? state.menu.template_title
+          : null
       } else {
         this.filters.department_name = null
         this.filters.domaines = null
+        this.filters.template_title = null
       }
     },
     handleFilters(refine, $event) {

@@ -52,7 +52,8 @@ const actions = {
         user.email,
         user.password,
         user.first_name,
-        user.last_name
+        user.last_name,
+        user.structure_name
       )
         .then(() => {
           dispatch('login', user).then((response) => {
@@ -60,6 +61,14 @@ const actions = {
           })
         })
         .catch((error) => {
+          if (error.response.data.errors && error.response.data.errors.email) {
+            if (
+              error.response.data.errors.email ==
+              'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.'
+            ) {
+              router.push('/login?email=' + user.email)
+            }
+          }
           reject(error)
         })
     })
@@ -118,6 +127,14 @@ const actions = {
           })
         })
         .catch((error) => {
+          if (error.response.data.errors && error.response.data.errors.email) {
+            if (
+              error.response.data.errors.email ==
+              'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.'
+            ) {
+              router.push('/login?email=' + user.email)
+            }
+          }
           reject(error)
         })
     })

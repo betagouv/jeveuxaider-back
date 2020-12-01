@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersCollectivitiesDepartment;
+use App\Filters\FiltersCollectivitySearch;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Collectivity;
@@ -17,19 +19,30 @@ use App\Models\MissionTemplate;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
-use App\Notifications\CollectivityWaitingValidation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 
 class CollectivityController extends Controller
 {
-    public function index(Request $request)
+    public function collectivities(Request $request)
     {
-        return QueryBuilder::for(Collectivity::class)
+        return QueryBuilder::for(Collectivity::role($request->header('Context-Role'))->where('type', 'commune'))
             ->allowedFilters([
                 'state',
-                'type',
+                AllowedFilter::exact('published'),
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
+                AllowedFilter::custom('department', new FiltersCollectivitiesDepartment),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    }
+
+    public function departments(Request $request)
+    {
+        return QueryBuilder::for(Collectivity::where('type', 'department'))
+            ->allowedFilters([
+                'state',
+                AllowedFilter::exact('published'),
                 AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])
             ->defaultSort('-created_at')
@@ -39,7 +52,7 @@ class CollectivityController extends Controller
     public function show($slugOrId)
     {
         $collectivity = (is_numeric($slugOrId))
-            ? Collectivity::where('id', $slugOrId)->firstOrFail()
+            ? Collectivity::with(['profiles', 'structure'])->where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
         return $collectivity;
@@ -144,17 +157,6 @@ class CollectivityController extends Controller
         if ($user->isAdmin()) {
             return Collectivity::create($request->all());
         }
-
-        // Sinon, on est dans le cas d'une inscription d'un Responsable Collectivité
-        $collectivity = Collectivity::create(array_merge($request->all(), ['published' => false, 'type' => 'commune', 'state' => 'waiting']));
-        $user->profile->collectivity_id = $collectivity->id;
-        $user->profile->save();
-
-        Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
-            ->route('slack', 'https://hooks.slack.com/services/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')
-            ->notify(new CollectivityWaitingValidation($collectivity));
-
-        return $collectivity;
     }
 
     public function update(CollectivityUpdateRequest $request, Collectivity $collectivity)

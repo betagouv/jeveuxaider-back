@@ -2,8 +2,7 @@
   <div>
     <div class="relative">
       <img
-        v-if="collectivity.banner && collectivity.banner.large"
-        :src="collectivity.banner.large"
+        :src="banner"
         :alt="collectivity.title"
         class="absolute object-cover object-center w-full h-full"
       />
@@ -13,7 +12,12 @@
           'bg-primary',
           'absolute',
           'inset-0',
-          { 'opacity-75': collectivity.banner },
+          { 'opacity-75': collectivity.banner && collectivity.banner.large },
+          {
+            'opacity-25':
+              !collectivity.banner ||
+              (collectivity.banner && !collectivity.banner.large),
+          },
         ]"
       />
 
@@ -93,10 +97,16 @@
       </div>
     </div>
 
-    <div class="py-16 bg-gray-50 overflow-hidden shadow-lg">
+    <div class="py-16 bg-white overflow-hidden shadow-lg">
       <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
         <div class="flex flex-col items-center">
-          <img class="max-h-20 mb-3" :src="logo" height="auto" width="auto" />
+          <img
+            v-if="logo"
+            class="max-h-20 mb-3"
+            :src="logo"
+            height="auto"
+            width="auto"
+          />
           <h3
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
@@ -236,7 +246,12 @@ export default {
     logo() {
       return this.collectivity.logo && this.collectivity.logo.thumb
         ? this.collectivity.logo.thumb
-        : `/images/collectivites/${this.collectivity.slug}-logo.jpg`
+        : null
+    },
+    banner() {
+      return this.collectivity.banner && this.collectivity.banner.large
+        ? this.collectivity.banner.large
+        : `/images/collectivites/cover_default.jpg`
     },
   },
   created() {
@@ -251,7 +266,7 @@ export default {
       return this.collectivity[`image_${key}`] &&
         this.collectivity[`image_${key}`].large
         ? this.collectivity[`image_${key}`].large
-        : null
+        : `/images/collectivites/defaut_${key}.jpg`
     },
   },
 }

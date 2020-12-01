@@ -11,7 +11,7 @@ export function registerVolontaire(
   service_civique
 ) {
   return request.post('/api/register/volontaire', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
@@ -22,18 +22,25 @@ export function registerVolontaire(
   })
 }
 
-export function registerResponsable(email, password, first_name, last_name) {
+export function registerResponsable(
+  email,
+  password,
+  first_name,
+  last_name,
+  structure_name
+) {
   return request.post('/api/register/responsable', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
+    structure_name,
   })
 }
 
 export function registerCollectivity(email, password, first_name, last_name) {
   return request.post('/api/register/collectivity', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
@@ -42,7 +49,7 @@ export function registerCollectivity(email, password, first_name, last_name) {
 
 export function registerInvitation(email, password, first_name, last_name) {
   return request.post('/api/register/invitation', {
-    email,
+    email: email.toLowerCase(),
     password,
     first_name,
     last_name,
@@ -117,7 +124,6 @@ export const rolesList = [
   { key: 'referent', label: 'Référent' },
   { key: 'referent_regional', label: 'Régional' },
   { key: 'superviseur', label: 'Superviseur' },
-  { key: 'responsable_collectivity', label: 'Responsable Collectivité' },
   { key: 'responsable', label: 'Responsable' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },

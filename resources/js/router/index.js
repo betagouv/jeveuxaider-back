@@ -4,15 +4,13 @@ import Router from 'vue-router'
 /* Layouts */
 import Layout2Cols from '@/layout/Layout2Cols'
 import LayoutRegisterSteps from '@/layout/LayoutRegisterSteps'
-import LayoutSNU from '@/layout/LayoutSNU'
+import LayoutDashboard from '@/layout/LayoutDashboard'
 import LayoutProfile from '@/layout/LayoutProfile.vue'
 
 /* Pages */
 import Login from '@/views/Login.vue'
 import Logout from '@/views/Logout.vue'
-import Register from '@/views/Register.vue'
 import RegisterResponsable from '@/views/RegisterResponsable.vue'
-import RegisterCollectivity from '@/views/RegisterCollectivity.vue'
 import RegisterVolontaire from '@/views/RegisterVolontaire.vue'
 import RegisterInvitation from '@/views/RegisterInvitation.vue'
 import PasswordForgot from '@/views/PasswordForgot.vue'
@@ -113,30 +111,6 @@ export default new Router({
           meta: { requiresAnonymous: true },
         },
         {
-          path: '/register',
-          name: 'Register',
-          component: Register,
-          meta: { requiresAnonymous: true },
-        },
-        {
-          path: '/register/volontaire',
-          name: 'RegisterVolontaire',
-          component: RegisterVolontaire,
-          meta: { requiresAnonymous: true },
-        },
-        {
-          path: '/register/responsable',
-          name: 'RegisterResponsable',
-          component: RegisterResponsable,
-          meta: { requiresAnonymous: true },
-        },
-        {
-          path: '/register/collectivity',
-          name: 'RegisterCollectivity',
-          component: RegisterCollectivity,
-          meta: { requiresAnonymous: true },
-        },
-        {
           path: '/register/invitation',
           name: 'RegisterInvitation',
           component: RegisterInvitation,
@@ -210,38 +184,6 @@ export default new Router({
       ],
     },
     {
-      path: '/register/collectivity/step',
-      component: LayoutRegisterSteps,
-      redirect: '/register/collectivity/step/profile',
-      meta: { requiresAuth: true },
-      children: [
-        {
-          path: '/register/collectivity/step/profile',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/collectivity-profile-step" */ '@/views/CollectivitySteps/ProfileStep.vue'
-            ),
-          name: 'CollectivityProfileStep',
-        },
-        {
-          path: '/register/collectivity/step/infos',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/collectivity-infos-step" */ '@/views/CollectivitySteps/InfosStep.vue'
-            ),
-          name: 'CollectivityInfoseStep',
-        },
-        {
-          path: '/register/collectivity/step/address',
-          component: () =>
-            import(
-              /* webpackChunkName: "assets/js/collectivity-address-step" */ '@/views/CollectivitySteps/AddressStep.vue'
-            ),
-          name: 'CollectivityAddressStep',
-        },
-      ],
-    },
-    {
       path: '/register/reserviste/step',
       component: LayoutRegisterSteps,
       redirect: '/register/reserviste/step/preferences',
@@ -267,14 +209,14 @@ export default new Router({
     },
     {
       path: '/dashboard',
-      component: LayoutSNU,
+      component: LayoutDashboard,
       meta: { requiresAuth: true },
       children: [
         {
           path: '/dashboard',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard" */ '@/views/SNU/Dashboards/Main.vue'
+              /* webpackChunkName: "assets/js/dashboard" */ '@/views/Admin/Dashboards/Main.vue'
             ),
           name: 'Dashboard',
           meta: {
@@ -284,16 +226,26 @@ export default new Router({
               'referent_regional',
               'superviseur',
               'responsable',
-              'responsable_collectivity',
               'analyste',
             ],
+          },
+        },
+        {
+          path: '/dashboard/collectivity',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-collectivity" */ '@/views/Admin/Dashboards/Main.vue'
+            ),
+          name: 'DashboardCollectivityMain',
+          meta: {
+            roles: ['responsable'],
           },
         },
         {
           path: '/dashboard/stats/structures',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-structures" */ '@/views/SNU/Dashboards/Structures.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-structures" */ '@/views/Admin/Dashboards/Structures.vue'
             ),
           name: 'StatsStructures',
           meta: {
@@ -301,7 +253,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
             ],
@@ -311,7 +262,7 @@ export default new Router({
           path: '/dashboard/stats/missions',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-missions" */ '@/views/SNU/Dashboards/Missions.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-missions" */ '@/views/Admin/Dashboards/Missions.vue'
             ),
           name: 'StatsMissions',
           meta: {
@@ -319,7 +270,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
               'responsable',
@@ -330,7 +280,7 @@ export default new Router({
           path: '/dashboard/stats/participations',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-participations" */ '@/views/SNU/Dashboards/Participations.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-participations" */ '@/views/Admin/Dashboards/Participations.vue'
             ),
           name: 'StatsParticipations',
           meta: {
@@ -338,7 +288,42 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
+              'superviseur',
+              'analyste',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/collectivity/stats/missions',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-stats-missions" */ '@/views/Admin/Dashboards/Missions.vue'
+            ),
+          name: 'CollectivityStatsMissions',
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'analyste',
+              'responsable',
+            ],
+          },
+        },
+        {
+          path: '/dashboard/collectivity/stats/participations',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-stats-participations" */ '@/views/Admin/Dashboards/Participations.vue'
+            ),
+          name: 'CollectivityStatsParticipations',
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
               'superviseur',
               'analyste',
               'responsable',
@@ -349,7 +334,7 @@ export default new Router({
           path: '/dashboard/stats/profiles',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-profiles" */ '@/views/SNU/Dashboards/Profiles.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-profiles" */ '@/views/Admin/Dashboards/Profiles.vue'
             ),
           name: 'StatsProfiles',
           meta: {
@@ -357,7 +342,6 @@ export default new Router({
               'admin',
               'referent',
               'referent_regional',
-              'responsable_collectivity',
               'superviseur',
               'analyste',
             ],
@@ -367,7 +351,7 @@ export default new Router({
           path: '/dashboard/stats/departments',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-departments" */ '@/views/SNU/Dashboards/Departments.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-departments" */ '@/views/Admin/Dashboards/Departments.vue'
             ),
           name: 'StatsDepartments',
           meta: {
@@ -384,18 +368,18 @@ export default new Router({
           path: '/dashboard/stats/collectivities',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-collectivities" */ '@/views/SNU/Dashboards/Collectivities.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-collectivities" */ '@/views/Admin/Dashboards/Collectivities.vue'
             ),
           name: 'StatsCollectivities',
           meta: {
-            roles: ['admin', 'analyste'],
+            roles: ['admin', 'analyste', 'referent', 'referent_regional'],
           },
         },
         {
           path: '/dashboard/stats/domaines',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-stats-domaines" */ '@/views/SNU/Dashboards/Domaines.vue'
+              /* webpackChunkName: "assets/js/dashboard-stats-domaines" */ '@/views/Admin/Dashboards/Domaines.vue'
             ),
           name: 'StatsDomaines',
           meta: {
@@ -406,7 +390,7 @@ export default new Router({
           path: '/dashboard/missions',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-missions" */ '@/views/SNU/Missions.vue'
+              /* webpackChunkName: "assets/js/dashboard-missions" */ '@/views/Admin/Missions.vue'
             ),
           name: 'DashboardMissions',
           meta: {
@@ -423,7 +407,7 @@ export default new Router({
           path: '/dashboard/mission/:id',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-view" */ '@/views/SNU/Mission.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-view" */ '@/views/Admin/Mission.vue'
             ),
           name: 'DashboardMissionView',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -438,15 +422,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/mission/:id/activities',
+          path: '/dashboard/mission/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-activities" */ '@/views/SNU/Mission.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-history" */ '@/views/Admin/Mission.vue'
             ),
-          name: 'DashboardMissionActivities',
+          name: 'DashboardMissionHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'activities',
+            tab: 'history',
           }),
           meta: {
             roles: [
@@ -462,7 +446,7 @@ export default new Router({
           path: '/dashboard/mission/:id/participations',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-participations" */ '@/views/SNU/Mission.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-participations" */ '@/views/Admin/Mission.vue'
             ),
           name: 'DashboardMissionParticipations',
           props: (route) => ({
@@ -483,7 +467,7 @@ export default new Router({
           path: '/dashboard/structure/:structureId/missions/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-add" */ '@/views/SNU/MissionAdd.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-add" */ '@/views/Admin/MissionAdd.vue'
             ),
           name: 'MissionFormAdd',
           props: (route) => ({
@@ -504,7 +488,7 @@ export default new Router({
           path: '/dashboard/mission/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-edit" */ '@/views/SNU/MissionEdit.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-edit" */ '@/views/Admin/MissionEdit.vue'
             ),
           name: 'MissionFormEdit',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -522,7 +506,7 @@ export default new Router({
           path: '/dashboard/structures',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structures" */ '@/views/SNU/Structures.vue'
+              /* webpackChunkName: "assets/js/dashboard-structures" */ '@/views/Admin/Structures.vue'
             ),
           name: 'DashboardStructures',
           meta: {
@@ -533,7 +517,7 @@ export default new Router({
           path: '/dashboard/structure/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-add" */ '@/views/SNU/StructureForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-add" */ '@/views/Admin/StructureForm.vue'
             ),
           name: 'StructureFormAdd',
           props: { mode: 'add' },
@@ -545,7 +529,7 @@ export default new Router({
           path: '/dashboard/structure/:id',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-view" */ '@/views/SNU/Structure.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-view" */ '@/views/Admin/Structure.vue'
             ),
           name: 'Structure',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -560,15 +544,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/structure/:id/activities',
+          path: '/dashboard/structure/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-activities" */ '@/views/SNU/Structure.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-history" */ '@/views/Admin/Structure.vue'
             ),
-          name: 'Structure',
+          name: 'DashboardStructureHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'activities',
+            tab: 'history',
           }),
           meta: {
             roles: [
@@ -584,7 +568,7 @@ export default new Router({
           path: '/dashboard/structure/:id/missions',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-missions" */ '@/views/SNU/Structure.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-missions" */ '@/views/Admin/Structure.vue'
             ),
           name: 'Structure',
           props: (route) => ({
@@ -605,7 +589,7 @@ export default new Router({
           path: '/dashboard/structure/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-edit" */ '@/views/SNU/StructureForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-edit" */ '@/views/Admin/StructureForm.vue'
             ),
           name: 'StructureFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -623,7 +607,7 @@ export default new Router({
           path: '/dashboard/structure/:id/members',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-members" */ '@/views/SNU/StructureMembers.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-members" */ '@/views/Admin/StructureMembers.vue'
             ),
           name: 'StructureMembers',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -641,7 +625,7 @@ export default new Router({
           path: '/dashboard/structure/:id/members/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-structure-members-add" */ '@/views/SNU/StructureMembersAdd.vue'
+              /* webpackChunkName: "assets/js/dashboard-structure-members-add" */ '@/views/Admin/StructureMembersAdd.vue'
             ),
           name: 'StructureMembersAdd',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -659,7 +643,7 @@ export default new Router({
           path: '/dashboard/profiles',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profiles" */ '@/views/SNU/Profiles.vue'
+              /* webpackChunkName: "assets/js/dashboard-profiles" */ '@/views/Admin/Profiles.vue'
             ),
           name: 'DashboardProfiles',
           meta: {
@@ -670,7 +654,7 @@ export default new Router({
           path: '/dashboard/profiles/referents',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profiles-referents" */ '@/views/SNU/ProfilesReferents.vue'
+              /* webpackChunkName: "assets/js/dashboard-profiles-referents" */ '@/views/Admin/ProfilesReferents.vue'
             ),
           name: 'DashboardProfilesReferent',
           meta: {
@@ -681,7 +665,7 @@ export default new Router({
           path: '/dashboard/profiles/responsables',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profiles-responsables" */ '@/views/SNU/ProfilesResponsables.vue'
+              /* webpackChunkName: "assets/js/dashboard-profiles-responsables" */ '@/views/Admin/ProfilesResponsables.vue'
             ),
           name: 'DashboardProfilesReferent',
           meta: {
@@ -692,7 +676,7 @@ export default new Router({
           path: '/dashboard/profile/:id',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profile-view" */ '@/views/SNU/Profile.vue'
+              /* webpackChunkName: "assets/js/dashboard-profile-view" */ '@/views/Admin/Profile.vue'
             ),
           name: 'Profile',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -704,7 +688,7 @@ export default new Router({
           path: '/dashboard/profile/:id/activities',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profile-activities" */ '@/views/SNU/Profile.vue'
+              /* webpackChunkName: "assets/js/dashboard-profile-activities" */ '@/views/Admin/Profile.vue'
             ),
           name: 'DashboardProfileActivities',
           props: (route) => ({
@@ -722,10 +706,31 @@ export default new Router({
           },
         },
         {
+          path: '/dashboard/profile/:id/history',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-profile-history" */ '@/views/Admin/Profile.vue'
+            ),
+          name: 'DashboardProfileHistory',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'history',
+          }),
+          meta: {
+            roles: [
+              'admin',
+              'referent',
+              'referent_regional',
+              'superviseur',
+              'responsable',
+            ],
+          },
+        },
+        {
           path: '/dashboard/profile/:role/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profile-role-add" */ '@/views/SNU/ProfileForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-profile-role-add" */ '@/views/Admin/ProfileForm.vue'
             ),
           name: 'ProfileFormAdd',
           props: (route) => ({ mode: 'add', role: route.params.role }),
@@ -737,7 +742,7 @@ export default new Router({
           path: '/dashboard/profile/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-profile-edit" */ '@/views/SNU/ProfileForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-profile-edit" */ '@/views/Admin/ProfileForm.vue'
             ),
           name: 'ProfileFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -749,7 +754,7 @@ export default new Router({
           path: '/dashboard/participations',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-participations" */ '@/views/SNU/Participations.vue'
+              /* webpackChunkName: "assets/js/dashboard-participations" */ '@/views/Admin/Participations.vue'
             ),
           name: 'DashboardParticipations',
           meta: {
@@ -766,7 +771,7 @@ export default new Router({
           path: '/dashboard/mission/:id/trouver-des-benevoles',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/mission-trouver-des-benevoles" */ '@/views/SNU/MissionTrouverDesBenevoles.vue'
+              /* webpackChunkName: "assets/js/mission-trouver-des-benevoles" */ '@/views/Admin/MissionTrouverDesBenevoles.vue'
             ),
           name: 'MissionTrouverDesBenevoles',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -778,7 +783,7 @@ export default new Router({
           path: '/dashboard/participation/:id',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-participation-view" */ '@/views/SNU/Participation.vue'
+              /* webpackChunkName: "assets/js/dashboard-participation-view" */ '@/views/Admin/Participation.vue'
             ),
           name: 'DashboardParticipationView',
           props: (route) => ({ id: parseInt(route.params.id) }),
@@ -793,15 +798,15 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/participation/:id/activities',
+          path: '/dashboard/participation/:id/history',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-participation-activities" */ '@/views/SNU/Participation.vue'
+              /* webpackChunkName: "assets/js/dashboard-participation-history" */ '@/views/Admin/Participation.vue'
             ),
-          name: 'DashboardParticipationActivities',
+          name: 'DashboardParticipationHistory',
           props: (route) => ({
             id: parseInt(route.params.id),
-            tab: 'activities',
+            tab: 'history',
           }),
           meta: {
             roles: [
@@ -817,7 +822,7 @@ export default new Router({
           path: '/dashboard/trash/structures',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-trash-structures" */ '@/views/SNU/TrashStructures.vue'
+              /* webpackChunkName: "assets/js/dashboard-trash-structures" */ '@/views/Admin/TrashStructures.vue'
             ),
           name: 'TrashStructures',
           meta: {
@@ -828,7 +833,7 @@ export default new Router({
           path: '/dashboard/trash/missions',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-trash-missions" */ '@/views/SNU/TrashMissions.vue'
+              /* webpackChunkName: "assets/js/dashboard-trash-missions" */ '@/views/Admin/TrashMissions.vue'
             ),
           name: 'TrashMissions',
           meta: {
@@ -839,7 +844,7 @@ export default new Router({
           path: '/dashboard/trash/participations',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-trash-participations" */ '@/views/SNU/TrashParticipations.vue'
+              /* webpackChunkName: "assets/js/dashboard-trash-participations" */ '@/views/Admin/TrashParticipations.vue'
             ),
           name: 'TrashParticipations',
           meta: {
@@ -850,7 +855,7 @@ export default new Router({
           path: '/dashboard/ressources',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-ressources" */ '@/views/SNU/Ressources.vue'
+              /* webpackChunkName: "assets/js/dashboard-ressources" */ '@/views/Admin/Ressources.vue'
             ),
           name: 'Ressources',
           meta: {
@@ -861,7 +866,7 @@ export default new Router({
           path: '/dashboard/faq/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-faq-add" */ '@/views/SNU/FaqForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-faq-add" */ '@/views/Admin/FaqForm.vue'
             ),
           name: 'FaqFormAdd',
           props: { mode: 'add' },
@@ -873,7 +878,7 @@ export default new Router({
           path: '/dashboard/faq/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-faq-edit" */ '@/views/SNU/FaqForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-faq-edit" */ '@/views/Admin/FaqForm.vue'
             ),
           name: 'FaqFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -885,7 +890,7 @@ export default new Router({
           path: '/dashboard/news',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-news" */ '@/views/SNU/News.vue'
+              /* webpackChunkName: "assets/js/dashboard-news" */ '@/views/Admin/News.vue'
             ),
           name: 'News',
           meta: {
@@ -902,7 +907,7 @@ export default new Router({
           path: '/dashboard/contents/faqs',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-faqs" */ '@/views/SNU/Faqs.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-faqs" */ '@/views/Admin/Faqs.vue'
             ),
           name: 'Faqs',
           meta: {
@@ -913,7 +918,7 @@ export default new Router({
           path: '/dashboard/contents/releases',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-releases" */ '@/views/SNU/Releases.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-releases" */ '@/views/Admin/Releases.vue'
             ),
           name: 'Releases',
           meta: {
@@ -924,7 +929,7 @@ export default new Router({
           path: '/dashboard/contents/pages',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-pages" */ '@/views/SNU/Pages.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-pages" */ '@/views/Admin/Pages.vue'
             ),
           name: 'Pages',
           meta: {
@@ -932,12 +937,50 @@ export default new Router({
           },
         },
         {
-          path: '/dashboard/contents/collectivities',
+          path: '/dashboard/collectivities',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-collectivities" */ '@/views/SNU/Collectivities.vue'
+              /* webpackChunkName: "assets/js/dashboard-collectivities" */ '@/views/Admin/Collectivities.vue'
             ),
-          name: 'Collectivities',
+          name: 'DashboardCollectivities',
+          meta: {
+            roles: ['admin', 'referent', 'referent_regional'],
+          },
+        },
+        {
+          path: '/dashboard/collectivity/:id',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-collectivity-view" */ '@/views/Admin/Collectivity.vue'
+            ),
+          name: 'DashboardCollectivity',
+          props: (route) => ({ id: parseInt(route.params.id) }),
+          meta: {
+            roles: ['admin', 'referent', 'referent_regional'],
+          },
+        },
+        {
+          path: '/dashboard/collectivity/:id/history',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-collectivity-history" */ '@/views/Admin/Collectivity.vue'
+            ),
+          name: 'DashboardCollectivityHistory',
+          props: (route) => ({
+            id: parseInt(route.params.id),
+            tab: 'history',
+          }),
+          meta: {
+            roles: ['admin', 'referent', 'referent_regional'],
+          },
+        },
+        {
+          path: '/dashboard/contents/departments',
+          component: () =>
+            import(
+              /* webpackChunkName: "assets/js/dashboard-contents-departments" */ '@/views/Admin/Departments.vue'
+            ),
+          name: 'Departments',
           meta: {
             roles: ['admin'],
           },
@@ -946,7 +989,7 @@ export default new Router({
           path: '/dashboard/contents/documents',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-documents" */ '@/views/SNU/Documents.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-documents" */ '@/views/Admin/Documents.vue'
             ),
           name: 'Documents',
           meta: {
@@ -957,7 +1000,7 @@ export default new Router({
           path: '/dashboard/contents/thematiques',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-thematiques" */ '@/views/SNU/Thematiques.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-thematiques" */ '@/views/Admin/Thematiques.vue'
             ),
           name: 'Thematiques',
           meta: {
@@ -968,7 +1011,7 @@ export default new Router({
           path: '/dashboard/contents/mission-templates',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-mission-templates" */ '@/views/SNU/MissionTemplates.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-mission-templates" */ '@/views/Admin/MissionTemplates.vue'
             ),
           name: 'MissionTemplates',
           meta: {
@@ -979,7 +1022,7 @@ export default new Router({
           path: '/dashboard/contents/tags',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-contents-tags" */ '@/views/SNU/Tags.vue'
+              /* webpackChunkName: "assets/js/dashboard-contents-tags" */ '@/views/Admin/Tags.vue'
             ),
           name: 'Tags',
           meta: {
@@ -990,7 +1033,7 @@ export default new Router({
           path: '/dashboard/activities',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-activities" */ '@/views/SNU/Activities.vue'
+              /* webpackChunkName: "assets/js/dashboard-activities" */ '@/views/Admin/Activities.vue'
             ),
           name: 'Activities',
           meta: {
@@ -1001,7 +1044,7 @@ export default new Router({
           path: '/dashboard/release/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-release-add" */ '@/views/SNU/ReleaseForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-release-add" */ '@/views/Admin/ReleaseForm.vue'
             ),
           name: 'ReleaseFormAdd',
           props: { mode: 'add' },
@@ -1013,7 +1056,7 @@ export default new Router({
           path: '/dashboard/release/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-release-edit" */ '@/views/SNU/ReleaseForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-release-edit" */ '@/views/Admin/ReleaseForm.vue'
             ),
           name: 'ReleaseFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -1025,7 +1068,7 @@ export default new Router({
           path: '/dashboard/page/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-page-add" */ '@/views/SNU/PageForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-page-add" */ '@/views/Admin/PageForm.vue'
             ),
           name: 'PageFormAdd',
           props: { mode: 'add' },
@@ -1037,7 +1080,7 @@ export default new Router({
           path: '/dashboard/page/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-page-edit" */ '@/views/SNU/PageForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-page-edit" */ '@/views/Admin/PageForm.vue'
             ),
           name: 'PageFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -1049,7 +1092,7 @@ export default new Router({
           path: '/dashboard/collectivity/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-collectivity-add" */ '@/views/SNU/CollectivityForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-collectivity-add" */ '@/views/Admin/CollectivityForm.vue'
             ),
           name: 'CollectivityFormAdd',
           props: { mode: 'add' },
@@ -1061,19 +1104,19 @@ export default new Router({
           path: '/dashboard/collectivity/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-collectivity-edit" */ '@/views/SNU/CollectivityForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-collectivity-edit" */ '@/views/Admin/CollectivityForm.vue'
             ),
           name: 'CollectivityFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
           meta: {
-            roles: ['admin', 'responsable_collectivity'],
+            roles: ['admin', 'responsable'],
           },
         },
         {
           path: '/dashboard/document/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-document-add" */ '@/views/SNU/DocumentForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-document-add" */ '@/views/Admin/DocumentForm.vue'
             ),
           name: 'DocumentFormAdd',
           props: { mode: 'add' },
@@ -1085,7 +1128,7 @@ export default new Router({
           path: '/dashboard/document/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-document-edit" */ '@/views/SNU/DocumentForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-document-edit" */ '@/views/Admin/DocumentForm.vue'
             ),
           name: 'DocumentFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -1097,7 +1140,7 @@ export default new Router({
           path: '/dashboard/thematique/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-thematique-add" */ '@/views/SNU/ThematiqueForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-thematique-add" */ '@/views/Admin/ThematiqueForm.vue'
             ),
           name: 'ThematiqueFormAdd',
           props: { mode: 'add' },
@@ -1109,7 +1152,7 @@ export default new Router({
           path: '/dashboard/thematique/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-thematique-edit" */ '@/views/SNU/ThematiqueForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-thematique-edit" */ '@/views/Admin/ThematiqueForm.vue'
             ),
           name: 'ThematiqueFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -1121,7 +1164,7 @@ export default new Router({
           path: '/dashboard/mission-template/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-template-add" */ '@/views/SNU/MissionTemplateForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-template-add" */ '@/views/Admin/MissionTemplateForm.vue'
             ),
           name: 'MissionTemplateFormAdd',
           props: { mode: 'add' },
@@ -1133,7 +1176,7 @@ export default new Router({
           path: '/dashboard/mission-template/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-mission-template-edit" */ '@/views/SNU/MissionTemplateForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-mission-template-edit" */ '@/views/Admin/MissionTemplateForm.vue'
             ),
           name: 'MissionTemplateFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -1145,7 +1188,7 @@ export default new Router({
           path: '/dashboard/tag/add',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-tag-add" */ '@/views/SNU/TagForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-tag-add" */ '@/views/Admin/TagForm.vue'
             ),
           name: 'TagFormAdd',
           props: { mode: 'add' },
@@ -1157,7 +1200,7 @@ export default new Router({
           path: '/dashboard/tag/:id/edit',
           component: () =>
             import(
-              /* webpackChunkName: "assets/js/dashboard-tag-edit" */ '@/views/SNU/TagForm.vue'
+              /* webpackChunkName: "assets/js/dashboard-tag-edit" */ '@/views/Admin/TagForm.vue'
             ),
           name: 'TagFormEdit',
           props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),
@@ -1264,6 +1307,18 @@ export default new Router({
       name: 'messagesId',
       props: (route) => ({ id: route.params.id }),
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/register/volontaire',
+      name: 'RegisterVolontaire',
+      component: RegisterVolontaire,
+      meta: { requiresAnonymous: true },
+    },
+    {
+      path: '/register/responsable',
+      name: 'RegisterResponsable',
+      component: RegisterResponsable,
+      meta: { requiresAnonymous: true },
     },
   ],
   scrollBehavior() {

@@ -130,6 +130,10 @@ export function fetchCollectivities(params) {
   return request.get('/api/collectivities', { params })
 }
 
+export function fetchDepartments(params) {
+  return request.get('/api/departments', { params })
+}
+
 export function deleteCollectivity(id) {
   return request.delete(`/api/collectivity/${id}`)
 }
@@ -163,6 +167,10 @@ export function addDocument(document) {
 
 export function updateDocument(id, document) {
   return request.post(`/api/document/${id}`, document)
+}
+
+export function notifyDocument(id) {
+  return request.post(`/api/document/${id}/notify/`)
 }
 
 export function addOrUpdateDocument(id, document) {

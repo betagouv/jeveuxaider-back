@@ -1,6 +1,9 @@
 <template>
   <div class="el-form-item is-required">
     <label :for="selector" class="el-form-item__label">Lieu</label>
+    <item-description container-class="mb-2">
+      Si l'adresse n'est pas reconnue veuillez saisir le nom de la ville.
+    </item-description>
     <input
       :id="selector"
       type="text"
@@ -13,8 +16,12 @@
 
 <script>
 let places = require('places.js')
+import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
+  components: {
+    ItemDescription,
+  },
   props: {
     value: {
       type: String,

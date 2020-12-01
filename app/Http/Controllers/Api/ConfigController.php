@@ -61,7 +61,7 @@ class ConfigController extends Controller
 
     private function reseaux()
     {
-        return Structure::where('is_reseau', true)->get()->map(function ($structure) {
+        return Structure::where('is_reseau', true)->orderBy('name')->get()->map(function ($structure) {
             return [
                 'id' => $structure->id,
                 'name' => $structure->name

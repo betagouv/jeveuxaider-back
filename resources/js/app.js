@@ -17,7 +17,7 @@ import './plugins/utils.js'
 import './plugins/prettyBytes.js'
 import Vue2Filters from 'vue2-filters'
 import VueAnalytics from 'vue-analytics'
-import Inputmask from 'inputmask'
+import VueTheMask from 'vue-the-mask'
 
 import AppHeader from '@/components/AppHeader'
 import AppFooter from '@/components/AppFooter'
@@ -49,11 +49,13 @@ Vue.use(VueAnalytics, {
   },
 })
 
-Vue.directive('mask', {
-  bind: function (el, binding) {
-    Inputmask(binding.value).mask(el.getElementsByTagName('INPUT')[0])
-  },
-})
+Vue.use(VueTheMask)
+
+// Vue.directive('mask', {
+//   bind: function (el, binding) {
+//     Inputmask(binding.value).mask(el.getElementsByTagName('INPUT')[0])
+//   },
+// })
 
 new Vue({
   router,

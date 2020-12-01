@@ -63,6 +63,7 @@ class Structure extends Model
     protected $hidden = ['media'];
 
     protected $appends = ['full_address', 'ceu'];
+    protected $with = ['collectivity'];
 
     protected static $logFillable = true;
 
@@ -167,6 +168,11 @@ class Structure extends Model
                     $query->where('id', $domain_id);
                 });
             });
+    }
+
+    public function collectivity()
+    {
+        return $this->hasOne('App\Models\Collectivity');
     }
 
     public function scopeCollectivity($query, $collectivity_id)

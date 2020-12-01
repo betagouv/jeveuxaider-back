@@ -29,7 +29,8 @@ class CollectivityPolicy
 
     public function update(User $user, Collectivity $collectivity)
     {
-        if ($user->profile->collectivity->id == $collectivity->id) {
+        $structure = $user->profile->structures()->has('collectivity')->first();
+        if ($structure && $structure->collectivity->id == $collectivity->id) {
             return true;
         }
 

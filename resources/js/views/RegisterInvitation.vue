@@ -1,5 +1,5 @@
 <template>
-  <div class="register mx-auto w-full" style="max-width: 620px;">
+  <div class="register mx-auto w-full" style="max-width: 620px">
     <div>
       <router-link to="/">
         <img
@@ -88,7 +88,7 @@
         <el-button
           type="primary"
           :loading="loading"
-          style="height: 48px;"
+          style="height: 48px"
           class="w-full flex justify-center py-2 px-4 border border-transparent sm:text-xl font-medium rounded-md text-white bg-blue-800 hover:bg-primary focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
           @click="onSubmit"
           >Je m'inscris</el-button
@@ -102,13 +102,6 @@
 export default {
   name: 'RegisterInvitation',
   data() {
-    var checkLowercase = (rule, value, callback) => {
-      if (value !== value.toLowerCase()) {
-        callback(new Error('Merci de ne saisir que des minuscules'))
-      } else {
-        callback()
-      }
-    }
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
         callback(new Error('Les mots de passe ne sont pas identiques'))
@@ -137,7 +130,6 @@ export default {
             message: 'Veuillez renseigner votre email',
             trigger: 'blur',
           },
-          { validator: checkLowercase, trigger: 'blur' },
         ],
         first_name: [
           {

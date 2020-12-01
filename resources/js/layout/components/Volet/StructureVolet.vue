@@ -110,6 +110,7 @@
             <el-select
               v-model="form.reseau_id"
               clearable
+              filterable
               placeholder="Réseau national"
             >
               <el-option

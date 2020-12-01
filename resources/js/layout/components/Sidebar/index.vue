@@ -15,9 +15,6 @@
         />
         <menu-superviseur v-if="$store.getters.contextRole == 'superviseur'" />
         <menu-analyste v-if="$store.getters.contextRole == 'analyste'" />
-        <menu-responsable-collectivity
-          v-if="$store.getters.contextRole == 'responsable_collectivity'"
-        />
       </el-menu>
     </div>
 
@@ -68,7 +65,6 @@ import MenuReferent from './MenuReferent'
 import MenuReferentRegional from './MenuReferentRegional'
 import MenuSuperviseur from './MenuSuperviseur'
 import MenuAnalyste from './MenuAnalyste'
-import MenuResponsableCollectivity from './MenuResponsableCollectivity'
 import Profile from './Profile'
 
 export default {
@@ -80,7 +76,6 @@ export default {
     MenuReferentRegional,
     MenuSuperviseur,
     MenuAnalyste,
-    MenuResponsableCollectivity,
     Profile,
   },
   computed: {

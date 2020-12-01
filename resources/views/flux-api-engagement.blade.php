@@ -7,7 +7,7 @@
     <mission>
         <title><![CDATA[{{ $mission->name }}]]></title>
         <clientId><![CDATA[{{ $mission->id }}]]></clientId>
-        <description><![CDATA[{{ $mission->description }}]]></description>
+        <description><![CDATA[{{ $mission->description }}\n\nObjectifs: \n{{ $mission->objectif }}]]></description>
         <applicationUrl><![CDATA[{{ config('app.url') }}/missions/{{ $mission->id }}]]></applicationUrl>
         <organizationName><![CDATA[{{ $mission->structure->name }}]]></organizationName>
         <organizationId><![CDATA[{{ $mission->structure->id }}]]></organizationId>

@@ -5,7 +5,7 @@
     <span v-show="text.length > maxChars">
       <span
         v-show="!isReadMore"
-        class="cursor-pointer uppercase font-bold text-sm text-gray-800"
+        :class="moreClass"
         @click="triggerReadMore($event, true)"
       >
         {{ moreStr }}
@@ -20,6 +20,10 @@
 <script>
 export default {
   props: {
+    moreClass: {
+      type: String,
+      default: 'cursor-pointer uppercase font-bold text-sm text-gray-800',
+    },
     moreStr: {
       type: String,
       default: 'Lire plus',

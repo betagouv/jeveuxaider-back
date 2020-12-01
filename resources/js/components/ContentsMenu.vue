@@ -3,8 +3,8 @@
     <el-menu-item index="/dashboard/contents/faqs">Faqs</el-menu-item>
     <el-menu-item index="/dashboard/contents/releases">Releases</el-menu-item>
     <el-menu-item index="/dashboard/contents/pages">Pages</el-menu-item>
-    <el-menu-item index="/dashboard/contents/collectivities"
-      >Collectivités</el-menu-item
+    <el-menu-item index="/dashboard/contents/departments"
+      >Départements</el-menu-item
     >
     <el-menu-item index="/dashboard/contents/documents">Documents</el-menu-item>
     <el-menu-item index="/dashboard/contents/thematiques"

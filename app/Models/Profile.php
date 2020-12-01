@@ -26,7 +26,6 @@ class Profile extends Model implements HasMedia
         'phone',
         'mobile',
         'reseau_id',
-        'collectivity_id',
         'referent_department',
         'referent_region',
         'birthday',
@@ -55,6 +54,11 @@ class Profile extends Model implements HasMedia
     protected static $logOnlyDirty = true;
 
     protected static $submitEmptyLogs = false;
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
 
     public function getImageAttribute()
     {
@@ -240,11 +244,6 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function collectivity()
-    {
-        return $this->belongsTo('App\Models\Collectivity');
-    }
-
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'responsable_id');
@@ -292,9 +291,24 @@ class Profile extends Model implements HasMedia
         return $this->reseau ? true : false;
     }
 
+    public function getCollectivityAttribute()
+    {
+        $structure = $this->structures()
+            ->whereHas('collectivity', function (Builder $query) {
+                $query->where('state', 'validated');
+            })
+            ->wherePivot('role', 'responsable')
+            ->first();
+
+        if (!$structure) {
+            return null;
+        }
+        return $structure->collectivity;
+    }
+
     public function isResponsableCollectivity()
     {
-        return $this->collectivity && $this->collectivity->state == 'validated'  ? true : false;
+        return (bool) $this->collectivity;
     }
 
     public function isResponsable()

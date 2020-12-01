@@ -67,6 +67,7 @@ class StructureController extends Controller
     public function availableMissions(Request $request, Structure $structure)
     {
         $query = QueryBuilder::for(Mission::with('domaine'))
+            ->allowedAppends(['domaines'])
             ->available()
             ->where('structure_id', $structure->id);
 
@@ -89,6 +90,7 @@ class StructureController extends Controller
         if (!$request->validated()) {
             return $request->validated();
         }
+
 
         $structure = Structure::create(
             array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
@@ -127,11 +129,11 @@ class StructureController extends Controller
 
     public function addMember(StructureInvitationRequest $request, Structure $structure)
     {
-        $profile = Profile::whereEmail(request('email'))->first();
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
         $user = $request->user();
         $role = request('role');
 
-        if ($structure->members()->whereEmail(request('email'))->first()) {
+        if ($structure->members()->where('email', 'ILIKE', request('email'))->first()) {
             return response()->json(['errors' => [
                 'members' => ['Ce profil appartient déjà à l\'équipe']
             ]], 422);

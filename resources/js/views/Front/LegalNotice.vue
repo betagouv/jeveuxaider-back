@@ -83,7 +83,7 @@
                 La présente plateforme est un service numérique destiné à
                 organiser la mobilisation citoyenne face à la crise COVID-19.
                 Elle permet à toute personne, âgée de 16 ans révolus, de
-                s’engager pour des missions de volontariat.
+                s’engager pour des missions de bénévolat.
               </p>
               <p>
                 Ces missions sont proposées par des acteurs publics ou

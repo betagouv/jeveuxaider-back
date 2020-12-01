@@ -2,7 +2,7 @@
   <div class="register-step">
     <portal to="register-steps-help">
       <p>
-        Dites-nous en plus sur votre organisation !
+        Dites-nous en plus sur votre organisation&nbsp;!
         <br />Ces
         <span class="font-bold">informations générales</span> permettront au
         service référent de mieux vous connaître.
@@ -38,43 +38,6 @@
     </el-steps>
     <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800 mb-6">Mon organisation</div>
-      <!-- TODO -->
-      <!-- <div class="text-label pl-0 pb-2 mt-6" style="padding-left: 0">
-        Logo de l'organisation
-      </div> -->
-      <div v-show="false" class="mb-10">
-        <div class="flex -m-4">
-          <div class="m-4">
-            <div v-if="logoPreview" class="h-32 w-32 flex items-center">
-              <img :src="logoPreview" alt="Logo" />
-            </div>
-            <div
-              v-else
-              class="default-picture h-32 w-32 font-bold flex items-center justify-center text-white text-2xl bg-primary"
-            >
-              LOGO
-            </div>
-          </div>
-          <div class="m-4">
-            <el-upload
-              ref="logo"
-              action=""
-              :http-request="uploadLogo"
-              accept="image/*"
-              :before-upload="beforeLogoUpload"
-              :auto-upload="false"
-              :on-change="onChangeLogo"
-            >
-              <el-button>Modifier</el-button>
-              <div slot="tip" class="el-upload__tip text-xs">
-                Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
-                taille maximale de 5 Mo
-              </div>
-            </el-upload>
-          </div>
-        </div>
-      </div>
-      <!-- END TODO -->
       <el-form
         ref="structureForm"
         :model="form"
@@ -188,28 +151,34 @@
             placeholder="Décrivez votre organisation, en quelques mots"
           />
         </el-form-item>
-
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Réseau national ou territorial
-        </div>
-        <item-description container-class="mb-6">
-          Si votre organisation est membre d'un réseau national ou territorial
-          qui figure dans le menu déroulant du champ ci-dessous,
-          sélectionnez-le. Vous permettrez au superviseur de votre réseau de
-          visualiser les missions et bénévoles rattachés à votre organisation.
-          Vous faciliterez également la validation de votre organisation par les
-          autorités territoriales lors de votre inscription.
-        </item-description>
-        <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-          <el-select v-model="form.reseau_id" clearable placeholder="Aucun">
-            <el-option
-              v-for="item in reseauxOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
+        <template v-if="form.statut_juridique != 'Collectivité'">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Réseau national ou territorial
+          </div>
+          <item-description container-class="mb-6">
+            Si votre organisation est membre d'un réseau national ou territorial
+            qui figure dans le menu déroulant du champ ci-dessous,
+            sélectionnez-le. Vous permettrez au superviseur de votre réseau de
+            visualiser les missions et bénévoles rattachés à votre organisation.
+            Vous faciliterez également la validation de votre organisation par
+            les autorités territoriales lors de votre inscription.
+          </item-description>
+          <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+            <el-select
+              v-model="form.reseau_id"
+              clearable
+              placeholder="Aucun"
+              filterable
+            >
+              <el-option
+                v-for="item in $store.getters.reseaux"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </template>
         <div class="flex pt-2">
           <el-button type="primary" :loading="loading" @click="onSubmit">
             Continuer
@@ -221,7 +190,7 @@
 </template>
 
 <script>
-import { addOrUpdateStructure, updateStructureLogo } from '@/api/structure'
+import { updateStructure } from '@/api/structure'
 import ItemDescription from '@/components/forms/ItemDescription'
 
 export default {
@@ -230,9 +199,8 @@ export default {
   data() {
     return {
       loading: false,
-      structureId: null,
+      structureId: this.$store.getters.structure_as_responsable.id,
       form: {},
-      logoPreview: null,
       rules: {
         name: {
           required: true,
@@ -265,69 +233,24 @@ export default {
       },
     }
   },
-  computed: {
-    reseauxOptions() {
-      return this.$store.getters.reseaux
-    },
-  },
   created() {
-    this.structureId = this.$store.getters.structure_as_responsable
-      ? this.$store.getters.structure_as_responsable.id
-      : null
+    this.form = this.$store.getters.structure_as_responsable || null
   },
   methods: {
-    uploadLogo(request) {
-      updateStructureLogo(this.structureId, request.file)
-        .then(() => {
-          this.loading = false
-          // Get profile to get new role
-          this.$store.dispatch('user/get')
-          this.$router.push('/register/responsable/step/address')
-        })
-        .catch(() => {
-          this.loading = false
-        })
-    },
-    beforeLogoUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 5
-      if (!isLt5M) {
-        this.$message({
-          message: 'Votre image ne doit pas éxcéder une taille de 4MB',
-          type: 'error',
-        })
-        this.loading = false
-        this.logoPreview = null
-      }
-      return isLt5M
-    },
-    onChangeLogo(file) {
-      var reader = new FileReader()
-      reader.readAsDataURL(file.raw)
-      reader.onload = (e) => {
-        this.logoPreview = e.target.result
-      }
-    },
     onSubmit() {
-      this.loading = true
       this.$refs['structureForm'].validate((valid) => {
         if (valid) {
-          addOrUpdateStructure(this.structureId, this.form)
-            .then(async (response) => {
-              this.structureId = response.data.id
-              if (this.$refs.logo.uploadFiles.length > 0) {
-                this.$refs.logo.submit()
-              } else {
-                // Get profile to get new role
-                await this.$store.dispatch('user/get')
-                this.$router.push('/register/responsable/step/address')
-                this.loading = false
-              }
+          this.loading = true
+          updateStructure(this.structureId, this.form)
+            .then(async () => {
+              // Get profile to get new role
+              await this.$store.dispatch('user/get')
+              this.loading = false
+              this.$router.push('/register/responsable/step/address')
             })
             .catch(() => {
               this.loading = false
             })
-        } else {
-          this.loading = false
         }
       })
     },

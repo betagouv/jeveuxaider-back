@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Auth;
 
 class Collectivity extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, LogsActivity;
 
     protected $table = 'collectivities';
 
@@ -25,6 +27,7 @@ class Collectivity extends Model implements HasMedia
         'published',
         'state',
         'profile_id',
+        'structure_id',
     ];
 
     protected $casts = [
@@ -39,6 +42,17 @@ class Collectivity extends Model implements HasMedia
     protected $appends = ['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
 
     protected $hidden = ['media'];
+
+    protected static $logFillable = true;
+
+    protected static $logOnlyDirty = true;
+
+    protected static $submitEmptyLogs = false;
+
+    public function structure()
+    {
+        return $this->belongsTo('App\Models\Structure');
+    }
 
     public function getBannerAttribute()
     {
@@ -117,5 +131,59 @@ class Collectivity extends Model implements HasMedia
     public function profiles()
     {
         return $this->hasMany('App\Models\Profile');
+    }
+
+    public function scopeRole($query, $contextRole)
+    {
+        switch ($contextRole) {
+            case 'admin':
+            case 'analyste':
+                return $query;
+            break;
+            case 'referent':
+                $department = Auth::guard('api')->user()->profile->referent_department;
+                $zips = self::where('type', 'commune')
+                    ->get()
+                    ->pluck('zips')
+                    ->flatten()
+                    ->filter(function ($item) use ($department) {
+                        return substr($item, 0, 2) == $department;
+                    })
+                    ->toArray();
+
+                if ($zips) {
+                    foreach ($zips as $zip) {
+                        $query->orWhereJsonContains('zips', $zip);
+                    }
+                    return $query;
+                }
+                    return $query->where('id', -1); // Hack pour ne rien retourner
+                
+            break;
+            case 'referent_regional':
+
+                $departments = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];;
+                $zips = self::where('type', 'commune')
+                    ->get()
+                    ->pluck('zips')
+                    ->flatten()
+                    ->filter(function ($item) use ($departments) {
+                        return in_array(substr($item, 0, 2), $departments);
+                    })
+                    ->toArray();
+
+                if ($zips) {
+                    foreach ($zips as $zip) {
+                        $query->orWhereJsonContains('zips', $zip);
+                    }
+                    return $query;
+                }
+                    return $query->where('id', -1); // Hack pour ne rien retourner
+                
+            break;
+            case 'responsable_collectivity':
+                return $query->where('id', Auth::guard('api')->user()->profile->collectivity->id);
+            break;
+        }
     }
 }

@@ -21,7 +21,7 @@ class CollectivityUpdateRequest extends CollectivityRequest
             'name' => [
                 'required',
                 Rule::unique('collectivities')->ignore($collectivity->id),
-                'min:3',
+                'min:2',
                 'max:255',
             ],
             'title' => '',
@@ -30,6 +30,7 @@ class CollectivityUpdateRequest extends CollectivityRequest
             'department' => '',
             'zips' => '',
             'state' => '',
+            'structure_id' => '',
             'published' => 'boolean',
         ];
     }
