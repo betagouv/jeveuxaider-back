@@ -40,17 +40,6 @@
             caret-animation="blink"
           ></vue-typer>
         </h2>
-        <h2
-          class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white"
-        >
-          Je veux <br class="lg:hidden" />
-          <span
-            class="typewrite"
-            data-period="1000"
-            data-type='[ "aider", "vivre des moments forts", "une société solidaire", "me rendre utile", "faire vivre les valeurs de la République" ]'
-            ><span class="wrap"></span>
-          </span>
-        </h2>
         <p
           class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
         >
@@ -1021,73 +1010,7 @@ export default {
       ],
     }
   },
-  mounted() {
-    console.log('mounted')
-    this.textJeVeuxAider()
-  },
   methods: {
-    textJeVeuxAider() {
-      console.log('textJeVeuxAider')
-      var TxtType = function (el, toRotate, period) {
-        this.toRotate = toRotate
-        this.el = el
-        this.loopNum = 0
-        this.period = parseInt(period, 10) || 1000
-        this.txt = ''
-        this.tick()
-        this.isDeleting = false
-      }
-
-      TxtType.prototype.tick = function () {
-        var i = this.loopNum % this.toRotate.length
-        var fullTxt = this.toRotate[i]
-
-        if (this.isDeleting) {
-          this.txt = fullTxt.substring(0, this.txt.length - 1)
-        } else {
-          this.txt = fullTxt.substring(0, this.txt.length + 1)
-        }
-
-        this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>'
-
-        var that = this
-        var delta = 140 - Math.random() * 100
-
-        if (this.isDeleting) {
-          delta /= 2
-        }
-
-        if (!this.isDeleting && this.txt === fullTxt) {
-          delta = this.period
-          this.isDeleting = true
-        } else if (this.isDeleting && this.txt === '') {
-          this.isDeleting = false
-          this.loopNum++
-          delta = 500
-        }
-
-        setTimeout(function () {
-          that.tick()
-        }, delta)
-      }
-
-      window.onload = function () {
-        var elements = document.getElementsByClassName('typewrite')
-        for (var i = 0; i < elements.length; i++) {
-          var toRotate = elements[i].getAttribute('data-type')
-          var period = elements[i].getAttribute('data-period')
-          if (toRotate) {
-            new TxtType(elements[i], JSON.parse(toRotate), period)
-          }
-        }
-        // INJECT CSS
-        var css = document.createElement('style')
-        css.type = 'text/css'
-        css.innerHTML =
-          '.typewrite > .wrap { border-right: 0.06em solid #bdbdbd}'
-        document.body.appendChild(css)
-      }
-    },
     fetchActualites() {
       // var coucou = request.get(
       //   'https://covid19.reserve-civique.gouv.fr/engagement/engagement/feed/'
@@ -1100,5 +1023,9 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .typed
-  color: white
+  color: white !important
+::v-deep .erasing
+  background-color: white !important
+::v-deep .custom.caret
+  background-color: white !important
 </style>
