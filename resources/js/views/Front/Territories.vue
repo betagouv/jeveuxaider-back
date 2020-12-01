@@ -7,8 +7,8 @@
       >
         <img
           class="hidden lg:block absolute transform translate-y-1 opacity-50"
-          style="left: 100%; transform: translateX(-75%) !important;"
-          src="images/france.svg"
+          style="left: 100%; transform: translateX(-75%) !important"
+          src="/images/france.svg"
           width="904"
           alt=""
         />

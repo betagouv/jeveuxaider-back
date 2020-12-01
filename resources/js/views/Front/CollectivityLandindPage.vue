@@ -112,7 +112,7 @@
                     <div
                       class="bg-blue-800 rounded-md p-3 text-white text-center"
                     >
-                      <img class="h-7" src="images/treehouse.svg" alt="" />
+                      <img class="h-7" src="/images/treehouse.svg" alt="" />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -134,7 +134,7 @@
                     <div
                       class="bg-blue-800 rounded-md p-3 text-white text-center"
                     >
-                      <img class="h-7" src="images/alerte.svg" alt="" />
+                      <img class="h-7" src="/images/alerte.svg" alt="" />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -155,7 +155,7 @@
                     <div
                       class="bg-blue-800 rounded-md p-3 text-white text-center"
                     >
-                      <img class="h-7" src="images/users.svg" alt="" />
+                      <img class="h-7" src="/images/users.svg" alt="" />
                     </div>
                   </div>
                   <div class="ml-4">
@@ -176,7 +176,7 @@
             <img
               class="relative mx-auto"
               width="520"
-              src="images/france.png"
+              src="/images/france.png"
               alt=""
             />
           </div>
@@ -211,42 +211,42 @@
               >
                 <img
                   class="relative z-0 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-1.jpg"
+                  src="/images/avatar-1.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-7.jpg"
+                  src="/images/avatar-7.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-3.jpg"
+                  src="/images/avatar-3.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-9.jpg"
+                  src="/images/avatar-9.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-6.jpg"
+                  src="/images/avatar-6.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-5.jpg"
+                  src="/images/avatar-5.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-8.jpg"
+                  src="/images/avatar-8.jpg"
                   alt=""
                 />
                 <img
                   class="relative z-0 -ml-2 inline-block h-10 w-10 rounded-full text-gray-50 shadow-solid"
-                  src="images/avatar-2.jpg"
+                  src="/images/avatar-2.jpg"
                   alt=""
                 />
               </div>

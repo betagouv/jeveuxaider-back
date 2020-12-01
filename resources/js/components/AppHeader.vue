@@ -15,14 +15,14 @@
           <div class="flex items-center">
             <img
               class="h-4 lg:h-5 w-auto flex flex-none"
-              src="images/small-logo.svg"
+              src="/images/small-logo.svg"
               alt="Logo République Française"
             />
 
             <router-link to="/" class="flex flex-none">
               <img
                 class="h-5 lg:h-6 w-auto mt-0 lg:-mt-1 ml-4 pr-3"
-                src="images/logo-reserve-civique_dark.svg"
+                src="/images/logo-reserve-civique_dark.svg"
                 alt="Logo Réserve Civique"
               />
             </router-link>
@@ -209,7 +209,11 @@
             Mes missions
           </router-link>
           <router-link
-            v-if="$store.getters.isLogged && $store.getters.reminders.total > 0"
+            v-if="
+              $store.getters.isLogged &&
+              $store.getters.reminders &&
+              $store.getters.reminders.total > 0
+            "
             to="/dashboard"
             class="hidden lg:block ml-2"
           >
@@ -291,7 +295,7 @@
               <div>
                 <img
                   class="h-5 lg:h-6 w-auto mt-0 lg:-mt-1 pr-3"
-                  src="images/logo-reserve-civique_dark.svg"
+                  src="/images/logo-reserve-civique_dark.svg"
                   alt=""
                 />
               </div>

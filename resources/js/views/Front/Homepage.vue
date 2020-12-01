@@ -19,6 +19,31 @@
           class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white"
         >
           Je veux <br class="lg:hidden" />
+          <vue-typer
+            class="text-white"
+            :text="[
+              'aider',
+              'vivre des moments forts',
+              'une société solidaire',
+              'me rendre utile',
+              'faire vivre les valeurs de la République',
+            ]"
+            :repeat="Infinity"
+            :shuffle="false"
+            initial-action="typing"
+            :pre-type-delay="70"
+            :type-delay="70"
+            :pre-erase-delay="2000"
+            :erase-delay="30"
+            erase-style="backspace"
+            :erase-on-complete="false"
+            caret-animation="blink"
+          ></vue-typer>
+        </h2>
+        <h2
+          class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white"
+        >
+          Je veux <br class="lg:hidden" />
           <span
             class="typewrite"
             data-period="1000"
@@ -37,7 +62,9 @@
         <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-5">
           <div class="rounded-full shadow-lg">
             <router-link
-              to="/missions"
+              :to="
+                !$store.getters.isLogged ? '/register/volontaire' : '/missions'
+              "
               class="flex items-center shadow-lg justify-center px-8 py-3 border border-transparent text-2xl leading-6 font-medium rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Je veux aider
@@ -118,32 +145,32 @@
               Trouvez une mission de bénévolat</span
             >
 
-            <a
-              href="#"
+            <router-link
+              to="/missions?menu%5Btype%5D=Mission%20en%20présentiel"
               class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
             >
-              près de chez vous</a
+              près de chez vous</router-link
             >
             <span class="block lg:inline-flex my-4 lg:my-0">ou</span>
 
-            <a
-              href="#"
+            <router-link
+              to="/missions?menu%5Btype%5D=Mission%20à%20distance"
               class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
             >
-              à distance</a
+              à distance</router-link
             >
           </span>
         </div>
       </div>
     </div>
-    <div class="bg-gray50 pb-20">
+    <div class="bg-gray-50 pb-20">
       <p
         class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
       >
         Parmi les missions prioritaires
       </p>
       <div
-        class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3 lg:max-w-none"
+        class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3 lg:max-w-none px-4 lg:px-0"
       >
         <router-link
           v-for="mission in missions_prioritaires"
@@ -342,7 +369,7 @@
         <div class="relative h-full max-w-screen-xl mx-auto opacity-25">
           <img
             class="hidden lg:block absolute left-full transform -translate-x-3/4 -translate-y-20 opacity-75"
-            src="images/france_dark.svg"
+            src="/images/france_dark.svg"
             width="1530"
             alt=""
           />
@@ -399,7 +426,7 @@
                   <div class="flex-shrink-0 inline-flex rounded-full">
                     <img
                       class="h-14 w-14 mt-1 rounded-full shadow-lg"
-                      src="images/sante-3.jpg"
+                      src="/images/sante-3.jpg"
                       alt=""
                     />
                   </div>
@@ -414,7 +441,7 @@
                     </div>
                     <img
                       class="h-9"
-                      src="images/logo_banquealimentaire.png"
+                      src="/images/logo_banquealimentaire.png"
                       alt="logo"
                     />
                   </div>
@@ -505,7 +532,7 @@
                 <div class="md:flex-shrink-0">
                   <img
                     class="mx-auto h-12 w-12 rounded-full shadow-lg"
-                    src="images/logo_carre_rc.jpg"
+                    src="/images/logo_carre_rc.jpg"
                     alt=""
                   />
                 </div>
@@ -687,7 +714,7 @@
         <div class="lg:col-start-1 border-r border-gray-200">
           <div class="p-8 lg:p-15">
             <img
-              src="images/helping-hand.svg"
+              src="/images/helping-hand.svg"
               alt=""
               class="ml-1 h-12 opacity-50 mb-4"
             />
@@ -776,7 +803,7 @@
         <div class="lg:col-start-2">
           <div class="p-8 lg:p-15">
             <img
-              src="images/townhall.svg"
+              src="/images/townhall.svg"
               alt=""
               class="ml-1 h-12 opacity-50 mb-4"
             />
@@ -877,8 +904,13 @@
 </style>
 
 <script>
+import { VueTyper } from 'vue-typer'
+
 export default {
   name: 'Homepage',
+  components: {
+    VueTyper,
+  },
   data() {
     return {
       missions_prioritaires: [
@@ -990,64 +1022,83 @@ export default {
     }
   },
   mounted() {
-    var TxtType = function (el, toRotate, period) {
-      this.toRotate = toRotate
-      this.el = el
-      this.loopNum = 0
-      this.period = parseInt(period, 10) || 1000
-      this.txt = ''
-      this.tick()
-      this.isDeleting = false
-    }
-
-    TxtType.prototype.tick = function () {
-      var i = this.loopNum % this.toRotate.length
-      var fullTxt = this.toRotate[i]
-
-      if (this.isDeleting) {
-        this.txt = fullTxt.substring(0, this.txt.length - 1)
-      } else {
-        this.txt = fullTxt.substring(0, this.txt.length + 1)
-      }
-
-      this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>'
-
-      var that = this
-      var delta = 140 - Math.random() * 100
-
-      if (this.isDeleting) {
-        delta /= 2
-      }
-
-      if (!this.isDeleting && this.txt === fullTxt) {
-        delta = this.period
-        this.isDeleting = true
-      } else if (this.isDeleting && this.txt === '') {
+    console.log('mounted')
+    this.textJeVeuxAider()
+  },
+  methods: {
+    textJeVeuxAider() {
+      console.log('textJeVeuxAider')
+      var TxtType = function (el, toRotate, period) {
+        this.toRotate = toRotate
+        this.el = el
+        this.loopNum = 0
+        this.period = parseInt(period, 10) || 1000
+        this.txt = ''
+        this.tick()
         this.isDeleting = false
-        this.loopNum++
-        delta = 500
       }
 
-      setTimeout(function () {
-        that.tick()
-      }, delta)
-    }
+      TxtType.prototype.tick = function () {
+        var i = this.loopNum % this.toRotate.length
+        var fullTxt = this.toRotate[i]
 
-    window.onload = function () {
-      var elements = document.getElementsByClassName('typewrite')
-      for (var i = 0; i < elements.length; i++) {
-        var toRotate = elements[i].getAttribute('data-type')
-        var period = elements[i].getAttribute('data-period')
-        if (toRotate) {
-          new TxtType(elements[i], JSON.parse(toRotate), period)
+        if (this.isDeleting) {
+          this.txt = fullTxt.substring(0, this.txt.length - 1)
+        } else {
+          this.txt = fullTxt.substring(0, this.txt.length + 1)
         }
+
+        this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>'
+
+        var that = this
+        var delta = 140 - Math.random() * 100
+
+        if (this.isDeleting) {
+          delta /= 2
+        }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+          delta = this.period
+          this.isDeleting = true
+        } else if (this.isDeleting && this.txt === '') {
+          this.isDeleting = false
+          this.loopNum++
+          delta = 500
+        }
+
+        setTimeout(function () {
+          that.tick()
+        }, delta)
       }
-      // INJECT CSS
-      var css = document.createElement('style')
-      css.type = 'text/css'
-      css.innerHTML = '.typewrite > .wrap { border-right: 0.06em solid #bdbdbd}'
-      document.body.appendChild(css)
-    }
+
+      window.onload = function () {
+        var elements = document.getElementsByClassName('typewrite')
+        for (var i = 0; i < elements.length; i++) {
+          var toRotate = elements[i].getAttribute('data-type')
+          var period = elements[i].getAttribute('data-period')
+          if (toRotate) {
+            new TxtType(elements[i], JSON.parse(toRotate), period)
+          }
+        }
+        // INJECT CSS
+        var css = document.createElement('style')
+        css.type = 'text/css'
+        css.innerHTML =
+          '.typewrite > .wrap { border-right: 0.06em solid #bdbdbd}'
+        document.body.appendChild(css)
+      }
+    },
+    fetchActualites() {
+      // var coucou = request.get(
+      //   'https://covid19.reserve-civique.gouv.fr/engagement/engagement/feed/'
+      // )
+      //console.log('coucou', coucou)
+    },
   },
 }
 </script>
+
+<style lang="sass" scoped>
+::v-deep .typed
+  color: white
+</style>
