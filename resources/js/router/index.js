@@ -859,7 +859,7 @@ export default new Router({
             ),
           name: 'Ressources',
           meta: {
-            roles: ['referent', 'responsable'],
+            roles: ['referent', 'referent_regional', 'responsable'],
           },
         },
         {
