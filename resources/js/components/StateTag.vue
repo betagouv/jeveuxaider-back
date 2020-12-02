@@ -11,9 +11,6 @@
     >
       En attente de validation
     </el-tag>
-    <el-tag v-if="state == 'Signalée'" type="danger" :size="size" class="m-1">
-      Signalée
-    </el-tag>
     <el-tag v-if="state == 'Terminée'" type="info" :size="size" class="m-1">
       Terminée
     </el-tag>

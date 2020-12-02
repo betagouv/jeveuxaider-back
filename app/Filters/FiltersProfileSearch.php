@@ -10,11 +10,14 @@ class FiltersProfileSearch implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value, $property) {
-            $query->where('first_name', 'ILIKE', '%' . $value . '%')
-                ->orWhere('last_name', 'ILIKE', '%' . $value . '%')
-                ->orWhere('email', 'ILIKE', '%' . $value . '%')
-                ->orWhere('id', $value);
-        })
-        ;
+            if (is_numeric($value)) {
+                $query
+                    ->where('id', $value);
+            } else {
+                $query->where('first_name', 'ILIKE', '%' . $value . '%')
+                    ->orWhere('last_name', 'ILIKE', '%' . $value . '%')
+                    ->orWhere('email', 'ILIKE', '%' . $value . '%');
+            }
+        });
     }
 }
