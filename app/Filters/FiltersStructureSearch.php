@@ -10,7 +10,9 @@ class FiltersStructureSearch implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value, $property) {
-            $query->where('name', 'ILIKE', '%' . $value . '%');
+            $query
+                ->where('name', 'ILIKE', '%' . $value . '%')
+                ->orWhere('id', $value);
         });
     }
 }

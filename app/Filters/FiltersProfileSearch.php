@@ -12,7 +12,8 @@ class FiltersProfileSearch implements Filter
         return $query->where(function ($query) use ($value, $property) {
             $query->where('first_name', 'ILIKE', '%' . $value . '%')
                 ->orWhere('last_name', 'ILIKE', '%' . $value . '%')
-                ->orWhere('email', 'ILIKE', '%' . $value . '%');
+                ->orWhere('email', 'ILIKE', '%' . $value . '%')
+                ->orWhere('id', $value);
         })
         ;
     }
