@@ -3,7 +3,12 @@
     <div class="text-secondary text-xs uppercase font-semibold mb-2">
       {{ label }}
     </div>
-    <el-input v-model="input" :placeholder="placeholder" clearable />
+    <el-input
+      :ref="name"
+      v-model="input"
+      :placeholder="placeholder"
+      clearable
+    />
   </div>
 </template>
 
@@ -44,6 +49,11 @@ export default {
         this.$emit('changed', { name: this.name, value: newVal })
       }
     }, 500),
+  },
+  mounted() {
+    if (this.initialValue) {
+      this.$refs[this.name].focus()
+    }
   },
 }
 </script>
