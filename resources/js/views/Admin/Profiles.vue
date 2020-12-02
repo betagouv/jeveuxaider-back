@@ -106,11 +106,14 @@
           "
           @changed="onFilterChange"
         />
-        <query-search-filter
-          name="postal_code"
-          label="Code postal"
-          placeholder="Code postal"
-          :initial-value="query['filter[postal_code]']"
+        <query-filter
+          name="zips"
+          label="Codes postaux"
+          multiple
+          allow-create
+          default-first-option
+          :value="query['filter[zips]']"
+          :options="[]"
           @changed="onFilterChange"
         />
         <query-filter

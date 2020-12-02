@@ -21,6 +21,7 @@ use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersProfileZips;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Mission;
 use App\Models\Participation;
@@ -46,6 +47,7 @@ class ProfileController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
+                AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
