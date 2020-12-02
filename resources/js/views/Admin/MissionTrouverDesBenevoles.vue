@@ -160,7 +160,7 @@
       </div>
     </div>
     <portal to="volet">
-      <profile-volet />
+      <profile-volet hide-personal-fields />
     </portal>
   </div>
 </template>

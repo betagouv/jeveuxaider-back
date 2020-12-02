@@ -25,6 +25,12 @@
           {{ participation.mission.structure.name }}
         </div>
       </div>
+      <div v-if="participation.mission.tuteur" class="card-item mb-2 flex">
+        <div class="card-label">Responsable</div>
+        <div class="text-gray-900 flex-1">
+          {{ participation.mission.tuteur.full_name }}
+        </div>
+      </div>
       <div v-if="participation.mission.name" class="card-item mb-2 flex">
         <div class="card-label">Mission</div>
         <div class="text-gray-900 flex-1">

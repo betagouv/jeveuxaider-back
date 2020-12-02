@@ -7,9 +7,7 @@
             <el-avatar v-if="canShowProfileDetails" class="bg-primary">
               {{ row.profile.short_name }}
             </el-avatar>
-            <el-avatar v-else class="bg-primary">
-              XX
-            </el-avatar>
+            <el-avatar v-else class="bg-primary"> XX </el-avatar>
           </div>
           <router-link
             class="font-bold text-primary text-lg my-3"

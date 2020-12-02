@@ -23,7 +23,7 @@ class MissionController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure'))
+        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure', 'tuteur'))
         ->allowedAppends('domaines')
         ->allowedFilters([
             'name',
