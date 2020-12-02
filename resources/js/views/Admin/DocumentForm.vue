@@ -244,7 +244,6 @@ export default {
       if (this.sendNotificationsToReferent) {
         notifyDocument(this.form.id)
           .then((response) => {
-            console.log('nn', response.data)
             this.$message({
               message:
                 'Une notification a été envoyée à  ' +

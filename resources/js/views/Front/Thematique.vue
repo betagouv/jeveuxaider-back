@@ -396,7 +396,6 @@ export default {
         } else {
           getThematiqueStatistics(this.thematique.id).then((response) => {
             this.statistics = { ...response.data }
-            console.log('templates', this.statistics.templates)
             this.$store.commit('setLoading', false)
           })
         }

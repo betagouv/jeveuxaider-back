@@ -48,6 +48,22 @@
         </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
+        <query-filter
+          v-if="$store.getters.contextRole === 'responsable'"
+          type="select"
+          name="tuteur_id"
+          :value="query['filter[tuteur_id]']"
+          label="Responsable"
+          :options="
+            responsables.map((responsable) => {
+              return {
+                label: responsable.full_name,
+                value: responsable.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
         <query-search-filter
           name="lieu"
           label="Lieu"
@@ -182,6 +198,7 @@
 
 <script>
 import { fetchMissions, exportMissions } from '@/api/mission'
+import { getStructureMembers } from '@/api/structure'
 import {
   fetchTags,
   fetchMissionTemplates,
@@ -213,6 +230,7 @@ export default {
       domaines: [],
       templates: [],
       collectivities: [],
+      responsables: [],
     }
   },
   created() {
@@ -228,6 +246,16 @@ export default {
     }).then((res) => {
       this.collectivities = res.data.data
     })
+    if (
+      this.$store.getters.contextRole === 'responsable' &&
+      this.$store.getters.structure_as_responsable
+    ) {
+      getStructureMembers(this.$store.getters.structure_as_responsable.id).then(
+        (res) => {
+          this.responsables = res.data
+        }
+      )
+    }
   },
   methods: {
     fetchRows() {
@@ -241,7 +269,7 @@ export default {
           fileDownload(response.data, 'missions.xlsx')
         })
         .catch((error) => {
-          console.log(error)
+          console.log('exportMissions', error)
         })
     },
   },

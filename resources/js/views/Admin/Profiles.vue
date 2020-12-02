@@ -355,7 +355,7 @@ export default {
           fileDownload(response.data, 'utilisateurs.xlsx')
         })
         .catch((error) => {
-          console.log(error)
+          console.log('exportProfiles', error)
         })
     },
   },

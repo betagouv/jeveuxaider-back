@@ -79,9 +79,7 @@
           <div class="text-gray-900">
             {{ scope.row.responsable_waiting_actions.total | formatNumber }}
           </div>
-          <div class="font-light text-gray-600 text-xs">
-            en attente
-          </div>
+          <div class="font-light text-gray-600 text-xs">en attente</div>
         </template>
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="120">
@@ -218,7 +216,7 @@ export default {
           fileDownload(response.data, 'responsables.csv')
         })
         .catch((error) => {
-          console.log(error)
+          console.log('exportProfilesResponsables', error)
         })
     },
   },

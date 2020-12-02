@@ -199,7 +199,6 @@ export default {
   },
   created() {
     getMission(this.id).then((res) => {
-      console.log(res)
       this.mission = res.data
     })
     fetchTags({ 'filter[type]': 'domaine' }).then((res) => {

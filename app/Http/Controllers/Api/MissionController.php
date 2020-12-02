@@ -40,6 +40,7 @@ class MissionController extends Controller
             AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
             AllowedFilter::custom('domaine', new FiltersMissionDomaine),
             AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
+            AllowedFilter::exact('tuteur_id'),
         ])
         ->defaultSort('-updated_at')
         ->paginate(config('query-builder.results_per_page'));

@@ -36,7 +36,8 @@ class ParticipationController extends Controller
                 'mission.type',
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
-                AllowedFilter::exact('mission.id')
+                AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('mission.tuteur_id'),
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))

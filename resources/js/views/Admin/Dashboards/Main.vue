@@ -111,7 +111,7 @@ export default {
           fileDownload(response.data, `${table}.csv`)
         })
         .catch((error) => {
-          console.log(error)
+          console.log('exportTable', error)
         })
     },
   },
