@@ -586,7 +586,7 @@
                     href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
                     class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
                   >
-                    Actualités
+                    {{ actualite.type }}
                   </a>
                 </p>
                 <a target="_blank" :href="actualite.link" class="block"
@@ -993,34 +993,35 @@ export default {
       ],
       actualites: [
         {
-          title:
-            "La Réserve Civique s'engage pour la solidarité et l'insertion !",
+          title: 'Giving Tuesday : libérons notre générosité !',
           link:
-            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/la-reserve-civique-sengage-pour-la-solidarite-et-linsertion/',
+            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/giving-tuesday-liberons-notre-generosite/',
           image:
-            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/10/cest-la-vi%CC%81e-1-scaled-uai-1032x580.png',
+            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/Honrizontal-1-uai-554x312.png',
           teaser:
-            "La Réserve Civique, en partenariat avec les Banques Alimentaires et l'ANDES, vous propose des milliers de missions bénévoles pour faire grandir la solidarité.",
+            "Décembre, c'est le mois du don à la Réserve Civique. Quoi de mieux que le Giving Tuesday, ce 1er décembre, pour bien démarrer ?",
+          type: 'Actualités',
+        },
+        {
+          title: 'Paul, bénévole pour la Mission Camionnette',
+          link:
+            'https://covid19.reserve-civique.gouv.fr/engagement/temoignage/paul-benevole-pour-la-mission-camionnette-la-faim-nest-pas-que-physique-elle-est-aussi-soif-de-dialogue-damitie/',
+          image:
+            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/125410728_2172696756194788_6942989377646507647_o-uai-720x405.jpg',
+          teaser:
+            "Pourquoi et comment s'engager pour l'aide alimentaire ? Paul Piron, 24 ans, professeur de français dans le Val d'Oise et...",
+          type: 'Témoignages',
         },
         {
           title:
-            '[Parole d’asso] CAUSONS délie les langues, relie les cultures',
+            "[Parole d'asso] L’Agence du Don en Nature, solidaire et anti-gaspi",
           link:
-            'https://covid19.reserve-civique.gouv.fr/engagement/focus/parole-dasso-causons-delie-les-langues-relie-les-cultures/',
+            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/lagence-du-don-en-nature-contre-la-precarite-et-le-gaspillage/',
           image:
-            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/BD%EF%BF%BDADN.fev20%C2%A9GovinSorel_GOV7369-uai-1032x580.jpg',
+            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/BD%EF%BF%BDADN.fev20%C2%A9GovinSorel_GOV7369-uai-720x405.jpg',
           teaser:
-            'Au-delà des langues, réinventons une solidarité participative, égalitaire et inclusive !',
-        },
-        {
-          title:
-            'Associations et collectivités : découvrez la Rentrée des Assos',
-          link:
-            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/decouvrez-la-rentree-des-assos/',
-          image:
-            'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/09/tutorat-zdc-3-sur-18-retouche%CC%81-scaled-uai-1032x580.jpg',
-          teaser:
-            "À partir du 16 septembre, cette plateforme numérique met les associations à l'honneur et référence leurs activités de rentrée.",
+            "Que fait-on des produits non-alimentaires lorsqu'ils ne sont pas vendus ? Depuis 2008, l'Agence du Don en Nature se propose de..",
+          type: 'Focus',
         },
       ],
       email: '',
