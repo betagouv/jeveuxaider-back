@@ -21,8 +21,6 @@
             id="typewriter"
             class="text-white"
             :text="[
-              'vivre des moments forts',
-
               'aider',
               'vivre des moments forts',
               'une société solidaire',
@@ -34,7 +32,7 @@
             initial-action="typing"
             :pre-type-delay="70"
             :type-delay="70"
-            :pre-erase-delay="2000000"
+            :pre-erase-delay="2000"
             :erase-delay="30"
             erase-style="backspace"
             :erase-on-complete="false"
