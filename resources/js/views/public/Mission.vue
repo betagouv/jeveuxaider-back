@@ -622,7 +622,10 @@
           <el-button @click="dialogParticipateVisible = false">
             Annuler
           </el-button>
-          <el-button type="primary" @click="handleSubmitFormParticipate"
+          <el-button
+            :loading="dialogLoading"
+            type="primary"
+            @click="handleSubmitFormParticipate"
             >Proposer mon aide</el-button
           >
         </span>
@@ -647,11 +650,10 @@
               Se connecter
             </router-link>
           </el-button>
-          <el-button type="primary" @click="handleSubmitFormParticipate">
+          <el-button type="primary">
             <router-link
               :to="`/register/volontaire?redirect=${$route.path}?showDialogParticipate=true`"
               type="primary"
-              @click="handleSubmitFormParticipate"
             >
               S'inscrire
             </router-link>
@@ -852,6 +854,7 @@ export default {
       dialogParticipateVisible:
         Boolean(this.$route.query.showDialogParticipate) || false,
       dialogProposerAide: false,
+      dialogLoading: false,
       form: {
         content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },
@@ -945,12 +948,14 @@ export default {
     handleSubmitFormParticipate() {
       this.$refs['participateForm'].validate((valid) => {
         if (valid) {
+          this.dialogLoading = true
           addParticipation(
             this.mission.id,
             this.$store.getters.profile.id,
             this.form.content
           )
             .then(() => {
+              this.dialogLoading = false
               this.$router.push('/messages')
               this.$message({
                 message:

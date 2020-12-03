@@ -356,7 +356,9 @@ export default {
 
           // Fake update of nbUnreadConversations
           if (!this.hasRead(newConversation)) {
-            this.$store.getters.user.nbUnreadConversations--
+            if (this.$store.getters.user.nbUnreadConversations > 0) {
+              this.$store.getters.user.nbUnreadConversations--
+            }
           }
           if (this.$store.getters.contextRole != 'admin') {
             this.currentUser(newConversation).pivot.read_at = dayjs().format(
