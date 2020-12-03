@@ -1,6 +1,12 @@
 <template>
   <div class="bg-gray-100">
-    <breadcrumb :items="[{ label: 'Missions', link: '/missions' }]" />
+    <breadcrumb
+      :items="[
+        { label: 'Missions', link: '/missions' },
+        { label: 'Missions de bénévolat', link: '/missions' },
+        filters.domaines ? { label: filters.domaines } : {},
+      ]"
+    />
 
     <template v-if="modeLigth">
       <div class="bg-primary pb-32">
@@ -47,9 +53,9 @@
               <h1 class="text-4xl leading-9 font-semibold text-white mb-3">
                 Trouvez une mission de bénévolat
               </h1>
-              <p class="text-2xl leading-6 text-white">
+              <h2 class="text-2xl leading-6 text-white">
                 Missions disponibles près de chez vous ou à distance
-              </p>
+              </h2>
             </div>
             <div
               v-if="missionsAreReady"
