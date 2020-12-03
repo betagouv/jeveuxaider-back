@@ -613,7 +613,7 @@ export default {
     handleTypeChanged() {
       if (this.form.type == 'Mission en présentiel') {
         this.$confirm(
-          'Merci de bien respecter les règles de sécurités pour les missions en présentiel !<br>',
+          'Veillez à respecter les règles de sécurité pour les missions en présentiel.<br>',
           'Confirmation',
           {
             confirmButtonText: 'Je confirme',
