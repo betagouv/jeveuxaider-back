@@ -12,7 +12,7 @@
       </div>
     </section>
 
-    <template v-if="$store.getters.contextRole === 'responsable'">
+    <template v-if="!isBenevole">
       <section>
         <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
           À propos de {{ participation.profile.full_name }}
@@ -133,8 +133,9 @@
       </div>
       <participation-dropdown-state
         v-if="
-          $store.getters.contextRole == 'responsable' ||
-          $store.getters.contextRole == 'admin'
+          ($store.getters.contextRole == 'responsable' ||
+            $store.getters.contextRole == 'admin') &&
+          !isBenevole
         "
         class="mt-3"
         :form="participation"
@@ -191,7 +192,7 @@
         </div>
       </div>
     </section>
-    <template v-if="$store.getters.contextRole !== 'responsable'">
+    <template v-if="isBenevole">
       <section>
         <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
           Objectif de la mission
@@ -269,6 +270,13 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    isBenevole() {
+      return (
+        this.participation.profile_id == this.$store.getters.user.profile.id
+      )
+    },
   },
 }
 </script>
