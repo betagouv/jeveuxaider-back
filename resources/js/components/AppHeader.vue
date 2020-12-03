@@ -7,7 +7,6 @@
         $store.getters.participationsValidated > 1
       "
     />
-<<<<<<< HEAD
     <div class="z-10 relative bg-white shadow-lg">
       <div
         class="flex justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10"
@@ -83,23 +82,6 @@
             >
               Territoires
             </router-link>
-=======
-    <div class="z-10 relative bg-white shadow-sm">
-      <div class="relative z-10 shadow">
-        <div class="flex flex-wrap p-3 items-center justify-between">
-          <router-link :to="{ name: 'Homepage' }" class="flex items-center">
-            <img
-              class="lg:ml-4 mr-6 h-6 w-auto"
-              src="/images/marianne.svg"
-              alt="Réserve Civique"
-            />
-            <img
-              class="h-6"
-              src="/images/logo-reserve-civique_dark.svg"
-              alt="Réserve Civique"
-            />
-          </router-link>
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9
 
             <div
               v-click-outside="() => (isOnSinformer = false)"
@@ -345,14 +327,9 @@
             </div>
             <div
               v-show="showMobileMenu"
-<<<<<<< HEAD
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="main-menu"
-=======
-              id="mobile-menu"
-              class="pt-3 w-full order-5 lg:hidden"
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9
             >
               <div class="px-2 pt-2 pb-3" role="none">
                 <router-link
@@ -369,37 +346,12 @@
                   role="menuitem"
                   >Organisations</router-link
                 >
-<<<<<<< HEAD
 
                 <router-link
                   to="/territoires"
                   class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                   role="menuitem"
                   >Territoires</router-link
-=======
-                  Mes missions
-                </router-link>
-                <router-link
-                  v-if="$store.getters.isLogged"
-                  to="/messages"
-                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                >
-                  <el-badge
-                    v-if="$store.getters.isLogged"
-                    :value="$store.getters.user.nbUnreadConversations"
-                    :hidden="!$store.getters.user.nbUnreadConversations"
-                    :max="99"
-                    class="block mr-3 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                  >
-                    Mes messages
-                  </el-badge>
-                </router-link>
-                <a
-                  href="https://covid19.reserve-civique.gouv.fr/initiatives-solidaires/"
-                  target="_blank"
-                  class="py-2 border-t border-gray-200 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                  >Initiatives solidaires</a
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9
                 >
 
                 <a
@@ -433,22 +385,6 @@
                   Inscription
                 </router-link>
               </div>
-<<<<<<< HEAD
-=======
-              <dropdown-user
-                v-if="$store.getters.isLogged && $store.getters.user.profile"
-              />
-              <router-link
-                v-else
-                to="/login"
-                class="hidden lg:block items-center justify-center px-4 py-2 mr-2 border-transparent border border-gray-300 text-sm leading-6 font-medium rounded-full text-gray-500 hover:bg-blue-800 hover:border-blue-800 hover:text-white transition ease-in-out duration-150"
-              >
-                Se connecter
-              </router-link>
-            </div>
-            <div class="block lg:hidden order-4 ml-3 my-1" @click="toggleMenu">
-              <img src="/images/burger-menu.svg" style="width: 24px" />
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9
             </div>
           </div>
         </div>

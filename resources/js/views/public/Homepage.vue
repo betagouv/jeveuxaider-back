@@ -1,35 +1,15 @@
 <template>
   <div class>
-<<<<<<< HEAD:resources/js/views/Front/Homepage.vue
-    <AppHeader />
-
     <div class="relative bg-blue-800 overflow-hidden z-10">
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900 z-10"
       ></div>
-=======
-    <div class="relative bg-blue-800 overflow-hidden z-0 shadow-lg">
-      <div class="container mx-auto">
-        <div
-          class="relative z-10 pb-0 sm:pb-16 md:pb-10 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-24"
-        >
-          <div
-            class="mt-10 mx-auto px-6 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-2 xl:mt-16"
-          >
-            <div class="sm:text-center lg:text-left">
-              <h1
-                class="text-4xl tracking-tight leading-10 font-bold text-white sm:text-5xl sm:leading-none md:text-6xl"
-              >
-                Engagez-vous dans la Réserve Civique
-              </h1>
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9:resources/js/views/public/Homepage.vue
 
       <img
         class="opacity-50 z-1 object-cover absolute h-screen lg:h-auto"
         src="/images/hero.jpg"
       />
 
-<<<<<<< HEAD:resources/js/views/Front/Homepage.vue
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
@@ -76,46 +56,6 @@
             >
               Je veux aider
             </router-link>
-=======
-              <div
-                class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
-              >
-                <div class="text-center">
-                  <p class="text-xs leading-6 font-medium text-white">
-                    Je veux aider
-                  </p>
-                  <router-link
-                    to="/register/volontaire"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
-                  >
-                    Devenir réserviste
-                  </router-link>
-                </div>
-                <div class="mt-3 sm:mt-0 sm:ml-6 text-center">
-                  <p class="text-xs leading-6 font-medium text-white">
-                    Mon organisation a besoin de renfort
-                  </p>
-                  <router-link
-                    :to="
-                      $store.getters.isLogged &&
-                      $store.getters.contextRole == 'responsable'
-                        ? {
-                            name: 'DashboardMissionFormAdd',
-                            params: {
-                              structureId:
-                                $store.getters.structure_as_responsable.id,
-                            },
-                          }
-                        : '/register/responsable'
-                    "
-                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
-                  >
-                    Proposer une mission
-                  </router-link>
-                </div>
-              </div>
-            </div>
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9:resources/js/views/public/Homepage.vue
           </div>
         </div>
       </div>
@@ -563,7 +503,6 @@
             />
           </svg>
 
-<<<<<<< HEAD:resources/js/views/Front/Homepage.vue
           <blockquote class="mt-8">
             <div
               class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-white"
@@ -607,34 +546,6 @@
             </footer>
           </blockquote>
         </div>
-=======
-    <div class="bg-blue-800 border-b border-gray-200">
-      <div
-        class="container mx-auto flex flex-col items-center justify-center py-12 px-18 sm:px-16 lg:py-16 lg:flex-row lg:justify-between"
-      >
-        <h2
-          class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10 text-center"
-        >
-          Votre organisation a besoin de
-          <span class="text-blu">bénévoles</span> ?
-        </h2>
-        <router-link
-          :to="
-            $store.getters.isLogged &&
-            $store.getters.contextRole == 'responsable'
-              ? {
-                  name: 'DashboardMissionFormAdd',
-                  params: {
-                    structureId: $store.getters.structure_as_responsable.id,
-                  },
-                }
-              : '/register/responsable'
-          "
-          class="inline-flex mt-3 lg:mt-0 shadow-lg items-center text-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full border-white hover:bg-blue-800 hover:text-white bg-white text-blue-800 transition duration-150 ease-in-out"
-        >
-          Publier une mission
-        </router-link>
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9:resources/js/views/public/Homepage.vue
       </div>
     </div>
 
@@ -996,7 +907,6 @@
 </style>
 
 <script>
-<<<<<<< HEAD:resources/js/views/Front/Homepage.vue
 import { VueTyper } from 'vue-typer'
 import request from '@/utils/request'
 
@@ -1005,14 +915,6 @@ export default {
   components: {
     VueTyper,
   },
-=======
-import { statistics } from '@/api/app'
-import metadatas from '@/utils/metadatas.json'
-
-export default {
-  name: 'Homepage',
-  metaInfo: metadatas.filter((item) => item.name == 'Homepage')[0].metaInfo,
->>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9:resources/js/views/public/Homepage.vue
   data() {
     return {
       missions_prioritaires: [
