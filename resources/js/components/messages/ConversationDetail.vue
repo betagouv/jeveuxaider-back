@@ -18,37 +18,25 @@
           À propos de {{ participation.profile.full_name }}
         </h3>
 
-        <div
-          v-if="participation.profile.email && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.email" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Email</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.email }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.mobile && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.mobile" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Portable</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.mobile }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.phone && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.phone" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Téléphone</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.phone }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.birthday && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.birthday" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Naissance</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.birthday }}

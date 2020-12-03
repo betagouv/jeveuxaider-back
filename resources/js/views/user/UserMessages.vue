@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col overflow-hidden">
+  <div id="messagerie" class="flex flex-col overflow-hidden">
     <template v-if="conversations">
       <div class="h-full flex overflow-hidden">
         <div
@@ -554,6 +554,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+#messagerie
+  height: calc(100% - 96px)
 .panel--left,
 .panel--center,
 .panel--right
