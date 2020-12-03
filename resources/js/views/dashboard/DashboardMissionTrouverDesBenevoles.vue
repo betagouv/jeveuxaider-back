@@ -35,12 +35,14 @@
         une mission", un e-mail leur sera envoyé.
       </div>
       <div class="mt-6 flex flex-wrap">
-        <query-search-filter
-          name="postal_code"
-          :initial-value="query['filter[postal_code]']"
-          :value="query['filter[postal_code]']"
-          label="Lieu"
-          placeholder="Code postal"
+        <query-filter
+          name="zips"
+          label="Codes postaux"
+          multiple
+          allow-create
+          default-first-option
+          :value="query['filter[zips]']"
+          :options="[]"
           @changed="onFilterChange"
         />
         <query-filter
@@ -158,7 +160,7 @@
       </div>
     </div>
     <portal to="volet">
-      <profile-volet />
+      <profile-volet hide-personal-fields />
     </portal>
   </div>
 </template>
@@ -174,7 +176,6 @@ import {
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
-import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import ProfileVolet from '@/layouts/components/Volet/ProfileVolet.vue'
 
 export default {
@@ -182,7 +183,6 @@ export default {
   components: {
     QueryFilter,
     ProfileVolet,
-    QuerySearchFilter,
   },
   mixins: [TableWithFilters, TableWithVolet],
   props: {
@@ -199,7 +199,6 @@ export default {
   },
   created() {
     getMission(this.id).then((res) => {
-      console.log(res)
       this.mission = res.data
     })
     fetchTags({ 'filter[type]': 'domaine' }).then((res) => {

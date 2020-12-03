@@ -221,7 +221,7 @@ export default {
           fileDownload(response.data, 'responsables.csv')
         })
         .catch((error) => {
-          console.log(error)
+          console.log('exportProfilesResponsables', error)
         })
     },
   },

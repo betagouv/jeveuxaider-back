@@ -78,7 +78,16 @@
     <div v-if="profile.disponibilities" class="mb-2 flex">
       <div class="card-label">Dispos</div>
       <div class="text-gray-900 flex-1">
-        {{ profile.disponibilities.join(', ') }}
+        {{
+          profile.disponibilities
+            .map(function (item) {
+              return $options.filters.labelFromValue(
+                item,
+                'profile_disponibilities'
+              )
+            })
+            .join(', ')
+        }}
       </div>
     </div>
     <div v-if="profile.frequence" class="mb-2 flex">

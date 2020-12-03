@@ -7,17 +7,13 @@
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">
-        Créée le
-      </div>
+      <div class="card-label">Créée le</div>
       <div class="text-gray-900 flex-1">
         {{ mission.created_at | formatMediumWithTime }}
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">
-        Modifiée le
-      </div>
+      <div class="card-label">Modifiée le</div>
       <div class="text-gray-900 flex-1">
         {{ mission.updated_at | formatMediumWithTime }}
       </div>
@@ -92,9 +88,7 @@
       </div>
     </div>
     <div v-if="mission.information" class="mb-2 flex">
-      <div class="card-label">
-        Informations
-      </div>
+      <div class="card-label">Informations</div>
       <div class="text-gray-900 flex-1">
         <ReadMore
           more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
@@ -105,9 +99,7 @@
       </div>
     </div>
     <div v-if="mission.objectif" class="mb-2 flex">
-      <div class="card-label">
-        Objectifs
-      </div>
+      <div class="card-label">Objectifs</div>
       <div class="text-gray-900 flex-1">
         <ReadMore
           more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
@@ -118,9 +110,7 @@
       </div>
     </div>
     <div v-if="mission.description" class="mb-2 flex">
-      <div class="card-label">
-        Règles
-      </div>
+      <div class="card-label">Règles</div>
       <div class="text-gray-900 flex-1">
         <ReadMore
           more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"

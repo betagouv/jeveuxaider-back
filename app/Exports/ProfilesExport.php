@@ -12,6 +12,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
 use App\Filters\FiltersProfileTag;
+use App\Filters\FiltersProfileZips;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -35,6 +36,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::exact('is_visible'),

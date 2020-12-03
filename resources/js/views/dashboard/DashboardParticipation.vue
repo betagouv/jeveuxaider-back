@@ -32,6 +32,12 @@
         </div>
         <participation-infos :participation="participation" />
       </el-card>
+      <el-card v-if="mission" shadow="never" class="p-4">
+        <div class="flex justify-between">
+          <div class="mb-6 text-xl">Mission</div>
+        </div>
+        <mission-infos :mission="mission" />
+      </el-card>
     </div>
     <div v-else-if="tab == 'history'">
       <TableActivities :table-data="activities" />
@@ -41,10 +47,12 @@
 
 <script>
 import { getParticipation } from '@/api/participation'
+import { getMission } from '@/api/mission'
 import { fetchActivities } from '@/api/app'
 import TableActivities from '@/components/TableActivities'
 import StateTag from '@/components/StateTag'
 import ParticipationInfos from '@/components/infos/ParticipationInfos'
+import MissionInfos from '@/components/infos/MissionInfos'
 
 export default {
   name: 'DashboardParticipation',
@@ -52,6 +60,7 @@ export default {
     StateTag,
     TableActivities,
     ParticipationInfos,
+    MissionInfos,
   },
   props: {
     id: {
@@ -66,12 +75,16 @@ export default {
   data() {
     return {
       participation: {},
+      mission: null,
       activities: [],
     }
   },
   async created() {
-    const response = await getParticipation(this.id)
-    this.participation = response.data
+    const responseParticipation = await getParticipation(this.id)
+    this.participation = responseParticipation.data
+
+    const responseMission = await getMission(this.participation.mission_id)
+    this.mission = responseMission.data
 
     if (this.tab == 'history') {
       const { data } = await fetchActivities({
