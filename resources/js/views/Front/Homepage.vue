@@ -13,10 +13,10 @@
       />
 
       <div
-        class="p-10 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
+        class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
         <h2
-          class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white"
+          class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
         >
           Je veux <br class="lg:hidden" />
           <vue-typer
@@ -78,7 +78,7 @@
       </div>
       <div class="mt-10 pb-12 bg-gray-50">
         <div class="relative">
-          <div class="absolute inset-0 h-1/2 bg-blue-900"></div>
+          <div class="absolute inset-0 h-14 bg-blue-900"></div>
           <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
               <dl
@@ -335,7 +335,7 @@
                 v-for="domaine in domaines"
                 :key="domaine.name"
                 :to="domaine.link"
-                class="mx-0 my-2 lg:m-2 inline-flex px-6 py-4 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
+                class="mx-0 my-2 lg:m-2 inline-flex px-3 py-4 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
               >
                 <img
                   :src="domaine.image"
@@ -637,29 +637,47 @@
               Chaque mois, nous vous proposons de nouvelles missions de
               bénévolat à distance ou près de chez vous.
             </p>
-            <form class="sm:flex mt-9" aria-labelledby="newsletter-headline">
-              <input
-                aria-label="Email address"
-                type="email"
-                required
-                class="appearance-none shadow-lg w-full px-5 py-3 border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
-                placeholder="Votre e-mail"
-              />
+            <form
+              v-if="!successNewsletter"
+              class="sm:flex mt-9"
+              aria-labelledby="newsletter-headline"
+            >
+              <div class="w-full">
+                <input
+                  v-model="email"
+                  aria-label="Email address"
+                  type="email"
+                  required
+                  class="w-full px-5 py-3 appearance-none shadow-lg border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
+                  placeholder="Votre e-mail"
+                />
+                <div v-if="emailError" class="text-red-600 font-semibold">
+                  {{ emailError }}
+                </div>
+              </div>
               <div
                 class="mt-3 rounded-full shadow-lg sm:mt-0 sm:ml-3 sm:flex-shrink-0"
               >
                 <button
                   class="w-full flex items-center justify-center px-6 py-3 text-lg leading-8 font-medium rounded-full shadow-lg text-white bg-green-400 hover:text-white hover:scale-105 transform transition duration-150 ease-in-out"
+                  @click.prevent="handleSubmitNewsletter(email)"
                 >
                   S'inscrire
                 </button>
               </div>
             </form>
             <div
+              v-if="!successNewsletter"
               class="mt-2 ml-6 text-sm leading-5 text-blue-200 text-center lg:text-left"
             >
               Nous veillons à respecter votre
               <a href="#" class="font-medium underline"> vie privée </a>
+            </div>
+            <div
+              v-if="successNewsletter"
+              class="text-white font-semibold text-xl mt-6"
+            >
+              Merci! Vous avez bien été ajouté à la Newsletter.
             </div>
           </div>
           <div
@@ -894,6 +912,7 @@
 
 <script>
 import { VueTyper } from 'vue-typer'
+import request from '@/utils/request'
 
 export default {
   name: 'Homepage',
@@ -1008,9 +1027,29 @@ export default {
             "À partir du 16 septembre, cette plateforme numérique met les associations à l'honneur et référence leurs activités de rentrée.",
         },
       ],
+      email: '',
+      emailError: '',
+      successNewsletter: false,
     }
   },
   methods: {
+    handleSubmitNewsletter(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (re.test(String(email).toLowerCase())) {
+        request
+          .post('/api/sendinblue/contact', { email })
+          .then(() => {
+            this.successNewsletter = true
+          })
+          .catch((error) => {
+            console.log(error)
+            this.emailError = 'Message erreur !'
+          })
+      } else {
+        this.emailError = "L'email renseigné n'est pas valide"
+      }
+      setTimeout(() => (this.emailError = ''), 5000)
+    },
     fetchActualites() {
       // var coucou = request.get(
       //   'https://covid19.reserve-civique.gouv.fr/engagement/engagement/feed/'
