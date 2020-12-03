@@ -127,6 +127,7 @@ class ProfileController extends Controller
         $profile['roles'] = $profile->roles;
         $profile['domaines'] = $profile->domaines;
         $profile['skills'] = $profile->skills;
+        $profile['participations'] = $profile->participations;
 
         if ($profile->isResponsable()) {
             $profile['structures'] = $profile->structures;
