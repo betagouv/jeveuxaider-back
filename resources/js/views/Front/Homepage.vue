@@ -717,7 +717,7 @@
     </div>
 
     <div class="relative bg-gray-50 mt-10 border-b border-t border-gray-200">
-      <div class="relative lg:grid lg:grid-cols-2 gap-4 max-w-6xl mx-auto">
+      <div class="relative lg:grid lg:grid-cols-2 gap-1 max-w-6xl mx-auto">
         <div class="lg:col-start-1 border-r border-gray-200">
           <div class="p-8 lg:p-15">
             <img
