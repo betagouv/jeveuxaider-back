@@ -18,6 +18,7 @@
         >
           Je veux <br class="lg:hidden" />
           <vue-typer
+            id="typewriter"
             class="text-white"
             :text="[
               'aider',
@@ -36,6 +37,7 @@
             erase-style="backspace"
             :erase-on-complete="false"
             caret-animation="blink"
+            @typed-char="onTypedChar"
           ></vue-typer>
         </h2>
         <p
@@ -1027,6 +1029,7 @@ export default {
       email: '',
       emailError: '',
       successNewsletter: false,
+      countWord: 0,
     }
   },
   methods: {
@@ -1053,6 +1056,36 @@ export default {
       // )
       //console.log('coucou', coucou)
     },
+    onTypedChar: function (typedChar, typedCharIndex) {
+      if (typedCharIndex == 0) {
+        document.getElementById('typewriter').firstChild.innerHTML = ''
+      }
+      var lessNodes = document.getElementById('typewriter').lastChild.childNodes
+      if (typedChar == ' ' || lessNodes.length == 1) {
+        var finalNodes = document.getElementById('typewriter').firstChild
+        var listNodes = finalNodes.childNodes
+
+        var newNode = document.createElement('span')
+
+        var x = this.countWord
+        var countNodes = listNodes.length
+        while (x < countNodes) {
+          if (listNodes[this.countWord].innerHTML != ' ')
+            newNode.insertAdjacentElement(
+              'beforeend',
+              listNodes[this.countWord]
+            )
+          else this.countWord++
+
+          // TODO: ADD LAST CHAR
+          x++
+        }
+        newNode.className = 'nowrap'
+        finalNodes.insertAdjacentElement('beforeend', newNode)
+
+        this.countWord++
+      }
+    },
   },
 }
 </script>
@@ -1064,4 +1097,7 @@ export default {
   background-color: white !important
 ::v-deep .custom.caret
   background-color: white !important
+
+::v-deep span.nowrap
+  white-space: nowrap
 </style>
