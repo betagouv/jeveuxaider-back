@@ -1,18 +1,20 @@
 <template>
   <div class="m-2">
     <el-dropdown @command="handleCommand">
-      <el-avatar
-        v-if="$store.getters.user.profile"
-        :alt="$store.getters.user.profile.full_name"
-        :src="
-          $store.getters.user.profile.image
-            ? $store.getters.user.profile.image.thumb
-            : null
-        "
-        class="bg-primary text-white"
-      >
-        {{ $store.getters.user.profile.short_name }}
-      </el-avatar>
+      <span class="el-dropdown-link">
+        <el-avatar
+          v-if="$store.getters.user.profile"
+          :alt="$store.getters.user.profile.full_name"
+          :src="
+            $store.getters.user.profile.image
+              ? $store.getters.user.profile.image.thumb
+              : null
+          "
+          class="bg-primary text-white"
+        >
+          {{ $store.getters.user.profile.short_name }}
+        </el-avatar>
+      </span>
       <el-dropdown-menu slot="dropdown">
         <router-link
           v-if="$store.getters.contextRole == 'responsable'"
