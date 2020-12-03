@@ -23,7 +23,7 @@ class MissionController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure'))
+        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure', 'responsable'))
         ->allowedAppends('domaines')
         ->allowedFilters([
             'name',
@@ -40,6 +40,7 @@ class MissionController extends Controller
             AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
             AllowedFilter::custom('domaine', new FiltersMissionDomaine),
             AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
+            AllowedFilter::exact('responsable_id'),
         ])
         ->defaultSort('-updated_at')
         ->paginate(config('query-builder.results_per_page'));

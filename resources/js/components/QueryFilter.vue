@@ -8,6 +8,8 @@
       :multiple="multiple"
       clearable
       filterable
+      :allow-create="allowCreate"
+      :default-first-option="defaultFirstOption"
       :placeholder="placeholder"
       @change="onChangeFilter"
     >
@@ -48,6 +50,16 @@ export default {
       required: true,
     },
     multiple: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    allowCreate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    defaultFirstOption: {
       type: Boolean,
       required: false,
       default: false,

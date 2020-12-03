@@ -20,7 +20,12 @@
               params: { id: row.id },
             }"
           >
-            {{ row.full_name }}
+            <template v-if="hidePersonalFields">
+              {{ row.first_name }} {{ row.last_name[0] }}.
+            </template>
+            <template v-else>
+              {{ row.full_name }}
+            </template>
           </router-link>
         </div>
         <div class="flex items-center justify-center mb-4">
@@ -104,6 +109,12 @@ export default {
   name: 'ProfileVolet',
   components: { ProfileRolesTags, Volet, ItemDescription, ProfileInfos },
   mixins: [VoletRow],
+  props: {
+    hidePersonalFields: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       loading: false,

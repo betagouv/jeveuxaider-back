@@ -49,7 +49,7 @@
               </div>
             </div>
             <router-link
-              v-if="scope.row.state == 'Validée'"
+              v-if="scope.row.state == 'Validée' && scope.row.has_places_left"
               :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
             >
               <el-button size="mini" round> Trouver des bénévoles </el-button>

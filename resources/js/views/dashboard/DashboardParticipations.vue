@@ -50,6 +50,22 @@
           "
           @changed="onFilterChange"
         />
+        <query-filter
+          v-if="$store.getters.contextRole === 'responsable'"
+          type="select"
+          name="mission.responsable_id"
+          :value="query['filter[mission.responsable_id]']"
+          label="Responsable"
+          :options="
+            responsables.map((responsable) => {
+              return {
+                label: responsable.full_name,
+                value: responsable.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
         <query-search-filter
           name="mission.id"
           label="# Mission"
@@ -244,6 +260,7 @@ import {
   exportParticipations,
   massValidationParticipation,
 } from '@/api/participation'
+import { getStructureMembers } from '@/api/structure'
 import {
   fetchTags,
   fetchMissionTemplates,
@@ -275,6 +292,7 @@ export default {
       templates: [],
       tableData: [],
       collectivities: [],
+      responsables: [],
     }
   },
   created() {
@@ -290,6 +308,16 @@ export default {
     }).then((res) => {
       this.collectivities = res.data.data
     })
+    if (
+      this.$store.getters.contextRole === 'responsable' &&
+      this.$store.getters.structure_as_responsable
+    ) {
+      getStructureMembers(this.$store.getters.structure_as_responsable.id).then(
+        (res) => {
+          this.responsables = res.data
+        }
+      )
+    }
   },
   methods: {
     canShowProfileDetails(row) {
@@ -310,7 +338,7 @@ export default {
           fileDownload(response.data, 'participations.xlsx')
         })
         .catch((error) => {
-          console.log(error)
+          console.log('exportParticipations', error)
         })
     },
     onMassValidation() {

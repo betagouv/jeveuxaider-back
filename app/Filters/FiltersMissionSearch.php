@@ -7,14 +7,19 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FiltersMissionSearch implements Filter
 {
-    public function __invoke(Builder $query, $value, string $property) : Builder
+    public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value, $property) {
-            $query->where('name', 'ILIKE', '%' . $value . '%')
-                    ->orWhereHas('structure', function (Builder $query) use ($value) {
-                        $query->where('name', 'ILIKE', '%' . $value . '%');
-                    });
-        })
-            ;
+            if (is_numeric($value)) {
+                $query
+                    ->where('id', $value);
+            } else {
+                $query
+                ->where('name', 'ILIKE', '%' . $value . '%')
+                ->orWhereHas('structure', function (Builder $query) use ($value) {
+                    $query->where('name', 'ILIKE', '%' . $value . '%');
+                });
+            }
+        });
     }
 }
