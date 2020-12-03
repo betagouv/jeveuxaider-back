@@ -489,6 +489,7 @@ export default {
           ? state.menu.department_name
           : null
         this.filters.domaines = state.menu.domaines ? state.menu.domaines : null
+        this.filters.type = state.menu.type ? state.menu.type : null
         this.filters.template_title = state.menu.template_title
           ? state.menu.template_title
           : null
