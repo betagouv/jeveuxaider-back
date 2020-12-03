@@ -14,8 +14,8 @@ class ParticipationObserver
     public function created(Participation $participation)
     {
         if ($participation->state == 'En attente de validation') {
-            if ($participation->mission->tuteur) {
-                $participation->mission->tuteur->notify(new ParticipationWaitingValidation($participation));
+            if ($participation->mission->responsable) {
+                $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
             }
         }
     }
@@ -28,8 +28,8 @@ class ParticipationObserver
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'En attente de validation':
-                    if ($participation->mission->tuteur) {
-                        $participation->mission->tuteur->notify(new ParticipationWaitingValidation($participation));
+                    if ($participation->mission->responsable) {
+                        $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
                     }
                     break;
                 case 'Validée':

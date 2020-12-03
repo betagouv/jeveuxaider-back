@@ -36,7 +36,7 @@ class StructureInvitationRequest extends FormRequest
             ],
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
-            'role' => 'required|in:responsable,tuteur'
+            'role' => 'required|in:responsable'
         ];
     }
 

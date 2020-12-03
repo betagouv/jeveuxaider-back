@@ -5,7 +5,7 @@
         class="hidden sm:block flex-shrink-0 rounded-md p-3 text-center"
         :class="color ? `bg-${color}` : 'bg-primary'"
       >
-        <img class="" :src="mission.domaine_image" style="width: 28px" />
+        <img class="" :src="mission.domaine_image" alt="" style="width: 28px" />
       </div>
       <div class="min-w-0 flex-1 sm:pl-4">
         <div

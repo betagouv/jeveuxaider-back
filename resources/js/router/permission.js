@@ -25,10 +25,10 @@ router.beforeEach(async (to, from, next) => {
         } else {
           if (store.getters.contextRole === 'responsable') {
             if (
-              to.name === 'StructureFormEdit' ||
-              to.name === 'StructureMembers' ||
-              to.name === 'StructureMembersAdd' ||
-              to.name === 'Structure'
+              to.name === 'DashboardStructureForm' ||
+              to.name === 'DashboardStructureMembers' ||
+              to.name === 'DashboardStructureMembersAdd' ||
+              to.name === 'DashboardStructure'
             ) {
               // Accès seulement si c'est la structure du responsable.
               if (
@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
               ) {
                 next('/403')
               }
-            } else if (to.name === 'MissionFormAdd') {
+            } else if (to.name === 'DashboardMissionFormAdd') {
               // Accès seulement si c'est la structure du responsable.
               if (
                 !store.getters.structure_as_responsable ||

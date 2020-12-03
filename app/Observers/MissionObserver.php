@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\Utils;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -21,8 +22,8 @@ class MissionObserver
     public function created(Mission $mission)
     {
         if ($mission->state == 'En attente de validation') {
-            if ($mission->tuteur) {
-                $mission->tuteur->notify(new MissionWaitingValidation($mission));
+            if ($mission->responsable) {
+                $mission->responsable->notify(new MissionWaitingValidation($mission));
             }
             if ($mission->department) {
                 Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
@@ -32,8 +33,8 @@ class MissionObserver
         }
 
         if ($mission->state == 'Validée') {
-            if ($mission->tuteur) {
-                $mission->tuteur->notify(new MissionValidated($mission));
+            if ($mission->responsable) {
+                $mission->responsable->notify(new MissionValidated($mission));
             }
         }
     }
@@ -52,13 +53,13 @@ class MissionObserver
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
-                    if ($mission->tuteur) {
-                        $mission->tuteur->notify(new MissionValidated($mission));
+                    if ($mission->responsable) {
+                        $mission->responsable->notify(new MissionValidated($mission));
                     }
                     break;
                 case 'En attente de validation':
-                    if ($mission->tuteur) {
-                        $mission->tuteur->notify(new MissionWaitingValidation($mission));
+                    if ($mission->responsable) {
+                        $mission->responsable->notify(new MissionWaitingValidation($mission));
                     }
                     if ($mission->department) {
                         Profile::where('referent_department', $mission->department)->get()->map(function ($profile) use ($mission) {
@@ -67,8 +68,8 @@ class MissionObserver
                     }
                     break;
                 case 'Signalée':
-                    if ($mission->tuteur) {
-                        $mission->tuteur->notify(new MissionSignaled($mission));
+                    if ($mission->responsable) {
+                        $mission->responsable->notify(new MissionSignaled($mission));
                         // Notif ON
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
                             $participation->update(['state' => 'Annulée']);
@@ -78,14 +79,14 @@ class MissionObserver
                     }
                     break;
                 case 'Annulée':
-                    if ($mission->tuteur) {
+                    if ($mission->responsable) {
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }
                     }
                     break;
                 case 'Terminée':
-                    if ($mission->tuteur) {
+                    if ($mission->responsable) {
                         foreach ($mission->participations->whereIn("state", ["Validée"]) as $participation) {
                             $participation->update(['state' => 'Effectuée']);
                         }
@@ -103,6 +104,12 @@ class MissionObserver
         // Calcul Places Left
         $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
+
+        $slug = 'benevolat-'.$mission->structure->name;
+        if ($mission->city) {
+            $slug .= '-' . $mission->city;
+        }
+        $mission->slug = Utils::slug($slug);
     }
 
     /**

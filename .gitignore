@@ -21,4 +21,8 @@ _ide_helper_models.php
 package-lock.json
 .DS_Store
 .eslintcache
+<<<<<<< HEAD
 sitemap.xml
+=======
+sitemap.xml
+>>>>>>> b5dc1e097d8d3aff2c7c66f58821e06c7517aba9

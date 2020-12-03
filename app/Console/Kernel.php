@@ -38,10 +38,12 @@ class Kernel extends ConsoleKernel
 
         // Syn ApiEngagement
         $schedule->command(SyncApiEngagement::class)->everySixHours();
-        ;
+        
 
         // Horizon update dashboard metrics
         //  $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
+        $schedule->command('sitemap:generate')->daily()->at('07:00');
     }
 
     /**
