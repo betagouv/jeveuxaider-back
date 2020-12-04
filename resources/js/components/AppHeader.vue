@@ -9,7 +9,8 @@
     />
     <div class="z-10 relative bg-white shadow-lg">
       <div
-        class="flex justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10"
+        class="flex justify-between items-center px-4 sm:px-6 md:justify-start md:space-x-10"
+        :class="$store.getters.isLogged ? ' py-2' : ' py-5'"
       >
         <div class="lg:flex-1">
           <div class="flex items-center">

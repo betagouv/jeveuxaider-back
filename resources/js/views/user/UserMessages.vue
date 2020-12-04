@@ -1,5 +1,5 @@
 <template>
-  <div id="messagerie" class="flex flex-col overflow-hidden">
+  <div id="messagerie" class="flex flex-col overflow-hidden bg-white">
     <template v-if="conversations">
       <div class="h-full flex overflow-hidden">
         <div
