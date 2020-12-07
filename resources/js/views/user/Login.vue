@@ -59,13 +59,7 @@
       </span>
     </div>
     <div class="mt-4">
-      <div data-role="login-authorize" class="field">
-        <input
-          type="image"
-          src="/images/franceconnect-login.svg"
-          alt="Soumettre"
-        />
-      </div>
+      <FranceConnect />
     </div>
     <div class="mt-6">
       <div class="relative">
@@ -104,10 +98,14 @@
 
 <script>
 import metadatas from '@/utils/metadatas.json'
+import FranceConnect from '@/components/FranceConnect.vue'
 
 export default {
   name: 'Login',
   metaInfo: metadatas.filter((item) => item.name == 'Login')[0].metaInfo,
+  components: {
+    FranceConnect,
+  },
   data() {
     return {
       loading: false,

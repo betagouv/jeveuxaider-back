@@ -45,3 +45,7 @@ export function stopImpersonate(token_id) {
     headers: { Authorization: `Bearer ${store.state.auth.accessToken}` },
   })
 }
+
+export function fcLoginAuthorize() {
+  return request.get('/franceconnect/login-authorize')
+}
