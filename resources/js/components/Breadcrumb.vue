@@ -1,5 +1,8 @@
 <template>
-  <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
+  <nav
+    class="h-12 bg-white border-b border-gray-200 flex"
+    aria-label="Breadcrumb"
+  >
     <ol
       class="w-full max-w-full mx-auto overflow-x-auto whitespace-no-wrap px-4 flex space-x-4 sm:px-6 lg:px-8"
     >
