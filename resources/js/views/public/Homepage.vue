@@ -13,33 +13,20 @@
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
-        <h2
-          class="text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+        <vue-typed-js
+          :strings="strings"
+          :loop="true"
+          :start-delay="70"
+          :type-speed="70"
+          :back-delay="2000"
+          cursor-char="|"
         >
-          Je veux <br class="lg:hidden" />
-          <vue-typer
-            id="typewriter"
-            class="text-white"
-            :text="[
-              'aider',
-              'vivre des moments forts',
-              'une société solidaire',
-              'me rendre utile',
-              'faire vivre les valeurs de la République',
-            ]"
-            :repeat="Infinity"
-            :shuffle="false"
-            initial-action="typing"
-            :pre-type-delay="70"
-            :type-delay="70"
-            :pre-erase-delay="2000"
-            :erase-delay="30"
-            erase-style="backspace"
-            :erase-on-complete="false"
-            caret-animation="blink"
-            @typed-char="onTypedChar"
-          ></vue-typer>
-        </h2>
+          <h2
+            class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+          >
+            Je veux <br class="lg:hidden" /><span class="typing"></span>
+          </h2>
+        </vue-typed-js>
         <p
           class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
         >
@@ -907,13 +894,13 @@
 </style>
 
 <script>
-import { VueTyper } from 'vue-typer'
 import request from '@/utils/request'
+import VueTypedJs from 'vue-typed-js/src/components/VueTypedJs.vue'
 
 export default {
   name: 'Homepage',
   components: {
-    VueTyper,
+    VueTypedJs,
   },
   data() {
     return {
@@ -1028,8 +1015,16 @@ export default {
       emailError: '',
       successNewsletter: false,
       countWord: 0,
+      strings: [
+        'aider',
+        'vivre des moments forts',
+        'une société solidaire',
+        'me rendre utile',
+        'faire vivre les valeurs de la République',
+      ],
     }
   },
+  created() {},
   methods: {
     handleSubmitNewsletter(email) {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -1048,54 +1043,8 @@ export default {
       }
       setTimeout(() => (this.emailError = ''), 5000)
     },
-    fetchActualites() {
-      // var coucou = request.get(
-      //   'https://covid19.reserve-civique.gouv.fr/engagement/engagement/feed/'
-      // )
-      //console.log('coucou', coucou)
-    },
-    onTypedChar: function (typedChar, typedCharIndex) {
-      if (typedCharIndex == 0) {
-        document.getElementById('typewriter').firstChild.innerHTML = ''
-      }
-      var lessNodes = document.getElementById('typewriter').lastChild.childNodes
-      if (typedChar == ' ' || lessNodes.length == 1) {
-        var finalNodes = document.getElementById('typewriter').firstChild
-        var listNodes = finalNodes.childNodes
-
-        var newNode = document.createElement('span')
-
-        var x = this.countWord
-        var countNodes = listNodes.length
-        while (x < countNodes) {
-          if (listNodes[this.countWord].innerHTML != ' ')
-            newNode.insertAdjacentElement(
-              'beforeend',
-              listNodes[this.countWord]
-            )
-          else this.countWord++
-
-          // TODO: ADD LAST CHAR
-          x++
-        }
-        newNode.className = 'nowrap'
-        finalNodes.insertAdjacentElement('beforeend', newNode)
-
-        this.countWord++
-      }
-    },
   },
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .typed
-  color: white !important
-::v-deep .erasing
-  background-color: white !important
-::v-deep .custom.caret
-  background-color: white !important
-
-::v-deep span.nowrap
-  white-space: nowrap
-</style>
+<style lang="sass" scoped></style>
