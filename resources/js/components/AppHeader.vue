@@ -337,6 +337,7 @@
                   to="/missions"
                   class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                   role="menuitem"
+                  @click.native="showMobileMenu = false"
                   >Trouver une mission</router-link
                 >
 
@@ -345,6 +346,7 @@
                   to="/register/responsable"
                   class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                   role="menuitem"
+                  @click.native="showMobileMenu = false"
                   >Organisations</router-link
                 >
 
@@ -352,6 +354,7 @@
                   to="/territoires"
                   class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                   role="menuitem"
+                  @click.native="showMobileMenu = false"
                   >Territoires</router-link
                 >
 
@@ -370,20 +373,48 @@
                   >#ChacunPourTous</a
                 >
 
-                <router-link
-                  to="/login"
-                  class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                  role="menuitem"
-                  >Connexion</router-link
-                >
+                <template v-if="$store.getters.isLogged">
+                  <router-link
+                    to="/user/infos"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    role="menuitem"
+                    @click.native="showMobileMenu = false"
+                    >Mon compte</router-link
+                  >
+                  <router-link
+                    to="/logout"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    role="menuitem"
+                    @click.native="showMobileMenu = false"
+                    >Se déconnecter</router-link
+                  >
+                </template>
+                <template v-else>
+                  <router-link
+                    to="/login"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    role="menuitem"
+                    >Connexion</router-link
+                  >
+                </template>
               </div>
               <div role="none">
                 <router-link
+                  v-if="!$store.getters.isLogged"
                   to="/register/volontaire"
                   class="block w-full px-5 py-3 text-center font-medium text-white bg-blue-800 uppercase"
                   role="menuitem"
                 >
                   Inscription
+                </router-link>
+                <router-link
+                  v-else
+                  to="/user/missions"
+                  class="block w-full px-5 py-3 text-center font-medium text-white bg-blue-800 uppercase"
+                  role="menuitem"
+                  @click.native="showMobileMenu = false"
+                >
+                  Mes missions
                 </router-link>
               </div>
             </div>

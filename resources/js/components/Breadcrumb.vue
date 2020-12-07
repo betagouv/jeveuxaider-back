@@ -14,8 +14,8 @@
         </div>
       </li>
 
-      <li v-for="item in items" :key="item.link" class="flex">
-        <div class="flex items-center w-auto">
+      <li v-for="(item, index) in items" :key="index" class="flex">
+        <div v-if="item" class="flex items-center w-auto">
           <svg
             class="flex-shrink-0 w-6 h-full text-gray-200"
             viewBox="0 0 24 44"

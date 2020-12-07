@@ -6,7 +6,7 @@
       ]"
     />
 
-    <div class="py-20 bg-gray-50 overflow-hidden shadow-lg">
+    <div class="py-8 md:py-20 bg-gray-50 overflow-hidden shadow-lg">
       <div
         class="relative max-w-xl mx-auto px-6 sm:px-6 lg:px-8 lg:max-w-screen-xl"
       >
@@ -20,7 +20,7 @@
 
         <div class="relative">
           <h3
-            class="text-center text-6xl leading-none font-bold tracking-tight text-gray-900"
+            class="text-center text-3xl md:text-6xl leading-none font-bold tracking-tight text-gray-900"
           >
             Rejoignez la Réserve Civique
             <br />
@@ -74,7 +74,7 @@
                   ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
                   : 'text-gray-500 hover:text-blue-800 bg-white'
               "
-              class="px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              class="px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'departments'"
             >
               Départements ({{ departmentsCount }})
@@ -85,7 +85,7 @@
                   ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
                   : 'text-gray-500 hover:text-blue-800 bg-white'
               "
-              class="ml-4 px-3 lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              class="ml-4 px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
               @click="tab = 'collectivities'"
             >
               Collectivités ({{ collectivitiesCount }})

@@ -3,7 +3,7 @@
     <breadcrumb
       :items="[
         { label: 'Missions de bénévolat', link: '/missions' },
-        filters.domaines ? { label: filters.domaines } : {},
+        filters.domaines ? { label: filters.domaines } : null,
       ]"
     />
 
