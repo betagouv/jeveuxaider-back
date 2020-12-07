@@ -23,7 +23,7 @@ $factory->define(Mission::class, function (Faker $faker) {
 
     return [
         'user_id' => $structure->user->id,
-        'tuteur_id' => $structure->user->profile->id,
+        'responsable_id' => $structure->user->profile->id,
         'structure_id' => $structure->id,
         'name' => $domain,
         'description' => $faker->sentence(40),

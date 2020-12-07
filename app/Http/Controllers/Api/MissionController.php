@@ -23,7 +23,7 @@ class MissionController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure', 'tuteur'))
+        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure', 'responsable'))
         ->allowedAppends('domaines')
         ->allowedFilters([
             'name',
@@ -40,7 +40,7 @@ class MissionController extends Controller
             AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
             AllowedFilter::custom('domaine', new FiltersMissionDomaine),
             AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
-            AllowedFilter::exact('tuteur_id'),
+            AllowedFilter::exact('responsable_id'),
         ])
         ->defaultSort('-updated_at')
         ->paginate(config('query-builder.results_per_page'));
@@ -53,7 +53,7 @@ class MissionController extends Controller
 
     public function show(Request $request, Int $id)
     {
-        $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'tuteur'])->where('id', $id)->first();
+        $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
 
         return $mission->append('participations_total');
     }

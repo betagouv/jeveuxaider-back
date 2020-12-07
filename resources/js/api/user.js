@@ -125,7 +125,6 @@ export const rolesList = [
   { key: 'referent_regional', label: 'Régional' },
   { key: 'superviseur', label: 'Superviseur' },
   { key: 'responsable', label: 'Responsable' },
-  { key: 'tuteur', label: 'Tuteur' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
 ]

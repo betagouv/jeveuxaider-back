@@ -44,7 +44,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
-                AllowedFilter::exact('tuteur_id'),
+                AllowedFilter::exact('responsable_id'),
             ])
             ->defaultSort('-created_at')
             ->get();
@@ -110,9 +110,9 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->participations_max,
             $mission->places_left,
             $mission->dates_infos,
-            $mission->tuteur ? $mission->tuteur->full_name : '',
-            $mission->tuteur ? $mission->tuteur->id : '',
-            $mission->tuteur ? $mission->tuteur->email : '',
+            $mission->responsable ? $mission->responsable->full_name : '',
+            $mission->responsable ? $mission->responsable->id : '',
+            $mission->responsable ? $mission->responsable->email : '',
             $mission->template ? $mission->template->domaine->name : $mission->domaine->name,
             $mission->template ? $mission->template->title : '',
         ];

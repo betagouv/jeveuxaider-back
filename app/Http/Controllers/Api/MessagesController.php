@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
-    public function test()
-    {
-        return 'coucou';
-    }
-
     public function store(Request $request)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);

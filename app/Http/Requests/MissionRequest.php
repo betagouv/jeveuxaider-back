@@ -26,7 +26,7 @@ class MissionRequest extends FormRequest
         return [
             'user_id' => 'sometimes|required',
             'name' => 'required_without:template_id|min:3|max:255',
-            'tuteur_id' => '',
+            'responsable_id' => '',
             'start_date' => 'nullable|date_format:Y-m-d H:i:s',
             'end_date' => 'nullable|date_format:Y-m-d H:i:s|after:start_date',
             'structure_id' => '',

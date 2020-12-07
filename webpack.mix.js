@@ -1,6 +1,6 @@
-const mix = require('laravel-mix');
-const tailwindcss = require('tailwindcss');
-const path = require('path');
+const mix = require('laravel-mix')
+const tailwindcss = require('tailwindcss')
+const path = require('path')
 
 /*
  |--------------------------------------------------------------------------
@@ -13,37 +13,32 @@ const path = require('path');
  |
  */
 
-mix.js('resources/js/app.js', 'public/assets/js');
+mix.js('resources/js/app.js', 'public/assets/js')
 
-mix.sass('resources/sass/app.sass', 'public/assets/css')
-   .options({
-      processCssUrls: false,
-      postCss: [ tailwindcss('tailwind.config.js') ],
-});
-
+mix.sass('resources/sass/app.sass', 'public/assets/css').options({
+  processCssUrls: false,
+  postCss: [tailwindcss('tailwind.config.js')],
+})
 
 if (mix.inProduction()) {
-    mix.version();
+  mix.version()
 }
 
-let url = process.env.APP_URL.replace(/(^\w+:|^)\/\//, '');
+let url = process.env.APP_URL.replace(/(^\w+:|^)\/\//, '')
 mix.options({
-   hmrOptions: {
-       host: url,
-       port: 8080 // Can't use 443 here because address already in use
-   }
-});
+  hmrOptions: {
+    host: url,
+    port: 8080, // Can't use 443 here because address already in use
+  },
+})
 
 mix.webpackConfig({
   resolve: {
     alias: {
-      '@': path.resolve(
-        __dirname,
-        'resources/js'
-      )
-    }
+      '@': path.resolve(__dirname, 'resources/js'),
+    },
   },
   externals: {
-    moment: 'moment'
-  }
+    moment: 'moment',
+  },
 })

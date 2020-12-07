@@ -25,7 +25,7 @@ class ParticipationController extends Controller
     public function index(Request $request)
     {
         // 455 - 505 queries   600 - 800 ms
-        return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission', 'mission.structure', 'mission.tuteur'))
+        return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission', 'mission.structure', 'mission.responsable'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
@@ -37,7 +37,7 @@ class ParticipationController extends Controller
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
-                AllowedFilter::exact('mission.tuteur_id'),
+                AllowedFilter::exact('mission.responsable_id'),
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))
@@ -70,7 +70,7 @@ class ParticipationController extends Controller
             $participation = Participation::create($request->validated());
             if (request('content')) {
                 // En attendant de régler le souci des responsables sans user
-                $user = $mission->tuteur->user ?? $mission->structure->user;
+                $user = $mission->responsable->user ?? $mission->structure->user;
                 $conversation = $currentUser->startConversation($user, $participation);
                 $currentUser->sendMessage($conversation->id, request('content'));
             }

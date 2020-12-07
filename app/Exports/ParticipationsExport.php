@@ -39,7 +39,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
-                AllowedFilter::exact('mission.tuteur_id'),
+                AllowedFilter::exact('mission.responsable_id'),
             )
             ->defaultSort('-created_at')
             ->get();
@@ -79,8 +79,8 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
             $participation->mission ? ($participation->mission->structure ? $participation->mission->structure->name : '') : '',
             $participation->mission_id,
             $participation->mission ? $participation->mission->name : '',
-            $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->full_name : '',
-            $participation->mission && $participation->mission->tuteur ? $participation->mission->tuteur->email : '',
+            $participation->mission && $participation->mission->responsable ? $participation->mission->responsable->full_name : '',
+            $participation->mission && $participation->mission->responsable ? $participation->mission->responsable->email : '',
             $participation->profile_id,
             $participation->profile && !$hidden ? $participation->profile->first_name : '',
             $participation->profile && !$hidden ? $participation->profile->last_name : '',

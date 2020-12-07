@@ -46,7 +46,9 @@ class PassportController extends Controller
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
 
-        return $user;
+        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+
+        return $response;
     }
 
     public function registerResponsable(RegisterResponsableWithStructureRequest $request)
@@ -86,7 +88,9 @@ class PassportController extends Controller
         $notification = new RegisterUserResponsable($structure);
         $user->notify($notification);
 
-        return $user;
+        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+
+        return $response;
     }
 
     public function registerCollectivity(RegisterResponsableRequest $request)
@@ -108,7 +112,9 @@ class PassportController extends Controller
         $user->profile()->save($profile);
         $user->notify($notification);
 
-        return $user;
+        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+
+        return $response;
     }
 
     public function registerInvitation(RegisterResponsableRequest $request)
@@ -127,7 +133,9 @@ class PassportController extends Controller
 
         $user->profile()->save($profile);
 
-        return $user;
+        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+
+        return $response;
     }
 
     public function logout(Request $request)

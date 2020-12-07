@@ -6,7 +6,7 @@
     <div class="flex flex-col ml-6" style="">
       <router-link
         :to="{
-          name: 'Profile',
+          name: 'DashboardProfile',
           params: { id: member.id },
         }"
         target="_blank"
