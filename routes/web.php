@@ -10,5 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
+
+
 Route::get('api/api-engagement/flux', 'Api\EngagementController@feed');
 Route::get('/{any}', 'PagesController@spa')->where('any', '.*');

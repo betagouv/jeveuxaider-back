@@ -58,6 +58,15 @@
         >
       </span>
     </div>
+    <div class="mt-4">
+      <div data-role="login-authorize" class="field">
+        <input
+          type="image"
+          src="/images/franceconnect-login.svg"
+          alt="Soumettre"
+        />
+      </div>
+    </div>
     <div class="mt-6">
       <div class="relative">
         <div class="absolute inset-0 flex items-center">
