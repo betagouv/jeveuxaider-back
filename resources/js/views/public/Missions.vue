@@ -2,8 +2,7 @@
   <div class="bg-gray-100">
     <breadcrumb
       :items="[
-        { label: 'Missions', link: '/missions' },
-        { label: 'Missions de bénévolat' },
+        { label: 'Missions de bénévolat', link: '/missions' },
         filters.domaines ? { label: filters.domaines } : {},
       ]"
     />

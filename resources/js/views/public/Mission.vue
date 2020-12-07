@@ -3,7 +3,7 @@
     <template v-if="!loading">
       <breadcrumb
         :items="[
-          { label: 'Missions', link: '/missions' },
+          { label: 'Missions de bénévolat', link: '/missions' },
           {
             label: domainName(mission),
             link: `/missions?menu[domaines]=${domainName(mission)}`,
