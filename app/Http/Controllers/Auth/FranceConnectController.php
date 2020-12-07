@@ -3,62 +3,53 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class FranceConnectController extends Controller
 {
     public function oAuthLoginAuthorize()
     {
-        $eidasLevel = 'eidas1';
-        $scopes = 'openid given_name family_name gender preferred_username birthdate';
         $query = [
-          'scope' => $scopes,
-          'redirect_uri' => env('FS_URL') . env('LOGIN_CALLBACK_FS_PATH'),
+          'scope' => 'openid given_name family_name preferred_username birthdate email',
+          'redirect_uri' => env('FS_URL') . '/franceconnect/login-callback',
           'response_type' => 'code',
           'client_id' => env('AUTHENTICATION_CLIENT_ID'),
           'state' => 'home',
           'nonce' => 'customNonce11',
-          'acr_values' => $eidasLevel
+          'acr_values' => 'eidas1'
         ];
 
-        $url = env('FC_URL') . env('AUTHORIZATION_FC_PATH');
-
-        return $url . "?" . http_build_query($query);
+        return env('FC_URL') . "/api/v1/authorize?" . http_build_query($query);
     }
 
-    public function oauthLoginCallback()
+    public function oauthLoginCallback(Request $request)
     {
-        // Set request params
-        $body = [
-      'grant_type' => 'authorization_code',
-      'redirect_uri' => env('FS_URL') . env('LOGIN_CALLBACK_FS_PATH'),
-      'client_id' => env('AUTHENTICATION_CLIENT_ID'),
-      'client_secret' => env('AUTHENTICATION_CLIENT_SECRET'),
-      'code' => 'req.query.code'
-    ];
+        $response = Http::asForm()->post(env('FC_URL') . '/api/v1/token', [
+          'grant_type' => 'authorization_code',
+          'redirect_uri' => env('FS_URL') . '/franceconnect/login-callback',
+          'client_id' => env('AUTHENTICATION_CLIENT_ID'),
+          'client_secret' => env('AUTHENTICATION_CLIENT_SECRET'),
+          'code' =>  $request->query('code')
+        ]);
 
-        // Request access token.
-        /*
-        const { data: { access_token: accessToken, id_token: idToken } } = await httpClient({
-          method: 'POST',
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          data: querystring.stringify(body),
-          url: `${config.FC_URL}${config.TOKEN_FC_PATH}`,
-        });
-        */
-        /*
-            if (!accessToken || !idToken) {
-              return res.sendStatus(401);
-            }
-            */
-
+        debug($response->json());
+        
+        if (!isset($response['access_token']) || !isset($response['id_token'])) {
+            return response()->json(['message' => "France Connect connexion failed. No access token"], 401);
+        }
+            
         // Request user data
-        /*
-        const { data: user } = await httpClient({
-          method: 'GET',
-          headers: { Authorization: `Bearer ${accessToken}` },
-          url: `${config.FC_URL}${config.USERINFO_FC_PATH}`,
-        });
-        */
+        $user = Http::withToken($response['access_token'])->get(env('FC_URL') . '/api/v1/userinfo');
+        debug($user->json());
+
+        return $user;
+
+
+        
+
+
+
 
         // Store the user and context in session so it is available for future requests
         // as the idToken for Logout

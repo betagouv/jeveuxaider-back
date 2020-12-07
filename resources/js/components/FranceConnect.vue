@@ -11,6 +11,7 @@ export default {
   methods: {
     handleClickFranceConnect() {
       fcLoginAuthorize().then((res) => {
+        console.log('url', res.data)
         window.location.href = res.data
       })
     },
