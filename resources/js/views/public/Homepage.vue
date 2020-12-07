@@ -51,9 +51,7 @@
         <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-5">
           <div class="rounded-full shadow-lg">
             <router-link
-              :to="
-                !$store.getters.isLogged ? '/register/volontaire' : '/missions'
-              "
+              to="/missions"
               class="flex items-center shadow-lg justify-center px-8 py-3 border border-transparent text-2xl leading-6 font-medium rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Je veux aider
