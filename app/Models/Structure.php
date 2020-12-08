@@ -83,11 +83,6 @@ class Structure extends Model
                     $query->where('profile_id', Auth::guard('api')->user()->profile->id);
                 });
             break;
-            case 'tuteur':
-                return $query->whereHas('tuteurs', function (Builder $query) {
-                    $query->where('profile_id', Auth::guard('api')->user()->profile->id);
-                });
-            break;
             case 'referent':
                 return $query
                     ->whereNotNull('department')
@@ -164,6 +159,12 @@ class Structure extends Model
             ->where('department', $value);
     }
 
+    public function scopeRegion($query, $value)
+    {
+        return $query
+            ->whereIn('department', config('taxonomies.regions.departments')[$value]);
+    }
+
     public function scopeDomaine($query, $domain_id)
     {
         return $query
@@ -227,11 +228,6 @@ class Structure extends Model
     public function responsables()
     {
         return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'responsable');
-    }
-
-    public function tuteurs()
-    {
-        return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'tuteur');
     }
 
     public function missions()

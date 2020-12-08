@@ -104,6 +104,18 @@ class Profile extends Model implements HasMedia
         ];
     }
 
+    public function getReferentRegionWaitingActionsAttribute()
+    {
+        $structures = Structure::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
+        $missions = Mission::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
+
+        return [
+            'total' => $structures + $missions,
+            'structures' => $structures,
+            'missions' => $missions
+        ];
+    }
+
     public function getResponsableWaitingActionsAttribute()
     {
         $structure = $this->structures->first();
@@ -246,7 +258,7 @@ class Profile extends Model implements HasMedia
 
     public function missions()
     {
-        return $this->hasMany('App\Models\Mission', 'tuteur_id');
+        return $this->hasMany('App\Models\Mission', 'responsable_id');
     }
 
     public function structures()
@@ -316,11 +328,6 @@ class Profile extends Model implements HasMedia
         return (bool) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'responsable')->first();
     }
 
-    public function isTuteur()
-    {
-        return (bool) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'tuteur')->first();
-    }
-
     public function isAdmin()
     {
         return $this->user ? ($this->user->is_admin ? true : false) : false;
@@ -345,7 +352,6 @@ class Profile extends Model implements HasMedia
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'responsable_collectivity' => $this->isResponsableCollectivity(),
-            'tuteur' => $this->isTuteur(),
             'analyste' => $this->is_analyste
         ];
     }

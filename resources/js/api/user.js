@@ -63,8 +63,15 @@ export function exportProfiles(params) {
   })
 }
 
-export function exportProfilesReferents(params) {
-  return request.get(`/api/profiles/referents/export`, {
+export function exportProfilesReferentsDepartements(params) {
+  return request.get(`/api/profiles/referents/departements/export`, {
+    responseType: 'blob',
+    params,
+  })
+}
+
+export function exportProfilesReferentsRegions(params) {
+  return request.get(`/api/profiles/referents/regions/export`, {
     responseType: 'blob',
     params,
   })
@@ -125,7 +132,6 @@ export const rolesList = [
   { key: 'referent_regional', label: 'Régional' },
   { key: 'superviseur', label: 'Superviseur' },
   { key: 'responsable', label: 'Responsable' },
-  { key: 'tuteur', label: 'Tuteur' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
 ]

@@ -11,6 +11,4 @@
 |
 */
 Route::get('api/api-engagement/flux', 'Api\EngagementController@feed');
-Route::get('test', 'Api\CollectivityController@test');
-
 Route::get('/{any}', 'PagesController@spa')->where('any', '.*');

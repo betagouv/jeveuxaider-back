@@ -340,8 +340,15 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/profiles/referents',
-    name: 'DashboardProfilesReferents',
+    path: '/dashboard/profiles/referents-departements',
+    name: 'DashboardProfilesReferentsDepartements',
+    meta: {
+      roles: ['admin'],
+    },
+  },
+  {
+    path: '/dashboard/profiles/referents-regions',
+    name: 'DashboardProfilesReferentsRegions',
     meta: {
       roles: ['admin'],
     },

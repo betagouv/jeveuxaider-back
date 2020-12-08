@@ -5,50 +5,38 @@
         Mission proposée par {{ participation.mission.structure.name }}
       </h2>
       <div
-        v-if="participation.mission.tuteur"
+        v-if="participation.mission.responsable"
         class="text-lg leading-8 font-semibold text-secondary"
       >
-        Responsable : {{ participation.mission.tuteur.full_name }}
+        Responsable : {{ participation.mission.responsable.full_name }}
       </div>
     </section>
 
-    <template v-if="$store.getters.contextRole === 'responsable'">
+    <template v-if="!isBenevole">
       <section>
         <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
           À propos de {{ participation.profile.full_name }}
         </h3>
 
-        <div
-          v-if="participation.profile.email && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.email" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Email</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.email }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.mobile && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.mobile" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Portable</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.mobile }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.phone && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.phone" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Téléphone</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.phone }}
           </div>
         </div>
-        <div
-          v-if="participation.profile.birthday && canViewPrivateData"
-          class="mb-2 flex"
-        >
+        <div v-if="participation.profile.birthday" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Naissance</div>
           <div class="text-gray-900 flex-1">
             {{ participation.profile.birthday }}
@@ -145,8 +133,9 @@
       </div>
       <participation-dropdown-state
         v-if="
-          $store.getters.contextRole == 'responsable' ||
-          $store.getters.contextRole == 'admin'
+          ($store.getters.contextRole == 'responsable' ||
+            $store.getters.contextRole == 'admin') &&
+          !isBenevole
         "
         class="mt-3"
         :form="participation"
@@ -203,7 +192,7 @@
         </div>
       </div>
     </section>
-    <template v-if="$store.getters.contextRole !== 'responsable'">
+    <template v-if="isBenevole">
       <section>
         <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
           Objectif de la mission
@@ -281,6 +270,13 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    isBenevole() {
+      return (
+        this.participation.profile_id == this.$store.getters.user.profile.id
+      )
+    },
   },
 }
 </script>

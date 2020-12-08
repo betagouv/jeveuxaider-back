@@ -42,6 +42,7 @@ export default {
 .el-menu
   @apply border-0
   .el-menu-item
+    background: none
     &:hover
       background: none
       @apply text-primary

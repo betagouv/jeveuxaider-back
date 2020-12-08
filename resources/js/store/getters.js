@@ -4,7 +4,7 @@ import { rolesList } from '../api/user'
 const getters = {
   isAppLoaded: (state) => state.isAppLoaded,
   sidebar: (state) => state.sidebar,
-  isLogged: (state) => !!state.auth.accessToken,
+  isLogged: (state) => !!state.auth.accessToken && state.user.user,
   tokenHasExpired: (state) => {
     return state.auth.dateExpire
       ? dayjs().isAfter(dayjs(state.auth.dateExpire))

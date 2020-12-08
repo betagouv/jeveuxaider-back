@@ -40,7 +40,8 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::exact('is_visible'),
-                'referent_department'
+                'referent_department',
+                'referent_region'
             )
             ->defaultSort('-created_at')
             ->get();

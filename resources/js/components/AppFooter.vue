@@ -145,29 +145,6 @@
             >
           </div>
         </div>
-        <div class="mt-8 lg:mt-3">
-          <div class="mb-8" style="font-size: 13px">
-            Suivez la Réserve Civique
-          </div>
-          <div
-            class="flex -m-2 overflow-hidden justify-center lg:justify-start"
-          >
-            <a
-              class="m-2 flex-shrink-0 flex items-center justify-center border border-black rounded-full w-10 h-10 transition opacity-75 hover:opacity-100"
-              href="https://twitter.com/ReserveCivique"
-              target="_blank"
-            >
-              <img src="/images/twitter_black.svg" alt="Twitter" />
-            </a>
-            <a
-              class="m-2 flex-shrink-0 flex items-center justify-center border border-black rounded-full w-10 h-10 transition opacity-75 hover:opacity-100"
-              href="https://www.facebook.com/reservecivique/"
-              target="_blank"
-            >
-              <img src="/images/facebook_black.svg" alt="Facebook" />
-            </a>
-          </div>
-        </div>
       </div>
     </div>
     <hr class="border-grey-200 mt-4" />

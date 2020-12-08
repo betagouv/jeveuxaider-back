@@ -54,8 +54,8 @@ class DepartmentsExport implements FromCollection, WithHeadings
                 ->available()
                 ->get();
 
-            $places_left = $missionsCollection->sum('places_left');
-            $participations_max = $missionsCollection->sum('participations_max');
+            // $places_left = $missionsCollection->sum('places_left');
+            // $participations_max = $missionsCollection->sum('participations_max');
             $stats->push([
                 'key' => $collectivity->department,
                 'name' => $collectivity->name,
@@ -75,9 +75,11 @@ class DepartmentsExport implements FromCollection, WithHeadings
                         $query->where('service_civique', true);
                     })->count(),
                 'missions_available' => $missionsCollection->count(),
-                'places_available' => $places_left,
-                'places' => $participations_max,
-                'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
+                'organisations_active' => $missionsCollection->pluck('structure_id')->unique()->count(),
+                'places_available' => $missionsCollection->sum('places_left'),
+                // 'places_available' => $places_left,
+                // 'places' => $participations_max,
+                // 'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
             ]);
         }
 
@@ -96,9 +98,8 @@ class DepartmentsExport implements FromCollection, WithHeadings
             'volontaires_count',
             'service_civique_count',
             'missions_available',
+            'organisations_active',
             'places_available',
-            'places',
-            'taux_occupation',
         ];
     }
 }

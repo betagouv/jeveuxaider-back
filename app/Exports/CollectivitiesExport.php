@@ -28,8 +28,8 @@ class CollectivitiesExport implements FromCollection, WithHeadings
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         $collectivities = QueryBuilder::for(Collectivity::role($this->role)->where('type', 'commune'))
@@ -46,8 +46,8 @@ class CollectivitiesExport implements FromCollection, WithHeadings
 
         foreach ($collectivities as $collectivity) {
             $missions = Mission::whereIn('zip', $collectivity->zips)->available()->get();
-            $places_left = $missions->sum('places_left');
-            $participations_max = $missions->sum('participations_max');
+            // $places_left = $missions->sum('places_left');
+            // $participations_max = $missions->sum('participations_max');
             $datas->push([
                 'id' => $collectivity->id,
                 'name' => $collectivity->name,
@@ -66,9 +66,10 @@ class CollectivitiesExport implements FromCollection, WithHeadings
                         $query->where('service_civique', true);
                     })->count(),
                 'missions_available' => $missions->count(),
-                'places_available' => $places_left,
-                'places' => $participations_max,
-                'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
+                'organisations_active' => $missions->pluck('structure_id')->unique()->count(),
+                'places_available' => $missions->sum('places_left'),
+                // 'places' => $participations_max,
+                // 'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
             ]);
         }
 
@@ -90,9 +91,8 @@ class CollectivitiesExport implements FromCollection, WithHeadings
             'volontaires_count',
             'service_civique_count',
             'missions_available',
-            'places_available',
-            'places',
-            'taux_occupation',
+            'organisations_active',
+            'places_available'
         ];
     }
 }

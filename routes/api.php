@@ -41,7 +41,8 @@ Route::get('statistics/global', 'Api\StatisticsController@global');
 Route::get('api-engagement/import', 'Api\EngagementController@import');
 Route::get('api-engagement/delete', 'Api\EngagementController@delete');
 
-Route::get('messages/test', 'Api\MessagesController@test');
+
+Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -224,7 +225,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // TABLE EXPORT
     Route::post('{table}/export/table', 'Api\ConfigController@export');
 
-    Route::get('profiles/referents/export', 'Api\ProfileController@exportReferents');
+    Route::get('profiles/referents/departements/export', 'Api\ProfileController@exportReferentsDepartements');
+    Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
 
 

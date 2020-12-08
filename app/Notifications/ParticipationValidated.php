@@ -55,8 +55,8 @@ class ParticipationValidated extends Notification
             ->line('Vous pouvez dès maintenant contacter votre organisation :')
             ->line(
                 new HtmlString(
-                    $this->participation->mission->tuteur->full_name . '<br>' .
-                    $this->participation->mission->tuteur->email
+                    $this->participation->mission->responsable->full_name . '<br>' .
+                    $this->participation->mission->responsable->email
                 )
             )
             ->line('Retrouvez les détails dans votre espace utilisateur.')
