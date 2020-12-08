@@ -15,6 +15,10 @@
       </h1>
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8" />
+    <div class="flex justify-center">
+      <FranceConnect />
+    </div>
+    <div class="flex justify-center text-gray-500 my-4">Ou</div>
     <el-form
       ref="loginForm"
       :model="form"
@@ -95,10 +99,14 @@
 
 <script>
 import metadatas from '@/utils/metadatas.json'
+import FranceConnect from '@/components/FranceConnect.vue'
 
 export default {
   name: 'Login',
   metaInfo: metadatas.filter((item) => item.name == 'Login')[0].metaInfo,
+  components: {
+    FranceConnect,
+  },
   data() {
     return {
       loading: false,

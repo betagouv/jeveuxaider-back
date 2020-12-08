@@ -48,4 +48,10 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    'franceconnect' => [
+        'url' => env('FRANCECONNECT_URL'),
+        'client_id' => env('FRANCECONNECT_CLIENT_ID'),
+        'client_secret' => env('FRANCECONNECT_CLIENT_SECRET'),
+    ],
+
 ];
