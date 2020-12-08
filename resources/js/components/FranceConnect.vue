@@ -13,11 +13,11 @@ import {
 export default {
   created() {
     if (this.$route.query.state && this.$route.query.code) {
+      this.$emit('loading', true)
       franceConnectLoginCallback({
         state: this.$route.query.state,
         code: this.$route.query.code,
       }).then((response) => {
-        console.log(response.data.accessToken)
         this.$store.commit('auth/setTokens', {
           access_token: response.data.accessToken,
         })
