@@ -2,7 +2,6 @@ import {
   registerVolontaire,
   registerResponsable,
   registerInvitation,
-  registerCollectivity,
 } from '../../api/user'
 import {
   login,
@@ -69,24 +68,6 @@ const actions = {
               router.push('/login?email=' + user.email)
             }
           }
-          reject(error)
-        })
-    })
-  },
-  registerCollectivity({ dispatch }, user) {
-    return new Promise((resolve, reject) => {
-      registerCollectivity(
-        user.email,
-        user.password,
-        user.first_name,
-        user.last_name
-      )
-        .then(() => {
-          dispatch('login', user).then((response) => {
-            resolve(response)
-          })
-        })
-        .catch((error) => {
           reject(error)
         })
     })

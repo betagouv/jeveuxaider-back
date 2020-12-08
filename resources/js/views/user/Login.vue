@@ -15,6 +15,10 @@
       </h1>
     </div>
     <div class="mt-8 border-t border-gray-200 pt-8" />
+    <div class="flex justify-center">
+      <FranceConnect />
+    </div>
+    <div class="flex justify-center text-gray-500 my-4">Ou</div>
     <el-form
       ref="loginForm"
       :model="form"
@@ -57,9 +61,6 @@
           >Je me connecte</el-button
         >
       </span>
-    </div>
-    <div class="mt-4">
-      <FranceConnect />
     </div>
     <div class="mt-6">
       <div class="relative">

@@ -18,7 +18,6 @@ use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Models\Activity;
-use App\Notifications\RegisterUserCollectivity;
 use App\Models\Structure;
 
 class PassportController extends Controller
@@ -34,21 +33,17 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
-
-        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
-            $profile = Profile::create($request->validated());
-        }
-
+        $profile = Profile::firstOrCreate(
+            ['email' => request('email')],
+            $request->validated()
+        );
 
         $user->profile()->save($profile);
 
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
 
-        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-
-        return $response;
+        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
     public function registerResponsable(RegisterResponsableWithStructureRequest $request)
@@ -59,11 +54,10 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
-
-        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
-            $profile = Profile::create($request->validated());
-        }
+        $profile = Profile::firstOrCreate(
+            ['email' => request('email')],
+            $request->validated()
+        );
         $user->profile()->save($profile);
 
         $structure = Structure::create(
@@ -88,33 +82,7 @@ class PassportController extends Controller
         $notification = new RegisterUserResponsable($structure);
         $user->notify($notification);
 
-        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-
-        return $response;
-    }
-
-    public function registerCollectivity(RegisterResponsableRequest $request)
-    {
-        $user = User::create([
-            'name' => request("email"),
-            'email' => request("email"),
-            'context_role' => 'volontaire', // On ne peut pas mettre collectivity car il doit être validé par un modérateur
-            'password' => Hash::make(request("password"))
-        ]);
-
-        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
-
-        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
-            $profile = Profile::create($request->validated());
-        }
-
-        $notification = new RegisterUserCollectivity($user);
-        $user->profile()->save($profile);
-        $user->notify($notification);
-
-        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-
-        return $response;
+        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
     public function registerInvitation(RegisterResponsableRequest $request)
@@ -125,17 +93,13 @@ class PassportController extends Controller
             'password' => Hash::make(request("password"))
         ]);
 
-        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
-
-        if (!$profile) { // S'il n'y a pas de Profile, c'est une inscription sans invitation, donc un responsable
-            $profile = Profile::create($request->validated());
-        }
-
+        $profile = Profile::firstOrCreate(
+            ['email' => request('email')],
+            $request->validated()
+        );
         $user->profile()->save($profile);
 
-        $response = User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-
-        return $response;
+        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
     public function logout(Request $request)

@@ -104,7 +104,6 @@ class UserController extends Controller
 
     public function anonymize(Request $request)
     {
-        // TODO : Seulement volontaire peuvent s'anonymiser
         $user = $request->user();
         $user->anonymize();
         $user->token()->revoke();
