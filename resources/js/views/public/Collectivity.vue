@@ -1,8 +1,11 @@
 <template>
   <div>
     <AppHeader :show-menu="false">
-      <template v-slot:menu>
-        <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
+      <template v-slot:append-logo>
+        <div
+          v-if="collectivity"
+          class="hidden sm:block ml-2 mr-auto w-auto order-2"
+        >
           <div
             class="text-xl md:text-xl font-medium text-gray-500 leading-none"
           >

@@ -214,7 +214,7 @@
 
         <div class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <router-link
-            to="/missions?menu[domaines]=Solidarité%20et%20insertion"
+            to="/thematiques/solidarite-et-insertion"
             class="bg-red-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-white px-4 py-2 sm:px-6">
@@ -246,7 +246,7 @@
           </router-link>
 
           <router-link
-            to="/missions?menu[domaines]=Protection%20de%20la%20nature"
+            to="/thematiques/protection-de-la-nature"
             class="bg-green-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
@@ -277,7 +277,7 @@
           </router-link>
 
           <router-link
-            to="/missions?menu[domaines]=Éducation%20pour%20tous"
+            to="/thematiques/education-pour-tous"
             class="bg-blue-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
@@ -895,8 +895,6 @@
 
 <script>
 import request from '@/utils/request'
-//import VueTypedJs from 'vue-typed-js/src/components/VueTypedJs.vue'
-// import VueTypedJs from 'vue-typed-js'
 
 export default {
   name: 'Homepage',

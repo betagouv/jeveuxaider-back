@@ -9,10 +9,10 @@
     />
     <div class="z-10 relative bg-white shadow-lg">
       <div
-        class="flex justify-between items-center px-4 sm:px-6 md:justify-start md:space-x-10"
+        class="flex justify-between items-center px-4 sm:px-6 md:justify-between md:space-x-10"
         :class="$store.getters.isLogged ? ' py-2' : ' py-5'"
       >
-        <div class="lg:flex-1">
+        <div class="">
           <div class="flex items-center">
             <img
               class="h-4 lg:h-5 w-auto flex flex-none"
@@ -27,6 +27,8 @@
                 alt="Logo Réserve Civique"
               />
             </router-link>
+
+            <slot name="append-logo"> </slot>
           </div>
         </div>
 
@@ -58,7 +60,7 @@
             </svg>
           </button>
         </div>
-        <slot name="menu">
+        <template v-if="showMenu">
           <nav
             class="hidden md:flex space-x-4 text-sm lg:text-base lg:space-x-6"
           >
@@ -183,10 +185,8 @@
               #ChacunPourTous
             </a>
           </nav>
-        </slot>
-        <div
-          class="hidden md:flex items-center justify-end space-x-4 md:flex-1 lg:w-0"
-        >
+        </template>
+        <div class="hidden md:flex items-center justify-end space-x-4">
           <router-link
             v-if="!$store.getters.isLogged"
             to="/login"
@@ -438,6 +438,12 @@ import JdmaBenevole from '@/components/JdmaBenevole.vue'
 export default {
   name: 'AppHeader',
   components: { JdmaBenevole },
+  props: {
+    showMenu: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       isOnSinformer: false,
