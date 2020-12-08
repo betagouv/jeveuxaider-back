@@ -51,11 +51,11 @@ class CollectivitiesExport implements FromCollection, WithHeadings
                 ->get();
 
             $missionsCollection = Mission::whereIn('zip', $collectivity->zips)
-                ->whereIn('state', ['Validée','Terminée'])
+                ->whereIn('state', ['Validée', 'Terminée'])
                 ->get();
 
-            $places_available_left = $missionsAvailableCollection->sum('places_left');
-            $places_offered = $missionsAvailableCollection->sum('participations_max');
+            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
+            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
             $total_participations_max = $missionsCollection->sum('participations_max');
             $datas->push([
                 'id' => $collectivity->id,
@@ -74,11 +74,11 @@ class CollectivitiesExport implements FromCollection, WithHeadings
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                    'missions_available' => $missionsAvailableCollection->count(),
-                    'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
-                    'places_available' => $missionsAvailableCollection->sum('places_left'),
-                    'total_offered_places' => $total_participations_max,
-                    'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
+                'missions_available' => $missionsAvailableCollection->count(),
+                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'places_available' => $missionsAvailableCollection->sum('places_left'),
+                'total_offered_places' => $total_participations_max,
+                'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
             ]);
         }
 

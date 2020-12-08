@@ -58,8 +58,8 @@ class DepartmentsExport implements FromCollection, WithHeadings
                 ->whereIn('state', ['Validée', 'Terminée'])
                 ->get();
 
-            $places_available_left = $missionsAvailableCollection->sum('places_left');
-            $places_offered = $missionsAvailableCollection->sum('participations_max');
+            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
+            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
             $total_participations_max = $missionsCollection->sum('participations_max');
 
             $stats->push([
