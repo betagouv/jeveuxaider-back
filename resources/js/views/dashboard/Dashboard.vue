@@ -9,7 +9,7 @@
           Tableau de bord
         </div>
       </div>
-      <div v-if="$store.getters.contextRole === 'admin'">
+      <!-- <div v-if="$store.getters.contextRole === 'admin'">
         <el-dropdown @command="handleCommand">
           <el-button :loading="loading" type="primary">
             Exporter les données
@@ -29,7 +29,7 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-      </div>
+      </div> -->
     </div>
     <div class="px-12 mb-12">
       <dashboard-menu index="main" />
@@ -46,6 +46,9 @@
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
+        <card-occupation-rate
+          v-if="$store.getters.contextRole != 'responsable'"
+        />
         <card-count-places-left
           v-if="$store.getters.contextRole != 'responsable'"
         />
@@ -80,6 +83,7 @@
 import DashboardMenu from '@/components/DashboardMenu'
 import CardCount from '@/components/CardCount'
 import CardCountPlacesLeft from '@/components/CardCountPlacesLeft'
+import CardOccupationRate from '@/components/CardOccupationRate'
 import ReminderReferent from '@/components/ReminderReferent'
 import ReminderResponsable from '@/components/ReminderResponsable'
 import { exportTable } from '@/api/app'
@@ -91,6 +95,7 @@ export default {
     DashboardMenu,
     CardCount,
     CardCountPlacesLeft,
+    CardOccupationRate,
     ReminderReferent,
     ReminderResponsable,
   },

@@ -39,7 +39,7 @@ class DepartmentsExport implements FromCollection, WithHeadings
             $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
         }
 
-        $collectivities = QueryBuilder::for($query)
+        $departements = QueryBuilder::for($query)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
             ])
@@ -48,38 +48,43 @@ class DepartmentsExport implements FromCollection, WithHeadings
 
         $stats = collect();
 
-        foreach ($collectivities as $collectivity) {
-            $missionsCollection = Mission::department($collectivity->department)
+        foreach ($departements as $departement) {
+            $missionsAvailableCollection = Mission::department($departement->department)
                 ->hasPlacesLeft()
                 ->available()
                 ->get();
 
-            // $places_left = $missionsCollection->sum('places_left');
-            // $participations_max = $missionsCollection->sum('participations_max');
+            $missionsCollection = Mission::department($departement->department)
+                ->whereIn('state', ['Validée', 'Terminée'])
+                ->get();
+
+            $places_available_left = $missionsAvailableCollection->sum('places_left');
+            $places_offered = $missionsAvailableCollection->sum('participations_max');
+            $total_participations_max = $missionsCollection->sum('participations_max');
+
             $stats->push([
-                'key' => $collectivity->department,
-                'name' => $collectivity->name,
-                'published' => $collectivity->published,
-                'missions_count' => Mission::role($this->role)->department($collectivity->department)->count(),
-                'structures_count' => Structure::role($this->role)->department($collectivity->department)->count(),
-                'participations_count' => Participation::role($this->role)->department($collectivity->department)->count(),
+                'key' => $departement->department,
+                'name' => $departement->name,
+                'published' => $departement->published,
+                'missions_count' => Mission::role($this->role)->department($departement->department)->count(),
+                'structures_count' => Structure::role($this->role)->department($departement->department)->count(),
+                'participations_count' => Participation::role($this->role)->department($departement->department)->count(),
                 'volontaires_count' => Profile::role($this->role)
-                    ->department($collectivity->department)
+                    ->department($departement->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('context_role', 'volontaire');
                     })
                     ->count(),
                 'service_civique_count' => Profile::role($this->role)
-                    ->department($collectivity->department)
+                    ->department($departement->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missionsCollection->count(),
-                'organisations_active' => $missionsCollection->pluck('structure_id')->unique()->count(),
-                'places_available' => $missionsCollection->sum('places_left'),
-                // 'places_available' => $places_left,
-                // 'places' => $participations_max,
-                // 'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
+                'missions_available' => $missionsAvailableCollection->count(),
+                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'places_available' => $missionsAvailableCollection->sum('places_left'),
+                'total_offered_places' => $total_participations_max,
+                'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
             ]);
         }
 
@@ -100,6 +105,8 @@ class DepartmentsExport implements FromCollection, WithHeadings
             'missions_available',
             'organisations_active',
             'places_available',
+            'total_offered_places',
+            'occupation_rate'
         ];
     }
 }

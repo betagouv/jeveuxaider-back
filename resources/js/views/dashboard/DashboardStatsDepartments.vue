@@ -36,115 +36,64 @@
           <div class="text-gray-900">
             {{ scope.row.name }}
           </div>
-          <div class="font-light text-gray-600 text-xs">
-            <template v-if="scope.row.published">Publiée</template>
-            <template v-else>Non publiée</template>
+        </template>
+      </el-table-column>
+      <el-table-column label="Organisations" width="130" align="center">
+        <template slot-scope="scope">
+          <div class="text-primary">
+            {{ scope.row.structures_count | formatNumber }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="structures_count"
-        label="Orga."
-        width="100"
-        align="center"
-      >
+      <el-table-column label="Missions" width="100" align="center">
         <template slot-scope="scope">
-          <span class="text-gray-500">{{
-            scope.row.structures_count | formatNumber
-          }}</span>
+          <div class="text-primary">
+            {{ scope.row.missions_count | formatNumber }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="missions_count"
-        label="Miss."
-        width="90"
-        align="center"
-      >
+      <el-table-column label="Participations" width="120" align="center">
         <template slot-scope="scope">
-          <span class="text-gray-500">{{
-            scope.row.missions_count | formatNumber
-          }}</span>
+          <div class="text-primary">
+            {{ scope.row.participations_count | formatNumber }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="participations_count"
-        label="Partic."
-        width="100"
-        align="center"
-      >
+      <el-table-column label="Bénévoles" width="160" align="center">
         <template slot-scope="scope">
-          <span class="text-gray-500">{{
-            scope.row.participations_count | formatNumber
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="volontaires_count"
-        label="Benev."
-        width="100"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <div class="text-gray-500">
+          <div class="text-primary">
             {{ scope.row.volontaires_count | formatNumber }}
           </div>
+          <div class="text-xs">
+            {{ scope.row.service_civique_count | formatNumber }}
+            <span class="text-gray-500">en SC</span>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="organisations_active"
-        label="Orga. actives"
-        width="140"
-        align="center"
-      >
+      <el-table-column label="Places disponibles" width="200" align="center">
         <template slot-scope="scope">
-          <span class="text-gray-500">{{
-            scope.row.organisations_active | formatNumber
-          }}</span>
+          <div class="text-primary">
+            {{ scope.row.places_available | formatNumber }}
+          </div>
+          <div class="text-xs">
+            {{ scope.row.missions_available | formatNumber }}
+            <span class="text-gray-500">missions disponibles</span>
+          </div>
+          <div class="text-xs">
+            {{ scope.row.organisations_active | formatNumber }}
+            <span class="text-gray-500">organisations actives</span>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="missions_available"
-        label="Miss. dispos."
-        width="140"
-        align="center"
-      >
+      <el-table-column label="Taux d'occupation" width="200" align="center">
         <template slot-scope="scope">
-          <span class="text-gray-500">{{
-            scope.row.missions_available | formatNumber
-          }}</span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column prop="places" label="Places" width="100" align="center">
-        <template slot-scope="scope">
-          <span class="text-gray-500">{{
-            scope.row.places | formatNumber
-          }}</span>
-        </template>
-      </el-table-column> -->
-      <!-- <el-table-column
-        prop="taux_occupation"
-        label="Occupation"
-        width="130"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span class="text-gray-500">{{ scope.row.taux_occupation }}%</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column
-        prop="places_available"
-        label="Places dispos."
-        width="170"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <el-tag :type="type(scope.row.places_available)">
-            <template v-if="scope.row.places_available > 0">
-              {{ scope.row.places_available | formatNumber }}
-              {{ scope.row.places_available | pluralize(['place', 'places']) }}
-            </template>
-            <template v-else> Aucune place </template>
-          </el-tag>
+          <div class="text-primary">
+            {{ scope.row.occupation_rate | formatNumber }}%
+          </div>
+          <div class="text-xs">
+            {{ scope.row.total_offered_places | formatNumber }}
+            <span class="text-gray-500">places offertes</span>
+          </div>
         </template>
       </el-table-column>
     </el-table>

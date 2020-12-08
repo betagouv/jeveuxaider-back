@@ -45,9 +45,18 @@ class CollectivitiesExport implements FromCollection, WithHeadings
         $datas = collect();
 
         foreach ($collectivities as $collectivity) {
-            $missions = Mission::whereIn('zip', $collectivity->zips)->available()->get();
-            // $places_left = $missions->sum('places_left');
-            // $participations_max = $missions->sum('participations_max');
+            $missionsAvailableCollection = Mission::whereIn('zip', $collectivity->zips)
+                ->hasPlacesLeft()
+                ->available()
+                ->get();
+
+            $missionsCollection = Mission::whereIn('zip', $collectivity->zips)
+                ->whereIn('state', ['Validée','Terminée'])
+                ->get();
+
+            $places_available_left = $missionsAvailableCollection->sum('places_left');
+            $places_offered = $missionsAvailableCollection->sum('participations_max');
+            $total_participations_max = $missionsCollection->sum('participations_max');
             $datas->push([
                 'id' => $collectivity->id,
                 'name' => $collectivity->name,
@@ -65,11 +74,11 @@ class CollectivitiesExport implements FromCollection, WithHeadings
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missions->count(),
-                'organisations_active' => $missions->pluck('structure_id')->unique()->count(),
-                'places_available' => $missions->sum('places_left'),
-                // 'places' => $participations_max,
-                // 'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
+                    'missions_available' => $missionsAvailableCollection->count(),
+                    'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                    'places_available' => $missionsAvailableCollection->sum('places_left'),
+                    'total_offered_places' => $total_participations_max,
+                    'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
             ]);
         }
 
@@ -92,7 +101,9 @@ class CollectivitiesExport implements FromCollection, WithHeadings
             'service_civique_count',
             'missions_available',
             'organisations_active',
-            'places_available'
+            'places_available',
+            'total_offered_places',
+            'occupation_rate'
         ];
     }
 }
