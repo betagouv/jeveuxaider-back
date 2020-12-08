@@ -123,9 +123,12 @@ const actions = {
   logout({ commit }) {
     return new Promise((resolve, reject) => {
       logout()
-        .then(() => {
+        .then((res) => {
           commit('deleteTokens')
           commit('user/deleteUser', null, { root: true })
+          if (res.data.franceConnectLogoutUrl) {
+            window.location.href = res.data.franceConnectLogoutUrl
+          }
           router.push('/')
         })
         .catch((error) => {

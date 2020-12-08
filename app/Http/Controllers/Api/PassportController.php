@@ -18,7 +18,9 @@ use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Models\Activity;
+use App\Models\SocialAccount;
 use App\Models\Structure;
+use Illuminate\Support\Facades\Auth;
 
 class PassportController extends Controller
 {
@@ -104,13 +106,29 @@ class PassportController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::guard('api')->user();
+        $socialAccount = SocialAccount::where(['user_id'=> $user->id, 'provider' => 'franceconnect'])->first();
+        if ($socialAccount) {
+            debug('has franceconnect!');
+            debug($socialAccount->data);
+            $franceConnectLogoutUrl = config('services.franceconnect.url') . "/api/v1/logout?"
+            . http_build_query([
+                'id_token_hint' => $socialAccount->data['id_token'],
+                'state' => 'franceconnect',
+                'post_logout_redirect_uri' => config('app.url')
+            ]);
+        }
+
         $bearerToken = request()->bearerToken();
         $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
         $token = Token::find($tokenId);
 
         $token->revoke();
 
-        return $token;
+        return [
+            'token' => $token,
+            'franceConnectLogoutUrl' => $franceConnectLogoutUrl
+        ];
     }
 
     public function forgotPassword(Request $request)

@@ -17,29 +17,27 @@ class FranceConnectController extends Controller
     public function oAuthLoginAuthorize()
     {
         $query = [
-      'scope' => 'openid given_name family_name preferred_username birthdate email',
-      'redirect_uri' => config('app.url') . '/login',
-      'response_type' => 'code',
-      'client_id' => config('services.franceconnect.client_id'),
-      'state' => 'franceconnect',
-      'nonce' => Str::random(20),
-      'acr_values' => 'eidas1'
-    ];
+          'scope' => 'openid given_name family_name preferred_username birthdate email',
+          'redirect_uri' => config('app.url') . '/login',
+          'response_type' => 'code',
+          'client_id' => config('services.franceconnect.client_id'),
+          'state' => 'franceconnect',
+          'nonce' => Str::random(20),
+          'acr_values' => 'eidas1'
+        ];
 
         return config('services.franceconnect.url') . "/api/v1/authorize?" . http_build_query($query);
     }
 
     public function oauthLoginCallback(Request $request)
     {
-        debug($request->all());
         $response = Http::asForm()->post(config('services.franceconnect.url') . '/api/v1/token', [
-      'grant_type' => 'authorization_code',
-      'redirect_uri' => config('app.url') . '/login',
-      'client_id' => config('services.franceconnect.client_id'),
-      'client_secret' => config('services.franceconnect.client_secret'),
-      'code' =>  $request->query('code')
-    ]);
-        debug($response->json());
+          'grant_type' => 'authorization_code',
+          'redirect_uri' => config('app.url') . '/login',
+          'client_id' => config('services.franceconnect.client_id'),
+          'client_secret' => config('services.franceconnect.client_secret'),
+          'code' =>  $request->query('code')
+        ]);
 
         if (!isset($response['access_token']) || !isset($response['id_token'])) {
             return response()->json(['message' => "France Connect connexion failed. No access token"], 401);
@@ -63,12 +61,12 @@ class FranceConnectController extends Controller
     private function register($franceConnectUser)
     {
         $user = User::create([
-      'name' => $franceConnectUser['email'],
-      'email' => $franceConnectUser['email'],
-      'context_role' => 'volontaire',
-      'password' => Hash::make(Str::random(12))
-    ]);
-    
+          'name' => $franceConnectUser['email'],
+          'email' => $franceConnectUser['email'],
+          'context_role' => 'volontaire',
+          'password' => Hash::make(Str::random(12))
+        ]);
+      
         $profile = Profile::firstOrCreate(
             ['email' => $franceConnectUser['email']],
             [
@@ -85,9 +83,5 @@ class FranceConnectController extends Controller
         $user->notify($notification);
 
         return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-    }
-
-    private function login()
-    {
     }
 }
