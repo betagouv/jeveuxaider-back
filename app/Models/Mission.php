@@ -217,6 +217,12 @@ class Mission extends Model
         return $query->where('department', $value);
     }
 
+    public function scopeRegion($query, $value)
+    {
+        return $query
+            ->whereIn('department', config('taxonomies.regions.departments')[$value]);
+    }
+
     public function scopeDomaine($query, $domain_id)
     {
         return $query

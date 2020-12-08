@@ -225,7 +225,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // TABLE EXPORT
     Route::post('{table}/export/table', 'Api\ConfigController@export');
 
-    Route::get('profiles/referents/export', 'Api\ProfileController@exportReferents');
+    Route::get('profiles/referents/departements/export', 'Api\ProfileController@exportReferentsDepartements');
+    Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
 
 

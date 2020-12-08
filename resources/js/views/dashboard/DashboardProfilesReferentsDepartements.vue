@@ -26,7 +26,9 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <profiles-menu index="/dashboard/profiles/referents"></profiles-menu>
+      <profiles-menu
+        index="/dashboard/profiles/referents-departements"
+      ></profiles-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -58,7 +60,7 @@
         <query-filter
           v-if="$store.getters.contextRole === 'admin'"
           name="referent_department"
-          label="Référent"
+          label="Département"
           multiple
           :value="query['filter[referent_department]']"
           :options="
@@ -216,7 +218,7 @@
 </template>
 
 <script>
-import { fetchProfiles, exportProfilesReferents } from '@/api/user'
+import { fetchProfiles, exportProfilesReferentsDepartements } from '@/api/user'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryFilter from '@/components/QueryFilter.vue'
@@ -227,7 +229,7 @@ import ProfilesMenu from '@/components/ProfilesMenu.vue'
 import { Message } from 'element-ui'
 
 export default {
-  name: 'DashboardProfilesReferents',
+  name: 'DashboardProfilesReferentsDepartements',
   components: {
     ProfileVolet,
     QueryFilter,
@@ -261,13 +263,13 @@ export default {
     },
     onExport() {
       this.loading = true
-      exportProfilesReferents({
+      exportProfilesReferentsDepartements({
         ...this.query,
         'filter[role]': 'referent',
       })
         .then((response) => {
           this.loading = false
-          fileDownload(response.data, 'referents.csv')
+          fileDownload(response.data, 'referents-departements.csv')
         })
         .catch((error) => {
           Message({
