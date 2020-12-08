@@ -15,7 +15,7 @@ const routeOptions = [
   },
   {
     path: '/dashboard/collectivity',
-    name: 'DashboardCollectivityMain',
+    name: 'Dashboard',
     meta: {
       roles: ['responsable'],
     },
