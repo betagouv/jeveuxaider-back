@@ -14,13 +14,6 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/collectivity',
-    name: 'Dashboard',
-    meta: {
-      roles: ['responsable'],
-    },
-  },
-  {
     path: '/dashboard/stats/structures',
     name: 'DashboardStatsStructures',
     meta: {
@@ -563,6 +556,13 @@ const routeOptions = [
     },
   },
   {
+    path: '/dashboard/collectivity',
+    name: 'DashboardCollectivityResponsableStats',
+    meta: {
+      roles: ['responsable'],
+    },
+  },
+  {
     path: '/dashboard/collectivity/:id',
     name: 'DashboardCollectivity',
     props: (route) => ({ id: parseInt(route.params.id) }),
@@ -644,7 +644,7 @@ const routeOptions = [
   },
   {
     path: '/dashboard/page/add',
-    name: 'DashboardPageFormAdd',
+    name: 'DashboardPageForm',
     singleName: 'DashboardPageFormAdd',
     props: { mode: 'add' },
     meta: {
