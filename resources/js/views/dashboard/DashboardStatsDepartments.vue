@@ -88,9 +88,18 @@
           <div class="text-gray-500">
             {{ scope.row.volontaires_count | formatNumber }}
           </div>
-          <div class="font-light text-gray-500 text-xs">
-            {{ scope.row.service_civique_count | formatNumber }} en SC
-          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="organisations_active"
+        label="Orga. actives"
+        width="140"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span class="text-gray-500">{{
+            scope.row.organisations_active | formatNumber
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -105,14 +114,14 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="places" label="Places" width="100" align="center">
+      <!-- <el-table-column prop="places" label="Places" width="100" align="center">
         <template slot-scope="scope">
           <span class="text-gray-500">{{
             scope.row.places | formatNumber
           }}</span>
         </template>
-      </el-table-column>
-      <el-table-column
+      </el-table-column> -->
+      <!-- <el-table-column
         prop="taux_occupation"
         label="Occupation"
         width="130"
@@ -121,7 +130,7 @@
         <template slot-scope="scope">
           <span class="text-gray-500">{{ scope.row.taux_occupation }}%</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="places_available"
         label="Places dispos."
