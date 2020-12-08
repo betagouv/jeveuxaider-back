@@ -27,6 +27,7 @@ import VClamp from 'vue-clamp'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import vClickOutside from 'v-click-outside'
 import VueMeta from 'vue-meta'
+import VueTypedJs from 'vue-typed-js'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
 import NoHeaderLayout from '@/layouts/NoHeaderLayout'
@@ -54,6 +55,7 @@ Vue.use(VueMeta, {
   refreshOnceOnNavigation: true,
 })
 
+Vue.use(VueTypedJs)
 Vue.use(Vue2Filters)
 Vue.use(PortalVue)
 Vue.use(CKEditor)

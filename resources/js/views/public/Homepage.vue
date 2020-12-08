@@ -895,13 +895,12 @@
 
 <script>
 import request from '@/utils/request'
-import VueTypedJs from 'vue-typed-js/src/components/VueTypedJs.vue'
+//import VueTypedJs from 'vue-typed-js/src/components/VueTypedJs.vue'
+// import VueTypedJs from 'vue-typed-js'
 
 export default {
   name: 'Homepage',
-  components: {
-    VueTypedJs,
-  },
+  components: {},
   data() {
     return {
       missions_prioritaires: [
@@ -1047,4 +1046,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+::v-deep .typed-cursor
+  font-weight: 100
+</style>
