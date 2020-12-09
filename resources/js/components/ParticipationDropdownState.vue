@@ -1,27 +1,26 @@
 <template>
   <div>
     <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
-      <div style="min-width: 140px; text-align: left;">{{ form.state }}</div>
+      <div style="min-width: 140px; text-align: left">{{ form.state }}</div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
           v-for="state in statesAvailable"
           :key="state.value"
           @click.native="onSubmitState(state.value)"
         >
+          <template v-if="state.value == 'En attente de validation'"
+            >Repasser en validation</template
+          >
           <template v-if="state.value == 'Validée'"
             >Valider la participation</template
           >
-          <template
-            v-if="
-              form.state == 'En attente de validation' &&
-              state.value == 'Refusée'
-            "
+          <template v-if="state.value == 'Refusée'"
             >Refuser la participation</template
           >
-          <template v-if="form.state == 'Validée' && state.value == 'Annulée'"
+          <template v-if="state.value == 'Annulée'"
             >Annuler la participation</template
           >
-          <template v-if="form.state == 'Validée' && state.value == 'Effectuée'"
+          <template v-if="state.value == 'Effectuée'"
             >Terminer la mission</template
           >
         </el-dropdown-item>
@@ -57,16 +56,32 @@ export default {
       return 'default'
     },
     canEditStatut() {
+      if (this.$store.getters.contextRole == 'admin') {
+        return true
+      }
       return ['En attente de validation', 'Validée'].includes(this.form.state)
         ? true
         : false
     },
     statesAvailable() {
-      return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
-        (item) =>
-          !['En attente de validation'].includes(item.value) &&
-          item.value != this.form.state
-      )
+      if (this.$store.getters.contextRole == 'admin') {
+        return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+          (item) => item.value != this.form.state
+        )
+      } else {
+        if (this.form.state == 'En attente de validation') {
+          return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+            (item) => ['Validée', 'Refusée'].includes(item.value)
+          )
+        } else {
+          return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+            (item) =>
+              !['En attente de validation', 'Validée', 'Refusée'].includes(
+                item.value
+              ) && item.value != this.form.state
+          )
+        }
+      }
     },
   },
   methods: {

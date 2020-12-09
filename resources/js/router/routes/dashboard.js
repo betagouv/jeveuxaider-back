@@ -56,7 +56,8 @@ const routeOptions = [
   },
   {
     path: '/dashboard/collectivity/stats/missions',
-    name: 'DashboardCollectivityStatsMissions',
+    name: 'DashboardStatsMissions',
+    singleName: 'DashboardCollectivityStatsMissions',
     meta: {
       roles: [
         'admin',
@@ -70,7 +71,8 @@ const routeOptions = [
   },
   {
     path: '/dashboard/collectivity/stats/participations',
-    name: 'DashboardCollectivityStatsParticipations',
+    name: 'DashboardStatsParticipations',
+    singleName: 'DashboardCollectivityStatsParticipations',
     meta: {
       roles: [
         'admin',
@@ -557,7 +559,8 @@ const routeOptions = [
   },
   {
     path: '/dashboard/collectivity',
-    name: 'DashboardCollectivityResponsableStats',
+    name: 'Dashboard',
+    singleName: 'DashboardCollectivityMain',
     meta: {
       roles: ['responsable'],
     },

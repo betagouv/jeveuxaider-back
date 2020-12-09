@@ -2,7 +2,7 @@
   <div>
     <template v-if="showAskValidation">
       <el-dropdown size="small" split-button :type="type">
-        <div style="min-width: 140px; text-align: left;">{{ form.state }}</div>
+        <div style="min-width: 140px; text-align: left">{{ form.state }}</div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="onAskValidationSubmit">
             Publier la mission
@@ -12,25 +12,23 @@
     </template>
     <template v-else>
       <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
-        <div style="min-width: 140px; text-align: left;">{{ form.state }}</div>
+        <div style="min-width: 140px; text-align: left">{{ form.state }}</div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
             v-for="state in statesAvailable"
             :key="state.value"
             @click.native="onSubmitState(state.value)"
           >
-            <template
-              v-if="
-                form.state == 'En attente de validation' &&
-                state.value == 'Validée'
-              "
+            <template v-if="state.value == 'En attente de validation'"
+              >Repasser en validation</template
+            >
+            <template v-if="state.value == 'Validée'"
               >Valider la mission</template
             >
-            <template
-              v-if="form.state == 'Validée' && state.value == 'Terminée'"
+            <template v-if="state.value == 'Terminée'"
               >Terminer la mission</template
             >
-            <template v-if="form.state == 'Validée' && state.value == 'Annulée'"
+            <template v-if="state.value == 'Annulée'"
               >Annuler la mission</template
             >
             <template v-if="state.value == 'Signalée'"
@@ -76,22 +74,32 @@ export default {
         : false
     },
     canEditStatut() {
+      if (this.$store.getters.contextRole == 'admin') {
+        return true
+      }
       if (this.form.state == 'Validée') {
         return true
       }
       if (
-        this.$store.getters.contextRole == 'admin' ||
         this.$store.getters.contextRole == 'referent' ||
         this.$store.getters.contextRole == 'referent_regional'
       ) {
-        return !['Signalée', 'Terminée', 'Annulée', 'Brouillon'].includes(
-          this.form.state
-        )
+        return ![
+          'Signalée',
+          'Terminée',
+          'Annulée',
+          'En attente de validation',
+          'Brouillon',
+        ].includes(this.form.state)
       }
       return false
     },
     statesAvailable() {
-      if (this.$store.getters.contextRole == 'responsable') {
+      if (this.$store.getters.contextRole == 'admin') {
+        return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
+          (item) => item.value != this.form.state
+        )
+      } else if (this.$store.getters.contextRole == 'responsable') {
         return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
           (item) =>
             !['Signalée', 'En attente de validation'].includes(item.value) &&

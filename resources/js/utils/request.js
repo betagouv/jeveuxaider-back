@@ -19,8 +19,8 @@ request.interceptors.request.use(async (config) => {
     // Hack en attendant refactoring
     if (
       router.history.current.name == 'DashboardCollectivityMain' ||
-      router.history.current.name == 'CollectivityStatsMissions' ||
-      router.history.current.name == 'CollectivityStatsParticipations'
+      router.history.current.name == 'DashboardCollectivityStatsMissions' ||
+      router.history.current.name == 'DashboardCollectivityStatsParticipations'
     ) {
       config.headers['Context-Role'] = 'responsable_collectivity'
     }
