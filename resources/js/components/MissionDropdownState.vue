@@ -25,10 +25,20 @@
             <template v-if="state.value == 'Validée'"
               >Valider la mission</template
             >
-            <template v-if="state.value == 'Terminée'"
+            <template
+              v-if="
+                (form.state == 'Validée' ||
+                  $store.getters.contextRole == 'admin') &&
+                state.value == 'Terminée'
+              "
               >Terminer la mission</template
             >
-            <template v-if="state.value == 'Annulée'"
+            <template
+              v-if="
+                (form.state == 'Validée' ||
+                  $store.getters.contextRole == 'admin') &&
+                state.value == 'Annulée'
+              "
               >Annuler la mission</template
             >
             <template v-if="state.value == 'Signalée'"
@@ -84,13 +94,9 @@ export default {
         this.$store.getters.contextRole == 'referent' ||
         this.$store.getters.contextRole == 'referent_regional'
       ) {
-        return ![
-          'Signalée',
-          'Terminée',
-          'Annulée',
-          'En attente de validation',
-          'Brouillon',
-        ].includes(this.form.state)
+        return !['Signalée', 'Terminée', 'Annulée', 'Brouillon'].includes(
+          this.form.state
+        )
       }
       return false
     },
