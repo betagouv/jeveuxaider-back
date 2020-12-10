@@ -7,6 +7,7 @@
 
       <img
         class="opacity-50 z-1 object-cover absolute h-screen lg:h-auto"
+        alt="JeVeuxAider"
         src="/images/hero.jpg"
       />
 
@@ -66,7 +67,7 @@
           <div class="absolute inset-0 h-14 bg-blue-900"></div>
           <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
-              <dl
+              <div
                 class="rounded-lg bg-white py-1 shadow-lg grid grid-cols-2 lg:grid-cols-5"
               >
                 <div
@@ -74,6 +75,7 @@
                 >
                   <img
                     class="mx-auto mt-2 lg:mt-0 h-8 lg:h-11"
+                    alt="J'agis pour la nature"
                     src="/images/logo-jagis-pour-la-nature.svg"
                   />
                 </div>
@@ -82,18 +84,23 @@
                 >
                   <img
                     class="mx-auto h-12 lg:h-16"
+                    alt="Banque Alimentaire"
                     src="/images/logo_banquealimentaire.png"
                   />
                 </div>
                 <div
                   class="flex flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
                 >
-                  <img class="px-6" src="/images/logo_emmaus.png" />
+                  <img
+                    class="px-6"
+                    src="/images/logo_emmaus.png"
+                    alt="Emmaus"
+                  />
                 </div>
                 <div
                   class="flex flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
                 >
-                  <img class="px-6" src="/images/logo_aphp.png" />
+                  <img class="px-6" src="/images/logo_aphp.png" alt="APHP" />
                 </div>
                 <div
                   class="flex flex-col border-gray-100 py-4 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
@@ -102,7 +109,7 @@
                   <span class="text-4xl font-bold">4000</span>
                   organisations
                 </div>
-              </dl>
+              </div>
             </div>
           </div>
         </div>
@@ -162,12 +169,13 @@
                 </span>
               </div>
             </div>
-            <a href="#">
+            <div>
               <img
                 class="h-48 w-full object-cover"
                 :src="mission.image"
                 :alt="mission.name"
-            /></a>
+              />
+            </div>
           </div>
           <div class="flex-1 bg-white p-8 pt-4 flex flex-col justify-between">
             <div class="flex-1">
@@ -185,7 +193,11 @@
                 <div
                   class="hidden sm:block flex-shrink-0 rounded-md p-2 text-center bg-blue-800"
                 >
-                  <img :src="mission.thematique_image" style="width: 28px" />
+                  <img
+                    :src="mission.thematique_image"
+                    :alt="mission.thematique"
+                    style="width: 28px"
+                  />
                 </div>
               </div>
               <div class="ml-4">
@@ -232,6 +244,7 @@
                 <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
                   <img
                     src="/images/vivre-ensemble.svg"
+                    alt="Vivre ensemble"
                     style="width: 36px"
                     class="opacity-50"
                   />
@@ -262,6 +275,7 @@
                 <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
                   <img
                     src="/images/environnement.svg"
+                    alt="Environnement"
                     style="width: 36px"
                     class="opacity-50"
                   />
@@ -293,6 +307,7 @@
                 <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
                   <img
                     src="/images/education.svg"
+                    alt="Education"
                     style="width: 36px"
                     class="opacity-50"
                   />
@@ -676,7 +691,7 @@
               >
             </h2>
             <p
-              id="newsletter-headline"
+              id="facebook-headline"
               class="mt-3 max-w-3xl text-lg leading-6 text-blue-200"
             >
               Posez toutes vos questions aux bénévoles et à l'équipe dans le

@@ -60,17 +60,13 @@
               v-if="missionsAreReady"
               class="filters md:flex md:rounded-lg md:shadow md:bg-white"
             >
-              <ais-search-box
-                ref="searchbox"
-                class="flex-1"
-                autofocus
-                placeholder="Mots-clés, ville, code postal, etc."
-              >
+              <ais-search-box ref="searchbox" class="flex-1" autofocus>
                 <div
                   slot-scope="{ currentRefinement, isSearchStalled, refine }"
                 >
                   <el-input
                     v-model="filters.query"
+                    label="Recherche"
                     placeholder="Mots-clés, ville, code postal, etc."
                     clearable
                     class="search-input"
@@ -102,8 +98,11 @@
                 :limit="120"
               >
                 <el-select
+                  id="departements"
                   v-model="filters.department_name"
                   slot-scope="{ items, canRefine, refine }"
+                  label="Départements"
+                  aria-label="Départements"
                   :disabled="!canRefine"
                   filterable
                   placeholder="Départements"
@@ -127,6 +126,7 @@
                   v-model="filters.domaines"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
+                  aria-label="Domaines"
                   placeholder="Domaines d'action"
                   popper-class="domaines-actions"
                   @change="handleFilters(refine, $event)"
@@ -150,6 +150,7 @@
                   v-model="filters.template_title"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
+                  aria-label="Missions types"
                   placeholder="Missions types"
                   popper-class="missions-types"
                   @change="handleFilters(refine, $event)"
@@ -174,6 +175,8 @@
                   v-model="filters.type"
                   slot-scope="{ items, canRefine, refine }"
                   :disabled="!canRefine"
+                  aria-label="Type"
+                  la
                   placeholder="En présentiel / À distance"
                   popper-class="missions-presentiel"
                   @change="handleFilters(refine, $event)"

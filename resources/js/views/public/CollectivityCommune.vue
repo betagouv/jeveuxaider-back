@@ -24,7 +24,7 @@
       <div class="relative pt-1 pb-12 lg:py-12">
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
-            <h2
+            <h1
               class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
             >
               <template v-if="collectivity.title">{{
@@ -33,7 +33,7 @@
               <template v-else
                 >Rejoignez la Réserve Civique dans votre collectivité</template
               >
-            </h2>
+            </h1>
 
             <p
               class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
@@ -108,12 +108,12 @@
             height="auto"
             width="auto"
           />
-          <h3
+          <h2
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
             <span class="text-blue-900">{{ collectivity.name }}</span> : faites
             vivre l'engagement !
-          </h3>
+          </h2>
           <p
             class="mt-4 max-w-2xl mx-auto text-center text-xl leading-7 text-gray-500"
           >
