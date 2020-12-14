@@ -289,10 +289,7 @@
       </div>
 
       <!-- MOBILE -->
-      <mobile-menu
-        class="flex h-full items-center md:hidden"
-        @menu-closed="handleMenuClosed"
-      />
+      <mobile-menu class="flex h-full items-center md:hidden" />
     </div>
   </header>
 </template>
@@ -306,7 +303,6 @@ export default {
   data() {
     return {
       isOnSinformer: false,
-      //showMobileMenu: false,
     }
   },
   created() {
@@ -317,11 +313,7 @@ export default {
       this.$store.dispatch('reminders')
     }
   },
-  methods: {
-    handleMenuClosed() {
-      // this.showMobileMenu = false
-    },
-  },
+  methods: {},
 }
 </script>
 
