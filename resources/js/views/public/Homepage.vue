@@ -122,7 +122,7 @@
       </div>
     </div>
 
-    <div class="bg-gray-50 pt-6 shadow-sm z-20 relative">
+    <div class="bg-gray-50 pt-6 shadow-sm z-10 relative">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mx-auto text-center">
           <span

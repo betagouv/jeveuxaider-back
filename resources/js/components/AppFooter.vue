@@ -8,7 +8,7 @@
               <div>
                 <img
                   class="mx-auto lg:mx-0"
-                  src="/images/logo-footer.png"
+                  src="/images/republique-francaise-logo.png"
                   alt=""
                   style="height: 200px"
                 />

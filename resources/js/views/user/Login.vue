@@ -7,11 +7,6 @@
 
     <div class="pb-12 mt-12 px-4 relative w-full lg:inset-y-0 text-center z-10">
       <div class="">
-        <img
-          class="mx-auto h-14 w-auto"
-          src="/images/jva_logo_white.svg"
-          alt="JeVeuxAider"
-        />
         <h2
           class="mt-6 mb-4 md:mb-0 text-center text-3xl font-bold text-white leading-8 px-4"
         >
