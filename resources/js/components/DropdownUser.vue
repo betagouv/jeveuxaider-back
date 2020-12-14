@@ -1,7 +1,7 @@
 <template>
   <div class="m-2">
     <el-dropdown @command="handleCommand">
-      <span class="el-dropdown-link">
+      <span class="el-dropdown-link" aria-label="Mon compte">
         <el-avatar
           v-if="$store.getters.user.profile"
           :alt="$store.getters.user.profile.full_name"

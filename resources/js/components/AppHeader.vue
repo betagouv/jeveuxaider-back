@@ -247,6 +247,7 @@
               :max="99"
             >
               <svg
+                alt="Messages"
                 class="h-6 w-6 text-gray-500 hover:text-gray-900"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
