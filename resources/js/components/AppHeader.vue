@@ -9,7 +9,7 @@
     />
     <div class="flex justify-between items-center" style="height: 110px">
       <div class="flex h-full">
-        <div class="hidden md:flex items-center px-4">
+        <div class="hidden md:flex items-center px-4 shadow-lg">
           <router-link to="/">
             <img
               class="mx-auto lg:mx-0"
@@ -97,8 +97,13 @@
             <nav class="flex space-x-4 text-sm lg:text-base lg:space-x-6">
               <router-link
                 to="/missions"
-                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                class="flex leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
               >
+                <img
+                  class="mr-2"
+                  src="/images/icones/search.svg"
+                  alt="Trouver une mission"
+                />
                 Trouver une mission
               </router-link>
               <router-link
