@@ -127,7 +127,7 @@ class PassportController extends Controller
 
         return [
             'token' => $token,
-            'franceConnectLogoutUrl' => $franceConnectLogoutUrl
+            'franceConnectLogoutUrl' => isset($franceConnectLogoutUrl) ? $franceConnectLogoutUrl : null
         ];
     }
 

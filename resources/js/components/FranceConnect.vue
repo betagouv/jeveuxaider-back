@@ -1,6 +1,18 @@
 <template>
-  <div class="cursor-pointer" @click="handleClickFranceConnect">
-    <img class="h-16" src="/images/franceconnect-login.svg" alt="Soumettre" />
+  <div>
+    <div class="cursor-pointer" @click="handleClickFranceConnect">
+      <img
+        class="mx-auto w-auto h-16 mb-1 shadow-lg hover:opacity-75 rounded-lg overflow-hidden hover:scale-105 transform transition duration-150 ease-in-out"
+        src="/images/franceconnect.svg"
+        alt="Soumettre"
+      />
+    </div>
+    <a
+      href="https://franceconnect.gouv.fr/"
+      target="_blank"
+      class="hover:text-white text-sm"
+      >Qu'est-ce que FranceConnect ?</a
+    >
   </div>
 </template>
 

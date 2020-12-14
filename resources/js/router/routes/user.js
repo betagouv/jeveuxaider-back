@@ -2,7 +2,7 @@ const routeOptions = [
   {
     path: '/login',
     name: 'Login',
-    meta: { layout: 'two-cols', requiresAnonymous: true },
+    meta: { requiresAnonymous: true },
   },
   {
     path: '/logout',
