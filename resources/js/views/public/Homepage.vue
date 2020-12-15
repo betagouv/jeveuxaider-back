@@ -1,8 +1,12 @@
 <template>
   <div class>
     <div class="relative bg-blue-800 overflow-hidden z-10">
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-800 z-10"
+      ></div>
+
       <img
-        class="opacity-50 z-1 object-cover absolute h-screen lg:h-auto"
+        class="z-1 object-cover absolute h-screen lg:h-auto"
         src="/images/bg-jva.jpg"
       />
 
