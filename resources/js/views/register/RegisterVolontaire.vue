@@ -1,22 +1,19 @@
 <template>
   <div>
-    <div class="bg-blue-800">
+    <div class="relative bg-blue-800 overflow-hidden">
       <img
-        class="py-2 lg:p-2 object-cover w-full h-64 lg:h-auto"
-        alt=""
-        src="/images/cover-inscription.jpg"
+        class="z-1 object-cover absolute h-screen lg:h-auto"
+        src="/images/bg-jva.jpg"
       />
 
-      <div class="relative pb-0 lg:pb-12">
+      <div class="relative py-4 lg:py-12 z-10">
         <div class="mx-auto max-w-screen-xl">
-          <div
-            class="px-4 lg:px-8 lg:-mt-12 lg:grid lg:grid-cols-12 lg:gap-8 pb-10"
-          >
+          <div class="px-4 lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 pb-10">
             <div class="max-w-2xl mx-auto lg:col-span-6">
               <h1
                 class="mt-10 lg:mt-24 text-4xl tracking-tight leading-10 font-bold text-white sm:leading-none sm:text-6xl lg:text-5xl xl:text-6xl"
               >
-                Devenez bénévole avec la Réserve Civique
+                Devenez bénévole avec JeVeuxAider
               </h1>
 
               <ul class="pt-6 lg:pt-14">
@@ -95,21 +92,44 @@
               class="max-w-2xl mx-auto lg:col-span-6 lg:px-0 lg:w-full"
             >
               <div class="rounded-lg shadow-xl">
-                <div class="bg-white rounded-t-lg px-6 pt-8 pb-8">
+                <div
+                  class="bg-white px-6 pt-8"
+                  :class="
+                    isLoadingFranceConnect ? 'rounded-lg' : 'rounded-t-lg'
+                  "
+                >
                   <div>
-                    <p
-                      class="text-center text-base text-gray-800 sm:text-xl lg:text-lg xl:text-xl"
+                    <h2
+                      class="mt-2 text-center text-3xl font-bold text-gray-900 leading-8 px-4"
                     >
-                      Vous souhaitez soutenir de <b>grandes causes</b>&nbsp;?
-                    </p>
-                    <h3
-                      class="mt-2 text-center text-4xl leading-9 font-bold text-gray-900 sm:-mx-6 tracking-tight"
+                      Utilisez FranceConnect pour créer votre espace bénévole
+                    </h2>
+
+                    <div
+                      v-show="isLoadingFranceConnect"
+                      class="font-medium text-center p-4"
                     >
-                      Rejoignez le mouvement
-                    </h3>
+                      Inscription en cours avec FranceConnect...
+                    </div>
+                    <div v-show="!isLoadingFranceConnect">
+                      <div
+                        class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-left"
+                      >
+                        <div class="py-4 px-4 sm:px-10 text-center">
+                          <div class="relative text-gray-500">
+                            <FranceConnect
+                              is-dark
+                              @loading="isLoadingFranceConnect = $event"
+                            />
+                            <span class="block mt-4">OU</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div
+                  v-show="!isLoadingFranceConnect"
                   class="border-t-2 border-gray-100 rounded-b-lg pt-10 pb-2 px-4 sm:px-12 bg-gray-50"
                 >
                   <template v-if="modeLigth">
@@ -436,6 +456,7 @@
 <script>
 import dayjs from 'dayjs'
 import metadatas from '@/utils/metadatas.json'
+import FranceConnect from '@/components/FranceConnect.vue'
 
 var customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -444,6 +465,9 @@ export default {
   name: 'RegisterVolontaire',
   metaInfo: metadatas.filter((item) => item.name == 'RegisterVolontaire')[0]
     .metaInfo,
+  components: {
+    FranceConnect,
+  },
   data() {
     var validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
@@ -454,6 +478,7 @@ export default {
     }
     return {
       loading: false,
+      isLoadingFranceConnect: false,
       form: {
         email: '',
         first_name: '',

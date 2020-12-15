@@ -27,7 +27,7 @@
       <div v-show="!isLoadingFranceConnect">
         <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-left">
           <div class="py-4 px-4 sm:px-10 text-center">
-            <div class="relative text-blue-200">
+            <div class="relative">
               <FranceConnect @loading="isLoadingFranceConnect = $event" />
               <span class="block mt-4">OU</span>
             </div>

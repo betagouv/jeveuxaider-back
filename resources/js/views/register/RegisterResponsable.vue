@@ -1,17 +1,14 @@
 <template>
   <div>
-    <div class="bg-blue-800">
+    <div class="relative bg-blue-800 overflow-hidden">
       <img
-        class="py-2 lg:p-2 object-cover w-full h-64 lg:h-auto"
-        alt=""
-        src="/images/cover-inscription.jpg"
+        class="z-1 object-cover absolute h-screen lg:h-auto"
+        src="/images/bg-jva.jpg"
       />
 
-      <div class="relative pb-0 lg:pb-12">
+      <div class="relative py-4 lg:py-12 z-10">
         <div class="mx-auto max-w-screen-xl">
-          <div
-            class="px-4 lg:px-8 lg:-mt-12 lg:grid lg:grid-cols-12 lg:gap-8 pb-10"
-          >
+          <div class="px-4 lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 pb-10">
             <div class="max-w-2xl mx-auto lg:col-span-6">
               <h2
                 class="mt-10 lg:mt-24 text-4xl tracking-tight leading-10 font-bold text-white sm:leading-none sm:text-6xl lg:text-5xl xl:text-6xl"
