@@ -1,13 +1,9 @@
 <template>
   <div class>
     <div class="relative bg-blue-800 overflow-hidden z-10">
-      <div
-        class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900 z-10"
-      ></div>
-
       <img
         class="opacity-50 z-1 object-cover absolute h-screen lg:h-auto"
-        src="/images/hero.jpg"
+        src="/images/bg-jva.jpg"
       />
 
       <div
@@ -52,7 +48,7 @@
           <div class="rounded-full shadow-lg">
             <router-link
               to="/missions"
-              class="flex items-center shadow-lg justify-center px-8 py-3 border border-transparent text-2xl leading-6 font-medium rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+              class="font-bold flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Je veux aider
             </router-link>
@@ -61,7 +57,7 @@
       </div>
     </div>
 
-    <div class="bg-blue-900 pt-6">
+    <div class="bg-blue-800 pt-6">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto text-center">
           <h2
@@ -76,7 +72,7 @@
       </div>
       <div class="mt-10 pb-12 bg-gray-50">
         <div class="relative">
-          <div class="absolute inset-0 h-14 bg-blue-900"></div>
+          <div class="absolute inset-0 h-14 bg-blue-800"></div>
           <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
               <dl

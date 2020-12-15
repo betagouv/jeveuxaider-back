@@ -104,7 +104,7 @@ module.exports = {
         600: '#1E429F',
         700: '#3093D8', // Overriden #2b6cb0,
         800: '#070191', // Color primary
-        900: '#233876', // Overriden #2a4365
+        900: '#1F0391', // Overriden #2a4365
         royal: '#002D83',
       },
       indigo: {

@@ -23,7 +23,7 @@
       <div class="bg-white h-full flex flex-col" role="none">
         <div
           class="flex items-center justify-between shadow"
-          style="height: 110px"
+          style="height: 80px"
         >
           <router-link to="/" class="px-8" @click.native="closeMobileMenu">
             <img

@@ -7,15 +7,15 @@
         $store.getters.participationsValidated > 1
       "
     />
-    <div class="flex justify-between items-center" style="height: 110px">
+    <div id="header-wrapper" class="flex justify-between items-center">
       <div class="flex h-full">
-        <div class="hidden md:flex items-center px-4 shadow-lg">
+        <div class="hidden md:flex items-center px-2 shadow-lg">
           <router-link to="/">
             <img
               class="mx-auto lg:mx-0"
-              src="/images/republique-francaise-logo.png"
+              src="/images/republique-francaise-logo.svg"
               alt="République Française"
-              style="height: 82px"
+              style="height: 110px"
             />
           </router-link>
         </div>
@@ -40,28 +40,28 @@
                 $store.getters.contextRole != 'volontaire'
               "
               to="/dashboard"
-              class="uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Tableau de bord
             </router-link>
             <router-link
               v-if="!$store.getters.isLogged"
               to="/register/responsable"
-              class="uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Publier mes missions
             </router-link>
             <router-link
               v-if="!$store.getters.isLogged"
               to="/register/responsable"
-              class="ml-1 uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Inscrire ma collectivité
             </router-link>
             <a
               target="_blank"
               href="https://reserve-civique.crisp.help/fr/"
-              class="ml-1 uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Foire aux questions
             </a>
@@ -94,7 +94,7 @@
         </div>
         <div class="flex h-full items-center justify-end px-4">
           <slot name="menu">
-            <nav class="flex space-x-4 text-sm lg:text-base lg:space-x-6">
+            <nav class="flex space-x-12 text-sm lg:text-base">
               <router-link
                 to="/missions"
                 class="flex leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
@@ -318,6 +318,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+#header-wrapper
+  height: 80px
+  @screen md
+    height: 110px
 .links-wrapper
   @screen sm
     transform: translateX(-.5rem)
