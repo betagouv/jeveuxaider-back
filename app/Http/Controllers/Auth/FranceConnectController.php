@@ -33,7 +33,7 @@ class FranceConnectController extends Controller
     {
         $response = Http::asForm()->post(config('services.franceconnect.url') . '/api/v1/token', [
           'grant_type' => 'authorization_code',
-          'redirect_uri' => config('app.url'),
+          'redirect_uri' => config('app.url') . '/login',
           'client_id' => config('services.franceconnect.client_id'),
           'client_secret' => config('services.franceconnect.client_secret'),
           'code' =>  $request->query('code')
