@@ -10,7 +10,7 @@
       reserve-keyword
       remote
       :remote-method="fetchSkills"
-      placeholder="Rechercher..."
+      placeholder="Rechercher par mots clés..."
       :loading="loading"
       @change="onChangeFilter"
     >
@@ -67,29 +67,6 @@ export default {
       )
     },
     formattedValue() {
-      console.log(this.value)
-      // if (this.value == 'true') {
-      //   return 'Oui'
-      // } else if (this.value == 'false') {
-      //   return 'Non'
-      // }
-      // if (
-      //   this.multiple &&
-      //   !(this.value instanceof Array) &&
-      //   this.value !== null
-      // ) {
-      //   return [this.value]
-      // }
-      // if (
-      //   !this.multiple &&
-      //   this.value &&
-      //   this.options[0] &&
-      //   this.options[0].value &&
-      //   this.options[0].label
-      // ) {
-      //   return this.options.filter((option) => this.value == option.value)[0]
-      //     .label
-      // }
       return this.value
     },
   },
@@ -114,11 +91,9 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.query-filter
-  .el-tag.el-tag--info
-    .el-select__tags-text
-      display: inline-flex
-      max-width: 120px
-      overflow: hidden
+<style lang="sass" scoped>
+.query-filter-skills
+  ::v-deep
+    .el-input__inner
+      width: 400px
 </style>
