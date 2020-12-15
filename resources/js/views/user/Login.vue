@@ -29,7 +29,7 @@
           <div class="py-4 px-4 sm:px-10 text-center">
             <div class="relative">
               <FranceConnect @loading="isLoadingFranceConnect = $event" />
-              <span class="block mt-4">OU</span>
+              <span class="block mt-4 text-blue-200">OU</span>
             </div>
           </div>
         </div>

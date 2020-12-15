@@ -2,7 +2,7 @@
   <div class>
     <div class="relative bg-blue-800 overflow-hidden z-10">
       <div
-        class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-800 z-10"
+        class="absolute bottom-0 bg-gradient-to-b from-transparent to-blue-800 z-10 h-32 w-full"
       ></div>
 
       <img
