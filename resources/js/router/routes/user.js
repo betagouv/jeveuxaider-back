@@ -7,17 +7,17 @@ const routeOptions = [
   {
     path: '/logout',
     name: 'Logout',
-    meta: { layout: 'two-cols', requiresAuth: true },
+    meta: { requiresAuth: true },
   },
   {
     path: '/password/forgot',
     name: 'PasswordForgot',
-    meta: { layout: 'two-cols', requiresAnonymous: true },
+    meta: { requiresAnonymous: true },
   },
   {
     path: '/password/reset/:token',
     name: 'PasswordReset',
-    meta: { layout: 'two-cols', requiresAnonymous: true },
+    meta: { requiresAnonymous: true },
   },
   {
     path: '/user/infos',
