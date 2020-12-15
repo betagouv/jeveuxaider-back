@@ -111,7 +111,7 @@
                 <div
                   class="border-t-2 border-gray-100 rounded-b-lg pt-10 pb-2 px-4 sm:px-12 bg-gray-50"
                 >
-                  <template v-if="modeLigth">
+                  <template v-if="modeLight">
                     <div class="pt-6 pb-16 text-center">
                       <p>Quel élan de solidarité&nbsp;!</p>
                       <p>
@@ -498,9 +498,9 @@ export default {
     }
   },
   computed: {
-    modeLigth() {
-      return process.env.MIX_MODE_APP_LIGTH
-        ? JSON.parse(process.env.MIX_MODE_APP_LIGTH)
+    modeLight() {
+      return process.env.MIX_MODE_APP_LIGHT
+        ? JSON.parse(process.env.MIX_MODE_APP_LIGHT)
         : false
     },
   },

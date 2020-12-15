@@ -6,26 +6,40 @@
     />
 
     <div class="pb-12 mt-12 px-4 relative w-full lg:inset-y-0 text-center z-10">
-      <div class="">
-        <h2
-          class="mt-6 mb-4 md:mb-0 text-center text-3xl font-bold text-white leading-8 px-4"
-        >
-          Utilisez FranceConnect pour vous connecter ou créer un compte
-        </h2>
-        <p class="text-center text-base text-blue-200">
-          FranceConnect, c'est la solution proposée par l'Etat pour sécuriser et
-          simplifier la connexion à plus de 700 services en ligne.
-        </p>
-      </div>
+      <template v-if="isFranceConnectActive">
+        <div class="">
+          <h2
+            class="mt-6 mb-4 md:mb-0 text-center text-3xl font-bold text-white leading-8 px-4"
+          >
+            Utilisez FranceConnect pour vous connecter ou créer un compte
+          </h2>
+          <p class="text-center text-base text-blue-200">
+            FranceConnect, c'est la solution proposée par l'Etat pour sécuriser
+            et simplifier la connexion à plus de 700 services en ligne.
+          </p>
+        </div>
 
-      <div
-        v-show="isLoadingFranceConnect"
-        class="text-white font-medium text-center p-4"
-      >
-        Connexion en cours avec FranceConnect...
-      </div>
+        <div
+          v-show="isLoadingFranceConnect"
+          class="text-white font-medium text-center p-4"
+        >
+          Connexion en cours avec FranceConnect...
+        </div>
+      </template>
+      <template v-else>
+        <div class="">
+          <h2
+            class="mt-6 mb-6 md:mb-12 text-center text-3xl font-bold text-white leading-8 px-4"
+          >
+            Connexion à votre compte
+          </h2>
+        </div>
+      </template>
       <div v-show="!isLoadingFranceConnect">
-        <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-left">
+        <div
+          v-if="isFranceConnectActive"
+          class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-left"
+        >
           <div class="py-4 px-4 sm:px-10 text-center">
             <div class="relative">
               <FranceConnect @loading="isLoadingFranceConnect = $event" />
@@ -194,6 +208,13 @@ export default {
         ],
       },
     }
+  },
+  computed: {
+    isFranceConnectActive() {
+      return process.env.MIX_FRANCE_CONNECT
+        ? JSON.parse(process.env.MIX_FRANCE_CONNECT)
+        : false
+    },
   },
   methods: {
     onSubmit() {

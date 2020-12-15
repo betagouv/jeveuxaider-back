@@ -7,7 +7,7 @@
       ]"
     />
 
-    <template v-if="modeLigth">
+    <template v-if="modeLight">
       <div class="bg-primary pb-32">
         <div class="container mx-auto px-4">
           <div class="pt-10">
@@ -471,9 +471,9 @@ export default {
     }
   },
   computed: {
-    modeLigth() {
-      return process.env.MIX_MODE_APP_LIGTH
-        ? JSON.parse(process.env.MIX_MODE_APP_LIGTH)
+    modeLight() {
+      return process.env.MIX_MODE_APP_LIGHT
+        ? JSON.parse(process.env.MIX_MODE_APP_LIGHT)
         : false
     },
     indexName() {

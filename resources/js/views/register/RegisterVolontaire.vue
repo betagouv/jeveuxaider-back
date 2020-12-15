@@ -93,46 +93,58 @@
             >
               <div class="rounded-lg shadow-xl">
                 <div
-                  class="bg-white px-6 pt-8"
+                  class="bg-white px-6"
                   :class="
                     isLoadingFranceConnect ? 'rounded-lg' : 'rounded-t-lg'
                   "
                 >
-                  <div>
-                    <h2
-                      class="mt-2 text-center text-3xl font-bold text-gray-900 leading-8 px-4"
-                    >
-                      Utilisez FranceConnect pour créer votre espace bénévole
-                    </h2>
-
-                    <div
-                      v-show="isLoadingFranceConnect"
-                      class="font-medium text-center p-4"
-                    >
-                      Inscription en cours avec FranceConnect...
-                    </div>
-                    <div v-show="!isLoadingFranceConnect">
-                      <div
-                        class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-left"
+                  <template v-if="isFranceConnectActive">
+                    <div class="pt-8">
+                      <h2
+                        class="mt-2 text-center text-3xl font-bold text-gray-900 leading-8 px-4"
                       >
-                        <div class="py-4 px-4 sm:px-10 text-center">
-                          <div class="relative text-gray-500">
-                            <FranceConnect
-                              is-dark
-                              @loading="isLoadingFranceConnect = $event"
-                            />
-                            <span class="block mt-4">OU</span>
+                        Utilisez FranceConnect pour créer votre espace bénévole
+                      </h2>
+
+                      <div
+                        v-show="isLoadingFranceConnect"
+                        class="font-medium text-center p-4"
+                      >
+                        Inscription en cours avec FranceConnect...
+                      </div>
+
+                      <div v-show="!isLoadingFranceConnect">
+                        <div
+                          class="mt-4 sm:mx-auto sm:w-full sm:max-w-md text-left"
+                        >
+                          <div class="py-4 px-4 sm:px-10 text-center">
+                            <div class="relative text-gray-500">
+                              <FranceConnect
+                                is-dark
+                                @loading="isLoadingFranceConnect = $event"
+                              />
+                              <span class="block mt-4">OU</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </template>
+                  <template v-else>
+                    <div class="py-6">
+                      <h2
+                        class="text-center text-3xl font-bold text-gray-900 leading-8 px-4"
+                      >
+                        Création de votre compte
+                      </h2>
+                    </div>
+                  </template>
                 </div>
                 <div
                   v-show="!isLoadingFranceConnect"
                   class="border-t-2 border-gray-100 rounded-b-lg pt-10 pb-2 px-4 sm:px-12 bg-gray-50"
                 >
-                  <template v-if="modeLigth">
+                  <template v-if="modeLight">
                     <div class="pt-6 pb-16 text-center">
                       <p>Quel élan de solidarité&nbsp;!</p>
                       <p>
@@ -570,9 +582,14 @@ export default {
     }
   },
   computed: {
-    modeLigth() {
-      return process.env.MIX_MODE_APP_LIGTH
-        ? JSON.parse(process.env.MIX_MODE_APP_LIGTH)
+    modeLight() {
+      return process.env.MIX_MODE_APP_LIGHT
+        ? JSON.parse(process.env.MIX_MODE_APP_LIGHT)
+        : false
+    },
+    isFranceConnectActive() {
+      return process.env.MIX_FRANCE_CONNECT
+        ? JSON.parse(process.env.MIX_FRANCE_CONNECT)
         : false
     },
   },
