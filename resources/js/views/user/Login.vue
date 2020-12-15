@@ -123,7 +123,7 @@
               </dt>
               <router-link
                 to="/register/responsable"
-                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-blue-900 bg-blue-300 hover:shadow-lg hover:text-gray-800 hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
+                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-blue-900 bg-blue-200 hover:shadow-lg hover:text-gray-800 hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
               >
                 Publiez vos missions
               </router-link>
@@ -137,7 +137,7 @@
               </dt>
               <router-link
                 to="/register/responsable"
-                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-blue-900 bg-blue-300 hover:shadow-lg hover:text-gray-800 hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
+                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-blue-900 bg-blue-200 hover:shadow-lg hover:text-gray-800 hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
               >
                 Créez votre page
               </router-link>
