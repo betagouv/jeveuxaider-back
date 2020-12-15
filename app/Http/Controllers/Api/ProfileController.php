@@ -22,6 +22,7 @@ use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Mission;
@@ -53,6 +54,7 @@ class ProfileController extends Controller
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+                AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
