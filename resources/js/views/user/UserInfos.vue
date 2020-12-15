@@ -34,10 +34,18 @@
       </el-form-item>
       <div class="flex mb-4">
         <el-form-item label="Prénom" prop="first_name" class="flex-1 mr-2">
-          <el-input v-model="form.first_name" placeholder="Prénom" />
+          <el-input
+            v-model="form.first_name"
+            placeholder="Prénom"
+            :disabled="candEditFields"
+          />
         </el-form-item>
         <el-form-item label="Nom" prop="last_name" class="flex-1 ml-2">
-          <el-input v-model="form.last_name" placeholder="Nom" />
+          <el-input
+            v-model="form.last_name"
+            placeholder="Nom"
+            :disabled="candEditFields"
+          />
         </el-form-item>
       </div>
       <div class="flex mb-4">
@@ -63,6 +71,7 @@
         >
           <el-date-picker
             v-model="form.birthday"
+            :disabled="candEditFields"
             type="date"
             placeholder="Date de naissance"
             autocomplete="off"
@@ -254,6 +263,13 @@ export default {
     }
   },
   computed: {
+    candEditFields() {
+      return this.$store.getters.user.social_accounts.filter(
+        (social_account) => social_account.provider == 'franceconnect'
+      ).length > 0
+        ? true
+        : false
+    },
     skillGroups() {
       return _.groupBy(
         _.sortBy(this.optionsSkills, ['group']),

@@ -2,7 +2,7 @@
   <div>
     <div class="cursor-pointer" @click="handleClickFranceConnect">
       <img
-        class="mx-auto w-auto h-16 mb-1 shadow-lg hover:opacity-75 rounded-lg overflow-hidden hover:scale-105 transform transition duration-150 ease-in-out"
+        class="mx-auto w-auto h-16 mb-1 shadow-lg rounded-lg overflow-hidden transform transition duration-150 ease-in-out"
         :src="
           isDark
             ? '/images/franceconnect-blue.svg'

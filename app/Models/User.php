@@ -47,6 +47,7 @@ class User extends Authenticatable
         $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['nbUnreadConversations'] = self::getNbUnreadConversations($id);
 
         return $user;
@@ -55,6 +56,11 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne('App\Models\Profile');
+    }
+
+    public function socialAccounts()
+    {
+        return $this->hasMany('App\Models\SocialAccount');
     }
 
     public function isAdmin()
