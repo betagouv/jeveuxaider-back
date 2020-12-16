@@ -121,7 +121,7 @@ const routeOptions = [
     path: '/dashboard/stats/domaines',
     name: 'DashboardStatsDomaines',
     meta: {
-      roles: ['admin'],
+      roles: ['admin', 'analyste'],
     },
   },
   {

@@ -23,10 +23,6 @@
             <span class>{{ data.total_structures_active | formatNumber }}</span>
             <span class="text-xs text-gray-500">organisations actives</span>
           </div>
-          <!-- <div class="my-1">
-            <span class>{{ data.taux_occupation }}%</span>
-            <span class="text-xs text-gray-500"> de taux d'occupation</span>
-          </div> -->
         </div>
       </template>
       <template v-else>
@@ -53,10 +49,12 @@ export default {
   },
   methods: {
     onClick() {
-      this.$router.push({
-        name: 'DashboardMissions',
-        query: { 'filter[state]': 'Validée', 'filter[place]': true },
-      })
+      if (this.$store.getters.contextRole != 'analyste') {
+        this.$router.push({
+          name: 'DashboardMissions',
+          query: { 'filter[state]': 'Validée', 'filter[place]': true },
+        })
+      }
     },
   },
 }

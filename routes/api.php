@@ -134,6 +134,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
     Route::get('statistics/skills', 'Api\StatisticsController@skills');
     Route::get('statistics/participations', 'Api\StatisticsController@participations');
+    Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
+
     Route::get('charts/created', 'Api\ChartController@created');
 
     // REMINDERS
@@ -228,7 +230,4 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('profiles/referents/departements/export', 'Api\ProfileController@exportReferentsDepartements');
     Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
-
-
-    Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
 });

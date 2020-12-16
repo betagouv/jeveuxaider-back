@@ -59,7 +59,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Participations" width="120" align="center">
+      <el-table-column label="Participations" width="130" align="center">
         <template slot-scope="scope">
           <div class="text-primary">
             {{ scope.row.participations_count | formatNumber }}
