@@ -80,9 +80,12 @@
                 class="px-2"
                 ><img src="/images/icones/twitter.svg" alt="Twitter"
               /></a>
-              <a target="_blank" href="#" class="px-2"
+              <!-- <a
+                target="_blank"
+                href="https://www.instagram.com/jeveuxaider"
+                class="px-2"
                 ><img src="/images/icones/instagram.svg" alt="Instagram"
-              /></a>
+              /></a> -->
               <a
                 target="_blank"
                 href="https://www.linkedin.com/company/reservecivique/"
@@ -300,6 +303,12 @@ import JdmaBenevole from '@/components/JdmaBenevole.vue'
 export default {
   name: 'AppHeader',
   components: { JdmaBenevole },
+  props: {
+    showMenu: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       isOnSinformer: false,

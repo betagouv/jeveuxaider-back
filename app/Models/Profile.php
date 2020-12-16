@@ -104,6 +104,18 @@ class Profile extends Model implements HasMedia
         ];
     }
 
+    public function getReferentRegionWaitingActionsAttribute()
+    {
+        $structures = Structure::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
+        $missions = Mission::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
+
+        return [
+            'total' => $structures + $missions,
+            'structures' => $structures,
+            'missions' => $missions
+        ];
+    }
+
     public function getResponsableWaitingActionsAttribute()
     {
         $structure = $this->structures->first();

@@ -53,6 +53,15 @@
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
           @changed="onFilterChange"
         />
+        <query-filter-skills
+          type="select"
+          name="skills"
+          multiple
+          :value="query['filter[skills]']"
+          label="Compétences"
+          :options="$store.getters.taxonomies.profile_disponibilities.terms"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -176,12 +185,14 @@ import {
 import TableWithFilters from '@/mixins/TableWithFilters'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import QueryFilter from '@/components/QueryFilter.vue'
+import QueryFilterSkills from '@/components/QueryFilterSkills.vue'
 import ProfileVolet from '@/layouts/components/Volet/ProfileVolet.vue'
 
 export default {
   name: 'DashboardMissionTrouverDesBenevoles',
   components: {
     QueryFilter,
+    QueryFilterSkills,
     ProfileVolet,
   },
   mixins: [TableWithFilters, TableWithVolet],

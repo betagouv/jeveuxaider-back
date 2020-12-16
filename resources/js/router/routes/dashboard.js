@@ -14,13 +14,6 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/collectivity',
-    name: 'DashboardCollectivityMain',
-    meta: {
-      roles: ['responsable'],
-    },
-  },
-  {
     path: '/dashboard/stats/structures',
     name: 'DashboardStatsStructures',
     meta: {
@@ -63,7 +56,8 @@ const routeOptions = [
   },
   {
     path: '/dashboard/collectivity/stats/missions',
-    name: 'DashboardCollectivityStatsMissions',
+    name: 'DashboardStatsMissions',
+    singleName: 'DashboardCollectivityStatsMissions',
     meta: {
       roles: [
         'admin',
@@ -77,7 +71,8 @@ const routeOptions = [
   },
   {
     path: '/dashboard/collectivity/stats/participations',
-    name: 'DashboardCollectivityStatsParticipations',
+    name: 'DashboardStatsParticipations',
+    singleName: 'DashboardCollectivityStatsParticipations',
     meta: {
       roles: [
         'admin',
@@ -340,8 +335,15 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/profiles/referents',
-    name: 'DashboardProfilesReferents',
+    path: '/dashboard/profiles/referents-departements',
+    name: 'DashboardProfilesReferentsDepartements',
+    meta: {
+      roles: ['admin'],
+    },
+  },
+  {
+    path: '/dashboard/profiles/referents-regions',
+    name: 'DashboardProfilesReferentsRegions',
     meta: {
       roles: ['admin'],
     },
@@ -556,6 +558,14 @@ const routeOptions = [
     },
   },
   {
+    path: '/dashboard/collectivity',
+    name: 'Dashboard',
+    singleName: 'DashboardCollectivityMain',
+    meta: {
+      roles: ['responsable'],
+    },
+  },
+  {
     path: '/dashboard/collectivity/:id',
     name: 'DashboardCollectivity',
     props: (route) => ({ id: parseInt(route.params.id) }),
@@ -637,7 +647,7 @@ const routeOptions = [
   },
   {
     path: '/dashboard/page/add',
-    name: 'DashboardPageFormAdd',
+    name: 'DashboardPageForm',
     singleName: 'DashboardPageFormAdd',
     props: { mode: 'add' },
     meta: {

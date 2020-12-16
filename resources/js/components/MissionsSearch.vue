@@ -32,17 +32,13 @@
             <div
               class="filters mb-3 md:flex md:rounded-lg md:shadow md:bg-white"
             >
-              <ais-search-box
-                ref="searchbox"
-                class="flex-1"
-                autofocus
-                placeholder="Mots-clés, ville, code postal, etc."
-              >
+              <ais-search-box ref="searchbox" class="flex-1" autofocus>
                 <div
                   slot-scope="{ currentRefinement, isSearchStalled, refine }"
                 >
                   <el-input
                     v-model="filters.query"
+                    label="Recherche"
                     placeholder="Mots-clés, ville, code postal, etc."
                     clearable
                     class="search-input"

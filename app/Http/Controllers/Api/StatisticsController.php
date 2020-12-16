@@ -176,9 +176,21 @@ class StatisticsController extends Controller
         $stats = collect();
 
         foreach ($domaines as $domaine) {
-            $missionsAvailableCollection = Mission::role($request->header('Context-Role'))->available()->domaine($domaine->id)->get();
-            $places_left = $missionsAvailableCollection->sum('places_left');
-            $participations_max = $missionsAvailableCollection->sum('participations_max');
+            $missionsAvailableCollection = Mission::role($request->header('Context-Role'))
+                ->domaine($domaine->id)
+                ->hasPlacesLeft()
+                ->available()
+                ->get();
+
+            $missionsCollection = Mission::role($request->header('Context-Role'))
+                ->domaine($domaine->id)
+                ->whereIn('state', ['Validée','Terminée'])
+                ->get();
+
+            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
+            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
+            $total_participations_max = $missionsCollection->sum('participations_max');
+
             $stats->push([
                 'key' => $domaine->id,
                 'name' => $domaine->name,
@@ -186,10 +198,15 @@ class StatisticsController extends Controller
                 'missions_count' => Mission::role($request->header('Context-Role'))->domaine($domaine->id)->count(),
                 'participations_count' => Participation::role($request->header('Context-Role'))->domaine($domaine->id)->count(),
                 'volontaires_count' => Profile::role($request->header('Context-Role'))->domaine($domaine->id)->count(),
+                'service_civique_count' => Profile::role($request->header('Context-Role'))->domaine($domaine->id)
+                    ->whereHas('user', function (Builder $query) {
+                        $query->where('service_civique', true);
+                    })->count(),
                 'missions_available' => $missionsAvailableCollection->count(),
-                'places_available' => $places_left,
-                'places' => $participations_max,
-                'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
+                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'places_available' => $missionsAvailableCollection->sum('places_left'),
+                'total_offered_places' => $total_participations_max,
+                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
             ]);
         }
 
@@ -218,9 +235,19 @@ class StatisticsController extends Controller
         $stats = collect();
 
         foreach ($datas as $collectivity) {
-            $missions = Mission::whereIn('zip', $collectivity->zips)->available()->get();
-            $places_left = $missions->sum('places_left');
-            $participations_max = $missions->sum('participations_max');
+            $missionsAvailableCollection = Mission::whereIn('zip', $collectivity->zips)
+                ->hasPlacesLeft()
+                ->available()
+                ->get();
+
+            $missionsCollection = Mission::whereIn('zip', $collectivity->zips)
+                ->whereIn('state', ['Validée','Terminée'])
+                ->get();
+
+            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
+            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
+            $total_participations_max = $missionsCollection->sum('participations_max');
+
             $stats->push([
                 'id' => $collectivity->id,
                 'name' => $collectivity->name,
@@ -236,11 +263,11 @@ class StatisticsController extends Controller
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missions->count(),
-                'places_available' => $places_left,
-                'places' => $participations_max,
-                'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
-            ]);
+                'missions_available' => $missionsAvailableCollection->count(),
+                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'places_available' => $missionsAvailableCollection->sum('places_left'),
+                'total_offered_places' => $total_participations_max,
+                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,]);
         }
 
         return [
@@ -255,16 +282,33 @@ class StatisticsController extends Controller
     {
         $missionsCollection = Mission::role($request->header('Context-Role'))
             ->available()
+            ->hasPlacesLeft()
             ->get();
-
-        $places_left = $missionsCollection->sum('places_left');
-        $participations_max = $missionsCollection->sum('participations_max');
 
         return [
             'total_places_available' => $missionsCollection->sum('places_left'),
-            'total_places' => $missionsCollection->sum('participations_max'),
-            'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0,
+            'total_structures_active' => $missionsCollection->pluck('structure_id')->unique()->count(),
             'total_missions_available' => $missionsCollection->count(),
+        ];
+    }
+
+    public function occupationRate(Request $request)
+    {
+        $missionsCollection = Mission::role($request->header('Context-Role'))
+            ->whereIn('state', ['Validée','Terminée'])
+            ->get();
+
+        $missionsAvailableCollection = Mission::role($request->header('Context-Role'))
+            ->whereIn('state', ['Validée'])
+            ->get();
+
+        $places_available_left = $missionsAvailableCollection->sum('places_left');
+        $places_offered = $missionsAvailableCollection->sum('participations_max');
+        $total_participations_max = $missionsCollection->sum('participations_max');
+
+        return [
+            'total_offered_places' => $total_participations_max,
+            'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
         ];
     }
 
@@ -284,7 +328,7 @@ class StatisticsController extends Controller
             $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
         }
 
-        $collectivities = QueryBuilder::for($query)
+        $departements = QueryBuilder::for($query)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
             ])
@@ -293,44 +337,50 @@ class StatisticsController extends Controller
 
         $stats = collect();
 
-        foreach ($collectivities as $collectivity) {
-            $missionsCollection = Mission::department($collectivity->department)
+        foreach ($departements as $departement) {
+            $missionsAvailableCollection = Mission::department($departement->department)
                 ->hasPlacesLeft()
                 ->available()
                 ->get();
 
-            $places_left = $missionsCollection->sum('places_left');
-            $participations_max = $missionsCollection->sum('participations_max');
+            $missionsCollection = Mission::department($departement->department)
+                ->whereIn('state', ['Validée','Terminée'])
+                ->get();
+
+            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
+            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
+            $total_participations_max = $missionsCollection->sum('participations_max');
 
             $stats->push([
-                'key' => $collectivity->department,
-                'name' => $collectivity->name,
-                'missions_count' => Mission::role($request->header('Context-Role'))->department($collectivity->department)->count(),
-                'structures_count' => Structure::role($request->header('Context-Role'))->department($collectivity->department)->count(),
-                'participations_count' => Participation::role($request->header('Context-Role'))->department($collectivity->department)->count(),
+                'key' => $departement->department,
+                'name' => $departement->name,
+                'missions_count' => Mission::role($request->header('Context-Role'))->department($departement->department)->count(),
+                'structures_count' => Structure::role($request->header('Context-Role'))->department($departement->department)->count(),
+                'participations_count' => Participation::role($request->header('Context-Role'))->department($departement->department)->count(),
                 'volontaires_count' => Profile::role($request->header('Context-Role'))
-                    ->department($collectivity->department)
+                    ->department($departement->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('context_role', 'volontaire');
                     })
                     ->count(),
                 'service_civique_count' => Profile::role($request->header('Context-Role'))
-                    ->department($collectivity->department)
+                    ->department($departement->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missionsCollection->count(),
-                'places_available' => $places_left,
-                'places' => $participations_max,
-                'taux_occupation' => $participations_max ? round((($participations_max - $places_left) / $participations_max) * 100) : 0
+                'missions_available' => $missionsAvailableCollection->count(),
+                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'places_available' => $missionsAvailableCollection->sum('places_left'),
+                'total_offered_places' => $total_participations_max,
+                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
             ]);
         }
 
         return [
             'data' => $stats,
-            'from' => $collectivities->firstItem(),
-            'to' => $collectivities->lastItem(),
-            'total' => $collectivities->total(),
+            'from' => $departements->firstItem(),
+            'to' => $departements->lastItem(),
+            'total' => $departements->total(),
         ];
     }
 }

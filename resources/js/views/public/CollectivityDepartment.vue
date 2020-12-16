@@ -105,11 +105,11 @@
         />
 
         <div class="relative">
-          <h3
+          <h2
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
             Choisissez votre domaine d’action
-          </h3>
+          </h2>
           <p
             class="mt-4 max-w-5xl mx-auto text-center text-xl leading-7 text-gray-500"
           >

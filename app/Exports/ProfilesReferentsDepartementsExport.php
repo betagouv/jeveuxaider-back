@@ -12,7 +12,7 @@ use App\Filters\FiltersProfileTag;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ProfilesReferentsExport implements FromCollection, WithMapping, WithHeadings
+class ProfilesReferentsDepartementsExport implements FromCollection, WithMapping, WithHeadings
 {
 
     /**

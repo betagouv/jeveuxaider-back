@@ -54,8 +54,15 @@ export function exportProfiles(params) {
   })
 }
 
-export function exportProfilesReferents(params) {
-  return request.get(`/api/profiles/referents/export`, {
+export function exportProfilesReferentsDepartements(params) {
+  return request.get(`/api/profiles/referents/departements/export`, {
+    responseType: 'blob',
+    params,
+  })
+}
+
+export function exportProfilesReferentsRegions(params) {
+  return request.get(`/api/profiles/referents/regions/export`, {
     responseType: 'blob',
     params,
   })

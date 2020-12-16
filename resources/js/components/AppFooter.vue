@@ -9,7 +9,7 @@
                 <img
                   class="mx-auto lg:mx-0"
                   src="/images/republique-francaise-logo.svg"
-                  alt=""
+                  alt="République Française"
                   style="height: 200px"
                 />
               </div>

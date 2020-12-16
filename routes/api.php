@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('statistics/missions', 'Api\StatisticsController@missions');
     Route::get('statistics/departments', 'Api\StatisticsController@departments');
     Route::get('statistics/places', 'Api\StatisticsController@places');
+    Route::get('statistics/occupation-rate', 'Api\StatisticsController@occupationRate');
     Route::get('statistics/collectivities', 'Api\StatisticsController@collectivities');
     Route::get('statistics/structures', 'Api\StatisticsController@structures');
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
@@ -224,7 +225,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // TABLE EXPORT
     Route::post('{table}/export/table', 'Api\ConfigController@export');
 
-    Route::get('profiles/referents/export', 'Api\ProfileController@exportReferents');
+    Route::get('profiles/referents/departements/export', 'Api\ProfileController@exportReferentsDepartements');
+    Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
 
 

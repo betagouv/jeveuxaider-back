@@ -53,8 +53,10 @@ export default {
     handleSelect(index) {
       if (
         this.$router.history.current.name == 'DashboardCollectivityMain' ||
-        this.$router.history.current.name == 'CollectivityStatsMissions' ||
-        this.$router.history.current.name == 'CollectivityStatsParticipations'
+        this.$router.history.current.name ==
+          'DashboardCollectivityStatsMissions' ||
+        this.$router.history.current.name ==
+          'DashboardCollectivityStatsParticipations'
       ) {
         index == 'main'
           ? this.$router.push('/dashboard/collectivity')

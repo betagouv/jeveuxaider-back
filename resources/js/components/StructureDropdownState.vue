@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dropdown v-if="canEditStatut" :size="size" split-button :type="type">
-      <div style="min-width: 140px;" class="text-left">
+      <div style="min-width: 140px" class="text-left">
         {{ form.state }}
       </div>
       <el-dropdown-menu slot="dropdown">
@@ -10,6 +10,9 @@
           :key="state.value"
           @click.native="onSubmitState(state.value)"
         >
+          <template v-if="state.value == 'En attente de validation'"
+            >Repasser en validation</template
+          >
           <template v-if="state.value == 'Validée'"
             >Valider l'organisation</template
           >
@@ -54,16 +57,25 @@ export default {
       return 'default'
     },
     canEditStatut() {
+      if (this.$store.getters.contextRole == 'admin') {
+        return true
+      }
       return this.form.state != 'Signalée' && this.form.state != 'Désinscrite'
         ? true
         : false
     },
     statesAvailable() {
-      return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
-        (item) =>
-          !['En attente de validation', 'Désinscrite'].includes(item.value) &&
-          item.value != this.form.state
-      )
+      if (this.$store.getters.contextRole == 'admin') {
+        return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
+          (item) => item.value != this.form.state
+        )
+      } else {
+        return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
+          (item) =>
+            !['En attente de validation', 'Désinscrite'].includes(item.value) &&
+            item.value != this.form.state
+        )
+      }
     },
   },
   methods: {

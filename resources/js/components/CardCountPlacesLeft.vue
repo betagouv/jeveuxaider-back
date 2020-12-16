@@ -2,7 +2,7 @@
   <el-card
     shadow="never"
     class="mr-5 mb-5 p-5 uppercase hover:border-blue-900 cursor-pointer"
-    style="width: 330px;"
+    style="width: 330px"
   >
     <div @click.prevent="onClick">
       <div class="label mb-3 text-lg font-bold text-secondary">
@@ -20,13 +20,13 @@
             <span class="text-xs text-gray-500">missions disponibles</span>
           </div>
           <div class="my-1">
-            <span class>{{ data.total_places | formatNumber }}</span>
-            <span class="text-xs text-gray-500">places offertes</span>
+            <span class>{{ data.total_structures_active | formatNumber }}</span>
+            <span class="text-xs text-gray-500">organisations actives</span>
           </div>
-          <div class="my-1">
+          <!-- <div class="my-1">
             <span class>{{ data.taux_occupation }}%</span>
             <span class="text-xs text-gray-500"> de taux d'occupation</span>
-          </div>
+          </div> -->
         </div>
       </template>
       <template v-else>

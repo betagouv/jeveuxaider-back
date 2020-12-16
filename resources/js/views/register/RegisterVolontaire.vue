@@ -172,6 +172,7 @@
                         >
                           <el-input
                             v-model="form.first_name"
+                            label="Prénom"
                             placeholder="Prénom"
                           />
                         </el-form-item>
@@ -181,24 +182,28 @@
                         >
                           <el-input
                             v-model="form.last_name"
+                            label="Nom"
                             placeholder="Nom"
                           />
                         </el-form-item>
                         <el-form-item prop="email" class="w-full sm:w-1/2 p-2">
                           <el-input
                             v-model.trim="form.email"
+                            label="E-mail"
                             placeholder="E-mail"
                           />
                         </el-form-item>
                         <el-form-item prop="zip" class="w-full sm:w-1/2 p-2">
                           <el-input
                             v-model="form.zip"
+                            label="Code postal"
                             placeholder="Code Postal"
                           />
                         </el-form-item>
                         <el-form-item prop="mobile" class="w-full sm:w-1/2 p-2">
                           <el-input
                             v-model="form.mobile"
+                            label="Mobile"
                             placeholder="Téléphone mobile"
                           />
                         </el-form-item>
@@ -209,6 +214,7 @@
                           <el-input
                             v-model="form.birthday"
                             v-mask="'##/##/####'"
+                            label="Date de naissance"
                             placeholder="Date de naissance"
                           />
                         </el-form-item>
@@ -219,6 +225,7 @@
                           <el-input
                             v-model="form.password"
                             placeholder="Mot de passe"
+                            label="Mot de passe"
                             show-password
                             autocomplete="new-password"
                           />
@@ -229,6 +236,7 @@
                         >
                           <el-input
                             v-model="form.password_confirmation"
+                            label="Confirmation mot de passe"
                             placeholder="Confirmation mot de passe"
                             show-password
                           />

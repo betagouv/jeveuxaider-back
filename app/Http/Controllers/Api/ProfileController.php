@@ -11,7 +11,8 @@ use App\Http\Requests\Api\ProfileCreateRequest;
 use App\Notifications\ProfileInvitationSent;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProfilesExport;
-use App\Exports\ProfilesReferentsExport;
+use App\Exports\ProfilesReferentsDepartementsExport;
+use App\Exports\ProfilesReferentsRegionsExport;
 use App\Exports\ProfilesResponsablesExport;
 use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfileTag;
@@ -21,6 +22,7 @@ use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Mission;
@@ -43,7 +45,7 @@ class ProfileController extends Controller
             }
         }
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
-            ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'responsable_waiting_actions')
+            ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
@@ -52,10 +54,12 @@ class ProfileController extends Controller
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+                AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
-                'referent_department'
+                'referent_department',
+                'referent_region'
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'))
@@ -75,9 +79,14 @@ class ProfileController extends Controller
         return Excel::download(new ProfilesExport($request), 'profiles.xlsx');
     }
 
-    public function exportReferents(Request $request)
+    public function exportReferentsDepartements(Request $request)
     {
-        return Excel::download(new ProfilesReferentsExport(), 'referents.csv', \Maatwebsite\Excel\Excel::CSV);
+        return Excel::download(new ProfilesReferentsDepartementsExport(), 'referents-departements.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function exportReferentsRegions(Request $request)
+    {
+        return Excel::download(new ProfilesReferentsRegionsExport(), 'referents-regions.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function exportResponsables(Request $request)
