@@ -3,19 +3,19 @@
     "name": "Homepage",
     "slug": "/",
     "metaInfo": {
-      "title": "Je veux aider | Trouver des missions de bénévolat sur la Réserve Civique",
+      "title": "JeVeuxAider | Trouver des missions de bénévolat sur la Réserve Civique",
       "meta": [
         {
           "name": "description",
-          "content": "Rejoignez Je Veux Aider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
+          "content": "Rejoignez JeVeuxAider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
         },
         {
           "name": "og:title",
-          "content": "Je veux aider | Trouver des missions de bénévolat sur la Réserve Civique"
+          "content": "JeVeuxAider | Trouver des missions de bénévolat sur la Réserve Civique"
         },
         {
           "name": "og:description",
-          "content": "Rejoignez Je Veux Aider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
+          "content": "Rejoignez JeVeuxAider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 300 000 bénévoles déjà inscrits"
         },
         {
           "name": "og:url",
@@ -210,7 +210,7 @@
   {
     "name": "Login",
     "metaInfo": {
-      "title": "Connexion à mon espace Je Veux Aider",
+      "title": "Connexion à mon espace JeVeuxAider",
       "meta": [
         {
           "name": "description",
@@ -218,7 +218,7 @@
         },
         {
           "name": "og:title",
-          "content": "Connexion à mon espace Je Veux Aider"
+          "content": "Connexion à mon espace JeVeuxAider"
         },
         {
           "name": "og:description",
@@ -238,7 +238,7 @@
   {
     "name": "RegisterVolontaire",
     "metaInfo": {
-      "title": "Devenir bénévole et trouvez une mission de bénévolat sur Je Veux Aider",
+      "title": "Devenir bénévole et trouvez une mission de bénévolat sur JeVeuxAider",
       "meta": [
         {
           "name": "description",
@@ -246,7 +246,7 @@
         },
         {
           "name": "og:title",
-          "content": "Devenir bénévole et trouvez une mission de bénévolat sur Je Veux Aider"
+          "content": "Devenir bénévole et trouvez une mission de bénévolat sur JeVeuxAider"
         },
         {
           "name": "og:description",
@@ -266,7 +266,7 @@
   {
     "name": "RegisterResponsable",
     "metaInfo": {
-      "title": "Trouver des bénévoles sur Je Veux Aider",
+      "title": "Trouver des bénévoles sur JeVeuxAider",
       "meta": [
         {
           "name": "description",
@@ -274,7 +274,7 @@
         },
         {
           "name": "og:title",
-          "content": "Trouver des bénévoles sur Je Veux Aider"
+          "content": "Trouver des bénévoles sur JeVeuxAider"
         },
         {
           "name": "og:description",
