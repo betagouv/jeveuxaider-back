@@ -115,22 +115,17 @@
               >
                 Près de chez moi
               </router-link>
-              <div
-                v-click-outside="() => (isOnSinformer = false)"
-                class="relative flex-none"
-              >
+              <el-dropdown>
                 <button
                   type="button"
-                  class="group inline-flex items-center space-x-1 leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150 flex-none"
-                  :class="isOnSinformer ? 'text-gray-900' : 'text-gray-500'"
-                  @mouseover="isOnSinformer = true"
+                  aria-label="S'informer"
+                  class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
-                  <span class="flex-none">S'informer</span>
+                  <span class="flex-none text-base">S'informer</span>
                   <svg
-                    class="h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
+                    class="text-blue-300 hover:text-blue-800 h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    :class="isOnSinformer ? 'text-gray-600' : 'text-gray-400'"
                   >
                     <path
                       fill-rule="evenodd"
@@ -139,74 +134,35 @@
                     />
                   </svg>
                 </button>
-                <transition
-                  enter-active-class="transition ease-out duration-200"
-                  enter-class="opacity-0 translate-y-1"
-                  enter-to-class="opacity-100 translate-y-0"
-                  leave-active-class="transition ease-in duration-150"
-                  leave-class="opacity-100 translate-y-0"
-                  leave-to-class="opacity-0 translate-y-1"
-                >
-                  <div
-                    v-show="isOnSinformer"
-                    class="absolute transform mt-3 px-2 w-screen max-w-xs sm:px-0"
-                    style="left: -100px"
-                  >
-                    <div class="rounded-lg shadow-lg">
-                      <div class="rounded-lg shadow-xs overflow-hidden">
-                        <div
-                          class="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
-                        >
-                          <a
-                            href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
-                            target="_blank"
-                            class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
-                          >
-                            <p
-                              class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
-                            >
-                              Le blog de l'engagement
-                            </p>
-                          </a>
-                          <a
-                            href="https://covid19.reserve-civique.gouv.fr/engagement/dispositifs/"
-                            target="_blank"
-                            class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
-                          >
-                            <p
-                              class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
-                            >
-                              Les dispositifs publics d’engagement civique
-                            </p>
-                          </a>
-
-                          <a
-                            href="/engagement"
-                            target="_blank"
-                            class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
-                          >
-                            <p
-                              class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
-                            >
-                              Toutes les initiatives solidaires
-                            </p>
-                          </a>
-                          <a
-                            href="/regles-de-securite"
-                            class="-m-3 p-3 block space-y-1 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
-                          >
-                            <p
-                              class="sm:text-sm xl:text-base leading-6 font-medium text-gray-900"
-                            >
-                              Les 5 règles de sécurité des bénévoles
-                            </p>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </transition>
-              </div>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>
+                    <a
+                      href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+                    >
+                      Le blog de l'engagement</a
+                    >
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <a
+                      href="https://covid19.reserve-civique.gouv.fr/engagement/dispositifs/"
+                    >
+                      Les dispositifs publics d’engagement civique
+                    </a>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <a
+                      href="https://covid19.reserve-civique.gouv.fr/engagement/"
+                    >
+                      Toutes les initiatives solidaires
+                    </a>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <a href="/regles-de-securite">
+                      Les 5 règles de sécurité des bénévoles
+                    </a>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <router-link
                 v-if="$store.getters.isLogged"
                 to="/user/missions"
