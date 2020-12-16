@@ -266,9 +266,7 @@ export default {
     },
   },
   data() {
-    return {
-      isOnSinformer: false,
-    }
+    return {}
   },
   created() {
     if (

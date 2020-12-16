@@ -27,7 +27,6 @@ import DropdownUser from '@/components/DropdownUser'
 import DropdownFrontUser from '@/components/DropdownFrontUser'
 import VClamp from 'vue-clamp'
 import CKEditor from '@ckeditor/ckeditor5-vue'
-import vClickOutside from 'v-click-outside'
 import VueMeta from 'vue-meta'
 import VueTypedJs from 'vue-typed-js'
 
@@ -63,7 +62,6 @@ Vue.use(VueTypedJs)
 Vue.use(Vue2Filters)
 Vue.use(PortalVue)
 Vue.use(CKEditor)
-Vue.use(vClickOutside)
 Vue.use(VueAnalytics, {
   id: 'UA-81479189-7',
   router,
