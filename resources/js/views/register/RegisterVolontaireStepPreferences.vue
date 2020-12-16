@@ -78,7 +78,7 @@
             </item-description>
             <el-switch
               v-model="form.is_visible"
-              active-color="#1E429F"
+              active-color="#070191"
               inactive-color="#959595"
             ></el-switch>
           </el-form-item>

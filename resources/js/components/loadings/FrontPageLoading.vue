@@ -2,14 +2,14 @@
   <div>
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
-        <div class="pt-14 overflow-hidden" style="height: 85px;">
+        <div class="pt-14 overflow-hidden" style="height: 85px">
           <content-loader
             height="10"
-            primary-color="#1e429f"
-            secondary-color="#1e429f"
+            primary-color="#070191"
+            secondary-color="#070191"
             :animate="false"
             class="object-cover"
-            style="height: 10px;"
+            style="height: 10px"
           >
             <rect x="0" y="0" rx="3" ry="3" width="200" height="10" />
           </content-loader>
@@ -21,7 +21,7 @@
         <div
           class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16 text-gray-700 items-center"
         >
-          <div style="max-width: 680px;" class="mx-auto overflow-hidden">
+          <div style="max-width: 680px" class="mx-auto overflow-hidden">
             <content-loader
               width="680"
               height="350"
@@ -29,7 +29,7 @@
               secondary-color="#edf2f7"
               :animate="false"
               class="object-cover"
-              style="height: 350px;"
+              style="height: 350px"
             >
               <rect x="0" y="0" rx="3" ry="3" width="680" height="15" />
               <rect x="0" y="30" rx="3" ry="3" width="680" height="15" />

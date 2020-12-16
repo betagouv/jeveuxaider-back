@@ -1,8 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2xl text-gray-800 mb-4">
-      Préférences
-    </div>
+    <div class="font-bold text-2xl text-gray-800 mb-4">Préférences</div>
 
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec vos domaines d'action de prédilection ainsi
@@ -48,7 +46,7 @@
       >
         <el-switch
           v-model="form.is_visible"
-          active-color="#1E429F"
+          active-color="#070191"
           inactive-color="#959595"
         ></el-switch>
       </el-form-item>
