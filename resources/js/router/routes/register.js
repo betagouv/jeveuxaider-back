@@ -47,7 +47,7 @@ const routeOptions = [
   {
     path: '/register/invitation',
     name: 'RegisterInvitation',
-    meta: { requiresAnonymous: true, layout: 'two-cols' },
+    meta: { requiresAnonymous: true },
   },
 ]
 
