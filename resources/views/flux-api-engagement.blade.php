@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <source>
    <publisher>Réserve Civique</publisher>
-   <publisherurl>https://covid19.reserve-civique.gouv.fr</publisherurl>
+   <publisherurl>https://jeveuxaider.gouv.fr</publisherurl>
    <lastBuildDate>{{  now() }}</lastBuildDate>
     @foreach ($missions as $mission)
     <mission>

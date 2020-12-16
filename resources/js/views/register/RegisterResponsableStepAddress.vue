@@ -88,9 +88,9 @@
             listera toutes les missions dans votre collectivité. Par exemple
             pour Bayonne :
             <a
-              href="https://covid19.reserve-civique.gouv.fr/territoires/bayonne"
+              href="https://jeveuxaider.gouv.fr/territoires/bayonne"
               target="_blank"
-              >https://covid19.reserve-civique.gouv.fr/territoires/bayonne</a
+              >https://jeveuxaider.gouv.fr/territoires/bayonne</a
             >
           </item-description>
           <el-form-item

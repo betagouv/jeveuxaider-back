@@ -137,21 +137,21 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
                     <a
-                      href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+                      href="https://jeveuxaider.gouv.fr/engagement/actualites/"
                     >
                       Le blog de l'engagement</a
                     >
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <a
-                      href="https://covid19.reserve-civique.gouv.fr/engagement/dispositifs/"
+                      href="https://jeveuxaider.gouv.fr/engagement/dispositifs/"
                     >
                       Les dispositifs publics d’engagement civique
                     </a>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <a
-                      href="https://covid19.reserve-civique.gouv.fr/engagement/"
+                      href="https://jeveuxaider.gouv.fr/engagement/"
                     >
                       Toutes les initiatives solidaires
                     </a>

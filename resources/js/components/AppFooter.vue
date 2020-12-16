@@ -75,7 +75,7 @@
             >
             <a
               class="block p-3 hover:underline"
-              href="https://covid19.reserve-civique.gouv.fr/engagement/communication/"
+              href="https://jeveuxaider.gouv.fr/engagement/communication/"
               target="_blank"
               >Kit de communication</a
             >

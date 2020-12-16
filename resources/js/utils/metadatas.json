@@ -19,11 +19,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/"
+          "content": "https://jeveuxaider.gouv.fr/"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -52,11 +52,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/missions"
+          "content": "https://jeveuxaider.gouv.fr/missions"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -81,11 +81,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/territoires"
+          "content": "https://jeveuxaider.gouv.fr/territoires"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -112,11 +112,11 @@
             },
             {
               "name": "og:url",
-              "content": "https://covid19.reserve-civique.gouv.fr/thematiques/solidarite-et-insertion"
+              "content": "https://jeveuxaider.gouv.fr/thematiques/solidarite-et-insertion"
             },
             {
               "name": "og:image",
-              "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+              "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
             }
           ]
         }
@@ -140,11 +140,11 @@
             },
             {
               "name": "og:url",
-              "content": "https://covid19.reserve-civique.gouv.fr/thematiques/education-pour-tous"
+              "content": "https://jeveuxaider.gouv.fr/thematiques/education-pour-tous"
             },
             {
               "name": "og:image",
-              "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+              "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
             }
           ]
         }
@@ -168,11 +168,11 @@
             },
             {
               "name": "og:url",
-              "content": "https://covid19.reserve-civique.gouv.fr/thematiques/protection-de-la-nature"
+              "content": "https://jeveuxaider.gouv.fr/thematiques/protection-de-la-nature"
             },
             {
               "name": "og:image",
-              "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+              "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
             }
           ]
         }
@@ -198,11 +198,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/regles-de-securite"
+          "content": "https://jeveuxaider.gouv.fr/regles-de-securite"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -226,11 +226,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/login"
+          "content": "https://jeveuxaider.gouv.fr/login"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -254,11 +254,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/register/benevole"
+          "content": "https://jeveuxaider.gouv.fr/register/benevole"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }
@@ -282,11 +282,11 @@
         },
         {
           "name": "og:url",
-          "content": "https://covid19.reserve-civique.gouv.fr/register/responsable"
+          "content": "https://jeveuxaider.gouv.fr/register/responsable"
         },
         {
           "name": "og:image",
-          "content": "https://covid19.reserve-civique.gouv.fr/images/og-image.jpg"
+          "content": "https://jeveuxaider.gouv.fr/images/og-image.jpg"
         }
       ]
     }

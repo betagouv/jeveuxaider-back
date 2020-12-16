@@ -585,7 +585,7 @@
                 <p class="text-sm leading-5 font-medium text-blue-800">
                   <a
                     target="_blank"
-                    href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+                    href="https://jeveuxaider.gouv.fr/engagement/actualites/"
                     class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
                   >
                     {{ actualite.type }}
@@ -609,7 +609,7 @@
 
       <div class="text-center mt-12 pb-6">
         <a
-          href="https://covid19.reserve-civique.gouv.fr/engagement/actualites/"
+          href="https://jeveuxaider.gouv.fr/engagement/actualites/"
           target="_blank"
           class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
         >
@@ -994,7 +994,7 @@ export default {
         {
           title: 'Giving Tuesday : libérons notre générosité !',
           link:
-            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/giving-tuesday-liberons-notre-generosite/',
+            'https://jeveuxaider.gouv.fr/engagement/actualite/giving-tuesday-liberons-notre-generosite/',
           image:
             'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/Honrizontal-1-uai-554x312.png',
           teaser:
@@ -1004,7 +1004,7 @@ export default {
         {
           title: 'Paul, bénévole pour la Mission Camionnette',
           link:
-            'https://covid19.reserve-civique.gouv.fr/engagement/temoignage/paul-benevole-pour-la-mission-camionnette-la-faim-nest-pas-que-physique-elle-est-aussi-soif-de-dialogue-damitie/',
+            'https://jeveuxaider.gouv.fr/engagement/temoignage/paul-benevole-pour-la-mission-camionnette-la-faim-nest-pas-que-physique-elle-est-aussi-soif-de-dialogue-damitie/',
           image:
             'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/125410728_2172696756194788_6942989377646507647_o-uai-720x405.jpg',
           teaser:
@@ -1015,7 +1015,7 @@ export default {
           title:
             "[Parole d'asso] L’Agence du Don en Nature, solidaire et anti-gaspi",
           link:
-            'https://covid19.reserve-civique.gouv.fr/engagement/actualite/lagence-du-don-en-nature-contre-la-precarite-et-le-gaspillage/',
+            'https://jeveuxaider.gouv.fr/engagement/actualite/lagence-du-don-en-nature-contre-la-precarite-et-le-gaspillage/',
           image:
             'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/BD%EF%BF%BDADN.fev20%C2%A9GovinSorel_GOV7369-uai-720x405.jpg',
           teaser:
