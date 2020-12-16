@@ -30,22 +30,19 @@
     </div>
 
     <div
+      v-if="$store.getters.sidebar"
       class="p-6 flex flex-col border-t border-gray-200 justify-center items-center"
     >
-      <router-link to="/">
-        <img
-          v-if="$store.getters.sidebar"
-          src="/images/logo-header-dark-small.png"
-        />
-        <img v-else src="/images/logo-rc-square.png" />
+      <router-link v-if="$store.getters.sidebar" to="/">
+        <img alt="JeVeuxAider" src="/images/jeveuxaider-logo.svg" />
       </router-link>
-      <div class="hidden md:flex md:justify-center md:items-center md:py-2">
-        <router-link v-if="$store.getters.sidebar" to="/dashboard/news">
+      <div class="flex py-2 justify-center items-center">
+        <router-link to="/dashboard/news">
           <div class="text-xs text-gray-600 hover:text-gray-800">
             Nouveautés
           </div>
         </router-link>
-        <span class="mx-2 text-gray-700">-</span>
+        <span v-if="$store.getters.sidebar" class="mx-2 text-gray-700">-</span>
         <a
           class="text-xs text-gray-600 hover:text-gray-800"
           href="https://reserve-civique.crisp.help/fr/"
@@ -54,6 +51,37 @@
           Centre d'aide
         </a>
       </div>
+    </div>
+    <div
+      v-else
+      class="p-2 flex flex-col border-t border-gray-200 justify-center items-center"
+    >
+      <router-link to="/dashboard/news" class="py-2">
+        <el-tooltip
+          class="item"
+          :open-delay="500"
+          effect="dark"
+          content="Nouveautés"
+          placement="right"
+        >
+          <i class="el-icon-news text-2xl text-gray-400" />
+        </el-tooltip>
+      </router-link>
+      <a
+        href="https://reserve-civique.crisp.help/fr/"
+        target="_blank"
+        class="py-2"
+      >
+        <el-tooltip
+          class="item"
+          :open-delay="500"
+          effect="dark"
+          content="Centre d'aide"
+          placement="right"
+        >
+          <i class="el-icon-help text-2xl text-gray-400" />
+        </el-tooltip>
+      </a>
     </div>
   </el-aside>
 </template>
