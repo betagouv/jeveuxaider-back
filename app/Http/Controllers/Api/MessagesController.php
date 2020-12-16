@@ -3,21 +3,23 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MessageRequest;
+use App\Models\Conversation;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
-    public function store(Request $request)
+    public function store(MessageRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
-        $message = $currentUser->sendMessage(request('conversation_id'), request('content'));
+        $message = $currentUser->sendMessage($conversation->id, request('content'));
         $message->from; // HACK
 
-        $currentUser->markConversationAsRead($message->conversation);
+        $currentUser->markConversationAsRead($conversation);
+
         // Trigger updated_at refresh.
-        $message->conversation->touch();
+        $conversation->touch();
 
         return $message;
     }

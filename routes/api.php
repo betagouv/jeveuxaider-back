@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // MESSAGES
     Route::get('conversations', 'Api\ConversationsController@index');
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
-    Route::post('messages', 'Api\MessagesController@store');
+    Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
 
     Route::post('logout', 'Api\PassportController@logout');
 });

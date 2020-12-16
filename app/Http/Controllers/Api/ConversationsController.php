@@ -13,6 +13,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersConversationSearch;
+use App\Http\Requests\ConversationRequest;
 
 class ConversationsController extends Controller
 {
@@ -30,7 +31,7 @@ class ConversationsController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function messages(Request $request, Conversation $conversation)
+    public function messages(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $currentUser->markConversationAsRead($conversation);

@@ -10,6 +10,6 @@ export function fetchMessages(conversation_id, params) {
   })
 }
 
-export function addMessage(message) {
-  return request.post('/api/messages', message)
+export function addMessageToConversation(conversation_id, params) {
+  return request.post(`/api/conversations/${conversation_id}/messages`, params)
 }
