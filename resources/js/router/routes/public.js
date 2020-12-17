@@ -33,6 +33,10 @@ const routeOptions = [
       slug: parseInt(route.params.slug),
     }),
   },
+  {
+    path: '/missions/:id',
+    redirect: '/missions/:id/benevolat',
+  },
   { path: '/collectivite', name: 'CollectivityLandingPage' },
   { path: '/territoires', name: 'Territoires' },
   {
