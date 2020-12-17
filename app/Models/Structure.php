@@ -104,19 +104,6 @@ class Structure extends Model
         }
     }
 
-    public function getResponseRatioAttribute()
-    {
-        $participationsCount = Participation::whereIn('mission_id', $this->missions->pluck('id'))->count();
-
-        if ($this->missions->count() == 0 || !$participationsCount) {
-            return null;
-        }
-
-        $participationsWaitingCount = Participation::where('state', 'En attente de validation')->whereIn('mission_id', $this->missions->pluck('id'))->count();
-
-        return round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
-    }
-
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = Utils::ucfirst($value);
@@ -235,6 +222,11 @@ class Structure extends Model
         return $this->hasMany('App\Models\Mission');
     }
 
+    public function participations()
+    {
+        return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission');
+    }
+
     public function addMember(Profile $profile, $role)
     {
         return $this->members()->attach($profile, ['role' => $role]);
@@ -255,5 +247,13 @@ class Structure extends Model
         }
 
         return $mission;
+    }
+
+    // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
+    public function saveQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->save($options);
+        });
     }
 }

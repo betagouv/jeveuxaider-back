@@ -40,6 +40,7 @@ class StructureObserver
 
     public function updated(Structure $structure)
     {
+
         // STATE
         $oldState = $structure->getOriginal('state');
         $newState = $structure->state;

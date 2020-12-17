@@ -557,7 +557,7 @@ export default {
 
 <style lang="sass" scoped>
 #messagerie
-  height: calc(100% - 72px)
+  height: calc(100% - 110px)
 .panel--left,
 .panel--center,
 .panel--right
