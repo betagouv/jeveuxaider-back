@@ -18,7 +18,7 @@ class FranceConnectController extends Controller
     {
         $query = [
           'scope' => 'openid given_name family_name preferred_username birthdate email',
-          'redirect_uri' => config('app.url') . '/login',
+          'redirect_uri' => urlencode(config('app.url') . '/login'),
           'response_type' => 'code',
           'client_id' => config('services.franceconnect.client_id'),
           'state' => Str::uuid()->toString(),
@@ -26,7 +26,7 @@ class FranceConnectController extends Controller
           'acr_values' => 'eidas1'
         ];
 
-        return config('services.franceconnect.url') . "/api/v1/authorize?" . urlencode(http_build_query($query));
+        return config('services.franceconnect.url') . "/api/v1/authorize?" . http_build_query($query);
     }
 
     public function oauthLoginCallback(Request $request)
