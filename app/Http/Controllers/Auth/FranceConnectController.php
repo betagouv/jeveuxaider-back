@@ -18,7 +18,7 @@ class FranceConnectController extends Controller
     {
         $query = [
           'scope' => 'openid given_name family_name preferred_username birthdate email',
-          'redirect_uri' => urlencode(config('app.url') . '/login'),
+          'redirect_uri' => config('app.url') . '/login',
           'response_type' => 'code',
           'client_id' => config('services.franceconnect.client_id'),
           'state' => Str::uuid()->toString(),
@@ -33,7 +33,7 @@ class FranceConnectController extends Controller
     {
         $response = Http::asForm()->post(config('services.franceconnect.url') . '/api/v1/token', [
           'grant_type' => 'authorization_code',
-          'redirect_uri' => urlencode(config('app.url') . '/login'),
+          'redirect_uri' => config('app.url') . '/login',
           'client_id' => config('services.franceconnect.client_id'),
           'client_secret' => config('services.franceconnect.client_secret'),
           'code' =>  $request->query('code')
