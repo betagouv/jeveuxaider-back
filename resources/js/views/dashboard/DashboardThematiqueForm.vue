@@ -4,13 +4,13 @@
     class="profile-form max-w-2xl pl-12 pb-12"
   >
     <template v-if="mode == 'edit'">
-      <div class="text-m text-gray-600 uppercase">Thématique</div>
+      <div class="text-m text-gray-600 uppercase">Domaine d'action</div>
       <div class="mb-8 flex">
         <div class="font-bold text-2xl">{{ form.name }}</div>
       </div>
     </template>
     <div v-else class="mb-12 font-bold text-2xl text-gray-800">
-      Nouvelle thématique
+      Nouveau domaine d'action
     </div>
 
     <el-form
@@ -21,17 +21,17 @@
     >
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
-      <el-form-item label="Nom de la thématique" prop="name">
-        <el-input v-model="form.name" placeholder="Nom de la thématique" />
+      <el-form-item label="Nom du domaine d'action" prop="name">
+        <el-input v-model="form.name" placeholder="Ex: Solidarité et instertion" />
         <item-description>
-          Accessible à l'adresse : {{ baseUrl }}/thematiques/{{
+          Accessible à l'adresse : {{ baseUrl }}/domaines-action/{{
             form.name | slugify
           }}
         </item-description>
       </el-form-item>
 
-      <el-form-item label="Titre de la thématique" prop="title">
-        <el-input v-model="form.title" placeholder="Titre de la thématique" />
+      <el-form-item label="Titre du domaine d'action" prop="title">
+        <el-input v-model="form.title" placeholder="Ex: Rejoignez la Réserve Civique pour la solidarité et l'insertion" />
       </el-form-item>
 
       <el-form-item label="Description" prop="description" class="flex-1">
@@ -39,7 +39,7 @@
           v-model="form.description"
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 6 }"
-          placeholder="Description de cette réserve thématique"
+          placeholder="Description de ce domaine d'action"
         />
       </el-form-item>
 
@@ -69,14 +69,14 @@
         :min-height="600"
         :aspect-ratio="8 / 3"
         :field="form.image"
-        label="Photo de la thématique"
+        label="Photo du domaine d'action"
         @add-or-crop="photo = $event"
         @delete="photo = null"
       ></ImageField>
 
       <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
       <item-description container-class="mb-6">
-        Si vous souhaitez rendre cette thématique visible, cochez la case.
+        Si vous souhaitez rendre ce domaine d'action visible, cochez la case.
       </item-description>
       <el-form-item prop="published" class="flex-1">
         <el-checkbox v-model="form.published">En ligne</el-checkbox>
@@ -132,7 +132,7 @@ export default {
         name: [
           {
             required: true,
-            message: 'Veuillez renseigner un nom de thématique',
+            message: "Veuillez renseigner le nom du domaine d'action",
             trigger: 'blur',
           },
         ],
@@ -188,9 +188,9 @@ export default {
     },
     onSubmitEnd() {
       this.loading = false
-      this.$router.push('/dashboard/contents/thematiques')
+      this.$router.push('/dashboard/contents/domaines-action')
       this.$message({
-        message: 'La thematique a été enregistrée !',
+        message: 'Le domaine d\'action a été enregistré !',
         type: 'success',
       })
     },

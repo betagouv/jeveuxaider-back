@@ -46,7 +46,7 @@ const routeOptions = [
     meta: { layout: 'no-header' },
   },
   {
-    path: '/thematiques/:slug',
+    path: '/domaines-action/:slug',
     name: 'Thematique',
     props: (route) => ({ slug: route.params.slug }),
     meta: { layout: 'no-header' },

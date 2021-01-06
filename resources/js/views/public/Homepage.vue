@@ -102,13 +102,15 @@
                 >
                   <img class="px-6" src="/images/logo_aphp.png" alt="APHP" />
                 </div>
-                <div
+                <a
+                  href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
+                  target="_blank"
                   class="flex flex-col border-gray-100 py-4 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
                 >
                   parmi Plus de
                   <span class="text-4xl font-bold">4000</span>
                   organisations
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -226,7 +228,7 @@
 
         <div class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <router-link
-            to="/thematiques/solidarite-et-insertion"
+            to="/domaines-action/solidarite-et-insertion"
             class="bg-red-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-white px-4 py-2 sm:px-6">
@@ -259,7 +261,7 @@
           </router-link>
 
           <router-link
-            to="/thematiques/protection-de-la-nature"
+            to="/domaines-action/protection-de-la-nature"
             class="bg-green-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
@@ -291,7 +293,7 @@
           </router-link>
 
           <router-link
-            to="/thematiques/education-pour-tous"
+            to="/domaines-action/education-pour-tous"
             class="bg-blue-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
@@ -490,63 +492,6 @@
               </footer>
             </blockquote>
           </div>
-        </div>
-      </div>
-      <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative mt-10 pb-12">
-          <svg
-            class="mx-auto h-16 w-16 text-blue-200"
-            aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
-            />
-          </svg>
-
-          <blockquote class="mt-8">
-            <div
-              class="max-w-3xl mx-auto text-center text-2xl leading-9 font-medium text-white"
-            >
-              <p>
-                &ldquo; Le virus est toujours là. Comment se protéger les uns
-                les autres après le confinement ? Quels sont les gestes simples
-                à respecter ? Ensemble, protégeons-nous. #CORONAVIRUS #COVID19
-                &rdquo;
-              </p>
-            </div>
-            <footer class="mt-8">
-              <div class="md:flex md:items-center md:justify-center">
-                <div class="md:flex-shrink-0">
-                  <img
-                    class="mx-auto h-12 w-12 rounded-full shadow-lg"
-                    src="/images/logo_carre_rc.jpg"
-                    alt=""
-                  />
-                </div>
-                <div
-                  class="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center"
-                >
-                  <div class="text-base leading-6 font-medium text-white">
-                    Réserve Civique #JeVeuxAider
-                  </div>
-
-                  <svg
-                    class="hidden md:block mx-1 h-5 w-5 text-blue-200"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M11 0h3L9 20H6l5-20z" />
-                  </svg>
-
-                  <div class="text-base leading-6 font-medium text-blue-200">
-                    @ReserveCivique
-                  </div>
-                </div>
-              </div>
-            </footer>
-          </blockquote>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@
 
     <div v-if="!loading">
       <breadcrumb
-        :items="[{ label: 'Thématiques' }, { label: thematique.name }]"
+        :items="[{ label: 'Domaines d\'action' }, { label: thematique.name }]"
       />
       <div class="relative">
         <img
@@ -116,6 +116,9 @@
                 alt=""
                 :src="`/images/thematiques/${thematique.slug}-partenaire-1.jpg`"
               />
+
+
+
             </div>
 
             <div class="col-span-1 flex justify-center lg:col-span-1">
@@ -412,7 +415,7 @@ export default {
         this.thematique = { ...response.data }
         if (!this.thematique.published) {
           this.$message({
-            message: "Cette thématique n'est pas encore accessible !",
+            message: "Ce domaine d'action n'est pas encore accessible !",
             type: 'warning',
           })
           this.$router.push('/403')

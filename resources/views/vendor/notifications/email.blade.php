@@ -33,7 +33,7 @@
 
 @endforeach
 
-Bien cordialement,<br>L’équipe de la Réserve Civique
+Bien cordialement,<br>L’équipe de JVA
 
 {{-- Subcopy --}}
 @isset($actionText)

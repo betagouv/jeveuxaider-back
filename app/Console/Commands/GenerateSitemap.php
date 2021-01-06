@@ -75,10 +75,10 @@ class GenerateSitemap extends Command
         ->setPriority(0.5));
         }
 
-        // Thématiques
-        $thematiques = Thematique::where('published', true)->get();
-        foreach ($thematiques as $thematique) {
-            $sitemap->add(Url::create('/thematiques/' . $thematique->slug)
+        // Domaines action
+        $domaines = Thematique::where('published', true)->get();
+        foreach ($domaines as $domaine) {
+            $sitemap->add(Url::create('/domaines-action/' . $domaine->slug)
         ->setLastModificationDate(Carbon::yesterday())
         ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
         ->setPriority(0.7));

@@ -14,7 +14,7 @@ class AddTitleToThematiquesTable extends Migration
     public function up()
     {
         Schema::table('thematiques', function (Blueprint $table) {
-            $table->string('title')->default("Rejoignez la Réserve Civique dans votre thématique");
+            $table->string('title')->default("Rejoignez la Réserve Civique dans votre domaine d'action");
         });
     }
 
