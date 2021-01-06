@@ -87,7 +87,7 @@
                                 $store.getters.structure_as_responsable.id,
                             },
                           }
-                        : '/register/responsable'
+                        : '/login'
                     "
                     class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
@@ -116,9 +116,6 @@
                 alt=""
                 :src="`/images/thematiques/${thematique.slug}-partenaire-1.jpg`"
               />
-
-
-
             </div>
 
             <div class="col-span-1 flex justify-center lg:col-span-1">
