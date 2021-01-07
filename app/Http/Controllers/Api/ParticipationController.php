@@ -32,7 +32,7 @@ class ParticipationController extends Controller
                 AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
                 AllowedFilter::custom('collectivity', new FiltersParticipationCollectivity),
                 'state',
-                'mission.department',
+                AllowedFilter::exact('mission.department'),
                 'mission.type',
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
