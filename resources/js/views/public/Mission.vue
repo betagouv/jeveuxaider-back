@@ -114,8 +114,9 @@
                           >Bénéficiaires</span
                         ><br />
                         <div
-                          v-for="(publicBeneficiaire,
-                          key) in mission.publics_beneficiaires"
+                          v-for="(
+                            publicBeneficiaire, key
+                          ) in mission.publics_beneficiaires"
                           :key="key"
                         >
                           {{
@@ -233,6 +234,11 @@
                       </template>
                     </template>
                   </div>
+
+                  <p class="text-sm leading-6 text-indigo-300">
+                    Délai de réponse:
+                    {{ responseTime }}
+                  </p>
 
                   <template v-if="mission.state && mission.state == 'Validée'">
                     <div
@@ -897,6 +903,19 @@ export default {
     canRegistered() {
       return this.hasParticipation.length > 0 ? false : true
     },
+    responseTime() {
+      let daysDelay = this.$options.filters.daysFromTimestamp(
+        this.mission.structure.response_time
+      )
+      console.log('response_time', this.mission.structure.response_time)
+      console.log('response_time in days', daysDelay)
+      if (daysDelay < 5) {
+        return 'Moins de 5 jours'
+      } else if (daysDelay < 10) {
+        return 'Entre 5 et 10 jours'
+      }
+      return 'Moins de 15 jours'
+    },
     formattedDate() {
       const startDate = this.mission.start_date
       const endDate = this.mission.end_date
@@ -920,7 +939,6 @@ export default {
       }
     },
   },
-
   created() {
     getMission(this.id)
       .then((response) => {

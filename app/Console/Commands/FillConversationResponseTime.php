@@ -41,11 +41,11 @@ class FillConversationResponseTime extends Command
     public function handle()
     {
         $conversations = Conversation::whereNull('response_time')
-        ->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
-            $query->whereHas('mission', function (Builder $query) {
-                $query->where('structure_id', 4309);
-            });
-        })
+        // ->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
+        //     $query->whereHas('mission', function (Builder $query) {
+        //         $query->where('structure_id', 2);
+        //     });
+        // })
         ->get();
 
         $this->info($conversations->count() . ' conversations will be updated');
@@ -53,15 +53,21 @@ class FillConversationResponseTime extends Command
             foreach ($conversations as $conversation) {
                 $participation = $conversation->conversable;
                 // Si participation updated on prend, sinon on check les derniers messages
-                if ($participation->created_at != $participation->updated_at) {
-                    $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
-                    $conversation->saveQuietly(); // No observer
-                } else {
-                    $lastMessageFromResponsable = $conversation->messages->where('from_id', '!=', $participation->profile->user->id)->first();
-                    if ($lastMessageFromResponsable) {
-                        $conversation->response_time = $lastMessageFromResponsable->created_at->timestamp - $participation->created_at->timestamp;
+                if ($participation) {
+                    if ($participation->created_at != $participation->updated_at) {
+                        $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
                         $conversation->saveQuietly(); // No observer
+                    } else {
+                        $lastMessageFromResponsable = $conversation->messages->where('from_id', '!=', $participation->profile->user->id)->first();
+                        if ($lastMessageFromResponsable) {
+                            $conversation->response_time = $lastMessageFromResponsable->created_at->timestamp - $participation->created_at->timestamp;
+                            $conversation->saveQuietly(); // No observer
+                        }
                     }
+                } else {
+                    $this->warn("Conversation : {$conversation->id} / Participation {$conversation->conversable_id} has no participation linked (deleted?)");
+                    $this->info("Conversation : {$conversation->id} has been deleted !");
+                    $conversation->delete();
                 }
             }
         }

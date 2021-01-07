@@ -81,7 +81,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first()->append('response_ratio');
+        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
     }
 
     public function store(StructureCreateRequest $request)

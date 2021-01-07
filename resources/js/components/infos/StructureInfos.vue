@@ -24,9 +24,20 @@
         {{ structure.state }}
       </div>
     </div>
-    <div v-if="structure.response_ratio !== null" class="mb-2 flex">
+    <div class="mb-2 flex">
       <div class="card-label">Tx réponse</div>
-      <div class="text-gray-900 flex-1">{{ structure.response_ratio }}%</div>
+      <div class="text-gray-900 flex-1">
+        <template v-if="structure.response_ratio">
+          {{ structure.response_ratio }}%
+        </template>
+        <template v-else> 0% </template>
+      </div>
+    </div>
+    <div v-if="structure.response_ratio > 0" class="mb-2 flex">
+      <div class="card-label">Temps réponse</div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.response_time | daysFromTimestamp }}j
+      </div>
     </div>
     <div v-if="structure.statut_juridique" class="mb-2 flex">
       <div class="card-label">Statut</div>

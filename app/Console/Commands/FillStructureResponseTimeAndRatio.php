@@ -40,22 +40,31 @@ class FillStructureResponseTimeAndRatio extends Command
     public function handle()
     {
         $structures = Structure::whereNull('response_ratio')
-            ->where('id', 4309)
+            ->orWhereNull('response_time')
+            ->limit(10)
             ->get();
 
         $this->info($structures->count() . ' structures will be updated');
         if ($this->confirm('Do you wish to continue?')) {
             foreach ($structures as $structure) {
+                $this->info("Processing structure #{$structure->id} {$structure->name}");
+
                 // Response time
                 $participationsIds = $structure->participations->pluck('id')->all();
-                $structure->response_time = intval(Conversation::whereIn('conversable_id', $participationsIds)->avg('response_time'));
+                $responseTime = intval(Conversation::whereIn('conversable_id', $participationsIds)->avg('response_time'));
+                $this->info("Response time: {$responseTime}");
+                $structure->response_time = $responseTime;
 
                 // Response ratio
                 $participationsCount = $structure->participations->count();
 
                 if ($participationsCount) {
                     $participationsWaitingCount = $structure->participations->where('state', 'En attente de validation')->count();
-                    $structure->response_ratio = round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
+                    $responseRatio = round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
+                    $structure->response_ratio = $responseRatio;
+                    $this->info("Response ratio: {$responseRatio}");
+                } else {
+                    $this->info("Response ratio: no participation");
                 }
 
                 $structure->saveQuietly(); // No observer

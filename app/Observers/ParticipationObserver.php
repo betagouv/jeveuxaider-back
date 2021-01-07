@@ -61,12 +61,11 @@ class ParticipationObserver
             if ($oldState == 'En attente de validation' && !in_array($newState, ['Signalée', 'Annulée'])) {
                 $conversation = Conversation::where('conversable_id', $participation->id)
                     ->where('conversable_type', 'App\Models\Participation')
+                    ->whereNull('response_time')
                     ->first();
                 if ($conversation) {
-                    if (!$conversation->response_time) {
-                        $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
-                        $conversation->save();
-                    }
+                    $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
+                    $conversation->save();
                 }
             }
         }
