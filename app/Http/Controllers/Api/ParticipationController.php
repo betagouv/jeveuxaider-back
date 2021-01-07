@@ -25,7 +25,7 @@ class ParticipationController extends Controller
     public function index(Request $request)
     {
         // 455 - 505 queries   600 - 800 ms
-        return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission', 'mission.structure', 'mission.responsable'))
+        return QueryBuilder::for(Participation::role($request->header('Context-Role'))->with('profile', 'mission', 'mission.structure:id,name,state', 'mission.responsable'))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
