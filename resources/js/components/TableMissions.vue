@@ -1,5 +1,6 @@
 <template>
   <el-table
+    v-loading="loading"
     :data="tableData"
     :highlight-current-row="true"
     @row-click="onClickedRow"
@@ -96,6 +97,10 @@ export default {
     tableData: {
       type: Array,
       default: null,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
     onUpdatedRow: {
       type: Function,

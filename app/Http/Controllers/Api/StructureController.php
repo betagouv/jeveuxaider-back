@@ -34,7 +34,7 @@ class StructureController extends Controller
         return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members')->withCount('missions'))
             ->allowedAppends('response_ratio')
             ->allowedFilters([
-                'department',
+                AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),

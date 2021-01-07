@@ -58,7 +58,7 @@ class ProfileController extends Controller
                 AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
-                'referent_department',
+                AllowedFilter::exact('referent_department'),
                 'referent_region'
             )
             ->defaultSort('-created_at')
