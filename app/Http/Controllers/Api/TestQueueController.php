@@ -9,7 +9,7 @@ class TestQueueController extends Controller
 {
     public function test($text)
     {
-        TestJob::dispatch();
+        TestJob::dispatch($text);
         return $text;
     }
 }

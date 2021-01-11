@@ -12,14 +12,15 @@ class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $text;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($text)
     {
-        //
+        $this->text = $text;
     }
 
     /**
@@ -29,6 +30,7 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        info('Hello World!');
+        info('Hello World with text');
+        // ray('Hello World with text', $this->text);
     }
 }
