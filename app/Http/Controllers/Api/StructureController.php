@@ -31,10 +31,10 @@ class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members')->withCount('missions'))
+        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->withCount('missions'))
             ->allowedAppends('response_ratio')
             ->allowedFilters([
-                'department',
+                AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),

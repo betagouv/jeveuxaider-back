@@ -32,7 +32,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
     {
         return QueryBuilder::for(Structure::role($this->role))
             ->allowedFilters([
-                'department',
+                AllowedFilter::exact('department'),
                 'statut_juridique',
                 'state',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),

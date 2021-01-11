@@ -23,14 +23,14 @@ class MissionController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure', 'responsable'))
+        return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure:id,name,state', 'responsable'))
         ->allowedAppends('domaines')
         ->allowedFilters([
             'name',
             'state',
             'format',
             'type',
-            'department',
+            AllowedFilter::exact('department'),
             AllowedFilter::exact('template_id'),
             AllowedFilter::exact('structure_id'),
             AllowedFilter::exact('id'),
