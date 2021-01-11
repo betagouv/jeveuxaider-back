@@ -6,7 +6,7 @@
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Contenus - Thématiques
+          Contenus - Domaines d'action
         </div>
       </div>
       <div class>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <contents-menu index="/dashboard/contents/thematiques"></contents-menu>
+      <contents-menu index="/dashboard/contents/domaines-action"></contents-menu>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -36,7 +36,7 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Thématique" min-width="320">
+      <el-table-column label="Domaine d'action" min-width="320">
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
           <div class="font-light text-gray-600 text-xs">
@@ -46,7 +46,7 @@
                 params: { slug: scope.row.slug },
               }"
               target="_blank"
-              >/thematiques/{{ scope.row.slug }}</router-link
+              >/domaines-action/{{ scope.row.slug }}</router-link
             >
           </div>
         </template>
@@ -152,8 +152,8 @@ export default {
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette thématique ?`,
-        'Supprimer cette thématique',
+        `Êtes vous sur de vouloir supprimer ce domaine d'action ?`,
+        'Supprimer ce domaine d\'action',
         {
           confirmButtonText: 'Supprimer',
           confirmButtonClass: 'el-button--danger',
@@ -165,7 +165,7 @@ export default {
         deleteThematique(id).then(() => {
           this.$message({
             type: 'success',
-            message: `Le thématique a été supprimée.`,
+            message: `Le domaine d'action a été supprimé.`,
           })
           this.fetchDatas()
         })

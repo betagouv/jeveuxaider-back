@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Conversation;
 use App\Models\Participation;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 
 class FillConversationResponseTime extends Command
 {
@@ -41,11 +40,6 @@ class FillConversationResponseTime extends Command
     public function handle()
     {
         $conversations = Conversation::whereNull('response_time')
-        // ->whereHasMorph('conversable', [Participation::class], function (Builder $query) {
-        //     $query->whereHas('mission', function (Builder $query) {
-        //         $query->where('structure_id', 2);
-        //     });
-        // })
         ->get();
 
         $this->info($conversations->count() . ' conversations will be updated');

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Conversation;
 use App\Models\Participation;
+use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
@@ -19,6 +20,13 @@ class ParticipationObserver
                 $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
             }
         }
+
+        // RESPONSE RATIO
+        $structure = Structure::find($participation->mission->structure->id);
+        $participationsCount = $structure->participations->count();
+        $conversationsWithResponseTimeCount = $structure->conversations->whereNotNull('response_time')->count();
+        $structure->response_ratio =  round($conversationsWithResponseTimeCount / $participationsCount * 100);
+        $structure->saveQuietly();
     }
 
     public function updated(Participation $participation)

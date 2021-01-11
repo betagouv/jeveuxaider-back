@@ -53,7 +53,7 @@
             </router-link>
             <router-link
               v-if="!$store.getters.isLogged"
-              to="/register/responsable"
+              to="/collectivite"
               class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Inscrire ma collectivité

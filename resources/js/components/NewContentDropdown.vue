@@ -20,7 +20,7 @@
         <el-dropdown-item>Nouveau document</el-dropdown-item>
       </router-link>
       <router-link :to="{ name: 'DashboardThematiqueFormAdd' }">
-        <el-dropdown-item>Nouvelle thématique</el-dropdown-item>
+        <el-dropdown-item>Nouveau domaine d'action</el-dropdown-item>
       </router-link>
       <router-link :to="{ name: 'DashboardMissionTemplateFormAdd' }">
         <el-dropdown-item>Nouveau modèle</el-dropdown-item>

@@ -296,7 +296,7 @@ import ConversationMessages from '@/components/messages/ConversationMessages.vue
 import {
   fetchConversations,
   fetchMessages,
-  addMessage,
+  addMessageToConversation,
 } from '@/api/conversations'
 import dayjs from 'dayjs'
 import _ from 'lodash'
@@ -538,9 +538,8 @@ export default {
     },
     onAddMessage() {
       if (this.newMessage.trim().length) {
-        addMessage({
+        addMessageToConversation(this.activeConversation.id, {
           content: this.newMessage,
-          conversation_id: this.activeConversation.id,
         }).then((response) => {
           this.newMessageCount++
           this.newMessage = ''

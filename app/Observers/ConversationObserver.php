@@ -9,14 +9,6 @@ class ConversationObserver
 {
     public function created(Conversation $conversation)
     {
-        $structure = Structure::find($conversation->conversable->mission->structure->id);
-        $participationsCount = $structure->participations->count();
-        if ($participationsCount) {
-            // RESPONSE RATIO
-            $conversationsWithResponseTimeCount = $structure->conversations->whereNotNull('response_time')->count();
-            $structure->response_ratio =  round($conversationsWithResponseTimeCount / $participationsCount * 100);
-            $structure->save();
-        }
     }
 
     public function updated(Conversation $conversation)

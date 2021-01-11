@@ -21,7 +21,7 @@ class FranceConnectController extends Controller
           'redirect_uri' => config('app.url') . '/login',
           'response_type' => 'code',
           'client_id' => config('services.franceconnect.client_id'),
-          'state' => 'franceconnect',
+          'state' => Str::uuid()->toString(),
           'nonce' => Str::random(20),
           'acr_values' => 'eidas1'
         ];
