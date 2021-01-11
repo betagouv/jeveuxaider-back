@@ -208,7 +208,7 @@
                             <router-link
                               v-else
                               to="/user/missions"
-                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                               >Vous êtes déjà inscrit !</router-link
                             >
                           </template>
@@ -235,7 +235,10 @@
                     </template>
                   </div>
 
-                  <p class="text-sm leading-6 text-indigo-300">
+                  <p
+                    v-if="mission.response_time"
+                    class="text-sm leading-6 text-indigo-300"
+                  >
                     Délai de réponse:
                     {{ responseTime }}
                   </p>
@@ -947,6 +950,15 @@ export default {
         if (this.mission.responsable && this.$store.getters.profile) {
           this.form.content = `Bonjour ${this.mission.responsable.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
         }
+
+        console.log('response_time', this.mission.structure.response_time)
+        console.log(
+          'response_time (days)',
+          this.$options.filters.daysFromTimestamp(
+            this.mission.structure.response_time
+          )
+        )
+        console.log('response_ratio', this.mission.structure.response_ratio)
         fetchStructureAvailableMissions(this.mission.structure.id, {
           exclude: this.id,
           append: 'domaines',

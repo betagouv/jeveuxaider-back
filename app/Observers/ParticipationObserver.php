@@ -58,7 +58,7 @@ class ParticipationObserver
 
         // Response time sur la conversation si elle existe
         if ($oldState != $newState) {
-            if ($oldState == 'En attente de validation' && !in_array($newState, ['Signalée', 'Annulée'])) {
+            if ($oldState == 'En attente de validation') {
                 $conversation = Conversation::where('conversable_id', $participation->id)
                     ->where('conversable_type', 'App\Models\Participation')
                     ->whereNull('response_time')

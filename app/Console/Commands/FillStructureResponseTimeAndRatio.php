@@ -55,17 +55,17 @@ class FillStructureResponseTimeAndRatio extends Command
                 $this->info("Response time: {$responseTime}");
                 $structure->response_time = $responseTime;
 
-                // Response ratio
-                $participationsCount = $structure->participations->count();
+                // @TODO: Response ratio A REFAIRE
+                // $participationsCount = $structure->participations->count();
 
-                if ($participationsCount) {
-                    $participationsWaitingCount = $structure->participations->where('state', 'En attente de validation')->count();
-                    $responseRatio = round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
-                    $structure->response_ratio = $responseRatio;
-                    $this->info("Response ratio: {$responseRatio}");
-                } else {
-                    $this->info("Response ratio: no participation");
-                }
+                // if ($participationsCount) {
+                //     $participationsWaitingCount = $structure->participations->where('state', 'En attente de validation')->count();
+                //     $responseRatio = round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
+                //     $structure->response_ratio = $responseRatio;
+                //     $this->info("Response ratio: {$responseRatio}");
+                // } else {
+                //     $this->info("Response ratio: no participation");
+                // }
 
                 $structure->saveQuietly(); // No observer
             }

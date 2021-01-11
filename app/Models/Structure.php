@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Structure extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, HasRelationships;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -225,6 +226,15 @@ class Structure extends Model
     public function participations()
     {
         return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission');
+    }
+
+    public function conversations()
+    {
+        return $this->hasManyDeep(
+            'App\Models\Conversation',
+            ['App\Models\Mission', 'App\Models\Participation'],
+            [null, null, ['conversable_type', 'conversable_id']]
+        );
     }
 
     public function addMember(Profile $profile, $role)
