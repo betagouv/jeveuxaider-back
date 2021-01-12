@@ -23,7 +23,6 @@ use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 
 class StructureController extends Controller

@@ -25,6 +25,7 @@ use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\ProfileRequest;
+use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -76,7 +77,17 @@ class ProfileController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new ProfilesExport($request), 'profiles.xlsx');
+        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+        $fileName = 'profiles-' . Str::random(8) . '.xlsx';
+        $filePath = $folder . $fileName;
+
+        (new ProfilesExport($request->header('Context-Role')))
+            ->queue($filePath, 's3')
+            ->chain([
+                new NotifyUserOfCompletedExport($request->user(), $filePath),
+            ]);
+
+        return response()->json(['message'=> 'Export en cours...'], 200);
     }
 
     public function exportReferentsDepartements(Request $request)

@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfilePostalCode;
-use Illuminate\Http\Request;
 use App\Models\Profile;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -15,14 +14,18 @@ use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class ProfilesExport implements FromCollection, WithMapping, WithHeadings
+class ProfilesExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
 {
-    private $request;
+    use Exportable;
 
-    public function __construct(Request $request)
+    private $role;
+
+    public function __construct($role)
     {
-        $this->request = $request;
+        $this->role = $role;
     }
 
     /**
@@ -30,7 +33,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return QueryBuilder::for(Profile::role($this->request->header('Context-Role')))
+        return QueryBuilder::for(Profile::role($this->role))
             ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
@@ -73,7 +76,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $profile->id,
-            $profile->user->id,
+            $profile->user->id ?? null,
             $profile->full_name,
             $profile->first_name,
             $profile->last_name,
