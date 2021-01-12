@@ -66,15 +66,15 @@ class FranceConnectController extends Controller
           'context_role' => 'volontaire',
           'password' => Hash::make(Str::random(12))
         ]);
-      
+
         $profile = Profile::firstOrCreate(
             ['email' => $franceConnectUser['email']],
             [
-        'user_id' => $user->id,
-        'first_name' => $franceConnectUser['given_name'] ?? '',
-        'last_name' => $franceConnectUser['family_name'] ?? '',
-        'birthday' => $franceConnectUser['birthdate'] ?? ''
-      ]
+                'user_id' => $user->id,
+                'first_name' => $franceConnectUser['given_name'] ?? '',
+                'last_name' => $franceConnectUser['family_name'] ?? '',
+                'birthday' => $franceConnectUser['birthdate'] ?? ''
+            ]
         );
 
         $user->profile()->save($profile);

@@ -48,6 +48,7 @@ class ExportReady extends Notification
             ->subject('Votre export est prêt')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Votre fichier d\'export est prêt à être téléchargé.')
+            ->line('Le lien expirera dans 12 heures.')
             ->action('Télécharger', $this->filePath);
     }
 

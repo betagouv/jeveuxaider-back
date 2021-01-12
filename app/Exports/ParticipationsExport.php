@@ -34,7 +34,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
                 AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
                 'state',
-                'mission.department',
+                AllowedFilter::exact('mission.department'),
                 'mission.type',
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),

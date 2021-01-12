@@ -64,7 +64,7 @@ class Structure extends Model
     protected $hidden = ['media'];
 
     protected $appends = ['full_address', 'ceu'];
-    protected $with = ['collectivity'];
+    // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
 

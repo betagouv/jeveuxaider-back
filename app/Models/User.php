@@ -43,7 +43,7 @@ class User extends Authenticatable
             return null;
         }
         $id = Auth::guard('api')->user()->id;
-        $user = User::with(['profile.structures', 'profile.participations'])->where('id', $id)->first();
+        $user = User::with(['profile.structures','profile.structures.collectivity', 'profile.participations'])->where('id', $id)->first();
         $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries

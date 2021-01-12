@@ -36,12 +36,11 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:10');
         $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
 
-        // Syn ApiEngagement
+        // Sync ApiEngagement
         $schedule->command(SyncApiEngagement::class)->everySixHours();
         
-
         // Horizon update dashboard metrics
-        //  $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
         $schedule->command('sitemap:generate')->daily()->at('07:00');
     }

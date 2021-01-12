@@ -168,6 +168,7 @@
     </div>
 
     <TableMissions
+      :loading="loading"
       :table-data="tableData"
       :on-updated-row="onUpdatedRow"
       :on-clicked-row="onClickedRow"

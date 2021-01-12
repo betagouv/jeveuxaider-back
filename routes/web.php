@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('queue/{text}', 'Api\TestQueueController@test');
+
 Route::get('/franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
 Route::get('/franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 Route::get('/franceconnect/test', 'Auth\FranceConnectController@test');
