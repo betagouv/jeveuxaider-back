@@ -236,7 +236,7 @@
                   </div>
 
                   <p
-                    v-if="mission.response_time"
+                    v-if="mission.structure.response_time"
                     class="text-sm leading-6 text-indigo-300"
                   >
                     Délai de réponse:
