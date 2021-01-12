@@ -227,16 +227,14 @@ export default {
     onExport() {
       this.loading = true
       exportStructures(this.query)
-        .then((response) => {
+        .then(() => {
           this.loading = false
-          fileDownload(response.data, 'organisation.xlsx')
-          /*
+          //fileDownload(response.data, 'organisation.xlsx')
           Message({
             message:
-              "Votre export est en cours de génération... Vous serez notifié lorsqu'il sera prêt !",
+              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
             type: 'success',
           })
-          */
         })
         .catch((error) => {
           Message({
