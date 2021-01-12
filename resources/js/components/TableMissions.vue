@@ -49,7 +49,11 @@
               </div>
             </div>
             <router-link
-              v-if="scope.row.state == 'Validée' && scope.row.has_places_left"
+              v-if="
+                scope.row.state == 'Validée' &&
+                scope.row.has_places_left &&
+                $store.getters.contextRole == 'responsable'
+              "
               :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
             >
               <el-button size="mini" round> Trouver des bénévoles </el-button>

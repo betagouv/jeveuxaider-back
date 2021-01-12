@@ -34,18 +34,25 @@ class Conversation extends Model
         return $this->morphTo();
     }
 
-
     public function scopeRole($query, $contextRole = null)
     {
         switch ($contextRole) {
             case 'admin':
                 return $query;
-            break;
+                break;
             default:
                 return $query->whereHas('users', function (Builder $subquery) {
                     $subquery->where('users.id', Auth::guard('api')->user()->id);
                 });
-            break;
+                break;
         }
+    }
+
+    // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
+    public function saveQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->save($options);
+        });
     }
 }

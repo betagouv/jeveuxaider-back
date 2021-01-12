@@ -14,7 +14,7 @@
 
     <div v-if="!loading">
       <breadcrumb
-        :items="[{ label: 'Thématiques' }, { label: thematique.name }]"
+        :items="[{ label: 'Domaines d\'action' }, { label: thematique.name }]"
       />
       <div class="relative">
         <img
@@ -87,7 +87,7 @@
                                 $store.getters.structure_as_responsable.id,
                             },
                           }
-                        : '/register/responsable'
+                        : '/login'
                     "
                     class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
@@ -412,7 +412,7 @@ export default {
         this.thematique = { ...response.data }
         if (!this.thematique.published) {
           this.$message({
-            message: "Cette thématique n'est pas encore accessible !",
+            message: "Ce domaine d'action n'est pas encore accessible !",
             type: 'warning',
           })
           this.$router.push('/403')

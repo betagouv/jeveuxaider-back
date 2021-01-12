@@ -12,8 +12,12 @@ class FiltersMatchMission implements Filter
     {
         $mission = Mission::find($value);
         return $query->where(function ($query) use ($mission) {
-            $query->where('zip', 'LIKE', substr($mission->zip, 0, 2) . '%')
-                   ->withAnyTags($mission->domaines);
+            $query
+                ->where('zip', 'LIKE', substr($mission->zip, 0, 2) . '%')
+                ->withAnyTags($mission->domaines)
+                ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
+                    $query->where('mission_id', $mission->id);
+                });
         });
     }
 }

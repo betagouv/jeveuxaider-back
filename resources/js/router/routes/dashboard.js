@@ -600,7 +600,7 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/contents/thematiques',
+    path: '/dashboard/contents/domaines-action',
     name: 'DashboardThematiques',
     meta: {
       roles: ['admin'],
@@ -700,7 +700,7 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/thematique/add',
+    path: '/dashboard/domaine-action/add',
     name: 'DashboardThematiqueForm',
     singleName: 'DashboardThematiqueFormAdd',
     props: { mode: 'add' },
@@ -709,7 +709,7 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/thematique/:id/edit',
+    path: '/dashboard/domaine-action/:id/edit',
     name: 'DashboardThematiqueForm',
     singleName: 'DashboardThematiqueFormEdit',
     props: (route) => ({ mode: 'edit', id: parseInt(route.params.id) }),

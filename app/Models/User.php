@@ -95,10 +95,11 @@ class User extends Authenticatable
 
     public function startConversation($user, $conversable)
     {
-        $conversation = Conversation::create();
+        $conversation = new Conversation;
         $conversation->conversable()->associate($conversable);
-        $conversation->users()->attach([$this->id, $user->id]);
         $conversation->save();
+
+        $conversation->users()->attach([$this->id, $user->id]);
 
         return $conversation;
     }

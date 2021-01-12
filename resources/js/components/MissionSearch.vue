@@ -45,8 +45,9 @@
           >
             <template
               v-if="
-                mission.publisher_name == 'Benevolt' ||
-                mission.places_left == 999
+                mission.publisher_name &&
+                mission.publisher_name != 'Réserve Civique' &&
+                (mission.places_left == 999 || mission.places_left == 99)
               "
             >
               Plusieurs bénévoles recherchés
@@ -65,7 +66,7 @@
             style="background: #d2d6dc"
           >
             <span v-if="mission.has_places_left === false">Complet</span>
-            <span v-else>Nombre de places non défini</span>
+            <span v-else>Plusieurs bénévoles recherchés</span>
           </div>
         </div>
       </div>

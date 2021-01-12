@@ -219,7 +219,7 @@
             <el-dropdown-menu slot="dropdown">
               <router-link
                 :to="{
-                  name: 'Profile',
+                  name: 'DashboardProfile',
                   params: { id: scope.row.id },
                 }"
                 ><el-dropdown-item command=""

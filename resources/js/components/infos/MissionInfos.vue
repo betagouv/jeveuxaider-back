@@ -7,6 +7,12 @@
       </div>
     </div>
     <div class="mb-2 flex">
+      <div class="card-label">Organisation</div>
+      <div class="text-gray-900 flex-1">
+        {{ mission.structure.name }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
       <div class="card-label">Créée le</div>
       <div class="text-gray-900 flex-1">
         {{ mission.created_at | formatMediumWithTime }}

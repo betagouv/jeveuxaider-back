@@ -1,6 +1,6 @@
 <template>
   <div class="m-2">
-    <el-dropdown @command="handleCommand">
+    <el-dropdown v-if="$store.getters.user.profile" @command="handleCommand">
       <div
         class="el-dropdown-link flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-gray-800 hover:bg-gray-50 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
       >

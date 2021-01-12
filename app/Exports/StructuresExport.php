@@ -9,6 +9,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureCeu;
+use App\Filters\FiltersStructureCollectivity;
 use App\Filters\FiltersStructureSearch;
 use App\Filters\FiltersStructureLieu;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,11 +34,12 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
         return QueryBuilder::for(Structure::role($this->role))
             ->allowedFilters([
                 'department',
-                'statut_juridique',
                 'state',
+                'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
             ])
             ->defaultSort('-created_at')
             ->get();
@@ -50,6 +52,10 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'name',
             'state',
             'response_ratio',
+            'response_time',
+            'nb_missions',
+            'nb_participations',
+            'nb_waiting_participations',
             'statut_juridique',
             'association_types',
             'structure_publique_type',
@@ -88,6 +94,10 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->name,
             $structure->state,
             $structure->response_ratio,
+            $structure->response_time,
+            $structure->missions->count(),
+            $structure->participations->count(),
+            $structure->waitingParticipations->count(),
             $structure->statut_juridique,
             $structure->association_types,
             $structure->structure_publique_type,
