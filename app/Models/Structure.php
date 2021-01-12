@@ -228,6 +228,12 @@ class Structure extends Model
         return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission');
     }
 
+    public function waitingParticipations()
+    {
+        return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission')
+            ->where('participations.state', 'En attente de validation');
+    }
+
     public function conversations()
     {
         return $this->hasManyDeep(

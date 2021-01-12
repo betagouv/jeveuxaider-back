@@ -31,7 +31,8 @@ class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members')->withCount('missions'))
+        return QueryBuilder::for(Structure::role($request->header('Context-Role'))
+            ->withCount('missions', 'participations', 'waitingParticipations'))
             ->allowedFilters([
                 'department',
                 'state',
@@ -81,7 +82,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
+        return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $structure->id)->first();
     }
 
     public function store(StructureCreateRequest $request)

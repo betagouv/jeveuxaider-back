@@ -25,10 +25,21 @@
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">Tx réponse</div>
+      <div class="card-label">Taux réponse</div>
       <div class="text-gray-900 flex-1">
         <template v-if="structure.response_ratio !== null">
-          {{ structure.response_ratio }}%
+          <span class="">{{ structure.response_ratio }}%</span>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="`${
+              structure.participations_count -
+              structure.waiting_participations_count
+            } / ${structure.participations_count} participations`"
+            placement="top"
+          >
+            <i class="el-icon-info"></i>
+          </el-tooltip>
         </template>
         <template v-else> N/A </template>
       </div>
@@ -36,10 +47,22 @@
     <div class="mb-2 flex">
       <div class="card-label">Temps réponse</div>
       <div class="text-gray-900 flex-1">
-        <template v-if="structure.response_time">
-          {{ structure.response_time | daysFromTimestamp }}j
+        <template v-if="structure.response_time !== null">
+          {{ structure.response_time | daysFromTimestamp }} jours
         </template>
         <template v-else> N/A </template>
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">NB Mission</div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.missions_count }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">NB Particip.</div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.participations_count }}
       </div>
     </div>
     <div v-if="structure.statut_juridique" class="mb-2 flex">
