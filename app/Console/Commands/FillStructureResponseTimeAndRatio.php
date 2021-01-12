@@ -49,7 +49,10 @@ class FillStructureResponseTimeAndRatio extends Command
                 $participationsCount = $structure->participations->count();
                 if ($participationsCount) {
                     // RESPONSE TIME
-                    $structure->response_time = intval($structure->conversations->avg('response_time'));
+                    $avgResponseTime = $structure->conversations->avg('response_time');
+                    if ($avgResponseTime) {
+                        $structure->response_time = intval($avgResponseTime);
+                    }
 
                     // RESPONSE RATIO
                     $conversationsWithResponseTimeCount = $structure->conversations->whereNotNull('response_time')->count();

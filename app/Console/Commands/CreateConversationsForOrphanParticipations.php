@@ -44,12 +44,12 @@ class CreateConversationsForOrphanParticipations extends Command
             ->whereHas('mission', function (Builder $query) {
                 $query
                     ->whereNull('deleted_at')
-                    // ->whereHas('structure', function (Builder $query) {
-                    //     $query->whereNull('deleted_at');
-                    // })
+                    ->whereHas('structure', function (Builder $query) {
+                        $query->whereNull('deleted_at');
+                    })
                     ;
             })
-            //->limit(1)
+            //->limit(10000)
             ->get();
 
         $this->info($participations->count() . ' conversations will be created');
@@ -58,13 +58,19 @@ class CreateConversationsForOrphanParticipations extends Command
                 if ($participation->mission && $participation->mission->structure) {
                     $benevoleUser = $participation->profile->user;
                     $responsableUser = $participation->mission->responsable->user ?? $participation->mission->structure->user;
-                    $conversation = new Conversation;
-                    if ($participation->state != 'En attente de validation') {
-                        $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
+                    if ($benevoleUser->id != $responsableUser->id) {
+                        $conversation = new Conversation;
+                        if (in_array($participation->state, ['Validée', 'Refusée'])) {
+                            $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
+                        }
+                        $conversation->created_at = $participation->created_at;
+                        $conversation->updated_at = $participation->created_at;
+                        $conversation->conversable()->associate($participation);
+                        $conversation->save();
+                        $conversation->users()->attach([$benevoleUser->id, $responsableUser->id]);
+                    } else {
+                        $this->warn("Participation : {$participation->id} responsable is the same as benevole (id: {$benevoleUser->id})");
                     }
-                    $conversation->conversable()->associate($participation);
-                    $conversation->save();
-                    $conversation->users()->attach([$benevoleUser->id, $responsableUser->id]);
                 } else {
                     $this->error("Participation : {$participation->id} mission or structure has been deleted");
                 }

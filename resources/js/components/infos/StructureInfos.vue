@@ -27,7 +27,7 @@
     <div class="mb-2 flex">
       <div class="card-label">Tx réponse</div>
       <div class="text-gray-900 flex-1">
-        <template v-if="structure.response_ratio">
+        <template v-if="structure.response_ratio !== null">
           {{ structure.response_ratio }}%
         </template>
         <template v-else> N/A </template>

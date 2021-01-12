@@ -46,9 +46,9 @@ class FillConversationResponseTime extends Command
         if ($this->confirm('Do you wish to continue?')) {
             foreach ($conversations as $conversation) {
                 $participation = $conversation->conversable;
-                // Si participation updated on prend, sinon on check les derniers messages
+                // Si participation validée ou refusée on prend, sinon on check les derniers messages
                 if ($participation) {
-                    if ($participation->created_at != $participation->updated_at) {
+                    if (in_array($participation->state, ['Validée', 'Refusée'])) {
                         $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
                         $conversation->saveQuietly(); // No observer
                     } else {
@@ -56,11 +56,12 @@ class FillConversationResponseTime extends Command
                         if ($lastMessageFromResponsable) {
                             $conversation->response_time = $lastMessageFromResponsable->created_at->timestamp - $participation->created_at->timestamp;
                             $conversation->saveQuietly(); // No observer
+                        } else {
+                            $this->warn("Cant determine response time for participation : {$participation->id}");
                         }
                     }
                 } else {
-                    $this->warn("Conversation : {$conversation->id} / Participation {$conversation->conversable_id} has no participation linked (deleted?)");
-                    $this->info("Conversation : {$conversation->id} has been deleted !");
+                    $this->warn("Conversation : {$conversation->id} / Participation {$conversation->conversable_id} has no participation linked (-> deleted)");
                     $conversation->delete();
                 }
             }
