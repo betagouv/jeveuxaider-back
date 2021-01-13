@@ -24,10 +24,6 @@ class ConversationObserver
                     $structure->response_time = intval($avgResponseTime);
                 }
 
-                // RESPONSE RATIO
-                $conversationsWithResponseTimeCount = $structure->conversations->whereNotNull('response_time')->count();
-                $structure->response_ratio =  round($conversationsWithResponseTimeCount / $participationsCount * 100);
-
                 $structure->saveQuietly();
             }
         }
