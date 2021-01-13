@@ -38,8 +38,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
             info('test log');
             $address = request()->server->get('REMOTE_ADDR');
             $allowed_addresses = [
-                '78.192.44.120',
-                '127.0.0.1'
+                '2a01:e34:ec02:c780:9113:5235:86fa:3b9b', // Jérémy Paris
             ];
             return (in_array($address, $allowed_addresses));
         });
