@@ -12,8 +12,10 @@ class MessageObserver
         $user = Auth::guard('api')->user();
 
         // SET CONVERSATION RESPONSE TIME IF NULL
+
         if (!$message->conversation->response_time && $message->conversation->conversable->profile_id != $user->profile->id) {
             $message->conversation->response_time = $message->created_at->timestamp - $message->conversation->conversable->created_at->timestamp;
+            $message->conversation->save();
         }
     }
 }
