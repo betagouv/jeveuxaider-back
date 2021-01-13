@@ -29,10 +29,11 @@
 
     <template v-else>
       <ais-instant-search
+        v-if="!loading"
         ref="instantsearch"
         :search-client="searchClient"
         :index-name="indexName"
-        :routing="routing"
+        :initial-ui-state="routeStateWithIndex"
       >
         <ais-configure
           ref="aisConfigure"
@@ -147,17 +148,18 @@
                             class="p-2 right-0 top-0"
                             @click="showFilters = false"
                           >
-                            <img
-                              class="flex-none"
-                              src="/images/close.svg"
-                              alt="Fermer"
-                            />
+                            <div
+                              class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer"
+                              style="background: rgb(49, 196, 141)"
+                            >
+                              Afficher
+                            </div>
                           </div>
                         </div>
                       </div>
 
                       <div
-                        v-scroll-lock="showFilters && scrollLockIfShowFilters"
+                        v-scroll-lock="showFilters && isMobile"
                         class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
                       >
                         <portal-target name="mobile" />
@@ -215,25 +217,6 @@
                           class="mb-6"
                           @toggle-facet="onToggleFacet($event)"
                         />
-
-                        <div
-                          class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer"
-                          style="background: rgb(49, 196, 141)"
-                          @click="showFilters = false"
-                        >
-                          <span class="font-bold">
-                            {{ nbHits | formatNumber }}
-                          </span>
-                          <span>
-                            {{
-                              nbHits
-                                | pluralize([
-                                  'mission disponible',
-                                  'missions disponibles',
-                                ])
-                            }}
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </transition>
@@ -342,88 +325,12 @@ import {
   AisHits,
   AisPagination,
 } from 'vue-instantsearch'
-import algoliasearch from 'algoliasearch/lite'
-import 'instantsearch.css/themes/algolia-min.css'
-import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings'
-import qs from 'qs'
+
 import metadatas from '@/utils/metadatas.json'
 import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
-import _ from 'lodash'
 import CardMission from '@/components/CardMission'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
-
-let forceWrite = false
-
-function parseQuery(query) {
-  return qs.parse(query)
-}
-
-function stringifyQuery(query) {
-  const result = qs.stringify(query)
-  return result ? '?' + result : ''
-}
-
-// remove indexName
-function writeState(routeState) {
-  if (process.env.MIX_ALGOLIA_INDEX in routeState)
-    routeState = routeState[process.env.MIX_ALGOLIA_INDEX]
-
-  return routeState
-}
-
-// restore indexName
-function readState(routeState) {
-  routeState = {
-    [process.env.MIX_ALGOLIA_INDEX]: routeState,
-  }
-  return routeState
-}
-
-function router(_this) {
-  return {
-    read: () => {
-      _this.routeState = parseQuery(window.location.search.substring(1))
-      return readState(_this.routeState)
-    },
-    write() {
-      if (this.writeTimeout) {
-        this.writeTimeout.cancel()
-      }
-      if (forceWrite) {
-        this.writeTimeout = _.debounce(() => {
-          window.history.pushState(
-            _this.routeState,
-            '',
-            `${window.location.pathname}${stringifyQuery(_this.routeState)}`
-          )
-          forceWrite = false
-        }, 400)
-        this.writeTimeout()
-      }
-    },
-    createURL(routeState) {
-      routeState = writeState(routeState)
-      const url = _this.$router.resolve({
-        query: routeState,
-      }).href
-      return url
-    },
-    onUpdate: (cb) => {
-      if (_this.writeTimeout) {
-        _this.writeTimeout.cancel()
-      }
-
-      _this._onPopState = () => {
-        cb(_this.routing.router.read())
-      }
-      window.addEventListener('popstate', _this._onPopState)
-    },
-    dispose: () => {
-      if (typeof window === 'undefined') return
-      window.removeEventListener('popstate', _this._onPopState)
-    },
-  }
-}
+import AlgoliaSearch from '@/mixins/AlgoliaSearch'
 
 export default {
   name: 'FrontMissions',
@@ -440,17 +347,9 @@ export default {
     CardMission,
     AlgoliaPlacesInput,
   },
+  mixins: [AlgoliaSearch],
   data() {
     return {
-      searchClient: algoliasearch(
-        process.env.MIX_ALGOLIA_APP_ID,
-        process.env.MIX_ALGOLIA_SEARCH_KEY
-      ),
-      routing: {
-        router: router(this),
-        stateMapping: simpleMapping(),
-      },
-      routeState: null,
       templatesPlaces: {
         value: function (suggestion) {
           return `${suggestion.postcode} ${suggestion.name}`
@@ -472,7 +371,7 @@ export default {
         },
       },
       showFilters: false,
-      scrollLockIfShowFilters: true,
+      isMobile: true,
       windowWidth: window.innerWidth,
       // @todo sort
       // @todo Affichage pour api
@@ -488,9 +387,6 @@ export default {
       return process.env.MIX_MODE_APP_LIGHT
         ? JSON.parse(process.env.MIX_MODE_APP_LIGHT)
         : false
-    },
-    indexName() {
-      return process.env.MIX_ALGOLIA_INDEX
     },
     aroundLatLng() {
       return this.routeState && this.routeState.aroundLatLng
@@ -510,66 +406,19 @@ export default {
     }
   },
   methods: {
-    onQueryInput(refine, $event) {
-      forceWrite = true
-      refine($event)
-    },
     onQueryClear() {
       this.$delete(this.routeState, 'query')
     },
-    onToggleFacet($event) {
-      if ($event.active) {
-        // add
-        if (!this.routeState.refinementList) {
-          this.$set(this.routeState, 'refinementList', {})
-        }
-        const values = this.routeState.refinementList[$event.name]
-          ? [...this.routeState.refinementList[$event.name], $event.value]
-          : [$event.value]
-        this.$set(this.routeState.refinementList, $event.name, values)
-      } else {
-        // delete
-        this.routeState.refinementList[$event.name].splice(
-          this.routeState.refinementList[$event.name].findIndex((i) => {
-            return i == $event.value
-          }),
-          1
-        )
-        if (this.routeState.refinementList[$event.name].length == 0) {
-          this.$delete(this.routeState.refinementList, $event.name)
-        }
-      }
-      forceWrite = true
-      this.routing.router.write(this.routeState)
-    },
     scrollToTop() {
       this.$refs.contentWrapper.scrollIntoView()
-    },
-    onPlaceSelect($event) {
-      this.$set(
-        this.routeState,
-        'aroundLatLng',
-        `${$event.latlng.lat},${$event.latlng.lng}`
-      )
-      this.$set(this.routeState, 'place', $event.value)
-
-      forceWrite = true
-      this.routing.router.write(this.routeState)
-    },
-    onPlaceClear() {
-      this.$delete(this.routeState, 'aroundLatLng')
-      this.$delete(this.routeState, 'place')
-
-      forceWrite = true
-      this.routing.router.write(this.routeState)
     },
     sizeListener() {
       this.windowWidth = window.innerWidth
       if (this.windowWidth >= 1024) {
         this.showFilters = true
-        this.scrollLockIfShowFilters = false
+        this.isMobile = false
       } else {
-        this.scrollLockIfShowFilters = true
+        this.isMobile = true
       }
     },
   },
