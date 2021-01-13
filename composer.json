@@ -64,7 +64,7 @@
         "paas": {
             "php-config": [
                 "short_open_tag=off",
-                "memory_limit = 1024M"
+                "memory_limit = 4096M"
               ]
           }
     },
