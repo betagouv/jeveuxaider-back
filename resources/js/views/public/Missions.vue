@@ -1,10 +1,8 @@
 <template>
   <div class="bg-gray-100">
     <breadcrumb
-      :items="[
-        { label: 'Missions de bénévolat', link: '/missions' },
-        filters.domaines ? { label: filters.domaines } : null,
-      ]"
+      theme="dark"
+      :items="[{ label: 'Missions de bénévolat', link: '/missions' }]"
     />
 
     <template v-if="modeLight">
@@ -28,6 +26,7 @@
         </div>
       </div>
     </template>
+
     <template v-else>
       <ais-instant-search
         ref="instantsearch"
@@ -36,341 +35,299 @@
         :routing="routing"
       >
         <ais-configure
-          :hits-per-page.camel="20"
-          :around-lat-lng-via-i-p.camel="true"
-          :around-radius.camel="'all'"
+          ref="aisConfigure"
+          :hits-per-page.camel="18"
+          :around-lat-lng.camel="aroundLatLng"
+          :get-ranking-info.camel="true"
         />
 
-        <div class="bg-primary pb-32">
-          <div class="container mx-auto px-4">
-            <div
-              :class="[
-                { 'py-10': missionsAreReady },
-                { 'pt-10': !missionsAreReady },
-              ]"
-            >
-              <h1 class="text-4xl leading-9 font-semibold text-white mb-3">
-                Trouvez une mission de bénévolat
-              </h1>
-              <h2 class="text-2xl leading-6 text-white">
-                Missions disponibles près de chez vous ou à distance
-              </h2>
-            </div>
-            <div
-              v-if="missionsAreReady"
-              class="filters md:flex md:rounded-lg md:shadow md:bg-white"
-            >
-              <ais-search-box ref="searchbox" class="flex-1" autofocus>
-                <div
-                  slot-scope="{ currentRefinement, isSearchStalled, refine }"
-                >
-                  <el-input
-                    v-model="filters.query"
-                    label="Recherche"
-                    placeholder="Mots-clés, ville, code postal, etc."
-                    clearable
-                    class="search-input"
-                    autocomplete="new-password"
-                    @input="handleFilters(refine, $event)"
-                  >
-                    <svg
-                      slot="prefix"
-                      role="img"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 40 40"
-                      class="el-input__icon"
-                      style="width: 14px"
-                    >
-                      <path
-                        d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
-                        fillRule="evenodd"
-                        fill="#6a6f85"
-                      />
-                    </svg>
-                  </el-input>
-                </div>
-              </ais-search-box>
-              <ais-menu-select
-                class="flex-1"
-                attribute="department_name"
-                :limit="120"
-              >
-                <el-select
-                  id="departements"
-                  v-model="filters.department_name"
-                  slot-scope="{ items, canRefine, refine }"
-                  label="Départements"
-                  aria-label="Départements"
-                  :disabled="!canRefine"
-                  filterable
-                  placeholder="Départements"
-                  @change="handleFilters(refine, $event)"
-                >
-                  <el-option
-                    v-for="item in items"
-                    :key="item.value"
-                    :label="`${item.label} (${item.count})`"
-                    :value="item.value"
-                  />
-                </el-select>
-              </ais-menu-select>
-              <ais-menu-select
-                class="flex-1"
-                attribute="domaines"
-                :limit="100"
-                :transform-items="transformItems"
-              >
-                <el-select
-                  v-model="filters.domaines"
-                  slot-scope="{ items, canRefine, refine }"
-                  :disabled="!canRefine"
-                  aria-label="Domaines"
-                  placeholder="Domaines d'action"
-                  popper-class="domaines-actions"
-                  @change="handleFilters(refine, $event)"
-                >
-                  <el-option
-                    v-for="item in items"
-                    :key="item.value"
-                    :label="`${item.label} (${item.count})`"
-                    :selected="item.isRefined"
-                    :value="item.value"
-                  />
-                </el-select>
-              </ais-menu-select>
-              <ais-menu-select
-                class="flex-1"
-                attribute="template_title"
-                :limit="100"
-                :transform-items="transformItems"
-              >
-                <el-select
-                  v-model="filters.template_title"
-                  slot-scope="{ items, canRefine, refine }"
-                  :disabled="!canRefine"
-                  aria-label="Missions types"
-                  placeholder="Missions types"
-                  popper-class="missions-types"
-                  @change="handleFilters(refine, $event)"
-                >
-                  <el-option
-                    v-for="item in items"
-                    :key="item.value"
-                    :label="`${item.label} (${item.count})`"
-                    :selected="item.isRefined"
-                    :value="item.value"
-                  />
-                </el-select>
-              </ais-menu-select>
-
-              <ais-menu-select
-                class="flex-1"
-                attribute="type"
-                :limit="100"
-                :transform-items="transformItems"
-              >
-                <el-select
-                  v-model="filters.type"
-                  slot-scope="{ items, canRefine, refine }"
-                  :disabled="!canRefine"
-                  aria-label="Type"
-                  la
-                  placeholder="En présentiel / À distance"
-                  popper-class="missions-presentiel"
-                  @change="handleFilters(refine, $event)"
-                >
-                  <el-option
-                    v-for="item in items"
-                    :key="item.value"
-                    :label="`${item.label} (${item.count})`"
-                    :selected="item.isRefined"
-                    :value="item.value"
-                  />
-                </el-select>
-              </ais-menu-select>
-
-              <ais-clear-refinements>
-                <div
-                  slot-scope="{ canRefine, refine }"
-                  class="py-2 md:p-4"
-                  :class="{
-                    'cursor-not-allowed text-gray-400 hidden md:block':
-                      !canRefine && !$refs.searchbox.state.query,
-                    'cursor-pointer text-blue-300  md:text-primary block':
-                      canRefine || $refs.searchbox.state.query,
-                  }"
-                  @click.prevent="handleResetFilters(refine)"
-                >
-                  Réinitialiser
-                </div>
-              </ais-clear-refinements>
-            </div>
-          </div>
-        </div>
-
-        <div ref="resultsWrapper" class="-mt-32">
-          <div class="container mx-auto px-4 mt-4">
-            <div
-              v-if="!missionsAreReady"
-              class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16 mb-16"
-            >
-              Missions en cours de validation...
-            </div>
-
-            <ais-state-results v-else>
-              <template
-                slot-scope="{ hits, nbHits, page, nbPages, hitsPerPage }"
-              >
-                <template v-if="hits.length > 0">
-                  <ais-hits>
-                    <div slot="item" slot-scope="{ item }">
-                      <a
-                        v-if="item.provider == 'api_engagement'"
-                        class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                        :href="item.application_url"
-                        target="_blank"
-                      >
-                        <MissionSearch :mission="item" />
-                      </a>
-                      <router-link
-                        v-else
-                        class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                        :to="`/missions/${item.id}/${item.slug}`"
-                      >
-                        <MissionSearch :mission="item" />
-                      </router-link>
+        <ais-state-results>
+          <template slot-scope="{ hits, nbHits }">
+            <!-- Header -->
+            <div class="bg-primary text-white pt-4 lg:pt-7 pb-8">
+              <div class="container mx-auto">
+                <div class="px-4">
+                  <div class="flex flex-wrap justify-between items-center -m-2">
+                    <div class="m-2">
+                      <div class="text-xl sm:text-2xl lg:text-3xl font-black">
+                        Trouver une mission de bénévolat
+                      </div>
+                      <div>
+                        {{ nbHits | formatNumber }}
+                        {{
+                          nbHits
+                            | pluralize([
+                              'mission disponible',
+                              'missions disponibles',
+                            ])
+                        }}
+                      </div>
                     </div>
-                  </ais-hits>
 
-                  <div class="px-4 sm:px-6 md:px-8">
-                    <div v-show="false" class="text-sm text-gray-700">
-                      <span
-                        v-html="
-                          formatNbResults(nbHits, page, nbPages, hitsPerPage)
-                        "
-                      />
-                      {{
-                        nbHits
-                          | pluralize([
-                            'mission disponible',
-                            'missions disponibles',
-                          ])
-                      }}
-                    </div>
-                    <div
-                      class="pagination w-full border-b-2 border-transparent"
-                    >
-                      <ais-pagination :padding="2" @page-change="scrollToTop">
-                        <ul
-                          slot-scope="{
-                            currentRefinement,
-                            pages,
-                            isFirstPage,
-                            isLastPage,
-                            refine,
-                            createURL,
-                          }"
-                          class="ais-Pagination-list"
+                    <div class="flex-none m-2">
+                      <div class="flex flex-wrap items-center -m-2">
+                        <portal to="mobile" :disabled="windowWidth >= 1024">
+                          <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                            Autour de
+                          </div>
+
+                          <AlgoliaPlacesInput
+                            ref="alogoliaInput"
+                            :value="placeLabel"
+                            class="zipcode mb-8 lg:m-2"
+                            :label="false"
+                            :description="false"
+                            :placeholder="false"
+                            type="city"
+                            :limit="7"
+                            :templates="templatesPlaces"
+                            @selected="onPlaceSelect($event)"
+                            @clear="onPlaceClear"
+                          />
+                        </portal>
+
+                        <!-- <el-select v-model="sort" class="sort m-2">
+                        <div slot="prefix">Trier les missions</div>
+
+                        <el-option
+                          v-for="item in sorts"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
                         >
-                          <li
-                            class="ais-Pagination-item ais-Pagination-item--previousPage"
-                            :class="[
-                              { 'ais-Pagination-item--disabled': isFirstPage },
-                            ]"
-                          >
-                            <a
-                              :href="createURL(currentRefinement - 1)"
-                              class="ais-Pagination-link"
-                              @click.prevent="
-                                !isFirstPage
-                                  ? refine(currentRefinement - 1)
-                                  : null
-                              "
-                            >
-                              <svg
-                                class="mr-8 h-5 w-5 text-gray-400"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                                  clip-rule="evenodd"
-                                />
-                              </svg>
-                              <span>Précédente</span>
-                            </a>
-                          </li>
-                          <li
-                            v-for="pageItem in pages"
-                            :key="pageItem"
-                            class="ais-Pagination-item"
-                            :class="[
-                              {
-                                'ais-Pagination-item--selected':
-                                  currentRefinement === pageItem,
-                              },
-                            ]"
-                          >
-                            <a
-                              :href="createURL(pageItem)"
-                              class="ais-Pagination-link"
-                              @click.prevent="
-                                currentRefinement !== pageItem
-                                  ? refine(pageItem)
-                                  : null
-                              "
-                            >
-                              {{ pageItem + 1 }}
-                            </a>
-                          </li>
-                          <li
-                            class="ais-Pagination-item ais-Pagination-item--nextPage"
-                            :class="[
-                              { 'ais-Pagination-item--disabled': isLastPage },
-                            ]"
-                          >
-                            <a
-                              :href="createURL(currentRefinement + 1)"
-                              class="ais-Pagination-link"
-                              @click.prevent="
-                                !isLastPage
-                                  ? refine(currentRefinement + 1)
-                                  : null
-                              "
-                            >
-                              <span>Suivante</span>
-                              <svg
-                                class="ml-8 h-5 w-5 text-gray-400"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"
-                                />
-                              </svg>
-                            </a>
-                          </li>
-                        </ul>
-                      </ais-pagination>
+                        </el-option>
+                      </el-select> -->
+
+                        <div
+                          class="toggle-filters m-2 p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
+                          @click="showFilters = !showFilters"
+                        >
+                          <img
+                            class="flex-none mr-4"
+                            src="/images/filter.svg"
+                            alt="Filtrer"
+                          />
+                          <span>Filtres</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </template>
-
-                <div
-                  v-else
-                  class="bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
-                >
-                  Pas de résultats.
                 </div>
-              </template>
-            </ais-state-results>
-          </div>
-        </div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="container mx-auto">
+              <div ref="contentWrapper" class="px-4 pt-8">
+                <div class="flex">
+                  <!-- Filtres -->
+                  <transition name="fade">
+                    <div
+                      v-show="showFilters"
+                      class="facets--wrapper flex-none mb-8 w-full lg:w-64 lg:mr-8"
+                    >
+                      <div class="border-b lg:hidden">
+                        <div class="p-2 flex items-center justify-between">
+                          <div class="p-2">
+                            <span class="font-bold">
+                              {{ nbHits | formatNumber }}
+                            </span>
+                            <span class="font-light">
+                              {{
+                                nbHits
+                                  | pluralize([
+                                    'mission disponible',
+                                    'missions disponibles',
+                                  ])
+                              }}
+                            </span>
+                          </div>
+
+                          <div
+                            class="p-2 right-0 top-0"
+                            @click="showFilters = false"
+                          >
+                            <img
+                              class="flex-none"
+                              src="/images/close.svg"
+                              alt="Fermer"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        v-scroll-lock="showFilters && scrollLockIfShowFilters"
+                        class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
+                      >
+                        <portal-target name="mobile" />
+
+                        <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                          Mots clés
+                        </div>
+
+                        <ais-search-box ref="searchbox" class="mb-8">
+                          <div
+                            slot-scope="{
+                              currentRefinement,
+                              isSearchStalled,
+                              refine,
+                            }"
+                          >
+                            <el-input
+                              v-model="routeState.query"
+                              label="Recherche"
+                              placeholder="Recherche par mots-clés"
+                              clearable
+                              class="search-input"
+                              autocomplete="new-password"
+                              @input="onQueryInput(refine, $event)"
+                              @clear="onQueryClear"
+                            />
+                          </div>
+                        </ais-search-box>
+
+                        <AlgoliaSearchFacet
+                          name="type"
+                          label="Lieu de la mission"
+                          class="mb-6"
+                          @toggle-facet="onToggleFacet($event)"
+                        />
+
+                        <AlgoliaSearchFacet
+                          name="domaines"
+                          label="Domaines d'action"
+                          class="mb-6"
+                          @toggle-facet="onToggleFacet($event)"
+                        />
+
+                        <AlgoliaSearchFacet
+                          name="structure.name"
+                          label="Organisations"
+                          is-searchable
+                          class="mb-6"
+                          @toggle-facet="onToggleFacet($event)"
+                        />
+
+                        <AlgoliaSearchFacet
+                          name="format"
+                          label="Format de mission"
+                          class="mb-6"
+                          @toggle-facet="onToggleFacet($event)"
+                        />
+
+                        <div
+                          class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer"
+                          style="background: rgb(49, 196, 141)"
+                          @click="showFilters = false"
+                        >
+                          <span class="font-bold">
+                            {{ nbHits | formatNumber }}
+                          </span>
+                          <span>
+                            {{
+                              nbHits
+                                | pluralize([
+                                  'mission disponible',
+                                  'missions disponibles',
+                                ])
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </transition>
+
+                  <!-- Résultats -->
+                  <div v-if="hits.length > 0" class="w-full mb-16">
+                    <ais-hits>
+                      <div slot="item" slot-scope="{ item }">
+                        <a
+                          v-if="item.provider == 'api_engagement'"
+                          class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :href="item.application_url"
+                          target="_blank"
+                        >
+                          <CardMission :mission="item" />
+                        </a>
+                        <router-link
+                          v-else
+                          class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :to="`/missions/${item.id}/${item.slug}`"
+                        >
+                          <CardMission :mission="item" />
+                        </router-link>
+                      </div>
+                    </ais-hits>
+
+                    <ais-pagination class="mt-6" @page-change="scrollToTop">
+                      <ul
+                        slot-scope="{
+                          currentRefinement,
+                          pages,
+                          isFirstPage,
+                          isLastPage,
+                          refine,
+                        }"
+                        class="flex lg:ml-3"
+                      >
+                        <li
+                          class="mr-auto"
+                          :class="[
+                            { 'cursor-not-allowed': isFirstPage },
+                            { 'cursor-pointer': !isFirstPage },
+                          ]"
+                          @click.prevent="
+                            !isFirstPage ? refine(currentRefinement - 1) : null
+                          "
+                        >
+                          <span>Précédent</span>
+                        </li>
+
+                        <li
+                          v-for="pageItem in pages"
+                          :key="pageItem"
+                          class="page-number cursor-pointer"
+                          :class="[
+                            {
+                              active: currentRefinement === pageItem,
+                            },
+                          ]"
+                          @click.prevent="
+                            currentRefinement !== pageItem
+                              ? refine(pageItem)
+                              : null
+                          "
+                        >
+                          {{ pageItem + 1 }}
+                        </li>
+                        <li
+                          class="ml-auto"
+                          :class="[
+                            { 'cursor-not-allowed': isLastPage },
+                            { 'cursor-pointer': !isLastPage },
+                          ]"
+                          @click.prevent="
+                            !isLastPage ? refine(currentRefinement + 1) : null
+                          "
+                        >
+                          <span>Suivant</span>
+                        </li>
+                      </ul>
+                    </ais-pagination>
+                  </div>
+
+                  <div
+                    v-else
+                    class="w-full h-full mb-16 bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
+                  >
+                    Pas de résultats.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </ais-state-results>
       </ais-instant-search>
     </template>
   </div>
@@ -380,20 +337,93 @@
 import {
   AisInstantSearch,
   AisSearchBox,
+  AisStateResults,
+  AisConfigure,
   AisHits,
   AisPagination,
-  AisStateResults,
-  AisMenuSelect,
-  AisClearRefinements,
-  AisConfigure,
 } from 'vue-instantsearch'
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia-min.css'
 import { simple as simpleMapping } from 'instantsearch.js/es/lib/stateMappings'
-import MissionSearch from '@/components/MissionSearch'
-import _ from 'lodash'
 import qs from 'qs'
 import metadatas from '@/utils/metadatas.json'
+import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
+import _ from 'lodash'
+import CardMission from '@/components/CardMission'
+import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
+
+let forceWrite = false
+
+function parseQuery(query) {
+  return qs.parse(query)
+}
+
+function stringifyQuery(query) {
+  const result = qs.stringify(query)
+  return result ? '?' + result : ''
+}
+
+// remove indexName
+function writeState(routeState) {
+  if (process.env.MIX_ALGOLIA_INDEX in routeState)
+    routeState = routeState[process.env.MIX_ALGOLIA_INDEX]
+
+  return routeState
+}
+
+// restore indexName
+function readState(routeState) {
+  routeState = {
+    [process.env.MIX_ALGOLIA_INDEX]: routeState,
+  }
+  return routeState
+}
+
+function router(_this) {
+  return {
+    read: () => {
+      _this.routeState = parseQuery(window.location.search.substring(1))
+      return readState(_this.routeState)
+    },
+    write() {
+      if (this.writeTimeout) {
+        this.writeTimeout.cancel()
+      }
+      if (forceWrite) {
+        this.writeTimeout = _.debounce(() => {
+          window.history.pushState(
+            _this.routeState,
+            '',
+            `${window.location.pathname}${stringifyQuery(_this.routeState)}`
+          )
+          forceWrite = false
+        }, 400)
+        this.writeTimeout()
+      }
+    },
+    createURL(routeState) {
+      routeState = writeState(routeState)
+      const url = _this.$router.resolve({
+        query: routeState,
+      }).href
+      return url
+    },
+    onUpdate: (cb) => {
+      if (_this.writeTimeout) {
+        _this.writeTimeout.cancel()
+      }
+
+      _this._onPopState = () => {
+        cb(_this.routing.router.read())
+      }
+      window.addEventListener('popstate', _this._onPopState)
+    },
+    dispose: () => {
+      if (typeof window === 'undefined') return
+      window.removeEventListener('popstate', _this._onPopState)
+    },
+  }
+}
 
 export default {
   name: 'FrontMissions',
@@ -402,75 +432,55 @@ export default {
   components: {
     AisInstantSearch,
     AisSearchBox,
+    AisStateResults,
+    AisConfigure,
     AisHits,
     AisPagination,
-    AisStateResults,
-    AisMenuSelect,
-    AisClearRefinements,
-    AisConfigure,
-    MissionSearch,
+    AlgoliaSearchFacet,
+    CardMission,
+    AlgoliaPlacesInput,
   },
   data() {
     return {
-      missionsAreReady: true,
       searchClient: algoliasearch(
         process.env.MIX_ALGOLIA_APP_ID,
         process.env.MIX_ALGOLIA_SEARCH_KEY
       ),
-      filters: {
-        query: null,
-        department_name: null,
-        domaines: null,
-        template_title: null,
-        type: null,
-      },
-      forceWrite: false,
       routing: {
-        router: {
-          read: () => {
-            let query = this.parseQuery(this.$router.currentRoute.query)
-            this.synchronizeFilters(query)
-            return query
-          },
-          write: (routeState) => {
-            if (this.writeTimeout) {
-              this.writeTimeout.cancel()
-            }
-            if (this.forceWrite) {
-              this.writeTimeout = _.debounce(() => {
-                window.history.pushState(
-                  routeState,
-                  '',
-                  `${this.$router.currentRoute.path}${this.stringifyQuery(
-                    routeState
-                  )}`
-                )
-                this.forceWrite = false
-              }, 400)
-              this.writeTimeout()
-            }
-          },
-          createURL: (routeState) => {
-            return this.$router.resolve({
-              query: routeState,
-            }).href
-          },
-          onUpdate: (cb) => {
-            if (this.writeTimeout) {
-              this.writeTimeout.cancel()
-            }
-
-            this._onPopState = () => {
-              cb(this.routing.router.read())
-            }
-            window.addEventListener('popstate', this._onPopState)
-          },
-          dispose: () => {
-            window.removeEventListener('popstate', this._onPopState)
-          },
-        },
+        router: router(this),
         stateMapping: simpleMapping(),
       },
+      routeState: null,
+      templatesPlaces: {
+        value: function (suggestion) {
+          return `${suggestion.postcode} ${suggestion.name}`
+        },
+        suggestion: function (suggestion) {
+          let details = [suggestion.county, suggestion.administrative]
+          let detailsOutput = ''
+          details.forEach((element) => {
+            if (element) {
+              detailsOutput += ` - <span>${element}</span>`
+            }
+          })
+          return (
+            `<div class="text-black">${suggestion.highlight.name}</div>` +
+            `<div class="text-gray-800 text-xs font-light">` +
+            `<span>${suggestion.postcode}</span>${detailsOutput}` +
+            `</div>`
+          )
+        },
+      },
+      showFilters: false,
+      scrollLockIfShowFilters: true,
+      windowWidth: window.innerWidth,
+      // @todo sort
+      // @todo Affichage pour api
+      // sorts: [
+      //   { value: null, label: 'Par pertinence' },
+      //   { value: 'distance', label: 'Par distance' },
+      // ],
+      // sort: null,
     }
   },
   computed: {
@@ -482,111 +492,223 @@ export default {
     indexName() {
       return process.env.MIX_ALGOLIA_INDEX
     },
+    aroundLatLng() {
+      return this.routeState && this.routeState.aroundLatLng
+        ? this.routeState.aroundLatLng
+        : undefined
+    },
+    placeLabel() {
+      return this.routeState && this.routeState.place
+        ? this.routeState.place
+        : undefined
+    },
+  },
+  mounted() {
+    this.sizeListener()
+    window.onresize = () => {
+      this.sizeListener()
+    }
   },
   methods: {
-    synchronizeFilters(state) {
-      this.filters.query = state.query ? state.query : null
-      if (state.menu) {
-        this.filters.department_name = state.menu.department_name
-          ? state.menu.department_name
-          : null
-        this.filters.domaines = state.menu.domaines ? state.menu.domaines : null
-        this.filters.type = state.menu.type ? state.menu.type : null
-        this.filters.template_title = state.menu.template_title
-          ? state.menu.template_title
-          : null
-      } else {
-        this.filters.department_name = null
-        this.filters.domaines = null
-        this.filters.template_title = null
-      }
-    },
-    handleFilters(refine, $event) {
-      this.forceWrite = true
+    onQueryInput(refine, $event) {
+      forceWrite = true
       refine($event)
     },
-    handleResetFilters(refine) {
-      this.forceWrite = true
-      this.$refs.searchbox.state.clear()
-      refine()
-      this.filters.query = null
-      this.filters.department_name = null
-      this.filters.domaines = null
-      this.filters.template_title = null
-      this.filters.type = null
+    onQueryClear() {
+      this.$delete(this.routeState, 'query')
     },
-    formatNbResults(nbHits, page, nbPages, hitsPerPage) {
-      let begin = page * hitsPerPage + 1
-      let end =
-        nbHits < (page + 1) * hitsPerPage ? nbHits : (page + 1) * hitsPerPage
-      return `<span class="font-medium">${begin}</span> à <span class="font-medium">${end}</span> sur <span class="font-medium">${nbHits}</span>`
+    onToggleFacet($event) {
+      if ($event.active) {
+        // add
+        if (!this.routeState.refinementList) {
+          this.$set(this.routeState, 'refinementList', {})
+        }
+        const values = this.routeState.refinementList[$event.name]
+          ? [...this.routeState.refinementList[$event.name], $event.value]
+          : [$event.value]
+        this.$set(this.routeState.refinementList, $event.name, values)
+      } else {
+        // delete
+        this.routeState.refinementList[$event.name].splice(
+          this.routeState.refinementList[$event.name].findIndex((i) => {
+            return i == $event.value
+          }),
+          1
+        )
+        if (this.routeState.refinementList[$event.name].length == 0) {
+          this.$delete(this.routeState.refinementList, $event.name)
+        }
+      }
+      forceWrite = true
+      this.routing.router.write(this.routeState)
     },
     scrollToTop() {
-      this.$refs.resultsWrapper.scrollIntoView()
+      this.$refs.contentWrapper.scrollIntoView()
     },
-    transformItems(items) {
-      return items.map((item) => ({
-        ...item,
-        label: item.label,
-      }))
+    onPlaceSelect($event) {
+      this.$set(
+        this.routeState,
+        'aroundLatLng',
+        `${$event.latlng.lat},${$event.latlng.lng}`
+      )
+      this.$set(this.routeState, 'place', $event.value)
+
+      forceWrite = true
+      this.routing.router.write(this.routeState)
     },
-    parseQuery(query) {
-      return qs.parse(query)
+    onPlaceClear() {
+      this.$delete(this.routeState, 'aroundLatLng')
+      this.$delete(this.routeState, 'place')
+
+      forceWrite = true
+      this.routing.router.write(this.routeState)
     },
-    stringifyQuery(query) {
-      const result = qs.stringify(query)
-      return result ? '?' + result : ''
+    sizeListener() {
+      this.windowWidth = window.innerWidth
+      if (this.windowWidth >= 1024) {
+        this.showFilters = true
+        this.scrollLockIfShowFilters = false
+      } else {
+        this.scrollLockIfShowFilters = true
+      }
     },
   },
 }
 </script>
 
 <style lang="sass" scoped>
-::v-deep .ais-SearchBox-form
-  @apply m-0
-::v-deep .ais-SearchBox-submit
-  left: 15px
-::v-deep .ais-StateResults
-  @apply m-0 mb-16 bg-white rounded-lg shadow overflow-hidden
+.search-input
+  ::v-deep
+    input
+      border-radius: 8px
+      border-color: #EDE8E9
+      height: 46px
+      color: #171725
+
 ::v-deep .ais-Hits-list
-  @apply m-0
+  @apply -m-3 justify-center
+  @screen lg
+    @apply ml-auto justify-start
+
 ::v-deep .ais-Hits-item
-  @apply border-0 shadow-none w-full p-0 m-0 border-b border-gray-200
-::v-deep .ais-Pagination-item
-  @apply m-0
-  &:not(.ais-Pagination-item--previousPage):not(.ais-Pagination-item--nextPage)
-    @apply hidden
-    @screen sm
-      display: list-item
-  &.ais-Pagination-item--previousPage
-    @apply mr-auto
-    .ais-Pagination-link
-      @apply pl-0
-  &.ais-Pagination-item--nextPage
-    @apply ml-auto
-    .ais-Pagination-link
-      @apply pr-0
-  &.ais-Pagination-item--selected
-    .ais-Pagination-link
-      @apply border-blue-600 text-blue-600
-  .ais-Pagination-link
-    @apply relative inline-flex items-center p-4 rounded-none border-0 border-t-2 border-transparent text-sm font-medium text-gray-700 bg-white transition ease-in-out duration-150
-    &:hover
-      @apply border-gray-300
-.filters
-  ::v-deep input, ::v-deep select
-    font-size: 16px !important
-    text-overflow: ellipsis
-    @apply py-2 shadow rounded-lg my-1
-  ::v-deep .search-input
-    .el-input__inner
-      @apply rounded-l-lg outline-none pl-12
-  ::v-deep .el-input__prefix
+  width: 100%
+  @apply border-0 shadow-none p-0 m-3
+  @screen sm
+    width: 292px
+  @screen lg
+    width: 300px
+
+.ais-Pagination
+  ::v-deep ul
+    li
+      color: black
+      transition: all .25s
+      @apply p-2 border-b-2 border-transparent text-sm
+      &.cursor-not-allowed
+        color: #908E8E
+      &:hover:not(.cursor-not-allowed),
+      &.active
+        @apply border-primary
+    .page-number
+      @apply mx-2 font-light hidden
+      @screen md
+        @apply inline-block
+      &.active
+        @apply font-bold inline-block
+
+.zipcode
+  position: relative
+  &::after
+    content: "Votre code postal"
+    position: absolute
+    pointer-events: none
     left: 15px
-  @screen md
-    ::v-deep input,
-    ::v-deep select,
-    ::v-deep .el-select .el-input__inner
-      height: 56px
-      @apply border-0 rounded-none border-r border-dashed my-0 shadow-none bg-white
+    top: 10px
+    font-size: 12px
+    color: #908E8E
+    letter-spacing: -0.1px
+    line-height: 18px
+  ::v-deep
+    .algolia-places
+      background-color: white
+      border-radius: 8px
+      border: 1px solid #EDE8E9
+      @screen lg
+        border: none
+    .ap-dropdown-menu
+      border-radius: 8px
+    .ap-suggestion
+      padding: 5 15px
+      line-height: normal
+      height: inherit
+    .ap-input
+      width: 100%
+      height: 60px
+      border: 1px solid white
+      border-radius: 8px
+      background-color: white
+      color: black
+      font-weight: bold
+      background-color: transparent
+      border: none
+      top: 10px
+      padding-right: 30px
+      @apply truncate
+      @screen lg
+        width: 250px
+    .ap-icon-pin
+      position: relative
+      svg
+        display: none
+      &::after
+        content: ""
+        position: absolute
+        width: 22px
+        height: 23px
+        background: url('/images/picker.svg')
+        top: 18px
+        right: 0px
+
+.sort
+  width: 180px
+  ::v-deep
+    .el-input__prefix
+      pointer-events: none
+      left: 15px
+      top: 10px
+      font-size: 12px
+      color: rgba(255, 255, 255, 0.7)
+      letter-spacing: -0.1px
+      line-height: 18px
+    input
+      height: 60px
+      padding: 0 15px
+      background-color: transparent
+      color: white
+      letter-spacing: -0.1px
+      font-size: 14px
+      font-weight: bold
+      border: none
+      position: relative
+      top: 10px
+    .el-input
+      border: 1px solid white
+      border-radius: 8px
+      cursor: pointer
+    .el-select__caret
+      color: white
+      font-weight: bold
+      font-size: 12px
+      position: relative
+      right: 10px
+
+.facets--wrapper
+  @media screen and (max-width: 1023px)
+    position: fixed
+    width: 100%
+    height: 100%
+    z-index: 100
+    display: flex
+    flex-direction: column
+    @apply inset-0 bg-gray-100
 </style>

@@ -5,8 +5,20 @@
 
 @import "node_modules/font-awesome/scss/font-awesome.scss"
 
+/*
+ *   VUE JS
+ */
+.fade-enter-active,
+.fade-leave-active
+  transition: opacity .5s
+.fade-enter,
+.fade-leave-to
+  opacity: 0
+
 html
   height: 100%
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
 body
   font-size: 16px
@@ -82,7 +94,7 @@ button:focus
 
 ::placeholder
   font-weight: 300
-  color: #9fa6b2 !important
+  color: #908E8E !important
 
 .wysiwyg-field
   ul

@@ -1,53 +1,42 @@
 <template>
   <nav
-    class="h-12 bg-white border-b border-gray-200 flex"
+    class="h-12 border-b flex"
     aria-label="Breadcrumb"
+    :class="[
+      { 'bg-primary border-blue-750': theme == 'dark' },
+      { 'bg-white border-gray-200': theme == 'light' },
+    ]"
   >
     <ol
-      class="w-full max-w-full mx-auto overflow-x-auto whitespace-no-wrap px-4 flex space-x-4 sm:px-6 lg:px-8"
+      class="w-full max-w-full mx-auto overflow-x-auto whitespace-no-wrap px-4 flex sm:px-6 lg:px-8"
     >
-      <li class="flex">
-        <div class="flex items-center">
-          <router-link
-            to="/"
-            class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-          >
-            Accueil
-          </router-link>
-        </div>
-      </li>
+      <li v-for="(item, index) in withHome" :key="index" class="flex">
+        <div
+          v-if="item"
+          class="flex items-center text-xxs uppercase font-semibold"
+          :class="[
+            { 'text-gray-500 hover:text-gray-700': theme == 'light' },
+            { 'text-white hover:text-gray-300': theme == 'dark' },
+          ]"
+        >
+          <div
+            v-if="index != 0"
+            class="separator"
+            :class="[
+              { 'border-gray-500': theme == 'light' },
+              { 'border-white': theme == 'dark' },
+            ]"
+          />
 
-      <li v-for="(item, index) in items" :key="index" class="flex">
-        <div v-if="item" class="flex items-center w-auto">
-          <svg
-            class="flex-shrink-0 w-6 h-full text-gray-200"
-            viewBox="0 0 24 44"
-            preserveAspectRatio="none"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-          </svg>
-          <router-link
-            v-if="item.link"
-            :to="item.link"
-            class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-            >{{ item.label }}</router-link
-          >
-          <template v-else>
-            <h1
-              v-if="item.h1"
-              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-            >
-              {{ item.label }}
-            </h1>
-            <span
-              v-else
-              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-              >{{ item.label }}</span
-            >
-          </template>
+          <router-link v-if="item.link" :to="item.link">
+            {{ item.label }}
+          </router-link>
+
+          <h1 v-else-if="item.h1">
+            {{ item.label }}
+          </h1>
+
+          <span v-else>{{ item.label }}</span>
         </div>
       </li>
     </ol>
@@ -61,6 +50,20 @@ export default {
       type: Array,
       required: true,
     },
+    theme: {
+      type: String,
+      default: 'light',
+    },
+  },
+  computed: {
+    withHome() {
+      return [{ label: 'Accueil', link: '/' }, ...this.items]
+    },
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.separator
+  @apply mx-3 w-1 h-1 border-b border-r transform -rotate-45
+</style>

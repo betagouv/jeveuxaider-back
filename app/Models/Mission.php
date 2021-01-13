@@ -102,6 +102,7 @@ class Mission extends Model
             'provider' => 'reserve_civique',
             'publisher_name' => 'Réserve Civique',
             'post_date' => strtotime($this->created_at),
+            'format' => $this->format,
         ];
 
         if ($this->latitude && $this->longitude) {
