@@ -170,7 +170,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 10,
+                'processes' => 50,
                 'tries' => 4,
                 'timeout' => 60 * 60
             ],
@@ -181,7 +181,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 10,
+                'processes' => 50,
                 'tries' => 4,
                 'timeout' => 60 * 60
             ],
@@ -192,7 +192,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 200,
+                'processes' => 50,
                 'tries' => 4,
                 'timeout' => 60 * 60
             ],

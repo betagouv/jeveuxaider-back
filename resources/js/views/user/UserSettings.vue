@@ -49,7 +49,6 @@
           Enregistrer les modifications
         </el-button>
         <div
-          v-if="$store.getters.isVolunteerOnly === true"
           class="text-red-500 ml-4 cursor-pointer hover:underline"
           @click="onSubmitDelete"
         >

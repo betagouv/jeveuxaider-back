@@ -48,7 +48,7 @@ class ExportReady extends Notification
             ->subject('Votre export est prêt')
             ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
             ->line('Votre fichier d\'export est prêt à être téléchargé.')
-            ->line('Le lien expirera dans 12 heures.')
+            // ->line('Le lien expirera dans 12 heures.') TODO : when new S3
             ->action('Télécharger le fichier', $this->filePath);
     }
 
