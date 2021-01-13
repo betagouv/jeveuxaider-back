@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
@@ -35,11 +34,13 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user = null) {
-            // TODO : return by ip because user not work
-            // return in_array(Auth::guard('api')->user()->email, [
-            //     'pinto.jeremy@gmail.com',
-            // ]);
-            return true;
+            info(request()->server->get('REMOTE_ADDR'));
+            $address = request()->server->get('REMOTE_ADDR');
+            $allowed_addresses = [
+                '78.192.44.120',
+                '127.0.0.1'
+            ];
+            return (in_array($address, $allowed_addresses));
         });
     }
 }
