@@ -5,7 +5,7 @@ namespace App\Exports;
 use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfilePostalCode;
 use App\Models\Profile;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersProfileSearch;
@@ -17,7 +17,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class ProfilesExport implements FromCollection, WithMapping, WithHeadings, ShouldQueue
+class ProfilesExport implements FromQuery, WithMapping, WithHeadings, ShouldQueue
 {
     use Exportable;
 
@@ -28,10 +28,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings, Shoul
         $this->role = $role;
     }
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function query()
     {
         return QueryBuilder::for(Profile::role($this->role))
             ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
@@ -46,8 +43,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings, Shoul
                 AllowedFilter::exact('referent_department'),
                 'referent_region'
             )
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
     }
 
     public function headings(): array
