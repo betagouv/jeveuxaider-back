@@ -235,13 +235,13 @@
                     </template>
                   </div>
 
-                  <p
+                  <!-- <p
                     v-if="mission.structure.response_time"
                     class="text-sm leading-6 text-indigo-300"
                   >
                     Délai de réponse:
                     {{ responseTime }}
-                  </p>
+                  </p> -->
 
                   <template v-if="mission.state && mission.state == 'Validée'">
                     <div
