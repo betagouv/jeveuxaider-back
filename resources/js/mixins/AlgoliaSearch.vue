@@ -18,18 +18,22 @@ export default {
     }
   },
   computed: {
-    routeStateWithIndex() {
-      return {
-        [process.env.MIX_ALGOLIA_INDEX]: this.routeState,
-      }
-    },
     indexName() {
       return process.env.MIX_ALGOLIA_INDEX
+    },
+    routeStateWithIndex() {
+      return {
+        [this.indexName]: this.routeState,
+      }
     },
   },
   created() {
     this.readUrl()
-    this.loading = false
+
+    // See https://www.algolia.com/doc/guides/building-search-ui/troubleshooting/faq/js/#why-is-my-uistate-ignored
+    setTimeout(() => {
+      this.loading = false
+    }, 150)
   },
   methods: {
     stringifyQuery(query) {

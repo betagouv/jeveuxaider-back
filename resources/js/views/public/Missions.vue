@@ -29,7 +29,7 @@
 
     <template v-else>
       <ais-instant-search
-        v-if="!loading"
+        v-show="!loading"
         ref="instantsearch"
         :search-client="searchClient"
         :index-name="indexName"
