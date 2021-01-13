@@ -64,19 +64,20 @@ class ParticipationObserver
             }
         }
 
-        // Response time sur la conversation si elle existe
-        if ($oldState != $newState) {
-            if ($oldState == 'En attente de validation') {
-                $conversation = Conversation::where('conversable_id', $participation->id)
-                    ->where('conversable_type', 'App\Models\Participation')
-                    ->whereNull('response_time')
-                    ->first();
-                if ($conversation) {
-                    $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
-                    $conversation->save();
-                }
-            }
-        }
+        // SET CONVERSATION RESPONSE TIME
+        // Code applicable to participation.created_at > 14 January 2021
+        // if ($oldState != $newState) {
+        //     if ($oldState == 'En attente de validation') {
+        //         $conversation = Conversation::where('conversable_id', $participation->id)
+        //             ->where('conversable_type', 'App\Models\Participation')
+        //             ->whereNull('response_time')
+        //             ->first();
+        //         if ($conversation) {
+        //             $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
+        //             $conversation->save();
+        //         }
+        //     }
+        // }
     }
 
     public function deleted(Participation $participation)

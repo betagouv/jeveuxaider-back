@@ -40,20 +40,20 @@ class CreateConversationsForOrphanParticipations extends Command
      */
     public function handle()
     {
-        $participations = Participation::whereDoesntHave('conversation')
-            ->whereHas('mission', function (Builder $query) {
-                $query
-                    ->whereNull('deleted_at')
-                    ->whereHas('structure', function (Builder $query) {
-                        $query->whereNull('deleted_at');
-                    })
-                    ;
-            })
-            //->limit(10000)
-            ->get();
+        $globalQuery = Participation::whereDoesntHave('conversation')
+        ->whereHas('mission', function (Builder $query) {
+            $query
+                ->whereNull('deleted_at')
+                ->whereHas('structure', function (Builder $query) {
+                    $query->whereNull('deleted_at');
+                })
+                ;
+        });
 
-        $this->info($participations->count() . ' conversations will be created');
+        $this->info($globalQuery->count() . ' conversations will be created');
         if ($this->confirm('Do you wish to continue?')) {
+            $participations = $globalQuery->get();
+
             foreach ($participations as $participation) {
                 if ($participation->mission && $participation->mission->structure) {
                     $benevoleUser = $participation->profile->user;
