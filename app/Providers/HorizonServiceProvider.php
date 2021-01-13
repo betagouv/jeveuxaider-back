@@ -35,6 +35,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         Gate::define('viewHorizon', function ($user = null) {
             info(request()->server->get('REMOTE_ADDR'));
+            info('test log');
             $address = request()->server->get('REMOTE_ADDR');
             $allowed_addresses = [
                 '78.192.44.120',
