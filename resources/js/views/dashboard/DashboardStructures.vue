@@ -137,9 +137,6 @@
             {{ scope.row.missions_count }}
             {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
           </el-tag>
-          <el-tag v-if="scope.row.response_ratio !== null" type="info">
-            Taux de réponse : {{ scope.row.response_ratio }}%
-          </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Créée le" min-width="120">
