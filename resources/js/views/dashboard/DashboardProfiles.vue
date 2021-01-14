@@ -286,11 +286,11 @@ import { fetchProfiles, exportProfiles } from '@/api/user'
 import TableWithVolet from '@/mixins/TableWithVolet'
 import TableWithFilters from '@/mixins/TableWithFilters'
 import QueryFilter from '@/components/QueryFilter.vue'
-import QuerySearchFilter from '@/components/QuerySearchFilter.vue'
 import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layouts/components/Volet/ProfileVolet.vue'
 import ProfileRolesTags from '@/components/ProfileRolesTags.vue'
 import fileDownload from 'js-file-download'
+import { Message } from 'element-ui'
 import { fetchTags, fetchCollectivities } from '@/api/app'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
 
@@ -300,7 +300,6 @@ export default {
     ProfileRolesTags,
     ProfileVolet,
     QueryFilter,
-    QuerySearchFilter,
     QueryMainSearchFilter,
     ProfilesMenu,
   },
@@ -365,9 +364,14 @@ export default {
     onExport() {
       this.loading = true
       exportProfiles(this.query)
-        .then((response) => {
+        .then(() => {
           this.loading = false
-          fileDownload(response.data, 'utilisateurs.xlsx')
+          // fileDownload(response.data, 'utilisateurs.xlsx')
+          Message({
+            message:
+              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
+            type: 'success',
+          })
         })
         .catch((error) => {
           console.log('exportProfiles', error)

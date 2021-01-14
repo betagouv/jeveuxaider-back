@@ -29,7 +29,7 @@
       <div class="text-gray-900 flex-1">
         <template v-if="structure.response_ratio !== null">
           <span class="">{{ structure.response_ratio }}%</span>
-          <el-tooltip
+          <!-- <el-tooltip
             class="item"
             effect="dark"
             :content="`${
@@ -39,7 +39,7 @@
             placement="top"
           >
             <i class="el-icon-info"></i>
-          </el-tooltip>
+          </el-tooltip> -->
         </template>
         <template v-else> N/A </template>
       </div>

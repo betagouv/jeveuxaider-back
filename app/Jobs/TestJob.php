@@ -30,10 +30,7 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->text == 'long') {
-            sleep(10);
-        }
         // info('Hello World with text' . $this->text);
-        ray('Hello World with text', $this->text);
+        // ray('Hello World with text', $this->text);
     }
 }

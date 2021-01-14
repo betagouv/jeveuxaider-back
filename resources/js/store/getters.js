@@ -44,9 +44,6 @@ const getters = {
     }
     return Object.values(getters.profile.roles).every((role) => !role)
   },
-  isVolunteerOnly: (state, getters) => {
-    return getters.noRole
-  },
   hasRoles: (state, getters) => {
     if (!getters.profile) {
       return null

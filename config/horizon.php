@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'path' => 'horizon',
+    'path' => env('PATH_HORIZON', 'horizon'),
 
     /*
     |--------------------------------------------------------------------------
@@ -170,9 +170,9 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 10,
+                'processes' => 50,
                 'tries' => 4,
-                'timeout' => 60 * 60
+                'timeout' => 60
             ],
         ],
 
@@ -181,9 +181,9 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 10,
+                'processes' => 50,
                 'tries' => 4,
-                'timeout' => 60 * 60
+                'timeout' => 60
             ],
         ],
 
@@ -192,9 +192,9 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 200,
+                'processes' => 50,
                 'tries' => 4,
-                'timeout' => 60 * 60
+                'timeout' => 60
             ],
         ],
     ],

@@ -23,7 +23,7 @@ use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class StructureController extends Controller
 {
@@ -47,7 +47,7 @@ class StructureController extends Controller
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-        $fileName = 'organisations-'. time() .'.xlsx';
+        $fileName = 'organisations-' . Str::random(8) . '.xlsx';
         $filePath = $folder . $fileName;
 
         (new StructuresExport($request->header('Context-Role')))

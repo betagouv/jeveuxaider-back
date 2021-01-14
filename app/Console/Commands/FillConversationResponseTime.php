@@ -39,14 +39,14 @@ class FillConversationResponseTime extends Command
      */
     public function handle()
     {
-        $conversations = Conversation::whereNull('response_time')
-        ->get();
+        $globalQuery = Conversation::whereNull('response_time');
 
-        $this->info($conversations->count() . ' conversations will be updated');
+        $this->info($globalQuery->count() . ' conversations will be updated');
+
         if ($this->confirm('Do you wish to continue?')) {
+            $conversations = $globalQuery->get();
             foreach ($conversations as $conversation) {
                 $participation = $conversation->conversable;
-                // Si participation validée ou refusée on prend, sinon on check les derniers messages
                 if ($participation) {
                     $participationResponseTime = $lastMessageResponseTime = null;
 
@@ -71,14 +71,10 @@ class FillConversationResponseTime extends Command
                         $this->info("Conversation #{$conversation->id} -> Compare participation response time {$participationResponseTime} to message response time {$lastMessageResponseTime}");
                         $conversation->response_time = $lastMessageResponseTime < $participationResponseTime ? $lastMessageResponseTime : $participationResponseTime;
                     } else {
-                        $lastMessageFromResponsable = $conversation->messages->where('from_id', '!=', $participation->profile->user->id)->first();
-                        if ($lastMessageFromResponsable) {
-                            $conversation->response_time = $lastMessageFromResponsable->created_at->timestamp - $participation->created_at->timestamp;
-                            $conversation->saveQuietly(); // No observer
-                        } else {
-                            $this->warn("Cant determine response time for participation : {$participation->id}");
-                        }
+                        $this->warn("Conversation #{$conversation->id} -> Cannot determine response time !");
                     }
+
+                    $conversation->saveQuietly(); // No observer
                 } else {
                     $this->warn("Conversation : {$conversation->id} / Participation {$conversation->conversable_id} has no participation linked (-> deleted)");
                     $conversation->delete();
