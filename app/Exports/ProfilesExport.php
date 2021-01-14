@@ -31,7 +31,6 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings, ShouldQueu
     public function query()
     {
         return QueryBuilder::for(Profile::role($this->role))
-            ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
