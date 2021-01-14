@@ -265,6 +265,21 @@ class Structure extends Model
         return $mission;
     }
 
+    public function setResponseRatio()
+    {
+        $participationsCount = $this->participations->count();
+        $waitingParticipationsCount = $this->participations->where('state', 'En attente de validation')->count();
+        $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
+    }
+
+    public function setResponseTime()
+    {
+        $avgResponseTime = $this->conversations->avg('response_time');
+        if ($avgResponseTime) {
+            $this->response_time = intval($avgResponseTime);
+        }
+    }
+
     // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
     public function saveQuietly(array $options = [])
     {

@@ -16,20 +16,8 @@ class ConversationObserver
         // CALCULATE AVERAGE STRUCTURE RESPONSES WHEN RESPONSE TIME IS FILLED
         if (!$conversation->getOriginal('response_time') && $conversation->response_time) {
             $structure = Structure::find($conversation->conversable->mission->structure->id);
-            $participationsCount = $structure->participations->count();
-            if ($participationsCount) {
-                // RESPONSE TIME
-                $avgResponseTime = $structure->conversations->avg('response_time');
-                if ($avgResponseTime) {
-                    $structure->response_time = intval($avgResponseTime);
-                }
-
-                // RESPONSE RATIO
-                $conversationsWithResponseTimeCount = $structure->conversations->whereNotNull('response_time')->count();
-                $structure->response_ratio =  round($conversationsWithResponseTimeCount / $participationsCount * 100);
-
-                $structure->saveQuietly();
-            }
+            $structure->setResponseTime();
+            $structure->saveQuietly();
         }
     }
 }

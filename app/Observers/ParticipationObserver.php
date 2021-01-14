@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Conversation;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
@@ -64,17 +63,12 @@ class ParticipationObserver
             }
         }
 
-        // Response time sur la conversation si elle existe
+        // SET STRUCTURE RESPONSE RATIO
         if ($oldState != $newState) {
             if ($oldState == 'En attente de validation') {
-                $conversation = Conversation::where('conversable_id', $participation->id)
-                    ->where('conversable_type', 'App\Models\Participation')
-                    ->whereNull('response_time')
-                    ->first();
-                if ($conversation) {
-                    $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
-                    $conversation->save();
-                }
+                $structure = $participation->mission->structure;
+                $structure->setResponseRatio();
+                $structure->saveQuietly();
             }
         }
     }

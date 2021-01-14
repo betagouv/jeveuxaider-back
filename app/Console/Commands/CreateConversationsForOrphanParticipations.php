@@ -40,41 +40,41 @@ class CreateConversationsForOrphanParticipations extends Command
      */
     public function handle()
     {
-        $participations = Participation::whereDoesntHave('conversation')
-            ->whereHas('mission', function (Builder $query) {
-                $query
-                    ->whereNull('deleted_at')
-                    ->whereHas('structure', function (Builder $query) {
-                        $query->whereNull('deleted_at');
-                    })
-                    ;
-            })
-            //->limit(10000)
-            ->get();
+        // $globalQuery = Participation::whereDoesntHave('conversation')
+        // ->whereHas('mission', function (Builder $query) {
+        //     $query
+        //         ->whereNull('deleted_at')
+        //         ->whereHas('structure', function (Builder $query) {
+        //             $query->whereNull('deleted_at');
+        //         })
+        //         ;
+        // });
 
-        $this->info($participations->count() . ' conversations will be created');
-        if ($this->confirm('Do you wish to continue?')) {
-            foreach ($participations as $participation) {
-                if ($participation->mission && $participation->mission->structure) {
-                    $benevoleUser = $participation->profile->user;
-                    $responsableUser = $participation->mission->responsable->user ?? $participation->mission->structure->user;
-                    if ($benevoleUser->id != $responsableUser->id) {
-                        $conversation = new Conversation;
-                        if (in_array($participation->state, ['Validée', 'Refusée'])) {
-                            $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
-                        }
-                        $conversation->created_at = $participation->created_at;
-                        $conversation->updated_at = $participation->created_at;
-                        $conversation->conversable()->associate($participation);
-                        $conversation->save();
-                        $conversation->users()->attach([$benevoleUser->id, $responsableUser->id]);
-                    } else {
-                        $this->warn("Participation : {$participation->id} responsable is the same as benevole (id: {$benevoleUser->id})");
-                    }
-                } else {
-                    $this->error("Participation : {$participation->id} mission or structure has been deleted");
-                }
-            }
-        }
+        // $this->info($globalQuery->count() . ' conversations will be created');
+        // if ($this->confirm('Do you wish to continue?')) {
+        //     $participations = $globalQuery->get();
+
+        //     foreach ($participations as $participation) {
+        //         if ($participation->mission && $participation->mission->structure) {
+        //             $benevoleUser = $participation->profile->user;
+        //             $responsableUser = $participation->mission->responsable->user ?? $participation->mission->structure->user;
+        //             if ($benevoleUser->id != $responsableUser->id) {
+        //                 $conversation = new Conversation;
+        //                 if (in_array($participation->state, ['Validée', 'Refusée'])) {
+        //                     $conversation->response_time = $participation->updated_at->timestamp - $participation->created_at->timestamp;
+        //                 }
+        //                 $conversation->created_at = $participation->created_at;
+        //                 $conversation->updated_at = $participation->created_at;
+        //                 $conversation->conversable()->associate($participation);
+        //                 $conversation->save();
+        //                 $conversation->users()->attach([$benevoleUser->id, $responsableUser->id]);
+        //             } else {
+        //                 $this->warn("Participation : {$participation->id} responsable is the same as benevole (id: {$benevoleUser->id})");
+        //             }
+        //         } else {
+        //             $this->error("Participation : {$participation->id} mission or structure has been deleted");
+        //         }
+        //     }
+        // }
     }
 }
