@@ -98,9 +98,9 @@
         <div class="flex h-full items-center justify-end px-4">
           <slot name="menu">
             <nav class="flex space-x-12 text-sm lg:text-base">
-              <router-link
-                to="/missions"
-                class="flex leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+              <button
+                class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                @click="showDialogMission = true"
               >
                 <img
                   class="mr-2"
@@ -108,7 +108,7 @@
                   alt="Trouver une mission"
                 />
                 Trouver une mission
-              </router-link>
+              </button>
               <router-link
                 to="/territoires"
                 class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
@@ -150,9 +150,7 @@
                     </a>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <a
-                      href="https://jeveuxaider.gouv.fr/engagement/"
-                    >
+                    <a href="https://jeveuxaider.gouv.fr/engagement/">
                       Toutes les initiatives solidaires
                     </a>
                   </el-dropdown-item>
@@ -248,17 +246,29 @@
       </div>
 
       <!-- MOBILE -->
-      <mobile-menu class="flex h-full items-center md:hidden" />
+      <mobile-menu
+        class="flex h-full items-center md:hidden"
+        @mission-search-clicked="showDialogMission = true"
+      />
+
+      <!-- DIALOG MISSION -->
+      <DialogMission
+        v-show="showDialogMission"
+        v-scroll-lock="showDialogMission"
+        @submitted="showDialogMission = false"
+        @closed="showDialogMission = false"
+      />
     </div>
   </header>
 </template>
 
 <script>
 import JdmaBenevole from '@/components/JdmaBenevole.vue'
+import DialogMission from '@/components/DialogMission.vue'
 
 export default {
   name: 'AppHeader',
-  components: { JdmaBenevole },
+  components: { JdmaBenevole, DialogMission },
   props: {
     showMenu: {
       type: Boolean,
@@ -266,7 +276,9 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      showDialogMission: false,
+    }
   },
   created() {
     if (

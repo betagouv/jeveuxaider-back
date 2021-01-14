@@ -6,7 +6,6 @@ import 'instantsearch.css/themes/algolia-min.css'
 
 export default {
   name: 'AlgoliaSearchMixin',
-  props: {},
   data() {
     return {
       searchClient: algoliasearch(
@@ -36,15 +35,10 @@ export default {
     }, 150)
   },
   methods: {
-    stringifyQuery(query) {
-      const string = qs.stringify(query)
-      return string ? '?' + string : ''
-    },
     readUrl() {
       this.routeState = qs.parse(window.location.search.substring(1))
     },
     writeUrl() {
-      console.log('WRITE')
       if (this.writeTimeout) {
         this.writeTimeout.cancel()
       }
@@ -102,6 +96,10 @@ export default {
       if (this.routeState.refinementList[$event.name].length == 0) {
         this.$delete(this.routeState.refinementList, $event.name)
       }
+    },
+    stringifyQuery(query) {
+      const string = qs.stringify(query)
+      return string ? '?' + string : ''
     },
   },
 }

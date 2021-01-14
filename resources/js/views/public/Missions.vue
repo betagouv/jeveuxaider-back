@@ -495,7 +495,6 @@ export default {
       height: 60px
       border: 1px solid white
       border-radius: 8px
-      background-color: white
       color: black
       font-weight: bold
       background-color: transparent
@@ -507,6 +506,7 @@ export default {
         width: 250px
     .ap-icon-pin
       position: relative
+      pointer-events: none
       svg
         display: none
       &::after
@@ -517,6 +517,14 @@ export default {
         background: url('/images/picker.svg')
         top: 18px
         right: 0px
+    .ap-icon-clear
+      width: 20px
+      height: 20px
+      margin: auto
+      display: flex
+      align-items: center
+      svg
+        right: 4px
 
 .sort
   width: 180px
