@@ -7,17 +7,11 @@ use App\Models\Structure;
 
 class ConversationObserver
 {
-    public function created(Conversation $conversation)
-    {
-    }
-
     public function updated(Conversation $conversation)
     {
         // CALCULATE AVERAGE STRUCTURE RESPONSES WHEN RESPONSE TIME IS FILLED
-        if (!$conversation->getOriginal('response_time') && $conversation->response_time) {
-            $structure = Structure::find($conversation->conversable->mission->structure->id);
-            $structure->setResponseTime();
-            $structure->saveQuietly();
+        if ($conversation->wasChanged('response_time')) {
+            $conversation->conversable->mission->structure->setResponseTime()->saveQuietly();
         }
     }
 }

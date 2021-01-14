@@ -45,11 +45,7 @@ class FillStructureResponseRatio extends Command
         if ($this->confirm('Do you wish to continue?')) {
             $structures = $globalQuery->get();
             foreach ($structures as $structure) {
-                $this->info("Processing structure #{$structure->id} {$structure->name}");
-                $participationsCount = $structure->participations->count();
-                $waitingParticipationsCount = $structure->participations->where('state', 'En attente de validation')->count();
-                $structure->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
-                $structure->saveQuietly();
+                $structure->setResponseRatio()->saveQuietly();
                 $this->info("Saving structure #{$structure->id} {$structure->name} response ratio to {$structure->response_ratio}");
             }
         }

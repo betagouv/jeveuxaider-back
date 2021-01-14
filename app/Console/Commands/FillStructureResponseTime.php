@@ -45,12 +45,8 @@ class FillStructureResponseTime extends Command
         if ($this->confirm('Do you wish to continue?')) {
             $structures = $globalQuery->get();
             foreach ($structures as $structure) {
-                $avgResponseTime = $structure->conversations->avg('response_time');
-                if ($avgResponseTime) {
-                    $structure->response_time = intval($avgResponseTime);
-                    $structure->saveQuietly();
-                    $this->info("Saving structure #{$structure->id} {$structure->name} response time to {$structure->response_time}");
-                }
+                $structure->setResponseTime()->saveQuietly();
+                $this->info("Saving structure #{$structure->id} {$structure->name} response time to {$structure->response_time}");
             }
         }
     }

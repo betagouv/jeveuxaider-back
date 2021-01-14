@@ -48,6 +48,18 @@ class Conversation extends Model
         }
     }
 
+    public function setResponseTime()
+    {
+        if ($this->response_time) {
+            return $this;
+        }
+        ray('set response time');
+
+        $this->response_time = time() - $this->created_at->timestamp;
+
+        return $this;
+    }
+
     // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
     public function saveQuietly(array $options = [])
     {

@@ -11,11 +11,12 @@ class MessageObserver
     {
         $user = Auth::guard('api')->user();
 
-        // SET CONVERSATION RESPONSE TIME IF NULL
+        // Quand un nouveau message dans la conversation
+        ray($message);
         $participation = $message->conversation->conversable;
-        if (!$message->conversation->response_time && $participation->profile_id != $user->profile->id) {
-            $message->conversation->response_time = $message->created_at->timestamp - $participation->created_at->timestamp;
-            $message->conversation->save();
+        // On vérifie que ce n'est pas le créateur de la conversation
+        if ($participation->profile_id != $user->profile->id) {
+            $message->conversation->setResponseTime()->save();
         }
     }
 }

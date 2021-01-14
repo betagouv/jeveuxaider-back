@@ -39,47 +39,40 @@ class FillConversationResponseTime extends Command
      */
     public function handle()
     {
-        $globalQuery = Conversation::whereNull('response_time');
-
-        $this->info($globalQuery->count() . ' conversations will be updated');
+        $query = Conversation::whereNull('response_time');
+        $this->info($query->count() . ' conversations will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
-            $conversations = $globalQuery->get();
-            foreach ($conversations as $conversation) {
-                $participation = $conversation->conversable;
-                if ($participation) {
-                    $participationResponseTime = $lastMessageResponseTime = null;
+            Conversation::whereNull('response_time')->chunkById(5000, function ($conversations) {
+                $conversations->each(function ($conversation, $key) {
+                    $participation = $conversation->conversable;
+                    if ($participation) {
+                        $participationResponseTime = $lastMessageResponseTime = null;
+                        // Response time when participation state changed
+                        if (in_array($participation->state, ['Validée', 'Refusée'])) {
+                            $participationResponseTime = $participation->updated_at->timestamp - $participation->created_at->timestamp;
+                        }
+                        // Response time with last message by responsable
+                        $lastMessageFromResponsable = $conversation->messages->where('from_id', '!=', $participation->profile->user->id)->first();
+                        if (isset($lastMessageFromResponsable)) {
+                            $lastMessageResponseTime = $lastMessageFromResponsable->created_at->timestamp - $participation->created_at->timestamp;
+                        }
 
-                    // RESPONSE TIME WITH PARTICIPATION CHANGED STATE
-                    if (in_array($participation->state, ['Validée', 'Refusée'])) {
-                        $participationResponseTime = $participation->updated_at->timestamp - $participation->created_at->timestamp;
-                    }
+                        if ($participationResponseTime && $lastMessageResponseTime) {
+                            $conversation->response_time = min([$participationResponseTime, $lastMessageResponseTime]);
+                        } elseif ($participationResponseTime) {
+                            $conversation->response_time = $participationResponseTime;
+                        } elseif ($lastMessageResponseTime) {
+                            $conversation->response_time = $lastMessageResponseTime;
+                        }
 
-                    // RESPONSE TIME WITH LAST MESSAGE BY RESPONSABLE
-                    $lastMessageFromResponsable = $conversation->messages->where('from_id', '!=', $participation->profile->user->id)->first();
-                    if ($lastMessageFromResponsable) {
-                        $lastMessageResponseTime = $lastMessageFromResponsable->created_at->timestamp - $participation->created_at->timestamp;
-                    }
-
-                    if (isset($participationResponseTime) && !isset($lastMessageResponseTime)) {
-                        $this->info("Conversation #{$conversation->id} -> Setting response time {$participationResponseTime} from participation");
-                        $conversation->response_time = $participationResponseTime;
-                    } elseif (!isset($participationResponseTime) && isset($lastMessageResponseTime)) {
-                        $this->info("Conversation #{$conversation->id} -> Setting response time {$lastMessageResponseTime} from message");
-                        $conversation->response_time = $lastMessageResponseTime;
-                    } elseif (isset($participationResponseTime) && isset($lastMessageResponseTime)) {
-                        $this->info("Conversation #{$conversation->id} -> Compare participation response time {$participationResponseTime} to message response time {$lastMessageResponseTime}");
-                        $conversation->response_time = $lastMessageResponseTime < $participationResponseTime ? $lastMessageResponseTime : $participationResponseTime;
+                        $conversation->saveQuietly();
                     } else {
-                        $this->warn("Conversation #{$conversation->id} -> Cannot determine response time !");
+                        $this->warn("Conversation : {$conversation->id} / Participation {$conversation->conversable_id} has no participation linked (-> deleted)");
+                        $conversation->delete();
                     }
-
-                    $conversation->saveQuietly(); // No observer
-                } else {
-                    $this->warn("Conversation : {$conversation->id} / Participation {$conversation->conversable_id} has no participation linked (-> deleted)");
-                    $conversation->delete();
-                }
-            }
+                });
+            });
         }
     }
 }

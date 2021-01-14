@@ -270,6 +270,8 @@ class Structure extends Model
         $participationsCount = $this->participations->count();
         $waitingParticipationsCount = $this->participations->where('state', 'En attente de validation')->count();
         $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
+
+        return $this;
     }
 
     public function setResponseTime()
@@ -278,6 +280,7 @@ class Structure extends Model
         if ($avgResponseTime) {
             $this->response_time = intval($avgResponseTime);
         }
+        return $this;
     }
 
     // TEMP LARAVEL 7. DISPO DANS LARAVEL 8

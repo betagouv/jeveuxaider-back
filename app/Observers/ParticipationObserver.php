@@ -64,14 +64,9 @@ class ParticipationObserver
         // SET STRUCTURE RESPONSE RATIO
         if ($oldState != $newState) {
             if ($oldState == 'En attente de validation') {
-
-                // @TODO: Si on change le statut d'une participation et que la conversation n'a pas de response_time -> on set le response time de la conversation
-
-                $structure = $participation->mission->structure;
-                $structure->setResponseRatio();
-                $structure->setResponseTime();
-                $structure->saveQuietly();
+                $participation->mission->structure->setResponseRatio()->saveQuietly();
             }
+            $participation->conversation->setResponseTime()->save();
         }
     }
 
