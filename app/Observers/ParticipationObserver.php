@@ -21,10 +21,8 @@ class ParticipationObserver
         }
 
         // RESPONSE RATIO
-        $structure = Structure::find($participation->mission->structure->id);
-        $participationsCount = $structure->participations->count();
-        $conversationsWithResponseTimeCount = $structure->conversations->whereNotNull('response_time')->count();
-        $structure->response_ratio =  round($conversationsWithResponseTimeCount / $participationsCount * 100);
+        $structure = $participation->mission->structure;
+        $structure->setResponseRatio();
         $structure->saveQuietly();
     }
 
@@ -66,8 +64,12 @@ class ParticipationObserver
         // SET STRUCTURE RESPONSE RATIO
         if ($oldState != $newState) {
             if ($oldState == 'En attente de validation') {
+
+                // @TODO: Si on change le statut d'une participation et que la conversation n'a pas de response_time -> on set le response time de la conversation
+
                 $structure = $participation->mission->structure;
                 $structure->setResponseRatio();
+                $structure->setResponseTime();
                 $structure->saveQuietly();
             }
         }
