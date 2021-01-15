@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfilePostalCode;
+use Illuminate\Http\Request;
 use App\Models\Profile;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersProfileSearch;
@@ -14,23 +15,23 @@ use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Maatwebsite\Excel\Concerns\Exportable;
 
-class ProfilesExport implements FromQuery, WithMapping, WithHeadings, ShouldQueue
+class ProfilesExport implements FromCollection, WithMapping, WithHeadings
 {
-    use Exportable;
+    private $request;
 
-    private $role;
-
-    public function __construct($role)
+    public function __construct(Request $request)
     {
-        $this->role = $role;
+        $this->request = $request;
     }
 
-    public function query()
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection()
     {
-        return QueryBuilder::for(Profile::role($this->role))
+        return QueryBuilder::for(Profile::role($this->request->header('Context-Role')))
+            ->allowedAppends('roles', 'has_user', 'skills', 'domaines')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('role', new FiltersProfileRole),
@@ -42,7 +43,8 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings, ShouldQueu
                 AllowedFilter::exact('referent_department'),
                 'referent_region'
             )
-            ->defaultSort('-created_at');
+            ->defaultSort('-created_at')
+            ->get();
     }
 
     public function headings(): array
@@ -71,7 +73,7 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings, ShouldQueu
     {
         return [
             $profile->id,
-            $profile->user->id ?? null,
+            $profile->user->id,
             $profile->full_name,
             $profile->first_name,
             $profile->last_name,
