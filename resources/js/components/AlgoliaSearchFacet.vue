@@ -57,15 +57,26 @@
           @change="onChange(refine, item)"
         >
           <div class="facet-value flex justify-between">
-            <span
-              class="label truncate mr-2"
+            <v-clamp
+              :max-lines="1"
+              tag="span"
+              autoresize
+              class="w-full mr-2"
               :class="[
                 { 'text-gray-1000 font-bold': item.isRefined },
                 { 'text-gray-450': !item.isRefined },
               ]"
             >
               {{ item.value }}
-            </span>
+
+              <template
+                slot="after"
+                slot-scope="{ expand, collapse, toggle, clamped, expanded }"
+              >
+                <!-- TODO Tooltip if clamped -->
+                <!-- <span>{{ clamped }}</span> -->
+              </template>
+            </v-clamp>
             <span class="count text-gray-450">
               {{ item.count.toLocaleString() }}
             </span>
@@ -145,9 +156,9 @@ export default {
       color: #27303f !important
 
 ::v-deep .el-checkbox
-  @apply flex items-center
+  @apply flex items-center whitespace-normal
   .el-checkbox__label
-    @apply w-full truncate
+    @apply w-full
   .el-checkbox__input
     .el-checkbox__inner
       width: 20px

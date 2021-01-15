@@ -16,7 +16,9 @@
           <div
             class="pb-32 flex flex-col flex-1 overflow-y-auto lg:justify-center lg:pb-0"
           >
-            <div class="title text-center text-white font-extrabold mb-6">
+            <div
+              class="title text-center text-white font-extrabold mb-6 lg:-mt-32"
+            >
               Trouver une mission de bénévolat
             </div>
 
@@ -33,24 +35,32 @@
                   v-model="radio"
                   :label="item.value"
                   class="flex items-center lg:h-full py-6 px-10 transition"
-                  :class="[{ 'lg:opacity-25': radio && radio != item.value }]"
+                  :class="[{ 'opacity-25': radio && radio != item.value }]"
                   @change="onChange"
                 >
                   <span>{{ item.label }}</span>
                 </el-radio>
 
                 <transition name="fade-in">
-                  <div v-if="index == 0 && radio == 'Mission en présentiel'">
+                  <div
+                    v-if="index == 0 && radio == 'Mission en présentiel'"
+                    class="relative"
+                  >
+                    <img
+                      src="/images/chevron_gray.svg"
+                      class="chevron hidden lg:block z-10"
+                    />
+
                     <AlgoliaPlacesInput
                       ref="alogoliaInput"
                       selector="dialog-mission--places-input"
                       class="zipcode"
                       :label="false"
                       :description="false"
-                      :placeholder="false"
                       type="city"
-                      :limit="7"
+                      :limit="4"
                       :templates="templatesPlaces"
+                      placeholder="Ex: 75001"
                       @selected="onPlaceSelect($event)"
                       @clear="onPlaceClear"
                     />
@@ -232,7 +242,7 @@ export default {
     .algolia-places
       @apply bg-white rounded-full
       @screen lg
-        @apply rounded-none
+        @apply rounded-none h-full
     .ap-dropdown-menu
       border-radius: 8px
     .ap-suggestion
@@ -252,6 +262,7 @@ export default {
       @screen lg
         width: 250px
         height: calc(100% - 10px)
+        padding: 0 15px
     .ap-icon-pin
       position: relative
       pointer-events: none
@@ -263,7 +274,7 @@ export default {
         width: 22px
         height: 23px
         background: url('/images/picker.svg')
-        top: 18px
+        top: 22px
         right: 0px
     .ap-icon-clear
       width: 20px
@@ -273,4 +284,8 @@ export default {
       align-items: center
       svg
         right: 4px
+
+.chevron
+  left: -12px
+  @apply absolute top-0 bottom-0 m-auto
 </style>

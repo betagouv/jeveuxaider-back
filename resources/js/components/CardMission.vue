@@ -106,10 +106,16 @@ export default {
 <style lang="sass" scoped>
 .card--mission
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, .05)
+  &:hover
+    .picture--wrapper
+      img
+        transform: scale(1.05)
 
 .picture--wrapper
   height: 143px
-  @apply bg-gray-200
+  @apply bg-gray-200 overflow-hidden
+  img
+    transition: all .25s
 
 .footer
   color: #30C48D

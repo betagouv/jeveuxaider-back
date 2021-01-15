@@ -284,7 +284,7 @@
               </div>
             </dl>
           </div>
-          <missions-search
+          <MissionsSearchOld
             :active-filters="['department_name', 'template_title']"
             :color="thematique.color"
             :query-filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
@@ -379,7 +379,7 @@
 
 <script>
 import { getThematique, getThematiqueStatistics } from '@/api/app'
-import MissionsSearch from '@/components/MissionsSearch'
+import MissionsSearchOld from '@/components/MissionsSearchOld'
 import metadatas from '@/utils/metadatas.json'
 
 export default {
@@ -390,7 +390,7 @@ export default {
       .pages.filter((item) => item.slug == this.slug)[0].metaInfo
   },
   components: {
-    MissionsSearch,
+    MissionsSearchOld,
   },
   props: {
     slug: {

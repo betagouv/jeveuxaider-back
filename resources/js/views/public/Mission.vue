@@ -6,7 +6,9 @@
           { label: 'Missions de bénévolat', link: '/missions' },
           {
             label: domainName(mission),
-            link: `/missions?menu[domaines]=${domainName(mission)}`,
+            link: `/missions?refinementList[domaines][0]=${domainName(
+              mission
+            )}`,
           },
           {
             label: `Bénévolat ${mission.structure.name} à ${mission.city}`,
@@ -114,8 +116,9 @@
                           >Bénéficiaires</span
                         ><br />
                         <div
-                          v-for="(publicBeneficiaire,
-                          key) in mission.publics_beneficiaires"
+                          v-for="(
+                            publicBeneficiaire, key
+                          ) in mission.publics_beneficiaires"
                           :key="key"
                         >
                           {{
