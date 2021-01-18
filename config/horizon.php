@@ -99,9 +99,9 @@ return [
     */
 
     'trim' => [
-        'recent' => 1440,
-        'pending' => 1440,
-        'completed' => 1440,
+        'recent' => 60,
+        'pending' => 60,
+        'completed' => 60,
         'recent_failed' => 10080,
         'failed' => 10080,
         'monitored' => 10080,
@@ -151,7 +151,7 @@ return [
     |
     */
 
-    'memory_limit' => 2048,
+    'memory_limit' => 512,
 
     /*
     |--------------------------------------------------------------------------
@@ -168,33 +168,22 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['emails'],
                 'balance' => 'simple',
-                'processes' => 50,
-                'tries' => 4,
-                'timeout' => 60
-            ],
-        ],
-
-        'preprod' => [
-            'supervisor-preprod' => [
-                'connection' => 'redis',
-                'queue' => ['default'],
-                'balance' => 'simple',
-                'processes' => 50,
-                'tries' => 4,
-                'timeout' => 60
+                'processes' => 10,
+                'tries' => 3,
+                'nice' => 0,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['emails','default'],
                 'balance' => 'simple',
-                'processes' => 50,
-                'tries' => 4,
-                'timeout' => 60
+                'processes' => 10,
+                'tries' => 3,
+                'nice' => 0,
             ],
         ],
     ],

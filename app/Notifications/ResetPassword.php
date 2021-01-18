@@ -4,9 +4,20 @@ namespace App\Notifications;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResetPassword extends ResetPasswordNotification
+class ResetPassword extends ResetPasswordNotification implements ShouldQueue
 {
+    use Queueable;
+
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'emails',
+        ];
+    }
+
     /**
      * Get the mail representation of the notification.
      *
