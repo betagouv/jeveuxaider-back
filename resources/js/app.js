@@ -19,6 +19,7 @@ import Vue2Filters from 'vue2-filters'
 import VueAnalytics from 'vue-analytics'
 import VueTheMask from 'vue-the-mask'
 import VScrollLock from 'v-scroll-lock'
+import VTooltip from 'v-tooltip'
 
 import AppHeader from '@/components/AppHeader'
 import AppFooter from '@/components/AppFooter'
@@ -79,6 +80,7 @@ Vue.use(VueAnalytics, {
 
 Vue.use(VueTheMask)
 Vue.use(VScrollLock)
+Vue.use(VTooltip)
 
 new Vue({
   router,

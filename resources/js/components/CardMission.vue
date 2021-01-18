@@ -31,9 +31,26 @@
       <v-clamp
         :max-lines="3"
         autoresize
-        class="name font-black text-black text-lg"
+        class="name font-black text-black text-lg relative"
       >
         {{ mission.name }}
+
+        <template
+          slot="after"
+          slot-scope="{ expand, collapse, toggle, clamped, expanded }"
+        >
+          <!-- Tooltip if clamped -->
+          <span
+            v-if="clamped"
+            v-tooltip="{
+              delay: { show: 700, hide: 100 },
+              content: mission.name,
+              hideOnTargetClick: true,
+              placement: 'top',
+            }"
+            class="absolute w-full h-full top-0 left-0"
+          />
+        </template>
       </v-clamp>
 
       <div
