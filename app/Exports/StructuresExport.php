@@ -53,9 +53,6 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'state',
             'response_ratio',
             'response_time',
-            'nb_missions',
-            'nb_participations',
-            'nb_waiting_participations',
             'statut_juridique',
             'association_types',
             'structure_publique_type',
@@ -80,23 +77,22 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'created_at',
             'updated_at',
             'user_id',
-            'user_email',
-            'user_first_name',
-            'user_last_name',
+            // 'user_email',
+            // 'user_first_name',
+            // 'user_last_name',
         ];
     }
 
     public function map($structure): array
     {
+        $responsable = $structure->user ?? null;
+
         return [
             $structure->id,
             $structure->name,
             $structure->state,
             $structure->response_ratio,
             $structure->response_time,
-            $structure->missions->count(),
-            $structure->participations->count(),
-            $structure->waitingParticipations->count(),
             $structure->statut_juridique,
             $structure->association_types,
             $structure->structure_publique_type,
@@ -121,9 +117,9 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->created_at,
             $structure->updated_at,
             $structure->user_id,
-            $structure->user ? $structure->user->email : '',
-            $structure->user && $structure->user->profile ? $structure->user->profile->first_name : '',
-            $structure->user && $structure->user->profile ? $structure->user->profile->last_name : '',
+            // $responsable ? $responsable->email : '',
+            // $responsable && $responsable->profile ? $responsable->profile->first_name : '',
+            // $responsable && $responsable->profile ? $responsable->profile->last_name : '',
         ];
     }
 }

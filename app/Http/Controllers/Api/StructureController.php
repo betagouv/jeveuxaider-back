@@ -22,8 +22,10 @@ use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
+use App\Jobs\ProcessExportStructures;
 use App\Models\Mission;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StructureController extends Controller
 {
@@ -44,20 +46,33 @@ class StructureController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
+    // public function export(Request $request)
+    // {
+    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+    //     $fileName = 'organisations-' . Str::random(8) . '.csv';
+    //     $filePath = $folder . $fileName;
+
+    //     (new StructuresExport($request->header('Context-Role')))
+    //         ->queue($filePath, 's3')
+    //         ->chain([
+    //             new NotifyUserOfCompletedExport($request->user(), $filePath),
+    //         ]);
+
+    //     return response()->json(['message'=> 'Export en cours...'], 200);
+    //     //return Excel::download(new StructuresExport($request->header('Context-Role')), $fileName);
+    // }
+
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
         $fileName = 'organisations-' . Str::random(8) . '.xlsx';
         $filePath = $folder . $fileName;
-
-        (new StructuresExport($request->header('Context-Role')))
-            ->queue($filePath, 's3')
-            ->chain([
-                new NotifyUserOfCompletedExport($request->user(), $filePath),
-            ]);
+        
+        ProcessExportStructures::withChain([
+            new NotifyUserOfCompletedExport($request->user(), $filePath),
+        ])->dispatch($request->user(), $request->header('Context-Role'), $filePath, $fileName);
 
         return response()->json(['message'=> 'Export en cours...'], 200);
-        // return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
     }
 
     public function availableMissions(Request $request, Structure $structure)
