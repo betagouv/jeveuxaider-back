@@ -31,7 +31,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
     */
     public function collection()
     {
-        return QueryBuilder::for(Structure::role($this->role))
+        return QueryBuilder::for(Structure::role($this->role)->with('user'))
             ->allowedFilters([
                 'department',
                 'state',
@@ -117,9 +117,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->created_at,
             $structure->updated_at,
             $structure->user_id,
-            // $responsable ? $responsable->email : '',
-            // $responsable && $responsable->profile ? $responsable->profile->first_name : '',
-            // $responsable && $responsable->profile ? $responsable->profile->last_name : '',
+            $responsable ? $responsable->email : '',
         ];
     }
 }
