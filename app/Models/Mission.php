@@ -43,6 +43,7 @@ class Mission extends Model
         'type',
         'domaine_id',
         'template_id',
+        'thumbnail',
     ];
 
     protected $casts = [
@@ -103,6 +104,8 @@ class Mission extends Model
             'publisher_name' => 'Réserve Civique',
             'post_date' => strtotime($this->created_at),
             'format' => $this->format,
+            'thumbnail' => $this->thumbnail,
+            'domaine_id' => $this->template ? $this->template->domaine_id : $this->domaine_id,
         ];
 
         if ($this->latitude && $this->longitude) {

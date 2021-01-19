@@ -2,11 +2,11 @@
   <div
     class="card--mission h-full flex flex-col bg-white rounded-lg overflow-hidden"
   >
-    <div class="picture--wrapper relative">
+    <div class="thumbnail--wrapper relative">
       <img
-        v-if="picture.default"
-        :src="picture.default"
-        :srcset="`${picture.x2} 2x`"
+        v-if="thumbnail.default"
+        :src="thumbnail.default"
+        :srcset="`${thumbnail.x2} 2x`"
         :alt="mission.domaine_name"
         class="w-full h-full object-cover"
       />
@@ -124,11 +124,11 @@ export default {
 .card--mission
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, .05)
   &:hover
-    .picture--wrapper
+    .thumbnail--wrapper
       img
         transform: scale(1.05)
 
-.picture--wrapper
+.thumbnail--wrapper
   height: 143px
   @apply bg-gray-200 overflow-hidden
   img

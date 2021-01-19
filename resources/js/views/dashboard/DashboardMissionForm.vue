@@ -123,6 +123,7 @@
               <el-select
                 v-model="form.domaine_id"
                 placeholder="Sélectionner un domaine d'action"
+                @change="$set(form, 'thumbnail', `${form.domaine_id}_1`)"
               >
                 <el-option
                   v-for="domaine in domaines"
@@ -132,6 +133,16 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+
+            <!-- Thumbnail -->
+            <div v-if="mainDomaineId" class="el-form-item is-required">
+              <MissionThumbnailPicker
+                :domain-id="mainDomaineId"
+                :value="`${form.thumbnail}`"
+                @click="onThumbnailClick"
+              />
+            </div>
+
             <el-form-item
               label="Objectif de la mission"
               prop="objectif"
@@ -160,6 +171,18 @@
                 :config="editorConfig"
               ></ckeditor>
             </el-form-item>
+          </div>
+
+          <!-- Thumbnail -->
+          <div
+            v-if="form.template && mainDomaineId"
+            class="el-form-item is-required"
+          >
+            <MissionThumbnailPicker
+              :domain-id="mainDomaineId"
+              :value="`${form.thumbnail}`"
+              @click="onThumbnailClick"
+            />
           </div>
 
           <el-form-item label="Type de mission" prop="type">
@@ -429,12 +452,14 @@ import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import ItemDescription from '@/components/forms/ItemDescription'
 import CKEditorLight from '@/mixins/CKEditorLight.vue'
+import MissionThumbnailPicker from '@/components/MissionThumbnailPicker'
 
 export default {
   name: 'DashboardMissionForm',
   components: {
     AlgoliaPlacesInput,
     ItemDescription,
+    MissionThumbnailPicker,
   },
   mixins: [FormWithAddress, CKEditorLight],
   props: {
@@ -554,6 +579,10 @@ export default {
     fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
     })
+
+    if (!this.form.thumbnail) {
+      this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
+    }
   },
   async beforeRouteEnter(to, from, next) {
     await next(async (vm) => {
@@ -624,6 +653,9 @@ export default {
           }
         )
       }
+    },
+    onThumbnailClick(thumbnail) {
+      this.$set(this.form, 'thumbnail', thumbnail)
     },
   },
 }
