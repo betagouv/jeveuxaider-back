@@ -22,6 +22,7 @@ use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersDisponibility;
+use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\ProfileRequest;
@@ -55,6 +56,7 @@ class ProfileController extends Controller
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
+                AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::custom('match_mission', new FiltersMatchMission),
@@ -80,7 +82,7 @@ class ProfileController extends Controller
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-        $fileName = 'profiles-' . Str::random(8) . '.xlsx';
+        $fileName = 'profiles-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
         (new ProfilesExport($request->header('Context-Role')))

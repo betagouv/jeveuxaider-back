@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMatchMission;
 use App\Filters\FiltersProfileCollectivity;
+use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersProfilePostalCode;
 use App\Models\Profile;
@@ -45,6 +46,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
             AllowedFilter::custom('role', new FiltersProfileRole),
             AllowedFilter::custom('domaines', new FiltersProfileTag),
             AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
+            AllowedFilter::custom('department', new FiltersProfileDepartment),
             AllowedFilter::custom('disponibilities', new FiltersDisponibility),
             AllowedFilter::custom('skills', new FiltersProfileSkill),
             AllowedFilter::custom('match_mission', new FiltersMatchMission),

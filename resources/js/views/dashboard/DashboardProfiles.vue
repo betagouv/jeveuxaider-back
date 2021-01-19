@@ -86,10 +86,9 @@
         />
         <query-filter
           v-if="$store.getters.contextRole === 'admin'"
-          name="referent_department"
-          label="Référent"
-          multiple
-          :value="query['filter[referent_department]']"
+          name="department"
+          label="Département"
+          :value="query['filter[department]']"
           :options="
             $store.getters.taxonomies.departments.terms.map((term) => {
               return {
