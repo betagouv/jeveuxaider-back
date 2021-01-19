@@ -30,6 +30,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Str;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ProfileController extends Controller
 {
@@ -75,6 +76,7 @@ class ProfileController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
+    // LARAVEL EXCEL
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
@@ -89,6 +91,56 @@ class ProfileController extends Controller
 
         return response()->json(['message'=> 'Export en cours...'], 200);
     }
+
+    // FAST EXCEL
+    // public function export(Request $request)
+    // {
+    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+    //     $fileName = 'profiles-' . Str::random(8) . '.csv';
+    //     $filePath = $folder . $fileName;
+
+    //     $query = QueryBuilder::for(Profile::role($request->header('Context-Role')))
+    //         ->allowedFilters(
+    //             AllowedFilter::custom('search', new FiltersProfileSearch),
+    //             AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
+    //             AllowedFilter::custom('zips', new FiltersProfileZips),
+    //             AllowedFilter::custom('role', new FiltersProfileRole),
+    //             AllowedFilter::custom('domaines', new FiltersProfileTag),
+    //             AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
+    //             AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+    //             AllowedFilter::custom('skills', new FiltersProfileSkill),
+    //             AllowedFilter::custom('match_mission', new FiltersMatchMission),
+    //             AllowedFilter::exact('is_visible'),
+    //             AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
+    //             AllowedFilter::exact('referent_department'),
+    //             'referent_region'
+    //         )
+    //         ->defaultSort('-created_at')
+    //         ->get();
+
+    //     $exportFilePath = (new FastExcel($query))
+    //     ->export($fileName, function ($profile) {
+    //         return [
+    //             'id' => $profile->id,
+    //             // 'user_id' => $profile->user_id,
+    //             // 'first_name' => $profile->first_name,
+    //             // 'last_name' => $profile->last_name,
+    //             // 'email' => $profile->email,
+    //             // 'phone' => $profile->phone,
+    //             // 'mobile' => $profile->mobile,
+    //             // 'zip' => $profile->zip,
+    //             // 'referent_department' => $profile->referent_department,
+    //             // 'referent_region' => $profile->referent_region,
+    //             // 'reseau_id' => $profile->reseau_id,
+    //             // 'service_civique' => $profile->service_civique,
+    //             // 'is_visible' => $profile->is_visible,
+    //             // 'created_at' => $profile->created_at,
+    //             // 'updated_at' => $profile->updated_at,
+    //         ];
+    //     });
+
+    //     return response()->json(['message'=> 'Export en cours...'], 200);
+    // }
 
     public function exportReferentsDepartements(Request $request)
     {

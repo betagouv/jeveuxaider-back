@@ -22,7 +22,7 @@ use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
-use App\Jobs\ProcessExportStructures;
+// use App\Jobs\ProcessExportStructures;
 use App\Models\Mission;
 use Illuminate\Support\Str;
 
@@ -45,6 +45,7 @@ class StructureController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
+    // LARAVEL EXCEL
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
@@ -60,12 +61,14 @@ class StructureController extends Controller
         return response()->json(['message'=> 'Export en cours...'], 200);
     }
 
+    // FAST EXCEL
+    // PB: serializer la query avant le job https://github.com/AnourValar/eloquent-serialize
     // public function export(Request $request)
     // {
     //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
     //     $fileName = 'organisations-' . Str::random(8) . '.xlsx';
     //     $filePath = $folder . $fileName;
-        
+
     //     ProcessExportStructures::withChain([
     //         new NotifyUserOfCompletedExport($request->user(), $filePath),
     //     ])->dispatch($request->user(), $request->header('Context-Role'), $filePath, $fileName);
