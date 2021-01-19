@@ -6,6 +6,8 @@ use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\CollectivityWaitingValidation;
+use App\Notifications\StructureAssociationCreated;
+use App\Notifications\StructureCollectivityCreated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
@@ -97,10 +99,13 @@ class StructureObserver
         }
 
         // STRUCTURE PUBLIQUE TYPE
-        $oldStructureType = $structure->getOriginal('statut_juridique');
-        $newStructureType = $structure->statut_juridique;
-        if ($oldStructureType != $newStructureType && $newStructureType == 'Collectivité') {
-            $this->createCollectivity($structure);
+        if (!$structure->getOriginal('statut_juridique') && $structure->statut_juridique) {
+            if ($structure->statut_juridique == 'Collectivité') {
+                $structure->user->notify(new StructureCollectivityCreated($structure));
+                $this->createCollectivity($structure);
+            } else {
+                $structure->user->notify(new StructureAssociationCreated($structure));
+            }
         }
     }
 

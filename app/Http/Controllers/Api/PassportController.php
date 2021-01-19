@@ -12,7 +12,6 @@ use Lcobucci\JWT\Parser;
 use Laravel\Passport\Token;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
-use App\Notifications\RegisterUserResponsable;
 use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
 use App\Http\Requests\RegisterResponsableRequest;
@@ -80,9 +79,6 @@ class PassportController extends Controller
                     "context_role" => 'responsable'
                 ]
             ]);
-
-        $notification = new RegisterUserResponsable($structure);
-        $user->notify($notification);
 
         return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
