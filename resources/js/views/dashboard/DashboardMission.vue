@@ -131,8 +131,12 @@
 
 <script>
 import { fetchActivities } from '@/api/app'
-import { getMission, cloneMission, deleteMission } from '@/api/mission'
-import { getStructure } from '@/api/structure'
+import {
+  getMission,
+  getMissionStructure,
+  cloneMission,
+  deleteMission,
+} from '@/api/mission'
 import StructureInfos from '@/components/infos/StructureInfos'
 import { fetchParticipations } from '@/api/participation'
 import TableWithFilters from '@/mixins/TableWithFilters'
@@ -182,7 +186,7 @@ export default {
       const response = await getMission(this.id)
       this.mission = response.data
 
-      const responseStructure = await getStructure(this.mission.structure_id)
+      const responseStructure = await getMissionStructure(this.mission.id)
       this.structure = responseStructure.data
 
       if (this.tab == 'history') {

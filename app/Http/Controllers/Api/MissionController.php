@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Mission;
 use App\Http\Requests\Api\MissionUpdateRequest;
+use App\Http\Requests\Api\MissionStructureRequest;
 use App\Http\Requests\Api\MissionCloneRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Filters\FiltersMissionCeu;
@@ -18,6 +19,7 @@ use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
 use App\Http\Requests\Api\MissionDeleteRequest;
+use App\Models\Structure;
 
 class MissionController extends Controller
 {
@@ -83,5 +85,10 @@ class MissionController extends Controller
     public function clone(MissionCloneRequest $request, Mission $mission)
     {
         return $mission->clone();
+    }
+
+    public function structure(MissionStructureRequest $request, Mission $mission)
+    {
+        return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $mission->structure_id)->first();
     }
 }
