@@ -22,19 +22,18 @@ use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
+// use App\Jobs\ProcessExportStructures;
 use App\Models\Mission;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 
 class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->with('members')->withCount('missions'))
-            ->allowedAppends('response_ratio')
+        return QueryBuilder::for(Structure::role($request->header('Context-Role'))
+            ->withCount('missions', 'participations', 'waitingParticipations'))
             ->allowedFilters([
-                'department',
+                AllowedFilter::exact('department'),
                 'state',
                 'statut_juridique',
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
@@ -46,23 +45,36 @@ class StructureController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
+    // LARAVEL EXCEL
     public function export(Request $request)
     {
-        /*
-        $s3 = Storage::disk('s3');
-        $fileName = Str::random(30).'.xlsx';
-        $filePath = 'public/'. config('app.env').'/exports/'.$request->user()->id.'/'. $fileName;
+        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+        $fileName = 'organisations-' . Str::random(8) . '.csv';
+        $filePath = $folder . $fileName;
 
         (new StructuresExport($request->header('Context-Role')))
             ->queue($filePath, 's3')
             ->chain([
-                new NotifyUserOfCompletedExport($request->user(), $s3->url($filePath)),
+                new NotifyUserOfCompletedExport($request->user(), $filePath),
             ]);
 
         return response()->json(['message'=> 'Export en cours...'], 200);
-        */
-        return Excel::download(new StructuresExport($request->header('Context-Role')), 'structures.xlsx');
     }
+
+    // FAST EXCEL
+    // PB: serializer la query avant le job https://github.com/AnourValar/eloquent-serialize
+    // public function export(Request $request)
+    // {
+    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+    //     $fileName = 'organisations-' . Str::random(8) . '.xlsx';
+    //     $filePath = $folder . $fileName;
+
+    //     ProcessExportStructures::withChain([
+    //         new NotifyUserOfCompletedExport($request->user(), $filePath),
+    //     ])->dispatch($request->user(), $request->header('Context-Role'), $filePath, $fileName);
+
+    //     return response()->json(['message'=> 'Export en cours...'], 200);
+    // }
 
     public function availableMissions(Request $request, Structure $structure)
     {
@@ -82,7 +94,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first()->append('response_ratio');
+        return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $structure->id)->first();
     }
 
     public function store(StructureCreateRequest $request)

@@ -34,3 +34,7 @@ export function destroyMission(id) {
 export function getMission(id) {
   return request.get(`/api/mission/${id}`)
 }
+
+export function getMissionStructure(id) {
+  return request.get(`/api/mission/${id}/structure`)
+}

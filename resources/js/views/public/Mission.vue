@@ -201,18 +201,27 @@
                       <template v-if="mission.state == 'Validée'">
                         <template v-if="mission.has_places_left">
                           <template v-if="$store.getters.isLogged">
-                            <el-button
-                              v-if="canRegistered"
-                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              @click="handleClickParticipate"
-                              >Je propose mon aide</el-button
-                            >
-                            <router-link
-                              v-else
-                              to="/user/missions"
-                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Vous êtes déjà inscrit !</router-link
-                            >
+                            <template v-if="isNotResponsableOfMission">
+                              <el-button
+                                v-if="isAlreadyRegistered"
+                                class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                                @click="handleClickParticipate"
+                                >Je propose mon aide</el-button
+                              >
+                              <router-link
+                                v-else
+                                to="/user/missions"
+                                class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                                >Vous êtes déjà inscrit !</router-link
+                              >
+                            </template>
+                            <template v-else>
+                              <router-link
+                                :to="`/dashboard/mission/${mission.id}`"
+                                class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                                >Tableau de bord</router-link
+                              >
+                            </template>
                           </template>
 
                           <template v-else>
@@ -236,6 +245,14 @@
                       </template>
                     </template>
                   </div>
+
+                  <!-- <p
+                    v-if="mission.structure.response_time"
+                    class="text-sm leading-6 text-indigo-300"
+                  >
+                    Délai de réponse:
+                    {{ responseTime }}
+                  </p> -->
 
                   <template v-if="mission.state && mission.state == 'Validée'">
                     <div
@@ -503,18 +520,27 @@
                 <template v-if="mission.state == 'Validée'">
                   <template v-if="mission.has_places_left">
                     <template v-if="$store.getters.isLogged">
-                      <el-button
-                        v-if="canRegistered"
-                        class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        @click="handleClickParticipate"
-                        >Je propose mon aide</el-button
-                      >
-                      <router-link
-                        v-else
-                        to="/user/missions"
-                        class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Vous êtes déjà inscrit !</router-link
-                      >
+                      <template v-if="isNotResponsableOfMission">
+                        <el-button
+                          v-if="isAlreadyRegistered"
+                          class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          @click="handleClickParticipate"
+                          >Je propose mon aide</el-button
+                        >
+                        <router-link
+                          v-else
+                          to="/user/missions"
+                          class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          >Vous êtes déjà inscrit !</router-link
+                        >
+                      </template>
+                      <template v-else>
+                        <router-link
+                          :to="`/dashboard/mission/${mission.id}`"
+                          class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                          >Tableau de bord</router-link
+                        >
+                      </template>
                     </template>
 
                     <template v-else>
@@ -897,8 +923,22 @@ export default {
           participation.state != 'Annulée'
       )
     },
-    canRegistered() {
+    isNotResponsableOfMission() {
+      return this.$store.getters.profile.id != this.mission.responsable_id
+    },
+    isAlreadyRegistered() {
       return this.hasParticipation.length > 0 ? false : true
+    },
+    responseTime() {
+      let daysDelay = this.$options.filters.daysFromTimestamp(
+        this.mission.structure.response_time
+      )
+      if (daysDelay < 5) {
+        return 'Moins de 5 jours'
+      } else if (daysDelay < 10) {
+        return 'Entre 5 et 10 jours'
+      }
+      return 'Moins de 15 jours'
     },
     formattedDate() {
       const startDate = this.mission.start_date
@@ -923,7 +963,6 @@ export default {
       }
     },
   },
-
   created() {
     getMission(this.id)
       .then((response) => {
@@ -932,6 +971,15 @@ export default {
         if (this.mission.responsable && this.$store.getters.profile) {
           this.form.content = `Bonjour ${this.mission.responsable.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
         }
+
+        console.log('response_time', this.mission.structure.response_time)
+        console.log(
+          'response_time (days)',
+          this.$options.filters.daysFromTimestamp(
+            this.mission.structure.response_time
+          )
+        )
+        console.log('response_ratio', this.mission.structure.response_ratio)
         fetchStructureAvailableMissions(this.mission.structure.id, {
           exclude: this.id,
           append: 'domaines',

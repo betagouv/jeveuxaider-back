@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'path' => 'horizon',
+    'path' => env('PATH_HORIZON', 'horizon'),
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +151,7 @@ return [
     |
     */
 
-    'memory_limit' => 1024,
+    'memory_limit' => 512,
 
     /*
     |--------------------------------------------------------------------------
@@ -168,30 +168,22 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['emails', 'default'],
                 'balance' => 'simple',
                 'processes' => 10,
-                'tries' => 1,
-            ],
-        ],
-
-        'preprod' => [
-            'supervisor-preprod' => [
-                'connection' => 'redis',
-                'queue' => ['default'],
-                'balance' => 'simple',
-                'processes' => 10,
-                'tries' => 1,
+                'tries' => 3,
+                'nice' => 0,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['emails', 'default'],
                 'balance' => 'simple',
-                'processes' => 200,
-                'tries' => 1,
+                'processes' => 10,
+                'tries' => 3,
+                'nice' => 0,
             ],
         ],
     ],

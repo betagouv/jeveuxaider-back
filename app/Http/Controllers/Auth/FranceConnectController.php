@@ -18,7 +18,7 @@ class FranceConnectController extends Controller
     {
         $query = [
           'scope' => 'openid given_name family_name preferred_username birthdate email',
-          'redirect_uri' => urlencode(config('app.url') . '/login'),
+          'redirect_uri' => config('app.url') . '/login',
           'response_type' => 'code',
           'client_id' => config('services.franceconnect.client_id'),
           'state' => Str::uuid()->toString(),
@@ -33,7 +33,7 @@ class FranceConnectController extends Controller
     {
         $response = Http::asForm()->post(config('services.franceconnect.url') . '/api/v1/token', [
           'grant_type' => 'authorization_code',
-          'redirect_uri' => urlencode(config('app.url') . '/login'),
+          'redirect_uri' => config('app.url') . '/login',
           'client_id' => config('services.franceconnect.client_id'),
           'client_secret' => config('services.franceconnect.client_secret'),
           'code' =>  $request->query('code')
@@ -66,15 +66,15 @@ class FranceConnectController extends Controller
           'context_role' => 'volontaire',
           'password' => Hash::make(Str::random(12))
         ]);
-      
+
         $profile = Profile::firstOrCreate(
             ['email' => $franceConnectUser['email']],
             [
-        'user_id' => $user->id,
-        'first_name' => $franceConnectUser['given_name'] ?? '',
-        'last_name' => $franceConnectUser['family_name'] ?? '',
-        'birthday' => $franceConnectUser['birthdate'] ?? ''
-      ]
+                'user_id' => $user->id,
+                'first_name' => $franceConnectUser['given_name'] ?? '',
+                'last_name' => $franceConnectUser['family_name'] ?? '',
+                'birthday' => $franceConnectUser['birthdate'] ?? ''
+            ]
         );
 
         $user->profile()->save($profile);

@@ -1,5 +1,6 @@
 <template>
   <el-table
+    v-loading="loading"
     :data="tableData"
     :highlight-current-row="true"
     @row-click="onClickedRow"
@@ -49,7 +50,11 @@
               </div>
             </div>
             <router-link
-              v-if="scope.row.state == 'Validée' && scope.row.has_places_left"
+              v-if="
+                scope.row.state == 'Validée' &&
+                scope.row.has_places_left &&
+                $store.getters.contextRole == 'responsable'
+              "
               :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
             >
               <el-button size="mini" round> Trouver des bénévoles </el-button>
@@ -92,6 +97,10 @@ export default {
     tableData: {
       type: Array,
       default: null,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
     onUpdatedRow: {
       type: Function,

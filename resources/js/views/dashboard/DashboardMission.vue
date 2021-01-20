@@ -84,18 +84,18 @@
             </div>
             <member-teaser class="member py-2" :member="mission.responsable" />
           </el-card>
-          <el-card v-if="mission.structure" shadow="never" class="p-4">
+          <el-card v-if="structure" shadow="never" class="p-4">
             <div class="flex justify-between">
               <router-link
                 :to="{
                   name: 'DashboardStructure',
-                  params: { id: mission.structure.id },
+                  params: { id: structure.id },
                 }"
                 class="mb-6 text-xl hover:text-blue-800"
-                >{{ mission.structure.name }}</router-link
+                >{{ structure.name }}</router-link
               >
             </div>
-            <structure-infos :structure="mission.structure" />
+            <structure-infos :structure="structure" />
           </el-card>
         </div>
       </div>
@@ -131,7 +131,12 @@
 
 <script>
 import { fetchActivities } from '@/api/app'
-import { getMission, cloneMission, deleteMission } from '@/api/mission'
+import {
+  getMission,
+  getMissionStructure,
+  cloneMission,
+  deleteMission,
+} from '@/api/mission'
 import StructureInfos from '@/components/infos/StructureInfos'
 import { fetchParticipations } from '@/api/participation'
 import TableWithFilters from '@/mixins/TableWithFilters'
@@ -169,6 +174,7 @@ export default {
     return {
       loading: true,
       mission: null,
+      structure: null,
       tableData: [],
     }
   },
@@ -179,6 +185,9 @@ export default {
     async fetchRows() {
       const response = await getMission(this.id)
       this.mission = response.data
+
+      const responseStructure = await getMissionStructure(this.mission.id)
+      this.structure = responseStructure.data
 
       if (this.tab == 'history') {
         return fetchActivities({

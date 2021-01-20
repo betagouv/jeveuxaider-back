@@ -32,6 +32,7 @@
           </router-link>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
+              v-if="profile.user_id"
               :command="{ action: 'impersonate', id: profile.user_id }"
             >
               Prendre sa place

@@ -80,8 +80,16 @@
                     ? fromUser(conversation).profile.image.thumb
                     : null
                 "
-                :message="conversation.latest_message.content"
-                :date="conversation.latest_message.created_at"
+                :message="
+                  conversation.latest_message
+                    ? conversation.latest_message.content
+                    : null
+                "
+                :date="
+                  conversation.latest_message
+                    ? conversation.latest_message.created_at
+                    : null
+                "
                 :status="conversation.conversable.state"
                 conversable-type="Participation"
                 :nametype="

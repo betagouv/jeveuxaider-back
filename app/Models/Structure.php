@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Structure extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, HasRelationships;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -63,7 +64,7 @@ class Structure extends Model
     protected $hidden = ['media'];
 
     protected $appends = ['full_address', 'ceu'];
-    protected $with = ['collectivity'];
+    // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
 
@@ -102,19 +103,6 @@ class Structure extends Model
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
             break;
         }
-    }
-
-    public function getResponseRatioAttribute()
-    {
-        $participationsCount = Participation::whereIn('mission_id', $this->missions->pluck('id'))->count();
-
-        if ($this->missions->count() == 0 || !$participationsCount) {
-            return null;
-        }
-
-        $participationsWaitingCount = Participation::where('state', 'En attente de validation')->whereIn('mission_id', $this->missions->pluck('id'))->count();
-
-        return round(($participationsCount - $participationsWaitingCount) / $participationsCount * 100);
     }
 
     public function setNameAttribute($value)
@@ -235,6 +223,26 @@ class Structure extends Model
         return $this->hasMany('App\Models\Mission');
     }
 
+    public function participations()
+    {
+        return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission');
+    }
+
+    public function waitingParticipations()
+    {
+        return $this->hasManyThrough('App\Models\Participation', 'App\Models\Mission')
+            ->where('participations.state', 'En attente de validation');
+    }
+
+    public function conversations()
+    {
+        return $this->hasManyDeep(
+            'App\Models\Conversation',
+            ['App\Models\Mission', 'App\Models\Participation'],
+            [null, null, ['conversable_type', 'conversable_id']]
+        );
+    }
+
     public function addMember(Profile $profile, $role)
     {
         return $this->members()->attach($profile, ['role' => $role]);
@@ -255,5 +263,31 @@ class Structure extends Model
         }
 
         return $mission;
+    }
+
+    public function setResponseRatio()
+    {
+        $participationsCount = $this->participations->count();
+        $waitingParticipationsCount = $this->participations->where('state', 'En attente de validation')->count();
+        $this->response_ratio = round(($participationsCount - $waitingParticipationsCount) / $participationsCount * 100);
+
+        return $this;
+    }
+
+    public function setResponseTime()
+    {
+        $avgResponseTime = $this->conversations->avg('response_time');
+        if ($avgResponseTime) {
+            $this->response_time = intval($avgResponseTime);
+        }
+        return $this;
+    }
+
+    // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
+    public function saveQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->save($options);
+        });
     }
 }

@@ -31,18 +31,6 @@
             >
               <el-button icon="el-icon-view" type="mini">Voir</el-button>
             </router-link>
-            <button
-              v-if="
-                $store.getters.contextRole == 'admin' ||
-                $store.getters.contextRole == 'referent' ||
-                $store.getters.contextRole == 'referent_regional'
-              "
-              type="button"
-              class="el-button is-plain el-button--danger el-button--mini"
-              @click="onClickDelete"
-            >
-              <i class="el-icon-delete" />
-            </button>
           </div>
         </div>
         <div class="flex items-center justify-center mb-4">

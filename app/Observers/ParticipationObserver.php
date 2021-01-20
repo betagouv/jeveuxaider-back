@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Participation;
+use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
@@ -18,6 +19,11 @@ class ParticipationObserver
                 $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
             }
         }
+
+        // RESPONSE RATIO
+        $structure = $participation->mission->structure;
+        $structure->setResponseRatio();
+        $structure->saveQuietly();
     }
 
     public function updated(Participation $participation)
@@ -53,6 +59,14 @@ class ParticipationObserver
                     }
                     break;
             }
+        }
+
+        // SET STRUCTURE RESPONSE RATIO
+        if ($oldState != $newState) {
+            if ($oldState == 'En attente de validation') {
+                $participation->mission->structure->setResponseRatio()->saveQuietly();
+            }
+            $participation->conversation->setResponseTime()->save();
         }
     }
 
