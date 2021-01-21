@@ -65,6 +65,26 @@ return [
             'bucket' => env('S3_BUCKET'),
         ],
 
+        'do_s3_prod' => [
+            'driver' => 's3',
+            'root'   => 'public',
+            'key' => env('DO_S3_AK'),
+            'secret' => env('DO_S3_SK'),
+            'endpoint' => env('DO_S3_ENDPOINT'),
+            'region' => env('DO_S3_REGION'),
+            'bucket' => env('DO_S3_BUCKET'),
+        ],
+
+        'do_s3_preprod' => [
+            'driver' => 's3',
+            'root'   => 'public',
+            'key' => env('DOPREPROD_S3_AK'),
+            'secret' => env('DOPREPROD_S3_SK'),
+            'endpoint' => env('DOPREPROD_S3_ENDPOINT'),
+            'region' => env('DOPREPROD_S3_REGION'),
+            'bucket' => env('DOPREPROD_S3_BUCKET'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('S3_AK'),
