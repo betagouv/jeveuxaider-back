@@ -72,11 +72,23 @@ class MigrateS3 extends Command
         // }
 
         foreach ($sourceFiles as $file) {
-            // Copy file
-            $visibility = Storage::disk($source)->getVisibility($file);
-            $content = Storage::disk($source)->get($file);
-            Storage::disk($destination)->put($file, $content, $visibility);
-            $this->countOutputLog('copied', $file);
+            // If file already exists in destination
+            if (in_array($file, $destinationFiles)) {
+                // Overwrite file if argument is present
+                if ($this->option('overwrite')) {
+                    $visibility = Storage::disk($source)->getVisibility($file);
+                    $content = Storage::disk($source)->get($file);
+                    Storage::disk($destination)->put($file, $content, $visibility);
+                    $this->countOutputLog('copied', $file);
+                } else { // Skip file
+                    $this->countOutputLog('skipped', $file);
+                }
+            } else {
+                $visibility = Storage::disk($source)->getVisibility($file);
+                $content = Storage::disk($source)->get($file);
+                Storage::disk($destination)->put($file, $content, $visibility);
+                $this->countOutputLog('copied', $file);
+            }
             
             $progress->advance();
         }
