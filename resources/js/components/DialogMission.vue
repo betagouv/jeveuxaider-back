@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition appear name="fade">
     <div class="fixed">
       <div
         id="dialog-mission"
@@ -14,6 +14,7 @@
           </div>
 
           <div
+            v-scroll-lock="true"
             class="pb-32 flex flex-col flex-1 overflow-y-auto lg:justify-center lg:pb-0"
           >
             <div

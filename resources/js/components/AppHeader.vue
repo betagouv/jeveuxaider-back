@@ -253,8 +253,7 @@
 
       <!-- DIALOG MISSION -->
       <DialogMission
-        v-show="showDialogMission"
-        v-scroll-lock="showDialogMission"
+        v-if="showDialogMission"
         @submitted="showDialogMission = false"
         @closed="showDialogMission = false"
       />
