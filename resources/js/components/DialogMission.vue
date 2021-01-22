@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div>
+    <div class="fixed">
       <div
         id="dialog-mission"
         class="fixed inset-0 w-full h-full z-50 flex flex-col items-center justify-center"
@@ -32,11 +32,11 @@
                 :class="[{ 'lg:flex': index == 0 }]"
               >
                 <el-radio
-                  v-model="radio"
+                  :value="radio"
                   :label="item.value"
                   class="flex items-center lg:h-full py-6 px-10 transition"
                   :class="[{ 'opacity-25': radio && radio != item.value }]"
-                  @change="onChange"
+                  @click.native.prevent="onClick(item.value)"
                 >
                   <span>{{ item.label }}</span>
                 </el-radio>
@@ -115,7 +115,7 @@ export default {
             }
           })
           return (
-            `<div class="text-black">${suggestion.highlight.name}</div>` +
+            `<div class="text-black font-bold">${suggestion.highlight.name}</div>` +
             `<div class="text-gray-800 text-xs font-light">` +
             `<span>${suggestion.postcode}</span>${detailsOutput}` +
             `</div>`
@@ -126,12 +126,20 @@ export default {
     }
   },
   methods: {
-    onChange() {
-      this.$set(this.routeState, 'refinementList', { type: [this.radio] })
-      this.onPlaceClear()
-      if (this.radio == 'Mission en présentiel') {
-        document.querySelector(`#dialog-mission--places-input`).focus()
+    onClick(val) {
+      if (this.radio == val) {
+        this.radio = null
+        this.$delete(this.routeState, 'refinementList')
+      } else {
+        this.radio = val
+        this.$set(this.routeState, 'refinementList', { type: [this.radio] })
       }
+      this.onPlaceClear()
+      this.$nextTick(() => {
+        if (this.radio == 'Mission en présentiel') {
+          document.querySelector(`#dialog-mission--places-input`).focus()
+        }
+      })
     },
     onClose() {
       this.reset()
@@ -187,6 +195,7 @@ export default {
       border-color: #F3F3F3
       background: #F3F3F3
       transition: all .25s
+      box-shadow: none !important
       &::after
         background: url(/images/check-gray.svg)
         width: 11px

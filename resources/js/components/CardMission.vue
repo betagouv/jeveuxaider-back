@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card--mission h-full flex flex-col bg-white rounded-lg overflow-hidden"
+    class="card--mission h-auto sm:h-full flex flex-col bg-white rounded-lg overflow-hidden"
   >
     <div class="thumbnail--wrapper relative">
       <img
@@ -29,9 +29,10 @@
       <div class="pill-2">{{ mission.domaine_name }}</div>
 
       <v-clamp
+        tag="h2"
         :max-lines="3"
         autoresize
-        class="name font-black text-black text-lg relative"
+        class="name font-black text-black text-lg relative hidden sm:block"
       >
         {{ mission.name }}
 
@@ -53,7 +54,11 @@
         </template>
       </v-clamp>
 
-      <div
+      <h2 class="sm:hidden name font-black text-black text-lg">
+        {{ mission.name }}
+      </h2>
+
+      <h3
         class="structure mt-4 mb-1 truncate"
         v-text="mission.structure.name"
       />

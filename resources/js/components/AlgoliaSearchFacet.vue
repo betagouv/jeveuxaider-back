@@ -8,6 +8,7 @@
       show-more
       :limit="4"
       :show-more-limit="100"
+      :sort-by="dataSortBy"
     >
       <div
         slot-scope="{
@@ -125,11 +126,19 @@ export default {
       type: Boolean,
       default: false,
     },
+    sortBy: {
+      type: Array,
+      default: () => {
+        return ['isRefined', 'count:desc', 'name:asc']
+      },
+    },
   },
   data() {
     return {
       isSearching: false,
       search: '',
+      // See https://github.com/algolia/vue-instantsearch/issues/718
+      dataSortBy: this.sortBy,
     }
   },
   methods: {

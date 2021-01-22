@@ -48,16 +48,16 @@
                 <div class="px-4">
                   <div class="flex flex-wrap justify-between items-center -m-2">
                     <div class="m-2">
-                      <div class="text-xl sm:text-2xl lg:text-3xl font-black">
+                      <h1 class="text-xl sm:text-2xl lg:text-3xl font-black">
                         Trouver une mission de bénévolat
-                      </div>
+                      </h1>
                       <div>
                         {{ nbHits | formatNumber }}
                         {{
                           nbHits
                             | pluralize([
-                              'mission disponible',
-                              'missions disponibles',
+                              'mission de bénévolat disponible',
+                              'missions de bénévolat disponibles',
                             ])
                         }}
                       </div>
@@ -147,8 +147,7 @@
                             @click="showFilters = false"
                           >
                             <div
-                              class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer"
-                              style="background: rgb(49, 196, 141)"
+                              class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-primary"
                             >
                               Afficher
                             </div>
@@ -162,7 +161,7 @@
                       >
                         <portal-target name="mobile" />
 
-                        <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                        <!-- <div class="font-black text-gray-1000 mb-2 lg:hidden">
                           Mots clés
                         </div>
 
@@ -185,12 +184,13 @@
                               @clear="onQueryClear"
                             />
                           </div>
-                        </ais-search-box>
+                        </ais-search-box> -->
 
                         <AlgoliaSearchFacet
                           name="type"
                           label="Lieu de la mission"
                           class="mb-6"
+                          :sort-by="['count:desc']"
                           @toggle-facet="onToggleFacet($event)"
                         />
 
@@ -213,6 +213,7 @@
                           name="format"
                           label="Format de mission"
                           class="mb-6"
+                          :sort-by="['count:desc']"
                           @toggle-facet="onToggleFacet($event)"
                         />
 
@@ -229,6 +230,7 @@
                           label="Département"
                           is-searchable
                           class="mb-6"
+                          :sort-by="['isRefined', 'name:asc']"
                           @toggle-facet="onToggleFacet($event)"
                         />
                       </div>
@@ -384,7 +386,7 @@ export default {
             }
           })
           return (
-            `<div class="text-black">${suggestion.highlight.name}</div>` +
+            `<div class="text-black font-bold">${suggestion.highlight.name}</div>` +
             `<div class="text-gray-800 text-xs font-light">` +
             `<span>${suggestion.postcode}</span>${detailsOutput}` +
             `</div>`
