@@ -252,11 +252,13 @@
       />
 
       <!-- DIALOG MISSION -->
-      <DialogMission
-        v-if="showDialogMission"
-        @submitted="showDialogMission = false"
-        @closed="showDialogMission = false"
-      />
+      <transition name="fade">
+        <DialogMission
+          v-if="showDialogMission"
+          @submitted="showDialogMission = false"
+          @closed="showDialogMission = false"
+        />
+      </transition>
     </div>
   </header>
 </template>

@@ -1,93 +1,88 @@
 <template>
   <div class="fixed">
-    <transition appear name="fade">
-      <div
-        id="dialog-mission"
-        class="fixed inset-0 w-full h-full z-50 flex flex-col items-center justify-center"
-      >
-        <div class="flex flex-col w-full h-full px-4">
-          <div
-            class="p-4 -mr-4 lg:m-0 lg:p-8 cursor-pointer ml-auto lg:absolute lg:right-0"
-            @click="onClose"
-          >
-            <img src="/images/close-white.svg" alt="Fermer" width="24px" />
-          </div>
+    <div
+      id="dialog-mission"
+      class="fixed inset-0 w-full h-full z-50 flex flex-col items-center justify-center"
+    >
+      <div class="flex flex-col w-full h-full px-4">
+        <div
+          class="p-4 -mr-4 lg:m-0 lg:p-8 cursor-pointer ml-auto lg:absolute lg:right-0"
+          @click="onClose"
+        >
+          <img src="/images/close-white.svg" alt="Fermer" width="24px" />
+        </div>
 
-          <div
-            v-scroll-lock="true"
-            class="overflow-y-auto flex-1 flex flex-col lg:justify-center"
-          >
-            <div class="pb-32 lg:pb-0">
+        <div
+          v-scroll-lock="true"
+          class="overflow-y-auto flex-1 flex flex-col lg:justify-center"
+        >
+          <div class="pb-32 lg:pb-0">
+            <div
+              class="title text-center text-white font-extrabold mb-6 lg:-mt-32"
+            >
+              Trouver une mission de bénévolat
+            </div>
+
+            <div
+              class="items-wrapper flex flex-wrap items-stretch justify-center"
+            >
               <div
-                class="title text-center text-white font-extrabold mb-6 lg:-mt-32"
+                v-for="(item, index) in radios"
+                :key="item.value"
+                class="item w-full lg:w-auto"
+                :class="[{ 'lg:flex': index == 0 }]"
               >
-                Trouver une mission de bénévolat
+                <el-radio
+                  :value="radio"
+                  :label="item.value"
+                  class="flex items-center lg:h-full py-6 px-10 transition"
+                  :class="[{ 'opacity-25': radio && radio != item.value }]"
+                  @click.native.prevent="onClick(item.value)"
+                >
+                  <span>{{ item.label }}</span>
+                </el-radio>
+
+                <transition name="fade-in">
+                  <div
+                    v-if="index == 0 && radio == 'Mission en présentiel'"
+                    class="relative"
+                  >
+                    <img
+                      src="/images/chevron_gray.svg"
+                      class="chevron hidden lg:block z-10"
+                    />
+
+                    <AlgoliaPlacesInput
+                      ref="alogoliaInput"
+                      selector="dialog-mission--places-input"
+                      class="zipcode"
+                      :label="false"
+                      :description="false"
+                      type="city"
+                      :limit="4"
+                      :templates="templatesPlaces"
+                      placeholder="Ex: 75001"
+                      @selected="onPlaceSelect($event)"
+                      @clear="onPlaceClear"
+                    />
+                  </div>
+                </transition>
               </div>
 
               <div
-                class="items-wrapper flex flex-wrap items-stretch justify-center"
+                class="submit py-6 px-10 text-white font-extrabold cursor-pointer transition rounded-r-full"
+                @click="onSubmit"
               >
-                <div
-                  v-for="(item, index) in radios"
-                  :key="item.value"
-                  class="item w-full lg:w-auto"
-                  :class="[{ 'lg:flex': index == 0 }]"
-                >
-                  <el-radio
-                    :value="radio"
-                    :label="item.value"
-                    class="flex items-center lg:h-full py-6 px-10 transition"
-                    :class="[{ 'opacity-25': radio && radio != item.value }]"
-                    @click.native.prevent="onClick(item.value)"
-                  >
-                    <span>{{ item.label }}</span>
-                  </el-radio>
-
-                  <transition name="fade-in">
-                    <div
-                      v-if="index == 0 && radio == 'Mission en présentiel'"
-                      class="relative"
-                    >
-                      <img
-                        src="/images/chevron_gray.svg"
-                        class="chevron hidden lg:block z-10"
-                      />
-
-                      <AlgoliaPlacesInput
-                        ref="alogoliaInput"
-                        selector="dialog-mission--places-input"
-                        class="zipcode"
-                        :label="false"
-                        :description="false"
-                        type="city"
-                        :limit="4"
-                        :templates="templatesPlaces"
-                        placeholder="Ex: 75001"
-                        @selected="onPlaceSelect($event)"
-                        @clear="onPlaceClear"
-                      />
-                    </div>
-                  </transition>
-                </div>
-
-                <div
-                  class="submit py-6 px-10 text-white font-extrabold cursor-pointer transition rounded-r-full"
-                  @click="onSubmit"
-                >
-                  <div class="flex items-center justify-center">
-                    <img
-                      class="flex-none"
-                      src="/images/search-white-bold.svg"
-                    />
-                    <span class="ml-2">Rechercher</span>
-                  </div>
+                <div class="flex items-center justify-center">
+                  <img class="flex-none" src="/images/search-white-bold.svg" />
+                  <span class="ml-2">Rechercher</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
