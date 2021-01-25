@@ -29,7 +29,7 @@
         "rap2hpoutre/fast-excel": "^2.3",
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
         "sendinblue/api-v3-sdk": "7.x.x",
-        "sentry/sentry-laravel": "^1.7",
+        "sentry/sentry-laravel": "^2.3",
         "spatie/geocoder": "^3.5",
         "spatie/laravel-activitylog": "^3.14",
         "spatie/laravel-backup": "^6.7",

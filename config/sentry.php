@@ -21,4 +21,6 @@ return [
         'queue_info' => true,
     ],
 
+    'traces_sample_rate' => 0.2 // 20% des requêtes
+
 ];
