@@ -147,7 +147,7 @@
               ></ckeditor>
             </el-form-item>
             <el-form-item
-              label="Description de la mission"
+              label="Descriptionet règles à appliquer"
               prop="description"
               class="flex-1"
             >
@@ -214,7 +214,7 @@
           </el-form-item>
 
           <el-form-item
-            label="Commentaire par l'organisation"
+            label="Un mot pour motiver les bénévoles à participer"
             prop="information"
             class="flex-1"
           >
@@ -299,7 +299,7 @@
             </el-form-item>
           </div>
 
-          <el-form-item
+          <!-- <el-form-item
             label="Informations complémentaires"
             prop="dates_infos"
             class="flex-1"
@@ -310,7 +310,7 @@
               :autosize="{ minRows: 4, maxRows: 6 }"
               placeholder="Informations complémentaires concernant les dates et horaires ou les autres modalités pratiques"
             />
-          </el-form-item>
+          </el-form-item> -->
 
           <div class="mt-12 mb-6 flex text-xl text-gray-800">
             Le lieu où se déroule la mission
