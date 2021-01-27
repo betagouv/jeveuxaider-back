@@ -72,7 +72,13 @@ export default {
       this.$set(this.routeState, 'place', $event.value)
       this.writeUrl()
     },
+    onRadiusSelect(value) {
+      console.log('onRadiusSelect', value)
+      this.$set(this.routeState, 'aroundRadius', `${value}`)
+      this.writeUrl()
+    },
     onPlaceClear() {
+      this.$delete(this.routeState, 'aroundRadius')
       this.$delete(this.routeState, 'aroundLatLng')
       this.$delete(this.routeState, 'place')
       this.writeUrl()

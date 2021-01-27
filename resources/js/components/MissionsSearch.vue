@@ -34,6 +34,7 @@
           ref="aisConfigure"
           :hits-per-page.camel="18"
           :around-lat-lng.camel="aroundLatLng"
+          :around-radius.camel="aroundRadius"
           :get-ranking-info.camel="true"
         />
 
@@ -85,17 +86,7 @@
                           />
                         </portal>
 
-                        <!-- <el-select v-model="sort" class="sort m-2">
-                        <div slot="prefix">Trier les missions</div>
-
-                        <el-option
-                          v-for="item in sorts"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        >
-                        </el-option>
-                      </el-select> -->
+                        <AlgoliaRadiusFilter @selected="onRadiusSelect" />
 
                         <div
                           class="toggle-filters m-2 p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
@@ -335,7 +326,7 @@
 <script>
 import {
   AisInstantSearch,
-  AisSearchBox,
+  //AisSearchBox,
   AisStateResults,
   AisConfigure,
   AisHits,
@@ -346,12 +337,13 @@ import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
 import CardMission from '@/components/CardMission'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import AlgoliaSearch from '@/mixins/AlgoliaSearch'
+import AlgoliaRadiusFilter from '@/components/AlgoliaRadiusFilter.vue'
 
 export default {
   name: 'FrontMissions',
   components: {
     AisInstantSearch,
-    AisSearchBox,
+    //AisSearchBox,
     AisStateResults,
     AisConfigure,
     AisHits,
@@ -359,6 +351,7 @@ export default {
     AlgoliaSearchFacet,
     CardMission,
     AlgoliaPlacesInput,
+    AlgoliaRadiusFilter,
   },
   mixins: [AlgoliaSearch],
   props: {
@@ -396,13 +389,6 @@ export default {
       showFilters: false,
       isMobile: true,
       windowWidth: window.innerWidth,
-      // @todo sort
-      // @todo Affichage pour api
-      // sorts: [
-      //   { value: null, label: 'Par pertinence' },
-      //   { value: 'distance', label: 'Par distance' },
-      // ],
-      // sort: null,
     }
   },
   computed: {
@@ -416,6 +402,21 @@ export default {
         ? this.routeState.aroundLatLng
         : undefined
     },
+    aroundRadius() {
+      return this.routeState && this.routeState.aroundRadius
+        ? this.routeState.aroundRadius
+        : 50000
+    },
+    // aroundRadius: {
+    //   get() {
+    //     return this.routeState && this.routeState.aroundRadius
+    //       ? this.routeState.aroundRadius
+    //       : undefined
+    //   },
+    //   set(newRadius) {
+    //     return newRadius
+    //   },
+    // },
     placeLabel() {
       return this.routeState && this.routeState.place
         ? this.routeState.place
