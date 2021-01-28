@@ -64,34 +64,15 @@
                       </div>
                     </div>
 
-                    <div class="flex-none m-2">
-                      <div class="flex flex-wrap items-center -m-2">
+                    <div class="w-full lg:w-auto m-2">
+                      <div class="flex flex-col lg:flex-row items-center">
                         <AlgoliaLieuSwitcher
+                          class="w-full my-4 lg:my-0"
                           @selected="onPlaceSelect($event)"
                         />
 
-                        <!-- <portal to="mobile" :disabled="windowWidth >= 1024">
-                          <div class="font-black text-gray-1000 mb-2 lg:hidden">
-                            Autour de
-                          </div>
-
-                          <AlgoliaPlacesInput
-                            ref="alogoliaInput"
-                            :value="placeLabel"
-                            class="zipcode mb-8 lg:m-2"
-                            :label="false"
-                            :description="false"
-                            type="city"
-                            :limit="7"
-                            :templates="templatesPlaces"
-                            placeholder="Ex: 75001"
-                            @selected="onPlaceSelect($event)"
-                            @clear="onPlaceClear"
-                          />
-                        </portal> -->
-
                         <div
-                          class="toggle-filters m-2 p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
+                          class="toggle-filters w-full p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
                           @click="showFilters = !showFilters"
                         >
                           <img
@@ -99,7 +80,7 @@
                             src="/images/filter.svg"
                             alt="Filtrer"
                           />
-                          <span>Filtres</span>
+                          <span>Précisez votre recherche</span>
                         </div>
                       </div>
                     </div>

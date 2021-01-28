@@ -1,7 +1,7 @@
 <template>
   <div class="fixed">
     <div
-      id="dialog-mission"
+      id="search-overlay"
       class="fixed inset-0 w-full h-full z-50 flex flex-col items-center justify-center"
     >
       <div class="flex flex-col w-full h-full px-4">
@@ -54,7 +54,7 @@
 
                     <AlgoliaPlacesInput
                       ref="alogoliaInput"
-                      selector="dialog-mission--places-input"
+                      selector="search-overlay--places-input"
                       class="zipcode"
                       :label="false"
                       :description="false"
@@ -138,7 +138,7 @@ export default {
       this.onPlaceClear()
       this.$nextTick(() => {
         if (this.radio == 'Mission en présentiel') {
-          document.querySelector(`#dialog-mission--places-input`).focus()
+          document.querySelector(`#search-overlay--places-input`).focus()
         }
       })
     },
@@ -176,7 +176,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-#dialog-mission
+#search-overlay
   background-color: rgba(25, 22, 130, .95)
   .title
     font-size: 24px
