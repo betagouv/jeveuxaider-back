@@ -69,9 +69,15 @@
             >
             <a
               class="block p-3 hover:underline"
-              href="https://mobilisationemploi.gouv.fr/#/accueil"
+              href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
               target="_blank"
-              >Mobilisation pour l'emploi</a
+              >Organisations</a
+            >
+            <a
+              class="block p-3 hover:underline"
+              href="https://www.jeveuxaider.gouv.fr/engagement/presse/"
+              target="_blank"
+              >Presse</a
             >
             <a
               class="block p-3 hover:underline"
