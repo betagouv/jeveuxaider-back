@@ -34,7 +34,7 @@
           ref="aisConfigure"
           :hits-per-page.camel="18"
           :around-lat-lng.camel="aroundLatLng"
-          :around-radius.camel="aroundRadius"
+          :around-radius.camel="99999"
           :get-ranking-info.camel="true"
         />
 
@@ -66,7 +66,11 @@
 
                     <div class="flex-none m-2">
                       <div class="flex flex-wrap items-center -m-2">
-                        <portal to="mobile" :disabled="windowWidth >= 1024">
+                        <AlgoliaLieuSwitcher
+                          @selected="onPlaceSelect($event)"
+                        />
+
+                        <!-- <portal to="mobile" :disabled="windowWidth >= 1024">
                           <div class="font-black text-gray-1000 mb-2 lg:hidden">
                             Autour de
                           </div>
@@ -84,9 +88,7 @@
                             @selected="onPlaceSelect($event)"
                             @clear="onPlaceClear"
                           />
-                        </portal>
-
-                        <AlgoliaRadiusFilter @selected="onRadiusSelect" />
+                        </portal> -->
 
                         <div
                           class="toggle-filters m-2 p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
@@ -338,6 +340,7 @@ import CardMission from '@/components/CardMission'
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import AlgoliaSearch from '@/mixins/AlgoliaSearch'
 import AlgoliaRadiusFilter from '@/components/AlgoliaRadiusFilter.vue'
+import AlgoliaLieuSwitcher from '@/components/AlgoliaLieuSwitcher.vue'
 
 export default {
   name: 'FrontMissions',
@@ -352,6 +355,7 @@ export default {
     CardMission,
     AlgoliaPlacesInput,
     AlgoliaRadiusFilter,
+    AlgoliaLieuSwitcher,
   },
   mixins: [AlgoliaSearch],
   props: {
@@ -407,16 +411,6 @@ export default {
         ? this.routeState.aroundRadius
         : 50000
     },
-    // aroundRadius: {
-    //   get() {
-    //     return this.routeState && this.routeState.aroundRadius
-    //       ? this.routeState.aroundRadius
-    //       : undefined
-    //   },
-    //   set(newRadius) {
-    //     return newRadius
-    //   },
-    // },
     placeLabel() {
       return this.routeState && this.routeState.place
         ? this.routeState.place

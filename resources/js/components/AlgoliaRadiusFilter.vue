@@ -1,7 +1,5 @@
 <template>
   <el-select v-model="aroundRadius" class="sort m-2" @change="onRadiusSelect">
-    <div slot="prefix">{{ label }}</div>
-
     <el-option
       v-for="item in aroundRadiusOptions"
       :key="item.value"
@@ -14,20 +12,14 @@
 
 <script>
 export default {
-  props: {
-    label: {
-      type: [String],
-      default: 'Filtrer par distance',
-    },
-  },
   data() {
     return {
       aroundRadius: 50000,
       aroundRadiusOptions: [
-        { value: 1000, label: 'Moins de 1 km' },
-        { value: 5000, label: 'Moins de 5 kms' },
-        { value: 25000, label: 'Moins de 25 kms' },
-        { value: 50000, label: 'Moins de 50 kms' },
+        { value: 1000, label: '1km' },
+        { value: 5000, label: '5km' },
+        { value: 25000, label: '25km' },
+        { value: 50000, label: '50km' },
       ],
     }
   },
@@ -39,18 +31,4 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.places-search
-    font-size: 14px!important
-.ap-dropdown-menu
-    border-radius: 0
-.ap-suggestion
-    padding-left: 25px
-    font-size: 14px
-    .ap-suggestion-icon
-        display: none
-    &.ap-cursor
-      @apply bg-gray-100
-.ap-footer
-    display: none
-</style>
+<style lang="sass" scoped></style>
