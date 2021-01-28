@@ -129,14 +129,17 @@
           <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>
-          <el-tag
+          <router-link
             v-if="scope.row.missions_count > 0"
-            type="info"
-            class="m-1 ml-0"
+            :to="`/dashboard/structure/${scope.row.id}/missions`"
           >
-            {{ scope.row.missions_count }}
-            {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
-          </el-tag>
+            <el-tag type="info" class="m-1 ml-0">
+              {{ scope.row.missions_count }}
+              {{
+                scope.row.missions_count | pluralize(['mission', 'missions'])
+              }}
+            </el-tag>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column label="Créée le" min-width="120">
