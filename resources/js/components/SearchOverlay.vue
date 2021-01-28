@@ -91,7 +91,7 @@ import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import qs from 'qs'
 
 export default {
-  name: 'DialogMission',
+  name: 'SearchOverlay',
   components: {
     AlgoliaPlacesInput,
   },

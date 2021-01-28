@@ -100,7 +100,7 @@
             <nav class="flex space-x-12 text-sm lg:text-base">
               <button
                 class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
-                @click="showDialogMission = true"
+                @click="$store.commit('toggleSearchOverlay')"
               >
                 <img
                   class="mr-2"
@@ -248,15 +248,15 @@
       <!-- MOBILE -->
       <mobile-menu
         class="flex h-full items-center md:hidden"
-        @mission-search-clicked="showDialogMission = true"
+        @mission-search-clicked="$store.commit('toggleSearchOverlay')"
       />
 
       <!-- DIALOG MISSION -->
       <transition name="fade">
-        <DialogMission
-          v-if="showDialogMission"
-          @submitted="showDialogMission = false"
-          @closed="showDialogMission = false"
+        <SearchOverlay
+          v-if="$store.getters.searchOverlay"
+          @submitted="$store.commit('toggleSearchOverlay')"
+          @closed="$store.commit('toggleSearchOverlay')"
         />
       </transition>
     </div>
@@ -265,11 +265,11 @@
 
 <script>
 import JdmaBenevole from '@/components/JdmaBenevole.vue'
-import DialogMission from '@/components/DialogMission.vue'
+import SearchOverlay from '@/components/SearchOverlay.vue'
 
 export default {
   name: 'AppHeader',
-  components: { JdmaBenevole, DialogMission },
+  components: { JdmaBenevole, SearchOverlay },
   props: {
     showMenu: {
       type: Boolean,
@@ -277,9 +277,7 @@ export default {
     },
   },
   data() {
-    return {
-      showDialogMission: false,
-    }
+    return {}
   },
   created() {
     if (

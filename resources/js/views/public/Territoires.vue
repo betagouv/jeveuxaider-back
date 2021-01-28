@@ -37,7 +37,7 @@
 
         <!-- Search bar -->
         <div class="flex-1 flex justify-between lg:mx-auto mt-10">
-          <div class="flex-1 flex bg-white z-20 px-8 shadow-md rounded-lg">
+          <div class="flex-1 flex bg-white z-10 px-8 shadow-md rounded-lg">
             <form class="w-full flex md:ml-0 mb-0" action="#" method="GET">
               <label for="search_field" class="sr-only">Recherche</label>
               <div
