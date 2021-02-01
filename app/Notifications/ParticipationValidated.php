@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
-use Illuminate\Support\HtmlString;
 
 class ParticipationValidated extends Notification
 {
@@ -52,15 +51,9 @@ class ParticipationValidated extends Notification
             ->subject('Bravo ! Votre demande de participation vient d\'être acceptée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « ' . $this->participation->mission->name .' » a été acceptée !')
-            ->line('Vous pouvez dès maintenant contacter votre organisation :')
-            ->line(
-                new HtmlString(
-                    $this->participation->mission->responsable->full_name . '<br>' .
-                    $this->participation->mission->responsable->email
-                )
-            )
-            ->line('Retrouvez les détails dans votre espace utilisateur.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->line('Vous pouvez continuer d\'échanger avec le responsable depuis votre messagerie.')
+            ->action('Accéder à ma messagerie', url(config('app.url').'/messages'))
+        ;
     }
 
     /**
