@@ -40,6 +40,7 @@ class Profile extends Model implements HasMedia
     ];
 
     protected $casts = [
+        'birthday' => 'datetime',
         'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
         'disponibilities' => 'array'
@@ -266,6 +267,11 @@ class Profile extends Model implements HasMedia
         return $this
             ->belongsToMany('App\Models\Structure', 'members')
             ->withPivot('role');
+    }
+
+    public function structureAsResponsable()
+    {
+        return $this->structures()->wherePivot('role', 'responsable')->first();
     }
 
     public function participations()

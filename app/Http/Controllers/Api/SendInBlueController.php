@@ -8,8 +8,8 @@ class SendInBlueController extends Controller
 {
     public function store()
     {
-        $config = \SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', config('app.sendinblue_key'));
-        $config = \SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('partner-key', config('app.sendinblue_key'));
+        $config = \SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', config('services.sendinblue.key'));
+        $config = \SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('partner-key', config('services.sendinblue.key'));
 
         $apiInstance = new \SendinBlue\Client\Api\ContactsApi(
             new \GuzzleHttp\Client(),
