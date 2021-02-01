@@ -53,7 +53,6 @@ class Conversation extends Model
         if ($this->response_time) {
             return $this;
         }
-        ray('set response time');
 
         $this->response_time = time() - $this->created_at->timestamp;
 
