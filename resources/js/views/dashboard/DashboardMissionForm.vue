@@ -35,20 +35,57 @@
         </div>
 
         <div v-if="form.template">
-          <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
-            <div class="mr-3 flex-1">
-              <div class="mb-1">{{ form.template.title }}</div>
-              <div class="text-xs text-gray-400">
-                {{ form.template.subtitle }}
-              </div>
+          <div
+            class="bg-gray-100 mb-4 rounded flex items-center overflow-hidden"
+            style="height: 120px"
+          >
+            <div class="flex-none self-stretch">
+              <img
+                :src="`/images/templates/${form.template_id}.jpg`"
+                :srcset="`/images/templates/${form.template_id}@2x.jpg 2x`"
+                width="125px"
+                class="object-cover h-full"
+              />
             </div>
-            <el-button
-              plain
-              type="primary"
-              class="ml-3"
-              @click.prevent="modalVisible = true"
-              >Aperçu</el-button
-            >
+
+            <div class="w-full flex items-center p-4">
+              <div class="mr-3">
+                <div class="mb-1">{{ form.template.title }}</div>
+
+                <v-clamp
+                  :max-lines="3"
+                  autoresize
+                  class="relative text-xs text-gray-400"
+                >
+                  {{ form.template.subtitle }}
+
+                  <template
+                    slot="after"
+                    slot-scope="{ expand, collapse, toggle, clamped, expanded }"
+                  >
+                    <!-- Tooltip if clamped -->
+                    <span
+                      v-if="clamped"
+                      v-tooltip="{
+                        delay: { show: 700, hide: 100 },
+                        content: form.template.subtitle,
+                        hideOnTargetClick: true,
+                        placement: 'top',
+                      }"
+                      class="absolute w-full h-full top-0 left-0"
+                    />
+                  </template>
+                </v-clamp>
+              </div>
+
+              <el-button
+                plain
+                type="primary"
+                class="ml-3"
+                @click.prevent="modalVisible = true"
+                >Aperçu</el-button
+              >
+            </div>
           </div>
 
           <el-dialog
@@ -174,7 +211,7 @@
           </div>
 
           <!-- Thumbnail -->
-          <div
+          <!-- <div
             v-if="form.template && mainDomaineId"
             class="el-form-item is-required"
           >
@@ -183,7 +220,7 @@
               :value="`${form.thumbnail}`"
               @click="onThumbnailClick"
             />
-          </div>
+          </div> -->
 
           <el-form-item label="Type de mission" prop="type">
             <el-select
@@ -581,7 +618,10 @@ export default {
     })
 
     if (!this.form.thumbnail) {
-      this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
+      // Modele
+      if (!this.form.template) {
+        this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
+      }
     }
   },
   async beforeRouteEnter(to, from, next) {

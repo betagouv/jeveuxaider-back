@@ -20,7 +20,7 @@
 
       <div
         v-if="index == 0 && radio == 'Mission en présentiel'"
-        class="w-full relative flex bg-white rounded-tr-lg lg:rounded-tr-none"
+        class="w-full relative flex items-stretch bg-white rounded-tr-lg lg:rounded-tr-none"
       >
         <AlgoliaPlacesInput
           ref="alogoliaInput"
@@ -145,7 +145,7 @@ export default {
         @apply rounded-b-none rounded-r-lg border-t border-l-0
     .el-radio__label
       @apply text-base
-      color: #504DB2
+      color: #817EE2
       padding-left: 15px
     .el-radio__inner
       width: 20px
@@ -213,8 +213,6 @@ export default {
     @screen lg
       top: 15px
   ::v-deep
-    .algolia-places
-      @apply h-full
     .ap-dropdown-menu
       border-radius: 8px
     .ap-suggestion

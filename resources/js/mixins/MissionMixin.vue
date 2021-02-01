@@ -9,12 +9,15 @@ export default {
   },
   computed: {
     thumbnail() {
-      let thumbnail = this.mission.thumbnail
-        ? this.mission.thumbnail
-        : `${this.mission.domaine_id}_1`
+      let thumbnail = this.mission.template_id
+        ? `templates/${this.mission.template_id}`
+        : this.mission.thumbnail
+        ? `domaines/${this.mission.thumbnail}`
+        : `domaines/${this.mission.domaine_id}_1`
+
       return {
-        default: `/images/domaines/${thumbnail}.jpg`,
-        x2: `/images/domaines/${thumbnail}@2x.jpg`,
+        default: `/images/${thumbnail}.jpg`,
+        x2: `/images/${thumbnail}@2x.jpg`,
       }
     },
   },

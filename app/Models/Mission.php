@@ -105,7 +105,8 @@ class Mission extends Model
             'post_date' => strtotime($this->created_at),
             'format' => $this->format,
             'thumbnail' => $this->thumbnail,
-            'domaine_id' => $this->template ? $this->template->domaine_id : $this->domaine_id,
+            'domaine_id' => $this->domaine_id,
+            'template_id' => $this->template_id,
         ];
 
         if ($this->latitude && $this->longitude) {

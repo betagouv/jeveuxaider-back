@@ -98,10 +98,7 @@ export default {
 
     this.placesInstance = places(fixedOptions).configure(reconfigurableOptions)
     this.placesInstance.setVal(this.value)
-    this.placesInstance.autocomplete[0].setAttribute(
-      'autocomplete',
-      'new-password'
-    )
+    this.placesInstance.autocomplete[0].setAttribute('autocomplete', 'off')
     this.placesInstance.on('change', (e) => this.handleSelected(e.suggestion))
     this.placesInstance.on('clear', () => this.resetForm())
     this.placesInstance.on('suggestions', (e) => this.handleSuggestions(e))

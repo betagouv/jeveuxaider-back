@@ -186,18 +186,18 @@
                           />
 
                           <AlgoliaSearchFacet
-                            name="structure.name"
-                            label="Organisations"
-                            is-searchable
-                            class="mb-6"
-                            @toggle-facet="onToggleFacet($event)"
-                          />
-
-                          <AlgoliaSearchFacet
                             name="format"
                             label="Format de mission"
                             class="mb-6"
                             :sort-by="['count:desc']"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
+
+                          <AlgoliaSearchFacet
+                            name="structure.name"
+                            label="Organisations"
+                            is-searchable
+                            class="mb-6"
                             @toggle-facet="onToggleFacet($event)"
                           />
 
