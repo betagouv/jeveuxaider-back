@@ -109,12 +109,6 @@ class ParticipationController extends Controller
         return (string) $participation->delete();
     }
 
-    public function destroy($id)
-    {
-        $participation = Participation::withTrashed()->findOrFail($id);
-        return (string) $participation->forceDelete();
-    }
-
     public function massValidation(Request $request)
     {
         $participations = Participation::role('responsable')->where('state', 'En attente de validation')->get();

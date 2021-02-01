@@ -485,13 +485,6 @@ const routeOptions = [
     },
   },
   {
-    path: '/dashboard/trash/participations',
-    name: 'DashboardTrashParticipations',
-    meta: {
-      roles: ['admin'],
-    },
-  },
-  {
     path: '/dashboard/ressources',
     name: 'DashboardRessources',
     meta: {

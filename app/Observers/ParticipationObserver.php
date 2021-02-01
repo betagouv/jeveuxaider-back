@@ -74,6 +74,8 @@ class ParticipationObserver
 
     public function deleted(Participation $participation)
     {
-        $participation->mission->update();
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
     }
 }
