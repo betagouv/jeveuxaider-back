@@ -147,7 +147,7 @@
               ></ckeditor>
             </el-form-item>
             <el-form-item
-              label="Descriptionet règles à appliquer"
+              label="Description et règles à appliquer"
               prop="description"
               class="flex-1"
             >
