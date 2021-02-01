@@ -56,6 +56,10 @@ class Sendinblue
 
     private static function formatAttributes(User $user)
     {
+        if (!$user->profile) {
+            dump("$user->email has no profile");
+            return;
+        }
         $organisation = $user->profile->structureAsResponsable();
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $mobile = $user->profile->mobile ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;
