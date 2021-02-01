@@ -57,7 +57,7 @@ class MissionController extends Controller
     {
         $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
 
-        return $mission->append('participations_total');
+        return $mission ? $mission->append('participations_total') : abort(404, 'Cette mission n\'existe pas');
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)
