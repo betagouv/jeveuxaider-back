@@ -16,7 +16,9 @@ class MessageObserver
         $participation = $message->conversation->conversable;
         // On vérifie que ce n'est pas le créateur de la conversation
         if ($participation->profile_id != $user->profile->id) {
-            $message->conversation->setResponseTime()->save();
+            if ($message->conversation) {
+                $message->conversation->setResponseTime()->save();
+            }
         }
     }
 }
