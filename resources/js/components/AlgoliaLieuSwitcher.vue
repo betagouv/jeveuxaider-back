@@ -197,8 +197,10 @@ export default {
 
 .zipcode
   position: relative
+  height: 56px
   @apply m-0 flex-1
   @screen lg
+    height: 70px
     @apply mb-0
   &::after
     content: "Votre code postal"
@@ -253,6 +255,8 @@ export default {
       align-items: center
       svg
         right: 4px
+    .algolia-places
+      height: 100%
 
 .chevron
   left: -12px

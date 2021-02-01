@@ -322,7 +322,6 @@
 <script>
 import {
   AisInstantSearch,
-  //AisSearchBox,
   AisStateResults,
   AisConfigure,
   AisHits,
@@ -331,24 +330,19 @@ import {
 
 import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
 import CardMission from '@/components/CardMission'
-import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import AlgoliaSearch from '@/mixins/AlgoliaSearch'
-import AlgoliaRadiusFilter from '@/components/AlgoliaRadiusFilter.vue'
 import AlgoliaLieuSwitcher from '@/components/AlgoliaLieuSwitcher.vue'
 
 export default {
   name: 'FrontMissions',
   components: {
     AisInstantSearch,
-    //AisSearchBox,
     AisStateResults,
     AisConfigure,
     AisHits,
     AisPagination,
     AlgoliaSearchFacet,
     CardMission,
-    AlgoliaPlacesInput,
-    AlgoliaRadiusFilter,
     AlgoliaLieuSwitcher,
   },
   mixins: [AlgoliaSearch],
@@ -511,67 +505,6 @@ export default {
         @apply inline-block
       &.active
         @apply font-bold inline-block
-
-.zipcode
-  position: relative
-  &::after
-    content: "Votre code postal"
-    position: absolute
-    pointer-events: none
-    left: 15px
-    top: 10px
-    font-size: 12px
-    color: #908E8E
-    letter-spacing: -0.1px
-    line-height: 18px
-  ::v-deep
-    .algolia-places
-      background-color: white
-      border-radius: 8px
-      border: 1px solid #EDE8E9
-      @screen lg
-        border: none
-    .ap-dropdown-menu
-      border-radius: 8px
-    .ap-suggestion
-      padding: 5 15px
-      line-height: normal
-      height: inherit
-    .ap-input
-      width: 100%
-      height: 60px
-      border: 1px solid white
-      border-radius: 8px
-      color: black
-      font-weight: bold
-      background-color: transparent
-      border: none
-      top: 10px
-      padding-right: 30px
-      @apply truncate
-      @screen lg
-        width: 250px
-    .ap-icon-pin
-      position: relative
-      pointer-events: none
-      svg
-        display: none
-      &::after
-        content: ""
-        position: absolute
-        width: 22px
-        height: 23px
-        background: url('/images/picker.svg')
-        top: 18px
-        right: 0px
-    .ap-icon-clear
-      width: 20px
-      height: 20px
-      margin: auto
-      display: flex
-      align-items: center
-      svg
-        right: 4px
 
 .sort
   width: 180px

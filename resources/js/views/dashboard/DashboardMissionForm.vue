@@ -617,11 +617,9 @@ export default {
       this.domaines = response.data.data
     })
 
-    if (!this.form.thumbnail) {
-      // Modele
-      if (!this.form.template) {
-        this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
-      }
+    // Only if not a template
+    if (!this.form.thumbnail && !this.form.template) {
+      this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
     }
   },
   async beforeRouteEnter(to, from, next) {
