@@ -45,7 +45,7 @@ class FranceConnectController extends Controller
         // Request user data
         $franceConnectUser = Http::withToken($response['access_token'])->get(config('services.franceconnect.url') . '/api/v1/userinfo');
 
-        $user = User::where('email', $franceConnectUser['email'])->first();
+        $user = User::where('email', strtolower($franceConnectUser['email']))->first();
         if (!$user) {
             $user = $this->register($franceConnectUser);
         }
