@@ -23,119 +23,129 @@
     </template>
 
     <template v-else>
-      <ais-instant-search
-        v-show="!loading"
-        ref="instantsearch"
-        :search-client="searchClient"
-        :index-name="indexName"
-        :initial-ui-state="routeStateWithIndex"
-      >
-        <ais-configure
-          ref="aisConfigure"
-          :hits-per-page.camel="18"
-          :around-lat-lng.camel="aroundLatLng"
-          :around-radius.camel="99999"
-          :get-ranking-info.camel="true"
-        />
+      <transition name="fade">
+        <ais-instant-search
+          v-show="!loading"
+          ref="instantsearch"
+          :search-client="searchClient"
+          :index-name="indexName"
+          :initial-ui-state="routeStateWithIndex"
+        >
+          <ais-configure
+            ref="aisConfigure"
+            :hits-per-page.camel="18"
+            :around-lat-lng.camel="aroundLatLng"
+            :around-radius.camel="aroundRadius"
+            :get-ranking-info.camel="true"
+            :filters.camel="aisFilters"
+          />
 
-        <ais-state-results>
-          <template slot-scope="{ hits, nbHits }">
-            <!-- Header -->
-            <div
-              class="pt-4 lg:pt-7 pb-8"
-              :class="[backgroundHeader, colorHeader]"
-            >
-              <div class="container mx-auto">
-                <div class="px-4">
-                  <div class="flex flex-wrap justify-between items-center -m-2">
-                    <div class="m-2">
-                      <h1 class="text-xl sm:text-2xl lg:text-3xl font-black">
-                        Trouver une mission de bénévolat
-                      </h1>
-                      <div>
-                        {{ nbHits | formatNumber }}
-                        {{
-                          nbHits
-                            | pluralize([
-                              'mission de bénévolat disponible',
-                              'missions de bénévolat disponibles',
-                            ])
-                        }}
+          <ais-state-results>
+            <template slot-scope="{ hits, nbHits }">
+              <!-- Header -->
+              <div
+                class="pt-4 lg:pt-7 pb-8"
+                :class="[backgroundHeader, colorHeader]"
+              >
+                <div class="container mx-auto">
+                  <div class="px-4">
+                    <div
+                      class="flex flex-wrap justify-between items-center -m-2"
+                    >
+                      <div class="m-2">
+                        <h1 class="text-xl sm:text-2xl lg:text-3xl font-black">
+                          Trouver une mission de bénévolat
+                        </h1>
+                        <div>
+                          {{ nbHits | formatNumber }}
+                          {{
+                            nbHits
+                              | pluralize([
+                                'mission de bénévolat disponible',
+                                'missions de bénévolat disponibles',
+                              ])
+                          }}
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="w-full lg:w-auto m-2">
-                      <div class="flex flex-col lg:flex-row items-center">
-                        <AlgoliaLieuSwitcher
-                          class="w-full my-4 lg:my-0"
-                          @selected="onPlaceSelect($event)"
-                        />
-
-                        <div
-                          class="toggle-filters w-full p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
-                          @click="showFilters = !showFilters"
-                        >
-                          <img
-                            class="flex-none mr-4"
-                            src="/images/filter.svg"
-                            alt="Filtrer"
+                      <div class="w-full lg:w-auto m-2">
+                        <div class="flex flex-col lg:flex-row items-center">
+                          <AlgoliaLieuSwitcher
+                            class="w-full my-4 lg:my-0"
+                            :initial-type="type"
+                            :initial-place="placeLabel"
+                            @selected="onPlaceSelect($event)"
+                            @clear="onPlaceClear"
+                            @typeChanged="onTypeChanged($event)"
+                            @typeRemoved="onTypeRemoved()"
+                            @change-radius="onChangeRadius($event)"
                           />
-                          <span>Précisez votre recherche</span>
+
+                          <div
+                            class="toggle-filters w-full p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
+                            @click="showFilters = !showFilters"
+                          >
+                            <img
+                              class="flex-none mr-4"
+                              src="/images/filter.svg"
+                              alt="Filtrer"
+                            />
+                            <span>Précisez votre recherche</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Content -->
-            <div class="container mx-auto">
-              <div ref="contentWrapper" class="px-4 pt-8">
-                <div class="flex">
-                  <!-- Filtres -->
-                  <transition name="fade">
-                    <div
-                      v-show="showFilters"
-                      class="facets--wrapper flex-none mb-8 w-full lg:w-64 lg:mr-8"
-                    >
-                      <div class="border-b lg:hidden">
-                        <div class="p-2 flex items-center justify-between">
-                          <div class="p-2">
-                            <span class="font-bold">
-                              {{ nbHits | formatNumber }}
-                            </span>
-                            <span class="font-light">
-                              {{
-                                nbHits
-                                  | pluralize([
-                                    'mission disponible',
-                                    'missions disponibles',
-                                  ])
-                              }}
-                            </span>
-                          </div>
+              <!-- Content -->
+              <div class="container mx-auto">
+                <div ref="contentWrapper" class="px-4 pt-8">
+                  <div class="flex">
+                    <!-- Filtres -->
+                    <transition name="fade">
+                      <div
+                        v-show="showFilters"
+                        class="facets--wrapper flex-none mb-8 w-full lg:w-64 lg:mr-8"
+                      >
+                        <div class="border-b lg:hidden">
+                          <div class="p-2 flex items-center justify-between">
+                            <div class="p-2">
+                              <span class="font-bold">
+                                {{ nbHits | formatNumber }}
+                              </span>
+                              <span class="font-light">
+                                {{
+                                  nbHits
+                                    | pluralize([
+                                      'mission disponible',
+                                      'missions disponibles',
+                                    ])
+                                }}
+                              </span>
+                            </div>
 
-                          <div
-                            class="p-2 right-0 top-0"
-                            @click="showFilters = false"
-                          >
                             <div
-                              class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-primary"
+                              class="p-2 right-0 top-0"
+                              @click="showFilters = false"
                             >
-                              Afficher
+                              <div
+                                class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-primary"
+                              >
+                                Afficher
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div
-                        v-scroll-lock="showFilters && isMobile"
-                        class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
-                      >
-                        <portal-target name="mobile" />
+                        <div
+                          v-scroll-lock="showFilters && isMobile"
+                          class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
+                        >
+                          <portal-target name="mobile" />
 
-                        <!-- <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                          <!-- <div class="font-black text-gray-1000 mb-2 lg:hidden">
                           Mots clés
                         </div>
 
@@ -160,148 +170,151 @@
                           </div>
                         </ais-search-box> -->
 
-                        <AlgoliaSearchFacet
+                          <!-- <AlgoliaSearchFacet
                           name="type"
                           label="Lieu de la mission"
                           class="mb-6"
                           :sort-by="['count:desc']"
                           @toggle-facet="onToggleFacet($event)"
-                        />
+                        /> -->
 
-                        <AlgoliaSearchFacet
-                          name="domaines"
-                          label="Domaines d'action"
-                          class="mb-6"
-                          @toggle-facet="onToggleFacet($event)"
-                        />
+                          <AlgoliaSearchFacet
+                            name="domaines"
+                            label="Domaines d'action"
+                            class="mb-6"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
 
-                        <AlgoliaSearchFacet
-                          name="structure.name"
-                          label="Organisations"
-                          is-searchable
-                          class="mb-6"
-                          @toggle-facet="onToggleFacet($event)"
-                        />
+                          <AlgoliaSearchFacet
+                            name="structure.name"
+                            label="Organisations"
+                            is-searchable
+                            class="mb-6"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
 
-                        <AlgoliaSearchFacet
-                          name="format"
-                          label="Format de mission"
-                          class="mb-6"
-                          :sort-by="['count:desc']"
-                          @toggle-facet="onToggleFacet($event)"
-                        />
+                          <AlgoliaSearchFacet
+                            name="format"
+                            label="Format de mission"
+                            class="mb-6"
+                            :sort-by="['count:desc']"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
 
-                        <AlgoliaSearchFacet
-                          name="template_title"
-                          label="Type de mission"
-                          is-searchable
-                          class="mb-6"
-                          @toggle-facet="onToggleFacet($event)"
-                        />
+                          <AlgoliaSearchFacet
+                            name="template_title"
+                            label="Type de mission"
+                            is-searchable
+                            class="mb-6"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
 
-                        <AlgoliaSearchFacet
-                          name="department_name"
-                          label="Département"
-                          is-searchable
-                          class="mb-6"
-                          :sort-by="['isRefined', 'name:asc']"
-                          @toggle-facet="onToggleFacet($event)"
-                        />
+                          <AlgoliaSearchFacet
+                            name="department_name"
+                            label="Département"
+                            is-searchable
+                            class="mb-6"
+                            :sort-by="['isRefined', 'name:asc']"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
+                        </div>
                       </div>
+                    </transition>
+
+                    <!-- Résultats -->
+                    <div v-if="hits.length > 0" class="w-full mb-16">
+                      <ais-hits>
+                        <div slot="item" slot-scope="{ item }">
+                          <a
+                            v-if="item.provider == 'api_engagement'"
+                            class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                            :href="item.application_url"
+                            target="_blank"
+                          >
+                            <CardMission :mission="item" />
+                          </a>
+                          <router-link
+                            v-else
+                            class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                            :to="`/missions/${item.id}/${item.slug}`"
+                          >
+                            <CardMission :mission="item" />
+                          </router-link>
+                        </div>
+                      </ais-hits>
+
+                      <ais-pagination class="mt-6" @page-change="scrollToTop">
+                        <ul
+                          slot-scope="{
+                            currentRefinement,
+                            pages,
+                            isFirstPage,
+                            isLastPage,
+                            refine,
+                          }"
+                          class="flex lg:ml-3"
+                        >
+                          <li
+                            class="mr-auto"
+                            :class="[
+                              { 'cursor-not-allowed': isFirstPage },
+                              { 'cursor-pointer': !isFirstPage },
+                            ]"
+                            @click.prevent="
+                              !isFirstPage
+                                ? refine(currentRefinement - 1)
+                                : null
+                            "
+                          >
+                            <span>Précédent</span>
+                          </li>
+
+                          <li
+                            v-for="pageItem in pages"
+                            :key="pageItem"
+                            class="page-number cursor-pointer"
+                            :class="[
+                              {
+                                active: currentRefinement === pageItem,
+                              },
+                            ]"
+                            @click.prevent="
+                              currentRefinement !== pageItem
+                                ? refine(pageItem)
+                                : null
+                            "
+                          >
+                            {{ pageItem + 1 }}
+                          </li>
+                          <li
+                            class="ml-auto"
+                            :class="[
+                              { 'cursor-not-allowed': isLastPage },
+                              { 'cursor-pointer': !isLastPage },
+                            ]"
+                            @click.prevent="
+                              !isLastPage ? refine(currentRefinement + 1) : null
+                            "
+                          >
+                            <span>Suivant</span>
+                          </li>
+                        </ul>
+                      </ais-pagination>
                     </div>
-                  </transition>
 
-                  <!-- Résultats -->
-                  <div v-if="hits.length > 0" class="w-full mb-16">
-                    <ais-hits>
-                      <div slot="item" slot-scope="{ item }">
-                        <a
-                          v-if="item.provider == 'api_engagement'"
-                          class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                          :href="item.application_url"
-                          target="_blank"
-                        >
-                          <CardMission :mission="item" />
-                        </a>
-                        <router-link
-                          v-else
-                          class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                          :to="`/missions/${item.id}/${item.slug}`"
-                        >
-                          <CardMission :mission="item" />
-                        </router-link>
-                      </div>
-                    </ais-hits>
-
-                    <ais-pagination class="mt-6" @page-change="scrollToTop">
-                      <ul
-                        slot-scope="{
-                          currentRefinement,
-                          pages,
-                          isFirstPage,
-                          isLastPage,
-                          refine,
-                        }"
-                        class="flex lg:ml-3"
-                      >
-                        <li
-                          class="mr-auto"
-                          :class="[
-                            { 'cursor-not-allowed': isFirstPage },
-                            { 'cursor-pointer': !isFirstPage },
-                          ]"
-                          @click.prevent="
-                            !isFirstPage ? refine(currentRefinement - 1) : null
-                          "
-                        >
-                          <span>Précédent</span>
-                        </li>
-
-                        <li
-                          v-for="pageItem in pages"
-                          :key="pageItem"
-                          class="page-number cursor-pointer"
-                          :class="[
-                            {
-                              active: currentRefinement === pageItem,
-                            },
-                          ]"
-                          @click.prevent="
-                            currentRefinement !== pageItem
-                              ? refine(pageItem)
-                              : null
-                          "
-                        >
-                          {{ pageItem + 1 }}
-                        </li>
-                        <li
-                          class="ml-auto"
-                          :class="[
-                            { 'cursor-not-allowed': isLastPage },
-                            { 'cursor-pointer': !isLastPage },
-                          ]"
-                          @click.prevent="
-                            !isLastPage ? refine(currentRefinement + 1) : null
-                          "
-                        >
-                          <span>Suivant</span>
-                        </li>
-                      </ul>
-                    </ais-pagination>
-                  </div>
-
-                  <div
-                    v-else
-                    class="w-full h-full mb-16 bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
-                  >
-                    Pas de résultats.
+                    <div
+                      v-else
+                      class="w-full h-full mb-16 bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
+                    >
+                      Pas de résultats.
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </ais-state-results>
-      </ais-instant-search>
+            </template>
+          </ais-state-results>
+        </ais-instant-search>
+      </transition>
     </template>
   </div>
 </template>
@@ -390,7 +403,17 @@ export default {
     aroundRadius() {
       return this.routeState && this.routeState.aroundRadius
         ? this.routeState.aroundRadius
-        : 50000
+        : 25000
+    },
+    aisFilters() {
+      return this.type ? `type:"${this.type}"` : ''
+    },
+    type() {
+      return this.routeState &&
+        this.routeState.refinementList &&
+        this.routeState.refinementList.type
+        ? this.routeState.refinementList.type[0]
+        : null
     },
     placeLabel() {
       return this.routeState && this.routeState.place
@@ -419,6 +442,31 @@ export default {
       } else {
         this.isMobile = true
       }
+    },
+    onTypeChanged(type) {
+      this.$delete(this.routeState, 'aroundRadius')
+      this.$delete(this.routeState, 'aroundLatLng')
+      this.$delete(this.routeState, 'place')
+      if (!this.routeState.refinementList) {
+        this.$set(this.routeState, 'refinementList', {})
+      }
+      this.$set(this.routeState.refinementList, 'type', [type])
+
+      if (type == 'Mission en présentiel') {
+        this.$set(this.routeState, 'aroundRadius', this.aroundRadius)
+      }
+      this.writeUrl()
+    },
+    onTypeRemoved() {
+      this.$delete(this.routeState, 'aroundRadius')
+      this.$delete(this.routeState, 'aroundLatLng')
+      this.$delete(this.routeState, 'place')
+      this.$delete(this.routeState.refinementList, 'type')
+      this.writeUrl()
+    },
+    onChangeRadius(radius) {
+      this.$set(this.routeState, 'aroundRadius', radius)
+      this.writeUrl()
     },
   },
 }

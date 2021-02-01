@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      aroundRadius: 50000,
+      aroundRadius: 25000,
       aroundRadiusOptions: [
         { value: 1000, label: '1km' },
         { value: 5000, label: '5km' },

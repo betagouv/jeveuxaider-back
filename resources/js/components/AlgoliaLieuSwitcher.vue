@@ -8,7 +8,7 @@
       <el-radio
         :value="radio"
         :label="item.value"
-        class="flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10 transition"
+        class="flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10"
         :class="[
           { 'opacity-75': radio && radio != item.value },
           `el-radio-${index}`,
@@ -18,29 +18,28 @@
         <span>{{ item.label }}</span>
       </el-radio>
 
-      <transition name="fade-in">
-        <div
-          v-if="index == 0 && radio == 'Mission en présentiel'"
-          class="relative flex bg-white rounded-tr-lg lg:rounded-tr-none"
-        >
-          <AlgoliaPlacesInput
-            ref="alogoliaInput"
-            selector="search-overlay--places-input"
-            class="zipcode"
-            :label="false"
-            :description="false"
-            type="city"
-            :limit="4"
-            :templates="templatesPlaces"
-            placeholder="Ex: 75001"
-            @selected="onPlaceSelect($event)"
-            @clear="onPlaceClear"
-          />
-          <div class="radius pr-2">
-            <AlgoliaRadiusFilter />
-          </div>
+      <div
+        v-if="index == 0 && radio == 'Mission en présentiel'"
+        class="w-full relative flex bg-white rounded-tr-lg lg:rounded-tr-none"
+      >
+        <AlgoliaPlacesInput
+          ref="alogoliaInput"
+          :value="initialPlace"
+          selector="algolia-lieu-switcher--places-input"
+          class="zipcode"
+          :label="false"
+          :description="false"
+          type="city"
+          :limit="4"
+          :templates="templatesPlaces"
+          placeholder="Ex: 75001"
+          @selected="$emit('selected', $event)"
+          @clear="$emit('clear')"
+        />
+        <div class="radius pr-2">
+          <AlgoliaRadiusFilter @selected="$emit('change-radius', $event)" />
         </div>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -55,9 +54,19 @@ export default {
     AlgoliaPlacesInput,
     AlgoliaRadiusFilter,
   },
+  props: {
+    initialType: {
+      type: String || Boolean,
+      default: null,
+    },
+    initialPlace: {
+      type: String || Boolean,
+      default: null,
+    },
+  },
   data() {
     return {
-      radio: null,
+      radio: this.initialType,
       radios: [
         { value: 'Mission en présentiel', label: 'Près de chez moi' },
         { value: 'Mission à distance', label: 'À distance' },
@@ -86,27 +95,21 @@ export default {
   },
   methods: {
     onClick(val) {
+      this.$emit('click', val)
+
       if (this.radio == val) {
         this.radio = null
-        //this.$delete(this.routeState, 'refinementList')
+        this.$emit('typeRemoved')
       } else {
         this.radio = val
-        //this.$set(this.routeState, 'refinementList', { type: [this.radio] })
+        this.$emit('typeChanged', val)
       }
-      this.onPlaceClear()
+
       this.$nextTick(() => {
         if (this.radio == 'Mission en présentiel') {
-          document.querySelector(`#search-overlay--places-input`).focus()
+          document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
         }
       })
-    },
-    onPlaceClear() {
-      // this.$delete(this.routeState, 'aroundLatLng')
-      // this.$delete(this.routeState, 'place')
-    },
-    reset() {
-      // this.routeState = {}
-      // this.radio = null
     },
   },
 }
@@ -143,12 +146,12 @@ export default {
     .el-radio__label
       @apply text-base
       color: #504DB2
+      padding-left: 15px
     .el-radio__inner
       width: 20px
       height: 20px
       border-color: #504DB2
       background: #504DB2
-      transition: all .25s
       box-shadow: none !important
       &::after
         background: url(/images/check-primary.svg)
@@ -176,9 +179,9 @@ export default {
   ::v-deep
     .el-select
       @apply m-0 relative
-      top: 3px
+      top: 6px
       @screen lg
-        top: 10px
+        top: 15px
     input
       width: 80px
       border: none !important
@@ -186,10 +189,15 @@ export default {
       @apply pl-2 text-black font-bold
       @screen lg
         width: 100px
+    .el-input__suffix
+      right: 10px
+      top: -5px
+      @screen lg
+        top: -8px
 
 .zipcode
   position: relative
-  @apply m-0
+  @apply m-0 flex-1
   @screen lg
     @apply mb-0
   &::after
@@ -206,9 +214,7 @@ export default {
       top: 15px
   ::v-deep
     .algolia-places
-      @apply bg-white rounded-full
-      @screen lg
-        @apply rounded-none h-full
+      @apply h-full
     .ap-dropdown-menu
       border-radius: 8px
     .ap-suggestion
@@ -222,7 +228,7 @@ export default {
       font-weight: bold
       background-color: transparent
       border: none
-      top: 10px
+      top: 14px
       @apply truncate
       @screen lg
         width: 250px
