@@ -105,8 +105,6 @@ class PassportController extends Controller
         $user = Auth::guard('api')->user();
         $socialAccount = SocialAccount::where(['user_id'=> $user->id, 'provider' => 'franceconnect'])->first();
         if ($socialAccount) {
-            debug('has franceconnect!');
-            debug($socialAccount->data);
             $franceConnectLogoutUrl = config('services.franceconnect.url') . "/api/v1/logout?"
             . http_build_query([
                 'id_token_hint' => $socialAccount->data['id_token'],

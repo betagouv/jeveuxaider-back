@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Participation extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use LogsActivity;
 
     protected $table = 'participations';
 
@@ -120,6 +119,13 @@ class Participation extends Model
     {
         return $query->whereHas('mission', function (Builder $query) use ($collectivity_id) {
             $query->collectivity($collectivity_id);
+        });
+    }
+
+    public function deleteQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->delete($options);
         });
     }
 }

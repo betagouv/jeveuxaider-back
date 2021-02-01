@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
-use Illuminate\Support\HtmlString;
 
 class ParticipationWaitingValidation extends Notification
 {
@@ -51,17 +50,10 @@ class ParticipationWaitingValidation extends Notification
         return (new MailMessage)
             ->subject('Vous avez une nouvelle demande de participation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la missions « ' . $this->participation->mission->name .' »')
-            ->line('Voici ses coordonnées :')
-            ->line(
-                new HtmlString(
-                    $this->participation->profile->full_name . '<br>' .
-                    $this->participation->profile->mobile . '<br>' .
-                    $this->participation->profile->email
-                )
-            )
-            ->line('Merci de confirmer sa participation depuis votre espace de gestion.')
-            ->action('Gérer mes participations', url(config('app.url').'/dashboard/participations'));
+            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la mission « ' . $this->participation->mission->name .' »')
+            ->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider et valider sa participation depuis votre espace de gestion.')
+            ->action('Accéder à ma messagerie', url(config('app.url').'/messages'))
+            ;
     }
 
     /**
