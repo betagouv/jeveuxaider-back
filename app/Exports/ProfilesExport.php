@@ -85,7 +85,7 @@ class ProfilesExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $profile->id,
-            $profile->user->id,
+            $profile->user_id,
             $profile->full_name,
             $profile->first_name,
             $profile->last_name,
