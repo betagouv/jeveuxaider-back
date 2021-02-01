@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Propaganistas\LaravelPhone\PhoneNumber;
 
 class Sendinblue
 {
@@ -58,12 +57,14 @@ class Sendinblue
     private static function formatAttributes(User $user)
     {
         $organisation = $user->profile->structureAsResponsable();
+        $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $mobile = $user->profile->mobile ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;
 
         $attributes = [
             // TODO : EMAIL attributes if email has changed
             'NOM' => $user->profile->last_name,
             'PRENOM' => $user->profile->first_name,
-            'SMS' => $user->profile->mobile ? PhoneNumber::make($user->profile->mobile, 'FR') : null,
+            'SMS' => $mobile ? $phoneNumberUtil->format($mobile, \libphonenumber\PhoneNumberFormat::E164) : null,
             'DATE_DE_NAISSANCE' => $user->profile->birthday ? $user->profile->birthday->format('Y-m-d') : null,
             'CODE_POSTAL' => $user->profile->zip,
             'DEPARTEMENT' => substr($user->profile->zip, 0, 2),

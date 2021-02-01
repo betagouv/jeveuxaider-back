@@ -13,7 +13,7 @@ class SendinblueSync extends Command
      *
      * @var string
      */
-    protected $signature = 'sendinblue:sync';
+    protected $signature = 'sendinblue:sync {startId : Id to start from}';
 
     /**
      * The console command description.
@@ -39,10 +39,11 @@ class SendinblueSync extends Command
      */
     public function handle()
     {
-        $users = User::count();
+        $id = $this->argument('startId');
+        $users = User::where('id', '>', $id)->count();
         $currentId = 0;
         if ($this->confirm($users . ' users will be added or updated in Sendinblue')) {
-            User::chunk(50, function ($users) {
+            User::where('id', '>', $id)->chunk(50, function ($users) {
                 foreach ($users as $user) {
                     $response = Sendinblue::sync($user);
                     if (!$response->successful()) {
