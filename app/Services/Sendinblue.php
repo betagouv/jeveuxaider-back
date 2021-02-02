@@ -65,7 +65,7 @@ class Sendinblue
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $mobile = ($user->profile->mobile && $phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;
 
-        if ($user->profile->mobile && $phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) {
+        if ($user->profile->mobile && !$phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) {
             dump("$user->email has a wrong phone number : " . $user->profile->mobile);
         }
         
