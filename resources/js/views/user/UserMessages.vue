@@ -198,20 +198,26 @@
             <div class="panel--content">
               <template v-if="activeConversation">
                 <template v-if="messages.length">
-                  <ConversationMessages
-                    v-for="message in messages.slice().reverse()"
-                    :key="message.id"
-                    :name="message.from.profile.first_name"
-                    :short-name="message.from.profile.short_name"
-                    :thumbnail="
-                      message.from.profile.image
-                        ? message.from.profile.image.thumb
-                        : null
-                    "
-                    :date="message.created_at"
-                  >
-                    <nl2br tag="p" :text="message.content" />
-                  </ConversationMessages>
+                  <template v-for="message in messages.slice().reverse()">
+                    <template v-if="message.type == 'contextual'">
+                      <ConversationContextualMessage :message="message" />
+                    </template>
+                    <template v-if="message.type == 'chat'">
+                      <ConversationMessages
+                        :key="message.id"
+                        :name="message.from.profile.first_name"
+                        :short-name="message.from.profile.short_name"
+                        :thumbnail="
+                          message.from.profile.image
+                            ? message.from.profile.image.thumb
+                            : null
+                        "
+                        :date="message.created_at"
+                      >
+                        <nl2br tag="p" :text="message.content" />
+                      </ConversationMessages>
+                    </template>
+                  </template>
                 </template>
                 <template v-else>
                   <div class="text-center text-gray-500 font-light">
@@ -301,6 +307,7 @@
 import ConversationDetail from '@/components/messages/ConversationDetail.vue'
 import ConversationTeaser from '@/components/messages/ConversationTeaser.vue'
 import ConversationMessages from '@/components/messages/ConversationMessages.vue'
+import ConversationContextualMessage from '@/components/messages/ConversationContextualMessage.vue'
 import {
   fetchConversations,
   fetchMessages,
@@ -316,6 +323,7 @@ export default {
     ConversationDetail,
     ConversationTeaser,
     ConversationMessages,
+    ConversationContextualMessage,
   },
   data() {
     return {

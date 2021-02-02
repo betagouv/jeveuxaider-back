@@ -67,6 +67,12 @@ class ParticipationObserver
                 $participation->mission->structure->setResponseRatio()->saveQuietly();
             }
             if ($participation->conversation) {
+                $responsableUser = $participation->mission->responsable->user ?? $participation->mission->structure->user;
+                $participation->conversation->messages()->create([
+                    'from_id' => $responsableUser->id,
+                    'type' => 'contextual',
+                    'contextual_state' => $newState,
+                ]);
                 $participation->conversation->setResponseTime()->save();
             }
         }
