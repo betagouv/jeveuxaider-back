@@ -245,8 +245,10 @@ export default {
         width: 22px
         height: 23px
         background: url('/images/picker.svg')
-        top: 22px
+        top: 15px
         right: 0px
+        @screen lg
+          top: 22px
     .ap-icon-clear
       width: 20px
       height: 20px
