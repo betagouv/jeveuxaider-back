@@ -42,13 +42,13 @@ const routeOptions = [
   {
     path: '/messages',
     name: 'UserMessages',
-    meta: { requiresAuth: true, layout: 'no-footer' },
+    meta: { requiresAuth: true, layout: 'messages' },
   },
   {
     path: '/messages/:id',
     name: 'UserMessages',
     singleName: 'UserMessage',
-    meta: { requiresAuth: true, layout: 'no-footer' },
+    meta: { requiresAuth: true, layout: 'messages' },
     props: (route) => ({ id: route.params.id }),
   },
 ]
