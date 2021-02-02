@@ -87,7 +87,16 @@
         <div v-if="participation.profile.disponibilities" class="mb-2 flex">
           <div class="text-gray-500 w-24 text-sm">Dispos</div>
           <div class="text-gray-900 flex-1">
-            {{ participation.profile.disponibilities.join(', ') }}
+            {{
+              participation.profile.disponibilities
+                .map(
+                  (disponibility) =>
+                    $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                      (dispo) => dispo.value == disponibility
+                    )[0].label
+                )
+                .join(', ')
+            }}
           </div>
         </div>
         <div v-if="participation.profile.frequence" class="mb-2 flex">
@@ -139,6 +148,7 @@
         "
         class="mt-3"
         :form="participation"
+        @updated="$emit('updated')"
       />
 
       <hr class="my-6" />

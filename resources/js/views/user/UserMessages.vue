@@ -200,7 +200,10 @@
                 <template v-if="messages.length">
                   <template v-for="message in messages.slice().reverse()">
                     <template v-if="message.type == 'contextual'">
-                      <ConversationContextualMessage :message="message" />
+                      <ConversationContextualMessage
+                        :key="message.id"
+                        :message="message"
+                      />
                     </template>
                     <template v-if="message.type == 'chat'">
                       <ConversationMessages
@@ -276,6 +279,7 @@
               <ConversationDetail
                 v-if="activeConversation"
                 :participation="activeConversation.conversable"
+                @updated="fetchConversationMessages(activeConversation)"
               />
             </div>
           </div>
@@ -565,6 +569,26 @@ export default {
           this.activeConversation.latest_message = response.data
         })
       }
+    },
+    fetchConversationMessages(conversation) {
+      fetchMessages(conversation.id).then((response) => {
+        this.messages = response.data.data
+        //this.$refs['messagesContainer'].scrollTop = 0
+        this.currentPage = response.data.current_page
+        this.lastPage = response.data.last_page
+
+        // Fake update of nbUnreadConversations
+        if (!this.hasRead(conversation)) {
+          if (this.$store.getters.user.nbUnreadConversations > 0) {
+            this.$store.getters.user.nbUnreadConversations--
+          }
+        }
+        if (this.$store.getters.contextRole != 'admin') {
+          this.currentUser(conversation).pivot.read_at = dayjs().format(
+            'YYYY-MM-DD HH:mm:ss'
+          )
+        }
+      })
     },
   },
 }
