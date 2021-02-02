@@ -54,4 +54,8 @@ return [
         'client_secret' => env('FRANCECONNECT_CLIENT_SECRET'),
     ],
 
+    'sendinblue' => [
+        'key' => env('SENDINBLUE_KEY'),
+    ],
+
 ];

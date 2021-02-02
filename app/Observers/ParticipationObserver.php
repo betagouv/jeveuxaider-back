@@ -66,12 +66,16 @@ class ParticipationObserver
             if ($oldState == 'En attente de validation') {
                 $participation->mission->structure->setResponseRatio()->saveQuietly();
             }
-            $participation->conversation->setResponseTime()->save();
+            if ($participation->conversation) {
+                $participation->conversation->setResponseTime()->save();
+            }
         }
     }
 
     public function deleted(Participation $participation)
     {
-        $participation->mission->update();
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
     }
 }

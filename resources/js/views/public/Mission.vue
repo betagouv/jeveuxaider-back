@@ -159,9 +159,13 @@
               >
                 <div class="py-8 px-6 lg:p-12">
                   <div
-                    class="text-base leading-6 text-indigo-200 mb-4 lg:mb-12"
+                    class="text-base leading-6 text-indigo-200 mb-2"
                     v-html="formattedDate"
-                  ></div>
+                  />
+                  <div
+                    class="text-base leading-6 text-indigo-200 mb-4 lg:mb-12"
+                    v-text="mission.format"
+                  />
 
                   <div
                     class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
@@ -451,7 +455,7 @@
                 </div>
                 <div class="ml-4">
                   <h4 class="text-lg leading-6 font-bold text-gray-900">
-                    Règles à appliquer
+                    Description et règles à appliquer
                   </h4>
                   <div class="mt-2 text-base leading-7 text-gray-500">
                     <ReadMore

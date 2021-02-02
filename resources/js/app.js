@@ -25,7 +25,6 @@ import AppHeader from '@/components/AppHeader'
 import AppFooter from '@/components/AppFooter'
 import Breadcrumb from '@/components/Breadcrumb'
 import MobileMenu from '@/components/MobileMenu'
-import DropdownUser from '@/components/DropdownUser'
 import DropdownFrontUser from '@/components/DropdownFrontUser'
 import VClamp from 'vue-clamp'
 import CKEditor from '@ckeditor/ckeditor5-vue'
@@ -52,7 +51,6 @@ Vue.component('AppHeader', AppHeader)
 Vue.component('AppFooter', AppFooter)
 Vue.component('Breadcrumb', Breadcrumb)
 Vue.component('MobileMenu', MobileMenu)
-Vue.component('DropdownUser', DropdownUser)
 Vue.component('DropdownFrontUser', DropdownFrontUser)
 Vue.component('VClamp', VClamp)
 

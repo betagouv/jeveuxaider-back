@@ -32,19 +32,17 @@
             </v-clamp>
           </el-dropdown-item>
         </router-link>
-        <el-dropdown-item
+        <template
           v-if="
-            $store.getters.contextRole != 'responsable' &&
-            $store.getters.contextRole != 'volontaire'
+            $store.getters.contextRole &&
+            !['volontaire', 'responsable'].includes($store.getters.contextRole)
           "
-          command="/dashboard"
         >
-          Tableau de bord
-        </el-dropdown-item>
-        <el-dropdown-item
-          v-if="$store.getters.contextRole != 'volontaire'"
-          divided
-        />
+          <el-dropdown-item command="/dashboard">
+            Tableau de bord
+          </el-dropdown-item>
+          <el-dropdown-item divided />
+        </template>
         <el-dropdown-item command="/user/infos"> Mon compte </el-dropdown-item>
         <el-dropdown-item command="/user/missions">
           Mes missions

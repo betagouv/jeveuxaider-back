@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Sentry\State\Scope;
 
 class Handler extends ExceptionHandler
 {
@@ -41,10 +42,20 @@ class Handler extends ExceptionHandler
             }
         }
 
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+        if ($this->shouldReport($exception) && app()->bound('sentry')) {
+            app('sentry')->configureScope(function (Scope $scope): void {
+                $user = auth('api')->user();
+
+                if ($user) {
+                    $scope->setUser([
+                        'id' => $user->id,
+                        'email' => $user->email,
+                    ]);
+                }
+            });
             app('sentry')->captureException($exception);
         }
-
+    
         parent::report($exception);
     }
 

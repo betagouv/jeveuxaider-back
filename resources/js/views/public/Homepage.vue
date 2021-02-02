@@ -108,7 +108,7 @@
                   class="flex flex-col border-gray-100 py-4 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
                 >
                   parmi Plus de
-                  <span class="text-4xl font-bold">4000</span>
+                  <span class="text-4xl font-bold">5000</span>
                   organisations
                 </a>
               </div>

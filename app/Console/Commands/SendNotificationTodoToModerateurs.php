@@ -72,7 +72,7 @@ class SendNotificationTodoToModerateurs extends Command
             $byDeparment[$department]['structures'] = $structures;
             $byDeparment[$department]['referents'] = Profile::where('referent_department', $department)->get();
         }
-        Notification::route('mail', 'gabrielle.bxn@gmail.com')->notify(new ModerateurDailyTodo($byDeparment));
+        Notification::route('mail', 'giulietta.bressy@gmail.com')->notify(new ModerateurDailyTodo($byDeparment));
     }
 
     private function mergeArrays($ar1, $ar2)

@@ -4,9 +4,6 @@
       >Organisations</el-menu-item
     >
     <el-menu-item index="/dashboard/trash/missions">Missions</el-menu-item>
-    <el-menu-item index="/dashboard/trash/participations"
-      >Participations</el-menu-item
-    >
   </el-menu>
 </template>
 
