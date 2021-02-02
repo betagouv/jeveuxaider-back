@@ -125,6 +125,7 @@ export default {
       @apply bg-white border-white
       .el-radio__label
         color: #070192
+        @apply font-bold
       .el-radio__inner
         border-color: #E6EAF5
         background: #E6EAF5
