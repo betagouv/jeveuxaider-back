@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\SendinblueSyncUser;
 use App\Models\Participation;
 use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
@@ -24,6 +25,9 @@ class ParticipationObserver
         $structure = $participation->mission->structure;
         $structure->setResponseRatio();
         $structure->saveQuietly();
+
+        // Maj Sendinblue
+        SendinblueSyncUser::dispatch($participation->profile->user);
     }
 
     public function updated(Participation $participation)
@@ -70,6 +74,11 @@ class ParticipationObserver
                 $participation->conversation->setResponseTime()->save();
             }
         }
+
+        // Maj Sendinblue : Le nombre de participation effectuées / validées peut avoir changé
+        if ($oldState != $newState) {
+            SendinblueSyncUser::dispatch($participation->profile->user);
+        }
     }
 
     public function deleted(Participation $participation)
@@ -77,5 +86,8 @@ class ParticipationObserver
         if ($participation->mission) {
             $participation->mission->update();
         }
+
+        // Maj Sendinblue
+        SendinblueSyncUser::dispatch($participation->profile->user);
     }
 }

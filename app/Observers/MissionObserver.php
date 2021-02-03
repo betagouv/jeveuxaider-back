@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Helpers\Utils;
+use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -37,6 +38,13 @@ class MissionObserver
                 $mission->responsable->notify(new MissionValidated($mission));
             }
         }
+
+        // Maj Sendinblue
+        $mission->structure->responsables->each(function ($profile, $key) {
+            if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
+                SendinblueSyncUser::dispatch($profile->user);
+            }
+        });
     }
 
     /**
@@ -120,6 +128,11 @@ class MissionObserver
      */
     public function deleting(Mission $mission)
     {
-        //
+        // Maj Sendinblue
+        $mission->structure->responsables->each(function ($profile, $key) {
+            if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
+                SendinblueSyncUser::dispatch($profile->user);
+            }
+        });
     }
 }

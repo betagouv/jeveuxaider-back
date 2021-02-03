@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
 
 class ProfileObserver
@@ -14,7 +15,7 @@ class ProfileObserver
      */
     public function created(Profile $profile)
     {
-        //
+        SendinblueSyncUser::dispatch($profile->user);
     }
 
     /**
@@ -31,6 +32,8 @@ class ProfileObserver
         if ($oldEmail != $newEmail) {
             $profile->user()->update(['email' => $newEmail]);
         }
+
+        SendinblueSyncUser::dispatch($profile->user);
     }
 
     /**
