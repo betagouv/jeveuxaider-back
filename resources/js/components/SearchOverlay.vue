@@ -253,6 +253,7 @@ export default {
     .algolia-places
       @apply bg-white rounded-full
       @screen lg
+        max-height: 72px
         @apply rounded-none h-full
     .ap-dropdown-menu
       border-radius: 8px
