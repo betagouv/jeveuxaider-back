@@ -210,7 +210,7 @@ export default {
         transition: all .25s
         box-shadow: none !important
         &::after
-          background: url(/images/check-gray.svg)
+          background: #F3F3F3
           width: 11px
           height: 100%
           background-repeat: no-repeat
