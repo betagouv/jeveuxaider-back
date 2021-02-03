@@ -54,16 +54,21 @@ class Sendinblue
         return $response;
     }
 
-    private static function formatAttributes(User $user)
+    public static function formatAttributes(User $user)
     {
         if (!$user->profile) {
             dump("$user->email has no profile");
             return;
         }
+
         $organisation = $user->profile->structureAsResponsable();
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        $mobile = $user->profile->mobile ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;
+        $mobile = ($user->profile->mobile && $phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;
 
+        if ($user->profile->mobile && !$phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) {
+            dump("$user->email has a wrong phone number : " . $user->profile->mobile);
+        }
+        
         $attributes = [
             // TODO : EMAIL attributes if email has changed
             'NOM' => $user->profile->last_name,

@@ -99,9 +99,9 @@
         <div class="flex h-full items-center justify-end px-4">
           <slot name="menu">
             <nav class="flex space-x-12 text-sm lg:text-base">
-              <router-link
-                to="/missions"
-                class="flex leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+              <button
+                class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                @click="$store.commit('toggleSearchOverlay')"
               >
                 <img
                   class="mr-2"
@@ -109,7 +109,7 @@
                   alt="Trouver une mission"
                 />
                 Trouver une mission
-              </router-link>
+              </button>
               <router-link
                 to="/territoires"
                 class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
@@ -247,17 +247,30 @@
       </div>
 
       <!-- MOBILE -->
-      <mobile-menu class="flex h-full items-center md:hidden" />
+      <mobile-menu
+        class="flex h-full items-center md:hidden"
+        @mission-search-clicked="$store.commit('toggleSearchOverlay')"
+      />
+
+      <!-- DIALOG MISSION -->
+      <transition name="fade">
+        <SearchOverlay
+          v-if="$store.getters.searchOverlay"
+          @submitted="$store.commit('toggleSearchOverlay')"
+          @closed="$store.commit('toggleSearchOverlay')"
+        />
+      </transition>
     </div>
   </header>
 </template>
 
 <script>
 import JdmaBenevole from '@/components/JdmaBenevole.vue'
+import SearchOverlay from '@/components/SearchOverlay.vue'
 
 export default {
   name: 'AppHeader',
-  components: { JdmaBenevole },
+  components: { JdmaBenevole, SearchOverlay },
   props: {
     showMenu: {
       type: Boolean,

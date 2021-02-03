@@ -38,12 +38,12 @@
 
         <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-5">
           <div class="rounded-full shadow-lg">
-            <router-link
-              to="/missions"
-              class="font-bold flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            <div
+              class="font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+              @click="$store.commit('toggleSearchOverlay')"
             >
               Je veux aider
-            </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@
             >
 
             <router-link
-              to="/missions?menu%5Btype%5D=Mission%20en%20présentiel"
+              to="/missions?refinementList[type][0]=Mission en présentiel"
               class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
             >
               près de chez vous</router-link
@@ -137,7 +137,7 @@
             <span class="block lg:inline-flex my-4 lg:my-0">ou</span>
 
             <router-link
-              to="/missions?menu%5Btype%5D=Mission%20à%20distance"
+              to="/missions?refinementList[type][0]=Mission à distance"
               class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
             >
               à distance</router-link
@@ -870,7 +870,7 @@ export default {
             'Je distribue des produits de première nécessité et des repas aux plus démunis, dans la rue ou au sein d’établissements.',
           image: '/images/cover-produit.png',
           link:
-            '/missions?menu%5Btemplate_title%5D=Aide%20alimentaire%20et%20d%27urgence',
+            '/missions?refinementList[template_title][0]=Aide alimentaire et d%27urgence',
           nb_missions_text: '345 missions disponibles <br><b>en présentiel</b>',
         },
         {
@@ -881,7 +881,7 @@ export default {
             'Je maintiens un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)',
           image: '/images/cover-call.png',
           link:
-            '/missions?menu%5Btemplate_title%5D=Lien%20avec%20les%20personnes%20fragiles%20isolées',
+            '/missions?refinementList[template_title][0]=Lien avec les personnes fragiles isolées',
           nb_missions_text:
             '298 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
         },
@@ -893,7 +893,7 @@ export default {
             'J’apporte un soutien aux enfants et jeunes, notamment dans les quartiers populaires, zones rurales et territoires fragiles.',
           image: '/images/cover-ecole.png',
           link:
-            '/missions?menu%5Btemplate_title%5D=Mentorat%20d’un%20enfant%20ou%20d’un%20jeune',
+            '/missions?refinementList[template_title][0]=Mentorat d’un enfant ou d’un jeune',
           nb_missions_text:
             '267 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
         },
@@ -902,37 +902,40 @@ export default {
         {
           name: 'Mobilisation Covid19',
           image: '/images/covid.svg',
-          link: '/missions?menu%5Bdomaines%5D=Mobilisation%20covid-19',
+          link: '/missions?refinementList[domaines][0]=Mobilisation covid-19',
         },
         {
           name: 'Santé pour tous',
           image: '/images/sante.svg',
-          link: '/missions?menu%5Bdomaines%5D=Santé%20pour%20tous',
+          link: '/missions?refinementList[domaines][0]=Santé pour tous',
         },
         {
           name: 'Prévention et protection',
           image: '/images/securite.svg',
-          link: '/missions?menu%5Bdomaines%5D=Prévention%20et%20protection',
+          link:
+            '/missions?refinementList[domaines][0]=Prévention et protection',
         },
         {
           name: 'Sport pour tous',
           image: '/images/sport.svg',
-          link: '/missions?menu%5Bdomaines%5D=Sport%20pour%20tous',
+          link: '/missions?refinementList[domaines][0]=Sport pour tous',
         },
         {
           name: 'Art & Culture pour tous',
           image: '/images/art.svg',
-          link: '/missions?menu%5Bdomaines%5D=Art%20et%20culture%20pour%20tous',
+          link:
+            '/missions?refinementList[domaines][0]=Art et culture pour tous',
         },
         {
           name: 'Mémoire et citoyenneté',
           image: '/images/memoire.svg',
-          link: '/missions?menu%5Bdomaines%5D=Mémoire%20et%20citoyenneté',
+          link: '/missions?refinementList[domaines][0]=Mémoire et citoyenneté',
         },
         {
           name: 'Coopération internationale',
           image: '/images/cooperation.svg',
-          link: '/missions?menu%5Bdomaines%5D=Coopération%20internationale',
+          link:
+            '/missions?refinementList[domaines][0]=Coopération internationale',
         },
       ],
       actualites: [

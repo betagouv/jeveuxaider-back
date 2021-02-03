@@ -48,13 +48,13 @@
         <div
           class="flex flex-col bg-gray-50 px-4 py-8 flex-1 overflow-y-scroll"
         >
-          <router-link
-            to="/missions"
-            class="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+          <button
+            class="text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
             role="menuitem"
-            @click.native="closeMobileMenu"
-            >Trouver une mission</router-link
+            @click="onMissionsClick"
           >
+            Trouver une mission
+          </button>
           <router-link
             v-if="!$store.getters.isLogged"
             to="/register/responsable"
@@ -150,6 +150,10 @@ export default {
   methods: {
     closeMobileMenu() {
       this.showMobileMenu = false
+    },
+    onMissionsClick() {
+      this.closeMobileMenu()
+      this.$emit('mission-search-clicked')
     },
   },
 }

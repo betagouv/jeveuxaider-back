@@ -294,9 +294,11 @@
                 class="inline-flex mx-2 px-4 mb-6 py-2 rounded-full text-md font-semibold shadow-md tracking-wide uppercase bg-white text-gray-800 hover:bg-gray-50"
               >
                 <router-link
-                  :to="`/missions?query=${
+                  :to="`/missions?refinementList[type][0]=Mission en présentiel&aroundLatLng=${
+                    city.coordonates
+                  }&place=${city.zipcode} ${
                     city.name
-                  }&menu%5Bdepartment_name%5D=${$options.filters.fullDepartmentFromValue(
+                  }&refinementList[department_name][0]=${$options.filters.fullDepartmentFromValue(
                     collectivity.department
                   )}`"
                   >{{ city.name }}</router-link
@@ -353,9 +355,9 @@
           </dl>
         </div>
 
-        <missions-search
+        <MissionsSearchOld
           :query-filters="`department:${collectivity.department}`"
-        ></missions-search>
+        />
       </div>
     </div>
   </div>
@@ -363,7 +365,7 @@
 
 <script>
 import { getCollectivityStatistics } from '@/api/app'
-import MissionsSearch from '@/components/MissionsSearch'
+import MissionsSearchOld from '@/components/MissionsSearchOld'
 
 export default {
   name: 'FrontCollectivityDepartment',
@@ -383,7 +385,7 @@ export default {
     }
   },
   components: {
-    MissionsSearch,
+    MissionsSearchOld,
   },
   props: {
     collectivity: {

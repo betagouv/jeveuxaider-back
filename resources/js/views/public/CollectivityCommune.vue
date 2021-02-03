@@ -179,7 +179,8 @@
             </div>
           </dl> -->
         </div>
-        <missions-search :query-filters="zipsFilter"></missions-search>
+
+        <MissionsSearchOld :query-filters="zipsFilter" />
       </div>
     </div>
 
@@ -220,7 +221,7 @@
 
 <script>
 // import { getCollectivityStatistics } from '@/api/app'
-import MissionsSearch from '@/components/MissionsSearch'
+import MissionsSearchOld from '@/components/MissionsSearchOld'
 
 export default {
   name: 'FrontCollectivityCommune',
@@ -240,7 +241,7 @@ export default {
     }
   },
   components: {
-    MissionsSearch,
+    MissionsSearchOld,
   },
   props: {
     collectivity: {

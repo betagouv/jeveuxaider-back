@@ -2,12 +2,10 @@
   <div class="">
     <i
       class="el-icon-close cursor-pointer absolute text-xl"
-      style="right: 32px; top: 16px;"
+      style="right: 32px; top: 16px"
       @click="handleCloseVolet"
     />
-    <slot name="content" :row="row">
-      TOTO
-    </slot>
+    <slot name="content" :row="row"> TODO </slot>
   </div>
 </template>
 

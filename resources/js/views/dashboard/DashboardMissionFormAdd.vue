@@ -93,20 +93,56 @@
         <div
           v-for="template in templates"
           :key="template.label"
-          class="bg-gray-100 p-4 mb-4 rounded flex items-center"
+          class="bg-gray-100 mb-4 rounded flex items-center overflow-hidden"
+          style="height: 120px"
         >
-          <div class="mr-3">
-            <div class="mb-1">{{ template.title }}</div>
-            <div class="text-xs text-gray-400">{{ template.subtitle }}</div>
+          <div class="flex-none self-stretch">
+            <img
+              :src="`/images/templates/${template.id}.jpg`"
+              :srcset="`/images/templates/${template.id}@2x.jpg 2x`"
+              width="125px"
+              class="object-cover h-full"
+            />
           </div>
-          <el-button
-            plain
-            type="primary"
-            size="medium"
-            class="ml-auto h-full"
-            @click="handleSelectTemplate(template)"
-            >Choisir</el-button
-          >
+
+          <div class="w-full flex items-center p-4">
+            <div class="mr-3">
+              <div class="mb-1">{{ template.title }}</div>
+
+              <v-clamp
+                :max-lines="3"
+                autoresize
+                class="relative text-xs text-gray-400"
+              >
+                {{ template.subtitle }}
+
+                <template
+                  slot="after"
+                  slot-scope="{ expand, collapse, toggle, clamped, expanded }"
+                >
+                  <!-- Tooltip if clamped -->
+                  <span
+                    v-if="clamped"
+                    v-tooltip="{
+                      delay: { show: 700, hide: 100 },
+                      content: template.subtitle,
+                      hideOnTargetClick: true,
+                      placement: 'top',
+                    }"
+                    class="absolute w-full h-full top-0 left-0"
+                  />
+                </template>
+              </v-clamp>
+            </div>
+            <el-button
+              plain
+              type="primary"
+              size="medium"
+              class="ml-auto h-full"
+              @click="handleSelectTemplate(template)"
+              >Choisir</el-button
+            >
+          </div>
         </div>
       </template>
       <template v-else>
