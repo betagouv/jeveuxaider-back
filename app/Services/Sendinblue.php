@@ -47,20 +47,14 @@ class Sendinblue
             $response = self::createContact($user);
         }
 
-        // if (!$response->successful()) {
-        // Send to Sentry
-        //     report(new \Exception("Sendinblue sync failed for user $user->email with code " . $response['code']));
-        // }
+        if (!$response->successful()) {
+            report(new \Exception("Sendinblue sync failed for user $user->email with code " . $response['code']));
+        }
         return $response;
     }
 
     public static function formatAttributes(User $user)
     {
-        if (!$user->profile) {
-            dump("$user->email has no profile");
-            return;
-        }
-
         $organisation = $user->profile->structureAsResponsable();
         $phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $mobile = ($user->profile->mobile && $phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) ? $phoneNumberUtil->parse($user->profile->mobile, 'FR') : null;

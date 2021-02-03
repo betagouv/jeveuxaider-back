@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\SendinblueSyncUser;
 use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
@@ -38,11 +39,12 @@ class StructureObserver
         if ($structure->statut_juridique == 'Collectivité') {
             $this->createCollectivity($structure);
         }
+
+        SendinblueSyncUser::dispatch($structure->user);
     }
 
     public function updated(Structure $structure)
     {
-
         // STATE
         $oldState = $structure->getOriginal('state');
         $newState = $structure->state;
@@ -106,6 +108,15 @@ class StructureObserver
             } else {
                 $structure->user->notify(new StructureAssociationCreated($structure));
             }
+        }
+        
+        // Maj Sendinblue
+        if ($structure->isDirty('name')) {
+            $structure->responsables->each(function ($profile, $key) {
+                if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
+                    SendinblueSyncUser::dispatch($profile->user);
+                }
+            });
         }
     }
 
