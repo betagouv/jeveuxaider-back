@@ -198,7 +198,7 @@
             <div class="panel--content">
               <template v-if="activeConversation">
                 <template v-if="messages.length">
-                  <template v-for="message in messages.slice().reverse()">
+                  <template v-for="message in messages">
                     <template v-if="message.type == 'contextual'">
                       <ConversationContextualMessage
                         :key="message.id"
@@ -579,6 +579,10 @@ export default {
         //this.$refs['messagesContainer'].scrollTop = 0
         this.currentPage = response.data.current_page
         this.lastPage = response.data.last_page
+
+        this.activeConversation.latest_message = response.data.data
+          .slice(-1)
+          .pop()
 
         // Fake update of nbUnreadConversations
         if (!this.hasRead(conversation)) {

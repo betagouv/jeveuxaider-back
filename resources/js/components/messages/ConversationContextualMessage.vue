@@ -3,9 +3,7 @@
     <div class="text-gray-400 font-light text-sm">
       {{ message.created_at | formatCustom('D MMM HH[h]mm') }}
     </div>
-    <div class="font-semibold text-center">
-      {{ content }}
-    </div>
+    <div class="font-semibold text-center" v-html="content"></div>
   </div>
 </template>
 
@@ -33,6 +31,16 @@ export default {
           break
         default:
           message = `Le nouveau statut de la participation est: ${this.message.contextual_state}`
+      }
+
+      if (
+        this.message.contextual_reason &&
+        this.message.contextual_reason != 'other'
+      ) {
+        message += `<br><span class="font-light text-sm"> ${this.$options.filters.labelFromValue(
+          this.message.contextual_reason,
+          'participation_declined_reasons'
+        )}</span>`
       }
       return message
     },

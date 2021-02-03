@@ -67,10 +67,13 @@ class ParticipationObserver
                 $participation->mission->structure->setResponseRatio()->saveQuietly();
             }
             if ($participation->conversation) {
-                $participation->conversation->messages()->create([
-                    'type' => 'contextual',
-                    'contextual_state' => $newState,
-                ]);
+                if ($newState != 'Refusée') {
+                    $participation->conversation->messages()->create([
+                        'content' => 'La participation a été '.strtolower($newState),
+                        'type' => 'contextual',
+                        'contextual_state' => $newState,
+                    ]);
+                }
                 $participation->conversation->setResponseTime()->save();
             }
         }

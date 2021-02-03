@@ -37,7 +37,7 @@ class ConversationsController extends Controller
         $currentUser->markConversationAsRead($conversation);
 
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from']))
-            ->defaultSort('-updated_at')
+            ->defaultSort('id')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 }
