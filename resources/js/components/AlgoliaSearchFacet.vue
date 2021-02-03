@@ -88,7 +88,7 @@
                 />
               </template>
             </v-clamp>
-            <span class="count text-gray-450">
+            <span v-if="showCount" class="count text-gray-450">
               {{ item.count.toLocaleString() }}
             </span>
           </div>
@@ -132,6 +132,10 @@ export default {
       default: () => {
         return ['isRefined', 'count:desc', 'name:asc']
       },
+    },
+    showCount: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -203,6 +207,7 @@ export default {
     border-color: #EDE8E9
     color: #171725
     padding: 0 30px 0 8px
+    line-height: 1
   ::v-deep .el-input__icon
     line-height: 28px
 </style>

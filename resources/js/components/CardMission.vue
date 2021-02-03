@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card--mission h-auto sm:h-full flex flex-col bg-white rounded-lg overflow-hidden"
+    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden"
   >
     <div class="thumbnail--wrapper relative">
       <img

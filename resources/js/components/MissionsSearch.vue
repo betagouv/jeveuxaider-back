@@ -198,6 +198,7 @@
                             label="Organisations"
                             is-searchable
                             class="mb-6"
+                            :show-count="false"
                             @toggle-facet="onToggleFacet($event)"
                           />
 
@@ -224,10 +225,14 @@
                     <!-- Résultats -->
                     <div v-if="hits.length > 0" class="w-full mb-16">
                       <ais-hits>
-                        <div slot="item" slot-scope="{ item }">
+                        <div
+                          slot="item"
+                          slot-scope="{ item }"
+                          class="flex flex-col flex-1"
+                        >
                           <a
                             v-if="item.provider == 'api_engagement'"
-                            class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                            class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                             :href="item.application_url"
                             target="_blank"
                           >
@@ -235,7 +240,7 @@
                           </a>
                           <router-link
                             v-else
-                            class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                            class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                             :to="`/missions/${item.id}/${item.slug}`"
                           >
                             <CardMission :mission="item" />
@@ -476,6 +481,7 @@ export default {
       color: #171725
 
 ::v-deep .ais-Hits-list
+  height: max-content
   @apply -m-3 justify-center
   @screen lg
     @apply ml-auto justify-start
@@ -487,6 +493,7 @@ export default {
     width: 292px
   @screen lg
     width: 300px
+    @apply flex flex-col
 
 .ais-Pagination
   ::v-deep ul
