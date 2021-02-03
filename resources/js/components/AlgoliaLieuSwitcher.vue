@@ -121,6 +121,8 @@ export default {
     @apply m-0 border
     border-color: #504DB2
     color: #504DB2
+    @screen lg
+      max-height: 70px
     &.is-checked
       @apply bg-white border-white
       .el-radio__label

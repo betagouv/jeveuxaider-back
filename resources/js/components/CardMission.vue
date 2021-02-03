@@ -140,10 +140,11 @@ export default {
     transition: all .25s
 
 .footer
-  color: #30C48D
-  font-size: 13px
-  &.is-full
-    color: #696974
+  .places-left
+    color: #30C48D
+    font-size: 13px
+    &.is-full
+      color: #d42b3b
 
 .structure,
 .api-engagement
