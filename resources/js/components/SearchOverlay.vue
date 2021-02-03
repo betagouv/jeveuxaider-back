@@ -228,6 +228,7 @@ export default {
 .el-radio
   @apply bg-white rounded-full block m-0 mb-4 w-full
   @screen lg
+    max-height: 72px
     @apply w-auto m-0
 
 
