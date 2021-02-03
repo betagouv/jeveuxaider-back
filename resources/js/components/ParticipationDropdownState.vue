@@ -29,6 +29,57 @@
     <template v-else>
       <div class="text-sm">{{ form.state }}</div>
     </template>
+    <el-dialog
+      :close-on-click-modal="false"
+      title="Décliner la participation"
+      width="100%"
+      :visible.sync="dialogVisible"
+      style="max-width: 600px; margin: auto"
+    >
+      <div class="mb-2">
+        Vous êtes sur le point de décliner la participation de
+        {{ form.profile.full_name }}.
+      </div>
+      <el-form
+        ref="messageForm"
+        :model="messageForm"
+        :rules="rules"
+        class="mt-4"
+        :hide-required-asterisk="true"
+      >
+        <el-form-item label="Raison" prop="reason">
+          <el-radio-group v-model="messageForm.reason">
+            <el-radio
+              v-for="item in $store.getters.taxonomies
+                .participation_declined_reasons.terms"
+              :key="item.value"
+              :label="item.value"
+              class="w-full mb-2"
+              >{{ item.label }}</el-radio
+            >
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="Votre message" prop="content">
+          <el-input
+            v-model="messageForm.content"
+            placeholder="Plus d'explications si nécéssaire"
+            :autosize="{ minRows: 3, maxRows: 8 }"
+            type="textarea"
+            :autofocus="true"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false"> Annuler </el-button>
+        <el-button
+          :loading="dialogLoading"
+          type="primary"
+          @click="handleDeclineSubmit"
+          >Décliner la participation</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -45,7 +96,19 @@ export default {
   },
   data() {
     return {
+      dialogLoading: false,
+      dialogVisible: false,
+      messageForm: {},
       message: 'Êtes vous sur de vos changements ?',
+      rules: {
+        reason: [
+          {
+            required: true,
+            message: 'Merci de sélectionner une raison',
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   computed: {
@@ -85,7 +148,18 @@ export default {
     },
   },
   methods: {
+    handleDeclineSubmit() {
+      this.$refs['messageForm'].validate((valid) => {
+        if (valid) {
+          //
+        }
+      })
+    },
     onSubmitState(state) {
+      if (state == 'Refusée') {
+        this.dialogVisible = true
+        return
+      }
       if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le bénévole sera notifié de ce changement.`
       }
@@ -120,3 +194,34 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.el-form-item
+  @apply mb-2
+  .el-form-item__label
+    @apply font-semibold
+  ::v-deep
+    .el-radio
+      .el-radio__inner
+        width: 20px
+        height: 20px
+        border-color: #F3F3F3
+        background: #F3F3F3
+        transition: all .25s
+        box-shadow: none !important
+        &::after
+          background: url(/images/check-gray.svg)
+          width: 11px
+          height: 100%
+          background-repeat: no-repeat
+          background-position: center
+          transform: translate(-50%, -50%) scale(1)
+      .el-radio__input.is-checked
+        .el-radio__inner
+          border-color: #E6EAF5
+          background: #E6EAF5
+          &::after
+            background: url(/images/check-primary.svg)
+            background-repeat: no-repeat
+            background-position: center
+</style>
