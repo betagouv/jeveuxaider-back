@@ -53,11 +53,6 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationFinished($participation));
                     }
                     break;
-                case 'Refusée':
-                    if ($participation->profile) {
-                        $participation->profile->notify(new ParticipationDeclined($participation));
-                    }
-                    break;
             }
         }
 

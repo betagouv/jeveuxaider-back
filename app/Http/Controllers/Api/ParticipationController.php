@@ -18,6 +18,7 @@ use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
 use App\Models\Mission;
 use App\Models\User;
+use App\Notifications\ParticipationDeclined;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -115,7 +116,8 @@ class ParticipationController extends Controller
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
-            // @TODO: Notification
+            $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
+
         }
 
         $participation->update(['state'=>'Refusée']);
