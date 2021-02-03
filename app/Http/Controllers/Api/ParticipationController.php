@@ -101,6 +101,7 @@ class ParticipationController extends Controller
             $currentUser = User::find(Auth::guard('api')->user()->id);
 
             $participation->conversation->messages()->create([
+                'from_id' => $currentUser->id,
                 'type' => 'contextual',
                 'content' => 'La participation a été déclinée',
                 'contextual_state' => 'Refusée',
