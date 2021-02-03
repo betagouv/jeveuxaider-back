@@ -355,6 +355,7 @@ export default {
       this.debouncedFetchConversations()
     },
     activeConversation(newConversation) {
+      // @todo: bug -> Called twice when coming from handleSubmitFormParticipate in Mission.vue
       if (newConversation) {
         fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
@@ -382,7 +383,9 @@ export default {
     await this.fetchConversations()
     this.$store.commit(
       'conversation/setActiveConversationId',
-      this.$router.currentRoute.params.id ?? this.conversations[0]
+      this.$router.currentRoute.params.id
+        ? this.$router.currentRoute.params.id
+        : this.conversations[0]
         ? this.conversations[0].id
         : null
     )

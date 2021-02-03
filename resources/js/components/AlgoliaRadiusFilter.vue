@@ -1,0 +1,34 @@
+<template>
+  <el-select v-model="aroundRadius" class="sort m-2" @change="onRadiusSelect">
+    <el-option
+      v-for="item in aroundRadiusOptions"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    >
+    </el-option>
+  </el-select>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      aroundRadius: 25000,
+      aroundRadiusOptions: [
+        { value: 1000, label: '1km' },
+        { value: 5000, label: '5km' },
+        { value: 25000, label: '25km' },
+        { value: 50000, label: '50km' },
+      ],
+    }
+  },
+  methods: {
+    onRadiusSelect(value) {
+      this.$emit('selected', value)
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped></style>

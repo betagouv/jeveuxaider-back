@@ -1,15 +1,18 @@
 <template>
   <div class="el-form-item is-required">
-    <label :for="selector" class="el-form-item__label">Lieu</label>
-    <item-description container-class="mb-2">
-      Si l'adresse n'est pas reconnue veuillez saisir le nom de la ville.
+    <label v-if="label" :for="selector" class="el-form-item__label">
+      {{ label }}
+    </label>
+
+    <item-description v-if="description" container-class="mb-2">
+      {{ description }}
     </item-description>
+
     <input
       :id="selector"
       type="text"
       class="el-input__inner places-search"
-      placeholder="Rechercher une adresse..."
-      autocomplete="off"
+      :placeholder="placeholder"
     />
   </div>
 </template>
@@ -33,6 +36,31 @@ export default {
       required: false,
       default: 'places-search',
     },
+    label: {
+      type: [Boolean, String],
+      default: 'Lieu',
+    },
+    description: {
+      type: [Boolean, String],
+      default:
+        "Si l'adresse n'est pas reconnue veuillez saisir le nom de la ville.",
+    },
+    placeholder: {
+      type: [Boolean, String],
+      default: 'Rechercher une adresse...',
+    },
+    type: {
+      type: [Boolean, String],
+      default: null,
+    },
+    limit: {
+      type: [Boolean, Number],
+      default: null,
+    },
+    templates: {
+      type: [Object, Boolean],
+      default: null,
+    },
   },
   data() {
     return {
@@ -40,34 +68,54 @@ export default {
     }
   },
   mounted() {
-    const fixedOptions = {
+    let fixedOptions = {
       appId: process.env.MIX_ALGOLIA_PLACES_APP_ID,
       apiKey: process.env.MIX_ALGOLIA_PLACES_API_KEY,
       container: document.querySelector(`#${this.selector}`),
     }
 
-    const reconfigurableOptions = {
+    if (this.templates) {
+      fixedOptions = { ...fixedOptions, templates: this.templates }
+    }
+
+    let reconfigurableOptions = {
       language: 'fr',
       countries: ['fr'],
-      // type: 'city',
       aroundLatLngViaIP: false,
       useDeviceLocation: false,
     }
 
+    if (this.type) {
+      reconfigurableOptions = { ...reconfigurableOptions, type: this.type }
+    }
+
+    if (this.limit) {
+      reconfigurableOptions = {
+        ...reconfigurableOptions,
+        hitsPerPage: this.limit,
+      }
+    }
+
     this.placesInstance = places(fixedOptions).configure(reconfigurableOptions)
     this.placesInstance.setVal(this.value)
+    this.placesInstance.autocomplete[0].setAttribute('autocomplete', 'off')
     this.placesInstance.on('change', (e) => this.handleSelected(e.suggestion))
     this.placesInstance.on('clear', () => this.resetForm())
+    this.placesInstance.on('suggestions', (e) => this.handleSuggestions(e))
   },
   methods: {
     resetForm() {
       this.$emit('clear')
     },
     handleSelected(suggestion) {
+      this.placesInstance.autocomplete[0].blur()
       this.$emit('selected', suggestion)
     },
     setVal(value) {
       this.placesInstance.setVal(value)
+    },
+    handleSuggestions(e) {
+      // console.log(e)
     },
   },
 }

@@ -18,14 +18,14 @@ class ApiEngagement
 
         do {
             $response = Http::withHeaders([
-        'apikey' => config('app.api_engagement_key'),
-      ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble");
+            'apikey' => config('app.api_engagement_key'),
+            ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission?limit=$limit&skip=$done&domain=environnement,solidarite-insertion,sante,culture-loisirs,education,sport,emploi,humanitaire,animaux,vivre-ensemble");
 
 
             // Send to Algolia
             $missions = array_map(
                 fn ($mission) =>
-              $this->formatMission($mission),
+                $this->formatMission($mission),
                 $response['data']
             );
             $client->initIndex(config('scout.prefix') . '_covid_missions')->saveObjects($missions);
@@ -45,10 +45,10 @@ class ApiEngagement
         );
 
         $res = $client
-      ->initIndex(config('scout.prefix') . '_covid_missions')
-      ->deleteBy([
+        ->initIndex(config('scout.prefix') . '_covid_missions')
+        ->deleteBy([
         'facetFilters' => 'provider:api_engagement',
-      ]);
+        ]);
 
         return $res->getBody();
     }
@@ -78,44 +78,104 @@ class ApiEngagement
 
     private function formatDomain($mission)
     {
+        $baseUrl = 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/';
         switch ($mission['domain']) {
-      case 'environnement':
-        return ['name' => 'Protection de la nature', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg'];
-        break;
-      case 'solidarite-insertion':
-        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
-        break;
-      case 'sante':
-        return ['name' => 'Santé pour tous', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/153/LXzqaXwNUXoycsj.svg'];
-        break;
-      case 'culture-loisirs':
-        return ['name' => 'Art et culture pour tous', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/161/ZLbnYJvmSJTl6FH.svg'];
-        break;
-      case 'education':
-        return ['name' => 'Éducation pour tous', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/152/IIgYOvFa9Lx5zDz.svg'];
-        break;
-      case 'emploi':
-        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
-        break;
-      case 'sport':
-        return ['name' => 'Sport pour tous', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/157/ai45u4kEBbOJ820.svg'];
-        break;
-      case 'humanitaire':
-        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
-        break;
-      case 'animaux':
-        return ['name' => 'Protection de la nature', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/154/FFR5Cx5qbSjCBy0.svg'];
-        break;
-      case 'vivre-ensemble':
-        return ['name' => 'Solidarité et insertion', 'logo' => 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg'];
-        break;
-      case 'autre':
-        return ['name' => 'Autre', 'logo' => ''];
-        break;
-      default:
-        return ['name' => '', 'logo' => ''];
-        break;
-    }
+            case 'environnement':
+                return [
+                    'id' => 4,
+                    'name' => 'Protection de la nature',
+                    'logo' => $baseUrl . '154/FFR5Cx5qbSjCBy0.svg'
+                ];
+            break;
+
+            case 'solidarite-insertion':
+                return [
+                    'id' => 6,
+                    'name' => 'Solidarité et insertion',
+                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
+                ];
+            break;
+
+            case 'sante':
+                return [
+                    'id' => 3,
+                    'name' => 'Santé pour tous',
+                    'logo' => $baseUrl . '153/LXzqaXwNUXoycsj.svg'
+                ];
+            break;
+
+            case 'culture-loisirs':
+                return [
+                    'id' => 11,
+                    'name' => 'Art et culture pour tous',
+                    'logo' => $baseUrl . '161/ZLbnYJvmSJTl6FH.svg'
+                ];
+            break;
+
+            case 'education':
+                return [
+                    'id' => 2,
+                    'name' => 'Éducation pour tous',
+                    'logo' => $baseUrl . '152/IIgYOvFa9Lx5zDz.svg'
+                ];
+            break;
+
+            case 'emploi':
+                return [
+                    'id' => 6,
+                    'name' => 'Solidarité et insertion',
+                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
+                ];
+            break;
+
+            case 'sport':
+                return [
+                    'id' => 7,
+                    'name' => 'Sport pour tous',
+                    'logo' => $baseUrl . '157/ai45u4kEBbOJ820.svg'
+                ];
+            break;
+
+            case 'humanitaire':
+                return [
+                    'id' => 6,
+                    'name' => 'Solidarité et insertion',
+                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
+                ];
+            break;
+
+            case 'animaux':
+                return [
+                    'id' => 4,
+                    'name' => 'Protection de la nature',
+                    'logo' => $baseUrl . '154/FFR5Cx5qbSjCBy0.svg'
+                ];
+            break;
+
+            case 'vivre-ensemble':
+                return [
+                    'id' => 6,
+                    'name' => 'Solidarité et insertion',
+                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
+                ];
+            break;
+
+            case 'autre':
+                return [
+                    'id' => 9,
+                    'name' => 'Autre',
+                    'logo' => ''
+                ];
+            break;
+
+            default:
+                return [
+                    'id' => 9,
+                    'name' => '',
+                    'logo' => ''
+                ];
+            break;
+        }
     }
 
     private function formatRemote($mission)
@@ -125,52 +185,54 @@ class ApiEngagement
         }
 
         switch ($mission['remote']) {
-      case 'no':
-        return 'Mission en présentiel';
-        break;
-      case 'possible':
-        return 'Mission en présentiel';
-        break;
-      case 'full':
-        return 'Mission à distance';
-        break;
-      default:
-        return null;
-        break;
-    }
+            case 'no':
+                return 'Mission en présentiel';
+            break;
+            case 'possible':
+                return 'Mission en présentiel';
+            break;
+            case 'full':
+                return 'Mission à distance';
+            break;
+            default:
+                return null;
+            break;
+        }
     }
 
     private function formatMission($mission)
     {
         return [
-      'objectID' => 'ApiEngagement/' . $mission['_id'],
-      'publisher_name' => $mission['publisherName'],
-      'publisher_logo' => $mission['publisherLogo'],
-      'application_url' => $mission['applicationUrl'],
-      'id' => $mission['_id'],
-      'name' => $mission['title'],
-      'city' => $mission['city'] ?? null,
-      'department' => $mission['departmentCode'] ?? null,
-      'department_name' => isset($mission['departmentName']) && !empty($mission['departmentName']) ? $mission['departmentCode'] . ' - ' . $mission['departmentName'] : null,
-      'zip' => $mission['postalCode'] ?? null,
-      'places_left' => $mission['places'] ?? null,
-      'participations_max' => $mission['places'] ?? null,
-      'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : null,
-      'structure' => [
+        'objectID' => 'ApiEngagement/' . $mission['_id'],
+        'publisher_name' => $mission['publisherName'],
+        'publisher_logo' => $mission['publisherLogo'],
+        'application_url' => $mission['applicationUrl'],
+        'id' => $mission['_id'],
+        'name' => $mission['title'],
+        'city' => $mission['city'] ?? null,
+        'department' => $mission['departmentCode'] ?? null,
+        'department_name' => isset($mission['departmentName']) && !empty($mission['departmentName']) ?
+            $mission['departmentCode'] . ' - ' . $mission['departmentName'] : null,
+        'zip' => $mission['postalCode'] ?? null,
+        'places_left' => $mission['places'] ?? null,
+        'participations_max' => $mission['places'] ?? null,
+        'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : null,
+        'structure' => [
         'id' => $mission['organizationId'] ?? null,
         'name' => $mission['organizationName'] ?? null,
-      ],
-      'type' => $this->formatRemote($mission),
-      'template_title' => $this->formatTemplateTitle($mission),
-      'domaine_name' => $this->formatDomain($mission)['name'],
-      'domaine_image' => $this->formatDomain($mission)['logo'], // Url de l'icone du domaine
-      'domaines' => [$this->formatDomain($mission)['name']],
-      'provider' => 'api_engagement',
-      '_geoloc' => [
+        ],
+        'type' => $this->formatRemote($mission),
+        'template_title' => $this->formatTemplateTitle($mission),
+        'domaine_name' => $this->formatDomain($mission)['name'],
+        'domaine_image' => $this->formatDomain($mission)['logo'], // Url de l'icone du domaine
+        'domaine_id' => $this->formatDomain($mission)['id'],
+        'domaines' => [$this->formatDomain($mission)['name']],
+        'provider' => 'api_engagement',
+        '_geoloc' => [
         'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
         'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0
-      ],
-      'post_date' => strtotime($mission['postedAt']),
-    ];
+        ],
+        'post_date' => strtotime($mission['postedAt']),
+        ];
     }
 }

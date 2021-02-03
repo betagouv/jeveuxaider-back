@@ -35,20 +35,57 @@
         </div>
 
         <div v-if="form.template">
-          <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
-            <div class="mr-3 flex-1">
-              <div class="mb-1">{{ form.template.title }}</div>
-              <div class="text-xs text-gray-400">
-                {{ form.template.subtitle }}
-              </div>
+          <div
+            class="bg-gray-100 mb-4 rounded flex items-center overflow-hidden"
+            style="height: 120px"
+          >
+            <div class="flex-none self-stretch">
+              <img
+                :src="`/images/templates/${form.template_id}.jpg`"
+                :srcset="`/images/templates/${form.template_id}@2x.jpg 2x`"
+                width="125px"
+                class="object-cover h-full"
+              />
             </div>
-            <el-button
-              plain
-              type="primary"
-              class="ml-3"
-              @click.prevent="modalVisible = true"
-              >Aperçu</el-button
-            >
+
+            <div class="w-full flex items-center p-4">
+              <div class="mr-3">
+                <div class="mb-1">{{ form.template.title }}</div>
+
+                <v-clamp
+                  :max-lines="3"
+                  autoresize
+                  class="relative text-xs text-gray-400"
+                >
+                  {{ form.template.subtitle }}
+
+                  <template
+                    slot="after"
+                    slot-scope="{ expand, collapse, toggle, clamped, expanded }"
+                  >
+                    <!-- Tooltip if clamped -->
+                    <span
+                      v-if="clamped"
+                      v-tooltip="{
+                        delay: { show: 700, hide: 100 },
+                        content: form.template.subtitle,
+                        hideOnTargetClick: true,
+                        placement: 'top',
+                      }"
+                      class="absolute w-full h-full top-0 left-0"
+                    />
+                  </template>
+                </v-clamp>
+              </div>
+
+              <el-button
+                plain
+                type="primary"
+                class="ml-3"
+                @click.prevent="modalVisible = true"
+                >Aperçu</el-button
+              >
+            </div>
           </div>
 
           <el-dialog
@@ -123,6 +160,7 @@
               <el-select
                 v-model="form.domaine_id"
                 placeholder="Sélectionner un domaine d'action"
+                @change="$set(form, 'thumbnail', `${form.domaine_id}_1`)"
               >
                 <el-option
                   v-for="domaine in domaines"
@@ -132,6 +170,16 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+
+            <!-- Thumbnail -->
+            <div v-if="mainDomaineId" class="el-form-item is-required">
+              <MissionThumbnailPicker
+                :domain-id="mainDomaineId"
+                :value="`${form.thumbnail}`"
+                @click="onThumbnailClick"
+              />
+            </div>
+
             <el-form-item
               label="Objectif de la mission"
               prop="objectif"
@@ -161,6 +209,18 @@
               ></ckeditor>
             </el-form-item>
           </div>
+
+          <!-- Thumbnail -->
+          <!-- <div
+            v-if="form.template && mainDomaineId"
+            class="el-form-item is-required"
+          >
+            <MissionThumbnailPicker
+              :domain-id="mainDomaineId"
+              :value="`${form.thumbnail}`"
+              @click="onThumbnailClick"
+            />
+          </div> -->
 
           <el-form-item label="Type de mission" prop="type">
             <el-select
@@ -429,12 +489,14 @@ import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import ItemDescription from '@/components/forms/ItemDescription'
 import CKEditorLight from '@/mixins/CKEditorLight.vue'
+import MissionThumbnailPicker from '@/components/MissionThumbnailPicker'
 
 export default {
   name: 'DashboardMissionForm',
   components: {
     AlgoliaPlacesInput,
     ItemDescription,
+    MissionThumbnailPicker,
   },
   mixins: [FormWithAddress, CKEditorLight],
   props: {
@@ -554,6 +616,11 @@ export default {
     fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
     })
+
+    // Only if not a template
+    if (!this.form.thumbnail && !this.form.template) {
+      this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
+    }
   },
   async beforeRouteEnter(to, from, next) {
     await next(async (vm) => {
@@ -624,6 +691,9 @@ export default {
           }
         )
       }
+    },
+    onThumbnailClick(thumbnail) {
+      this.$set(this.form, 'thumbnail', thumbnail)
     },
   },
 }

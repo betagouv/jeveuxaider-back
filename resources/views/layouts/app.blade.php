@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <title>JeVeuxAider | Devenez bénévole et trouvez des missions en quelques clics</title>
     <link rel="icon" href="{{ asset("/images/favicon/favicon.png") }}" />
     <link href="{{ mix("/assets/css/app.css") }}" rel="stylesheet" type="text/css">
@@ -12,7 +12,7 @@
     window.$crisp=[];
     window.CRISP_WEBSITE_ID="4b843a95-8a0b-4274-bfd5-e81cbdc188ac";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
     </script>
-    
+
 </head>
 
 <body>

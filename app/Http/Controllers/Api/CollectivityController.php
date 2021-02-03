@@ -119,7 +119,8 @@ class CollectivityController extends Controller
             ];
         })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
-        $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count')
+        // @todo: Seulement les missions en présentiel ?
+        $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count, MIN(missions.latitude) as latitude, MIN(missions.longitude) as longitude, MIN(missions.zip) as zipcode')
             ->department($collectivity->department)
             ->available()
             ->groupBy('city')
@@ -130,7 +131,9 @@ class CollectivityController extends Controller
         foreach ($cities as $key => $city) {
             $cities[$key] = [
                 'name' => $city->city,
-                'missions_count' => $city->missions_count
+                'missions_count' => $city->missions_count,
+                'coordonates' => $city->latitude . ',' . $city->longitude,
+                'zipcode' => $city->zipcode,
             ];
         }
 
