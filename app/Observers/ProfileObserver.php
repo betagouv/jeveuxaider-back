@@ -15,7 +15,6 @@ class ProfileObserver
      */
     public function created(Profile $profile)
     {
-        SendinblueSyncUser::dispatch($profile->user);
     }
 
     /**
