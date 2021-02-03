@@ -15,7 +15,6 @@ class ProfileObserver
      */
     public function created(Profile $profile)
     {
-        SendinblueSyncUser::dispatch($profile->user);
     }
 
     /**
@@ -32,8 +31,9 @@ class ProfileObserver
         if ($oldEmail != $newEmail) {
             $profile->user()->update(['email' => $newEmail]);
         }
-
-        SendinblueSyncUser::dispatch($profile->user);
+        if ($profile->user) {
+            SendinblueSyncUser::dispatch($profile->user);
+        }
     }
 
     /**
