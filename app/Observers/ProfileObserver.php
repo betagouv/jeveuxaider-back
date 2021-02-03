@@ -31,8 +31,9 @@ class ProfileObserver
         if ($oldEmail != $newEmail) {
             $profile->user()->update(['email' => $newEmail]);
         }
-
-        SendinblueSyncUser::dispatch($profile->user);
+        if ($profile->user) {
+            SendinblueSyncUser::dispatch($profile->user);
+        }
     }
 
     /**
