@@ -49,7 +49,7 @@ class ParticipationDeclined extends Notification
      */
     public function toMail($notifiable)
     {
-         $message = (new MailMessage)
+        $message = (new MailMessage)
             ->subject('Votre participation a été déclinée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation ' . $this->participation->mission->structure->name. '.')

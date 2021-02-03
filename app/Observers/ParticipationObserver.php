@@ -7,7 +7,6 @@ use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
-use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationFinished;
 
 class ParticipationObserver

@@ -117,7 +117,6 @@ class ParticipationController extends Controller
             $participation->conversation->touch();
 
             $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
-
         }
 
         $participation->update(['state'=>'Refusée']);

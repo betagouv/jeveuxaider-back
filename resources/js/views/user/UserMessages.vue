@@ -198,7 +198,7 @@
             <div class="panel--content">
               <template v-if="activeConversation">
                 <template v-if="messages.length">
-                  <template v-for="message in messages">
+                  <template v-for="message in messages.slice().reverse()">
                     <template v-if="message.type == 'contextual'">
                       <ConversationContextualMessage
                         :key="message.id"
