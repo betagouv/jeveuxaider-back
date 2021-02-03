@@ -38,6 +38,7 @@ import TwoColsLayout from '@/layouts/TwoColsLayout'
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ProfileLayout from '@/layouts/ProfileLayout'
 import RegisterStepsLayout from '@/layouts/RegisterStepsLayout'
+import MessagesLayout from '@/layouts/MessagesLayout'
 
 Vue.component('DefaultLayout', DefaultLayout)
 Vue.component('NoHeaderLayout', NoHeaderLayout)
@@ -46,6 +47,7 @@ Vue.component('TwoColsLayout', TwoColsLayout)
 Vue.component('DashboardLayout', DashboardLayout)
 Vue.component('ProfileLayout', ProfileLayout)
 Vue.component('RegisterStepsLayout', RegisterStepsLayout)
+Vue.component('MessagesLayout', MessagesLayout)
 
 Vue.component('AppHeader', AppHeader)
 Vue.component('AppFooter', AppFooter)
