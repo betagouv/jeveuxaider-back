@@ -24,6 +24,19 @@ use Illuminate\Support\Facades\Auth;
 
 class CollectivityController extends Controller
 {
+    public function all(Request $request)
+    {
+        return QueryBuilder::for(Collectivity::where('type', 'commune'))
+            ->allowedFilters([
+                'state',
+                AllowedFilter::exact('published'),
+                AllowedFilter::custom('search', new FiltersCollectivitySearch),
+                AllowedFilter::custom('department', new FiltersCollectivitiesDepartment),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    }
+
     public function collectivities(Request $request)
     {
         return QueryBuilder::for(Collectivity::role($request->header('Context-Role'))->where('type', 'commune')->with('structure.members'))
@@ -55,7 +68,7 @@ class CollectivityController extends Controller
             ? Collectivity::with(['profiles', 'structure'])->where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
-        return $collectivity;
+        return $collectivity->setAppends(['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6']);
     }
 
     public function statistics($slugOrId)

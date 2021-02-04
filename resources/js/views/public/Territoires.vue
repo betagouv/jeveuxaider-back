@@ -160,7 +160,7 @@
 
 <script>
 import departments from '@/utils/departments.json'
-import { fetchCollectivities } from '@/api/app'
+import { fetchAllCollectivities } from '@/api/app'
 import metadatas from '@/utils/metadatas.json'
 
 export default {
@@ -206,7 +206,7 @@ export default {
     },
   },
   created() {
-    fetchCollectivities({
+    fetchAllCollectivities({
       'filter[state]': 'validated',
       'filter[published]': true,
       pagination: 999,

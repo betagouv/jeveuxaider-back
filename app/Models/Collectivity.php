@@ -39,7 +39,7 @@ class Collectivity extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $appends = ['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
+    // protected $appends = ['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
 
     protected $hidden = ['media'];
 
@@ -158,7 +158,7 @@ class Collectivity extends Model implements HasMedia
                     return $query;
                 }
                     return $query->where('id', -1); // Hack pour ne rien retourner
-                
+
             break;
             case 'referent_regional':
 
@@ -179,7 +179,7 @@ class Collectivity extends Model implements HasMedia
                     return $query;
                 }
                     return $query->where('id', -1); // Hack pour ne rien retourner
-                
+
             break;
             case 'responsable_collectivity':
                 return $query->where('id', Auth::guard('api')->user()->profile->collectivity->id);

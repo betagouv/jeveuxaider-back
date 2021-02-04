@@ -130,6 +130,10 @@ export function fetchCollectivities(params) {
   return request.get('/api/collectivities', { params })
 }
 
+export function fetchAllCollectivities(params) {
+  return request.get('/api/collectivities/all', { params })
+}
+
 export function fetchDepartments(params) {
   return request.get('/api/departments', { params })
 }

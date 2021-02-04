@@ -69,7 +69,7 @@
             >
             <a
               class="block p-3 hover:underline"
-              href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
+              href="https://www.jeveuxaider.gouv.fr/engagement/partenaires/"
               target="_blank"
               >Partenaires</a
             >
