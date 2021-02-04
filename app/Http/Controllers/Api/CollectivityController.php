@@ -68,7 +68,7 @@ class CollectivityController extends Controller
             ? Collectivity::with(['profiles', 'structure'])->where('id', $slugOrId)->firstOrFail()
             : Collectivity::where('slug', $slugOrId)->firstOrFail();
 
-        return $collectivity;
+        return $collectivity->setAppends(['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6']);
     }
 
     public function statistics($slugOrId)
