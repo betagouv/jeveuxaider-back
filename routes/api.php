@@ -30,6 +30,7 @@ Route::get('structure/{structure}/availableMissions', 'Api\StructureController@a
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 
 Route::get('collectivities', 'Api\CollectivityController@collectivities');
+Route::get('collectivities/all', 'Api\CollectivityController@all');
 Route::get('departments', 'Api\CollectivityController@departments');
 Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
 Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
