@@ -178,6 +178,30 @@
                           @toggle-facet="onToggleFacet($event)"
                         /> -->
 
+                          <AisClearRefinements
+                            :excluded-attributes="clearExcludes"
+                          >
+                            <div slot-scope="{ canRefine, refine }">
+                              <div
+                                v-if="canRefine"
+                                class="clear-refinements"
+                                @click.prevent="onResetFilters(refine)"
+                              >
+                                <span>Effacer tous les filtres</span>
+                                <div
+                                  class="ml-3 rounded-full bg-gray-100 w-6 h-6 relative flex items-center justify-center"
+                                >
+                                  <img
+                                    class="clear-refinement--icon"
+                                    src="/images/close.svg"
+                                    width="8px"
+                                    height="8px"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </AisClearRefinements>
+
                           <AlgoliaSearchFacet
                             name="domaines"
                             label="Domaines d'action"
@@ -331,6 +355,7 @@ import {
   AisConfigure,
   AisHits,
   AisPagination,
+  AisClearRefinements,
 } from 'vue-instantsearch'
 
 import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
@@ -349,6 +374,7 @@ export default {
     AlgoliaSearchFacet,
     CardMission,
     AlgoliaLieuSwitcher,
+    AisClearRefinements,
   },
   mixins: [AlgoliaSearch],
   props: {
@@ -386,6 +412,7 @@ export default {
       showFilters: false,
       isMobile: true,
       windowWidth: window.innerWidth,
+      clearExcludes: ['type'],
     }
   },
   computed: {
@@ -555,4 +582,14 @@ export default {
     display: flex
     flex-direction: column
     @apply inset-0 bg-gray-100
+
+.clear-refinements
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05)
+  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 inline-flex items-center cursor-pointer
+  .clear-refinement--icon
+    transition: opacity .15s
+    @apply absolute m-auto opacity-50
+  &:hover
+    .clear-refinement--icon
+      @apply opacity-100
 </style>
