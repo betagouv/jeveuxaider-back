@@ -507,9 +507,9 @@ return [
     'participation_declined_reasons' => [
         "vocabulary" => "Reasons",
         "terms" => [
-            "no_response" => "Le bénévole ne répond pas à nos appels ou emails.",
+            "no_response" => "Le bénévole ne répond pas.",
             "requirements_not_fulfilled" => "Le bénévole ne correspond pas aux besoins.",
-            "change_mind" => "Le bénévole ne souhaite pas s'engager finalement.",
+            "change_mind" => "Le bénévole a changé d'avis.",
             "other" => "Autres.",
         ]
     ],
