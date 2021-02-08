@@ -975,15 +975,6 @@ export default {
         if (this.mission.responsable && this.$store.getters.profile) {
           this.form.content = `Bonjour ${this.mission.responsable.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
         }
-
-        console.log('response_time', this.mission.structure.response_time)
-        console.log(
-          'response_time (days)',
-          this.$options.filters.daysFromTimestamp(
-            this.mission.structure.response_time
-          )
-        )
-        console.log('response_ratio', this.mission.structure.response_ratio)
         fetchStructureAvailableMissions(this.mission.structure.id, {
           exclude: this.id,
           append: 'domaines',
@@ -1012,6 +1003,7 @@ export default {
             .then(() => {
               this.dialogLoading = false
               this.$router.push('/messages')
+              window.apieng('trackApplication')
               this.$message({
                 message:
                   'Votre participation a été enregistrée et est en attente de validation !',

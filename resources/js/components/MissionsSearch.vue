@@ -35,6 +35,14 @@
             ref="aisConfigure"
             :hits-per-page.camel="18"
             :around-lat-lng.camel="aroundLatLng"
+            :around-lat-lng-via-i-p.camel="
+              aroundLatLng ||
+              (routeState.refinementList &&
+                routeState.refinementList.type &&
+                routeState.refinementList.type[0] == 'Mission à distance')
+                ? false
+                : true
+            "
             :around-radius.camel="aroundRadius"
             :get-ranking-info.camel="true"
             :filters.camel="aisFilters"
@@ -74,6 +82,7 @@
                             class="w-full my-4 lg:my-0"
                             :initial-type="type"
                             :initial-place="placeLabel"
+                            :around-radius="aroundRadius"
                             @selected="onPlaceSelect($event)"
                             @clear="onPlaceClear"
                             @typeChanged="onTypeChanged($event)"
@@ -143,40 +152,56 @@
                           v-scroll-lock="showFilters && isMobile"
                           class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
                         >
+                          <AisClearRefinements
+                            :excluded-attributes="clearExcludes"
+                          >
+                            <div slot-scope="{ canRefine, refine }">
+                              <div
+                                v-if="canRefine"
+                                class="clear-refinements"
+                                @click.prevent="onResetFilters(refine)"
+                              >
+                                <span>Effacer tous les filtres</span>
+                                <div
+                                  class="ml-3 rounded-full bg-gray-100 w-6 h-6 relative flex items-center justify-center"
+                                >
+                                  <img
+                                    class="clear-refinement--icon"
+                                    src="/images/close.svg"
+                                    width="8px"
+                                    height="8px"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </AisClearRefinements>
+
                           <portal-target name="mobile" />
 
-                          <!-- <div class="font-black text-gray-1000 mb-2 lg:hidden">
-                          Mots clés
-                        </div>
-
-                        <ais-search-box ref="searchbox" class="mb-8">
-                          <div
-                            slot-scope="{
-                              currentRefinement,
-                              isSearchStalled,
-                              refine,
-                            }"
-                          >
-                            <el-input
-                              v-model="routeState.query"
-                              label="Recherche"
-                              placeholder="Recherche par mots-clés"
-                              clearable
-                              class="search-input"
-                              autocomplete="new-password"
-                              @input="onQueryInput(refine, $event)"
-                              @clear="onQueryClear"
-                            />
+                          <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                            Mots clés
                           </div>
-                        </ais-search-box> -->
 
-                          <!-- <AlgoliaSearchFacet
-                          name="type"
-                          label="Lieu de la mission"
-                          class="mb-6"
-                          :sort-by="['count:desc']"
-                          @toggle-facet="onToggleFacet($event)"
-                        /> -->
+                          <AisSearchBox ref="searchbox" class="mb-8">
+                            <div
+                              slot-scope="{
+                                currentRefinement,
+                                isSearchStalled,
+                                refine,
+                              }"
+                            >
+                              <el-input
+                                v-model="routeState.query"
+                                label="Recherche"
+                                placeholder="Recherche par mots-clés"
+                                clearable
+                                class="search-input"
+                                autocomplete="new-password"
+                                @input="onQueryInput(refine, $event)"
+                                @clear="onQueryClear"
+                              />
+                            </div>
+                          </AisSearchBox>
 
                           <AlgoliaSearchFacet
                             name="domaines"
@@ -194,15 +219,6 @@
                           />
 
                           <AlgoliaSearchFacet
-                            name="structure.name"
-                            label="Organisations"
-                            is-searchable
-                            class="mb-6"
-                            :show-count="false"
-                            @toggle-facet="onToggleFacet($event)"
-                          />
-
-                          <AlgoliaSearchFacet
                             name="template_title"
                             label="Type de mission"
                             is-searchable
@@ -216,6 +232,15 @@
                             is-searchable
                             class="mb-6"
                             :sort-by="['isRefined', 'name:asc']"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
+
+                          <AlgoliaSearchFacet
+                            name="structure.name"
+                            label="Organisations"
+                            is-searchable
+                            class="mb-6"
+                            :show-count="false"
                             @toggle-facet="onToggleFacet($event)"
                           />
                         </div>
@@ -331,6 +356,8 @@ import {
   AisConfigure,
   AisHits,
   AisPagination,
+  AisClearRefinements,
+  AisSearchBox,
 } from 'vue-instantsearch'
 
 import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
@@ -349,6 +376,8 @@ export default {
     AlgoliaSearchFacet,
     CardMission,
     AlgoliaLieuSwitcher,
+    AisClearRefinements,
+    AisSearchBox,
   },
   mixins: [AlgoliaSearch],
   props: {
@@ -386,6 +415,7 @@ export default {
       showFilters: false,
       isMobile: true,
       windowWidth: window.innerWidth,
+      clearExcludes: ['type'],
     }
   },
   computed: {
@@ -401,8 +431,13 @@ export default {
     },
     aroundRadius() {
       return this.routeState && this.routeState.aroundRadius
-        ? this.routeState.aroundRadius
-        : 25000
+        ? parseInt(this.routeState.aroundRadius)
+        : this.routeState &&
+          this.routeState.refinementList &&
+          this.routeState.refinementList.type &&
+          this.routeState.refinementList.type[0] == 'Mission en présentiel'
+        ? 25000
+        : 'all'
     },
     aisFilters() {
       return this.type ? `type:"${this.type}"` : ''
@@ -555,4 +590,14 @@ export default {
     display: flex
     flex-direction: column
     @apply inset-0 bg-gray-100
+
+.clear-refinements
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05)
+  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 inline-flex items-center cursor-pointer
+  .clear-refinement--icon
+    transition: opacity .15s
+    @apply absolute m-auto opacity-50
+  &:hover
+    .clear-refinement--icon
+      @apply opacity-100
 </style>

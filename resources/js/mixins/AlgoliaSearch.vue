@@ -32,11 +32,12 @@ export default {
     // See https://www.algolia.com/doc/guides/building-search-ui/troubleshooting/faq/js/#why-is-my-uistate-ignored
     setTimeout(() => {
       this.loading = false
-    }, 150)
+    }, 250)
   },
   methods: {
     readUrl() {
-      this.routeState = qs.parse(window.location.search.substring(1))
+      const routeState = qs.parse(window.location.search.substring(1))
+      this.$set(this, 'routeState', routeState)
     },
     writeUrl() {
       if (this.writeTimeout) {
@@ -106,6 +107,13 @@ export default {
     stringifyQuery(query) {
       const string = qs.stringify(query)
       return string ? '?' + string : ''
+    },
+    onResetFilters(refine) {
+      const { type } = this.routeState.refinementList
+      this.$set(this.routeState, 'refinementList', { type: type })
+      this.$delete(this.routeState, 'query')
+      refine()
+      this.writeUrl()
     },
   },
 }
