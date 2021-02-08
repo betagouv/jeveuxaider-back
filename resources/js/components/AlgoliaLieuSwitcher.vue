@@ -37,7 +37,10 @@
           @clear="$emit('clear')"
         />
         <div class="radius pr-2">
-          <AlgoliaRadiusFilter @selected="$emit('change-radius', $event)" />
+          <AlgoliaRadiusFilter
+            :initial-value="aroundRadius"
+            @selected="$emit('change-radius', $event)"
+          />
         </div>
       </div>
     </div>
@@ -62,6 +65,10 @@ export default {
     initialPlace: {
       type: String || Boolean,
       default: null,
+    },
+    aroundRadius: {
+      type: Number,
+      default: 25000,
     },
   },
   data() {

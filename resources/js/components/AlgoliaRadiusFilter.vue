@@ -12,9 +12,15 @@
 
 <script>
 export default {
+  props: {
+    initialValue: {
+      type: Number,
+      default: 25000,
+    },
+  },
   data() {
     return {
-      aroundRadius: 25000,
+      aroundRadius: this.initialValue,
       aroundRadiusOptions: [
         { value: 1000, label: '1km' },
         { value: 5000, label: '5km' },

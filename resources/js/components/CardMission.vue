@@ -14,7 +14,11 @@
         <template
           v-if="mission.city && mission.type == 'Mission en présentiel'"
         >
-          <template v-if="mission.department">
+          <template v-if="mission.zip">
+            {{ mission.city }} ({{ mission.zip }})
+          </template>
+
+          <template v-else-if="mission.department">
             {{ mission.city }} ({{ mission.department }})
           </template>
           <template v-else>

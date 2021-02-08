@@ -35,6 +35,7 @@
             ref="aisConfigure"
             :hits-per-page.camel="18"
             :around-lat-lng.camel="aroundLatLng"
+            :around-lat-lng-via-i-p.camel="aroundLatLng ? false : true"
             :around-radius.camel="aroundRadius"
             :get-ranking-info.camel="true"
             :filters.camel="aisFilters"
@@ -74,6 +75,7 @@
                             class="w-full my-4 lg:my-0"
                             :initial-type="type"
                             :initial-place="placeLabel"
+                            :around-radius="aroundRadius"
                             @selected="onPlaceSelect($event)"
                             @clear="onPlaceClear"
                             @typeChanged="onTypeChanged($event)"
@@ -218,15 +220,6 @@
                           />
 
                           <AlgoliaSearchFacet
-                            name="structure.name"
-                            label="Organisations"
-                            is-searchable
-                            class="mb-6"
-                            :show-count="false"
-                            @toggle-facet="onToggleFacet($event)"
-                          />
-
-                          <AlgoliaSearchFacet
                             name="template_title"
                             label="Type de mission"
                             is-searchable
@@ -240,6 +233,15 @@
                             is-searchable
                             class="mb-6"
                             :sort-by="['isRefined', 'name:asc']"
+                            @toggle-facet="onToggleFacet($event)"
+                          />
+
+                          <AlgoliaSearchFacet
+                            name="structure.name"
+                            label="Organisations"
+                            is-searchable
+                            class="mb-6"
+                            :show-count="false"
                             @toggle-facet="onToggleFacet($event)"
                           />
                         </div>
@@ -428,7 +430,7 @@ export default {
     },
     aroundRadius() {
       return this.routeState && this.routeState.aroundRadius
-        ? this.routeState.aroundRadius
+        ? parseInt(this.routeState.aroundRadius)
         : 25000
     },
     aisFilters() {
