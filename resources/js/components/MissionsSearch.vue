@@ -52,8 +52,11 @@
             <template slot-scope="{ hits, nbHits }">
               <!-- Header -->
               <div
-                class="pt-4 lg:pt-7 pb-8"
-                :class="[backgroundHeader, colorHeader]"
+                class="header pt-4 lg:pt-7 pb-8 text-white"
+                :class="[
+                  `bg-${color}`,
+                  { 'custom-color': $options.propsData.color },
+                ]"
               >
                 <div class="container mx-auto">
                   <div class="px-4">
@@ -83,6 +86,7 @@
                             :initial-type="type"
                             :initial-place="placeLabel"
                             :around-radius="aroundRadius"
+                            :color="$options.propsData.color ? color : null"
                             @selected="onPlaceSelect($event)"
                             @clear="onPlaceClear"
                             @typeChanged="onTypeChanged($event)"
@@ -204,6 +208,7 @@
                           </AisSearchBox>
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('domaines')"
                             name="domaines"
                             label="Domaines d'action"
                             class="mb-6"
@@ -211,6 +216,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('format')"
                             name="format"
                             label="Format de mission"
                             class="mb-6"
@@ -219,6 +225,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('template_title')"
                             name="template_title"
                             label="Type de mission"
                             is-searchable
@@ -227,6 +234,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('department_name')"
                             name="department_name"
                             label="Département"
                             is-searchable
@@ -236,6 +244,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('structure.name')"
                             name="structure.name"
                             label="Organisations"
                             is-searchable
@@ -381,13 +390,25 @@ export default {
   },
   mixins: [AlgoliaSearch],
   props: {
-    backgroundHeader: {
+    color: {
       type: String,
-      default: 'bg-primary',
+      default: 'primary',
     },
-    colorHeader: {
-      type: String,
-      default: 'text-white',
+    facets: {
+      type: Array,
+      default: () => {
+        return [
+          'domaines',
+          'format',
+          'template_title',
+          'department_name',
+          'structure.name',
+        ]
+      },
+    },
+    filters: {
+      type: [String, Boolean],
+      default: false,
     },
   },
   data() {
@@ -440,7 +461,15 @@ export default {
         : 'all'
     },
     aisFilters() {
-      return this.type ? `type:"${this.type}"` : ''
+      let filters = []
+      if (this.type) {
+        filters.push(`type:"${this.type}"`)
+      }
+      if (this.filters) {
+        filters.push(`${this.filters}`)
+      }
+
+      return filters.join(' AND ')
     },
     type() {
       return this.routeState &&
@@ -600,4 +629,23 @@ export default {
   &:hover
     .clear-refinement--icon
       @apply opacity-100
+
+.header
+  &.custom-color
+    ::v-deep .el-radio
+      color: white
+      border-color: white
+      .el-radio__label
+        color: currentColor
+      .el-radio__input
+        .el-radio__inner
+          background: currentColor
+          border-color: currentColor
+          &::after
+            filter: grayscale(1) invert(1) contrast(.5)
+      .el-radio__input
+        &.is-checked
+          .el-radio__inner
+            &::after
+              filter: grayscale(1) invert(1)
 </style>
