@@ -74,7 +74,18 @@
                 @click="onSubmit"
               >
                 <div class="flex items-center justify-center">
-                  <img class="flex-none" src="/images/search-white-bold.svg" />
+                  <ClipLoader
+                    v-if="loading"
+                    :loading="loading"
+                    size="21px"
+                    color="white"
+                  ></ClipLoader>
+
+                  <img
+                    v-else
+                    class="flex-none"
+                    src="/images/search-white-bold.svg"
+                  />
                   <span class="ml-2">Rechercher</span>
                 </div>
               </div>
@@ -89,11 +100,13 @@
 <script>
 import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
 import qs from 'qs'
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 
 export default {
   name: 'SearchOverlay',
   components: {
     AlgoliaPlacesInput,
+    ClipLoader,
   },
   // mixins: [AlgoliaSearch],
   data() {
@@ -124,6 +137,7 @@ export default {
         },
       },
       routeState: {},
+      loading: false,
     }
   },
   methods: {
@@ -137,7 +151,9 @@ export default {
       }
       this.onPlaceClear()
       this.$nextTick(() => {
-        if (this.radio == 'Mission en présentiel') {
+        if (this.radio == 'Mission à distance') {
+          this.fakeSubmit()
+        } else if (this.radio == 'Mission en présentiel') {
           document.querySelector(`#search-overlay--places-input`).focus()
         }
       })
@@ -158,6 +174,7 @@ export default {
         `${$event.latlng.lat},${$event.latlng.lng}`
       )
       this.$set(this.routeState, 'place', $event.value)
+      this.fakeSubmit()
     },
     onPlaceClear() {
       this.$delete(this.routeState, 'aroundLatLng')
@@ -170,6 +187,12 @@ export default {
     stringifyQuery(query) {
       const string = qs.stringify(query)
       return string ? '?' + string : ''
+    },
+    fakeSubmit() {
+      this.loading = true
+      setTimeout(() => {
+        this.onSubmit()
+      }, 550)
     },
   },
 }

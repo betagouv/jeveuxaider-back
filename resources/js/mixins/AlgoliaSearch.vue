@@ -111,8 +111,9 @@ export default {
     onResetFilters(refine) {
       const { type } = this.routeState.refinementList
       this.$set(this.routeState, 'refinementList', { type: type })
-      this.writeUrl()
+      this.$delete(this.routeState, 'query')
       refine()
+      this.writeUrl()
     },
   },
 }

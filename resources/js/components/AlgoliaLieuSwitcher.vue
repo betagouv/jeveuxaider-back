@@ -59,16 +59,16 @@ export default {
   },
   props: {
     initialType: {
-      type: String || Boolean,
+      type: [String, Boolean],
       default: null,
     },
     initialPlace: {
-      type: String || Boolean,
+      type: [String, Boolean],
       default: null,
     },
     aroundRadius: {
-      type: Number,
-      default: 25000,
+      type: [Number, String],
+      default: 'all',
     },
   },
   data() {

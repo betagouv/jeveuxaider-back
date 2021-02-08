@@ -35,7 +35,14 @@
             ref="aisConfigure"
             :hits-per-page.camel="18"
             :around-lat-lng.camel="aroundLatLng"
-            :around-lat-lng-via-i-p.camel="aroundLatLng ? false : true"
+            :around-lat-lng-via-i-p.camel="
+              aroundLatLng ||
+              (routeState.refinementList &&
+                routeState.refinementList.type &&
+                routeState.refinementList.type[0] == 'Mission à distance')
+                ? false
+                : true
+            "
             :around-radius.camel="aroundRadius"
             :get-ranking-info.camel="true"
             :filters.camel="aisFilters"
@@ -145,41 +152,6 @@
                           v-scroll-lock="showFilters && isMobile"
                           class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
                         >
-                          <portal-target name="mobile" />
-
-                          <!-- <div class="font-black text-gray-1000 mb-2 lg:hidden">
-                          Mots clés
-                        </div>
-
-                        <ais-search-box ref="searchbox" class="mb-8">
-                          <div
-                            slot-scope="{
-                              currentRefinement,
-                              isSearchStalled,
-                              refine,
-                            }"
-                          >
-                            <el-input
-                              v-model="routeState.query"
-                              label="Recherche"
-                              placeholder="Recherche par mots-clés"
-                              clearable
-                              class="search-input"
-                              autocomplete="new-password"
-                              @input="onQueryInput(refine, $event)"
-                              @clear="onQueryClear"
-                            />
-                          </div>
-                        </ais-search-box> -->
-
-                          <!-- <AlgoliaSearchFacet
-                          name="type"
-                          label="Lieu de la mission"
-                          class="mb-6"
-                          :sort-by="['count:desc']"
-                          @toggle-facet="onToggleFacet($event)"
-                        /> -->
-
                           <AisClearRefinements
                             :excluded-attributes="clearExcludes"
                           >
@@ -203,6 +175,33 @@
                               </div>
                             </div>
                           </AisClearRefinements>
+
+                          <portal-target name="mobile" />
+
+                          <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                            Mots clés
+                          </div>
+
+                          <AisSearchBox ref="searchbox" class="mb-8">
+                            <div
+                              slot-scope="{
+                                currentRefinement,
+                                isSearchStalled,
+                                refine,
+                              }"
+                            >
+                              <el-input
+                                v-model="routeState.query"
+                                label="Recherche"
+                                placeholder="Recherche par mots-clés"
+                                clearable
+                                class="search-input"
+                                autocomplete="new-password"
+                                @input="onQueryInput(refine, $event)"
+                                @clear="onQueryClear"
+                              />
+                            </div>
+                          </AisSearchBox>
 
                           <AlgoliaSearchFacet
                             name="domaines"
@@ -358,6 +357,7 @@ import {
   AisHits,
   AisPagination,
   AisClearRefinements,
+  AisSearchBox,
 } from 'vue-instantsearch'
 
 import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
@@ -377,6 +377,7 @@ export default {
     CardMission,
     AlgoliaLieuSwitcher,
     AisClearRefinements,
+    AisSearchBox,
   },
   mixins: [AlgoliaSearch],
   props: {
@@ -431,7 +432,12 @@ export default {
     aroundRadius() {
       return this.routeState && this.routeState.aroundRadius
         ? parseInt(this.routeState.aroundRadius)
-        : 25000
+        : this.routeState &&
+          this.routeState.refinementList &&
+          this.routeState.refinementList.type &&
+          this.routeState.refinementList.type[0] == 'Mission en présentiel'
+        ? 25000
+        : 'all'
     },
     aisFilters() {
       return this.type ? `type:"${this.type}"` : ''

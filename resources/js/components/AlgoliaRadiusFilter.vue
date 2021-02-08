@@ -14,8 +14,8 @@
 export default {
   props: {
     initialValue: {
-      type: Number,
-      default: 25000,
+      type: [Number, String],
+      default: 'all',
     },
   },
   data() {

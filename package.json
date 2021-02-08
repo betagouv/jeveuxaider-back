@@ -46,6 +46,7 @@
         "vue-nl2br": "^0.1.2",
         "vue-router": "^3.1.3",
         "vue-server-renderer": "^2.6.12",
+        "vue-spinner": "^1.0.4",
         "vue-textarea-autosize": "^1.1.1",
         "vue-the-mask": "^0.11.1",
         "vue-typed-js": "^0.1.2",
