@@ -15,8 +15,10 @@ use App\Filters\FiltersParticipationDomaine;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
+use App\Http\Requests\Api\ParticipationDeclineRequest;
 use App\Models\Mission;
 use App\Models\User;
+use App\Notifications\ParticipationDeclined;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -84,6 +86,41 @@ class ParticipationController extends Controller
     public function update(ParticipationUpdateRequest $request, Participation $participation)
     {
         $participation->update($request->validated());
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
+
+        return $participation;
+    }
+
+    public function decline(ParticipationDeclineRequest $request, Participation $participation)
+    {
+        if ($participation->conversation) {
+            $currentUser = User::find(Auth::guard('api')->user()->id);
+
+            $participation->conversation->messages()->create([
+                'from_id' => $currentUser->id,
+                'type' => 'contextual',
+                'content' => 'La participation a été déclinée',
+                'contextual_state' => 'Refusée',
+                'contextual_reason' => $request->input('reason')
+            ]);
+
+            if ($request->input('content')) {
+                $currentUser->sendMessage($participation->conversation->id, $request->input('content'));
+            }
+
+            $currentUser->markConversationAsRead($participation->conversation);
+
+            // Trigger updated_at refresh.
+            $participation->conversation->touch();
+
+            $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
+        }
+
+        $participation->update(['state'=>'Refusée']);
 
         // Places left & Algolia
         if ($participation->mission) {

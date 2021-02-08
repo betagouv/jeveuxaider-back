@@ -29,14 +29,23 @@
     <template v-else>
       <div class="text-sm">{{ form.state }}</div>
     </template>
+
+    <decline-participation-dialog
+      :participation="form"
+      :is-visible="declineParticipationDialog"
+      @close="declineParticipationDialog = false"
+      @updated="onDeclineSubmit"
+    />
   </div>
 </template>
 
 <script>
 import { updateParticipation } from '@/api/participation'
+import DeclineParticipationDialog from '@/components/dialogs/DeclineParticipationDialog'
 
 export default {
   name: 'ParticipationDropdownState',
+  components: { DeclineParticipationDialog },
   props: {
     form: {
       type: Object,
@@ -45,7 +54,18 @@ export default {
   },
   data() {
     return {
+      declineParticipationDialog: false,
+      messageForm: {},
       message: 'Êtes vous sur de vos changements ?',
+      rules: {
+        reason: [
+          {
+            required: true,
+            message: 'Merci de sélectionner une raison',
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   computed: {
@@ -85,7 +105,16 @@ export default {
     },
   },
   methods: {
+    onDeclineSubmit() {
+      this.form.state = 'Refusée'
+
+      this.$emit('updated')
+    },
     onSubmitState(state) {
+      if (state == 'Refusée') {
+        this.declineParticipationDialog = true
+        return
+      }
       if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le bénévole sera notifié de ce changement.`
       }
@@ -104,12 +133,12 @@ export default {
         .then(() => {
           this.form.state = state
           updateParticipation(this.form.id, this.form)
-            .then((response) => {
+            .then(() => {
               this.$message({
                 type: 'success',
                 message: 'Le statut de la participation a été mis à jour',
               })
-              this.$emit('updated', response.data)
+              this.$emit('updated')
             })
             .catch((error) => {
               this.errors = error.response.data.errors

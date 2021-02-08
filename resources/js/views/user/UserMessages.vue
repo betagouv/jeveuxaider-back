@@ -198,20 +198,29 @@
             <div class="panel--content">
               <template v-if="activeConversation">
                 <template v-if="messages.length">
-                  <ConversationMessages
-                    v-for="message in messages.slice().reverse()"
-                    :key="message.id"
-                    :name="message.from.profile.first_name"
-                    :short-name="message.from.profile.short_name"
-                    :thumbnail="
-                      message.from.profile.image
-                        ? message.from.profile.image.thumb
-                        : null
-                    "
-                    :date="message.created_at"
-                  >
-                    <nl2br tag="p" :text="message.content" />
-                  </ConversationMessages>
+                  <template v-for="message in messages.slice().reverse()">
+                    <template v-if="message.type == 'contextual'">
+                      <ConversationContextualMessage
+                        :key="message.id"
+                        :message="message"
+                      />
+                    </template>
+                    <template v-if="message.type == 'chat'">
+                      <ConversationMessages
+                        :key="message.id"
+                        :name="message.from.profile.first_name"
+                        :short-name="message.from.profile.short_name"
+                        :thumbnail="
+                          message.from.profile.image
+                            ? message.from.profile.image.thumb
+                            : null
+                        "
+                        :date="message.created_at"
+                      >
+                        <nl2br tag="p" :text="message.content" />
+                      </ConversationMessages>
+                    </template>
+                  </template>
                 </template>
                 <template v-else>
                   <div class="text-center text-gray-500 font-light">
@@ -270,6 +279,7 @@
               <ConversationDetail
                 v-if="activeConversation"
                 :participation="activeConversation.conversable"
+                @updated="fetchConversationMessages(activeConversation)"
               />
             </div>
           </div>
@@ -301,6 +311,7 @@
 import ConversationDetail from '@/components/messages/ConversationDetail.vue'
 import ConversationTeaser from '@/components/messages/ConversationTeaser.vue'
 import ConversationMessages from '@/components/messages/ConversationMessages.vue'
+import ConversationContextualMessage from '@/components/messages/ConversationContextualMessage.vue'
 import {
   fetchConversations,
   fetchMessages,
@@ -316,6 +327,7 @@ export default {
     ConversationDetail,
     ConversationTeaser,
     ConversationMessages,
+    ConversationContextualMessage,
   },
   data() {
     return {
@@ -560,6 +572,30 @@ export default {
           this.activeConversation.latest_message = response.data
         })
       }
+    },
+    fetchConversationMessages(conversation) {
+      fetchMessages(conversation.id).then((response) => {
+        this.messages = response.data.data
+        //this.$refs['messagesContainer'].scrollTop = 0
+        this.currentPage = response.data.current_page
+        this.lastPage = response.data.last_page
+
+        this.activeConversation.latest_message = response.data.data
+          .slice(-1)
+          .pop()
+
+        // Fake update of nbUnreadConversations
+        if (!this.hasRead(conversation)) {
+          if (this.$store.getters.user.nbUnreadConversations > 0) {
+            this.$store.getters.user.nbUnreadConversations--
+          }
+        }
+        if (this.$store.getters.contextRole != 'admin') {
+          this.currentUser(conversation).pivot.read_at = dayjs().format(
+            'YYYY-MM-DD HH:mm:ss'
+          )
+        }
+      })
     },
   },
 }

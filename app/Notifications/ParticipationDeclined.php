@@ -17,15 +17,17 @@ class ParticipationDeclined extends Notification
      * @var Participation
      */
     public $participation;
+    public $reason;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Participation $participation)
+    public function __construct(Participation $participation, $reason)
     {
         $this->participation = $participation;
+        $this->reason = $reason;
     }
 
     /**
@@ -47,13 +49,21 @@ class ParticipationDeclined extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $message = (new MailMessage)
             ->subject('Votre participation a été déclinée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation ' . $this->participation->mission->structure->name. '.')
-            ->line('Néanmoins l\'organisation ne pourra malheureusement pas vous accueillir dans le contexte actuel.')
-            ->line('Encore merci pour votre engagement.')
-        ;
+            ->line('Néanmoins l\'organisation ne pourra malheureusement pas vous accueillir dans le contexte actuel.');
+
+        if ($this->reason && $this->reason != 'other') {
+            $message->line('La raison est la suivante: '. config('taxonomies.participation_declined_reasons.terms')[$this->reason]);
+        }
+
+        $message->action('Accéder à ma messagerie', url(config('app.url').'/messages'));
+
+        $message->line('Encore merci pour votre engagement.');
+
+        return $message;
     }
 
     /**
