@@ -1003,7 +1003,8 @@ export default {
             .then(() => {
               this.dialogLoading = false
               this.$router.push('/messages')
-              window.apieng('trackApplication')
+              console.log('Go tracket api engagement', window.apieng)
+              window.apieng && window.apieng('trackApplication')
               this.$message({
                 message:
                   'Votre participation a été enregistrée et est en attente de validation !',

@@ -53,8 +53,14 @@ export default {
       this.writeTimeout()
     },
     onQueryInput(refine, $event) {
-      refine($event)
-      this.writeUrl()
+      if (this.timeout) {
+        this.timeout.cancel()
+      }
+      this.timeout = _.debounce(() => {
+        refine($event)
+        this.writeUrl()
+      }, 400)
+      this.timeout()
     },
     onToggleFacet($event) {
       if ($event.active) {
@@ -109,8 +115,13 @@ export default {
       return string ? '?' + string : ''
     },
     onResetFilters(refine) {
-      const { type } = this.routeState.refinementList
-      this.$set(this.routeState, 'refinementList', { type: type })
+      if (this.type) {
+        let { type } = this.routeState.refinementList
+        this.$set(this.routeState, 'refinementList', { type: type })
+      } else {
+        this.$delete(this.routeState, 'refinementList')
+      }
+
       this.$delete(this.routeState, 'query')
       refine()
       this.writeUrl()

@@ -354,18 +354,19 @@
             </div>
           </dl>
         </div>
-
-        <MissionsSearchOld
-          :query-filters="`department:${collectivity.department}`"
-        />
       </div>
     </div>
+
+    <MissionsSearch
+      :facets="['domaines', 'format', 'template_title', 'structure.name']"
+      :filters="`department:${collectivity.department}`"
+    />
   </div>
 </template>
 
 <script>
 import { getCollectivityStatistics } from '@/api/app'
-import MissionsSearchOld from '@/components/MissionsSearchOld'
+import MissionsSearch from '@/components/MissionsSearch'
 
 export default {
   name: 'FrontCollectivityDepartment',
@@ -385,7 +386,7 @@ export default {
     }
   },
   components: {
-    MissionsSearchOld,
+    MissionsSearch,
   },
   props: {
     collectivity: {

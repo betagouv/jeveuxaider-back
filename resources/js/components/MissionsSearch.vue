@@ -52,8 +52,11 @@
             <template slot-scope="{ hits, nbHits }">
               <!-- Header -->
               <div
-                class="pt-4 lg:pt-7 pb-8"
-                :class="[backgroundHeader, colorHeader]"
+                class="header pt-4 lg:pt-7 pb-8 text-white"
+                :class="[
+                  `bg-${color}`,
+                  { 'custom-color': $options.propsData.color },
+                ]"
               >
                 <div class="container mx-auto">
                   <div class="px-4">
@@ -83,6 +86,7 @@
                             :initial-type="type"
                             :initial-place="placeLabel"
                             :around-radius="aroundRadius"
+                            :color="$options.propsData.color ? color : null"
                             @selected="onPlaceSelect($event)"
                             @clear="onPlaceClear"
                             @typeChanged="onTypeChanged($event)"
@@ -161,7 +165,9 @@
                                 class="clear-refinements"
                                 @click.prevent="onResetFilters(refine)"
                               >
-                                <span>Effacer tous les filtres</span>
+                                <span class="mr-auto">
+                                  Effacer tous les filtres
+                                </span>
                                 <div
                                   class="ml-3 rounded-full bg-gray-100 w-6 h-6 relative flex items-center justify-center"
                                 >
@@ -204,6 +210,7 @@
                           </AisSearchBox>
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('domaines')"
                             name="domaines"
                             label="Domaines d'action"
                             class="mb-6"
@@ -211,6 +218,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('format')"
                             name="format"
                             label="Format de mission"
                             class="mb-6"
@@ -219,6 +227,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('template_title')"
                             name="template_title"
                             label="Type de mission"
                             is-searchable
@@ -227,6 +236,7 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('department_name')"
                             name="department_name"
                             label="Département"
                             is-searchable
@@ -236,11 +246,11 @@
                           />
 
                           <AlgoliaSearchFacet
+                            v-if="facets.includes('structure.name')"
                             name="structure.name"
                             label="Organisations"
                             is-searchable
                             class="mb-6"
-                            :show-count="false"
                             @toggle-facet="onToggleFacet($event)"
                           />
                         </div>
@@ -381,13 +391,25 @@ export default {
   },
   mixins: [AlgoliaSearch],
   props: {
-    backgroundHeader: {
+    color: {
       type: String,
-      default: 'bg-primary',
+      default: 'primary',
     },
-    colorHeader: {
-      type: String,
-      default: 'text-white',
+    facets: {
+      type: Array,
+      default: () => {
+        return [
+          'domaines',
+          'format',
+          'template_title',
+          'department_name',
+          'structure.name',
+        ]
+      },
+    },
+    filters: {
+      type: [String, Boolean],
+      default: false,
     },
   },
   data() {
@@ -440,7 +462,15 @@ export default {
         : 'all'
     },
     aisFilters() {
-      return this.type ? `type:"${this.type}"` : ''
+      let filters = []
+      if (this.type) {
+        filters.push(`type:"${this.type}"`)
+      }
+      if (this.filters) {
+        filters.push(`${this.filters}`)
+      }
+
+      return filters.join(' AND ')
     },
     type() {
       return this.routeState &&
@@ -593,11 +623,30 @@ export default {
 
 .clear-refinements
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05)
-  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 inline-flex items-center cursor-pointer
+  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 flex items-center cursor-pointer
   .clear-refinement--icon
     transition: opacity .15s
     @apply absolute m-auto opacity-50
   &:hover
     .clear-refinement--icon
       @apply opacity-100
+
+.header
+  &.custom-color
+    ::v-deep .el-radio
+      color: white
+      border-color: white
+      .el-radio__label
+        color: currentColor
+      .el-radio__input
+        .el-radio__inner
+          background: currentColor
+          border-color: currentColor
+          &::after
+            filter: grayscale(1) invert(1) contrast(.5)
+      .el-radio__input
+        &.is-checked
+          .el-radio__inner
+            &::after
+              filter: grayscale(1) invert(1)
 </style>

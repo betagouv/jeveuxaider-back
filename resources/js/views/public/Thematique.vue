@@ -12,7 +12,7 @@
       </template>
     </AppHeader>
 
-    <div v-if="!loading">
+    <div>
       <breadcrumb
         :items="[{ label: 'Domaines d\'action' }, { label: thematique.name }]"
       />
@@ -284,13 +284,20 @@
               </div>
             </dl>
           </div>
-          <MissionsSearchOld
-            :active-filters="['department_name', 'template_title']"
-            :color="thematique.color"
-            :query-filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
-          />
         </div>
       </div>
+
+      <MissionsSearch
+        v-if="thematique.domaine"
+        :facets="[
+          'format',
+          'template_title',
+          'department_name',
+          'structure.name',
+        ]"
+        :filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
+        :color="thematique.color"
+      />
 
       <div class="bg-gray-50 border-b border-gray-200">
         <div
@@ -379,7 +386,7 @@
 
 <script>
 import { getThematique, getThematiqueStatistics } from '@/api/app'
-import MissionsSearchOld from '@/components/MissionsSearchOld'
+import MissionsSearch from '@/components/MissionsSearch'
 import metadatas from '@/utils/metadatas.json'
 
 export default {
@@ -390,7 +397,7 @@ export default {
       .pages.filter((item) => item.slug == this.slug)[0].metaInfo
   },
   components: {
-    MissionsSearchOld,
+    MissionsSearch,
   },
   props: {
     slug: {
