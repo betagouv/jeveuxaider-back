@@ -7,6 +7,19 @@ export default {
     return {
       editor: ClassicEditor,
       editorConfig: {
+        mediaEmbed: {
+          isEnabled: false,
+          removeProviders: [
+            'youtube',
+            'dailymotion',
+            'vimeo',
+            'spotify',
+            'twitter',
+            'googleMaps',
+            'flickr',
+            'facebook',
+          ],
+        },
         toolbar: [
           //'heading',
           'bold',
