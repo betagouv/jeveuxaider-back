@@ -8,7 +8,6 @@ use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
-use App\Notifications\ParticipationDeclined;
 use App\Notifications\ParticipationFinished;
 
 class ParticipationObserver
@@ -57,11 +56,6 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationFinished($participation));
                     }
                     break;
-                case 'Refusée':
-                    if ($participation->profile) {
-                        $participation->profile->notify(new ParticipationDeclined($participation));
-                    }
-                    break;
             }
         }
 
@@ -71,6 +65,13 @@ class ParticipationObserver
                 $participation->mission->structure->setResponseRatio()->saveQuietly();
             }
             if ($participation->conversation) {
+                if ($newState != 'Refusée') {
+                    $participation->conversation->messages()->create([
+                        'content' => 'La participation a été '.strtolower($newState),
+                        'type' => 'contextual',
+                        'contextual_state' => $newState,
+                    ]);
+                }
                 $participation->conversation->setResponseTime()->save();
             }
         }
