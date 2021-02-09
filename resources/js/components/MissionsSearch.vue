@@ -165,7 +165,9 @@
                                 class="clear-refinements"
                                 @click.prevent="onResetFilters(refine)"
                               >
-                                <span>Effacer tous les filtres</span>
+                                <span class="mr-auto">
+                                  Effacer tous les filtres
+                                </span>
                                 <div
                                   class="ml-3 rounded-full bg-gray-100 w-6 h-6 relative flex items-center justify-center"
                                 >
@@ -249,7 +251,6 @@
                             label="Organisations"
                             is-searchable
                             class="mb-6"
-                            :show-count="false"
                             @toggle-facet="onToggleFacet($event)"
                           />
                         </div>
@@ -622,7 +623,7 @@ export default {
 
 .clear-refinements
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05)
-  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 inline-flex items-center cursor-pointer
+  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 flex items-center cursor-pointer
   .clear-refinement--icon
     transition: opacity .15s
     @apply absolute m-auto opacity-50
