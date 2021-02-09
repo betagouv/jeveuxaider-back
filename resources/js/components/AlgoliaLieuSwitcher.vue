@@ -67,7 +67,7 @@ export default {
     },
     initialPlace: {
       type: [String, Boolean],
-      default: null,
+      default: undefined,
     },
     aroundRadius: {
       type: [Number, String],
