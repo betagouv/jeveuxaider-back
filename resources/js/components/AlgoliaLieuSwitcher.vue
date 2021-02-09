@@ -12,6 +12,9 @@
         :class="[
           { 'opacity-75': radio && radio != item.value },
           `el-radio-${index}`,
+          radio && radio == item.value && color
+            ? `text-${color}`
+            : 'text-white',
         ]"
         @click.native.prevent="onClick(item.value)"
       >
@@ -64,11 +67,15 @@ export default {
     },
     initialPlace: {
       type: [String, Boolean],
-      default: null,
+      default: undefined,
     },
     aroundRadius: {
       type: [Number, String],
       default: 'all',
+    },
+    color: {
+      type: [String, Boolean],
+      default: null,
     },
   },
   data() {

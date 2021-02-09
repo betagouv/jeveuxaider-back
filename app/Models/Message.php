@@ -8,10 +8,8 @@ class Message extends Model
 {
     protected $table = 'messages';
 
-    protected $fillable = [
-        'content',
-        'conversation_id',
-        'type'
+    protected $guarded = [
+        'id'
     ];
 
     public function from()
