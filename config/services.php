@@ -58,4 +58,7 @@ return [
         'key' => env('SENDINBLUE_KEY'),
     ],
 
+    'slack' => [
+        'hook_url' => env('SLACK_HOOK_URL'),
+    ],
 ];
