@@ -85,11 +85,11 @@ class ProfileController extends Controller
         $fileName = 'profiles-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
-        (new ProfilesExport($request->header('Context-Role')))
-            ->queue($filePath, 's3')
-            ->chain([
-                new NotifyUserOfCompletedExport($request->user(), $filePath),
-            ]);
+        // (new ProfilesExport($request->header('Context-Role')))
+        //     ->queue($filePath, 's3')
+        //     ->chain([
+        //         new NotifyUserOfCompletedExport($request->user(), $filePath),
+        //     ]);
 
         return response()->json(['message'=> 'Export en cours...'], 200);
     }

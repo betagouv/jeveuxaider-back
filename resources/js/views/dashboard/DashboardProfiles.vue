@@ -268,11 +268,11 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
-      <div class="ml-auto">
+      <!-- <div class="ml-auto">
         <el-button icon="el-icon-download" size="small" @click="onExport">
           Export
         </el-button>
-      </div>
+      </div> -->
     </div>
     <portal to="volet">
       <profile-volet @updated="onUpdatedRow" />
@@ -360,22 +360,22 @@ export default {
         this.$store.dispatch('auth/impersonate', command.id)
       }
     },
-    onExport() {
-      this.loading = true
-      exportProfiles(this.query)
-        .then(() => {
-          this.loading = false
-          // fileDownload(response.data, 'utilisateurs.xlsx')
-          Message({
-            message:
-              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
-            type: 'success',
-          })
-        })
-        .catch((error) => {
-          console.log('exportProfiles', error)
-        })
-    },
+    // onExport() {
+    //   this.loading = true
+    //   exportProfiles(this.query)
+    //     .then(() => {
+    //       this.loading = false
+    //       // fileDownload(response.data, 'utilisateurs.csv')
+    //       Message({
+    //         message:
+    //           "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
+    //         type: 'success',
+    //       })
+    //     })
+    //     .catch((error) => {
+    //       console.log('exportProfiles', error)
+    //     })
+    // },
   },
 }
 </script>
