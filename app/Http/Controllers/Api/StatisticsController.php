@@ -388,13 +388,13 @@ class StatisticsController extends Controller
     {
         return [
             'total' => Profile::role($request->header('Context-Role'))->whereHas('user', function (Builder $query) {
-                $query->where('last_online_at', '>', Carbon::today()->subMinutes(5));
+                $query->where('last_online_at', '>', Carbon::now()->subMinutes(5));
             })->count(),
             'month' => Profile::role($request->header('Context-Role'))->whereHas('user', function (Builder $query) {
-                $query->where('last_online_at', '>', Carbon::today()->subDays(30));
+                $query->where('last_online_at', '>', Carbon::now()->subDays(30));
             })->count(),
             'week' => Profile::role($request->header('Context-Role'))->whereHas('user', function (Builder $query) {
-                $query->where('last_online_at', '>', Carbon::today()->subDays(7));
+                $query->where('last_online_at', '>', Carbon::now()->subDays(7));
             })->count(),
         ];
     }
