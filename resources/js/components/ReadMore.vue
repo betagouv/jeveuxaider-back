@@ -1,6 +1,9 @@
 <template>
   <div>
-    <span class="read-more--content" v-html="formattedString"></span>
+    <span
+      class="wysiwyg-field read-more--content"
+      v-html="formattedString"
+    ></span>
 
     <span v-show="text.length > maxChars">
       <span

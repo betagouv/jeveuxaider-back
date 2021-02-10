@@ -1043,6 +1043,8 @@ export default {
 
 .comment-wrapper
   min-height: 200px
+  ::v-deep ul,::v-deep ol
+    @apply flex flex-col items-center
   @screen lg
     @apply relative
   .comment-wrapper--icon
