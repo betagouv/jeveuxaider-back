@@ -93,8 +93,12 @@
       </el-table-column>
       <el-table-column label="Email" min-width="300">
         <template slot-scope="scope">
-          <div class="text-gray-900">
+          <div class="text-gray-900 flex items-center">
             {{ scope.row.full_name }}
+            <UserOnlineIndicator
+              class="ml-3"
+              :last-online-at="scope.row.last_online_at"
+            />
           </div>
           <div class="font-light text-gray-600 text-xs">
             {{ scope.row.email }}
@@ -132,7 +136,7 @@
           <div class="font-light text-gray-600 text-xs">en attente</div>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="Crée le" min-width="120">
+      <el-table-column prop="created_at" label="Crée le" min-width="150">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
             {{ scope.row.created_at | fromNow }}
@@ -226,11 +230,13 @@ import QueryMainSearchFilter from '@/components/QueryMainSearchFilter.vue'
 import ProfileVolet from '@/layouts/components/Volet/ProfileVolet.vue'
 import fileDownload from 'js-file-download'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
+import UserOnlineIndicator from '@/components/UserOnlineIndicator.vue'
 import { Message } from 'element-ui'
 
 export default {
   name: 'DashboardProfilesReferentsDepartements',
   components: {
+    UserOnlineIndicator,
     ProfileVolet,
     QueryFilter,
     QueryMainSearchFilter,
@@ -253,7 +259,14 @@ export default {
           ...this.query,
           'filter[role]': 'referent',
         },
-        ['roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions']
+        [
+          'last_online_at',
+          'roles',
+          'has_user',
+          'skills',
+          'domaines',
+          'referent_waiting_actions',
+        ]
       )
     },
     handleCommand(command) {

@@ -181,8 +181,12 @@
       </el-table-column>
       <el-table-column label="Email" min-width="300">
         <template slot-scope="scope">
-          <div class="text-gray-900">
+          <div class="text-gray-900 flex items-center">
             {{ scope.row.full_name }}
+            <UserOnlineIndicator
+              class="ml-3"
+              :last-online-at="scope.row.last_online_at"
+            />
           </div>
           <div class="font-light text-gray-600 text-xs">
             {{ scope.row.email }}
@@ -292,6 +296,7 @@ import fileDownload from 'js-file-download'
 import { Message } from 'element-ui'
 import { fetchTags, fetchCollectivities } from '@/api/app'
 import ProfilesMenu from '@/components/ProfilesMenu.vue'
+import UserOnlineIndicator from '@/components/UserOnlineIndicator.vue'
 
 export default {
   name: 'DashboardProfiles',
@@ -301,6 +306,7 @@ export default {
     QueryFilter,
     QueryMainSearchFilter,
     ProfilesMenu,
+    UserOnlineIndicator,
   },
   mixins: [TableWithVolet, TableWithFilters],
   data() {
@@ -352,7 +358,7 @@ export default {
         {
           ...this.query,
         },
-        ['roles', 'has_user', 'skills', 'domaines']
+        ['last_online_at', 'roles', 'has_user', 'skills', 'domaines']
       )
     },
     handleCommand(command) {

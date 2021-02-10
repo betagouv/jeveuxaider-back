@@ -50,6 +50,7 @@ class ProfilesReferentsDepartementsExport implements FromCollection, WithMapping
             'total_waiting_actions',
             'created_at',
             'updated_at',
+            'last_online_at',
         ];
     }
 
@@ -70,6 +71,7 @@ class ProfilesReferentsDepartementsExport implements FromCollection, WithMapping
             $profile->referent_waiting_actions['total'],
             $profile->created_at,
             $profile->updated_at,
+            $profile->last_online_at,
         ];
     }
 }
