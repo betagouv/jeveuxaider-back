@@ -36,7 +36,7 @@
                     <a class="m-2 flex-shrink-0 flex items-center justify-center border rounded-full w-10 h-10 transition opacity-75 hover:opacity-100" href="https://twitter.com/ReserveCivique" target="_blank">
                         <img src="/images/twitter_white.svg" alt="Twitter" />
                     </a>
-                    <a class="m-2 flex-shrink-0 flex items-center justify-center border rounded-full w-10 h-10 transition opacity-75 hover:opacity-100" href="https://www.facebook.com/reservecivique/" target="_blank">
+                    <a class="m-2 flex-shrink-0 flex items-center justify-center border rounded-full w-10 h-10 transition opacity-75 hover:opacity-100" href="https://www.facebook.com/jeveuxaider.gouv.fr" target="_blank">
                         <img src="/images/facebook_white.svg" alt="Facebook" />
                     </a>
                 </div>

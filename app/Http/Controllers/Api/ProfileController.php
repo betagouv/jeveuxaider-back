@@ -48,7 +48,7 @@ class ProfileController extends Controller
             }
         }
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
-            ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
+            ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),

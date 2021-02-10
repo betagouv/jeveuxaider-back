@@ -229,7 +229,7 @@ export default {
       })
     },
     handleDelete() {
-      if (this.mission.participations_count > 0) {
+      if (this.mission.participations_total > 0) {
         this.$alert(
           'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
           'Supprimer la mission',

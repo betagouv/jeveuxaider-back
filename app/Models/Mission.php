@@ -56,7 +56,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count','participations_total'];
 
     protected static $logFillable = true;
 
