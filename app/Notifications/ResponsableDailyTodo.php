@@ -3,10 +3,11 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ResponsableDailyTodo extends Notification
+class ResponsableDailyTodo extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,6 +21,13 @@ class ResponsableDailyTodo extends Notification
     public function __construct($participations)
     {
         $this->participations = $participations;
+    }
+
+    public function viaQueues()
+    {
+        return [
+        'mail' => 'emails',
+    ];
     }
 
     /**
