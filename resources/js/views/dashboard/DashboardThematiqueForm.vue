@@ -22,7 +22,10 @@
       <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
       <el-form-item label="Nom du domaine d'action" prop="name">
-        <el-input v-model="form.name" placeholder="Ex: Solidarité et instertion" />
+        <el-input
+          v-model="form.name"
+          placeholder="Ex: Solidarité et instertion"
+        />
         <item-description>
           Accessible à l'adresse : {{ baseUrl }}/domaines-action/{{
             form.name | slugify
@@ -31,7 +34,10 @@
       </el-form-item>
 
       <el-form-item label="Titre du domaine d'action" prop="title">
-        <el-input v-model="form.title" placeholder="Ex: Rejoignez la Réserve Civique pour la solidarité et l'insertion" />
+        <el-input
+          v-model="form.title"
+          placeholder="Ex: Rejoignez JeVeuxAider pour la solidarité et l'insertion"
+        />
       </el-form-item>
 
       <el-form-item label="Description" prop="description" class="flex-1">
@@ -190,7 +196,7 @@ export default {
       this.loading = false
       this.$router.push('/dashboard/contents/domaines-action')
       this.$message({
-        message: 'Le domaine d\'action a été enregistré !',
+        message: "Le domaine d'action a été enregistré !",
         type: 'success',
       })
     },

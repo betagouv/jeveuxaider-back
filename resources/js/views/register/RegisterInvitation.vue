@@ -10,7 +10,7 @@
         <h2
           class="mt-6 mb-4 md:mb-0 text-center text-3xl font-bold text-white leading-8 px-4"
         >
-          Invitation à rejoindre la Réserve Civique
+          Invitation à rejoindre JeVeuxAider
         </h2>
         <p class="text-center text-base text-blue-200">
           Engagez-vous pour faire vivre les valeurs de la République

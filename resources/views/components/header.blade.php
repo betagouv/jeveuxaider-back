@@ -10,7 +10,7 @@
                         <img
                             class="h-6"
                             src="/images/logo-header.png"
-                            alt="Réserve Civique"
+                            alt="JeVeuxAider"
                         />
                     </a>
                 </div>

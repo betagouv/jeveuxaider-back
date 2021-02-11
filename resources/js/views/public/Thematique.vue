@@ -254,7 +254,7 @@
             </h2>
             <p class="text-xl max-w-2xl mx-auto leading-8 text-gray-200 mt-2">
               Sur l’ensemble du territoire français, des milliers de bénévoles
-              et d’organisations se sont déjà ralliés à la Réserve Civique pour
+              et d’organisations se sont déjà ralliés à JeVeuxAider pour
               soutenir ce domaine d'action.
             </p>
             <dl
@@ -327,7 +327,7 @@
                 :class="`bg-${thematique.color}`"
                 class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
               >
-                Rejoignez la Réserve Civique
+                Rejoignez JeVeuxAider
               </router-link>
             </div>
           </div>
@@ -339,7 +339,7 @@
           <div
             class="text-center pb-12 text-base leading-6 font-semibold uppercase text-gray-400 tracking-wider"
           >
-            PARMI LES ORGANISATIONS DÉJÀ ACTIVES SUR LA RÉSERVE CIVIQUE
+            PARMI LES ORGANISATIONS DÉJÀ ACTIVES SUR JeVeuxAider
           </div>
           <div class="grid grid-cols-2 gap-8 lg:grid-cols-5">
             <div class="col-span-1 flex justify-center lg:col-span-1">

@@ -27,7 +27,7 @@
                 collectivity.title
               }}</template>
               <template v-else
-                >Rejoignez la Réserve Civique dans votre département</template
+                >Rejoignez JeVeuxAider dans votre département</template
               >
             </h1>
 
@@ -40,7 +40,7 @@
               <template v-else>
                 <b>{{ collectivity.name }}</b> • Votre organisation a besoin de
                 renfort localement ? Vous souhaitez vous engager bénévolement au
-                plus près de chez vous ? Rejoignez la Réserve Civique dans votre
+                plus près de chez vous ? Rejoignez JeVeuxAider dans votre
                 département.
               </template>
             </p>
@@ -113,8 +113,7 @@
           <p
             class="mt-4 max-w-5xl mx-auto text-center text-xl leading-7 text-gray-500"
           >
-            Avec la Réserve Civique, soutenez de grandes causes dans votre
-            territoire
+            Avec JeVeuxAider, soutenez de grandes causes dans votre territoire
           </p>
         </div>
 
@@ -380,7 +379,7 @@ export default {
         {
           name: 'description',
           content:
-            'Rejoignez la Réserve Civique et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 320 000 bénévoles déjà inscrits',
+            'Rejoignez JeVeuxAider et trouvez une mission de bénévolat auprès d’une organisation publique ou associative. Plus de 320 000 bénévoles déjà inscrits',
         },
       ],
     }

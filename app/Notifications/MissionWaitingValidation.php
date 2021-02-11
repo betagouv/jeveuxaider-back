@@ -51,7 +51,7 @@ class MissionWaitingValidation extends Notification
             ->subject('Votre mission a bien été déposée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Vous avez proposé une mission : ' . $this->mission->name .'.')
-            ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur la Réserve Civique.')
+            ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur JeVeuxAider.')
             ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
             ->action('Accéder à mon compte', url(config('app.url')));
     }

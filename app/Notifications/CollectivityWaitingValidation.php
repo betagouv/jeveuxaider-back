@@ -51,7 +51,7 @@ class CollectivityWaitingValidation extends Notification
         return (new MailMessage)
             ->subject('La collectivité "'. $this->collectivity->name .'" vient de s\'inscrire. Elle est en attente de validation.')
             ->greeting('Bonjour,')
-            ->line('La collectivité "'. $this->collectivity->name .'" a rejoint la Réserve Civique !')
+            ->line('La collectivité "'. $this->collectivity->name .'" a rejoint JeVeuxAider !')
             ->line('Elle est en attente de validation par un modérateur.')
             ->action('Voir la collectivité', url(config('app.url') . '/dashboard/collectivity/' . $this->collectivity->id . '/edit'))
         ;
@@ -68,7 +68,7 @@ class CollectivityWaitingValidation extends Notification
         $collectivity = $this->collectivity;
 
         return (new SlackMessage)
-                    ->from('Réserve Civique')
+                    ->from('JeVeuxAider')
                     ->success()
                     ->to('#collectivités-déploiement')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')

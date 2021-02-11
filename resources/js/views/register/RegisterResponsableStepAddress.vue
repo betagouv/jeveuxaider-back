@@ -126,7 +126,7 @@
       </h2>
       <p class="font-xl text-secondary">
         Vous recevrez un email de confirmation lorsque votre compte aura été
-        validé par l'équipe de la Réserve Civique.
+        validé par l'équipe de JeVeuxAider.
       </p>
       <div class="">
         <router-link class="mr-4" to="/dashboard">

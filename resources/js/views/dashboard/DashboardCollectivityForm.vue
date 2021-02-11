@@ -39,7 +39,7 @@
       <el-form-item label="Titre de la page" prop="title">
         <el-input
           v-model="form.title"
-          placeholder="Rejoignez la Réserve Civique dans votre collectivité"
+          placeholder="Rejoignez JeVeuxAider dans votre collectivité"
         />
       </el-form-item>
 

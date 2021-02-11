@@ -55,7 +55,7 @@ class StructureInvitationSent extends Notification
         $message = (new MailMessage)
             ->subject('Invitation en attente')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions de la Réserve Civique.');
+            ->line($this->user->profile->full_name . ' vous invite à devenir ' . $this->role . ' de ' . $this->structure->name. ' sur la plateforme de dépôts de missions de JeVeuxAider.');
 
         if (!$notifiable->user) {
             $message
