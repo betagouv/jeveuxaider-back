@@ -182,7 +182,13 @@
       </div>
     </div>
 
-    <MissionsSearch :filters="zipsFilter" />
+    <MissionsSearch
+      :default-radius="35000"
+      :initial-geo-search="{
+        aroundLatLng: `${collectivity.latitude},${collectivity.longitude}`,
+        place: `${collectivity.zips[0]} ${collectivity.name}`,
+      }"
+    />
 
     <div class="bg-gray-50 border-b border-gray-200">
       <div

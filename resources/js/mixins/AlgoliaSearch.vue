@@ -6,6 +6,12 @@ import 'instantsearch.css/themes/algolia-min.css'
 
 export default {
   name: 'AlgoliaSearchMixin',
+  props: {
+    initialGeoSearch: {
+      type: [Object, Boolean],
+      default: null,
+    },
+  },
   data() {
     return {
       searchClient: algoliasearch(
@@ -28,6 +34,13 @@ export default {
   },
   created() {
     this.readUrl()
+
+    if (this.initialGeoSearch && !this.routeState.aroundLatLng) {
+      this.$set(this, 'routeState', {
+        ...this.routeState,
+        ...this.initialGeoSearch,
+      })
+    }
 
     // See https://www.algolia.com/doc/guides/building-search-ui/troubleshooting/faq/js/#why-is-my-uistate-ignored
     setTimeout(() => {
@@ -62,6 +75,9 @@ export default {
       }, 400)
       this.timeout()
     },
+    onQueryClear() {
+      this.$delete(this.routeState, 'query')
+    },
     onToggleFacet($event) {
       if ($event.active) {
         this.addFacet($event)
@@ -80,7 +96,6 @@ export default {
       this.writeUrl()
     },
     onRadiusSelect(value) {
-      console.log('onRadiusSelect', value)
       this.$set(this.routeState, 'aroundRadius', `${value}`)
       this.writeUrl()
     },
