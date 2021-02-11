@@ -38,8 +38,6 @@ Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 Route::get('statistics/global', 'Api\StatisticsController@global');
-Route::get('api-engagement/import', 'Api\EngagementController@import');
-Route::get('api-engagement/delete', 'Api\EngagementController@delete');
 
 
 Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
