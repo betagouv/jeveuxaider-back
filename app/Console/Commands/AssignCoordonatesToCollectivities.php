@@ -46,6 +46,9 @@ class AssignCoordonatesToCollectivities extends Command
             foreach ($collectivities as $collectivity) {
                 $collectivity->setCoordonates();
                 $collectivity->saveQuietly();
+                // Your current plan (Places) allows you to perform a maximum of 30 queries per second.
+                // By limiting the queries per second we ensure an optimal service for every customer.
+                usleep(50000);
             }
         }
     }
