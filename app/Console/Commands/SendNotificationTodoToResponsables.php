@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Participation;
+use App\Models\Profile;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
@@ -43,13 +44,15 @@ class SendNotificationTodoToResponsables extends Command
     {
         $nb_jours_notif = 10;
 
-        $participationsByStructure = Participation::with('mission.structure.responsables')->where('state', 'En attente de validation')
+        $participationsByResponsable = Participation::with('mission.structure.responsables')->where('state', 'En attente de validation')
           ->where('created_at', '>', Carbon::now()->subDays($nb_jours_notif)->startOfDay())
           ->get()
-          ->groupBy('mission.structure.id');
-
-        foreach ($participationsByStructure as $structureId => $participations) {
-            Notification::send($participations[0]->mission->structure->responsables, new ResponsableDailyTodo($participations));
+          ->groupBy('mission.responsable.id');
+        foreach ($participationsByResponsable as $responsableId => $participations) {
+            if (!$responsableId) {
+                return; // Hack car des missions n'ont pas de responsables
+            }
+            Notification::send(Profile::find($responsableId), new ResponsableDailyTodo($participations));
         }
     }
 }

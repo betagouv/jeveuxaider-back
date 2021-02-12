@@ -50,6 +50,7 @@ class ProfilesReferentsRegionsExport implements FromCollection, WithMapping, Wit
             'total_waiting_actions',
             'created_at',
             'updated_at',
+            'last_online_at',
         ];
     }
 
@@ -70,6 +71,7 @@ class ProfilesReferentsRegionsExport implements FromCollection, WithMapping, Wit
             $profile->referent_region_waiting_actions['total'],
             $profile->created_at,
             $profile->updated_at,
+            $profile->last_online_at,
         ];
     }
 }

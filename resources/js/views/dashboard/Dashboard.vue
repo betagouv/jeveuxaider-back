@@ -9,27 +9,6 @@
           Tableau de bord
         </div>
       </div>
-      <!-- <div v-if="$store.getters.contextRole === 'admin'">
-        <el-dropdown @command="handleCommand">
-          <el-button :loading="loading" type="primary">
-            Exporter les données
-          </el-button>
-          <el-dropdown-menu type="primary">
-            <el-dropdown-item command="structures">
-              Toutes les organisations
-            </el-dropdown-item>
-            <el-dropdown-item command="missions">
-              Toutes les missions
-            </el-dropdown-item>
-            <el-dropdown-item command="participations">
-              Toutes les participations
-            </el-dropdown-item>
-            <el-dropdown-item command="profiles">
-              Tous les utilisateurs
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div> -->
     </div>
     <div class="px-12 mb-12">
       <dashboard-menu index="main" />
@@ -72,6 +51,12 @@
           v-if="$store.getters.contextRole != 'responsable'"
           label="Utilisateurs"
           name="profiles"
+          link="/dashboard/stats/profiles"
+        />
+        <card-count
+          v-if="$store.getters.contextRole != 'responsable'"
+          label="En ligne"
+          name="online"
           link="/dashboard/stats/profiles"
         />
       </div>

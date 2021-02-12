@@ -3,10 +3,11 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ResponsableDailyTodo extends Notification
+class ResponsableDailyTodo extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,6 +21,13 @@ class ResponsableDailyTodo extends Notification
     public function __construct($participations)
     {
         $this->participations = $participations;
+    }
+
+    public function viaQueues()
+    {
+        return [
+        'mail' => 'emails',
+    ];
     }
 
     /**
@@ -52,7 +60,7 @@ class ResponsableDailyTodo extends Notification
             $mailMessage->action(count($this->participations) . ' participations en attente', url(config('app.url') . '/dashboard/participations'));
         }
         $mailMessage->line('Afin d’assurer vos recrutements de bénévoles, veuillez leur répondre au plus vite.')
-            ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de la Réserve Civique.')
+            ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de JeVeuxAider.')
             ->line('Merci beaucoup par avance pour votre action.');
 
         return $mailMessage;

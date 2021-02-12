@@ -103,16 +103,18 @@ export function anonymizeUser() {
   return request.post('/api/user/anonymize')
 }
 
-export function fetchUsers() {
-  return request.get('/api/users')
-}
-
 export function fetchProfileParticipations(id) {
   return request.get(`/api/profile/${id}/participations`)
 }
 
 export function fetchProfiles(params, appends) {
   return request.get(`/api/profiles?append=${appends.join(',')}`, {
+    params,
+  })
+}
+
+export function fetchUsers(params, appends) {
+  return request.get(`/api/users?append=${appends.join(',')}`, {
     params,
   })
 }

@@ -1,5 +1,5 @@
 @component('mail::message')
-Hello Gabrielle,
+Hello Giulietta,
 
 <p>Nous avons perdus les référents des départments ci-dessous :</p>
 
@@ -27,5 +27,5 @@ Référents :
 
 Belle journée,
 
-Le code de la Réserve Civique
+Le code de JeVeuxAider
 @endcomponent

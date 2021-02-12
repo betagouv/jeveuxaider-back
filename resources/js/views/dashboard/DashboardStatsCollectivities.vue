@@ -116,11 +116,11 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
-      <div class="ml-auto">
+      <!-- <div class="ml-auto">
         <el-button icon="el-icon-download" size="small" @click="onExport">
           Export
         </el-button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -150,19 +150,19 @@ export default {
     fetchRows() {
       return statisticsCollectivities(this.query)
     },
-    onExport() {
-      exportStatistics('collectivities', this.query)
-        .then((response) => {
-          this.loading = false
-          fileDownload(response.data, 'collectivities.csv')
-        })
-        .catch((error) => {
-          Message({
-            message: error.response.data.message,
-            type: 'error',
-          })
-        })
-    },
+    // onExport() {
+    //   exportStatistics('collectivities', this.query)
+    //     .then((response) => {
+    //       this.loading = false
+    //       fileDownload(response.data, 'collectivities.csv')
+    //     })
+    //     .catch((error) => {
+    //       Message({
+    //         message: error.response.data.message,
+    //         type: 'error',
+    //       })
+    //     })
+    // },
     type(places) {
       if (places < 10) {
         return 'danger'

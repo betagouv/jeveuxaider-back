@@ -71,7 +71,7 @@
             >
               <a
                 target="_blank"
-                href="https://www.facebook.com/reservecivique/"
+                href="https://www.facebook.com/jeveuxaider.gouv.fr"
                 class="px-2"
                 ><img src="/images/icones/facebook.svg" alt="Facebook"
               /></a>

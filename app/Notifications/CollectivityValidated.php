@@ -50,7 +50,7 @@ class CollectivityValidated extends Notification
         return (new MailMessage)
             ->subject('Votre collectivité "'. $this->collectivity->name .'" a été validée!')
             ->greeting('Bonjour '. $notifiable->first_name .',')
-            ->line('Le compte  **'.$this->collectivity->name . '** a été validé et rejoint la Réserve Civique.')
+            ->line('Le compte  **'.$this->collectivity->name . '** a été validé et rejoint JeVeuxAider.')
             ->line('Vous pouvez désormais vous connecter à votre espace pour :')
             ->line('- Editer les éléments visuels et textuels de votre page (une page personnalisée est une page engagée !')
             ->line('- Visualiser les statistiques de votre collectivité')

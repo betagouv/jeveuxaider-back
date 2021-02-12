@@ -457,9 +457,9 @@
                   />
                 </svg>
                 <p class="relative">
-                  La puissance de mobilisation de la Réserve Civique est
+                  La puissance de mobilisation de JeVeuxAider est
                   impressionnante ! Nous avons reçu 170 nouvelles candidatures
-                  de bénévoles en moins de 6 semaines. La Réserve Civique est
+                  de bénévoles en moins de 6 semaines. JeVeuxAider est
                   clairement l’un des meilleurs canaux en termes d’efficacité du
                   temps investi et de nombre de retours.
                 </p>
@@ -643,7 +643,7 @@
               groupe Facebook
             </p>
             <a
-              href="https://www.facebook.com/reservecivique"
+              href="https://www.facebook.com/jeveuxaider.gouv.fr"
               target="_blank"
               class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center text-lg leading-7 font-medium text-blue-800 hover:scale-105 transform transition duration-150 ease-in-out"
             >
@@ -946,7 +946,7 @@ export default {
           image:
             'https://reserve-civique-wp.s3.amazonaws.com/uploads/2020/11/Honrizontal-1-uai-554x312.png',
           teaser:
-            "Décembre, c'est le mois du don à la Réserve Civique. Quoi de mieux que le Giving Tuesday, ce 1er décembre, pour bien démarrer ?",
+            "Décembre, c'est le mois du don chez JeVeuxAider. Quoi de mieux que le Giving Tuesday, ce 1er décembre, pour bien démarrer ?",
           type: 'Actualités',
         },
         {

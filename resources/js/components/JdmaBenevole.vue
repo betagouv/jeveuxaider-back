@@ -4,10 +4,10 @@
       <div class="pr-16 sm:text-center sm:px-16">
         <p class="font-medium text-white">
           <span class="md:hidden">
-            Que pensez-vous de la <b>Réserve Civique</b> ?
+            Que pensez-vous de la <b>JeVeuxAider</b> ?
           </span>
           <span class="hidden md:inline">
-            Que pensez-vous de la <b>Réserve Civique</b> ?
+            Que pensez-vous de la <b>JeVeuxAider</b> ?
           </span>
           <span class="block sm:ml-2 sm:inline-block">
             <a

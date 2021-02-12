@@ -13,8 +13,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   metaInfo: {
-    title:
-      'JeVeuxAider | Trouver des missions de bénévolat sur la Réserve Civique',
+    title: 'JeVeuxAider | Trouver des missions de bénévolat',
   },
   computed: {
     ...mapGetters(['isAppLoaded']),

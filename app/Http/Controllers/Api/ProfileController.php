@@ -48,7 +48,7 @@ class ProfileController extends Controller
             }
         }
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
-            ->allowedAppends('roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
+            ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
@@ -85,11 +85,11 @@ class ProfileController extends Controller
         $fileName = 'profiles-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
-        (new ProfilesExport($request->header('Context-Role')))
-            ->queue($filePath, 's3')
-            ->chain([
-                new NotifyUserOfCompletedExport($request->user(), $filePath),
-            ]);
+        // (new ProfilesExport($request->header('Context-Role')))
+        //     ->queue($filePath, 's3')
+        //     ->chain([
+        //         new NotifyUserOfCompletedExport($request->user(), $filePath),
+        //     ]);
 
         return response()->json(['message'=> 'Export en cours...'], 200);
     }

@@ -18,6 +18,12 @@
         {{ profile.updated_at | formatMediumWithTime }}
       </div>
     </div>
+    <div v-if="profile.last_online_at" class="mb-2 flex">
+      <div class="card-label">En ligne</div>
+      <div class="text-gray-900 flex-1">
+        {{ profile.last_online_at | fromNow }}
+      </div>
+    </div>
     <div v-if="profile.email && canViewPrivateData" class="mb-2 flex">
       <div class="card-label">Email</div>
       <div class="text-gray-900 flex-1">

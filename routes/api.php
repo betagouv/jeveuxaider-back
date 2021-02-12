@@ -38,8 +38,6 @@ Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 Route::get('statistics/global', 'Api\StatisticsController@global');
-Route::get('api-engagement/import', 'Api\EngagementController@import');
-Route::get('api-engagement/delete', 'Api\EngagementController@delete');
 
 
 Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
@@ -138,6 +136,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('statistics/skills', 'Api\StatisticsController@skills');
     Route::get('statistics/participations', 'Api\StatisticsController@participations');
     Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
+    Route::get('statistics/online', 'Api\StatisticsController@online');
 
     Route::get('charts/created', 'Api\ChartController@created');
 

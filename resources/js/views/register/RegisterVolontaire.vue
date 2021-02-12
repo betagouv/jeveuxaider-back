@@ -285,7 +285,7 @@
                           target="_blank"
                           class="font-medium text-gray-900 hover:underline"
                         >
-                          charte de la Réserve Civique
+                          charte de JeVeuxAider
                         </router-link>
                         <br />
                         <span>Déjà inscrit ? </span>
@@ -313,7 +313,7 @@
           class="text-center leading-8 pb-8 text-gray-800 text-sm font-medium text-3xl tracking-tight px-4"
         >
           Plus de <b class="font-bold">4000 organisations</b> ont déjà rejoint
-          la Réserve Civique
+          JeVeuxAider
         </h3>
         <div class="overflow-hidden">
           <div class="flex flex-wrap items-center justify-center -m-4 sm:-m-8">
@@ -375,8 +375,8 @@
                 J’ai eu la chance de pouvoir me rendre utile en faisant une
                 distribution de repas pour les SDF de Nancy. Une expérience qui
                 ne laisse pas indifférent … J'ai des souvenirs plein la tête.
-                Maintenant je continue mon chemin avec la Réserve Civique. Je me
-                sens utile et citoyenne.
+                Maintenant je continue mon chemin avec JeVeuxAider. Je me sens
+                utile et citoyenne.
               </p>
             </div>
             <footer class="mt-6">
@@ -420,8 +420,8 @@
               </svg>
               <p class="relative">
                 Pendant la crise de Covid-19, je ressentais le besoin de
-                m’engager et d’aider. Je me suis inscrite sur la Réserve Civique
-                et j’ai participé au dispositif Covidom, aux côtés des
+                m’engager et d’aider. Je me suis inscrite sur JeVeuxAider et
+                j’ai participé au dispositif Covidom, aux côtés des
                 professionnels de l'APHP et d'une équipe de bénévoles très
                 motivés. Notre mission : nous assurer que tous les patients
                 puissent bénéficier d’un suivi médical à distance. Covidom
@@ -605,7 +605,7 @@ export default {
     handleServiceCiviqueChange() {
       if (this.form.service_civique) {
         this.$confirm(
-          'Je suis actuellement sous contrat de Service Civique et certifie sur l’honneur que ma mission de Service Civique est, en accord avec mon organisme d’accueil en Service Civique, actuellement en tout ou partie suspendue dans le cadre des mesures prises pour la lutte contre la propagation du virus Covid-19.<br><br> Je me déclare bénévole pour rejoindre la Réserve civique jusqu’à la date de reprise, à temps complet, de ma mission au sein de mon organisme d’accueil en Service Civique.<br>',
+          'Je suis actuellement sous contrat de Service Civique et certifie sur l’honneur que ma mission de Service Civique est, en accord avec mon organisme d’accueil en Service Civique, actuellement en tout ou partie suspendue dans le cadre des mesures prises pour la lutte contre la propagation du virus Covid-19.<br><br> Je me déclare bénévole pour rejoindre JeVeuxAider jusqu’à la date de reprise, à temps complet, de ma mission au sein de mon organisme d’accueil en Service Civique.<br>',
           'Confirmation',
           {
             confirmButtonText: 'Accepter',

@@ -46,6 +46,7 @@ class ProfilesResponsablesExport implements FromCollection, WithMapping, WithHea
             'total_waiting_actions',
             'created_at',
             'updated_at',
+            'last_online_at',
         ];
     }
 
@@ -64,6 +65,7 @@ class ProfilesResponsablesExport implements FromCollection, WithMapping, WithHea
             $profile->responsable_waiting_actions['total'],
             $profile->created_at,
             $profile->updated_at,
+            $profile->last_online_at,
         ];
     }
 }

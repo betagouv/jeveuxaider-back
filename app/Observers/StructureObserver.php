@@ -109,7 +109,7 @@ class StructureObserver
                 $structure->user->notify(new StructureAssociationCreated($structure));
             }
         }
-        
+
         // Maj Sendinblue
         if ($structure->isDirty('name')) {
             $structure->responsables->each(function ($profile, $key) {
@@ -132,7 +132,7 @@ class StructureObserver
         ]);
         $collectivity->save();
         Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
-        ->route('slack', 'https://hooks.slack.com/services/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')
+        ->route('slack', config('services.slack.hook_url'))
         ->notify(new CollectivityWaitingValidation($collectivity));
     }
 }

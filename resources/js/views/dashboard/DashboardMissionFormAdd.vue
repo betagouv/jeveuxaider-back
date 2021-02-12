@@ -22,9 +22,9 @@
       <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
         <i class="el-icon-info text-primary mt-1 mr-2"></i>
         <div class="flex-1">
-          La Réserve Civique vous permet de mobiliser des bénévoles dans dix
-          domaines d'action. Choisissez le domaine d'action principal pour
-          faciliter la recherche de mission.
+          JeVeuxAider vous permet de mobiliser des bénévoles dans dix domaines
+          d'action. Choisissez le domaine d'action principal pour faciliter la
+          recherche de mission.
         </div>
       </div>
       <div class="flex flex-wrap">
@@ -168,7 +168,7 @@
         <div class="flex-1">
           En choisissant de rédiger intégralement votre mission, tous les champs
           sont éditables. La mission est publiée après validation par le
-          référent départemental de la Réserve Civique.
+          référent départemental de JeVeuxAider.
         </div>
       </div>
       <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">

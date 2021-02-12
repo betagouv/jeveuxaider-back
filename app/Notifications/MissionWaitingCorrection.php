@@ -54,7 +54,7 @@ class MissionWaitingCorrection extends Notification
             ->line('Néanmoins, nous n’avons pu valider votre mission.')
             ->line('Nous vous invitons à modifier en conséquence votre mission et la proposer à nouveau pour validation.')
             ->action('Modifier la mission', url(config('app.url') . '/mission/' . $this->mission->id . '/edit'))
-            ->line('L’équipe de la Réserve Civique se tient à votre disposition pour tout renseignement complémentaire.');
+            ->line('L’équipe de JeVeuxAider se tient à votre disposition pour tout renseignement complémentaire.');
     }
 
     /**

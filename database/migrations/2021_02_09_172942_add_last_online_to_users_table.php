@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTitleToThematiquesTable extends Migration
+class AddLastOnlineToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTitleToThematiquesTable extends Migration
      */
     public function up()
     {
-        Schema::table('thematiques', function (Blueprint $table) {
-            $table->string('title')->default("Rejoignez JeVeuxAider dans votre domaine d'action");
+        Schema::table('users', function (Blueprint $table) {
+            $table->timestamp('last_online_at')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddTitleToThematiquesTable extends Migration
      */
     public function down()
     {
-        Schema::table('thematiques', function (Blueprint $table) {
-            $table->dropColumn('title');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('last_online_at');
         });
     }
 }

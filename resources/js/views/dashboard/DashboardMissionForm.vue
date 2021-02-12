@@ -18,7 +18,7 @@
           <div v-else class="mb-6 text-md leading-snug text-gray-500">
             En choisissant de rédiger intégralement votre mission, tous les
             champs de la mission sont éditables. La mission est publiée après
-            validation par le référent départemental de la Réserve Civique.
+            validation par le référent départemental de JeVeuxAider.
           </div>
         </template>
 

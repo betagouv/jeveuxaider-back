@@ -25,7 +25,7 @@
             :key="participation.id"
             class="bg-white rounded-lg overflow-hidden shadow-lg mb-12"
           >
-            <div class="border-b border-gray-200">
+            <div v-if="participation.mission" class="border-b border-gray-200">
               <router-link
                 :to="`/missions/${participation.mission.id}/${participation.mission.slug}`"
                 class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"

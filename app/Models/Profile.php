@@ -88,6 +88,11 @@ class Profile extends Model implements HasMedia
         return $this->user ? true : false;
     }
 
+    public function getLastOnlineAtAttribute()
+    {
+        return $this->user ? $this->user->last_online_at : null;
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";

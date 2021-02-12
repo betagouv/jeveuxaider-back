@@ -22,7 +22,7 @@
           <h3
             class="text-center text-3xl md:text-6xl leading-none font-bold tracking-tight text-gray-900"
           >
-            Rejoignez la Réserve Civique
+            Rejoignez JeVeuxAider
             <br />
             dans votre territoire
           </h3>
@@ -31,7 +31,7 @@
           >
             Sur l'ensemble du territoire français, des milliers de réservistes,
             de structures et d'association ont déjà rejoint la
-            <b>Réserve Civique</b>.
+            <b>JeVeuxAider</b>.
           </p>
         </div>
 
