@@ -411,6 +411,10 @@ export default {
       type: [String, Boolean],
       default: false,
     },
+    defaultRadius: {
+      type: Number,
+      default: 25000,
+    },
   },
   data() {
     return {
@@ -453,12 +457,9 @@ export default {
     },
     aroundRadius() {
       return this.routeState && this.routeState.aroundRadius
-        ? parseInt(this.routeState.aroundRadius)
-        : this.routeState &&
-          this.routeState.refinementList &&
-          this.routeState.refinementList.type &&
-          this.routeState.refinementList.type[0] == 'Mission en présentiel'
-        ? 25000
+        ? !isNaN(parseInt(this.routeState.aroundRadius))
+          ? parseInt(this.routeState.aroundRadius)
+          : this.routeState.aroundRadius
         : 'all'
     },
     aisFilters() {
@@ -492,9 +493,6 @@ export default {
     }
   },
   methods: {
-    onQueryClear() {
-      this.$delete(this.routeState, 'query')
-    },
     scrollToTop() {
       this.$refs.contentWrapper.scrollIntoView()
     },
@@ -508,25 +506,36 @@ export default {
       }
     },
     onTypeChanged(type) {
-      this.$delete(this.routeState, 'aroundRadius')
-      this.$delete(this.routeState, 'aroundLatLng')
-      this.$delete(this.routeState, 'place')
       if (!this.routeState.refinementList) {
         this.$set(this.routeState, 'refinementList', {})
       }
       this.$set(this.routeState.refinementList, 'type', [type])
 
       if (type == 'Mission en présentiel') {
-        this.$set(this.routeState, 'aroundRadius', this.aroundRadius)
+        this.$set(this.routeState, 'aroundRadius', this.defaultRadius)
+      } else {
+        this.$delete(this.routeState, 'aroundRadius')
       }
+
+      this.handleGeoSearchOnTypeChanged()
       this.writeUrl()
     },
     onTypeRemoved() {
-      this.$delete(this.routeState, 'aroundRadius')
-      this.$delete(this.routeState, 'aroundLatLng')
-      this.$delete(this.routeState, 'place')
       this.$delete(this.routeState.refinementList, 'type')
+      this.$delete(this.routeState, 'aroundRadius')
+      this.handleGeoSearchOnTypeChanged()
       this.writeUrl()
+    },
+    handleGeoSearchOnTypeChanged() {
+      if (this.initialGeoSearch) {
+        this.$set(this, 'routeState', {
+          ...this.routeState,
+          ...this.initialGeoSearch,
+        })
+      } else {
+        this.$delete(this.routeState, 'aroundLatLng')
+        this.$delete(this.routeState, 'place')
+      }
     },
     onChangeRadius(radius) {
       this.$set(this.routeState, 'aroundRadius', radius)

@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Auth;
+use Algolia\AlgoliaSearch\PlacesClient;
 
 class Collectivity extends Model implements HasMedia
 {
@@ -184,6 +185,27 @@ class Collectivity extends Model implements HasMedia
             case 'responsable_collectivity':
                 return $query->where('id', Auth::guard('api')->user()->profile->collectivity->id);
             break;
+        }
+    }
+
+    public function setCoordonates()
+    {
+        $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
+        $result = $places->search(
+            $this->zips[0],
+            [
+                'restrictSearchableAttributes' => 'postcode',
+                'type' => 'city',
+                'hitsPerPage' => 1,
+                'countries' => 'fr',
+                'language' => 'fr'
+            ]
+        );
+
+        if (!empty($result['nbHits'])) {
+            $result = $result['hits'][0];
+            $this->latitude = $result['_geoloc']['lat'];
+            $this->longitude = $result['_geoloc']['lng'];
         }
     }
 }
