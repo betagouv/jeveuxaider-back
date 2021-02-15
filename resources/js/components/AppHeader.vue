@@ -47,24 +47,23 @@
             </router-link>
             <router-link
               v-if="!$store.getters.isLogged"
-              to="/register/responsable"
-              class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
-            >
-              Publier mes missions
-            </router-link>
-            <router-link
-              v-if="!$store.getters.isLogged"
               to="/collectivite"
               class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Inscrire ma collectivité
+            </router-link>
+            <router-link
+              to="/territoires"
+              class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+            >
+              Territoires engagés
             </router-link>
             <a
               target="_blank"
               href="https://reserve-civique.crisp.help/fr/"
               class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
-              Foire aux questions
+              Centre d'aide
             </a>
             <div
               class="flex justify-center items-center ml-1 bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-4 py-2 transition ease-in-out duration-150"
@@ -111,10 +110,11 @@
                 Trouver une mission
               </button>
               <router-link
-                to="/territoires"
+                v-if="!$store.getters.isLogged"
+                to="/register/responsable"
                 class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
               >
-                Près de chez moi
+                Publier une mission
               </router-link>
               <el-dropdown>
                 <button
