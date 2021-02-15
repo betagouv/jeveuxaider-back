@@ -253,11 +253,14 @@
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <a href="#" class="block">
+                  <router-link
+                    to="/domaines-action/solidarite-et-insertion"
+                    class="block"
+                  >
                     <h3 class="text-xl leading-6 font-semibold text-white">
                       Venez en aide aux plus démunis et aux personnes isolées
                     </h3>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -286,12 +289,15 @@
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <a href="#" class="block">
+                  <router-link
+                    to="/domaines-action/protection-de-la-nature"
+                    class="block"
+                  >
                     <h3 class="text-xl leading-6 font-semibold text-white">
                       Participez à des activités en pleine nature pour protéger
                       l'environnement
                     </h3>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -319,12 +325,15 @@
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <a href="#" class="block">
+                  <router-link
+                    to="/domaines-action/education-pour-tous"
+                    class="block"
+                  >
                     <h3 class="text-xl leading-6 font-semibold text-white">
                       Soutenez les parcours scolaires et professionnels des
                       jeunes
                     </h3>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -352,12 +361,15 @@
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <a href="#" class="block">
+                  <router-link
+                    to="/domaines-action/sante-pour-tous"
+                    class="block"
+                  >
                     <h3 class="text-xl leading-6 font-semibold text-white">
                       Venez en aide aux personnes malades, à leurs proches ou
                       aux soignants
                     </h3>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
