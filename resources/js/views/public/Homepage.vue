@@ -226,102 +226,142 @@
           </h2>
         </div>
 
-        <div class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <router-link
-            to="/domaines-action/solidarite-et-insertion"
+        <div
+          class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto"
+        >
+          <div
             class="bg-red-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-white px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
-                <span
+                <router-link
+                  to="/domaines-action/solidarite-et-insertion"
                   class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
                 >
-                  solidarité et insertion</span
+                  solidarité et insertion</router-link
                 >
               </div>
             </div>
 
-            <div class="px-4 py-5 sm:p-6">
+            <div class="px-4 py-5 sm:p-8">
               <div class="flex items-center">
                 <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
                   <img
                     src="/images/vivre-ensemble.svg"
-                    alt="Vivre ensemble"
                     style="width: 36px"
                     class="opacity-50"
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <h3 class="text-xl leading-6 font-semibold text-white">
-                    Venez en aide aux plus démunis et aux personnes isolées
-                  </h3>
+                  <a href="#" class="block">
+                    <h3 class="text-xl leading-6 font-semibold text-white">
+                      Venez en aide aux plus démunis et aux personnes isolées
+                    </h3>
+                  </a>
                 </div>
               </div>
             </div>
-          </router-link>
+          </div>
 
-          <router-link
-            to="/domaines-action/protection-de-la-nature"
+          <div
             class="bg-green-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
-                <span
+                <router-link
+                  to="/domaines-action/protection-de-la-nature"
                   class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
-                  >protection de la nature</span
+                >
+                  protection de la nature</router-link
                 >
               </div>
             </div>
-            <div class="px-4 py-5 sm:p-6">
+            <div class="px-4 py-5 sm:p-8">
               <div class="flex items-center">
                 <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
                   <img
                     src="/images/environnement.svg"
-                    alt="Environnement"
                     style="width: 36px"
                     class="opacity-50"
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <h3 class="text-xl leading-6 font-semibold text-white">
-                    Participez à des activités en pleine nature pour protéger
-                    l'environnement
-                  </h3>
+                  <a href="#" class="block">
+                    <h3 class="text-xl leading-6 font-semibold text-white">
+                      Participez à des activités en pleine nature pour protéger
+                      l'environnement
+                    </h3>
+                  </a>
                 </div>
               </div>
             </div>
-          </router-link>
-
-          <router-link
-            to="/domaines-action/education-pour-tous"
+          </div>
+          <div
             class="bg-blue-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
-                <span
+                <router-link
+                  to="/domaines-action/education-pour-tous"
                   class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
-                  >éducation pour tous</span
+                >
+                  éducation pour tous</router-link
                 >
               </div>
             </div>
-            <div class="px-4 py-5 sm:p-6">
+            <div class="px-4 py-5 sm:p-8">
               <div class="flex items-center">
                 <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
                   <img
                     src="/images/education.svg"
-                    alt="Education"
                     style="width: 36px"
                     class="opacity-50"
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
-                  <h3 class="text-xl leading-6 font-semibold text-white">
-                    Soutenez les parcours scolaires et professionnels des jeunes
-                  </h3>
+                  <a href="#" class="block">
+                    <h3 class="text-xl leading-6 font-semibold text-white">
+                      Soutenez les parcours scolaires et professionnels des
+                      jeunes
+                    </h3>
+                  </a>
                 </div>
               </div>
             </div>
-          </router-link>
+          </div>
+          <div
+            class="bg-purple-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+          >
+            <div class="bg-gray-50 px-4 py-2 sm:px-6">
+              <div class="text-sm leading-5">
+                <router-link
+                  to="/domaines-action/sante-pour-tous"
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                >
+                  santé pour tous</router-link
+                >
+              </div>
+            </div>
+            <div class="px-4 py-5 sm:p-8">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
+                  <img
+                    src="/images/sante.svg"
+                    style="width: 36px"
+                    class="opacity-50"
+                  />
+                </div>
+                <div class="ml-4 w-0 flex-1">
+                  <a href="#" class="block">
+                    <h3 class="text-xl leading-6 font-semibold text-white">
+                      Venez en aide aux personnes malades, à leurs proches ou
+                      aux soignants
+                    </h3>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="relative max-w-screen-xl text-center mx-auto">
