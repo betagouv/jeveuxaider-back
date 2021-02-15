@@ -957,11 +957,6 @@ export default {
           link: '/missions?refinementList[domaines][0]=Mobilisation covid-19',
         },
         {
-          name: 'Santé pour tous',
-          image: '/images/sante.svg',
-          link: '/missions?refinementList[domaines][0]=Santé pour tous',
-        },
-        {
           name: 'Prévention et protection',
           image: '/images/securite.svg',
           link:
