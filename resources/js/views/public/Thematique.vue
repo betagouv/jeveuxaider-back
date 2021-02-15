@@ -137,7 +137,7 @@
         </div>
       </div>
 
-      <div class="py-16 bg-gray-50 overflow-hidden shadow-lg">
+      <!-- <div class="py-16 bg-gray-50 overflow-hidden shadow-lg">
         <div class="relative container mx-auto px-6 sm:px-6 lg:px-8">
           <div class="relative">
             <h3
@@ -181,7 +181,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="bg-white z-10">
         <div>
@@ -250,7 +250,7 @@
             <h2
               class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
             >
-              Rejoignez le mouvement #RéserveCivique
+              Rejoignez le mouvement #JeVeuxAider
             </h2>
             <p class="text-xl max-w-2xl mx-auto leading-8 text-gray-200 mt-2">
               Sur l’ensemble du territoire français, des milliers de bénévoles

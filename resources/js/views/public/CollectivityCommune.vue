@@ -144,7 +144,7 @@
           <h2
             class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
           >
-            Rejoignez le mouvement #RéserveCivique
+            Rejoignez le mouvement #JeVeuxAider
           </h2>
           <p class="text-xl max-w-2xl mx-auto leading-8 text-indigo-200 mt-2">
             Partout en France, des milliers de réservistes, organisations

@@ -196,7 +196,7 @@
               >
                 Rejoignez le mouvement
                 <br class="xl:hidden" />
-                <span class="text-blue-800">#RéserveCivique</span>
+                <span class="text-blue-800">#JeVeuxAider</span>
               </h3>
               <p
                 class="mt-4 text-center max-w-4xl text-xl leading-7 text-gray-500 lg:mx-auto"
