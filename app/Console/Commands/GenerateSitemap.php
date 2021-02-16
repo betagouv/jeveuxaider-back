@@ -107,6 +107,7 @@ class GenerateSitemap extends Command
         ->setPriority(0.4));
         }
 
-        $sitemap->writeToDisk('public', 'sitemap.xml');
+        $sitemap->writeToFile(public_path('sitemap.xml'));
+        logger(public_path('sitemap.xml'));
     }
 }
