@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 
 class GenerateSitemap extends Command
 {
@@ -107,7 +108,6 @@ class GenerateSitemap extends Command
         ->setPriority(0.4));
         }
 
-        $sitemap->writeToFile(public_path('sitemap.xml'));
-        logger(public_path('sitemap.xml'));
+        Storage::disk('s3')->put('public/sitemap.xml', $sitemap->render(), 'public');
     }
 }

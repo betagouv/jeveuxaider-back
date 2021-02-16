@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://jeveuxaider.gouv.fr/sitemap.xml
+Sitemap: https://jeveuxaider.fra1.cdn.digitaloceanspaces.com/public/sitemap.xml
