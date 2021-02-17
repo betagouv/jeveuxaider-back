@@ -217,14 +217,14 @@
                             @toggle-facet="onToggleFacet($event)"
                           />
 
-                          <AlgoliaSearchFacet
+                          <!-- <AlgoliaSearchFacet
                             v-if="facets.includes('format')"
                             name="format"
                             label="Format de mission"
                             class="mb-6"
                             :sort-by="['count:desc']"
                             @toggle-facet="onToggleFacet($event)"
-                          />
+                          /> -->
 
                           <AlgoliaSearchFacet
                             v-if="facets.includes('template_title')"
