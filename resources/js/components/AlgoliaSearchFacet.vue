@@ -48,7 +48,7 @@
           </template>
         </div>
 
-        <div v-if="!items.length" class="text-sm text-gray-450">Néant.</div>
+        <div v-if="!items.length" class="text-sm text-gray-450">-</div>
 
         <el-checkbox
           v-for="item in items"

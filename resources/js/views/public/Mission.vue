@@ -41,7 +41,7 @@
                       <span
                         v-for="tag in mission.tags"
                         :key="tag.id"
-                        class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
+                        class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-gray-100 text-gray-900"
                       >
                         {{ tag.name.fr }}
                       </span>

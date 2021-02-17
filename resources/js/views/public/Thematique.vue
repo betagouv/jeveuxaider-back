@@ -289,12 +289,7 @@
 
       <MissionsSearch
         v-if="thematique.domaine"
-        :facets="[
-          'format',
-          'template_title',
-          'department_name',
-          'structure.name',
-        ]"
+        :facets="['template_title', 'department_name', 'structure.name']"
         :filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
         :color="thematique.color"
       />
