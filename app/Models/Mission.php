@@ -123,19 +123,8 @@ class Mission extends Model
     {
         return collect([
             $this->template ? $this->template->domaine : $this->domaine, // domaine principal
-            ...$this->tagsWithType('domaine')->values() // domaines secondaires
         ]);
     }
-    /*
-        public function getDomainesAttribute()
-        {
-            $domaines = [];
-            $domaines = $this->tagsWithType('domaine')->values()->pluck('name');
-            $domaines[] = $this->template ? $this->template->domaine->name : $this->domaine->name;
-
-            return $domaines;
-        }
-        */
 
     public function user()
     {
