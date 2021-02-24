@@ -1,4 +1,7 @@
 export default {
+  server: {
+    host: process.env.HOST || 'localhost', // default: localhost,
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'JeVeuxAider | Trouver des missions de bénévolat',
