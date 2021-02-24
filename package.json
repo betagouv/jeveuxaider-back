@@ -1,0 +1,23 @@
+{
+  "name": "jeveuxaider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd front && yarn dev\" \"cd back && php artisan serve\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Codeconut/jeveuxaider.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Codeconut/jeveuxaider/issues"
+  },
+  "homepage": "https://github.com/Codeconut/jeveuxaider#readme",
+  "dependencies": {
+    "concurrently": "^6.0.0"
+  }
+}

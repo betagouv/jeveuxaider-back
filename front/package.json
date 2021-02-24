@@ -1,0 +1,56 @@
+{
+  "name": "jeveuxaider",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "prod": "nuxt build && nuxt start",
+    "build:modern": "nuxt build --modern=server",
+    "start:modern": "nuxt start --modern=server",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint": "yarn lint:js"
+  },
+  "lint-staged": {
+    "*.{js,vue}": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.12.5",
+    "@tailwindcss/ui": "^0.7.2",
+    "cookie-universal-nuxt": "^2.1.4",
+    "core-js": "^3.9.0",
+    "element-ui": "^2.15.0",
+    "nuxt": "^2.14.12",
+    "nuxt-lazy-load": "^1.2.5",
+    "responsive-loader": "^2.3.0",
+    "sharp": "^0.27.2",
+    "vue-typed-js": "^0.1.2"
+  },
+  "devDependencies": {
+    "@aceforth/nuxt-optimized-images": "^1.4.0",
+    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/tailwindcss": "^3.4.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.5.0",
+    "husky": "^5.0.9",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-pngquant": "^9.0.1",
+    "imagemin-svgo": "^8.0.0",
+    "lint-staged": "^10.5.3",
+    "node-sass": "^5.0.0",
+    "prettier": "^2.2.1",
+    "sass-loader": "10.1.1"
+  }
+}
