@@ -10,7 +10,6 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Thematique;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -19,7 +18,6 @@ class ConfigController extends Controller
     public function bootstrap()
     {
         return response()->json([
-            'user' => User::currentUser(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
             'thematiques' => $this->thematiques(),
