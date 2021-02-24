@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "nuxt start -p $PORT",
     "generate": "nuxt generate",
     "prod": "nuxt build && nuxt start",
     "build:modern": "nuxt build --modern=server",
