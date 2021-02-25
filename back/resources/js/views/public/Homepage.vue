@@ -18,8 +18,8 @@
           :strings="strings"
           :loop="true"
           :start-delay="70"
-          :type-speed="70"
           :back-delay="2000"
+          :type-speed="70"
           cursor-char="|"
         >
           <h2
