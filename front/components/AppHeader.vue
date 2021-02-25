@@ -58,6 +58,7 @@
             </nuxt-link>
             <a
               target="_blank"
+              rel="noopener"
               href="https://reserve-civique.crisp.help/fr/"
               class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
@@ -68,18 +69,21 @@
             >
               <a
                 target="_blank"
+                rel="noopener"
                 href="https://www.facebook.com/jeveuxaider.gouv.fr"
                 class="px-2"
                 ><img src="/images/icones/facebook.svg" alt="Facebook"
               /></a>
               <a
                 target="_blank"
+                rel="noopener"
                 href="https://twitter.com/reservecivique"
                 class="px-2"
                 ><img src="/images/icones/twitter.svg" alt="Twitter"
               /></a>
               <a
                 target="_blank"
+                rel="noopener"
                 href="https://www.linkedin.com/company/reservecivique/"
                 class="px-2"
                 ><img src="/images/icones/linkedin.svg" alt="Linkedin"

@@ -14,6 +14,7 @@
     <a
       href="https://franceconnect.gouv.fr/"
       target="_blank"
+      rel="noopener"
       class="text-sm"
       :class="
         isDark

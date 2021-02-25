@@ -37,6 +37,7 @@
               class="block p-3 hover:underline"
               href="https://reserve-civique.crisp.help/fr/"
               target="_blank"
+              rel="noopener"
             >
               Centre d'aide
             </a>
@@ -62,24 +63,28 @@
               class="block p-3 hover:underline"
               href="https://www.gouvernement.fr/info-coronavirus"
               target="_blank"
+              rel="noopener"
               >Info Coronavirus</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://www.jeveuxaider.gouv.fr/engagement/partenaires/"
               target="_blank"
+              rel="noopener"
               >Partenaires</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://www.jeveuxaider.gouv.fr/engagement/presse/"
               target="_blank"
+              rel="noopener"
               >Presse</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://jeveuxaider.gouv.fr/engagement/communication/"
               target="_blank"
+              rel="noopener"
               >Kit de communication</a
             >
           </div>
@@ -88,30 +93,35 @@
               class="block p-3 hover:underline"
               href="https://www.elysee.fr/"
               target="_blank"
+              rel="noopener"
               >elysee.fr</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://service-public.fr"
               target="_blank"
+              rel="noopener"
               >service-public.fr</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://legifrance.gouv.fr"
               target="_blank"
+              rel="noopener"
               >legifrance.gouv.fr</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://data.gouv.fr"
               target="_blank"
+              rel="noopener"
               >data.gouv.fr</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://www.france.fr"
               target="_blank"
+              rel="noopener"
               >france.fr</a
             >
           </div>
@@ -120,30 +130,35 @@
               class="block p-3 hover:underline"
               href="https://www.service-civique.gouv.fr/"
               target="_blank"
+              rel="noopener"
               >Service Civique</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://www.snu.gouv.fr/"
               target="_blank"
+              rel="noopener"
               >Service National Universel</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://www.corpseuropeensolidarite.fr/"
               target="_blank"
+              rel="noopener"
               >Corps Européen de solidarité</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://www.service-public.fr/particuliers/vosdroits/F11444"
               target="_blank"
+              rel="noopener"
               >Volontariat de solidarité internationale</a
             >
             <a
               class="block p-3 hover:underline"
               href="https://garde-nationale.gouv.fr/"
               target="_blank"
+              rel="noopener"
               >Garde Nationale</a
             >
           </div>

@@ -115,6 +115,7 @@
                 <a
                   href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
                   target="_blank"
+                  rel="noopener"
                   class="flex flex-col border-gray-100 py-4 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
                 >
                   parmi Plus de
@@ -411,6 +412,7 @@
                 class="mx-0 my-2 lg:m-2 inline-flex px-3 py-4 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
               >
                 <img
+                  alt="domaine.name"
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0 svg-100"
                   style="width: 40px"
                   :src="require(`@/assets/images/dynamic/${domaine.image}`)"
@@ -600,13 +602,18 @@
                 <p class="text-sm leading-5 font-medium text-blue-800">
                   <a
                     target="_blank"
+                    rel="noopener"
                     href="https://jeveuxaider.gouv.fr/engagement/actualites/"
                     class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
                   >
                     {{ actualite.type }}
                   </a>
                 </p>
-                <a target="_blank" :href="actualite.link" class="block"
+                <a
+                  target="_blank"
+                  rel="noopener"
+                  :href="actualite.link"
+                  class="block"
                   ><h3
                     class="mt-2 text-2xl leading-7 font-bold text-gray-800 tracking-tight"
                   >
@@ -626,6 +633,7 @@
         <a
           href="https://jeveuxaider.gouv.fr/engagement/actualites/"
           target="_blank"
+          rel="noopener"
           class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
         >
           Plus d'articles</a
@@ -716,6 +724,7 @@
             <a
               href="https://www.facebook.com/jeveuxaider.gouv.fr"
               target="_blank"
+              rel="noopener"
               class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center text-lg leading-7 font-medium text-blue-800 hover:scale-105 transform transition duration-150 ease-in-out"
             >
               <svg class="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
