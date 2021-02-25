@@ -3,6 +3,7 @@
     <img
       class="z-1 object-cover absolute h-screen lg:h-auto"
       src="/images/bg-jva.jpg"
+      alt="fond d'écran je veux aider"
     />
 
     <div class="pb-12 mt-12 px-4 relative w-full lg:inset-y-0 text-center z-10">

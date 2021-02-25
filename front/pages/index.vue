@@ -7,7 +7,7 @@
 
       <img
         class="z-1 object-cover absolute h-screen lg:h-auto"
-        alt="Je Veux Aider profils"
+        alt="Je Veux Aider"
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
       />
@@ -81,7 +81,7 @@
                 >
                   <img
                     class="mx-auto mt-2 lg:mt-0 h-8 lg:h-11"
-                    alt="J'agis pour la nature"
+                    alt="partenaire engagement J'agis pour la nature"
                     src="@/assets/images/logo-jagis-pour-la-nature.png"
                   />
                 </div>
@@ -90,7 +90,7 @@
                 >
                   <img
                     class="mx-auto h-12 lg:h-16"
-                    alt="Banque Alimentaire"
+                    alt="partenaire engagement Banque Alimentaire"
                     src="@/assets/images/logo_banquealimentaire.png"
                   />
                 </div>
@@ -100,7 +100,7 @@
                   <img
                     class="px-6"
                     src="@/assets/images/logo_emmaus.png"
-                    alt="Emmaus"
+                    alt="partenaire engagement Emmaus"
                   />
                 </div>
                 <div
@@ -109,7 +109,7 @@
                   <img
                     class="px-6"
                     src="@/assets/images/logo_aphp.png"
-                    alt="APHP"
+                    alt="partenaire engagement APHP"
                   />
                 </div>
                 <a
@@ -412,7 +412,7 @@
                 class="mx-0 my-2 lg:m-2 inline-flex px-3 py-4 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
               >
                 <img
-                  alt="domaine.name"
+                  :alt="domaine.name"
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0 svg-100"
                   style="width: 40px"
                   :src="require(`@/assets/images/dynamic/${domaine.image}`)"
@@ -434,7 +434,7 @@
             class="hidden lg:block absolute left-full transform -translate-x-3/4 -translate-y-20 opacity-75"
             src="@/assets/images/france_dark.svg"
             width="1530"
-            alt=""
+            alt="france engagement"
           />
         </div>
       </div>
@@ -490,7 +490,7 @@
                     <img
                       class="h-14 w-14 mt-1 rounded-full shadow-lg"
                       src="@/assets/images/sante-3.jpg"
-                      alt=""
+                      alt="domaine sante"
                     />
                   </div>
                   <div class="ml-5">
@@ -505,7 +505,7 @@
                     <img
                       class="h-9"
                       src="@/assets/images/logo_banquealimentaire.png"
-                      alt="logo"
+                      alt="logo banque alimentaire"
                     />
                   </div>
                 </div>
@@ -542,7 +542,7 @@
                     <img
                       class="h-14 w-14 mt-0 rounded-full shadow-lg"
                       src="@/assets/images/clement.jpeg"
-                      alt=""
+                      alt="candidature bénévole"
                     />
                   </div>
                   <div class="ml-5">
@@ -557,7 +557,7 @@
                     <img
                       class="h-6"
                       src="@/assets/images/lafourmiliere.png"
-                      alt="logo"
+                      alt="logo la fourmiliere"
                     />
                   </div>
                 </div>
