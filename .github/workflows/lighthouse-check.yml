@@ -1,0 +1,28 @@
+name: Lighthouse Check
+on: workflow_dispatch
+
+jobs:
+  lighthouse-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - run: mkdir /tmp/artifacts
+      - name: Run Lighthouse
+        uses: foo-software/lighthouse-check-action@master
+        with:
+          # accessToken: ${{ secrets.LIGHTHOUSE_CHECK_GITHUB_ACCESS_TOKEN }}
+          author: ${{ github.actor }}
+          # awsAccessKeyId: ${{ secrets.LIGHTHOUSE_CHECK_AWS_ACCESS_KEY_ID }}
+          # awsBucket: ${{ secrets.LIGHTHOUSE_CHECK_AWS_BUCKET }}
+          # awsRegion: ${{ secrets.LIGHTHOUSE_CHECK_AWS_REGION }}
+          # awsSecretAccessKey: ${{ secrets.LIGHTHOUSE_CHECK_AWS_SECRET_ACCESS_KEY }}
+          branch: ${{ github.ref }}
+          outputDirectory: /tmp/artifacts
+          urls: "https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io"
+          sha: ${{ github.sha }}
+          slackWebhookUrl: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: Lighthouse reports
+          path: /tmp/artifacts
