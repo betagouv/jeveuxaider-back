@@ -28,7 +28,7 @@ export default {
   plugins: [
     '@/plugins/element-ui.js',
     '@/plugins/axios',
-    '@/plugins/vue-typed.client.js',
+    '@/plugins/vue-libs.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -66,6 +66,10 @@ export default {
     oauth: {
       clientId: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    },
+    algolia: {
+      appId: process.env.ALGOLIA_PLACES_APP_ID,
+      apiKey: process.env.ALGOLIA_PLACES_API_KEY,
     },
     franceConnect: process.env.FRANCE_CONNECT,
   },

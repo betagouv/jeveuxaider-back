@@ -85,7 +85,6 @@ const mutations = {
     state.sidebar = !state.sidebar
   },
   toggleSearchOverlay: (state) => {
-    console.log('toggleSearchOverlay', 'OK')
     state.searchOverlay = !state.searchOverlay
   },
   setShowAvisBenevole: (state, value) => {
