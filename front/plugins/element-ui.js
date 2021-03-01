@@ -35,4 +35,7 @@ export default () => {
   Vue.component('ElBadge', () =>
     import(/* webpackChunkName: 'element-ui-badge' */ 'element-ui/lib/badge')
   )
+  Vue.component('ElRadio', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/radio')
+  )
 }

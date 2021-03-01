@@ -1,10 +1,10 @@
 import { rolesList } from '../api/user'
 
-export const state = () => ({})
+export const state = () => ({
+  searchOverlay: false,
+})
 
 export const getters = {
-  isLogged: (state) => !!(state.auth.accessToken && state.auth.user),
-  user: (state) => state.auth.user,
   contextRole: (state) => state.user && state.user.user.context_role,
   hasRoles: (state, getters) => {
     return (
@@ -12,11 +12,18 @@ export const getters = {
       rolesList.filter((role) => getters.profile.roles[role.key] === true)
     )
   },
-  reminders: (state) => state.reminders,
+  isLogged: (state) => !!(state.auth.accessToken && state.auth.user),
   profile: (state) => (state.user ? state.user.user.profile : null),
+  reminders: (state) => state.reminders,
+  searchOverlay: (state) => state.searchOverlay,
+  user: (state) => state.auth.user,
 }
 
-export const mutations = {}
+export const mutations = {
+  toggleSearchOverlay: (state) => {
+    state.searchOverlay = !state.searchOverlay
+  },
+}
 
 export const actions = {
   async nuxtServerInit({ commit }, { store }) {

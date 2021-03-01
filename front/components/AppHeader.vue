@@ -275,11 +275,11 @@
 
       <!-- DIALOG MISSION -->
       <transition name="fade">
-        <!-- <SearchOverlay
+        <LazySearchOverlay
           v-if="$store.getters.searchOverlay"
           @submitted="$store.commit('toggleSearchOverlay')"
           @closed="$store.commit('toggleSearchOverlay')"
-        /> -->
+        />
       </transition>
     </div>
   </header>
