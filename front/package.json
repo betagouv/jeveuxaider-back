@@ -24,7 +24,7 @@
     "@tailwindcss/ui": "^0.7.2",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.9.0",
-    "element-ui": "^2.15.0",
+    "element-ui": "^2.15.1",
     "nuxt": "^2.14.12",
     "nuxt-lazy-load": "^1.2.5",
     "responsive-loader": "^2.3.0",

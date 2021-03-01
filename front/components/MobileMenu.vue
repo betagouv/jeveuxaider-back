@@ -34,7 +34,7 @@
           </nuxt-link>
           <button
             v-show="showMobileMenu"
-            id="main-menu"
+            id="main-menu-close"
             type="button"
             class="text-blue-300 mr-4"
             aria-haspopup="true"

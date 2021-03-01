@@ -112,6 +112,7 @@
               >
                 Publier une mission
               </nuxt-link>
+              <!-- Aria issue : https://github.com/ElemeFE/element/issues/9365 -->
               <el-dropdown>
                 <button
                   type="button"
