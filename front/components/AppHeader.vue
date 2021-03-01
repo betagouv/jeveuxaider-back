@@ -8,21 +8,23 @@
     <div id="header-wrapper" class="flex justify-between items-center">
       <div class="flex h-full">
         <div class="hidden md:flex items-center px-2 shadow-lg">
-          <nuxt-link to="/">
+          <nuxt-link to="/" class="flex-none">
             <img
               class="mx-auto lg:mx-0"
               src="/images/republique-francaise-logo.svg"
               alt="République Française"
-              style="height: 110px"
+              width="121px"
+              height="110px"
             />
           </nuxt-link>
         </div>
         <div class="flex items-center px-8">
           <nuxt-link to="/">
             <img
-              class=""
               src="/images/jeveuxaider-logo.svg"
               alt="JeVeuxAider.gouv.fr"
+              width="227px"
+              height="37px"
             />
           </nuxt-link>
         </div>
@@ -72,22 +74,40 @@
                 rel="noopener"
                 href="https://www.facebook.com/jeveuxaider.gouv.fr"
                 class="px-2"
-                ><img src="/images/icones/facebook.svg" alt="Facebook"
-              /></a>
+              >
+                <img
+                  src="/images/icones/facebook.svg"
+                  alt="Facebook"
+                  width="6px"
+                  height="12px"
+                />
+              </a>
               <a
                 target="_blank"
                 rel="noopener"
                 href="https://twitter.com/reservecivique"
                 class="px-2"
-                ><img src="/images/icones/twitter.svg" alt="Twitter"
-              /></a>
+              >
+                <img
+                  src="/images/icones/twitter.svg"
+                  alt="Twitter"
+                  width="13px"
+                  height="10px"
+                />
+              </a>
               <a
                 target="_blank"
                 rel="noopener"
                 href="https://www.linkedin.com/company/reservecivique/"
                 class="px-2"
-                ><img src="/images/icones/linkedin.svg" alt="Linkedin"
-              /></a>
+              >
+                <img
+                  src="/images/icones/linkedin.svg"
+                  alt="Linkedin"
+                  width="11px"
+                  height="11px"
+                />
+              </a>
             </div>
           </slot>
         </div>
@@ -102,6 +122,8 @@
                   class="mr-2"
                   src="/images/icones/search.svg"
                   alt="Trouver une mission"
+                  width="16px"
+                  height="18px"
                 />
                 Trouver une mission
               </button>
@@ -178,6 +200,8 @@
                   class="mr-2"
                   src="/images/icones/mon-espace.svg"
                   alt="Mon espace"
+                  width="12px"
+                  height="18px"
                 />
                 Mon espace
               </nuxt-link>

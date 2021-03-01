@@ -74,7 +74,7 @@
                   class="flex lg:flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
                 >
                   <img
-                    class="mx-auto mt-2 lg:mt-0 h-8 lg:h-11"
+                    class="mx-auto mt-2 lg:mt-0 h-8 lg:h-10"
                     alt="J'agis pour la nature"
                     src="/images/logo-jagis-pour-la-nature.svg"
                   />

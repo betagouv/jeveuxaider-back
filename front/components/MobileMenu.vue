@@ -10,7 +10,13 @@
         @click="showMobileMenu = true"
       >
         <span class="sr-only">Open main menu</span>
-        <img class="h-5" src="/images/icones/menu.svg" alt="Open" />
+        <img
+          class="h-5"
+          src="/images/icones/menu.svg"
+          alt="Open"
+          width="20px"
+          height="20px"
+        />
       </button>
     </div>
     <div
@@ -30,6 +36,8 @@
               class=""
               src="/images/jeveuxaider-logo.svg"
               alt="JeVeuxAider.gouv.fr"
+              width="227px"
+              height="37px"
             />
           </nuxt-link>
           <button
@@ -42,7 +50,13 @@
           >
             <span class="sr-only">Close main menu</span>
 
-            <img class="h-5" src="/images/icones/cancel.svg" alt="Close" />
+            <img
+              class="h-5"
+              src="/images/icones/cancel.svg"
+              alt="Close"
+              width="20px"
+              height="20px"
+            />
           </button>
         </div>
         <div

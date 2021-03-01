@@ -10,7 +10,8 @@
                   class="mx-auto lg:mx-0"
                   src="/images/republique-francaise-logo.svg"
                   alt="République Française"
-                  style="height: 200px"
+                  width="222px"
+                  height="200px"
                 />
               </div>
             </nuxt-link>

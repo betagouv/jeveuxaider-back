@@ -10,6 +10,8 @@
         alt="Je Veux Aider"
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
+        width="100%"
+        height="100%"
       />
 
       <div
@@ -77,46 +79,54 @@
                 class="rounded-lg bg-white py-1 shadow-lg grid grid-cols-2 lg:grid-cols-5"
               >
                 <div
-                  class="flex lg:flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                  class="flex lg:flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
                 >
                   <img
-                    class="mx-auto mt-2 lg:mt-0 h-8 lg:h-11"
+                    class="m-auto"
                     alt="partenaire engagement J'agis pour la nature"
                     src="@/assets/images/logo-jagis-pour-la-nature.png"
+                    width="100px"
+                    height="40px"
                   />
                 </div>
                 <div
-                  class="flex lg:flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                  class="flex lg:flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
                 >
                   <img
-                    class="mx-auto h-12 lg:h-16"
+                    class="m-auto"
                     alt="partenaire engagement Banque Alimentaire"
                     src="@/assets/images/logo_banquealimentaire.png"
+                    width="150px"
+                    height="60px"
                   />
                 </div>
                 <div
-                  class="flex flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                  class="flex flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
                 >
                   <img
-                    class="px-6"
+                    class="m-auto"
                     src="@/assets/images/logo_emmaus.png"
                     alt="partenaire engagement Emmaus"
+                    width="150px"
+                    height="60px"
                   />
                 </div>
                 <div
-                  class="flex flex-col border-b border-gray-100 py-4 text-center sm:border-0 sm:border-r justify-center"
+                  class="flex flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
                 >
                   <img
-                    class="px-6"
+                    class="m-auto"
                     src="@/assets/images/logo_aphp.png"
                     alt="partenaire engagement APHP"
+                    width="150px"
+                    height="60px"
                   />
                 </div>
                 <a
                   href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
                   target="_blank"
                   rel="noopener"
-                  class="flex flex-col border-gray-100 py-4 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
+                  class="flex flex-col border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
                 >
                   parmi Plus de
                   <span class="text-4xl font-bold">5000</span>
@@ -158,7 +168,7 @@
       </div>
     </div>
 
-    <div class="bg-gray-50 pb-20">
+    <div class="bg-gray-50 pb-20 px-4 md:px-6 lg:px-8">
       <p
         class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
       >
@@ -188,6 +198,8 @@
                 class="h-48 w-full object-cover"
                 :src="require(`@/assets/images/dynamic/${mission.image}`)"
                 :alt="mission.name"
+                width="600px"
+                height="286px"
               />
             </div>
           </div>
@@ -413,9 +425,10 @@
               >
                 <img
                   :alt="domaine.name"
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0 svg-100"
-                  style="width: 40px"
+                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   :src="require(`@/assets/images/dynamic/${domaine.image}`)"
+                  width="40px"
+                  height="28px"
                 />
                 {{ domaine.name }}
               </nuxt-link>
@@ -491,6 +504,8 @@
                       class="h-14 w-14 mt-1 rounded-full shadow-lg"
                       src="@/assets/images/sante-3.jpg"
                       alt="domaine sante"
+                      width="56px"
+                      height="56px"
                     />
                   </div>
                   <div class="ml-5">
@@ -506,6 +521,8 @@
                       class="h-9"
                       src="@/assets/images/logo_banquealimentaire.png"
                       alt="logo banque alimentaire"
+                      width="90px"
+                      height="36px"
                     />
                   </div>
                 </div>
@@ -540,9 +557,11 @@
                 <div class="flex">
                   <div class="flex-shrink-0 inline-flex rounded-full">
                     <img
-                      class="h-14 w-14 mt-0 rounded-full shadow-lg"
+                      class="mt-0 rounded-full shadow-lg"
                       src="@/assets/images/clement.jpeg"
                       alt="candidature bénévole"
+                      width="56px"
+                      height="56px"
                     />
                   </div>
                   <div class="ml-5">
@@ -558,6 +577,8 @@
                       class="h-6"
                       src="@/assets/images/lafourmiliere.png"
                       alt="logo la fourmiliere"
+                      width="138px"
+                      height="24px"
                     />
                   </div>
                 </div>
@@ -595,6 +616,8 @@
                 :src="require(`@/assets/images/dynamic/${actualite.image}`)"
                 :alt="actualite.title"
                 class="h-48 w-full object-cover"
+                width="554px"
+                height="312px"
               />
             </div>
             <div class="flex-1 bg-white p-8 flex flex-col justify-between">
@@ -727,7 +750,13 @@
               rel="noopener"
               class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center text-lg leading-7 font-medium text-blue-800 hover:scale-105 transform transition duration-150 ease-in-out"
             >
-              <svg class="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <svg
+                class="mr-2"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                width="24px"
+                height="24px"
+              >
                 <path
                   fill-rule="evenodd"
                   d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
@@ -766,10 +795,12 @@
               <li class="flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="h-6 w-6 text-green-400"
+                    class="text-green-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
+                    width="24px"
+                    height="24px"
                   >
                     <path
                       stroke-linecap="round"
@@ -779,17 +810,19 @@
                     />
                   </svg>
                 </div>
-                <p class="ml-3 text-xl leading-6 text-gray-600">
+                <p class="ml-3 text-xl leading-6 text-gray-700">
                   Inscrivez votre organisation en quelques clics
                 </p>
               </li>
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="h-6 w-6 text-green-400"
+                    class="text-green-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
+                    width="24px"
+                    height="24px"
                   >
                     <path
                       stroke-linecap="round"
@@ -799,17 +832,19 @@
                     />
                   </svg>
                 </div>
-                <p class="ml-3 text-xl leading-6 text-gray-600">
+                <p class="ml-3 text-xl leading-6 text-gray-700">
                   Publiez vos missions de bénévolat
                 </p>
               </li>
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="h-6 w-6 text-green-400"
+                    class="text-green-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
+                    width="24px"
+                    height="24px"
                   >
                     <path
                       stroke-linecap="round"
@@ -819,7 +854,7 @@
                     />
                   </svg>
                 </div>
-                <p class="ml-3 text-xl leading-6 text-gray-600">
+                <p class="ml-3 text-xl leading-6 text-gray-700">
                   Trouvez des bénévoles motivés et disponibles
                 </p>
               </li>
@@ -854,10 +889,12 @@
               <li class="flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="h-6 w-6 text-green-400"
+                    class="text-green-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
+                    width="24px"
+                    height="24px"
                   >
                     <path
                       stroke-linecap="round"
@@ -867,17 +904,19 @@
                     />
                   </svg>
                 </div>
-                <p class="ml-3 text-xl leading-6 text-gray-600">
+                <p class="ml-3 text-xl leading-6 text-gray-700">
                   Créez une page dédiée à votre collectivité
                 </p>
               </li>
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="h-6 w-6 text-green-400"
+                    class="text-green-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
+                    width="24px"
+                    height="24px"
                   >
                     <path
                       stroke-linecap="round"
@@ -887,17 +926,19 @@
                     />
                   </svg>
                 </div>
-                <p class="ml-3 text-xl leading-6 text-gray-600">
+                <p class="ml-3 text-xl leading-6 text-gray-700">
                   Centralisez les missions des organisations locales
                 </p>
               </li>
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="h-6 w-6 text-green-400"
+                    class="text-green-400"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
+                    width="24px"
+                    height="24px"
                   >
                     <path
                       stroke-linecap="round"
@@ -907,7 +948,7 @@
                     />
                   </svg>
                 </div>
-                <p class="ml-3 text-xl leading-6 text-gray-600">
+                <p class="ml-3 text-xl leading-6 text-gray-700">
                   Encouragez et valorisez l'engagement de vos citoyens
                 </p>
               </li>
