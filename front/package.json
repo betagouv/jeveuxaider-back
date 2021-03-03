@@ -25,6 +25,7 @@
     "algoliasearch": "^4.8.5",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.9.0",
+    "dayjs": "^1.10.4",
     "element-ui": "^2.15.1",
     "instantsearch.css": "^7.4.5",
     "nuxt": "^2.14.12",

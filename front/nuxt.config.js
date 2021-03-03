@@ -32,6 +32,7 @@ export default {
     '@/plugins/element-ui.js',
     '@/plugins/axios',
     '@/plugins/vue-libs.client.js',
+    '@/plugins/api.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
