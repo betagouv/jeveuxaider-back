@@ -34,7 +34,7 @@ export default () => {
   )
   Vue.component('ElInputNumber', () =>
     import(
-      /* webpackChunkName: 'element-ui-input' */ 'element-ui/lib/input-number'
+      /* webpackChunkName: 'element-ui-input-number' */ 'element-ui/lib/input-number'
     )
   )
   Vue.component('ElBadge', () =>
@@ -50,30 +50,32 @@ export default () => {
   )
   Vue.component('ElContainer', () =>
     import(
-      /* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/container'
+      /* webpackChunkName: 'element-ui-container' */ 'element-ui/lib/container'
     )
   )
   Vue.component('ElTooltip', () =>
-    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/tooltip')
+    import(
+      /* webpackChunkName: 'element-ui-tooltip' */ 'element-ui/lib/tooltip'
+    )
   )
   Vue.component('ElMenu', () =>
-    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/menu')
+    import(/* webpackChunkName: 'element-ui-menu' */ 'element-ui/lib/menu')
   )
   Vue.component('ElMenuItem', () =>
     import(
-      /* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/menu-item'
+      /* webpackChunkName: 'element-ui-menu-item' */ 'element-ui/lib/menu-item'
     )
   )
   Vue.component('ElButton', () =>
-    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/button')
+    import(/* webpackChunkName: 'element-ui-button' */ 'element-ui/lib/button')
   )
   Vue.component('ElAvatar', () =>
-    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/avatar')
+    import(/* webpackChunkName: 'element-ui-avatar' */ 'element-ui/lib/avatar')
   )
   Vue.component('ElAside', () =>
-    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/aside')
+    import(/* webpackChunkName: 'element-ui-aside' */ 'element-ui/lib/aside')
   )
   Vue.component('ElCard', () =>
-    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/card')
+    import(/* webpackChunkName: 'element-ui-card' */ 'element-ui/lib/card')
   )
 }
