@@ -1,6 +1,7 @@
 export default (axios) => ({
   async getMission(id) {
-    return await axios.get(`/api/mission/${id}`)
+    const { data } = await axios.get(`/mission/${id}`)
+    return data
   },
 })
 
