@@ -1,11 +1,27 @@
+<script>
 import qs from 'qs'
-import { debounce } from 'lodash/core'
-
-import algoliasearch from 'algoliasearch/lite'
+import { debounce } from 'lodash'
 import 'instantsearch.css/themes/algolia-min.css'
+import { createServerRootMixin } from 'vue-instantsearch'
+import algoliasearch from 'algoliasearch/lite'
+
+const searchClient = algoliasearch(
+  'GQLG3QH7PO',
+  '1d32f8d083b713bbd47bd0b3ca5fe4fe'
+)
 
 export default {
-  name: 'AlgoliaSearchMixin',
+  mixins: [
+    createServerRootMixin({
+      searchClient,
+      indexName: 'local_kevin_covid_missions',
+    }),
+  ],
+  serverPrefetch() {
+    return this.instantsearch.findResultsState(this).then((algoliaState) => {
+      this.$ssrContext.nuxt.algoliaState = algoliaState
+    })
+  },
   props: {
     initialGeoSearch: {
       type: [Object, Boolean],
@@ -14,23 +30,30 @@ export default {
   },
   data() {
     return {
-      searchClient: algoliasearch(
-        process.env.MIX_ALGOLIA_APP_ID,
-        process.env.MIX_ALGOLIA_SEARCH_KEY
-      ),
+      searchClient,
       routeState: null,
       loading: true,
     }
   },
   computed: {
     indexName() {
-      return process.env.MIX_ALGOLIA_INDEX
+      return this.$config.algolia.index
     },
     routeStateWithIndex() {
       return {
         [this.indexName]: this.routeState,
       }
     },
+  },
+  beforeMount() {
+    const results =
+      this.$nuxt.context.nuxtState.algoliaState || window.__NUXT__.algoliaState
+
+    this.instantsearch.hydrate(results)
+
+    // Remove the SSR state so it can't be applied again by mistake
+    delete this.$nuxt.context.nuxtState.algoliaState
+    delete window.__NUXT__.algoliaState
   },
   created() {
     this.readUrl()
@@ -40,6 +63,15 @@ export default {
         ...this.routeState,
         ...this.initialGeoSearch,
       })
+    }
+
+    if (
+      this.initialGeoSearch &&
+      this.initialGeoSearch.refinementList &&
+      this.initialGeoSearch.refinementList.type &&
+      this.initialGeoSearch.refinementList.type[0] == 'Mission en présentiel'
+    ) {
+      this.$set(this.routeState, 'aroundRadius', this.defaultRadius)
     }
 
     // See https://www.algolia.com/doc/guides/building-search-ui/troubleshooting/faq/js/#why-is-my-uistate-ignored
@@ -143,3 +175,4 @@ export default {
     },
   },
 }
+</script>

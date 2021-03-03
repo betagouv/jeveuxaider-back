@@ -1,3 +1,5 @@
+import { resolve } from 'path'
+
 export default {
   server: {
     host: process.env.HOST || 'localhost', // default: localhost,
@@ -32,6 +34,7 @@ export default {
     '@/plugins/element-ui.js',
     '@/plugins/axios',
     '@/plugins/vue-libs.client.js',
+    { src: '~/plugins/numeral.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -71,8 +74,12 @@ export default {
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
     },
     algolia: {
-      appId: process.env.ALGOLIA_PLACES_APP_ID,
-      apiKey: process.env.ALGOLIA_PLACES_API_KEY,
+      placesAppId: process.env.ALGOLIA_PLACES_APP_ID,
+      placesApiKey: process.env.ALGOLIA_PLACES_API_KEY,
+      appId: process.env.ALGOLIA_APP_ID,
+      secret: process.env.ALGOLIA_SECRET,
+      searchKey: process.env.ALGOLIA_SEARCH_KEY,
+      index: process.env.ALGOLIA_INDEX,
     },
     franceConnect: process.env.FRANCE_CONNECT,
   },
@@ -89,5 +96,9 @@ export default {
         return ['script', 'style', 'font'].includes(type)
       },
     },
+  },
+
+  alias: {
+    vue$: resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
   },
 }

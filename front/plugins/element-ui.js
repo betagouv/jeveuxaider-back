@@ -38,4 +38,9 @@ export default () => {
   Vue.component('ElRadio', () =>
     import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/radio')
   )
+  Vue.component('ElCheckbox', () =>
+    import(
+      /* webpackChunkName: 'element-ui-checkbox' */ 'element-ui/lib/checkbox'
+    )
+  )
 }
