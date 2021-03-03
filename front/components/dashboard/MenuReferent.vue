@@ -126,7 +126,6 @@
 import MenuActive from '@/mixins/MenuActive'
 
 export default {
-  name: 'MenuReferentRegional',
   mixins: [MenuActive],
 }
 </script>

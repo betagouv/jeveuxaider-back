@@ -1,9 +1,6 @@
 <template>
   <div>
-    <el-menu-item
-      index="/dashboard"
-      :class="{ 'is-active': isActive('dashboard') }"
-    >
+    <el-menu-item index="/dashboard">
       <span v-if="$store.getters.isSidebarExpanded">Tableau de bord</span>
       <el-tooltip
         v-else
@@ -16,28 +13,7 @@
         <i class="el-icon-data-analysis" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item
-      index="/dashboard/collectivities"
-      :class="{
-        'is-active': isActive('/dashboard/collectivities'),
-      }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Collectivités</span>
-      <el-tooltip
-        v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Collectivités"
-        placement="right"
-      >
-        <i class="el-icon-office-building" />
-      </el-tooltip>
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/structures"
-      :class="{ 'is-active': isActive('/dashboard/structure') }"
-    >
+    <el-menu-item index="/dashboard/structures">
       <span v-if="$store.getters.isSidebarExpanded">Organisations</span>
       <el-tooltip
         v-else
@@ -50,10 +26,7 @@
         <i class="el-icon-school" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item
-      index="/dashboard/missions"
-      :class="{ 'is-active': isActive('/dashboard/mission') }"
-    >
+    <el-menu-item index="/dashboard/missions">
       <span v-if="$store.getters.isSidebarExpanded">Missions</span>
       <el-tooltip
         v-else
@@ -66,10 +39,7 @@
         <i class="el-icon-collection" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item
-      index="/dashboard/participations"
-      :class="{ 'is-active': isActive('/dashboard/participation') }"
-    >
+    <el-menu-item index="/dashboard/participations">
       <span v-if="$store.getters.isSidebarExpanded">Participations</span>
       <el-tooltip
         v-else
@@ -82,10 +52,7 @@
         <i class="el-icon-finished" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item
-      index="/dashboard/profiles"
-      :class="{ 'is-active': isActive('/dashboard/profile') }"
-    >
+    <el-menu-item index="/dashboard/profiles">
       <span v-if="$store.getters.isSidebarExpanded">Utilisateurs</span>
       <el-tooltip
         v-else
@@ -96,22 +63,6 @@
         placement="right"
       >
         <i class="el-icon-user" />
-      </el-tooltip>
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/ressources"
-      :class="{ 'is-active': isActive('ressources') }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Ressources</span>
-      <el-tooltip
-        v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Ressources"
-        placement="right"
-      >
-        <i class="el-icon-help" />
       </el-tooltip>
     </el-menu-item>
     <el-menu-item v-if="$store.getters.isSidebarExpanded">
@@ -126,7 +77,6 @@
 import MenuActive from '@/mixins/MenuActive'
 
 export default {
-  name: 'MenuReferent',
   mixins: [MenuActive],
 }
 </script>

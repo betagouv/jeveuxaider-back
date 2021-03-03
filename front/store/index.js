@@ -9,7 +9,8 @@ export const state = () => ({
 export const getters = {
   isAppLoaded: (state) => state.isAppLoaded,
   isSidebarExpanded: (state) => state.isSidebarExpanded,
-  contextRole: (state, getters) => getters.user.context_role,
+  contextRole: (state, getters) =>
+    getters.user ? getters.user.context_role : null,
   contextRoleLabel: (state, getters) => {
     const rolesLabel = rolesList.filter(
       (role) => role.key == getters.contextRole

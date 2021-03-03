@@ -143,7 +143,6 @@
 import MenuActive from '@/mixins/MenuActive'
 
 export default {
-  name: 'MenuResponsable',
   mixins: [MenuActive],
 }
 </script>

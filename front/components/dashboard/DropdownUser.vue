@@ -106,7 +106,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'SidebarProfile',
   data() {
     return {
       // baseUrl: process.env.VUE_APP_API_BASE_URL,

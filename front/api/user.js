@@ -1,144 +1,144 @@
-import axios from 'axios'
+// import axios from 'axios'
 
-export function registerVolontaire(
-  email,
-  password,
-  firstName,
-  lastName,
-  mobile,
-  birthday,
-  zip,
-  sc
-) {
-  return axios.post('/api/register/volontaire', {
-    email: email.toLowerCase(),
-    password,
-    firstName,
-    lastName,
-    mobile,
-    birthday,
-    zip,
-    sc,
-  })
-}
+// export function registerVolontaire(
+//   email,
+//   password,
+//   firstName,
+//   lastName,
+//   mobile,
+//   birthday,
+//   zip,
+//   sc
+// ) {
+//   return axios.post('/register/volontaire', {
+//     email: email.toLowerCase(),
+//     password,
+//     firstName,
+//     lastName,
+//     mobile,
+//     birthday,
+//     zip,
+//     sc,
+//   })
+// }
 
-export function registerResponsable(
-  email,
-  password,
-  firstName,
-  lastName,
-  structureName
-) {
-  return axios.post('/api/register/responsable', {
-    email: email.toLowerCase(),
-    password,
-    firstName,
-    lastName,
-    structureName,
-  })
-}
+// export function registerResponsable(
+//   email,
+//   password,
+//   firstName,
+//   lastName,
+//   structureName
+// ) {
+//   return axios.post('/register/responsable', {
+//     email: email.toLowerCase(),
+//     password,
+//     firstName,
+//     lastName,
+//     structureName,
+//   })
+// }
 
-export function exportProfiles(params) {
-  return axios.get(`/api/profiles/export`, {
-    responseType: 'blob',
-    params,
-  })
-}
+// export function exportProfiles(params) {
+//   return axios.get(`/profiles/export`, {
+//     responseType: 'blob',
+//     params,
+//   })
+// }
 
-export function exportProfilesReferentsDepartements(params) {
-  return axios.get(`/api/profiles/referents/departements/export`, {
-    responseType: 'blob',
-    params,
-  })
-}
+// export function exportProfilesReferentsDepartements(params) {
+//   return axios.get(`/profiles/referents/departements/export`, {
+//     responseType: 'blob',
+//     params,
+//   })
+// }
 
-export function exportProfilesReferentsRegions(params) {
-  return axios.get(`/api/profiles/referents/regions/export`, {
-    responseType: 'blob',
-    params,
-  })
-}
+// export function exportProfilesReferentsRegions(params) {
+//   return axios.get(`/profiles/referents/regions/export`, {
+//     responseType: 'blob',
+//     params,
+//   })
+// }
 
-export function exportProfilesResponsables(params) {
-  return axios.get(`/api/profiles/responsables/export`, {
-    responseType: 'blob',
-    params,
-  })
-}
+// export function exportProfilesResponsables(params) {
+//   return axios.get(`/profiles/responsables/export`, {
+//     responseType: 'blob',
+//     params,
+//   })
+// }
 
-export async function getUser() {
-  return await axios.get('/api/user')
-}
+// export async function getUser() {
+//   return await axios.get('/user')
+// }
 
-export function getProfile(id) {
-  return axios.get(`/api/profile/${id}`)
-}
+// export function getProfile(id) {
+//   return axios.get(`/profile/${id}`)
+// }
 
-export function addProfile(profile) {
-  return axios.post(`/api/profile`, profile)
-}
+// export function addProfile(profile) {
+//   return axios.post(`/profile`, profile)
+// }
 
-export function updateProfile(id, profile) {
-  return axios.post(`/api/profile/${id}`, profile)
-}
+// export function updateProfile(id, profile) {
+//   return axios.post(`/profile/${id}`, profile)
+// }
 
-export function updateUser(user) {
-  return axios.post('/api/user', user)
-}
+// export function updateUser(user) {
+//   return axios.post('/user', user)
+// }
 
-export function updatePassword(user) {
-  return axios.post('/api/user/password', user)
-}
+// export function updatePassword(user) {
+//   return axios.post('/user/password', user)
+// }
 
-export function anonymizeUser() {
-  return axios.post('/api/user/anonymize')
-}
+// export function anonymizeUser() {
+//   return axios.post('/user/anonymize')
+// }
 
-export function fetchProfileParticipations(id) {
-  return axios.get(`/api/profile/${id}/participations`)
-}
+// export function fetchProfileParticipations(id) {
+//   return axios.get(`/profile/${id}/participations`)
+// }
 
-export function fetchProfiles(params, appends) {
-  return axios.get(`/api/profiles?append=${appends.join(',')}`, {
-    params,
-  })
-}
+// export function fetchProfiles(params, appends) {
+//   return axios.get(`/profiles?append=${appends.join(',')}`, {
+//     params,
+//   })
+// }
 
-export function fetchUsers(params, appends) {
-  return axios.get(`/api/users?append=${appends.join(',')}`, {
-    params,
-  })
-}
+// export function fetchUsers(params, appends) {
+//   return axios.get(`/users?append=${appends.join(',')}`, {
+//     params,
+//   })
+// }
 
-export function fetchInvitations(params) {
-  return axios.get(`/api/invitations`, {
-    params,
-  })
-}
+// export function fetchInvitations(params) {
+//   return axios.get(`/invitations`, {
+//     params,
+//   })
+// }
 
-export function addInvitation(invitation) {
-  return axios.post(`/api/invitation`, invitation)
-}
+// export function addInvitation(invitation) {
+//   return axios.post(`/invitation`, invitation)
+// }
 
-export function getInvitation(token) {
-  return axios.get(`/api/invitation/${token}`)
-}
+// export function getInvitation(token) {
+//   return axios.get(`/invitation/${token}`)
+// }
 
-export function acceptInvitation(token) {
-  return axios.post(`/api/invitation/${token}/accept`)
-}
+// export function acceptInvitation(token) {
+//   return axios.post(`/invitation/${token}/accept`)
+// }
 
-export function deleteInvitation(token) {
-  return axios.delete(`/api/invitation/${token}/delete`)
-}
+// export function deleteInvitation(token) {
+//   return axios.delete(`/invitation/${token}/delete`)
+// }
 
-export function resendInvitation(token) {
-  return axios.post(`/api/invitation/${token}/resend`)
-}
+// export function resendInvitation(token) {
+//   return axios.post(`/invitation/${token}/resend`)
+// }
 
-export function registerInvitation(params, token) {
-  return axios.post(`/api/invitation/${token}/register`, params)
-}
+// export function registerInvitation(params, token) {
+//   return axios.post(`/invitation/${token}/register`, params)
+// }
 
 export const rolesList = [
   { key: 'admin', label: 'Modérateur' },
@@ -150,8 +150,8 @@ export const rolesList = [
   { key: 'analyste', label: 'Analyste' },
 ]
 
-export function getUserFirstname(email) {
-  return axios.post(`/api/firstname`, {
-    email,
-  })
-}
+// export function getUserFirstname(email) {
+//   return axios.post(`/firstname`, {
+//     email,
+//   })
+// }

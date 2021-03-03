@@ -28,7 +28,6 @@
 import MenuActive from '@/mixins/MenuActive'
 
 export default {
-  name: 'MenuAnalyste',
   mixins: [MenuActive],
 }
 </script>

@@ -63,4 +63,7 @@ export default () => {
   Vue.component('ElAside', () =>
     import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/aside')
   )
+  Vue.component('ElCard', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/card')
+  )
 }

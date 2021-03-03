@@ -39,7 +39,6 @@ Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statist
 
 Route::get('statistics/global', 'Api\StatisticsController@global');
 
-
 Route::post('sendinblue/contact', 'Api\SendInBlueController@store');
 
 Route::group(['middleware' => ['auth:api']], function () {

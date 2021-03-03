@@ -7,18 +7,28 @@
     <DashboardDropdownUser class="border-b border-gray-200" />
     <div class="flex flex-col flex-1">
       <el-menu :router="true">
-        <MenuResponsable v-if="$store.getters.contextRole == 'responsable'" />
-        <MenuModerateur v-if="$store.getters.contextRole == 'admin'" />
-        <MenuReferent v-if="$store.getters.contextRole == 'referent'" />
-        <MenuReferentRegional
+        <LazyDashboardMenuResponsable
+          v-if="$store.getters.contextRole == 'responsable'"
+        />
+        <LazyDashboardMenuModerateur
+          v-if="$store.getters.contextRole == 'admin'"
+        />
+        <LazyDashboardMenuReferent
+          v-if="$store.getters.contextRole == 'referent'"
+        />
+        <LazyDashboardMenuReferentRegional
           v-if="$store.getters.contextRole == 'referent_regional'"
         />
-        <MenuSuperviseur v-if="$store.getters.contextRole == 'superviseur'" />
-        <MenuAnalyste v-if="$store.getters.contextRole == 'analyste'" />
+        <LazyDashboardMenuSuperviseur
+          v-if="$store.getters.contextRole == 'superviseur'"
+        />
+        <LazyDashboardMenuAnalyste
+          v-if="$store.getters.contextRole == 'analyste'"
+        />
       </el-menu>
     </div>
 
-    <div class="text-center p-5">
+    <!-- <div class="text-center p-5">
       <el-button
         icon="el-icon-arrow-left"
         size="small"
@@ -82,14 +92,12 @@
           <i class="el-icon-help text-2xl text-gray-400" />
         </el-tooltip>
       </a>
-    </div>
+    </div> -->
   </el-aside>
 </template>
 
 <script>
 export default {
-  name: 'DashboardSidebar',
-  components: {},
   computed: {
     asideWidth() {
       return this.$store.getters.isSidebarExpanded ? '232px' : '88px'
