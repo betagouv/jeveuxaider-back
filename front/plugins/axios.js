@@ -2,6 +2,7 @@
 
 export default function ({ $axios, redirect, app, store, error }) {
   $axios.interceptors.request.use(function (config) {
+    console.log('go request axios !!')
     // console.log('request config', config)
     const ACCESS_TOKEN = app.$cookies.get('access-token')
     if (!config.headers.Authorization) {
