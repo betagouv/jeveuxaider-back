@@ -6,15 +6,15 @@ import { createServerRootMixin } from 'vue-instantsearch'
 import algoliasearch from 'algoliasearch/lite'
 
 const searchClient = algoliasearch(
-  'GQLG3QH7PO',
-  '1d32f8d083b713bbd47bd0b3ca5fe4fe'
+  process.env.algolia.appId,
+  process.env.algolia.secret
 )
 
 export default {
   mixins: [
     createServerRootMixin({
       searchClient,
-      indexName: 'local_kevin_covid_missions',
+      indexName: process.env.algolia.index,
     }),
   ],
   serverPrefetch() {

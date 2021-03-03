@@ -78,12 +78,16 @@ export default {
     algolia: {
       placesAppId: process.env.ALGOLIA_PLACES_APP_ID,
       placesApiKey: process.env.ALGOLIA_PLACES_API_KEY,
-      appId: process.env.ALGOLIA_APP_ID,
-      secret: process.env.ALGOLIA_SECRET,
-      searchKey: process.env.ALGOLIA_SEARCH_KEY,
-      index: process.env.ALGOLIA_INDEX,
     },
     franceConnect: process.env.FRANCE_CONNECT,
+  },
+
+  env: {
+    algolia: {
+      appId: process.env.ALGOLIA_APP_ID,
+      secret: process.env.ALGOLIA_SECRET,
+      index: process.env.ALGOLIA_INDEX,
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
