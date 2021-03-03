@@ -1,11 +1,24 @@
-import { rolesList } from '../api/user'
+import { rolesList } from '@/api/user'
 
 export const state = () => ({
+  isAppLoaded: false,
+  isSidebarExpanded: true,
   searchOverlay: false,
 })
 
 export const getters = {
-  contextRole: (state) => state.user && state.user.user.context_role,
+  isAppLoaded: (state) => state.isAppLoaded,
+  isSidebarExpanded: (state) => state.isSidebarExpanded,
+  contextRole: (state, getters) => getters.user.context_role,
+  contextRoleLabel: (state, getters) => {
+    const rolesLabel = rolesList.filter(
+      (role) => role.key == getters.contextRole
+    )
+    if (rolesLabel.length > 0) {
+      return rolesLabel[0].label
+    }
+    return 'Aucun rôle'
+  },
   hasRoles: (state, getters) => {
     return (
       getters.profile &&
@@ -13,15 +26,22 @@ export const getters = {
     )
   },
   isLogged: (state) => !!(state.auth.accessToken && state.auth.user),
-  profile: (state) => (state.user ? state.user.user.profile : null),
+  profile: (state) => (state.auth.user ? state.auth.user.profile : null),
   reminders: (state) => state.reminders,
   searchOverlay: (state) => state.searchOverlay,
   user: (state) => state.auth.user,
+  isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
 }
 
 export const mutations = {
+  setAppIsLoaded(state, value) {
+    state.isAppLoaded = value
+  },
   toggleSearchOverlay: (state) => {
     state.searchOverlay = !state.searchOverlay
+  },
+  toggleSidebar: (state) => {
+    state.isSidebarExpanded = !state.isSidebarExpanded
   },
 }
 
@@ -37,5 +57,6 @@ export const actions = {
   async bootstrap({ commit }) {
     await this.$axios.get('/bootstrap')
     // commit('setTaxonomies', data.taxonomies)
+    commit('setAppIsLoaded', true)
   },
 }
