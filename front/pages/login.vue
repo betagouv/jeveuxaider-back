@@ -221,6 +221,7 @@ export default {
               password: this.form.password,
             })
             .then(() => {
+              console.log('LOGGED')
               // if (this.$route.query.redirect) {
               //   this.$router.push(this.$route.query.redirect)
               // } else {

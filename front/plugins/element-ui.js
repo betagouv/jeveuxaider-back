@@ -32,6 +32,11 @@ export default () => {
   Vue.component('ElInput', () =>
     import(/* webpackChunkName: 'element-ui-input' */ 'element-ui/lib/input')
   )
+  Vue.component('ElInputNumber', () =>
+    import(
+      /* webpackChunkName: 'element-ui-input' */ 'element-ui/lib/input-number'
+    )
+  )
   Vue.component('ElBadge', () =>
     import(/* webpackChunkName: 'element-ui-badge' */ 'element-ui/lib/badge')
   )
@@ -42,5 +47,33 @@ export default () => {
     import(
       /* webpackChunkName: 'element-ui-checkbox' */ 'element-ui/lib/checkbox'
     )
+  )
+  Vue.component('ElContainer', () =>
+    import(
+      /* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/container'
+    )
+  )
+  Vue.component('ElTooltip', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/tooltip')
+  )
+  Vue.component('ElMenu', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/menu')
+  )
+  Vue.component('ElMenuItem', () =>
+    import(
+      /* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/menu-item'
+    )
+  )
+  Vue.component('ElButton', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/button')
+  )
+  Vue.component('ElAvatar', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/avatar')
+  )
+  Vue.component('ElAside', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/aside')
+  )
+  Vue.component('ElCard', () =>
+    import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/card')
   )
 }

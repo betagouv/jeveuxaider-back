@@ -35,6 +35,8 @@ export default {
     '@/plugins/axios',
     '@/plugins/vue-libs.client.js',
     { src: '~/plugins/numeral.js', ssr: false },
+    '@/plugins/api.js',
+    '@/plugins/vue-filters.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
