@@ -1,5 +1,6 @@
 import qs from 'qs'
-import _ from 'lodash'
+import { debounce } from 'lodash/core'
+
 import algoliasearch from 'algoliasearch/lite'
 import 'instantsearch.css/themes/algolia-min.css'
 
@@ -55,7 +56,7 @@ export default {
       if (this.writeTimeout) {
         this.writeTimeout.cancel()
       }
-      this.writeTimeout = _.debounce(() => {
+      this.writeTimeout = debounce(() => {
         window.history.pushState(
           this.routeState,
           '',
@@ -68,7 +69,7 @@ export default {
       if (this.timeout) {
         this.timeout.cancel()
       }
-      this.timeout = _.debounce(() => {
+      this.timeout = debounce(() => {
         refine($event)
         this.writeUrl()
       }, 400)
