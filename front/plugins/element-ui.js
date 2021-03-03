@@ -32,6 +32,11 @@ export default () => {
   Vue.component('ElInput', () =>
     import(/* webpackChunkName: 'element-ui-input' */ 'element-ui/lib/input')
   )
+  Vue.component('ElInputNumber', () =>
+    import(
+      /* webpackChunkName: 'element-ui-input' */ 'element-ui/lib/input-number'
+    )
+  )
   Vue.component('ElBadge', () =>
     import(/* webpackChunkName: 'element-ui-badge' */ 'element-ui/lib/badge')
   )

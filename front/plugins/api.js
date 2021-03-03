@@ -1,3 +1,4 @@
+import apiApp from '@/api/app'
 import apiMission from '@/api/mission'
 
 export default ({ $axios }, inject) => {
@@ -6,6 +7,7 @@ export default ({ $axios }, inject) => {
   // -> this.$api in vue components
   // -> this.$api in store actions/mutations
   const api = {
+    ...apiApp($axios),
     ...apiMission($axios),
   }
 
