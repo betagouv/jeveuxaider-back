@@ -17,7 +17,7 @@
     <div class="absolute" style="height: 360px">
       <img
         src="@/assets/images/bg_header_mission.jpg"
-        alt="Action de bénévolat"
+        alt="Mission bénévolat"
         class="object-cover w-full h-full"
       />
       <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
@@ -226,13 +226,13 @@
                   </template>
                 </div>
 
-                <p
-                  v-if="mission.structure.response_time"
-                  class="text-sm leading-6 text-indigo-300"
-                >
-                  Délai de réponse:
-                  {{ responseTime }}
-                </p>
+                <!-- <p
+                    v-if="mission.structure.response_time"
+                    class="text-sm leading-6 text-indigo-300"
+                  >
+                    Délai de réponse:
+                    {{ responseTime }}
+                  </p> -->
 
                 <template v-if="mission.state && mission.state == 'Validée'">
                   <div
@@ -244,6 +244,7 @@
 
                   <div class="mt-5">
                     <div class="-m-3 flex justify-center">
+                      <!-- Mail -->
                       <a
                         :href="`mailto:?&subject=${mission.name}&body=${baseUrl}${$router.currentRoute.fullPath}`"
                         class="m-3 text-indigo-300 hover:text-white transition"
@@ -263,6 +264,7 @@
                         </svg>
                       </a>
 
+                      <!-- Facebook -->
                       <a
                         target="_blank"
                         :href="`https://www.facebook.com/sharer/sharer.php?u=${baseUrl}${$router.currentRoute.fullPath}`"
@@ -276,6 +278,7 @@
                         </svg>
                       </a>
 
+                      <!-- Twitter -->
                       <a
                         target="_blank"
                         :href="`https://twitter.com/intent/tweet?url=${baseUrl}${$router.currentRoute.fullPath}`"
@@ -292,6 +295,7 @@
                         </svg>
                       </a>
 
+                      <!-- Linkedin -->
                       <a
                         target="_blank"
                         :href="`https://www.linkedin.com/shareArticle?mini=true&url=${baseUrl}${$router.currentRoute.fullPath}`"
@@ -320,7 +324,8 @@
         <div
           v-if="
             (mission.state == 'Validée' ||
-              mission.user_id == $store.getters.user.id ||
+              ($store.getters.isLogged &&
+                mission.user_id == $store.getters.user.id) ||
               $store.getters.contextRole == 'admin') &&
             mission.information
           "
@@ -552,7 +557,7 @@
         </div>
       </div>
     </div>
-    <!-- <el-dialog
+    <el-dialog
       :close-on-click-modal="false"
       title="Participer à la mission"
       width="100%"
@@ -664,9 +669,9 @@
           </router-link>
         </el-button>
       </div>
-    </el-dialog> -->
+    </el-dialog>
 
-    <!-- <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
+    <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
       <div class="bg-white shadow overflow-hidden rounded-lg">
         <div
           class="bg-white px-4 py-3 flex items-center justify-between sm:px-6"
@@ -803,40 +808,28 @@
           </li>
         </ul>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-// import { fetchStructureAvailableMissions } from '@/api/structure'
 import dayjs from 'dayjs'
 
 export default {
   name: 'Mission',
-  props: {
-    id: {
-      type: Number,
-      default: null,
-    },
-  },
   async asyncData({ $api, params }) {
     console.log(params)
     const mission = await $api.getMission(params.id)
-    // if (mission.responsable && this.$store.getters.profile) {
-    //   this.form.content = `Bonjour ${this.mission.responsable.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
-    // }
-    // fetchStructureAvailableMissions(this.mission.structure.id, {
-    //   exclude: this.id,
-    //   append: 'domaines',
-    // })
-    //   .then((response) => {
-    //     this.otherMissions = response.data
-    //   })
-    //   .catch(() => {
-    //     this.loading = false
-    //   })
+    const otherMissions = await $api.fetchStructureAvailableMissions(
+      mission.structure.id,
+      {
+        exclude: params.id,
+        append: 'domaines',
+      }
+    )
     return {
       mission,
+      otherMissions,
     }
   },
   metaInfo() {
@@ -947,37 +940,43 @@ export default {
       }
     },
   },
+  created() {
+    if (this.mission.responsable && this.$store.getters.profile) {
+      this.form.content = `Bonjour ${this.mission.responsable.first_name},\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n${this.$store.getters.profile.first_name}`
+    }
+  },
   methods: {
-    // handleSubmitFormParticipate() {
-    //   this.$refs.participateForm.validate((valid) => {
-    //     if (valid) {
-    //       this.dialogLoading = true
-    //       addParticipation(
-    //         this.mission.id,
-    //         this.$store.getters.profile.id,
-    //         this.form.content
-    //       )
-    //         .then(() => {
-    //           this.dialogLoading = false
-    //           this.$router.push('/messages')
-    //           console.log('Go tracket api engagement', window.apieng)
-    //           window.apieng && window.apieng('trackApplication')
-    //           this.$message({
-    //             message:
-    //               'Votre participation a été enregistrée et est en attente de validation !',
-    //             type: 'success',
-    //           })
-    //           this.loading = false
-    //         })
-    //         .catch(() => {
-    //           this.loading = false
-    //         })
-    //     }
-    //   })
-    // },
-    // handleClickParticipate() {
-    //   this.dialogParticipateVisible = true
-    // },
+    handleSubmitFormParticipate() {
+      this.$refs.participateForm.validate((valid) => {
+        if (valid) {
+          this.dialogLoading = true
+          this.$api
+            .addParticipation(
+              this.mission.id,
+              this.$store.getters.profile.id,
+              this.form.content
+            )
+            .then(() => {
+              this.dialogLoading = false
+              this.$router.push('/messages')
+              console.log('Go tracket api engagement', window.apieng)
+              window.apieng && window.apieng('trackApplication')
+              this.$message({
+                message:
+                  'Votre participation a été enregistrée et est en attente de validation !',
+                type: 'success',
+              })
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        }
+      })
+    },
+    handleClickParticipate() {
+      this.dialogParticipateVisible = true
+    },
     domainName(mission) {
       return mission.domaine && mission.domaine.name && mission.domaine.name.fr
         ? mission.domaine.name.fr

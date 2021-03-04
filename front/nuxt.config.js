@@ -34,6 +34,7 @@ export default {
     '@/plugins/vue-libs.client.js',
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
+    '@/plugins/numeral.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

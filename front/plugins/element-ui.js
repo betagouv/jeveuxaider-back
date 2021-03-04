@@ -66,4 +66,7 @@ export default () => {
   Vue.component('ElCard', () =>
     import(/* webpackChunkName: 'element-ui-radio' */ 'element-ui/lib/card')
   )
+  Vue.component('ElDialog', () =>
+    import(/* webpackChunkName: 'element-ui-dialog' */ 'element-ui/lib/dialog')
+  )
 }
