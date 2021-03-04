@@ -40,15 +40,9 @@ export default {
   watch: {
     input: debounce(function (newVal) {
       if (!isNull(newVal)) {
-        console.log('new value', newVal)
         this.$emit('changed', { name: this.name, value: newVal })
       }
     }, 500),
-  },
-  mounted() {
-    if (this.initialValue) {
-      // this.$refs.input.focus()
-    }
   },
 }
 </script>

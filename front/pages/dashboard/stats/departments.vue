@@ -126,22 +126,28 @@
 <script>
 import { Message } from 'element-ui'
 import fileDownload from 'js-file-download'
-import TableWithFilters from '@/mixins/TableWithFilters'
+import TableWithFilters from '@/mixins/table-with-filters'
 
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
   data() {
     return {
-      loading: true,
       loadingExport: false,
     }
   },
+  async fetch() {
+    this.loading = true
+    this.query = this.$route.query
+    const { data } = await this.$api.statisticsDepartments(this.query)
+    this.tableData = data.data
+    this.totalRows = data.total
+    this.fromRow = data.from
+    this.toRow = data.to
+    this.loading = false
+  },
   computed: {},
   methods: {
-    fetchRows() {
-      return this.$api.statisticsDepartments(this.query)
-    },
     onExport() {
       this.loadingExport = true
       this.$api
