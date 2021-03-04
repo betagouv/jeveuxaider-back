@@ -131,6 +131,7 @@ import TableWithFilters from '@/mixins/TableWithFilters'
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
+  middleware: 'admin',
   data() {
     return {
       loading: true,

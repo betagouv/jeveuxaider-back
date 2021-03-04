@@ -168,6 +168,7 @@ export default {
   components: {
     FranceConnect,
   },
+  middleware: 'guest',
   data() {
     return {
       bgHeroMultipleSizes,

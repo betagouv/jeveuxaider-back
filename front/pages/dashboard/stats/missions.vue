@@ -27,5 +27,6 @@
 <script>
 export default {
   layout: 'dashboard',
+  middleware: 'admin',
 }
 </script>
