@@ -101,7 +101,6 @@ export default {
     this.placesInstance.autocomplete[0].setAttribute('autocomplete', 'off')
     this.placesInstance.on('change', (e) => this.handleSelected(e.suggestion))
     this.placesInstance.on('clear', () => this.resetForm())
-    this.placesInstance.on('suggestions', (e) => this.handleSuggestions(e))
   },
   methods: {
     resetForm() {
@@ -114,25 +113,22 @@ export default {
     setVal(value) {
       this.placesInstance.setVal(value)
     },
-    handleSuggestions(e) {
-      // console.log(e)
-    },
   },
 }
 </script>
 
 <style lang="sass">
 .places-search
-    font-size: 14px!important
+  font-size: 14px!important
 .ap-dropdown-menu
-    border-radius: 0
+  border-radius: 0
 .ap-suggestion
-    padding-left: 25px
-    font-size: 14px
-    .ap-suggestion-icon
-        display: none
+  padding-left: 25px
+  font-size: 14px
+  .ap-suggestion-icon
+    display: none
     &.ap-cursor
       @apply bg-gray-100
 .ap-footer
-    display: none
+  display: none
 </style>

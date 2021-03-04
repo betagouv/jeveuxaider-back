@@ -32,9 +32,7 @@
 </template>
 
 <script>
-import { statistics } from '@/api/app'
 export default {
-  name: 'StatCount',
   props: {
     label: {
       type: String,
@@ -56,11 +54,11 @@ export default {
     }
   },
   created() {
-    statistics(this.name, { type: 'light', role: this.$route.query.role }).then(
-      (response) => {
+    this.$api
+      .statistics(this.name, { type: 'light', role: this.$route.query.role })
+      .then((response) => {
         this.data = response.data
-      }
-    )
+      })
   },
   methods: {
     onClick() {

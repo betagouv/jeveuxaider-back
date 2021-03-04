@@ -1,5 +1,6 @@
 <template>
   <div class="bg-gray-100">
+    <!-- @todo compomnent Search dans un dossier Search -->
     <template v-if="modeLight">
       <div class="bg-primary pb-32">
         <div class="container mx-auto px-4">
@@ -24,14 +25,14 @@
 
     <template v-else>
       <transition name="fade">
-        <ais-instant-search
+        <AisInstantSearchSsr
           v-show="!loading"
           ref="instantsearch"
           :search-client="searchClient"
           :index-name="indexName"
           :initial-ui-state="routeStateWithIndex"
         >
-          <ais-configure
+          <AisConfigure
             ref="aisConfigure"
             :hits-per-page.camel="18"
             :around-lat-lng.camel="aroundLatLng"
@@ -48,7 +49,7 @@
             :filters.camel="aisFilters"
           />
 
-          <ais-state-results>
+          <AisStateResults>
             <template slot-scope="{ hits, nbHits }">
               <!-- Header -->
               <div
@@ -253,7 +254,7 @@
 
                     <!-- Résultats -->
                     <div v-if="hits.length > 0" class="w-full mb-16">
-                      <ais-hits>
+                      <AisHits>
                         <div
                           slot="item"
                           slot-scope="{ item }"
@@ -275,9 +276,9 @@
                             <CardMission :mission="item" />
                           </router-link>
                         </div>
-                      </ais-hits>
+                      </AisHits>
 
-                      <ais-pagination class="mt-6" @page-change="scrollToTop">
+                      <AisPagination class="mt-6" @page-change="scrollToTop">
                         <ul
                           slot-scope="{
                             currentRefinement,
@@ -333,7 +334,7 @@
                             <span>Suivant</span>
                           </li>
                         </ul>
-                      </ais-pagination>
+                      </AisPagination>
                     </div>
 
                     <div
@@ -346,8 +347,8 @@
                 </div>
               </div>
             </template>
-          </ais-state-results>
-        </ais-instant-search>
+          </AisStateResults>
+        </AisInstantSearchSsr>
       </transition>
     </template>
   </div>
@@ -355,7 +356,7 @@
 
 <script>
 import {
-  AisInstantSearch,
+  AisInstantSearchSsr,
   AisStateResults,
   AisConfigure,
   AisHits,
@@ -364,12 +365,11 @@ import {
   AisSearchBox,
 } from 'vue-instantsearch'
 
-import algoliaSearch from '@/mixins/algolia-search.js'
+import algoliaSearch from '@/mixins/AlgoliaSearch'
 
 export default {
-  name: 'FrontMissions',
   components: {
-    AisInstantSearch,
+    AisInstantSearchSsr,
     AisStateResults,
     AisConfigure,
     AisHits,
@@ -434,8 +434,8 @@ export default {
   },
   computed: {
     modeLight() {
-      return process.env.MIX_MODE_APP_LIGHT
-        ? JSON.parse(process.env.MIX_MODE_APP_LIGHT)
+      return process.env.MODE_APP_LIGHT
+        ? JSON.parse(process.env.MODE_APP_LIGHT)
         : false
     },
     aroundLatLng() {

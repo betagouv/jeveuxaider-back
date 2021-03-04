@@ -65,8 +65,8 @@ export default {
   },
   mounted() {
     let fixedOptions = {
-      appId: this.$config.algolia.appId,
-      apiKey: this.$config.algolia.apiKey,
+      appId: this.$config.algolia.placesAppId,
+      apiKey: this.$config.algolia.placesApiKey,
       container: document.querySelector(`#${this.selector}`),
     }
 

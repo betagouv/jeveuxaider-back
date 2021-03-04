@@ -42,7 +42,7 @@
 
         <template
           slot="after"
-          slot-scope="{ expand, collapse, toggle, clamped, expanded }"
+          slot-scope="{ expand, collapse, toggle, clamped }"
         >
           <!-- Tooltip if clamped -->
           <span

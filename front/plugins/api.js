@@ -1,3 +1,4 @@
+import apiApp from '@/api/app'
 import apiMission from '@/api/mission'
 import apiStructure from '@/api/structure'
 import apiParticipation from '@/api/participation'
@@ -8,6 +9,7 @@ export default ({ $axios }, inject) => {
   // -> this.$api in vue components
   // -> this.$api in store actions/mutations
   const api = {
+    ...apiApp($axios),
     ...apiMission($axios),
     ...apiStructure($axios),
     ...apiParticipation($axios),

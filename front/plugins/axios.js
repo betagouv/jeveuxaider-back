@@ -9,6 +9,9 @@ export default function ({ $axios, redirect, app, store, error }) {
         config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`
       }
     }
+    if (store.getters.contextRole) {
+      config.headers['Context-Role'] = store.getters.contextRole
+    }
     return config
   })
 

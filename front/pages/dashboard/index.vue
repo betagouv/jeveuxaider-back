@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <!-- <dashboard-menu index="main" /> -->
+      <DashboardTabsMain index="main" />
     </div>
     <div class="px-12">
       <!-- <reminder-referent
@@ -31,29 +31,29 @@
         <card-count-places-left
           v-if="$store.getters.contextRole != 'responsable'"
         /> -->
-        <DashboardCardCount
+        <DashboardCardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="Organisations"
           name="structures"
           link="/dashboard/stats/structures"
         />
-        <DashboardCardCount
+        <DashboardCardDefaultCount
           label="Missions"
           name="missions"
           link="/dashboard/stats/missions"
         />
-        <DashboardCardCount
+        <DashboardCardDefaultCount
           label="Participations"
           name="participations"
           link="/dashboard/stats/participations"
         />
-        <DashboardCardCount
+        <DashboardCardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="Utilisateurs"
           name="profiles"
           link="/dashboard/stats/profiles"
         />
-        <DashboardCardCount
+        <DashboardCardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="En ligne"
           name="online"
