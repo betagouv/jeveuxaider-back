@@ -1,12 +1,8 @@
-<script>
 import { isEmpty, isBoolean, isNumber } from 'lodash'
 
 export default {
-  beforeRouteUpdate(to, from, next) {
-    this.query = { ...to.query }
-    this.tableData = this.fetchDatas()
-    this.showFilters = this.activeFilters > 0
-    next()
+  watch: {
+    '$route.query': '$fetch',
   },
   data() {
     return {
@@ -35,16 +31,6 @@ export default {
       return count
     },
   },
-  created() {
-    // this.query = { ...this.$route.query }
-    // this.tableData = this.fetchDatas()
-    // this.showFilters = this.activeFilters > 0
-  },
-  mounted() {
-    this.query = { ...this.$route.query }
-    this.tableData = this.fetchDatas()
-    this.showFilters = this.activeFilters > 0
-  },
   methods: {
     onPageChange(page) {
       this.$router.push({
@@ -53,7 +39,6 @@ export default {
       })
     },
     onFilterChange(filter) {
-      console.log('toto')
       this.$router.push({
         path: this.$router.history.current.path,
         query: {
@@ -63,22 +48,5 @@ export default {
         },
       })
     },
-    fetchDatas() {
-      this.loading = true
-      this.fetchRows(this.query)
-        .then((response) => {
-          // console.log('fetchDatas', response.data)
-          this.loading = false
-          this.totalRows = response.data.total
-          this.fromRow = response.data.from
-          this.toRow = response.data.to
-          this.tableData = response.data.data
-        })
-        .catch((error) => {
-          console.log(error)
-          this.loading = false
-        })
-    },
   },
 }
-</script>

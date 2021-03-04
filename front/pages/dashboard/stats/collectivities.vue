@@ -24,7 +24,7 @@
       </div>
     </div>
     <el-table
-      v-loading="loading"
+      v-loading="$fetchState.pending"
       :data="tableData"
       :highlight-current-row="false"
       style="width: 100%"
@@ -133,30 +133,37 @@
 <script>
 import { Message } from 'element-ui'
 import fileDownload from 'js-file-download'
-import TableWithFilters from '@/mixins/TableWithFilters'
+import TableWithFilters from '@/mixins/table-with-filters'
 
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
   data() {
     return {
-      loading: true,
       loadingExport: false,
     }
   },
-  computed: {},
+  async fetch() {
+    this.query = this.$route.query
+    const { data } = await this.$api.statisticsCollectivities(this.query)
+    this.tableData = data.data
+    this.totalRows = data.total
+    this.fromRow = data.from
+    this.toRow = data.to
+  },
   methods: {
-    fetchRows() {
-      return this.$api.statisticsCollectivities(this.query)
-    },
     onExport() {
+      this.loadingExport = true
+
       this.$api
         .exportStatistics('collectivities', this.query)
         .then((response) => {
-          this.loading = false
+          this.loadingExport = false
           fileDownload(response.data, 'collectivities.csv')
         })
         .catch((error) => {
+          this.loadingExport = false
+
           Message({
             message: error.response.data.message,
             type: 'error',

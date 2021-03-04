@@ -23,7 +23,11 @@
         />
       </div>
     </div>
-    <el-table v-loading="loading" :data="tableData" style="width: 100%">
+    <el-table
+      v-loading="$fetchState.pending"
+      :data="tableData"
+      style="width: 100%"
+    >
       <el-table-column width="70" label="#" align="center"
         ><template slot-scope="scope">
           <div class="text-gray-900">
@@ -126,22 +130,30 @@
 <script>
 import { Message } from 'element-ui'
 import fileDownload from 'js-file-download'
-import TableWithFilters from '@/mixins/TableWithFilters'
+import TableWithFilters from '@/mixins/table-with-filters'
 
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
   data() {
     return {
-      loading: true,
       loadingExport: false,
     }
   },
+  async fetch() {
+    this.query = this.$route.query
+    const { data } = await this.$api.statisticsDepartments(this.query)
+    this.tableData = data.data
+    this.totalRows = data.total
+    this.fromRow = data.from
+    this.toRow = data.to
+  },
   computed: {},
+  watch: {
+    '$route.query': '$fetch',
+  },
+  watchQuery: true,
   methods: {
-    fetchRows() {
-      return this.$api.statisticsDepartments(this.query)
-    },
     onExport() {
       this.loadingExport = true
       this.$api
@@ -151,6 +163,7 @@ export default {
           fileDownload(response.data, 'departments.csv')
         })
         .catch((error) => {
+          this.loadingExport = false
           Message({
             message: error.response.data.message,
             type: 'error',
