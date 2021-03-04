@@ -94,6 +94,7 @@ export default {
   build: {
     analyze: true,
     extractCSS: process.env.NODE_ENV === 'production',
+    transpile: ['vue-instantsearch', 'instantsearch.js/es'],
   },
 
   render: {

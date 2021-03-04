@@ -45,17 +45,18 @@ export default {
       }
     },
   },
-  beforeMount() {
-    const results =
-      this.$nuxt.context.nuxtState.algoliaState || window.__NUXT__.algoliaState
+  // beforeMount() {
+  //   // @todo
+  //   const results =
+  //     this.$nuxt.context.nuxtState.algoliaState || window.__NUXT__.algoliaState
 
-    this.instantsearch.hydrate(results)
+  //   this.instantsearch.hydrate(results)
 
-    // Remove the SSR state so it can't be applied again by mistake
-    delete this.$nuxt.context.nuxtState.algoliaState
-    delete window.__NUXT__.algoliaState
-  },
-  created() {
+  //   // Remove the SSR state so it can't be applied again by mistake
+  //   delete this.$nuxt.context.nuxtState.algoliaState
+  //   delete window.__NUXT__.algoliaState
+  // },
+  mounted() {
     this.readUrl()
 
     if (this.initialGeoSearch && !this.routeState.aroundLatLng) {
@@ -81,7 +82,7 @@ export default {
   },
   methods: {
     readUrl() {
-      const routeState = qs.parse(window.location.search.substring(1))
+      const routeState = qs.parse(this.$nuxt.$router.currentRoute.query)
       this.$set(this, 'routeState', routeState)
     },
     writeUrl() {

@@ -254,7 +254,7 @@ export default {
 
 .zipcode
   position: relative
-  @apply m-0 mb-4
+  @apply m-0 mb-4 h-full
   @screen lg
     @apply mb-0
   &::after
@@ -306,7 +306,7 @@ export default {
         width: 22px
         height: 23px
         background: url('/images/picker.svg')
-        top: 22px
+        top: 7px
         right: 0px
     .ap-icon-clear
       width: 20px

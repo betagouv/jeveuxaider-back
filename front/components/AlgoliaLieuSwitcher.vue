@@ -36,6 +36,7 @@
           :limit="4"
           :templates="templatesPlaces"
           placeholder="Ex: 75001"
+          @initialized="onInit"
           @selected="$emit('selected', $event)"
           @clear="$emit('clear')"
         />
@@ -51,15 +52,8 @@
 </template>
 
 <script>
-import AlgoliaPlacesInput from '@/components/AlgoliaPlacesInput'
-import AlgoliaRadiusFilter from '@/components/AlgoliaRadiusFilter'
-
 export default {
   name: 'AlgoliaLieuSwitcher',
-  components: {
-    AlgoliaPlacesInput,
-    AlgoliaRadiusFilter,
-  },
   props: {
     initialType: {
       type: [String, Boolean],
@@ -86,11 +80,11 @@ export default {
         { value: 'Mission à distance', label: 'À distance' },
       ],
       templatesPlaces: {
-        value: function (suggestion) {
+        value(suggestion) {
           return `${suggestion.postcode} ${suggestion.name}`
         },
-        suggestion: function (suggestion) {
-          let details = [suggestion.county, suggestion.administrative]
+        suggestion(suggestion) {
+          const details = [suggestion.county, suggestion.administrative]
           let detailsOutput = ''
           details.forEach((element) => {
             if (element) {
@@ -119,11 +113,18 @@ export default {
         this.$emit('typeChanged', val)
       }
 
-      this.$nextTick(() => {
-        if (this.radio == 'Mission en présentiel') {
-          document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
-        }
-      })
+      // this.$nextTick(() => {
+      //   if (this.radio == 'Mission en présentiel') {
+      //     console.log(document)
+      //     console.log(
+      //       document.querySelector(`#algolia-lieu-switcher--places-input`)
+      //     )
+      //     document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
+      //   }
+      // })
+    },
+    onInit() {
+      document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
     },
   },
 }
@@ -132,9 +133,9 @@ export default {
 <style lang="sass" scoped>
 ::v-deep
   .el-radio
-    @apply m-0 border
     border-color: #504DB2
     color: #504DB2
+    @apply m-0 border
     @screen lg
       max-height: 70px
     &.is-checked
@@ -146,10 +147,10 @@ export default {
         border-color: #E6EAF5
         background: #E6EAF5
       &.el-radio-0
-        @apply rounded-tr-none
         width: 30px!important
+        @apply rounded-tr-none
         @screen lg
-         width: 100%
+          width: 100%
         .el-radio__label
           @apply hidden
     &.el-radio-0
@@ -161,9 +162,9 @@ export default {
       @screen lg
         @apply rounded-b-none rounded-r-lg border-t border-l-0
     .el-radio__label
-      @apply text-base
       color: #817EE2
       padding-left: 15px
+      @apply text-base
     .el-radio__inner
       width: 20px
       height: 20px
@@ -179,8 +180,8 @@ export default {
         transform: translate(-50%, -50%) scale(1)
 
 .radius
-  @apply border-l border-dashed border-gray-200
   position: relative
+  @apply border-l border-dashed border-gray-200
   &::after
     content: "Rayon"
     position: absolute
@@ -195,8 +196,8 @@ export default {
       top: 15px
   ::v-deep
     .el-select
-      @apply m-0 relative
       top: 6px
+      @apply m-0 relative
       @screen lg
         top: 15px
     input
@@ -262,10 +263,10 @@ export default {
         width: 22px
         height: 23px
         background: url('/images/picker.svg')
-        top: 15px
+        top: 0px
         right: 0px
         @screen lg
-          top: 22px
+          top: 7px
     .ap-icon-clear
       width: 20px
       height: 20px

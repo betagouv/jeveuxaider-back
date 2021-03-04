@@ -1,13 +1,13 @@
 <template>
-  <el-select v-model="aroundRadius" class="sort m-2" @change="onRadiusSelect">
-    <el-option
+  <ElSelect v-model="aroundRadius" class="sort m-2" @change="onRadiusSelect">
+    <ElOption
       v-for="item in aroundRadiusOptions"
       :key="item.value"
       :label="item.label"
       :value="item.value"
     >
-    </el-option>
-  </el-select>
+    </ElOption>
+  </ElSelect>
 </template>
 
 <script>

@@ -23,7 +23,7 @@
       </div>
     </template>
 
-    <template v-else>
+    <template v-else-if="routeState">
       <transition name="fade">
         <AisInstantSearchSsr
           v-show="!loading"
@@ -38,7 +38,8 @@
             :around-lat-lng.camel="aroundLatLng"
             :around-lat-lng-via-i-p.camel="
               aroundLatLng ||
-              (routeState.refinementList &&
+              (routeState &&
+                routeState.refinementList &&
                 routeState.refinementList.type &&
                 routeState.refinementList.type[0] == 'Mission à distance')
                 ? false
@@ -428,7 +429,6 @@ export default {
       },
       showFilters: false,
       isMobile: true,
-      windowWidth: window.innerWidth,
       clearExcludes: ['type'],
     }
   },
@@ -485,8 +485,7 @@ export default {
       this.$refs.contentWrapper.scrollIntoView()
     },
     sizeListener() {
-      this.windowWidth = window.innerWidth
-      if (this.windowWidth >= 1024) {
+      if (window.innerWidth >= 1024) {
         this.showFilters = true
         this.isMobile = false
       } else {

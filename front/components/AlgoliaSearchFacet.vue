@@ -1,6 +1,6 @@
 <template>
   <div class="z-100 text-gray-1000">
-    <ais-refinement-list
+    <AisRefinementList
       :ref="name"
       :key="name"
       class="facet-list"
@@ -14,10 +14,8 @@
         slot-scope="{
           items,
           isShowingMore,
-          isFromSearch,
           canToggleShowMore,
           refine,
-          createURL,
           toggleShowMore,
           searchForItems,
         }"
@@ -71,10 +69,7 @@
             >
               {{ item.value }}
 
-              <template
-                slot="after"
-                slot-scope="{ expand, collapse, toggle, clamped, expanded }"
-              >
+              <template slot="after" slot-scope="{ clamped }">
                 <!-- Tooltip if clamped -->
                 <span
                   v-if="clamped"
@@ -103,7 +98,7 @@
           {{ !isShowingMore ? 'Plus' : 'Moins' }}
         </button>
       </div>
-    </ais-refinement-list>
+    </AisRefinementList>
   </div>
 </template>
 
