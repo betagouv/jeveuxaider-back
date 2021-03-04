@@ -86,7 +86,7 @@ export default {
   env: {
     algolia: {
       appId: process.env.ALGOLIA_APP_ID,
-      secret: process.env.ALGOLIA_SECRET,
+      searchKey: process.env.ALGOLIA_SEARCH_KEY,
       index: process.env.ALGOLIA_INDEX,
     },
   },
@@ -95,6 +95,7 @@ export default {
   build: {
     analyze: true,
     extractCSS: process.env.NODE_ENV === 'production',
+    transpile: ['vue-instantsearch', 'instantsearch.js/es'],
   },
 
   render: {

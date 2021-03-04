@@ -83,6 +83,12 @@ export default () => {
   Vue.component('ElDialog', () =>
     import(/* webpackChunkName: 'element-ui-dialog' */ 'element-ui/lib/dialog')
   )
+  Vue.component('ElSelect', () =>
+    import(/* webpackChunkName: 'element-ui-select' */ 'element-ui/lib/select')
+  )
+  Vue.component('ElOption', () =>
+    import(/* webpackChunkName: 'element-ui-option' */ 'element-ui/lib/option')
+  )
   Vue.component('ElTable', () =>
     import(/* webpackChunkName: 'element-ui-table' */ 'element-ui/lib/table')
   )

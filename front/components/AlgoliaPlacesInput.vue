@@ -4,9 +4,9 @@
       {{ label }}
     </label>
 
-    <item-description v-if="description" container-class="mb-2">
+    <ItemDescription v-if="description" container-class="mb-2">
       {{ description }}
-    </item-description>
+    </ItemDescription>
 
     <input
       :id="selector"
@@ -98,6 +98,8 @@ export default {
     this.placesInstance.on('change', (e) => this.handleSelected(e.suggestion))
     this.placesInstance.on('clear', () => this.resetForm())
     this.placesInstance.on('suggestions', (e) => this.handleSuggestions(e))
+
+    this.$emit('initialized')
   },
   methods: {
     resetForm() {
@@ -119,7 +121,7 @@ export default {
 
 <style lang="sass">
 .places-search
-  font-size: 14px!important
+  font-size: 14px !important
 .ap-dropdown-menu
   border-radius: 0
 .ap-suggestion
