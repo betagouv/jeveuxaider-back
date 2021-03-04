@@ -6,12 +6,12 @@
           {{ $store.getters.contextRoleLabel }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
-          Tableau de bord - Départements
+          Tableau de bord - Collectivités
         </div>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="departments" />
+      <DashboardTabsMain index="collectivities" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -23,18 +23,25 @@
         />
       </div>
     </div>
-    <el-table v-loading="loading" :data="tableData" style="width: 100%">
-      <el-table-column width="70" label="#" align="center"
-        ><template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.key }}
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="label" label="Département">
+    <el-table
+      v-loading="loading"
+      :data="tableData"
+      :highlight-current-row="false"
+      style="width: 100%"
+    >
+      <el-table-column width="30"> </el-table-column>
+      <el-table-column prop="label" label="Collectivité">
         <template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.name }}
+          <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="font-light text-gray-600 text-xs flex">
+            <div>
+              <template v-if="scope.row.published">Publiée</template>
+              <template v-else>Non publiée</template>
+            </div>
+            <div class="px-1">-</div>
+            <div>
+              {{ scope.row.state | labelFromValue('collectivities_states') }}
+            </div>
           </div>
         </template>
       </el-table-column>
@@ -109,7 +116,7 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
-      <div class="ml-auto">
+      <!-- <div class="ml-auto">
         <el-button
           :loading="loadingExport"
           icon="el-icon-download"
@@ -118,7 +125,7 @@
         >
           Export
         </el-button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -140,15 +147,14 @@ export default {
   computed: {},
   methods: {
     fetchRows() {
-      return this.$api.statisticsDepartments(this.query)
+      return this.$api.statisticsCollectivities(this.query)
     },
     onExport() {
-      this.loadingExport = true
       this.$api
-        .exportStatistics('departments', this.query)
+        .exportStatistics('collectivities', this.query)
         .then((response) => {
-          this.loadingExport = false
-          fileDownload(response.data, 'departments.csv')
+          this.loading = false
+          fileDownload(response.data, 'collectivities.csv')
         })
         .catch((error) => {
           Message({

@@ -6,12 +6,12 @@
           {{ $store.getters.contextRoleLabel }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
-          Tableau de bord - Départements
+          Tableau de bord - Domaines
         </div>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="departments" />
+      <DashboardTabsMain index="domaines" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -24,25 +24,20 @@
       </div>
     </div>
     <el-table v-loading="loading" :data="tableData" style="width: 100%">
-      <el-table-column width="70" label="#" align="center"
-        ><template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.key }}
+      <el-table-column label="" width="70" align="center">
+        <template slot-scope="scope">
+          <div
+            v-if="scope.row.image"
+            class="bg-primary rounded-md p-2 inline-block"
+            style="width: 40px; height: 40px"
+          >
+            <img :src="scope.row.image" :alt="scope.row.name" />
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="label" label="Département">
+      <el-table-column prop="label" label="Nom">
         <template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.name }}
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="Organisations" width="130" align="center">
-        <template slot-scope="scope">
-          <div class="text-primary">
-            {{ scope.row.structures_count | formatNumber }}
-          </div>
+          <span class="text-gray-900">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Missions" width="100" align="center">
@@ -97,6 +92,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <div class="m-3 flex items-center">
       <el-pagination
         background
@@ -110,12 +106,7 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
-        <el-button
-          :loading="loadingExport"
-          icon="el-icon-download"
-          size="small"
-          @click="onExport"
-        >
+        <el-button icon="el-icon-download" size="small" @click="onExport">
           Export
         </el-button>
       </div>
@@ -140,15 +131,14 @@ export default {
   computed: {},
   methods: {
     fetchRows() {
-      return this.$api.statisticsDepartments(this.query)
+      return this.$api.statisticsDomaines(this.query)
     },
     onExport() {
-      this.loadingExport = true
       this.$api
-        .exportStatistics('departments', this.query)
+        .exportStatistics('domaines', this.query)
         .then((response) => {
-          this.loadingExport = false
-          fileDownload(response.data, 'departments.csv')
+          this.loading = false
+          fileDownload(response.data, 'domaines.csv')
         })
         .catch((error) => {
           Message({

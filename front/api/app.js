@@ -11,18 +11,16 @@ export default (axios) => ({
   async exportStatistics(name, params) {
     return await axios.get(`/statistics/${name}?type=export`, { params })
   },
+  async statisticsCollectivities(params) {
+    return await axios.get(`/statistics/collectivities`, { params })
+  },
+  async statisticsDomaines(params) {
+    return await axios.get(`/statistics/domaines`, { params })
+  },
 })
 
 // export function bootstrap() {
 //   return axios.get('/bootstrap')
-// }
-
-// export function statisticsCollectivities(params) {
-//   return axios.get(`/statistics/collectivities`, { params })
-// }
-
-// export function statisticsDomaines(params) {
-//   return axios.get(`/statistics/domaines`, { params })
 // }
 
 // export function reminders() {

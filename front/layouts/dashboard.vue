@@ -17,3 +17,9 @@
     </el-container>
   </div>
 </template>
+
+<script>
+export default {
+  middleware: 'admin',
+}
+</script>
