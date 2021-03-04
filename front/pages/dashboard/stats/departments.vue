@@ -157,15 +157,6 @@ export default {
           })
         })
     },
-    type(places) {
-      if (places < 10) {
-        return 'danger'
-      } else if (places < 500) {
-        return 'warning'
-      } else {
-        return 'info'
-      }
-    },
   },
 }
 </script>
