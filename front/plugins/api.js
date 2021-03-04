@@ -1,5 +1,7 @@
 import apiApp from '@/api/app'
 import apiMission from '@/api/mission'
+import apiStructure from '@/api/structure'
+import apiParticipation from '@/api/participation'
 
 export default ({ $axios }, inject) => {
   // Inject `api` key
@@ -9,6 +11,8 @@ export default ({ $axios }, inject) => {
   const api = {
     ...apiApp($axios),
     ...apiMission($axios),
+    ...apiStructure($axios),
+    ...apiParticipation($axios),
   }
 
   inject('api', api)

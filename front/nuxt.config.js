@@ -37,6 +37,7 @@ export default {
     { src: '~/plugins/numeral.js', ssr: false },
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
+    '@/plugins/numeral.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

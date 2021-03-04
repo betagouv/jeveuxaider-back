@@ -4,6 +4,7 @@ export const state = () => ({
   isAppLoaded: false,
   isSidebarExpanded: true,
   searchOverlay: false,
+  taxonomies: null,
 })
 
 export const getters = {
@@ -32,11 +33,15 @@ export const getters = {
   searchOverlay: (state) => state.searchOverlay,
   user: (state) => state.auth.user,
   isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
+  taxonomies: (state) => state.taxonomies,
 }
 
 export const mutations = {
   setAppIsLoaded(state, value) {
     state.isAppLoaded = value
+  },
+  setTaxonomies: (state, taxonomies) => {
+    state.taxonomies = taxonomies
   },
   toggleSearchOverlay: (state) => {
     state.searchOverlay = !state.searchOverlay
@@ -56,8 +61,8 @@ export const actions = {
     }
   },
   async bootstrap({ commit }) {
-    await this.$axios.get('/bootstrap')
-    // commit('setTaxonomies', data.taxonomies)
+    const { data } = await this.$axios.get('/bootstrap')
+    commit('setTaxonomies', data.taxonomies)
     commit('setAppIsLoaded', true)
   },
 }

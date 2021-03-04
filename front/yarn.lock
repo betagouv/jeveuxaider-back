@@ -7765,6 +7765,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+numeral@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
+  integrity sha1-StCAk21EPCVhrtnyGX7//iX05QY=
+
 nuxt-lazy-load@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/nuxt-lazy-load/-/nuxt-lazy-load-1.2.5.tgz#f232fbdba1bccd14026b19cd6a4ef13d32d1e9c7"
@@ -11534,6 +11539,11 @@ vue-typed-js@^0.1.2:
   integrity sha512-9kDGuz17uYJghe/1hepRWiWYssgUFtrKnMGPHlWjVRxdvs/d9xYYWMkgzztjhx1R1B33hXkN8ctmkzCYHQ+caA==
   dependencies:
     typed.js "git+https://github.com/mattboldt/typed.js.git"
+
+vue2-filters@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/vue2-filters/-/vue2-filters-0.12.0.tgz#6b90e8ed2104d3590d498d7d26fbb43c12af940d"
+  integrity sha512-9t70uXg1Pvf9ZF4tun2ZZVcv5+qd+0JJLBuAKUy4Nm0Ihaxo5Nn6iiMsBzuzwUyQIGPq3bSnk4boEVQJFN1DlQ==
 
 vue@^2.6.12:
   version "2.6.12"

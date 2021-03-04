@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import slugify from 'slugify'
+import Vue2Filters from 'vue2-filters'
+
+Vue.use(Vue2Filters)
 
 export default function ({ store }) {
   Vue.filter('labelFromValue', function (key, taxonomy) {
-    console.log('coucou filter label', store)
     const element = store.getters.taxonomies[taxonomy].terms.find((el) => {
       return el.value == key
     })
