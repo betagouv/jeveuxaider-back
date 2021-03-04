@@ -6,7 +6,6 @@ export default {
   },
   data() {
     return {
-      loading: true,
       query: {},
       totalRows: 0,
       fromRow: 0,

@@ -23,7 +23,11 @@
         />
       </div>
     </div>
-    <el-table v-loading="loading" :data="tableData" style="width: 100%">
+    <el-table
+      v-loading="$fetchState.pending"
+      :data="tableData"
+      style="width: 100%"
+    >
       <el-table-column width="70" label="#" align="center"
         ><template slot-scope="scope">
           <div class="text-gray-900">
@@ -137,16 +141,18 @@ export default {
     }
   },
   async fetch() {
-    this.loading = true
     this.query = this.$route.query
     const { data } = await this.$api.statisticsDepartments(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-    this.loading = false
   },
   computed: {},
+  watch: {
+    '$route.query': '$fetch',
+  },
+  watchQuery: true,
   methods: {
     onExport() {
       this.loadingExport = true
@@ -157,6 +163,7 @@ export default {
           fileDownload(response.data, 'departments.csv')
         })
         .catch((error) => {
+          this.loadingExport = false
           Message({
             message: error.response.data.message,
             type: 'error',

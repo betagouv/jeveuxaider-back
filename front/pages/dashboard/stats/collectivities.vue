@@ -24,7 +24,7 @@
       </div>
     </div>
     <el-table
-      v-loading="loading"
+      v-loading="$fetchState.pending"
       :data="tableData"
       :highlight-current-row="false"
       style="width: 100%"
@@ -144,24 +144,26 @@ export default {
     }
   },
   async fetch() {
-    this.loading = true
     this.query = this.$route.query
     const { data } = await this.$api.statisticsCollectivities(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-    this.loading = false
   },
   methods: {
     onExport() {
+      this.loadingExport = true
+
       this.$api
         .exportStatistics('collectivities', this.query)
         .then((response) => {
-          this.loading = false
+          this.loadingExport = false
           fileDownload(response.data, 'collectivities.csv')
         })
         .catch((error) => {
+          this.loadingExport = false
+
           Message({
             message: error.response.data.message,
             type: 'error',
