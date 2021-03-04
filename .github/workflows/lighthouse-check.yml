@@ -18,7 +18,7 @@ jobs:
           # awsSecretAccessKey: ${{ secrets.LIGHTHOUSE_CHECK_AWS_SECRET_ACCESS_KEY }}
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
-          urls: "https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io"
+          urls: "https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io,https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io/missions/8089"
           sha: ${{ github.sha }}
           slackWebhookUrl: ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Upload artifacts

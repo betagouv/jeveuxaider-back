@@ -25,12 +25,12 @@
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
-        <!-- <card-occupation-rate
+        <DashboardCardOccupationRate
           v-if="$store.getters.contextRole != 'responsable'"
         />
-        <card-count-places-left
+        <DashboardCardPlacesLeftCount
           v-if="$store.getters.contextRole != 'responsable'"
-        /> -->
+        />
         <DashboardCardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="Organisations"

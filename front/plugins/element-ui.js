@@ -2,6 +2,8 @@ import Vue from 'vue'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 import './element-ui.scss'
+import { Loading } from 'element-ui'
+Vue.use(Loading.directive)
 
 locale.use(lang)
 
@@ -86,5 +88,18 @@ export default () => {
   )
   Vue.component('ElOption', () =>
     import(/* webpackChunkName: 'element-ui-option' */ 'element-ui/lib/option')
+  )
+  Vue.component('ElTable', () =>
+    import(/* webpackChunkName: 'element-ui-table' */ 'element-ui/lib/table')
+  )
+  Vue.component('ElTableColumn', () =>
+    import(
+      /* webpackChunkName: 'element-ui-table-column' */ 'element-ui/lib/table-column'
+    )
+  )
+  Vue.component('ElPagination', () =>
+    import(
+      /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
+    )
   )
 }

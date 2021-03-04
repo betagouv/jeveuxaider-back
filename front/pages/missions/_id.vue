@@ -58,10 +58,20 @@
                   <li class="flex items-start lg:col-span-6">
                     <div class="flex-shrink-0">
                       <template v-if="mission.type == 'Mission en présentiel'">
-                        <img src="/images/picker.svg" width="29" class="mt-2" />
+                        <img
+                          src="/images/picker.svg"
+                          width="29"
+                          class="mt-2"
+                          alt="picker"
+                        />
                       </template>
                       <template v-else>
-                        <img src="/images/maison.svg" width="29" class="mt-2" />
+                        <img
+                          src="/images/maison.svg"
+                          width="29"
+                          class="mt-2"
+                          alt="maison"
+                        />
                       </template>
                     </div>
                     <p class="ml-4 text-md font-bold leading-5 text-gray-900">
@@ -87,7 +97,12 @@
 
                   <li class="mt-5 flex items-start lg:col-span-6 lg:mt-0">
                     <div class="flex-shrink-0">
-                      <img src="/images/public.svg" width="22" class="mt-2" />
+                      <img
+                        src="/images/public.svg"
+                        width="22"
+                        class="mt-2"
+                        alt="public"
+                      />
                     </div>
 
                     <div class="ml-4 text-md font-bold leading-5 text-gray-900">
@@ -125,11 +140,16 @@
                 v-if="structure.description"
                 class="mt-2 text-base leading-7 text-gray-600"
               >
-                <ReadMore
-                  more-str="Lire plus"
-                  :text="structure.description"
-                  :max-chars="250"
-                ></ReadMore>
+                <client-only>
+                  <ReadMore
+                    more-str="Lire plus"
+                    :text="structure.description"
+                    :max-chars="250"
+                  />
+                  <template slot="placeholder">
+                    <div v-html="structure.description" />
+                  </template>
+                </client-only>
               </div>
             </div>
 
@@ -353,11 +373,16 @@
           <div
             class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-9 text-gray-500 lg:mx-auto"
           >
-            <ReadMore
-              more-str="Lire plus"
-              :text="mission.information"
-              :max-chars="235"
-            ></ReadMore>
+            <client-only>
+              <ReadMore
+                more-str="Lire plus"
+                :text="mission.information"
+                :max-chars="235"
+              />
+              <template slot="placeholder">
+                <div v-html="mission.information" />
+              </template>
+            </client-only>
           </div>
           <div class="mt-6">
             <span class="text-lg font-medium">
@@ -399,11 +424,16 @@
                   Objectifs de votre mission
                 </h4>
                 <div class="mt-2 text-base leading-7 text-gray-500">
-                  <ReadMore
-                    more-str="Lire plus"
-                    :text="mission.objectif"
-                    :max-chars="380"
-                  ></ReadMore>
+                  <client-only>
+                    <ReadMore
+                      more-str="Lire plus"
+                      :text="mission.objectif"
+                      :max-chars="380"
+                    />
+                    <template slot="placeholder">
+                      <div v-html="mission.objectif" />
+                    </template>
+                  </client-only>
                 </div>
               </div>
             </div>
@@ -435,11 +465,16 @@
                   Description et règles à appliquer
                 </h4>
                 <div class="mt-2 text-base leading-7 text-gray-500">
-                  <ReadMore
-                    more-str="Lire plus"
-                    :text="mission.description"
-                    :max-chars="380"
-                  ></ReadMore>
+                  <client-only>
+                    <ReadMore
+                      more-str="Lire plus"
+                      :text="mission.description"
+                      :max-chars="380"
+                    />
+                    <template slot="placeholder">
+                      <div v-html="mission.description" />
+                    </template>
+                  </client-only>
                 </div>
               </div>
             </div>
@@ -548,6 +583,7 @@
           <div class="mt-8 z-1">
             <div class="text-center justify-center">
               <img
+                alt="Chacun pour tous"
                 class="mx-auto w-full h-auto md:w-auto md:h-full opacity-50"
                 src="/images/chacunpourtous.png"
                 style="max-height: 7rem"
@@ -557,6 +593,7 @@
         </div>
       </div>
     </div>
+
     <el-dialog
       :close-on-click-modal="false"
       title="Participer à la mission"
@@ -640,6 +677,7 @@
         >
       </span>
     </el-dialog>
+
     <el-dialog
       :close-on-click-modal="false"
       title="Avez vous un compte ?"
@@ -699,7 +737,7 @@
                   >
                     <img
                       v-if="otherMission.template"
-                      alt=""
+                      :alt="otherMission.template.name"
                       :src="otherMission.template.image"
                       style="width: 28px"
                     />
@@ -707,7 +745,7 @@
                       v-else-if="
                         otherMission.domaine && otherMission.domaine.image
                       "
-                      alt=""
+                      :alt="otherMission.domaine.name"
                       :src="otherMission.domaine.image"
                       style="width: 28px"
                     />
@@ -832,25 +870,6 @@ export default {
       otherMissions,
     }
   },
-  metaInfo() {
-    return {
-      title: this.mission.name
-        ? 'Bénévolat pour ' + this.structure.name + ' | ' + this.mission.name
-        : this.mission.name,
-      meta: [
-        {
-          name: 'description',
-          content:
-            this.structure && this.structure.description
-              ? this.$options.filters.truncate(
-                  this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
-                  156
-                )
-              : '',
-        },
-      ],
-    }
-  },
   data() {
     return {
       loading: true,
@@ -878,6 +897,26 @@ export default {
           },
         ],
       },
+    }
+  },
+  head() {
+    return {
+      title: this.mission.name
+        ? 'Bénévolat pour ' + this.structure.name + ' | ' + this.mission.name
+        : this.mission.name,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            this.structure && this.structure.description
+              ? this.$options.filters.truncate(
+                  this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
+                  156
+                )
+              : '',
+        },
+      ],
     }
   },
   computed: {
