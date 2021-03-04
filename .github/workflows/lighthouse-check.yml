@@ -18,7 +18,7 @@ jobs:
           # awsSecretAccessKey: ${{ secrets.LIGHTHOUSE_CHECK_AWS_SECRET_ACCESS_KEY }}
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
-          urls: "https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io,https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io/missions/8089"
+          urls: "https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io,https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io/missions/8089,https://jeveuxaider-preprod.osc-secnum-fr1.scalingo.io/missions?refinementList%5Btype%5D%5B0%5D=Mission%20en%20pr%C3%A9sentiel&aroundLatLng=48.8651,2.39911&place=75020%20Paris%2020e%20Arrondissement"
           sha: ${{ github.sha }}
           slackWebhookUrl: ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Upload artifacts
