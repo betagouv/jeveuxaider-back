@@ -6,20 +6,20 @@
           {{ $store.getters.contextRoleLabel }}
         </div>
         <div class="mb-12 font-bold text-2xl text-gray-800">
-          Tableau de bord - Organisations
+          Tableau de bord - Participations
         </div>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="structures" />
+      <DashboardTabsMain index="participations" />
     </div>
     <div class="px-12">
-      <DashboardCardOrganisationsCount
-        label="Organisations"
-        name="structures"
-        link="/dashboard/structures"
+      <DashboardCardParticipationsCount
+        label="Participations"
+        name="participations"
+        link="/dashboard/participations"
       />
-      <DashboardChartModelsCreated type="structures" class="max-w-4xl" />
+      <DashboardChartModelsCreated type="participations" class="max-w-4xl" />
     </div>
   </div>
 </template>

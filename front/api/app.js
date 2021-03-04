@@ -5,30 +5,24 @@ export default (axios) => ({
   async chartCreated(params) {
     return await axios.get('/charts/created', { params })
   },
+  async statisticsDepartments(params) {
+    return await axios.get('/statistics/departments', { params })
+  },
+  async exportStatistics(name, params) {
+    return await axios.get(`/statistics/${name}?type=export`, { params })
+  },
 })
 
 // export function bootstrap() {
 //   return axios.get('/bootstrap')
 // }
 
-// export function statistics(name, params) {
-//   return axios.get(`/statistics/${name}`, { params })
-// }
-
 // export function statisticsCollectivities(params) {
 //   return axios.get(`/statistics/collectivities`, { params })
 // }
 
-// export function statisticsDepartments(params) {
-//   return axios.get(`/statistics/departments`, { params })
-// }
-
 // export function statisticsDomaines(params) {
 //   return axios.get(`/statistics/domaines`, { params })
-// }
-
-// export function exportStatistics(name, params) {
-//   return axios.get(`/statistics/${name}?type=export`, { params })
 // }
 
 // export function reminders() {
