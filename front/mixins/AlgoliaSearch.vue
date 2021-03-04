@@ -7,7 +7,7 @@ import algoliasearch from 'algoliasearch/lite'
 
 const searchClient = algoliasearch(
   process.env.algolia.appId,
-  process.env.algolia.secret
+  process.env.algolia.searchKey
 )
 
 export default {
