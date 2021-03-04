@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100">
+  <div class="h-full bg-gray-100">
     <el-container
       v-if="$store.getters.isAppLoaded"
       class="h-full flex overflow-hidden"

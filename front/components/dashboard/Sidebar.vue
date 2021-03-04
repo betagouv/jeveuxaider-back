@@ -28,7 +28,7 @@
       </el-menu>
     </div>
 
-    <!-- <div class="text-center p-5">
+    <div class="text-center p-5">
       <el-button
         icon="el-icon-arrow-left"
         size="small"
@@ -92,7 +92,7 @@
           <i class="el-icon-help text-2xl text-gray-400" />
         </el-tooltip>
       </a>
-    </div> -->
+    </div>
   </el-aside>
 </template>
 
