@@ -125,11 +125,16 @@
                 v-if="structure.description"
                 class="mt-2 text-base leading-7 text-gray-600"
               >
-                <ReadMore
-                  more-str="Lire plus"
-                  :text="structure.description"
-                  :max-chars="250"
-                ></ReadMore>
+                <client-only>
+                  <ReadMore
+                    more-str="Lire plus"
+                    :text="structure.description"
+                    :max-chars="250"
+                  />
+                  <template slot="placeholder">
+                    <div v-html="structure.description" />
+                  </template>
+                </client-only>
               </div>
             </div>
 
@@ -353,11 +358,16 @@
           <div
             class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-9 text-gray-500 lg:mx-auto"
           >
-            <ReadMore
-              more-str="Lire plus"
-              :text="mission.information"
-              :max-chars="235"
-            ></ReadMore>
+            <client-only>
+              <ReadMore
+                more-str="Lire plus"
+                :text="mission.information"
+                :max-chars="235"
+              />
+              <template slot="placeholder">
+                <div v-html="mission.information" />
+              </template>
+            </client-only>
           </div>
           <div class="mt-6">
             <span class="text-lg font-medium">
@@ -399,11 +409,16 @@
                   Objectifs de votre mission
                 </h4>
                 <div class="mt-2 text-base leading-7 text-gray-500">
-                  <ReadMore
-                    more-str="Lire plus"
-                    :text="mission.objectif"
-                    :max-chars="380"
-                  ></ReadMore>
+                  <client-only>
+                    <ReadMore
+                      more-str="Lire plus"
+                      :text="mission.objectif"
+                      :max-chars="380"
+                    />
+                    <template slot="placeholder">
+                      <div v-html="mission.objectif" />
+                    </template>
+                  </client-only>
                 </div>
               </div>
             </div>
@@ -435,11 +450,16 @@
                   Description et règles à appliquer
                 </h4>
                 <div class="mt-2 text-base leading-7 text-gray-500">
-                  <ReadMore
-                    more-str="Lire plus"
-                    :text="mission.description"
-                    :max-chars="380"
-                  ></ReadMore>
+                  <client-only>
+                    <ReadMore
+                      more-str="Lire plus"
+                      :text="mission.description"
+                      :max-chars="380"
+                    />
+                    <template slot="placeholder">
+                      <div v-html="mission.description" />
+                    </template>
+                  </client-only>
                 </div>
               </div>
             </div>
@@ -557,6 +577,7 @@
         </div>
       </div>
     </div>
+
     <el-dialog
       :close-on-click-modal="false"
       title="Participer à la mission"
@@ -640,6 +661,7 @@
         >
       </span>
     </el-dialog>
+
     <el-dialog
       :close-on-click-modal="false"
       title="Avez vous un compte ?"
