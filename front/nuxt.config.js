@@ -93,7 +93,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    analyze: false,
+    analyze: true,
     extractCSS: process.env.NODE_ENV === 'production',
   },
 

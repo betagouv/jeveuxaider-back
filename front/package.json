@@ -41,7 +41,10 @@
     "vue-instantsearch": "^3.5.0",
     "vue-spinner": "^1.0.4",
     "vue-typed-js": "^0.1.2",
-    "vue2-filters": "^0.12.0"
+    "vue2-filters": "^0.12.0",
+    "portal-vue": "^2.1.7",
+    "v-tooltip": "^2.1.2",
+    "vue-clamp": "^0.3.1"
   },
   "devDependencies": {
     "@aceforth/nuxt-optimized-images": "^1.4.0",
