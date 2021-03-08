@@ -70,7 +70,7 @@
 
 <script>
 import VoletRow from '@/mixins/volet-row'
-import { MessageBox } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 
 export default {
   mixins: [VoletRow],
@@ -95,18 +95,18 @@ export default {
         }
       ).then(() => {
         this.$api.deleteCollectivity(this.form.id).then(() => {
-          this.$message({
-            type: 'success',
+          Message.success({
             message: `La collectivité a été supprimée.`,
           })
-          this.fetchDatas()
+          this.$store.commit('volet/hide')
+          this.$emit('deleted', this.form)
         })
       })
     },
-    onUpdated(row) {
-      this.$store.commit('volet/setRow', row)
-      this.$emit('updated', row)
-    },
+    // onUpdated(row) {
+    //   this.$store.commit('volet/setRow', row)
+    //   this.$emit('updated', row)
+    // },
   },
 }
 </script>

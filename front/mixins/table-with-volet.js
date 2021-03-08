@@ -1,5 +1,4 @@
 export default {
-  name: 'TableWithVolet',
   methods: {
     onUpdatedRow(row) {
       const foundIndex = this.tableData.findIndex((el) => el.id === row.id)
