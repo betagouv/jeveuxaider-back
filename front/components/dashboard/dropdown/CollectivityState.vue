@@ -2,7 +2,7 @@
   <div>
     <el-dropdown v-if="canEditStatut" :size="size" split-button :type="type">
       <div style="min-width: 140px" class="text-left">
-        {{ form.state | labelFromValue('collectivities_states') }}
+        {{ collectivity.state | labelFromValue('collectivities_states') }}
       </div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
@@ -21,17 +21,17 @@
     </el-dropdown>
     <template v-else>
       <div class="text-sm">
-        {{ form.state | labelFromValue('collectivities_states') }}
+        {{ collectivity.state | labelFromValue('collectivities_states') }}
       </div>
     </template>
   </div>
 </template>
 
 <script>
-import { MessageBox } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 export default {
   props: {
-    form: {
+    collectivity: {
       type: Object,
       required: true,
     },
@@ -43,27 +43,28 @@ export default {
   },
   data() {
     return {
-      collectivity: this.form,
+      form: { ...this.collectivity },
       message: 'Êtes vous sur de vos changements ?',
     }
   },
   computed: {
     type() {
-      if (this.form.state == 'waiting') {
+      if (this.collectivity.state == 'waiting') {
         return 'warning'
       }
       return 'default'
     },
     canEditStatut() {
       return !!(
-        ['waiting'].includes(this.form.state) &&
+        ['waiting'].includes(this.collectivity.state) &&
         this.$store.getters.contextRole === 'admin'
       )
     },
     statesAvailable() {
       return this.$store.getters.taxonomies.collectivities_states.terms.filter(
         (item) =>
-          !['waiting'].includes(item.value) && item.value != this.form.state
+          !['waiting'].includes(item.value) &&
+          item.value != this.collectivity.state
       )
     },
   },
@@ -83,18 +84,14 @@ export default {
         dangerouslyUseHTMLString: true,
       })
         .then(() => {
-          this.collectivity.state = state
+          this.form.state = state
           this.$api
-            .updateCollectivity(this.collectivity.id, this.collectivity)
+            .updateCollectivity(this.form.id, this.form)
             .then((response) => {
-              this.$message({
-                type: 'success',
+              Message.success({
                 message: 'Le statut de la collectivité a été mis à jour',
               })
               this.$emit('updated', response.data)
-            })
-            .catch((error) => {
-              this.errors = error.response.data.errors
             })
         })
         .catch(() => {})

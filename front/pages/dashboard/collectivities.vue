@@ -106,7 +106,7 @@
       <el-table-column prop="state" label="Statut" width="250">
         <template slot-scope="scope">
           <DashboardDropdownCollectivityState
-            :form="scope.row"
+            :collectivity="scope.row"
             @updated="onUpdatedRow"
           />
         </template>
