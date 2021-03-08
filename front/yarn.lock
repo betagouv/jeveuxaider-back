@@ -1387,6 +1387,14 @@
     consola "^2.15.3"
     defu "^3.2.2"
 
+"@nuxtjs/dayjs@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/dayjs/-/dayjs-1.3.0.tgz#cc5593cfa9667f19748133d3ebb5070d13a8b43e"
+  integrity sha512-2mm4hVF6YDPHBZpnwyiiEqFybU2cncY/0Ri5KnVpvKF0PCAvu3NCVxbGRItrBRaRjUq3dtaX7j+gUk1FKIkq9A==
+  dependencies:
+    consola "^2.3.2"
+    dayjs "^1.8.9"
+
 "@nuxtjs/eslint-config@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@nuxtjs/eslint-config/-/eslint-config-5.0.0.tgz#d66143ee4ada9d944de0bfbe2d7e4693a2e20d60"
@@ -3366,7 +3374,7 @@ connect@^3.7.0:
     parseurl "~1.3.3"
     utils-merge "1.0.1"
 
-consola@^2.10.0, consola@^2.15.0, consola@^2.15.3, consola@^2.6.0, consola@^2.9.0:
+consola@^2.10.0, consola@^2.15.0, consola@^2.15.3, consola@^2.3.2, consola@^2.6.0, consola@^2.9.0:
   version "2.15.3"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.3.tgz#2e11f98d6a4be71ff72e0bdf07bd23e12cb61550"
   integrity sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==
@@ -3559,6 +3567,11 @@ create-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
+
+cropperjs@^1.5.6:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.11.tgz#502ae6d8ca098b124de6813601cca70015879fc0"
+  integrity sha512-SJUeBBhtNBnnn+UrLKluhFRIXLJn7XFPv8QN1j49X5t+BIMwkgvDev541f96bmu8Xe0TgCx3gON22KmY/VddaA==
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -3814,7 +3827,7 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-dayjs@^1.10.4:
+dayjs@^1.8.9:
   version "1.10.4"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
   integrity sha512-RI/Hh4kqRc1UKLOAf/T5zdMMX5DQIlDxwUe3wSyMMnEbGunnpENCdbUgM+dW7kXidZqCttBrmw7BhN4TMddkCw==
@@ -11546,6 +11559,13 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
+vue-cropperjs@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/vue-cropperjs/-/vue-cropperjs-5.0.0.tgz#7f8cbc460737af3831b4ded634c95905198e329e"
+  integrity sha512-RhnC8O33uRZNkn74aiHZwNHnBJOXWlS4P6gsRI0lw4cZlWjKSCywZI9oSI9POlIPI6OYv30jvnHMXGch85tw7w==
+  dependencies:
+    cropperjs "^1.5.6"
+
 vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.5.0:
   version "7.5.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.5.0.tgz#b68221c55fee061899afcfb4441ec74c1495285e"
@@ -11557,6 +11577,11 @@ vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.5.0:
     espree "^6.2.1"
     esquery "^1.4.0"
     lodash "^4.17.15"
+
+vue-filter-pretty-bytes@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/vue-filter-pretty-bytes/-/vue-filter-pretty-bytes-0.1.6.tgz#33f763700f2ed52c9d641477357220ecd02768f7"
+  integrity sha512-RcREeq5y4/So104i/A7F0xi3e5p6cxRsow+wxPClNHp07RH+k/y4g98Gzg5FZz+bavk5i+2YHmCZh2V0buN60Q==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
