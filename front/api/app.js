@@ -27,7 +27,8 @@ export default (axios) => ({
     return await axios.post(`/collectivity/${id}`, collectivity)
   },
   async getCollectivity(id) {
-    return await axios.get(`/collectivity/${id}`)
+    const { data } = await axios.get(`/collectivity/${id}`)
+    return data
   },
   async addOrUpdateCollectivity(id, collectivity) {
     return id
@@ -36,6 +37,11 @@ export default (axios) => ({
   },
   async deleteCollectivity(id) {
     return await axios.delete(`/collectivity/${id}`)
+  },
+
+  async fetchActivities(params) {
+    const { data } = await axios.get('/activities', { params })
+    return data
   },
 })
 
@@ -278,8 +284,4 @@ export default (axios) => ({
 
 // export function deleteTag(id) {
 //   return axios.delete(`/tag/${id}`)
-// }
-
-// export function fetchActivities(params) {
-//   return axios.get('/activities', { params })
 // }

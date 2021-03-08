@@ -34,6 +34,7 @@ export default {
     '@/plugins/element-ui.js',
     '@/plugins/axios',
     '@/plugins/dayjs',
+    '@/plugins/router',
     '@/plugins/vue-libs.client.js',
     { src: '~/plugins/numeral.js', ssr: false },
     '@/plugins/api.js',

@@ -69,12 +69,6 @@
 import { Message, MessageBox } from 'element-ui'
 
 export default {
-  data() {
-    return {
-      loading: false,
-      form: {},
-    }
-  },
   computed: {
     row() {
       return this.$store.getters['volet/row']
