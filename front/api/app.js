@@ -32,8 +32,8 @@ export default (axios) => ({
   },
   async addOrUpdateCollectivity(id, collectivity) {
     return id
-      ? await this.$api.updateCollectivity(id, collectivity)
-      : await this.$api.addCollectivity(collectivity)
+      ? await axios.post(`/collectivity/${id}`, collectivity)
+      : await axios.post('/collectivity', collectivity)
   },
   async deleteCollectivity(id) {
     return await axios.delete(`/collectivity/${id}`)
@@ -42,6 +42,18 @@ export default (axios) => ({
   async fetchActivities(params) {
     const { data } = await axios.get('/activities', { params })
     return data
+  },
+
+  async uploadImage(id, model, image, cropSettings, fieldName = null) {
+    const data = new FormData()
+    const options = {
+      'Content-Type': 'multipart/form-data',
+    }
+    data.append('image', image)
+    data.append('cropSettings', JSON.stringify(cropSettings))
+    return fieldName
+      ? await axios.post(`/${model}/${id}/upload/${fieldName}`, data, options)
+      : await axios.post(`/${model}/${id}/upload`, data, options)
   },
 })
 
@@ -147,19 +159,6 @@ export default (axios) => ({
 
 // export function destroyCollectivity(id) {
 //   return axios.delete(`/collectivity/${id}/destroy`)
-// }
-
-// export function uploadImage(id, model, image, cropSettings, fieldName = null) {
-//   const data = new FormData()
-//   data.append('image', image)
-//   data.append('cropSettings', JSON.stringify(cropSettings))
-//   return fieldName
-//     ? axios.post(`/${model}/${id}/upload/${fieldName}`, data, {
-//         'Content-Type': 'multipart/form-data',
-//       })
-//     : axios.post(`/${model}/${id}/upload`, data, {
-//         'Content-Type': 'multipart/form-data',
-//       })
 // }
 
 // export function deleteImage(id, model, fieldName = null) {

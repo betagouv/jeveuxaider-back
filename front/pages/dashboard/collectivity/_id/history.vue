@@ -21,24 +21,16 @@
       </div>
       <div>
         <el-dropdown split-button type="primary" @command="handleCommand">
-          <router-link
-            :to="{
-              name: 'DashboardCollectivityFormEdit',
-              params: { id: collectivity.id },
-            }"
-          >
+          <nuxt-link :to="`/dashboard/collectivity/${collectivity.id}/edit`">
             Modifier la collectivité
-          </router-link>
+          </nuxt-link>
           <el-dropdown-menu slot="dropdown">
-            <router-link
-              :to="{
-                name: 'Collectivity',
-                params: { slug: collectivity.slug },
-              }"
+            <nuxt-link
+              :to="`/territoires/${collectivity.slug}`"
               target="_blank"
             >
               <el-dropdown-item> Visualiser la collectivité</el-dropdown-item>
-            </router-link>
+            </nuxt-link>
 
             <el-dropdown-item divided :command="{ action: 'delete' }">
               Supprimer la collectivité

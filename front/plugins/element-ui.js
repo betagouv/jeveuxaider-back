@@ -110,4 +110,7 @@ export default () => {
   Vue.component('ElTag', () =>
     import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/tag')
   )
+  Vue.component('ElUpload', () =>
+    import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/upload')
+  )
 }
