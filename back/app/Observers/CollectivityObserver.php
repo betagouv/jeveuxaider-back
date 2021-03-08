@@ -18,7 +18,7 @@ class CollectivityObserver
 
     public function updating(Collectivity $collectivity)
     {
-        if ($collectivity->type == 'commune') {
+        if ($collectivity->type == 'commune' && $collectivity->isDirty('zips')) {
             $old = $collectivity->getOriginal('zips')[0];
             $new = $collectivity->zips[0];
             if ($old != $new) {

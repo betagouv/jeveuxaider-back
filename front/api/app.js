@@ -17,6 +17,26 @@ export default (axios) => ({
   async statisticsDomaines(params) {
     return await axios.get(`/statistics/domaines`, { params })
   },
+  async fetchCollectivities(params) {
+    return await axios.get(`/collectivities`, { params })
+  },
+  async addCollectivity(collectivity) {
+    return await axios.post('/collectivity', collectivity)
+  },
+  async updateCollectivity(id, collectivity) {
+    return await axios.post(`/collectivity/${id}`, collectivity)
+  },
+  async getCollectivity(id) {
+    return await axios.get(`/collectivity/${id}`)
+  },
+  async addOrUpdateCollectivity(id, collectivity) {
+    return id
+      ? await this.$api.updateCollectivity(id, collectivity)
+      : await this.$api.addCollectivity(collectivity)
+  },
+  async deleteCollectivity(id) {
+    return await axios.delete(`/collectivity/${id}`)
+  },
 })
 
 // export function bootstrap() {
@@ -99,34 +119,12 @@ export default (axios) => ({
 //   return axios.post(`/${table}/export/table`)
 // }
 
-// export function addCollectivity(collectivity) {
-//   return axios.post('/collectivity', collectivity)
-// }
-
 // // export function submitCollectivity(collectivity) {
 // //   return axios.post("/submit/collectivity", collectivity);
 // // }
 
-// export function updateCollectivity(id, collectivity) {
-//   return axios.post(`/collectivity/${id}`, collectivity)
-// }
-
-// export function addOrUpdateCollectivity(id, collectivity) {
-//   return id
-//     ? updateCollectivity(id, collectivity)
-//     : addCollectivity(collectivity)
-// }
-
-// export function getCollectivity(id) {
-//   return axios.get(`/collectivity/${id}`)
-// }
-
 // export function getCollectivityStatistics(id) {
 //   return axios.get(`/collectivity/${id}/statistics`)
-// }
-
-// export function fetchCollectivities(params) {
-//   return axios.get('/collectivities', { params })
 // }
 
 // export function fetchAllCollectivities(params) {

@@ -152,7 +152,6 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  watchQuery: true,
   methods: {
     onExport() {
       this.loadingExport = true

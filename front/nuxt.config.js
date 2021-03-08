@@ -33,6 +33,7 @@ export default {
   plugins: [
     '@/plugins/element-ui.js',
     '@/plugins/axios',
+    '@/plugins/dayjs',
     '@/plugins/vue-libs.client.js',
     { src: '~/plugins/numeral.js', ssr: false },
     '@/plugins/api.js',
@@ -51,7 +52,12 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', 'cookie-universal-nuxt', 'nuxt-lazy-load'],
+  modules: [
+    '@nuxtjs/axios',
+    'cookie-universal-nuxt',
+    'nuxt-lazy-load',
+    'portal-vue/nuxt',
+  ],
 
   optimizedImages: {
     optimizeImages: true,

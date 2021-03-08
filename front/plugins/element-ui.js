@@ -102,4 +102,12 @@ export default () => {
       /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
     )
   )
+  Vue.component('ElPagination', () =>
+    import(
+      /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
+    )
+  )
+  Vue.component('ElTag', () =>
+    import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/tag')
+  )
 }
