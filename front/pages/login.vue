@@ -160,14 +160,10 @@
 </template>
 
 <script>
-import FranceConnect from '@/components/FranceConnect.vue'
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
   name: 'Login',
-  components: {
-    FranceConnect,
-  },
   middleware: 'guest',
   data() {
     return {
@@ -216,29 +212,10 @@ export default {
       this.loading = true
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.$store
-            .dispatch('auth/login', {
-              email: this.form.email,
-              password: this.form.password,
-            })
-            .then(() => {
-              console.log('LOGGED')
-              // if (this.$route.query.redirect) {
-              //   this.$router.push(this.$route.query.redirect)
-              // } else {
-              //   if (
-              //     this.$store.getters.noRole === true &&
-              //     this.$store.getters.contextRole != 'volontaire'
-              //   ) {
-              //     this.$router.push('/register/responsable/step/norole')
-              //   }
-              //   if (this.$store.getters.noRole === false) {
-              //     this.$router.push('/dashboard')
-              //   } else {
-              //     this.$router.push('/missions')
-              //   }
-              // }
-            })
+          this.$store.dispatch('auth/login', {
+            email: this.form.email,
+            password: this.form.password,
+          })
         }
       })
     },

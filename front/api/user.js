@@ -1,3 +1,10 @@
+export default (axios) => ({
+  async fetchProfileParticipations(id) {
+    const { data } = await axios.get(`/profile/${id}/participations`)
+    return data
+  },
+})
+
 // import axios from 'axios'
 
 // export function registerVolontaire(
@@ -92,10 +99,6 @@
 
 // export function anonymizeUser() {
 //   return axios.post('/user/anonymize')
-// }
-
-// export function fetchProfileParticipations(id) {
-//   return axios.get(`/profile/${id}/participations`)
 // }
 
 // export function fetchProfiles(params, appends) {

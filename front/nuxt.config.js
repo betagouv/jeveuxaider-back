@@ -35,7 +35,7 @@ export default {
     '@/plugins/axios',
     '@/plugins/dayjs',
     '@/plugins/vue-libs.client.js',
-    { src: '~/plugins/numeral.js', ssr: false },
+    '@/plugins/numeral.js',
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
   ],
@@ -101,7 +101,13 @@ export default {
   build: {
     analyze: true,
     extractCSS: process.env.NODE_ENV === 'production',
-    transpile: ['vue-instantsearch', 'instantsearch.js/es'],
+    transpile: [
+      'vue-instantsearch',
+      'instantsearch.js/es',
+      'numeral',
+      'vue-clamp',
+      'resize-detector',
+    ],
   },
 
   render: {

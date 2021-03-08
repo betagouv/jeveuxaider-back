@@ -31,33 +31,29 @@
 
     <div class="mb-auto p-4">
       <div class="pill-2">{{ mission.domaine_name }}</div>
+      <client-only>
+        <v-clamp
+          :max-lines="3"
+          autoresize
+          class="name font-black text-black text-lg relative"
+        >
+          {{ mission.name }}
 
-      <v-clamp
-        tag="h2"
-        :max-lines="3"
-        autoresize
-        class="name font-black text-black text-lg relative hidden sm:block"
-      >
-        {{ mission.name }}
-
-        <template slot="after" slot-scope="{ clamped }">
-          <!-- Tooltip if clamped -->
-          <span
-            v-if="clamped"
-            v-tooltip="{
-              delay: { show: 700, hide: 100 },
-              content: mission.name,
-              hideOnTargetClick: true,
-              placement: 'top',
-            }"
-            class="absolute w-full h-full top-0 left-0"
-          />
-        </template>
-      </v-clamp>
-
-      <h2 class="sm:hidden name font-black text-black text-lg">
-        {{ mission.name }}
-      </h2>
+          <template slot="after" slot-scope="{ clamped }">
+            <span
+              v-if="clamped"
+              v-tooltip="{
+                delay: { show: 700, hide: 100 },
+                content: mission.name,
+                hideOnTargetClick: true,
+                placement: 'top',
+              }"
+              class="absolute w-full h-full top-0 left-0"
+            />
+          </template>
+        </v-clamp>
+        <h2 slot="placeholder">{{ mission.name }}</h2>
+      </client-only>
 
       <h3
         class="structure mt-4 mb-1 truncate"

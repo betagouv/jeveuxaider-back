@@ -102,12 +102,17 @@ export default () => {
       /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
     )
   )
-  Vue.component('ElPagination', () =>
-    import(
-      /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
-    )
-  )
   Vue.component('ElTag', () =>
     import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/tag')
+  )
+  Vue.component('ElDatePicker', () =>
+    import(
+      /* webpackChunkName: 'element-ui-date-picker' */ 'element-ui/lib/date-picker'
+    )
+  )
+  Vue.component('ElOptionGroup', () =>
+    import(
+      /* webpackChunkName: 'element-ui-option-group' */ 'element-ui/lib/option-group'
+    )
   )
 }

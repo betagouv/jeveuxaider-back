@@ -37,6 +37,27 @@ export default (axios) => ({
   async deleteCollectivity(id) {
     return await axios.delete(`/collectivity/${id}`)
   },
+  async deleteImage(id, model, fieldName = null) {
+    return fieldName
+      ? await axios.delete(`/${model}/${id}/upload/${fieldName}`)
+      : await axios.delete(`/${model}/${id}/upload`)
+  },
+  async fetchTags(params) {
+    return await axios.get('/tags', { params })
+  },
+
+  async uploadImage(id, model, image, cropSettings, fieldName = null) {
+    const data = new FormData()
+    data.append('image', image)
+    data.append('cropSettings', JSON.stringify(cropSettings))
+    return fieldName
+      ? await axios.post(`/${model}/${id}/upload/${fieldName}`, data, {
+          'Content-Type': 'multipart/form-data',
+        })
+      : await axios.post(`/${model}/${id}/upload`, data, {
+          'Content-Type': 'multipart/form-data',
+        })
+  },
 })
 
 // export function bootstrap() {
@@ -141,25 +162,6 @@ export default (axios) => ({
 
 // export function destroyCollectivity(id) {
 //   return axios.delete(`/collectivity/${id}/destroy`)
-// }
-
-// export function uploadImage(id, model, image, cropSettings, fieldName = null) {
-//   const data = new FormData()
-//   data.append('image', image)
-//   data.append('cropSettings', JSON.stringify(cropSettings))
-//   return fieldName
-//     ? axios.post(`/${model}/${id}/upload/${fieldName}`, data, {
-//         'Content-Type': 'multipart/form-data',
-//       })
-//     : axios.post(`/${model}/${id}/upload`, data, {
-//         'Content-Type': 'multipart/form-data',
-//       })
-// }
-
-// export function deleteImage(id, model, fieldName = null) {
-//   return fieldName
-//     ? axios.delete(`/${model}/${id}/upload/${fieldName}`)
-//     : axios.delete(`/${model}/${id}/upload`)
 // }
 
 // export function addDocument(document) {
@@ -270,10 +272,6 @@ export default (axios) => ({
 
 // export function getTag(id) {
 //   return axios.get(`/tag/${id}`)
-// }
-
-// export function fetchTags(params) {
-//   return axios.get('/tags', { params })
 // }
 
 // export function deleteTag(id) {
