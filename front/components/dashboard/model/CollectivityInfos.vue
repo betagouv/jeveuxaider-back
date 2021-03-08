@@ -45,12 +45,7 @@
 </template>
 
 <script>
-import ReadMore from '@/components/ReadMore'
-
 export default {
-  components: {
-    ReadMore,
-  },
   props: {
     collectivity: {
       type: Object,

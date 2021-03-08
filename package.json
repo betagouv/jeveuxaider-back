@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@nuxtjs/dayjs": "^1.3.0",
-    "vue-cropperjs": "^5.0.0"
-  }
-}

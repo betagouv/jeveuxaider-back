@@ -159,10 +159,7 @@
       </div>
     </div>
     <portal to="volet">
-      <DashboardVoletCollectivity
-        @updated="onUpdatedRow"
-        @deleted="onDeletedRow"
-      />
+      <DashboardVoletCollectivity @deleted="onDeletedRow" />
     </portal>
   </div>
 </template>

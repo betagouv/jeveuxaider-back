@@ -115,4 +115,7 @@ export default () => {
       /* webpackChunkName: 'element-ui-option-group' */ 'element-ui/lib/option-group'
     )
   )
+  Vue.component('ElUpload', () =>
+    import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/upload')
+  )
 }

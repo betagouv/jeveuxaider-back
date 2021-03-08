@@ -19,10 +19,12 @@ class CollectivityObserver
     public function updating(Collectivity $collectivity)
     {
         if ($collectivity->type == 'commune' && $collectivity->isDirty('zips')) {
-            $old = $collectivity->getOriginal('zips')[0];
-            $new = $collectivity->zips[0];
+            $old = $collectivity->getOriginal('zips') ? $collectivity->getOriginal('zips')[0] : null;
+            $new = $collectivity->zips ? $collectivity->zips[0] : null;
             if ($old != $new) {
-                $collectivity->setCoordonates();
+                if ($new) {
+                    $collectivity->setCoordonates();
+                }
             }
         }
     }

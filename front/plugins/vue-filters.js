@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import slugify from 'slugify'
 import Vue2Filters from 'vue2-filters'
+import vueFilterPrettyBytes from 'vue-filter-pretty-bytes'
 
 Vue.use(Vue2Filters)
+Vue.use(vueFilterPrettyBytes)
 
 export default function ({ store }) {
   Vue.filter('labelFromValue', function (key, taxonomy) {
@@ -97,11 +99,10 @@ export default function ({ store }) {
   })
 
   Vue.filter('slugify', function (string) {
-    return string
-      ? slugify(string, {
-          lower: true,
-        })
-      : string
+    const options = {
+      lower: true,
+    }
+    return string ? slugify(string, options) : string
   })
 
   Vue.filter('icoFromMimeType', function (mymeType) {
