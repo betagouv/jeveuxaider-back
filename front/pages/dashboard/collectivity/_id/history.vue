@@ -1,5 +1,5 @@
 <template>
-  <div class="structure-view">
+  <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Collectivité</div>
@@ -54,9 +54,19 @@
         Historique
       </el-menu-item>
     </el-menu>
-
-    <div>
-      <TableActivities :table-data="tableData" />
+    <TableActivities :table-data="tableData" />
+    <div class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
     </div>
   </div>
 </template>

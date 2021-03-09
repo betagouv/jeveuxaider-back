@@ -1,5 +1,5 @@
 <template>
-  <div class="structure-view">
+  <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Organisation</div>
@@ -22,32 +22,10 @@
         </div>
       </div>
       <div>
-        <el-dropdown
+        <DropdownStructureButton
           v-if="$store.getters.contextRole == 'admin'"
-          split-button
-          type="primary"
-          @command="handleCommand"
-        >
-          <nuxt-link :to="`/dashboard/structure/${structure.id}/edit`">
-            Modifier l'organisation
-          </nuxt-link>
-          <el-dropdown-menu slot="dropdown">
-            <nuxt-link
-              :to="`/dashboard/structure/${structure.id}/missions/add`"
-            >
-              <el-dropdown-item>Ajouter une mission</el-dropdown-item>
-            </nuxt-link>
-            <nuxt-link :to="`/dashboard/structure/${structure.id}/members`">
-              <el-dropdown-item> Gérer les membres </el-dropdown-item>
-            </nuxt-link>
-            <nuxt-link :to="`/dashboard/structure/${structure.id}/members/add`">
-              <el-dropdown-item> Ajouter un membre </el-dropdown-item>
-            </nuxt-link>
-            <el-dropdown-item :command="{ action: 'delete' }" divided>
-              Supprimer l'organisation
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+          :structure="structure"
+        />
       </div>
     </div>
     <el-menu
@@ -69,15 +47,12 @@
         Historique
       </el-menu-item>
     </el-menu>
-
-    <div class="">
-      <TableMissions
-        :loading="$fetchState.pending"
-        :table-data="tableData"
-        :on-updated-row="onUpdatedRow"
-        :on-clicked-row="onClickedRow"
-      />
-    </div>
+    <TableMissions
+      :loading="$fetchState.pending"
+      :table-data="tableData"
+      :on-updated-row="onUpdatedRow"
+      :on-clicked-row="onClickedRow"
+    />
     <div class="m-3 flex items-center">
       <el-pagination
         background

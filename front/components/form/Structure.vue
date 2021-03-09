@@ -189,6 +189,7 @@
 
 <script>
 import FormWithAddress from '@/mixins/FormWithAddress'
+import { Message, MessageBox } from 'element-ui'
 
 export default {
   mixins: [FormWithAddress],
@@ -241,51 +242,7 @@ export default {
       },
     }
   },
-  created() {
-    if (this.mode == 'edit') {
-      this.$store.commit('setLoading', true)
-      this.$api
-        .getStructure(this.$route.params.id)
-        .then((response) => {
-          this.$store.commit('setLoading', false)
-          this.form = response.data
-        })
-        .catch(() => {
-          this.loading = false
-        })
-    }
-  },
   methods: {
-    uploadLogo(request) {
-      const reader = new FileReader()
-      reader.readAsDataURL(request.file)
-      reader.onload = (e) => {
-        this.loading = true
-        this.$api
-          .addOrUpdateStructure(this.structure.id, { logo: e.target.result })
-          .then((response) => {
-            this.form = response.data
-            this.loading = false
-            this.$message({
-              message: 'Le logo a été enregistré !',
-              type: 'success',
-            })
-          })
-          .catch(() => {
-            this.loading = false
-          })
-      }
-    },
-    beforeLogoUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 4
-      if (!isLt5M) {
-        this.$message({
-          message: 'Votre image ne doit pas éxcéder une taille de 4MB',
-          type: 'error',
-        })
-      }
-      return isLt5M
-    },
     onSubmit() {
       this.loading = true
       this.$refs.structureForm.validate((valid) => {
@@ -309,7 +266,7 @@ export default {
       })
     },
     onSubmitDelete() {
-      this.$confirm(
+      MessageBox.confirm(
         'Souhaitez-vous réellement supprimer votre organisation de JeVeuxAider.gouv.fr ?',
         'Supprimer mon organisation',
         {
@@ -322,8 +279,7 @@ export default {
       ).then(() => {
         this.form.state = 'Désinscrite'
         this.$api.updateStructure(this.form.id, this.form).then(() => {
-          this.$message({
-            type: 'success',
+          Message.success({
             message: `Votre organisation ${this.form.name} a bien été supprimée.`,
           })
           this.$router.push('/')

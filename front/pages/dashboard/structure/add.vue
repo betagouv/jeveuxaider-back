@@ -1,0 +1,18 @@
+<template>
+  <div class="structure-form pl-12 pb-12">
+    <div class="text-m text-gray-600 uppercase">Organisation</div>
+    <div class="mb-8 flex">
+      <div class="font-bold text-2xl text-gray-800">
+        Création d'une nouvelle organisation
+      </div>
+    </div>
+
+    <FormStructure />
+  </div>
+</template>
+
+<script>
+export default {
+  layout: 'dashboard',
+}
+</script>
