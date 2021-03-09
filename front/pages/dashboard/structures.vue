@@ -202,7 +202,6 @@ export default {
     }
   },
   async fetch() {
-    // Structures
     this.query = this.$route.query
     const { data } = await this.$api.fetchStructures(this.query)
     this.tableData = data.data
@@ -235,10 +234,8 @@ export default {
           })
         })
         .catch((error) => {
-          this.loadingExport = false
-          Message({
+          Message.error({
             message: error.response.data.message,
-            type: 'error',
           })
         })
     },

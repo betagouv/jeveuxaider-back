@@ -15,23 +15,19 @@ export default (axios) => ({
   async cloneMission(id) {
     return await axios.post(`/mission/${id}/clone`)
   },
+  async exportMissions(params) {
+    return await axios.get(`/missions/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
 })
 
 /*
 
-
-async exportMissions(params) {
-  return await axios.get(`/missions/export`, {
-    responseType: 'blob',
-    params,
-  })
-}
-
 async addStructureMission(structureId, mission) {
   return await axios.post(`/structure/${structureId}/missions`, mission)
 }
-
-
 
 async destroyMission(id) {
   return await axios.delete(`/mission/${id}/destroy`)
