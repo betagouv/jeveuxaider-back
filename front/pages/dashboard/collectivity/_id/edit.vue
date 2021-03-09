@@ -7,14 +7,14 @@
       </div>
     </div>
 
-    <DashboardFormCollectivity :collectivity="collectivity" />
+    <FormCollectivity :collectivity="collectivity" />
   </div>
 </template>
 
 <script>
 export default {
   layout: 'dashboard',
-  // TODO MIDDLEWARE
+  // TODO MIDDLEWARE ADMIN OU RESPONSBALE DE LA COLLECTIVITY
   // beforeRouteEnter(to, from, next) {
   //   next((vm) => {
   //     if (vm.$store.getters.contextRole == 'admin') {

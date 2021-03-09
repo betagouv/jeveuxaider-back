@@ -12,7 +12,7 @@
             <el-input-number v-model="year" class="mr-3" size="small" />
           </div>
         </div>
-        <DashboardChartBar
+        <ChartBar
           v-if="!loading"
           :height="150"
           :chart-data="chartData"

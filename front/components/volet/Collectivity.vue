@@ -1,5 +1,5 @@
 <template>
-  <DashboardVolet v-if="$store.getters['volet/active']">
+  <Volet v-if="$store.getters['volet/active']">
     <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12"></div>
     <el-card shadow="never" class="overflow-visible relative">
       <div slot="header" class="clearfix flex flex-col items-center">
@@ -44,7 +44,7 @@
           Hors ligne
         </el-tag>
       </div>
-      <DashboardModelCollectivityInfos :collectivity="row" />
+      <ModelCollectivityInfos :collectivity="row" />
     </el-card>
     <div class="text-lg mt-6 mb-2">Responsables</div>
     <el-card
@@ -52,7 +52,7 @@
       shadow="never"
       class="overflow-visible relative"
     >
-      <DashboardModelMemberTeaser
+      <ModelMemberTeaser
         v-for="member in row.structure.members"
         :key="member.id"
         class="member py-2"
@@ -62,7 +62,7 @@
     <el-card v-else shadow="never" class="overflow-visible relative">
       Cette collectivité n'a pas d'organisation liée, donc pas de responsables.
     </el-card>
-  </DashboardVolet>
+  </Volet>
 </template>
 
 <script>

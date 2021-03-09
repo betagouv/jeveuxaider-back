@@ -13,11 +13,11 @@
         :disabled="!canEditField"
         placeholder="Nom de la collectivité"
       />
-      <DashboardItemDescription>
+      <ItemDescription>
         Accessible à l'adresse : {{ baseUrl }}/territoires/{{
           form.name | slugify
         }}
-      </DashboardItemDescription>
+      </ItemDescription>
     </el-form-item>
 
     <el-form-item label="Titre de la page" prop="title">
@@ -90,7 +90,7 @@
       </el-select>
     </el-form-item>
 
-    <DashboardImageField
+    <ImageField
       :model="model"
       :model-id="form.id ? form.id : null"
       :min-width="1200"
@@ -101,10 +101,10 @@
       label="Bannière"
       @add-or-crop="handleAddOrCrop($event)"
       @delete="handleDelete($event)"
-    ></DashboardImageField>
+    ></ImageField>
 
     <template v-if="form.type == 'commune'">
-      <DashboardImageField
+      <ImageField
         :model="model"
         :model-id="form.id ? form.id : null"
         :max-size="1000000"
@@ -114,9 +114,9 @@
         label="Logo"
         @add-or-crop="handleAddOrCrop($event)"
         @delete="handleDelete($event)"
-      ></DashboardImageField>
+      ></ImageField>
 
-      <DashboardImageField
+      <ImageField
         v-for="index in 6"
         :key="index"
         :model="model"
@@ -130,15 +130,15 @@
         :label="`Illustration #${index}`"
         @add-or-crop="handleAddOrCrop($event)"
         @delete="handleDelete($event)"
-      ></DashboardImageField>
+      ></ImageField>
     </template>
 
     <template v-if="$store.getters.contextRole == 'admin'">
       <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
-      <DashboardItemDescription container-class="mb-6">
+      <ItemDescription container-class="mb-6">
         Si vous souhaitez mettre en ligne la page de cette collectivité, cochez
         la case.
-      </DashboardItemDescription>
+      </ItemDescription>
       <el-form-item prop="published" class="flex-1">
         <el-checkbox v-model="form.published">En ligne</el-checkbox>
       </el-form-item>
@@ -147,11 +147,11 @@
       v-if="form.type == 'commune' && $store.getters.contextRole == 'admin'"
     >
       <div class="mb-6 flex text-xl text-gray-800">Organisation liée</div>
-      <DashboardItemDescription container-class="mb-6">
+      <ItemDescription container-class="mb-6">
         Si le statut de la collectivité est validée, les responsables de
         l'organisation ont accès au tableau de bord de la collectivité. Ils
         peuvent aussi modifier la page de la collectivité.
-      </DashboardItemDescription>
+      </ItemDescription>
       <el-form-item
         label="Id de l'organisation"
         prop="structure_id"

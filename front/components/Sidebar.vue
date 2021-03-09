@@ -4,27 +4,21 @@
     :class="{ collapsed: !$store.getters.isSidebarExpanded }"
     class="flex flex-col"
   >
-    <DashboardDropdownUser class="border-b border-gray-200" />
+    <DropdownUser class="border-b border-gray-200" />
     <div class="flex flex-col flex-1">
       <el-menu :router="true">
-        <LazyDashboardMenuResponsable
+        <LazyMenuResponsable
           v-if="$store.getters.contextRole == 'responsable'"
         />
-        <LazyDashboardMenuModerateur
-          v-if="$store.getters.contextRole == 'admin'"
-        />
-        <LazyDashboardMenuReferent
-          v-if="$store.getters.contextRole == 'referent'"
-        />
-        <LazyDashboardMenuReferentRegional
+        <LazyMenuModerateur v-if="$store.getters.contextRole == 'admin'" />
+        <LazyMenuReferent v-if="$store.getters.contextRole == 'referent'" />
+        <LazyMenuReferentRegional
           v-if="$store.getters.contextRole == 'referent_regional'"
         />
-        <LazyDashboardMenuSuperviseur
+        <LazyMenuSuperviseur
           v-if="$store.getters.contextRole == 'superviseur'"
         />
-        <LazyDashboardMenuAnalyste
-          v-if="$store.getters.contextRole == 'analyste'"
-        />
+        <LazyMenuAnalyste v-if="$store.getters.contextRole == 'analyste'" />
       </el-menu>
     </div>
 

@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="departments" />
+      <TabsMain index="departments" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">

@@ -11,17 +11,17 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="profiles" />
+      <TabsMain index="profiles" />
     </div>
     <div class="px-12">
-      <DashboardCardProfilesCount
+      <CardProfilesCount
         label="Utilisateurs"
         name="profiles"
         link="/dashboard/profiles"
       />
       <div class="lg:flex">
-        <DashboardChartModelsCreated type="profiles" class="w-full lg:w-8/12" />
-        <DashboardCardProfilesSkillsCount
+        <ChartModelsCreated type="profiles" class="w-full lg:w-8/12" />
+        <CardProfilesSkillsCount
           v-if="$store.getters.contextRole == 'admin'"
           name="skills"
           class="w-full mt-6 lg:mt-0 lg:w-4/12 lg:ml-6"

@@ -1,34 +1,28 @@
 <template>
   <div class="min-h-screen bg-white flex">
     <div
-      class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 -mt-32"
+      class="flex flex-col w-full justify-center items-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24 -mt-32"
     >
       <template v-if="error.statusCode == 404">
-        <h2
-          class="text-blue-800 mt-8 text-3xl leading-tight font-extrabold text-gray-900"
-        >
+        <h2 class="text-blue-800 my-8 text-3xl leading-tight font-extrabold">
           Cette page n'a pas été trouvée
         </h2>
-        <div class="mt-8 border-t border-gray-200 pt-8" />
         <p>
           La page que vous souhaitez afficher n'existe pas ou a été modifiée.
         </p>
       </template>
       <template v-else-if="error.statusCode == 403">
-        <h2
-          class="text-blue-800 mt-8 text-3xl leading-tight font-extrabold text-gray-900"
-        >
+        <h2 class="text-blue-800 my-8 text-3xl leading-tight font-extrabold">
           Accès non autorisé
         </h2>
-        <div class="mt-8 border-t border-gray-200 pt-8" />
+        <div class="mt-8 border-t pt-8" />
         <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
       </template>
       <template v-else>
-        <h2 class="mt-8 text-3xl leading-tight font-extrabold text-gray-900">
+        <h2 class="my-8 text-3xl leading-tight font-extrabold text-gray-900">
           Ouuppps!
           <span class="text-blue-800"> Erreur {{ error.statusCode }}</span>
         </h2>
-        <div class="mt-8 border-t border-gray-200 pt-8" />
         <p>{{ error.message }}</p>
       </template>
       <div class="flex mt-8">
@@ -49,13 +43,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="hidden lg:block relative w-0 flex-1">
-      <img
-        class="absolute inset-0 h-full w-full object-cover"
-        src="@/assets/images/bg_header_home.jpg"
-        alt
-      />
     </div>
   </div>
 </template>

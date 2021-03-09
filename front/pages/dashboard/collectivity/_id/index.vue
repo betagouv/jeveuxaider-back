@@ -7,7 +7,7 @@
           <div class="font-bold text-2xl text-gray-800 mr-2">
             {{ collectivity.name }}
           </div>
-          <DashboardTagModelState
+          <TagModelState
             v-if="collectivity.state"
             :state="collectivity.state"
           />
@@ -61,7 +61,7 @@
           <div class="flex justify-between">
             <div class="mb-6 text-xl">Informations</div>
           </div>
-          <DashboardModelCollectivityInfos :collectivity="collectivity" />
+          <ModelCollectivityInfos :collectivity="collectivity" />
         </el-card>
         <el-card v-if="collectivity.structure" shadow="never" class="p-4">
           <div class="flex justify-between">
@@ -71,7 +71,7 @@
               >{{ collectivity.structure.name }}</nuxt-link
             >
           </div>
-          <DashboardModelStructureInfos :structure="collectivity.structure" />
+          <ModelStructureInfos :structure="collectivity.structure" />
         </el-card>
       </div>
     </div>

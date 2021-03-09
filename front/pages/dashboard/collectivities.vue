@@ -105,7 +105,7 @@
       </el-table-column>
       <el-table-column prop="state" label="Statut" width="250">
         <template slot-scope="scope">
-          <DashboardDropdownCollectivityState
+          <DropdownCollectivityState
             :collectivity="scope.row"
             @updated="onUpdatedRow"
           />
@@ -159,7 +159,7 @@
       </div>
     </div>
     <portal to="volet">
-      <DashboardVoletCollectivity @deleted="onDeletedRow" />
+      <VoletCollectivity @deleted="onDeletedRow" />
     </portal>
   </div>
 </template>
