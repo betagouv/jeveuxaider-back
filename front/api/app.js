@@ -48,8 +48,7 @@ export default (axios) => ({
   },
 
   async fetchActivities(params) {
-    const { data } = await axios.get('/activities', { params })
-    return data
+    return await axios.get('/activities', { params })
   },
 
   async uploadImage(id, model, image, cropSettings, fieldName = null) {

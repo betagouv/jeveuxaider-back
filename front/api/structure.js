@@ -5,62 +5,60 @@ export default (axios) => ({
     })
     return data
   },
+  async fetchStructures(params) {
+    return await axios.get('/structures', { params })
+  },
+  async exportStructures(params) {
+    return await axios.get('/structures/export', {
+      params,
+      responseType: 'blob',
+    })
+  },
+  async addStructure(structure) {
+    return await axios.post('/structure', structure)
+  },
+  async updateStructure(id, structure) {
+    return await axios.post(`/structure/${id}`, structure)
+  },
+  async getStructure(id) {
+    const { data } = await axios.get(`/structure/${id}`)
+    return data
+  },
+  async addOrUpdateStructure(id, structure) {
+    return id
+      ? await axios.post(`/structure/${id}`, structure)
+      : await axios.post('/structure', structure)
+  },
+  async deleteStructure(id) {
+    return await axios.delete(`/structure/${id}`)
+  },
+  async destroyStructure(id) {
+    return await axios.delete(`/structure/${id}/destroy`)
+  },
+  async getStructureMembers(id) {
+    return await axios.get(`/structure/${id}/members`)
+  },
+  async inviteStructureMember(id, member) {
+    return await axios.post(`/structure/${id}/members`, member)
+  },
+  async deleteMember(structureId, memberId) {
+    return await axios.delete(`/structure/${structureId}/members/${memberId}`)
+  },
+  async getStructureInvitations(id) {
+    return await axios.get(`/structure/${id}/invitations`)
+  },
 })
 
 /*
 
-export function addStructure(structure) {
-  return request.post('/api/structure', structure)
-}
-export function updateStructure(id, structure) {
-  return request.post(`/api/structure/${id}`, structure)
-}
-
-export function updateStructureLogo(id, logo) {
+async updateStructureLogo(id, logo) {
   var data = new FormData()
   data.append('logo', logo)
-  return request.post(`/api/structure/${id}`, data, {
+  return await axios.post(`/structure/${id}`, data, {
     'Content-Type': 'multipart/form-data',
   })
 }
 
-export function addOrUpdateStructure(id, structure) {
-  return id ? updateStructure(id, structure) : addStructure(structure)
-}
 
-export function getStructure(id) {
-  return request.get(`/api/structure/${id}`)
-}
-
-export function getStructureMembers(id) {
-  return request.get(`/api/structure/${id}/members`)
-}
-
-export function inviteStructureMember(id, member) {
-  return request.post(`/api/structure/${id}/members`, member)
-}
-
-export function fetchStructures(params) {
-  return request.get('/api/structures', { params })
-}
-
-export function exportStructures(params) {
-  return request.get('/api/structures/export', {
-    params,
-    responseType: 'blob',
-  })
-}
-
-export function deleteStructure(id) {
-  return request.delete(`/api/structure/${id}`)
-}
-
-export function destroyStructure(id) {
-  return request.delete(`/api/structure/${id}/destroy`)
-}
-
-export function deleteMember(structureId, memberId) {
-  return request.delete(`/api/structure/${structureId}/members/${memberId}`)
-}
 
 */

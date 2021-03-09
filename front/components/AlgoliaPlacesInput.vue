@@ -18,8 +18,6 @@
 </template>
 
 <script>
-const places = require('places.js')
-
 export default {
   props: {
     value: {
@@ -64,6 +62,8 @@ export default {
     }
   },
   mounted() {
+    const places = require('places.js')
+
     let fixedOptions = {
       appId: this.$config.algolia.placesAppId,
       apiKey: this.$config.algolia.placesApiKey,

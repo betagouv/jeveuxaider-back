@@ -116,6 +116,9 @@ export default () => {
     )
   )
   Vue.component('ElUpload', () =>
-    import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/upload')
+    import(/* webpackChunkName: 'element-upload' */ 'element-ui/lib/upload')
+  )
+  Vue.component('ElDivider', () =>
+    import(/* webpackChunkName: 'element-divider' */ 'element-ui/lib/divider')
   )
 }

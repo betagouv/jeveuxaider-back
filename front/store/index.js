@@ -34,6 +34,7 @@ export const getters = {
   user: (state) => state.auth.user,
   isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
   taxonomies: (state) => state.taxonomies,
+  reseaux: (state) => state.reseaux,
 }
 
 export const mutations = {
@@ -42,6 +43,9 @@ export const mutations = {
   },
   setTaxonomies: (state, taxonomies) => {
     state.taxonomies = taxonomies
+  },
+  setReseaux: (state, reseaux) => {
+    state.reseaux = reseaux
   },
   toggleSearchOverlay: (state) => {
     state.searchOverlay = !state.searchOverlay
@@ -63,6 +67,7 @@ export const actions = {
   async bootstrap({ commit }) {
     const { data } = await this.$axios.get('/bootstrap')
     commit('setTaxonomies', data.taxonomies)
+    commit('setReseaux', data.reseaux)
     commit('setAppIsLoaded', true)
   },
 }

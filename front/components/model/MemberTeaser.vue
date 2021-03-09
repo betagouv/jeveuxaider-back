@@ -4,13 +4,7 @@
       {{ member.short_name }}
     </el-avatar>
     <div class="flex flex-col ml-6" style="">
-      <router-link
-        :to="{
-          name: 'DashboardProfile',
-          params: { id: member.id },
-        }"
-        target="_blank"
-      >
+      <router-link :to="`/dashboard/profile/${member.id}`" target="_blank">
         <div class="text-sm text-gray-700">
           {{ member.full_name }}
         </div>

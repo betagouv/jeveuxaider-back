@@ -49,7 +49,7 @@
     </el-table-column>
     <el-table-column prop="subject" label="Objet" min-width="190">
       <template slot-scope="scope">
-        <router-link :to="linkSubject(scope.row)">
+        <nuxt-link :to="linkSubject(scope.row)">
           <span v-if="scope.row.data.subject_title" class="text-sm">
             {{ scope.row.data.subject_title }} #{{ scope.row.subject_id }}</span
           >
@@ -58,7 +58,7 @@
               scope.row.subject_id
             }}</span
           >
-        </router-link>
+        </nuxt-link>
       </template>
     </el-table-column>
     <el-table-column prop="change" label="Activité" width="350">
@@ -69,9 +69,9 @@
             Supprimé par
           </span>
           <span v-else-if="scope.row.description == 'created'">Crée par</span>
-          <router-link :to="linkCauser(scope.row)">
+          <nuxt-link :to="linkCauser(scope.row)">
             {{ scope.row.data.full_name }}
-          </router-link>
+          </nuxt-link>
           <el-tag type="info" size="mini" class="uppercase text-xxs">
             {{ scope.row.data.context_role }}
           </el-tag>
