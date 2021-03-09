@@ -53,10 +53,7 @@
           :key="invitation.id"
           class="py-4 px-6 bg-gray-50 rounded"
         >
-          <ModelInvitationTeaser
-            :invitation="invitation"
-            @updated="fetchInvitations"
-          />
+          <ModelInvitationTeaser :invitation="invitation" @updated="$fetch()" />
         </div>
       </div>
     </div>
@@ -81,29 +78,11 @@ export default {
   async fetch() {
     const members = await this.$api.getStructureMembers(this.$route.params.id)
     this.members = members.data
-
     const invitations = await this.$api.getStructureInvitations(
       this.$route.params.id
     )
-    console.log('structure id', this.$route.params.id)
-    console.log('invitations', invitations.data)
     this.invitations = invitations.data
   },
-  // created() {
-  //   this.$store.commit('setLoading', true)
-  //   this.$api
-  //     .getStructure(this.structure.id)
-  //     .then((response) => {
-  //       this.$store.commit('setLoading', false)
-  //       this.structure = response.data
-  //     })
-  //     .catch((error) => {
-  //       this.$store.commit('setLoading', false)
-  //       this.errors = error.response.data.errors
-  //     })
-  //   this.fetchMembers()
-  //   this.fetchInvitations()
-  // },
   methods: {
     deleteConfirm(member) {
       this.$confirm(

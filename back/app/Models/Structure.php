@@ -213,6 +213,11 @@ class Structure extends Model
         return $this->belongsToMany('App\Models\Profile', 'members')->withPivot('role');
     }
 
+    public function invitations()
+    {
+        return $this->morphMany('App\Models\Invitation', 'invitable');
+    }
+
     public function responsables()
     {
         return $this->belongsToMany('App\Models\Profile', 'members')->wherePivot('role', 'responsable');
@@ -251,7 +256,17 @@ class Structure extends Model
     public function deleteMember(Profile $profile)
     {
         $this->members()->detach($profile);
+        $this->resetResponsable($profile);
+
         return $this->load('members');
+    }
+
+    public function resetResponsable(Profile $profile)
+    {
+        $newResponsableProfileId = $this->members->where('id', '!=', $profile->id)->pluck('id')->first();
+        if ($newResponsableProfileId) {
+            Mission::where('responsable_id', $profile->id)->update(['responsable_id' => $newResponsableProfileId]);
+        }
     }
 
     public function addMission($values)

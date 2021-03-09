@@ -42,7 +42,7 @@ class RegisterUserVolontaire extends Notification
         return (new MailMessage)
             ->subject('Votre compte a été validé')
             ->greeting('Félicitations ' . $notifiable->profile->full_name . ' !')
-            ->line('Vous vous êtes inscrit sur la plateforme de JeVeuxAider.')
+            ->line('Vous vous êtes inscrit sur la plateforme de JeVeuxAider.gouv.fr.')
             ->line('Vous pouvez désormais participer à des missions de bénévolat.')
             ->action('Trouver une mission', url(config('app.url').'/missions'));
     }

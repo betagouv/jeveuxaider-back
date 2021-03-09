@@ -5,7 +5,9 @@ import Vue2Filters from 'vue2-filters'
 import VClamp from 'vue-clamp'
 import PortalVue from 'portal-vue'
 import VTooltip from 'v-tooltip'
+import vClickOutside from 'v-click-outside'
 
+Vue.use(vClickOutside)
 Vue.use(VueTypedJs)
 Vue.use(VScrollLock)
 Vue.use(Vue2Filters)

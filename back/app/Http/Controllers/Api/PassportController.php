@@ -14,11 +14,11 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\RegisterUserVolontaire;
 use App\Http\Requests\RegisterVolontaireRequest;
-use App\Http\Requests\RegisterResponsableRequest;
 use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Models\Activity;
 use App\Models\SocialAccount;
 use App\Models\Structure;
+use App\Notifications\RegisterUserResponsable;
 use Illuminate\Support\Facades\Auth;
 
 class PassportController extends Controller
@@ -66,7 +66,7 @@ class PassportController extends Controller
         );
 
         // UPDATE LOG
-        $activity = Activity::where('subject_type', 'App\Models\Structure')
+        Activity::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
             ->where('description', 'created')
             ->update([
@@ -80,22 +80,8 @@ class PassportController extends Controller
                 ]
             ]);
 
-        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
-    }
-
-    public function registerInvitation(RegisterResponsableRequest $request)
-    {
-        $user = User::create([
-            'name' => request("email"),
-            'email' => request("email"),
-            'password' => Hash::make(request("password"))
-        ]);
-
-        $profile = Profile::firstOrCreate(
-            ['email' => request('email')],
-            $request->validated()
-        );
-        $user->profile()->save($profile);
+        $notification = new RegisterUserResponsable($structure);
+        $user->notify($notification);
 
         return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }

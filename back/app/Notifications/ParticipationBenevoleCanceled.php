@@ -5,27 +5,29 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Mission;
+use App\Models\Participation;
 
-class MissionWaitingValidation extends Notification
+class ParticipationBenevoleCanceled extends Notification
 {
     use Queueable;
 
     /**
      * The order instance.
      *
-     * @var Mission
+     * @var Participation
      */
-    public $mission;
+    public $participation;
+    public $reason;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct(Participation $participation, $reason)
     {
-        $this->mission = $mission;
+        $this->participation = $participation;
+        $this->reason = $reason;
     }
 
     /**
@@ -47,13 +49,18 @@ class MissionWaitingValidation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Votre mission a bien été déposée')
+        $message = (new MailMessage)
+            ->subject('Une participation a été annulée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Vous avez proposé une mission : ' . $this->mission->name .'.')
-            ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur JeVeuxAider.gouv.fr.')
-            ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->line($this->participation->profile->full_name .' a annulée sa participation à la mission ' . $this->participation->mission->name. '.');
+
+        if ($this->reason && $this->reason != 'other') {
+            $message->line('La raison est la suivante: '. config('taxonomies.participation_canceled_by_benevole_reasons.terms')[$this->reason]);
+        }
+
+        $message->action('Accéder à ma messagerie', url(config('app.url').'/messages'));
+
+        return $message;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\Utils;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
 
@@ -33,6 +34,19 @@ class ProfileObserver
         }
         if ($profile->user) {
             SendinblueSyncUser::dispatch($profile->user);
+        }
+    }
+
+    /**
+     * Listen to the Profile saving event.
+     *
+     * @param  \App\Models\Profile  $profile
+     * @return void
+     */
+    public function saving(Profile $profile)
+    {
+        if ($profile->zip) {
+            $profile->department = Utils::getDepartmentFromZip($profile->zip);
         }
     }
 

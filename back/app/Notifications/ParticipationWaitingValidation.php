@@ -51,7 +51,7 @@ class ParticipationWaitingValidation extends Notification
             ->subject('Vous avez une nouvelle demande de participation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la mission « ' . $this->participation->mission->name .' »')
-            ->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider et valider sa participation depuis votre espace de gestion.')
+            ->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider.gouv.fr et valider sa participation depuis votre espace de gestion.')
             ->action('Accéder à ma messagerie', url(config('app.url').'/messages'))
             ;
     }

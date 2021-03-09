@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Http\Requests\Api\ProfileUpdateRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Http\Requests\Api\ProfileCreateRequest;
-use App\Notifications\ProfileInvitationSent;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProfilesExport;
 use App\Exports\ProfilesReferentsDepartementsExport;
@@ -72,7 +70,7 @@ class ProfileController extends Controller
 
     public function participations(Request $request, Profile $profile)
     {
-        return QueryBuilder::for(Participation::with(['mission.responsable', 'mission.structure']))
+        return QueryBuilder::for(Participation::with(['mission.responsable', 'mission.structure', 'conversation']))
             ->where('profile_id', $profile->id)
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -157,20 +155,6 @@ class ProfileController extends Controller
     public function exportResponsables(Request $request)
     {
         return Excel::download(new ProfilesResponsablesExport(), 'responsables.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
-
-    public function store(ProfileCreateRequest $request)
-    {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
-
-        $user = $request->user();
-        $profile = Profile::create($request->validated());
-
-        $profile->notify(new ProfileInvitationSent($user, request('role')));
-
-        return $profile;
     }
 
     public function show(ProfileRequest $request, Profile $profile = null)
@@ -258,5 +242,16 @@ class ProfileController extends Controller
         if ($media = $profile->getFirstMedia('profiles')) {
             $media->delete();
         }
+    }
+
+    public function firstname(Request $request)
+    {
+        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
+
+        if (!$profile) {
+            return null;
+        }
+
+        return collect($profile)->only('first_name', 'email');
     }
 }

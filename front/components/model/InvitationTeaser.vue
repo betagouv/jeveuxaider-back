@@ -61,7 +61,7 @@ export default {
       this.$copyText(
         process.env.MIX_API_BASE_URL + '/invitation/' + this.invitation.token
       ).then(() => {
-        Message.sucess({
+        Message.success({
           message:
             "Le lien d'invitation a été copié dans votre presse papier (CTRL+V)",
         })
@@ -70,7 +70,7 @@ export default {
     onResendInvitationLink() {
       this.$api.resendInvitation(this.invitation.token).then(() => {
         this.$emit('updated')
-        Message.sucess({
+        Message.success({
           message: `Un email a été renvoyé à ${this.invitation.email}`,
         })
       })
@@ -89,7 +89,7 @@ export default {
       ).then(() => {
         this.$api.deleteInvitation(this.invitation.token).then(() => {
           this.$emit('updated')
-          Message.sucess({
+          Message.success({
             message: `L'invitation pour ${this.invitation.email} a été supprimée.`,
           })
         })

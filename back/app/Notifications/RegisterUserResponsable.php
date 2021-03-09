@@ -5,27 +5,21 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Mission;
 
-class MissionWaitingValidation extends Notification
+class RegisterUserResponsable extends Notification
 {
     use Queueable;
 
-    /**
-     * The order instance.
-     *
-     * @var Mission
-     */
-    public $mission;
+    public $structure;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Mission $mission)
+    public function __construct($structure)
     {
-        $this->mission = $mission;
+        $this->structure = $structure;
     }
 
     /**
@@ -48,12 +42,12 @@ class MissionWaitingValidation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Votre mission a bien été déposée')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Vous avez proposé une mission : ' . $this->mission->name .'.')
-            ->line('Cette mission, avant d’être proposée à un ou plusieurs bénévoles, doit être validée par le service en charge des missions proposées sur JeVeuxAider.gouv.fr.')
-            ->line('Nous vous informerons sous peu de la validation de la mission que vous avez proposée.')
-            ->action('Accéder à mon compte', url(config('app.url')));
+            ->subject('Votre organisation est en cours de validation')
+            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
+            ->line('Vous vous êtes inscrit sur la plateforme de dépôt de missions de la Réserve Civique.')
+            ->line('Votre organisation « ' . $this->structure->name . ' » est en cours de validation.')
+            ->line('Vous pouvez désormais proposer des missions de bénévolat qui seront visibles sur la plateforme une fois votre organisation validée.')
+            ->action('Créer une mission', url(config('app.url') . '/dashboard/structure/' . $this->structure->id . '/missions/add'));
     }
 
     /**

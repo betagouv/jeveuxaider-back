@@ -51,7 +51,7 @@ class ParticipationFinished extends Notification
             ->subject('Votre mission est terminée !')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Félicitations, vous avez réalisé une mission auprès de « ' . $this->participation->mission->structure->name .' ».')
-            ->line('Nous vous invitons à poursuivre votre engagement sur jeveuxaider.gouv.fr')
+            ->line('Nous vous invitons à poursuivre votre engagement sur JeVeuxAider.gouv.fr')
             ->action('Toutes les missions', url(config('app.url').'/missions'));
     }
 

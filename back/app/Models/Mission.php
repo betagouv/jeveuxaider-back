@@ -56,7 +56,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count','participations_total'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count','participations_total', 'domaine_name'];
 
     protected static $logFillable = true;
 
@@ -95,7 +95,7 @@ class Mission extends Model
             ] : null,
             'type' => $this->type,
             'template_title' => $this->template ? $this->template->title : null,
-            'domaine_name' => $this->template ? $this->template->domaine->name : $this->domaine->name,
+            'domaine_name' => $this->domaine_name,
             'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
             'domaines' => $this->domaines->map(function ($domaine) {
                 return $domaine->name;
@@ -117,6 +117,11 @@ class Mission extends Model
         }
 
         return $mission;
+    }
+
+    public function getDomaineNameAttribute()
+    {
+        return $this->template ? $this->template->domaine->name : $this->domaine->name;
     }
 
     public function getDomainesAttribute()
