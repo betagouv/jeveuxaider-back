@@ -6,7 +6,35 @@ import vueFilterPrettyBytes from 'vue-filter-pretty-bytes'
 Vue.use(Vue2Filters)
 Vue.use(vueFilterPrettyBytes)
 
-export default function ({ store }) {
+export default function ({ store, $dayjs }) {
+  Vue.filter('fromNow', function (date) {
+    return $dayjs(date).fromNow()
+  })
+
+  Vue.filter('formatShort', function (date) {
+    return $dayjs(date).format('D/MM/YYYY')
+  })
+
+  Vue.filter('formatMedium', function (date) {
+    return $dayjs(date).format('D MMMM YYYY')
+  })
+
+  Vue.filter('formatMediumWithTime', function (date) {
+    return $dayjs(date).format('D MMMM YYYY à HH:mm')
+  })
+
+  Vue.filter('formatLong', function (date) {
+    return $dayjs(date).format('D MMMM YYYY')
+  })
+
+  Vue.filter('formatLongWithTime', function (date) {
+    return $dayjs(date).format('D MMMM YYYY - HH:mm')
+  })
+
+  Vue.filter('formatCustom', function (date, custom) {
+    return $dayjs(date).format(custom)
+  })
+
   Vue.filter('labelFromValue', function (key, taxonomy) {
     const element = store.getters.taxonomies[taxonomy].terms.find((el) => {
       return el.value == key

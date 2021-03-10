@@ -7,6 +7,8 @@ import PortalVue from 'portal-vue'
 import VTooltip from 'v-tooltip'
 import vClickOutside from 'v-click-outside'
 import VueClipboard from 'vue-clipboard2'
+import TextareaAutosize from 'vue-textarea-autosize'
+import Nl2br from 'vue-nl2br'
 
 Vue.use(VueClipboard)
 Vue.use(vClickOutside)
@@ -15,5 +17,8 @@ Vue.use(VScrollLock)
 Vue.use(Vue2Filters)
 Vue.use(PortalVue)
 Vue.use(VTooltip)
+Vue.use(vClickOutside)
+Vue.use(TextareaAutosize)
 
 Vue.component('VClamp', VClamp)
+Vue.component('Nl2br', Nl2br)
