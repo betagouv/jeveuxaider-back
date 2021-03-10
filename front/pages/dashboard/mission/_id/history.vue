@@ -2,30 +2,16 @@
   <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">Organisation</div>
-        <div class="flex flex-wrap mb-8">
+        <div class="text-m text-gray-600 uppercase">Mission</div>
+        <div class="flex flex-wrap mb-8 max-w-3xl">
           <div class="font-bold text-2xl text-gray-800 mr-2">
-            {{ structure.name }}
+            {{ mission.name }}
           </div>
-          <TagModelState v-if="structure.state" :state="structure.state" />
-          <el-tag
-            v-if="structure.is_reseau"
-            size="medium"
-            class="m-1 ml-0"
-            type="danger"
-          >
-            Tête de réseau
-          </el-tag>
-          <el-tag v-if="structure.reseau_id" class="m-1 ml-0" size="medium">
-            {{ structure.reseau_id | reseauFromValue }}
-          </el-tag>
+          <TagModelState :state="mission.state" />
         </div>
       </div>
       <div>
-        <DropdownStructureButton
-          v-if="$store.getters.contextRole == 'admin'"
-          :structure="structure"
-        />
+        <DropdownMissionButton :mission="mission" />
       </div>
     </div>
     <el-menu
@@ -34,16 +20,19 @@
       class="mb-8"
       @select="$router.push($event)"
     >
-      <el-menu-item :index="`/dashboard/structure/${structure.id}`">
+      <el-menu-item :index="`/dashboard/mission/${mission.id}`">
         Informations
       </el-menu-item>
-      <el-menu-item :index="`/dashboard/structure/${structure.id}/missions`">
-        Missions
-        <span class="text-xs text-gray-600"
-          >({{ structure.missions_count }})</span
-        >
+      <el-menu-item
+        v-if="mission"
+        :index="`/dashboard/mission/${mission.id}/participations`"
+      >
+        Participations
+        <span class="text-xs text-gray-600">
+          ({{ mission.participations_total }})
+        </span>
       </el-menu-item>
-      <el-menu-item :index="`/dashboard/structure/${structure.id}/history`">
+      <el-menu-item :index="`/dashboard/mission/${mission.id}/history`">
         Historique
       </el-menu-item>
     </el-menu>
@@ -71,16 +60,18 @@ export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
   async asyncData({ $api, params }) {
-    const structure = await $api.getStructure(params.id)
+    const mission = await $api.getMission(params.id)
+    const structure = await $api.getStructure(mission.structure.id)
     return {
       structure,
+      mission,
     }
   },
   async fetch() {
     this.query = this.$route.query
     const { data } = await this.$api.fetchActivities({
       'filter[subject_id]': this.$route.params.id,
-      'filter[subject_type]': 'Structure',
+      'filter[subject_type]': 'Mission',
     })
     this.tableData = data.data
     this.totalRows = data.total

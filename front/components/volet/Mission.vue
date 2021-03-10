@@ -140,7 +140,7 @@ export default {
               message: `La mission ${this.row.name} a été supprimée.`,
             })
             this.$emit('deleted', this.row)
-            this.$store.commit('volet/setRow', null)
+            // this.$store.commit('volet/setRow', null)
             this.$store.commit('volet/hide')
           })
         })
