@@ -34,23 +34,13 @@ export default (axios) => ({
   //   return await axios.delete(`/participation/${id}`)
   // }
 })
+
 /*
 
 import request from '../utils/request'
 
-
-
 async massValidationParticipation() {
   return await axios.post(`/participations/mass-validation`)
-}
-
-async addParticipation(mission_id, profile_id, content) {
-  return await axios.post(`/participation`, {
-    mission_id,
-    profile_id,
-    state: 'En attente de validation',
-    content,
-  })
 }
 
 */

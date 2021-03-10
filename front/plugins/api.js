@@ -2,6 +2,7 @@ import apiApp from '@/api/app'
 import apiMission from '@/api/mission'
 import apiStructure from '@/api/structure'
 import apiParticipation from '@/api/participation'
+import apiConversation from '@/api/conversation'
 import apiUser from '@/api/user'
 
 export default ({ $axios }, inject) => {
@@ -14,6 +15,7 @@ export default ({ $axios }, inject) => {
     ...apiMission($axios),
     ...apiStructure($axios),
     ...apiParticipation($axios),
+    ...apiConversation($axios),
     ...apiUser($axios),
   }
 
