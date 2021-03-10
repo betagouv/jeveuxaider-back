@@ -20,6 +20,16 @@ export default (axios) => ({
   async cancelParticipation(id) {
     return await axios.post(`/participation/${id}/cancel`)
   },
+  async exportParticipations(params) {
+    return await axios.get(`/participations/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
+  async getParticipation(id) {
+    const { data } = await axios.get(`/participation/${id}`)
+    return data
+  },
   // async deleteParticipation(id) {
   //   return await axios.delete(`/participation/${id}`)
   // }
@@ -28,18 +38,7 @@ export default (axios) => ({
 
 import request from '../utils/request'
 
-async getParticipation(id) {
-  return await axios.get(`/participation/${id}`)
-}
 
-
-
-async exportParticipations(params) {
-  return await axios.get(`/participations/export`, {
-    responseType: 'blob',
-    params,
-  })
-}
 
 async massValidationParticipation() {
   return await axios.post(`/participations/mass-validation`)
@@ -53,8 +52,5 @@ async addParticipation(mission_id, profile_id, content) {
     content,
   })
 }
-
-
-
 
 */
