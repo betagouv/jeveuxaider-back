@@ -2,11 +2,18 @@ import Vue from 'vue'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 import './element-ui.scss'
-import { Loading, Message } from 'element-ui'
+import { Loading, Message, MessageBox } from 'element-ui'
 Vue.use(Loading.directive)
 
 locale.use(lang)
 Vue.prototype.$message = Message
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+
+// Vue.prototype.$loading = Loading.service
+// Vue.prototype.$notify = Notification
 
 export default () => {
   Vue.component('ElDropdown', () =>
@@ -126,5 +133,8 @@ export default () => {
     import(
       /* webpackChunkName: 'element-radio-group' */ 'element-ui/lib/radio-group'
     )
+  )
+  Vue.component('ElSwitch', () =>
+    import(/* webpackChunkName: 'element-switch' */ 'element-ui/lib/switch')
   )
 }

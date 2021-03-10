@@ -7,6 +7,15 @@ export default (axios) => ({
     const { data } = await axios.post(`/profile/${id}`, profile)
     return data
   },
+
+  async updatePassword(user) {
+    return await axios.post('/user/password', user)
+  },
+
+  async anonymizeUser() {
+    return await axios.post('/user/anonymize')
+  },
+
   async fetchInvitations(params) {
     return await axios.get(`/invitations`, {
       params,
@@ -114,14 +123,6 @@ export default (axios) => ({
 
 // async updateUser(user) {
 //   return axios.post('/user', user)
-// }
-
-// async updatePassword(user) {
-//   return axios.post('/user/password', user)
-// }
-
-// async anonymizeUser() {
-//   return axios.post('/user/anonymize')
 // }
 
 // async fetchProfiles(params, appends) {
