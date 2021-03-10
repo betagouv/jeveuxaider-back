@@ -122,4 +122,9 @@ export default () => {
   Vue.component('ElDivider', () =>
     import(/* webpackChunkName: 'element-divider' */ 'element-ui/lib/divider')
   )
+  Vue.component('ElRadioGroup', () =>
+    import(
+      /* webpackChunkName: 'element-radio-group' */ 'element-ui/lib/radio-group'
+    )
+  )
 }

@@ -1,6 +1,6 @@
 export default (axios) => ({
   async addParticipation(missionId, profileId, content) {
-    const { data } = await axios.post(`/api/participation`, {
+    const { data } = await axios.post(`/participation`, {
       missionId,
       profileId,
       state: 'En attente de validation',
@@ -8,32 +8,45 @@ export default (axios) => ({
     })
     return data
   },
+  async fetchParticipations(params) {
+    return await axios.get('/participations', { params })
+  },
+  async updateParticipation(id, participation) {
+    return await axios.post(`/participation/${id}`, participation)
+  },
+  async declineParticipation(id, participation) {
+    return await axios.post(`/participation/${id}/decline`, participation)
+  },
+  async cancelParticipation(id) {
+    return await axios.post(`/participation/${id}/cancel`)
+  },
+  // async deleteParticipation(id) {
+  //   return await axios.delete(`/participation/${id}`)
+  // }
 })
 /*
 
 import request from '../utils/request'
 
-export function getParticipation(id) {
-  return request.get(`/api/participation/${id}`)
+async getParticipation(id) {
+  return await axios.get(`/participation/${id}`)
 }
 
-export function fetchParticipations(params) {
-  return request.get('/api/participations', { params })
-}
 
-export function exportParticipations(params) {
-  return request.get(`/api/participations/export`, {
+
+async exportParticipations(params) {
+  return await axios.get(`/participations/export`, {
     responseType: 'blob',
     params,
   })
 }
 
-export function massValidationParticipation() {
-  return request.post(`/api/participations/mass-validation`)
+async massValidationParticipation() {
+  return await axios.post(`/participations/mass-validation`)
 }
 
-export function addParticipation(mission_id, profile_id, content) {
-  return request.post(`/api/participation`, {
+async addParticipation(mission_id, profile_id, content) {
+  return await axios.post(`/participation`, {
     mission_id,
     profile_id,
     state: 'En attente de validation',
@@ -41,25 +54,7 @@ export function addParticipation(mission_id, profile_id, content) {
   })
 }
 
-export function updateParticipation(id, participation) {
-  return request.post(`/api/participation/${id}`, participation)
-}
 
-export function declineParticipation(id, participation) {
-  return request.post(`/api/participation/${id}/decline`, participation)
-}
-
-export function cancelParticipation(id) {
-  return request.post(`/api/participation/${id}/cancel`)
-}
-
-export function deleteParticipation(id) {
-  return request.delete(`/api/participation/${id}`)
-}
-
-export function destroyParticipation(id) {
-  return request.delete(`/api/participation/${id}/destroy`)
-}
 
 
 */
