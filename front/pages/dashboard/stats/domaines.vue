@@ -119,7 +119,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 import fileDownload from 'js-file-download'
 import TableWithFilters from '@/mixins/table-with-filters'
 
@@ -150,9 +149,8 @@ export default {
         })
         .catch((error) => {
           this.loadingExport = false
-          Message({
+          this.$message.error({
             message: error.response.data.message,
-            type: 'error',
           })
         })
     },

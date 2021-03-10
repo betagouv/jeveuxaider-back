@@ -189,7 +189,6 @@
 
 <script>
 import FormWithAddress from '@/mixins/FormWithAddress'
-import { Message, MessageBox } from 'element-ui'
 
 export default {
   mixins: [FormWithAddress],
@@ -266,7 +265,7 @@ export default {
       })
     },
     onSubmitDelete() {
-      MessageBox.confirm(
+      this.$confirm(
         'Souhaitez-vous réellement supprimer votre organisation de JeVeuxAider.gouv.fr ?',
         'Supprimer mon organisation',
         {
@@ -279,7 +278,7 @@ export default {
       ).then(() => {
         this.form.state = 'Désinscrite'
         this.$api.updateStructure(this.form.id, this.form).then(() => {
-          Message.success({
+          this.$message.success({
             message: `Votre organisation ${this.form.name} a bien été supprimée.`,
           })
           this.$router.push('/')

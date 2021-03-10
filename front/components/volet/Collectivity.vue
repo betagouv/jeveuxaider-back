@@ -66,8 +66,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
-
 export default {
   computed: {
     row() {
@@ -76,7 +74,7 @@ export default {
   },
   methods: {
     onClickDelete() {
-      MessageBox.confirm(
+      this.$confirm(
         `Êtes vous sur de vouloir supprimer cette collectivité ?`,
         'Supprimer cette collectivité',
         {
@@ -88,7 +86,7 @@ export default {
         }
       ).then(() => {
         this.$api.deleteCollectivity(this.row.id).then(() => {
-          Message.success({
+          this.$message.success({
             message: `La collectivité a été supprimée.`,
           })
           this.$emit('deleted', this.row)

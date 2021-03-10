@@ -210,7 +210,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 export default {
   layout: 'dashboard',
   data() {
@@ -291,7 +290,7 @@ export default {
             .then(() => {
               this.loading = false
               this.$router.push(`/dashboard/profiles/invitations`)
-              Message.success({
+              this.$message.success({
                 message: `Une notification email a été envoyée à ${this.form.email}.`,
                 type: 'success',
               })

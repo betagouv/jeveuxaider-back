@@ -239,7 +239,6 @@
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
 // import fileDownload from 'js-file-download'
-// import { Message } from 'element-ui'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
@@ -321,7 +320,7 @@ export default {
     //     .then(() => {
     //       this.loading = false
     //       // fileDownload(response.data, 'utilisateurs.csv')
-    //       Message.success({
+    //       this.$message.success({
     //         message:
     //           "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
     //         type: 'success',

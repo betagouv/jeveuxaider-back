@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 export default {
   props: {
     isVisible: {
@@ -87,7 +86,7 @@ export default {
             .declineParticipation(this.participation.id, this.form)
             .then(() => {
               this.loading = false
-              Message.success({
+              this.$message.success({
                 message: 'La participation a été déclinée',
               })
               this.$emit('updated')

@@ -137,7 +137,6 @@
 <script>
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
-import { Message, MessageBox } from 'element-ui'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
@@ -191,7 +190,7 @@ export default {
       })
     },
     onDeleteInvitation(invitation) {
-      MessageBox.confirm(
+      this.$confirm(
         `L'invitation pour ${invitation.email} sera supprimée de la plateforme. Voulez-vous continuer ?`,
         "Supprimer l'invitation",
         {
@@ -204,7 +203,7 @@ export default {
       ).then(() => {
         this.$api.deleteInvitation(invitation.token).then(() => {
           this.$fetch()
-          Message.success({
+          this.$message.success({
             message: `L'invitation pour ${invitation.email} a été supprimée.`,
           })
         })

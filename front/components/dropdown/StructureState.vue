@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
 export default {
   props: {
     structure: {
@@ -91,7 +90,7 @@ export default {
         this.message = `Vous êtes sur le point de signaler une organisation qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. L'organisation est en lien avec ${this.form.missions_count} mission(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées et une notification d'annulation sera envoyée aux bénévoles initialement inscrits.`
       }
 
-      MessageBox.confirm(this.message, 'Changement de statut', {
+      this.$confirm(this.message, 'Changement de statut', {
         confirmButtonText: 'Je confirme',
         cancelButtonText: 'Annuler',
         dangerouslyUseHTMLString: true,
@@ -102,7 +101,7 @@ export default {
           this.$api
             .updateStructure(this.form.id, this.form)
             .then((response) => {
-              Message.success({
+              this.$message.success({
                 message: "Le statut de l'organisation a été mis à jour",
               })
               this.$emit('updated', response.data)

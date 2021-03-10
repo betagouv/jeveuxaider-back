@@ -44,8 +44,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
-
 export default {
   props: {
     invitation: {
@@ -61,7 +59,7 @@ export default {
       this.$copyText(
         this.$config.appUrl + '/invitation/' + this.invitation.token
       ).then(() => {
-        Message.success({
+        this.$message.success({
           message:
             "Le lien d'invitation a été copié dans votre presse papier (CTRL+V)",
         })
@@ -70,13 +68,13 @@ export default {
     onResendInvitationLink() {
       this.$api.resendInvitation(this.invitation.token).then(() => {
         this.$emit('updated')
-        Message.success({
+        this.$message.success({
           message: `Un email a été renvoyé à ${this.invitation.email}`,
         })
       })
     },
     onDeleteInvitation() {
-      MessageBox.confirm(
+      this.$confirm(
         `L'invitation pour ${this.invitation.email} sera supprimée de la plateforme. Voulez-vous continuer ?`,
         "Supprimer l'invitation",
         {
@@ -89,7 +87,7 @@ export default {
       ).then(() => {
         this.$api.deleteInvitation(this.invitation.token).then(() => {
           this.$emit('updated')
-          Message.success({
+          this.$message.success({
             message: `L'invitation pour ${this.invitation.email} a été supprimée.`,
           })
         })

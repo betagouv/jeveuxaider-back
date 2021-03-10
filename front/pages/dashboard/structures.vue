@@ -188,7 +188,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
 
@@ -228,13 +227,13 @@ export default {
         .then(() => {
           this.loadingExport = false
           // fileDownload(response.data, 'organisation.xlsx')
-          Message.success({
+          this.$message.success({
             message:
               "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
           })
         })
         .catch((error) => {
-          Message.error({
+          this.$message.error({
             message: error.response.data.message,
           })
         })

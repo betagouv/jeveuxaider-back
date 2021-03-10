@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
 export default {
   data() {
     return {
@@ -113,7 +112,7 @@ export default {
     },
     onClickDelete() {
       if (this.row.participations_total > 0) {
-        MessageBox.alert(
+        this.$alert(
           'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
           'Supprimer la mission',
           {
@@ -123,7 +122,7 @@ export default {
           }
         )
       } else {
-        MessageBox.confirm(
+        this.$confirm(
           `La mission ${this.row.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
           'Supprimer la mission',
           {
@@ -148,8 +147,7 @@ export default {
     },
     onAskValidationSubmit() {
       if (this.form.structure.state != 'Validée') {
-        this.$message({
-          type: 'error',
+        this.$message.error({
           message:
             'Votre structure doit être validée avant de pouvoir publier une mission',
         })
@@ -167,7 +165,7 @@ export default {
         this.form.structure.state != 'Validée' &&
         this.form.state == 'Validée'
       ) {
-        Message.error({
+        this.$message.error({
           message:
             "Vous devez valider l'organisation au préalable. Les missions en attente de validation seront ensuite automatiquement validées",
         })
@@ -186,7 +184,7 @@ export default {
           message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} bénévole(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées.`
         }
 
-        MessageBox.confirm(message, 'Confirmation', {
+        this.$confirm(message, 'Confirmation', {
           confirmButtonText: 'Je confirme',
           cancelButtonText: 'Annuler',
           type: 'warning',
@@ -200,7 +198,7 @@ export default {
               .then(({ data }) => {
                 this.loading = false
                 this.$store.commit('volet/setRow', { ...this.row, ...data })
-                Message.success({
+                this.$message.success({
                   message: 'La mission a été mise à jour',
                 })
                 this.$emit('updated', { ...this.form, ...data })

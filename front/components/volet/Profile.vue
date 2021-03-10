@@ -93,8 +93,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
-
 export default {
   props: {
     hidePersonalFields: {
@@ -124,23 +122,19 @@ export default {
   },
   methods: {
     onSubmit() {
-      MessageBox.confirm(
-        'Êtes vous sur de vos changements ?<br>',
-        'Confirmation',
-        {
-          confirmButtonText: 'Je confirme',
-          cancelButtonText: 'Annuler',
-          dangerouslyUseHTMLString: true,
-          center: true,
-          type: 'warning',
-        }
-      ).then(() => {
+      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
+        confirmButtonText: 'Je confirme',
+        cancelButtonText: 'Annuler',
+        dangerouslyUseHTMLString: true,
+        center: true,
+        type: 'warning',
+      }).then(() => {
         this.loading = true
         this.$api
           .updateProfile(this.form.id, this.form)
           .then((response) => {
             this.loading = false
-            Message.success({
+            this.$message.success({
               message: 'Le profil a été mis à jour',
             })
             console.log('updateProfile', response)

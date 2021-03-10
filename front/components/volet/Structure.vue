@@ -96,7 +96,6 @@
 </template>
 
 <script>
-import { MessageBox, Message } from 'element-ui'
 export default {
   data() {
     return {
@@ -129,7 +128,7 @@ export default {
   methods: {
     onClickDelete() {
       if (this.row.missions_count > 0) {
-        MessageBox.alert(
+        this.$alert(
           'Il est impossible de supprimer une organisation qui contient des missions.',
           "Supprimer l'organisation",
           {
@@ -138,7 +137,7 @@ export default {
           }
         )
       } else {
-        MessageBox.confirm(
+        this.$confirm(
           `L'organisation ${this.row.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
           "Supprimer l'organisation",
           {
@@ -151,7 +150,7 @@ export default {
           }
         ).then(() => {
           this.$api.deleteStructure(this.row.id).then(() => {
-            Message.success({
+            this.$message.success({
               message: `L'organisation ${this.row.name} a été supprimée.`,
             })
             this.$emit('deleted', this.row)
@@ -162,23 +161,19 @@ export default {
       }
     },
     onSubmit() {
-      MessageBox.confirm(
-        'Êtes vous sur de vos changements ?<br>',
-        'Confirmation',
-        {
-          confirmButtonText: 'Je confirme',
-          cancelButtonText: 'Annuler',
-          dangerouslyUseHTMLString: true,
-          center: true,
-          type: 'warning',
-        }
-      ).then(() => {
+      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
+        confirmButtonText: 'Je confirme',
+        cancelButtonText: 'Annuler',
+        dangerouslyUseHTMLString: true,
+        center: true,
+        type: 'warning',
+      }).then(() => {
         this.loading = true
         this.$api
           .updateStructure(this.form.id, this.form)
           .then((response) => {
             this.loading = false
-            Message.success({
+            this.$message.success({
               message: "L'organisation a été mise à jour",
             })
             this.$emit('updated', response.data)

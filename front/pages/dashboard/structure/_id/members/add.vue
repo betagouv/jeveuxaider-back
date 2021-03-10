@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
-
 export default {
   layout: 'dashboard',
   async asyncData({ $api, params }) {
@@ -79,7 +77,7 @@ export default {
               this.$router.push(
                 `/dashboard/structure/${this.structure.id}/members`
               )
-              Message.success({
+              this.$message.success({
                 message: `Une notification email a été envoyée à ${this.form.email}.`,
               })
             })

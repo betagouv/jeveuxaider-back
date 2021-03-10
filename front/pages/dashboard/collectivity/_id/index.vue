@@ -79,8 +79,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
-
 export default {
   layout: 'dashboard',
   async asyncData({ $api, params }) {
@@ -98,7 +96,7 @@ export default {
       }
     },
     handleClickDelete() {
-      MessageBox.confirm(
+      this.$confirm(
         `Êtes vous sur de vouloir supprimer cette collectivité ?`,
         'Supprimer cette collectivité',
         {
@@ -110,7 +108,7 @@ export default {
         }
       ).then(() => {
         this.$api.deleteCollectivity(this.collectivity.id).then(() => {
-          Message.success({
+          this.$message.success({
             message: `La collectivité a été supprimée.`,
           })
           this.$router.push('/dashboard/collectivities')

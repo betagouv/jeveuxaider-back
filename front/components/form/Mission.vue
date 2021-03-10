@@ -435,7 +435,6 @@
 
 <script>
 import FormWithAddress from '@/mixins/FormWithAddress'
-import { Message, MessageBox } from 'element-ui'
 
 export default {
   mixins: [FormWithAddress],
@@ -590,7 +589,7 @@ export default {
               .then(() => {
                 this.loading = false
                 this.$router.go(-1)
-                Message.success({
+                this.$message.success({
                   message: 'La mission a été mise à jour !',
                 })
               })
@@ -603,7 +602,7 @@ export default {
               .then(() => {
                 this.loading = false
                 this.$router.push(`/dashboard/missions`)
-                Message.success({
+                this.$message.success({
                   message: 'La mission a été ajoutée !',
                 })
               })
@@ -618,7 +617,7 @@ export default {
     },
     handleTypeChanged() {
       if (this.form.type == 'Mission en présentiel') {
-        MessageBox.confirm(
+        this.$confirm(
           'Veillez à respecter les règles de sécurité pour les missions en présentiel.<br>',
           'Confirmation',
           {

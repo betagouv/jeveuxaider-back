@@ -198,7 +198,6 @@
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
 import fileDownload from 'js-file-download'
-import { Message } from 'element-ui'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
@@ -252,7 +251,7 @@ export default {
         })
         .catch((error) => {
           this.loadingExport = false
-          Message.error({
+          this.$message.error({
             message: error.response.data.message,
           })
         })

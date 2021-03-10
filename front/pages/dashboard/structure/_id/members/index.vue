@@ -116,28 +116,6 @@ export default {
         })
         .catch(() => {})
     },
-    // fetchMembers() {
-    //   this.$api
-    //     .getStructureMembers(this.structure.id)
-    //     .then((response) => {
-    //       this.$store.commit('setLoading', false)
-    //       this.members = response.data
-    //     })
-    //     .catch((error) => {
-    //       this.$store.commit('setLoading', false)
-    //       this.errors = error.response.data.errors
-    //     })
-    // },
-    // fetchInvitations() {
-    //   this.$api
-    //     .getStructureInvitations(this.structure.id)
-    //     .then((response) => {
-    //       this.invitations = response.data
-    //     })
-    //     .catch((error) => {
-    //       this.errors = error.response.data.errors
-    //     })
-    // },
   },
 }
 </script>

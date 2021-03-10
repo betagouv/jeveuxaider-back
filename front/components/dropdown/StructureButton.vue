@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { MessageBox, Message } from 'element-ui'
 export default {
   props: {
     structure: {
@@ -37,7 +36,7 @@ export default {
     },
     handleDeleteStructure() {
       if (this.structure.missions_count > 0) {
-        MessageBox.alert(
+        this.$alert(
           'Il est impossible de supprimer une organisation qui contient des missions.',
           "Supprimer l'organisation",
           {
@@ -47,7 +46,7 @@ export default {
           }
         )
       } else {
-        MessageBox.confirm(
+        this.$confirm(
           `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
           "Supprimer l'organisation",
           {
@@ -60,7 +59,7 @@ export default {
           }
         ).then(() => {
           this.$api.deleteStructure(this.structure.id).then(() => {
-            Message.success({
+            this.$message.success({
               message: `L'organisation ${this.structure.name} a été supprimée.`,
             })
             this.$router.push('/dashboard/structures')

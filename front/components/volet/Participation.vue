@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
-
 export default {
   data() {
     return {
@@ -73,7 +71,7 @@ export default {
   },
   methods: {
     onClickDelete() {
-      MessageBox.confirm(
+      this.$confirm(
         `La participation sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
         'Supprimer la participation',
         {
@@ -85,7 +83,7 @@ export default {
         }
       ).then(() => {
         this.$api.deleteParticipation(this.row.id).then(() => {
-          Message.success({
+          this.$message.success({
             message: `La participation ${this.row.name} a été supprimée.`,
           })
           this.$emit('deleted', this.row)
@@ -95,7 +93,7 @@ export default {
       })
     },
     onSubmit() {
-      MessageBox.confirm(
+      this.$confirm(
         'Êtes vous sur de vos changements ?<br><br> Une notification sera envoyée au réserviste<br><br>',
         'Confirmation',
         {
@@ -111,7 +109,7 @@ export default {
           .updateParticipation(this.form.id, this.form)
           .then((response) => {
             this.loading = false
-            Message.success({
+            this.$message.success({
               message: 'La participation a été mise à jour',
             })
             this.$emit('updated', { ...this.form, ...response.data })

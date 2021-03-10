@@ -181,8 +181,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
-
 export default {
   props: {
     collectivity: {
@@ -321,7 +319,7 @@ export default {
         // NO REDIRECT
       }
 
-      Message.success({
+      this.$message.success({
         message: 'La collectivité a été enregistrée !',
       })
     },

@@ -188,7 +188,6 @@
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
 import fileDownload from 'js-file-download'
-import { Message, MessageBox } from 'element-ui'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
@@ -259,7 +258,7 @@ export default {
         })
     },
     onMassValidation() {
-      MessageBox.confirm(
+      this.$confirm(
         'Vous êtes sur le point de valider toutes les participations actuellement en attente de validation.<br>Êtes-vous sûr de vouloir continuer ?',
         'Confirmation',
         {
@@ -275,7 +274,7 @@ export default {
           .massValidationParticipation()
           .then(() => {
             this.loadingButton = false
-            Message.success({
+            this.$message.success({
               message: 'Les participations ont été mises à jour',
             })
             fetch()

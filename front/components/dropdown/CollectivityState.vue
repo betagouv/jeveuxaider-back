@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
 export default {
   props: {
     collectivity: {
@@ -78,7 +77,7 @@ export default {
         this.message = `Vous êtes sur le point de refuser cette collectivité.`
       }
 
-      MessageBox.confirm(this.message, 'Changement de statut', {
+      this.$confirm(this.message, 'Changement de statut', {
         confirmButtonText: 'Je confirme',
         cancelButtonText: 'Annuler',
         dangerouslyUseHTMLString: true,
@@ -88,7 +87,7 @@ export default {
           this.$api
             .updateCollectivity(this.form.id, this.form)
             .then((response) => {
-              Message.success({
+              this.$message.success({
                 message: 'Le statut de la collectivité a été mis à jour',
               })
               this.$emit('updated', response.data)

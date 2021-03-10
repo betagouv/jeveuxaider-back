@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { Message, MessageBox } from 'element-ui'
 export default {
   name: 'ParticipationDropdownState',
   props: {
@@ -122,7 +121,7 @@ export default {
         this.message = `Vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le réserviste sera averti automatiquement.`
       }
 
-      MessageBox.confirm(this.message, 'Changement de statut', {
+      this.$confirm(this.message, 'Changement de statut', {
         confirmButtonText: 'Je confirme',
         cancelButtonText: 'Annuler',
         dangerouslyUseHTMLString: true,
@@ -132,7 +131,7 @@ export default {
           this.$api
             .updateParticipation(this.form.id, this.form)
             .then((response) => {
-              Message.success({
+              this.$message.success({
                 message: 'Le statut de la participation a été mis à jour',
               })
               this.$emit('updated', response.data)

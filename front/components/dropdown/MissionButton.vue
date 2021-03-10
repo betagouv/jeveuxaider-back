@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { MessageBox, Message } from 'element-ui'
 export default {
   props: {
     mission: {
@@ -48,7 +47,7 @@ export default {
             path: `/dashboard/mission/${response.data.id}/edit`,
           })
           .then(() => {
-            Message.success({
+            this.$message.success({
               message: 'La mission a été dupliquée !',
             })
           })
@@ -56,7 +55,7 @@ export default {
     },
     handleDelete() {
       if (this.mission.participations_total > 0) {
-        MessageBox.alert(
+        this.$alert(
           'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
           'Supprimer la mission',
           {
@@ -66,7 +65,7 @@ export default {
           }
         )
       } else {
-        MessageBox.confirm(
+        this.$confirm(
           `La mission ${this.mission.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
           'Supprimer la mission',
           {
@@ -78,7 +77,7 @@ export default {
           }
         ).then(() => {
           this.$api.deleteMission(this.mission.id).then(() => {
-            Message.success({
+            this.$message.success({
               message: `La mission ${this.mission.name} a été supprimée.`,
             })
             this.$router.push('/dashboard/missions')
