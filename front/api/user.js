@@ -62,6 +62,10 @@ export default (axios) => ({
       params,
     })
   },
+  async getProfile(id) {
+    const { data } = await axios.get(`/profile/${id}`)
+    return data
+  },
 })
 
 // import axios from 'axios'
@@ -113,10 +117,6 @@ export default (axios) => ({
 
 // export async function getUser() {
 //   return await axios.get('/user')
-// }
-
-// async getProfile(id) {
-//   return axios.get(`/profile/${id}`)
 // }
 
 // async addProfile(profile) {
