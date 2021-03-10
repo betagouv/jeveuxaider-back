@@ -851,8 +851,6 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-
 export default {
   name: 'Mission',
   async asyncData({ $api, params }) {
@@ -964,16 +962,19 @@ export default {
         return null
       }
 
-      if (dayjs(startDate).format('YYYY') != dayjs(endDate).format('YYYY')) {
-        return `Du <b class="text-white">${dayjs(startDate).format(
+      if (
+        this.$dayjs(startDate).format('YYYY') !=
+        this.$dayjs(endDate).format('YYYY')
+      ) {
+        return `Du <b class="text-white">${this.$dayjs(startDate).format(
           'D MMMM YYYY'
-        )}</b> au <b class="text-white">${dayjs(endDate).format(
+        )}</b> au <b class="text-white">${this.$dayjs(endDate).format(
           'D MMMM YYYY'
         )}</b>`
       } else {
-        return `Du <b class="text-white">${dayjs(startDate).format(
+        return `Du <b class="text-white">${this.$dayjs(startDate).format(
           'D MMMM'
-        )}</b> au <b class="text-white">${dayjs(endDate).format(
+        )}</b> au <b class="text-white">${this.$dayjs(endDate).format(
           'D MMMM YYYY'
         )}</b>`
       }

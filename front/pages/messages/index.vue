@@ -255,11 +255,12 @@
                     class="w-full outline-none leading-tight custom-scrollbar"
                     @keydown.enter.exact.prevent.native="onAddMessage"
                   />
-                  <font-awesome-icon
-                    icon="paper-plane"
-                    class="w-5 h-5 ml-2 cursor-pointer transition text-gray-300 hover:text-primary"
+                  <button
+                    class="px-3 py-1 ml-3 font-semibold text-sm rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
                     @click="onAddMessage"
-                  />
+                  >
+                    Envoyer
+                  </button>
                 </div>
               </div>
             </div>
@@ -273,11 +274,10 @@
                 <h1 class="text-lg leading-8 font-bold text-gray-900">
                   Détails
                 </h1>
-                <font-awesome-icon
-                  icon="times"
-                  class="w-6 h-6 p-1 flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black"
+                <i
+                  class="w-6 h-6 p-1 flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black el-icon-close"
                   @click="onPanelRightToggle"
-                />
+                ></i>
               </div>
             </div>
             <div class="panel--container">
@@ -319,6 +319,7 @@ import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
+  layout: 'messages',
   data() {
     return {
       showPanelLeft: true,

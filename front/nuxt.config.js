@@ -33,7 +33,6 @@ export default {
   plugins: [
     '@/plugins/element-ui.js',
     '@/plugins/axios',
-    '@/plugins/dayjs',
     '@/plugins/router',
     '@/plugins/vue-libs.client.js',
     '@/plugins/numeral.js',
@@ -58,7 +57,15 @@ export default {
     'cookie-universal-nuxt',
     'nuxt-lazy-load',
     'portal-vue/nuxt',
+    '@nuxtjs/dayjs',
   ],
+
+  dayjs: {
+    defaultLocale: 'fr',
+    plugins: [
+      'relativeTime', // import 'dayjs/plugin/utc'
+    ],
+  },
 
   optimizedImages: {
     optimizeImages: true,

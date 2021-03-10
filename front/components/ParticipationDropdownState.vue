@@ -30,7 +30,7 @@
       <div class="text-sm">{{ form.state }}</div>
     </template>
 
-    <participation-decline
+    <dialog-participation-decline
       :participation="participation"
       :is-visible="declineParticipationDialog"
       @close="declineParticipationDialog = false"
