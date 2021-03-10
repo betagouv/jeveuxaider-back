@@ -1,23 +1,12 @@
 <template>
   <el-dropdown split-button type="primary" @command="handleCommand">
-    <router-link
-      :to="{
-        name: 'DashboardMissionFormEdit',
-        params: { id: mission.id },
-      }"
-    >
+    <nuxt-link :to="`/dashboard/mission/${mission.id}/edit`">
       Modifier la mission
-    </router-link>
+    </nuxt-link>
     <el-dropdown-menu slot="dropdown">
-      <router-link
-        :to="{
-          name: 'Mission',
-          params: { id: mission.id, slug: mission.slug },
-        }"
-        target="_blank"
-      >
+      <nuxt-link :to="`/mission/${mission.id}/${mission.slug}`" target="_blank">
         <el-dropdown-item command=""> Visualiser la mission</el-dropdown-item>
-      </router-link>
+      </nuxt-link>
       <el-dropdown-item :command="{ action: 'clone' }"
         >Dupliquer la mission</el-dropdown-item
       >
@@ -44,14 +33,32 @@ export default {
   methods: {
     handleCommand(command) {
       if (command.action == 'delete') {
-        this.handleDeleteStructure()
+        this.handleDelete()
+      } else if (command.action == 'clone') {
+        this.hanldleClone()
+      } else {
+        this.$router.push(command)
       }
     },
-    handleDeleteStructure() {
-      if (this.structure.missions_count > 0) {
+    hanldleClone() {
+      this.loading = true
+      this.$api.cloneMission(this.mission.id).then((response) => {
+        this.$router
+          .push({
+            path: `/dashboard/mission/${response.data.id}/edit`,
+          })
+          .then(() => {
+            Message.success({
+              message: 'La mission a été dupliquée !',
+            })
+          })
+      })
+    },
+    handleDelete() {
+      if (this.mission.participations_total > 0) {
         MessageBox.alert(
-          'Il est impossible de supprimer une organisation qui contient des missions.',
-          "Supprimer l'organisation",
+          'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
+          'Supprimer la mission',
           {
             confirmButtonText: 'Retour',
             type: 'warning',
@@ -60,22 +67,21 @@ export default {
         )
       } else {
         MessageBox.confirm(
-          `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-          "Supprimer l'organisation",
+          `La mission ${this.mission.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
+          'Supprimer la mission',
           {
             confirmButtonText: 'Supprimer',
             confirmButtonClass: 'el-button--danger',
             cancelButtonText: 'Annuler',
             center: true,
-            dangerouslyUseHTMLString: true,
             type: 'error',
           }
         ).then(() => {
-          this.$api.deleteStructure(this.structure.id).then(() => {
+          this.$api.deleteMission(this.mission.id).then(() => {
             Message.success({
-              message: `L'organisation ${this.structure.name} a été supprimée.`,
+              message: `La mission ${this.mission.name} a été supprimée.`,
             })
-            this.$router.push('/dashboard/structures')
+            this.$router.push('/dashboard/missions')
           })
         })
       }
