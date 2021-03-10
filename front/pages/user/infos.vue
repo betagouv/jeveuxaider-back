@@ -16,7 +16,7 @@
       :rules="rules"
       :hide-required-asterisk="true"
     >
-      <!-- <ImageField
+      <ImageField
         :model="model"
         :model-id="form.id ? form.id : null"
         :min-width="320"
@@ -27,7 +27,7 @@
         label="Photo de profil"
         @add-or-crop="avatar = $event"
         @delete="avatar = null"
-      ></ImageField> -->
+      ></ImageField>
 
       <el-form-item label="Email" prop="email" class="mb-6">
         <el-input v-model.trim="form.email" placeholder="Email" />
@@ -99,12 +99,12 @@
           :loading="loading"
         >
           <el-option-group
-            v-for="(skills, index) in skillGroups"
+            v-for="(skillss, index) in skillGroups"
             :key="index"
             :label="index"
           >
             <el-option
-              v-for="item in skills"
+              v-for="item in skillss"
               :key="item.id"
               :label="item.name.fr"
               :value="item.name.fr"
@@ -183,19 +183,14 @@
 </template>
 
 <script>
-import _ from 'lodash'
-// import ImageField from '@/components/forms/ImageField.vue'
+import { groupBy, sortBy } from 'lodash'
 
 export default {
-  name: 'FrontUserInfos',
   layout: 'profile',
-  // components: {
-  //   ImageField,
-  // },
   data() {
     return {
       loading: false,
-      form: this.$store.getters.user.profile,
+      form: { ...this.$store.getters.user.profile },
       skills: null,
       domaines: null,
       optionsSkills: [],
@@ -270,8 +265,8 @@ export default {
       )
     },
     skillGroups() {
-      return _.groupBy(
-        _.sortBy(this.optionsSkills, ['group']),
+      return groupBy(
+        sortBy(this.optionsSkills, ['group']),
         (skill) => skill.group
       )
     },
@@ -318,19 +313,18 @@ export default {
         }
       })
     },
-    updateProfile() {
-      this.$store
-        .dispatch('user/updateProfile', this.form)
-        .then(() => {
-          this.loading = false
-          this.$message({
-            message: 'Vos informations ont été mises à jour.',
-            type: 'success',
-          })
+    async updateProfile() {
+      const profile = await this.$store.dispatch(
+        'user/updateProfile',
+        this.form
+      )
+      if (profile) {
+        this.loading = false
+        this.$message({
+          message: 'Vos informations ont été mises à jour.',
+          type: 'success',
         })
-        .catch(() => {
-          this.loading = false
-        })
+      }
     },
   },
 }

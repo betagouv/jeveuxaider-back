@@ -3,6 +3,10 @@ export default (axios) => ({
     const { data } = await axios.get(`/profile/${id}/participations`)
     return data
   },
+  async updateProfile(id, profile) {
+    const { data } = await axios.post(`/profile/${id}`, profile)
+    return data
+  },
   async fetchInvitations(params) {
     return await axios.get(`/invitations`, {
       params,
@@ -106,10 +110,6 @@ export default (axios) => ({
 
 // async addProfile(profile) {
 //   return axios.post(`/profile`, profile)
-// }
-
-// async updateProfile(id, profile) {
-//   return axios.post(`/profile/${id}`, profile)
 // }
 
 // async updateUser(user) {
