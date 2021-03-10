@@ -41,24 +41,6 @@
         <ModelMissionInfos :mission="mission" />
       </el-card>
     </div>
-
-    <!-- <div v-if="!tab" class="px-12 grid grid-cols-1 gap-4 xl:grid-cols-2">
-      <el-card shadow="never" class="p-4">
-        <div class="flex justify-between">
-          <div class="mb-6 text-xl">Informations</div>
-        </div>
-        <participation-infos :participation="participation" />
-      </el-card>
-      <el-card v-if="mission" shadow="never" class="p-4">
-        <div class="flex justify-between">
-          <div class="mb-6 text-xl">Mission</div>
-        </div>
-        <mission-infos :mission="mission" />
-      </el-card>
-    </div>
-    <div v-else-if="tab == 'history'">
-      <TableActivities :table-data="activities" />
-    </div> -->
   </div>
 </template>
 
@@ -73,24 +55,6 @@ export default {
       mission,
     }
   },
-  data() {
-    return {}
-  },
-  // async created() {
-  //   const responseParticipation = await getParticipation(this.id)
-  //   this.participation = responseParticipation.data
-
-  //   const responseMission = await getMission(this.participation.mission_id)
-  //   this.mission = responseMission.data
-
-  //   if (this.tab == 'history') {
-  //     const { data } = await fetchActivities({
-  //       'filter[subject_id]': this.id,
-  //       'filter[subject_type]': 'Participation',
-  //     })
-  //     this.activities = data.data
-  //   }
-  // },
 }
 </script>
 

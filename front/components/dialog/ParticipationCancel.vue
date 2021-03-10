@@ -50,10 +50,8 @@
 </template>
 
 <script>
-import { cancelParticipation } from '@/api/participation'
-
+import { Message } from 'element-ui'
 export default {
-  name: 'CancelParticipationDialog',
   props: {
     isVisible: {
       type: Boolean,
@@ -81,14 +79,14 @@ export default {
   },
   methods: {
     handleDeclineSubmit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
           this.loading = true
-          cancelParticipation(this.participation.id, this.form)
+          this.$api
+            .cancelParticipation(this.participation.id, this.form)
             .then(() => {
               this.loading = false
-              this.$message({
-                type: 'success',
+              Message.success({
                 message: 'La participation a été annulée',
               })
               this.$emit('updated')

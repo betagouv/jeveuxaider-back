@@ -72,6 +72,7 @@ export default {
     const { data } = await this.$api.fetchActivities({
       'filter[subject_id]': this.$route.params.id,
       'filter[subject_type]': 'Mission',
+      page: this.$route.query.page || 1,
     })
     this.tableData = data.data
     this.totalRows = data.total
