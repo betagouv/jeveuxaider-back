@@ -76,6 +76,7 @@ export default {
 
   publicRuntimeConfig: {
     apiUrl: process.env.API_URL,
+    appUrl: process.env.APP_URL,
     axios: {
       browserBaseURL: `${process.env.API_URL}/api`,
     },

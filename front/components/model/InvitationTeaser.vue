@@ -59,7 +59,7 @@ export default {
   methods: {
     onCopyInvitationLink() {
       this.$copyText(
-        process.env.MIX_API_BASE_URL + '/invitation/' + this.invitation.token
+        this.$config.appUrl + '/invitation/' + this.invitation.token
       ).then(() => {
         Message.success({
           message:

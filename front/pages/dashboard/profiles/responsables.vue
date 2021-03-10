@@ -27,24 +27,6 @@
           @changed="onFilterChange"
         />
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
-        <SearchFiltersQuery
-          v-if="$store.getters.contextRole === 'admin'"
-          name="referent_department"
-          label="Référent"
-          multiple
-          :value="query['filter[referent_department]']"
-          :options="
-            $store.getters.taxonomies.departments.terms.map((term) => {
-              return {
-                label: `${term.value} - ${term.label}`,
-                value: term.value,
-              }
-            })
-          "
-          @changed="onFilterChange"
-        />
-      </div>
     </div>
     <el-table
       v-loading="$fetchState.pending"

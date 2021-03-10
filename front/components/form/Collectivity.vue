@@ -14,7 +14,7 @@
         placeholder="Nom de la collectivité"
       />
       <ItemDescription>
-        Accessible à l'adresse : {{ baseUrl }}/territoires/{{
+        Accessible à l'adresse : {{ $config.appUrl }}/territoires/{{
           form.name | slugify
         }}
       </ItemDescription>
@@ -197,7 +197,6 @@ export default {
   },
   data() {
     return {
-      baseUrl: process.env.MIX_API_BASE_URL,
       loading: false,
       form: { ...this.collectivity },
       model: 'collectivity',

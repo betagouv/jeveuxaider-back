@@ -108,7 +108,6 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      // baseUrl: process.env.VUE_APP_API_BASE_URL,
       activeMenu: 'profile',
     }
   },

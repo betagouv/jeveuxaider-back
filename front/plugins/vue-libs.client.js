@@ -6,7 +6,9 @@ import VClamp from 'vue-clamp'
 import PortalVue from 'portal-vue'
 import VTooltip from 'v-tooltip'
 import vClickOutside from 'v-click-outside'
+import VueClipboard from 'vue-clipboard2'
 
+Vue.use(VueClipboard)
 Vue.use(vClickOutside)
 Vue.use(VueTypedJs)
 Vue.use(VScrollLock)
