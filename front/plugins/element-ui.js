@@ -2,10 +2,11 @@ import Vue from 'vue'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 import './element-ui.scss'
-import { Loading } from 'element-ui'
+import { Loading, Message } from 'element-ui'
 Vue.use(Loading.directive)
 
 locale.use(lang)
+Vue.prototype.$message = Message
 
 export default () => {
   Vue.component('ElDropdown', () =>
