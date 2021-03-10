@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       loading: false,
-      form: { ...this.$store.getters['volet/row'] },
+      form: {},
     }
   },
   computed: {
@@ -115,6 +115,15 @@ export default {
       return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
         (item) => item.value != 'Désinscrite'
       )
+    },
+  },
+  watch: {
+    row: {
+      immediate: true,
+      deep: false,
+      handler(newValue, oldValue) {
+        this.form = { ...newValue }
+      },
     },
   },
   methods: {

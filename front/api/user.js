@@ -39,6 +39,29 @@ export default (axios) => ({
   async registerInvitation(params, token) {
     return await axios.post(`/invitation/${token}/register`, params)
   },
+  async fetchProfiles(params, appends) {
+    return await axios.get(`/profiles?append=${appends.join(',')}`, {
+      params,
+    })
+  },
+  async exportProfilesReferentsDepartements(params) {
+    return await axios.get(`/profiles/referents/departements/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
+  async exportProfilesReferentsRegions(params) {
+    return await axios.get(`/profiles/referents/regions/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
+  async exportProfilesResponsables(params) {
+    return await axios.get(`/profiles/responsables/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
 })
 
 // import axios from 'axios'
@@ -88,27 +111,6 @@ export default (axios) => ({
 //   })
 // }
 
-// async exportProfilesReferentsDepartements(params) {
-//   return axios.get(`/profiles/referents/departements/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// async exportProfilesReferentsRegions(params) {
-//   return axios.get(`/profiles/referents/regions/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// async exportProfilesResponsables(params) {
-//   return axios.get(`/profiles/responsables/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
 // export async function getUser() {
 //   return await axios.get('/user')
 // }
@@ -123,12 +125,6 @@ export default (axios) => ({
 
 // async updateUser(user) {
 //   return axios.post('/user', user)
-// }
-
-// async fetchProfiles(params, appends) {
-//   return axios.get(`/profiles?append=${appends.join(',')}`, {
-//     params,
-//   })
 // }
 
 // async fetchUsers(params, appends) {
