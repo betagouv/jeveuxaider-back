@@ -1,20 +1,9 @@
 <template>
-  <el-form ref="releaseForm" :model="form" label-position="top" :rules="rules">
+  <el-form ref="pageForm" :model="form" label-position="top" :rules="rules">
     <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
     <el-form-item label="Titre" prop="title">
       <el-input v-model="form.title" placeholder="Titre" />
-    </el-form-item>
-
-    <el-form-item label="Date" prop="date">
-      <el-date-picker
-        v-model="form.date"
-        class="w-full"
-        type="datetime"
-        placeholder="Date de début"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        default-time="09:00:00"
-      />
     </el-form-item>
 
     <el-form-item label="Description" prop="description">
@@ -32,7 +21,7 @@
 <script>
 export default {
   props: {
-    release: {
+    page: {
       type: Object,
       default() {
         return {}
@@ -42,7 +31,7 @@ export default {
   data() {
     return {
       loading: false,
-      form: { ...this.release },
+      form: { ...this.page },
       rules: {
         title: [
           {
@@ -58,29 +47,22 @@ export default {
             trigger: 'blur',
           },
         ],
-        date: [
-          {
-            required: true,
-            message: 'Veuillez renseigner une date',
-            trigger: 'blur',
-          },
-        ],
       },
     }
   },
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.releaseForm.validate((valid) => {
+      this.$refs.pageForm.validate((valid) => {
         if (valid) {
-          if (this.release.id) {
+          if (this.page.id) {
             this.$api
-              .updateRelease(this.form.id, this.form)
+              .updatePage(this.form.id, this.form)
               .then(() => {
                 this.loading = false
-                this.$router.push('/dashboard/contents/releases')
+                this.$router.push('/dashboard/contents/pages')
                 this.$message({
-                  message: 'La release a été enregistrée !',
+                  message: 'La page a été enregistrée !',
                   type: 'success',
                 })
               })
@@ -89,12 +71,12 @@ export default {
               })
           } else {
             this.$api
-              .addRelease(this.form)
+              .addPage(this.form)
               .then(() => {
                 this.loading = false
-                this.$router.push('/dashboard/contents/releases')
+                this.$router.push('/dashboard/contents/pages')
                 this.$message({
-                  message: 'La release a été enregistrée !',
+                  message: 'La page a été enregistrée !',
                   type: 'success',
                 })
               })

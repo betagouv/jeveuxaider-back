@@ -38,6 +38,9 @@ export default (axios) => ({
   async deleteCollectivity(id) {
     return await axios.delete(`/collectivity/${id}`)
   },
+  async fetchDepartments(params) {
+    return await axios.get('/departments', { params })
+  },
   async deleteImage(id, model, fieldName = null) {
     return fieldName
       ? await axios.delete(`/${model}/${id}/upload/${fieldName}`)
@@ -79,7 +82,83 @@ export default (axios) => ({
   async deleteRelease(id) {
     return await axios.delete(`/release/${id}`)
   },
+  async fetchPages(params) {
+    return await axios.get('/pages', { params })
+  },
+  async getPage(id) {
+    const { data } = await axios.get(`/page/${id}`)
+    return data
+  },
+  async addPage(page) {
+    return await axios.post(`/page`, page)
+  },
+  async updatePage(id, page) {
+    return await axios.post(`/page/${id}`, page)
+  },
+  async deletePage(id) {
+    return await axios.delete(`/page/${id}`)
+  },
+  async addDocument(document) {
+    return await axios.post('/document', document)
+  },
+
+  async updateDocument(id, document) {
+    return await axios.post(`/document/${id}`, document)
+  },
+  async notifyDocument(id) {
+    return await axios.post(`/document/${id}/notify/`)
+  },
+  async addOrUpdateDocument(id, document) {
+    return id
+      ? await axios.post(`/document/${id}`, document)
+      : await axios.post('/document', document)
+  },
+  async getDocument(id) {
+    const { data } = await axios.get(`/document/${id}`)
+    return data
+  },
+  async fetchDocuments(params) {
+    return await axios.get('/documents', { params })
+  },
+  async deleteDocument(id) {
+    return await axios.delete(`/document/${id}`)
+  },
+  async uploadFile(id, model, file) {
+    const data = new FormData()
+    data.append('file', file)
+    return await axios.post(`/${model}/${id}/upload`, data, {
+      'Content-Type': 'multipart/form-data',
+    })
+  },
+  async deleteFile(id, model) {
+    return await axios.delete(`/${model}/${id}/upload`)
+  },
+  async updateThematique(id, thematique) {
+    return await axios.post(`/thematique/${id}`, thematique)
+  },
+  async addOrUpdateThematique(id, thematique) {
+    return id
+      ? await axios.post(`/thematique/${id}`, thematique)
+      : await axios.post('/thematique', thematique)
+  },
+  async addThematique(thematique) {
+    return await axios.post('/thematique', thematique)
+  },
+  async getThematique(id) {
+    const { data } = await axios.get(`/thematique/${id}`)
+    return data
+  },
+  async fetchThematiques(params) {
+    return await axios.get('/thematiques', { params })
+  },
+  async deleteThematique(id) {
+    return await axios.delete(`/thematique/${id}`)
+  },
 })
+
+// async getThematiqueStatistics(id) {
+//   return await axios.get(`/thematique/${id}/statistics`)
+// },
 
 // async bootstrap() {
 //   return await axios.get('/bootstrap')
@@ -117,26 +196,6 @@ export default (axios) => ({
 //   return await axios.delete(`/faq/${id}`)
 // }
 
-// async fetchPages(params) {
-//   return await axios.get('/pages', { params })
-// }
-
-// async getPage(id) {
-//   return await axios.get(`/page/${id}`)
-// }
-
-// async addPage(page) {
-//   return await axios.post(`/page`, page)
-// }
-
-// async updatePage(id, page) {
-//   return await axios.post(`/page/${id}`, page)
-// }
-
-// async deletePage(id) {
-//   return await axios.delete(`/page/${id}`)
-// }
-
 // async exportTable(table) {
 //   return await axios.post(`/${table}/export/table`)
 // }
@@ -153,84 +212,8 @@ export default (axios) => ({
 //   return await axios.get('/collectivities/all', { params })
 // }
 
-// async fetchDepartments(params) {
-//   return await axios.get('/departments', { params })
-// }
-
-// async deleteCollectivity(id) {
-//   return await axios.delete(`/collectivity/${id}`)
-// }
-
 // async destroyCollectivity(id) {
 //   return await axios.delete(`/collectivity/${id}/destroy`)
-// }
-
-// async addDocument(document) {
-//   return await axios.post('/document', document)
-// }
-
-// async updateDocument(id, document) {
-//   return await axios.post(`/document/${id}`, document)
-// }
-
-// async notifyDocument(id) {
-//   return await axios.post(`/document/${id}/notify/`)
-// }
-
-// async addOrUpdateDocument(id, document) {
-//   return id ? updateDocument(id, document) : addDocument(document)
-// }
-
-// async getDocument(id) {
-//   return await axios.get(`/document/${id}`)
-// }
-
-// async fetchDocuments(params) {
-//   return await axios.get('/documents', { params })
-// }
-
-// async deleteDocument(id) {
-//   return await axios.delete(`/document/${id}`)
-// }
-
-// async uploadFile(id, model, file) {
-//   const data = new FormData()
-//   data.append('file', file)
-//   return await axios.post(`/${model}/${id}/upload`, data, {
-//     'Content-Type': 'multipart/form-data',
-//   })
-// }
-
-// async deleteFile(id, model) {
-//   return await axios.delete(`/${model}/${id}/upload`)
-// }
-
-// async updateThematique(id, thematique) {
-//   return await axios.post(`/thematique/${id}`, thematique)
-// }
-
-// async addOrUpdateThematique(id, thematique) {
-//   return id ? updateThematique(id, thematique) : addThematique(thematique)
-// }
-
-// async addThematique(thematique) {
-//   return await axios.post('/thematique', thematique)
-// }
-
-// async getThematique(id) {
-//   return await axios.get(`/thematique/${id}`)
-// }
-
-// async getThematiqueStatistics(id) {
-//   return await axios.get(`/thematique/${id}/statistics`)
-// }
-
-// async fetchThematiques(params) {
-//   return await axios.get('/thematiques', { params })
-// }
-
-// async deleteThematique(id) {
-//   return await axios.delete(`/thematique/${id}`)
 // }
 
 // async updateMissionTemplate(id, missionTemplate) {

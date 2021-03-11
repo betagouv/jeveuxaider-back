@@ -3,7 +3,7 @@
     <div class="text-m text-gray-600 uppercase">Release</div>
     <div class="mb-8 flex">
       <div class="font-bold text-2xl text-gray-800">
-        {{ release.name }}
+        {{ release.title }}
       </div>
     </div>
     <FormRelease :release="release" class="max-w-2xl" />

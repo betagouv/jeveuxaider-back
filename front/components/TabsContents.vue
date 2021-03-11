@@ -6,9 +6,7 @@
       >Départements</el-menu-item
     >
     <el-menu-item index="/dashboard/contents/documents">Documents</el-menu-item>
-    <el-menu-item index="/dashboard/contents/domaines-action"
-      >Domaines d'action</el-menu-item
-    >
+    <el-menu-item index="/dashboard/contents/domaines">Domaines</el-menu-item>
     <el-menu-item index="/dashboard/contents/mission-templates"
       >Modèles</el-menu-item
     >

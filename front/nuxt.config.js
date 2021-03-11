@@ -49,6 +49,7 @@ export default {
     '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -59,6 +60,18 @@ export default {
     'portal-vue/nuxt',
     '@nuxtjs/dayjs',
   ],
+
+  fontawesome: {
+    icons: {
+      solid: [
+        'faFile',
+        'faFilePdf',
+        'faFileWord',
+        'faFilePowerpoint',
+        'faFileCsv',
+      ],
+    },
+  },
 
   dayjs: {
     defaultLocale: 'fr',

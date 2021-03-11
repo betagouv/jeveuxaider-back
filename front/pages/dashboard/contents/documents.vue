@@ -6,17 +6,17 @@
           {{ $store.getters.contextRoleLabel }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Contenus - Releases
+          Contenus - Documents
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/contents/release/add`">
-          <el-button type="primary"> Ajouter une release </el-button>
+        <nuxt-link :to="`/dashboard/contents/document/add`">
+          <el-button type="primary"> Ajouter un document </el-button>
         </nuxt-link>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <TabsContents index="/dashboard/contents/releases" />
+      <TabsContents index="/dashboard/contents/documents" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -100,7 +100,7 @@ export default {
   },
   async fetch() {
     this.query = this.$route.query
-    const { data } = await this.$api.fetchReleases(this.query)
+    const { data } = await this.$api.fetchDocuments(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -119,12 +119,12 @@ export default {
       }
     },
     handleClickEdit(id) {
-      this.$router.push(`/dashboard/contents/release/${id}/edit`)
+      this.$router.push(`/dashboard/contents/document/${id}/edit`)
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette release ?`,
-        'Supprimer cette release',
+        `Êtes vous sur de vouloir supprimer ce document ?`,
+        'Supprimer ce document',
         {
           confirmButtonText: 'Supprimer',
           confirmButtonClass: 'el-button--danger',
@@ -133,10 +133,10 @@ export default {
           type: 'error',
         }
       ).then(() => {
-        this.$api.deleteRelease(id).then(() => {
+        this.$api.deleteDocument(id).then(() => {
           this.$message({
             type: 'success',
-            message: `La release a été supprimée.`,
+            message: `Le document a été supprimé.`,
           })
           this.$fetch()
         })

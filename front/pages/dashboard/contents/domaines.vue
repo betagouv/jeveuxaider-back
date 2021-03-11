@@ -6,17 +6,17 @@
           {{ $store.getters.contextRoleLabel }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Contenus - Releases
+          Contenus - Domaines
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/contents/release/add`">
-          <el-button type="primary"> Ajouter une release </el-button>
+        <nuxt-link :to="`/dashboard/contents/domaine/add`">
+          <el-button type="primary"> Ajouter un domaine </el-button>
         </nuxt-link>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <TabsContents index="/dashboard/contents/releases" />
+      <TabsContents index="/dashboard/contents/domaines" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -38,11 +38,34 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Question" min-width="320">
+      <el-table-column label="Domaine d'action" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.title }}
+          <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="font-light text-gray-600 text-xs">
+            <nuxt-link
+              :to="`/domaines-action/${scope.row.slug}`"
+              target="_blank"
+              >/domaines-action/{{ scope.row.slug }}</nuxt-link
+            >
           </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Contexte" min-width="320">
+        <template slot-scope="scope">
+          <el-tag
+            v-if="scope.row.published"
+            type="success"
+            class="m-1 ml-0"
+            size="small"
+            >En ligne</el-tag
+          >
+          <el-tag
+            v-if="!scope.row.published"
+            type="info"
+            class="m-1 ml-0"
+            size="small"
+            >Non publié</el-tag
+          >
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
@@ -61,13 +84,12 @@
             @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >
-            <i class="el-icon-edit mr-2" />Modifier
+            <i class="el-icon-edit mr-2"></i>Modifier
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 :command="{ action: 'delete', id: scope.row.id }"
+                >Supprimer</el-dropdown-item
               >
-                Supprimer
-              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -100,7 +122,7 @@ export default {
   },
   async fetch() {
     this.query = this.$route.query
-    const { data } = await this.$api.fetchReleases(this.query)
+    const { data } = await this.$api.fetchThematiques(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -119,12 +141,12 @@ export default {
       }
     },
     handleClickEdit(id) {
-      this.$router.push(`/dashboard/contents/release/${id}/edit`)
+      this.$router.push(`/dashboard/contents/domaine/${id}/edit`)
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette release ?`,
-        'Supprimer cette release',
+        `Êtes vous sur de vouloir supprimer ce domaine ?`,
+        'Supprimer ce domaine',
         {
           confirmButtonText: 'Supprimer',
           confirmButtonClass: 'el-button--danger',
@@ -133,10 +155,10 @@ export default {
           type: 'error',
         }
       ).then(() => {
-        this.$api.deleteRelease(id).then(() => {
+        this.$api.deleteThematique(id).then(() => {
           this.$message({
             type: 'success',
-            message: `La release a été supprimée.`,
+            message: `Le domaine a été supprimé.`,
           })
           this.$fetch()
         })
