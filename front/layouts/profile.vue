@@ -43,5 +43,6 @@ import UserMenu from '@/components/UserMenu'
 export default {
   name: 'ProfileLayout',
   components: { UserMenu },
+  middleware: 'logged',
 }
 </script>

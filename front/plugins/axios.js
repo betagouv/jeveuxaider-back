@@ -1,6 +1,6 @@
 // import { Message } from 'element-ui'
 
-export default function ({ $axios, redirect, app, store, error }) {
+export default function ({ $axios, redirect, app, store, error, $message }) {
   $axios.interceptors.request.use(function (config) {
     const ACCESS_TOKEN = app.$cookies.get('access-token')
     if (!config.headers.Authorization) {
@@ -34,31 +34,31 @@ export default function ({ $axios, redirect, app, store, error }) {
 
     if (err.response && err.response.data) {
       if (err.response.data.errors) {
-        // Message({
-        //   message: formatErrors(err.response.data.errors),
-        //   dangerouslyUseHTMLString: true,
-        //   type: 'error',
-        // })
+        $message({
+          message: formatErrors(err.response.data.errors),
+          dangerouslyUseHTMLString: true,
+          type: 'error',
+        })
       } else if (err.response.data.message) {
-        // Message({
-        //   message: err.response.data.message,
-        //   type: 'error',
-        // })
+        $message({
+          message: err.response.data.message,
+          type: 'error',
+        })
       } else if (err.response.data.error) {
-        // Message({
-        //   message: err.response.data.error,
-        //   dangerouslyUseHTMLString: true,
-        //   type: 'error',
-        // })
+        $message({
+          message: err.response.data.error,
+          dangerouslyUseHTMLString: true,
+          type: 'error',
+        })
       }
     }
   })
 }
 
-// function formatErrors(errors) {
-//   let string = ''
-//   for (const errorField in errors) {
-//     string += errors[errorField][0] + '<br />'
-//   }
-//   return string
-// }
+function formatErrors(errors) {
+  let string = ''
+  for (const errorField in errors) {
+    string += errors[errorField][0] + '<br />'
+  }
+  return string
+}
