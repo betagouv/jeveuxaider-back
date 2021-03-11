@@ -165,7 +165,7 @@ export default {
       this.$refs.documentForm.validate((valid) => {
         if (valid) {
           this.$api
-            .addOrUpdateDocument(this.id, this.form)
+            .addOrUpdateDocument(this.document.id, this.form)
             .then((response) => {
               this.form = response.data
               if (this.file) {

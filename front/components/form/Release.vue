@@ -73,7 +73,7 @@ export default {
       this.loading = true
       this.$refs.releaseForm.validate((valid) => {
         if (valid) {
-          if (this.id) {
+          if (this.release.id) {
             this.$api
               .updateRelease(this.form.id, this.form)
               .then(() => {

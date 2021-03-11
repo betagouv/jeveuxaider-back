@@ -133,7 +133,32 @@ export default (axios) => ({
   async deleteFile(id, model) {
     return await axios.delete(`/${model}/${id}/upload`)
   },
+  async updateThematique(id, thematique) {
+    return await axios.post(`/thematique/${id}`, thematique)
+  },
+  async addOrUpdateThematique(id, thematique) {
+    return id
+      ? await axios.post(`/thematique/${id}`, thematique)
+      : await axios.post('/thematique', thematique)
+  },
+  async addThematique(thematique) {
+    return await axios.post('/thematique', thematique)
+  },
+  async getThematique(id) {
+    const { data } = await axios.get(`/thematique/${id}`)
+    return data
+  },
+  async fetchThematiques(params) {
+    return await axios.get('/thematiques', { params })
+  },
+  async deleteThematique(id) {
+    return await axios.delete(`/thematique/${id}`)
+  },
 })
+
+// async getThematiqueStatistics(id) {
+//   return await axios.get(`/thematique/${id}/statistics`)
+// },
 
 // async bootstrap() {
 //   return await axios.get('/bootstrap')
@@ -189,34 +214,6 @@ export default (axios) => ({
 
 // async destroyCollectivity(id) {
 //   return await axios.delete(`/collectivity/${id}/destroy`)
-// }
-
-// async updateThematique(id, thematique) {
-//   return await axios.post(`/thematique/${id}`, thematique)
-// }
-
-// async addOrUpdateThematique(id, thematique) {
-//   return id ? updateThematique(id, thematique) : addThematique(thematique)
-// }
-
-// async addThematique(thematique) {
-//   return await axios.post('/thematique', thematique)
-// }
-
-// async getThematique(id) {
-//   return await axios.get(`/thematique/${id}`)
-// }
-
-// async getThematiqueStatistics(id) {
-//   return await axios.get(`/thematique/${id}/statistics`)
-// }
-
-// async fetchThematiques(params) {
-//   return await axios.get('/thematiques', { params })
-// }
-
-// async deleteThematique(id) {
-//   return await axios.delete(`/thematique/${id}`)
 // }
 
 // async updateMissionTemplate(id, missionTemplate) {

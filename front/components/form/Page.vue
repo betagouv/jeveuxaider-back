@@ -55,7 +55,7 @@ export default {
       this.loading = true
       this.$refs.pageForm.validate((valid) => {
         if (valid) {
-          if (this.id) {
+          if (this.page.id) {
             this.$api
               .updatePage(this.form.id, this.form)
               .then(() => {
