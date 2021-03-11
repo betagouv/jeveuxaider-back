@@ -1278,7 +1278,7 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.34.tgz#0a8c348bb23b7b760030f5b1d912e582be4ec915"
   integrity sha512-XcIn3iYbTEzGIxD0/dY5+4f019jIcEIWBiHc3KrmK/ROahwxmZ/s+tdj97p/5K0klz4zZUiMfUlYP0ajhSJjmA==
 
-"@fortawesome/fontawesome-svg-core@^1.2.12":
+"@fortawesome/fontawesome-svg-core@^1.2.27":
   version "1.2.34"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.34.tgz#1d1a7c92537cbc2b8a83eef6b6d824b4b5b46b26"
   integrity sha512-0KNN0nc5eIzaJxlv43QcDmTkDY1CqeN6J7OCGSs+fwGPdtv0yOQqRjieopBCmw+yd7uD3N2HeNL3Zm5isDleLg==
@@ -1292,7 +1292,7 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.34"
 
-"@fortawesome/vue-fontawesome@^0.1.4":
+"@fortawesome/vue-fontawesome@^0.1.9":
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.1.10.tgz#eeeec1e4e8850bed0468f938292b06cda793bf34"
   integrity sha512-b2+SLF31h32LSepVcXe+BQ63yvbq5qmTCy4KfFogCYm2bn68H5sDWUnX+U7MBqnM2aeEk9M7xSoqGnu+wSdY6w==
@@ -1705,6 +1705,14 @@
   dependencies:
     consola "^2.15.0"
     eslint-webpack-plugin "^2.4.1"
+
+"@nuxtjs/fontawesome@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/fontawesome/-/fontawesome-1.1.2.tgz#0add6519095b392bdffb6e3ad40f3026d20f5c44"
+  integrity sha512-QAfo7hdc6hiCOohdR861oNQ+riKW/kD22bYyvaC++xXiiC1hBQcrRQ6xXd5gln+6SKCwT09+C4kGjzTgrwtr7w==
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^1.2.27"
+    "@fortawesome/vue-fontawesome" "^0.1.9"
 
 "@nuxtjs/proxy@^2.1.0":
   version "2.1.0"
@@ -8168,14 +8176,6 @@ nuxt-compress@^4.1.0:
   dependencies:
     brotli-webpack-plugin "^1.1.0"
     compression-webpack-plugin "^6.1.0"
-
-nuxt-fontawesome@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/nuxt-fontawesome/-/nuxt-fontawesome-0.4.0.tgz#e1ea0cdda9ec6785739a86e9e3d42f62a8c10443"
-  integrity sha512-4oHIot/WLUBFM7o944EQks7WmntD/YsLxZ+g9mJjY9pHw1FJZBaD7Bd+cDsXvl3h/0/f87QwIXf/AA+vOIY0Ag==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^1.2.12"
-    "@fortawesome/vue-fontawesome" "^0.1.4"
 
 nuxt-lazy-load@^1.2.5:
   version "1.2.5"

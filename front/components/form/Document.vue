@@ -75,7 +75,7 @@
           class="mr-4 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center"
           style="width: 50px; height: 50px"
         >
-          <fa
+          <font-awesome-icon
             :icon="[
               'fas',
               $options.filters.icoFromMimeType(form.file.mime_type),
