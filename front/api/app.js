@@ -79,6 +79,22 @@ export default (axios) => ({
   async deleteRelease(id) {
     return await axios.delete(`/release/${id}`)
   },
+  async fetchPages(params) {
+    return await axios.get('/pages', { params })
+  },
+  async getPage(id) {
+    const { data } = await axios.get(`/page/${id}`)
+    return data
+  },
+  async addPage(page) {
+    return await axios.post(`/page`, page)
+  },
+  async updatePage(id, page) {
+    return await axios.post(`/page/${id}`, page)
+  },
+  async deletePage(id) {
+    return await axios.delete(`/page/${id}`)
+  },
 })
 
 // async bootstrap() {
@@ -115,26 +131,6 @@ export default (axios) => ({
 
 // async deleteFaq(id) {
 //   return await axios.delete(`/faq/${id}`)
-// }
-
-// async fetchPages(params) {
-//   return await axios.get('/pages', { params })
-// }
-
-// async getPage(id) {
-//   return await axios.get(`/page/${id}`)
-// }
-
-// async addPage(page) {
-//   return await axios.post(`/page`, page)
-// }
-
-// async updatePage(id, page) {
-//   return await axios.post(`/page/${id}`, page)
-// }
-
-// async deletePage(id) {
-//   return await axios.delete(`/page/${id}`)
 // }
 
 // async exportTable(table) {
