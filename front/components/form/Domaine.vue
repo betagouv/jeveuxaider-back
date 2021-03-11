@@ -6,7 +6,6 @@
     :rules="rules"
   >
     <div class="mb-6 text-xl text-gray-800">Informations générales</div>
-
     <el-form-item label="Nom du domaine d'action" prop="name">
       <el-input
         v-model="form.name"
@@ -18,14 +17,12 @@
         }}
       </ItemDescription>
     </el-form-item>
-
     <el-form-item label="Titre du domaine d'action" prop="title">
       <el-input
         v-model="form.title"
         placeholder="Ex: Rejoignez JeVeuxAider.gouv.fr pour la solidarité et l'insertion"
       />
     </el-form-item>
-
     <el-form-item label="Description" prop="description" class="flex-1">
       <el-input
         v-model="form.description"
@@ -34,11 +31,9 @@
         placeholder="Description de ce domaine d'action"
       />
     </el-form-item>
-
     <el-form-item label="Couleur" prop="color">
       <el-input v-model="form.color" placeholder="Ex: blue-800, green-500" />
     </el-form-item>
-
     <el-form-item label="Domaine d'action" prop="domaine_id" class="flex-1">
       <el-select
         v-model="form.domaine_id"
@@ -53,7 +48,6 @@
         ></el-option>
       </el-select>
     </el-form-item>
-
     <ImageField
       :model="model"
       :model-id="form.id ? form.id : null"
@@ -65,7 +59,6 @@
       @add-or-crop="photo = $event"
       @delete="photo = null"
     ></ImageField>
-
     <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
     <ItemDescription container-class="mb-6">
       Si vous souhaitez rendre ce domaine d'action visible, cochez la case.
@@ -73,7 +66,6 @@
     <el-form-item prop="published" class="flex-1">
       <el-checkbox v-model="form.published">En ligne</el-checkbox>
     </el-form-item>
-
     <div class="flex pt-2">
       <el-button type="primary" :loading="loading" @click="onSubmit"
         >Enregistrer</el-button
@@ -114,7 +106,6 @@ export default {
       },
     }
   },
-
   methods: {
     onSubmit() {
       this.loading = true

@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/document/add`">
+        <nuxt-link :to="`/dashboard/contents/document/add`">
           <el-button type="primary"> Ajouter un document </el-button>
         </nuxt-link>
       </div>
@@ -119,7 +119,7 @@ export default {
       }
     },
     handleClickEdit(id) {
-      this.$router.push(`/dashboard/document/${id}/edit`)
+      this.$router.push(`/dashboard/contents/document/${id}/edit`)
     },
     handleClickDelete(id) {
       this.$confirm(

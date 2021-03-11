@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/release/add`">
+        <nuxt-link :to="`/dashboard/contents/release/add`">
           <el-button type="primary"> Ajouter une release </el-button>
         </nuxt-link>
       </div>
@@ -119,7 +119,7 @@ export default {
       }
     },
     handleClickEdit(id) {
-      this.$router.push(`/dashboard/release/${id}/edit`)
+      this.$router.push(`/dashboard/contents/release/${id}/edit`)
     },
     handleClickDelete(id) {
       this.$confirm(

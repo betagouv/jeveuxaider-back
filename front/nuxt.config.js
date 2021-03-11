@@ -58,6 +58,24 @@ export default {
     'nuxt-lazy-load',
     'portal-vue/nuxt',
     '@nuxtjs/dayjs',
+    [
+      'nuxt-fontawesome',
+      {
+        component: 'fa',
+        imports: [
+          {
+            set: '@fortawesome/free-solid-svg-icons',
+            icons: [
+              'faFile',
+              'faFilePdf',
+              'faFileWord',
+              'faFilePowerpoint',
+              'faFileCsv',
+            ],
+          },
+        ],
+      },
+    ],
   ],
 
   dayjs: {

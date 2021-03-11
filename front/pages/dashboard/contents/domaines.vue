@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/domaine/add`">
+        <nuxt-link :to="`/dashboard/contents/domaine/add`">
           <el-button type="primary"> Ajouter un domaine </el-button>
         </nuxt-link>
       </div>
@@ -141,7 +141,7 @@ export default {
       }
     },
     handleClickEdit(id) {
-      this.$router.push(`/dashboard/domaine/${id}/edit`)
+      this.$router.push(`/dashboard/contents/domaine/${id}/edit`)
     },
     handleClickDelete(id) {
       this.$confirm(
