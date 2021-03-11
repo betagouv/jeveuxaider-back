@@ -38,6 +38,9 @@ export default (axios) => ({
   async deleteCollectivity(id) {
     return await axios.delete(`/collectivity/${id}`)
   },
+  async fetchDepartments(params) {
+    return await axios.get('/departments', { params })
+  },
   async deleteImage(id, model, fieldName = null) {
     return fieldName
       ? await axios.delete(`/${model}/${id}/upload/${fieldName}`)
@@ -147,14 +150,6 @@ export default (axios) => ({
 
 // async fetchAllCollectivities(params) {
 //   return await axios.get('/collectivities/all', { params })
-// }
-
-// async fetchDepartments(params) {
-//   return await axios.get('/departments', { params })
-// }
-
-// async deleteCollectivity(id) {
-//   return await axios.delete(`/collectivity/${id}`)
 // }
 
 // async destroyCollectivity(id) {
