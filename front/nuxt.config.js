@@ -1,5 +1,3 @@
-import { resolve } from 'path'
-
 export default {
   server: {
     host: process.env.HOST || 'localhost', // default: localhost,
