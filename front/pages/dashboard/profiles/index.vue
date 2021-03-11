@@ -14,7 +14,7 @@
       </div>
     </div>
     <div v-if="$store.getters.contextRole === 'admin'" class="px-12 mb-12">
-      <TabProfiles index="/dashboard/profiles" />
+      <TabsProfiles index="/dashboard/profiles" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">

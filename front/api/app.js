@@ -46,11 +46,9 @@ export default (axios) => ({
   async fetchTags(params) {
     return await axios.get('/tags', { params })
   },
-
   async fetchActivities(params) {
     return await axios.get('/activities', { params })
   },
-
   async uploadImage(id, model, image, cropSettings, fieldName = null) {
     const data = new FormData()
     const options = {
@@ -62,9 +60,24 @@ export default (axios) => ({
       ? await axios.post(`/${model}/${id}/upload/${fieldName}`, data, options)
       : await axios.post(`/${model}/${id}/upload`, data, options)
   },
-
   async fetchMissionTemplates(params) {
     return await axios.get('/mission-templates', { params })
+  },
+  async fetchReleases(params) {
+    return await axios.get('/releases', { params })
+  },
+  async getRelease(id) {
+    const { data } = await axios.get(`/release/${id}`)
+    return data
+  },
+  async addRelease(release) {
+    return await axios.post(`/release`, release)
+  },
+  async updateRelease(id, release) {
+    return await axios.post(`/release/${id}`, release)
+  },
+  async deleteRelease(id) {
+    return await axios.delete(`/release/${id}`)
   },
 })
 
@@ -102,26 +115,6 @@ export default (axios) => ({
 
 // async deleteFaq(id) {
 //   return await axios.delete(`/faq/${id}`)
-// }
-
-// async fetchReleases(params) {
-//   return await axios.get('/releases', { params })
-// }
-
-// async getRelease(id) {
-//   return await axios.get(`/release/${id}`)
-// }
-
-// async addRelease(release) {
-//   return await axios.post(`/release`, release)
-// }
-
-// async updateRelease(id, release) {
-//   return await axios.post(`/release/${id}`, release)
-// }
-
-// async deleteRelease(id) {
-//   return await axios.delete(`/release/${id}`)
 // }
 
 // async fetchPages(params) {

@@ -104,7 +104,7 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item
-      index="/dashboard/contents/faqs"
+      index="/dashboard/contents/releases"
       :class="{ 'is-active': isActive('content') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Contenus</span>

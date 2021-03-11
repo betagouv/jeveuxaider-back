@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <TabProfiles index="/dashboard/profiles/responsables" />
+      <TabsProfiles index="/dashboard/profiles/responsables" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
