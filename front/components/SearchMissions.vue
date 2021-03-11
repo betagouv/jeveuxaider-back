@@ -231,13 +231,13 @@
                       >
                         <CardMission :mission="item" />
                       </a>
-                      <router-link
+                      <nuxt-link
                         v-else
                         class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                         :to="`/missions/${item.id}`"
                       >
                         <CardMission :mission="item" />
-                      </router-link>
+                      </nuxt-link>
                     </div>
                   </AisHits>
 

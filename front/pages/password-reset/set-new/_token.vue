@@ -78,7 +78,7 @@
               identifiants.
             </div>
             <div class="mt-6 sm:col-span-">
-              <router-link :to="`/login?email=${$route.query.email}`">
+              <nuxt-link :to="`/login?email=${$route.query.email}`">
                 <span class="block w-full rounded-md shadow-sm">
                   <button
                     type="submit"
@@ -87,7 +87,7 @@
                     Se connecter
                   </button>
                 </span>
-              </router-link>
+              </nuxt-link>
             </div>
           </template>
         </div>

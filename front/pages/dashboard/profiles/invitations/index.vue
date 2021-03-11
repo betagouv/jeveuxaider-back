@@ -10,9 +10,9 @@
         </div>
       </div>
       <div>
-        <router-link to="/dashboard/profiles/invitations/add">
+        <nuxt-link to="/dashboard/profiles/invitations/add">
           <el-button type="primary"> Inviter un utilisateur </el-button>
-        </router-link>
+        </nuxt-link>
       </div>
     </div>
     <div class="px-12 mb-12">
