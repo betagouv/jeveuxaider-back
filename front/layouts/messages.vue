@@ -8,5 +8,6 @@
 <script>
 export default {
   name: 'MessagesLayout',
+  middleware: 'logged',
 }
 </script>

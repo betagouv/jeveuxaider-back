@@ -12,6 +12,16 @@ export default (axios) => ({
     return await axios.post('/user/password', user)
   },
 
+  async forgotPassword(email) {
+    return await axios.post('/password/forgot', {
+      email,
+    })
+  },
+
+  async resetPassword(form) {
+    return await axios.post('/password/reset', form)
+  },
+
   async anonymizeUser() {
     return await axios.post('/user/anonymize')
   },

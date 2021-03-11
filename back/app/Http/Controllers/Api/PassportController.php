@@ -89,14 +89,14 @@ class PassportController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::guard('api')->user();
-        $socialAccount = SocialAccount::where(['user_id'=> $user->id, 'provider' => 'franceconnect'])->first();
+        $socialAccount = SocialAccount::where(['user_id' => $user->id, 'provider' => 'franceconnect'])->first();
         if ($socialAccount) {
             $franceConnectLogoutUrl = config('services.franceconnect.url') . "/api/v1/logout?"
-            . http_build_query([
-                'id_token_hint' => $socialAccount->data['id_token'],
-                'state' => 'franceconnect',
-                'post_logout_redirect_uri' => config('app.url')
-            ]);
+                . http_build_query([
+                    'id_token_hint' => $socialAccount->data['id_token'],
+                    'state' => 'franceconnect',
+                    'post_logout_redirect_uri' => config('app.url')
+                ]);
         }
 
         $bearerToken = request()->bearerToken();
@@ -119,16 +119,19 @@ class PassportController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required','email'],
+            'email' => ['required', 'email'],
         ], $messages);
 
         if ($validator->fails()) {
-            return response()->json(['errors'=> $validator->errors()], 401);
+            return response()->json(['errors' => $validator->errors()], 401);
         }
 
         $response = $this->broker()->sendResetLink(
             ['email' => strtolower($request->input('email'))]
         );
+        ray('email', strtolower($request->input('email')));
+        ray($response);
+        ray(Password::RESET_LINK_SENT);
         return $response == Password::RESET_LINK_SENT
             ? response()->json(['message' => 'Un lien de réinitialisation de votre mot de passe a été envoyé par mail'], 201)
             : response()->json(['errors' => ['email' => ['Impossible de vous envoyer un lien de réinitialisation de votre mot de passe ']]], 401);
