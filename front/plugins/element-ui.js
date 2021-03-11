@@ -17,7 +17,8 @@ Vue.prototype.$loading = Loading.service
 
 // Vue.prototype.$notify = Notification
 
-export default () => {
+export default (context, inject) => {
+  inject('message', Message)
   Vue.component('ElDropdown', () =>
     import(
       /* webpackChunkName: 'element-ui-dropdown' */ 'element-ui/lib/dropdown'
