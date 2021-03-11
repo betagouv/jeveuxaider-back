@@ -2,17 +2,19 @@ import Vue from 'vue'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 import './element-ui.scss'
-import { Loading, Message, MessageBox } from 'element-ui'
-Vue.use(Loading.directive)
+import Message from 'element-ui/lib/message'
+import MessageBox from 'element-ui/lib/message-box'
+import Loading from 'element-ui/lib/loading'
 
+Vue.use(Loading.directive)
 locale.use(lang)
 Vue.prototype.$message = Message
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$loading = Loading.service
 
-// Vue.prototype.$loading = Loading.service
 // Vue.prototype.$notify = Notification
 
 export default () => {
