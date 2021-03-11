@@ -9,6 +9,7 @@
         :srcset="`${thumbnail.x2} 2x`"
         :alt="mission.domaine_name"
         class="w-full h-full object-cover"
+        @error="defaultThumbnail($event)"
       />
       <div class="pill absolute m-4 top-0 right-0">
         <template
@@ -31,15 +32,18 @@
 
     <div class="mb-auto p-4">
       <div class="pill-2">{{ mission.domaine_name }}</div>
+
       <client-only>
         <v-clamp
+          tag="h2"
           :max-lines="3"
           autoresize
-          class="name font-black text-black text-lg relative"
+          class="name font-black text-black text-lg relative hidden sm:block"
         >
           {{ mission.name }}
 
           <template slot="after" slot-scope="{ clamped }">
+            <!-- Tooltip if clamped -->
             <span
               v-if="clamped"
               v-tooltip="{
@@ -52,8 +56,11 @@
             />
           </template>
         </v-clamp>
-        <h2 slot="placeholder">{{ mission.name }}</h2>
       </client-only>
+
+      <h2 class="sm:hidden name font-black text-black text-lg">
+        {{ mission.name }}
+      </h2>
 
       <h3
         class="structure mt-4 mb-1 truncate"
@@ -79,19 +86,20 @@
       </div>
     </div>
 
-    <div class="footer border-t p-4 text-center relative">
+    <div
+      v-if="showState && participation"
+      class="footer border-t p-4 text-center relative"
+    >
+      <span class="text-sm font-bold" :class="participationStateTheme">{{
+        participation.state
+      }}</span>
+    </div>
+    <div v-else class="footer border-t p-4 text-center relative">
       <span
         class="places-left font-bold"
         :class="[{ 'is-full': !mission.has_places_left }]"
       >
-        <template v-if="mission.has_places_left">
-          {{ mission.places_left | formatNumber }}
-          {{
-            mission.places_left
-              | pluralize(['bénévole recherché', 'bénévoles recherchés'])
-          }}
-        </template>
-        <template v-else>Complet</template>
+        {{ placesLeftText }}
       </span>
 
       <img
@@ -109,14 +117,61 @@
 </template>
 
 <script>
-import mission from '@/mixins/mission'
+import MissionMixin from '@/mixins/MissionMixin'
 
 export default {
-  mixins: [mission],
+  mixins: [MissionMixin],
   props: {
     mission: {
       type: Object,
       default: null,
+    },
+    participation: {
+      type: Object,
+      default: null,
+    },
+    showState: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    placesLeftText() {
+      if (
+        this.mission.publisher_name &&
+        this.mission.publisher_name != 'Réserve Civique' &&
+        this.mission.places_left > 99
+      ) {
+        return 'Plusieurs bénévoles recherchés'
+      } else if (this.mission.has_places_left && this.mission.places_left > 0) {
+        return (
+          this.mission.places_left +
+          ' ' +
+          this.$options.filters.pluralize(this.mission.places_left, [
+            'bénévole recherché',
+            'bénévoles recherchés',
+          ])
+        )
+      } else {
+        return this.mission.has_places_left === false
+          ? 'Complet'
+          : 'Plusieurs bénévoles recherchés'
+      }
+    },
+    participationStateTheme() {
+      if (this.participation) {
+        switch (this.participation.state) {
+          case 'En attente de validation':
+            return 'text-orange-400'
+          case 'Validée':
+            return 'text-green-400'
+          case 'Effectuée':
+            return 'text-green-600'
+          default:
+            return ''
+        }
+      }
+      return ''
     },
   },
 }

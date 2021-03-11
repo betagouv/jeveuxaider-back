@@ -1,5 +1,3 @@
-import { resolve } from 'path'
-
 export default {
   server: {
     host: process.env.HOST || 'localhost', // default: localhost,
@@ -138,9 +136,5 @@ export default {
         return ['script', 'style', 'font'].includes(type)
       },
     },
-  },
-
-  alias: {
-    vue$: resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
   },
 }

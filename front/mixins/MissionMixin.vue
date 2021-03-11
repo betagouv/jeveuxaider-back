@@ -1,4 +1,6 @@
+<script>
 export default {
+  name: 'MissionMixin',
   props: {
     mission: {
       type: Object,
@@ -19,4 +21,20 @@ export default {
       }
     },
   },
+  methods: {
+    defaultThumbnail(e) {
+      let file = 'card-thumbnail-default'
+
+      if (
+        (this.domaine_id && this.domaine_id == 3) ||
+        this.mission.domaine_name == 'Santé pour tous'
+      ) {
+        file = 'templates/sante_pour_tous'
+      }
+
+      e.target.src = `/images/${file}.jpg`
+      e.target.srcset = `/images/${file}@2x.jpg 2x`
+    },
+  },
 }
+</script>

@@ -20,7 +20,7 @@
 <script>
 export default {
   props: {
-    value: {
+    initialValue: {
       type: String,
       required: false,
       default: '',
@@ -59,7 +59,15 @@ export default {
   data() {
     return {
       placesInstance: {},
+      value: this.initialValue,
     }
+  },
+  watch: {
+    initialValue(newVal) {
+      this.value = newVal
+      this.placesInstance.setVal(newVal)
+      this.placesInstance.close()
+    },
   },
   mounted() {
     const places = require('places.js')
@@ -108,9 +116,6 @@ export default {
     handleSelected(suggestion) {
       this.placesInstance.autocomplete[0].blur()
       this.$emit('selected', suggestion)
-    },
-    setVal(value) {
-      this.placesInstance.setVal(value)
     },
     handleSuggestions(e) {
       // console.log(e)
