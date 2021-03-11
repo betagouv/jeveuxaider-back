@@ -31,13 +31,15 @@ export default {
   data() {
     return {
       searchClient,
-      routeState: null,
+      routeState: {
+        query: null,
+      },
       loading: true,
     }
   },
   computed: {
     indexName() {
-      return this.$config.algolia.index
+      return process.env.algolia.index
     },
     routeStateWithIndex() {
       return {
@@ -45,17 +47,17 @@ export default {
       }
     },
   },
-  // beforeMount() {
-  //   // @todo
-  //   const results =
-  //     this.$nuxt.context.nuxtState.algoliaState || window.__NUXT__.algoliaState
+  beforeMount() {
+    // @todo
+    const results =
+      this.$nuxt.context.nuxtState.algoliaState || window.__NUXT__.algoliaState
 
-  //   this.instantsearch.hydrate(results)
+    this.instantsearch.hydrate(results)
 
-  //   // Remove the SSR state so it can't be applied again by mistake
-  //   delete this.$nuxt.context.nuxtState.algoliaState
-  //   delete window.__NUXT__.algoliaState
-  // },
+    // Remove the SSR state so it can't be applied again by mistake
+    delete this.$nuxt.context.nuxtState.algoliaState
+    delete window.__NUXT__.algoliaState
+  },
   mounted() {
     this.readUrl()
 

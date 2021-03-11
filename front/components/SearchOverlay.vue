@@ -64,6 +64,7 @@
                         placeholder="Ex: 75001"
                         @selected="onPlaceSelect($event)"
                         @clear="onPlaceClear"
+                        @initialized="onInitialized"
                       />
                     </client-only>
                   </div>
@@ -151,8 +152,6 @@ export default {
       this.$nextTick(() => {
         if (this.radio == 'Mission à distance') {
           this.fakeSubmit()
-        } else if (this.radio == 'Mission en présentiel') {
-          document.querySelector(`#search-overlay--places-input`).focus()
         }
       })
     },
@@ -191,6 +190,9 @@ export default {
       setTimeout(() => {
         this.onSubmit()
       }, 550)
+    },
+    onInitialized() {
+      document.querySelector(`#search-overlay--places-input`).focus()
     },
   },
 }
@@ -278,7 +280,7 @@ export default {
     .ap-dropdown-menu
       border-radius: 8px
     .ap-suggestion
-      padding: 5 15px
+      padding: 5px 15px
       line-height: normal
       height: inherit
     .ap-input

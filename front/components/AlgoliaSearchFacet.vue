@@ -57,32 +57,34 @@
           @change="onChange(refine, item)"
         >
           <div class="facet-value flex justify-between">
-            <v-clamp
-              :max-lines="1"
-              tag="span"
-              autoresize
-              class="w-full mr-2 relative"
-              :class="[
-                { 'text-gray-1000 font-bold': item.isRefined },
-                { 'text-gray-450': !item.isRefined },
-              ]"
-            >
-              {{ item.value }}
+            <client-only :placeholder="item.value">
+              <v-clamp
+                :max-lines="1"
+                tag="span"
+                autoresize
+                class="w-full mr-2 relative"
+                :class="[
+                  { 'text-gray-1000 font-bold': item.isRefined },
+                  { 'text-gray-450': !item.isRefined },
+                ]"
+              >
+                {{ item.value }}
 
-              <template slot="after" slot-scope="{ clamped }">
-                <!-- Tooltip if clamped -->
-                <span
-                  v-if="clamped"
-                  v-tooltip="{
-                    delay: { show: 700, hide: 100 },
-                    content: item.value,
-                    hideOnTargetClick: true,
-                    placement: 'top',
-                  }"
-                  class="absolute w-full h-full top-0 left-0"
-                />
-              </template>
-            </v-clamp>
+                <template slot="after" slot-scope="{ clamped }">
+                  <span
+                    v-if="clamped"
+                    v-tooltip="{
+                      delay: { show: 700, hide: 100 },
+                      content: item.value,
+                      hideOnTargetClick: true,
+                      placement: 'top',
+                    }"
+                    class="absolute w-full h-full top-0 left-0"
+                  />
+                </template>
+              </v-clamp>
+            </client-only>
+
             <span v-if="showCount" class="count text-gray-450">
               {{ item.count.toLocaleString() }}
             </span>

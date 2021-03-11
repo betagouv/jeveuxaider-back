@@ -27,7 +27,7 @@
       >
         <AlgoliaPlacesInput
           ref="alogoliaInput"
-          :value="initialPlace"
+          :initial-value="initialPlace"
           selector="algolia-lieu-switcher--places-input"
           class="zipcode"
           :label="false"
@@ -101,10 +101,14 @@ export default {
       },
     }
   },
+  watch: {
+    initialType(newVal) {
+      this.radio = newVal
+    },
+  },
   methods: {
     onClick(val) {
       this.$emit('click', val)
-
       if (this.radio == val) {
         this.radio = null
         this.$emit('typeRemoved')
@@ -112,16 +116,6 @@ export default {
         this.radio = val
         this.$emit('typeChanged', val)
       }
-
-      // this.$nextTick(() => {
-      //   if (this.radio == 'Mission en présentiel') {
-      //     console.log(document)
-      //     console.log(
-      //       document.querySelector(`#algolia-lieu-switcher--places-input`)
-      //     )
-      //     document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
-      //   }
-      // })
     },
     onInit() {
       document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
@@ -236,7 +230,7 @@ export default {
     .ap-dropdown-menu
       border-radius: 8px
     .ap-suggestion
-      padding: 5 15px
+      padding: 5px 15px
       line-height: normal
       height: inherit
     .ap-input
