@@ -2,7 +2,9 @@
   <div class="relative bg-blue-800 overflow-hidden">
     <img
       class="z-1 object-cover absolute h-screen lg:h-auto"
-      src="/images/bg-jva.jpg"
+      alt="Je Veux Aider"
+      :srcSet="bgHeroMultipleSizes.srcSet"
+      :src="bgHeroMultipleSizes.src"
     />
 
     <div class="pb-12 mt-12 px-4 relative w-full lg:inset-y-0 text-center z-10">
@@ -95,12 +97,12 @@
 </template>
 
 <script>
-import { resetPassword } from '@/api/auth'
+const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
-  name: 'PasswordReset',
   data() {
     return {
+      bgHeroMultipleSizes,
       loading: false,
       submitted: false,
       form: {
@@ -144,10 +146,11 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs['resetPasswordForm'].validate((valid) => {
+      this.$refs.resetPasswordForm.validate((valid) => {
         if (valid) {
           this.loading = true
-          resetPassword(this.form)
+          this.$api
+            .resetPassword(this.form)
             .then(() => {
               this.loading = false
               this.submitted = true

@@ -854,7 +854,6 @@
 export default {
   name: 'Mission',
   async asyncData({ $api, params }) {
-    console.log(params)
     const mission = await $api.getMission(params.id)
     const otherMissions = await $api.fetchStructureAvailableMissions(
       mission.structure.id,
