@@ -190,22 +190,24 @@ class Collectivity extends Model implements HasMedia
 
     public function setCoordonates()
     {
-        $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
-        $result = $places->search(
-            $this->zips[0],
-            [
-                'restrictSearchableAttributes' => 'postcode',
-                'type' => 'city',
-                'hitsPerPage' => 1,
-                'countries' => 'fr',
-                'language' => 'fr'
-            ]
-        );
+        if (!empty($this->zips)) {
+            $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
+            $result = $places->search(
+                $this->zips[0],
+                [
+                    'restrictSearchableAttributes' => 'postcode',
+                    'type' => 'city',
+                    'hitsPerPage' => 1,
+                    'countries' => 'fr',
+                    'language' => 'fr'
+                ]
+            );
 
-        if (!empty($result['nbHits'])) {
-            $result = $result['hits'][0];
-            $this->latitude = $result['_geoloc']['lat'];
-            $this->longitude = $result['_geoloc']['lng'];
+            if (!empty($result['nbHits'])) {
+                $result = $result['hits'][0];
+                $this->latitude = $result['_geoloc']['lat'];
+                $this->longitude = $result['_geoloc']['lng'];
+            }
         }
     }
 }

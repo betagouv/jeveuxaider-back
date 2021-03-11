@@ -17,6 +17,7 @@ use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
 use App\Filters\FiltersStructureCollectivity;
+use App\Filters\FiltersStructureIsCollectivity;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
@@ -40,6 +41,7 @@ class StructureController extends Controller
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
+                AllowedFilter::custom('is_collectivity', new FiltersStructureIsCollectivity),
             ])
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -137,6 +139,11 @@ class StructureController extends Controller
     public function members(StructureRequest $request, Structure $structure)
     {
         return $structure->members;
+    }
+
+    public function invitations(StructureRequest $request, Structure $structure)
+    {
+        return $structure->invitations;
     }
 
     public function addMember(StructureInvitationRequest $request, Structure $structure)

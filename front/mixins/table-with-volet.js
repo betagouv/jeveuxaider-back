@@ -11,8 +11,7 @@ export default {
     onClickedRow(row, column) {
       // Hack pour éviter que le volet s'affiche quand on clique sur un boutton
       if (!['Actions', 'Statut'].includes(column.label)) {
-        // this.$store.commit('volet/show', { ...row })
-        this.$store.commit('volet/show', row)
+        this.$store.commit('volet/show', { ...row })
       }
     },
   },

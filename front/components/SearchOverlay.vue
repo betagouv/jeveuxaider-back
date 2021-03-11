@@ -51,7 +51,7 @@
                       src="/images/chevron_gray.svg"
                       class="chevron hidden lg:block z-10"
                     />
-                    <client-only placeholder="Search place">
+                    <client-only placeholder="Rechercher par ville">
                       <AlgoliaPlacesInput
                         ref="alogoliaInput"
                         selector="search-overlay--places-input"

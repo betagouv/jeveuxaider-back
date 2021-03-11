@@ -40,7 +40,7 @@ class Profile extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'birthday' => 'datetime',
+        'birthday' => 'date:Y-m-d',
         'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
         'disponibilities' => 'array'

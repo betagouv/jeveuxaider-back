@@ -14,16 +14,6 @@
 //   return axios.post('/logout')
 // }
 
-// export function forgotPassword(email) {
-//   return axios.post('/password/forgot', {
-//     email,
-//   })
-// }
-
-// export function resetPassword(form) {
-//   return axios.post('/password/reset', form)
-// }
-
 // export function impersonate(id) {
 //   return axios.post(`/impersonate/${id}`)
 // }

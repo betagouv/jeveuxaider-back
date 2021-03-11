@@ -3,41 +3,37 @@ export default (axios) => ({
     const { data } = await axios.get(`/mission/${id}`)
     return data
   },
+  async fetchMissions(params) {
+    return await axios.get('/missions', { params })
+  },
+  async deleteMission(id) {
+    return await axios.delete(`/mission/${id}`)
+  },
+  async updateMission(id, mission) {
+    return await axios.post(`/mission/${id}`, mission)
+  },
+  async cloneMission(id) {
+    return await axios.post(`/mission/${id}/clone`)
+  },
+  async exportMissions(params) {
+    return await axios.get(`/missions/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
 })
 
 /*
-export function fetchMissions(params) {
-  return request.get('/api/missions', { params })
+
+async addStructureMission(structureId, mission) {
+  return await axios.post(`/structure/${structureId}/missions`, mission)
 }
 
-export function exportMissions(params) {
-  return request.get(`/api/missions/export`, {
-    responseType: 'blob',
-    params,
-  })
+async destroyMission(id) {
+  return await axios.delete(`/mission/${id}/destroy`)
 }
 
-export function addStructureMission(structureId, mission) {
-  return request.post(`/api/structure/${structureId}/missions`, mission)
-}
-
-export function updateMission(id, mission) {
-  return request.post(`/api/mission/${id}`, mission)
-}
-
-export function cloneMission(id) {
-  return request.post(`/api/mission/${id}/clone`)
-}
-
-export function deleteMission(id) {
-  return request.delete(`/api/mission/${id}`)
-}
-
-export function destroyMission(id) {
-  return request.delete(`/api/mission/${id}/destroy`)
-}
-
-export function getMissionStructure(id) {
-  return request.get(`/api/mission/${id}/structure`)
+async getMissionStructure(id) {
+  return await axios.get(`/mission/${id}/structure`)
 }
 */

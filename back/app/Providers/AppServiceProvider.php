@@ -17,10 +17,12 @@ use App\Observers\UserObserver;
 use App\Models\Activity;
 use App\Models\Collectivity;
 use App\Models\Conversation;
+use App\Models\Invitation;
 use App\Models\Message;
 use App\Models\User;
 use App\Observers\ActivityObserver;
 use App\Observers\ConversationObserver;
+use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -53,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         Activity::observe(ActivityObserver::class);
         Message::observe(MessageObserver::class);
         Conversation::observe(ConversationObserver::class);
+        Invitation::observe(InvitationObserver::class);
 
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);

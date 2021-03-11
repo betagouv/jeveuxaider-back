@@ -4,7 +4,7 @@
       v-if="$store.getters.isAppLoaded"
       class="h-full flex overflow-hidden"
     >
-      <DashboardSidebar class="bg-gray-100" />
+      <Sidebar class="bg-gray-100" />
       <div class="main-container bg-white overflow-y-auto w-full">
         <Nuxt class="app-main pt-8" />
       </div>

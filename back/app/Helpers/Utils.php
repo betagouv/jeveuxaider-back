@@ -18,4 +18,16 @@ class Utils
         $value = str_replace($exclude_words, ' ', $value);
         return Str::slug($value);
     }
+
+    public static function getDepartmentFromZip($zip)
+    {
+        $department = substr($zip, 0, 2);
+        switch ($department) {
+            case '97':
+            case '98':
+                $department = substr($zip, 0, 3);
+                break;
+        }
+        return $department;
+    }
 }

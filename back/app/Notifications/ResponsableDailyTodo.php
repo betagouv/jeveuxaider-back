@@ -60,7 +60,7 @@ class ResponsableDailyTodo extends Notification implements ShouldQueue
             $mailMessage->action(count($this->participations) . ' participations en attente', url(config('app.url') . '/dashboard/participations'));
         }
         $mailMessage->line('Afin d’assurer vos recrutements de bénévoles, veuillez leur répondre au plus vite.')
-            ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de JeVeuxAider.')
+            ->line('Vous pouvez aussi les contacter directement ou échanger avec eux sur la messagerie de JeVeuxAider.gouv.fr.')
             ->line('Merci beaucoup par avance pour votre action.');
 
         return $mailMessage;

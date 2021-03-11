@@ -1,0 +1,30 @@
+<template>
+  <div class="structure-form pl-12 pb-12">
+    <div class="text-m text-gray-600 uppercase">Mission</div>
+    <div class="mb-8 flex">
+      <div class="font-bold text-2xl text-gray-800">
+        {{ mission.name }}
+      </div>
+      <TagModelState
+        :state="mission.state"
+        class="relative ml-3"
+        style="top: 1px"
+      />
+    </div>
+    <FormMission :mission="mission" :structure-id="mission.structure_id" />
+  </div>
+</template>
+
+<script>
+export default {
+  layout: 'dashboard',
+  async asyncData({ $api, params }) {
+    const mission = await $api.getMission(params.id)
+    mission.tags = mission.tags.map((tag) => tag.name.fr)
+    return {
+      mission,
+    }
+  },
+  methods: {},
+}
+</script>

@@ -12,12 +12,14 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Filters\FiltersParticipationSearch;
 use App\Filters\FiltersParticipationLieu;
 use App\Filters\FiltersParticipationDomaine;
+use App\Http\Requests\Api\ParticipationCancelRequest;
 use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
 use App\Models\Mission;
 use App\Models\User;
+use App\Notifications\ParticipationBenevoleCanceled;
 use App\Notifications\ParticipationDeclined;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -130,16 +132,52 @@ class ParticipationController extends Controller
         return $participation;
     }
 
-    public function cancel(Request $request, Participation $participation)
+    public function cancel(ParticipationCancelRequest $request, Participation $participation)
     {
-        if (Auth::guard('api')->user()->profile->id != $participation->profile_id) {
-            abort(403, 'Cette participation ne vous appartient pas');
+        if ($participation->conversation) {
+            $currentUser = User::find(Auth::guard('api')->user()->id);
+
+            $participation->conversation->messages()->create([
+                'from_id' => $currentUser->id,
+                'type' => 'contextual',
+                'content' => 'La participation a été annulée par ' . $currentUser->profile->full_name,
+                'contextual_state' => 'Annulée par bénévole',
+                'contextual_reason' => $request->input('reason')
+            ]);
+
+            if ($request->input('content')) {
+                $currentUser->sendMessage($participation->conversation->id, $request->input('content'));
+            }
+
+            $currentUser->markConversationAsRead($participation->conversation);
+
+            // Trigger updated_at refresh.
+            $participation->conversation->touch();
+
+            $participation->mission->responsable->notify(new ParticipationBenevoleCanceled($participation, $request->input('reason')));
         }
 
-        $participation->update(['state' => 'Annulée']);
+        $participation->state = 'Annulée';
+        $participation->saveQuietly();
+
+        // Places left & Algolia
+        if ($participation->mission) {
+            $participation->mission->update();
+        }
 
         return $participation;
     }
+
+    // public function cancel(Request $request, Participation $participation)
+    // {
+    //     if (Auth::guard('api')->user()->profile->id != $participation->profile_id) {
+    //         abort(403, 'Cette participation ne vous appartient pas');
+    //     }
+
+    //     $participation->update(['state' => 'Annulée']);
+
+    //     return $participation;
+    // }
 
     public function delete(ParticipationDeleteRequest $request, Participation $participation)
     {

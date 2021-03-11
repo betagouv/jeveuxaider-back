@@ -113,7 +113,6 @@ class StatisticsController extends Controller
                         ->whereHas('user', function (Builder $query) {
                             $query->where('is_admin', true);
                         })->count(),
-                    'invited' => Profile::role($request->header('Context-Role'))->doesntHave('user')->count(),
                 ];
 
                 break;

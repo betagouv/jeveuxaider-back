@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="departments" />
+      <TabsMain index="departments" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -128,7 +128,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 import fileDownload from 'js-file-download'
 import TableWithFilters from '@/mixins/table-with-filters'
 
@@ -163,9 +162,8 @@ export default {
         })
         .catch((error) => {
           this.loadingExport = false
-          Message({
+          this.$message.error({
             message: error.response.data.message,
-            type: 'error',
           })
         })
     },

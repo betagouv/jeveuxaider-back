@@ -119,18 +119,18 @@ class CollectivityController extends Controller
     {
         $templates = $cities = [];
 
-        $templatesCollection = MissionTemplate::where('published', true)->get();
-        $templates = $templatesCollection->map(function ($template) use ($collectivity) {
-            return [
-                'id' => $template->id,
-                'title' => $template->title,
-                'subtitle' => $template->subtitle,
-                'missions_count' => Mission::where('template_id', $template->id)
-                ->where('department', $collectivity->department)
-                ->count(),
-                'image' => $template->image
-            ];
-        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
+        // $templatesCollection = MissionTemplate::where('published', true)->get();
+        // $templates = $templatesCollection->map(function ($template) use ($collectivity) {
+        //     return [
+        //         'id' => $template->id,
+        //         'title' => $template->title,
+        //         'subtitle' => $template->subtitle,
+        //         'missions_count' => Mission::where('template_id', $template->id)
+        //         ->where('department', $collectivity->department)
+        //         ->count(),
+        //         'image' => $template->image
+        //     ];
+        // })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
         // @todo: Seulement les missions en présentiel ?
         $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count, MIN(missions.latitude) as latitude, MIN(missions.longitude) as longitude, MIN(missions.zip) as zipcode')
@@ -161,7 +161,7 @@ class CollectivityController extends Controller
             'structures_count' => Structure::department($collectivity->department)->validated()->count(),
             'participations_count' => Participation::department($collectivity->department)->count(),
             'volontaires_count' => Profile::department($collectivity->department)->count(),
-            'templates' => $templates,
+            // 'templates' => $templates,
             'cities' => $cities
         ];
     }

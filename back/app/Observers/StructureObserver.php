@@ -7,8 +7,8 @@ use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\CollectivityWaitingValidation;
-use App\Notifications\StructureAssociationCreated;
-use App\Notifications\StructureCollectivityCreated;
+use App\Notifications\StructureAssociationValidated;
+use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
@@ -54,6 +54,11 @@ class StructureObserver
                 case 'Validée':
                     if ($structure->user->profile) {
                         $structure->user->profile->notify(new StructureValidated($structure));
+                        if ($structure->statut_juridique == 'Collectivité') {
+                            $structure->user->notify(new StructureCollectivityValidated($structure));
+                        } else {
+                            $structure->user->notify(new StructureAssociationValidated($structure));
+                        }
                     }
                     if ($structure->missions) {
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
@@ -103,10 +108,7 @@ class StructureObserver
         // STRUCTURE PUBLIQUE TYPE
         if (!$structure->getOriginal('statut_juridique') && $structure->statut_juridique) {
             if ($structure->statut_juridique == 'Collectivité') {
-                $structure->user->notify(new StructureCollectivityCreated($structure));
                 $this->createCollectivity($structure);
-            } else {
-                $structure->user->notify(new StructureAssociationCreated($structure));
             }
         }
 

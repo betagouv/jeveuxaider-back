@@ -33,7 +33,6 @@ export default {
   plugins: [
     '@/plugins/element-ui.js',
     '@/plugins/axios',
-    '@/plugins/dayjs',
     '@/plugins/router',
     '@/plugins/vue-libs.client.js',
     '@/plugins/numeral.js',
@@ -50,6 +49,7 @@ export default {
     '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -58,7 +58,27 @@ export default {
     'cookie-universal-nuxt',
     'nuxt-lazy-load',
     'portal-vue/nuxt',
+    '@nuxtjs/dayjs',
   ],
+
+  fontawesome: {
+    icons: {
+      solid: [
+        'faFile',
+        'faFilePdf',
+        'faFileWord',
+        'faFilePowerpoint',
+        'faFileCsv',
+      ],
+    },
+  },
+
+  dayjs: {
+    defaultLocale: 'fr',
+    plugins: [
+      'relativeTime', // import 'dayjs/plugin/utc'
+    ],
+  },
 
   optimizedImages: {
     optimizeImages: true,
@@ -76,6 +96,7 @@ export default {
 
   publicRuntimeConfig: {
     apiUrl: process.env.API_URL,
+    appUrl: process.env.APP_URL,
     axios: {
       browserBaseURL: `${process.env.API_URL}/api`,
     },

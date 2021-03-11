@@ -11,15 +11,15 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="structures" />
+      <TabsMain index="structures" />
     </div>
     <div class="px-12">
-      <DashboardCardOrganisationsCount
+      <CardOrganisationsCount
         label="Organisations"
         name="structures"
         link="/dashboard/structures"
       />
-      <DashboardChartModelsCreated type="structures" class="max-w-4xl" />
+      <ChartModelsCreated type="structures" class="max-w-4xl" />
     </div>
   </div>
 </template>

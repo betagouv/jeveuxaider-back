@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="px-12 mb-12">
-      <DashboardTabsMain index="main" />
+      <TabsMain index="main" />
     </div>
     <div class="px-12">
       <!-- <reminder-referent
@@ -25,35 +25,35 @@
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
-        <DashboardCardOccupationRate
+        <CardOccupationRate
           v-if="$store.getters.contextRole != 'responsable'"
         />
-        <DashboardCardPlacesLeftCount
+        <CardPlacesLeftCount
           v-if="$store.getters.contextRole != 'responsable'"
         />
-        <DashboardCardDefaultCount
+        <CardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="Organisations"
           name="structures"
           link="/dashboard/stats/structures"
         />
-        <DashboardCardDefaultCount
+        <CardDefaultCount
           label="Missions"
           name="missions"
           link="/dashboard/stats/missions"
         />
-        <DashboardCardDefaultCount
+        <CardDefaultCount
           label="Participations"
           name="participations"
           link="/dashboard/stats/participations"
         />
-        <DashboardCardDefaultCount
+        <CardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="Utilisateurs"
           name="profiles"
           link="/dashboard/stats/profiles"
         />
-        <DashboardCardDefaultCount
+        <CardDefaultCount
           v-if="$store.getters.contextRole != 'responsable'"
           label="En ligne"
           name="online"

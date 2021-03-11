@@ -2,12 +2,23 @@ import Vue from 'vue'
 import lang from 'element-ui/lib/locale/lang/fr'
 import locale from 'element-ui/lib/locale'
 import './element-ui.scss'
-import { Loading } from 'element-ui'
+import Message from 'element-ui/lib/message'
+import MessageBox from 'element-ui/lib/message-box'
+import Loading from 'element-ui/lib/loading'
+
 Vue.use(Loading.directive)
-
 locale.use(lang)
+Vue.prototype.$message = Message
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$loading = Loading.service
 
-export default () => {
+// Vue.prototype.$notify = Notification
+
+export default (context, inject) => {
+  inject('message', Message)
   Vue.component('ElDropdown', () =>
     import(
       /* webpackChunkName: 'element-ui-dropdown' */ 'element-ui/lib/dropdown'
@@ -102,12 +113,31 @@ export default () => {
       /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
     )
   )
-  Vue.component('ElPagination', () =>
-    import(
-      /* webpackChunkName: 'element-ui-pagination' */ 'element-ui/lib/pagination'
-    )
-  )
   Vue.component('ElTag', () =>
     import(/* webpackChunkName: 'element-ui-tag' */ 'element-ui/lib/tag')
+  )
+  Vue.component('ElDatePicker', () =>
+    import(
+      /* webpackChunkName: 'element-ui-date-picker' */ 'element-ui/lib/date-picker'
+    )
+  )
+  Vue.component('ElOptionGroup', () =>
+    import(
+      /* webpackChunkName: 'element-ui-option-group' */ 'element-ui/lib/option-group'
+    )
+  )
+  Vue.component('ElUpload', () =>
+    import(/* webpackChunkName: 'element-upload' */ 'element-ui/lib/upload')
+  )
+  Vue.component('ElDivider', () =>
+    import(/* webpackChunkName: 'element-divider' */ 'element-ui/lib/divider')
+  )
+  Vue.component('ElRadioGroup', () =>
+    import(
+      /* webpackChunkName: 'element-radio-group' */ 'element-ui/lib/radio-group'
+    )
+  )
+  Vue.component('ElSwitch', () =>
+    import(/* webpackChunkName: 'element-switch' */ 'element-ui/lib/switch')
   )
 }

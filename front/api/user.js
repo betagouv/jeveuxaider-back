@@ -1,6 +1,86 @@
+export default (axios) => ({
+  async fetchProfileParticipations(id) {
+    const { data } = await axios.get(`/profile/${id}/participations`)
+    return data
+  },
+  async updateProfile(id, profile) {
+    const { data } = await axios.post(`/profile/${id}`, profile)
+    return data
+  },
+
+  async updatePassword(user) {
+    return await axios.post('/user/password', user)
+  },
+
+  async forgotPassword(email) {
+    return await axios.post('/password/forgot', {
+      email,
+    })
+  },
+
+  async resetPassword(form) {
+    return await axios.post('/password/reset', form)
+  },
+
+  async anonymizeUser() {
+    return await axios.post('/user/anonymize')
+  },
+
+  async fetchInvitations(params) {
+    return await axios.get(`/invitations`, {
+      params,
+    })
+  },
+  async addInvitation(invitation) {
+    return await axios.post(`/invitation`, invitation)
+  },
+  async getInvitation(token) {
+    return await axios.get(`/invitation/${token}`)
+  },
+  async acceptInvitation(token) {
+    return await axios.post(`/invitation/${token}/accept`)
+  },
+  async deleteInvitation(token) {
+    return await axios.delete(`/invitation/${token}/delete`)
+  },
+  async resendInvitation(token) {
+    return await axios.post(`/invitation/${token}/resend`)
+  },
+  async registerInvitation(params, token) {
+    return await axios.post(`/invitation/${token}/register`, params)
+  },
+  async fetchProfiles(params, appends) {
+    return await axios.get(`/profiles?append=${appends.join(',')}`, {
+      params,
+    })
+  },
+  async exportProfilesReferentsDepartements(params) {
+    return await axios.get(`/profiles/referents/departements/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
+  async exportProfilesReferentsRegions(params) {
+    return await axios.get(`/profiles/referents/regions/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
+  async exportProfilesResponsables(params) {
+    return await axios.get(`/profiles/responsables/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
+  async getProfile(id) {
+    const { data } = await axios.get(`/profile/${id}`)
+    return data
+  },
+})
+
 // import axios from 'axios'
 
-// export function registerVolontaire(
+// async registerVolontaire(
 //   email,
 //   password,
 //   firstName,
@@ -22,7 +102,7 @@
 //   })
 // }
 
-// export function registerResponsable(
+// async registerResponsable(
 //   email,
 //   password,
 //   firstName,
@@ -38,29 +118,8 @@
 //   })
 // }
 
-// export function exportProfiles(params) {
+// async exportProfiles(params) {
 //   return axios.get(`/profiles/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// export function exportProfilesReferentsDepartements(params) {
-//   return axios.get(`/profiles/referents/departements/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// export function exportProfilesReferentsRegions(params) {
-//   return axios.get(`/profiles/referents/regions/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// export function exportProfilesResponsables(params) {
-//   return axios.get(`/profiles/responsables/export`, {
 //     responseType: 'blob',
 //     params,
 //   })
@@ -70,74 +129,18 @@
 //   return await axios.get('/user')
 // }
 
-// export function getProfile(id) {
-//   return axios.get(`/profile/${id}`)
-// }
-
-// export function addProfile(profile) {
+// async addProfile(profile) {
 //   return axios.post(`/profile`, profile)
 // }
 
-// export function updateProfile(id, profile) {
-//   return axios.post(`/profile/${id}`, profile)
-// }
-
-// export function updateUser(user) {
+// async updateUser(user) {
 //   return axios.post('/user', user)
 // }
 
-// export function updatePassword(user) {
-//   return axios.post('/user/password', user)
-// }
-
-// export function anonymizeUser() {
-//   return axios.post('/user/anonymize')
-// }
-
-// export function fetchProfileParticipations(id) {
-//   return axios.get(`/profile/${id}/participations`)
-// }
-
-// export function fetchProfiles(params, appends) {
-//   return axios.get(`/profiles?append=${appends.join(',')}`, {
-//     params,
-//   })
-// }
-
-// export function fetchUsers(params, appends) {
+// async fetchUsers(params, appends) {
 //   return axios.get(`/users?append=${appends.join(',')}`, {
 //     params,
 //   })
-// }
-
-// export function fetchInvitations(params) {
-//   return axios.get(`/invitations`, {
-//     params,
-//   })
-// }
-
-// export function addInvitation(invitation) {
-//   return axios.post(`/invitation`, invitation)
-// }
-
-// export function getInvitation(token) {
-//   return axios.get(`/invitation/${token}`)
-// }
-
-// export function acceptInvitation(token) {
-//   return axios.post(`/invitation/${token}/accept`)
-// }
-
-// export function deleteInvitation(token) {
-//   return axios.delete(`/invitation/${token}/delete`)
-// }
-
-// export function resendInvitation(token) {
-//   return axios.post(`/invitation/${token}/resend`)
-// }
-
-// export function registerInvitation(params, token) {
-//   return axios.post(`/invitation/${token}/register`, params)
 // }
 
 export const rolesList = [
@@ -150,7 +153,7 @@ export const rolesList = [
   { key: 'analyste', label: 'Analyste' },
 ]
 
-// export function getUserFirstname(email) {
+// async getUserFirstname(email) {
 //   return axios.post(`/firstname`, {
 //     email,
 //   })
