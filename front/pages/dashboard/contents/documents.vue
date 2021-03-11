@@ -6,17 +6,17 @@
           {{ $store.getters.contextRoleLabel }}
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">
-          Contenus - Départements
+          Contenus - Documents
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/department/add`">
-          <el-button type="primary"> Ajouter un département </el-button>
+        <nuxt-link :to="`/dashboard/document/add`">
+          <el-button type="primary"> Ajouter un document </el-button>
         </nuxt-link>
       </div>
     </div>
     <div class="px-12 mb-12">
-      <TabsContents index="/dashboard/contents/departments" />
+      <TabsContents index="/dashboard/contents/documents" />
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -38,53 +38,11 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Titre" min-width="320">
+      <el-table-column label="Question" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.name }}</div>
-          <div class="font-light text-gray-600 text-xs">
-            <nuxt-link :to="`/territoires/${scope.row.slug}`" target="_blank"
-              >/territoires/{{ scope.row.slug }}</nuxt-link
-            >
+          <div class="text-gray-900">
+            {{ scope.row.title }}
           </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="Contexte" min-width="320">
-        <template slot-scope="scope">
-          <el-tag
-            v-if="scope.row.published"
-            type="success"
-            class="m-1 ml-0"
-            size="small"
-            >En ligne</el-tag
-          >
-          <el-tag
-            v-if="!scope.row.published"
-            type="info"
-            class="m-1 ml-0"
-            size="small"
-            >Non publié</el-tag
-          >
-        </template>
-      </el-table-column>
-      <el-table-column label="Statut" min-width="320">
-        <template slot-scope="scope">
-          <el-tag
-            v-if="scope.row.state == 'validated'"
-            type="success"
-            class="m-1 ml-0"
-            size="small"
-            >Validée</el-tag
-          >
-          <el-tag
-            v-else-if="scope.row.state == 'waiting'"
-            type="warning"
-            class="m-1 ml-0"
-            size="small"
-            >En attente de validation</el-tag
-          >
-          <el-tag v-else type="info" class="m-1 ml-0" size="small">
-            Refusée
-          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
@@ -103,12 +61,13 @@
             @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >
-            <i class="el-icon-edit mr-2"></i>Modifier
+            <i class="el-icon-edit mr-2" />Modifier
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 :command="{ action: 'delete', id: scope.row.id }"
-                >Supprimer</el-dropdown-item
               >
+                Supprimer
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -141,7 +100,7 @@ export default {
   },
   async fetch() {
     this.query = this.$route.query
-    const { data } = await this.$api.fetchDepartments(this.query)
+    const { data } = await this.$api.fetchDocuments(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -160,12 +119,12 @@ export default {
       }
     },
     handleClickEdit(id) {
-      this.$router.push(`/dashboard/department/${id}/edit`)
+      this.$router.push(`/dashboard/document/${id}/edit`)
     },
     handleClickDelete(id) {
       this.$confirm(
-        `Êtes vous sur de vouloir supprimer ce département ?`,
-        'Supprimer ce département',
+        `Êtes vous sur de vouloir supprimer ce document ?`,
+        'Supprimer ce document',
         {
           confirmButtonText: 'Supprimer',
           confirmButtonClass: 'el-button--danger',
@@ -174,10 +133,10 @@ export default {
           type: 'error',
         }
       ).then(() => {
-        this.$api.deleteCollectivity(id).then(() => {
+        this.$api.deleteDocument(id).then(() => {
           this.$message({
             type: 'success',
-            message: `Le département a été supprimé.`,
+            message: `Le document a été supprimé.`,
           })
           this.$fetch()
         })

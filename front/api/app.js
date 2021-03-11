@@ -98,6 +98,41 @@ export default (axios) => ({
   async deletePage(id) {
     return await axios.delete(`/page/${id}`)
   },
+  async addDocument(document) {
+    return await axios.post('/document', document)
+  },
+
+  async updateDocument(id, document) {
+    return await axios.post(`/document/${id}`, document)
+  },
+  async notifyDocument(id) {
+    return await axios.post(`/document/${id}/notify/`)
+  },
+  async addOrUpdateDocument(id, document) {
+    return id
+      ? await axios.post(`/document/${id}`, document)
+      : await axios.post('/document', document)
+  },
+  async getDocument(id) {
+    const { data } = await axios.get(`/document/${id}`)
+    return data
+  },
+  async fetchDocuments(params) {
+    return await axios.get('/documents', { params })
+  },
+  async deleteDocument(id) {
+    return await axios.delete(`/document/${id}`)
+  },
+  async uploadFile(id, model, file) {
+    const data = new FormData()
+    data.append('file', file)
+    return await axios.post(`/${model}/${id}/upload`, data, {
+      'Content-Type': 'multipart/form-data',
+    })
+  },
+  async deleteFile(id, model) {
+    return await axios.delete(`/${model}/${id}/upload`)
+  },
 })
 
 // async bootstrap() {
@@ -154,46 +189,6 @@ export default (axios) => ({
 
 // async destroyCollectivity(id) {
 //   return await axios.delete(`/collectivity/${id}/destroy`)
-// }
-
-// async addDocument(document) {
-//   return await axios.post('/document', document)
-// }
-
-// async updateDocument(id, document) {
-//   return await axios.post(`/document/${id}`, document)
-// }
-
-// async notifyDocument(id) {
-//   return await axios.post(`/document/${id}/notify/`)
-// }
-
-// async addOrUpdateDocument(id, document) {
-//   return id ? updateDocument(id, document) : addDocument(document)
-// }
-
-// async getDocument(id) {
-//   return await axios.get(`/document/${id}`)
-// }
-
-// async fetchDocuments(params) {
-//   return await axios.get('/documents', { params })
-// }
-
-// async deleteDocument(id) {
-//   return await axios.delete(`/document/${id}`)
-// }
-
-// async uploadFile(id, model, file) {
-//   const data = new FormData()
-//   data.append('file', file)
-//   return await axios.post(`/${model}/${id}/upload`, data, {
-//     'Content-Type': 'multipart/form-data',
-//   })
-// }
-
-// async deleteFile(id, model) {
-//   return await axios.delete(`/${model}/${id}/upload`)
 // }
 
 // async updateThematique(id, thematique) {
