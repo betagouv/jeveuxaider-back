@@ -127,5 +127,17 @@ export default {
         return ['script', 'style', 'font'].includes(type)
       },
     },
+    fallback: {
+      static: {
+        // Avoid sending 404 for these extensions
+        // https://github.com/nuxt/nuxt.js/issues/5493
+        handlers: {
+          '.jpg': false,
+          '.jpeg': false,
+          '.png': false,
+          '.svg': false,
+        },
+      },
+    },
   },
 }
