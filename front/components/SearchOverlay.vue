@@ -171,6 +171,7 @@ export default {
         `${$event.latlng.lat},${$event.latlng.lng}`
       )
       this.$set(this.routeState, 'place', $event.value)
+      this.$set(this.routeState, 'aroundRadius', 25000)
       this.fakeSubmit()
     },
     onPlaceClear() {
