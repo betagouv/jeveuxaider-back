@@ -129,7 +129,7 @@
           <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>
-          <router-link
+          <nuxt-link
             v-if="scope.row.missions_count > 0"
             :to="`/dashboard/structure/${scope.row.id}/missions`"
           >
@@ -139,7 +139,7 @@
                 scope.row.missions_count | pluralize(['mission', 'missions'])
               }}
             </el-tag>
-          </router-link>
+          </nuxt-link>
         </template>
       </el-table-column>
       <el-table-column label="Créée le" min-width="120">

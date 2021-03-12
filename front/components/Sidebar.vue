@@ -37,15 +37,15 @@
       v-if="$store.getters.isSidebarExpanded"
       class="p-6 flex flex-col border-t border-gray-200 justify-center items-center"
     >
-      <router-link to="/">
+      <nuxt-link to="/">
         <img alt="JeVeuxAider" src="/images/jeveuxaider-logo.svg" />
-      </router-link>
+      </nuxt-link>
       <div class="flex py-2 justify-center items-center">
-        <router-link to="/dashboard/news">
+        <nuxt-link to="/dashboard/news">
           <div class="text-xs text-gray-600 hover:text-gray-800">
             Nouveautés
           </div>
-        </router-link>
+        </nuxt-link>
         <span class="mx-2 text-gray-700">-</span>
         <a
           class="text-xs text-gray-600 hover:text-gray-800"
@@ -60,7 +60,7 @@
       v-else
       class="p-2 flex flex-col border-t border-gray-200 justify-center items-center"
     >
-      <router-link to="/dashboard/news" class="py-2">
+      <nuxt-link to="/dashboard/news" class="py-2">
         <el-tooltip
           class="item"
           :open-delay="500"
@@ -70,7 +70,7 @@
         >
           <i class="el-icon-news text-2xl text-gray-400" />
         </el-tooltip>
-      </router-link>
+      </nuxt-link>
       <a
         href="https://reserve-civique.crisp.help/fr/"
         target="_blank"
