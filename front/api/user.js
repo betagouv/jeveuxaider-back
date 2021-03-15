@@ -76,31 +76,31 @@ export default (axios) => ({
     const { data } = await axios.get(`/profile/${id}`)
     return data
   },
+
+  registerVolontaire(
+    email,
+    password,
+    firstName,
+    lastName,
+    mobile,
+    birthday,
+    zip,
+    sc
+  ) {
+    return axios.post('/register/volontaire', {
+      email: email.toLowerCase(),
+      password,
+      first_name: firstName,
+      last_name: lastName,
+      mobile,
+      birthday,
+      zip,
+      sc,
+    })
+  },
 })
 
 // import axios from 'axios'
-
-// async registerVolontaire(
-//   email,
-//   password,
-//   firstName,
-//   lastName,
-//   mobile,
-//   birthday,
-//   zip,
-//   sc
-// ) {
-//   return axios.post('/register/volontaire', {
-//     email: email.toLowerCase(),
-//     password,
-//     firstName,
-//     lastName,
-//     mobile,
-//     birthday,
-//     zip,
-//     sc,
-//   })
-// }
 
 // async registerResponsable(
 //   email,

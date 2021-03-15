@@ -323,32 +323,32 @@
         <div class="overflow-hidden">
           <div class="flex flex-wrap items-center justify-center -m-4 sm:-m-8">
             <img
-              alt="Logo article1"
+              alt="Article1"
               class="min-w-0 m-4 sm:m-8 object-contain"
               src="@/assets/images/logo_article1.png"
               style="max-height: 3rem"
             />
 
             <img
-              alt="Logo APHP"
+              alt="APHP"
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="@/assets/images/logo_aphp.png"
             />
             <img
-              alt="Logo Emmaus"
+              alt="Emmaus"
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="@/assets/images/logo_emmaus.png"
             />
             <img
-              alt=""
+              alt="Banque Alimentaire"
               class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
               src="@/assets/images/logo_banquealimentaire.png"
               style="max-width: 11rem"
             />
             <img
-              alt=""
+              alt="J'agis pour la nature"
               class="min-w-0 m-4 sm:m-8 object-contain"
-              src="/images/logo-jagis-pour-la-nature.svg"
+              src="@/assets/images/logo-jagis-pour-la-nature.png"
               style="max-height: 3rem"
             />
           </div>
@@ -482,6 +482,7 @@
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
+  middleware: 'guest',
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
