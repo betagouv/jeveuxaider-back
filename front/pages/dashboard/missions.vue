@@ -207,9 +207,13 @@ export default {
   layout: 'dashboard',
   asyncData({ store, error }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
-        store.getters.contextRole
-      )
+      ![
+        'admin',
+        'referent',
+        'referent_regional',
+        'superviseur',
+        'responsable',
+      ].includes(store.getters.contextRole)
     ) {
       return error({ statusCode: 403 })
     }

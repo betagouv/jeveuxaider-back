@@ -76,6 +76,17 @@ export default (axios) => ({
     const { data } = await axios.get(`/profile/${id}`)
     return data
   },
+
+  async fetchNofiticationsBenevoles(params) {
+    return await axios.get('/notifications-benevoles', { params })
+  },
+
+  async addNotificationBenevole(missionId, profileId) {
+    return await axios.post('/notification-benevole', {
+      missionId,
+      profileId,
+    })
+  },
 })
 
 // import axios from 'axios'
