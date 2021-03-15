@@ -50,4 +50,13 @@ export const actions = {
       .catch(() => this.$cookies.remove('access-token'))
     commit('setUser', res ? res.data : null)
   },
+  async updateUser({ state, commit }, attributes) {
+    const res = await this.$axios.post('/user', {
+      ...state.user,
+      ...attributes,
+    })
+    console.log('updateUser', { ...state.user, ...attributes })
+    console.log('setUser', res.data)
+    commit('setUser', res ? res.data : null)
+  },
 }

@@ -125,7 +125,9 @@ export default {
       if (command.action == 'menu') {
         this.activeMenu = command.value
       } else if (command.action == 'role') {
-        await this.$store.dispatch('user/setContextRole', command.value)
+        await this.$store.dispatch('auth/updateUser', {
+          context_role: command.value,
+        })
         window.location.href = '/dashboard'
       }
     },
