@@ -5,29 +5,67 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Activités</div>
+        <div class="mb-8 font-bold text-2xl text-gray-800">Ressources</div>
       </div>
     </div>
 
     <div class="flex flex-wrap px-12 mb-3">
-      <SearchFiltersQueryInput
-        name="subject_id"
-        label="ID de l'objet"
-        placeholder="ex: 1494"
-        :initial-value="query['filter[subject_id]']"
-        @changed="onFilterChange"
-      />
-      <SearchFiltersQuery
-        type="select"
-        name="subject_type"
-        :value="query['filter[subject_type]']"
-        label="Type de l'objet"
-        :options="subjectTypes"
+      <SearchFiltersQueryMain
+        name="search"
+        placeholder="Rechercher par mots clés"
+        :initial-value="query['filter[search]']"
         @changed="onFilterChange"
       />
     </div>
 
-    <TableActivities :table-data="tableData" />
+    <el-table
+      v-loading="$fetchState.pending"
+      :data="tableData"
+      :highlight-current-row="true"
+    >
+      <el-table-column label="" width="90" align="center">
+        <template slot-scope="scope">
+          <img
+            :src="
+              require(`@/assets/images/dynamic/${$options.filters.icoFromMimeType(
+                scope.row.file.mime_type
+              )}.svg`)
+            "
+            alt="File"
+            class="h-10 w-auto mx-auto"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column label="Ressource" min-width="320">
+        <template slot-scope="scope">
+          <div class="flex items-center">
+            <div class="mr-8 flex-1">
+              <div>{{ scope.row.title }}</div>
+              <div class="text-sm text-gray-600">
+                {{ scope.row.file.size | fileSizeOctets }}
+              </div>
+            </div>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
+        <template slot-scope="scope">
+          <div class="text-sm text-gray-600">
+            {{ scope.row.updated_at | fromNow }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Actions" width="205">
+        <template slot-scope="scope">
+          <el-button
+            type="secondary"
+            icon="el-icon-download"
+            @click.prevent="onDownloadFile(scope.row.file)"
+            >Télécharger</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
     <div class="m-3 flex items-center">
       <el-pagination
         background
@@ -51,23 +89,13 @@ export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
   asyncData({ store, error }) {
-    if (!['admin'].includes(store.getters.contextRole)) {
+    if (!['referent', 'responsable'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
-    }
-  },
-  data() {
-    return {
-      subjectTypes: [
-        { label: 'Mission', value: 'Mission' },
-        { label: 'Organisation', value: 'Structure' },
-        { label: 'Participation', value: 'Participation' },
-        { label: 'Utilisateur', value: 'Profile' },
-      ],
     }
   },
   async fetch() {
     this.query = this.$route.query
-    const { data } = await this.$api.fetchActivities(this.query)
+    const { data } = await this.$api.fetchDocuments(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -76,6 +104,10 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  methods: {},
+  methods: {
+    onDownloadFile(file) {
+      window.open(file.url, '_blank')
+    },
+  },
 }
 </script>
