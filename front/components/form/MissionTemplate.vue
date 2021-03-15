@@ -160,7 +160,7 @@ export default {
       this.$refs.missionTemplateForm.validate((valid) => {
         if (valid) {
           this.$api
-            .addOrUpdateMissionTemplate(this.id, this.form)
+            .addOrUpdateMissionTemplate(this.template.id, this.form)
             .then((response) => {
               this.form = response.data
               if (this.icone) {
