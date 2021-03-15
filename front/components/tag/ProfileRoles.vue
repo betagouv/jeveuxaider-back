@@ -40,7 +40,7 @@
       v-if="profile.roles.responsable"
       class="item"
       effect="dark"
-      :content="structure_as_responsable.name"
+      :content="structure.name"
       placement="top"
     >
       <el-tag type="info" :size="size" class="m-1"> Responsable </el-tag>
@@ -95,7 +95,7 @@ export default {
     return {}
   },
   computed: {
-    structure_as_responsable() {
+    structure() {
       return this.profile.structures.filter(
         (structure) => structure.pivot.role == 'responsable'
       )[0]

@@ -21,14 +21,17 @@ export default {
   //       return
   //     }
   //     if (
-  //       vm.$store.getters.structure_as_responsable.collectivity.id !=
+  //       vm.$store.getters.structure.collectivity.id !=
   //       to.params.id
   //     ) {
   //       vm.$router.push('/403')
   //     }
   //   })
   // },
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
     const collectivity = await $api.getCollectivity(params.id)
     return {
       collectivity,

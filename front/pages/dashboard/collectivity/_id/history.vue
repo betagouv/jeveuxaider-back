@@ -77,7 +77,10 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
     const collectivity = await $api.getCollectivity(params.id)
     return {
       collectivity,

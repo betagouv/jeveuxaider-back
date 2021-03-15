@@ -205,6 +205,15 @@ import fileDownload from 'js-file-download'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
+  asyncData({ store, error }) {
+    if (
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
+    ) {
+      return error({ statusCode: 403 })
+    }
+  },
   data() {
     return {
       loadingExport: false,
@@ -244,9 +253,9 @@ export default {
     // @TODO: Liste des responsables
     // if (
     //     this.$store.getters.contextRole === 'responsable' &&
-    //     this.$store.getters.structure_as_responsable
+    //     this.$store.getters.structure
     //   ) {
-    //     getStructureMembers(this.$store.getters.structure_as_responsable.id).then(
+    //     getStructureMembers(this.$store.getters.structure.id).then(
     //       (res) => {
     //         this.responsables = res.data
     //       }

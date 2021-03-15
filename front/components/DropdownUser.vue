@@ -38,7 +38,7 @@
         <div v-if="activeMenu == 'profile'">
           <nuxt-link
             v-if="$store.getters.contextRole == 'responsable'"
-            :to="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/members`"
+            :to="`/dashboard/structure/${$store.getters.structure.id}/members`"
           >
             <el-dropdown-item>Gérer votre équipe</el-dropdown-item>
           </nuxt-link>
@@ -59,7 +59,7 @@
             <el-dropdown-item>Mon compte</el-dropdown-item>
           </nuxt-link>
           <el-dropdown-item
-            v-if="$store.getters.hasRoles && $store.getters.hasRoles.length > 1"
+            v-if="$store.getters.roles && $store.getters.roles.length > 1"
             :command="{ action: 'menu', value: 'role' }"
             divided
           >
@@ -90,7 +90,7 @@
           </el-dropdown-item>
           <el-dropdown-item divided />
           <el-dropdown-item
-            v-for="role in $store.getters.hasRoles"
+            v-for="role in $store.getters.roles"
             :key="role.key"
             :command="{ action: 'role', value: role.key }"
           >
@@ -125,7 +125,9 @@ export default {
       if (command.action == 'menu') {
         this.activeMenu = command.value
       } else if (command.action == 'role') {
-        await this.$store.dispatch('user/setContextRole', command.value)
+        await this.$store.dispatch('auth/updateUser', {
+          context_role: command.value,
+        })
         window.location.href = '/dashboard'
       }
     },

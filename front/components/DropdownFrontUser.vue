@@ -18,17 +18,14 @@
         >
           <el-dropdown-item class="flex items-center">
             <el-avatar
-              v-if="
-                $store.getters.structure_as_responsable &&
-                $store.getters.structure_as_responsable.name
-              "
+              v-if="$store.getters.structure && $store.getters.structure.name"
               class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border"
-              :src="`${$store.getters.structure_as_responsable.logo}`"
+              :src="`${$store.getters.structure.logo}`"
             >
-              {{ $store.getters.structure_as_responsable.name[0] }}
+              {{ $store.getters.structure.name[0] }}
             </el-avatar>
             <v-clamp :max-lines="1" autoresize class="flex-1">
-              {{ $store.getters.structure_as_responsable.name }}
+              {{ $store.getters.structure.name }}
             </v-clamp>
           </el-dropdown-item>
         </nuxt-link>

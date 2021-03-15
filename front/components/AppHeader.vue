@@ -37,8 +37,8 @@
             <nuxt-link
               v-if="
                 $store.getters.isLogged &&
-                $store.getters.hasRoles &&
-                $store.getters.hasRoles.length > 0
+                $store.getters.roles &&
+                $store.getters.roles.length > 0
               "
               to="/dashboard"
               class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
@@ -297,8 +297,8 @@ export default {
   created() {
     // if (
     //   this.$store.getters.isLogged &&
-    //   this.$store.getters.hasRoles &&
-    //   this.$store.getters.hasRoles.length > 0
+    //   this.$store.getters.roles &&
+    //   this.$store.getters.roles.length > 0
     // ) {
     //   this.$store.dispatch('reminders')
     // }

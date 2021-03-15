@@ -7,7 +7,8 @@ export default function ({ redirect, route, store }) {
       },
     })
   }
-  if (!store.getters.roles.admin) {
+  // Only if user has at least a role ( not benevole )
+  if (store.getters.roles.length == 0) {
     return redirect('/')
   }
 }

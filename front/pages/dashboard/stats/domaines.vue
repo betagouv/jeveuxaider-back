@@ -125,6 +125,15 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
+  asyncData({ $api, store, error, params }) {
+    if (
+      !['admin', 'referent', 'referent_regional'].includes(
+        store.getters.contextRole
+      )
+    ) {
+      return error({ statusCode: 403 })
+    }
+  },
   data() {
     return {
       loadingExport: false,
