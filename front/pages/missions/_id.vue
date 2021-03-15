@@ -728,7 +728,7 @@
           >
             <nuxt-link
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-              :to="`/missions/${otherMission.id}/${otherMission.slug}`"
+              :to="`/missions/${otherMission.id}`"
             >
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">

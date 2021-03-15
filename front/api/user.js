@@ -93,8 +93,8 @@ export default (axios) => ({
 
   async addNotificationBenevole(missionId, profileId) {
     return await axios.post('/notification-benevole', {
-      missionId,
-      profileId,
+      mission_id: missionId,
+      profile_id: profileId,
     })
   },
   registerVolontaire(
