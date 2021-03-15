@@ -38,18 +38,53 @@ export const actions = {
         this.$cookies.remove('access-token')
       })
   },
+
   async logout({ commit }) {
     await this.$axios.post('/logout')
     commit('setAccessToken', null)
     this.$cookies.remove('access-token')
     this.$router.push('/')
   },
+
   async fetchUser({ commit }) {
     const res = await this.$axios
       .get('/user')
       .catch(() => this.$cookies.remove('access-token'))
     commit('setUser', res ? res.data : null)
   },
+
+  registerVolontaire({ dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      this.$api
+        .registerVolontaire(
+          user.email,
+          user.password,
+          user.first_name,
+          user.last_name,
+          user.mobile,
+          user.birthday,
+          user.zip,
+          user.service_civique
+        )
+        .then(() => {
+          dispatch('login', user).then((response) => {
+            resolve(response)
+          })
+        })
+        .catch((error) => {
+          if (error.response.data.errors && error.response.data.errors.email) {
+            if (
+              error.response.data.errors.email ==
+              'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.'
+            ) {
+              this.$router.push('/login?email=' + user.email)
+            }
+          }
+          reject(error)
+        })
+    })
+  },
+
   async updateUser({ state, commit }, attributes) {
     const res = await this.$axios.post('/user', {
       ...state.user,

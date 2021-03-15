@@ -1,0 +1,497 @@
+[
+  {
+    "name": "Ain",
+    "url": "/territoires/departements/ain",
+    "group": "A"
+  },
+  {
+    "name": "Aisne",
+    "url": "/territoires/departements/aisne",
+    "group": "A"
+  },
+  {
+    "name": "Allier",
+    "url": "/territoires/departements/allier",
+    "group": "A"
+  },
+  {
+    "name": "Alpes-de-Haute-Provence",
+    "url": "/territoires/departements/alpes-de-haute-provence",
+    "group": "A"
+  },
+  {
+    "name": "Alpes-Maritimes",
+    "url": "/territoires/departements/alpes-maritimes",
+    "group": "A"
+  },
+  {
+    "name": "Ardèche",
+    "url": "/territoires/departements/ardeche",
+    "group": "A"
+  },
+  {
+    "name": "Ardennes",
+    "url": "/territoires/departements/ardennes",
+    "group": "A"
+  },
+  {
+    "name": "Ariège",
+    "url": "/territoires/departements/ariege",
+    "group": "A"
+  },
+  {
+    "name": "Aube",
+    "url": "/territoires/departements/aube",
+    "group": "A"
+  },
+  {
+    "name": "Aude",
+    "url": "/territoires/departements/aude",
+    "group": "A"
+  },
+  {
+    "name": "Aveyron",
+    "url": "/territoires/departements/aveyron",
+    "group": "A"
+  },
+  {
+    "name": "Bas-Rhin",
+    "url": "/territoires/departements/bas-rhin",
+    "group": "B - C"
+  },
+  {
+    "name": "Bouches-du-Rhône",
+    "url": "/territoires/departements/bouches-du-rhone",
+    "group": "B - C"
+  },
+  {
+    "name": "Calvados",
+    "url": "/territoires/departements/calvados",
+    "group": "B - C"
+  },
+  {
+    "name": "Cantal",
+    "url": "/territoires/departements/cantal",
+    "group": "B - C"
+  },
+  {
+    "name": "Charente",
+    "url": "/territoires/departements/charente",
+    "group": "B - C"
+  },
+  {
+    "name": "Charente-Maritime",
+    "url": "/territoires/departements/charente-maritime",
+    "group": "B - C"
+  },
+  {
+    "name": "Cher",
+    "url": "/territoires/departements/cher",
+    "group": "B - C"
+  },
+  {
+    "name": "Corrèze",
+    "url": "/territoires/departements/correze",
+    "group": "B - C"
+  },
+  {
+    "name": "Corse-du-Sud",
+    "url": "/territoires/departements/corse-du-sud",
+    "group": "B - C"
+  },
+  {
+    "name": "Côte-d'Or",
+    "url": "/territoires/departements/cote-dor",
+    "group": "B - C"
+  },
+  {
+    "name": "Côtes d'Armor",
+    "url": "/territoires/departements/cotes-darmor",
+    "group": "B - C"
+  },
+  {
+    "name": "Creuse",
+    "url": "/territoires/departements/creuse",
+    "group": "B - C"
+  },
+  {
+    "name": "Deux-Sèvres",
+    "url": "/territoires/departements/deux-sevres",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Dordogne",
+    "url": "/territoires/departements/dordogne",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Doubs",
+    "url": "/territoires/departements/doubs",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Drôme",
+    "url": "/territoires/departements/drome",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Essonne",
+    "url": "/territoires/departements/essonne",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Eure",
+    "url": "/territoires/departements/eure",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Eure-et-Loir",
+    "url": "/territoires/departements/eure-et-loir",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Finistère",
+    "url": "/territoires/departements/finistere",
+    "group": "D - E - F"
+  },
+  {
+    "name": "Gard",
+    "url": "/territoires/departements/gard",
+    "group": "G - H"
+  },
+  {
+    "name": "Gers",
+    "url": "/territoires/departements/gers",
+    "group": "G - H"
+  },
+  {
+    "name": "Gironde",
+    "url": "/territoires/departements/gironde",
+    "group": "G - H"
+  },
+  {
+    "name": "Guadeloupe",
+    "url": "/territoires/departements/guadeloupe",
+    "group": "G - H"
+  },
+  {
+    "name": "Guyane",
+    "url": "/territoires/departements/guyane",
+    "group": "G - H"
+  },
+  {
+    "name": "Haut-Rhin",
+    "url": "/territoires/departements/haut-rhin",
+    "group": "G - H"
+  },
+  {
+    "name": "Haute-Corse",
+    "url": "/territoires/departements/haute-corse",
+    "group": "G - H"
+  },
+  {
+    "name": "Haute-Loire",
+    "url": "/territoires/departements/haute-loire",
+    "group": "G - H"
+  },
+  {
+    "name": "Haute-Marne",
+    "url": "/territoires/departements/haute-marne",
+    "group": "G - H"
+  },
+  {
+    "name": "Haute-Saône",
+    "url": "/territoires/departements/haute-saone",
+    "group": "G - H"
+  },
+  {
+    "name": "Haute-Vienne",
+    "url": "/territoires/departements/haute-vienne",
+    "group": "G - H"
+  },
+  {
+    "name": "Hautes-Alpes",
+    "url": "/territoires/departements/hautes-alpes",
+    "group": "G - H"
+  },
+  {
+    "name": "Hautes-Pyrénées",
+    "url": "/territoires/departements/hautes-pyrenees",
+    "group": "G - H"
+  },
+  {
+    "name": "Hauts-de-Seine",
+    "url": "/territoires/departements/hauts-de-seine",
+    "group": "G - H"
+  },
+  {
+    "name": "Hérault",
+    "url": "/territoires/departements/herault",
+    "group": "G - H"
+  },
+  {
+    "name": "Ille-et-Vilaine",
+    "url": "/territoires/departements/ille-et-vilaine",
+    "group": "I"
+  },
+  {
+    "name": "Indre",
+    "url": "/territoires/departements/indre",
+    "group": "I"
+  },
+  {
+    "name": "Indre-et-Loire",
+    "url": "/territoires/departements/indre-et-loire",
+    "group": "I"
+  },
+  {
+    "name": "Isère",
+    "url": "/territoires/departements/isere",
+    "group": "I"
+  },
+  {
+    "name": "Jura",
+    "url": "/territoires/departements/jura",
+    "group": "J - L"
+  },
+  {
+    "name": "La Réunion",
+    "url": "/territoires/departements/la-reunion",
+    "group": "J - L"
+  },
+  {
+    "name": "Landes",
+    "url": "/territoires/departements/landes",
+    "group": "J - L"
+  },
+  {
+    "name": "Loir-et-Cher",
+    "url": "/territoires/departements/loir-et-cher",
+    "group": "J - L"
+  },
+  {
+    "name": "Loire",
+    "url": "/territoires/departements/loire",
+    "group": "J - L"
+  },
+  {
+    "name": "Loire-Atlantique",
+    "url": "/territoires/departements/loire-atlantique",
+    "group": "J - L"
+  },
+  {
+    "name": "Loiret",
+    "url": "/territoires/departements/loiret",
+    "group": "J - L"
+  },
+  {
+    "name": "Lot",
+    "url": "/territoires/departements/lot",
+    "group": "J - L"
+  },
+  {
+    "name": "Lot-et-Garonne",
+    "url": "/territoires/departements/lot-et-garonne",
+    "group": "J - L"
+  },
+  {
+    "name": "Lozère",
+    "url": "/territoires/departements/lozere",
+    "group": "J - L"
+  },
+  {
+    "name": "Maine-et-Loire",
+    "url": "/territoires/departements/maine-et-loire",
+    "group": "M - N"
+  },
+  {
+    "name": "Manche",
+    "url": "/territoires/departements/manche",
+    "group": "M - N"
+  },
+  {
+    "name": "Marne",
+    "url": "/territoires/departements/marne",
+    "group": "M - N"
+  },
+  {
+    "name": "Martinique",
+    "url": "/territoires/departements/martinique",
+    "group": "M - N"
+  },
+  {
+    "name": "Mayenne",
+    "url": "/territoires/departements/mayenne",
+    "group": "M - N"
+  },
+  {
+    "name": "Mayotte",
+    "url": "/territoires/departements/mayotte",
+    "group": "M - N"
+  },
+  {
+    "name": "Meurthe-et-Moselle",
+    "url": "/territoires/departements/meurthe-et-moselle",
+    "group": "M - N"
+  },
+  {
+    "name": "Meuse",
+    "url": "/territoires/departements/meuse",
+    "group": "M - N"
+  },
+  {
+    "name": "Morbihan",
+    "url": "/territoires/departements/morbihan",
+    "group": "M - N"
+  },
+  {
+    "name": "Moselle",
+    "url": "/territoires/departements/moselle",
+    "group": "M - N"
+  },
+  {
+    "name": "Nièvre",
+    "url": "/territoires/departements/nievre",
+    "group": "M - N"
+  },
+  {
+    "name": "Nord",
+    "url": "/territoires/departements/nord",
+    "group": "M - N"
+  },
+  {
+    "name": "Oise",
+    "url": "/territoires/departements/oise",
+    "group": "O - P"
+  },
+  {
+    "name": "Orne",
+    "url": "/territoires/departements/orne",
+    "group": "O - P"
+  },
+  {
+    "name": "Pas-de-Calais",
+    "url": "/territoires/departements/pas-de-calais",
+    "group": "O - P"
+  },
+  {
+    "name": "Puy-de-Dôme",
+    "url": "/territoires/departements/puy-de-dome",
+    "group": "O - P"
+  },
+  {
+    "name": "Pyrénées-Atlantiques",
+    "url": "/territoires/departements/pyrenees-atlantiques",
+    "group": "O - P"
+  },
+  {
+    "name": "Pyrénées-Orientales",
+    "url": "/territoires/departements/pyrenees-orientales",
+    "group": "O - P"
+  },
+  {
+    "name": "Paris",
+    "url": "/territoires/departements/paris",
+    "group": "O - P"
+  },
+  {
+    "name": "Rhône",
+    "url": "/territoires/departements/rhone",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Saône-et-Loire",
+    "url": "/territoires/departements/saone-et-loire",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Sarthe",
+    "url": "/territoires/departements/sarthe",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Savoie",
+    "url": "/territoires/departements/savoie",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Seine-Maritime",
+    "url": "/territoires/departements/seine-maritime",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Seine-et-Marne",
+    "url": "/territoires/departements/seine-et-marne",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Seine-St-Denis",
+    "url": "/territoires/departements/seine-saint-denis",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Somme",
+    "url": "/territoires/departements/somme",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Tarn",
+    "url": "/territoires/departements/tarn",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Tarn-et-Garonne",
+    "url": "/territoires/departements/tarn-et-garonne",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Territoire de Belfort",
+    "url": "/territoires/departements/territoire-de-belfort",
+    "group": "R - S - T"
+  },
+  {
+    "name": "Var",
+    "url": "/territoires/departements/var",
+    "group": "V - Y"
+  },
+  {
+    "name": "Vaucluse",
+    "url": "/territoires/departements/vaucluse",
+    "group": "V - Y"
+  },
+  {
+    "name": "Vendée",
+    "url": "/territoires/departements/vendee",
+    "group": "V - Y"
+  },
+  {
+    "name": "Vienne",
+    "url": "/territoires/departements/vienne",
+    "group": "V - Y"
+  },
+  {
+    "name": "Vosges",
+    "url": "/territoires/departements/vosges",
+    "group": "V - Y"
+  },
+  {
+    "name": "Val-de-Marne",
+    "url": "/territoires/departements/val-de-marne",
+    "group": "V - Y"
+  },
+  {
+    "name": "Val-D'Oise",
+    "url": "/territoires/departements/val-doise",
+    "group": "V - Y"
+  },
+  {
+    "name": "Yonne",
+    "url": "/territoires/departements/yonne",
+    "group": "V - Y"
+  },
+  {
+    "name": "Yvelines",
+    "url": "/territoires/departements/yvelines",
+    "group": "V - Y"
+  }
+]

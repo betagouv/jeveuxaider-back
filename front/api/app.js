@@ -30,6 +30,9 @@ export default (axios) => ({
     const { data } = await axios.get(`/collectivity/${id}`)
     return data
   },
+  async getCollectivityStatistics(id) {
+    return await axios.get(`/collectivity/${id}/statistics`)
+  },
   async addOrUpdateCollectivity(id, collectivity) {
     return id
       ? await axios.post(`/collectivity/${id}`, collectivity)
@@ -51,6 +54,9 @@ export default (axios) => ({
   },
   async fetchActivities(params) {
     return await axios.get('/activities', { params })
+  },
+  async fetchAllCollectivities(params) {
+    return await axios.get('/collectivities/all', { params })
   },
   async uploadImage(id, model, image, cropSettings, fieldName = null) {
     const data = new FormData()
@@ -239,10 +245,6 @@ export default (axios) => ({
 // // async submitCollectivity(collectivity) {
 // //   return await axios.post("/submit/collectivity", collectivity);
 // // }
-
-// async getCollectivityStatistics(id) {
-//   return await axios.get(`/collectivity/${id}/statistics`)
-// }
 
 // async fetchAllCollectivities(params) {
 //   return await axios.get('/collectivities/all', { params })
