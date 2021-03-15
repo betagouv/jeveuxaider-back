@@ -1,5 +1,12 @@
 <template>
   <div>
+    <breadcrumb
+      :items="[
+        { label: 'Départements', link: '/territoires' },
+        { label: collectivity.name },
+      ]"
+    />
+
     <div class="relative">
       <img
         v-if="collectivity.banner && collectivity.banner.large"
