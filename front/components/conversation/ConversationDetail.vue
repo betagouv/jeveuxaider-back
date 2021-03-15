@@ -12,7 +12,7 @@
       </div>
       <div class="flex flex-wrap mt-2">
         <nuxt-link
-          :to="`/missions/${participation.mission.id}/${participation.mission.slug}`"
+          :to="`/missions/${participation.mission.id}`"
           class="rounded-full border py-1 px-3 text-sm font-bold text-gray-900 hover:shadow-md"
           >Consulter la fiche</nuxt-link
         >

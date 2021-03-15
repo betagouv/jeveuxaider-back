@@ -1,3 +1,13 @@
+export const rolesList = [
+  { key: 'admin', label: 'Modérateur' },
+  { key: 'referent', label: 'Référent' },
+  { key: 'referent_regional', label: 'Régional' },
+  { key: 'superviseur', label: 'Superviseur' },
+  { key: 'responsable', label: 'Responsable' },
+  { key: 'volontaire', label: 'Bénévole' },
+  { key: 'analyste', label: 'Analyste' },
+]
+
 export default (axios) => ({
   async fetchProfileParticipations(id) {
     const { data } = await axios.get(`/profile/${id}/participations`)
@@ -77,6 +87,16 @@ export default (axios) => ({
     return data
   },
 
+  async fetchNofiticationsBenevoles(params) {
+    return await axios.get('/notifications-benevoles', { params })
+  },
+
+  async addNotificationBenevole(missionId, profileId) {
+    return await axios.post('/notification-benevole', {
+      mission_id: missionId,
+      profile_id: profileId,
+    })
+  },
   registerVolontaire(
     email,
     password,
@@ -101,6 +121,28 @@ export default (axios) => ({
 })
 
 // import axios from 'axios'
+
+// async registerVolontaire(
+//   email,
+//   password,
+//   firstName,
+//   lastName,
+//   mobile,
+//   birthday,
+//   zip,
+//   sc
+// ) {
+//   return axios.post('/register/volontaire', {
+//     email: email.toLowerCase(),
+//     password,
+//     firstName,
+//     lastName,
+//     mobile,
+//     birthday,
+//     zip,
+//     sc,
+//   })
+// }
 
 // async registerResponsable(
 //   email,
@@ -142,16 +184,6 @@ export default (axios) => ({
 //     params,
 //   })
 // }
-
-export const rolesList = [
-  { key: 'admin', label: 'Modérateur' },
-  { key: 'referent', label: 'Référent' },
-  { key: 'referent_regional', label: 'Régional' },
-  { key: 'superviseur', label: 'Superviseur' },
-  { key: 'responsable', label: 'Responsable' },
-  { key: 'volontaire', label: 'Bénévole' },
-  { key: 'analyste', label: 'Analyste' },
-]
 
 // async getUserFirstname(email) {
 //   return axios.post(`/firstname`, {
