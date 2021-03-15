@@ -100,6 +100,7 @@
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
+  middleware: 'guest',
   data() {
     return {
       bgHeroMultipleSizes,

@@ -140,4 +140,10 @@ export default (context, inject) => {
   Vue.component('ElSwitch', () =>
     import(/* webpackChunkName: 'element-switch' */ 'element-ui/lib/switch')
   )
+  Vue.component('ElSteps', () =>
+    import(/* webpackChunkName: 'element-steps' */ 'element-ui/lib/steps')
+  )
+  Vue.component('ElStep', () =>
+    import(/* webpackChunkName: 'element-step' */ 'element-ui/lib/step')
+  )
 }
