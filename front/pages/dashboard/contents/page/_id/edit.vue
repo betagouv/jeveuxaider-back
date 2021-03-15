@@ -13,7 +13,10 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
     const page = await $api.getPage(params.id)
     return {
       page,

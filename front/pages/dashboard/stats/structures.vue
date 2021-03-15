@@ -27,5 +27,14 @@
 <script>
 export default {
   layout: 'dashboard',
+  asyncData({ $api, store, error, params }) {
+    if (
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
+    ) {
+      return error({ statusCode: 403 })
+    }
+  },
 }
 </script>

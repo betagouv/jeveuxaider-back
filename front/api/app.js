@@ -154,6 +154,42 @@ export default (axios) => ({
   async deleteThematique(id) {
     return await axios.delete(`/thematique/${id}`)
   },
+  async updateMissionTemplate(id, missionTemplate) {
+    return await axios.post(`/mission-template/${id}`, missionTemplate)
+  },
+  async addOrUpdateMissionTemplate(id, missionTemplate) {
+    return id
+      ? await axios.post(`/mission-template/${id}`, missionTemplate)
+      : await axios.post('/mission-template', missionTemplate)
+  },
+  async addMissionTemplate(missionTemplate) {
+    return await axios.post('/mission-template', missionTemplate)
+  },
+  async getMissionTemplate(id) {
+    const { data } = await axios.get(`/mission-template/${id}`)
+    return data
+  },
+  async deleteMissionTemplate(id) {
+    return await axios.delete(`/mission-template/${id}`)
+  },
+  async updateTag(id, tag) {
+    return await axios.post(`/tag/${id}`, tag)
+  },
+  async addOrUpdateTag(id, tag) {
+    return id
+      ? await axios.post(`/tag/${id}`, tag)
+      : await axios.post('/tag', tag)
+  },
+  async addTag(tag) {
+    return await axios.post('/tag', tag)
+  },
+  async getTag(id) {
+    const { data } = await axios.get(`/tag/${id}`)
+    return data
+  },
+  async deleteTag(id) {
+    return await axios.delete(`/tag/${id}`)
+  },
 })
 
 // async getThematiqueStatistics(id) {
@@ -214,46 +250,4 @@ export default (axios) => ({
 
 // async destroyCollectivity(id) {
 //   return await axios.delete(`/collectivity/${id}/destroy`)
-// }
-
-// async updateMissionTemplate(id, missionTemplate) {
-//   return await axios.post(`/mission-template/${id}`, missionTemplate)
-// }
-
-// async addOrUpdateMissionTemplate(id, missionTemplate) {
-//   return id
-//     ? updateMissionTemplate(id, missionTemplate)
-//     : addMissionTemplate(missionTemplate)
-// }
-
-// async addMissionTemplate(missionTemplate) {
-//   return await axios.post('/mission-template', missionTemplate)
-// }
-
-// async getMissionTemplate(id) {
-//   return await axios.get(`/mission-template/${id}`)
-// }
-
-// async deleteMissionTemplate(id) {
-//   return await axios.delete(`/mission-template/${id}`)
-// }
-
-// async updateTag(id, tag) {
-//   return await axios.post(`/tag/${id}`, tag)
-// }
-
-// async addOrUpdateTag(id, tag) {
-//   return id ? updateTag(id, tag) : addTag(tag)
-// }
-
-// async addTag(tag) {
-//   return await axios.post('/tag', tag)
-// }
-
-// async getTag(id) {
-//   return await axios.get(`/tag/${id}`)
-// }
-
-// async deleteTag(id) {
-//   return await axios.delete(`/tag/${id}`)
 // }

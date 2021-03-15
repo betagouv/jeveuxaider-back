@@ -44,7 +44,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return $user;
+        return User::currentUser();
     }
 
     public function updatePassword(Request $request)

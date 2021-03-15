@@ -7,7 +7,7 @@ export default function ({ redirect, route, store }) {
       },
     })
   }
-  if (!store.getters.profile.roles.admin) {
+  if (!store.getters.roles.admin) {
     return redirect('/')
   }
 }

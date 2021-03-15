@@ -18,7 +18,18 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
+    if (
+      ![
+        'admin',
+        'referent',
+        'referent_regional',
+        'superviseur',
+        'responsable',
+      ].includes(store.getters.contextRole)
+    ) {
+      return error({ statusCode: 403 })
+    }
     const mission = await $api.getMission(params.id)
     mission.tags = mission.tags.map((tag) => tag.name.fr)
     return {

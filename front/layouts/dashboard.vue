@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  middleware: 'admin',
+  middleware: 'dashboard',
 }
 </script>
 

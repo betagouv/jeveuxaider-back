@@ -137,16 +137,16 @@ export default function ({ store, $dayjs }) {
     switch (mymeType) {
       case 'application/vnd.ms-powerpoint':
       case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-        return 'file-powerpoint'
+        return 'file-ppt'
       case 'application/pdf':
         return 'file-pdf'
       case 'text/csv':
-        return 'file-csv'
+        return 'file-xls'
       case 'application/msword':
       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        return 'file-word'
+        return 'file-doc'
       default:
-        return 'file'
+        return 'file-zip'
     }
   })
 
