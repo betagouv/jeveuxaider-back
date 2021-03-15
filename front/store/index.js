@@ -5,6 +5,7 @@ export const state = () => ({
   isSidebarExpanded: true,
   searchOverlay: false,
   taxonomies: null,
+  stucture: null,
 })
 
 export const getters = {
@@ -21,7 +22,7 @@ export const getters = {
     }
     return 'Aucun rôle'
   },
-  hasRoles: (state, getters) => {
+  roles: (state, getters) => {
     return (
       getters.profile &&
       rolesList.filter((role) => getters.profile.roles[role.key] === true)
@@ -35,6 +36,14 @@ export const getters = {
   isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
   taxonomies: (state) => state.taxonomies,
   reseaux: (state) => state.reseaux,
+  structure: (state, getters) => {
+    if (!getters.profile && !getters.profile.structures) {
+      return null
+    }
+    return getters.profile.structures.filter(
+      (structure) => structure.pivot.role == 'responsable'
+    )[0]
+  },
 }
 
 export const mutations = {

@@ -69,7 +69,14 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
+    if (
+      !['admin', 'referent', 'referent_regional'].includes(
+        store.getters.contextRole
+      )
+    ) {
+      return error({ statusCode: 403 })
+    }
     const profile = await $api.getProfile(params.id)
     return {
       profile,

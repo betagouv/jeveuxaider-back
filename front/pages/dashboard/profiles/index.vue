@@ -243,7 +243,14 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, store, error, params }) {
+    if (
+      !['admin', 'referent', 'referent_regional'].includes(
+        store.getters.contextRole
+      )
+    ) {
+      return error({ statusCode: 403 })
+    }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
     const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
     const collectivities = await $api.fetchCollectivities({

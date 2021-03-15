@@ -1,14 +1,9 @@
 <template>
   <div>
-    <el-submenu
-      v-if="$store.getters.structure_as_responsable.collectivity"
-      index="1"
-    >
+    <el-submenu v-if="$store.getters.structure.collectivity" index="1">
       <template slot="title"
         ><i class="el-icon-school"></i
-        >{{
-          $store.getters.structure_as_responsable.collectivity.name
-        }}</template
+        >{{ $store.getters.structure.collectivity.name }}</template
       >
       <el-menu-item
         v-if="$store.getters.profile.roles.responsable_collectivity == true"
@@ -28,10 +23,10 @@
         <el-menu-item disabled>Statistiques de la page </el-menu-item>
       </el-tooltip>
       <el-menu-item
-        :index="`/dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`"
+        :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`"
         :class="{
           'is-active': isActive(
-            `dashboard/collectivity/${$store.getters.structure_as_responsable.collectivity.id}/edit`
+            `dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`
           ),
         }"
         >Éditer la page
@@ -55,7 +50,7 @@
       </el-tooltip>
     </el-menu-item>
     <el-menu-item
-      :index="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`"
+      :index="`/dashboard/structure/${$store.getters.structure.id}/edit`"
       :class="{
         'is-active':
           isActive('dashboard/structure') && !isActive('missions/add'),

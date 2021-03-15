@@ -14,5 +14,10 @@
 <script>
 export default {
   layout: 'dashboard',
+  asyncData({ $api, store, error, params }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
+  },
 }
 </script>

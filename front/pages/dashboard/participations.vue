@@ -192,7 +192,14 @@ import fileDownload from 'js-file-download'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, store, error, params }) {
+    if (
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
+    ) {
+      return error({ statusCode: 403 })
+    }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
     const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
     const collectivities = await $api.fetchCollectivities({
@@ -203,9 +210,9 @@ export default {
     // @TODO: RESPONSABLE
     // if (
     //   this.$store.getters.contextRole === 'responsable' &&
-    //   this.$store.getters.structure_as_responsable
+    //   this.$store.getters.structure
     // ) {
-    //   getStructureMembers(this.$store.getters.structure_as_responsable.id).then(
+    //   getStructureMembers(this.$store.getters.structure.id).then(
     //     (res) => {
     //       this.responsables = res.data
     //     }

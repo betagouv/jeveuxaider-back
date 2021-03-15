@@ -49,7 +49,18 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
+    if (
+      ![
+        'admin',
+        'referent',
+        'referent_regional',
+        'superviseur',
+        'responsable',
+      ].includes(store.getters.contextRole)
+    ) {
+      return error({ statusCode: 403 })
+    }
     const participation = await $api.getParticipation(params.id)
     const mission = await $api.getMission(participation.mission_id)
     return {
