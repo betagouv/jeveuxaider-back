@@ -151,14 +151,14 @@
           </el-form-item>
         </el-form>
         <div class="flex flex-wrap pt-2">
-          <router-link
+          <nuxt-link
             :to="{ name: 'RegisterVolontaireStepPreferences' }"
             class="mr-2"
           >
             <el-button type="secondary" class="mb-2">
               Retour à l'étape précédente
             </el-button>
-          </router-link>
+          </nuxt-link>
           <el-button
             type="primary"
             class="mb-2"

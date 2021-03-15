@@ -98,25 +98,25 @@ export default (axios) => ({
       sc,
     })
   },
+
+  async registerResponsable(
+    email,
+    password,
+    firstName,
+    lastName,
+    structureName
+  ) {
+    return await axios.post('/register/responsable', {
+      email: email.toLowerCase(),
+      password,
+      first_name: firstName,
+      last_name: lastName,
+      structure_name: structureName,
+    })
+  },
 })
 
 // import axios from 'axios'
-
-// async registerResponsable(
-//   email,
-//   password,
-//   firstName,
-//   lastName,
-//   structureName
-// ) {
-//   return axios.post('/register/responsable', {
-//     email: email.toLowerCase(),
-//     password,
-//     firstName,
-//     lastName,
-//     structureName,
-//   })
-// }
 
 // async exportProfiles(params) {
 //   return axios.get(`/profiles/export`, {

@@ -85,6 +85,35 @@ export const actions = {
     })
   },
 
+  registerResponsable({ dispatch }, user) {
+    return new Promise((resolve, reject) => {
+      this.$api
+        .registerResponsable(
+          user.email,
+          user.password,
+          user.first_name,
+          user.last_name,
+          user.structure_name
+        )
+        .then(() => {
+          dispatch('login', user).then((response) => {
+            resolve(response)
+          })
+        })
+        .catch((error) => {
+          if (error.response.data.errors && error.response.data.errors.email) {
+            if (
+              error.response.data.errors.email ==
+              'Cet email est déjà pris. Merci de vous connecter avec vos identifiants.'
+            ) {
+              this.$router.push('/login?email=' + user.email)
+            }
+          }
+          reject(error)
+        })
+    })
+  },
+
   async updateUser({ state, commit }, attributes) {
     const res = await this.$axios.post('/user', {
       ...state.user,
