@@ -99,6 +99,7 @@ export default {
           )
         },
       },
+      doFocus: false,
     }
   },
   watch: {
@@ -109,6 +110,7 @@ export default {
   methods: {
     onClick(val) {
       this.$emit('click', val)
+      this.doFocus = true
       if (this.radio == val) {
         this.radio = null
         this.$emit('typeRemoved')
@@ -118,7 +120,9 @@ export default {
       }
     },
     onInit() {
-      document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
+      if (this.doFocus) {
+        document.querySelector(`#algolia-lieu-switcher--places-input`).focus()
+      }
     },
   },
 }
