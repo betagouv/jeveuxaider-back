@@ -1,5 +1,12 @@
 <template>
   <div>
+    <breadcrumb
+      :items="[
+        { label: 'Collectivités', link: '/territoires' },
+        { label: collectivity.name },
+      ]"
+    />
+
     <div class="relative">
       <img
         :src="banner"

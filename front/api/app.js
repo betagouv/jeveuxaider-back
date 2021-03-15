@@ -154,6 +154,9 @@ export default (axios) => ({
     const { data } = await axios.get(`/thematique/${id}`)
     return data
   },
+  async getThematiqueStatistics(id) {
+    return await axios.get(`/thematique/${id}/statistics`)
+  },
   async fetchThematiques(params) {
     return await axios.get('/thematiques', { params })
   },
@@ -197,10 +200,6 @@ export default (axios) => ({
     return await axios.delete(`/tag/${id}`)
   },
 })
-
-// async getThematiqueStatistics(id) {
-//   return await axios.get(`/thematique/${id}/statistics`)
-// },
 
 // async bootstrap() {
 //   return await axios.get('/bootstrap')
