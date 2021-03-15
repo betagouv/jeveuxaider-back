@@ -472,7 +472,7 @@ export default {
       showFilters: false,
       isMobile: true,
       clearExcludes: ['type'],
-
+      geoSearch: this.initialGeoSearch,
       routeState: {
         query: this.$route.query.query,
       },
@@ -518,6 +518,7 @@ export default {
   watch: {
     '$route.query'() {
       this.readUrl()
+      this.handleGeoSearch()
     },
   },
   serverPrefetch() {
@@ -529,6 +530,7 @@ export default {
   },
   created() {
     this.readUrl()
+    this.handleGeoSearch()
   },
   beforeMount() {
     const results =
@@ -546,8 +548,6 @@ export default {
     window.onresize = () => {
       this.sizeListener()
     }
-
-    this.routeState = removeIndex(parseQuery(this.$route.query))
   },
   methods: {
     scrollToTop() {
@@ -600,37 +600,43 @@ export default {
       this.$delete(this.routeState, 'aroundRadius')
       this.$delete(this.routeState, 'aroundLatLng')
       this.$delete(this.routeState, 'place')
+      this.writeUrl()
     },
-    onTypeChanged($event) {
-      if (!this.routeState.refinementList) {
-        this.$set(this.routeState, 'refinementList', {})
+    onTypeChanged(type) {
+      this.setTypeAndHandleRadius(type)
+      if (!this.geoSearch) {
+        this.$delete(this.routeState, 'aroundLatLng')
+        this.$delete(this.routeState, 'place')
       }
-      this.$set(this.routeState.refinementList, 'type', [$event])
-
-      if ($event == 'Mission en présentiel') {
-        this.$set(this.routeState, 'aroundRadius', this.defaultRadius)
-      } else {
-        this.$delete(this.routeState, 'aroundRadius')
-      }
-
-      this.handleGeoSearchOnTypeChanged()
       this.writeUrl()
     },
     onTypeRemoved() {
       this.$delete(this.routeState.refinementList, 'type')
       this.$delete(this.routeState, 'aroundRadius')
-      this.handleGeoSearchOnTypeChanged()
-      this.writeUrl()
-    },
-    handleGeoSearchOnTypeChanged() {
-      if (this.initialGeoSearch) {
-        this.$set(this, 'routeState', {
-          ...this.routeState,
-          ...this.initialGeoSearch,
-        })
-      } else {
+      if (!this.geoSearch) {
         this.$delete(this.routeState, 'aroundLatLng')
         this.$delete(this.routeState, 'place')
+      }
+      this.writeUrl()
+    },
+    setTypeAndHandleRadius(type) {
+      if (!this.routeState.refinementList) {
+        this.$set(this.routeState, 'refinementList', {})
+      }
+      this.$set(this.routeState.refinementList, 'type', [type])
+      if (type == 'Mission en présentiel') {
+        this.$set(this.routeState, 'aroundRadius', this.defaultRadius)
+      } else {
+        this.$delete(this.routeState, 'aroundRadius')
+      }
+    },
+    handleGeoSearch() {
+      if (this.geoSearch && !this.routeState.aroundLatLng) {
+        this.$set(this, 'routeState', {
+          ...this.routeState,
+          ...this.geoSearch,
+        })
+        this.setTypeAndHandleRadius('Mission en présentiel')
       }
     },
     onChangeRadius($event) {
