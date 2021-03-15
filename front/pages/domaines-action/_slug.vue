@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppHeader :show-menu="false">
+    <!-- <AppHeader :show-menu="false">
       <template #append-logo>
         <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
           <div
@@ -10,7 +10,7 @@
           </div>
         </div>
       </template>
-    </AppHeader>
+    </AppHeader> -->
 
     <div>
       <breadcrumb
