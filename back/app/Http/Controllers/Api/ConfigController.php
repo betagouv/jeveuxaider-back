@@ -19,7 +19,6 @@ class ConfigController extends Controller
     public function bootstrap()
     {
         return response()->json([
-            'user' => User::currentUser(),
             'release' => $this->release(),
             'taxonomies' => $this->taxonomies(),
             'thematiques' => $this->thematiques(),
@@ -104,20 +103,20 @@ class ConfigController extends Controller
         switch ($table) {
             case 'structures':
                 $rows = Structure::cursor();
-                $columns = ['id','user_id','name','is_reseau','reseau_id','siret','statut_juridique','association_types','structure_publique_type','structure_publique_etat_type','structure_privee_type','address','zip','city','department','latitude','longitude','website','facebook','twitter','instagram','state','created_at','updated_at','deleted_at'];
-            break;
+                $columns = ['id', 'user_id', 'name', 'is_reseau', 'reseau_id', 'siret', 'statut_juridique', 'association_types', 'structure_publique_type', 'structure_publique_etat_type', 'structure_privee_type', 'address', 'zip', 'city', 'department', 'latitude', 'longitude', 'website', 'facebook', 'twitter', 'instagram', 'state', 'created_at', 'updated_at', 'deleted_at'];
+                break;
             case 'missions':
                 $rows = Mission::cursor();
-                $columns = ['id','user_id','name','structure_id','responsable_id','participations_max','format','start_date','end_date','address','zip','city','department','country','latitude','longitude','state','created_at','updated_at','deleted_at','periodicite','publics_beneficiaires','publics_volontaires','type','places_left'];
-            break;
+                $columns = ['id', 'user_id', 'name', 'structure_id', 'responsable_id', 'participations_max', 'format', 'start_date', 'end_date', 'address', 'zip', 'city', 'department', 'country', 'latitude', 'longitude', 'state', 'created_at', 'updated_at', 'deleted_at', 'periodicite', 'publics_beneficiaires', 'publics_volontaires', 'type', 'places_left'];
+                break;
             case 'profiles':
                 $rows = Profile::cursor();
-                $columns = ['id', 'first_name', 'last_name', 'email','birthday','mobile','zip','created_at'];
-            break;
+                $columns = ['id', 'first_name', 'last_name', 'email', 'birthday', 'mobile', 'zip', 'created_at'];
+                break;
             case 'participations':
                 $rows = Participation::cursor();
-                $columns = ['id','profile_id','mission_id','state','created_at','deleted_at'];
-            break;
+                $columns = ['id', 'profile_id', 'mission_id', 'state', 'created_at', 'deleted_at'];
+                break;
         }
 
         if ($rows) {
