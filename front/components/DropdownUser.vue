@@ -36,18 +36,18 @@
       </div>
       <el-dropdown-menu slot="dropdown" style="max-width: 300px">
         <div v-if="activeMenu == 'profile'">
-          <router-link
+          <nuxt-link
             v-if="$store.getters.contextRole == 'responsable'"
             :to="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/members`"
           >
             <el-dropdown-item>Gérer votre équipe</el-dropdown-item>
-          </router-link>
-          <router-link
+          </nuxt-link>
+          <nuxt-link
             v-if="$store.getters.contextRole == 'admin'"
             :to="`/dashboard/trash/structures`"
           >
             <el-dropdown-item>Corbeille</el-dropdown-item>
-          </router-link>
+          </nuxt-link>
           <el-dropdown-item
             v-if="
               $store.getters.contextRole == 'responsable' ||
@@ -55,9 +55,9 @@
             "
             divided
           />
-          <router-link to="/user/infos">
+          <nuxt-link to="/user/infos">
             <el-dropdown-item>Mon compte</el-dropdown-item>
-          </router-link>
+          </nuxt-link>
           <el-dropdown-item
             v-if="$store.getters.hasRoles && $store.getters.hasRoles.length > 1"
             :command="{ action: 'menu', value: 'role' }"
@@ -78,11 +78,11 @@
             <i class="el-icon-s-custom ml-auto" />
           </el-dropdown-item>
           <el-dropdown-item divided />
-          <router-link to="/logout">
+          <nuxt-link to="/logout">
             <el-dropdown-item class="text-red-500">
               Se déconnecter
             </el-dropdown-item>
-          </router-link>
+          </nuxt-link>
         </div>
         <div v-if="activeMenu == 'role'">
           <el-dropdown-item :command="{ action: 'menu', value: 'profile' }">
@@ -147,7 +147,7 @@ export default {
 .el-dropdown-menu__item {
   min-width: 230px;
 }
-.router-link-active li.el-dropdown-menu__item {
+.nuxt-link-active li.el-dropdown-menu__item {
   @apply bg-gray-100;
   @apply text-primary;
 }

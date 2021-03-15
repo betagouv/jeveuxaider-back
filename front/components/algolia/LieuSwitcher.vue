@@ -241,11 +241,12 @@ export default {
       background-color: transparent
       border: none
       top: 14px
+      padding: 0 15px
+      padding-right: 32px
       @apply truncate
       @screen lg
         width: 250px
         height: calc(100% - 10px)
-        padding: 0 15px
     .ap-icon-pin
       position: relative
       pointer-events: none

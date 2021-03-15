@@ -208,18 +208,18 @@
                               @click="handleClickParticipate"
                               >Je propose mon aide</el-button
                             >
-                            <router-link
+                            <nuxt-link
                               v-else
                               to="/user/missions"
                               class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Vous êtes déjà inscrit !</router-link
+                              >Vous êtes déjà inscrit !</nuxt-link
                             >
                           </template>
                           <template v-else>
-                            <router-link
+                            <nuxt-link
                               :to="`/dashboard/mission/${mission.id}`"
                               class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Tableau de bord</router-link
+                              >Tableau de bord</nuxt-link
                             >
                           </template>
                         </template>
@@ -543,18 +543,18 @@
                         @click="handleClickParticipate"
                         >Je propose mon aide</el-button
                       >
-                      <router-link
+                      <nuxt-link
                         v-else
                         to="/user/missions"
                         class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Vous êtes déjà inscrit !</router-link
+                        >Vous êtes déjà inscrit !</nuxt-link
                       >
                     </template>
                     <template v-else>
-                      <router-link
+                      <nuxt-link
                         :to="`/dashboard/mission/${mission.id}`"
                         class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Tableau de bord</router-link
+                        >Tableau de bord</nuxt-link
                       >
                     </template>
                   </template>
@@ -585,7 +585,7 @@
               <img
                 alt="Chacun pour tous"
                 class="mx-auto w-full h-auto md:w-auto md:h-full opacity-50"
-                src="/images/chacunpourtous.png"
+                src="@/assets/images/chacunpourtous.png"
                 style="max-height: 7rem"
               />
             </div>
@@ -691,20 +691,20 @@
       </div>
       <div class="flex items-center justify-center">
         <el-button @click="dialogParticipateVisible = false">
-          <router-link
+          <nuxt-link
             :to="`/login?redirect=${$route.path}?showDialogParticipate=true`"
             @click="dialogParticipateVisible = false"
           >
             Se connecter
-          </router-link>
+          </nuxt-link>
         </el-button>
         <el-button type="primary">
-          <router-link
+          <nuxt-link
             :to="`/register/volontaire?redirect=${$route.path}?showDialogParticipate=true`"
             type="primary"
           >
             S'inscrire
-          </router-link>
+          </nuxt-link>
         </el-button>
       </div>
     </el-dialog>
@@ -726,7 +726,7 @@
             :key="otherMission.id"
             class="border-t border-gray-200"
           >
-            <router-link
+            <nuxt-link
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
               :to="`/missions/${otherMission.id}/${otherMission.slug}`"
             >
@@ -842,7 +842,7 @@
                   >
                 </div>
               </div>
-            </router-link>
+            </nuxt-link>
           </li>
         </ul>
       </div>
@@ -872,7 +872,7 @@ export default {
       loading: true,
       mission: {},
       otherMissions: {},
-      baseUrl: process.env.MIX_API_BASE_URL,
+      baseUrl: this.$config.apiUrl,
       dialogParticipateVisible:
         Boolean(this.$route.query.showDialogParticipate) || false,
       dialogProposerAide: false,

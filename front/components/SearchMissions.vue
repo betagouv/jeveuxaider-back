@@ -170,7 +170,7 @@
                     </div>
                   </AisSearchBox>
 
-                  <AlgoliaSearchFacet
+                  <AlgoliaFacet
                     v-if="facets.includes('domaines')"
                     name="domaines"
                     label="Domaines d'action"
@@ -178,7 +178,7 @@
                     @toggle-facet="onToggleFacet($event)"
                   />
 
-                  <AlgoliaSearchFacet
+                  <AlgoliaFacet
                     v-if="facets.includes('template_title')"
                     name="template_title"
                     label="Type de mission"
@@ -187,7 +187,7 @@
                     @toggle-facet="onToggleFacet($event)"
                   />
 
-                  <AlgoliaSearchFacet
+                  <AlgoliaFacet
                     v-if="facets.includes('department_name')"
                     name="department_name"
                     label="Département"
@@ -197,7 +197,7 @@
                     @toggle-facet="onToggleFacet($event)"
                   />
 
-                  <AlgoliaSearchFacet
+                  <AlgoliaFacet
                     v-if="facets.includes('structure.name')"
                     name="structure.name"
                     label="Organisations"
@@ -231,13 +231,13 @@
                       >
                         <CardMission :mission="item" />
                       </a>
-                      <router-link
+                      <nuxt-link
                         v-else
                         class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                         :to="`/missions/${item.id}`"
                       >
                         <CardMission :mission="item" />
-                      </router-link>
+                      </nuxt-link>
                     </div>
                   </AisHits>
 
@@ -327,7 +327,6 @@ import {
 } from 'vue-instantsearch'
 
 import algoliasearch from 'algoliasearch/lite'
-import AlgoliaSearchFacet from '@/components/AlgoliaSearchFacet'
 import { debounce } from 'lodash'
 import qs from 'qs'
 
@@ -365,7 +364,6 @@ function addIndex(routeState) {
 function nuxtRouter(vueRouter) {
   return {
     read() {
-      console.log('READ')
       return addIndex(parseQuery(vueRouter.currentRoute.query))
     },
     write(routeState) {
@@ -402,7 +400,6 @@ export default {
     AisClearRefinements,
     AisSearchBox,
     AisRefinementList, // eslint-disable-line vue/no-unused-components
-    AlgoliaSearchFacet,
   },
   provide() {
     return {
@@ -534,8 +531,6 @@ export default {
     this.readUrl()
   },
   beforeMount() {
-    console.log('BEFORE MOUNT')
-
     const results =
       (this.$nuxt.context && this.$nuxt.context.nuxtState.algoliaState) ||
       window.__NUXT__.algoliaState
@@ -593,7 +588,6 @@ export default {
       this.writeUrl()
     },
     onPlaceSelect($event) {
-      console.log('onPlaceSelect', $event)
       this.$set(
         this.routeState,
         'aroundLatLng',
@@ -603,13 +597,11 @@ export default {
       this.writeUrl()
     },
     onPlaceClear() {
-      console.log('onPlaceClear')
       this.$delete(this.routeState, 'aroundRadius')
       this.$delete(this.routeState, 'aroundLatLng')
       this.$delete(this.routeState, 'place')
     },
     onTypeChanged($event) {
-      console.log('onTypeChanged', $event)
       if (!this.routeState.refinementList) {
         this.$set(this.routeState, 'refinementList', {})
       }
@@ -625,7 +617,6 @@ export default {
       this.writeUrl()
     },
     onTypeRemoved() {
-      console.log('onTypeRemoved')
       this.$delete(this.routeState.refinementList, 'type')
       this.$delete(this.routeState, 'aroundRadius')
       this.handleGeoSearchOnTypeChanged()
@@ -643,7 +634,6 @@ export default {
       }
     },
     onChangeRadius($event) {
-      console.log('onChangeRadius', $event)
       this.$set(this.routeState, 'aroundRadius', $event)
       this.writeUrl()
     },

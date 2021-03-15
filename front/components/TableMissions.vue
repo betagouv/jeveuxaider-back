@@ -49,7 +49,7 @@
                 {{ scope.row.participations_max }}
               </div>
             </div>
-            <router-link
+            <nuxt-link
               v-if="
                 scope.row.state == 'Validée' &&
                 scope.row.has_places_left &&
@@ -58,7 +58,7 @@
               :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
             >
               <el-button size="mini" round> Trouver des bénévoles </el-button>
-            </router-link>
+            </nuxt-link>
           </div>
         </template>
       </template>

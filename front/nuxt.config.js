@@ -62,6 +62,7 @@ export default {
     defaultLocale: 'fr',
     plugins: [
       'relativeTime', // import 'dayjs/plugin/utc'
+      'customParseFormat',
     ],
   },
 
@@ -82,6 +83,9 @@ export default {
   publicRuntimeConfig: {
     apiUrl: process.env.API_URL,
     appUrl: process.env.APP_URL,
+    app: {
+      modeLight: process.env.MODE_LIGHT,
+    },
     axios: {
       browserBaseURL: `${process.env.API_URL}/api`,
     },
@@ -121,6 +125,18 @@ export default {
     bundleRenderer: {
       shouldPreload: (file, type) => {
         return ['script', 'style', 'font'].includes(type)
+      },
+    },
+    fallback: {
+      static: {
+        // Avoid sending 404 for these extensions
+        // https://github.com/nuxt/nuxt.js/issues/5493
+        handlers: {
+          '.jpg': false,
+          '.jpeg': false,
+          '.png': false,
+          '.svg': false,
+        },
       },
     },
   },
