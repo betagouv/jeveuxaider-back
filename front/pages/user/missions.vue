@@ -30,7 +30,7 @@
                 :to="
                   participation.conversation
                     ? `/messages/${participation.conversation.id}`
-                    : `/missions/${participation.mission.id}/${participation.mission.slug}`
+                    : `/missions/${participation.mission.id}`
                 "
               >
                 <CardMission
