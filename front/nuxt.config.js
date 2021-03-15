@@ -59,6 +59,7 @@ export default {
   ],
 
   dayjs: {
+    locales: ['fr'],
     defaultLocale: 'fr',
     plugins: [
       'relativeTime', // import 'dayjs/plugin/utc'

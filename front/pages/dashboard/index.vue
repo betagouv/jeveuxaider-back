@@ -14,14 +14,19 @@
       <TabsMain index="main" />
     </div>
     <div class="px-12">
-      <!-- <reminder-referent
-        v-if="$store.getters.contextRole === 'referent'"
-        class="mb-12"
+      <ReminderReferent
+        v-if="
+          $store.getters.reminders && $store.getters.contextRole === 'referent'
+        "
+        class="mb-6"
       />
-      <reminder-responsable
-        v-if="$store.getters.contextRole === 'responsable'"
-        class="mb-12"
-      /> -->
+      <ReminderResponsable
+        v-if="
+          $store.getters.reminders &&
+          $store.getters.contextRole === 'responsable'
+        "
+        class="mb-6"
+      />
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
@@ -67,5 +72,10 @@
 <script>
 export default {
   layout: 'dashboard',
+  async asyncData({ $api, params, store, error }) {
+    if (['referent', 'responsable'].includes(store.getters.contextRole)) {
+      await store.dispatch('reminders')
+    }
+  },
 }
 </script>

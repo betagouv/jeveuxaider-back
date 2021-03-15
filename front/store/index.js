@@ -5,6 +5,8 @@ export const state = () => ({
   isSidebarExpanded: true,
   searchOverlay: false,
   taxonomies: null,
+  reseaux: null,
+  reminders: null,
   stucture: null,
 })
 
@@ -56,6 +58,9 @@ export const mutations = {
   setReseaux: (state, reseaux) => {
     state.reseaux = reseaux
   },
+  setReminders: (state, reminders) => {
+    state.reminders = reminders
+  },
   toggleSearchOverlay: (state) => {
     state.searchOverlay = !state.searchOverlay
   },
@@ -78,5 +83,10 @@ export const actions = {
     commit('setTaxonomies', data.taxonomies)
     commit('setReseaux', data.reseaux)
     commit('setAppIsLoaded', true)
+  },
+  async reminders({ commit }) {
+    const { data } = await this.$axios.get('/reminders')
+    commit('setReminders', data)
+    return data
   },
 }

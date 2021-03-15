@@ -52,19 +52,6 @@
         <i class="el-icon-finished" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item index="/dashboard/profiles">
-      <span v-if="$store.getters.isSidebarExpanded">Utilisateurs</span>
-      <el-tooltip
-        v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Utilisateurs"
-        placement="right"
-      >
-        <i class="el-icon-user" />
-      </el-tooltip>
-    </el-menu-item>
     <el-menu-item v-if="$store.getters.isSidebarExpanded">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
         >Contacter le support</a
