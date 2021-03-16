@@ -49,6 +49,7 @@ export default {
     '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
+    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -93,6 +94,10 @@ export default {
     },
   },
 
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID,
+  },
+
   privateRuntimeConfig: {
     axios: {
       baseURL: `${process.env.API_URL}/api`,
@@ -100,6 +105,10 @@ export default {
   },
 
   publicRuntimeConfig: {
+    algolia: {
+      placesAppId: process.env.ALGOLIA_PLACES_APP_ID,
+      placesApiKey: process.env.ALGOLIA_PLACES_API_KEY,
+    },
     apiUrl: process.env.API_URL,
     appUrl: process.env.APP_URL,
     app: {
@@ -108,15 +117,14 @@ export default {
     axios: {
       browserBaseURL: `${process.env.API_URL}/api`,
     },
+    googleAnalytics: {
+      id: process.env.GOOGLE_ANALYTICS_ID,
+    },
+    franceConnect: process.env.FRANCE_CONNECT,
     oauth: {
       clientId: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
     },
-    algolia: {
-      placesAppId: process.env.ALGOLIA_PLACES_APP_ID,
-      placesApiKey: process.env.ALGOLIA_PLACES_API_KEY,
-    },
-    franceConnect: process.env.FRANCE_CONNECT,
   },
 
   env: {
