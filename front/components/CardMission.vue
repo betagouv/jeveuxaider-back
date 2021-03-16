@@ -58,7 +58,7 @@
         </v-clamp>
       </client-only>
 
-      <h2 class="sm:hidden name font-black text-black text-lg">
+      <h2 class="sm:sr-only name font-black text-black text-lg">
         {{ mission.name }}
       </h2>
 
