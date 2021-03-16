@@ -6,6 +6,9 @@
  */
 
 module.exports = {
+  future: {
+    purgeLayersByDefault: true,
+  },
   prefix: '',
   important: true,
   separator: ':',

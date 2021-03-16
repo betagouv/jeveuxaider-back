@@ -75,6 +75,22 @@ export default {
     },
   },
 
+  tailwindcss: {
+    config: {
+      purge: {
+        options: {
+          // Whitelisting some classes to avoid purge
+          safelist: [
+            'bg-green-700',
+            'bg-red-600',
+            'bg-blue-900',
+            'bg-purple-800',
+          ],
+        },
+      },
+    },
+  },
+
   privateRuntimeConfig: {
     axios: {
       baseURL: `${process.env.API_URL}/api`,

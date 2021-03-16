@@ -13,7 +13,7 @@
     </AppHeader> -->
 
     <div>
-      <breadcrumb
+      <Breadcrumb
         :items="[{ label: 'Domaines d\'action' }, { label: thematique.name }]"
       />
       <div class="relative">
