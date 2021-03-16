@@ -199,6 +199,9 @@ export default (axios) => ({
   async deleteTag(id) {
     return await axios.delete(`/tag/${id}`)
   },
+  async fetchFaqs(params) {
+    return await axios.get('/faqs', { params })
+  },
 })
 
 // async bootstrap() {
@@ -215,10 +218,6 @@ export default (axios) => ({
 
 // async fetchTrashItems(type, params) {
 //   return await axios.get(`/trash/${type}`, { params })
-// }
-
-// async fetchFaqs(params) {
-//   return await axios.get('/faqs', { params })
 // }
 
 // async getFaq(id) {

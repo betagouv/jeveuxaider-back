@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100">
-    <breadcrumb
+    <Breadcrumb
       :items="[
         { label: 'Départements et collectivités', link: '/territoires' },
       ]"
