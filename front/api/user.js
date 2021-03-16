@@ -45,7 +45,8 @@ export default (axios) => ({
     return await axios.post(`/invitation`, invitation)
   },
   async getInvitation(token) {
-    return await axios.get(`/invitation/${token}`)
+    const { data } = await axios.get(`/invitation/${token}`)
+    return data
   },
   async acceptInvitation(token) {
     return await axios.post(`/invitation/${token}/accept`)
@@ -134,6 +135,12 @@ export default (axios) => ({
       structure_name: structureName,
     })
   },
+
+  async getUserFirstname(email) {
+    return await axios.post(`/firstname`, {
+      email,
+    })
+  },
 })
 
 // import axios from 'axios'
@@ -160,11 +167,5 @@ export default (axios) => ({
 // async fetchUsers(params, appends) {
 //   return axios.get(`/users?append=${appends.join(',')}`, {
 //     params,
-//   })
-// }
-
-// async getUserFirstname(email) {
-//   return axios.post(`/firstname`, {
-//     email,
 //   })
 // }

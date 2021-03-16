@@ -4,6 +4,8 @@ export const state = () => ({
   isAppLoaded: false,
   isSidebarExpanded: true,
   searchOverlay: false,
+  softGateOverlay: false,
+  missionSelected: null,
   taxonomies: null,
   reseaux: null,
   reminders: null,
@@ -34,6 +36,8 @@ export const getters = {
   profile: (state) => (state.auth.user ? state.auth.user.profile : null),
   reminders: (state) => state.reminders,
   searchOverlay: (state) => state.searchOverlay,
+  softGateOverlay: (state) => state.softGateOverlay,
+  missionSelected: (state) => state.missionSelected,
   user: (state) => state.auth.user,
   isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
   taxonomies: (state) => state.taxonomies,
@@ -71,6 +75,12 @@ export const mutations = {
   },
   toggleSearchOverlay: (state) => {
     state.searchOverlay = !state.searchOverlay
+  },
+  toggleSoftGateOverlay: (state) => {
+    state.softGateOverlay = !state.softGateOverlay
+  },
+  setMissionSelected: (state, mission) => {
+    state.missionSelected = mission
   },
   toggleSidebar: (state) => {
     state.isSidebarExpanded = !state.isSidebarExpanded

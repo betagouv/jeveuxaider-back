@@ -114,6 +114,21 @@ export const actions = {
     })
   },
 
+  registerInvitation({ dispatch }, params) {
+    return new Promise((resolve, reject) => {
+      this.$api
+        .registerInvitation(params.form, params.invitation.token)
+        .then(() => {
+          dispatch('login', params.form).then((response) => {
+            resolve(response)
+          })
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+
   async updateUser({ state, commit }, attributes) {
     const res = await this.$axios.post('/user', {
       ...state.user,

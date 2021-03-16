@@ -8,7 +8,7 @@
               <div>
                 <img
                   class="mx-auto lg:mx-0"
-                  src="/images/republique-francaise-logo.svg"
+                  src="@/assets/images/republique-francaise-logo.svg"
                   alt="République Française"
                   width="222px"
                   height="200px"
@@ -47,9 +47,6 @@
               to="/regles-de-securite"
             >
               Règles de sécurité
-            </nuxt-link>
-            <nuxt-link class="block p-3 hover:underline" to="/faq">
-              FAQ
             </nuxt-link>
             <nuxt-link
               class="block p-3 hover:underline"

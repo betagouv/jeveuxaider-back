@@ -6,7 +6,7 @@
       >
         <img
           class="mr-2"
-          src="/images/icones/mon-espace.svg"
+          src="@/assets/images/icones/mon-espace.svg"
           alt="Mon espace"
         />
         {{ $store.getters.user.profile.first_name }}

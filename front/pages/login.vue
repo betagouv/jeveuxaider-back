@@ -2,7 +2,7 @@
   <div class="relative bg-blue-800 overflow-hidden">
     <img
       class="z-1 object-cover absolute h-screen lg:h-auto"
-      alt="Je Veux Aider"
+      alt="JeVeuxAider"
       :srcSet="bgHeroMultipleSizes.srcSet"
       :src="bgHeroMultipleSizes.src"
     />

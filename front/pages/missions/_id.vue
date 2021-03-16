@@ -1,19 +1,5 @@
 <template>
   <div>
-    <Breadcrumb
-      :items="[
-        { label: 'Missions de bénévolat', link: '/missions' },
-        {
-          label: domainName(mission),
-          link: `/missions?refinementList[domaines][0]=${domainName(mission)}`,
-        },
-        {
-          label: `Bénévolat ${mission.structure.name} à ${mission.city}`,
-          h1: true,
-        },
-      ]"
-    />
-
     <div class="absolute" style="height: 360px">
       <img
         src="@/assets/images/bg_header_mission.jpg"
@@ -23,7 +9,23 @@
       <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
     </div>
 
-    <div class="relative mt-10 mb-12">
+    <div class="relative mb-12">
+      <Breadcrumb
+        theme="transparent"
+        :items="[
+          { label: 'Missions de bénévolat', link: '/missions' },
+          {
+            label: domainName(mission),
+            link: `/missions?refinementList[domaines][0]=${domainName(
+              mission
+            )}`,
+          },
+          {
+            label: `Bénévolat ${mission.structure.name} à ${mission.city}`,
+            h1: true,
+          },
+        ]"
+      />
       <div class="container mx-auto px-4">
         <div class="bg-white rounded-lg shadow-lg">
           <div class="lg:flex">
@@ -197,53 +199,7 @@
                 />
 
                 <div class="mt-6">
-                  <template v-if="mission.state">
-                    <template v-if="mission.state == 'Validée'">
-                      <template v-if="mission.has_places_left">
-                        <template v-if="$store.getters.isLogged">
-                          <template v-if="isNotResponsableOfMission">
-                            <el-button
-                              v-if="isAlreadyRegistered"
-                              class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              @click="handleClickParticipate"
-                              >Je propose mon aide</el-button
-                            >
-                            <nuxt-link
-                              v-else
-                              to="/user/missions"
-                              class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Vous êtes déjà inscrit !</nuxt-link
-                            >
-                          </template>
-                          <template v-else>
-                            <nuxt-link
-                              :to="`/dashboard/mission/${mission.id}`"
-                              class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                              >Tableau de bord</nuxt-link
-                            >
-                          </template>
-                        </template>
-
-                        <template v-else>
-                          <button
-                            class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                            @click="dialogProposerAide = true"
-                          >
-                            Proposer votre aide
-                          </button>
-                        </template>
-                      </template>
-                    </template>
-
-                    <template v-else>
-                      <span
-                        class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full bg-orange-500 text-white"
-                      >
-                        Cette mission a le statut
-                        {{ mission.state.toLowerCase() }}
-                      </span>
-                    </template>
-                  </template>
+                  <ButtonJeProposeMonAide :mission="mission" />
                 </div>
 
                 <!-- <p
@@ -532,53 +488,7 @@
             obtenir plus de précisions.
           </p>
           <div class="mt-10 flex justify-center z-10 relative">
-            <template v-if="mission.state">
-              <template v-if="mission.state == 'Validée'">
-                <template v-if="mission.has_places_left">
-                  <template v-if="$store.getters.isLogged">
-                    <template v-if="isNotResponsableOfMission">
-                      <el-button
-                        v-if="isAlreadyRegistered"
-                        class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        @click="handleClickParticipate"
-                        >Je propose mon aide</el-button
-                      >
-                      <nuxt-link
-                        v-else
-                        to="/user/missions"
-                        class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-green-800 bg-green-100 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Vous êtes déjà inscrit !</nuxt-link
-                      >
-                    </template>
-                    <template v-else>
-                      <nuxt-link
-                        :to="`/dashboard/mission/${mission.id}`"
-                        class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                        >Tableau de bord</nuxt-link
-                      >
-                    </template>
-                  </template>
-
-                  <template v-else>
-                    <button
-                      class="flex items-center justify-center px-12 py-3 pb-4 border border-transparent text-2xl leading-9 font-medium rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                      @click="dialogProposerAide = true"
-                    >
-                      Proposer votre aide
-                    </button>
-                  </template>
-                </template>
-              </template>
-
-              <template v-else>
-                <span
-                  class="max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 pb-4 border border-transparent text-2xl lg:text-xl leading-6 font-medium rounded-full bg-orange-500 text-white"
-                >
-                  Cette mission a le statut
-                  {{ mission.state.toLowerCase() }}
-                </span>
-              </template>
-            </template>
+            <ButtonJeProposeMonAide :mission="mission" size="big" />
           </div>
           <div class="mt-8 z-1">
             <div class="text-center justify-center">
@@ -593,121 +503,6 @@
         </div>
       </div>
     </div>
-
-    <el-dialog
-      :close-on-click-modal="false"
-      title="Participer à la mission"
-      width="100%"
-      :visible.sync="dialogParticipateVisible"
-      style="max-width: 600px; margin: auto"
-    >
-      <div class="mb-2" style="color: #606266; font-size: 14px">
-        Résumé de la mission
-      </div>
-      <div class="bg-cool-gray-100 p-4 rounded-md">
-        <div class="text-lg font-bold text-gray-800">{{ mission.name }}</div>
-        <div class="md:flex mt-2 mb-4">
-          <div class="uppercase font-semibold text-gray-500 mb-2 md:mb-0">
-            {{ structure.name }}
-          </div>
-          <div
-            v-if="
-              mission.full_address && mission.type == 'Mission en présentiel'
-            "
-            class="md:ml-2 ml-0 flex flex-wrap items-center justify-start text-sm leading-tight text-gray-500 -m-1"
-          >
-            <svg
-              class="flex-shrink-0 h-4 w-4 text-gray-400 w-auto"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="ml-1">
-              {{ mission.full_address }}
-            </span>
-          </div>
-        </div>
-
-        <div class="text-left">
-          <span
-            class="px-4 py-1 mr-2 mt-3 inline-flex text-sm font-semibold rounded-full bg-white text-gray-500"
-            >{{ mission.type }}</span
-          >
-        </div>
-      </div>
-      <el-form
-        ref="participateForm"
-        :model="form"
-        :rules="rules"
-        class="mt-4"
-        :hide-required-asterisk="true"
-      >
-        <el-form-item
-          :label="
-            mission.responsable
-              ? `Vous allez être mis en relation avec ${mission.responsable.first_name}, le responsable de la mission`
-              : 'Vous allez être mis en relation avec le responsable de la mission'
-          "
-          prop="content"
-        >
-          <el-input
-            v-model="form.content"
-            placeholder=""
-            :autosize="{ minRows: 3, maxRows: 8 }"
-            type="textarea"
-            :autofocus="true"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogParticipateVisible = false">
-          Annuler
-        </el-button>
-        <el-button
-          :loading="dialogLoading"
-          type="primary"
-          @click="handleSubmitFormParticipate"
-          >Proposer mon aide</el-button
-        >
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      :close-on-click-modal="false"
-      title="Avez vous un compte ?"
-      width="100%"
-      :visible.sync="dialogProposerAide"
-      style="max-width: 500px; margin: auto; text-align: center"
-    >
-      <div class="text-center mb-8">
-        Vous n'êtes pas connecté. <br />Merci de vous identifier ou de créer un
-        compte.
-      </div>
-      <div class="flex items-center justify-center">
-        <el-button @click="dialogParticipateVisible = false">
-          <nuxt-link
-            :to="`/login?redirect=${$route.path}?showDialogParticipate=true`"
-            @click="dialogParticipateVisible = false"
-          >
-            Se connecter
-          </nuxt-link>
-        </el-button>
-        <el-button type="primary">
-          <nuxt-link
-            :to="`/register/volontaire?redirect=${$route.path}?showDialogParticipate=true`"
-            type="primary"
-          >
-            S'inscrire
-          </nuxt-link>
-        </el-button>
-      </div>
-    </el-dialog>
 
     <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
       <div class="bg-white shadow overflow-hidden rounded-lg">
@@ -873,10 +668,6 @@ export default {
       mission: {},
       otherMissions: {},
       baseUrl: this.$config.apiUrl,
-      dialogParticipateVisible:
-        Boolean(this.$route.query.showDialogParticipate) || false,
-      dialogProposerAide: false,
-      dialogLoading: false,
       form: {
         content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },
@@ -985,37 +776,6 @@ export default {
     }
   },
   methods: {
-    handleSubmitFormParticipate() {
-      this.$refs.participateForm.validate((valid) => {
-        if (valid) {
-          this.dialogLoading = true
-          this.$api
-            .addParticipation(
-              this.mission.id,
-              this.$store.getters.profile.id,
-              this.form.content
-            )
-            .then(() => {
-              this.dialogLoading = false
-              this.$router.push('/messages')
-              console.log('Go tracket api engagement', window.apieng)
-              window.apieng && window.apieng('trackApplication')
-              this.$message({
-                message:
-                  'Votre participation a été enregistrée et est en attente de validation !',
-                type: 'success',
-              })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        }
-      })
-    },
-    handleClickParticipate() {
-      this.dialogParticipateVisible = true
-    },
     domainName(mission) {
       return mission.domaine && mission.domaine.name && mission.domaine.name.fr
         ? mission.domaine.name.fr

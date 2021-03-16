@@ -36,6 +36,8 @@ export default {
     '@/plugins/numeral.js',
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
+    '@/plugins/crisp.client.js',
+    '@/plugins/axeptio.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

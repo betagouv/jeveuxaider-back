@@ -38,7 +38,7 @@
       class="p-6 flex flex-col border-t border-gray-200 justify-center items-center"
     >
       <nuxt-link to="/">
-        <img alt="JeVeuxAider" src="/images/jeveuxaider-logo.svg" />
+        <img alt="JeVeuxAider" src="@/assets/images/jeveuxaider-logo.svg" />
       </nuxt-link>
       <div class="flex py-2 justify-center items-center">
         <nuxt-link to="/dashboard/news">
