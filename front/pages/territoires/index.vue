@@ -115,7 +115,8 @@
                     :to="department.url"
                   >
                     <div
-                      class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                      class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                      style="min-height: 80px"
                     >
                       <span class="font-semibold">{{ department.name }}</span>
                     </div>
@@ -143,7 +144,8 @@
                     :to="`territoires/collectivites/${collectivity.slug}`"
                   >
                     <div
-                      class="col-span-1 flex justify-center items-center text-center px-4 py-6 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                      class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"
+                      style="min-height: 80px"
                     >
                       <span class="font-semibold">{{ collectivity.name }}</span>
                     </div>
@@ -212,11 +214,13 @@ export default {
   },
   methods: {
     collectivitiesFilteredByLetters(letters) {
-      return this.collectivities.filter(
-        (item) =>
-          letters.includes(item.name[0]) &&
-          this.slugify(item.name).includes(this.slugify(this.query))
-      )
+      return this.collectivities
+        .filter(
+          (item) =>
+            letters.includes(item.name[0]) &&
+            this.slugify(item.name).includes(this.slugify(this.query))
+        )
+        .sort((a, b) => (a.name < b.name ? -1 : 1))
     },
     departmentsFilteredByLetters(letters) {
       return this.departments.filter(
