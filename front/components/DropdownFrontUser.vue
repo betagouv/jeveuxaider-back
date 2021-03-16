@@ -66,7 +66,6 @@ export default {
       if (command.action == 'stopImpersonate') {
         await this.$store.dispatch('auth/stopImpersonate')
       } else if (command.action == 'logout') {
-        console.log('dispatch logout')
         await this.$store.dispatch('auth/logout')
       } else {
         this.$router.push(command)

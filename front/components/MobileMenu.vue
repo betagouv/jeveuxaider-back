@@ -124,13 +124,16 @@
               @click.native="closeMobileMenu"
               >Mes messages</nuxt-link
             >
-            <nuxt-link
-              to="/logout"
+            <div
               class="px-3 py-2 rounded-md text-base font-medium text-white"
               role="menuitem"
-              @click.native="closeMobileMenu"
-              >Se déconnecter</nuxt-link
+              @click="
+                closeMobileMenu()
+                $store.dispatch('auth/logout')
+              "
             >
+              Se déconnecter
+            </div>
           </template>
           <template v-else>
             <nuxt-link

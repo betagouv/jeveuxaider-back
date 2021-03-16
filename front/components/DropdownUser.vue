@@ -77,12 +77,13 @@
             Unmasquarade
             <i class="el-icon-s-custom ml-auto" />
           </el-dropdown-item>
-          <el-dropdown-item divided />
-          <nuxt-link to="/logout">
-            <el-dropdown-item class="text-red-500">
-              Se déconnecter
-            </el-dropdown-item>
-          </nuxt-link>
+          <el-dropdown-item
+            divided
+            :command="{ action: 'logout' }"
+            class="text-red-500"
+          >
+            Se déconnecter
+          </el-dropdown-item>
         </div>
         <div v-if="activeMenu == 'role'">
           <el-dropdown-item :command="{ action: 'menu', value: 'profile' }">
@@ -121,6 +122,8 @@ export default {
       }
       if (command.action == 'stopImpersonate') {
         await this.$store.dispatch('auth/stopImpersonate')
+      } else if (command.action == 'logout') {
+        await this.$store.dispatch('auth/logout')
       }
       if (command.action == 'menu') {
         this.activeMenu = command.value
