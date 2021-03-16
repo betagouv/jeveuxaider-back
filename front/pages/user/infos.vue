@@ -27,7 +27,7 @@
         label="Photo de profil"
         @add-or-crop="avatar = $event"
         @delete="avatar = null"
-      ></ImageField>
+      />
 
       <el-form-item label="Email" prop="email" class="mb-6">
         <el-input v-model.trim="form.email" placeholder="Email" />
@@ -332,5 +332,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-    @apply mb-3
+  @apply mb-3
 </style>
