@@ -134,6 +134,12 @@ export default (axios) => ({
       structure_name: structureName,
     })
   },
+
+  async getUserFirstname(email) {
+    return await axios.post(`/firstname`, {
+      email,
+    })
+  },
 })
 
 // import axios from 'axios'
@@ -160,11 +166,5 @@ export default (axios) => ({
 // async fetchUsers(params, appends) {
 //   return axios.get(`/users?append=${appends.join(',')}`, {
 //     params,
-//   })
-// }
-
-// async getUserFirstname(email) {
-//   return axios.post(`/firstname`, {
-//     email,
 //   })
 // }
