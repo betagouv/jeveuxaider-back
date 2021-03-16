@@ -8,6 +8,8 @@
           class="mr-2"
           src="@/assets/images/icones/mon-espace.svg"
           alt="Mon espace"
+          width="12px"
+          height="18px"
         />
         {{ $store.getters.user.profile.first_name }}
       </div>

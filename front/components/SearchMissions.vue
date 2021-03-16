@@ -70,6 +70,8 @@
                       class="flex-none mr-4"
                       src="/images/filter.svg"
                       alt="Filtrer"
+                      width="18px"
+                      height="23px"
                     />
                     <span>Précisez votre recherche</span>
                   </div>

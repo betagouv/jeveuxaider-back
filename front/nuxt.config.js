@@ -21,7 +21,29 @@ export default {
           'Devenez bénévole et trouvez des missions en quelques clics près de chez vous ou à distance.',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+      {
+        rel: 'preconnect',
+        href: 'https://gqlg3qh7po-dsn.algolia.net',
+        crossorigin: true,
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://static.axept.io',
+        crossorigin: true,
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://client.axept.io',
+        crossorigin: true,
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://client.crisp.chat',
+        crossorigin: true,
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -38,6 +60,8 @@ export default {
     '@/plugins/vue-filters.js',
     '@/plugins/crisp.client.js',
     '@/plugins/axeptio.client.js',
+    '@/plugins/vue-cropper.js',
+    // { src: '~/plugins/vue-cropper.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -145,6 +169,7 @@ export default {
       'numeral',
       'vue-clamp',
       'resize-detector',
+      // 'vue-cropper',
     ],
   },
 
