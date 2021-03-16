@@ -45,7 +45,8 @@ export default (axios) => ({
     return await axios.post(`/invitation`, invitation)
   },
   async getInvitation(token) {
-    return await axios.get(`/invitation/${token}`)
+    const { data } = await axios.get(`/invitation/${token}`)
+    return data
   },
   async acceptInvitation(token) {
     return await axios.post(`/invitation/${token}/accept`)
