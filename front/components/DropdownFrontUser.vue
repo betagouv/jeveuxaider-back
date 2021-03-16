@@ -6,7 +6,7 @@
       >
         <img
           class="mr-2"
-          src="/images/icones/mon-espace.svg"
+          src="@/assets/images/icones/mon-espace.svg"
           alt="Mon espace"
         />
         {{ $store.getters.user.profile.first_name }}
@@ -19,16 +19,12 @@
           <el-dropdown-item class="flex items-center">
             <el-avatar
               v-if="$store.getters.structure && $store.getters.structure.name"
-              class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border"
+              class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border flex-none"
               :src="`${$store.getters.structure.logo}`"
             >
               {{ $store.getters.structure.name[0] }}
             </el-avatar>
-            <!-- <client-only placeholder="Organisation">
-              <v-clamp :max-lines="1" autoresize class="flex-1">
-                {{ $store.getters.structure.name }}
-              </v-clamp>
-            </client-only> -->
+            <span class="truncate">{{ $store.getters.structure.name }}</span>
           </el-dropdown-item>
         </nuxt-link>
         <template
@@ -82,5 +78,5 @@ export default {
 
 <style lang="sass" scoped>
 .el-dropdown-menu
-    width: 200px
+  width: 200px
 </style>

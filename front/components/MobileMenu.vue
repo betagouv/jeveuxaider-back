@@ -34,7 +34,7 @@
           <nuxt-link to="/" class="px-8" @click.native="closeMobileMenu">
             <img
               class=""
-              src="/images/jeveuxaider-logo.svg"
+              src="@/assets/images/jeveuxaider-logo.svg"
               alt="JeVeuxAider.gouv.fr"
               width="227px"
               height="37px"
