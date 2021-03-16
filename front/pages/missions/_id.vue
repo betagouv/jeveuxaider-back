@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumb
+    <Breadcrumb
       :items="[
         { label: 'Missions de bénévolat', link: '/missions' },
         {

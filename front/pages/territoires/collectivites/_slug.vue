@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumb
+    <Breadcrumb
       :items="[
         { label: 'Collectivités', link: '/territoires' },
         { label: collectivity.name },
