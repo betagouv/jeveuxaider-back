@@ -17,8 +17,8 @@ export default (axios) => ({
   async declineParticipation(id, participation) {
     return await axios.post(`/participation/${id}/decline`, participation)
   },
-  async cancelParticipation(id) {
-    return await axios.post(`/participation/${id}/cancel`)
+  async cancelParticipation(id, participation) {
+    return await axios.post(`/participation/${id}/cancel`, participation)
   },
   async exportParticipations(params) {
     return await axios.get(`/participations/export`, {
@@ -30,17 +30,10 @@ export default (axios) => ({
     const { data } = await axios.get(`/participation/${id}`)
     return data
   },
-  // async deleteParticipation(id) {
-  //   return await axios.delete(`/participation/${id}`)
-  // }
+  async deleteParticipation(id) {
+    return await axios.delete(`/participation/${id}`)
+  },
+  async massValidationParticipation() {
+    return await axios.post(`/participations/mass-validation`)
+  },
 })
-
-/*
-
-import request from '../utils/request'
-
-async massValidationParticipation() {
-  return await axios.post(`/participations/mass-validation`)
-}
-
-*/

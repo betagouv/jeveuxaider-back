@@ -4,7 +4,7 @@
       >Annuler ma participation</el-button
     >
 
-    <participation-cancel
+    <DialogParticipationCancel
       :participation="participation"
       :is-visible="cancelParticipationDialog"
       @close="cancelParticipationDialog = false"

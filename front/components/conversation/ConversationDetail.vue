@@ -147,22 +147,22 @@
           >{{ participation.state | lowercase }}</span
         >
       </div>
-      <participation-dropdown-state
+      <DropdownParticipationState
         v-if="
           ($store.getters.contextRole == 'responsable' ||
             $store.getters.contextRole == 'admin') &&
           !isBenevole
         "
-        class="mt-3"
-        :form="participation"
+        :participation="participation"
         @updated="$emit('updated')"
       />
-      <participation-cancel-button
+
+      <ButtonParticipationCancel
         v-if="isBenevole && participation.state == 'En attente de validation'"
         class="mt-3"
         :form="participation"
         @updated="$emit('updated')"
-      ></participation-cancel-button>
+      />
 
       <hr class="my-6" />
 
@@ -281,15 +281,8 @@
 </template>
 
 <script>
-import ParticipationDropdownState from '@/components/ParticipationDropdownState'
-import ParticipationCancelButton from '@/components/ParticipationCancelButton'
-
 export default {
   name: 'ConversationDetail',
-  components: {
-    ParticipationDropdownState,
-    ParticipationCancelButton,
-  },
   props: {
     participation: {
       type: Object,
