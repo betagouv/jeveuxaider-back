@@ -43,7 +43,7 @@ class ParticipationObserver
                     break;
                 case 'Validée':
                     if ($participation->profile) {
-                        $participation->profile->notify(new ParticipationValidated($participation));
+                       $participation->profile->notify(new ParticipationValidated($participation));
                     }
                     break;
                 case 'Annulée':
@@ -67,7 +67,7 @@ class ParticipationObserver
             if ($participation->conversation) {
                 if ($newState != 'Refusée') {
                     $participation->conversation->messages()->create([
-                        'content' => 'La participation a été '.strtolower($newState),
+                        'content' => 'La participation a été ' . mb_strtolower($newState),
                         'type' => 'contextual',
                         'contextual_state' => $newState,
                     ]);

@@ -127,11 +127,9 @@ class PassportController extends Controller
         }
 
         $response = $this->broker()->sendResetLink(
-            ['email' => strtolower($request->input('email'))]
+            ['email' => mb_strtolower($request->input('email'))]
         );
-        ray('email', strtolower($request->input('email')));
-        ray($response);
-        ray(Password::RESET_LINK_SENT);
+
         return $response == Password::RESET_LINK_SENT
             ? response()->json(['message' => 'Un lien de réinitialisation de votre mot de passe a été envoyé par mail'], 201)
             : response()->json(['errors' => ['email' => ['Impossible de vous envoyer un lien de réinitialisation de votre mot de passe ']]], 401);

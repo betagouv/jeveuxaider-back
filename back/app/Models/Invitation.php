@@ -22,7 +22,7 @@ class Invitation extends Model
 
     public function setEmailAttribute($value)
     {
-        $this->attributes['email'] = strtolower($value);
+        $this->attributes['email'] = mb_strtolower($value);
     }
 
     public function setPropertiesAttribute($array)

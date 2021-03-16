@@ -58,7 +58,7 @@ class Profile extends Model implements HasMedia
 
     public function setEmailAttribute($value)
     {
-        $this->attributes['email'] = strtolower($value);
+        $this->attributes['email'] = mb_strtolower($value);
     }
 
     public function getImageAttribute()
