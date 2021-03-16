@@ -12,7 +12,7 @@
       En répondant à ces demandes, vous permettez aux bénévoles de suivre
       <br />l'évolution de leur candidature.
     </div>
-    <router-link
+    <nuxt-link
       to="/dashboard/participations?filter[state]=En attente de validation"
     >
       <el-button type="primary" class="mt-2">
@@ -23,7 +23,7 @@
         </template>
         <template v-else> Afficher la participation </template>
       </el-button>
-    </router-link>
+    </nuxt-link>
   </el-card>
 </template>
 

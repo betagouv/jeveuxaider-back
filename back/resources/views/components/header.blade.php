@@ -9,7 +9,7 @@
                     <a href="/">
                         <img
                             class="h-6"
-                            src="/images/logo-header.png"
+                            src="@/assets/images/logo-header.png"
                             alt="JeVeuxAider"
                         />
                     </a>

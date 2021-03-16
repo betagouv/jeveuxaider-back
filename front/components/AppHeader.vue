@@ -11,7 +11,7 @@
           <nuxt-link to="/" class="flex-none">
             <img
               class="mx-auto lg:mx-0"
-              src="/images/republique-francaise-logo.svg"
+              src="@/assets/images/republique-francaise-logo.svg"
               alt="République Française"
               width="121px"
               height="110px"
@@ -21,7 +21,7 @@
         <div class="flex items-center px-8">
           <nuxt-link to="/">
             <img
-              src="/images/jeveuxaider-logo.svg"
+              src="@/assets/images/jeveuxaider-logo.svg"
               alt="JeVeuxAider.gouv.fr"
               width="227px"
               height="37px"
@@ -76,7 +76,7 @@
                 class="px-2"
               >
                 <img
-                  src="/images/icones/facebook.svg"
+                  src="@/assets/images/icones/facebook.svg"
                   alt="Facebook"
                   width="6px"
                   height="12px"
@@ -89,7 +89,7 @@
                 class="px-2"
               >
                 <img
-                  src="/images/icones/twitter.svg"
+                  src="@/assets/images/icones/twitter.svg"
                   alt="Twitter"
                   width="13px"
                   height="10px"
@@ -102,7 +102,7 @@
                 class="px-2"
               >
                 <img
-                  src="/images/icones/linkedin.svg"
+                  src="@/assets/images/icones/linkedin.svg"
                   alt="Linkedin"
                   width="11px"
                   height="11px"
@@ -120,7 +120,7 @@
               >
                 <img
                   class="mr-2"
-                  src="/images/icones/search.svg"
+                  src="@/assets/images/icones/search.svg"
                   alt="Trouver une mission"
                   width="16px"
                   height="18px"
@@ -198,7 +198,7 @@
               >
                 <img
                   class="mr-2"
-                  src="/images/icones/mon-espace.svg"
+                  src="@/assets/images/icones/mon-espace.svg"
                   alt="Mon espace"
                   width="12px"
                   height="18px"
