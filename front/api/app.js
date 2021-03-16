@@ -200,7 +200,8 @@ export default (axios) => ({
     return await axios.delete(`/tag/${id}`)
   },
   async fetchFaqs(params) {
-    return await axios.get('/faqs', { params })
+    const { data } = await axios.get('/faqs', { params })
+    return data
   },
 })
 

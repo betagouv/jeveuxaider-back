@@ -58,14 +58,11 @@
 
 <script>
 export default {
-  data() {
+  async asyncData({ $api }) {
+    const faqs = await $api.fetchFaqs({ pagination: 0 })
     return {
-      faqs: {},
+      faqs: faqs.data,
     }
-  },
-  async fetch() {
-    const { data } = await this.$api.fetchFaqs({ pagination: 0 })
-    this.faqs = data.data
   },
 }
 </script>
