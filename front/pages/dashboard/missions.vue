@@ -8,12 +8,12 @@
         <div class="mb-8 font-bold text-2xl text-gray-800">Missions</div>
       </div>
       <div>
-        <!-- <nuxt-link
+        <nuxt-link
           v-if="$store.getters.contextRole === 'responsable'"
-          :to="`/dashboard/structure/${structureRESPONSABLETODO.id}`"
+          :to="`/dashboard/structure/${$store.getters.structure.id}/missions/add`"
         >
           <el-button type="primary"> Créer une mission </el-button>
-        </nuxt-link> -->
+        </nuxt-link>
       </div>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
