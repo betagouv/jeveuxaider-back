@@ -3,8 +3,8 @@
     <div class="mb-6 text-md leading-snug text-gray-500">
       Vous pouvez publier une mission de bénévolat à partir d'un modèle
       prédéfini ou choisir de la rédiger intégralement dans le respect de la
-      <router-link class="text-primary" to="/charte-reserve-civique"
-        >charte</router-link
+      <nuxt-link class="text-primary" to="/charte-reserve-civique"
+        >charte</nuxt-link
       >.
     </div>
     <el-select

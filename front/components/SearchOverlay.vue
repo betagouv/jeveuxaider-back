@@ -1,8 +1,8 @@
 <template>
-  <div class="fixed">
+  <div class="fixed inset-0 w-full h-full z-50">
     <div
       id="search-overlay"
-      class="fixed inset-0 w-full h-full z-50 flex flex-col items-center justify-center"
+      class="w-full h-full flex flex-col items-center justify-center"
     >
       <div class="flex flex-col w-full h-full px-4">
         <div

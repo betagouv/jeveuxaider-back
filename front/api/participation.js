@@ -1,8 +1,8 @@
 export default (axios) => ({
   async addParticipation(missionId, profileId, content) {
     const { data } = await axios.post(`/participation`, {
-      missionId,
-      profileId,
+      mission_id: missionId,
+      profile_id: profileId,
       state: 'En attente de validation',
       content,
     })

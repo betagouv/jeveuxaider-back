@@ -24,9 +24,11 @@
             >
               {{ $store.getters.structure.name[0] }}
             </el-avatar>
-            <v-clamp :max-lines="1" autoresize class="flex-1">
-              {{ $store.getters.structure.name }}
-            </v-clamp>
+            <!-- <client-only placeholder="Organisation">
+              <v-clamp :max-lines="1" autoresize class="flex-1">
+                {{ $store.getters.structure.name }}
+              </v-clamp>
+            </client-only> -->
           </el-dropdown-item>
         </nuxt-link>
         <template
