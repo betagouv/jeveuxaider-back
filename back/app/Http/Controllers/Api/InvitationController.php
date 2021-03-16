@@ -34,7 +34,7 @@ class InvitationController extends Controller
         $invitation = Invitation::whereToken($token)->first();
 
         if (!$invitation) {
-            abort(402, "L'invitation n'est plus disponible");
+            abort(404, "L'invitation n'est plus disponible");
         }
 
         return $invitation;

@@ -94,8 +94,11 @@
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, error }) {
     const invitation = await $api.getInvitation(params.token)
+    if (!invitation) {
+      return error({ statusCode: 404 })
+    }
     return {
       invitation,
     }
