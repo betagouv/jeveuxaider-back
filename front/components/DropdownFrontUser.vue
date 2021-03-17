@@ -21,7 +21,11 @@
           <el-dropdown-item class="flex items-center">
             <Avatar
               v-if="$store.getters.structure && $store.getters.structure.name"
-              :source="`${$store.getters.structure.logo}`"
+              :source="
+                $store.getters.structure.logo
+                  ? $store.getters.structure.logo
+                  : null
+              "
               :fallback="$store.getters.structure.name[0]"
               class="mr-2 text-xs"
               width="w-6 h-6"
