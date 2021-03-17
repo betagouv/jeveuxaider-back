@@ -20,4 +20,9 @@ export const mutations = {
   setActiveConversationId: (state, conversationId) => {
     state.activeConversationId = conversationId
   },
+  updateLastestMessage: (state, message) => {
+    state.conversations.find(
+      (conversation) => conversation.id == message.conversation_id
+    ).latest_message = message
+  },
 }

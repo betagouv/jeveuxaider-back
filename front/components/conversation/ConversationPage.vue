@@ -246,7 +246,7 @@
             <div v-if="activeConversation" class="sticky bottom-0 bg-white p-6">
               <div class="m-auto w-full" style="max-width: 550px">
                 <div
-                  class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
+                  class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-center"
                   style="border-radius: 8px"
                 >
                   <textarea-autosize
@@ -567,8 +567,10 @@ export default {
             this.newMessage = ''
             this.messages = [response.data, ...this.messages]
             this.$refs.messagesContainer.scrollTop = 0
-            // Update last message in the corresponding conversation teaser
-            this.activeConversation.latest_message = response.data
+            this.$store.commit(
+              'conversation/updateLastestMessage',
+              response.data
+            )
           })
       }
     },
