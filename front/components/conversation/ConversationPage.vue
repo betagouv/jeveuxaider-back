@@ -93,7 +93,11 @@
                       ? conversation.latest_message.created_at
                       : null
                   "
-                  :status="conversation.conversable.state"
+                  :status="
+                    conversation.conversable
+                      ? conversation.conversable.state
+                      : null
+                  "
                   conversable-type="Participation"
                   :nametype="
                     $store.getters.contextRole == 'volontaire'

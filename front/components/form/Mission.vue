@@ -438,21 +438,6 @@ import FormWithAddress from '@/mixins/FormWithAddress'
 
 export default {
   mixins: [FormWithAddress],
-  // async beforeRouteEnter(to, from, next) {
-  //   await next(async (vm) => {
-  //     if (to.name == 'MissionFormEdit') {
-  //       await fetchMissions({ 'filter[id][]': vm.id }).then((response) => {
-  //         if (response.data.total != 1) {
-  //           vm.$message({
-  //             message: "Vous n'avez pas les droits d'accéder à cette page",
-  //             type: 'error',
-  //           })
-  //           next('/403')
-  //         }
-  //       })
-  //     }
-  //   })
-  // },
   props: {
     structureId: {
       type: Number,

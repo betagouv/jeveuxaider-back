@@ -97,7 +97,6 @@ export default {
       })
         .then(() => {
           this.form.state = state
-          console.log('OK CHANGE FORM', this.form)
           this.$api
             .updateStructure(this.form.id, this.form)
             .then((response) => {

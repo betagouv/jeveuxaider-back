@@ -95,7 +95,7 @@ export default {
 
   optimizedImages: {
     optimizeImages: true,
-    optimizeImagesInDev: true,
+    optimizeImagesInDev: false,
     svgo: {
       plugins: [{ removeViewBox: false }],
     },
@@ -160,7 +160,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    analyze: true,
+    analyze: process.env.NODE_ENV !== 'production',
     extractCSS: process.env.NODE_ENV === 'production',
     transpile: [
       'vue-instantsearch',

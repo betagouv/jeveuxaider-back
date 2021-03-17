@@ -4,7 +4,7 @@
     title="Décliner la participation"
     width="100%"
     :visible="isVisible"
-    style="max-width: 600px; margin: auto"
+    style="max-width: 600px; margin: auto; overflow: hidden"
     @close="$emit('close')"
   >
     <div class="mb-2">

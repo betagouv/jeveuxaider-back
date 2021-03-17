@@ -21,13 +21,10 @@
 <script>
 export default {
   middleware: 'dashboard',
+  head: {
+    bodyAttrs: {
+      class: 'full-height-layout',
+    },
+  },
 }
 </script>
-
-<style lang="sass">
-div#__nuxt,
-#__layout,
-#__layout > div,
-#app
-  min-height: 100vh
-</style>
