@@ -7,9 +7,7 @@
   >
     <el-table-column width="70" align="center">
       <template slot-scope="scope">
-        <el-avatar class="bg-primary">
-          {{ scope.row.profile.short_name }}
-        </el-avatar>
+        <Avatar class="m-auto" :fallback="scope.row.profile.short_name" />
       </template>
     </el-table-column>
     <el-table-column prop="name" label="Bénévole" min-width="320">
@@ -65,6 +63,7 @@
       <template slot-scope="scope">
         <DropdownParticipationState
           :participation="scope.row"
+          class="flex"
           @updated="onUpdatedRow"
         />
       </template>

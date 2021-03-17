@@ -9,17 +9,16 @@
     >
       <div class="el-dropdown-link flex justify-between p-6 items-center">
         <div class="flex">
-          <el-avatar
+          <Avatar
             v-if="$store.getters.user.profile"
-            :src="
+            :source="
               $store.getters.user.profile.image
                 ? $store.getters.user.profile.image.thumb
                 : null
             "
-            class="bg-primary text-white"
-          >
-            {{ $store.getters.user.profile.short_name }}
-          </el-avatar>
+            :fallback="$store.getters.user.profile.short_name"
+          />
+
           <div
             v-if="$store.getters.isSidebarExpanded"
             class="flex flex-col ml-2"

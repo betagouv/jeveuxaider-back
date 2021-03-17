@@ -1,9 +1,8 @@
 <template>
   <div class="p-4">
     <div class="flex items-center">
-      <el-avatar :src="thumbnail" class="flex-none bg-primary text-white mr-4">
-        {{ shortName }}
-      </el-avatar>
+      <Avatar class="mr-4" :source="thumbnail" :fallback="shortName" />
+
       <div class="flex-1 min-w-0">
         <div class="flex items-center">
           <div :class="[{ 'font-bold': !hasRead }]">{{ name }}</div>

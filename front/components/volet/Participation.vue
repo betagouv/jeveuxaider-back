@@ -3,10 +3,9 @@
     <el-card shadow="never" class="overflow-visible mt-24">
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
-          <el-avatar v-if="canShowProfileDetails" class="bg-primary">
-            {{ row.profile.short_name }}
-          </el-avatar>
-          <el-avatar v-else class="bg-primary"> XX </el-avatar>
+          <Avatar
+            :fallback="canShowProfileDetails ? row.profile.short_name : 'XX'"
+          />
         </div>
         <nuxt-link
           class="font-bold text-primary text-lg my-3"

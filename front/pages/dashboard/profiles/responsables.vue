@@ -36,12 +36,10 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar
-            :src="scope.row.image ? scope.row.image.thumb : null"
-            class="bg-primary text-white"
-          >
-            {{ scope.row.short_name }}
-          </el-avatar>
+          <Avatar
+            :source="scope.row.image ? scope.row.image.thumb : null"
+            :fallback="scope.row.short_name"
+          />
         </template>
       </el-table-column>
       <el-table-column label="Email" min-width="300">

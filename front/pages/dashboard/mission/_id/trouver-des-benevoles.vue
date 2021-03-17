@@ -73,9 +73,10 @@
     >
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
-          <el-avatar class="bg-primary">
-            {{ scope.row.short_name }}
-          </el-avatar>
+          <Avatar
+            :source="scope.row.image ? scope.row.image.thumb : null"
+            :fallback="scope.row.short_name"
+          />
         </template>
       </el-table-column>
       <el-table-column prop="name" label="Bénévole" min-width="120">
