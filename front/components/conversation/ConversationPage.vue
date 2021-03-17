@@ -204,42 +204,53 @@
               @scroll="onScroll"
             >
               <div class="panel--content">
-                <template v-if="activeConversation">
-                  <template v-if="messages.length">
-                    <template v-for="message in messages.slice().reverse()">
-                      <template v-if="message.type == 'contextual'">
-                        <ConversationContextualMessage
-                          :key="message.id"
-                          :message="message"
-                        />
-                      </template>
-                      <template v-if="message.type == 'chat'">
-                        <ConversationMessages
-                          :key="message.id"
-                          :name="message.from.profile.first_name"
-                          :short-name="message.from.profile.short_name"
-                          :thumbnail="
-                            message.from.profile.image
-                              ? message.from.profile.image.thumb
-                              : null
-                          "
-                          :date="message.created_at"
-                        >
-                          <nl2br tag="p" :text="message.content" />
-                        </ConversationMessages>
+                <transition-group name="fade-in" tag="div">
+                  <ElContainer
+                    v-if="conversationLoading"
+                    key="conversationLoading"
+                    v-loading="conversationLoading"
+                  >
+                    <div class="w-16 h-16"></div>
+                  </ElContainer>
+
+                  <div v-else key="conversationLoaded">
+                    <template v-if="messages.length">
+                      <template v-for="message in messages.slice().reverse()">
+                        <template v-if="message.type == 'contextual'">
+                          <ConversationContextualMessage
+                            :key="message.id"
+                            :message="message"
+                          />
+                        </template>
+                        <template v-if="message.type == 'chat'">
+                          <ConversationMessages
+                            :key="message.id"
+                            :name="message.from.profile.first_name"
+                            :short-name="message.from.profile.short_name"
+                            :thumbnail="
+                              message.from.profile.image
+                                ? message.from.profile.image.thumb
+                                : null
+                            "
+                            :date="message.created_at"
+                          >
+                            <nl2br tag="p" :text="message.content" />
+                          </ConversationMessages>
+                        </template>
                       </template>
                     </template>
-                  </template>
-                  <template v-else>
-                    <div class="text-center text-gray-500 font-light">
+                    <div
+                      v-else-if="activeConversation"
+                      class="text-center text-gray-500 font-light"
+                    >
                       Ceci est le tout début de votre conversation avec
                       {{
                         fromUser(activeConversation).profile.first_name
                       }}&nbsp;!<br />
                       N'hésitez pas à lui envoyer un message ;)
                     </div>
-                  </template>
-                </template>
+                  </div>
+                </transition-group>
               </div>
             </div>
 
@@ -340,6 +351,7 @@ export default {
       lastPageConversation: null,
       newMessageCount: 0,
       loading: true,
+      conversationLoading: true,
     }
   },
   computed: {
@@ -364,6 +376,8 @@ export default {
     activeConversation(newConversation) {
       // @todo: bug -> Called twice when coming from handleSubmitFormParticipate in Mission.vue
       if (newConversation) {
+        this.conversationLoading = true
+
         this.$api.fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
           this.$refs.messagesContainer.scrollTop = 0
@@ -373,6 +387,9 @@ export default {
           if (!this.hasRead(newConversation)) {
             this.$store.commit('auth/decrementNbUnreadConversarions')
           }
+
+          this.conversationLoading = false
+
           // @TODO: Code obsolète ?
           // if (this.$store.getters.contextRole != 'admin') {
           //   this.currentUser(
