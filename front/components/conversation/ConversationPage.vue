@@ -367,7 +367,9 @@ export default {
       if (newConversation) {
         this.$api.fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
-          this.$refs.messagesContainer.scrollTop = 0
+          if (this.$refs.messagesContainer) {
+            this.$refs.messagesContainer.scrollTop = 0
+          }
           this.currentPage = response.data.current_page
           this.lastPage = response.data.last_page
 
@@ -482,7 +484,8 @@ export default {
       }
       this.showPanelLeft = !this.showPanelLeft
 
-      window.history.pushState({ id: null }, '', `/messages`)
+      // window.history.pushState({ id: null }, '', `/messages`)
+      this.$router.push(`/messages`)
     },
     onTeaserClick(conversation) {
       if (
@@ -501,11 +504,12 @@ export default {
       }
       this.showPanelCenter = true
 
-      window.history.pushState(
-        { id: conversation.id },
-        '',
-        `/messages/${conversation.id}`
-      )
+      this.$router.push(`/messages/${conversation.id}`)
+      // window.history.pushState(
+      //   { id: conversation.id },
+      //   '',
+      //   `/messages/${conversation.id}`
+      // )
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
