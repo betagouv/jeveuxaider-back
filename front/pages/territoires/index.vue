@@ -141,7 +141,7 @@
                       group
                     )"
                     :key="collectivity.id"
-                    :to="`territoires/collectivites/${collectivity.slug}`"
+                    :to="`/territoires/collectivites/${collectivity.slug}`"
                   >
                     <div
                       class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900"

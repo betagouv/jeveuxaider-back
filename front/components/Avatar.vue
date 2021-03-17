@@ -1,7 +1,7 @@
 <template>
   <div
     class="overflow-hidden rounded-full flex-none flex items-center justify-center bg-primary text-white"
-    :class="[width]"
+    :class="[width, fontSize]"
   >
     <template v-if="icon">
       <i :class="icon" />
@@ -36,6 +36,10 @@ export default {
     width: {
       type: String,
       default: 'w-10 h-10',
+    },
+    fontSize: {
+      type: String,
+      default: 'text-sm',
     },
   },
   data() {

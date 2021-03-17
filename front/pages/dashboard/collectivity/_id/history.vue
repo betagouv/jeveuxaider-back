@@ -26,7 +26,7 @@
           </nuxt-link>
           <el-dropdown-menu slot="dropdown">
             <nuxt-link
-              :to="`/territoires/${collectivity.slug}`"
+              :to="`/territoires/collectivites/${collectivity.slug}`"
               target="_blank"
             >
               <el-dropdown-item> Visualiser la collectivité</el-dropdown-item>
@@ -138,5 +138,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>

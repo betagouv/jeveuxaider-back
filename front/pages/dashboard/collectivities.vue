@@ -90,9 +90,17 @@
               :class="scope.row.published ? 'bg-green-500' : 'bg-red-500'"
               class="rounded-full h-2 w-2 mr-2"
             ></div>
-            <nuxt-link :to="`/territoires/${scope.row.slug}`" target="_blank"
-              >/territoires/{{ scope.row.slug }}</nuxt-link
+            <nuxt-link
+              v-if="scope.row.published"
+              :to="url(scope.row)"
+              target="_blank"
+              class="hover:underline"
             >
+              {{ url(scope.row) }}
+            </nuxt-link>
+            <span v-else class="cursor-default">
+              {{ url(scope.row) }}
+            </span>
           </div>
         </template>
       </el-table-column>
@@ -191,6 +199,10 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  methods: {},
+  methods: {
+    url(row) {
+      return `/territoires/collectivites/${row.slug}`
+    },
+  },
 }
 </script>

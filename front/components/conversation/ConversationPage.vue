@@ -256,7 +256,7 @@
                     :disabled="$store.getters.contextRole == 'admin'"
                     rows="1"
                     :max-height="120"
-                    class="w-full outline-none leading-tight custom-scrollbar"
+                    class="m-auto w-full outline-none leading-tight custom-scrollbar"
                     @keydown.enter.exact.prevent.native="onAddMessage"
                   />
                   <button
@@ -486,17 +486,16 @@ export default {
     },
     onTeaserClick(conversation) {
       if (
-        this.activeConversation &&
-        conversation.id == this.activeConversation.id
+        !this.activeConversation ||
+        conversation.id != this.activeConversation.id
       ) {
-        return
+        this.newMessage = ''
+        this.$store.commit(
+          'conversation/setActiveConversationId',
+          conversation.id
+        )
       }
 
-      this.newMessage = ''
-      this.$store.commit(
-        'conversation/setActiveConversationId',
-        conversation.id
-      )
       if (this.isMobile) {
         this.showPanelLeft = false
       }
