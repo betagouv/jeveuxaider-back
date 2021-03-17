@@ -16,5 +16,10 @@
 export default {
   name: 'MessagesLayout',
   middleware: 'logged',
+  head: {
+    bodyAttrs: {
+      class: 'full-height-layout',
+    },
+  },
 }
 </script>
