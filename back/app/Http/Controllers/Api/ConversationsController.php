@@ -14,30 +14,45 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersConversationSearch;
 use App\Http\Requests\ConversationRequest;
+use App\Filters\FiltersConversationExclude;
+
 
 class ConversationsController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Conversation::role($request->header('Context-Role'))->with(['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
-            $morphTo->morphWith([
+        return QueryBuilder::for(
+            Conversation::role($request->header('Context-Role'))->with(
+                ['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
+                    $morphTo->morphWith(
+                        [
                         Participation::class => ['mission.structure:id,name', 'mission.domaine', 'mission.responsable', 'profile'],
-                    ]);
-        }]))
-            ->allowedFilters([
+                        ]
+                    );
+                }]
+            )
+        )
+            ->allowedFilters(
+                [
                 AllowedFilter::custom('search', new FiltersConversationSearch),
-            ])
+                AllowedFilter::custom('exclude', new FiltersConversationExclude),
+                ]
+            )
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
     public function show(ConversationRequest $request, Conversation $conversation)
     {
-        return Conversation::with(['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
-            $morphTo->morphWith([
+        return Conversation::with(
+            ['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
+                $morphTo->morphWith(
+                    [
                         Participation::class => ['mission.structure:id,name', 'mission.domaine', 'mission.responsable', 'profile'],
-                    ]);
-        }])->where('id', $conversation->id)->first();
+                    ]
+                );
+            }]
+        )->where('id', $conversation->id)->first();
     }
 
     public function messages(ConversationRequest $request, Conversation $conversation)

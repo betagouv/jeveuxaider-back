@@ -353,6 +353,7 @@ export default {
       newMessageCount: 0,
       loading: true,
       conversationLoading: true,
+      excludeId: null,
     }
   },
   computed: {
@@ -403,6 +404,28 @@ export default {
   async created() {
     this.debouncedFetchConversations = debounce(this.fetchConversations, 500)
     await this.fetchConversations()
+
+    // Facebook style,
+    // si la conversation n'est pas présente dans la première page,
+    // on la récupère explicitement
+    if (this.$router.currentRoute.params.id) {
+      const isInConversations = this.conversations.find((conversation) => {
+        return conversation.id == this.$router.currentRoute.params.id
+      })
+
+      if (!isInConversations) {
+        const conversation = await this.$api.getConversation(
+          this.$router.currentRoute.params.id
+        )
+        this.$store.commit('conversation/setConversations', [
+          ...this.conversations,
+          conversation,
+        ])
+
+        this.excludeId = conversation.id
+      }
+    }
+
     this.$store.commit(
       'conversation/setActiveConversationId',
       this.$router.currentRoute.params.id
@@ -411,6 +434,8 @@ export default {
         ? this.conversations[0].id
         : null
     )
+
+    this.loading = false
   },
   mounted() {
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
@@ -431,10 +456,10 @@ export default {
       const { data } = await this.$api.fetchConversations({
         'filter[search]': this.conversationFilters.search,
         page: 1,
+        'filter[exclude]': this.excludeId,
       })
       this.lastPageConversation = data.last_page
       this.$store.commit('conversation/setConversations', data.data)
-      this.loading = false
     },
     onResize() {
       this.windowWidth = window.innerWidth
@@ -483,6 +508,7 @@ export default {
         .fetchConversations({
           'filter[search]': this.conversationFilters.search,
           page: this.currentPageConversation + 1,
+          'filter[exclude]': this.excludeId,
         })
         .then((response) => {
           this.$store.commit('conversation/setConversations', [
@@ -490,6 +516,7 @@ export default {
             ...response.data.data,
           ])
           this.currentPageConversation = response.data.current_page
+          this.loading = false
         })
     },
     onPanelLeftToggle() {
@@ -497,7 +524,8 @@ export default {
         this.showPanelCenter = false
       }
       this.showPanelLeft = !this.showPanelLeft
-      this.$router.push(`/messages`)
+      // do not change to $router.push, as it will redo the created function
+      window.history.pushState({ id: null }, '', `/messages`)
     },
     onTeaserClick(conversation) {
       if (
@@ -516,7 +544,12 @@ export default {
       }
       this.showPanelCenter = true
 
-      this.$router.push(`/messages/${conversation.id}`)
+      // do not change to $router.push, as it will redo the created function
+      window.history.pushState(
+        { id: conversation.id },
+        '',
+        `/messages/${conversation.id}`
+      )
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
