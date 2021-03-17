@@ -370,17 +370,15 @@ export default {
           this.currentPage = response.data.current_page
           this.lastPage = response.data.last_page
 
-          // Fake update of nbUnreadConversations
           if (!this.hasRead(newConversation)) {
-            if (this.$store.getters.user.nbUnreadConversations > 0) {
-              this.$store.getters.user.nbUnreadConversations--
-            }
+            this.$store.commit('auth/decrementNbUnreadConversarions')
           }
-          if (this.$store.getters.contextRole != 'admin') {
-            this.currentUser(
-              newConversation
-            ).pivot.read_at = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
-          }
+          // @TODO: Code obsolète ?
+          // if (this.$store.getters.contextRole != 'admin') {
+          //   this.currentUser(
+          //     newConversation
+          //   ).pivot.read_at = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
+          // }
         })
       }
     },
