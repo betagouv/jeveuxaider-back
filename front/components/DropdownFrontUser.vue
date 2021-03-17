@@ -27,8 +27,9 @@
                   : null
               "
               :fallback="$store.getters.structure.name[0]"
-              class="mr-2 text-xs"
+              class="mr-2"
               width="w-6 h-6"
+              font-size="text-xs"
             />
 
             <span class="truncate">{{ $store.getters.structure.name }}</span>

@@ -42,8 +42,10 @@
         <template slot-scope="scope">
           <div class="text-gray-900">{{ scope.row.name }}</div>
           <div class="font-light text-gray-600 text-xs">
-            <nuxt-link :to="`/territoires/${scope.row.slug}`" target="_blank"
-              >/territoires/{{ scope.row.slug }}</nuxt-link
+            <nuxt-link
+              :to="`/territoires/departements/${scope.row.slug}`"
+              target="_blank"
+              >/territoires/departements/{{ scope.row.slug }}</nuxt-link
             >
           </div>
         </template>
