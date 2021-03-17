@@ -497,7 +497,8 @@ export default {
         this.showPanelCenter = false
       }
       this.showPanelLeft = !this.showPanelLeft
-      this.$router.push(`/messages`)
+      // do not change to $router.push, as it will redo the created function
+      window.history.pushState({ id: null }, '', `/messages`)
     },
     onTeaserClick(conversation) {
       if (
@@ -516,7 +517,12 @@ export default {
       }
       this.showPanelCenter = true
 
-      this.$router.push(`/messages/${conversation.id}`)
+      // do not change to $router.push, as it will redo the created function
+      window.history.pushState(
+        { id: conversation.id },
+        '',
+        `/messages/${conversation.id}`
+      )
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
