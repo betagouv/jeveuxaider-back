@@ -25,4 +25,12 @@ export const mutations = {
       (conversation) => conversation.id == message.conversation_id
     ).latest_message = message
   },
+  updateConversation: (state, conversation) => {
+    const index = state.conversations.findIndex(
+      (item) => item.id === conversation.id
+    )
+    if (index !== -1) {
+      state.conversations.splice(index, 1, conversation)
+    }
+  },
 }

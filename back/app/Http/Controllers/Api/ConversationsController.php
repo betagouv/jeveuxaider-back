@@ -31,6 +31,15 @@ class ConversationsController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
+    public function show(ConversationRequest $request, Conversation $conversation)
+    {
+        return Conversation::with(['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
+            $morphTo->morphWith([
+                        Participation::class => ['mission.structure:id,name', 'mission.domaine', 'mission.responsable', 'profile'],
+                    ]);
+        }])->where('id', $conversation->id)->first();
+    }
+
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);

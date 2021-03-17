@@ -154,14 +154,14 @@
           !isBenevole
         "
         :participation="participation"
-        @updated="$emit('updated')"
+        @updated="$emit('updated', conversationId)"
       />
 
       <ButtonParticipationCancel
         v-if="isBenevole && participation.state == 'En attente de validation'"
         class="mt-3"
         :form="participation"
-        @updated="$emit('updated')"
+        @updated="$emit('updated', conversationId)"
       />
 
       <hr class="my-6" />
@@ -284,6 +284,10 @@
 export default {
   name: 'ConversationDetail',
   props: {
+    conversationId: {
+      type: Number,
+      required: true,
+    },
     participation: {
       type: Object,
       required: true,

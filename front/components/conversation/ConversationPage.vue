@@ -288,8 +288,9 @@
               <div class="panel--content">
                 <ConversationDetail
                   v-if="activeConversation"
+                  :conversation-id="activeConversation.id"
                   :participation="activeConversation.conversable"
-                  @updated="fetchConversationMessages(activeConversation)"
+                  @updated="updateConversation"
                 />
               </div>
             </div>
@@ -574,29 +575,9 @@ export default {
           })
       }
     },
-    fetchConversationMessages(conversation) {
-      this.$api.fetchMessages(conversation.id).then((response) => {
-        this.messages = response.data.data
-        // this.$refs['messagesContainer'].scrollTop = 0
-        this.currentPage = response.data.current_page
-        this.lastPage = response.data.last_page
-
-        this.activeConversation.latest_message = response.data.data
-          .slice(-1)
-          .pop()
-
-        // Fake update of nbUnreadConversations
-        if (!this.hasRead(conversation)) {
-          if (this.$store.getters.user.nbUnreadConversations > 0) {
-            this.$store.getters.user.nbUnreadConversations--
-          }
-        }
-        if (this.$store.getters.contextRole != 'admin') {
-          this.currentUser(conversation).pivot.read_at = this.$dayjs().format(
-            'YYYY-MM-DD HH:mm:ss'
-          )
-        }
-      })
+    async updateConversation(conversationId) {
+      const conversation = await this.$api.getConversation(conversationId)
+      this.$store.commit('conversation/updateConversation', conversation)
     },
   },
 }
