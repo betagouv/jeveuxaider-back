@@ -1,9 +1,8 @@
 <template>
   <div class="mb-4">
     <div class="flex items-start">
-      <el-avatar :src="thumbnail" class="flex-none bg-primary text-white mr-4">
-        {{ shortName }}
-      </el-avatar>
+      <Avatar class="mr-4" :source="thumbnail" :fallback="shortName" />
+
       <div>
         <div class="flex items-baseline">
           <span class="font-bold mr-2">{{ name }}</span>

@@ -19,13 +19,18 @@
           to="/dashboard"
         >
           <el-dropdown-item class="flex items-center">
-            <el-avatar
+            <Avatar
               v-if="$store.getters.structure && $store.getters.structure.name"
-              class="bg-primary w-8 h-8 rounded-full mr-2 flex items-center justify-center border flex-none"
-              :src="`${$store.getters.structure.logo}`"
-            >
-              {{ $store.getters.structure.name[0] }}
-            </el-avatar>
+              :source="
+                $store.getters.structure.logo
+                  ? $store.getters.structure.logo
+                  : null
+              "
+              :fallback="$store.getters.structure.name[0]"
+              class="mr-2 text-xs"
+              width="w-6 h-6"
+            />
+
             <span class="truncate">{{ $store.getters.structure.name }}</span>
           </el-dropdown-item>
         </nuxt-link>
@@ -62,7 +67,6 @@
 
 <script>
 export default {
-  name: 'DropdownFrontUser',
   methods: {
     async handleCommand(command) {
       if (command.action == 'stopImpersonate') {

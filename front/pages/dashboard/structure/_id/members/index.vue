@@ -18,9 +18,10 @@
       <div class="text-sm font-medium text-secondary mb-4">Membres</div>
       <div v-for="member in members" :key="member.id" class="member py-4 px-6">
         <div class="flex items-center">
-          <el-avatar class="bg-primary w-10 rounded-full">
-            {{ member.first_name[0] }}{{ member.last_name[0] }}
-          </el-avatar>
+          <Avatar
+            :source="member.image ? member.image.thumb : null"
+            :fallback="member.short_name"
+          />
           <div class="flex flex-col ml-6" style="min-width: 350px">
             <div class="text-gray-800">
               {{ member.first_name }} {{ member.last_name }}

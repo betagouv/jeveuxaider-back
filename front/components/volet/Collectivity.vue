@@ -4,9 +4,7 @@
     <el-card shadow="never" class="overflow-visible relative">
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
-          <el-avatar class="bg-primary">
-            {{ row.name[0] }}
-          </el-avatar>
+          <Avatar :fallback="row.name[0]" />
         </div>
         <nuxt-link
           class="font-semibold text-sm my-3 text-primary text-center"

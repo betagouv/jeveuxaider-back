@@ -60,8 +60,7 @@ export default {
     '@/plugins/vue-filters.js',
     '@/plugins/crisp.client.js',
     '@/plugins/axeptio.client.js',
-    '@/plugins/vue-cropper.js',
-    // { src: '~/plugins/vue-cropper.js', mode: 'client' },
+    { src: '~/plugins/vue-cropper.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -169,7 +168,7 @@ export default {
       'numeral',
       'vue-clamp',
       'resize-detector',
-      // 'vue-cropper',
+      'vue-cropperjs',
     ],
   },
 

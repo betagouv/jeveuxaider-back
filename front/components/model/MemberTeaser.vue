@@ -1,8 +1,11 @@
 <template>
   <div class="member flex items-center overflow-hidden">
-    <el-avatar class="bg-primary w-10 rounded-full flex-none">
-      {{ member.short_name }}
-    </el-avatar>
+    <Avatar
+      :source="member.image ? member.image.thumb : null"
+      :fallback="member.short_name"
+      width="w-12 h-12"
+    />
+
     <div class="flex flex-col ml-6" style="">
       <nuxt-link :to="`/dashboard/profile/${member.id}`" target="_blank">
         <div class="text-sm text-gray-700">

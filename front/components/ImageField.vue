@@ -61,6 +61,7 @@
           preview=".preview"
           @ready="onCropperReady"
           @cropmove="ensureMinDimensions"
+          @hook:mounted="onCropperMounted"
         />
 
         <span slot="footer" class="dialog-footer">
@@ -338,6 +339,16 @@ export default {
       if (this.cropData) {
         this.$refs.cropper.setData(this.cropData)
       }
+    },
+    onCropperMounted() {
+      // HACK - data-not-lazy to prevent img not loaded
+      this.$refs.cropper.$refs.img.setAttribute('data-not-lazy', '')
+      const src = this.imgSrc
+        ? this.imgSrc
+        : this.field
+        ? this.field.original
+        : null
+      this.$refs.cropper.replace(src)
     },
   },
 }

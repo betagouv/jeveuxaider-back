@@ -9,9 +9,7 @@
     <el-card shadow="never" class="overflow-visible">
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
-          <el-avatar v-if="row.structure.name" class="bg-primary">{{
-            row.structure.name[0]
-          }}</el-avatar>
+          <Avatar v-if="row.structure.name" :fallback="row.structure.name[0]" />
         </div>
         <nuxt-link
           class="font-semibold text-sm my-3 text-primary text-center"
