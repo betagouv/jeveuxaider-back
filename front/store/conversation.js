@@ -1,11 +1,13 @@
 export const state = () => ({
   conversations: [],
+  clickedUnreadConversationsIds: [],
   messages: [],
   activeConversationId: null,
 })
 
 export const getters = {
   conversations: (state) => state.conversations,
+  clickedUnreadConversationsIds: (state) => state.clickedUnreadConversationsIds,
   messages: (state) => state.messages,
   activeConversation: (state) =>
     state.conversations.find(
@@ -19,6 +21,11 @@ export const mutations = {
   },
   setActiveConversationId: (state, conversationId) => {
     state.activeConversationId = conversationId
+  },
+  addClickedUnreadConversationsIds: (state, conversationId) => {
+    if (!state.clickedUnreadConversationsIds.includes(conversationId)) {
+      state.clickedUnreadConversationsIds.push(conversationId)
+    }
   },
   updateLastestMessage: (state, message) => {
     state.conversations.find(

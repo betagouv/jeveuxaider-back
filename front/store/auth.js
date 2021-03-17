@@ -10,7 +10,7 @@ export const mutations = {
   setUser(state, user) {
     state.user = user
   },
-  decrementNbUnreadConversarions(state) {
+  decrementNbUnreadConversations(state) {
     if (state.user.nbUnreadConversations > 0) {
       state.user.nbUnreadConversations--
     }

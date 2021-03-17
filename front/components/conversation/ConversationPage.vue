@@ -257,7 +257,7 @@
             <div v-if="activeConversation" class="sticky bottom-0 bg-white p-6">
               <div class="m-auto w-full" style="max-width: 550px">
                 <div
-                  class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-center"
+                  class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
                   style="border-radius: 8px"
                 >
                   <textarea-autosize
@@ -388,17 +388,14 @@ export default {
           this.lastPage = response.data.last_page
 
           if (!this.hasRead(newConversation)) {
-            this.$store.commit('auth/decrementNbUnreadConversarions')
+            this.$store.commit(
+              'conversation/addClickedUnreadConversationsIds',
+              newConversation.id
+            )
+            this.$store.commit('auth/decrementNbUnreadConversations')
           }
 
           this.conversationLoading = false
-
-          // @TODO: Code obsolète ?
-          // if (this.$store.getters.contextRole != 'admin') {
-          //   this.currentUser(
-          //     newConversation
-          //   ).pivot.read_at = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
-          // }
         })
       }
     },
@@ -500,8 +497,6 @@ export default {
         this.showPanelCenter = false
       }
       this.showPanelLeft = !this.showPanelLeft
-
-      // window.history.pushState({ id: null }, '', `/messages`)
       this.$router.push(`/messages`)
     },
     onTeaserClick(conversation) {
@@ -522,11 +517,6 @@ export default {
       this.showPanelCenter = true
 
       this.$router.push(`/messages/${conversation.id}`)
-      // window.history.pushState(
-      //   { id: conversation.id },
-      //   '',
-      //   `/messages/${conversation.id}`
-      // )
     },
     onPanelRightToggle() {
       if (this.showPanelRight) {
@@ -562,6 +552,13 @@ export default {
     },
     hasRead(conversation) {
       if (this.$store.getters.contextRole == 'admin') {
+        return true
+      }
+      if (
+        this.$store.getters[
+          'conversation/clickedUnreadConversationsIds'
+        ].includes(conversation.id)
+      ) {
         return true
       }
 
