@@ -127,10 +127,7 @@
             <div
               class="px-3 py-2 rounded-md text-base font-medium text-white"
               role="menuitem"
-              @click="
-                closeMobileMenu()
-                $store.dispatch('auth/logout')
-              "
+              @click="handleLogout"
             >
               Se déconnecter
             </div>
@@ -166,6 +163,11 @@ export default {
     }
   },
   methods: {
+    handleLogout() {
+      console.log('handleLogout')
+      this.closeMobileMenu()
+      this.$store.dispatch('auth/logout')
+    },
     closeMobileMenu() {
       this.showMobileMenu = false
     },

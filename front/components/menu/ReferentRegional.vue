@@ -98,22 +98,6 @@
         <i class="el-icon-user" />
       </el-tooltip>
     </el-menu-item>
-    <el-menu-item
-      index="/dashboard/ressources"
-      :class="{ 'is-active': isActive('ressources') }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Ressources</span>
-      <el-tooltip
-        v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Ressources"
-        placement="right"
-      >
-        <i class="el-icon-help" />
-      </el-tooltip>
-    </el-menu-item>
     <el-menu-item v-if="$store.getters.isSidebarExpanded">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
         >Contacter le support</a
