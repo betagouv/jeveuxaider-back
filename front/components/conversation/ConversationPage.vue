@@ -436,6 +436,7 @@ export default {
     )
 
     this.loading = false
+    this.conversationLoading = false
   },
   mounted() {
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
