@@ -4,14 +4,14 @@
     title="Annuler ma participation"
     width="100%"
     :visible="isVisible"
-    style="max-width: 600px; margin: auto"
+    style="max-width: 600px; margin: auto; overflow: hidden"
     @close="$emit('close')"
   >
     <div class="mb-2">
       Vous êtes sur le point d'annuler votre participation à la mission.
     </div>
     <el-form
-      ref="form"
+      ref="cancelForm"
       :model="form"
       :rules="rules"
       class="mt-4"
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     handleDeclineSubmit() {
-      this.$refs.form.validate((valid) => {
+      this.$refs.cancelForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$api

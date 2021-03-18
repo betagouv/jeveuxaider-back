@@ -42,9 +42,7 @@
       <div class="font-bold text-2xl text-gray-800">Mon profil</div>
       <div class="flex mt-6 mb-10">
         <div class="flex-1">
-          <el-avatar :size="64" class="bg-primary" fit="cover" :src="avatar">
-            <span v-if="firstName">{{ firstName[0] }}{{ lastName[0] }}</span>
-          </el-avatar>
+          <Avatar :source="avatar" :fallback="shortName" width="w-16 h-16" />
         </div>
         <!-- <div class="ml-8 mb-auto">
           <el-upload
@@ -127,7 +125,14 @@ export default {
   computed: {
     avatar() {
       return this.$store.getters.profile
-        ? this.$store.getters.profile.avatar
+        ? this.$store.getters.profile.image
+          ? this.$store.getters.profile.image.thumb
+          : null
+        : null
+    },
+    shortName() {
+      return this.$store.getters.profile
+        ? this.$store.getters.profile.short_name
         : null
     },
     firstName() {

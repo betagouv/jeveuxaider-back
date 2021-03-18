@@ -20,6 +20,9 @@ export default {
     content() {
       let message = ''
       switch (this.message.contextual_state) {
+        case 'En attente de validation':
+          message = `La participation est en attente de validation`
+          break
         case 'Validée':
           message = `La participation a été validée`
           break

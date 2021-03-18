@@ -42,7 +42,7 @@
         :close-on-click-modal="false"
         @close="onModalClose"
       >
-        <vue-cropper
+        <VueCropper
           v-if="dialogCropVisible"
           ref="cropper"
           :check-orientation="false"
@@ -61,7 +61,9 @@
           preview=".preview"
           @ready="onCropperReady"
           @cropmove="ensureMinDimensions"
+          @hook:mounted="onCropperMounted"
         />
+
         <span slot="footer" class="dialog-footer">
           <el-button @click="onReset()">Réinitialiser</el-button>
           <el-button @click="dialogCropVisible = false">Annuler</el-button>
@@ -91,12 +93,7 @@
 </template>
 
 <script>
-import VueCropper from 'vue-cropperjs'
-import 'cropperjs/dist/cropper.css'
-
 export default {
-  name: 'ImageField',
-  components: { VueCropper },
   props: {
     minWidth: {
       type: Number,
@@ -342,6 +339,16 @@ export default {
       if (this.cropData) {
         this.$refs.cropper.setData(this.cropData)
       }
+    },
+    onCropperMounted() {
+      // HACK - data-not-lazy to prevent img not loaded
+      this.$refs.cropper.$refs.img.setAttribute('data-not-lazy', '')
+      const src = this.imgSrc
+        ? this.imgSrc
+        : this.field
+        ? this.field.original
+        : null
+      this.$refs.cropper.replace(src)
     },
   },
 }

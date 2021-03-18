@@ -6,14 +6,10 @@
     <el-card shadow="never" class="overflow-visible relative">
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
-          <el-avatar
-            v-if="row.logo"
-            :src="`${row.logo}`"
-            class="w-10 rounded-full border"
+          <Avatar
+            :source="row.logo ? row.logo : null"
+            :fallback="row.name[0]"
           />
-          <el-avatar v-else class="bg-primary">
-            {{ row.name[0] }}
-          </el-avatar>
         </div>
         <nuxt-link
           class="font-semibold text-sm my-3 text-primary text-center"

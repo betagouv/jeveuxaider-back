@@ -34,11 +34,7 @@
       :highlight-current-row="true"
     >
       <el-table-column width="70" align="center">
-        <el-avatar
-          class="bg-primary text-white flex items-center justify-center"
-          icon="el-icon-s-promotion"
-        >
-        </el-avatar>
+        <Avatar icon="el-icon-s-promotion" />
       </el-table-column>
       <el-table-column label="Email" min-width="300">
         <template slot-scope="scope">

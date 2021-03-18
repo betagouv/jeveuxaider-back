@@ -41,6 +41,7 @@
               src="/images/search-facet.svg"
               class="cursor-pointer ml-4"
               width="16px"
+              height="28px"
               @click="onSearchClick"
             />
           </template>

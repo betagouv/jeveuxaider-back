@@ -47,11 +47,16 @@
           </div>
         </el-upload>
         <div v-else class="flex items-center">
-          <div
-            class="mr-4 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center"
-            style="width: 50px; height: 50px"
-          >
-            <font-awesome-icon size="lg" :icon="file.type | icoFromMimeType" />
+          <div class="mr-4">
+            <img
+              :src="
+                require(`@/assets/images/dynamic/${$options.filters.icoFromMimeType(
+                  file.type
+                )}.svg`)
+              "
+              alt="File"
+              class="h-10 w-auto"
+            />
           </div>
           <div class="mr-8">
             <div>{{ file.name }}</div>

@@ -9,17 +9,16 @@
     >
       <div class="el-dropdown-link flex justify-between p-6 items-center">
         <div class="flex">
-          <el-avatar
+          <Avatar
             v-if="$store.getters.user.profile"
-            :src="
+            :source="
               $store.getters.user.profile.image
                 ? $store.getters.user.profile.image.thumb
                 : null
             "
-            class="bg-primary text-white"
-          >
-            {{ $store.getters.user.profile.short_name }}
-          </el-avatar>
+            :fallback="$store.getters.user.profile.short_name"
+          />
+
           <div
             v-if="$store.getters.isSidebarExpanded"
             class="flex flex-col ml-2"
@@ -77,12 +76,13 @@
             Unmasquarade
             <i class="el-icon-s-custom ml-auto" />
           </el-dropdown-item>
-          <el-dropdown-item divided />
-          <nuxt-link to="/logout">
-            <el-dropdown-item class="text-red-500">
-              Se déconnecter
-            </el-dropdown-item>
-          </nuxt-link>
+          <el-dropdown-item
+            divided
+            :command="{ action: 'logout' }"
+            class="text-red-500"
+          >
+            Se déconnecter
+          </el-dropdown-item>
         </div>
         <div v-if="activeMenu == 'role'">
           <el-dropdown-item :command="{ action: 'menu', value: 'profile' }">
@@ -121,6 +121,8 @@ export default {
       }
       if (command.action == 'stopImpersonate') {
         await this.$store.dispatch('auth/stopImpersonate')
+      } else if (command.action == 'logout') {
+        await this.$store.dispatch('auth/logout')
       }
       if (command.action == 'menu') {
         this.activeMenu = command.value

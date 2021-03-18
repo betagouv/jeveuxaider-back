@@ -3,14 +3,10 @@
     <el-card shadow="never" class="overflow-visible mt-12">
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
-          <el-avatar
-            v-if="row.avatar"
-            :src="`${row.avatar}`"
-            class="w-10 rounded-full border"
+          <Avatar
+            :source="row.avatar ? row.avatar : null"
+            :fallback="`${row.first_name[0]}${row.last_name[0]}`"
           />
-          <el-avatar v-else class="bg-primary">
-            {{ row.first_name[0] }}{{ row.last_name[0] }}
-          </el-avatar>
         </div>
         <nuxt-link
           class="font-bold text-lg text-primary mb-2 mt-3"

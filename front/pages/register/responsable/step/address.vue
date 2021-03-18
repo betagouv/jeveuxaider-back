@@ -88,9 +88,9 @@
             listera toutes les missions dans votre collectivité. Par exemple
             pour Bayonne :
             <a
-              href="https://jeveuxaider.gouv.fr/territoires/bayonne"
+              :href="`${$config.appUrl}/territoires/collectivites/bayonne`"
               target="_blank"
-              >https://jeveuxaider.gouv.fr/territoires/bayonne</a
+              >{{ $config.appUrl }}/territoires/collectivites/bayonne</a
             >
           </item-description>
           <el-form-item

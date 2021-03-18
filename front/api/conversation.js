@@ -10,4 +10,8 @@ export default (axios) => ({
   async addMessageToConversation(conversationId, params) {
     return await axios.post(`/conversations/${conversationId}/messages`, params)
   },
+  async getConversation(id) {
+    const { data } = await axios.get(`/conversation/${id}`)
+    return data
+  },
 })

@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // MESSAGES
     Route::get('conversations', 'Api\ConversationsController@index');
+    Route::get('conversation/{conversation}', 'Api\ConversationsController@show');
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
     Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
 

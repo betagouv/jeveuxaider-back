@@ -20,6 +20,7 @@ export default {
       } else if (this.$route.path.includes(item)) {
         return true
       }
+      return false
     },
   },
 }

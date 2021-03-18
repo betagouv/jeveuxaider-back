@@ -93,7 +93,11 @@
                       ? conversation.latest_message.created_at
                       : null
                   "
-                  :status="conversation.conversable.state"
+                  :status="
+                    conversation.conversable
+                      ? conversation.conversable.state
+                      : null
+                  "
                   conversable-type="Participation"
                   :nametype="
                     $store.getters.contextRole == 'volontaire'
@@ -200,42 +204,53 @@
               @scroll="onScroll"
             >
               <div class="panel--content">
-                <template v-if="activeConversation">
-                  <template v-if="messages.length">
-                    <template v-for="message in messages.slice().reverse()">
-                      <template v-if="message.type == 'contextual'">
-                        <ConversationContextualMessage
-                          :key="message.id"
-                          :message="message"
-                        />
-                      </template>
-                      <template v-if="message.type == 'chat'">
-                        <ConversationMessages
-                          :key="message.id"
-                          :name="message.from.profile.first_name"
-                          :short-name="message.from.profile.short_name"
-                          :thumbnail="
-                            message.from.profile.image
-                              ? message.from.profile.image.thumb
-                              : null
-                          "
-                          :date="message.created_at"
-                        >
-                          <nl2br tag="p" :text="message.content" />
-                        </ConversationMessages>
+                <transition-group name="fade-in" tag="div">
+                  <ElContainer
+                    v-if="conversationLoading"
+                    key="conversationLoading"
+                    v-loading="conversationLoading"
+                  >
+                    <div class="w-16 h-16"></div>
+                  </ElContainer>
+
+                  <div v-else key="conversationLoaded">
+                    <template v-if="messages.length">
+                      <template v-for="message in messages.slice().reverse()">
+                        <template v-if="message.type == 'contextual'">
+                          <ConversationContextualMessage
+                            :key="message.id"
+                            :message="message"
+                          />
+                        </template>
+                        <template v-if="message.type == 'chat'">
+                          <ConversationMessages
+                            :key="message.id"
+                            :name="message.from.profile.first_name"
+                            :short-name="message.from.profile.short_name"
+                            :thumbnail="
+                              message.from.profile.image
+                                ? message.from.profile.image.thumb
+                                : null
+                            "
+                            :date="message.created_at"
+                          >
+                            <nl2br tag="p" :text="message.content" />
+                          </ConversationMessages>
+                        </template>
                       </template>
                     </template>
-                  </template>
-                  <template v-else>
-                    <div class="text-center text-gray-500 font-light">
+                    <div
+                      v-else-if="activeConversation"
+                      class="text-center text-gray-500 font-light"
+                    >
                       Ceci est le tout début de votre conversation avec
                       {{
                         fromUser(activeConversation).profile.first_name
                       }}&nbsp;!<br />
                       N'hésitez pas à lui envoyer un message ;)
                     </div>
-                  </template>
-                </template>
+                  </div>
+                </transition-group>
               </div>
             </div>
 
@@ -252,7 +267,7 @@
                     :disabled="$store.getters.contextRole == 'admin'"
                     rows="1"
                     :max-height="120"
-                    class="w-full outline-none leading-tight custom-scrollbar"
+                    class="m-auto w-full outline-none leading-tight custom-scrollbar"
                     @keydown.enter.exact.prevent.native="onAddMessage"
                   />
                   <button
@@ -284,8 +299,9 @@
               <div class="panel--content">
                 <ConversationDetail
                   v-if="activeConversation"
+                  :conversation-id="activeConversation.id"
                   :participation="activeConversation.conversable"
-                  @updated="fetchConversationMessages(activeConversation)"
+                  @updated="updateConversation"
                 />
               </div>
             </div>
@@ -336,6 +352,8 @@ export default {
       lastPageConversation: null,
       newMessageCount: 0,
       loading: true,
+      conversationLoading: true,
+      excludeId: null,
     }
   },
   computed: {
@@ -360,23 +378,25 @@ export default {
     activeConversation(newConversation) {
       // @todo: bug -> Called twice when coming from handleSubmitFormParticipate in Mission.vue
       if (newConversation) {
+        this.conversationLoading = true
+
         this.$api.fetchMessages(newConversation.id).then((response) => {
           this.messages = response.data.data
-          this.$refs.messagesContainer.scrollTop = 0
+          if (this.$refs.messagesContainer) {
+            this.$refs.messagesContainer.scrollTop = 0
+          }
           this.currentPage = response.data.current_page
           this.lastPage = response.data.last_page
 
-          // Fake update of nbUnreadConversations
           if (!this.hasRead(newConversation)) {
-            if (this.$store.getters.user.nbUnreadConversations > 0) {
-              this.$store.getters.user.nbUnreadConversations--
-            }
+            this.$store.commit(
+              'conversation/addClickedUnreadConversationsIds',
+              newConversation.id
+            )
+            this.$store.commit('auth/decrementNbUnreadConversations')
           }
-          if (this.$store.getters.contextRole != 'admin') {
-            this.currentUser(
-              newConversation
-            ).pivot.read_at = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
-          }
+
+          this.conversationLoading = false
         })
       }
     },
@@ -384,6 +404,28 @@ export default {
   async created() {
     this.debouncedFetchConversations = debounce(this.fetchConversations, 500)
     await this.fetchConversations()
+
+    // Facebook style,
+    // si la conversation n'est pas présente dans la première page,
+    // on la récupère explicitement
+    if (this.$router.currentRoute.params.id) {
+      const isInConversations = this.conversations.find((conversation) => {
+        return conversation.id == this.$router.currentRoute.params.id
+      })
+
+      if (!isInConversations) {
+        const conversation = await this.$api.getConversation(
+          this.$router.currentRoute.params.id
+        )
+        this.$store.commit('conversation/setConversations', [
+          ...this.conversations,
+          conversation,
+        ])
+
+        this.excludeId = conversation.id
+      }
+    }
+
     this.$store.commit(
       'conversation/setActiveConversationId',
       this.$router.currentRoute.params.id
@@ -392,6 +434,8 @@ export default {
         ? this.conversations[0].id
         : null
     )
+
+    this.loading = false
   },
   mounted() {
     if (this.$router.currentRoute.name == 'messagesId' && this.isMobile) {
@@ -412,10 +456,10 @@ export default {
       const { data } = await this.$api.fetchConversations({
         'filter[search]': this.conversationFilters.search,
         page: 1,
+        'filter[exclude]': this.excludeId,
       })
       this.lastPageConversation = data.last_page
       this.$store.commit('conversation/setConversations', data.data)
-      this.loading = false
     },
     onResize() {
       this.windowWidth = window.innerWidth
@@ -464,6 +508,7 @@ export default {
         .fetchConversations({
           'filter[search]': this.conversationFilters.search,
           page: this.currentPageConversation + 1,
+          'filter[exclude]': this.excludeId,
         })
         .then((response) => {
           this.$store.commit('conversation/setConversations', [
@@ -471,6 +516,7 @@ export default {
             ...response.data.data,
           ])
           this.currentPageConversation = response.data.current_page
+          this.loading = false
         })
     },
     onPanelLeftToggle() {
@@ -478,27 +524,27 @@ export default {
         this.showPanelCenter = false
       }
       this.showPanelLeft = !this.showPanelLeft
-
+      // do not change to $router.push, as it will redo the created function
       window.history.pushState({ id: null }, '', `/messages`)
     },
     onTeaserClick(conversation) {
       if (
-        this.activeConversation &&
-        conversation.id == this.activeConversation.id
+        !this.activeConversation ||
+        conversation.id != this.activeConversation.id
       ) {
-        return
+        this.newMessage = ''
+        this.$store.commit(
+          'conversation/setActiveConversationId',
+          conversation.id
+        )
       }
 
-      this.newMessage = ''
-      this.$store.commit(
-        'conversation/setActiveConversationId',
-        conversation.id
-      )
       if (this.isMobile) {
         this.showPanelLeft = false
       }
       this.showPanelCenter = true
 
+      // do not change to $router.push, as it will redo the created function
       window.history.pushState(
         { id: conversation.id },
         '',
@@ -541,6 +587,13 @@ export default {
       if (this.$store.getters.contextRole == 'admin') {
         return true
       }
+      if (
+        this.$store.getters[
+          'conversation/clickedUnreadConversationsIds'
+        ].includes(conversation.id)
+      ) {
+        return true
+      }
 
       if (conversation.latest_message) {
         if (!this.currentUser(conversation).pivot.read_at) {
@@ -565,34 +618,16 @@ export default {
             this.newMessage = ''
             this.messages = [response.data, ...this.messages]
             this.$refs.messagesContainer.scrollTop = 0
-            // Update last message in the corresponding conversation teaser
-            this.activeConversation.latest_message = response.data
+            this.$store.commit(
+              'conversation/updateLastestMessage',
+              response.data
+            )
           })
       }
     },
-    fetchConversationMessages(conversation) {
-      this.$api.fetchMessages(conversation.id).then((response) => {
-        this.messages = response.data.data
-        // this.$refs['messagesContainer'].scrollTop = 0
-        this.currentPage = response.data.current_page
-        this.lastPage = response.data.last_page
-
-        this.activeConversation.latest_message = response.data.data
-          .slice(-1)
-          .pop()
-
-        // Fake update of nbUnreadConversations
-        if (!this.hasRead(conversation)) {
-          if (this.$store.getters.user.nbUnreadConversations > 0) {
-            this.$store.getters.user.nbUnreadConversations--
-          }
-        }
-        if (this.$store.getters.contextRole != 'admin') {
-          this.currentUser(conversation).pivot.read_at = this.$dayjs().format(
-            'YYYY-MM-DD HH:mm:ss'
-          )
-        }
-      })
+    async updateConversation(conversationId) {
+      const conversation = await this.$api.getConversation(conversationId)
+      this.$store.commit('conversation/updateConversation', conversation)
     },
   },
 }

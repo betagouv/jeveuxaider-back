@@ -211,18 +211,6 @@ export default {
       pagination: 1000,
     })
 
-    // @TODO: RESPONSABLE
-    // if (
-    //   this.$store.getters.contextRole === 'responsable' &&
-    //   this.$store.getters.structure
-    // ) {
-    //   getStructureMembers(this.$store.getters.structure.id).then(
-    //     (res) => {
-    //       this.responsables = res.data
-    //     }
-    //   )
-    // }
-
     return {
       domaines: domaines.data.data,
       templates: templates.data.data,
@@ -247,7 +235,18 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  created() {},
+  created() {
+    if (
+      this.$store.getters.contextRole === 'responsable' &&
+      this.$store.getters.structure
+    ) {
+      this.$api
+        .getStructureMembers(this.$store.getters.structure.id)
+        .then((res) => {
+          this.responsables = res.data
+        })
+    }
+  },
   methods: {
     canShowProfileDetails(row) {
       return !!(
