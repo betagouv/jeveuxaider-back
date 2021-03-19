@@ -152,6 +152,7 @@
       <el-table-column prop="state" label="Statut" min-width="250">
         <template slot-scope="scope">
           <DropdownStructureState
+            class="flex"
             :structure="scope.row"
             @updated="onUpdatedRow"
           />
