@@ -8,7 +8,7 @@
       <div class="label mb-3 text-lg font-bold text-secondary">
         Places disponibles
       </div>
-      <template v-if="data">
+      <template v-if="!$fetchState.pending">
         <div class="count text-primary font-medium text-2xl">
           {{ data.total_places_available | formatNumber }}
         </div>
@@ -39,18 +39,17 @@ export default {
       data: null,
     }
   },
-  created() {
-    this.$api.statistics('places').then((response) => {
-      this.data = response.data
-    })
+  async fetch() {
+    const statistics = await this.$api.statistics('places')
+    this.data = statistics.data
   },
+  fetchOnServer: false,
   methods: {
     onClick() {
       if (this.$store.getters.contextRole != 'analyste') {
-        this.$router.push({
-          name: 'DashboardMissions',
-          query: { 'filter[state]': 'Validée', 'filter[place]': true },
-        })
+        this.$router.push(
+          '/dashboard/missions?filter[state]=Validée&filter[place]=1'
+        )
       }
     },
   },

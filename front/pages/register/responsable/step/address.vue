@@ -146,12 +146,16 @@ import FormWithAddress from '@/mixins/FormWithAddress'
 export default {
   mixins: [FormWithAddress],
   layout: 'register-steps',
+  asyncData({ store, error }) {
+    return {
+      form: { ...store.getters.structure_as_responsable },
+      collectivity: { ...store.getters.structure_as_responsable.collectivity },
+    }
+  },
   data() {
     return {
       loading: false,
       structureId: this.$store.getters.structure_as_responsable.id,
-      collectivity: {},
-      form: {},
       showSuccessMessage: false,
     }
   },
@@ -201,10 +205,11 @@ export default {
       return rules
     },
   },
-  created() {
-    this.form = { ...this.$store.getters.structure_as_responsable } || null
-    this.collectivity = { ...this.form.collectivity } || null
-  },
+  // created() {
+  //   console.log('structure', this.$store.getters.structure_as_responsable)
+  //   this.form = { ...this.$store.getters.structure_as_responsable } || null
+  //   this.collectivity = { ...this.form.collectivity } || null
+  // },
   methods: {
     onSubmit() {
       this.loading = true

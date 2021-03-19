@@ -1,26 +1,28 @@
 <template>
   <div>
-    <el-card shadow="never">
-      <div class="bg-white p-4">
-        <div class="flex mb-3">
-          <div
-            class="label mb-3 text-lg font-bold text-secondary uppercase flex-1"
-          >
-            Nouvelles créations
+    <client-only>
+      <el-card shadow="never">
+        <div class="bg-white p-4">
+          <div class="flex mb-3">
+            <div
+              class="label mb-3 text-lg font-bold text-secondary uppercase flex-1"
+            >
+              Nouvelles créations
+            </div>
+            <div class="actions">
+              <el-input-number v-model="year" class="mr-3" size="small" />
+            </div>
           </div>
-          <div class="actions">
-            <el-input-number v-model="year" class="mr-3" size="small" />
-          </div>
+          <ChartBar
+            v-if="!loading"
+            :height="150"
+            :chart-data="chartData"
+            :options="options"
+            class="p-4"
+          />
         </div>
-        <ChartBar
-          v-if="!loading"
-          :height="150"
-          :chart-data="chartData"
-          :options="options"
-          class="p-4"
-        />
-      </div>
-    </el-card>
+      </el-card>
+    </client-only>
   </div>
 </template>
 
