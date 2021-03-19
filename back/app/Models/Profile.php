@@ -156,7 +156,7 @@ class Profile extends Model implements HasMedia
             case 'admin':
             case 'analyste':
                 return $query;
-            break;
+                break;
             case 'referent':
                 $departement = Auth::guard('api')->user()->profile->referent_department;
                 return $query
