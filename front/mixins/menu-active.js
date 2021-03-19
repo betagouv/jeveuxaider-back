@@ -2,8 +2,6 @@ export default {
   name: 'MenuWithActive',
   methods: {
     isActive(item) {
-      console.log('item', item)
-      console.log('router', this.$route.name)
       switch (item) {
         case 'dashboard':
           return [
