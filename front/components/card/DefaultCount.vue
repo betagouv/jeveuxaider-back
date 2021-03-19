@@ -9,7 +9,7 @@
       <div class="label mb-3 text-lg font-bold text-secondary">
         {{ label }}
       </div>
-      <template v-if="data">
+      <template v-if="!$fetchState.pending">
         <div class="count text-primary font-medium text-2xl">
           {{ data.total | formatNumber }}
         </div>
@@ -53,13 +53,14 @@ export default {
       data: null,
     }
   },
-  created() {
-    this.$api
-      .statistics(this.name, { type: 'light', role: this.$route.query.role })
-      .then((response) => {
-        this.data = response.data
-      })
+  async fetch() {
+    const statistics = await this.$api.statistics(this.name, {
+      type: 'light',
+      role: this.$route.query.role,
+    })
+    this.data = statistics.data
   },
+  fetchOnServer: false,
   methods: {
     onClick() {
       if (this.link) {

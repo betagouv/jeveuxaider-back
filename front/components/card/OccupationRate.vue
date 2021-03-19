@@ -8,7 +8,7 @@
       <div class="label mb-3 text-lg font-bold text-secondary">
         Taux d'occupation
       </div>
-      <template v-if="data">
+      <template v-if="!$fetchState.pending">
         <div class="count text-primary font-medium text-2xl">
           {{ data.occupation_rate | formatNumber }}%
         </div>
@@ -33,11 +33,11 @@ export default {
       data: null,
     }
   },
-  created() {
-    this.$api.statistics('occupation-rate').then((response) => {
-      this.data = response.data
-    })
+  async fetch() {
+    const statistics = await this.$api.statistics('occupation-rate')
+    this.data = statistics.data
   },
+  fetchOnServer: false,
   methods: {},
 }
 </script>

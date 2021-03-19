@@ -4,7 +4,7 @@
       <div class="label mb-5 text-lg text-secondary">
         <span class="font-bold">TOP 10</span> - Compétences
       </div>
-      <template v-if="data">
+      <template v-if="!$fetchState.pending">
         <div v-for="skill in data" :key="skill.id" class="te text-sm mb-2">
           <v-clamp :max-lines="1" autoresize class="flex-1">
             {{ skill.profiles_count | formatNumber }} -
@@ -32,11 +32,11 @@ export default {
       data: null,
     }
   },
-  created() {
-    this.$api.statistics(this.name).then((response) => {
-      this.data = response.data
-    })
+  async fetch() {
+    const statistics = await this.$api.statistics(this.name)
+    this.data = statistics.data
   },
+  fetchOnServer: false,
   methods: {},
 }
 </script>

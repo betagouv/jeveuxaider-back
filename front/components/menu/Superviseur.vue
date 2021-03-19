@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import MenuActive from '@/mixins/MenuActive'
+import MenuActive from '@/mixins/menu-active'
 
 export default {
   mixins: [MenuActive],

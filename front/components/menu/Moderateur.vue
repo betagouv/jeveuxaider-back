@@ -19,7 +19,7 @@
     <el-menu-item
       index="/dashboard/collectivities"
       :class="{
-        'is-active': isActive('/dashboard/collectivities'),
+        'is-active': isActive('collectivities'),
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Collectivités</span>
@@ -37,7 +37,7 @@
     <el-menu-item
       index="/dashboard/structures"
       :class="{
-        'is-active': isActive('structure') && !isActive('missions/add'),
+        'is-active': isActive('structures'),
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Organisations</span>
@@ -55,8 +55,7 @@
     <el-menu-item
       index="/dashboard/missions"
       :class="{
-        'is-active':
-          isActive('/dashboard/mission') && !isActive('mission-templates'),
+        'is-active': isActive('missions'),
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Missions</span>
@@ -73,7 +72,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/participations"
-      :class="{ 'is-active': isActive('/dashboard/participation') }"
+      :class="{ 'is-active': isActive('participations') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Participations</span>
       <el-tooltip
@@ -89,7 +88,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/profiles"
-      :class="{ 'is-active': isActive('profile') }"
+      :class="{ 'is-active': isActive('profiles') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Utilisateurs</span>
       <el-tooltip
@@ -105,7 +104,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/contents/releases"
-      :class="{ 'is-active': isActive('content') }"
+      :class="{ 'is-active': isActive('contents') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Contenus</span>
       <el-tooltip
@@ -141,7 +140,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/activities"
-      :class="{ 'is-active': isActive('/dashboard/activities') }"
+      :class="{ 'is-active': isActive('activities') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Activités</span>
     </el-menu-item>
@@ -149,7 +148,7 @@
 </template>
 
 <script>
-import MenuActive from '@/mixins/MenuActive'
+import MenuActive from '@/mixins/menu-active'
 
 export default {
   mixins: [MenuActive],
