@@ -29,17 +29,17 @@
       <div class="text-gray-900 flex-1">
         <template v-if="structure.response_ratio !== null">
           <span class="">{{ structure.response_ratio }}%</span>
-          <!-- <el-tooltip
-            class="item"
-            effect="dark"
-            :content="`${
-              structure.participations_count -
-              structure.waiting_participations_count
-            } / ${structure.participations_count} participations`"
-            placement="top"
-          >
-            <i class="el-icon-info"></i>
-          </el-tooltip> -->
+
+          <!-- <i
+            v-tooltip="{
+              content: `${
+                structure.participations_count -
+                structure.waiting_participations_count
+              } / ${structure.participations_count} participations`,
+              classes: 'bo-style',
+            }"
+            class="el-icon-info"
+          /> -->
         </template>
         <template v-else> N/A </template>
       </div>

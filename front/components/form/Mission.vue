@@ -65,8 +65,6 @@
                       v-tooltip="{
                         delay: { show: 700, hide: 100 },
                         content: form.template.subtitle,
-                        hideOnTargetClick: true,
-                        placement: 'top',
                       }"
                       class="absolute w-full h-full top-0 left-0"
                     />

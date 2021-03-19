@@ -31,7 +31,10 @@
             </div>
           </div>
         </div>
-        <i class="el-icon-arrow-down el-icon--right" />
+        <i
+          class="el-icon-arrow-down el-icon--right"
+          :class="[{ 'ml-1': !$store.getters.isSidebarExpanded }]"
+        />
       </div>
       <el-dropdown-menu slot="dropdown" style="max-width: 300px">
         <div v-if="activeMenu == 'profile'">

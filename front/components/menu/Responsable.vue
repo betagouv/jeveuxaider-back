@@ -13,15 +13,17 @@
         }"
         >Statistiques de la page
       </el-menu-item>
-      <el-tooltip
+
+      <el-menu-item
         v-else
-        class="item"
-        effect="dark"
-        content="Votre collectivité est en cours de validation."
-        placement="top"
-      >
-        <el-menu-item disabled>Statistiques de la page </el-menu-item>
-      </el-tooltip>
+        v-tooltip="{
+          content: `Votre collectivité est en cours de validation.`,
+          classes: 'bo-style',
+        }"
+        disabled
+        >Statistiques de la page
+      </el-menu-item>
+
       <el-menu-item
         :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`"
         :class="{
@@ -38,16 +40,15 @@
       :class="{ 'is-active': isActive('dashboard') }"
     >
       <div v-if="$store.getters.isSidebarExpanded">Tableau de bord</div>
-      <el-tooltip
+
+      <i
         v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Tableau de bord"
-        placement="right"
-      >
-        <i class="el-icon-data-analysis" />
-      </el-tooltip>
+        v-tooltip.right="{
+          content: `Tableau de bord`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-data-analysis"
+      />
     </el-menu-item>
     <el-menu-item
       :index="`/dashboard/structure/${$store.getters.structure.id}/edit`"
@@ -57,38 +58,45 @@
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Mon organisation</span>
-      <el-tooltip
+
+      <i
         v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Mon organisation"
-        placement="right"
-      >
-        <i class="el-icon-school" />
-      </el-tooltip>
+        v-tooltip.right="{
+          content: `Mon organisation`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-school"
+      />
     </el-menu-item>
     <el-menu-item
       index="/dashboard/missions"
       :class="{ 'is-active': isActive('/dashboard/mission') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Missions</span>
-      <el-tooltip
+
+      <i
         v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Missions"
-        placement="right"
-      >
-        <i class="el-icon-collection" />
-      </el-tooltip>
+        v-tooltip.right="{
+          content: `Missions`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-collection"
+      />
     </el-menu-item>
     <el-menu-item
       index="/dashboard/participations"
       :class="{ 'is-active': isActive('/dashboard/participation') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Participations</span>
+
+      <i
+        v-else
+        v-tooltip.right="{
+          content: `Participations`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-finished"
+      />
     </el-menu-item>
     <el-menu-item index="/messages">
       <el-badge
@@ -99,32 +107,30 @@
       >
         <span>Messagerie</span>
       </el-badge>
-      <el-tooltip
+
+      <i
         v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Messagerie"
-        placement="right"
-      >
-        <i class="el-icon-message" />
-      </el-tooltip>
+        v-tooltip.right="{
+          content: `Messagerie`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-message"
+      />
     </el-menu-item>
     <el-menu-item
       index="/dashboard/ressources"
       :class="{ 'is-active': isActive('/dashboard/ressources') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Ressources</span>
-      <el-tooltip
+
+      <i
         v-else
-        class="item"
-        :open-delay="500"
-        effect="dark"
-        content="Ressources"
-        placement="right"
-      >
-        <i class="el-icon-help" />
-      </el-tooltip>
+        v-tooltip.right="{
+          content: `Ressources`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-help"
+      />
     </el-menu-item>
     <el-menu-item v-if="$store.getters.isSidebarExpanded">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"

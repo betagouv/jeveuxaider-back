@@ -180,6 +180,7 @@
             v-if="$store.getters.contextRole === 'admin'"
             split-button
             size="small"
+            class="flex"
             @command="handleCommand"
           >
             Choisissez une action

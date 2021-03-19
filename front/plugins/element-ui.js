@@ -66,11 +66,6 @@ export default (context, inject) => {
       /* webpackChunkName: 'element-ui-container' */ 'element-ui/lib/container'
     )
   )
-  Vue.component('ElTooltip', () =>
-    import(
-      /* webpackChunkName: 'element-ui-tooltip' */ 'element-ui/lib/tooltip'
-    )
-  )
   Vue.component('ElMenu', () =>
     import(/* webpackChunkName: 'element-ui-menu' */ 'element-ui/lib/menu')
   )
