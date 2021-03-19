@@ -75,17 +75,18 @@
                 class="submit py-6 px-10 text-white font-extrabold cursor-pointer transition rounded-r-full"
                 @click="onSubmit"
               >
-                <div class="flex items-center justify-center">
+                <div class="flex items-center justify-center relative">
                   <ClipLoader
                     v-if="loading"
                     :loading="loading"
-                    size="21px"
+                    size="20px"
                     color="white"
+                    class="flex absolute left-0"
                   ></ClipLoader>
 
                   <img
-                    v-else
                     class="flex-none"
+                    :class="[{ 'opacity-0': loading }]"
                     src="/images/search-white-bold.svg"
                   />
                   <span class="ml-2">Rechercher</span>
