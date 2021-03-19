@@ -50,6 +50,7 @@
                     <img
                       src="/images/chevron_gray.svg"
                       class="chevron hidden lg:block z-10"
+                      alt="Chevron"
                     />
                     <client-only placeholder="Rechercher par ville">
                       <AlgoliaPlacesInput
@@ -88,6 +89,7 @@
                     class="flex-none"
                     :class="[{ 'opacity-0': loading }]"
                     src="/images/search-white-bold.svg"
+                    alt="Rechercher"
                   />
                   <span class="ml-2">Rechercher</span>
                 </div>

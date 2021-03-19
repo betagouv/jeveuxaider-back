@@ -128,6 +128,7 @@
           class="bg-primary rounded-md p-3"
           :src="participation.mission.domaine.image"
           width="56px"
+          :alt="participation.mission.domaine.name.fr"
         />
       </div>
       <h3 class="text-xl leading-8 font-bold text-gray-900 mb-4">
