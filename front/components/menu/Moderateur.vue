@@ -143,7 +143,15 @@
       :class="{ 'is-active': isActive('activities') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Activités</span>
-      <i v-else class="el-icon-document" />
+
+      <i
+        v-else
+        v-tooltip.right="{
+          content: `Activités`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-document"
+      />
     </el-menu-item>
   </div>
 </template>
