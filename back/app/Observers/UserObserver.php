@@ -9,6 +9,5 @@ class UserObserver
 {
     public function created(User $user)
     {
-        SendinblueSyncUser::dispatch($user);
     }
 }

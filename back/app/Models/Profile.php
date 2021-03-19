@@ -37,6 +37,7 @@ class Profile extends Model implements HasMedia
         'description',
         'frequence',
         'frequence_granularite',
+        'user_id',
     ];
 
     protected $casts = [
@@ -155,50 +156,67 @@ class Profile extends Model implements HasMedia
             case 'admin':
             case 'analyste':
                 return $query;
-                break;
+            break;
             case 'referent':
                 $departement = Auth::guard('api')->user()->profile->referent_department;
                 return $query
-                    ->where('zip', 'LIKE', $departement . '%')
-                    ->orWhereHas('missions', function (Builder $query) use ($departement) {
-                        $query
-                            ->whereNotNull('department')
-                            ->where('department', $departement);
-                    })
-                    ->orWhereHas('structures', function (Builder $query) use ($departement) {
-                        $query
-                            ->where('role', 'responsable')
-                            ->whereNotNull('department')
-                            ->where('department', $departement);
-                    });
+                ->where('zip', 'LIKE', $departement . '%')
+                ->orWhereHas(
+                    'missions',
+                    function (Builder $query) use ($departement) {
+                            $query
+                                ->whereNotNull('department')
+                                ->where('department', $departement);
+                    }
+                )
+                    ->orWhereHas(
+                        'structures',
+                        function (Builder $query) use ($departement) {
+                            $query
+                                ->where('role', 'responsable')
+                                ->whereNotNull('department')
+                                ->where('department', $departement);
+                        }
+                    );
                 break;
             case 'referent_regional':
                 $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
                 return $query
-                    ->whereHas('missions', function (Builder $query) use ($departements) {
-                        $query
-                            ->whereNotNull('department')
-                            ->whereIn('department', $departements);
-                    })
-                    ->orWhereHas('structures', function (Builder $query) use ($departements) {
-                        $query
-                            ->where('role', 'responsable')
-                            ->whereNotNull('department')
-                            ->whereIn('department', $departements);
-                    })
-                    ->orWhere(function (Builder $query) use ($departements) {
-                        foreach ($departements as $departement) {
-                            $query->orWhere('zip', 'LIKE', $departement . '%');
+                ->whereHas(
+                    'missions',
+                    function (Builder $query) use ($departements) {
+                            $query
+                                ->whereNotNull('department')
+                                ->whereIn('department', $departements);
+                    }
+                )
+                    ->orWhereHas(
+                        'structures',
+                        function (Builder $query) use ($departements) {
+                            $query
+                                ->where('role', 'responsable')
+                                ->whereNotNull('department')
+                                ->whereIn('department', $departements);
                         }
-                    });
+                    )
+                    ->orWhere(
+                        function (Builder $query) use ($departements) {
+                            foreach ($departements as $departement) {
+                                $query->orWhere('zip', 'LIKE', $departement . '%');
+                            }
+                        }
+                    );
                 break;
             case 'superviseur':
                 return $query
-                    ->whereHas('structures', function (Builder $query) {
-                        $query
-                            ->whereNotNull('reseau_id')
-                            ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                    });
+                ->whereHas(
+                    'structures',
+                    function (Builder $query) {
+                            $query
+                                ->whereNotNull('reseau_id')
+                                ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
+                    }
+                );
                 break;
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
@@ -237,9 +255,12 @@ class Profile extends Model implements HasMedia
     public function scopeDomaine($query, $domain_id)
     {
         return $query
-            ->whereHas('tags', function (Builder $query) use ($domain_id) {
-                $query->where('id', $domain_id);
-            });
+            ->whereHas(
+                'tags',
+                function (Builder $query) use ($domain_id) {
+                    $query->where('id', $domain_id);
+                }
+            );
     }
 
     public function scopeCollectivity($query, $collectivity_id)
@@ -317,9 +338,12 @@ class Profile extends Model implements HasMedia
     public function getCollectivityAttribute()
     {
         $structure = $this->structures()
-            ->whereHas('collectivity', function (Builder $query) {
-                $query->where('state', 'validated');
-            })
+            ->whereHas(
+                'collectivity',
+                function (Builder $query) {
+                    $query->where('state', 'validated');
+                }
+            )
             ->wherePivot('role', 'responsable')
             ->first();
 

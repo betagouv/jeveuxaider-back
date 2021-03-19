@@ -115,17 +115,21 @@ class InvitationController extends Controller
             abort(402, "L'invitation n'est plus disponible");
         }
 
-        $user = User::create([
-            'name' => request("email"),
-            'email' => request("email"),
-            'password' => Hash::make(request("password"))
-        ]);
+        $user = User::create(
+            [
+                'name' => request("email"),
+                'email' => request("email"),
+                'password' => Hash::make(request("password"))
+            ]
+        );
+
+        $attributes = $request->validated();
+        $attributes['user_id'] = $user->id;
 
         $profile = Profile::firstOrCreate(
             ['email' => request('email')],
-            $request->validated()
+            $attributes
         );
-        $user->profile()->save($profile);
 
         $invitation->accept();
         $invitation->delete();

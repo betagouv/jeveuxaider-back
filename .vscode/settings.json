@@ -1,4 +1,5 @@
 {
+  "phpSniffer.standard": "PSR2",
   "editor.formatOnSave": true,
   "vetur.validation.template": false,
   "editor.codeActionsOnSave": {
