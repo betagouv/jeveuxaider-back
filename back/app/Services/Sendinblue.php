@@ -23,21 +23,29 @@ class Sendinblue
 
     public static function createContact(User $user)
     {
-        return self::api('post', '/contacts', [
+        return self::api(
+            'post',
+            '/contacts',
+            [
             'json' => [
                 'email' => $user->email,
                 'attributes' => self::formatAttributes($user),
             ]
-        ]);
+            ]
+        );
     }
 
     public static function updateContact(User $user)
     {
-        return self::api('put', "/contacts/$user->email", [
-            'json' => [
-                'attributes' => self::formatAttributes($user),
+        return self::api(
+            'put',
+            "/contacts/$user->email",
+            [
+                'json' => [
+                    'attributes' => self::formatAttributes($user),
+                ]
             ]
-        ]);
+        );
     }
 
     public static function sync(User $user)
@@ -62,7 +70,7 @@ class Sendinblue
         if ($user->profile->mobile && !$phoneNumberUtil->isPossibleNumber($user->profile->mobile, 'FR')) {
             dump("$user->email has a wrong phone number : " . $user->profile->mobile);
         }
-        
+
         $attributes = [
             // TODO : EMAIL attributes if email has changed
             'NOM' => $user->profile->last_name,

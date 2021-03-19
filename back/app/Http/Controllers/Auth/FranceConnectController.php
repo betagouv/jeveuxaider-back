@@ -31,13 +31,16 @@ class FranceConnectController extends Controller
 
     public function oauthLoginCallback(Request $request)
     {
-        $response = Http::asForm()->post(config('services.franceconnect.url') . '/api/v1/token', [
-          'grant_type' => 'authorization_code',
-          'redirect_uri' => config('app.url') . '/login',
-          'client_id' => config('services.franceconnect.client_id'),
-          'client_secret' => config('services.franceconnect.client_secret'),
-          'code' =>  $request->query('code')
-        ]);
+        $response = Http::asForm()->post(
+            config('services.franceconnect.url') . '/api/v1/token',
+            [
+                'grant_type' => 'authorization_code',
+                'redirect_uri' => config('app.url') . '/login',
+                'client_id' => config('services.franceconnect.client_id'),
+                'client_secret' => config('services.franceconnect.client_secret'),
+                'code' =>  $request->query('code')
+            ]
+        );
 
         if (!isset($response['access_token']) || !isset($response['id_token'])) {
             return response()->json(['message' => "France Connect connexion failed. No access token"], 401);
@@ -61,11 +64,11 @@ class FranceConnectController extends Controller
     private function register($franceConnectUser)
     {
         $user = User::create([
-          'name' => $franceConnectUser['email'],
-          'email' => $franceConnectUser['email'],
-          'context_role' => 'volontaire',
-          'password' => Hash::make(Str::random(12))
-        ]);
+                'name' => $franceConnectUser['email'],
+                'email' => $franceConnectUser['email'],
+                'context_role' => 'volontaire',
+                'password' => Hash::make(Str::random(12))
+            ]);
 
         $profile = Profile::firstOrCreate(
             ['email' => $franceConnectUser['email']],
@@ -76,8 +79,6 @@ class FranceConnectController extends Controller
                 'birthday' => $franceConnectUser['birthdate'] ?? ''
             ]
         );
-
-        $user->profile()->save($profile);
 
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
