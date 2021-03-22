@@ -1,11 +1,20 @@
 export const state = () => ({
   accessToken: null,
   user: null,
+  accessTokenImpersonate: null,
+  tokenIdImpersonate: null,
 })
 
 export const mutations = {
   setAccessToken(state, token) {
     state.accessToken = token
+  },
+  setAccessTokenImpersonate(state, token) {
+    console.log('set impersonate', token)
+    state.accessTokenImpersonate = token
+  },
+  setTokenIdImpersonate(state, tokenId) {
+    state.tokenIdImpersonate = tokenId
   },
   setUser(state, user) {
     state.user = user
@@ -139,8 +148,34 @@ export const actions = {
       ...state.user,
       ...attributes,
     })
-    console.log('updateUser', { ...state.user, ...attributes })
-    console.log('setUser', res.data)
     commit('setUser', res ? res.data : null)
+  },
+
+  async impersonate({ commit, dispatch }, userId) {
+    const { data } = await this.$axios.post(`/impersonate/${userId}`)
+    console.log('set token impersonate with response', data)
+    commit('setAccessTokenImpersonate', data.accessToken)
+    commit('setTokenIdImpersonate', data.token.id)
+    this.$cookies.set('access-token-impersonate', data.accessToken, {
+      maxAge: 3600, // 1 heure
+    })
+    this.$cookies.set('token-id-impersonate', data.token.id, {
+      maxAge: 3600, // 1 heure
+    })
+    await dispatch('fetchUser')
+    this.$router.push('/')
+  },
+
+  async stopImpersonate({ state, commit, dispatch }) {
+    console.log('state here', state)
+    await this.$axios.delete(`/impersonate/${state.tokenIdImpersonate}`, {
+      headers: { Authorization: `Bearer ${state.accessToken}` },
+    })
+    commit('setAccessTokenImpersonate', null)
+    commit('setTokenIdImpersonate', null)
+    this.$cookies.remove('access-token-impersonate')
+    this.$cookies.remove('token-id-impersonate')
+    await dispatch('fetchUser')
+    this.$router.push('/')
   },
 }

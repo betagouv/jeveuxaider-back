@@ -152,16 +152,8 @@ export default (axios) => ({
 //   })
 // }
 
-// export async function getUser() {
-//   return await axios.get('/user')
-// }
-
 // async addProfile(profile) {
 //   return axios.post(`/profile`, profile)
-// }
-
-// async updateUser(user) {
-//   return axios.post('/user', user)
 // }
 
 // async fetchUsers(params, appends) {

@@ -1,5 +1,8 @@
 /* eslint-disable */
 export default ({app}) => {
+  if(process.env.NODE_ENV !== 'production') {
+    return;
+  }
   document.addEventListener('DOMContentLoaded', function () {
     window.ATInternet = {}
     ;(function () {
