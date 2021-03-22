@@ -20,7 +20,7 @@ export default {
         content:
           'Devenez bénévole et trouvez des missions en quelques clics près de chez vous ou à distance.',
       },
-      process.env.NODE_ENV !== 'production'
+      process.env.API_URL !== 'https://www.jeveuxaider.gouv.fr'
         ? { name: 'robots', content: 'noindex' }
         : {},
     ],
