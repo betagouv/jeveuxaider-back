@@ -20,6 +20,9 @@ export default {
         content:
           'Devenez bénévole et trouvez des missions en quelques clics près de chez vous ou à distance.',
       },
+      process.env.NODE_ENV !== 'production'
+        ? { name: 'robots', content: 'noindex' }
+        : {},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
