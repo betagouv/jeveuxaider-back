@@ -3,59 +3,81 @@
     <el-tag v-if="profile.roles.admin" type="danger" :size="size" class="m-1">
       Admin
     </el-tag>
+
     <el-tag v-if="profile.volontaire" type="info" :size="size" class="m-1">
       Bénévole
     </el-tag>
-    <el-tooltip
+
+    <el-tag
       v-if="profile.roles.referent"
-      class="item"
-      effect="dark"
-      :content="profile.referent_department | fullDepartmentFromValue"
-      placement="top"
+      v-tooltip="{
+        content: $options.filters.fullDepartmentFromValue(
+          profile.referent_department
+        ),
+        classes: 'bo-style',
+      }"
+      type="warning"
+      :size="size"
+      class="m-1"
     >
-      <el-tag type="warning" :size="size" class="m-1"> Référent </el-tag>
-    </el-tooltip>
-    <el-tooltip
+      Référent
+    </el-tag>
+
+    <el-tag
       v-if="profile.roles.referent_regional"
-      class="item"
-      effect="dark"
-      :content="profile.referent_region"
-      placement="top"
+      v-tooltip="{
+        content: profile.referent_region,
+        classes: 'bo-style',
+      }"
+      type="warning"
+      :size="size"
+      class="m-1"
     >
-      <el-tag type="warning" :size="size" class="m-1"> Régional </el-tag>
-    </el-tooltip>
-    <el-tooltip
+      Régional
+    </el-tag>
+
+    <el-tag
       v-if="profile.roles.superviseur"
-      class="item"
-      effect="dark"
-      :content="profile.reseau.name"
-      placement="top"
+      v-tooltip="{
+        content: profile.reseau.name,
+        classes: 'bo-style',
+      }"
+      type=""
+      :size="size"
+      class="m-1"
     >
-      <el-tag type="" :size="size" class="m-1"> Superviseur </el-tag>
-    </el-tooltip>
+      Superviseur
+    </el-tag>
+
     <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
       Analyste
     </el-tag>
-    <el-tooltip
+
+    <el-tag
       v-if="profile.roles.responsable"
-      class="item"
-      effect="dark"
-      :content="structure.name"
-      placement="top"
+      v-tooltip="{
+        content: structure.name,
+        classes: 'bo-style',
+      }"
+      type="info"
+      :size="size"
+      class="m-1"
     >
-      <el-tag type="info" :size="size" class="m-1"> Responsable </el-tag>
-    </el-tooltip>
-    <el-tooltip
+      Responsable
+    </el-tag>
+
+    <el-tag
       v-if="profile.is_visible"
-      class="item"
-      effect="dark"
-      content="Ce profil est visible dans la recherche"
-      placement="top"
+      v-tooltip="{
+        content: 'Ce profil est visible dans la recherche',
+        classes: 'bo-style',
+      }"
+      type=""
+      :size="size"
+      class="m-1"
     >
-      <el-tag type="" :size="size" class="m-1">
-        <i class="el-icon-search" /> Visible
-      </el-tag>
-    </el-tooltip>
+      <i class="el-icon-search" /> Visible
+    </el-tag>
 
     <el-tag
       v-if="profile.domaines.length > 0"
@@ -66,6 +88,7 @@
       {{ profile.domaines.length }}
       {{ profile.domaines.length | pluralize(['domaine', 'domaines']) }}
     </el-tag>
+
     <el-tag
       v-if="profile.skills.length > 0"
       type="info"

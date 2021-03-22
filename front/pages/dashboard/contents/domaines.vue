@@ -81,6 +81,7 @@
             size="small"
             split-button
             trigger="click"
+            class="flex"
             @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >

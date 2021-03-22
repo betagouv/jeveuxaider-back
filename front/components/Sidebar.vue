@@ -60,31 +60,26 @@
       v-else
       class="p-2 flex flex-col border-t border-gray-200 justify-center items-center"
     >
-      <nuxt-link to="/dashboard/news" class="py-2">
-        <el-tooltip
-          class="item"
-          :open-delay="500"
-          effect="dark"
-          content="Nouveautés"
-          placement="right"
-        >
-          <i class="el-icon-news text-2xl text-gray-400" />
-        </el-tooltip>
+      <nuxt-link
+        v-tooltip.right="{
+          content: 'Nouveautés',
+          classes: 'bo-style',
+        }"
+        to="/dashboard/news"
+        class="py-2"
+      >
+        <i class="el-icon-news text-2xl text-gray-400" />
       </nuxt-link>
       <a
+        v-tooltip.right="{
+          content: `Centre d'aide`,
+          classes: 'bo-style',
+        }"
         href="https://reserve-civique.crisp.help/fr/"
         target="_blank"
         class="py-2"
       >
-        <el-tooltip
-          class="item"
-          :open-delay="500"
-          effect="dark"
-          content="Centre d'aide"
-          placement="right"
-        >
-          <i class="el-icon-help text-2xl text-gray-400" />
-        </el-tooltip>
+        <i class="el-icon-help text-2xl text-gray-400" />
       </a>
     </div>
   </el-aside>

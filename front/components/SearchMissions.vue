@@ -146,6 +146,7 @@
                               src="/images/close.svg"
                               width="8px"
                               height="8px"
+                              alt="Effacer tous les filtres"
                             />
                           </div>
                         </div>

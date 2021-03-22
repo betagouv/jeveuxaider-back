@@ -113,6 +113,7 @@
         "
         width="15px"
         class="absolute m-4 right-0 top-0 bottom-0"
+        alt="Lien externe"
       />
     </div>
   </div>

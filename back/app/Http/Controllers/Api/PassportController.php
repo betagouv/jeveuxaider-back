@@ -27,19 +27,22 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
-        $user = User::create([
-            'name' => request("email"),
-            'email' => request("email"),
-            'context_role' => 'volontaire',
-            'password' => Hash::make(request("password"))
-        ]);
+        $user = User::create(
+            [
+                'name' => request("email"),
+                'email' => request("email"),
+                'context_role' => 'volontaire',
+                'password' => Hash::make(request("password"))
+            ]
+        );
+
+        $attributes = $request->validated();
+        $attributes['user_id'] = $user->id;
 
         $profile = Profile::firstOrCreate(
             ['email' => request('email')],
-            $request->validated()
+            $attributes
         );
-
-        $user->profile()->save($profile);
 
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
@@ -49,17 +52,21 @@ class PassportController extends Controller
 
     public function registerResponsable(RegisterResponsableWithStructureRequest $request)
     {
-        $user = User::create([
-            'name' => request("email"),
-            'email' => request("email"),
-            'password' => Hash::make(request("password"))
-        ]);
+        $user = User::create(
+            [
+                'name' => request("email"),
+                'email' => request("email"),
+                'password' => Hash::make(request("password"))
+            ]
+        );
+
+        $attributes = $request->validated();
+        $attributes['user_id'] = $user->id;
 
         $profile = Profile::firstOrCreate(
             ['email' => request('email')],
-            $request->validated()
+            $attributes
         );
-        $user->profile()->save($profile);
 
         $structure = Structure::create(
             ['user_id' => $user->id, 'name' => request('structure_name')]
@@ -69,16 +76,18 @@ class PassportController extends Controller
         Activity::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
             ->where('description', 'created')
-            ->update([
-                'causer_id' => $user->id,
-                'causer_type' => 'App\Models\User',
-                'data' => [
-                    "subject_title" => $structure->name,
-                    "full_name" => $profile->full_name,
-                    "causer_id" => $profile->id,
-                    "context_role" => 'responsable'
+            ->update(
+                [
+                    'causer_id' => $user->id,
+                    'causer_type' => 'App\Models\User',
+                    'data' => [
+                        "subject_title" => $structure->name,
+                        "full_name" => $profile->full_name,
+                        "causer_id" => $profile->id,
+                        "context_role" => 'responsable'
+                    ]
                 ]
-            ]);
+            );
 
         $notification = new RegisterUserResponsable($structure);
         $user->notify($notification);
@@ -92,11 +101,13 @@ class PassportController extends Controller
         $socialAccount = SocialAccount::where(['user_id' => $user->id, 'provider' => 'franceconnect'])->first();
         if ($socialAccount) {
             $franceConnectLogoutUrl = config('services.franceconnect.url') . "/api/v1/logout?"
-                . http_build_query([
-                    'id_token_hint' => $socialAccount->data['id_token'],
-                    'state' => 'franceconnect',
-                    'post_logout_redirect_uri' => config('app.url')
-                ]);
+                . http_build_query(
+                    [
+                        'id_token_hint' => $socialAccount->data['id_token'],
+                        'state' => 'franceconnect',
+                        'post_logout_redirect_uri' => config('app.url')
+                    ]
+                );
         }
 
         $bearerToken = request()->bearerToken();
@@ -118,9 +129,13 @@ class PassportController extends Controller
             'email.email' => 'Le format de l\'email est invalide'
         ];
 
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-        ], $messages);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => ['required', 'email'],
+            ],
+            $messages
+        );
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 401);

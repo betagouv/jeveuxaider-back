@@ -76,7 +76,11 @@
     </el-table-column>
     <el-table-column prop="state" label="Statut" width="250">
       <template slot-scope="scope">
-        <DropdownMissionState :mission="scope.row" @updated="onUpdatedRow" />
+        <DropdownMissionState
+          class="flex"
+          :mission="scope.row"
+          @updated="onUpdatedRow"
+        />
       </template>
     </el-table-column>
   </el-table>

@@ -17,7 +17,19 @@ Vue.use(VueTypedJs)
 Vue.use(VScrollLock)
 Vue.use(Vue2Filters)
 Vue.use(PortalVue)
-Vue.use(VTooltip)
+
+Vue.use(VTooltip, {
+  defaultPopperOptions: {
+    modifiers: {
+      preventOverflow: {
+        boundariesElement: 'offsetParent',
+      },
+    },
+  },
+  defaultDelay: 250,
+  defaultOffset: 8,
+})
+
 Vue.use(vClickOutside)
 Vue.use(TextareaAutosize)
 Vue.use(VueTheMask)

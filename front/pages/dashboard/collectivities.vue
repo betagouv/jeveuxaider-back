@@ -115,6 +115,7 @@
         <template slot-scope="scope">
           <DropdownCollectivityState
             :collectivity="scope.row"
+            class="flex"
             @updated="onUpdatedRow"
           />
         </template>

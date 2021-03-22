@@ -1,15 +1,15 @@
 <template>
   <div>
-    <el-tooltip
+    <div
       v-if="lastOnlineAt"
-      :content="`En ligne ${$options.filters.fromNow(lastOnlineAt)}`"
-      placement="top"
-    >
-      <div
-        class="w-2 h-2 rounded-full"
-        :class="isOnline ? 'bg-green-400' : 'bg-gray-400'"
-      ></div>
-    </el-tooltip>
+      v-tooltip="{
+        content: `En ligne ${$options.filters.fromNow(lastOnlineAt)}`,
+        classes: 'bo-style',
+      }"
+      class="w-2 h-2 rounded-full"
+      :class="isOnline ? 'bg-green-400' : 'bg-gray-400'"
+    ></div>
+
     <div
       v-else
       class="w-2 h-2 rounded-full"

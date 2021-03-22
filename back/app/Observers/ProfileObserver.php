@@ -11,17 +11,20 @@ class ProfileObserver
     /**
      * Listen to the Profile created event.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return void
      */
     public function created(Profile $profile)
     {
+        if ($profile->user) {
+            SendinblueSyncUser::dispatch($profile->user);
+        }
     }
 
     /**
      * Listen to the Profile updated event.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return void
      */
     public function updated(Profile $profile)
@@ -40,7 +43,7 @@ class ProfileObserver
     /**
      * Listen to the Profile saving event.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return void
      */
     public function saving(Profile $profile)
@@ -53,7 +56,7 @@ class ProfileObserver
     /**
      * Listen to the Profile deleting event.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return void
      */
     public function deleting(Profile $profile)

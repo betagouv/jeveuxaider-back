@@ -42,6 +42,7 @@
               class="cursor-pointer ml-4"
               width="16px"
               height="28px"
+              alt="Filtrer"
               @click="onSearchClick"
             />
           </template>
@@ -77,8 +78,6 @@
                     v-tooltip="{
                       delay: { show: 700, hide: 100 },
                       content: item.value,
-                      hideOnTargetClick: true,
-                      placement: 'top',
                     }"
                     class="absolute w-full h-full top-0 left-0"
                   />
