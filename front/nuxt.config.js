@@ -60,6 +60,8 @@ export default {
     '@/plugins/vue-filters.js',
     '@/plugins/crisp.client.js',
     '@/plugins/axeptio.client.js',
+    '@/plugins/apiengagement.client.js',
+    '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
   ],
 
@@ -147,6 +149,9 @@ export default {
     oauth: {
       clientId: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    },
+    apieng: {
+      key: process.env.APIENG_KEY,
     },
   },
 
