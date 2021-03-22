@@ -186,12 +186,12 @@
           >
             Choisissez une action
             <el-dropdown-menu slot="dropdown">
-              <nuxt-link :to="`dashboard/profile/${scope.row.id}`"
+              <nuxt-link :to="`/dashboard/profile/${scope.row.id}`"
                 ><el-dropdown-item command=""
                   >Visualiser le profil</el-dropdown-item
                 >
               </nuxt-link>
-              <nuxt-link :to="`dashboard/profile/${scope.row.id}/edit`">
+              <nuxt-link :to="`/dashboard/profile/${scope.row.id}/edit`">
                 <el-dropdown-item command=""
                   >Modifier le profil</el-dropdown-item
                 >
@@ -203,7 +203,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <nuxt-link v-else :to="`dashboard/profile/${scope.row.id}/edit`">
+          <nuxt-link v-else :to="`/dashboard/profile/${scope.row.id}/edit`">
             <el-button icon="el-icon-edit" size="mini" class="m-1">
               Modifier
             </el-button>
