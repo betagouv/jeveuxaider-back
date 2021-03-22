@@ -35,7 +35,7 @@
 
     <div
       v-if="$store.getters.isSidebarExpanded"
-      class="p-6 flex flex-col border-t border-gray-200 justify-center items-center"
+      class="p-5 flex flex-col border-t border-gray-200 justify-center items-center"
     >
       <nuxt-link to="/">
         <img alt="JeVeuxAider" src="@/assets/images/jeveuxaider-logo.svg" />

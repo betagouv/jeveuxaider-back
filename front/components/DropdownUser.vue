@@ -7,7 +7,7 @@
       trigger="click"
       @command="handleCommand"
     >
-      <div class="el-dropdown-link flex justify-between p-6 items-center">
+      <div class="el-dropdown-link flex justify-between p-5 items-center">
         <div class="flex">
           <Avatar
             v-if="$store.getters.user.profile"
