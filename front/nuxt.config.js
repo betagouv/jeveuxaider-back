@@ -20,6 +20,9 @@ export default {
         content:
           'Devenez bénévole et trouvez des missions en quelques clics près de chez vous ou à distance.',
       },
+      process.env.API_URL !== 'https://www.jeveuxaider.gouv.fr'
+        ? { name: 'robots', content: 'noindex' }
+        : {},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
@@ -60,6 +63,8 @@ export default {
     '@/plugins/vue-filters.js',
     '@/plugins/crisp.client.js',
     '@/plugins/axeptio.client.js',
+    '@/plugins/apiengagement.client.js',
+    '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
   ],
 
@@ -147,6 +152,9 @@ export default {
     oauth: {
       clientId: process.env.OAUTH_CLIENT_ID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    },
+    apieng: {
+      key: process.env.APIENG_KEY,
     },
   },
 
