@@ -59,11 +59,15 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column prop="state" label="Statut" min-width="250">
+    <el-table-column
+      prop="state"
+      label="Statut"
+      min-width="250"
+      class-name="dropdown-wrapper"
+    >
       <template slot-scope="scope">
         <DropdownParticipationState
           :participation="scope.row"
-          class="flex"
           @updated="onUpdatedRow"
         />
       </template>

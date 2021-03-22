@@ -82,6 +82,7 @@
         v-if="$store.getters.contextRole === 'admin'"
         label="Actions"
         min-width="250"
+        class-name="dropdown-wrapper"
       >
         <template slot-scope="scope">
           <el-dropdown

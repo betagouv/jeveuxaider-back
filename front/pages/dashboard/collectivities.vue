@@ -111,11 +111,15 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" width="250">
+      <el-table-column
+        prop="state"
+        label="Statut"
+        width="250"
+        class-name="dropdown-wrapper"
+      >
         <template slot-scope="scope">
           <DropdownCollectivityState
             :collectivity="scope.row"
-            class="flex"
             @updated="onUpdatedRow"
           />
         </template>

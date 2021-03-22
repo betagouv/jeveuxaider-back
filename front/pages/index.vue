@@ -717,8 +717,7 @@
               v-if="!successNewsletter"
               class="mt-2 ml-6 text-sm leading-5 text-blue-200 text-center lg:text-left"
             >
-              Nous veillons à respecter votre
-              <a href="#" class="font-medium underline"> vie privée </a>
+              Nous veillons à respecter votre vie privée
             </div>
             <div
               v-if="successNewsletter"

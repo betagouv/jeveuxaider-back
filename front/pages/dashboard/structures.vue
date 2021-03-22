@@ -149,10 +149,14 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="Statut" min-width="250">
+      <el-table-column
+        prop="state"
+        label="Statut"
+        min-width="250"
+        class-name="dropdown-wrapper"
+      >
         <template slot-scope="scope">
           <DropdownStructureState
-            class="flex"
             :structure="scope.row"
             @updated="onUpdatedRow"
           />

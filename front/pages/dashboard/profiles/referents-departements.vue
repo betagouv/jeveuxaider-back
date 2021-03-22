@@ -133,6 +133,7 @@
         v-if="$store.getters.contextRole === 'admin'"
         label="Actions"
         width="250"
+        class-name="dropdown-wrapper"
       >
         <template slot-scope="scope">
           <el-dropdown split-button size="small" @command="handleCommand">

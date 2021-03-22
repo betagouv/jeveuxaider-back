@@ -92,13 +92,16 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" width="165">
+      <el-table-column
+        label="Actions"
+        width="165"
+        class-name="dropdown-wrapper"
+      >
         <template slot-scope="scope">
           <el-dropdown
             size="small"
             split-button
             trigger="click"
-            class="flex"
             @click="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >

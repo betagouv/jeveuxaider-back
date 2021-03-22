@@ -297,6 +297,7 @@ module.exports = {
       montserrat: ['Montserrat', 'sans-serif'],
     },
     fontSize: {
+      0: '0',
       xs: '0.75rem',
       sm: '0.875rem',
       base: '1rem',
