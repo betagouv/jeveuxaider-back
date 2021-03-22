@@ -196,7 +196,7 @@
             <div>
               <img
                 class="h-48 w-full object-cover"
-                :src="require(`@/assets/images/dynamic/${mission.image}`)"
+                :src="mission.image"
                 :alt="mission.name"
                 width="600px"
                 height="286px"
@@ -219,11 +219,11 @@
                 <div
                   class="hidden sm:block flex-shrink-0 rounded-md p-2 text-center bg-blue-800"
                 >
-                  <!-- <img
+                  <img
                     :src="mission.thematique_image"
                     :alt="mission.thematique"
                     style="width: 28px"
-                  /> -->
+                  />
                 </div>
               </div>
               <div class="ml-4">
@@ -976,22 +976,20 @@ export default {
       missions_prioritaires: [
         {
           thematique: 'Solidarité et Insertion',
-          thematique_image:
-            'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg',
+          thematique_image: require('@/assets/images/dynamic/icon_solidarite_insertion.svg'),
           name:
             'Je distribue des produits de première nécessité et des repas aux plus démunis, dans la rue ou au sein d’établissements.',
-          image: 'cover-produit.jpg',
+          image: require('@/assets/images/dynamic/cover-produit.jpg'),
           link:
             '/missions?refinementList[template_title][0]=Aide alimentaire et d%27urgence',
           nb_missions_text: '345 missions disponibles <br><b>en présentiel</b>',
         },
         {
           thematique: 'Solidarité et Insertion',
-          thematique_image:
-            'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/1047/IMzA4pHnRjHGMeM.svg',
+          thematique_image: require('@/assets/images/dynamic/icon_solidarite_insertion.svg'),
           name:
             'Je maintiens un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)',
-          image: 'cover-call.jpg',
+          image: require('@/assets/images/dynamic/cover-call.jpg'),
           link:
             '/missions?refinementList[template_title][0]=Lien avec les personnes fragiles isolées',
           nb_missions_text:
@@ -999,11 +997,10 @@ export default {
         },
         {
           thematique: 'Éducation pour tous',
-          thematique_image:
-            'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/152/IIgYOvFa9Lx5zDz.svg',
+          thematique_image: require('@/assets/images/dynamic/icon_education.svg'),
           name:
             'J’apporte un soutien aux enfants et jeunes, notamment dans les quartiers populaires, zones rurales et territoires fragiles.',
-          image: 'cover-ecole.jpg',
+          image: require('@/assets/images/dynamic/cover-ecole.jpg'),
           link:
             '/missions?refinementList[template_title][0]=Mentorat d’un enfant ou d’un jeune',
           nb_missions_text:
