@@ -1,5 +1,5 @@
 /* eslint-disable */
-export default () => {
+export default ({app}) => {
   document.addEventListener('DOMContentLoaded', function () {
     window.ATInternet = {}
     ;(function () {
@@ -11,10 +11,12 @@ export default () => {
       d.getElementsByTagName('head')[0].appendChild(s)
     })()
 
-    window.ATInternet.onTrackerLoad = () => {
+    app.router.afterEach((to, from) => {
       const tag = new ATInternet.Tracker.Tag()
-      tag.page.set({})
+      tag.page.set({
+        name: to.name
+      })
       tag.dispatch()
-    }
+    })
   })
 }
