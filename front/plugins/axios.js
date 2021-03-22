@@ -3,11 +3,17 @@
 export default function ({ $axios, redirect, app, store, error, $message }) {
   $axios.interceptors.request.use(function (config) {
     const ACCESS_TOKEN = app.$cookies.get('access-token')
+    const ACCESS_TOKEN_IMPERSONATE = app.$cookies.get(
+      'access-token-impersonate'
+    )
     if (!config.headers.Authorization) {
-      if (ACCESS_TOKEN) {
+      if (ACCESS_TOKEN_IMPERSONATE) {
+        config.headers.Authorization = `Bearer ${ACCESS_TOKEN_IMPERSONATE}`
+      } else if (ACCESS_TOKEN) {
         config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`
       }
     }
+
     if (store.getters.contextRole) {
       config.headers['Context-Role'] = store.getters.contextRole
     }

@@ -91,6 +91,14 @@ export const actions = {
   async nuxtServerInit({ commit }, { store }) {
     console.log('nuxtServerInit')
     await store.dispatch('bootstrap')
+    commit(
+      'auth/setAccessTokenImpersonate',
+      this.$cookies.get('access-token-impersonate')
+    )
+    commit(
+      'auth/setTokenIdImpersonate',
+      this.$cookies.get('token-id-impersonate')
+    )
     if (this.$cookies.get('access-token')) {
       commit('auth/setAccessToken', this.$cookies.get('access-token'))
       await store.dispatch('auth/fetchUser')

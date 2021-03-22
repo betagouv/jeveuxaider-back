@@ -14,16 +14,6 @@
 //   return axios.post('/logout')
 // }
 
-// export function impersonate(id) {
-//   return axios.post(`/impersonate/${id}`)
-// }
-
-// export function stopImpersonate(tokenId) {
-//   return axios.delete(`/impersonate/${tokenId}`, {
-//     //  headers: { Authorization: `Bearer ${store.state.auth.accessToken}` },
-//   })
-// }
-
 // export function franceConnectLoginAuthorize() {
 //   return axios.get('/franceconnect/login-authorize')
 // }
