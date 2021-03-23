@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /*
  ** TailwindCSS Configuration File
  **
@@ -561,5 +563,16 @@ module.exports = {
       'nuxt.config.js',
     ],
   },
-  plugins: [require('@tailwindcss/ui')({ typography: false })],
+  plugins: [
+    require('@tailwindcss/ui')({ typography: false }),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        '.will-change-transform': {
+          'will-change': 'transform',
+        },
+      }
+
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    }),
+  ],
 }
