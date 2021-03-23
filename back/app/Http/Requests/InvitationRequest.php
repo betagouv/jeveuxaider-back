@@ -12,7 +12,7 @@ class InvitationRequest extends FormRequest
      */
     public function authorize()
     {
-        // ONLY ADMIN
+        // @TODO: RESTRICTION ADMIN OU RESPONSABLE DANS SA PROPRE STRUCTURE
         return true;
     }
 

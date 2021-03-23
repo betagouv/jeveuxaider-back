@@ -41,6 +41,7 @@ export const actions = {
         commit('setAccessToken', data.access_token)
         this.$cookies.set('access-token', data.access_token, {
           maxAge: data.expires_in,
+          path: '/',
         })
         await dispatch('fetchUser')
         this.$router.push(

@@ -21,7 +21,6 @@
     </div>
 
     <div
-      v-if="invitation"
       class="relative mt-2 pb-16 sm:mx-auto sm:w-full sm:max-w-md text-left z-10"
     >
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -95,7 +94,7 @@ const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=3
 
 export default {
   async asyncData({ $api, params, error }) {
-    const invitation = await $api.getInvitation(params.token)
+    const invitation = await $api.getInvitation(params.hash)
     if (!invitation) {
       return error({ statusCode: 404 })
     }
