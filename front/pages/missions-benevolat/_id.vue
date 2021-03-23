@@ -13,10 +13,10 @@
       <Breadcrumb
         theme="transparent"
         :items="[
-          { label: 'Missions de bénévolat', link: '/missions' },
+          { label: 'Missions de bénévolat', link: '/missions-benevolat' },
           {
             label: domainName(mission),
-            link: `/missions?refinementList[domaines][0]=${domainName(
+            link: `/missions-benevolat?refinementList[domaines][0]=${domainName(
               mission
             )}`,
           },

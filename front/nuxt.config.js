@@ -4,7 +4,8 @@ export default {
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'JeVeuxAider | Trouver des missions de bénévolat',
+    title:
+      'Devenez bénévole dans une association en quelques clics | JeVeuxAider.gouv.fr',
     htmlAttrs: {
       lang: 'fr',
     },
@@ -18,7 +19,7 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          'Devenez bénévole et trouvez des missions en quelques clics près de chez vous ou à distance.',
+          "Trouvez une mission de bénévolat dans une association, organisation publique ou une commune, partout en France, sur le terrain ou à distance. 50 000 places disponibles dans 10 domaines d'action : solidarité, insertion, éducation, environnement, santé, sport, culture ...",
       },
       process.env.API_URL !== 'https://www.jeveuxaider.gouv.fr'
         ? { name: 'robots', content: 'noindex' }
