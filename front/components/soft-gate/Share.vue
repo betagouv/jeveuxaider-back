@@ -78,7 +78,7 @@ export default {
     return {
       message:
         "J'ai trouvé ma future mission de bénévolat sur JeVeuxAider. Rejoignez le mouvement %23ChacunPourTous ",
-      baseUrl: process.env.MIX_API_BASE_URL,
+      baseUrl: this.$config.appUrl,
     }
   },
   methods: {
