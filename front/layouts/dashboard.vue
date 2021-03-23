@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'DashboardLayout',
   middleware: 'dashboard',
   head: {
     bodyAttrs: {
