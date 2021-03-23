@@ -59,7 +59,8 @@ class ParticipationDeclined extends Notification
             $message->line('La raison est la suivante: '. config('taxonomies.participation_declined_reasons.terms')[$this->reason]);
         }
 
-        $message->action('Accéder à ma messagerie', url(config('app.url').'/messages'));
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+        $message->action('Accéder à ma messagerie', url(config('app.url') . $url));
 
         $message->line('Encore merci pour votre engagement.');
 
