@@ -56,6 +56,9 @@ export const actions = {
   async logout({ commit }) {
     await this.$axios.post('/logout')
     commit('setAccessToken', null)
+    commit('setUser', null)
+    commit('conversation/reset')
+
     this.$cookies.remove('access-token')
     this.$router.push('/')
   },

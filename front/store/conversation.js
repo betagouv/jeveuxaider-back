@@ -40,4 +40,10 @@ export const mutations = {
       state.conversations.splice(index, 1, conversation)
     }
   },
+  reset: (state) => {
+    state.conversations = []
+    state.clickedUnreadConversationsIds = []
+    state.messages = []
+    state.activeConversationId = null
+  },
 }
