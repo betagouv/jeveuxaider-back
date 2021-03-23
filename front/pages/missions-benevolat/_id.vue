@@ -13,10 +13,10 @@
       <Breadcrumb
         theme="transparent"
         :items="[
-          { label: 'Missions de bénévolat', link: '/missions' },
+          { label: 'Missions de bénévolat', link: '/missions-benevolat' },
           {
             label: domainName(mission),
-            link: `/missions?refinementList[domaines][0]=${domainName(
+            link: `/missions-benevolat?refinementList[domaines][0]=${domainName(
               mission
             )}`,
           },
@@ -523,7 +523,7 @@
           >
             <nuxt-link
               class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-              :to="`/missions/${otherMission.id}`"
+              :to="`/missions-benevolat/${otherMission.id}`"
             >
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">

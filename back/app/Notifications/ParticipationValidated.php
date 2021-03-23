@@ -47,13 +47,16 @@ class ParticipationValidated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $message = (new MailMessage)
             ->subject('Bravo ! Votre demande de participation vient d\'être acceptée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous avons le plaisir de vous annoncer que votre participation à la mission « ' . $this->participation->mission->name .' » a été acceptée !')
-            ->line('Vous pouvez continuer d\'échanger avec le responsable depuis votre messagerie.')
-            ->action('Accéder à ma messagerie', url(config('app.url').'/messages'))
-        ;
+            ->line('Vous pouvez continuer d\'échanger avec le responsable depuis votre messagerie.');
+
+        $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
+        $message->action('Accéder à ma messagerie', url(config('app.url') . $url));
+
+        return $message;
     }
 
     /**

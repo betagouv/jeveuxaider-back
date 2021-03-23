@@ -17,32 +17,30 @@
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
-        <h1>
-          <client-only placeholder="Je veux aider, bénévolat partout en France">
-            <vue-typed-js
-              :strings="strings"
-              :loop="true"
-              :start-delay="70"
-              :type-speed="70"
-              :back-delay="2000"
-              cursor-char="|"
+        <client-only placeholder="Je veux aider, bénévolat partout en France">
+          <vue-typed-js
+            :strings="strings"
+            :loop="true"
+            :start-delay="70"
+            :type-speed="70"
+            :back-delay="2000"
+            cursor-char="|"
+          >
+            <div
+              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
             >
-              <div
-                class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
-              >
-                Je veux <br class="lg:hidden" /><span class="typing"></span>
-              </div>
-            </vue-typed-js>
-          </client-only>
-        </h1>
+              Je veux <br class="lg:hidden" /><span class="typing"></span>
+            </div>
+          </vue-typed-js>
+        </client-only>
 
-        <h2
+        <div
           class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
         >
-          Devenez bénévole et trouvez des missions en quelques clics
+          <h1>Devenez bénévole et trouvez des missions en quelques clics</h1>
           <br class="hidden lg:block" />
           <b>près de chez vous</b> ou <b>à distance</b>
-        </h2>
+        </div>
 
         <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-5">
           <div class="rounded-full shadow-lg">
@@ -150,7 +148,7 @@
             >
 
             <nuxt-link
-              to="/missions?refinementList[type][0]=Mission en présentiel"
+              to="/missions-benevolat?refinementList[type][0]=Mission en présentiel"
               class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
             >
               près de chez vous</nuxt-link
@@ -158,7 +156,7 @@
             <span class="block lg:inline-flex my-4 lg:my-0">ou</span>
 
             <nuxt-link
-              to="/missions?refinementList[type][0]=Mission à distance"
+              to="/missions-benevolat?refinementList[type][0]=Mission à distance"
               class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
             >
               à distance</nuxt-link
@@ -980,7 +978,7 @@ export default {
             'Je distribue des produits de première nécessité et des repas aux plus démunis, dans la rue ou au sein d’établissements.',
           image: require('@/assets/images/dynamic/cover-produit.jpg'),
           link:
-            '/missions?refinementList[template_title][0]=Aide alimentaire et d%27urgence',
+            '/missions-benevolat?refinementList[template_title][0]=Aide alimentaire et d%27urgence',
           nb_missions_text: '345 missions disponibles <br><b>en présentiel</b>',
         },
         {
@@ -990,7 +988,7 @@ export default {
             'Je maintiens un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)',
           image: require('@/assets/images/dynamic/cover-call.jpg'),
           link:
-            '/missions?refinementList[template_title][0]=Lien avec les personnes fragiles isolées',
+            '/missions-benevolat?refinementList[template_title][0]=Lien avec les personnes fragiles isolées',
           nb_missions_text:
             '298 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
         },
@@ -1001,7 +999,7 @@ export default {
             'J’apporte un soutien aux enfants et jeunes, notamment dans les quartiers populaires, zones rurales et territoires fragiles.',
           image: require('@/assets/images/dynamic/cover-ecole.jpg'),
           link:
-            '/missions?refinementList[template_title][0]=Mentorat d’un enfant ou d’un jeune',
+            '/missions-benevolat?refinementList[template_title][0]=Mentorat d’un enfant ou d’un jeune',
           nb_missions_text:
             '267 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
         },
@@ -1010,35 +1008,38 @@ export default {
         {
           name: 'Mobilisation Covid19',
           image: 'covid.svg',
-          link: '/missions?refinementList[domaines][0]=Mobilisation covid-19',
+          link:
+            '/missions-benevolat?refinementList[domaines][0]=Mobilisation covid-19',
         },
         {
           name: 'Prévention et protection',
           image: 'securite.svg',
           link:
-            '/missions?refinementList[domaines][0]=Prévention et protection',
+            '/missions-benevolat?refinementList[domaines][0]=Prévention et protection',
         },
         {
           name: 'Sport pour tous',
           image: 'sport.svg',
-          link: '/missions?refinementList[domaines][0]=Sport pour tous',
+          link:
+            '/missions-benevolat?refinementList[domaines][0]=Sport pour tous',
         },
         {
           name: 'Art & Culture pour tous',
           image: 'art.svg',
           link:
-            '/missions?refinementList[domaines][0]=Art et culture pour tous',
+            '/missions-benevolat?refinementList[domaines][0]=Art et culture pour tous',
         },
         {
           name: 'Mémoire et citoyenneté',
           image: 'memoire.svg',
-          link: '/missions?refinementList[domaines][0]=Mémoire et citoyenneté',
+          link:
+            '/missions-benevolat?refinementList[domaines][0]=Mémoire et citoyenneté',
         },
         {
           name: 'Coopération internationale',
           image: 'cooperation.svg',
           link:
-            '/missions?refinementList[domaines][0]=Coopération internationale',
+            '/missions-benevolat?refinementList[domaines][0]=Coopération internationale',
         },
       ],
       actualites: [
@@ -1080,6 +1081,20 @@ export default {
         'une société solidaire',
         'me rendre utile',
         'faire vivre les valeurs de la République',
+      ],
+    }
+  },
+  head() {
+    return {
+      title:
+        'Je Veux Aider | Devenez bénévole dans une association en quelques clics | La plateforme publique du bénévolat par la Réserve Civique',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            "Trouvez une mission de bénévolat dans une association, organisation publique ou une commune, partout en France, sur le terrain ou à distance. 50 000 places disponibles dans 10 domaines d'action : solidarité, insertion, éducation, environnement, santé, sport, culture ...",
+        },
       ],
     }
   },

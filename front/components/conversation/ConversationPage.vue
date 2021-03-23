@@ -318,7 +318,7 @@
               Vos prochaines conversations apparaitront ici.
             </div>
             <a
-              href="/missions"
+              href="/missions-benevolat"
               class="mt-8 shadow-lg flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
             >
               Trouver une mission

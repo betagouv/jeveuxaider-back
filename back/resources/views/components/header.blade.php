@@ -18,7 +18,7 @@
                 <div class="mb-3 md:ml-auto md:mb-0">
                     <div class="flex flex-wrap items-center justify-center -m-2">
                         <a
-                            href="/missions"
+                            href="/missions-benevolat"
                             class="{{ (request()->is('missions')) ? 'bg-blue-700' : '' }} m-2 px-3 py-2 rounded-md text-sm font-medium text-white transition focus:bg-gray-700 hover:bg-blue-700"
                         >
                             Trouver une mission

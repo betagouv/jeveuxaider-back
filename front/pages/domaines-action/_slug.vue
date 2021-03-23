@@ -1,17 +1,5 @@
 <template>
   <div>
-    <!-- <AppHeader :show-menu="false">
-      <template #append-logo>
-        <div class="hidden sm:block ml-2 mr-auto w-auto order-2">
-          <div
-            class="text-xl md:text-xl font-medium text-gray-500 leading-none"
-          >
-            • {{ thematique.name }}
-          </div>
-        </div>
-      </template>
-    </AppHeader> -->
-
     <div>
       <Breadcrumb
         :items="[{ label: 'Domaines d\'action' }, { label: thematique.name }]"
@@ -59,7 +47,7 @@
                     v-if="!$store.getters.isLogged"
                     to="/register/volontaire"
                     :class="`text-${thematique.color}`"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
                   </nuxt-link>
@@ -67,7 +55,7 @@
                     v-else
                     href="#search"
                     :class="`text-${thematique.color}`"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Trouver une mission
                   </a>
@@ -89,7 +77,7 @@
                           }
                         : '/login'
                     "
-                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
+                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
                     Proposer une mission
                   </nuxt-link>

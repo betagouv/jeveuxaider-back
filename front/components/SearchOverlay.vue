@@ -163,7 +163,9 @@ export default {
       this.$emit('closed')
     },
     onSubmit() {
-      this.$router.push(`/missions${this.stringifyQuery(this.routeState)}`)
+      this.$router.push(
+        `/missions-benevolat${this.stringifyQuery(this.routeState)}`
+      )
       this.reset()
       this.$emit('submitted')
     },
