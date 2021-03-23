@@ -498,6 +498,20 @@ export default {
       },
     }
   },
+  head() {
+    return {
+      title:
+        'Trouvez des bénévoles avec JeVeuxAider.gouv.fr, la plateforme publique du bénévolat proposée par la Réserve Civique',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Inscrivez votre organisation en quelques clics. Publiez vos missions de bénévolat. Trouvez des bénévoles motivés et disponibles partout en France. 5000 organisations sont déjà inscrites.',
+        },
+      ],
+    }
+  },
   computed: {
     modeLight() {
       return process.env.MIX_MODE_APP_LIGHT

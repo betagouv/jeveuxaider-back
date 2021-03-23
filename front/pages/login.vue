@@ -202,6 +202,19 @@ export default {
       },
     }
   },
+  head() {
+    return {
+      title: 'Connectez-vous à votre espace personnel | JeVeuxAider.gouv.fr',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Connectez-vous à votre espace personnel et gérez vos missions de bénévolat en quelques clics. ',
+        },
+      ],
+    }
+  },
   computed: {
     isFranceConnectActive() {
       return !!this.$config.franceConnect

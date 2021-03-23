@@ -136,3 +136,21 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  head() {
+    return {
+      title: 'Règles de sécurité | JeVeuxAider.gouv.fr',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Des gestes simples pour préserver votre santé et celle des autres lors des missions de bénévolat.',
+        },
+      ],
+    }
+  },
+}
+</script>
