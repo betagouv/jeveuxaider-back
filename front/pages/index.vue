@@ -782,12 +782,12 @@
             >
               associations et organisations publiques
             </p>
-            <h1
+            <h2
               class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
               Facilitez le recrutement<br class="hidden lg:block" />
               de vos bénévoles
-            </h1>
+            </h2>
             <ul class="">
               <li class="flex items-start">
                 <div class="flex-shrink-0">
@@ -876,12 +876,12 @@
             >
               Collectivités et territoires
             </p>
-            <h1
+            <h2
               class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
               Favorisez l'engagement local<br class="hidden lg:block" />
               de vos citoyens
-            </h1>
+            </h2>
             <ul class="">
               <li class="flex items-start">
                 <div class="flex-shrink-0">
