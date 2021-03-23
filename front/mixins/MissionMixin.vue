@@ -27,7 +27,7 @@ export default {
 
       if (
         (this.domaine_id && this.domaine_id == 3) ||
-        this.mission.domaine_name == 'Santé pour tous'
+        (this.mission && this.mission.domaine_name == 'Santé pour tous')
       ) {
         file = 'templates/sante_pour_tous'
       }

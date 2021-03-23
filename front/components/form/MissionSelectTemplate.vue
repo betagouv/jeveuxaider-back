@@ -133,7 +133,10 @@
 </template>
 
 <script>
+import MissionMixin from '@/mixins/MissionMixin'
+
 export default {
+  mixins: [MissionMixin],
   props: {
     domaineId: {
       type: Number,
