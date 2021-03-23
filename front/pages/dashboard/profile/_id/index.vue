@@ -43,26 +43,6 @@
         <ModelProfileInfos :profile="profile" />
       </el-card>
     </div>
-
-    <!-- <template v-else-if="tab == 'activities'">
-      <TableActivities :table-data="tableData" />
-    </template>
-    <template v-else-if="tab == 'history'">
-      <TableActivities :table-data="tableData" />
-    </template>
-    <div v-if="tab" class="m-3 flex items-center">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="totalRows"
-        :page-size="15"
-        :current-page="Number(query.page)"
-        @current-change="onPageChange"
-      />
-      <div class="text-secondary text-xs ml-3">
-        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -82,26 +62,7 @@ export default {
       profile,
     }
   },
-  methods: {
-    // async fetchRows() {
-    //   const response = await getProfile(this.id)
-    //   this.profile = response.data
-    //   if (this.tab == 'history') {
-    //     return fetchActivities({
-    //       'filter[subject_id]': this.id,
-    //       'filter[subject_type]': 'Profile',
-    //       page: this.$route.query.page || 1,
-    //     })
-    //   }
-    //   if (this.tab == 'activities' && this.profile.user_id) {
-    //     return fetchActivities({
-    //       'filter[causer_id]': this.profile.user_id,
-    //       'filter[causer_type]': 'User',
-    //       page: this.$route.query.page || 1,
-    //     })
-    //   }
-    // },
-  },
+  methods: {},
 }
 </script>
 
@@ -110,5 +71,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>
