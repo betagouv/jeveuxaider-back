@@ -1,15 +1,17 @@
 <template>
   <div>
     <el-submenu v-if="$store.getters.structure.collectivity" index="1">
-      <template slot="title"
-        ><i class="el-icon-school"></i
-        >{{ $store.getters.structure.collectivity.name }}</template
+      <template slot="title">
+        <div class="truncate pr-4">
+          <i class="el-icon-school"></i
+          >{{ $store.getters.structure.collectivity.name }}
+        </div></template
       >
       <el-menu-item
         v-if="$store.getters.profile.roles.responsable_collectivity == true"
         index="/dashboard/collectivity"
         :class="{
-          'is-active': isActive('dashboard/collectivity'),
+          'is-active': isActive('collectivities'),
         }"
         >Statistiques de la page
       </el-menu-item>
@@ -20,6 +22,7 @@
           content: `Votre collectivité est en cours de validation.`,
           classes: 'bo-style',
         }"
+        index="#"
         disabled
         >Statistiques de la page
       </el-menu-item>
@@ -27,9 +30,7 @@
       <el-menu-item
         :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`"
         :class="{
-          'is-active': isActive(
-            `dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`
-          ),
+          'is-active': isActive('collectivities'),
         }"
         >Éditer la page
       </el-menu-item>
@@ -53,8 +54,7 @@
     <el-menu-item
       :index="`/dashboard/structure/${$store.getters.structure.id}/edit`"
       :class="{
-        'is-active':
-          isActive('dashboard/structure') && !isActive('missions/add'),
+        'is-active': isActive('structures'),
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Mon organisation</span>
@@ -70,7 +70,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/missions"
-      :class="{ 'is-active': isActive('/dashboard/mission') }"
+      :class="{ 'is-active': isActive('missions') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Missions</span>
 
@@ -85,7 +85,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/participations"
-      :class="{ 'is-active': isActive('/dashboard/participation') }"
+      :class="{ 'is-active': isActive('participations') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Participations</span>
 
@@ -119,7 +119,7 @@
     </el-menu-item>
     <el-menu-item
       index="/dashboard/ressources"
-      :class="{ 'is-active': isActive('/dashboard/ressources') }"
+      :class="{ 'is-active': isActive('ressources') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Ressources</span>
 
@@ -132,7 +132,7 @@
         class="el-icon-help"
       />
     </el-menu-item>
-    <el-menu-item v-if="$store.getters.isSidebarExpanded">
+    <el-menu-item v-if="$store.getters.isSidebarExpanded" index="#">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
         >Contacter le support</a
       >

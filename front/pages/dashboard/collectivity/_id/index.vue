@@ -82,7 +82,11 @@
 export default {
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
-    if (!['admin'].includes(store.getters.contextRole)) {
+    if (
+      !['admin', 'referent', 'referent_regional'].includes(
+        store.getters.contextRole
+      )
+    ) {
       return error({ statusCode: 403 })
     }
     const collectivity = await $api.getCollectivity(params.id)

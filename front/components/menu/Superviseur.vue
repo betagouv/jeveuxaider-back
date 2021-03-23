@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-menu-item index="/dashboard">
+    <el-menu-item
+      index="/dashboard"
+      :class="{ 'is-active': isActive('dashboard') }"
+    >
       <span v-if="$store.getters.isSidebarExpanded">Tableau de bord</span>
 
       <i
@@ -12,7 +15,10 @@
         class="el-icon-data-analysis"
       />
     </el-menu-item>
-    <el-menu-item index="/dashboard/structures">
+    <el-menu-item
+      index="/dashboard/structures"
+      :class="{ 'is-active': isActive('structures') }"
+    >
       <span v-if="$store.getters.isSidebarExpanded">Organisations</span>
 
       <i
@@ -24,7 +30,10 @@
         class="el-icon-school"
       />
     </el-menu-item>
-    <el-menu-item index="/dashboard/missions">
+    <el-menu-item
+      index="/dashboard/missions"
+      :class="{ 'is-active': isActive('missions') }"
+    >
       <span v-if="$store.getters.isSidebarExpanded">Missions</span>
 
       <i
@@ -36,7 +45,10 @@
         class="el-icon-collection"
       />
     </el-menu-item>
-    <el-menu-item index="/dashboard/participations">
+    <el-menu-item
+      index="/dashboard/participations"
+      :class="{ 'is-active': isActive('participations') }"
+    >
       <span v-if="$store.getters.isSidebarExpanded">Participations</span>
 
       <i
@@ -48,7 +60,7 @@
         class="el-icon-finished"
       />
     </el-menu-item>
-    <el-menu-item v-if="$store.getters.isSidebarExpanded">
+    <el-menu-item v-if="$store.getters.isSidebarExpanded" index="#">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
         >Contacter le support</a
       >

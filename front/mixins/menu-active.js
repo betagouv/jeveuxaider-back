@@ -41,6 +41,7 @@ export default {
             'dashboard-mission-id-edit',
             'dashboard-mission-id-participations',
             'dashboard-mission-id-history',
+            'dashboard-mission-id-trouver-des-benevoles',
           ].includes(this.$route.name)
         case 'participations':
           return [
@@ -65,6 +66,8 @@ export default {
           return this.$route.name.includes('-contents-')
         case 'activities':
           return ['dashboard-activities'].includes(this.$route.name)
+        case 'ressources':
+          return ['dashboard-ressources'].includes(this.$route.name)
         default:
           return false
       }

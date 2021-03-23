@@ -69,6 +69,11 @@ export default (context, inject) => {
   Vue.component('ElMenu', () =>
     import(/* webpackChunkName: 'element-ui-menu' */ 'element-ui/lib/menu')
   )
+  Vue.component('ElSubmenu', () =>
+    import(
+      /* webpackChunkName: 'element-ui-submenu' */ 'element-ui/lib/submenu'
+    )
+  )
   Vue.component('ElMenuItem', () =>
     import(
       /* webpackChunkName: 'element-ui-menu-item' */ 'element-ui/lib/menu-item'
