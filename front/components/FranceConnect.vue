@@ -53,7 +53,7 @@ export default {
           if (this.$store.getters.noRole === false) {
             this.$router.push('/dashboard')
           } else {
-            this.$router.push('/missions')
+            this.$router.push('/missions-benevolat')
           }
         })
       })

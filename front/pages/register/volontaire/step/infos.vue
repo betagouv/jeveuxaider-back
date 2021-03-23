@@ -260,7 +260,7 @@ export default {
         .then((response) => {
           this.loading = false
           this.form = response.data
-          this.$router.push('/missions')
+          this.$router.push('/missions-benevolat')
         })
         .catch(() => {
           this.loading = false
