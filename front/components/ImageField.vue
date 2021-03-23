@@ -38,8 +38,8 @@
         v-if="crop"
         title="Recadrer"
         :visible.sync="dialogCropVisible"
-        width="680"
         :close-on-click-modal="false"
+        top="3rem"
         @close="onModalClose"
       >
         <VueCropper
@@ -55,9 +55,7 @@
           :zoom-on-touch="false"
           :zoom-on-wheel="false"
           :auto-crop-area="1"
-          :min-container-height="320"
-          :min-container-width="640"
-          :view-mode="3"
+          :view-mode="2"
           preview=".preview"
           @ready="onCropperReady"
           @cropmove="ensureMinDimensions"
@@ -132,8 +130,8 @@ export default {
       default: 'el-form-item__label',
     },
     previewWidth: {
-      type: Number,
-      default: 300,
+      type: String,
+      default: '300px',
     },
     model: {
       type: String,
@@ -357,4 +355,14 @@ export default {
 <style lang="sass" scoped>
 .preview-area
   width: var(--preview-area__width)
+
+::v-deep
+  .el-dialog
+    max-width: calc(100% - 2rem)
+    width: 100%
+    @screen sm
+      width: 75%
+      max-width: 680px
+    @screen lg
+      width: 50%
 </style>

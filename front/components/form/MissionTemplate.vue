@@ -68,7 +68,7 @@
       :model-id="form.id ? form.id : null"
       :field="form.image"
       :max-size="1000000"
-      :preview-width="80"
+      :preview-width="'80px'"
       preview-area-class="bg-primary rounded-md p-3"
       label="Icone"
       label-class="mb-6 text-xl text-gray-800"

@@ -47,7 +47,7 @@
               :min-width="320"
               :min-height="320"
               :max-size="2000000"
-              :preview-width="150"
+              :preview-width="'150px'"
               :field="form.image"
               label="Photo de profil"
               @add-or-crop="avatar = $event"
