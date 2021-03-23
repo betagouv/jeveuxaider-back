@@ -45,6 +45,7 @@
                 :srcset="`/images/templates/${form.template_id}@2x.jpg 2x`"
                 width="125px"
                 class="object-cover h-full"
+                @error="defaultThumbnail($event)"
               />
             </div>
 
@@ -354,7 +355,7 @@
           </el-form-item>
           <AlgoliaPlacesInput
             ref="alogoliaInput"
-            :value="form.full_address"
+            :initial-value="form.full_address"
             @selected="setAddress"
             @clear="clearAddress"
           />
@@ -433,9 +434,10 @@
 
 <script>
 import FormWithAddress from '@/mixins/FormWithAddress'
+import MissionMixin from '@/mixins/MissionMixin'
 
 export default {
-  mixins: [FormWithAddress],
+  mixins: [FormWithAddress, MissionMixin],
   props: {
     structureId: {
       type: Number,

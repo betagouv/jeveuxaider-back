@@ -4,7 +4,10 @@
       Modifier la mission
     </nuxt-link>
     <el-dropdown-menu slot="dropdown">
-      <nuxt-link :to="`/mission/${mission.id}/${mission.slug}`" target="_blank">
+      <nuxt-link
+        :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+        target="_blank"
+      >
         <el-dropdown-item command=""> Visualiser la mission</el-dropdown-item>
       </nuxt-link>
       <el-dropdown-item :command="{ action: 'clone' }"
@@ -94,5 +97,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>
