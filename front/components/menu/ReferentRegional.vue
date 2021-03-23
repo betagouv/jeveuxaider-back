@@ -19,7 +19,7 @@
     <el-menu-item
       index="/dashboard/collectivities"
       :class="{
-        'is-active': isActive('/dashboard/collectivities'),
+        'is-active': isActive('collectivities'),
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Collectivités</span>
@@ -36,7 +36,7 @@
 
     <el-menu-item
       index="/dashboard/structures"
-      :class="{ 'is-active': isActive('/dashboard/structure') }"
+      :class="{ 'is-active': isActive('structures') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Organisations</span>
 
@@ -52,7 +52,7 @@
 
     <el-menu-item
       index="/dashboard/missions"
-      :class="{ 'is-active': isActive('/dashboard/mission') }"
+      :class="{ 'is-active': isActive('missions') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Missions</span>
 
@@ -68,7 +68,7 @@
 
     <el-menu-item
       index="/dashboard/participations"
-      :class="{ 'is-active': isActive('/dashboard/participation') }"
+      :class="{ 'is-active': isActive('participations') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Participations</span>
 
@@ -84,7 +84,7 @@
 
     <el-menu-item
       index="/dashboard/profiles"
-      :class="{ 'is-active': isActive('/dashboard/profile') }"
+      :class="{ 'is-active': isActive('profiles') }"
     >
       <span v-if="$store.getters.isSidebarExpanded">Utilisateurs</span>
 
@@ -98,7 +98,7 @@
       />
     </el-menu-item>
 
-    <el-menu-item v-if="$store.getters.isSidebarExpanded">
+    <el-menu-item v-if="$store.getters.isSidebarExpanded" index="#">
       <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
         >Contacter le support</a
       >

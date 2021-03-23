@@ -14,24 +14,21 @@
 <script>
 export default {
   layout: 'dashboard',
-  // TODO MIDDLEWARE ADMIN OU RESPONSBALE DE LA COLLECTIVITY
-  // beforeRouteEnter(to, from, next) {
-  //   next((vm) => {
-  //     if (vm.$store.getters.contextRole == 'admin') {
-  //       return
-  //     }
-  //     if (
-  //       vm.$store.getters.structure.collectivity.id !=
-  //       to.params.id
-  //     ) {
-  //       vm.$router.push('/403')
-  //     }
-  //   })
-  // },
   async asyncData({ $api, params, store, error }) {
-    if (!['admin'].includes(store.getters.contextRole)) {
+    if (
+      !['admin', 'referent', 'referent_regional', 'responsable'].includes(
+        store.getters.contextRole
+      )
+    ) {
       return error({ statusCode: 403 })
     }
+
+    if (store.getters.contextRole == 'responsable') {
+      if (params.id != store.getters.structure.collectivity.id) {
+        return error({ statusCode: 403 })
+      }
+    }
+
     const collectivity = await $api.getCollectivity(params.id)
     return {
       collectivity,
