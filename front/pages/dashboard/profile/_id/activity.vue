@@ -86,26 +86,7 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  methods: {
-    // async fetchRows() {
-    //   const response = await getProfile(this.id)
-    //   this.profile = response.data
-    //   if (this.tab == 'history') {
-    //     return fetchActivities({
-    //       'filter[subject_id]': this.id,
-    //       'filter[subject_type]': 'Profile',
-    //       page: this.$route.query.page || 1,
-    //     })
-    //   }
-    //   if (this.tab == 'activities' && this.profile.user_id) {
-    //     return fetchActivities({
-    //       'filter[causer_id]': this.profile.user_id,
-    //       'filter[causer_type]': 'User',
-    //       page: this.$route.query.page || 1,
-    //     })
-    //   }
-    // },
-  },
+  methods: {},
 }
 </script>
 
@@ -114,5 +95,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>
