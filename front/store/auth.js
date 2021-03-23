@@ -10,7 +10,6 @@ export const mutations = {
     state.accessToken = token
   },
   setAccessTokenImpersonate(state, token) {
-    console.log('set impersonate', token)
     state.accessTokenImpersonate = token
   },
   setTokenIdImpersonate(state, tokenId) {
@@ -157,7 +156,6 @@ export const actions = {
 
   async impersonate({ commit, dispatch }, userId) {
     const { data } = await this.$axios.post(`/impersonate/${userId}`)
-    console.log('set token impersonate with response', data)
     commit('setAccessTokenImpersonate', data.accessToken)
     commit('setTokenIdImpersonate', data.token.id)
     this.$cookies.set('access-token-impersonate', data.accessToken, {
@@ -171,7 +169,6 @@ export const actions = {
   },
 
   async stopImpersonate({ state, commit, dispatch }) {
-    console.log('state here', state)
     await this.$axios.delete(`/impersonate/${state.tokenIdImpersonate}`, {
       headers: { Authorization: `Bearer ${state.accessToken}` },
     })

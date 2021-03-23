@@ -585,6 +585,20 @@ export default {
       },
     }
   },
+  head() {
+    return {
+      title:
+        'Devenez bénévole avec JeVeuxAider.gouv.fr, la plateforme publique du bénévolat par la Réserve Civique',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Créez votre page dédiée et centralisez les missions de vos associations et organisations publiques afin de promouvoir le bénévolat de proximité.',
+        },
+      ],
+    }
+  },
   computed: {
     modeLight() {
       return this.$config.app.modeLight

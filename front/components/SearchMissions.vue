@@ -237,7 +237,7 @@
                       <nuxt-link
                         v-else
                         class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                        :to="`/missions-benevolat/${item.id}`"
+                        :to="`/missions-benevolat/${item.id}/${item.slug}`"
                       >
                         <CardMission :mission="item" />
                       </nuxt-link>

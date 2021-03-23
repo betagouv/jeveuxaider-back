@@ -213,5 +213,18 @@ export default {
       statistics,
     }
   },
+  head() {
+    return {
+      title: `Devenez bénévole dans le département ${this.collectivity.name} | Je Veux Aider`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Faites vivre la solidarité grâce au bénévolat dans votre département. Trouvez la mission qui vous correspond, dès 16 ans.',
+        },
+      ],
+    }
+  },
 }
 </script>

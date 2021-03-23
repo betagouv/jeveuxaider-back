@@ -337,3 +337,22 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  head() {
+    return {
+      title:
+        'Faites vivre la solidarité au sein de votre territoire avec JeVeuxAider.gouv.fr, la plateforme publique du bénévolat proposée par la Réserve Civique',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            "Trouvez des missions en quelques clics. Devenez bénévole près de chez vous ou à distance. Faites vivre l'engagement de chacun pour tous ! Plus de 300 000 bénévoles sont déjà inscrits.",
+        },
+      ],
+    }
+  },
+}
+</script>

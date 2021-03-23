@@ -333,5 +333,39 @@ export default {
       statistics,
     }
   },
+  head() {
+    return {
+      title: `Devenez bénévole dans une association pour ${this.thematiqueSeo} | Je Veux Aider`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: `Des milliers de places sont disponibles dans des associations pour ${this.thematiqueSeo}. Trouvez la mission qui vous correspond, sur le terrain ou à distance, partout en France, dès 16 ans.`,
+        },
+      ],
+    }
+  },
+  computed: {
+    thematiqueSeo() {
+      let thematiqueSeo = this.thematique.name
+      console.log(thematiqueSeo)
+
+      switch (this.thematique.name) {
+        case 'Solidarité et insertion':
+          thematiqueSeo = " la solidarité et l'insertion sociale"
+          break
+        case 'Protection de la nature':
+          thematiqueSeo = "la protection de la nature et l'environnement."
+          break
+        case 'Santé pour tous':
+          thematiqueSeo = 'la santé'
+          break
+        case 'Éducation pour tous':
+          thematiqueSeo = "la solidarité et l'insertion"
+          break
+      }
+      return thematiqueSeo
+    },
+  },
 }
 </script>
