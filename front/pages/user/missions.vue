@@ -26,7 +26,7 @@
               class="ais-Hits-item"
             >
               <nuxt-link
-                class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                class="flex flex-col flex-1"
                 :to="
                   participation.conversation
                     ? `/messages/${participation.conversation.id}`

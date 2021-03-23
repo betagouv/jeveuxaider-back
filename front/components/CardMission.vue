@@ -8,7 +8,7 @@
         :src="thumbnail.default"
         :srcset="`${thumbnail.x2} 2x`"
         :alt="mission.domaine_name"
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover will-change-transform"
         width="300px"
         height="143px"
         @error="defaultThumbnail($event)"
