@@ -40,46 +40,44 @@
 
     <div class="p-4 sm:p-12">
       <div class="font-bold text-2xl text-gray-800">Mon profil</div>
-      <div class="flex mt-6 mb-10">
-        <div class="flex-1">
-          <Avatar :source="avatar" :fallback="shortName" width="w-16 h-16" />
-        </div>
-        <!-- <div class="ml-8 mb-auto">
-          <el-upload
-            action=""
-            :http-request="uploadAvatar"
-            accept="image/*"
-            :before-upload="beforeAvatarUpload"
-          >
-            <el-button>Modifier</el-button>
-            <div slot="tip" class="el-upload__tip text-xs">
-              Nous acceptons les fichiers au format PNG, JPG ou GIF, d'une
-              taille maximale de 5 Mo
-            </div>
-          </el-upload>
-        </div>-->
-      </div>
+
       <el-form
         ref="profileForm"
         :model="form"
         label-position="top"
         :rules="rules"
-        class="flex flex-wrap -m-2"
       >
-        <el-form-item
-          label="Téléphone mobile"
-          prop="mobile"
-          class="w-full sm:w-1/2 lg:w-1/3 p-2"
-        >
-          <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
-        </el-form-item>
-        <el-form-item
-          label="Téléphone fixe"
-          prop="phone"
-          class="w-full sm:w-1/2 lg:w-1/3 p-2"
-        >
-          <el-input v-model="form.phone" placeholder="Téléphone fixe" />
-        </el-form-item>
+        <div class="my-8">
+          <ImageField
+            :model="model"
+            :model-id="$store.getters.profile.id"
+            :min-width="320"
+            :min-height="320"
+            :max-size="2000000"
+            :preview-width="'150px'"
+            :field="form.image"
+            label="Photo de profil"
+            @add-or-crop="avatar = $event"
+            @delete="avatar = null"
+          ></ImageField>
+        </div>
+
+        <div class="flex flex-wrap -m-2">
+          <el-form-item
+            label="Téléphone mobile"
+            prop="mobile"
+            class="w-full sm:w-1/2 lg:w-1/3 p-2"
+          >
+            <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
+          </el-form-item>
+          <el-form-item
+            label="Téléphone fixe"
+            prop="phone"
+            class="w-full sm:w-1/2 lg:w-1/3 p-2"
+          >
+            <el-input v-model="form.phone" placeholder="Téléphone fixe" />
+          </el-form-item>
+        </div>
       </el-form>
       <div class="flex pt-2">
         <el-button type="primary" :loading="loading" @click="onSubmit">
@@ -100,7 +98,10 @@ export default {
       form: {
         mobile: this.$store.getters.profile.mobile,
         phone: this.$store.getters.profile.phone,
+        image: this.$store.getters.profile.image,
       },
+      model: 'profile',
+      avatar: null,
       rules: {
         mobile: [
           {
@@ -123,26 +124,9 @@ export default {
     }
   },
   computed: {
-    avatar() {
-      return this.$store.getters.profile
-        ? this.$store.getters.profile.image
-          ? this.$store.getters.profile.image.thumb
-          : null
-        : null
-    },
-    shortName() {
-      return this.$store.getters.profile
-        ? this.$store.getters.profile.short_name
-        : null
-    },
     firstName() {
       return this.$store.getters.profile
         ? this.$store.getters.profile.first_name
-        : null
-    },
-    lastName() {
-      return this.$store.getters.profile
-        ? this.$store.getters.profile.last_name
         : null
     },
   },
@@ -151,22 +135,38 @@ export default {
       this.loading = true
       this.$refs.profileForm.validate((valid) => {
         if (valid) {
-          this.$store
-            .dispatch('user/updateProfile', {
-              id: this.$store.getters.profile.id,
-              ...this.form,
-            })
-            .then(() => {
-              this.loading = false
-              this.$router.push('/register/responsable/step/structure')
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          if (this.avatar) {
+            this.$api
+              .uploadImage(
+                this.$store.getters.profile.id,
+                this.model,
+                this.avatar.blob,
+                this.avatar.cropSettings
+              )
+              .then(() => {
+                this.updateProfile()
+              })
+          } else {
+            this.updateProfile()
+          }
         } else {
           this.loading = false
         }
       })
+    },
+    updateProfile() {
+      this.$store
+        .dispatch('user/updateProfile', {
+          id: this.$store.getters.profile.id,
+          ...this.form,
+        })
+        .then(() => {
+          this.loading = false
+          this.$router.push('/register/responsable/step/structure')
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
   },
 }

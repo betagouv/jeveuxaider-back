@@ -225,11 +225,11 @@
           </el-form-item>
 
           <el-form-item label="Domaines d'action complémentaires" prop="tags">
-            <ItemDescription container-class="mb-3">
+            <!-- <ItemDescription container-class="mb-3">
               Le choix d'un ou plusieurs domaines d'action complémentaires
               permettra à votre mission d'être référencée dans les domaines
               d'action correspondant lors d'une recherche par les réservistes
-            </ItemDescription>
+            </ItemDescription> -->
             <el-select
               v-model="form.tags"
               filterable

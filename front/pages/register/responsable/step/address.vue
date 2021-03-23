@@ -149,7 +149,9 @@ export default {
   asyncData({ store, error }) {
     return {
       form: { ...store.getters.structure_as_responsable },
-      collectivity: { ...store.getters.structure_as_responsable.collectivity },
+      collectivity: store.getters.structure_as_responsable.collectivity
+        ? { ...store.getters.structure_as_responsable.collectivity }
+        : null,
     }
   },
   data() {
