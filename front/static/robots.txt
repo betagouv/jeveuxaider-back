@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://jeveuxaider.fra1.cdn.digitaloceanspaces.com/public/sitemap.xml
