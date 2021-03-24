@@ -38,7 +38,8 @@
                 collectivity.title
               }}</template>
               <template v-else
-                >Rejoignez JeVeuxAider.gouv.fr dans votre collectivité</template
+                >Bénévolat {{ collectivity.name }} | Rejoignez
+                JeVeuxAider.gouv.fr</template
               >
             </h1>
 

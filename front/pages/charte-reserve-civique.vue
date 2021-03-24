@@ -10,5 +10,18 @@ export default {
       page,
     }
   },
+  head() {
+    return {
+      title: 'Charte de la Réserve Civique | JeVeuxAider.gouv.fr',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'La réserve civique permet à toute personne qui le souhaite de s’engager à servir les valeurs de la République en participant à des missions d’intérêt général, à titre bénévole et occasionnel.',
+        },
+      ],
+    }
+  },
 }
 </script>

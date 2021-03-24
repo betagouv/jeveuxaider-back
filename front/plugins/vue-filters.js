@@ -36,6 +36,9 @@ export default function ({ store, $dayjs }) {
   })
 
   Vue.filter('labelFromValue', function (key, taxonomy) {
+    if (!store.getters.taxonomies) {
+      return key
+    }
     const element = store.getters.taxonomies[taxonomy].terms.find((el) => {
       return el.value == key
     })
@@ -50,6 +53,9 @@ export default function ({ store, $dayjs }) {
   })
 
   Vue.filter('departmentFromValue', function (key) {
+    if (!store.getters.taxonomies) {
+      return key
+    }
     const department = store.getters.taxonomies.departments.terms.find((el) => {
       return el.value == key
     })
@@ -57,6 +63,9 @@ export default function ({ store, $dayjs }) {
   })
 
   Vue.filter('fullDepartmentFromValue', function (key) {
+    if (!store.getters.taxonomies) {
+      return key
+    }
     const department = store.getters.taxonomies.departments.terms.find((el) => {
       return el.value == key
     })
