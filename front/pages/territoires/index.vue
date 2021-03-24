@@ -19,13 +19,13 @@
         />
 
         <div class="relative">
-          <h3
+          <h1
             class="text-center text-3xl md:text-6xl leading-none font-bold tracking-tight text-gray-900"
           >
             Rejoignez JeVeuxAider.gouv.fr
             <br />
             dans votre territoire
-          </h3>
+          </h1>
           <p
             class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
           >
@@ -199,6 +199,20 @@ export default {
     })
 
     this.collectivities = data.data
+  },
+  head() {
+    return {
+      title:
+        'Inscrivez votre territoire sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat proposée par la Réserve Civique',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            "Partout en France, des milliers de bénévoles, d'associations et de communes se mobilisent sur JeVeuxAider.gouv.fr. Rejoignez la plateforme et faites vivre la solidarité locale. ",
+        },
+      ],
+    }
   },
   computed: {
     collectivitiesCount() {
