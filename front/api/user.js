@@ -141,6 +141,14 @@ export default (axios) => ({
       email,
     })
   },
+
+  async franceConnectLoginAuthorize() {
+    return await axios.get('/franceconnect/login-authorize')
+  },
+
+  async franceConnectLoginCallback(params) {
+    return await axios.get('/franceconnect/login-callback', { params })
+  },
 })
 
 // import axios from 'axios'
