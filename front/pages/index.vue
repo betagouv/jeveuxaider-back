@@ -37,7 +37,9 @@
         <div
           class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
         >
-          <h1>Devenez bénévole et trouvez des missions en quelques clics</h1>
+          <h1 class="inline">
+            Devenez bénévole et trouvez des missions en quelques clics
+          </h1>
           <br class="hidden lg:block" />
           <b>près de chez vous</b> ou <b>à distance</b>
         </div>

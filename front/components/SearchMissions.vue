@@ -182,6 +182,9 @@
                     </div>
                   </AisSearchBox>
 
+                  <!-- https://discourse.algolia.com/t/nuxt-doesnt-render-the-ais-components-ssr/11610/18#post_20 -->
+                  <!-- <AisRefinementList attribute="domaines" class="hidden" /> -->
+
                   <AlgoliaFacet
                     v-if="facets.includes('domaines')"
                     name="domaines"
