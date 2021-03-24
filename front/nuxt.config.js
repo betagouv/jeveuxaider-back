@@ -89,6 +89,7 @@ export default {
     'portal-vue/nuxt',
     '@nuxtjs/dayjs',
     '@nuxtjs/redirect-module',
+    '@nuxtjs/sentry',
   ],
 
   dayjs: {
@@ -106,6 +107,13 @@ export default {
     svgo: {
       plugins: [{ removeViewBox: false }],
     },
+  },
+
+  sentry: {
+    dsn: process.env.SENTRY_DSN, // Enter your project's DSN here
+    config: {
+      lazy: true,
+    }, // Additional config
   },
 
   tailwindcss: {
