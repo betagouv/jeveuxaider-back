@@ -24,17 +24,17 @@
         <div class="relative pt-1 pb-12 lg:py-12">
           <div class="container mx-auto px-4">
             <div class="py-8 text-center sm:text-left">
-              <h2
+              <h1
                 class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
               >
                 {{ thematique.title }}
-              </h2>
+              </h1>
 
-              <p
+              <h2
                 class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
               >
                 {{ thematique.description }}
-              </p>
+              </h2>
 
               <div
                 class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
@@ -234,18 +234,19 @@
         :facets="['template_title', 'department_name', 'structure.name']"
         :filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
         :color="thematique.color"
+        :title-tag="'h2'"
       />
 
       <div class="bg-gray-50 border-b border-gray-200">
         <div
           class="container mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
         >
-          <h2
+          <p
             class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
           >
             Votre organisation a besoin de
             <span :class="`text-${thematique.color}`">bénévoles</span> ?
-          </h2>
+          </p>
           <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
             <div class="inline-flex rounded-full shadow">
               <nuxt-link

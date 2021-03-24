@@ -14,11 +14,11 @@
         <div class="mx-auto max-w-screen-xl">
           <div class="px-4 lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 pb-10">
             <div class="max-w-2xl mx-auto lg:col-span-6">
-              <h2
+              <h1
                 class="mt-10 lg:mt-24 text-4xl tracking-tight leading-10 font-bold text-white sm:leading-none sm:text-6xl lg:text-5xl xl:text-6xl"
               >
                 Trouvez des bénévoles avec JeVeuxAider.gouv.fr
-              </h2>
+              </h1>
 
               <ul class="pt-6 lg:pt-14">
                 <li class="flex items-start">
@@ -105,11 +105,11 @@
                       <strong>collectivité</strong> ou une
                       <strong>association</strong> ?
                     </p>
-                    <h3
+                    <h2
                       class="mt-2 text-center text-4xl leading-9 font-bold text-gray-900 sm:-mx-6 tracking-tight"
                     >
                       Rejoignez le mouvement
-                    </h3>
+                    </h2>
                   </div>
                 </div>
                 <div
@@ -248,12 +248,12 @@
 
     <div class="bg-gray-100">
       <div class="max-w-screen-xl mx-auto pt-14 pb-20 px-4 sm:px-6 lg:px-8">
-        <h3
+        <h2
           class="text-center leading-8 pb-8 text-gray-800 text-sm font-medium text-3xl tracking-tight px-4"
         >
           Plus de <b class="font-bold">4000 organisations</b> ont déjà rejoint
           JeVeuxAider.gouv.fr
-        </h3>
+        </h2>
         <div class="overflow-hidden">
           <div class="flex flex-wrap items-center justify-center -m-4 sm:-m-8">
             <img
