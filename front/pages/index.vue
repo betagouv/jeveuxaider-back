@@ -978,7 +978,7 @@ export default {
             'Je distribue des produits de première nécessité et des repas aux plus démunis, dans la rue ou au sein d’établissements.',
           image: require('@/assets/images/dynamic/cover-produit.jpg'),
           link:
-            '/missions-benevolat?refinementList[template_title][0]=Aide alimentaire et d%27urgence',
+            '/missions-benevolat?refinementList[template_title][0]=J%27apporte%20une%20aide%20alimentaire%20d%27urgence',
           nb_missions_text: '345 missions disponibles <br><b>en présentiel</b>',
         },
         {
@@ -988,7 +988,7 @@ export default {
             'Je maintiens un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)',
           image: require('@/assets/images/dynamic/cover-call.jpg'),
           link:
-            '/missions-benevolat?refinementList[template_title][0]=Lien avec les personnes fragiles isolées',
+            '/missions-benevolat?refinementList[template_title][0]=Je%20maintiens%20le%20lien%20avec%20des%20personnes%20fragiles%20isolées',
           nb_missions_text:
             '298 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
         },
@@ -999,7 +999,7 @@ export default {
             'J’apporte un soutien aux enfants et jeunes, notamment dans les quartiers populaires, zones rurales et territoires fragiles.',
           image: require('@/assets/images/dynamic/cover-ecole.jpg'),
           link:
-            '/missions-benevolat?refinementList[template_title][0]=Mentorat d’un enfant ou d’un jeune',
+            '/missions-benevolat?refinementList[template_title][0]=J%27assure%20une%20mission%20de%20mentorat%20pour%20un%20enfant%20ou%20un%20jeune',
           nb_missions_text:
             '267 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
         },
