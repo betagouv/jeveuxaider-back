@@ -134,6 +134,9 @@ export default {
 
   googleAnalytics: {
     id: process.env.GOOGLE_ANALYTICS_ID,
+    autoTracking: {
+      screenview: true,
+    },
   },
 
   redirect: [
