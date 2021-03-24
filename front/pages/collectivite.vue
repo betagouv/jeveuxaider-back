@@ -5,12 +5,12 @@
         <div class="relative pt-6 pb-12 lg:pb-10">
           <div class="mt-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:mt-16">
             <div class="text-center">
-              <h2
+              <h1
                 class="text-4xl tracking-tight leading-10 font-bold text-white sm:text-4xl sm:leading-none md:text-5xl max-w-5xl mx-auto"
               >
                 Collectivités, faites vivre JeVeuxAider.gouv.fr au sein de votre
                 territoire
-              </h2>
+              </h1>
               <p
                 class="mt-3 max-w-md mx-auto text-base text-white sm:text-lg md:mt-5 md:text-xl md:max-w-3xl"
               >
@@ -54,11 +54,11 @@
         <div
           class="max-w-screen-xl mx-auto pt-16 pb-20 px-4 sm:px-6 md:pb-24 lg:px-8"
         >
-          <h3
+          <h2
             class="text-center text-gray-400 text-sm font-semibold uppercase tracking-wide"
           >
             parmi les collectivités déjà inscrites
-          </h3>
+          </h2>
           <div
             class="mt-8 grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-4"
           >
@@ -107,11 +107,11 @@
         class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-screen-xl"
       >
         <div class="lg:text-center mt-20">
-          <h3
+          <h2
             class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
             Pourquoi créer votre page collectivité ?
-          </h3>
+          </h2>
         </div>
 
         <div
@@ -213,13 +213,13 @@
             class="relative max-w-xl mx-auto px-8 sm:px-6 lg:px-8 lg:max-w-screen-xl"
           >
             <div class="lg:text-center">
-              <h3
+              <h2
                 class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
               >
                 Rejoignez le mouvement
                 <br class="xl:hidden" />
                 <span class="text-blue-800">#JeVeuxAider</span>
-              </h3>
+              </h2>
               <p
                 class="mt-4 text-center max-w-4xl text-xl leading-7 text-gray-500 lg:mx-auto"
               >
