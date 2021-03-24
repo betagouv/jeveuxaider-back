@@ -11,6 +11,7 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Thematique;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -133,5 +134,74 @@ class ConfigController extends Controller
         return response()->streamDownload(function () use ($output) {
             echo $output;
         }, 'output.csv');
+    }
+
+    public function sitemap()
+    {
+
+        $pagesUrls = [
+            [
+                'url' => '/',
+                'lastmod' => Carbon::now()->subDays(7),
+            ],
+            [
+                'url' => '/missions-benevolat',
+                'lastmod' => Carbon::now()->subDays(1),
+            ],
+            [
+                'url' => '/territoires',
+                'lastmod' => Carbon::now()->startOfMonth(),
+            ],
+        ];
+
+        $missionsUrls = Mission::available()
+            ->get()
+            ->map(function ($mission) {
+                $date = new Carbon($mission->updated_at);
+                return [
+                    'url' => '/missions-benevolat/' . $mission->id . '/' . $mission->slug,
+                    'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $mission->updated_at,
+                ];
+            });
+
+        $departementsUrls = Collectivity::where('type','department')
+            ->where('state', 'validated')
+            ->where('published', true)
+            ->get()
+            ->map(function ($departement) {
+                $date = new Carbon($departement->updated_at);
+                return [
+                    'url' => '/territoires/departements/' . $departement->slug,
+                    'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $departement->updated_at,
+                ];
+            });
+
+        $collectivitesUrls = Collectivity::where('type','department')
+            ->where('state', 'validated')
+            ->where('published', true)
+            ->get()
+            ->map(function ($collectivite) {
+                return [
+                    'url' => '/territoires/collectivites/' . $collectivite->slug,
+                    'lastmod' => Carbon::now()->subDays(1),
+                ];
+            });
+
+        $domainesUrls = Thematique::where('published', true)
+            ->get()
+            ->map(function ($domaine) {
+                return [
+                    'url' => '/domaines-action/' . $domaine->slug,
+                    'lastmod' => Carbon::now()->subDays(1),
+                ];
+            });
+
+        return [
+            ...$pagesUrls,
+            ...$missionsUrls,
+            ...$departementsUrls,
+            ...$collectivitesUrls,
+            ...$domainesUrls,
+        ];
     }
 }

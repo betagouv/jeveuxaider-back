@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   server: {
     host: process.env.HOST || 'localhost', // default: localhost,
@@ -84,6 +86,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/sitemap',
     'cookie-universal-nuxt',
     'nuxt-lazy-load',
     'portal-vue/nuxt',
@@ -215,5 +218,18 @@ export default {
         },
       },
     },
+  },
+
+  sitemap: () => {
+    return {
+      gzip: true,
+      exclude: [
+        '/**'
+      ],
+      routes: async () => {
+        const { data } = await axios.get(`${process.env.API_URL}/api/sitemap`)
+        return data
+      },
+    }
   },
 }
