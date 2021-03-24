@@ -46,6 +46,9 @@ Route::post('invitation/{token}/register', 'Api\InvitationController@register');
 
 Route::post('firstname', 'Api\ProfileController@firstname');
 
+Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
+Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -87,7 +90,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 // Pour info : Les middleware 'auth:api', 'has.context.role.header' ajoutent 9 queries
-Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], function () {
+Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function () {
     // USERS
     Route::post('user', 'Api\UserController@update');
 

@@ -92,6 +92,7 @@ export default {
     'portal-vue/nuxt',
     '@nuxtjs/dayjs',
     '@nuxtjs/redirect-module',
+    '@nuxtjs/sentry',
   ],
 
   dayjs: {
@@ -109,6 +110,13 @@ export default {
     svgo: {
       plugins: [{ removeViewBox: false }],
     },
+  },
+
+  sentry: {
+    dsn: process.env.SENTRY_DSN, // Enter your project's DSN here
+    config: {
+      lazy: true,
+    }, // Additional config
   },
 
   tailwindcss: {
@@ -129,21 +137,15 @@ export default {
 
   googleAnalytics: {
     id: process.env.GOOGLE_ANALYTICS_ID,
+    autoTracking: {
+      screenview: true,
+    },
   },
 
   redirect: [
     /* eslint-disable */
     { from: '^\/missions(?!-benevolat|\/)(.*)$', to: '/missions-benevolat$1', statusCode: 301 },
     { from: '^\/missions(?!-benevolat)\/(.*)$', to: '/missions-benevolat/$1', statusCode: 301 },
-    {
-      from: '^\/territoires\/([^\/]*)$',
-      to: (from, req) => {
-        const slugCollectivity = req.url.replace('/territoires/', '')
-        console.log(slugCollectivity)
-        // Todo : get collectivity
-        return `/collectivity/${slugCollectivity}`
-      }
-    }
   ],
 
   privateRuntimeConfig: {

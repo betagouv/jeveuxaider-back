@@ -28,9 +28,18 @@
           <div class="px-4">
             <div class="flex flex-wrap justify-between items-center -m-2">
               <div class="m-2">
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-black">
+                <h1
+                  v-if="titleTag == 'h1'"
+                  class="text-xl sm:text-2xl lg:text-3xl font-black"
+                >
                   Trouver une mission de bénévolat
                 </h1>
+                <h2
+                  v-else-if="titleTag == 'h2'"
+                  class="text-xl sm:text-2xl lg:text-3xl font-black"
+                >
+                  Trouver une mission de bénévolat
+                </h2>
                 <AisStateResults>
                   <template slot-scope="{ nbHits }">
                     <div>
@@ -172,6 +181,9 @@
                       />
                     </div>
                   </AisSearchBox>
+
+                  <!-- https://discourse.algolia.com/t/nuxt-doesnt-render-the-ais-components-ssr/11610/18#post_20 -->
+                  <!-- <AisRefinementList attribute="domaines" class="hidden" /> -->
 
                   <AlgoliaFacet
                     v-if="facets.includes('domaines')"
@@ -414,6 +426,10 @@ export default {
     color: {
       type: String,
       default: 'primary',
+    },
+    titleTag: {
+      type: String,
+      default: 'h1',
     },
     facets: {
       type: Array,

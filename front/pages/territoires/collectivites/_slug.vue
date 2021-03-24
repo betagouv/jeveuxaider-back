@@ -220,6 +220,19 @@ export default {
       collectivity,
     }
   },
+  head() {
+    return {
+      title: `Bénévolat ${this.collectivity.name} | Rejoignez JeVeuxAider.gouv.fr`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Faites vivre la solidarité grâce au bénévolat dans votre collectivité. Trouvez la mission qui vous correspond, dès 16 ans.',
+        },
+      ],
+    }
+  },
   computed: {
     zipsFilter() {
       const zips = this.collectivity.zips.map((zip) => 'zip:' + zip)

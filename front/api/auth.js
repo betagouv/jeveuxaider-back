@@ -9,14 +9,3 @@
 //     scope: '*',
 //   })
 // }
-
-// export function logout() {
-//   return axios.post('/logout')
-// }
-
-// export function franceConnectLoginAuthorize() {
-//   return axios.get('/franceconnect/login-authorize')
-// }
-// export function franceConnectLoginCallback(params) {
-//   return axios.get('/franceconnect/login-callback', { params })
-// }

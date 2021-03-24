@@ -349,7 +349,6 @@ export default {
   computed: {
     thematiqueSeo() {
       let thematiqueSeo = this.thematique.name
-      console.log(thematiqueSeo)
 
       switch (this.thematique.name) {
         case 'Solidarité et insertion':
