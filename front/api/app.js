@@ -199,6 +199,20 @@ export default (axios) => ({
   async deleteTag(id) {
     return await axios.delete(`/tag/${id}`)
   },
+
+  async getCollectivityMissionsStatistics(id, params) {
+    return await axios.get(`/collectivity/${id}/statistics/missions`, {
+      params,
+    })
+  },
+  async getCollectivityParticipationsStatistics(id, params) {
+    return await axios.get(`/collectivity/${id}/statistics/participations`, {
+      params,
+    })
+  },
+  async chartCollectivityCreated(id, params) {
+    return await axios.get(`/collectivity/${id}/charts/created`, { params })
+  },
 })
 
 // async bootstrap() {

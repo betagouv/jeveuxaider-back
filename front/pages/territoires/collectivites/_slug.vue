@@ -162,6 +162,7 @@
     </div>
 
     <SearchMissions
+      v-if="collectivity.latitude && collectivity.longitude"
       :default-radius="35000"
       :initial-geo-search="{
         aroundLatLng: `${collectivity.latitude},${collectivity.longitude}`,

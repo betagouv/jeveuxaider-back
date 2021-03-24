@@ -22,13 +22,11 @@ export default {
     ) {
       return error({ statusCode: 403 })
     }
-
     if (store.getters.contextRole == 'responsable') {
-      if (params.id != store.getters.structure.collectivity.id) {
+      if (store.getters.structure.collectivity.id != params.id) {
         return error({ statusCode: 403 })
       }
     }
-
     const collectivity = await $api.getCollectivity(params.id)
     return {
       collectivity,

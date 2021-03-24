@@ -34,11 +34,11 @@
 <script>
 export default {
   props: {
-    label: {
-      type: String,
+    collectivity: {
+      type: Object,
       required: true,
     },
-    name: {
+    label: {
       type: String,
       required: true,
     },
@@ -54,10 +54,12 @@ export default {
     }
   },
   async fetch() {
-    console.log('this.$route.query.role', this.$route.query.role)
-    const statistics = await this.$api.statistics(this.name, {
-      type: 'light',
-    })
+    const statistics = await this.$api.getCollectivityMissionsStatistics(
+      this.collectivity.id,
+      {
+        type: 'light',
+      }
+    )
     this.data = statistics.data
   },
   fetchOnServer: false,

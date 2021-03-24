@@ -20,40 +20,16 @@
         </div>
       </div>
       <div>
-        <el-dropdown split-button type="primary" @command="handleCommand">
-          <nuxt-link :to="`/dashboard/collectivity/${collectivity.id}/edit`">
-            Modifier la collectivité
-          </nuxt-link>
-          <el-dropdown-menu slot="dropdown">
-            <nuxt-link
-              :to="`/territoires/collectivites/${collectivity.slug}`"
-              target="_blank"
-            >
-              <el-dropdown-item> Visualiser la collectivité</el-dropdown-item>
-            </nuxt-link>
-
-            <el-dropdown-item divided :command="{ action: 'delete' }">
-              Supprimer la collectivité
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <DropdownCollectivityButton :collectivity="collectivity" />
       </div>
     </div>
-    <el-menu
-      :default-active="$router.history.current.path"
-      mode="horizontal"
-      class="mb-8"
-      @select="$router.push($event)"
-    >
-      <el-menu-item :index="`/dashboard/collectivity/${collectivity.id}`">
-        Informations
-      </el-menu-item>
-      <el-menu-item
-        :index="`/dashboard/collectivity/${collectivity.id}/history`"
-      >
-        Historique
-      </el-menu-item>
-    </el-menu>
+
+    <div class="mb-12">
+      <TabsCollectivity
+        :collectivity="collectivity"
+        :index="`/dashboard/collectivity/${collectivity.id}`"
+      />
+    </div>
 
     <div class="px-12">
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
@@ -94,35 +70,7 @@ export default {
       collectivity,
     }
   },
-  methods: {
-    handleCommand(command) {
-      if (command.action == 'delete') {
-        this.handleClickDelete(command.id)
-      } else {
-        this.$router.push(command)
-      }
-    },
-    handleClickDelete() {
-      this.$confirm(
-        `Êtes vous sur de vouloir supprimer cette collectivité ?`,
-        'Supprimer cette collectivité',
-        {
-          confirmButtonText: 'Supprimer',
-          confirmButtonClass: 'el-button--danger',
-          cancelButtonText: 'Annuler',
-          center: true,
-          type: 'error',
-        }
-      ).then(() => {
-        this.$api.deleteCollectivity(this.collectivity.id).then(() => {
-          this.$message.success({
-            message: `La collectivité a été supprimée.`,
-          })
-          this.$router.push('/dashboard/collectivities')
-        })
-      })
-    },
-  },
+  methods: {},
 }
 </script>
 
