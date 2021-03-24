@@ -36,6 +36,7 @@ export default function ({ store, $dayjs }) {
   })
 
   Vue.filter('labelFromValue', function (key, taxonomy) {
+    console.log(store.getters.taxonomies, taxonomy)
     const element = store.getters.taxonomies[taxonomy].terms.find((el) => {
       return el.value == key
     })
