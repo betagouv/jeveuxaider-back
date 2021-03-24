@@ -72,6 +72,13 @@ export default {
       return error({ statusCode: 403 })
     }
     const mission = await $api.getMission(params.id)
+
+    if (store.getters.contextRole == 'responsable') {
+      if (store.getters.structure.id != mission.structure_id) {
+        return error({ statusCode: 403 })
+      }
+    }
+
     const structure = await $api.getStructure(mission.structure.id)
     return {
       structure,
@@ -102,5 +109,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>

@@ -96,34 +96,40 @@
     <div v-if="mission.information" class="mb-2 flex">
       <div class="card-label">Informations</div>
       <div class="text-gray-900 flex-1">
-        <ReadMore
-          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-          more-str="Lire plus"
-          :text="mission.information"
-          :max-chars="120"
-        ></ReadMore>
+        <client-only>
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="mission.information"
+            :max-chars="120"
+          ></ReadMore>
+        </client-only>
       </div>
     </div>
     <div v-if="mission.objectif" class="mb-2 flex">
       <div class="card-label">Objectifs</div>
       <div class="text-gray-900 flex-1">
-        <ReadMore
-          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-          more-str="Lire plus"
-          :text="mission.objectif"
-          :max-chars="120"
-        ></ReadMore>
+        <client-only>
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="mission.objectif"
+            :max-chars="120"
+          ></ReadMore>
+        </client-only>
       </div>
     </div>
     <div v-if="mission.description" class="mb-2 flex">
       <div class="card-label">Règles</div>
       <div class="text-gray-900 flex-1">
-        <ReadMore
-          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-          more-str="Lire plus"
-          :text="mission.description"
-          :max-chars="120"
-        ></ReadMore>
+        <client-only>
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="mission.description"
+            :max-chars="120"
+          ></ReadMore>
+        </client-only>
       </div>
     </div>
   </div>

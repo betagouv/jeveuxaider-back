@@ -104,12 +104,14 @@
     <div v-if="structure.description" class="mb-2 flex">
       <div class="card-label">Description</div>
       <div class="text-gray-900 flex-1">
-        <ReadMore
-          more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-          more-str="Lire plus"
-          :text="structure.description"
-          :max-chars="120"
-        ></ReadMore>
+        <client-only>
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="structure.description"
+            :max-chars="120"
+          ></ReadMore>
+        </client-only>
       </div>
     </div>
   </div>
