@@ -15,7 +15,8 @@ export default ({app}) => {
     })()
 
     app.router.afterEach((to, from) => {
-      const tag = new ATInternet.Tracker.Tag()
+      const tag = new window.ATInternet.Tracker.Tag()
+
       tag.page.set({
         name: to.name
       })
