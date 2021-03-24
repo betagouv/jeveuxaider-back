@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:1000,1', // Remettre 120,1 après le crawl
+            //'throttle:120,1', // Remettre 120,1 après le crawl
             'bindings',
             \App\Http\Middleware\LastOnlineAt::class
         ],
