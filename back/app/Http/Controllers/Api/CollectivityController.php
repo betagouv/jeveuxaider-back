@@ -21,6 +21,7 @@ use App\Models\Profile;
 use App\Models\Structure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CollectivityController extends Controller
 {
@@ -243,5 +244,73 @@ class CollectivityController extends Controller
     {
         $collectivity = Collectivity::withTrashed()->findOrFail($id);
         return (string) $collectivity->forceDelete();
+    }
+
+    public function statisticsMissions(Request $request, Collectivity $collectivity)
+    {
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total' => Mission::collectivity($collectivity->id)->count(),
+                'month' => Mission::collectivity($collectivity->id)->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                'week' => Mission::collectivity($collectivity->id)->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+            ];
+        }
+
+        return [
+            'total' => Mission::collectivity($collectivity->id)->count(),
+            'waiting' => Mission::collectivity($collectivity->id)->whereIn('state', ['En attente de validation'])->count(),
+            'validated' => Mission::collectivity($collectivity->id)->whereIn('state', ['Validée'])->count(),
+            'finished' => Mission::collectivity($collectivity->id)->whereIn('state', ['Terminée'])->count(),
+            'canceled' => Mission::collectivity($collectivity->id)->whereIn('state', ['Annulée'])->count(),
+            'signaled' => Mission::collectivity($collectivity->id)->whereIn('state', ['Signalée'])->count(),
+            'draft' => Mission::collectivity($collectivity->id)->whereIn('state', ['Brouillon'])->count(),
+        ];
+    }
+
+    public function statisticsParticipations(Request $request, Collectivity $collectivity)
+    {
+        if ($request->has('type') && $request->input('type') == 'light') {
+            return [
+                'total' => Participation::collectivity($collectivity->id)->count(),
+                'month' => Participation::collectivity($collectivity->id)->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                'week' => Participation::collectivity($collectivity->id)->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+            ];
+        }
+
+        return [
+            'total' => Participation::collectivity($collectivity->id)->count(),
+            'waiting' => Participation::collectivity($collectivity->id)->whereIn('state', ['En attente de validation'])->count(),
+            'validated' => Participation::collectivity($collectivity->id)->whereIn('state', ['Validée'])->count(),
+            'refused' => Participation::collectivity($collectivity->id)->whereIn('state', ['Refusée'])->count(),
+            'done' => Participation::collectivity($collectivity->id)->whereIn('state', ['Effectuée'])->count(),
+            'canceled' => Participation::collectivity($collectivity->id)->whereIn('state', ['Annulée'])->count()
+        ];
+    }
+
+    public function chartsCreated(Request $request, Collectivity $collectivity)
+    {
+        $year = intval($request->input('year'));
+        $items = [];
+
+        switch ($request->input('type')) {
+            case 'missions':
+                $model = new Mission();
+            break;
+            case 'participations':
+                $model = new Participation();
+            break;
+        }
+
+        for ($i = 1; $i < 13; $i++) {
+            $items[] = $model->collectivity($collectivity->id)
+                ->whereYear('created_at', '=', $year)
+                ->whereMonth('created_at', '=', $i)
+                ->count();
+        }
+
+        return [
+            'year' => $year,
+            'items' => $items,
+        ];
     }
 }

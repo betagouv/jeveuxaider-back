@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-submenu v-if="$store.getters.structure.collectivity" index="1">
+    <el-submenu v-if="$store.getters.structure.collectivity" index="1" open>
       <template slot="title">
         <div class="truncate pr-4">
           <i class="el-icon-school"></i
@@ -9,9 +9,9 @@
       >
       <el-menu-item
         v-if="$store.getters.profile.roles.responsable_collectivity == true"
-        index="/dashboard/collectivity"
+        :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/stats`"
         :class="{
-          'is-active': isActive('collectivities'),
+          'is-active': isActive('collectivity-stats'),
         }"
         >Statistiques de la page
       </el-menu-item>
@@ -30,7 +30,7 @@
       <el-menu-item
         :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`"
         :class="{
-          'is-active': isActive('collectivities'),
+          'is-active': isActive('collectivity-edit'),
         }"
         >Éditer la page
       </el-menu-item>
