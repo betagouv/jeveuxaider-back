@@ -34,7 +34,8 @@
                 {{ collectivity.title }}
               </template>
               <template v-else>
-                Rejoignez JeVeuxAider.gouv.fr dans votre département
+                Bénévolat {{ collectivity.name }} | Rejoignez
+                JeVeuxAider.gouv.fr
               </template>
             </h1>
 
