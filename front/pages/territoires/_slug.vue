@@ -1,13 +1,12 @@
-<template>
-  <div>Redirection en cours</div>
-</template>
-
 <script>
 export default {
-  asyncData({ params, query, $api }) {
-    // get collectivity with $api
-    // si departement redirect
-    // si collectitivy redirect
+  async middleware({ $api, route, redirect }) {
+    const collectivity = await $api.getCollectivity(route.params.slug)
+    if (collectivity.type == 'department') {
+      redirect(`/territoires/departements/${route.params.slug}`)
+    } else {
+      redirect(`/territoires/collectivites/${route.params.slug}`)
+    }
   },
 }
 </script>
