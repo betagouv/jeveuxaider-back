@@ -88,6 +88,7 @@ export default {
     'nuxt-lazy-load',
     'portal-vue/nuxt',
     '@nuxtjs/dayjs',
+    '@nuxtjs/redirect-module',
   ],
 
   dayjs: {
@@ -126,6 +127,12 @@ export default {
   googleAnalytics: {
     id: process.env.GOOGLE_ANALYTICS_ID,
   },
+
+  redirect: [
+    /* eslint-disable */
+    { from: '^\/missions(?!-benevolat|\/)(.*)$', to: '/missions-benevolat$1', statusCode: 301 },
+    { from: '^\/missions(?!-benevolat)\/(.*)$', to: '/missions-benevolat/$1', statusCode: 301 },
+  ],
 
   privateRuntimeConfig: {
     axios: {

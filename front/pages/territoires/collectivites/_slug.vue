@@ -38,7 +38,8 @@
                 collectivity.title
               }}</template>
               <template v-else
-                >Rejoignez JeVeuxAider.gouv.fr dans votre collectivité</template
+                >Bénévolat {{ collectivity.name }} | Rejoignez
+                JeVeuxAider.gouv.fr</template
               >
             </h1>
 
@@ -162,6 +163,7 @@
     </div>
 
     <SearchMissions
+      v-if="collectivity.latitude && collectivity.longitude"
       :default-radius="35000"
       :initial-geo-search="{
         aroundLatLng: `${collectivity.latitude},${collectivity.longitude}`,
@@ -206,10 +208,29 @@
 
 <script>
 export default {
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, error, store }) {
     const collectivity = await $api.getCollectivity(params.slug)
+    if (
+      (collectivity.state != 'validated' || !collectivity.published) &&
+      !['admin'].includes(store.getters.contextRole)
+    ) {
+      return error({ statusCode: 403 })
+    }
     return {
       collectivity,
+    }
+  },
+  head() {
+    return {
+      title: `Bénévolat ${this.collectivity.name} | Rejoignez JeVeuxAider.gouv.fr`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Faites vivre la solidarité grâce au bénévolat dans votre collectivité. Trouvez la mission qui vous correspond, dès 16 ans.',
+        },
+      ],
     }
   },
   computed: {

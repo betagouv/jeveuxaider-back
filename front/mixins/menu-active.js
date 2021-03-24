@@ -20,6 +20,9 @@ export default {
             'dashboard-collectivity-id',
             'dashboard-collectivity-id-edit',
             'dashboard-collectivity-id-history',
+            'dashboard-collectivity-id-stats',
+            'dashboard-collectivity-id-missions',
+            'dashboard-collectivity-id-participations',
           ].includes(this.$route.name)
         case 'structures':
           return [
@@ -68,6 +71,14 @@ export default {
           return ['dashboard-activities'].includes(this.$route.name)
         case 'ressources':
           return ['dashboard-ressources'].includes(this.$route.name)
+        case 'collectivity-stats':
+          return [
+            'dashboard-collectivity-id-stats',
+            'dashboard-collectivity-id-missions',
+            'dashboard-collectivity-id-participations',
+          ].includes(this.$route.name)
+        case 'collectivity-edit':
+          return ['dashboard-collectivity-id-edit'].includes(this.$route.name)
         default:
           return false
       }

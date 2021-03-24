@@ -30,7 +30,15 @@ export default {
     ) {
       return error({ statusCode: 403 })
     }
+
     const mission = await $api.getMission(params.id)
+
+    if (store.getters.contextRole == 'responsable') {
+      if (store.getters.structure.id != mission.structure_id) {
+        return error({ statusCode: 403 })
+      }
+    }
+
     mission.tags = mission.tags.map((tag) => tag.name.fr)
     return {
       mission,

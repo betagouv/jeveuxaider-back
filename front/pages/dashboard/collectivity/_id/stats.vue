@@ -23,62 +23,59 @@
         <DropdownCollectivityButton :collectivity="collectivity" />
       </div>
     </div>
+
     <div class="mb-12">
       <TabsCollectivity
         :collectivity="collectivity"
-        :index="`/dashboard/collectivity/${collectivity.id}/history`"
+        :index="`/dashboard/collectivity/${collectivity.id}/stats`"
       />
     </div>
-    <TableActivities :table-data="tableData" />
-    <div class="m-3 flex items-center">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="totalRows"
-        :page-size="15"
-        :current-page="Number(query.page)"
-        @current-change="onPageChange"
-      />
-      <div class="text-secondary text-xs ml-3">
-        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+
+    <div class="px-12">
+      <div class="flex flex-wrap">
+        <CardCollectivityMissionsLightCount
+          label="Missions"
+          :collectivity="collectivity"
+          :link="
+            $store.getters.contextRole != 'responsable'
+              ? `/dashboard/missions?filter[collectivity]=${collectivity.id}`
+              : null
+          "
+        />
+        <CardCollectivityParticipationsLightCount
+          label="Participations"
+          :collectivity="collectivity"
+          :link="
+            $store.getters.contextRole != 'responsable'
+              ? `/dashboard/participations?filter[collectivity]=${collectivity.id}`
+              : null
+          "
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import TableWithFilters from '@/mixins/table-with-filters'
-
 export default {
-  mixins: [TableWithFilters],
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
     if (
-      !['admin', 'referent', 'referent_regional'].includes(
+      !['admin', 'referent', 'referent_regional', 'responsable'].includes(
         store.getters.contextRole
       )
     ) {
       return error({ statusCode: 403 })
     }
+    if (store.getters.contextRole == 'responsable') {
+      if (store.getters.structure.collectivity.id != params.id) {
+        return error({ statusCode: 403 })
+      }
+    }
     const collectivity = await $api.getCollectivity(params.id)
     return {
       collectivity,
     }
-  },
-  async fetch() {
-    this.query = this.$route.query
-    const { data } = await this.$api.fetchActivities({
-      'filter[subject_id]': this.$route.params.id,
-      'filter[subject_type]': 'Collectivity',
-      page: this.$route.query.page || 1,
-    })
-    this.tableData = data.data
-    this.totalRows = data.total
-    this.fromRow = data.from
-    this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   methods: {},
 }

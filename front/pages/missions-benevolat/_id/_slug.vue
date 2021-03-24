@@ -689,20 +689,14 @@ export default {
   },
   head() {
     return {
-      title: this.mission.name
-        ? 'Bénévolat pour ' + this.structure.name + ' | ' + this.mission.name
-        : this.mission.name,
+      title: this.mission.name.substring(0, 80),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content:
-            this.structure && this.structure.description
-              ? this.$options.filters.truncate(
-                  this.structure.description.replace(/<\/?[^>]+>/gi, ' '),
-                  156
-                )
-              : '',
+          content: this.mission.description
+            .replace(/<\/?[^>]+>/gi, ' ')
+            .substring(0, 300),
         },
       ],
     }

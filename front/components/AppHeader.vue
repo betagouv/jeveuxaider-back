@@ -22,7 +22,8 @@
           <nuxt-link to="/">
             <img
               src="@/assets/images/jeveuxaider-logo.svg"
-              alt="JeVeuxAider.gouv.fr"
+              alt="Bénévolat je veux aider"
+              title="Bénévolat association"
               width="227px"
               height="37px"
             />

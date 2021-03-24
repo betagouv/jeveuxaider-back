@@ -150,6 +150,10 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header' ]], functio
     Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
     Route::get('statistics/online', 'Api\StatisticsController@online');
 
+    Route::get('collectivity/{collectivity}/statistics/missions', 'Api\CollectivityController@statisticsMissions');
+    Route::get('collectivity/{collectivity}/statistics/participations', 'Api\CollectivityController@statisticsParticipations');
+    Route::get('collectivity/{collectivity}/charts/created', 'Api\CollectivityController@chartsCreated');
+
     Route::get('charts/created', 'Api\ChartController@created');
 
     // REMINDERS
