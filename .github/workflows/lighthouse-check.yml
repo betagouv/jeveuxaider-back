@@ -18,7 +18,7 @@ jobs:
           # awsSecretAccessKey: ${{ secrets.LIGHTHOUSE_CHECK_AWS_SECRET_ACCESS_KEY }}
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
-          urls: "https://jeveuxaider.codeconut.fr,https://jeveuxaider.codeconut.fr/missions/8089,https://jeveuxaider.codeconut.fr/missions"
+          urls: "https://www.jeveuxaider.gouv.fr,https://www.jeveuxaider.gouv.fr/missions/8089,https://www.jeveuxaider.gouv.fr/missions"
           sha: ${{ github.sha }}
           slackWebhookUrl: ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Upload artifacts
