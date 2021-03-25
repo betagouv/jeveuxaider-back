@@ -188,7 +188,7 @@ class ConfigController extends Controller
                 ];
             });
 
-        $collectivitesUrls = Collectivity::where('type', 'department')
+        $collectivitesUrls = Collectivity::where('type', 'commune')
             ->where('state', 'validated')
             ->where('published', true)
             ->get()
