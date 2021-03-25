@@ -85,6 +85,12 @@
               rel="noopener"
               >Kit de communication</a
             >
+            <a
+              class="block p-3 hover:underline"
+              href="https://jeveuxaider.gouv.fr/statistiques"
+              target="_blank"
+              >Statistiques</a
+            >
           </div>
           <div class="lg:max-w-1/4 text-black">
             <a
