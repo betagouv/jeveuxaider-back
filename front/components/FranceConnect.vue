@@ -43,6 +43,10 @@ export default {
           code: this.$route.query.code,
         })
         .then((response) => {
+          this.$cookies.set('access-token', response.data.accessToken, {
+            maxAge: 3600 * 24 * 365,
+            path: '/',
+          })
           this.$store.commit('auth/setAccessToken', response.data.accessToken)
           this.$store.dispatch('auth/fetchUser').then(() => {
             if (this.$store.getters.noRole === false) {
