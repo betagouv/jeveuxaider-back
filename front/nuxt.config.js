@@ -68,6 +68,7 @@ export default {
     '@/plugins/axeptio.client.js',
     '@/plugins/apiengagement.client.js',
     '@/plugins/atinternet.client.js',
+    '@/plugins/google-analytics.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
   ],
 
@@ -80,7 +81,6 @@ export default {
     '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
-    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -112,6 +112,15 @@ export default {
     },
   },
 
+  'nuxt-compress': {
+    gzip: {
+      cache: true,
+    },
+    brotli: {
+      threshold: 10240,
+    },
+  },
+
   sentry: {
     dsn: process.env.SENTRY_DSN, // Enter your project's DSN here
     config: {
@@ -132,13 +141,6 @@ export default {
           ],
         },
       },
-    },
-  },
-
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID,
-    autoTracking: {
-      screenview: true,
     },
   },
 

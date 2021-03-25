@@ -499,7 +499,7 @@
               </div>
               <footer class="mt-6">
                 <div class="flex">
-                  <div class="flex-shrink-0 inline-flex rounded-full">
+                  <div class="flex-shrink-0 rounded-full">
                     <img
                       class="h-14 w-14 mt-1 rounded-full shadow-lg"
                       src="@/assets/images/sante-3.jpg"
@@ -555,7 +555,7 @@
               </div>
               <footer class="mt-6">
                 <div class="flex">
-                  <div class="flex-shrink-0 inline-flex rounded-full">
+                  <div class="flex-shrink-0 rounded-full">
                     <img
                       class="mt-0 rounded-full shadow-lg"
                       src="@/assets/images/clement.jpeg"
