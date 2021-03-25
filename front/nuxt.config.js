@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   server: {
     host: process.env.HOST || 'localhost', // default: localhost,
@@ -66,6 +68,7 @@ export default {
     '@/plugins/axeptio.client.js',
     '@/plugins/apiengagement.client.js',
     '@/plugins/atinternet.client.js',
+    '@/plugins/google-analytics.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
   ],
 
@@ -84,6 +87,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/sitemap',
     'cookie-universal-nuxt',
     'nuxt-lazy-load',
     'portal-vue/nuxt',
@@ -109,6 +113,15 @@ export default {
     },
   },
 
+  'nuxt-compress': {
+    gzip: {
+      cache: true,
+    },
+    brotli: {
+      threshold: 10240,
+    },
+  },
+
   sentry: {
     dsn: process.env.SENTRY_DSN, // Enter your project's DSN here
     config: {
@@ -130,10 +143,6 @@ export default {
         },
       },
     },
-  },
-
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID,
   },
 
   redirect: [
@@ -214,5 +223,19 @@ export default {
         },
       },
     },
+  },
+
+  sitemap: () => {
+    return {
+      hostname: 'https://jeveuxaider.gouv.fr',
+      gzip: true,
+      exclude: [
+        '/**'
+      ],
+      routes: async () => {
+        const { data } = await axios.get(`${process.env.API_URL}/api/sitemap`)
+        return data
+      },
+    }
   },
 }

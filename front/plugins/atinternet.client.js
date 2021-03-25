@@ -15,11 +15,14 @@ export default ({app}) => {
     })()
 
     app.router.afterEach((to, from) => {
-      const tag = new ATInternet.Tracker.Tag()
-      tag.page.set({
-        name: to.name
-      })
-      tag.dispatch()
+      if(window.ATInternet && window.ATInternet.Tracker) {
+        const tag = new window.ATInternet.Tracker.Tag()
+
+        tag.page.set({
+          name: to.name
+        })
+        tag.dispatch()
+      }
     })
   })
 }

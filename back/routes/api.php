@@ -27,6 +27,7 @@ Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
+Route::get('sitemap', 'Api\ConfigController@sitemap');
 
 Route::get('collectivities', 'Api\CollectivityController@collectivities');
 Route::get('collectivities/all', 'Api\CollectivityController@all');
