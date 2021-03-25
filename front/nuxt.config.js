@@ -226,7 +226,7 @@ export default {
 
   sitemap: () => {
     return {
-      hostname: 'https://jeveuxaider.gouv.fr',
+      hostname: 'https://www.jeveuxaider.gouv.fr',
       gzip: true,
       exclude: [
         '/**'

@@ -54,7 +54,6 @@ export default {
     }
   },
   async fetch() {
-    console.log('this.$route.query.role', this.$route.query.role)
     const statistics = await this.$api.statistics(this.name, {
       type: 'light',
     })
