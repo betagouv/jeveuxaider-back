@@ -13,6 +13,12 @@ export default {
   head() {
     return {
       title: 'Charte de la Réserve Civique | JeVeuxAider.gouv.fr',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/charte-reserve-civique',
+        },
+      ],
       meta: [
         {
           hid: 'description',

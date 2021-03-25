@@ -217,6 +217,12 @@ export default {
   head() {
     return {
       title: `Devenez bénévole dans le département ${this.collectivity.name} | Je Veux Aider`,
+      link: [
+        {
+          rel: 'canonical',
+          href: `https://www.jeveuxaider.gouv.fr/territoires/departements/${this.collectivity.slug}`,
+        },
+      ],
       meta: [
         {
           hid: 'description',

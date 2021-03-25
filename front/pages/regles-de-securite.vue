@@ -142,6 +142,12 @@ export default {
   head() {
     return {
       title: 'Règles de sécurité | JeVeuxAider.gouv.fr',
+      link: [
+        {
+          rel: 'canonical',
+          href: `https://www.jeveuxaider.gouv.fr/regles-de-securite`,
+        },
+      ],
       meta: [
         {
           hid: 'description',

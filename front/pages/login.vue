@@ -205,6 +205,12 @@ export default {
   head() {
     return {
       title: 'Connectez-vous à votre espace personnel | JeVeuxAider.gouv.fr',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/login',
+        },
+      ],
       meta: [
         {
           hid: 'description',

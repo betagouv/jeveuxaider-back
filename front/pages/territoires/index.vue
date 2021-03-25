@@ -204,6 +204,12 @@ export default {
     return {
       title:
         'Inscrivez votre territoire sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat proposée par la Réserve Civique',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/territoires',
+        },
+      ],
       meta: [
         {
           hid: 'description',

@@ -1090,6 +1090,12 @@ export default {
     return {
       title:
         'Je Veux Aider | Devenez bénévole dans une association en quelques clics | La plateforme publique du bénévolat par la Réserve Civique',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/',
+        },
+      ],
       meta: [
         {
           hid: 'description',

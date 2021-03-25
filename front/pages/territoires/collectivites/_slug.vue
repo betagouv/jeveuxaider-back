@@ -223,6 +223,12 @@ export default {
   head() {
     return {
       title: `Bénévolat ${this.collectivity.name} | Rejoignez JeVeuxAider.gouv.fr`,
+      link: [
+        {
+          rel: 'canonical',
+          href: `https://www.jeveuxaider.gouv.fr/territoires/collectivites/${this.collectivity.slug}`,
+        },
+      ],
       meta: [
         {
           hid: 'description',

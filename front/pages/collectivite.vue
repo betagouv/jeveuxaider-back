@@ -344,6 +344,12 @@ export default {
     return {
       title:
         'Faites vivre la solidarité au sein de votre territoire avec JeVeuxAider.gouv.fr, la plateforme publique du bénévolat proposée par la Réserve Civique',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/collectivite',
+        },
+      ],
       meta: [
         {
           hid: 'description',

@@ -13,6 +13,12 @@ export default {
   head() {
     return {
       title: 'Mentions légales | JeVeuxAider.gouv.fr',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/mentions-legales',
+        },
+      ],
       meta: [
         {
           hid: 'description',

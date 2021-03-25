@@ -337,6 +337,12 @@ export default {
   head() {
     return {
       title: `Devenez bénévole dans une association pour ${this.thematiqueSeo} | Je Veux Aider`,
+      link: [
+        {
+          rel: 'canonical',
+          href: `https://www.jeveuxaider.gouv.fr/domaines-action/${this.thematique.slug}`,
+        },
+      ],
       meta: [
         {
           hid: 'description',

@@ -690,6 +690,12 @@ export default {
   head() {
     return {
       title: this.mission.name.substring(0, 80),
+      link: [
+        {
+          rel: 'canonical',
+          href: `https://www.jeveuxaider.gouv.fr/missions-benevolat/${this.mission.id}/${this.mission.slug}`,
+        },
+      ],
       meta: [
         {
           hid: 'description',
