@@ -55,6 +55,18 @@ export default {
           'bulletedList',
           'numberedList',
         ],
+        link: {
+          decorators: {
+            addTargetToExternalLinks: {
+              mode: 'automatic',
+              callback: (url) => /^(https?:)?\/\//.test(url),
+              attributes: {
+                target: '_blank',
+                rel: 'noopener noreferrer',
+              },
+            },
+          },
+        },
         // heading: {
         //   options: [
         //     {

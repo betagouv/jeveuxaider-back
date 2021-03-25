@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://jeveuxaider.gouv.fr/sitemap.xml
+Sitemap: https://www.jeveuxaider.gouv.fr/sitemap.xml
