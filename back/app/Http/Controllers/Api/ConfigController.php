@@ -152,6 +152,18 @@ class ConfigController extends Controller
                 'url' => '/territoires',
                 'lastmod' => Carbon::now()->startOfMonth(),
             ],
+            [
+                'url' => '/regles-de-securite',
+                'lastmod' => Carbon::now()->startOfMonth(),
+            ],
+            [
+                'url' => '/register/volontaire',
+                'lastmod' => Carbon::now()->startOfMonth(),
+            ],
+            [
+                'url' => '/register/responsable',
+                'lastmod' => Carbon::now()->startOfMonth(),
+            ],
         ];
 
         $missionsUrls = Mission::available()
@@ -164,7 +176,7 @@ class ConfigController extends Controller
                 ];
             });
 
-        $departementsUrls = Collectivity::where('type','department')
+        $departementsUrls = Collectivity::where('type', 'department')
             ->where('state', 'validated')
             ->where('published', true)
             ->get()
@@ -176,7 +188,7 @@ class ConfigController extends Controller
                 ];
             });
 
-        $collectivitesUrls = Collectivity::where('type','department')
+        $collectivitesUrls = Collectivity::where('type', 'department')
             ->where('state', 'validated')
             ->where('published', true)
             ->get()
