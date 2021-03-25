@@ -81,7 +81,6 @@ export default {
     '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
-    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
