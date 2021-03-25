@@ -14,6 +14,9 @@ class FiltersProfileSearch implements Filter
                 $query
                     ->where('id', $value);
             } else {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
                 $query->where('first_name', 'ILIKE', '%' . $value . '%')
                     ->orWhere('last_name', 'ILIKE', '%' . $value . '%')
                     ->orWhere('email', 'ILIKE', '%' . $value . '%');

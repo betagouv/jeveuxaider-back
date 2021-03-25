@@ -12,11 +12,14 @@ class FiltersStructureSearch implements Filter
         return $query->where(function ($query) use ($value, $property) {
             if (is_numeric($value)) {
                 $query
-                    ->where('name', 'ILIKE', '%' . $value . '%')
-                    ->orWhere('id', $value);
+                ->where('name', 'ILIKE', '%' . $value . '%')
+                ->orWhere('id', $value);
             } else {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
                 $query
-                    ->where('name', 'ILIKE', '%' . $value . '%');
+                ->where('name', 'ILIKE', '%' . $value . '%');
             }
         });
     }

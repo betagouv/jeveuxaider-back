@@ -11,6 +11,9 @@ class FiltersParticipationSearch implements Filter
     {
         return $query
             ->where(function ($query) use ($value, $property) {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
                 $query->whereHas('mission', function (Builder $query) use ($value) {
                     $query
                         ->where('name', 'ILIKE', '%' . $value . '%')

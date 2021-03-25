@@ -14,6 +14,9 @@ class FiltersMissionSearch implements Filter
                 $query
                     ->where('id', $value);
             } else {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                }
                 $query
                 ->where('name', 'ILIKE', '%' . $value . '%')
                 ->orWhereHas('structure', function (Builder $query) use ($value) {
