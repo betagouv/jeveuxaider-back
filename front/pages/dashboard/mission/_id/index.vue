@@ -113,6 +113,7 @@ export default {
       return error({ statusCode: 403 })
     }
     const mission = await $api.getMission(params.id)
+    console.log('store.getters.contextRole', store.getters.contextRole)
 
     if (store.getters.contextRole == 'responsable') {
       if (store.getters.structure.id != mission.structure_id) {
@@ -134,84 +135,7 @@ export default {
       tableData: [],
     }
   },
-  methods: {
-    // async fetchRows() {
-    //   const response = await getMission(this.id)
-    //   this.mission = response.data
-    //   const responseStructure = await getMissionStructure(this.mission.id)
-    //   this.structure = responseStructure.data
-    //   if (this.tab == 'history') {
-    //     return fetchActivities({
-    //       'filter[subject_id]': this.id,
-    //       'filter[subject_type]': 'Mission',
-    //       page: this.$route.query.page || 1,
-    //     })
-    //   }
-    //   if (this.tab == 'participations') {
-    //     return fetchParticipations({
-    //       'filter[mission.id]': this.id,
-    //       page: this.$route.query.page || 1,
-    //     })
-    //   }
-    // },
-    // handleCommand(command) {
-    //   if (command.action == 'delete') {
-    //     this.handleDelete()
-    //   } else if (command.action == 'clone') {
-    //     this.hanldleClone()
-    //   } else {
-    //     this.$router.push(command)
-    //   }
-    // },
-    // hanldleClone() {
-    //   this.loading = true
-    //   cloneMission(this.mission.id).then((response) => {
-    //     this.$router
-    //       .push({
-    //         path: `/dashboard/mission/${response.data.id}/edit`,
-    //       })
-    //       .then(() => {
-    //         this.$message({
-    //           message: 'La mission a été dupliquée !',
-    //           type: 'success',
-    //         })
-    //       })
-    //   })
-    // },
-    // handleDelete() {
-    //   if (this.mission.participations_total > 0) {
-    //     this.$alert(
-    //       'Il est impossible de supprimer une mission déjà assigner à un ou plusieurs bénévoles.',
-    //       'Supprimer la mission',
-    //       {
-    //         confirmButtonText: 'Retour',
-    //         type: 'warning',
-    //         center: true,
-    //       }
-    //     )
-    //   } else {
-    //     this.$confirm(
-    //       `La mission ${this.mission.name} sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
-    //       'Supprimer la mission',
-    //       {
-    //         confirmButtonText: 'Supprimer',
-    //         confirmButtonClass: 'el-button--danger',
-    //         cancelButtonText: 'Annuler',
-    //         center: true,
-    //         type: 'error',
-    //       }
-    //     ).then(() => {
-    //       deleteMission(this.mission.id).then(() => {
-    //         this.$message({
-    //           type: 'success',
-    //           message: `La mission ${this.mission.name} a été supprimée.`,
-    //         })
-    //         this.$router.push('/dashboard/missions')
-    //       })
-    //     })
-    //   }
-    // },
-  },
+  methods: {},
 }
 </script>
 
