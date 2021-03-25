@@ -43,9 +43,7 @@ export default {
           code: this.$route.query.code,
         })
         .then((response) => {
-          this.$store.commit('auth/setTokens', {
-            access_token: response.data.accessToken,
-          })
+          this.$store.commit('auth/setAccessToken', response.data.accessToken)
           this.$store.dispatch('auth/fetchUser').then(() => {
             if (this.$store.getters.noRole === false) {
               this.$router.push('/dashboard')
