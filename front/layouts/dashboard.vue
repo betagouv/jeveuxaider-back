@@ -6,7 +6,7 @@
     >
       <Sidebar class="bg-gray-100" />
       <div class="main-container bg-white overflow-y-auto w-full">
-        <Nuxt class="app-main pt-8" />
+        <Nuxt :nuxt-child-key="$route.fullPath" class="app-main pt-8" />
       </div>
       <portal-target
         v-if="$store.getters['volet/active'] && $store.getters['volet/row']"

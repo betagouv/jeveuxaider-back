@@ -26,7 +26,7 @@
             <div
               class="flex-1 px-1 lg:px-12 pt-2 lg:ml-12 lg:border-l lg:border-gray-200 max-w-2xl"
             >
-              <Nuxt />
+              <Nuxt :nuxt-child-key="$route.fullPath" />
             </div>
           </div>
         </div>

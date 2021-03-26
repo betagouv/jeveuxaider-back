@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="main-content flex-grow flex flex-col">
-      <Nuxt class="app-main" />
+      <Nuxt :nuxt-child-key="$route.fullPath" class="app-main" />
     </div>
   </el-container>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 overflow-x-hidden">
     <AppHeader />
-    <Nuxt />
+    <Nuxt :nuxt-child-key="$route.fullPath" />
     <AppFooter />
     <transition name="fade">
       <LazySearchOverlay
