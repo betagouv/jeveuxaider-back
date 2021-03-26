@@ -97,17 +97,19 @@ export default {
       })
         .then(() => {
           this.form.state = state
-          this.$api
-            .updateStructure(this.form.id, this.form)
-            .then((response) => {
-              this.$message.success({
-                message: "Le statut de l'organisation a été mis à jour",
-              })
-              this.$emit('updated', response.data)
-            })
-            .catch((error) => {
-              this.errors = error.response.data.errors
-            })
+          console.log('changement de statut id', this.form.id)
+          console.log('changement de statut form', this.form)
+          // this.$api
+          //   .updateStructure(this.form.id, this.form)
+          //   .then((response) => {
+          //     this.$message.success({
+          //       message: "Le statut de l'organisation a été mis à jour",
+          //     })
+          //     this.$emit('updated', response.data)
+          //   })
+          //   .catch((error) => {
+          //     this.errors = error.response.data.errors
+          //   })
         })
         .catch(() => {})
     },

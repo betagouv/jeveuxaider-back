@@ -113,7 +113,6 @@ export default {
       return error({ statusCode: 403 })
     }
     const mission = await $api.getMission(params.id)
-    console.log('store.getters.contextRole', store.getters.contextRole)
 
     if (store.getters.contextRole == 'responsable') {
       if (store.getters.structure.id != mission.structure_id) {
