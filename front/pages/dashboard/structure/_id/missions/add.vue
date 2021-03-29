@@ -59,11 +59,9 @@ export default {
     }
   },
   async fetch() {
-    this.step = this.$router.history.current.query.step || 1
-    this.domaine_id =
-      parseInt(this.$router.history.current.query.domaine) || null
-    this.template_id =
-      parseInt(this.$router.history.current.query.template) || null
+    this.step = this.$route.query.step || 1
+    this.domaine_id = parseInt(this.$route.query.domaine) || null
+    this.template_id = parseInt(this.$route.query.template) || null
 
     if (this.domaine_id) {
       const templates = await this.$api.fetchMissionTemplates({
@@ -83,22 +81,16 @@ export default {
         `/dashboard/structure/${this.$route.params.id}/missions/add?step=2&domaine=${domaineId}`
       )
     },
-    async onSelectTemplate(template) {
-      const structure = await this.$api.getStructure(this.$route.params.id)
-      this.form = {
-        domaine_id: template ? null : this.domaine_id,
-        template_id: template ? template.id : null,
-        template: template || null,
-        state: template ? 'Validée' : 'En attente de validation', // TODO : cette logique devrait être côté PHP setState()
-        responsable_id: parseInt(this.$store.getters.user.profile.id),
-        structure_id: parseInt(this.$route.params.id),
-        structure,
+    onSelectTemplate(template) {
+      if (template) {
+        this.$router.push(
+          `/dashboard/structure/${this.$route.params.id}/missions/add?step=3&template=${template.id}`
+        )
+      } else {
+        this.$router.push(
+          `/dashboard/structure/${this.$route.params.id}/missions/add?step=3`
+        )
       }
-      this.$router.push(
-        `/dashboard/structure/${
-          this.$route.params.id
-        }/missions/add?step=3&template=${template ? template.id : null}`
-      )
     },
   },
 }
