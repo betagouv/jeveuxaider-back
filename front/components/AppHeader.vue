@@ -129,6 +129,12 @@
                 Trouver une mission
               </button>
               <nuxt-link
+                to="/missions-benevolat?refinementList%5Btype%5D%5B0%5D=Mission%20à%20distance"
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+              >
+                À distance
+              </nuxt-link>
+              <nuxt-link
                 v-if="!$store.getters.isLogged"
                 to="/register/responsable"
                 class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"

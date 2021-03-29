@@ -75,8 +75,16 @@
             class="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
             role="menuitem"
             @click.native="closeMobileMenu"
-            >Organisations</nuxt-link
+            >Publier une mission</nuxt-link
           >
+          <nuxt-link
+            to="/missions-benevolat?refinementList%5Btype%5D%5B0%5D=Mission%20à%20distance"
+            role="menuitem"
+            class="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            @click.native="closeMobileMenu"
+          >
+            Les missions à distance
+          </nuxt-link>
           <nuxt-link
             to="/territoires"
             class="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
