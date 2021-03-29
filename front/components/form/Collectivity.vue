@@ -13,7 +13,6 @@
         :disabled="!canEditField"
         placeholder="Nom de la collectivité"
       />
-      <ItemDescription> Accessible à l'adresse : {{ url }} </ItemDescription>
     </el-form-item>
 
     <el-form-item label="Titre de la page" prop="title">
@@ -198,12 +197,6 @@ export default {
     }
   },
   computed: {
-    url() {
-      const slug = this.$options.filters.slugify(this.form.name)
-      return this.form.type == 'department'
-        ? `${this.$config.appUrl}/territoires/departements/${slug}`
-        : `${this.$config.appUrl}/territoires/collectivites/${slug}`
-    },
     canEditField() {
       if (this.form.state != 'validated') {
         return true
