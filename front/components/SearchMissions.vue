@@ -3,16 +3,10 @@
     <AisInstantSearchSsr ref="AisInstantSearchSsr">
       <AisConfigure
         ref="aisConfigure"
-        :hits-per-page.camel="18"
+        :hits-per-page.camel="type ? 18 : 17"
         :around-lat-lng.camel="aroundLatLng"
         :around-lat-lng-via-i-p.camel="
-          aroundLatLng ||
-          (routeState &&
-            routeState.refinementList &&
-            routeState.refinementList.type &&
-            routeState.refinementList.type[0] == 'Mission à distance')
-            ? false
-            : true
+          aroundLatLng || type == 'Mission à distance' ? false : true
         "
         :around-radius.camel="aroundRadius"
         :get-ranking-info.camel="true"
@@ -232,27 +226,68 @@
                     :class-names="{
                       'ais-Hits-list': 'flex flex-wrap',
                     }"
+                    :transform-items="addRemoteMissionsBanner"
                   >
                     <div
                       slot="item"
                       slot-scope="{ item }"
-                      class="flex flex-col flex-1"
+                      class="flex flex-col flex-1 h-full"
                     >
-                      <a
-                        v-if="item.provider == 'api_engagement'"
-                        class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                        :href="item.application_url"
-                        target="_blank"
-                      >
-                        <CardMission :mission="item" />
-                      </a>
                       <nuxt-link
-                        v-else
-                        class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-                        :to="`/missions-benevolat/${item.id}/${item.slug}`"
+                        v-if="item.isBannerRemoteMissions"
+                        to="/missions-benevolat?refinementList[type][0]=Mission à distance"
+                        class="banner-remote relative h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden cursor-pointer group"
                       >
-                        <CardMission :mission="item" />
+                        <img
+                          src="/images/banner_a_distance.jpg"
+                          srcset="/images/banner_a_distance@2x.jpg 2x"
+                          alt="Engagez-vous à distance"
+                          class="background absolute object-cover w-full h-full transition duration-300 ease-in-out"
+                        />
+
+                        <div
+                          class="foreground text-white relative flex flex-col h-full items-center text-center px-4 py-8"
+                        >
+                          <img
+                            src="/images/computer.svg"
+                            alt="Télébénévolat"
+                            class="my-4"
+                          />
+                          <div
+                            class="text-3xl font-extrabold leading-none mb-4"
+                          >
+                            Engagez-vous<br />à distance
+                          </div>
+                          <div class="text-xl font-bold mt-auto">
+                            Près de 1000 missions de télébénévolat disponibles
+                          </div>
+
+                          <div
+                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-green-400 group-hover:bg-green-500 transition duration-150 ease-in-out mt-6 font-extrabold inline-flex justify-center items-center"
+                            style="width: 212px; height: 45px"
+                          >
+                            Missions à distance
+                          </div>
+                        </div>
                       </nuxt-link>
+
+                      <template v-else>
+                        <a
+                          v-if="item.provider == 'api_engagement'"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :href="item.application_url"
+                          target="_blank"
+                        >
+                          <CardMission :mission="item" />
+                        </a>
+                        <nuxt-link
+                          v-else
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :to="`/missions-benevolat/${item.id}/${item.slug}`"
+                        >
+                          <CardMission :mission="item" />
+                        </nuxt-link>
+                      </template>
                     </div>
                   </AisHits>
 
@@ -697,6 +732,17 @@ export default {
     writeUrl() {
       this.$router.push(stringifyQuery(this.routeState))
     },
+    addRemoteMissionsBanner(items) {
+      if (!this.type && items.length >= 7) {
+        items.splice(7, 0, { isBannerRemoteMissions: true })
+      }
+
+      // Hack to prevent banner displayed twice
+      if (items[8] && items[8].isBannerRemoteMissions) {
+        items.splice(8, 1)
+      }
+      return items
+    },
   },
 }
 </script>
@@ -814,4 +860,13 @@ export default {
           .el-radio__inner
             &::after
               filter: grayscale(1) invert(1)
+
+::v-deep .banner-remote
+  -webkit-mask-image: -webkit-radial-gradient(white, black)
+  &:hover
+    .background
+      transform: scale(1.05)
+  .foreground
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 53.08%, rgba(0, 0, 0, 0.3) 100%)
+    @apply h-full
 </style>

@@ -183,6 +183,7 @@ export default {
 <style lang="sass" scoped>
 .card--mission
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, .05)
+  -webkit-mask-image: -webkit-radial-gradient(white, black)
   &:hover
     .thumbnail--wrapper
       img
