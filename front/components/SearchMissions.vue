@@ -868,6 +868,7 @@ export default {
 ::v-deep .banner-remote
   backface-visibility: hidden
   transform: translate3d(0, 0, 0)
+  will-change: transform
   &:hover
     .background
       transform: scale(1.05)
