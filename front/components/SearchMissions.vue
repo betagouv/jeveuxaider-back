@@ -864,7 +864,8 @@ export default {
               filter: grayscale(1) invert(1)
 
 ::v-deep .banner-remote
-  -webkit-mask-image: -webkit-radial-gradient(white, black)
+  backface-visibility: hidden
+  transform: translate3d(0, 0, 0)
   &:hover
     .background
       transform: scale(1.05)
