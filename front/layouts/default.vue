@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 overflow-x-hidden">
     <AppHeader />
-    <Nuxt :nuxt-child-key="$route.fullPath" />
+    <Nuxt :nuxt-child-key="nuxtChildKey" />
     <AppFooter />
     <transition name="fade">
       <LazySearchOverlay
@@ -21,5 +21,12 @@
 <script>
 export default {
   name: 'DefaultLayout',
+  computed: {
+    nuxtChildKey() {
+      return this.$route.name != 'missions-benevolat'
+        ? this.$route.fullPath
+        : null
+    },
+  },
 }
 </script>
