@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Observers\StructureObserver;
 use App\Models\Structure;
 use App\Observers\MissionObserver;
+use App\Observers\MissionTemplateObserver;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -19,6 +20,7 @@ use App\Models\Collectivity;
 use App\Models\Conversation;
 use App\Models\Invitation;
 use App\Models\Message;
+use App\Models\MissionTemplate;
 use App\Models\User;
 use App\Observers\ActivityObserver;
 use App\Observers\ConversationObserver;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Structure::observe(StructureObserver::class);
         Mission::observe(MissionObserver::class);
+        MissionTemplate::observe(MissionTemplateObserver::class);
         Participation::observe(ParticipationObserver::class);
         Collectivity::observe(CollectivityObserver::class);
         Profile::observe(ProfileObserver::class);

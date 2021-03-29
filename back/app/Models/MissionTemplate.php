@@ -39,7 +39,7 @@ class MissionTemplate extends Model implements HasMedia
     public function getImageAttribute()
     {
         $media = $this->getFirstMedia('templates');
-        
+
         if ($media) {
             return $media->getFullUrl();
         }
