@@ -551,13 +551,33 @@ export default {
       return this.domaines.filter((item) => item.id != this.mainDomaineId)
     },
   },
-  created() {
+  async created() {
     this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
       this.domaines = response.data.data
     })
     // Only if not a template
     if (!this.form.thumbnail && !this.form.template) {
       this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)
+    }
+
+    // ONLY FORM ADD
+    if (!this.form.id) {
+      const structure = await this.$api.getStructure(this.$route.params.id)
+      this.$set(this.form, 'structure', structure)
+      this.$set(
+        this.form,
+        'responsable_id',
+        parseInt(this.$store.getters.user.profile.id)
+      )
+      this.$set(this.form, 'structure_id', parseInt(this.$route.params.id))
+      if (this.$route.query.template) {
+        const template = await this.$api.getMissionTemplate(
+          this.$route.query.template
+        )
+        this.$set(this.form, 'template_id', template.id)
+        this.$set(this.form, 'template', template)
+        this.$set(this.form, 'state', 'Validée')
+      }
     }
   },
   methods: {

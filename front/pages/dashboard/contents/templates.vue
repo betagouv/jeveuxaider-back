@@ -18,12 +18,56 @@
     <div class="px-12 mb-12">
       <TabsContents index="/dashboard/contents/templates" />
     </div>
+    <!-- <div class="px-12 mb-3 flex flex-wrap">
+      <div class="flex w-full mb-4">
+        <SearchFiltersQueryMain
+          name="search"
+          placeholder="Rechercher par mots clés..."
+          :initial-value="query['filter[search]']"
+          @changed="onFilterChange"
+        />
+      </div>
+    </div> -->
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
         <SearchFiltersQueryMain
           name="search"
           placeholder="Rechercher par mots clés..."
           :initial-value="query['filter[search]']"
+          @changed="onFilterChange"
+        />
+        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+          <el-button
+            icon="el-icon-s-operation"
+            class="ml-4"
+            @click="showFilters = !showFilters"
+          >
+            Filtres avancés
+          </el-button>
+        </el-badge>
+        <el-button
+          v-else
+          icon="el-icon-s-operation"
+          class="ml-4"
+          @click="showFilters = !showFilters"
+        >
+          Filtres avancés
+        </el-button>
+      </div>
+      <div v-if="showFilters" class="flex flex-wrap">
+        <SearchFiltersQuery
+          type="select"
+          name="domaine.id"
+          :value="query['filter[domaine.id]']"
+          label="Domaines d'action"
+          :options="
+            domaines.map((domaine) => {
+              return {
+                label: domaine.name.fr,
+                value: domaine.id,
+              }
+            })
+          "
           @changed="onFilterChange"
         />
       </div>
@@ -138,16 +182,19 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
-  asyncData({ $api, params, store, error }) {
+  async asyncData({ $api, params, store, error }) {
     if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
+    }
+    const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    return {
+      domaines: domaines.data.data,
     }
   },
   data() {
     return {}
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchMissionTemplates(this.query)
     this.tableData = data.data
     this.totalRows = data.total

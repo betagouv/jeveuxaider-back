@@ -10,10 +10,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Auth;
 use Algolia\AlgoliaSearch\PlacesClient;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Collectivity extends Model implements HasMedia
 {
-    use InteractsWithMedia, LogsActivity;
+    use InteractsWithMedia, LogsActivity, HasSlug;
 
     protected $table = 'collectivities';
 
@@ -108,10 +110,11 @@ class Collectivity extends Model implements HasMedia
         return null;
     }
 
-    public function setNameAttribute($value)
+    public function getSlugOptions() : SlugOptions
     {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -158,12 +161,12 @@ class Collectivity extends Model implements HasMedia
                     }
                     return $query;
                 }
-                    return $query->where('id', -1); // Hack pour ne rien retourner
+                return $query->where('id', -1); // Hack pour ne rien retourner
 
             break;
             case 'referent_regional':
-
-                $departments = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];;
+                $departments = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
+                ;
                 $zips = self::where('type', 'commune')
                     ->get()
                     ->pluck('zips')
@@ -179,7 +182,7 @@ class Collectivity extends Model implements HasMedia
                     }
                     return $query;
                 }
-                    return $query->where('id', -1); // Hack pour ne rien retourner
+                return $query->where('id', -1); // Hack pour ne rien retourner
 
             break;
             case 'responsable_collectivity':

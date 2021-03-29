@@ -97,7 +97,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchParticipations({
       'filter[mission.id]': this.$route.params.id,
       page: this.$route.query.page || 1,

@@ -77,7 +77,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchActivities({
       'filter[subject_id]': this.$route.params.id,
       'filter[subject_type]': 'Structure',
@@ -100,5 +99,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>

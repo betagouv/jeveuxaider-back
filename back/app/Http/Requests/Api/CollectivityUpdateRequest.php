@@ -20,7 +20,6 @@ class CollectivityUpdateRequest extends CollectivityRequest
         return [
             'name' => [
                 'required',
-                Rule::unique('collectivities')->ignore($collectivity->id),
                 'min:2',
                 'max:255',
             ],

@@ -72,7 +72,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchActivities({
       'filter[causer_id]': this.profile.user_id,
       'filter[causer_type]': 'User',

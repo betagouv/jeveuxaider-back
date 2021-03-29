@@ -72,7 +72,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchActivities({
       'filter[subject_id]': this.$route.params.id,
       'filter[subject_type]': 'Profile',

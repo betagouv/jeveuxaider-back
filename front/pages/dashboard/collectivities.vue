@@ -104,10 +104,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="updated_at" label="Créée le" width="120">
+      <el-table-column label="Modifiée le" width="150">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
-            {{ scope.row.created_at | fromNow }}
+            {{ scope.row.updated_at | fromNow }}
           </div>
         </template>
       </el-table-column>
@@ -194,7 +194,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchCollectivities(this.query)
     this.tableData = data.data
     this.totalRows = data.total

@@ -217,7 +217,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchProfiles(
       {
         'filter[match_mission]': this.mission.id,

@@ -34,7 +34,7 @@ class CollectivityController extends Controller
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
                 AllowedFilter::custom('department', new FiltersCollectivitiesDepartment),
             ])
-            ->defaultSort('-created_at')
+            ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
@@ -47,7 +47,7 @@ class CollectivityController extends Controller
                 AllowedFilter::custom('search', new FiltersCollectivitySearch),
                 AllowedFilter::custom('department', new FiltersCollectivitiesDepartment),
             ])
-            ->defaultSort('-created_at')
+            ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
@@ -59,7 +59,7 @@ class CollectivityController extends Controller
                 AllowedFilter::exact('published'),
                 AllowedFilter::custom('search', new FiltersTitleBodyNameSearch),
             ])
-            ->defaultSort('-created_at')
+            ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
@@ -295,10 +295,10 @@ class CollectivityController extends Controller
         switch ($request->input('type')) {
             case 'missions':
                 $model = new Mission();
-            break;
+                break;
             case 'participations':
                 $model = new Participation();
-            break;
+                break;
         }
 
         for ($i = 1; $i < 13; $i++) {

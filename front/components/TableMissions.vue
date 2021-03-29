@@ -65,12 +65,12 @@
     </el-table-column>
     <el-table-column
       v-if="!$store.getters['volet/active']"
-      label="Créée le"
-      width="120"
+      label="Modifiée le"
+      width="150"
     >
       <template slot-scope="scope">
         <div class="text-sm text-secondary break-normal">
-          {{ scope.row.created_at | fromNow }}
+          {{ scope.row.updated_at | fromNow }}
         </div>
       </template>
     </el-table-column>

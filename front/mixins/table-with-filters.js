@@ -6,7 +6,7 @@ export default {
   },
   data() {
     return {
-      query: {},
+      query: this.$route.query,
       totalRows: 0,
       fromRow: 0,
       toRow: 0,
@@ -14,20 +14,28 @@ export default {
       tableData: [],
     }
   },
+  created() {
+    if (this.activeFilters > 0) {
+      this.showFilters = true
+    }
+  },
   computed: {
     activeFilters() {
       let count = 0
-      Object.entries(this.query).forEach(([key, value]) => {
-        if (key != 'page' && key != 'filter[search]') {
-          if (
-            (!isEmpty(value) && value) ||
-            isBoolean(value) ||
-            isNumber(value)
-          ) {
-            count++
+      if (this.query) {
+        Object.entries(this.query).forEach(([key, value]) => {
+          if (key != 'page' && key != 'filter[search]') {
+            if (
+              (!isEmpty(value) && value) ||
+              isBoolean(value) ||
+              isNumber(value)
+            ) {
+              count++
+            }
           }
-        }
-      })
+        })
+      }
+
       return count
     },
   },
