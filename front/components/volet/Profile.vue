@@ -133,7 +133,6 @@ export default {
             this.$message.success({
               message: 'Le profil a été mis à jour',
             })
-            console.log('updateProfile', response)
             this.$emit('updated', response)
           })
           .catch(() => {

@@ -258,8 +258,6 @@ export default {
           dangerouslyUseHTMLString: true,
         }
       ).then(() => {
-        console.log('mission', this.mission)
-        console.log('benevole', benevole)
         this.$api
           .addNotificationBenevole(this.mission.id, benevole.id)
           .then(() => {
