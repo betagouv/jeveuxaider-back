@@ -15,6 +15,7 @@
 
       <!-- Header -->
       <div
+        ref="header"
         class="header pt-4 lg:pt-7 pb-8 text-white"
         :class="[`bg-${color}`, { 'custom-color': $options.propsData.color }]"
       >
@@ -573,6 +574,7 @@ export default {
     '$route.query'() {
       this.readUrl()
       this.handleGeoSearch()
+      this.scrollToTop()
     },
   },
   serverPrefetch() {
@@ -605,7 +607,7 @@ export default {
   },
   methods: {
     scrollToTop() {
-      this.$refs.contentWrapper.scrollIntoView()
+      this.$refs.header.scrollIntoView()
     },
     sizeListener() {
       if (window.innerWidth >= 1024) {
