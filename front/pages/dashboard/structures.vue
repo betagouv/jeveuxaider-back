@@ -142,17 +142,17 @@
           </nuxt-link>
         </template>
       </el-table-column>
-      <el-table-column label="Créée le" min-width="120">
+      <el-table-column label="Modifiée le" min-width="150">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
-            {{ scope.row.created_at | fromNow }}
+            {{ scope.row.updated_at | fromNow }}
           </div>
         </template>
       </el-table-column>
       <el-table-column
         prop="state"
         label="Statut"
-        min-width="250"
+        width="250"
         class-name="dropdown-wrapper"
       >
         <template slot-scope="scope">

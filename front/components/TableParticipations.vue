@@ -62,7 +62,7 @@
     <el-table-column
       prop="state"
       label="Statut"
-      min-width="250"
+      width="250"
       class-name="dropdown-wrapper"
     >
       <template slot-scope="scope">
