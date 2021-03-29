@@ -194,7 +194,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchCollectivities(this.query)
     this.tableData = data.data
     this.totalRows = data.total

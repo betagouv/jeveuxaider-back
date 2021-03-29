@@ -207,7 +207,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchProfiles(
       {
         ...this.query,

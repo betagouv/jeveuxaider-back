@@ -86,7 +86,6 @@ export default {
     }
   },
   async fetch() {
-    this.query = this.$route.query
     const { data } = await this.$api.fetchMissions({
       'filter[structure_id]': this.$route.params.id,
       page: this.$route.query.page || 1,
@@ -148,5 +147,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>
