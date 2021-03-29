@@ -3,23 +3,10 @@
     <AisInstantSearchSsr ref="AisInstantSearchSsr">
       <AisConfigure
         ref="aisConfigure"
-        :hits-per-page.camel="
-          routeState &&
-          routeState.refinementList &&
-          routeState.refinementList.type &&
-          routeState.refinementList.type[0] == 'Mission à distance'
-            ? 18
-            : 17
-        "
+        :hits-per-page.camel="type ? 18 : 17"
         :around-lat-lng.camel="aroundLatLng"
         :around-lat-lng-via-i-p.camel="
-          aroundLatLng ||
-          (routeState &&
-            routeState.refinementList &&
-            routeState.refinementList.type &&
-            routeState.refinementList.type[0] == 'Mission à distance')
-            ? false
-            : true
+          aroundLatLng || type == 'Mission à distance' ? false : true
         "
         :around-radius.camel="aroundRadius"
         :get-ranking-info.camel="true"
@@ -746,7 +733,7 @@ export default {
       this.$router.push(stringifyQuery(this.routeState))
     },
     addRemoteMissionsBanner(items) {
-      if (this.type != 'Mission à distance' && items.length >= 7) {
+      if (!this.type && items.length >= 7) {
         items.splice(7, 0, { isBannerRemoteMissions: true })
       }
 
