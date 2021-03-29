@@ -186,6 +186,11 @@ class Mission extends Model
         return $this->template_id ? $this->template->subtitle : $value;
     }
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $this->attributes['template_id'] ? null : $value;
+    }
+
     public function getDescriptionAttribute($value)
     {
         return $this->template_id ? $this->template->description : $value;

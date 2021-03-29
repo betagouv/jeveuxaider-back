@@ -164,7 +164,6 @@ export default {
   },
   methods: {
     handleLogout() {
-      console.log('handleLogout')
       this.closeMobileMenu()
       this.$store.dispatch('auth/logout')
     },

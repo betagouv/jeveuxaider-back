@@ -89,7 +89,7 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit({ commit }, { store }) {
-    console.log('nuxtServerInit')
+    // console.log('nuxtServerInit')
     await store.dispatch('bootstrap')
     commit(
       'auth/setAccessTokenImpersonate',
