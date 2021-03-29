@@ -15,6 +15,7 @@
 
       <!-- Header -->
       <div
+        ref="header"
         class="header pt-4 lg:pt-7 pb-8 text-white"
         :class="[`bg-${color}`, { 'custom-color': $options.propsData.color }]"
       >
@@ -573,6 +574,7 @@ export default {
     '$route.query'() {
       this.readUrl()
       this.handleGeoSearch()
+      this.scrollToTop()
     },
   },
   serverPrefetch() {
@@ -605,7 +607,9 @@ export default {
   },
   methods: {
     scrollToTop() {
-      this.$refs.contentWrapper.scrollIntoView()
+      if (window && window.scrollY > 290) {
+        this.$refs.header.scrollIntoView()
+      }
     },
     sizeListener() {
       if (window.innerWidth >= 1024) {
@@ -862,7 +866,9 @@ export default {
               filter: grayscale(1) invert(1)
 
 ::v-deep .banner-remote
-  -webkit-mask-image: -webkit-radial-gradient(white, black)
+  backface-visibility: hidden
+  transform: translate3d(0, 0, 0)
+  will-change: transform
   &:hover
     .background
       transform: scale(1.05)
