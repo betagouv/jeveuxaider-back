@@ -233,10 +233,10 @@
                       slot-scope="{ item }"
                       class="flex flex-col flex-1 h-full"
                     >
-                      <div
+                      <nuxt-link
                         v-if="item.isBannerRemoteMissions"
+                        to="/missions-benevolat?refinementList[type][0]=Mission à distance"
                         class="banner-remote relative h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden cursor-pointer group"
-                        @click="onBannerRemoteMissionsClick()"
                       >
                         <img
                           src="/images/banner_a_distance.jpg"
@@ -269,7 +269,7 @@
                             Missions à distance
                           </div>
                         </div>
-                      </div>
+                      </nuxt-link>
 
                       <template v-else>
                         <a
@@ -742,10 +742,6 @@ export default {
         items.splice(8, 1)
       }
       return items
-    },
-    onBannerRemoteMissionsClick() {
-      this.setTypeAndHandleRadius('Mission à distance')
-      this.writeUrl()
     },
   },
 }
