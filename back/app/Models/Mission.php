@@ -188,7 +188,7 @@ class Mission extends Model
 
     public function setNameAttribute($value)
     {
-        $this->attributes['name'] = $this->attributes['template_id'] ? null : $value;
+        $this->attributes['name'] = isset($this->attributes['template_id']) ? null : $value;
     }
 
     public function getDescriptionAttribute($value)
