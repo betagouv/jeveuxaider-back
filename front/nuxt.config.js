@@ -70,6 +70,7 @@ export default {
     '@/plugins/atinternet.client.js',
     '@/plugins/google-analytics.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
+    '@/plugins/plausible.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -93,7 +94,6 @@ export default {
     '@nuxtjs/dayjs',
     '@nuxtjs/redirect-module',
     '@nuxtjs/sentry',
-    'vue-plausible',
   ],
 
   dayjs: {
@@ -127,11 +127,6 @@ export default {
     config: {
       lazy: true,
     }, // Additional config
-  },
-
-  plausible: {
-    domain: 'jeveuxaider.gouv.fr',
-    trackLocalhost: true,
   },
 
   tailwindcss: {
