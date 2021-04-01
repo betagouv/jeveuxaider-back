@@ -2,9 +2,9 @@ import Plausible from 'plausible-tracker'
 
 export default (context, inject) => {
   const options = {
-    domain: 'jeveuxaider.gouvd.fr',
+    domain: 'jeveuxaider.gouv.fr',
     hashMode: false,
-    trackLocalhost: true,
+    trackLocalhost: false,
     apiHost: 'https://plausible.io',
   }
   const plausible = Plausible(options)
