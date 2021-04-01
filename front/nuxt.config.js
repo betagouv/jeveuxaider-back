@@ -93,6 +93,7 @@ export default {
     '@nuxtjs/dayjs',
     '@nuxtjs/redirect-module',
     '@nuxtjs/sentry',
+    'vue-plausible',
   ],
 
   dayjs: {
@@ -126,6 +127,11 @@ export default {
     config: {
       lazy: true,
     }, // Additional config
+  },
+
+  plausible: {
+    domain: 'jeveuxaider.gouv.fr',
+    trackLocalhost: true,
   },
 
   tailwindcss: {
