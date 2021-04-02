@@ -544,7 +544,7 @@ export default {
     },
     mainDomaineId() {
       return this.form.template
-        ? this.form.template.domaine.id
+        ? this.form.template.domaine_id
         : this.form.domaine_id
     },
     secondaryDomaines() {
