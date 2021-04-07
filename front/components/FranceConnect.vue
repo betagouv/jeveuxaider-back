@@ -46,6 +46,7 @@ export default {
           this.$cookies.set('access-token', response.data.accessToken, {
             maxAge: 3600 * 24 * 365,
             path: '/',
+            secure: true,
           })
           this.$store.commit('auth/setAccessToken', response.data.accessToken)
           this.$store.dispatch('auth/fetchUser').then(() => {
