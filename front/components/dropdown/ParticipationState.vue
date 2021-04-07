@@ -137,8 +137,8 @@ export default {
               this.$message.success({
                 message: 'Le statut de la participation a été mis à jour',
               })
-              this.loading = false
               this.$emit('updated', response.data)
+              this.loading = false
             })
             .catch((error) => {
               this.loading = false
