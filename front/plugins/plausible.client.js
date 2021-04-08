@@ -16,6 +16,7 @@ export default () => {
   document.addEventListener('DOMContentLoaded', function () {
     // eslint-disable-next-line prettier/prettier
     ; (function () {
+      console.log('plausible load')
       const d = document
       const s = d.createElement('script')
 
