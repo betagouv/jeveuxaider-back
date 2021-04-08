@@ -7,11 +7,22 @@
         </div>
         <div class="mb-8 font-bold text-2xl text-gray-800">Participations</div>
       </div>
-      <!-- <div v-if="$store.getters.contextRole == 'responsable'">
-        <el-button type="primary" @click="onMassValidation">
-          Validation massive
+      <div
+        v-if="
+          $store.getters.contextRole == 'responsable' &&
+          $store.getters.reminders.participations > 0
+        "
+      >
+        <el-button
+          type="primary"
+          :loading="loadingButton"
+          @click="onMassValidation"
+        >
+          Valider toutes les participations en attente ({{
+            $store.getters.reminders.participations
+          }})
         </el-button>
-      </div> -->
+      </div>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -204,6 +215,11 @@ export default {
     ) {
       return error({ statusCode: 403 })
     }
+
+    if (['responsable'].includes(store.getters.contextRole)) {
+      await store.dispatch('reminders')
+    }
+
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
     const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
     const collectivities = await $api.fetchCollectivities({
@@ -268,14 +284,16 @@ export default {
     },
     onMassValidation() {
       this.$confirm(
-        'Vous êtes sur le point de valider toutes les participations actuellement en attente de validation.<br>Êtes-vous sûr de vouloir continuer ?',
-        'Confirmation',
+        'Vous êtes sur le point de valider toutes les participations actuellement en attente de validation (' +
+          this.$store.getters.reminders.participations +
+          ').<br><br>Êtes-vous sûr de vouloir continuer ?',
+        'Validation massive',
         {
-          confirmButtonText: 'Je confirme',
+          confirmButtonText: 'Oui, je confirme',
           cancelButtonText: 'Annuler',
           dangerouslyUseHTMLString: true,
-          center: true,
-          type: 'warning',
+          // center: true,
+          // type: 'warning',
         }
       ).then(() => {
         this.loadingButton = true
@@ -283,10 +301,11 @@ export default {
           .massValidationParticipation()
           .then(() => {
             this.loadingButton = false
+            this.$store.dispatch('reminders')
             this.$message.success({
               message: 'Les participations ont été mises à jour',
             })
-            fetch()
+            this.$fetch()
           })
           .catch(() => {
             this.loadingButton = false

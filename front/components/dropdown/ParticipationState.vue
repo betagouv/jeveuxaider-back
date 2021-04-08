@@ -2,7 +2,8 @@
   <div>
     <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
       <div style="min-width: 140px; text-align: left">
-        {{ participation.state }}
+        <template v-if="loading"> Chargement... </template>
+        <template v-else>{{ participation.state }}</template>
       </div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
@@ -52,6 +53,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       form: { ...this.participation },
       declineParticipationDialog: false,
       messageForm: {},
@@ -127,6 +129,7 @@ export default {
         dangerouslyUseHTMLString: true,
       })
         .then(() => {
+          this.loading = true
           this.form.state = state
           this.$api
             .updateParticipation(this.form.id, this.form)
@@ -135,8 +138,10 @@ export default {
                 message: 'Le statut de la participation a été mis à jour',
               })
               this.$emit('updated', response.data)
+              this.loading = false
             })
             .catch((error) => {
+              this.loading = false
               this.errors = error.response.data.errors
             })
         })
