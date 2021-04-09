@@ -16,7 +16,9 @@
       />
     </el-menu-item>
     <el-menu-item v-if="$store.getters.isSidebarExpanded">
-      <a target="_blank" href="mailto:contact@reserve-civique.on.crisp.email"
+      <a
+        target="_blank"
+        href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
         >Contacter le support</a
       >
     </el-menu-item>
