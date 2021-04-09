@@ -48,7 +48,7 @@
           <div class="rounded-full shadow-lg">
             <div
               class="font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
-              @click="$store.commit('toggleSearchOverlay')"
+              @click="handleClickCTA()"
             >
               Je veux aider
             </div>
@@ -1124,6 +1124,12 @@ export default {
         this.emailError = "L'email renseigné n'est pas valide"
       }
       setTimeout(() => (this.emailError = ''), 5000)
+    },
+    handleClickCTA() {
+      window.plausible('Click CTA - Homepage', {
+        props: { isLogged: this.$store.getters.isLogged },
+      })
+      this.$store.commit('toggleSearchOverlay')
     },
   },
 }

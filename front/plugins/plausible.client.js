@@ -15,7 +15,7 @@
 export default () => {
   document.addEventListener('DOMContentLoaded', function () {
     // eslint-disable-next-line prettier/prettier
-    ; (function () {
+    ;(function () {
       console.log('plausible load')
       const d = document
       const s = d.createElement('script')
@@ -25,6 +25,11 @@ export default () => {
       s.src = 'https://plausible.io/js/plausible.js'
       s.async = 1
       d.getElementsByTagName('head')[0].appendChild(s)
+      window.plausible =
+        window.plausible ||
+        function () {
+          ;(window.plausible.q = window.plausible.q || []).push(arguments)
+        }
     })()
   })
 }
