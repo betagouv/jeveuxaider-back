@@ -18,8 +18,7 @@
       >
         <img
           src="@/assets/images/JVA_dark.svg"
-          class="logo sm:mb-2 lg:mb-8"
-          style="width: 250px"
+          class="logo sm:mb-2 lg:mb-2 h-7 lg:h-24 w-auto"
         />
         <div
           class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t"
