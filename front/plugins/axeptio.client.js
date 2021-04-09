@@ -3,8 +3,13 @@
 export default ({ app, $config }) => {
   document.addEventListener('DOMContentLoaded', function () {
 
-    const cookieDomain = document.domain == 'www.jeveuxaider.gouv.fr' ? '.jeveuxaider.gouv.fr' : document.domain
-    console.log(cookieDomain)
+    let cookieDomains = [
+      document.domain,
+      document.domain.replace('www', '')
+    ]
+    // Remove duplicates
+    cookieDomains = Array.from(new Set(cookieDomains));
+    console.log(cookieDomains)
 
     const el = document.createElement('script')
     const crispWebsiteId = '4b843a95-8a0b-4274-bfd5-e81cbdc188ac'
@@ -84,17 +89,19 @@ export default ({ app, $config }) => {
       if (window.ga) window.ga('remove');
       if (document.ga) document.ga('remove');
 
-      app.$cookies.remove('_ga', {
-        path: '/',
-        domain: cookieDomain
-      })
-      app.$cookies.remove('_gid', {
-        path: '/',
-        domain: cookieDomain
-      })
-      app.$cookies.remove('_gat', {
-        path: '/',
-        domain: cookieDomain
+      cookieDomains.forEach((cookieDomain) => {
+        app.$cookies.remove('_ga', {
+          path: '/',
+          domain: cookieDomain
+        })
+        app.$cookies.remove('_gid', {
+          path: '/',
+          domain: cookieDomain
+        })
+        app.$cookies.remove('_gat', {
+          path: '/',
+          domain: cookieDomain
+        })
       })
     }
 
@@ -120,13 +127,15 @@ export default ({ app, $config }) => {
         delete (window.$crisp)
       }
 
-      app.$cookies.remove(`crisp-client%2Fsession%2F${crispWebsiteId}`, {
-        path: '/',
-        domain: cookieDomain
-      })
-      app.$cookies.remove(`crisp-client%2Fsocket%2F${crispWebsiteId}`, {
-        path: '/',
-        domain: cookieDomain
+      cookieDomains.forEach((cookieDomain) => {
+        app.$cookies.remove(`crisp-client%2Fsession%2F${crispWebsiteId}`, {
+          path: '/',
+          domain: cookieDomain
+        })
+        app.$cookies.remove(`crisp-client%2Fsocket%2F${crispWebsiteId}`, {
+          path: '/',
+          domain: cookieDomain
+        })
       })
 
       const el = document.getElementById('crisp-chatbox')
