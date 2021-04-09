@@ -57,6 +57,18 @@
             <nuxt-link class="block p-3 hover:underline" to="/mentions-legales">
               Mentions légales
             </nuxt-link>
+            <nuxt-link
+              class="block p-3 hover:underline"
+              to="/politique-de-confidentialite"
+            >
+              Politique de confidentialité
+            </nuxt-link>
+            <a
+              class="block p-3 hover:underline"
+              href="javascript:openAxeptioCookies()"
+            >
+              Gestion des cookies
+            </a>
             <a
               class="block p-3 hover:underline"
               href="https://www.gouvernement.fr/info-coronavirus"

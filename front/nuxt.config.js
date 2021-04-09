@@ -64,11 +64,9 @@ export default {
     '@/plugins/numeral.js',
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
-    '@/plugins/crisp.client.js',
     '@/plugins/axeptio.client.js',
     '@/plugins/apiengagement.client.js',
     '@/plugins/atinternet.client.js',
-    '@/plugins/google-analytics.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
     '@/plugins/plausible.client.js',
   ],
@@ -94,6 +92,7 @@ export default {
     '@nuxtjs/dayjs',
     '@nuxtjs/redirect-module',
     '@nuxtjs/sentry',
+    'cookie-universal-nuxt',
   ],
 
   dayjs: {
