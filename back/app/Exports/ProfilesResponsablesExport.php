@@ -35,18 +35,18 @@ class ProfilesResponsablesExport implements FromCollection, WithMapping, WithHea
     {
         return [
             'id',
-            'full_name',
-            'first_name',
-            'last_name',
+            'nom_complet',
+            'prenom',
+            'nom',
             'email',
-            'phone',
+            'telephone',
             'mobile',
-            'zip',
+            'code_postal',
             'structure',
-            'total_waiting_actions',
-            'created_at',
-            'updated_at',
-            'last_online_at',
+            'nb_actions_en_attente',
+            'date_creation',
+            'date_modification',
+            'derniere_connexion',
         ];
     }
 

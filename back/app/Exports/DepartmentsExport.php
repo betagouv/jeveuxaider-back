@@ -63,28 +63,28 @@ class DepartmentsExport implements FromCollection, WithHeadings
             $total_participations_max = $missionsCollection->sum('participations_max');
 
             $stats->push([
-                'key' => $departement->department,
-                'name' => $departement->name,
-                'published' => $departement->published,
-                'missions_count' => Mission::role($this->role)->department($departement->department)->count(),
-                'structures_count' => Structure::role($this->role)->department($departement->department)->count(),
-                'participations_count' => Participation::role($this->role)->department($departement->department)->count(),
-                'volontaires_count' => Profile::role($this->role)
+                'numero' => $departement->department,
+                'nom' => $departement->name,
+                'publie' => $departement->published,
+                'nb_missions' => Mission::role($this->role)->department($departement->department)->count(),
+                'nb_structures' => Structure::role($this->role)->department($departement->department)->count(),
+                'nb_participations' => Participation::role($this->role)->department($departement->department)->count(),
+                'nb_volontaires' => Profile::role($this->role)
                     ->department($departement->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('context_role', 'volontaire');
                     })
                     ->count(),
-                'service_civique_count' => Profile::role($this->role)
+                'nb_service_civique' => Profile::role($this->role)
                     ->department($departement->department)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missionsAvailableCollection->count(),
-                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
-                'places_available' => $missionsAvailableCollection->sum('places_left'),
-                'total_offered_places' => $total_participations_max,
-                'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
+                'nb_missions_en_ligne' => $missionsAvailableCollection->count(),
+                'nb_organisations_actives' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'nb_places_disponibles' => $missionsAvailableCollection->sum('places_left'),
+                'nb_places_offertes' => $total_participations_max,
+                'taux_occupation' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
             ]);
         }
 
@@ -95,18 +95,18 @@ class DepartmentsExport implements FromCollection, WithHeadings
     {
         return [
             'numero',
-            'name',
-            'published',
-            'missions_count',
-            'structures_count',
-            'participations_count',
-            'volontaires_count',
-            'service_civique_count',
-            'missions_available',
-            'organisations_active',
-            'places_available',
-            'total_offered_places',
-            'occupation_rate'
+            'nom',
+            'publie',
+            'nb_missions',
+            'nb_structures',
+            'nb_participations',
+            'nb_volontaires',
+            'nb_service_civique',
+            'nb_missions_en_ligne',
+            'nb_organisations_actives',
+            'nb_places_disponibles',
+            'nb_places_offertes',
+            'taux_occupation'
         ];
     }
 }

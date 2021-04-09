@@ -59,26 +59,26 @@ class CollectivitiesExport implements FromCollection, WithHeadings
             $total_participations_max = $missionsCollection->sum('participations_max');
             $datas->push([
                 'id' => $collectivity->id,
-                'name' => $collectivity->name,
-                'published' => $collectivity->published,
-                'missions_count' => Mission::whereIn('zip', $collectivity->zips)->count(),
-                'missions_validated_count' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Validée')->count(),
-                'missions_refused_count' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Refusée')->count(),
-                'missions_finished_count' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Terminée')->count(),
-                'structures_count' => Structure::whereIn('zip', $collectivity->zips)->count(),
-                'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
+                'nom' => $collectivity->name,
+                'en_ligne' => $collectivity->published,
+                'nb_missions' => Mission::whereIn('zip', $collectivity->zips)->count(),
+                'nb_missions_validees' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Validée')->count(),
+                'nb_missions_refusees' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Refusée')->count(),
+                'nb_missions_terminees' => Mission::whereIn('zip', $collectivity->zips)->where('state', 'Terminée')->count(),
+                'nb_structures' => Structure::whereIn('zip', $collectivity->zips)->count(),
+                'nb_participations' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
                     $query->whereIn('zip', $collectivity->zips);
                 })->count(),
-                'volontaires_count' => Profile::whereIn('zip', $collectivity->zips)->count(),
-                'service_civique_count' => Profile::whereIn('zip', $collectivity->zips)
+                'nb_volontaires' => Profile::whereIn('zip', $collectivity->zips)->count(),
+                'nb_service_civique' => Profile::whereIn('zip', $collectivity->zips)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missionsAvailableCollection->count(),
-                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
-                'places_available' => $missionsAvailableCollection->sum('places_left'),
-                'total_offered_places' => $total_participations_max,
-                'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
+                'nb_missions_en_ligne' => $missionsAvailableCollection->count(),
+                'nb_organisations_actives' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'nb_places_disponibles' => $missionsAvailableCollection->sum('places_left'),
+                'nb_places_offertes' => $total_participations_max,
+                'taux_occupation' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
             ]);
         }
 
@@ -89,21 +89,21 @@ class CollectivitiesExport implements FromCollection, WithHeadings
     {
         return [
             'id',
-            'name',
-            'published',
-            'missions_count',
-            'missions_validated_count',
-            'missions_refused_count',
-            'missions_finished_count',
-            'structures_count',
-            'participations_count',
-            'volontaires_count',
-            'service_civique_count',
-            'missions_available',
-            'organisations_active',
-            'places_available',
-            'total_offered_places',
-            'occupation_rate'
+            'nom',
+            'en_ligne',
+            'nb_missions',
+            'nb_missions_validees',
+            'nb_missions_refusees',
+            'nb_missions_terminees',
+            'nb_structures',
+            'nb_participations',
+            'nb_volontaires',
+            'nb_service_civique',
+            'nb_missions_en_ligne',
+            'nb_organisations_actives',
+            'nb_places_disponibles',
+            'nb_places_offertes',
+            'taux_occupation'
         ];
     }
 }

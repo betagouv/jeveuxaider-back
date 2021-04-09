@@ -57,13 +57,13 @@ class ProfilesExport implements FromQuery, WithMapping, WithHeadings
     {
         return [
             'id',
-            'first_name',
-            'last_name',
+            'prenom',
+            'nom',
             'email',
-            'phone',
+            'telephone',
             'mobile',
-            'zip',
-            'created_at',
+            'code_postal',
+            'date_creation',
         ];
     }
 

@@ -55,20 +55,20 @@ class DomainesExport implements FromCollection, WithHeadings
             $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
             $total_participations_max = $missionsCollection->sum('participations_max');
             $datas->push([
-                'key' => $domaine->id,
-                'name' => $domaine->name,
-                'missions_count' => Mission::role($this->role)->domaine($domaine->id)->count(),
-                'participations_count' => Participation::role($this->role)->domaine($domaine->id)->count(),
-                'volontaires_count' => Profile::role($this->role)->domaine($domaine->id)->count(),
-                'service_civique_count' => Profile::role($this->role)->domaine($domaine->id)
+                'id' => $domaine->id,
+                'nom' => $domaine->name,
+                'nb_missions' => Mission::role($this->role)->domaine($domaine->id)->count(),
+                'nb_participations' => Participation::role($this->role)->domaine($domaine->id)->count(),
+                'nb_volontaires' => Profile::role($this->role)->domaine($domaine->id)->count(),
+                'nb_service_civique' => Profile::role($this->role)->domaine($domaine->id)
                     ->whereHas('user', function (Builder $query) {
                         $query->where('service_civique', true);
                     })->count(),
-                'missions_available' => $missionsAvailableCollection->count(),
-                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
-                'places_available' => $missionsAvailableCollection->sum('places_left'),
-                'total_offered_places' => $total_participations_max,
-                'occupation_rate' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
+                'nb_missions_en_ligne' => $missionsAvailableCollection->count(),
+                'nb_organisations_actives' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
+                'nb_places_disponibles' => $missionsAvailableCollection->sum('places_left'),
+                'nb_places_offertes' => $total_participations_max,
+                'taux_occupation' => $places_offered ? round(($places_available_left / $places_offered) * 100) : 0,
             ]);
         }
 
@@ -79,16 +79,16 @@ class DomainesExport implements FromCollection, WithHeadings
     {
         return [
             'id',
-            'name',
-            'missions_count',
-            'participations_count',
-            'volontaires_count',
-            'service_civique_count',
-            'missions_available',
-            'organisations_active',
-            'places_available',
-            'total_offered_places',
-            'occupation_rate'
+            'nom',
+            'nb_missions',
+            'nb_participations',
+            'nb_volontaires',
+            'nb_service_civique',
+            'nb_missions_en_ligne',
+            'nb_organisations_actives',
+            'nb_places_disponibles',
+            'nb_places_offertes',
+            'taux_occupation'
         ];
     }
 }

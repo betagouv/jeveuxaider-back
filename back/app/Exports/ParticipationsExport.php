@@ -50,21 +50,21 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
         return [
             'id',
             'structure_id',
-            'structure_name',
+            'structure_nom',
             'mission_id',
-            'mission_name',
-            'responsable_name',
+            'mission_nom',
+            'responsable_nom',
             'responsable_email',
             'profile_id',
-            'first_name',
-            'last_name',
+            'prenom',
+            'nom',
             'mobile',
             'email',
-            'zip',
-            'birthday',
-            'state',
-            'created_at',
-            'updated_at'
+            'code_postal',
+            'date_anniversaire',
+            'statut',
+            'date_creation',
+            'date_modification'
         ];
     }
 

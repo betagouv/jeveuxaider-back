@@ -37,20 +37,20 @@ class ProfilesReferentsDepartementsExport implements FromCollection, WithMapping
     {
         return [
             'id',
-            'full_name',
-            'first_name',
-            'last_name',
+            'nom_complet',
+            'prenom',
+            'nom',
             'email',
-            'phone',
+            'telephone',
             'mobile',
-            'zip',
-            'referent_department',
-            'organization_waiting_actions',
-            'mission_waiting_actions',
-            'total_waiting_actions',
-            'created_at',
-            'updated_at',
-            'last_online_at',
+            'code_postal',
+            'referent_departement',
+            'nb_organisations_en_attente',
+            'nb_missions_en_attente',
+            'nb_actions_en_attente',
+            'date_creation',
+            'date_modification',
+            'derniere_connexion',
         ];
     }
 
