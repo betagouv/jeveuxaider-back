@@ -9,7 +9,6 @@ export default ({ app, $config }) => {
     ]
     // Remove duplicates
     cookieDomains = Array.from(new Set(cookieDomains));
-    console.log(cookieDomains)
 
     const el = document.createElement('script')
     const crispWebsiteId = '4b843a95-8a0b-4274-bfd5-e81cbdc188ac'
@@ -42,8 +41,6 @@ export default ({ app, $config }) => {
     })
 
     const launchGoogleAnalytics = () => {
-      console.log('launchGoogleAnalytics')
-
       if (!$config.googleAnalytics.id) {
         return
       }
@@ -84,8 +81,6 @@ export default ({ app, $config }) => {
     }
 
     const removeGoogleAnalytics = () => {
-      console.log('removeGoogleAnalytics')
-
       if (window.ga) window.ga('remove');
       if (document.ga) document.ga('remove');
 
@@ -106,8 +101,6 @@ export default ({ app, $config }) => {
     }
 
     const launchCrisp = () => {
-      console.log('launchCrisp')
-
       window.$crisp = []
       window.CRISP_WEBSITE_ID = crispWebsiteId
         ; (function () {
@@ -121,8 +114,6 @@ export default ({ app, $config }) => {
     }
 
     const removeCrisp = () => {
-      console.log('launchCrisp')
-
       if (window.$crisp) {
         delete (window.$crisp)
       }
