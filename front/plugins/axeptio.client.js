@@ -3,6 +3,9 @@
 export default ({ app, $config }) => {
   document.addEventListener('DOMContentLoaded', function () {
 
+    const cookieDomain = document.domain == 'www.jeveuxaider.gouv.fr' ? '.jeveuxaider.gouv.fr' : document.domain
+    console.log(cookieDomain)
+
     const el = document.createElement('script')
     const crispWebsiteId = '4b843a95-8a0b-4274-bfd5-e81cbdc188ac'
 
@@ -81,9 +84,18 @@ export default ({ app, $config }) => {
       if (window.ga) window.ga('remove');
       if (document.ga) document.ga('remove');
 
-      app.$cookies.remove('_ga')
-      app.$cookies.remove('_gid')
-      app.$cookies.remove('_gat')
+      app.$cookies.remove('_ga', {
+        path: '/',
+        domain: cookieDomain
+      })
+      app.$cookies.remove('_gid', {
+        path: '/',
+        domain: cookieDomain
+      })
+      app.$cookies.remove('_gat', {
+        path: '/',
+        domain: cookieDomain
+      })
     }
 
     const launchCrisp = () => {
@@ -102,14 +114,20 @@ export default ({ app, $config }) => {
     }
 
     const removeCrisp = () => {
-      console.log('removeCrisp')
+      console.log('launchCrisp')
 
       if (window.$crisp) {
         delete (window.$crisp)
       }
 
-      app.$cookies.remove(`crisp-client%2Fsession%2F${crispWebsiteId}`)
-      app.$cookies.remove(`crisp-client%2Fsocket%2F${crispWebsiteId}`)
+      app.$cookies.remove(`crisp-client%2Fsession%2F${crispWebsiteId}`, {
+        path: '/',
+        domain: cookieDomain
+      })
+      app.$cookies.remove(`crisp-client%2Fsocket%2F${crispWebsiteId}`, {
+        path: '/',
+        domain: cookieDomain
+      })
 
       const el = document.getElementById('crisp-chatbox')
       if (el) {
