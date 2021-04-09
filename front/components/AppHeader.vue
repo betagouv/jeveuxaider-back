@@ -1,9 +1,12 @@
 <template>
   <header class="bg-white relative z-20 shadow-lg">
-    <jdma-benevole
+    <JdmaBenevole
       v-if="
-        $store.getters.isLogged && $store.getters.participationsValidated > 1
+        $store.getters.isLogged &&
+        $store.getters.user.nbParticipationsOver > 1 &&
+        !$cookies.get('click-jdma')
       "
+      @clicked="onClickJdma()"
     />
     <div id="header-wrapper" class="flex justify-between items-center">
       <div class="flex h-full">
@@ -300,6 +303,15 @@ export default {
     // ) {
     //   this.$store.dispatch('reminders')
     // }
+  },
+  methods: {
+    onClickJdma() {
+      this.$cookies.set('click-jdma', true, {
+        maxAge: 3600 * 24 * 365,
+        path: '/',
+        secure: true,
+      })
+    },
   },
 }
 </script>

@@ -49,6 +49,7 @@ class User extends Authenticatable
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['nbUnreadConversations'] = self::getNbUnreadConversations($id);
+        $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
 
         return $user;
     }
@@ -162,5 +163,10 @@ class User extends Authenticatable
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
             })->count();
+    }
+
+    public static function getNbParticipationsOver($pid)
+    {
+        return Profile::find($pid)->participations->whereIn('state', ['Validée', 'Terminée'])->count();
     }
 }
