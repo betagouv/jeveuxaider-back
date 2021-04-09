@@ -103,6 +103,11 @@ export default {
       }
     },
   },
+  watch: {
+    participation(newValue) {
+      this.form = { ...newValue }
+    },
+  },
   methods: {
     onDeclineSubmit() {
       this.form.state = 'Refusée'

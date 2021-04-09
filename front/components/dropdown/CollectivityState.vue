@@ -2,7 +2,10 @@
   <div>
     <el-dropdown v-if="canEditStatut" :size="size" split-button :type="type">
       <div style="min-width: 140px" class="text-left">
-        {{ collectivity.state | labelFromValue('collectivities_states') }}
+        <template v-if="loading"> Chargement... </template>
+        <template v-else>
+          {{ collectivity.state | labelFromValue('collectivities_states') }}
+        </template>
       </div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
@@ -42,6 +45,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       form: { ...this.collectivity },
       message: 'Êtes vous sur de vos changements ?',
     }
@@ -67,6 +71,11 @@ export default {
       )
     },
   },
+  watch: {
+    collectivity(newValue) {
+      this.form = { ...newValue }
+    },
+  },
   methods: {
     onSubmitState(state) {
       if (state == 'validated') {
@@ -83,6 +92,7 @@ export default {
         dangerouslyUseHTMLString: true,
       })
         .then(() => {
+          this.loading = true
           this.form.state = state
           this.$api
             .updateCollectivity(this.form.id, this.form)
@@ -91,9 +101,12 @@ export default {
                 message: 'Le statut de la collectivité a été mis à jour',
               })
               this.$emit('updated', response.data)
+              this.loading = false
             })
         })
-        .catch(() => {})
+        .catch(() => {
+          this.loading = false
+        })
     },
   },
 }

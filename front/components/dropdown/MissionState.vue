@@ -3,7 +3,8 @@
     <template v-if="showAskValidation">
       <el-dropdown size="small" split-button :type="type">
         <div style="min-width: 140px; text-align: left">
-          {{ mission.state }}
+          <template v-if="loading"> Chargement... </template>
+          <template v-else> {{ mission.state }} </template>
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="onAskValidationSubmit">
@@ -15,7 +16,8 @@
     <template v-else>
       <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
         <div style="min-width: 140px; text-align: left">
-          {{ mission.state }}
+          <template v-if="loading"> Chargement... </template>
+          <template v-else> {{ mission.state }} </template>
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
@@ -68,6 +70,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       form: { ...this.mission },
       message: 'Êtes vous sur de vos changements ?',
     }
@@ -122,6 +125,11 @@ export default {
       }
     },
   },
+  watch: {
+    mission(newValue) {
+      this.form = { ...newValue }
+    },
+  },
   methods: {
     onAskValidationSubmit() {
       if (this.mission.structure.state != 'Validée') {
@@ -163,6 +171,7 @@ export default {
         dangerouslyUseHTMLString: true,
       })
         .then(() => {
+          this.loading = true
           this.form.state = state
           this.$api
             .updateMission(this.form.id, this.form)
@@ -171,8 +180,10 @@ export default {
                 message: 'Le statut de la mission a été mis à jour',
               })
               this.$emit('updated', response.data)
+              this.loading = false
             })
             .catch((error) => {
+              this.loading = false
               this.errors = error.response.data.errors
             })
         })

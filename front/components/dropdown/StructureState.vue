@@ -2,7 +2,10 @@
   <div>
     <el-dropdown v-if="canEditStatut" :size="size" split-button :type="type">
       <div style="min-width: 140px" class="text-left">
-        {{ structure.state }}
+        <template v-if="loading"> Chargement... </template>
+        <template v-else>
+          {{ structure.state }}
+        </template>
       </div>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
@@ -43,6 +46,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       form: { ...this.structure },
       message: 'Êtes vous sur de vos changements ?',
     }
@@ -77,6 +81,11 @@ export default {
       }
     },
   },
+  watch: {
+    structure(newValue) {
+      this.form = { ...newValue }
+    },
+  },
   methods: {
     onSubmitState(state) {
       if (state == 'Validée') {
@@ -97,6 +106,8 @@ export default {
       })
         .then(() => {
           this.form.state = state
+          this.loading = true
+
           this.$api
             .updateStructure(this.form.id, this.form)
             .then((response) => {
@@ -104,8 +115,10 @@ export default {
                 message: "Le statut de l'organisation a été mis à jour",
               })
               this.$emit('updated', response.data)
+              this.loading = false
             })
             .catch((error) => {
+              this.loading = false
               this.errors = error.response.data.errors
             })
         })
