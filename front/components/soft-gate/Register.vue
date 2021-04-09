@@ -245,6 +245,7 @@ export default {
               service_civique: this.form.service_civique,
             })
             .then(() => {
+              window.plausible('Inscription depuis une page mission')
               this.loading = false
               this.$emit('next')
             })

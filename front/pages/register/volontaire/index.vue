@@ -651,6 +651,7 @@ export default {
               service_civique: this.form.service_civique,
             })
             .then(() => {
+              window.plausible('Inscription depuis la page inscription')
               this.loading = false
               if (this.$route.query.redirect) {
                 this.$router.push(this.$route.query.redirect)
