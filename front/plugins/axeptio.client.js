@@ -34,6 +34,8 @@ export default ({ app, $config }) => {
     })
 
     const launchGoogleAnalytics = () => {
+      console.log('launchGoogleAnalytics')
+
       if (!$config.googleAnalytics.id) {
         return
       }
@@ -74,24 +76,19 @@ export default ({ app, $config }) => {
     }
 
     const removeGoogleAnalytics = () => {
+      console.log('removeGoogleAnalytics')
+
       if (window.ga) window.ga('remove');
       if (document.ga) document.ga('remove');
 
-      app.$cookies.remove('_ga', {
-        path: '/',
-        domain: document.domain
-      })
-      app.$cookies.remove('_gid', {
-        path: '/',
-        domain: document.domain
-      })
-      app.$cookies.remove('_gat', {
-        path: '/',
-        domain: document.domain
-      })
+      app.$cookies.remove('_ga')
+      app.$cookies.remove('_gid')
+      app.$cookies.remove('_gat')
     }
 
     const launchCrisp = () => {
+      console.log('launchCrisp')
+
       window.$crisp = []
       window.CRISP_WEBSITE_ID = crispWebsiteId
         ; (function () {
@@ -105,18 +102,14 @@ export default ({ app, $config }) => {
     }
 
     const removeCrisp = () => {
+      console.log('removeCrisp')
+
       if (window.$crisp) {
         delete (window.$crisp)
       }
 
-      app.$cookies.remove(`crisp-client%2Fsession%2F${crispWebsiteId}`, {
-        path: '/',
-        domain: document.domain
-      })
-      app.$cookies.remove(`crisp-client%2Fsocket%2F${crispWebsiteId}`, {
-        path: '/',
-        domain: document.domain
-      })
+      app.$cookies.remove(`crisp-client%2Fsession%2F${crispWebsiteId}`)
+      app.$cookies.remove(`crisp-client%2Fsocket%2F${crispWebsiteId}`)
 
       const el = document.getElementById('crisp-chatbox')
       if (el) {
