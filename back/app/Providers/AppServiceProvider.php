@@ -26,6 +26,8 @@ use App\Observers\ActivityObserver;
 use App\Observers\ConversationObserver;
 use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
+use Algolia\AlgoliaSearch\Config\SearchConfig;
+use Algolia\AlgoliaSearch\SearchClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,15 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+
+        // https://github.com/laravel/scout/issues/427
+        // https://github.com/algolia/scout-extended/issues/263
+        $config = SearchConfig::create(config('scout.algolia.id'), config('scout.algolia.secret'));
+        $config->setConnectTimeout(5);
+
+        $this->app->bind(SearchClient::class, function () use ($config) {
+            return SearchClient::createWithConfig($config);
+        });
     }
 
     /**

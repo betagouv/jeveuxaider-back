@@ -82,6 +82,7 @@ class Mission extends Model
             'name' => $this->name,
             'slug' => $this->slug,
             'city' => $this->city,
+            'state' => $this->state,
             'department' => $this->department,
             'department_name' => $this->department . ' - ' . config('taxonomies.departments.terms')[$this->department],
             'zip' => $this->zip,
