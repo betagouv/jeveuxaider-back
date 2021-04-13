@@ -36,9 +36,12 @@
     <el-table-column prop="name" label="Mission" min-width="320">
       <template slot-scope="scope">
         <div v-if="scope.row.mission" class="text-gray-900">
-          <v-clamp :max-lines="1" autoresize
-            >#{{ scope.row.mission.id }} - {{ scope.row.mission.name }}</v-clamp
-          >
+          <client-only>
+            <v-clamp :max-lines="1" autoresize
+              >#{{ scope.row.mission.id }} -
+              {{ scope.row.mission.name }}</v-clamp
+            >
+          </client-only>
         </div>
         <div
           v-if="scope.row.mission && scope.row.mission.structure"

@@ -53,24 +53,26 @@
               <div class="mr-3">
                 <div class="mb-1">{{ form.template.title }}</div>
 
-                <v-clamp
-                  :max-lines="3"
-                  autoresize
-                  class="relative text-xs text-gray-400"
-                >
-                  {{ form.template.subtitle }}
+                <client-only>
+                  <v-clamp
+                    :max-lines="3"
+                    autoresize
+                    class="relative text-xs text-gray-400"
+                  >
+                    {{ form.template.subtitle }}
 
-                  <template slot="after" slot-scope="{ clamped }">
-                    <span
-                      v-if="clamped"
-                      v-tooltip="{
-                        delay: { show: 700, hide: 100 },
-                        content: form.template.subtitle,
-                      }"
-                      class="absolute w-full h-full top-0 left-0"
-                    />
-                  </template>
-                </v-clamp>
+                    <template slot="after" slot-scope="{ clamped }">
+                      <span
+                        v-if="clamped"
+                        v-tooltip="{
+                          delay: { show: 700, hide: 100 },
+                          content: form.template.subtitle,
+                        }"
+                        class="absolute w-full h-full top-0 left-0"
+                      />
+                    </template>
+                  </v-clamp>
+                </client-only>
               </div>
 
               <el-button
@@ -552,9 +554,9 @@ export default {
     },
   },
   async created() {
-    this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
-      this.domaines = response.data.data
-    })
+    const domaines = await this.$api.fetchTags({ 'filter[type]': 'domaine' })
+    this.domaines = domaines.data.data
+
     // Only if not a template
     if (!this.form.thumbnail && !this.form.template) {
       this.$set(this.form, 'thumbnail', `${this.mainDomaineId}_1`)

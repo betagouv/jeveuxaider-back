@@ -6,10 +6,12 @@
       </div>
       <template v-if="!$fetchState.pending">
         <div v-for="skill in data" :key="skill.id" class="te text-sm mb-2">
-          <v-clamp :max-lines="1" autoresize class="flex-1">
-            {{ skill.profiles_count | formatNumber }} -
-            {{ skill.name.fr }}
-          </v-clamp>
+          <client-only>
+            <v-clamp :max-lines="1" autoresize class="flex-1">
+              {{ skill.profiles_count | formatNumber }} -
+              {{ skill.name.fr }}
+            </v-clamp>
+          </client-only>
         </div>
       </template>
       <template v-else>
