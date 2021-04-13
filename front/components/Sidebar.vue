@@ -5,6 +5,7 @@
     class="flex flex-col overflow-x-hidden overflow-y-auto"
   >
     <DropdownUser class="border-b border-gray-200" />
+
     <div class="flex flex-col flex-1">
       <el-menu :router="true">
         <LazyMenuResponsable

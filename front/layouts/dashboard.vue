@@ -5,9 +5,11 @@
       class="h-full flex overflow-hidden"
     >
       <Sidebar class="bg-gray-100" />
+
       <div class="main-container bg-white overflow-y-auto w-full">
         <Nuxt :nuxt-child-key="$route.fullPath" class="app-main pt-8" />
       </div>
+
       <portal-target
         v-if="$store.getters['volet/active'] && $store.getters['volet/row']"
         class="p-4 overflow-y-auto flex-none border-l bg-gray-100"
