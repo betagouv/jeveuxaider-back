@@ -93,7 +93,7 @@
 
             <div
               id="form"
-              class="max-w-2xl mx-auto lg:col-span-6 lg:px-0 lg:w-full"
+              class="max-w-xl mx-auto lg:col-span-6 lg:px-0 lg:w-full"
             >
               <div class="rounded-lg shadow-xl">
                 <div class="bg-white rounded-t-lg px-6 pt-8 pb-8">
@@ -106,7 +106,7 @@
                       <strong>association</strong> ?
                     </p>
                     <h2
-                      class="mt-2 text-center text-4xl leading-9 font-bold text-gray-900 sm:-mx-6 tracking-tight"
+                      class="mt-2 text-center text-3xl leading-9 font-extrabold text-black sm:-mx-6 tracking-tight"
                     >
                       Rejoignez le mouvement
                     </h2>

@@ -1,5 +1,5 @@
 <template>
-  <div class="el-form-item is-required">
+  <div class="el-form-item" :class="className">
     <label v-if="label" :for="selector" class="el-form-item__label">
       {{ label }}
     </label>
@@ -33,6 +33,10 @@ export default {
     label: {
       type: [Boolean, String],
       default: 'Lieu',
+    },
+    className: {
+      type: [Boolean, String],
+      default: 'is-required',
     },
     description: {
       type: [Boolean, String],

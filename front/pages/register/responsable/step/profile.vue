@@ -1,88 +1,87 @@
 <template>
-  <div v-if="$store.getters.profile" class="register-step">
-    <portal to="register-steps-help">
-      <p>
-        Bienvenue {{ firstName }} ! <br />Commencez par
-        <span class="font-bold">compléter le profil</span> de votre compte
-        Responsable de l'organisation.
-      </p>
-      <p>
-        Une question? Contactez
-        <br />
-        <span class="font-bold">
-          <a
-            target="_blank"
-            href="mailto:contact@reserve-civique.on.crisp.email"
-          >
-            le support</a
-          >
-        </span>
-        ou
-        <button onclick="$crisp.push(['do', 'chat:open'])">
-          chatez en cliquant sur le bouton en bas à droite.
-        </button>
-      </p>
-    </portal>
-    <el-steps :active="1" align-center class="p-4 sm:p-8 border-b-2">
-      <el-step
-        title="Profil"
-        description="Je complète les informations de mon profil"
-      />
-      <el-step
-        title="Organisation"
-        description="J'enregistre mon organisation en tant que responsable"
-      />
-      <el-step
-        title="Adresse"
-        description="J'enregistre le lieu de mon établissement"
-      />
-    </el-steps>
-
-    <div class="p-4 sm:p-12">
-      <div class="font-bold text-2xl text-gray-800">Mon profil</div>
-
-      <el-form
-        ref="profileForm"
-        :model="form"
-        label-position="top"
-        :rules="rules"
+  <div v-if="$store.getters.profile" class="relative">
+    <div class="mb-12 text-center text-white">
+      <h1 class="text-5xl font-medium leading-10">
+        Bienvenue <span class="font-bold">{{ firstName }}</span> !
+      </h1>
+      <div class="text-lg font-medium">
+        Inscrire votre structure sur JeVeuxAider.gouv.fr, <br />
+        c'est l'opportunité de proposer vos missions à plus de 300 000
+        bénévoles.
+      </div>
+    </div>
+    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+      <div
+        class="px-8 pt-6 pb-20 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
-        <div class="my-8">
-          <ImageField
-            :model="model"
-            :model-id="$store.getters.profile.id"
-            :min-width="320"
-            :min-height="320"
-            :max-size="2000000"
-            :preview-width="'150px'"
-            :field="form.image"
-            label="Photo de profil"
-            @add-or-crop="avatar = $event"
-            @delete="avatar = null"
-          ></ImageField>
-        </div>
+        Complétez votre profil
+      </div>
+      <div class="p-8 bg-gray-50 border-t border-gray-200">
+        <el-form
+          ref="profileForm"
+          :model="form"
+          class="form-register-steps"
+          label-position="top"
+          :rules="rules"
+          :hide-required-asterisk="true"
+        >
+          <div class="">
+            <div
+              class="flex flex-col items-center text-center mb-3"
+              style="margin-top: -110px"
+            >
+              <div class="cursor-pointer" @click="onUpload()">
+                <!-- <ImageField
+                  :model="model"
+                  :model-id="$store.getters.profile.id"
+                  :min-width="320"
+                  :min-height="320"
+                  :max-size="2000000"
+                  :preview-width="'150px'"
+                  :field="form.image"
+                  label="Photo de profil"
+                  @add-or-crop="avatar = $event"
+                  @delete="avatar = null"
+                ></ImageField> -->
+                <img
+                  src="@/assets/images/picture-placeholder.svg"
+                  alt="Photo"
+                  title="Photo"
+                />
+                <div class="text-xs font-bold text-gray-700 uppercase">
+                  AJOUTER UNE PHOTO
+                </div>
+                <div class="text-xs text-gray-300 uppercase">FACULTATIF</div>
+              </div>
+            </div>
 
-        <div class="flex flex-wrap -m-2">
-          <el-form-item
-            label="Téléphone mobile"
-            prop="mobile"
-            class="w-full sm:w-1/2 lg:w-1/3 p-2"
-          >
-            <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
-          </el-form-item>
-          <el-form-item
-            label="Téléphone fixe"
-            prop="phone"
-            class="w-full sm:w-1/2 lg:w-1/3 p-2"
-          >
-            <el-input v-model="form.phone" placeholder="Téléphone fixe" />
-          </el-form-item>
+            <el-form-item prop="mobile" class="mb-4">
+              <input
+                v-model="form.mobile"
+                placeholder="Téléphone mobile*"
+                class="custom-input placeholder-gray-600"
+              />
+            </el-form-item>
+            <el-form-item prop="phone" class="mb-4">
+              <input
+                v-model="form.phone"
+                placeholder="Téléphone fixe"
+                class="custom-input placeholder-gray-600"
+              />
+            </el-form-item>
+          </div>
+        </el-form>
+        <div class="sm:col-span-">
+          <span class="block w-full rounded-md shadow-sm">
+            <el-button
+              type="primary"
+              :loading="loading"
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              @click="onSubmit"
+              >Continuer</el-button
+            >
+          </span>
         </div>
-      </el-form>
-      <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">
-          Continuer
-        </el-button>
       </div>
     </div>
   </div>
@@ -131,6 +130,9 @@ export default {
     },
   },
   methods: {
+    onUpload() {
+      alert('Cette fonctionnalité est à venir prochainement !')
+    },
     onSubmit() {
       this.loading = true
       this.$refs.profileForm.validate((valid) => {

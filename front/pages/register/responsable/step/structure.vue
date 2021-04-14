@@ -1,143 +1,246 @@
 <template>
-  <div class="register-step">
-    <portal to="register-steps-help">
-      <p>
-        Dites-nous en plus sur votre organisation&nbsp;!
-        <br />Ces
-        <span class="font-bold">informations générales</span> permettront au
-        service référent de mieux vous connaître.
-      </p>
-      <p>
-        Une question? Contactez<br /><span class="font-bold"
-          ><a
-            target="_blank"
-            href="mailto:contact@reserve-civique.on.crisp.email"
+  <div v-if="$store.getters.profile" class="relative">
+    <div class="mb-12 text-center text-white">
+      <h1 class="text-5xl font-medium leading-tight">
+        À propos de <br />
+        <span class="font-bold">{{ form.name }}</span>
+      </h1>
+    </div>
+    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+      <div
+        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+      >
+        Validez ou complétez les informations suivantes
+      </div>
+      <div class="p-8 bg-gray-50 border-t border-gray-200">
+        <el-form
+          ref="structureForm"
+          :model="form"
+          label-position="top"
+          class="form-register-steps"
+          :rules="rules"
+          :hide-required-asterisk="true"
+        >
+          <el-form-item label="Nom de votre organisation" prop="name">
+            <input
+              v-model="form.name"
+              class="custom-input placeholder-gray-600"
+              placeholder="Nom de votre organisation"
+            />
+          </el-form-item>
+          <el-form-item label="Statut juridique" prop="statut_juridique">
+            <el-select
+              v-model="form.statut_juridique"
+              placeholder="Statut juridique"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.structure_legal_status
+                  .terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            v-if="form.statut_juridique == 'Association'"
+            label="Disposez vous d'un agrément ?"
+            prop="association_types"
           >
-            le support</a
+            <el-select
+              v-model="form.association_types"
+              placeholder="Choix de l'agrément"
+              multiple
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.association_types
+                  .terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            v-if="form.statut_juridique == 'Structure publique'"
+            label="Type de votre organisation publique"
+            prop="structure_publique_type"
           >
-        </span>
-        ou
-        <button onclick="$crisp.push(['do', 'chat:open'])">
-          chatez en cliquant sur le bouton en bas à droite.
-        </button>
-      </p>
-    </portal>
-    <el-steps :active="2" align-center class="p-4 sm:p-8 border-b-2">
-      <el-step
-        title="Profil"
-        description="Je complète les informations de mon profil"
-      />
-      <el-step
-        title="Organisation"
-        description="J'enregistre mon organisation en tant que responsable"
-      />
-      <el-step
-        title="Adresse"
-        description="J'enregistre le lieu de mon établissement"
-      />
-    </el-steps>
-    <div class="p-4 sm:p-12">
-      <div class="font-bold text-2xl text-gray-800 mb-6">Mon organisation</div>
-      <el-form
+            <el-select
+              v-model="form.structure_publique_type"
+              placeholder="Choix du type de votre organisation publique"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies
+                  .structure_publique_types.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            v-if="
+              form.statut_juridique == 'Structure publique' &&
+              (form.structure_publique_type == 'Service de l\'Etat' ||
+                form.structure_publique_type == 'Etablissement public')
+            "
+            label="Sous-type de votre organisation publique"
+            prop="structure_publique_etat_type"
+          >
+            <el-select
+              v-model="form.structure_publique_etat_type"
+              placeholder="Choix du sous-type"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies
+                  .structure_publique_etat_types.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            v-if="form.statut_juridique == 'Structure privée'"
+            label="Type de votre organisation privée"
+            prop="structure_privee_type"
+          >
+            <el-select
+              v-model="form.structure_privee_type"
+              placeholder="Chox du type d'organisation privée"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.structure_privee_types
+                  .terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="Domaines d'action"
+            prop="domaines"
+            class="flex-1 max-w-xl"
+          >
+            <el-select
+              v-model="form.domaines"
+              multiple
+              filterable
+              placeholder="Sélectionner vos domaines d'actions"
+            >
+              <el-option
+                v-for="domaine in domaines"
+                :key="domaine.id"
+                :label="domaine.name.fr"
+                :value="domaine.name.fr"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="Publics bénéficiaires"
+            prop="publics_beneficiaires"
+          >
+            <el-select
+              v-model="form.publics_beneficiaires"
+              placeholder="Sélectionner les publics bénéficiaires"
+              multiple
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies
+                  .mission_publics_beneficiaires.terms"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="Département" prop="department" class="flex-1">
+            <el-select
+              v-model="form.department"
+              filterable
+              placeholder="Département"
+            >
+              <el-option
+                v-for="item in $store.getters.taxonomies.departments.terms"
+                :key="item.value"
+                :label="`${item.value} - ${item.label}`"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+
+          <algolia-places-input
+            label="Adresse de l'organisation"
+            :description="false"
+            :class-name="false"
+            @selected="setAddress"
+            @clear="clearAddress"
+          />
+
+          <el-form-item prop="address" class="mt-6">
+            <el-input v-model="form.address" disabled placeholder="Adresse" />
+          </el-form-item>
+          <div class="flex">
+            <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
+              <el-input v-model="form.zip" disabled placeholder="Code postal" />
+            </el-form-item>
+            <el-form-item label="Ville" prop="city" class="flex-1">
+              <el-input v-model="form.city" disabled placeholder="Ville" />
+            </el-form-item>
+          </div>
+
+          <template v-if="form.statut_juridique != 'Collectivité'">
+            <!-- <item-description container-class="mb-6">
+              Si votre organisation est membre d'un réseau national ou
+              territorial qui figure dans le menu déroulant du champ ci-dessous,
+              sélectionnez-le. Vous permettrez au superviseur de votre réseau de
+              visualiser les missions et bénévoles rattachés à votre
+              organisation. Vous faciliterez également la validation de votre
+              organisation par les autorités territoriales lors de votre
+              inscription.
+            </item-description> -->
+            <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+              <el-select
+                v-model="form.reseau_id"
+                clearable
+                placeholder="Réseau national"
+                filterable
+              >
+                <el-option
+                  v-for="item in $store.getters.reseaux"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+          </template>
+        </el-form>
+        <div class="sm:col-span-">
+          <span class="block w-full rounded-md shadow-sm">
+            <el-button
+              type="primary"
+              :loading="loading"
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              @click="onSubmit"
+              >Continuer</el-button
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- <el-form
         ref="structureForm"
         :model="form"
         label-position="top"
         :rules="rules"
         class="max-w-lg"
       >
-        <el-form-item label="Nom de votre organisation" prop="name">
-          <el-input
-            v-model="form.name"
-            placeholder="Nom de votre organisation"
-          />
-        </el-form-item>
-        <el-form-item label="Statut juridique" prop="statut_juridique">
-          <el-select
-            v-model="form.statut_juridique"
-            placeholder="Statut juridique"
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies.structure_legal_status
-                .terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          v-if="form.statut_juridique == 'Association'"
-          label="Disposez vous d'un agrément ?"
-          prop="association_types"
-        >
-          <el-select
-            v-model="form.association_types"
-            placeholder="Choix de l'agrément"
-            multiple
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies.association_types.terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          v-if="form.statut_juridique == 'Structure publique'"
-          prop="structure_publique_type"
-        >
-          <el-select
-            v-model="form.structure_publique_type"
-            placeholder="Choisissez le type de votre organisation publique"
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies.structure_publique_types
-                .terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          v-if="
-            form.statut_juridique == 'Structure publique' &&
-            (form.structure_publique_type == 'Service de l\'Etat' ||
-              form.structure_publique_type == 'Etablissement public')
-          "
-          prop="structure_publique_etat_type"
-        >
-          <el-select
-            v-model="form.structure_publique_etat_type"
-            placeholder="Choisissez une option"
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies
-                .structure_publique_etat_types.terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          v-if="form.statut_juridique == 'Structure privée'"
-          prop="structure_privee_type"
-        >
-          <el-select
-            v-model="form.structure_privee_type"
-            placeholder="Choisissez le type d'organisation privée"
-          >
-            <el-option
-              v-for="item in $store.getters.taxonomies.structure_privee_types
-                .terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
+
+
 
         <el-form-item
           label="Présentation synthétique de l'organisation"
@@ -184,21 +287,30 @@
             Continuer
           </el-button>
         </div>
-      </el-form>
-    </div>
+      </el-form> -->
   </div>
 </template>
 
 <script>
+import FormWithAddress from '@/mixins/FormWithAddress'
+
 export default {
+  mixins: [FormWithAddress],
   layout: 'register-steps',
+  asyncData({ store, error }) {
+    return {
+      structureId: store.getters.structure_as_responsable
+        ? store.getters.structure_as_responsable.id
+        : null,
+      form: store.getters.structure_as_responsable
+        ? { ...store.getters.structure_as_responsable }
+        : null,
+    }
+  },
   data() {
     return {
       loading: false,
-      structureId: this.$store.getters.structure_as_responsable
-        ? this.$store.getters.structure_as_responsable.id
-        : null,
-      form: {},
+      domaines: null,
       rules: {
         name: {
           required: true,
@@ -232,8 +344,14 @@ export default {
     }
   },
   created() {
-    this.form = { ...this.$store.getters.structure_as_responsable } || null
+    this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
+      this.domaines = response.data.data
+      if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
+        this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+      }
+    })
   },
+
   methods: {
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
