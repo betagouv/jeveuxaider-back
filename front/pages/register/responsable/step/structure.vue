@@ -120,7 +120,7 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="Domaines d'action"
+            label="Domaines d'action (à mettre en tag)"
             prop="domaines"
             class="flex-1 max-w-xl"
           >
@@ -139,7 +139,7 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="Publics bénéficiaires"
+            label="Publics bénéficiaires (à mettre en tag)"
             prop="publics_beneficiaires"
           >
             <el-select
@@ -155,6 +155,32 @@
                 :value="item.value"
               />
             </el-select>
+          </el-form-item>
+
+          <el-form-item
+            label="Mission de l'organisation"
+            prop="objectif"
+            class="mb-6"
+          >
+            <textarea
+              v-model="form.objectif"
+              rows="4"
+              class="custom-textarea placeholder-gray-600"
+              placeholder="Quel est le but de votre organisation ?"
+            />
+          </el-form-item>
+
+          <el-form-item
+            label="Décrivez-nous votre organisation"
+            prop="description"
+            class="mb-6"
+          >
+            <textarea
+              v-model="form.description"
+              rows="4"
+              class="custom-textarea placeholder-gray-600"
+              placeholder="Dites-nous tout..."
+            />
           </el-form-item>
 
           <el-form-item label="Département" prop="department" class="flex-1">
@@ -193,16 +219,15 @@
           </div>
 
           <template v-if="form.statut_juridique != 'Collectivité'">
-            <!-- <item-description container-class="mb-6">
-              Si votre organisation est membre d'un réseau national ou
-              territorial qui figure dans le menu déroulant du champ ci-dessous,
-              sélectionnez-le. Vous permettrez au superviseur de votre réseau de
-              visualiser les missions et bénévoles rattachés à votre
-              organisation. Vous faciliterez également la validation de votre
-              organisation par les autorités territoriales lors de votre
-              inscription.
-            </item-description> -->
             <el-form-item label="Réseau national" prop="reseau" class="flex-1">
+              <item-description container-class="mb-6">
+                Si votre organisation est membre d'un réseau national ou
+                territorial, sélectionnez-le. Vous permettrez au superviseur de
+                votre réseau de visualiser les missions et bénévoles rattachés à
+                votre organisation. Vous faciliterez également la validation de
+                votre organisation par les autorités territoriales lors de votre
+                inscription.
+              </item-description>
               <el-select
                 v-model="form.reseau_id"
                 clearable
@@ -232,62 +257,6 @@
         </div>
       </div>
     </div>
-    <!-- <el-form
-        ref="structureForm"
-        :model="form"
-        label-position="top"
-        :rules="rules"
-        class="max-w-lg"
-      >
-
-
-
-        <el-form-item
-          label="Présentation synthétique de l'organisation"
-          prop="description"
-          class="flex-1"
-        >
-          <el-input
-            v-model="form.description"
-            type="textarea"
-            :autosize="{ minRows: 2, maxRows: 6 }"
-            placeholder="Décrivez votre organisation, en quelques mots"
-          />
-        </el-form-item>
-        <template v-if="form.statut_juridique != 'Collectivité'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Réseau national ou territorial
-          </div>
-          <item-description container-class="mb-6">
-            Si votre organisation est membre d'un réseau national ou territorial
-            qui figure dans le menu déroulant du champ ci-dessous,
-            sélectionnez-le. Vous permettrez au superviseur de votre réseau de
-            visualiser les missions et bénévoles rattachés à votre organisation.
-            Vous faciliterez également la validation de votre organisation par
-            les autorités territoriales lors de votre inscription.
-          </item-description>
-          <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-            <el-select
-              v-model="form.reseau_id"
-              clearable
-              placeholder="Aucun"
-              filterable
-            >
-              <el-option
-                v-for="item in $store.getters.reseaux"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
-          </el-form-item>
-        </template>
-        <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit">
-            Continuer
-          </el-button>
-        </div>
-      </el-form> -->
   </div>
 </template>
 
