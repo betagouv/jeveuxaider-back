@@ -38,17 +38,22 @@
       <div class="hidden md:flex md:flex-col h-full">
         <div class="flex justify-end">
           <slot name="top-menu">
-            <nuxt-link
-              v-if="
-                $store.getters.isLogged &&
-                $store.getters.roles &&
-                $store.getters.roles.length > 0
-              "
-              to="/dashboard"
-              class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
-            >
-              Tableau de bord
-            </nuxt-link>
+            <template v-if="$store.getters.isLogged">
+              <nuxt-link
+                v-if="$store.getters.roles && $store.getters.roles.length > 0"
+                to="/dashboard"
+                class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              >
+                Tableau de bord
+              </nuxt-link>
+              <nuxt-link
+                v-else
+                to="/register/responsable/step/structure"
+                class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              >
+                Créer mon organisation
+              </nuxt-link>
+            </template>
             <nuxt-link
               v-if="!$store.getters.isLogged"
               to="/collectivite"
@@ -58,7 +63,7 @@
             </nuxt-link>
             <nuxt-link
               to="/territoires"
-              class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-400 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
             >
               Territoires engagés
             </nuxt-link>

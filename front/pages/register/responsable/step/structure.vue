@@ -195,7 +195,9 @@ export default {
   data() {
     return {
       loading: false,
-      structureId: this.$store.getters.structure_as_responsable.id,
+      structureId: this.$store.getters.structure_as_responsable
+        ? this.$store.getters.structure_as_responsable.id
+        : null,
       form: {},
       rules: {
         name: {
@@ -238,7 +240,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$api
-            .updateStructure(this.structureId, this.form)
+            .addOrUpdateStructure(this.structureId, this.form)
             .then(async () => {
               // Get profile to get new role
               await this.$store.dispatch('auth/fetchUser')

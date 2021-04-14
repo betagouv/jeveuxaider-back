@@ -68,13 +68,7 @@
                     :to="
                       $store.getters.isLogged &&
                       $store.getters.contextRole == 'responsable'
-                        ? {
-                            name: 'DashboardMissionFormAdd',
-                            params: {
-                              structureId:
-                                $store.getters.structure_as_responsable.id,
-                            },
-                          }
+                        ? `/dashboard/structure/${$store.getters.structure.id}/missions/add`
                         : '/login'
                     "
                     class="shadow-lg w-full flex items-center justify-center px-8 py-3 border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"

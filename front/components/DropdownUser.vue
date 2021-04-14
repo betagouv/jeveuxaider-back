@@ -125,6 +125,7 @@ export default {
       if (command.action == 'stopImpersonate') {
         await this.$store.dispatch('auth/stopImpersonate')
       } else if (command.action == 'logout') {
+        this.$router.push('/')
         await this.$store.dispatch('auth/logout')
       }
       if (command.action == 'menu') {

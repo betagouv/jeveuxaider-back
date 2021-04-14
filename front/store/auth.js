@@ -59,9 +59,7 @@ export const actions = {
     commit('setAccessToken', null)
     commit('conversation/reset', null, { root: true })
     commit('setUser', null)
-
     this.$cookies.remove('access-token')
-    this.$router.push('/')
   },
 
   async fetchUser({ commit }) {

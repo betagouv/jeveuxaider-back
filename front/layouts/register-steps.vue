@@ -33,7 +33,7 @@
           <div
             v-else
             class="text-sm sm:pt-2 lg:p-6 cursor-pointer hover:text-white"
-            @click="$store.dispatch('auth/logout')"
+            @click="handleLogout()"
           >
             Se déconnecter
           </div>
@@ -54,6 +54,12 @@ export default {
   middleware: 'logged',
   computed: {
     ...mapGetters(['isImpersonating']),
+  },
+  methods: {
+    handleLogout() {
+      this.$router.push('/')
+      this.$store.dispatch('auth/logout')
+    },
   },
 }
 </script>

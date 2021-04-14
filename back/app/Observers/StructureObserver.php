@@ -7,6 +7,7 @@ use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Notifications\CollectivityWaitingValidation;
+use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
@@ -24,6 +25,12 @@ class StructureObserver
      */
     public function created(Structure $structure)
     {
+
+        if ($structure->user->profile) {
+            $notification = new RegisterUserResponsable($structure);
+            $structure->user->notify($notification);
+        }
+
         if ($structure->user->profile) {
             $structure->members()->attach($structure->user->profile, ['role' => 'responsable']);
         }

@@ -133,8 +133,8 @@ export default {
         }
       ).then(() => {
         this.$api.anonymizeUser().then(() => {
+          this.$router.push('/')
           this.$store.dispatch('auth/logout').then(() => {
-            this.$router.push('/')
             this.$message({
               type: 'success',
               message: `Votre compte a bien été supprimé.`,
@@ -149,5 +149,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-    @apply mb-1
+  @apply mb-1
 </style>
