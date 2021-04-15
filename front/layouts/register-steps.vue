@@ -13,7 +13,9 @@
           />
         </nuxt-link>
       </div>
-      <div class="p-12">STEPS</div>
+      <div class="p-12">
+        <portal-target name="sidebar"></portal-target>
+      </div>
     </div>
     <div class="w-2/3 relative bg-blue-800 overflow-auto h-full">
       <img

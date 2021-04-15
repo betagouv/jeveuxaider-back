@@ -1,7 +1,9 @@
 <template>
-  <div v-if="$store.getters.profile" class="relative">
+  <div class="relative">
+    <portal to="sidebar"><Steps :steps="steps" /></portal>
+
     <div class="mb-12 text-center text-white">
-      <h1 class="text-5xl font-medium leading-10">
+      <h1 class="text-5xl font-medium leading-10 mb-4">
         Bienvenue <span class="font-bold">{{ firstName }}</span> !
       </h1>
       <div class="text-lg font-medium">
@@ -101,6 +103,28 @@ export default {
       },
       model: 'profile',
       avatar: null,
+      steps: [
+        {
+          name: 'Rejoignez le mouvement',
+          status: 'complete',
+        },
+        {
+          name: 'Votre profil',
+          status: 'current',
+        },
+        {
+          name: `Informations sur l'organisation`,
+          status: 'upcoming',
+        },
+        {
+          name: `Quelques mots sur l'organisation`,
+          status: 'upcoming',
+        },
+        {
+          name: `Votre organisation en image`,
+          status: 'upcoming',
+        },
+      ],
       rules: {
         mobile: [
           {

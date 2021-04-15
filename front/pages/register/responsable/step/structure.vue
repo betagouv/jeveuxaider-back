@@ -1,16 +1,25 @@
 <template>
-  <div v-if="$store.getters.profile" class="relative">
+  <div class="relative">
+    <portal to="sidebar"><Steps :steps="steps" /></portal>
     <div class="mb-12 text-center text-white">
       <h1 class="text-5xl font-medium leading-tight">
-        À propos de <br />
-        <span class="font-bold">{{ form.name }}</span>
+        <template v-if="structureId">
+          À propos de <br />
+          <span class="font-bold">{{ form.name }}</span>
+        </template>
+        <template v-else> Créez votre organisation </template>
       </h1>
     </div>
     <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
       <div
         class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
-        Validez ou complétez les informations suivantes
+        <template v-if="structureId">
+          Validez ou complétez les informations suivantes
+        </template>
+        <template v-else>
+          Renseignez les informations de votre organisation
+        </template>
       </div>
       <div class="p-8 bg-gray-50 border-t border-gray-200">
         <el-form
@@ -199,14 +208,18 @@
           </el-form-item>
 
           <algolia-places-input
-            label="Adresse de l'organisation"
+            label="Entrez l'adresse de l'organisation"
             :description="false"
             :class-name="false"
             @selected="setAddress"
             @clear="clearAddress"
           />
 
-          <el-form-item prop="address" class="mt-6">
+          <el-form-item
+            label="Adresse de l'organisation"
+            prop="address"
+            class="mt-6"
+          >
             <el-input v-model="form.address" disabled placeholder="Adresse" />
           </el-form-item>
           <div class="flex">
@@ -266,20 +279,43 @@ import FormWithAddress from '@/mixins/FormWithAddress'
 export default {
   mixins: [FormWithAddress],
   layout: 'register-steps',
-  asyncData({ store, error }) {
+  async asyncData({ $api, store }) {
+    const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
     return {
+      domaines: tags.data.data,
       structureId: store.getters.structure_as_responsable
         ? store.getters.structure_as_responsable.id
         : null,
       form: store.getters.structure_as_responsable
         ? { ...store.getters.structure_as_responsable }
-        : null,
+        : {},
     }
   },
   data() {
     return {
       loading: false,
-      domaines: null,
+      steps: [
+        {
+          name: 'Rejoignez le mouvement',
+          status: 'complete',
+        },
+        {
+          name: 'Votre profil',
+          status: 'complete',
+        },
+        {
+          name: `Informations sur l'organisation`,
+          status: 'current',
+        },
+        {
+          name: `Quelques mots sur l'organisation`,
+          status: 'upcoming',
+        },
+        {
+          name: `Votre organisation en image`,
+          status: 'upcoming',
+        },
+      ],
       rules: {
         name: {
           required: true,
@@ -313,14 +349,10 @@ export default {
     }
   },
   created() {
-    this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
-      this.domaines = response.data.data
-      if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
-        this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
-      }
-    })
+    if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
+      this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+    }
   },
-
   methods: {
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
