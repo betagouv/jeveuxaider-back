@@ -169,9 +169,6 @@ export default {
     axios: {
       browserBaseURL: `${process.env.API_URL}/api`,
     },
-    googleAnalytics: {
-      id: process.env.GOOGLE_ANALYTICS_ID,
-    },
     franceConnect: process.env.FRANCE_CONNECT,
     oauth: {
       clientId: process.env.OAUTH_CLIENT_ID,
