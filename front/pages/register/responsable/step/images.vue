@@ -7,7 +7,7 @@
       <Steps :steps="steps"
     /></portal>
     <div class="mb-6 lg:mb-12 text-center text-white">
-      <h1 class="text-4xl lg:text-5xl font-medium leading-10 mb-4">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-12 mb-4">
         <span class="font-bold">{{ form.name }}</span
         ><br />
         en images
@@ -28,7 +28,22 @@
           :rules="rules"
           :hide-required-asterisk="true"
         >
-          CHAMPS
+          <el-form-item label="Première image" class="mb-4">
+            <img
+              :src="`/images/domaines/${selectedImages[0]}.jpg`"
+              :srcset="`/images/domaines/${selectedImages[0]}@2x.jpg 2x`"
+              class="thumbnail w-64 cursor-pointer"
+              @click="onEditImageClick(0)"
+            />
+          </el-form-item>
+          <el-form-item label="Seconde image" class="mb-4">
+            <img
+              :src="`/images/domaines/${selectedImages[1]}.jpg`"
+              :srcset="`/images/domaines/${selectedImages[1]}@2x.jpg 2x`"
+              class="thumbnail w-64 cursor-pointer"
+              @click="onEditImageClick(1)"
+            />
+          </el-form-item>
         </el-form>
         <div class="sm:col-span-">
           <span class="block w-full rounded-md shadow-sm">
@@ -43,6 +58,13 @@
         </div>
       </div>
     </div>
+    <DialogOrganisationImagesPicker
+      :initial-image="selectedImages[imageIndex]"
+      :domaines="[1, 2, 3]"
+      :is-visible="showDialog"
+      @picked="onPickedImage"
+      @close="showDialog = false"
+    />
   </div>
 </template>
 
@@ -62,6 +84,9 @@ export default {
   data() {
     return {
       loading: false,
+      imageIndex: 0,
+      showDialog: false,
+      selectedImages: ['1_1', '2_1'],
       steps: [
         {
           name: 'Rejoignez le mouvement',
@@ -93,6 +118,13 @@ export default {
   },
   created() {},
   methods: {
+    onEditImageClick(index) {
+      this.imageIndex = index
+      this.showDialog = true
+    },
+    onPickedImage(imageName) {
+      this.selectedImages[this.imageIndex] = imageName
+    },
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
         if (valid) {

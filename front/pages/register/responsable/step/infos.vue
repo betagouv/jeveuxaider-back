@@ -7,7 +7,7 @@
       <Steps :steps="steps"
     /></portal>
     <div class="mb-6 lg:mb-12 text-center text-white">
-      <h1 class="text-4xl lg:text-5xl font-medium leading-10 mb-4">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-12 mb-4">
         Racontez-nous <br />
         <span class="font-bold">{{ form.name }}</span>
       </h1>

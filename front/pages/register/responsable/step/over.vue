@@ -1,21 +1,23 @@
 <template>
   <div class="relative bg-blue-800">
     <img
-      class="z-1 object-cover absolute h-screen lg:h-auto"
+      class="z-1 object-cover absolute h-screen lg:h-full"
       alt="Je Veux Aider"
       :srcSet="bgHeroMultipleSizes.srcSet"
       :src="bgHeroMultipleSizes.src"
       width="100%"
       height="100%"
     />
-    <div class="relative py-12 px-12">
-      <div class="mb-12 text-center text-white">
-        <h1 class="text-5xl font-medium mb-4" style="line-height: 3rem">
+    <div class="relative p-6 lg:p-12">
+      <div class="mb-6 lg:mb-12 text-center text-white">
+        <h1 class="text-4xl lg:text-5xl font-medium leading-12 mb-4">
           Féliciations <span class="font-bold">{{ firstName }}</span> !<br />
           Votre organisation est prête pour la suite
         </h1>
       </div>
-      <div class="max-w-5xl mx-auto relative grid grid-cols-2 gap-8">
+      <div
+        class="max-w-5xl mx-auto relative grid grid-cols-1 lg:grid-cols-2 gap-8"
+      >
         <div class="bg-white rounded-lg p-8">
           <div class="text-black text-3xl font-extrabold leading-9 text-center">
             Suivez le guide
@@ -30,8 +32,12 @@
                 type="primary"
                 class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-blue-800 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-blue-900 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
                 @click="onFollowGuide"
-                >Participer à la session d'accueil</el-button
               >
+                <span class="hidden lg:inline"
+                  >Participer à la session d'accueil
+                </span>
+                <span class="inline lg:hidden">Session d'accueil</span>
+              </el-button>
             </span>
           </div>
         </div>

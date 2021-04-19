@@ -8,7 +8,7 @@
     /></portal>
 
     <div class="mb-6 lg:mb-12 text-center text-white">
-      <h1 class="text-4xl lg:text-5xl font-medium leading-10 mb-4">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-12 mb-4">
         Bienvenue <span class="font-bold">{{ firstName }}</span> !
       </h1>
       <div class="text-lg font-medium">

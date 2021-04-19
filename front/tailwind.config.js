@@ -355,6 +355,8 @@ module.exports = {
       8: '2rem',
       9: '2.25rem',
       10: '2.5rem',
+      11: '2.75rem',
+      12: '3rem',
     },
     listStyleType: {
       none: 'none',
@@ -368,6 +370,7 @@ module.exports = {
     }),
     maxHeight: {
       250: '250px',
+      350: '350px',
       full: '100%',
       screen: '100vh',
       20: '5rem',
