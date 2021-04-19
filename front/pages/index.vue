@@ -85,8 +85,8 @@
                     class="m-auto"
                     alt="partenaire engagement J'agis pour la nature"
                     src="@/assets/images/logo-jagis-pour-la-nature.png"
-                    width="100px"
-                    height="40px"
+                    width="100"
+                    height="40"
                   />
                 </div>
                 <div
@@ -96,8 +96,8 @@
                     class="m-auto"
                     alt="partenaire engagement Banque Alimentaire"
                     src="@/assets/images/logo_banquealimentaire.png"
-                    width="150px"
-                    height="60px"
+                    width="150"
+                    height="60"
                   />
                 </div>
                 <div
@@ -107,8 +107,8 @@
                     class="m-auto"
                     src="@/assets/images/logo_emmaus.png"
                     alt="partenaire engagement Emmaus"
-                    width="150px"
-                    height="60px"
+                    width="150"
+                    height="60"
                   />
                 </div>
                 <div
@@ -118,8 +118,8 @@
                     class="m-auto"
                     src="@/assets/images/logo_aphp.png"
                     alt="partenaire engagement APHP"
-                    width="150px"
-                    height="60px"
+                    width="150"
+                    height="60"
                   />
                 </div>
                 <a
@@ -198,8 +198,8 @@
                 class="h-48 w-full object-cover"
                 :src="mission.image"
                 :alt="mission.name"
-                width="600px"
-                height="286px"
+                width="600"
+                height="286"
               />
             </div>
           </div>
@@ -427,8 +427,8 @@
                   :alt="domaine.name"
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   :src="require(`@/assets/images/dynamic/${domaine.image}`)"
-                  width="40px"
-                  height="28px"
+                  width="40"
+                  height="28"
                 />
                 {{ domaine.name }}
               </nuxt-link>
@@ -504,8 +504,8 @@
                       class="h-14 w-14 mt-1 rounded-full shadow-lg"
                       src="@/assets/images/sante-3.jpg"
                       alt="domaine sante"
-                      width="56px"
-                      height="56px"
+                      width="56"
+                      height="56"
                     />
                   </div>
                   <div class="ml-5">
@@ -521,8 +521,8 @@
                       class="h-9"
                       src="@/assets/images/logo_banquealimentaire.png"
                       alt="logo banque alimentaire"
-                      width="90px"
-                      height="36px"
+                      width="90"
+                      height="36"
                     />
                   </div>
                 </div>
@@ -560,8 +560,8 @@
                       class="mt-0 rounded-full shadow-lg"
                       src="@/assets/images/clement.jpeg"
                       alt="candidature bénévole"
-                      width="56px"
-                      height="56px"
+                      width="56"
+                      height="56"
                     />
                   </div>
                   <div class="ml-5">
@@ -577,8 +577,8 @@
                       class="h-6"
                       src="@/assets/images/lafourmiliere.png"
                       alt="logo la fourmiliere"
-                      width="138px"
-                      height="24px"
+                      width="138"
+                      height="24"
                     />
                   </div>
                 </div>
@@ -616,8 +616,8 @@
                 :src="require(`@/assets/images/dynamic/${actualite.image}`)"
                 :alt="actualite.title"
                 class="h-48 w-full object-cover"
-                width="554px"
-                height="312px"
+                width="554"
+                height="312"
               />
             </div>
             <div class="flex-1 bg-white p-8 flex flex-col justify-between">

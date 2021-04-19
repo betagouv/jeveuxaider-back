@@ -127,7 +127,7 @@
         <img
           class="bg-primary rounded-md p-3"
           :src="participation.mission.domaine.image"
-          width="56px"
+          width="56"
           :alt="participation.mission.domaine.name.fr"
         />
       </div>

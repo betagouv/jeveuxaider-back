@@ -10,21 +10,13 @@
                   class="mx-auto lg:mx-0"
                   src="@/assets/images/republique-francaise-logo.svg"
                   alt="République Française"
-                  width="222px"
-                  height="200px"
+                  width="222"
+                  height="200"
                 />
               </div>
             </nuxt-link>
           </div>
-          <div
-            class="text-black"
-            style="
-              max-width: 260px;
-              font-size: 14px;
-              line-height: 1.6;
-              letter-spacing: 0.05em;
-            "
-          >
+          <div class="text-black desc">
             Trouvez une mission d'intérêt général auprès d'un organisme public
             ou associatif et faites vivre les valeurs de la République.
           </div>
@@ -200,3 +192,11 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.desc.text-black
+  max-width: 260px
+  font-size: 14px
+  line-height: 1.6
+  letter-spacing: 0.05em
+</style>
