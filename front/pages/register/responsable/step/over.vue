@@ -1,0 +1,98 @@
+<template>
+  <div class="relative bg-blue-800">
+    <img
+      class="z-1 object-cover absolute h-screen lg:h-auto"
+      alt="Je Veux Aider"
+      :srcSet="bgHeroMultipleSizes.srcSet"
+      :src="bgHeroMultipleSizes.src"
+      width="100%"
+      height="100%"
+    />
+    <div class="relative py-12 px-12">
+      <div class="mb-12 text-center text-white">
+        <h1 class="text-5xl font-medium mb-4" style="line-height: 3rem">
+          Féliciations <span class="font-bold">{{ firstName }}</span> !<br />
+          Votre organisation est prête pour la suite
+        </h1>
+      </div>
+      <div class="max-w-5xl mx-auto relative grid grid-cols-2 gap-8">
+        <div class="bg-white rounded-lg p-8">
+          <div class="text-black text-3xl font-extrabold leading-9 text-center">
+            Suivez le guide
+          </div>
+          <div class="text-center text-gray-500 my-6">
+            Découvrez la plateforme et sa gestion simplifiée des candidatures de
+            bénévoles
+          </div>
+          <div class="sm:col-span-">
+            <span class="block w-full rounded-md shadow-sm">
+              <el-button
+                type="primary"
+                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-blue-800 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-blue-900 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
+                @click="onFollowGuide"
+                >Participer à la session d'accueil</el-button
+              >
+            </span>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg p-8">
+          <div class="text-black text-3xl font-extrabold leading-9 text-center">
+            Publiez votre 1ère mission
+          </div>
+          <div class="text-center text-gray-500 my-6">
+            Proposez dès maintenant vos missions sur la plateforme et recrutez
+            vos premiers bénévoles
+          </div>
+          <div class="sm:col-span-">
+            <span class="block w-full rounded-md shadow-sm">
+              <el-button
+                type="primary"
+                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+                @click="onSubmit"
+                >C'est parti !</el-button
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
+
+export default {
+  asyncData({ $api, store }) {
+    return {
+      structureId: store.getters.structure_as_responsable
+        ? store.getters.structure_as_responsable.id
+        : null,
+    }
+  },
+  data() {
+    return {
+      bgHeroMultipleSizes,
+      loading: false,
+    }
+  },
+  computed: {
+    firstName() {
+      return this.$store.getters.profile
+        ? this.$store.getters.profile.first_name
+        : null
+    },
+  },
+  created() {},
+  methods: {
+    onFollowGuide() {
+      //
+    },
+    onSubmit() {
+      this.$router.push(`/dashboard/structure/${this.structureId}/missions/add`)
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped></style>

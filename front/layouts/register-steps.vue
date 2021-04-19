@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full flex flex-wrap lg:flex-no-wrap">
-    <div class="bg-white w-1/3 h-full">
-      <div class="p-12 border-b border-cool-gray-100">
+  <div class="w-full lg:h-full flex flex-col lg:flex-row">
+    <div class="bg-white lg:w-1/3 lg:h-full">
+      <div class="p-6 lg:p-12 border-b border-cool-gray-100">
         <nuxt-link to="/">
           <img
             src="@/assets/images/jeveuxaider-logo.svg"
@@ -13,11 +13,11 @@
           />
         </nuxt-link>
       </div>
-      <div class="p-12">
+      <div class="p-6 lg:p-12">
         <portal-target name="sidebar"></portal-target>
       </div>
     </div>
-    <div class="w-2/3 relative bg-blue-800 overflow-auto h-full">
+    <div class="lg:w-2/3 relative bg-blue-800 lg:overflow-auto lg:h-full">
       <img
         class="z-1 object-cover absolute h-screen lg:h-auto"
         alt="Je Veux Aider"
@@ -26,7 +26,7 @@
         width="100%"
         height="100%"
       />
-      <div class="py-12 px-12">
+      <div class="p-6 lg:p-12">
         <Nuxt :nuxt-child-key="$route.fullPath" class="" />
       </div>
     </div>

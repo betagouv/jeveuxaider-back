@@ -1,9 +1,14 @@
 <template>
   <div class="relative">
-    <portal to="sidebar"><Steps :steps="steps" /></portal>
+    <portal to="sidebar"
+      ><div class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12">
+        Ça ne devrait pas prendre plus de 3 minutes 😉
+      </div>
+      <Steps :steps="steps"
+    /></portal>
 
-    <div class="mb-12 text-center text-white">
-      <h1 class="text-5xl font-medium leading-10 mb-4">
+    <div class="mb-6 lg:mb-12 text-center text-white">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-10 mb-4">
         Bienvenue <span class="font-bold">{{ firstName }}</span> !
       </h1>
       <div class="text-lg font-medium">
@@ -107,6 +112,7 @@ export default {
         {
           name: 'Rejoignez le mouvement',
           status: 'complete',
+          href: '/register/responsable/step/profile',
         },
         {
           name: 'Votre profil',
@@ -198,9 +204,4 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-step__description
-  @apply hidden
-    @screen sm
-      @apply block
-</style>
+<style lang="sass" scoped></style>

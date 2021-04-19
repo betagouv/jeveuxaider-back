@@ -1,8 +1,13 @@
 <template>
   <div class="relative">
-    <portal to="sidebar"><Steps :steps="steps" /></portal>
-    <div class="mb-12 text-center text-white">
-      <h1 class="text-5xl font-medium leading-tight">
+    <portal to="sidebar"
+      ><div class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12">
+        Ça ne devrait pas prendre plus de 3 minutes 😉
+      </div>
+      <Steps :steps="steps"
+    /></portal>
+    <div class="mb-6 lg:mb-12 text-center text-white">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-10 mb-4">
         <template v-if="structureId">
           À propos de <br />
           <span class="font-bold">{{ form.name }}</span>
@@ -166,32 +171,6 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item
-            label="Mission de l'organisation"
-            prop="objectif"
-            class="mb-6"
-          >
-            <textarea
-              v-model="form.objectif"
-              rows="4"
-              class="custom-textarea placeholder-gray-600"
-              placeholder="Quel est le but de votre organisation ?"
-            />
-          </el-form-item>
-
-          <el-form-item
-            label="Décrivez-nous votre organisation"
-            prop="description"
-            class="mb-6"
-          >
-            <textarea
-              v-model="form.description"
-              rows="4"
-              class="custom-textarea placeholder-gray-600"
-              placeholder="Dites-nous tout..."
-            />
-          </el-form-item>
-
           <el-form-item label="Département" prop="department" class="flex-1">
             <el-select
               v-model="form.department"
@@ -232,19 +211,23 @@
           </div>
 
           <template v-if="form.statut_juridique != 'Collectivité'">
-            <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-              <item-description container-class="mb-6">
+            <el-form-item
+              label="Faites-vous partie d'un réseau national ?"
+              prop="reseau"
+              class="flex-1"
+            >
+              <!-- <item-description container-class="mb-6">
                 Si votre organisation est membre d'un réseau national ou
                 territorial, sélectionnez-le. Vous permettrez au superviseur de
                 votre réseau de visualiser les missions et bénévoles rattachés à
                 votre organisation. Vous faciliterez également la validation de
                 votre organisation par les autorités territoriales lors de votre
                 inscription.
-              </item-description>
+              </item-description> -->
               <el-select
                 v-model="form.reseau_id"
                 clearable
-                placeholder="Réseau national"
+                placeholder="Choix de votre réseau national"
                 filterable
               >
                 <el-option
@@ -298,10 +281,12 @@ export default {
         {
           name: 'Rejoignez le mouvement',
           status: 'complete',
+          href: '/register/responsable/step/profile',
         },
         {
           name: 'Votre profil',
           status: 'complete',
+          href: '/register/responsable/step/profile',
         },
         {
           name: `Informations sur l'organisation`,
@@ -364,7 +349,7 @@ export default {
               // Get profile to get new role
               await this.$store.dispatch('auth/fetchUser')
               this.loading = false
-              this.$router.push('/register/responsable/step/address')
+              this.$router.push('/register/responsable/step/infos')
             })
             .catch(() => {
               this.loading = false
@@ -376,11 +361,4 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-step__description
-  @apply hidden
-    @screen sm
-      @apply block
-::v-deep .el-upload-list__item-name
-  @apply hidden
-</style>
+<style lang="sass" scoped></style>

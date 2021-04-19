@@ -1,0 +1,178 @@
+<template>
+  <div class="relative">
+    <portal to="sidebar"
+      ><div class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12">
+        Ça ne devrait pas prendre plus de 3 minutes 😉
+      </div>
+      <Steps :steps="steps"
+    /></portal>
+    <div class="mb-6 lg:mb-12 text-center text-white">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-10 mb-4">
+        Racontez-nous <br />
+        <span class="font-bold">{{ form.name }}</span>
+      </h1>
+    </div>
+    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+      <div
+        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+      >
+        Votre organisation en quelques mots
+      </div>
+      <div class="p-8 bg-gray-50 border-t border-gray-200">
+        <el-form
+          ref="structureForm"
+          :model="form"
+          label-position="top"
+          class="form-register-steps"
+          :rules="rules"
+          :hide-required-asterisk="true"
+        >
+          <el-form-item
+            label="Mission de l'organisation"
+            prop="objectif"
+            class="mb-4 lg:mb-6"
+          >
+            <textarea
+              v-model="form.objectif"
+              rows="4"
+              class="custom-textarea placeholder-gray-600"
+              placeholder="Quel est le but de votre organisation ?"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Décrivez-nous votre organisation"
+            prop="description"
+            class="mb-4 lg:mb-6"
+          >
+            <textarea
+              v-model="form.description"
+              rows="4"
+              class="custom-textarea placeholder-gray-600"
+              placeholder="Dites-nous tout..."
+            />
+          </el-form-item>
+
+          <div
+            class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
+          >
+            Votre organisation sur les réseaux
+          </div>
+          <el-form-item label="Site de l'organisation" prop="website">
+            <input
+              v-model="form.website"
+              class="custom-input placeholder-gray-600 prefix prefix-website"
+              placeholder="https://www.votresite.fr"
+            />
+          </el-form-item>
+          <el-form-item label="Page Facebook" prop="facebook">
+            <input
+              v-model="form.facebook"
+              class="custom-input placeholder-gray-600 prefix prefix-facebook"
+              placeholder="https://facebook.com/votrepage"
+            />
+          </el-form-item>
+          <el-form-item label="Page Twitter" prop="twitter">
+            <input
+              v-model="form.twitter"
+              class="custom-input placeholder-gray-600 prefix prefix-twitter"
+              placeholder="https://twitter.com/votrepage"
+            />
+          </el-form-item>
+          <el-form-item label="Profil Instagram" prop="instagram">
+            <input
+              v-model="form.instagram"
+              class="custom-input placeholder-gray-600 prefix prefix-instagram"
+              placeholder="https://instagram.com/votrepage"
+            />
+          </el-form-item>
+          <el-form-item label="Plateforme de don" prop="donation">
+            <input
+              v-model="form.donation"
+              class="custom-input placeholder-gray-600 prefix prefix-instagram"
+              placeholder="URL de votre page (Helloasso, Microdon, Ulule, etc...)"
+            />
+          </el-form-item>
+        </el-form>
+        <div class="sm:col-span-">
+          <span class="block w-full rounded-md shadow-sm">
+            <el-button
+              type="primary"
+              :loading="loading"
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              @click="onSubmit"
+              >Continuer</el-button
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: 'register-steps',
+  asyncData({ $api, store }) {
+    return {
+      structureId: store.getters.structure_as_responsable
+        ? store.getters.structure_as_responsable.id
+        : null,
+      form: store.getters.structure_as_responsable
+        ? { ...store.getters.structure_as_responsable }
+        : {},
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      steps: [
+        {
+          name: 'Rejoignez le mouvement',
+          status: 'complete',
+          href: '/register/responsable/step/profile',
+        },
+        {
+          name: 'Votre profil',
+          status: 'complete',
+          href: '/register/responsable/step/profile',
+        },
+        {
+          name: `Informations sur l'organisation`,
+          status: 'complete',
+          href: '/register/responsable/step/structure',
+        },
+        {
+          name: `Quelques mots sur l'organisation`,
+          status: 'current',
+        },
+        {
+          name: `Votre organisation en image`,
+          status: 'upcoming',
+        },
+      ],
+      rules: {},
+    }
+  },
+  created() {},
+  methods: {
+    onSubmit() {
+      this.$refs.structureForm.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          this.$api
+            .updateStructure(this.structureId, this.form)
+            .then(() => {
+              this.loading = false
+              this.$router.push('/register/responsable/step/images')
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        }
+      })
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped></style>
