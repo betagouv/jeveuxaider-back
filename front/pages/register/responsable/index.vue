@@ -534,6 +534,7 @@ export default {
             })
             .then(() => {
               this.loading = false
+              window.plausible('Inscription depuis une page organisation')
               this.$router.push('/register/responsable/step/profile')
             })
             .catch(() => {
