@@ -5,14 +5,11 @@
     width="100%"
     :visible="isVisible"
     style="max-width: 600px; margin: auto; overflow: hidden"
+    @open="onOpenDialog"
     @close="$emit('close')"
   >
     <div class="max-h-350 overflow-y-auto">
-      <div
-        v-for="domaineId in domaines"
-        :key="domaineId"
-        class="flex flex-wrap"
-      >
+      <div class="flex flex-wrap">
         <img
           v-for="imageName in availableImages"
           :key="`${imageName}`"
@@ -70,6 +67,9 @@ export default {
     },
   },
   methods: {
+    onOpenDialog() {
+      this.selectedImage = this.initialImage
+    },
     onSubmit() {
       this.$emit('picked', this.selectedImage)
       this.$emit('close')

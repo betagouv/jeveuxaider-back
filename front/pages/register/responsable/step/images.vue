@@ -20,14 +20,7 @@
         Faites briller votre organisation
       </div>
       <div class="p-8 bg-gray-50 border-t border-gray-200">
-        <el-form
-          ref="structureForm"
-          :model="form"
-          label-position="top"
-          class="form-register-steps"
-          :rules="rules"
-          :hide-required-asterisk="true"
-        >
+        <el-form class="mb-8" label-position="top">
           <el-form-item label="Première image" class="mb-4">
             <img
               :src="`/images/domaines/${selectedImages[0]}.jpg`"
@@ -113,7 +106,6 @@ export default {
           status: 'current',
         },
       ],
-      rules: {},
     }
   },
   created() {},
@@ -125,6 +117,7 @@ export default {
     onPickedImage(imageName) {
       this.selectedImages[this.imageIndex] = imageName
     },
+
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
         if (valid) {
