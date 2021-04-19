@@ -20,7 +20,7 @@
       >
         <el-form-item prop="email" class="mb-5">
           <div
-            class="input-shadow relative text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+            class="input-shadow relative text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
           >
             {{ form.email }}
 
@@ -37,7 +37,7 @@
           <input
             v-model="form.password"
             type="password"
-            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
             placeholder="Votre mot de passe"
           />
         </el-form-item>
@@ -46,7 +46,7 @@
           <el-form-item prop="first_name" class="w-full lg:w-1/2 mb-5">
             <input
               v-model="form.first_name"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
               label="Prénom"
               placeholder="Prénom"
             />
@@ -54,7 +54,7 @@
           <el-form-item prop="last_name" class="w-full lg:w-1/2 mb-5">
             <input
               v-model="form.last_name"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
               label="Nom"
               placeholder="Nom"
             />
@@ -64,7 +64,7 @@
           <el-form-item prop="zip" class="w-full lg:w-1/2 mb-5">
             <input
               v-model="form.zip"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
               label="Code postal"
               placeholder="Code Postal"
             />
@@ -73,7 +73,7 @@
             <input
               v-model="form.birthday"
               v-mask="'##/##/####'"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
               label="Date de naissance"
               placeholder="Date de naissance"
             />
@@ -82,7 +82,7 @@
         <el-form-item prop="mobile" class="mb-5">
           <input
             v-model="form.mobile"
-            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
             label="Mobile"
             placeholder="Téléphone mobile"
           />
@@ -90,7 +90,7 @@
 
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:shadow-outline transition duration-150 ease-in-out"
           @click.prevent="onSubmit"
         >
           S'inscrire

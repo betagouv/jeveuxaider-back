@@ -124,7 +124,7 @@
           <slot name="menu">
             <nav class="flex space-x-12 text-sm lg:text-base">
               <button
-                class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
                 @click="$store.commit('toggleSearchOverlay')"
               >
                 <img
@@ -138,14 +138,14 @@
               </button>
               <nuxt-link
                 to="/missions-benevolat?refinementList%5Btype%5D%5B0%5D=Mission%20à%20distance"
-                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
               >
                 À distance
               </nuxt-link>
               <nuxt-link
                 v-if="!$store.getters.isLogged"
                 to="/register/responsable"
-                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
               >
                 Publier une mission
               </nuxt-link>
@@ -154,7 +154,7 @@
                 <button
                   type="button"
                   aria-label="S'informer"
-                  class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   <span class="flex-none text-base">S'informer</span>
                   <svg
@@ -199,7 +199,7 @@
               <nuxt-link
                 v-if="$store.getters.isLogged"
                 to="/user/missions"
-                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
               >
                 Mes missions
               </nuxt-link>

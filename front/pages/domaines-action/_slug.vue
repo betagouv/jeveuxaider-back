@@ -47,7 +47,7 @@
                     v-if="!$store.getters.isLogged"
                     to="/register/volontaire"
                     :class="`text-${thematique.color}`"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
                   </nuxt-link>
@@ -55,7 +55,7 @@
                     v-else
                     href="#search"
                     :class="`text-${thematique.color}`"
-                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Trouver une mission
                   </a>
@@ -71,7 +71,7 @@
                         ? `/dashboard/structure/${$store.getters.structure.id}/missions/add`
                         : '/login'
                     "
-                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
+                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
                     Proposer une mission
                   </nuxt-link>
@@ -257,7 +257,7 @@
                     : '/register/responsable'
                 "
                 :class="`bg-${thematique.color}`"
-                class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white focus:shadow-outline transition duration-150 ease-in-out"
               >
                 Rejoignez JeVeuxAider.gouv.fr
               </nuxt-link>

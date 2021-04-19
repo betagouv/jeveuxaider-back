@@ -693,7 +693,7 @@
                   aria-label="Email address"
                   type="email"
                   required
-                  class="w-full px-5 py-3 appearance-none shadow-lg border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
+                  class="w-full px-5 py-3 appearance-none shadow-lg border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:placeholder-gray-400 transition duration-150 ease-in-out"
                   placeholder="Votre e-mail"
                 />
                 <div v-if="emailError" class="text-red-600 font-semibold">

@@ -62,7 +62,7 @@
         </a>
       </div>
       <el-button
-        class="font-bold text-gray-500 max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full bg-white focus:outline-none focus:shadow-outline shadow-lg hover:scale-105 transform transition duration-150 ease-in-out will-change-transform hover:text-blue-800"
+        class="font-bold text-gray-500 max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full bg-white focus:shadow-outline shadow-lg hover:scale-105 transform transition duration-150 ease-in-out will-change-transform hover:text-blue-800"
         @click.prevent="onSkip"
       >
         Passer
