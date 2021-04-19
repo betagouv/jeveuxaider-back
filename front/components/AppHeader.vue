@@ -16,8 +16,8 @@
               class="mx-auto lg:mx-0"
               src="@/assets/images/republique-francaise-logo.svg"
               alt="République Française"
-              width="121px"
-              height="110px"
+              width="121"
+              height="110"
             />
           </nuxt-link>
         </div>
@@ -27,8 +27,8 @@
               src="@/assets/images/jeveuxaider-logo.svg"
               alt="Bénévolat je veux aider"
               title="Bénévolat association"
-              width="227px"
-              height="37px"
+              width="227"
+              height="37"
             />
           </nuxt-link>
         </div>
@@ -87,8 +87,8 @@
                 <img
                   src="@/assets/images/icones/facebook.svg"
                   alt="Facebook"
-                  width="6px"
-                  height="12px"
+                  width="6"
+                  height="12"
                 />
               </a>
               <a
@@ -100,8 +100,8 @@
                 <img
                   src="@/assets/images/icones/twitter.svg"
                   alt="Twitter"
-                  width="13px"
-                  height="10px"
+                  width="13"
+                  height="10"
                 />
               </a>
               <a
@@ -113,8 +113,8 @@
                 <img
                   src="@/assets/images/icones/linkedin.svg"
                   alt="Linkedin"
-                  width="11px"
-                  height="11px"
+                  width="11"
+                  height="11"
                 />
               </a>
             </div>
@@ -131,8 +131,8 @@
                   class="mr-2"
                   src="@/assets/images/icones/search.svg"
                   alt="Trouver une mission"
-                  width="16px"
-                  height="18px"
+                  width="16"
+                  height="18"
                 />
                 Trouver une mission
               </button>
@@ -215,8 +215,8 @@
                   class="mr-2"
                   src="@/assets/images/icones/mon-espace.svg"
                   alt="Mon espace"
-                  width="12px"
-                  height="18px"
+                  width="12"
+                  height="18"
                 />
                 Mon espace
               </nuxt-link>

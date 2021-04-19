@@ -14,8 +14,8 @@
           class="h-5"
           src="/images/icones/menu.svg"
           alt="Open"
-          width="20px"
-          height="20px"
+          width="20"
+          height="20"
         />
       </button>
     </div>
@@ -36,8 +36,8 @@
               class=""
               src="@/assets/images/jeveuxaider-logo.svg"
               alt="JeVeuxAider.gouv.fr"
-              width="227px"
-              height="37px"
+              width="227"
+              height="37"
             />
           </nuxt-link>
           <button
@@ -54,8 +54,8 @@
               class="h-5"
               src="/images/icones/cancel.svg"
               alt="Close"
-              width="20px"
-              height="20px"
+              width="20"
+              height="20"
             />
           </button>
         </div>

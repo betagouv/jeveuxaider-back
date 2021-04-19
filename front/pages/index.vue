@@ -10,8 +10,6 @@
         alt="Je Veux Aider"
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
-        width="100%"
-        height="100%"
       />
 
       <div
