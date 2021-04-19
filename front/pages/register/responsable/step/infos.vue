@@ -27,30 +27,57 @@
           :rules="rules"
           :hide-required-asterisk="true"
         >
-          <el-form-item
-            label="Mission de l'organisation"
-            prop="objectif"
-            class="mb-4 lg:mb-6"
-          >
-            <textarea
-              v-model="form.objectif"
-              rows="4"
-              class="custom-textarea placeholder-gray-600"
-              placeholder="Quel est le but de votre organisation ?"
-            />
-          </el-form-item>
-          <el-form-item
-            label="Décrivez-nous votre organisation"
-            prop="description"
-            class="mb-4 lg:mb-6"
-          >
-            <textarea
-              v-model="form.description"
-              rows="4"
-              class="custom-textarea placeholder-gray-600"
-              placeholder="Dites-nous tout..."
-            />
-          </el-form-item>
+          <div class="mb-4 lg:mb-6 wrapper-textarea">
+            <el-form-item
+              label="Mission de l'organisation"
+              prop="description"
+              class=""
+            >
+              <textarea
+                v-model="form.description"
+                rows="4"
+                class="custom-textarea placeholder-gray-600"
+                placeholder="Quel est le but de votre organisation ?"
+              />
+            </el-form-item>
+          </div>
+
+          <template v-if="collectivity">
+            <div
+              class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
+            >
+              Codes postaux de votre collectivité
+            </div>
+
+            <ItemDescription container-class="mb-6">
+              En tant que collectivité, vous aurez accès au statistiques des
+              organisations enregistrées avec vos codes postaux. <br />Vous
+              aurez aussi la possibilité de gérer la page de votre collectivité
+              qui listera toutes les missions dans votre collectivité. Par
+              exemple pour Bayonne :
+              <a
+                href="https://jeveuxaider.gouv.fr/territoires/bayonne"
+                target="_blank"
+                >https://jeveuxaider.gouv.fr/territoires/bayonne</a
+              >
+            </ItemDescription>
+
+            <el-form-item
+              label="Liste des codes postaux"
+              prop="zips"
+              class="flex-1"
+            >
+              <el-select
+                v-model="form.zips"
+                multiple
+                allow-create
+                filterable
+                default-first-option
+                placeholder="Saisissez tous les codes postaux"
+              >
+              </el-select>
+            </el-form-item>
+          </template>
 
           <div
             class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
@@ -120,6 +147,11 @@ export default {
       form: store.getters.structure_as_responsable
         ? { ...store.getters.structure_as_responsable }
         : {},
+      collectivity:
+        store.getters.structure_as_responsable &&
+        store.getters.structure_as_responsable.collectivity
+          ? { ...store.getters.structure_as_responsable.collectivity }
+          : null,
     }
   },
   data() {
@@ -150,10 +182,36 @@ export default {
           status: 'upcoming',
         },
       ],
-      rules: {},
     }
   },
-  created() {},
+  computed: {
+    rules() {
+      const rules = {
+        description: [
+          {
+            required: true,
+            message: 'Ce champ est requis',
+            trigger: 'blur',
+          },
+        ],
+      }
+
+      if (this.collectivity) {
+        rules.zips = [
+          {
+            required: true,
+            message: 'Veuillez saisir les codes postaux de la commune',
+            trigger: 'blur',
+          },
+        ]
+      }
+
+      return rules
+    },
+  },
+  mounted() {
+    document.getElementById('step-container').scrollTop = 0
+  },
   methods: {
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
@@ -175,4 +233,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.wrapper-textarea
+  ::v-deep
+    .el-form-item__content
+      @apply flex
+</style>

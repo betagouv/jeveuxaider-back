@@ -159,6 +159,9 @@ export default {
         : null
     },
   },
+  mounted() {
+    document.getElementById('step-container').scrollTop = 0
+  },
   methods: {
     onUpload() {
       alert('Cette fonctionnalité est à venir prochainement !')

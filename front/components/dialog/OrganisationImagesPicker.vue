@@ -8,7 +8,7 @@
     @open="onOpenDialog"
     @close="$emit('close')"
   >
-    <div class="max-h-350 overflow-y-auto">
+    <div class="max-h-350 overflow-y-auto custom-scrollbar">
       <div class="flex flex-wrap">
         <img
           v-for="imageName in availableImages"

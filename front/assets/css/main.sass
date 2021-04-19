@@ -397,11 +397,12 @@ body.full-height-layout
   .custom-input
     @apply w-full px-4 rounded-lg border border-gray-200
     &:focus
-      @apply outline-none shadow-none
+      border-color: #070191
+      @apply shadow-none
   .custom-textarea
     @apply w-full px-4 py-3 rounded-lg border border-gray-200 leading-6
     &:focus
-      @apply outline-none shadow-none
+      @apply shadow-none
   .prefix
     padding-left: 40px
     background-position: 15px center
@@ -417,3 +418,14 @@ body.full-height-layout
     &.prefix-donation
       background-image: url('../images/icones/steps/instagram.svg')
 
+// OUTLINE
+input
+  outline-color: #070191
+.el-select .el-input__inner
+  &:focus
+    border: 2px solid #070191
+.el-select .el-input.is-focus .el-input__inner
+  border: 2px solid #070191
+.el-input__inner
+  &:focus
+    border: 2px solid #070191

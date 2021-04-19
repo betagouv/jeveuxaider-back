@@ -17,7 +17,10 @@
         <portal-target name="sidebar"></portal-target>
       </div>
     </div>
-    <div class="lg:w-2/3 relative bg-blue-800 lg:overflow-auto lg:h-full">
+    <div
+      id="step-container"
+      class="lg:w-2/3 relative bg-blue-800 lg:overflow-auto lg:h-full"
+    >
       <img
         class="z-1 object-cover absolute h-screen lg:h-auto"
         alt="Je Veux Aider"

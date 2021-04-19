@@ -15,29 +15,86 @@
     </div>
     <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
       <div
-        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+        class="px-8 pt-6 pb-20 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
         Faites briller votre organisation
       </div>
       <div class="p-8 bg-gray-50 border-t border-gray-200">
-        <el-form class="mb-8" label-position="top">
-          <el-form-item label="Première image" class="mb-4">
+        <div
+          class="flex flex-col items-center text-center mb-8"
+          style="margin-top: -100px"
+        >
+          <div class="cursor-pointer" @click="onUpload()">
+            <!-- <ImageField
+                  :model="model"
+                  :model-id="$store.getters.profile.id"
+                  :min-width="320"
+                  :min-height="320"
+                  :max-size="2000000"
+                  :preview-width="'150px'"
+                  :field="form.image"
+                  label="Photo de profil"
+                  @add-or-crop="avatar = $event"
+                  @delete="avatar = null"
+                ></ImageField> -->
             <img
-              :src="`/images/domaines/${selectedImages[0]}.jpg`"
-              :srcset="`/images/domaines/${selectedImages[0]}@2x.jpg 2x`"
-              class="thumbnail w-64 cursor-pointer"
-              @click="onEditImageClick(0)"
+              src="@/assets/images/logo-placeholder.svg"
+              alt="Logo"
+              title="Logo"
             />
-          </el-form-item>
-          <el-form-item label="Seconde image" class="mb-4">
-            <img
-              :src="`/images/domaines/${selectedImages[1]}.jpg`"
-              :srcset="`/images/domaines/${selectedImages[1]}@2x.jpg 2x`"
-              class="thumbnail w-64 cursor-pointer"
-              @click="onEditImageClick(1)"
+            <div class="text-xs font-bold text-gray-700 uppercase">
+              AJOUTER VOTRE PHOTO
+            </div>
+            <div class="text-xs text-gray-300 uppercase">FACULTATIF</div>
+          </div>
+        </div>
+        <div class="relative mb-8" @click="onEditImageClick(0)">
+          <div
+            class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+          >
+            Visuel N°1
+          </div>
+          <img
+            :src="`/images/domaines/${selectedImages[0]}.jpg`"
+            :srcset="`/images/domaines/${selectedImages[0]}@2x.jpg 2x`"
+            class="w-full h-auto rounded-lg cursor-pointer"
+          />
+          <div
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+            style="right: 12px; bottom: 12px"
+          >
+            <div
+              class="text-blue-800"
+              v-html="
+                require('@/assets/images/icones/heroicon/edit.svg?include')
+              "
             />
-          </el-form-item>
-        </el-form>
+          </div>
+        </div>
+        <div class="relative mb-8" @click="onEditImageClick(1)">
+          <div
+            class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+          >
+            Visuel N°2
+          </div>
+          <img
+            :src="`/images/domaines/${selectedImages[1]}.jpg`"
+            :srcset="`/images/domaines/${selectedImages[1]}@2x.jpg 2x`"
+            class="w-full h-auto rounded-lg cursor-pointer"
+          />
+          <div
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+            style="right: 12px; bottom: 12px"
+          >
+            <div
+              class="text-blue-800"
+              v-html="
+                require('@/assets/images/icones/heroicon/edit.svg?include')
+              "
+            />
+          </div>
+        </div>
+
         <div class="sm:col-span-">
           <span class="block w-full rounded-md shadow-sm">
             <el-button
@@ -109,6 +166,9 @@ export default {
     }
   },
   created() {},
+  mounted() {
+    document.getElementById('step-container').scrollTop = 0
+  },
   methods: {
     onEditImageClick(index) {
       this.imageIndex = index
@@ -117,22 +177,12 @@ export default {
     onPickedImage(imageName) {
       this.selectedImages[this.imageIndex] = imageName
     },
-
+    onUpload() {
+      alert('Cette fonctionnalité est à venir prochainement !')
+    },
     onSubmit() {
-      this.$refs.structureForm.validate((valid) => {
-        if (valid) {
-          this.loading = true
-          this.$api
-            .updateStructure(this.structureId, this.form)
-            .then(() => {
-              this.loading = false
-              this.$router.push('/register/responsable/step/over')
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        }
-      })
+      this.$router.push('/register/responsable/step/over')
+      // TODO: update structure logo / image_1 / image_2
     },
   },
 }

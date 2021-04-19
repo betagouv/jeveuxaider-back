@@ -313,23 +313,27 @@ export default {
             'Veuillez renseigner la forme juridique de votre organisation',
           trigger: 'blur',
         },
-        mobile: [
+        address: [
           {
             required: true,
-            message: 'Un numéro de téléphone est obligatoire',
-            trigger: 'blur',
-          },
-          {
-            pattern: /^[+|\s|\d]*$/,
-            message: 'Le format du numéro de téléphone est incorrect',
+            message: 'Le champ adresse est requis',
             trigger: 'blur',
           },
         ],
-        phone: {
-          pattern: /^[+|\s|\d]*$/,
-          message: 'Le format du numéro de téléphone est incorrect',
-          trigger: 'blur',
-        },
+        city: [
+          {
+            required: true,
+            message: 'Le champ ville est requis',
+            trigger: 'blur',
+          },
+        ],
+        department: [
+          {
+            required: true,
+            message: 'Le champ département est requis',
+            trigger: 'blur',
+          },
+        ],
       },
     }
   },
@@ -337,6 +341,9 @@ export default {
     if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
       this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
     }
+  },
+  mounted() {
+    document.getElementById('step-container').scrollTop = 0
   },
   methods: {
     onSubmit() {
