@@ -181,8 +181,17 @@ export default {
       alert('Cette fonctionnalité est à venir prochainement !')
     },
     onSubmit() {
-      this.$router.push('/register/responsable/step/over')
+      if (this.form.collectivity) {
+        this.$router.push(
+          '/register/responsable/step/confirmation-collectivite'
+        )
+      } else {
+        this.$router.push(
+          '/register/responsable/step/confirmation-organisation'
+        )
+      }
       // TODO: update structure logo / image_1 / image_2
+      // await this.$store.dispatch('auth/fetchUser')
     },
   },
 }

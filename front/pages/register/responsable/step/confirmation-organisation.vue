@@ -28,16 +28,16 @@
           </div>
           <div class="sm:col-span-">
             <span class="block w-full rounded-md shadow-sm">
-              <el-button
-                type="primary"
+              <a
+                target="_blank"
+                href="https://app.livestorm.co/jeveuxaider/session-daccueil-associations"
                 class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-blue-800 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-blue-900 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
-                @click="onFollowGuide"
               >
                 <span class="hidden lg:inline"
                   >Participer à la session d'accueil
                 </span>
                 <span class="inline lg:hidden">Session d'accueil</span>
-              </el-button>
+              </a>
             </span>
           </div>
         </div>

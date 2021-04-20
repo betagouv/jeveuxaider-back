@@ -145,7 +145,12 @@ export default {
         ? store.getters.structure_as_responsable.id
         : null,
       form: store.getters.structure_as_responsable
-        ? { ...store.getters.structure_as_responsable }
+        ? {
+            ...store.getters.structure_as_responsable,
+            zips: store.getters.structure_as_responsable.collectivity
+              ? store.getters.structure_as_responsable.collectivity.zips
+              : null,
+          }
         : {},
       collectivity:
         store.getters.structure_as_responsable &&
@@ -214,18 +219,20 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.structureForm.validate((valid) => {
+      this.$refs.structureForm.validate(async (valid) => {
         if (valid) {
           this.loading = true
-          this.$api
-            .updateStructure(this.structureId, this.form)
-            .then(() => {
-              this.loading = false
-              this.$router.push('/register/responsable/step/images')
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          if (this.collectivity) {
+            this.collectivity.zips = this.form.zips
+            await this.$api.updateCollectivity(
+              this.collectivity.id,
+              this.collectivity
+            )
+          }
+          await this.$api.updateStructure(this.structureId, this.form)
+          await this.$store.dispatch('auth/fetchUser')
+          this.loading = false
+          this.$router.push('/register/responsable/step/images')
         }
       })
     },
