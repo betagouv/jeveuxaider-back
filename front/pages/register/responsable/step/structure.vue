@@ -321,6 +321,16 @@ export default {
             'Veuillez renseigner la forme juridique de votre organisation',
           trigger: 'blur',
         },
+        domaines: {
+          required: true,
+          message: "Sélectionnez au moins un domaine d'action",
+          trigger: 'blur',
+        },
+        publics_beneficiaires: {
+          required: true,
+          message: 'Sélectionnez au moins un type',
+          trigger: 'blur',
+        },
         address: [
           {
             required: true,

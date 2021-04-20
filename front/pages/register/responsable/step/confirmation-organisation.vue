@@ -69,11 +69,12 @@
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
-  asyncData({ $api, store }) {
+  asyncData({ $api, store, error }) {
+    if (!store.getters.structure_as_responsable) {
+      return error({ statusCode: 403 })
+    }
     return {
-      structureId: store.getters.structure_as_responsable
-        ? store.getters.structure_as_responsable.id
-        : null,
+      structureId: store.getters.structure_as_responsable.id,
     }
   },
   data() {
@@ -91,9 +92,6 @@ export default {
   },
   created() {},
   methods: {
-    onFollowGuide() {
-      //
-    },
     onSubmit() {
       this.$router.push(`/dashboard/structure/${this.structureId}/missions/add`)
     },

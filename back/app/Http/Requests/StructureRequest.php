@@ -51,6 +51,8 @@ class StructureRequest extends FormRequest
             'state' => '',
             'publics_beneficiaires' => '',
             'domaines' => '',
+            'image_1' => '',
+            'image_2' => '',
         ];
     }
 

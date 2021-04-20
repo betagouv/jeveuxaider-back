@@ -121,14 +121,17 @@
 <script>
 export default {
   layout: 'register-steps',
-  asyncData({ $api, store }) {
+  asyncData({ $api, store, error }) {
+    if (!store.getters.structure_as_responsable) {
+      return error({ statusCode: 403 })
+    }
+    const form = { ...store.getters.structure_as_responsable }
     return {
-      structureId: store.getters.structure_as_responsable
-        ? store.getters.structure_as_responsable.id
-        : null,
-      form: store.getters.structure_as_responsable
-        ? { ...store.getters.structure_as_responsable }
-        : {},
+      structureId: store.getters.structure_as_responsable.id,
+      form,
+      selectedImages: form.image_1
+        ? [form.image_1, form.image_2]
+        : ['1_1', '2_1'],
     }
   },
   data() {
@@ -136,7 +139,6 @@ export default {
       loading: false,
       imageIndex: 0,
       showDialog: false,
-      selectedImages: ['1_1', '2_1'],
       steps: [
         {
           name: 'Rejoignez le mouvement',
@@ -180,7 +182,19 @@ export default {
     onUpload() {
       alert('Cette fonctionnalité est à venir prochainement !')
     },
-    onSubmit() {
+    async onSubmit() {
+      this.loading = true
+
+      // @TODO: upload logo
+
+      await this.$api.updateStructure(this.structureId, {
+        ...this.form,
+        image_1: this.selectedImages[0],
+        image_2: this.selectedImages[1],
+      })
+      await this.$store.dispatch('auth/fetchUser')
+      this.loading = false
+
       if (this.form.collectivity) {
         this.$router.push(
           '/register/responsable/step/confirmation-collectivite'
@@ -190,8 +204,6 @@ export default {
           '/register/responsable/step/confirmation-organisation'
         )
       }
-      // TODO: update structure logo / image_1 / image_2
-      // await this.$store.dispatch('auth/fetchUser')
     },
   },
 }

@@ -14,8 +14,11 @@ class AddFieldsToStructuresTable extends Migration
     public function up()
     {
         Schema::table('structures', function (Blueprint $table) {
+            $table->text('rna')->nullable();
             $table->text('donation')->nullable();
             $table->json('publics_beneficiaires')->default('[]');
+            $table->text('image_1')->nullable();
+            $table->text('image_2')->nullable();
         });
     }
 
@@ -27,8 +30,11 @@ class AddFieldsToStructuresTable extends Migration
     public function down()
     {
         Schema::table('structures', function (Blueprint $table) {
+            $table->dropColumn('rna');
             $table->dropColumn('donation');
             $table->dropColumn('publics_beneficiaires');
+            $table->dropColumn('image_1');
+            $table->dropColumn('image_2');
         });
     }
 }

@@ -80,11 +80,8 @@ export default {
     ) {
       return error({ statusCode: 403 })
     }
-    console.log(store.getters.structure_as_responsable.collectivity)
     return {
-      structureId: store.getters.structure_as_responsable
-        ? store.getters.structure_as_responsable.id
-        : null,
+      structureId: store.getters.structure_as_responsable.id,
     }
   },
   data() {
@@ -102,9 +99,6 @@ export default {
   },
   created() {},
   methods: {
-    onFollowGuide() {
-      //
-    },
     onSubmit() {
       this.$router.push(`/dashboard/structure/${this.structureId}/missions/add`)
     },

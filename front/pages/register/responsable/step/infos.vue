@@ -139,19 +139,18 @@
 <script>
 export default {
   layout: 'register-steps',
-  asyncData({ $api, store }) {
+  asyncData({ $api, store, error }) {
+    if (!store.getters.structure_as_responsable) {
+      return error({ statusCode: 403 })
+    }
     return {
-      structureId: store.getters.structure_as_responsable
-        ? store.getters.structure_as_responsable.id
-        : null,
-      form: store.getters.structure_as_responsable
-        ? {
-            ...store.getters.structure_as_responsable,
-            zips: store.getters.structure_as_responsable.collectivity
-              ? store.getters.structure_as_responsable.collectivity.zips
-              : null,
-          }
-        : {},
+      structureId: store.getters.structure_as_responsable.id,
+      form: {
+        ...store.getters.structure_as_responsable,
+        zips: store.getters.structure_as_responsable.collectivity
+          ? store.getters.structure_as_responsable.collectivity.zips
+          : null,
+      },
       collectivity:
         store.getters.structure_as_responsable &&
         store.getters.structure_as_responsable.collectivity

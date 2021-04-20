@@ -62,14 +62,14 @@
               </div>
             </div>
 
-            <el-form-item prop="mobile" class="mb-4">
+            <el-form-item label="Téléphone mobile" prop="mobile" class="mb-5">
               <input
                 v-model="form.mobile"
-                placeholder="Téléphone mobile*"
+                placeholder="Téléphone mobile"
                 class="custom-input placeholder-gray-600"
               />
             </el-form-item>
-            <el-form-item prop="phone" class="mb-4">
+            <el-form-item label="Téléphone fixe" prop="phone" class="mb-5">
               <input
                 v-model="form.phone"
                 placeholder="Téléphone fixe"

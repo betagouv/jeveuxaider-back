@@ -68,9 +68,10 @@ class PassportController extends Controller
             $attributes
         );
 
-        $structure = Structure::create(
-            ['user_id' => $user->id, 'name' => request('structure_name')]
-        );
+        $structure = Structure::create([
+            'user_id' => $user->id,
+            'name' => request('structure_name')
+        ]);
 
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')

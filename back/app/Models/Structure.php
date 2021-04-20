@@ -50,12 +50,13 @@ class Structure extends Model
         'is_reseau',
         'state',
         'publics_beneficiaires',
+        'image_1',
+        'image_2',
     ];
 
     protected $attributes = [
         'state' => 'En attente de validation',
         'country' => 'France',
-        'publics_beneficiaires' => []
     ];
 
     protected $casts = [
