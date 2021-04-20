@@ -123,13 +123,6 @@ export default {
     },
   },
   mounted() {
-    if (
-      this.$router.currentRoute.params.id &&
-      this.$store.getters['messaging/isMobile']
-    ) {
-      this.$store.commit('messaging/setShowPanelLeft', false)
-      this.$store.commit('messaging/setShowPanelCenter', true)
-    }
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
       this.windowWidth = window.innerWidth
@@ -142,6 +135,14 @@ export default {
   methods: {
     onConversationClick(conversation) {
       this.$router.push(`/messagess/${conversation.id}`)
+
+      if (
+        this.$router.currentRoute.params.id == conversation.id &&
+        this.$store.getters['messaging/isMobile']
+      ) {
+        this.$store.commit('messaging/setShowPanelLeft', false)
+        this.$store.commit('messaging/setShowPanelCenter', true)
+      }
     },
     onScrollConversations() {
       const isBottom =

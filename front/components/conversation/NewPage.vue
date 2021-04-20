@@ -1,5 +1,14 @@
 <template>
-  <div class="flex flex-1">
+  <div
+    class="flex flex-1"
+    :class="[
+      {
+        hidden:
+          !$store.getters['messaging/showPanelCenter'] &&
+          !$store.getters['messaging/showPanelRight'],
+      },
+    ]"
+  >
     <!-- CENTER -->
     <div
       :class="[{ hide: !$store.getters['messaging/showPanelCenter'] }]"
