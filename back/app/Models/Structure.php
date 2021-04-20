@@ -44,21 +44,25 @@ class Structure extends Model
         'facebook',
         'twitter',
         'instagram',
+        'donation',
         'reseau_id',
         'is_reseau',
         'state',
+        'publics_beneficiaires',
     ];
 
     protected $attributes = [
         'state' => 'En attente de validation',
-        'country' => 'France'
+        'country' => 'France',
+        'publics_beneficiaires' => []
     ];
 
     protected $casts = [
         'is_reseau' => 'boolean',
         'association_types' => 'array',
         'latitude' => 'float',
-        'longitude' => 'float'
+        'longitude' => 'float',
+        'publics_beneficiaires' => 'array',
     ];
 
     protected $hidden = ['media'];
@@ -104,6 +108,15 @@ class Structure extends Model
             break;
         }
     }
+
+    // public function getPublicsBeneficiairesAttribute($values)
+    // {
+    //     ray($values);
+    //     if (!$values) {
+    //         return [];
+    //     }
+    //     return $values;
+    // }
 
     public function setNameAttribute($value)
     {

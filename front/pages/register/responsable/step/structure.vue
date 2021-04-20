@@ -133,7 +133,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             label="Domaines d'action (à mettre en tag)"
             prop="domaines"
             class="flex-1 max-w-xl"
@@ -153,6 +153,27 @@
             </el-select>
           </el-form-item>
           <el-form-item
+            label="Domaines d'action"
+            prop="domaines"
+            class="flex-1 max-w-xl"
+          >
+            <div class="flex flex-wrap -m-1">
+              <div
+                v-for="domaine in domaines"
+                :key="domaine.id"
+                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1"
+                :class="
+                  form.domaines.includes(domaine.id)
+                    ? 'text-green-400 border-green-400 font-bold'
+                    : 'border-gray-200'
+                "
+                @click="handleClickDomaine(domaine.id)"
+              >
+                {{ domaine.name.fr }}
+              </div>
+            </div>
+          </el-form-item> -->
+          <!-- <el-form-item
             label="Publics bénéficiaires (à mettre en tag)"
             prop="publics_beneficiaires"
           >
@@ -169,6 +190,28 @@
                 :value="item.value"
               />
             </el-select>
+          </el-form-item> -->
+          <el-form-item
+            label="Publics bénéficiaires"
+            prop="publics_beneficiaires"
+            class="flex-1 max-w-xl"
+          >
+            <div class="flex flex-wrap -m-1">
+              <div
+                v-for="item in $store.getters.taxonomies
+                  .mission_publics_beneficiaires.terms"
+                :key="item.value"
+                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1"
+                :class="
+                  form.publics_beneficiaires.includes(item.value)
+                    ? 'text-green-400 border-green-400 font-bold'
+                    : 'border-gray-200'
+                "
+                @click="handleClickPublicBeneficiaire(item.value)"
+              >
+                {{ item.label }}
+              </div>
+            </div>
           </el-form-item>
 
           <el-form-item label="Département" prop="department" class="flex-1">
@@ -270,7 +313,10 @@ export default {
         ? store.getters.structure_as_responsable.id
         : null,
       form: store.getters.structure_as_responsable
-        ? { ...store.getters.structure_as_responsable }
+        ? {
+            ...store.getters.structure_as_responsable,
+            domaines: [],
+          }
         : {},
     }
   },
@@ -338,14 +384,30 @@ export default {
     }
   },
   created() {
-    if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
-      this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
-    }
+    // if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
+    //   this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
+    // }
   },
   mounted() {
     document.getElementById('step-container').scrollTop = 0
   },
   methods: {
+    handleClickDomaine(id) {
+      if (this.form.domaines.includes(id)) {
+        // REMOVE ELEMENT
+      } else {
+        this.form.domaines.push(id)
+      }
+    },
+    handleClickPublicBeneficiaire(value) {
+      if (this.form.publics_beneficiaires.includes(value)) {
+        this.form.publics_beneficiaires = this.form.publics_beneficiaires.filter(
+          (item) => item !== value
+        )
+      } else {
+        this.form.publics_beneficiaires.push(value)
+      }
+    },
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
         if (valid) {
