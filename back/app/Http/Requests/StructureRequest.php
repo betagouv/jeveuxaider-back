@@ -50,6 +50,7 @@ class StructureRequest extends FormRequest
             'is_reseau' => '',
             'state' => '',
             'publics_beneficiaires' => '',
+            'domaines' => '',
         ];
     }
 

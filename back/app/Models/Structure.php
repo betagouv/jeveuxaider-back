@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Structure extends Model
 {
-    use SoftDeletes, LogsActivity, HasRelationships;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -67,7 +68,7 @@ class Structure extends Model
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'ceu'];
+    protected $appends = ['full_address', 'domaines'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -109,14 +110,12 @@ class Structure extends Model
         }
     }
 
-    // public function getPublicsBeneficiairesAttribute($values)
-    // {
-    //     ray($values);
-    //     if (!$values) {
-    //         return [];
-    //     }
-    //     return $values;
-    // }
+    public function getDomainesAttribute()
+    {
+        return $this->tagsWithType('domaine')->map(function ($item) {
+            return $item->id;
+        });
+    }
 
     public function setNameAttribute($value)
     {

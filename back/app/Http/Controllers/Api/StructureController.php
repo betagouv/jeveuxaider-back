@@ -25,6 +25,7 @@ use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 // use App\Jobs\ProcessExportStructures;
 use App\Models\Mission;
+use App\Models\Tag;
 use Illuminate\Support\Str;
 
 class StructureController extends Controller
@@ -105,10 +106,14 @@ class StructureController extends Controller
             return $request->validated();
         }
 
-
         $structure = Structure::create(
             array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
         );
+
+        if ($request->has('domaines')) {
+            $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
+            $structure->syncTagsWithType($domaines, 'domaine');
+        }
 
         return $structure;
     }
@@ -117,6 +122,11 @@ class StructureController extends Controller
     {
         if (!$request->validated()) {
             return $request->validated();
+        }
+
+        if ($request->has('domaines')) {
+            $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
+            $structure->syncTagsWithType($domaines, 'domaine');
         }
 
         $structure->update($request->validated());

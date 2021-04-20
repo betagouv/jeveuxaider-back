@@ -133,25 +133,6 @@
               />
             </el-select>
           </el-form-item>
-          <!-- <el-form-item
-            label="Domaines d'action (à mettre en tag)"
-            prop="domaines"
-            class="flex-1 max-w-xl"
-          >
-            <el-select
-              v-model="form.domaines"
-              multiple
-              filterable
-              placeholder="Sélectionner vos domaines d'actions"
-            >
-              <el-option
-                v-for="domaine in domaines"
-                :key="domaine.id"
-                :label="domaine.name.fr"
-                :value="domaine.name.fr"
-              ></el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item
             label="Domaines d'action"
             prop="domaines"
@@ -161,7 +142,7 @@
               <div
                 v-for="domaine in domaines"
                 :key="domaine.id"
-                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1"
+                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
                 :class="
                   form.domaines.includes(domaine.id)
                     ? 'text-green-400 border-green-400 font-bold'
@@ -172,25 +153,7 @@
                 {{ domaine.name.fr }}
               </div>
             </div>
-          </el-form-item> -->
-          <!-- <el-form-item
-            label="Publics bénéficiaires (à mettre en tag)"
-            prop="publics_beneficiaires"
-          >
-            <el-select
-              v-model="form.publics_beneficiaires"
-              placeholder="Sélectionner les publics bénéficiaires"
-              multiple
-            >
-              <el-option
-                v-for="item in $store.getters.taxonomies
-                  .mission_publics_beneficiaires.terms"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item> -->
+          </el-form-item>
           <el-form-item
             label="Publics bénéficiaires"
             prop="publics_beneficiaires"
@@ -201,7 +164,7 @@
                 v-for="item in $store.getters.taxonomies
                   .mission_publics_beneficiaires.terms"
                 :key="item.value"
-                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1"
+                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
                 :class="
                   form.publics_beneficiaires.includes(item.value)
                     ? 'text-green-400 border-green-400 font-bold'
@@ -315,7 +278,6 @@ export default {
       form: store.getters.structure_as_responsable
         ? {
             ...store.getters.structure_as_responsable,
-            domaines: [],
           }
         : {},
     }
@@ -383,20 +345,15 @@ export default {
       },
     }
   },
-  created() {
-    // if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
-    //   this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
-    // }
-  },
   mounted() {
     document.getElementById('step-container').scrollTop = 0
   },
   methods: {
     handleClickDomaine(id) {
       if (this.form.domaines.includes(id)) {
-        // REMOVE ELEMENT
+        this.form.domaines = this.form.domaines.filter((item) => item !== id)
       } else {
-        this.form.domaines.push(id)
+        this.$set(this.form, 'domaines', [...this.form.domaines, id])
       }
     },
     handleClickPublicBeneficiaire(value) {
