@@ -21,12 +21,12 @@ class Conversation extends Model
 
     public function latestMessage()
     {
-        return $this->hasOne('App\Models\Message')->latest();
+        return $this->hasOne('App\Models\Message')->latest('id');
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'conversations_users')->withPivot('read_at');
+        return $this->belongsToMany('App\Models\User', 'conversations_users')->withPivot('read_at', 'status');
     }
 
     public function conversable()

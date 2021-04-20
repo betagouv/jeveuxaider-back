@@ -20,7 +20,6 @@
 
 <script>
 export default {
-  name: 'MessageFull',
   props: {
     name: {
       type: String,
@@ -32,7 +31,7 @@ export default {
     },
     thumbnail: {
       type: String,
-      default: undefined,
+      default: null,
     },
     date: {
       type: String,

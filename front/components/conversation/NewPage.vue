@@ -1,0 +1,155 @@
+<template>
+  <div class="flex flex-1">
+    <!-- CENTER -->
+    <div
+      :class="[{ hide: !$store.getters['messaging/showPanelCenter'] }]"
+      class="panel--center min-w-0 border-r border-cool-gray-200"
+    >
+      <div
+        class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+      >
+        <ConversationNewMessagesHeader
+          :conversation="$store.getters['messaging/conversation']"
+          @toggle-panel-right="onPanelRightToggle"
+        />
+      </div>
+
+      <div ref="messagesContainer" class="panel--container">
+        <div class="panel--content flex-1">
+          <ConversationNewMessages
+            ref="messages"
+            :conversation="$store.getters['messaging/conversation']"
+            @new-message="$refs.messagesContainer.scrollTop = 0"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div
+      :class="[{ hide: !$store.getters['messaging/showPanelRight'] }]"
+      class="panel--right"
+    >
+      <div
+        class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+      >
+        <div class="flex flex-1 justify-between">
+          <h3 class="text-lg leading-8 font-bold text-gray-900">Détails</h3>
+
+          <i
+            class="w-6 h-6 p-1 flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black el-icon-close"
+            @click="onPanelRightToggle"
+          />
+        </div>
+      </div>
+
+      <div ref="participationContainer" class="panel--container">
+        <div class="panel--content">
+          <ConversationDetail2
+            :participation="
+              $store.getters['messaging/conversation'].conversable
+            "
+            :conversation="$store.getters['messaging/conversation']"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  async asyncData({ store, error, $api, params }) {
+    const conversation = await $api.getConversation2(params.id)
+
+    if (!conversation) {
+      return error({ statusCode: 403 })
+    }
+
+    store.commit('messaging/setConversation', conversation)
+  },
+  methods: {
+    onPanelRightToggle() {
+      console.log('onPanelRightToggle')
+      this.$store.commit(
+        'messaging/setShowPanelRight',
+        !this.$store.getters['messaging/showPanelRight']
+      )
+
+      // Show
+      if (this.$store.getters['messaging/showPanelRight']) {
+        if (this.$store.getters['messaging/isMobile']) {
+          console.log('1')
+          this.$store.commit('messaging/setShowPanelCenter', false)
+          this.$store.commit('messaging/setShowPanelLeft', false)
+        } else if (!this.$store.getters['messaging/isDesktop']) {
+          console.log('2')
+
+          this.$store.commit(
+            'messaging/setShowPanelLeft',
+            !this.$store.getters['messaging/showPanelLeft']
+          )
+        }
+      }
+      // Hide
+      else if (this.$store.getters['messaging/isMobile']) {
+        console.log('3')
+
+        this.$store.commit('messaging/setShowPanelCenter', true)
+        this.$store.commit('messaging/setShowPanelLeft', false)
+      } else if (!this.$store.getters['messaging/isDesktop']) {
+        console.log('4')
+
+        this.$store.commit(
+          'messaging/setShowPanelLeft',
+          !this.$store.getters['messaging/showPanelLeft']
+        )
+      }
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped>
+.panel--center,
+.panel--right
+  transition: opacity .25s
+  opacity: 1
+  pointer-events: auto
+  @apply flex flex-col max-w-full
+  &.hide
+    flex: 0 1 0%
+    width: 0
+    opacity: 0
+    pointer-events: none
+  .panel--header
+    min-height: 77px
+  .panel--container
+    @apply flex flex-col overflow-y-auto
+
+.panel--center
+  width: 100%
+  @apply flex-grow
+  @screen md
+    flex: 1 1 0%
+  .panel--container
+    @apply flex-col-reverse flex-1 px-6
+    .panel--content
+      max-width: 550px
+      @apply mx-auto mb-auto w-full pt-4
+
+.panel--right
+  width: 100%
+  @screen md
+    width: 415px
+    @apply flex-none
+    > *
+      width: 415px
+
+::v-deep .el-dropdown-menu__item:not(.is-disabled)
+  @apply text-gray-500
+  &:hover
+    @apply bg-gray-200 text-gray-500
+  &.active
+    @apply bg-gray-200 text-black
+</style>

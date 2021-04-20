@@ -14,4 +14,16 @@ export default (axios) => ({
     const { data } = await axios.get(`/conversation/${id}`)
     return data
   },
+
+  async fetchConversations2(params) {
+    return await axios.get('/conversations2', { params })
+  },
+  async getConversation2(id) {
+    const { data } = await axios.get(`/conversation2/${id}`)
+    return data
+  },
+  async getConversationBenevole(id) {
+    const { data } = await axios.get(`/conversation2/${id}/benevole`)
+    return data
+  },
 })

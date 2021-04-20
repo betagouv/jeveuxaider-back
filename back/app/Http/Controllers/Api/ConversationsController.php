@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\Conversation;
 use App\Models\Participation;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -15,7 +16,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersConversationSearch;
 use App\Http\Requests\ConversationRequest;
 use App\Filters\FiltersConversationExclude;
-
+use App\Filters\FiltersConversationStatus;
 
 class ConversationsController extends Controller
 {
@@ -26,7 +27,12 @@ class ConversationsController extends Controller
                 ['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith(
                         [
-                        Participation::class => ['mission.structure:id,name', 'mission.domaine', 'mission.responsable', 'profile'],
+                            Participation::class => [
+                                'mission.structure:id,name',
+                                'mission.domaine',
+                                'mission.responsable',
+                                'profile'
+                            ],
                         ]
                     );
                 }]
@@ -34,8 +40,38 @@ class ConversationsController extends Controller
         )
             ->allowedFilters(
                 [
-                AllowedFilter::custom('search', new FiltersConversationSearch),
-                AllowedFilter::custom('exclude', new FiltersConversationExclude),
+                    AllowedFilter::custom('search', new FiltersConversationSearch),
+                    AllowedFilter::custom('exclude', new FiltersConversationExclude),
+                    AllowedFilter::custom('status', new FiltersConversationStatus),
+                ]
+            )
+            ->defaultSort('-updated_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
+    public function index2(Request $request)
+    {
+        return QueryBuilder::for(
+            Conversation::role($request->header('Context-Role'))->with(
+                ['latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
+                    $morphTo->morphWith(
+                        [
+                            Participation::class => [
+                                'mission.structure:id,name',
+                                // 'mission.domaine',
+                                // 'mission.responsable',
+                                // 'profile'
+                            ],
+                        ]
+                    );
+                }]
+            )
+        )
+            ->allowedFilters(
+                [
+                    AllowedFilter::custom('search', new FiltersConversationSearch),
+                    AllowedFilter::custom('exclude', new FiltersConversationExclude),
+                    AllowedFilter::custom('status', new FiltersConversationStatus),
                 ]
             )
             ->defaultSort('-updated_at')
@@ -48,7 +84,30 @@ class ConversationsController extends Controller
             ['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
                 $morphTo->morphWith(
                     [
-                        Participation::class => ['mission.structure:id,name', 'mission.domaine', 'mission.responsable', 'profile'],
+                        Participation::class => [
+                            'mission.structure:id,name',
+                            'mission.domaine',
+                            'mission.responsable',
+                            'profile'
+                        ],
+                    ]
+                );
+            }]
+        )->where('id', $conversation->id)->first();
+    }
+
+    public function show2(ConversationRequest $request, Conversation $conversation)
+    {
+        return Conversation::with(
+            ['users', 'latestMessage', 'conversable' => function (MorphTo $morphTo) {
+                $morphTo->morphWith(
+                    [
+                        Participation::class => [
+                            'mission.structure:id,name',
+                            // 'mission.domaine',
+                            'mission.responsable',
+                            'profile'
+                        ],
                     ]
                 );
             }]
@@ -63,5 +122,10 @@ class ConversationsController extends Controller
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from']))
             ->defaultSort('-id')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+    }
+
+    public function benevole(ConversationRequest $request, Conversation $conversation)
+    {
+        return Profile::with(['structures:id,name'])->find($conversation->conversable->profile_id)->append('skills', 'domaines');
     }
 }

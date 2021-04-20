@@ -29,15 +29,15 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <template v-else>
-      <div class="text-sm">{{ participation.state }}</div>
-    </template>
+
+    <div v-else class="text-sm">{{ participation.state }}</div>
 
     <DialogParticipationDecline
       :participation="participation"
       :is-visible="declineParticipationDialog"
       @close="declineParticipationDialog = false"
       @updated="onDeclineSubmit"
+      @messages-added="onMessagesAdded"
     />
   </div>
 </template>
@@ -54,7 +54,6 @@ export default {
   data() {
     return {
       loading: false,
-      form: { ...this.participation },
       declineParticipationDialog: false,
       messageForm: {},
       message: 'Êtes vous sur de vos changements ?',
@@ -103,15 +102,12 @@ export default {
       }
     },
   },
-  watch: {
-    participation(newValue) {
-      this.form = { ...newValue }
-    },
-  },
   methods: {
-    onDeclineSubmit() {
-      this.form.state = 'Refusée'
-      this.$emit('updated')
+    onDeclineSubmit(participation) {
+      this.$emit('updated', participation)
+    },
+    onMessagesAdded($event) {
+      this.$emit('messages-added', $event)
     },
     onSubmitState(state) {
       if (state == 'Refusée') {
@@ -135,14 +131,22 @@ export default {
       })
         .then(() => {
           this.loading = true
-          this.form.state = state
+
           this.$api
-            .updateParticipation(this.form.id, this.form)
+            .updateParticipation(this.participation.id, {
+              ...this.participation,
+              state,
+            })
             .then((response) => {
               this.$message.success({
                 message: 'Le statut de la participation a été mis à jour',
               })
-              this.$emit('updated', response.data)
+
+              this.$emit('messages-added', { count: 1 })
+              this.$emit('updated', {
+                ...this.participation,
+                state,
+              })
               this.loading = false
             })
             .catch((error) => {

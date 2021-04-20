@@ -88,10 +88,14 @@ export default {
               this.$message.success({
                 message: 'La participation a été annulée',
               })
-              this.$emit('updated')
-              this.$emit('close')
+              const nbNewMessages =
+                this.form.content && this.form.content.trim().length ? 2 : 1
+              this.$emit('messages-added', { count: nbNewMessages })
+              this.$emit('updated', { ...this.participation, state: 'Annulée' })
             })
             .catch((error) => {
+              console.log(error)
+              console.log(error.response)
               this.errors = error.response.data.errors
             })
         }

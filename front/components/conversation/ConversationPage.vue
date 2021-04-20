@@ -10,35 +10,12 @@
             <div
               class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
             >
-              <h1 class="text-lg leading-8 font-bold text-gray-900">
-                Messages
-              </h1>
-              <!--
-            <el-dropdown trigger="click">
-              <span class="el-dropdown-link">
-                <button
-                  class="ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
-                >
-                  Filtres ( coming )
-                </button>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  :command="{ status: 1 }"
-                  :class="{ active: filters.status == 1 }"
-                  class="font-light"
-                >
-                  Conversations actives
-                </el-dropdown-item>
-                <el-dropdown-item
-                  :command="{ status: 0 }"
-                  :class="{ active: filters.status == 0 }"
-                  class="font-light"
-                >
-                  Conversations archivées
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown> -->
+              <h1
+                class="text-lg leading-8 font-bold text-gray-900"
+                v-html="conversationsLabel"
+              ></h1>
+
+              <ConversationToggleStatus @update="onStatusChange($event)" />
             </div>
             <div
               ref="conversationsContainer"
@@ -70,6 +47,7 @@
                     </svg>
                   </el-input>
                 </div>
+
                 <div v-if="conversations.length == 0" class="p-6 font-light">
                   Aucune conversation
                 </div>
@@ -234,7 +212,11 @@
                             "
                             :date="message.created_at"
                           >
-                            <nl2br tag="p" :text="message.content" />
+                            <nl2br
+                              tag="p"
+                              :text="message.content"
+                              class-name="break-word"
+                            />
                           </ConversationMessages>
                         </template>
                       </template>
@@ -343,7 +325,6 @@ export default {
       showPanelRight: false,
       windowWidth: 1200,
       newMessage: '',
-      filters: { status: 1, search: '' },
       conversationFilters: { status: 1 },
       messages: [],
       currentPage: 1,
@@ -354,6 +335,7 @@ export default {
       loading: true,
       conversationLoading: true,
       excludeId: null,
+      conversationsLabel: 'Messages',
     }
   },
   computed: {
@@ -403,6 +385,13 @@ export default {
   },
   async created() {
     this.debouncedFetchConversations = debounce(this.fetchConversations, 500)
+
+    // if (this.$router.currentRoute.params.id) {
+    //   const conversation = await this.$api.getConversation(
+    //     this.$router.currentRoute.params.id
+    //   )
+    // }
+
     await this.fetchConversations()
 
     // Facebook style,
@@ -417,6 +406,8 @@ export default {
         const conversation = await this.$api.getConversation(
           this.$router.currentRoute.params.id
         )
+        console.log(conversation)
+
         this.$store.commit('conversation/setConversations', [
           ...this.conversations,
           conversation,
@@ -434,6 +425,12 @@ export default {
         ? this.conversations[0].id
         : null
     )
+
+    // if (this.conversations[0] && this.$store.getters.contextRole != 'admin') {
+    //   this.conversationFilters.status = this.currentUser(
+    //     this.conversations[0]
+    //   ).pivot.read_at
+    // }
 
     this.loading = false
     this.conversationLoading = false
@@ -458,6 +455,7 @@ export default {
         'filter[search]': this.conversationFilters.search,
         page: 1,
         'filter[exclude]': this.excludeId,
+        'filter[status]': this.conversationFilters.status,
       })
       this.lastPageConversation = data.last_page
       this.$store.commit('conversation/setConversations', data.data)
@@ -510,6 +508,7 @@ export default {
           'filter[search]': this.conversationFilters.search,
           page: this.currentPageConversation + 1,
           'filter[exclude]': this.excludeId,
+          'filter[status]': this.conversationFilters.status,
         })
         .then((response) => {
           this.$store.commit('conversation/setConversations', [
@@ -629,6 +628,16 @@ export default {
     async updateConversation(conversationId) {
       const conversation = await this.$api.getConversation(conversationId)
       this.$store.commit('conversation/updateConversation', conversation)
+    },
+    async onStatusChange($event) {
+      if (this.conversationFilters.status != $event.status) {
+        this.conversationLoading = true
+        this.conversationFilters.status = $event.status
+        await this.fetchConversations()
+        this.onTeaserClick(this.conversations[0])
+        this.conversationsLabel = $event.status == 1 ? 'Messages' : 'Archivés'
+        this.conversationLoading = false
+      }
     },
   },
 }

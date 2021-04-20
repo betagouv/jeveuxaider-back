@@ -89,7 +89,11 @@ export default {
               this.$message.success({
                 message: 'La participation a été déclinée',
               })
-              this.$emit('updated')
+
+              const nbNewMessages =
+                this.form.content && this.form.content.trim().length ? 2 : 1
+              this.$emit('messages-added', { count: nbNewMessages })
+              this.$emit('updated', { ...this.participation, state: 'Refusée' })
               this.$emit('close')
             })
             .catch((error) => {

@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     onSourceError() {
-      console.error('Source error', this.initialSource)
+      // console.error('Source error', this.initialSource)
       this.initialSource = null
     },
   },

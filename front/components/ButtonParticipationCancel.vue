@@ -9,6 +9,7 @@
       :is-visible="cancelParticipationDialog"
       @close="cancelParticipationDialog = false"
       @updated="onCancelSubmit"
+      @messages-added="onMessagesAdded"
     />
   </div>
 </template>
@@ -30,12 +31,13 @@ export default {
   },
   computed: {},
   methods: {
-    onCancelSubmit() {
-      this.participation.state = 'Annulée'
-      this.$emit('updated')
+    onCancelSubmit(participation) {
+      this.$emit('updated', participation)
+    },
+    onMessagesAdded($event) {
+      this.$emit('messages-added', $event)
     },
     handleCancel() {
-      // this.form.state = 'Annulée'
       this.cancelParticipationDialog = true
     },
   },

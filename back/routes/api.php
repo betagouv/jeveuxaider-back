@@ -87,6 +87,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('invitation/{token}/delete', 'Api\InvitationController@delete');
 
     Route::post('logout', 'Api\PassportController@logout');
+
+
+    Route::get('conversations2', 'Api\ConversationsController@index2');
+    Route::get('conversation2/{conversation}', 'Api\ConversationsController@show2');
+    Route::get('conversation2/{conversation}/benevole', 'Api\ConversationsController@benevole');
 });
 
 // Pour info : Les middleware 'auth:api', 'has.context.role.header' ajoutent 9 queries
