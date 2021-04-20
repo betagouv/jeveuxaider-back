@@ -522,7 +522,7 @@
             class="border-t border-gray-200"
           >
             <nuxt-link
-              class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+              class="block hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
               :to="`/missions-benevolat/${otherMission.id}/${otherMission.slug}`"
             >
               <div class="p-4 sm:p-6 md:p-8">

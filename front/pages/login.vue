@@ -84,7 +84,7 @@
               <div class="pt-4 text-sm leading-5">
                 <nuxt-link
                   to="/password-reset"
-                  class="font-medium text-blue-800 hover:text-blue-900 focus:outline-none focus:underline transition ease-in-out duration-150"
+                  class="font-medium text-blue-800 hover:text-blue-900 focus:underline transition ease-in-out duration-150"
                 >
                   Mot de passe perdu ?
                 </nuxt-link>

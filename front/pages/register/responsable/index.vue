@@ -6,8 +6,6 @@
         alt="Je Veux Aider"
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
-        width="100%"
-        height="100%"
       />
 
       <div class="relative py-4 lg:py-12 z-10">
@@ -200,7 +198,7 @@
                         <el-button
                           type="primary"
                           :loading="loading"
-                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
                           @click="onSubmit"
                           >J'inscris mon organisation</el-button
                         >
@@ -534,6 +532,7 @@ export default {
             })
             .then(() => {
               this.loading = false
+              window.plausible('Inscription depuis une page organisation')
               this.$router.push('/register/responsable/step/profile')
             })
             .catch(() => {

@@ -20,7 +20,7 @@
       >
         <el-form-item prop="email" class="mb-5">
           <div
-            class="input-shadow relative text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+            class="input-shadow relative text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:shadow-outline"
           >
             {{ form.email }}
 
@@ -37,13 +37,13 @@
             v-model="form.password"
             :autofocus="true"
             type="password"
-            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-400 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-400 placeholder-gray-400 focus:shadow-outline"
             placeholder="Votre mot de passe"
           />
         </el-form-item>
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:shadow-outline transition duration-150 ease-in-out"
           @click.prevent="onSubmit"
         >
           Se connecter
@@ -52,7 +52,7 @@
           <nuxt-link
             :to="`/password/forgot?email=${form.email}`"
             target="_blank"
-            class="text-sm leading-5 font-medium text-gray-400 hover:text-gray-900 focus:outline-none focus:underline transition ease-in-out duration-150"
+            class="text-sm leading-5 font-medium text-gray-400 hover:text-gray-900 focus:underline transition ease-in-out duration-150"
           >
             Mot de passe perdu ?
           </nuxt-link>
