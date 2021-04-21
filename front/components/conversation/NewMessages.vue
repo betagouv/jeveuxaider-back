@@ -17,6 +17,7 @@
             <ElContainer
               v-if="currentPageMessages < lastPageMessages"
               v-loading="true"
+              class="mt-64"
             >
               <div class="w-16 h-16"></div>
             </ElContainer>
@@ -118,7 +119,7 @@ export default {
 
       if (
         this.currentPageMessages < this.lastPageMessages &&
-        this.$refs.messagesContainer.scrollTop + scrollHeight <= 40 &&
+        this.$refs.messagesContainer.scrollTop + scrollHeight <= 275 &&
         !this.loadingNewMessages
       ) {
         this.fetchNextPageMessages()

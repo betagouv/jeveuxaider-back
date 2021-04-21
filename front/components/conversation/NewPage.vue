@@ -138,6 +138,7 @@ export default {
   @apply flex-grow
   @screen md
     flex: 1 1 0%
+    transition: all .25s
   .panel--container
     @apply flex-col-reverse flex-1 px-6
     ::v-deep .panel--content
@@ -148,6 +149,7 @@ export default {
   width: 100%
   @screen md
     width: 415px
+    transition: all .25s
     @apply flex-none
     > *
       width: 415px
