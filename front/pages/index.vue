@@ -1115,7 +1115,6 @@ export default {
   },
   computed: {
     hasReduceMotion() {
-      console.log('has reduce motion ?')
       if (process.client) {
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
         if (!mediaQuery || mediaQuery.matches) {
