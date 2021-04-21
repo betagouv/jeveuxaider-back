@@ -379,7 +379,7 @@
                 <h4 class="text-lg leading-6 font-bold text-gray-900">
                   Objectifs de votre mission
                 </h4>
-                <div class="mt-2 text-base leading-7 text-gray-500">
+                <div class="mt-2 text-base leading-7 text-gray-600">
                   <client-only>
                     <ReadMore
                       more-str="Lire plus"
@@ -420,7 +420,7 @@
                 <h4 class="text-lg leading-6 font-bold text-gray-900">
                   Description et règles à appliquer
                 </h4>
-                <div class="mt-2 text-base leading-7 text-gray-500">
+                <div class="mt-2 text-base leading-7 text-gray-600">
                   <client-only>
                     <ReadMore
                       more-str="Lire plus"
@@ -590,7 +590,7 @@
                       <div
                         v-else
                         class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
-                        style="background: #d2d6dc"
+                        style="background: #73777d"
                       >
                         <span v-if="otherMission.has_places_left === false"
                           >Complet</span

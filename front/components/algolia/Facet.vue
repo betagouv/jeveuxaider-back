@@ -48,7 +48,7 @@
           </template>
         </div>
 
-        <div v-if="!items.length" class="text-sm text-gray-450">-</div>
+        <div v-if="!items.length" class="text-sm text-gray-600">-</div>
 
         <el-checkbox
           v-for="item in items"
@@ -67,7 +67,7 @@
                 class="w-full mr-2 relative"
                 :class="[
                   { 'text-gray-1000 font-bold': item.isRefined },
-                  { 'text-gray-450': !item.isRefined },
+                  { 'text-gray-600': !item.isRefined },
                 ]"
               >
                 {{ item.value }}
@@ -85,7 +85,7 @@
               </v-clamp>
             </client-only>
 
-            <span v-if="showCount" class="count text-gray-450">
+            <span v-if="showCount" class="count text-gray-600">
               {{ item.count.toLocaleString() }}
             </span>
           </div>

@@ -177,7 +177,7 @@
 
     <div class="bg-gray-50 pb-20 px-4 md:px-6 lg:px-8">
       <p
-        class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+        class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
       >
         Parmi les missions prioritaires
       </p>
@@ -418,7 +418,7 @@
       <div class="relative max-w-screen-xl text-center mx-auto">
         <div class="max-w-md mx-auto lg:max-w-screen-xl">
           <p
-            class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+            class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
           >
             les autres domaines d'action
           </p>
