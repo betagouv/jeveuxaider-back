@@ -130,7 +130,6 @@
                 <img
                   class="mr-2"
                   src="@/assets/images/icones/search.svg"
-                  alt="Trouver une mission"
                   width="16"
                   height="18"
                 />
