@@ -140,13 +140,12 @@
               prop="description"
               class="flex-1"
             >
-              <el-input
+              <textarea
                 v-model="form.description"
-                name="description"
-                type="textarea"
-                :autosize="{ minRows: 4, maxRows: 6 }"
+                rows="4"
+                class="custom-textarea placeholder-gray-600"
                 placeholder="Décrivez-vous de manière succinte"
-              ></el-input>
+              />
             </el-form-item>
           </div>
         </el-form>

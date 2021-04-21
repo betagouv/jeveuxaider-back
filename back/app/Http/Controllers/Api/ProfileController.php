@@ -167,11 +167,10 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
-        //$domaines = $request->input('domaines');
-        // $skills = $request->input('skills');
 
         if ($request->has('domaines')) {
-            $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $profile->syncTagsWithType($domaines, 'domaine');
         }
 

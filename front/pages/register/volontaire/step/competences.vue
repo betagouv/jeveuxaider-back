@@ -13,13 +13,13 @@
         <span class="font-bold">{{ $store.getters.profile.first_name }}</span>
       </h1>
     </div>
-    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+    <div class="max-w-lg mx-auto">
       <div
-        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+        class="px-8 py-6 bg-white rounded-t-lg text-black text-3xl font-extrabold leading-9 text-center"
       >
         Enrichissez vos informations
       </div>
-      <div class="p-8 bg-gray-50 border-t border-gray-200">
+      <div class="p-8 bg-gray-50 border-t border-gray-200 rounded-b-lg">
         <div class="mb-8 text-md text-gray-500">
           Enrichissez votre profil avec les compétences que vous souhaitez
           mettre au service des organisations publiques ou associatives.
@@ -45,19 +45,37 @@
                         placeholder:
                           'Communication, action sociale, accompagnement...',
                       }"
+                      class="relative"
                       @input="onInput(refine, $event)"
                       @selected="onSelect"
                       @keyup.enter="onEnter"
                     >
+                      <template slot="after-input"
+                        ><div
+                          class="absolute z-10 w-5 h-5 text-gray-300"
+                          style="right: 15px; top: 12px"
+                          v-html="
+                            require('@/assets/images/icones/heroicon/search.svg?include')
+                          "
+                        ></div
+                      ></template>
                       <template slot-scope="{ suggestion }">
                         <div>
                           <div
                             class="ml-auto leading-6 text-sm font-medium text-gray-500 flex-none"
                           >
-                            {{ suggestion.item.name.fr }}<br />
-                            <span class="text-xs italic">{{
-                              suggestion.item.group
-                            }}</span>
+                            <div class="flex items-center space-x-2">
+                              <div class="">{{ suggestion.item.name.fr }}</div>
+                              <div
+                                v-if="isAlreadySelected(suggestion.item.id)"
+                                class="px-2 rounded-full text-xxs bg-green-400 text-white leading-5"
+                              >
+                                Ajoutée
+                              </div>
+                            </div>
+                            <div class="text-xs italic">
+                              {{ suggestion.item.group }}
+                            </div>
                           </div>
                         </div>
                       </template>
@@ -74,13 +92,13 @@
             <div
               v-for="item in form.skills"
               :key="item.id"
-              class="flex items-center space-x-4 px-4 py-3 rounded-lg border border-gray-200 bg-white m-1"
+              class="flex items-center space-x-4 px-4 py-3 rounded-lg border border-green-400 bg-white m-1"
             >
-              <div class="flex-none text-sm text-gray-600">
+              <div class="flex-none text-sm text-green-400 font-bold">
                 {{ item.name.fr }}
               </div>
               <div
-                class="flex-none cursor-pointer w-4 h-4 text-gray-200 hover:text-blue-800"
+                class="flex-none cursor-pointer w-4 h-4 text-green-400 hover:text-green-800"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
                   require('@/assets/images/icones/heroicon/close.svg?include')
@@ -166,8 +184,11 @@ export default {
     handleRemoveSkill(id) {
       this.form.skills = this.form.skills.filter((item) => item.id !== id)
     },
+    isAlreadySelected(id) {
+      return this.form.skills.filter((item) => item.id == id).length > 0
+    },
     onSelect(selected) {
-      if (selected) {
+      if (selected && !this.isAlreadySelected(selected.item.id)) {
         this.selectedItem = selected.item
         this.$set(this.form, 'skills', [...this.form.skills, this.selectedItem])
       }
@@ -198,7 +219,7 @@ export default {
         ...this.form,
       })
       this.loading = false
-      // this.$router.push('/missions-benevolat')
+      this.$router.push('/missions-benevolat')
     },
   },
 }
@@ -207,14 +228,14 @@ export default {
 <style lang="sass" scoped>
 ::v-deep #autosuggest
   input
-    @apply w-full px-4 py-3 rounded-lg border border-gray-200 text-sm
+    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm
 ::v-deep .ais-Highlight-highlighted
   background: transparent
   @apply text-blue-800 font-semibold
 ::v-deep .autosuggest__results-container
   .autosuggest__results
-    max-width: 449px
-    @apply w-full rounded-lg absolute z-50 bg-white mt-4 overflow-hidden
+    max-width: 448px
+    @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200
   .autosuggest__results-item
     @apply px-4 py-2
     &:not(:last-child)

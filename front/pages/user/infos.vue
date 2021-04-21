@@ -83,37 +83,6 @@
         </el-form-item>
       </div>
 
-      <el-form-item
-        label="Compétences"
-        prop="skills"
-        class="flex-1 max-w-xl mb-7"
-      >
-        <el-select
-          v-model="form.skills"
-          multiple
-          filterable
-          reserve-keyword
-          remote
-          :remote-method="fetchSkills"
-          placeholder="Ex : peinture en bâtiment, soins infirmiers, service en restauration..."
-          :loading="loading"
-        >
-          <el-option-group
-            v-for="(skillss, index) in skillGroups"
-            :key="index"
-            :label="index"
-          >
-            <el-option
-              v-for="item in skillss"
-              :key="item.id"
-              :label="item.name.fr"
-              :value="item.name.fr"
-            >
-            </el-option>
-          </el-option-group>
-        </el-select>
-      </el-form-item>
-
       <el-form-item label="Disponibilités" prop="disponibilities" class="mb-6">
         <el-select
           v-model="form.disponibilities"
@@ -183,17 +152,12 @@
 </template>
 
 <script>
-import { groupBy, sortBy } from 'lodash'
-
 export default {
   layout: 'profile',
   data() {
     return {
       loading: false,
       form: { ...this.$store.getters.user.profile },
-      skills: null,
-      domaines: null,
-      optionsSkills: [],
       model: 'profile',
       rules: {
         email: [
@@ -264,32 +228,8 @@ export default {
         ).length > 0
       )
     },
-    skillGroups() {
-      return groupBy(
-        sortBy(this.optionsSkills, ['group']),
-        (skill) => skill.group
-      )
-    },
-  },
-  created() {
-    if (this.form.skills && typeof this.form.skills[0] === 'object') {
-      this.form.skills = this.form.skills.map((tag) => tag.name.fr)
-    }
   },
   methods: {
-    fetchSkills(query) {
-      if (query !== '') {
-        this.loading = true
-        this.$api
-          .fetchTags({ 'filter[type]': 'competence', 'filter[name]': query })
-          .then((response) => {
-            this.loading = false
-            this.optionsSkills = response.data.data
-          })
-      } else {
-        this.optionsSkills = []
-      }
-    },
     onSubmit() {
       this.loading = true
       this.$refs.profileForm.validate((valid) => {

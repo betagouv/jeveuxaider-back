@@ -29,7 +29,8 @@
           :model="form"
           label-position="top"
           :rules="rules"
-          class="max-w-xl"
+          class="max-w-xl form-register-steps"
+          :hide-required-asterisk="true"
         >
           <el-form-item
             label="Domaines d'action"
@@ -42,11 +43,11 @@
                 :key="domaine.id"
                 class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
                 :class="
-                  form.domaines.includes(domaine.id)
+                  isDomaineSelected(domaine.id)
                     ? 'text-green-400 border-green-400 font-bold'
                     : 'border-gray-200'
                 "
-                @click="handleClickDomaine(domaine.id)"
+                @click="handleClickDomaine(domaine)"
               >
                 {{ domaine.name.fr }}
               </div>
@@ -220,11 +221,16 @@ export default {
     },
   },
   methods: {
-    handleClickDomaine(id) {
-      if (this.form.domaines.includes(id)) {
-        this.form.domaines = this.form.domaines.filter((item) => item !== id)
+    isDomaineSelected(id) {
+      return this.form.domaines.filter((item) => item.id == id).length > 0
+    },
+    handleClickDomaine(domaine) {
+      if (this.isDomaineSelected(domaine.id)) {
+        this.form.domaines = this.form.domaines.filter(
+          (item) => item.id !== domaine.id
+        )
       } else {
-        this.$set(this.form, 'domaines', [...this.form.domaines, id])
+        this.$set(this.form, 'domaines', [...this.form.domaines, domaine])
       }
     },
     onSubmit() {
