@@ -216,7 +216,7 @@ export default {
   },
   methods: {
     async onParticipationUpdate(participation) {
-      // a participation update adds 2 new messages, so re-fetch them.
+      // A participation update adds 1 or 2 new messages, so re-fetch them.
       const messages = await this.$api.fetchMessages(this.conversation.id, {
         itemsPerPage:
           this.$store.getters['messaging/messages'].length +
@@ -224,7 +224,8 @@ export default {
       })
       this.$store.commit('messaging/setMessages', messages.data.data)
 
-      // refresh the conversation to get the latest message up to date
+      // Refresh the conversation to get the latest message
+      // up to date (inside the teaser)
       await this.$store.dispatch(
         'messaging/refreshConversation',
         this.conversation.id

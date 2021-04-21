@@ -20,35 +20,6 @@ use App\Filters\FiltersConversationStatus;
 
 class ConversationsController extends Controller
 {
-    public function index(Request $request)
-    {
-        return QueryBuilder::for(
-            Conversation::role($request->header('Context-Role'))->with(
-                ['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
-                    $morphTo->morphWith(
-                        [
-                            Participation::class => [
-                                'mission.structure:id,name',
-                                'mission.domaine',
-                                'mission.responsable',
-                                'profile'
-                            ],
-                        ]
-                    );
-                }]
-            )
-        )
-            ->allowedFilters(
-                [
-                    AllowedFilter::custom('search', new FiltersConversationSearch),
-                    AllowedFilter::custom('exclude', new FiltersConversationExclude),
-                    AllowedFilter::custom('status', new FiltersConversationStatus),
-                ]
-            )
-            ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
-    }
-
     public function index2(Request $request)
     {
         return QueryBuilder::for(
@@ -76,24 +47,6 @@ class ConversationsController extends Controller
             )
             ->defaultSort('-updated_at')
             ->paginate(config('query-builder.results_per_page'));
-    }
-
-    public function show(ConversationRequest $request, Conversation $conversation)
-    {
-        return Conversation::with(
-            ['messages', 'latestMessage', 'users', 'conversable' => function (MorphTo $morphTo) {
-                $morphTo->morphWith(
-                    [
-                        Participation::class => [
-                            'mission.structure:id,name',
-                            'mission.domaine',
-                            'mission.responsable',
-                            'profile'
-                        ],
-                    ]
-                );
-            }]
-        )->where('id', $conversation->id)->first();
     }
 
     public function show2(ConversationRequest $request, Conversation $conversation)

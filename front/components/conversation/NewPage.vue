@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     onPanelRightToggle() {
-      console.log('onPanelRightToggle')
       this.$store.commit(
         'messaging/setShowPanelRight',
         !this.$store.getters['messaging/showPanelRight']
