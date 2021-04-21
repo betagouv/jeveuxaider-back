@@ -237,7 +237,8 @@ export default {
 <style lang="sass" scoped>
 .message--details
   background-color: #EBEBEB
-section
+section,
+::v-deep section
   @apply bg-white p-6
   &:not(:last-of-type)
     @apply mb-1

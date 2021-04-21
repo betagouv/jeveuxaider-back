@@ -26,13 +26,9 @@ export const getters = {
 
 export const mutations = {
   setConversations: (state, conversations) => {
-    console.log('STORE setConversations')
-
     state.conversations = conversations
   },
   setConversation: (state, payload) => {
-    console.log('STORE setConversation', payload)
-
     state.conversations.splice(
       state.conversations.findIndex(
         (conversation) => conversation.id == payload.id
@@ -44,11 +40,12 @@ export const mutations = {
     state.conversation = payload
   },
   setMessages: (state, messages) => {
-    console.log('STORE setMessages')
     state.messages = messages
   },
+  setNewMessagesCount: (state, count) => {
+    state.newMessagesCount = count
+  },
   incrementNewMessagesCount: (state, count = 1) => {
-    console.log('STORE incrementNewMessagesCount', count)
     state.newMessagesCount = state.newMessagesCount + count
   },
   setIsMobile: (state, isMobile) => {
@@ -70,8 +67,6 @@ export const mutations = {
 
 export const actions = {
   async refreshConversation({ commit }, conversationId) {
-    console.log('STORE refreshConversation')
-
     const conversation = await this.$api.getConversation2(conversationId)
     commit('setConversation', conversation)
   },

@@ -38,7 +38,6 @@ export default {
       if (!command) {
         return
       }
-      console.log(command)
       this.$emit('update', command)
     },
   },

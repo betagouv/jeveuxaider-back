@@ -17,45 +17,83 @@
               class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
             >
               <div class="text-lg leading-8 font-bold text-gray-900">
-                Messages
+                {{ conversationsLabel }}
               </div>
 
-              <ConversationToggleStatus @update="onStatusChange($event)" />
+              <ConversationToggleStatus @update="onStatusChange" />
             </div>
 
             <div
               ref="conversationsContainer"
               class="panel--container"
+              style="overflow-anchor: none"
               @scroll="onScrollConversations"
             >
               <div class="panel--content">
-                <!-- TODO: Rechercher un utilisateur -->
+                <!-- Rechercher un utilisateur -->
+                <div v-if="$store.getters.contextRole == 'admin'" class="m-4">
+                  <el-input
+                    v-model="conversationFilters['filter[search]']"
+                    placeholder="Rechercher un utilisateur"
+                    clearable
+                  >
+                    <svg
+                      slot="prefix"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 40 40"
+                      class="el-input__icon ml-2 mr-3"
+                      style="width: 14px"
+                    >
+                      <path
+                        d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z"
+                        fillRule="evenodd"
+                        fill="#6a6f85"
+                      />
+                    </svg>
+                  </el-input>
+                </div>
 
-                <ConversationTeaser2
-                  v-for="conversationTeaser in $store.getters[
-                    'messaging/conversations'
-                  ]"
-                  :key="conversationTeaser.id"
-                  :conversation="conversationTeaser"
-                  class="cursor-pointer hover:bg-gray-100 transition"
-                  :class="[
-                    {
-                      'bg-gray-200':
-                        $store.getters['messaging/conversation'] &&
-                        conversationTeaser.id ==
-                          $store.getters['messaging/conversation'].id,
-                    },
-                  ]"
-                  @click.native="onConversationClick(conversationTeaser)"
-                />
-
-                <ElContainer
-                  v-if="currentPageConversation < lastPageConversation"
-                  key="loading"
-                  v-loading="true"
-                >
+                <ElContainer v-if="loading" key="loading" v-loading="true">
                   <div class="w-16 h-16"></div>
                 </ElContainer>
+
+                <template v-if="!loading">
+                  <div
+                    v-if="$store.getters['messaging/conversations'].length == 0"
+                    class="p-6 font-light"
+                  >
+                    Aucune conversation
+                  </div>
+
+                  <ConversationTeaser2
+                    v-for="conversationTeaser in $store.getters[
+                      'messaging/conversations'
+                    ]"
+                    :key="conversationTeaser.id"
+                    :conversation="conversationTeaser"
+                    class="cursor-pointer hover:bg-gray-100 transition"
+                    :class="[
+                      {
+                        'bg-gray-200':
+                          $store.getters['messaging/conversation'] &&
+                          conversationTeaser.id ==
+                            $store.getters['messaging/conversation'].id,
+                      },
+                    ]"
+                    @click.native="onConversationClick(conversationTeaser)"
+                  />
+
+                  <!-- Fake loading -->
+                  <ElContainer
+                    v-if="currentPageConversation < lastPageConversation"
+                    v-loading="true"
+                  >
+                    <div class="w-16 h-16"></div>
+                  </ElContainer>
+                </template>
               </div>
             </div>
           </div>
@@ -76,6 +114,8 @@
 </template>
 
 <script>
+import { debounce } from 'lodash'
+
 export default {
   name: 'MessagesLayout',
   middleware: 'logged',
@@ -89,9 +129,14 @@ export default {
         'filter[status]': 1,
       },
       windowWidth: 0,
+      loading: true,
+      conversationsLabel: 'Messages',
+      isInitialized: false,
     }
   },
   async fetch() {
+    this.loading = true
+    this.currentPageConversation = 1
     let conversations = await this.$api.fetchConversations2({
       page: 1,
       ...this.conversationFilters,
@@ -102,7 +147,7 @@ export default {
     // Like Facebook.
     // If the conversation is not present in the first
     // page of results, we get it here.
-    if (this.$router.currentRoute.params.id) {
+    if (this.$router.currentRoute.params.id && !this.isInitialized) {
       const isInConversations = conversations.find((conversation) => {
         return conversation.id == this.$router.currentRoute.params.id
       })
@@ -116,10 +161,24 @@ export default {
     }
 
     this.$store.commit('messaging/setConversations', conversations)
+    this.conversationsLabel =
+      this.conversationFilters['filter[status]'] == 1 ? 'Messages' : 'Archivés'
+    this.isInitialized = true
+    this.loading = false
   },
   head: {
     bodyAttrs: {
       class: 'full-height-layout',
+    },
+  },
+  computed: {
+    search() {
+      return this.conversationFilters['filter[search]']
+    },
+  },
+  watch: {
+    search() {
+      this.debouncedFetch()
     },
   },
   mounted() {
@@ -133,9 +192,13 @@ export default {
     window.removeEventListener('resize', this.onResize)
   },
   methods: {
+    debouncedFetch() {
+      debounce(this.$fetch, 500)()
+    },
     onConversationClick(conversation) {
       this.$router.push(`/messagess/${conversation.id}`)
 
+      // If mobile and already on the same route
       if (
         this.$router.currentRoute.params.id == conversation.id &&
         this.$store.getters['messaging/isMobile']
@@ -174,9 +237,6 @@ export default {
       this.$store.commit('messaging/setIsMobile', this.windowWidth < 768)
       this.$store.commit('messaging/setIsDesktop', this.windowWidth >= 1280)
 
-      console.log('onResize', this.$route)
-
-      // this.showPanelLeft = !!(!this.activeConversation || !this.isMobile)
       this.$store.commit(
         'messaging/setShowPanelLeft',
         !!(
@@ -185,7 +245,6 @@ export default {
         )
       )
 
-      // this.showPanelCenter = !!(this.activeConversation || !this.isMobile)
       this.$store.commit(
         'messaging/setShowPanelCenter',
         !!(
@@ -198,6 +257,13 @@ export default {
         'messaging/setShowPanelRight',
         this.$store.getters['messaging/isDesktop']
       )
+    },
+    onStatusChange($event) {
+      if (this.conversationFilters['filter[status]'] != $event.status) {
+        this.loading = true
+        this.conversationFilters['filter[status]'] = $event.status
+        this.debouncedFetch()
+      }
     },
   },
 }

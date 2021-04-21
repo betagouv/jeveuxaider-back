@@ -121,8 +121,8 @@
     <el-menu-item index="/messages">
       <el-badge
         v-if="$store.getters.isSidebarExpanded"
-        :value="$store.getters.user.nbUnreadConversations"
-        :hidden="!$store.getters.user.nbUnreadConversations"
+        :value="$store.getters.user.unreadConversations.length"
+        :hidden="$store.getters.user.unreadConversations.length == 0"
         :max="99"
       >
         <span>Messagerie</span>

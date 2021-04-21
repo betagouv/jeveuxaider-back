@@ -13,13 +13,23 @@ export default {
     }
 
     store.commit('messaging/setConversation', conversation)
+
+    // Remove conversation from user unread conversations
+    if (store.getters.user.unreadConversations.includes(conversation.id)) {
+      store.commit(
+        'auth/deleteConversationFromUserUnreadConversations',
+        conversation.id
+      )
+    }
   },
   mounted() {
-    console.log('_id MOUNTED')
     if (this.$store.getters['messaging/isMobile']) {
       this.$store.commit('messaging/setShowPanelLeft', false)
     }
     this.$store.commit('messaging/setShowPanelCenter', true)
+  },
+  beforeDestroy() {
+    this.$store.commit('messaging/setNewMessagesCount', 0)
   },
 }
 </script>

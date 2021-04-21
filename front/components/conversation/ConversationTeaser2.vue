@@ -64,34 +64,15 @@ export default {
         return user.id != this.$store.getters.user.id
       })[0]
     },
-    hasRead() {
-      // if (this.$store.getters.contextRole == 'admin') {
-      //   return true
-      // }
-      // if (
-      //   this.$store.getters[
-      //     'conversation/clickedUnreadConversationsIds'
-      //   ].includes(this.conversation.id)
-      // ) {
-      //   return true
-      // }
-
-      // if (this.conversation.latest_message) {
-      //   if (!this.currentUser.pivot.read_at) {
-      //     return false
-      //   }
-
-      //   return !(
-      //     this.$dayjs(this.conversation.updated_at).unix() >
-      //     this.$dayjs(this.currentUser.pivot.read_at).unix()
-      //   )
-      // }
-      return false
-    },
     currentUser() {
       return this.conversation.users.filter((user) => {
         return user.id == this.$store.getters.user.id
       })[0]
+    },
+    hasRead() {
+      return !this.$store.getters.user.unreadConversations.includes(
+        this.conversation.id
+      )
     },
     nametype() {
       return this.$store.getters.contextRole == 'volontaire'

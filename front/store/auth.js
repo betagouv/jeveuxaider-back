@@ -23,6 +23,11 @@ export const mutations = {
       state.user.nbUnreadConversations--
     }
   },
+  deleteConversationFromUserUnreadConversations(state, conversationId) {
+    state.user.unreadConversations = state.user.unreadConversations.filter(
+      (id) => id != conversationId
+    )
+  },
 }
 
 export const actions = {
@@ -57,7 +62,6 @@ export const actions = {
   async logout({ commit }) {
     await this.$axios.post('/logout')
     commit('setAccessToken', null)
-    commit('conversation/reset', null, { root: true })
     commit('setUser', null)
     this.$cookies.remove('access-token')
   },

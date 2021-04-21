@@ -98,6 +98,9 @@ class ConversationsController extends Controller
 
     public function show2(ConversationRequest $request, Conversation $conversation)
     {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $currentUser->markConversationAsRead($conversation);
+
         return Conversation::with(
             ['users', 'latestMessage', 'conversable' => function (MorphTo $morphTo) {
                 $morphTo->morphWith(
@@ -116,8 +119,6 @@ class ConversationsController extends Controller
 
     public function messages(ConversationRequest $request, Conversation $conversation)
     {
-        $currentUser = User::find(Auth::guard('api')->user()->id);
-        $currentUser->markConversationAsRead($conversation);
 
         return QueryBuilder::for(Message::where('conversation_id', $conversation->id)->with(['from']))
             ->defaultSort('-id')

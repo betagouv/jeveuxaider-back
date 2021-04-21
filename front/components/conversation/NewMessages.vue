@@ -1,67 +1,88 @@
 <template>
-  <div class="h-full">
-    <transition-group name="fade-in" tag="div" class="h-full">
-      <ElContainer v-if="loading" key="loading" v-loading="loading">
-        <div class="w-16 h-16"></div>
-      </ElContainer>
+  <div
+    ref="messagesContainer"
+    class="panel--container"
+    style="overflow-anchor: none"
+    @scroll="onScrollMessages"
+  >
+    <div class="panel--content flex-1">
+      <div class="h-full">
+        <transition-group name="fade-in" tag="div" class="h-full">
+          <ElContainer v-if="loading" key="loading" v-loading="loading">
+            <div class="w-16 h-16"></div>
+          </ElContainer>
 
-      <div v-else key="loaded" class="h-full flex flex-col">
-        <template
-          v-for="message in $store.getters['messaging/messages']
-            .slice()
-            .reverse()"
-        >
-          <ConversationContextualMessage
-            v-if="message.type == 'contextual'"
-            :key="message.id"
-            :message="message"
-          />
-
-          <ConversationMessage
-            v-else
-            :key="message.id"
-            :name="message.from.profile.first_name"
-            :short-name="message.from.profile.short_name"
-            :thumbnail="
-              message.from.profile.image
-                ? message.from.profile.image.thumb
-                : null
-            "
-            :date="message.created_at"
-          >
-            <nl2br tag="p" :text="message.content" class-name="break-word" />
-          </ConversationMessage>
-        </template>
-
-        <div class="sticky bottom-0 bg-white pb-6 mt-auto">
-          <div class="m-auto w-full" style="max-width: 550px">
-            <div
-              class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
-              style="border-radius: 8px"
+          <div v-else key="loaded" class="h-full flex flex-col">
+            <!-- Fake loading -->
+            <ElContainer
+              v-if="currentPageMessages < lastPageMessages"
+              v-loading="true"
             >
-              <client-only>
-                <textarea-autosize
-                  v-model="newMessage"
-                  placeholder="Saisissez un message"
-                  :disabled="$store.getters.contextRole == 'admin'"
-                  rows="1"
-                  :max-height="120"
-                  class="m-auto w-full outline-none leading-tight custom-scrollbar"
-                  @keydown.enter.exact.prevent.native="onAddMessage"
-                />
-              </client-only>
+              <div class="w-16 h-16"></div>
+            </ElContainer>
 
-              <button
-                class="px-3 py-1 ml-3 font-semibold text-sm rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
-                @click="onAddMessage"
+            <template
+              v-for="message in $store.getters['messaging/messages']
+                .slice()
+                .reverse()"
+            >
+              <ConversationContextualMessage
+                v-if="message.type == 'contextual'"
+                :key="message.id"
+                :message="message"
+              />
+
+              <ConversationMessage
+                v-else
+                :key="message.id"
+                :name="message.from.profile.first_name"
+                :short-name="message.from.profile.short_name"
+                :thumbnail="
+                  message.from.profile.image
+                    ? message.from.profile.image.thumb
+                    : null
+                "
+                :date="message.created_at"
               >
-                Envoyer
-              </button>
+                <nl2br
+                  tag="p"
+                  :text="message.content"
+                  class-name="break-word"
+                />
+              </ConversationMessage>
+            </template>
+
+            <div class="sticky bottom-0 bg-white pb-6 mt-auto">
+              <div class="m-auto w-full" style="max-width: 550px">
+                <div
+                  class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
+                  style="border-radius: 8px"
+                >
+                  <client-only>
+                    <textarea-autosize
+                      v-model="newMessage"
+                      placeholder="Saisissez un message"
+                      :disabled="$store.getters.contextRole == 'admin'"
+                      rows="1"
+                      :max-height="120"
+                      class="m-auto w-full outline-none leading-tight custom-scrollbar"
+                      @keydown.enter.exact.prevent.native="onAddMessage"
+                    />
+                  </client-only>
+
+                  <button
+                    class="px-3 py-1 ml-3 font-semibold text-sm rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
+                    @click="onAddMessage"
+                  >
+                    Envoyer
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </transition-group>
       </div>
-    </transition-group>
+    </div>
   </div>
 </template>
 
@@ -77,15 +98,50 @@ export default {
     return {
       newMessage: '',
       loading: true,
+      loadingNewMessages: false,
+      currentPageMessages: 1,
+      lastPageMessages: null,
     }
   },
   async fetch() {
     this.loading = true
     const messages = await this.$api.fetchMessages(this.conversation.id)
     this.$store.commit('messaging/setMessages', messages.data.data)
+    this.lastPageMessages = messages.data.last_page
     this.loading = false
   },
   methods: {
+    onScrollMessages() {
+      const scrollHeight =
+        this.$refs.messagesContainer.scrollHeight -
+        this.$refs.messagesContainer.offsetHeight
+
+      if (
+        this.currentPageMessages < this.lastPageMessages &&
+        this.$refs.messagesContainer.scrollTop + scrollHeight <= 40 &&
+        !this.loadingNewMessages
+      ) {
+        this.fetchNextPageMessages()
+      }
+    },
+    async fetchNextPageMessages() {
+      this.loadingNewMessages = true
+      this.currentPageMessages++
+      const messages = await this.$api.fetchMessages(
+        this.$store.getters['messaging/conversation'].id,
+        {
+          page: this.currentPageMessages,
+          itemsPerPage: 15 + this.$store.getters['messaging/newMessagesCount'],
+        }
+      )
+
+      this.$store.commit('messaging/setMessages', [
+        ...this.$store.getters['messaging/messages'],
+        ...messages.data.data,
+      ])
+
+      this.loadingNewMessages = false
+    },
     async onAddMessage() {
       if (this.newMessage.trim().length) {
         const response = await this.$api.addMessageToConversation(
@@ -100,10 +156,9 @@ export default {
           ...this.$store.getters['messaging/messages'],
         ])
 
-        this.$emit('new-message')
         this.$store.commit('messaging/incrementNewMessagesCount')
-
         this.newMessage = ''
+        this.$refs.messagesContainer.scrollTop = 0
         await this.$store.dispatch(
           'messaging/refreshConversation',
           this.conversation.id

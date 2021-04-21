@@ -48,7 +48,7 @@ class User extends Authenticatable
         $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        $user['nbUnreadConversations'] = self::getNbUnreadConversations($id);
+        $user['unreadConversations'] = self::getUnreadConversations($id);
         $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
 
         return $user;
@@ -155,14 +155,14 @@ class User extends Authenticatable
         return $this;
     }
 
-    public static function getNbUnreadConversations($id)
+    public static function getUnreadConversations($id)
     {
         return User::find($id)->conversations()
             ->whereHas('messages')
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
-            })->count();
+            })->pluck('conversations.id')->toArray();
     }
 
     public static function getNbParticipationsOver($pid)

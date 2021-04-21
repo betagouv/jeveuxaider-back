@@ -255,8 +255,10 @@
                 </nuxt-link>
                 <nuxt-link v-if="$store.getters.isLogged" to="/messages">
                   <el-badge
-                    :value="$store.getters.user.nbUnreadConversations"
-                    :hidden="!$store.getters.user.nbUnreadConversations"
+                    :value="$store.getters.user.unreadConversations.length"
+                    :hidden="
+                      $store.getters.user.unreadConversations.length == 0
+                    "
                     is-dot
                   >
                     <svg

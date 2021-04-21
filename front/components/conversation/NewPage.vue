@@ -23,15 +23,9 @@
         />
       </div>
 
-      <div ref="messagesContainer" class="panel--container">
-        <div class="panel--content flex-1">
-          <ConversationNewMessages
-            ref="messages"
-            :conversation="$store.getters['messaging/conversation']"
-            @new-message="$refs.messagesContainer.scrollTop = 0"
-          />
-        </div>
-      </div>
+      <ConversationNewMessages
+        :conversation="$store.getters['messaging/conversation']"
+      />
     </div>
 
     <!-- RIGHT -->
@@ -76,6 +70,9 @@ export default {
     }
 
     store.commit('messaging/setConversation', conversation)
+  },
+  data() {
+    return {}
   },
   methods: {
     onPanelRightToggle() {
@@ -143,7 +140,7 @@ export default {
     flex: 1 1 0%
   .panel--container
     @apply flex-col-reverse flex-1 px-6
-    .panel--content
+    ::v-deep .panel--content
       max-width: 550px
       @apply mx-auto mb-auto w-full pt-4
 
