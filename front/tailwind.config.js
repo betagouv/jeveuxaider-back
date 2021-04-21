@@ -568,6 +568,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/ui')({ typography: false }),
+    require('@tailwindcss/custom-forms'),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.will-change-transform': {

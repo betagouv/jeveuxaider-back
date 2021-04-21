@@ -27,6 +27,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Participation;
+use App\Models\Tag;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -166,13 +167,12 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
-        $domaines = $request->input('domaines');
+        //$domaines = $request->input('domaines');
         $skills = $request->input('skills');
 
-        if ($domaines) {
-            if (is_string($domaines[0])) {
-                $profile->syncTagsWithType($domaines, 'domaine');
-            }
+        if ($request->has('domaines')) {
+            $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
+            $profile->syncTagsWithType($domaines, 'domaine');
         }
 
         if ($skills) {

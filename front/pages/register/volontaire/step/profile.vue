@@ -13,9 +13,8 @@
         <span class="font-bold">{{ $store.getters.profile.first_name }}</span> !
       </h1>
       <div class="text-lg font-medium">
-        Inscrire votre structure sur JeVeuxAider.gouv.fr, <br />
-        c'est l'opportunité de proposer vos missions à plus de 300 000
-        bénévoles.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+        voluptatibus doloremque praesentium.
       </div>
     </div>
     <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
@@ -77,6 +76,78 @@
                 class="custom-input placeholder-gray-600"
               />
             </el-form-item>
+            <el-form-item
+              label="Disponibilités"
+              prop="disponibilities"
+              class="flex-1 max-w-xl"
+            >
+              <div class="flex flex-wrap -m-1">
+                <div
+                  v-for="item in $store.getters.taxonomies
+                    .profile_disponibilities.terms"
+                  :key="item.value"
+                  class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
+                  :class="
+                    form.disponibilities.includes(item.value)
+                      ? 'text-green-400 border-green-400 font-bold'
+                      : 'border-gray-200'
+                  "
+                  @click="handleClickDisponibilities(item.value)"
+                >
+                  {{ item.label }}
+                </div>
+              </div>
+            </el-form-item>
+            <div class="flex items-end">
+              <el-form-item
+                label="Fréquence"
+                prop="frequence"
+                class="w-full sm:w-2/3 pr-2"
+              >
+                <el-select
+                  v-model="form.frequence"
+                  placeholder="Sélectionnez votre fréquence"
+                >
+                  <el-option
+                    v-for="item in $store.getters.taxonomies.profile_frequences
+                      .terms"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item
+                prop="frequence_granularite"
+                class="w-full sm:w-1/3 pl-2"
+              >
+                <el-select
+                  v-model="form.frequence_granularite"
+                  placeholder="Par..."
+                >
+                  <el-option
+                    v-for="item in $store.getters.taxonomies
+                      .profile_frequences_granularite.terms"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+            </div>
+            <el-form-item
+              label="Décrivez vos motivations"
+              prop="description"
+              class="flex-1"
+            >
+              <el-input
+                v-model="form.description"
+                name="description"
+                type="textarea"
+                :autosize="{ minRows: 4, maxRows: 6 }"
+                placeholder="Décrivez-vous de manière succinte"
+              ></el-input>
+            </el-form-item>
           </div>
         </el-form>
         <div class="sm:col-span-">
@@ -98,37 +169,32 @@
 <script>
 export default {
   layout: 'register-steps',
+  asyncData({ $api, store }) {
+    return {
+      form: { ...store.getters.profile },
+    }
+  },
   data() {
     return {
       loading: false,
-      activeName: 'profil',
-      form: {
-        mobile: this.$store.getters.profile.mobile,
-        phone: this.$store.getters.profile.phone,
-        image: this.$store.getters.profile.image,
-      },
       model: 'profile',
       avatar: null,
       steps: [
         {
           name: 'Rejoignez le mouvement',
           status: 'complete',
-          href: '/register/responsable/step/profile',
+          href: '/register/volontaire/step/profile',
         },
         {
           name: 'Votre profil',
           status: 'current',
         },
         {
-          name: `Informations sur l'organisation`,
+          name: 'Vos préférences',
           status: 'upcoming',
         },
         {
-          name: `Quelques mots sur l'organisation`,
-          status: 'upcoming',
-        },
-        {
-          name: `Votre organisation en image`,
+          name: 'Vos compétences',
           status: 'upcoming',
         },
       ],
@@ -157,6 +223,18 @@ export default {
     document.getElementById('step-container').scrollTop = 0
   },
   methods: {
+    handleClickDisponibilities(value) {
+      if (this.form.disponibilities.includes(value)) {
+        this.form.disponibilities = this.form.disponibilities.filter(
+          (item) => item !== value
+        )
+      } else {
+        this.$set(this.form, 'disponibilities', [
+          ...this.form.disponibilities,
+          value,
+        ])
+      }
+    },
     onUpload() {
       alert('Cette fonctionnalité est à venir prochainement !')
     },
@@ -191,7 +269,7 @@ export default {
         })
         .then(() => {
           this.loading = false
-          this.$router.push('/register/responsable/step/structure')
+          this.$router.push('/register/volontaire/step/preferences')
         })
         .catch(() => {
           this.loading = false

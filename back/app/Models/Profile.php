@@ -312,7 +312,9 @@ class Profile extends Model implements HasMedia
 
     public function getDomainesAttribute()
     {
-        return $this->tagsWithType('domaine')->values();
+        return $this->tagsWithType('domaine')->map(function ($item) {
+            return $item->id;
+        });
     }
 
     public function getSkillsAttribute()

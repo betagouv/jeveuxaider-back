@@ -372,7 +372,10 @@ export default {
           (item) => item !== value
         )
       } else {
-        this.form.publics_beneficiaires.push(value)
+        this.$set(this.form, 'publics_beneficiaires', [
+          ...this.form.publics_beneficiaires,
+          value,
+        ])
       }
     },
     onSubmit() {
