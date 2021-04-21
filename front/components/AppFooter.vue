@@ -174,10 +174,15 @@
       </div>
     </div>
     <hr class="border-grey-200 mt-4" />
-    <div class="container mx-auto px-4 py-6">
-      <div style="font-size: 10px; letter-spacing: 0.05em">
-        © JEVEUXAIDER.GOUV.FR, 2021
-      </div>
+    <div class="container mx-auto px-4 py-6 flex">
+      <ul class="flex items-center text-xs divide-x divide-gray-400">
+        <li class="px-3">© JEVEUXAIDER.GOUV.FR, 2021</li>
+        <li class="px-3">
+          <nuxt-link to="/accessibilite"
+            >Accessibilité : non conforme</nuxt-link
+          >
+        </li>
+      </ul>
     </div>
   </footer>
 </template>

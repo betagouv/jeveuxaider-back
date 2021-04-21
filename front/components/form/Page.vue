@@ -7,7 +7,7 @@
     </el-form-item>
 
     <el-form-item label="Description" prop="description">
-      <RichEditor v-model="form.description" />
+      <RichEditor v-model="form.description" withHeading />
     </el-form-item>
 
     <div class="flex pt-2">
