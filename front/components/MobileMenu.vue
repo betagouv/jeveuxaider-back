@@ -126,7 +126,7 @@
               Mes missions
             </nuxt-link>
             <nuxt-link
-              to="/messages"
+              to="/messagess"
               class="px-3 py-2 rounded-md text-base font-medium text-white"
               role="menuitem"
               @click.native="closeMobileMenu"

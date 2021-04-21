@@ -70,8 +70,6 @@ export default {
     onPanelLeftToggle() {
       this.$store.commit('messaging/setShowPanelCenter', false)
       this.$store.commit('messaging/setShowPanelLeft', true)
-
-      // this.$router.push('/messagess')
     },
   },
 }

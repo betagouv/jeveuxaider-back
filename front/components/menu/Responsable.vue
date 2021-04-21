@@ -98,7 +98,7 @@
         class="el-icon-finished"
       />
     </el-menu-item>
-    <el-menu-item index="/messages">
+    <el-menu-item index="/messagess">
       <el-badge
         v-if="$store.getters.isSidebarExpanded"
         :value="$store.getters.user.unreadConversations.length"
