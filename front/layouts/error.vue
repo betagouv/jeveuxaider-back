@@ -29,14 +29,14 @@
         <div class="inline-flex rounded-md shadow">
           <nuxt-link
             to="/"
-            class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-800 focus:shadow-outline transition duration-150 ease-in-out"
+            class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
           >
             Allez sur la page d'accueil
           </nuxt-link>
         </div>
         <div class="ml-3 inline-flex">
           <div
-            class="inline-flex cursor-pointer items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-800 border-blue-800 hover:text-blue-800 hover:bg-blue-50 focus:shadow-outline focus:border-blue-800 transition duration-150 ease-in-out"
+            class="inline-flex cursor-pointer items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-800 border-blue-800 hover:text-blue-800 hover:bg-blue-50 focus:outline-none focus:shadow-outline focus:border-blue-800 transition duration-150 ease-in-out"
             @click="back()"
           >
             Revenir en arrière

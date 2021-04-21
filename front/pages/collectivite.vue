@@ -27,7 +27,7 @@
                 <div class="rounded-full shadow-lg">
                   <nuxt-link
                     to="/register/responsable"
-                    class="flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                    class="flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                   >
                     Inscrivez votre collectivité
                   </nuxt-link>
