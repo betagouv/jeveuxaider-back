@@ -168,17 +168,17 @@ class ProfileController extends Controller
     {
         $profile->update($request->validated());
         //$domaines = $request->input('domaines');
-        $skills = $request->input('skills');
+        // $skills = $request->input('skills');
 
         if ($request->has('domaines')) {
             $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
             $profile->syncTagsWithType($domaines, 'domaine');
         }
 
-        if ($skills) {
-            if (is_string($skills[0])) {
-                $profile->syncTagsWithType($skills, 'competence');
-            }
+        if ($request->has('skills')) {
+            $skills_ids = collect($request->input('skills'))->pluck('id');
+            $skills = Tag::whereIn('id', $skills_ids)->get();
+            $profile->syncTagsWithType($skills, 'competence');
         }
 
         // Hack pour éviter de le mettre append -> trop gourmand en queries

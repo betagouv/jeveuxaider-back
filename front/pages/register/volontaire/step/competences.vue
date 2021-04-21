@@ -21,7 +21,73 @@
       </div>
       <div class="p-8 bg-gray-50 border-t border-gray-200">
         <div class="mb-8 text-md text-gray-500">
-          Recherche Algolia sur les compétences (TODO).
+          Enrichissez votre profil avec les compétences que vous souhaitez
+          mettre au service des organisations publiques ou associatives.
+        </div>
+
+        <div class="mb-8">
+          <div class="form-register-steps el-form--label-top">
+            <label for="compentences" class="el-form-item__label"
+              >Renseignez vos compétences</label
+            >
+            <ais-instant-search
+              :search-client="searchClient"
+              :index-name="indexName"
+            >
+              <ais-configure :hits-per-page.camel="5" />
+              <ais-autocomplete>
+                <template slot-scope="{ indices, refine }">
+                  <div class="">
+                    <vue-autosuggest
+                      :suggestions="indicesToSuggestions(indices)"
+                      :get-suggestion-value="getSuggestionValue"
+                      :input-props="{
+                        placeholder:
+                          'Communication, action sociale, accompagnement...',
+                      }"
+                      @input="onInput(refine, $event)"
+                      @selected="onSelect"
+                      @keyup.enter="onEnter"
+                    >
+                      <template slot-scope="{ suggestion }">
+                        <div>
+                          <div
+                            class="ml-auto leading-6 text-sm font-medium text-gray-500 flex-none"
+                          >
+                            {{ suggestion.item.name.fr }}<br />
+                            <span class="text-xs italic">{{
+                              suggestion.item.group
+                            }}</span>
+                          </div>
+                        </div>
+                      </template>
+                    </vue-autosuggest>
+                  </div>
+                </template>
+              </ais-autocomplete>
+            </ais-instant-search>
+          </div>
+        </div>
+
+        <div v-if="form.skills.length" class="mb-10">
+          <div class="flex flex-wrap -m-1">
+            <div
+              v-for="item in form.skills"
+              :key="item.id"
+              class="flex items-center space-x-4 px-4 py-3 rounded-lg border border-gray-200 bg-white m-1"
+            >
+              <div class="flex-none text-sm text-gray-600">
+                {{ item.name.fr }}
+              </div>
+              <div
+                class="flex-none cursor-pointer w-4 h-4 text-gray-200 hover:text-blue-800"
+                @click="handleRemoveSkill(item.id)"
+                v-html="
+                  require('@/assets/images/icones/heroicon/close.svg?include')
+                "
+              />
+            </div>
+          </div>
         </div>
 
         <div class="sm:col-span-">
@@ -31,7 +97,7 @@
               :loading="loading"
               class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
               @click="onSubmit"
-              >Trouver une mission</el-button
+              >Terminer</el-button
             >
           </span>
         </div>
@@ -41,26 +107,38 @@
 </template>
 
 <script>
+import algoliasearch from 'algoliasearch/lite'
+import { VueAutosuggest } from 'vue-autosuggest'
+import {
+  AisInstantSearch,
+  AisConfigure,
+  AisAutocomplete,
+} from 'vue-instantsearch'
+
+const searchClient = algoliasearch(
+  process.env.algolia.appId,
+  process.env.algolia.searchKey
+)
+
 export default {
+  components: {
+    VueAutosuggest,
+    AisConfigure,
+    AisInstantSearch,
+    AisAutocomplete,
+  },
   layout: 'register-steps',
-  async asyncData({ $api, store }) {
-    const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
+  asyncData({ $api, store }) {
     return {
-      domaines: tags.data.data,
-      form: { ...store.getters.user.profile },
+      form: { ...store.getters.profile },
     }
   },
   data() {
     return {
       loading: false,
-      form: { ...this.$store.getters.user.profile },
-      rules: {
-        domaines: {
-          required: true,
-          message: "Sélectionnez au moins un domaine d'action",
-          trigger: 'blur',
-        },
-      },
+      searchClient,
+      indexName: process.env.algolia.skills,
+      selectedItem: null,
       steps: [
         {
           name: 'Rejoignez le mouvement',
@@ -85,16 +163,62 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      this.$router.push('/missions-benevolat')
+    handleRemoveSkill(id) {
+      this.form.skills = this.form.skills.filter((item) => item.id !== id)
+    },
+    onSelect(selected) {
+      if (selected) {
+        this.selectedItem = selected.item
+        this.$set(this.form, 'skills', [...this.form.skills, this.selectedItem])
+      }
+    },
+    onInput(refine, $event) {
+      this.query = $event
+      refine($event)
+    },
+    onEnter($event) {
+      if (!this.selectedItem) {
+        // Nothing
+      }
+    },
+    indicesToSuggestions(indices) {
+      return this.query
+        ? indices.map(({ hits }) => ({
+            data: hits,
+          }))
+        : []
+    },
+    getSuggestionValue(suggestion) {
+      return null
+    },
+    async onSubmit() {
+      this.loading = true
+      await this.$store.dispatch('user/updateProfile', {
+        id: this.$store.getters.profile.id,
+        ...this.form,
+      })
+      this.loading = false
+      // this.$router.push('/missions-benevolat')
     },
   },
 }
 </script>
 
 <style lang="sass" scoped>
-::v-deep .el-step__description
-  @apply hidden
-    @screen sm
-      @apply block
+::v-deep #autosuggest
+  input
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 text-sm
+::v-deep .ais-Highlight-highlighted
+  background: transparent
+  @apply text-blue-800 font-semibold
+::v-deep .autosuggest__results-container
+  .autosuggest__results
+    max-width: 449px
+    @apply w-full rounded-lg absolute z-50 bg-white mt-4 overflow-hidden
+  .autosuggest__results-item
+    @apply px-4 py-2
+    &:not(:last-child)
+      @apply border-b border-gray-100
+    &.autosuggest__results-item--highlighted
+      @apply cursor-pointer bg-gray-50 text-gray-700
 </style>
