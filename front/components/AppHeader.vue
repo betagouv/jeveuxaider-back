@@ -133,6 +133,7 @@
                   src="@/assets/images/icones/search.svg"
                   width="16"
                   height="18"
+                  alt=""
                 />
                 Trouver une mission
               </button>

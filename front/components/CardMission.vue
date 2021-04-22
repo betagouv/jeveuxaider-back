@@ -40,7 +40,7 @@
           tag="h2"
           :max-lines="3"
           autoresize
-          class="name font-black text-black text-lg relative hidden sm:block"
+          class="name font-black text-black text-lg relative"
         >
           {{ mission.name }}
 
@@ -58,11 +58,10 @@
             />
           </template>
         </v-clamp>
+        <template slot="placeholder">
+          <h2 class="name font-black text-black text-lg">{{ mission.name }}</h2>
+        </template>
       </client-only>
-
-      <h2 class="sm:sr-only name font-black text-black text-lg">
-        {{ mission.name }}
-      </h2>
 
       <h3
         class="structure mt-4 mb-1 truncate"
