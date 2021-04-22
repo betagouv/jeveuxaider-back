@@ -19,6 +19,7 @@
       >
         <client-only placeholder="Je veux aider, bénévolat partout en France">
           <vue-typed-js
+            ref="typedJS"
             :strings="strings"
             :loop="true"
             :start-delay="70"
@@ -1104,6 +1105,11 @@ export default {
             "Trouvez une mission de bénévolat dans une association, organisation publique ou une commune, partout en France, sur le terrain ou à distance. 50 000 places disponibles dans 10 domaines d'action : solidarité, insertion, éducation, environnement, santé, sport, culture ...",
         },
       ],
+    }
+  },
+  beforeDestroy() {
+    if (this.$refs.typedJS) {
+      this.$refs.typedJS.typedObj.destroy()
     }
   },
   methods: {

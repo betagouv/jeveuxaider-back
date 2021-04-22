@@ -82,12 +82,9 @@ export default {
       // Show
       if (this.$store.getters['messaging/showPanelRight']) {
         if (this.$store.getters['messaging/isMobile']) {
-          console.log('1')
           this.$store.commit('messaging/setShowPanelCenter', false)
           this.$store.commit('messaging/setShowPanelLeft', false)
         } else if (!this.$store.getters['messaging/isDesktop']) {
-          console.log('2')
-
           this.$store.commit(
             'messaging/setShowPanelLeft',
             !this.$store.getters['messaging/showPanelLeft']
@@ -96,13 +93,9 @@ export default {
       }
       // Hide
       else if (this.$store.getters['messaging/isMobile']) {
-        console.log('3')
-
         this.$store.commit('messaging/setShowPanelCenter', true)
         this.$store.commit('messaging/setShowPanelLeft', false)
       } else if (!this.$store.getters['messaging/isDesktop']) {
-        console.log('4')
-
         this.$store.commit(
           'messaging/setShowPanelLeft',
           !this.$store.getters['messaging/showPanelLeft']
