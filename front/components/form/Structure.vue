@@ -95,6 +95,44 @@
       </el-select>
     </el-form-item>
 
+    <el-form-item label="Domaines d'action" prop="domaines" class="">
+      <el-checkbox-group
+        v-model="domainesSelected"
+        size="medium"
+        class="custom-checkbox"
+      >
+        <el-checkbox
+          v-for="domaine in domaines"
+          :key="domaine.id"
+          :label="domaine.name.fr"
+          class="bg-white"
+          border
+          :checked="isDomaineSelected(domaine.id)"
+          @change="handleClickDomaine(domaine)"
+        ></el-checkbox>
+      </el-checkbox-group>
+    </el-form-item>
+    <el-form-item
+      label="Publics bénéficiaires"
+      prop="publics_beneficiaires"
+      class=""
+    >
+      <el-checkbox-group
+        v-model="form.publics_beneficiaires"
+        size="medium"
+        class="custom-checkbox"
+      >
+        <el-checkbox
+          v-for="item in $store.getters.taxonomies.mission_publics_beneficiaires
+            .terms"
+          :key="item.value"
+          :label="item.label"
+          class="bg-white"
+          border
+        ></el-checkbox>
+      </el-checkbox-group>
+    </el-form-item>
+
     <el-form-item
       label="Présentation synthétique de l'organisation"
       prop="description"
@@ -172,6 +210,37 @@
         <el-input v-model="form.longitude" disabled placeholder="Longitude" />
       </el-form-item>
     </div>
+
+    <div class="mt-12 mb-6 flex text-xl text-gray-800">
+      Votre organisation sur les réseaux
+    </div>
+    <el-form-item label="Site de l'organisation" prop="website">
+      <el-input v-model="form.website" placeholder="https://www.votresite.fr" />
+    </el-form-item>
+    <el-form-item label="Page Facebook" prop="facebook">
+      <el-input
+        v-model="form.facebook"
+        placeholder="https://facebook.com/votrepage"
+      />
+    </el-form-item>
+    <el-form-item label="Page Twitter" prop="twitter">
+      <el-input
+        v-model="form.twitter"
+        placeholder="https://twitter.com/votrepage"
+      />
+    </el-form-item>
+    <el-form-item label="Profil Instagram" prop="instagram">
+      <el-input
+        v-model="form.instagram"
+        placeholder="https://instagram.com/votrepage"
+      />
+    </el-form-item>
+    <el-form-item label="Plateforme de don" prop="donation">
+      <el-input
+        v-model="form.donation"
+        placeholder="URL de votre page (Helloasso, Microdon, Ulule, etc...)"
+      />
+    </el-form-item>
     <div class="flex pt-2 items-center">
       <el-button type="primary" :loading="loading" @click="onSubmit">
         Enregistrer
@@ -199,6 +268,10 @@ export default {
         return {}
       },
     },
+    domaines: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -219,6 +292,16 @@ export default {
             trigger: 'blur',
           },
         ],
+        domaines: {
+          required: true,
+          message: "Sélectionnez au moins un domaine d'action",
+          trigger: 'blur',
+        },
+        publics_beneficiaires: {
+          required: true,
+          message: 'Sélectionnez au moins un type',
+          trigger: 'blur',
+        },
         department: {
           required: true,
           message: 'Le champ département est requis',
@@ -241,7 +324,29 @@ export default {
       },
     }
   },
+  computed: {
+    domainesSelected: {
+      get() {
+        return this.form.domaines.map((item) => item.name.fr)
+      },
+      set(items) {
+        //
+      },
+    },
+  },
   methods: {
+    isDomaineSelected(id) {
+      return this.form.domaines.filter((item) => item.id == id).length > 0
+    },
+    handleClickDomaine(domaine) {
+      if (this.isDomaineSelected(domaine.id)) {
+        this.form.domaines = this.form.domaines.filter(
+          (item) => item.id !== domaine.id
+        )
+      } else {
+        this.$set(this.form, 'domaines', [...this.form.domaines, domaine])
+      }
+    },
     onSubmit() {
       this.loading = true
       this.$refs.structureForm.validate((valid) => {

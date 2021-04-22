@@ -133,11 +133,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item
-            label="Domaines d'action"
-            prop="domaines"
-            class="flex-1 max-w-xl"
-          >
+          <el-form-item label="Domaines d'action" prop="domaines" class="">
             <el-checkbox-group
               v-model="domainesSelected"
               size="medium"
@@ -157,7 +153,7 @@
           <el-form-item
             label="Publics bénéficiaires"
             prop="publics_beneficiaires"
-            class="flex-1 max-w-xl"
+            class=""
           >
             <el-checkbox-group
               v-model="form.publics_beneficiaires"
