@@ -129,6 +129,12 @@ class StructureObserver
         }
     }
 
+    public function deleted(Structure $structure)
+    {
+        // Delete pending invitation
+        $structure->invitations()->delete();
+    }
+
     private function createCollectivity($structure)
     {
         $collectivity = Collectivity::create([

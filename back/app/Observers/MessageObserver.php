@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Message;
+use App\Notifications\MessageCreated;
 use Illuminate\Support\Facades\Auth;
 
 class MessageObserver
@@ -19,5 +20,16 @@ class MessageObserver
                 $message->conversation->setResponseTime()->save();
             }
         }
+
+        // TODO : Envoyer le message via queue, et éviter le spam
+
+        // Envoyer un message au destinaire
+        // Si ce n'est pas un message contextuel et ce n'est pas le premier message
+        // if($message->type == 'chat' && $message->conversation->messages->count() > 1) { 
+        //     $toUser = $message->conversation->users->filter(function($user) use ($message) {
+        //         return $user->id !== $message->from_id;
+        //     })->first();
+        //     $toUser->notify(new MessageCreated($message));
+        // }
     }
 }

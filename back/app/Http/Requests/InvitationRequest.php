@@ -27,9 +27,9 @@ class InvitationRequest extends FormRequest
             'user_id' => 'required',
             'email' => 'email|required|unique:invitations,email',
             'role' => 'required',
-            'invitable_id' => '',
+            'invitable_id' => 'required_if:role,responsable_organisation,responsable_collectivity,superviseur',
             'invitable_type' => '',
-            'properties' => ''
+            'properties' => 'required_if:role,referent_regional,referent_departemental'
         ];
 
         return $rules;
@@ -47,7 +47,9 @@ class InvitationRequest extends FormRequest
             'email.required' => 'Un email est requis',
             'email.unique' => 'Une invitation a déjà été envoyée à cet email',
             'email.email' => 'Cet email est mal formaté',
-            'role' => 'Un rôle est requis'
+            'role' => 'Un rôle est requis',
+            'invitable_id.required_if' => 'Merci de saisir une entité à laquelle rattacher cet email',
+            'properties.required_if' => 'Merci de saisir une entité à laquelle rattacher cet email'
         ];
     }
 }
