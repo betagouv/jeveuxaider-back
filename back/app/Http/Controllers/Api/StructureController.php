@@ -111,7 +111,8 @@ class StructureController extends Controller
         );
 
         if ($request->has('domaines')) {
-            $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $structure->syncTagsWithType($domaines, 'domaine');
         }
 
@@ -125,14 +126,14 @@ class StructureController extends Controller
         }
 
         if ($request->has('domaines')) {
-            $domaines = Tag::whereIn('id', $request->input('domaines'))->get();
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $structure->syncTagsWithType($domaines, 'domaine');
         }
 
         $structure->update($request->validated());
 
         return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
-        ;
     }
 
     public function delete(StructureDeleteRequest $request, Structure $structure)

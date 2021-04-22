@@ -29,29 +29,25 @@
           :model="form"
           label-position="top"
           :rules="rules"
-          class="max-w-xl form-register-steps"
+          class="form-register-steps"
           :hide-required-asterisk="true"
         >
-          <el-form-item
-            label="Domaines d'action"
-            prop="domaines"
-            class="flex-1 max-w-xl"
-          >
-            <div class="flex flex-wrap -m-1">
-              <div
+          <el-form-item label="Domaines d'action" prop="domaines" class="">
+            <el-checkbox-group
+              v-model="domainesSelected"
+              size="small"
+              class="custom-checkbox"
+            >
+              <el-checkbox
                 v-for="domaine in domaines"
                 :key="domaine.id"
-                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
-                :class="
-                  isDomaineSelected(domaine.id)
-                    ? 'text-green-400 border-green-400 font-bold'
-                    : 'border-gray-200'
-                "
-                @click="handleClickDomaine(domaine)"
-              >
-                {{ domaine.name.fr }}
-              </div>
-            </div>
+                :label="domaine.name.fr"
+                class="bg-white"
+                border
+                :checked="isDomaineSelected(domaine.id)"
+                @change="handleClickDomaine(domaine)"
+              ></el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
 
           <div
@@ -216,6 +212,9 @@ export default {
     }
   },
   computed: {
+    domainesSelected() {
+      return this.form.domaines.map((item) => item.name.fr)
+    },
     isProfileVisible() {
       return this.form.is_visible
     },
