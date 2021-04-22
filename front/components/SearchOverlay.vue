@@ -2,6 +2,7 @@
   <div class="fixed inset-0 w-full h-full z-50">
     <div
       id="search-overlay"
+      ref="searchOverlay"
       class="w-full h-full flex flex-col items-center justify-center"
     >
       <div class="flex flex-col w-full h-full px-4">
@@ -33,11 +34,12 @@
                 :class="[{ 'lg:flex': index == 0 }]"
               >
                 <el-radio
-                  :value="radio"
+                  v-model="radio"
                   :label="item.value"
+                  name="mission-type"
                   class="flex items-center lg:h-full py-6 px-10 transition"
                   :class="[{ 'opacity-25': radio && radio != item.value }]"
-                  @click.native.prevent="onClick(item.value)"
+                  @keyup.native.space="handleSpaceRadio($event, item.value)"
                 >
                   <span>{{ item.label }}</span>
                 </el-radio>
@@ -76,7 +78,7 @@
                 class="submit py-6 px-10 text-white font-extrabold cursor-pointer transition rounded-r-full"
                 @click="onSubmit"
               >
-                <div class="flex items-center justify-center relative">
+                <button class="flex items-center justify-center relative">
                   <ClipLoader
                     v-if="loading"
                     :loading="loading"
@@ -92,7 +94,7 @@
                     alt="Rechercher"
                   />
                   <span class="ml-2">Rechercher</span>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -142,21 +144,23 @@ export default {
       loading: false,
     }
   },
-  methods: {
-    onClick(val) {
-      if (this.radio == val) {
-        this.radio = null
-        this.$delete(this.routeState, 'refinementList')
-      } else {
-        this.radio = val
-        this.$set(this.routeState, 'refinementList', { type: [this.radio] })
-      }
+  watch: {
+    radio(newVal, oldVal) {
+      this.$set(this.routeState, 'refinementList', { type: [newVal] })
       this.onPlaceClear()
       this.$nextTick(() => {
-        if (this.radio == 'Mission à distance') {
+        if (newVal == 'Mission à distance') {
           this.fakeSubmit()
         }
       })
+    },
+  },
+  methods: {
+    handleSpaceRadio(event, val) {
+      if (this.radio == val) {
+        this.radio = null
+        this.$delete(this.routeState, 'refinementList')
+      }
     },
     onClose() {
       this.reset()
@@ -225,7 +229,6 @@ export default {
       border-color: #F3F3F3
       background: #F3F3F3
       transition: all .25s
-      box-shadow: none !important
       &::after
         background: url(/images/check-gray.svg)
         width: 11px
