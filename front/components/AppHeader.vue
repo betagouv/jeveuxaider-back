@@ -124,6 +124,7 @@
           <slot name="menu">
             <nav class="flex space-x-12 text-sm lg:text-base">
               <button
+                id="search"
                 class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
                 @click="$store.commit('toggleSearchOverlay')"
               >
