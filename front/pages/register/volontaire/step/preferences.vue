@@ -12,7 +12,7 @@
         <span class="font-bold">{{ $store.getters.profile.first_name }}</span> !
       </h1>
     </div>
-    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+    <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
         class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >

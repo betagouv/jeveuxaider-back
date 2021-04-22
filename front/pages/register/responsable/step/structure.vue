@@ -15,7 +15,7 @@
         <template v-else> Créez votre organisation </template>
       </h1>
     </div>
-    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+    <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
         class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
@@ -138,43 +138,41 @@
             prop="domaines"
             class="flex-1 max-w-xl"
           >
-            <div class="flex flex-wrap -m-1">
-              <div
+            <el-checkbox-group
+              v-model="domainesSelected"
+              size="medium"
+              class="custom-checkbox"
+            >
+              <el-checkbox
                 v-for="domaine in domaines"
                 :key="domaine.id"
-                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
-                :class="
-                  isDomaineSelected(domaine.id)
-                    ? 'text-green-400 border-green-400 font-bold'
-                    : 'border-gray-200'
-                "
-                @click="handleClickDomaine(domaine)"
-              >
-                {{ domaine.name.fr }}
-              </div>
-            </div>
+                :label="domaine.name.fr"
+                class="bg-white"
+                border
+                :checked="isDomaineSelected(domaine.id)"
+                @change="handleClickDomaine(domaine)"
+              ></el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
           <el-form-item
             label="Publics bénéficiaires"
             prop="publics_beneficiaires"
             class="flex-1 max-w-xl"
           >
-            <div class="flex flex-wrap -m-1">
-              <div
+            <el-checkbox-group
+              v-model="form.publics_beneficiaires"
+              size="medium"
+              class="custom-checkbox"
+            >
+              <el-checkbox
                 v-for="item in $store.getters.taxonomies
                   .mission_publics_beneficiaires.terms"
                 :key="item.value"
-                class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
-                :class="
-                  form.publics_beneficiaires.includes(item.value)
-                    ? 'text-green-400 border-green-400 font-bold'
-                    : 'border-gray-200'
-                "
-                @click="handleClickPublicBeneficiaire(item.value)"
-              >
-                {{ item.label }}
-              </div>
-            </div>
+                :label="item.label"
+                class="bg-white"
+                border
+              ></el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
 
           <el-form-item label="Département" prop="department" class="flex-1">
@@ -354,6 +352,16 @@ export default {
         ],
       },
     }
+  },
+  computed: {
+    domainesSelected: {
+      get() {
+        return this.form.domaines.map((item) => item.name.fr)
+      },
+      set(items) {
+        //
+      },
+    },
   },
   mounted() {
     document.getElementById('step-container').scrollTop = 0

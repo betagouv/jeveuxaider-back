@@ -18,7 +18,7 @@
         bénévoles.
       </div>
     </div>
-    <div class="rounded-lg bg-white max-w-lg mx-auto overflow-hidden">
+    <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
         class="px-8 pt-6 pb-20 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >

@@ -113,9 +113,7 @@ class Structure extends Model
 
     public function getDomainesAttribute()
     {
-        return $this->tagsWithType('domaine')->map(function ($item) {
-            return $item->id;
-        });
+        return $this->tagsWithType('domaine')->values();
     }
 
     public function setNameAttribute($value)
