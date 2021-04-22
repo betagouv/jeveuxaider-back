@@ -35,11 +35,13 @@
               >
                 <el-radio
                   v-model="radio"
+                  :id="`radio-${index}`"
                   :label="item.value"
                   name="mission-type"
                   class="flex items-center lg:h-full py-6 px-10 transition"
                   :class="[{ 'opacity-25': radio && radio != item.value }]"
                   @keyup.native.space="handleSpaceRadio($event, item.value)"
+                  @hook:mounted="focusKeyboard"
                 >
                   <span>{{ item.label }}</span>
                 </el-radio>
@@ -156,6 +158,11 @@ export default {
     },
   },
   methods: {
+    focusKeyboard() {
+      const radio = document.getElementById('radio-0')
+      radio.focus()
+      radio.blur()
+    },
     handleSpaceRadio(event, val) {
       if (this.radio == val) {
         this.radio = null

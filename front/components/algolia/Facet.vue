@@ -180,6 +180,9 @@ export default {
   .el-checkbox__label
     @apply w-full
   .el-checkbox__input
+    &.is-focus
+      .el-checkbox__inner
+        border-color: #070191 !important
     .el-checkbox__inner
       width: 20px
       height: 20px
@@ -197,6 +200,7 @@ export default {
       .el-checkbox__inner
         background-color: #E6EAF5
         border-color: #E6EAF5
+
 
 .facet-search
   ::v-deep .el-input__inner
