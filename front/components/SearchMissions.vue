@@ -304,11 +304,15 @@
                       class="flex lg:ml-3"
                     >
                       <li
+                        tabindex="0"
                         class="mr-auto"
                         :class="[
                           { 'cursor-not-allowed': isFirstPage },
                           { 'cursor-pointer': !isFirstPage },
                         ]"
+                        @keyup.enter="
+                          !isFirstPage ? refine(currentRefinement - 1) : null
+                        "
                         @click.prevent="
                           !isFirstPage ? refine(currentRefinement - 1) : null
                         "
@@ -317,6 +321,7 @@
                       </li>
 
                       <li
+                        tabindex="0"
                         v-for="pageItem in pages"
                         :key="pageItem"
                         class="page-number cursor-pointer"
@@ -325,6 +330,11 @@
                             active: currentRefinement === pageItem,
                           },
                         ]"
+                        @keyup.enter="
+                          currentRefinement !== pageItem
+                            ? refine(pageItem)
+                            : null
+                        "
                         @click.prevent="
                           currentRefinement !== pageItem
                             ? refine(pageItem)
@@ -334,11 +344,15 @@
                         {{ pageItem + 1 }}
                       </li>
                       <li
+                        tabindex="0"
                         class="ml-auto"
                         :class="[
                           { 'cursor-not-allowed': isLastPage },
                           { 'cursor-pointer': !isLastPage },
                         ]"
+                        @keyup.enter="
+                          !isLastPage ? refine(currentRefinement + 1) : null
+                        "
                         @click.prevent="
                           !isLastPage ? refine(currentRefinement + 1) : null
                         "
