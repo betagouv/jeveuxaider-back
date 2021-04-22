@@ -4,10 +4,14 @@
 
 <script>
 export default {
-  async asyncData({ $api, params, redirect }) {
+  async asyncData({ $api, params, redirect, route }) {
     const mission = await $api.getMission(params.id)
-
-    redirect(301, `/missions-benevolat/${mission.id}/${mission.slug}`)
+    const query = new URLSearchParams(route.query)
+    let urlWithSlug = `/missions-benevolat/${mission.id}/${mission.slug}`
+    if (route.query) {
+      urlWithSlug = `${urlWithSlug}?${query.toString()}`
+    }
+    redirect(301, urlWithSlug)
 
     return {
       mission,
