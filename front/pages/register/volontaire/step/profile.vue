@@ -81,22 +81,20 @@
               prop="disponibilities"
               class="flex-1 max-w-xl"
             >
-              <div class="flex flex-wrap -m-1">
-                <div
+              <el-checkbox-group
+                v-model="form.disponibilities"
+                size="medium"
+                class="custom-checkbox"
+              >
+                <el-checkbox
                   v-for="item in $store.getters.taxonomies
                     .profile_disponibilities.terms"
                   :key="item.value"
-                  class="px-4 rounded-lg border text-gray-600 bg-white cursor-pointer m-1 transition duration-200 ease-in-out"
-                  :class="
-                    form.disponibilities.includes(item.value)
-                      ? 'text-green-400 border-green-400 font-bold'
-                      : 'border-gray-200'
-                  "
-                  @click="handleClickDisponibilities(item.value)"
-                >
-                  {{ item.label }}
-                </div>
-              </div>
+                  :label="item.label"
+                  class="bg-white"
+                  border
+                ></el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <div class="flex items-end">
               <el-form-item
@@ -222,18 +220,6 @@ export default {
     document.getElementById('step-container').scrollTop = 0
   },
   methods: {
-    handleClickDisponibilities(value) {
-      if (this.form.disponibilities.includes(value)) {
-        this.form.disponibilities = this.form.disponibilities.filter(
-          (item) => item !== value
-        )
-      } else {
-        this.$set(this.form, 'disponibilities', [
-          ...this.form.disponibilities,
-          value,
-        ])
-      }
-    },
     onUpload() {
       alert('Cette fonctionnalité est à venir prochainement !')
     },

@@ -84,19 +84,20 @@
       </div>
 
       <el-form-item label="Disponibilités" prop="disponibilities" class="mb-6">
-        <el-select
+        <el-checkbox-group
           v-model="form.disponibilities"
-          placeholder="Sélectionnez vos disponibilités"
-          multiple
+          size="medium"
+          class="custom-checkbox"
         >
-          <el-option
+          <el-checkbox
             v-for="item in $store.getters.taxonomies.profile_disponibilities
               .terms"
             :key="item.value"
             :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+            class="bg-white"
+            border
+          ></el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
       <div class="flex items-end">
         <el-form-item

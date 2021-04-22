@@ -18,7 +18,7 @@
       <el-form-item label="Domaines d'action" prop="domaines" class="">
         <el-checkbox-group
           v-model="domainesSelected"
-          size="small"
+          size="medium"
           class="custom-checkbox"
         >
           <el-checkbox
@@ -155,8 +155,13 @@ export default {
     isProfileVisible() {
       return this.form.is_visible
     },
-    domainesSelected() {
-      return this.form.domaines.map((item) => item.name.fr)
+    domainesSelected: {
+      get() {
+        return this.form.domaines.map((item) => item.name.fr)
+      },
+      set(items) {
+        //
+      },
     },
   },
   methods: {
@@ -183,6 +188,10 @@ export default {
             })
             .then(() => {
               this.loading = false
+              this.$message({
+                message: 'Vos préférences ont été mises à jour.',
+                type: 'success',
+              })
             })
             .catch(() => {
               this.loading = false

@@ -35,7 +35,7 @@
           <el-form-item label="Domaines d'action" prop="domaines" class="">
             <el-checkbox-group
               v-model="domainesSelected"
-              size="small"
+              size="medium"
               class="custom-checkbox"
             >
               <el-checkbox
@@ -212,8 +212,13 @@ export default {
     }
   },
   computed: {
-    domainesSelected() {
-      return this.form.domaines.map((item) => item.name.fr)
+    domainesSelected: {
+      get() {
+        return this.form.domaines.map((item) => item.name.fr)
+      },
+      set(items) {
+        //
+      },
     },
     isProfileVisible() {
       return this.form.is_visible
