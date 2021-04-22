@@ -179,9 +179,7 @@
                     >
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <a
-                      href="https://www.jeveuxaider.gouv.fr/engagement/manifeste"
-                    >
+                    <a href="https://jeveuxaider.gouv.fr/engagement/manifeste">
                       Le manifeste des bénévoles
                     </a>
                   </el-dropdown-item>
