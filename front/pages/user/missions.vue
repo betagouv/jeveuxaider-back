@@ -29,7 +29,7 @@
                 class="flex flex-col flex-1"
                 :to="
                   participation.conversation
-                    ? `/messagess/${participation.conversation.id}`
+                    ? `/messages/${participation.conversation.id}`
                     : `/missions-benevolat/${participation.mission.id}/${participation.mission.slug}`
                 "
               >

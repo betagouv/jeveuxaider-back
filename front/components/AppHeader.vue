@@ -253,7 +253,7 @@
                     </svg>
                   </el-badge>
                 </nuxt-link>
-                <nuxt-link v-if="$store.getters.isLogged" to="/messagess">
+                <nuxt-link v-if="$store.getters.isLogged" to="/messages">
                   <el-badge
                     :value="$store.getters.user.unreadConversations.length"
                     :hidden="

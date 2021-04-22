@@ -63,11 +63,17 @@ export const mutations = {
   setShowPanelRight: (state, showPanelRight) => {
     state.showPanelRight = showPanelRight
   },
+  reset: (state) => {
+    state.conversations = []
+    state.conversation = null
+    state.messages = []
+    state.newMessagesCount = 0
+  },
 }
 
 export const actions = {
   async refreshConversation({ commit }, conversationId) {
-    const conversation = await this.$api.getConversation2(conversationId)
+    const conversation = await this.$api.getConversation(conversationId)
     commit('setConversation', conversation)
   },
 }

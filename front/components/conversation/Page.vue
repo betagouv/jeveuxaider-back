@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="$store.getters['messaging/conversation']"
     class="flex flex-1"
     :class="[
       {
@@ -17,13 +18,13 @@
       <div
         class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
       >
-        <ConversationNewMessagesHeader
+        <ConversationMessagesHeader
           :conversation="$store.getters['messaging/conversation']"
           @toggle-panel-right="onPanelRightToggle"
         />
       </div>
 
-      <ConversationNewMessages
+      <ConversationMessages
         :conversation="$store.getters['messaging/conversation']"
       />
     </div>
@@ -48,10 +49,7 @@
 
       <div ref="participationContainer" class="panel--container">
         <div class="panel--content">
-          <ConversationDetail2
-            :participation="
-              $store.getters['messaging/conversation'].conversable
-            "
+          <ConversationDetails
             :conversation="$store.getters['messaging/conversation']"
           />
         </div>
@@ -63,7 +61,7 @@
 <script>
 export default {
   async asyncData({ store, error, $api, params }) {
-    const conversation = await $api.getConversation2(params.id)
+    const conversation = await $api.getConversation(params.id)
 
     if (!conversation) {
       return error({ statusCode: 403 })

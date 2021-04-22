@@ -1,12 +1,12 @@
 <template>
-  <ConversationNewPage />
+  <ConversationPage />
 </template>
 
 <script>
 export default {
   layout: 'messages',
   async asyncData({ store, error, $api, params }) {
-    const conversation = await $api.getConversation2(params.id)
+    const conversation = await $api.getConversation(params.id)
 
     if (!conversation) {
       return error({ statusCode: 403 })

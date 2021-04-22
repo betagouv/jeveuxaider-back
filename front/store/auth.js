@@ -63,6 +63,7 @@ export const actions = {
     await this.$axios.post('/logout')
     commit('setAccessToken', null)
     commit('setUser', null)
+    commit('messaging/reset', null, { root: true })
     this.$cookies.remove('access-token')
   },
 

@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: 'ConversationContextualMessage',
   props: {
     message: {
       type: Object,

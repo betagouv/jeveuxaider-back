@@ -20,7 +20,7 @@ use App\Filters\FiltersConversationStatus;
 
 class ConversationsController extends Controller
 {
-    public function index2(Request $request)
+    public function index(Request $request)
     {
         return QueryBuilder::for(
             Conversation::role($request->header('Context-Role'))->with(
@@ -49,7 +49,7 @@ class ConversationsController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show2(ConversationRequest $request, Conversation $conversation)
+    public function show(ConversationRequest $request, Conversation $conversation)
     {
         $currentUser = User::find(Auth::guard('api')->user()->id);
         $currentUser->markConversationAsRead($conversation);

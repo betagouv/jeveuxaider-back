@@ -68,7 +68,7 @@
                     Aucune conversation
                   </div>
 
-                  <ConversationTeaser2
+                  <ConversationTeaser
                     v-for="conversationTeaser in $store.getters[
                       'messaging/conversations'
                     ]"
@@ -137,7 +137,7 @@ export default {
   async fetch() {
     this.loading = true
     this.currentPageConversation = 1
-    let conversations = await this.$api.fetchConversations2({
+    let conversations = await this.$api.fetchConversations({
       page: 1,
       ...this.conversationFilters,
     })
@@ -152,7 +152,7 @@ export default {
         return conversation.id == this.$router.currentRoute.params.id
       })
       if (!isInConversations) {
-        const conversation = await this.$api.getConversation2(
+        const conversation = await this.$api.getConversation(
           this.$router.currentRoute.params.id
         )
         conversations = [...conversations, conversation]
@@ -196,7 +196,7 @@ export default {
       debounce(this.$fetch, 500)()
     },
     onConversationClick(conversation) {
-      this.$router.push(`/messagess/${conversation.id}`)
+      this.$router.push(`/messages/${conversation.id}`)
 
       // If mobile and already on the same route
       if (
@@ -221,7 +221,7 @@ export default {
       }
     },
     async fetchNextPageConversations() {
-      const conversations = await this.$api.fetchConversations2({
+      const conversations = await this.$api.fetchConversations({
         page: this.currentPageConversation + 1,
         ...this.conversationFilters,
       })
@@ -240,7 +240,7 @@ export default {
       this.$store.commit(
         'messaging/setShowPanelLeft',
         !!(
-          this.$route.name == 'messagess' ||
+          this.$route.name == 'messages' ||
           !this.$store.getters['messaging/isMobile']
         )
       )
@@ -248,7 +248,7 @@ export default {
       this.$store.commit(
         'messaging/setShowPanelCenter',
         !!(
-          this.$route.name == 'messagess-id' ||
+          this.$route.name == 'messages-id' ||
           !this.$store.getters['messaging/isMobile']
         )
       )

@@ -199,15 +199,14 @@ export default {
       type: Object,
       required: true,
     },
-    participation: {
-      type: Object,
-      required: true,
-    },
   },
   data() {
     return {}
   },
   computed: {
+    participation() {
+      return this.conversation.conversable
+    },
     isBenevole() {
       return (
         this.participation.profile_id == this.$store.getters.user.profile.id

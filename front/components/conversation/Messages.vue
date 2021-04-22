@@ -53,7 +53,10 @@
               </ConversationMessage>
             </template>
 
-            <div class="sticky bottom-0 bg-white pb-6 mt-auto">
+            <div
+              class="sticky bottom-0 bg-white pb-6 mt-auto"
+              style="border-top-right-radius: 8px; border-top-left-radius: 8px"
+            >
               <div class="m-auto w-full" style="max-width: 550px">
                 <div
                   class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
@@ -141,7 +144,9 @@ export default {
         ...messages.data.data,
       ])
 
-      this.loadingNewMessages = false
+      this.$nextTick(() => {
+        this.loadingNewMessages = false
+      })
     },
     async onAddMessage() {
       if (this.newMessage.trim().length) {

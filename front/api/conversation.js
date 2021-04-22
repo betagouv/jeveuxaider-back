@@ -7,15 +7,15 @@ export default (axios) => ({
   async addMessageToConversation(conversationId, params) {
     return await axios.post(`/conversations/${conversationId}/messages`, params)
   },
-  async fetchConversations2(params) {
-    return await axios.get('/conversations2', { params })
+  async fetchConversations(params) {
+    return await axios.get('/conversations', { params })
   },
-  async getConversation2(id) {
-    const { data } = await axios.get(`/conversation2/${id}`)
+  async getConversation(id) {
+    const { data } = await axios.get(`/conversation/${id}`)
     return data
   },
   async getConversationBenevole(id) {
-    const { data } = await axios.get(`/conversation2/${id}/benevole`)
+    const { data } = await axios.get(`/conversation/${id}/benevole`)
     return data
   },
 })
