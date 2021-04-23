@@ -227,7 +227,7 @@ export default {
       // up to date (inside the teaser)
       await this.$store.dispatch(
         'messaging/refreshConversation',
-        this.conversation.id
+        this.conversation
       )
     },
   },

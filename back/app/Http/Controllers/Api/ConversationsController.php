@@ -82,4 +82,11 @@ class ConversationsController extends Controller
     {
         return Profile::with(['structures:id,name'])->find($conversation->conversable->profile_id)->append('skills', 'domaines');
     }
+
+    public function setStatus(ConversationRequest $request, Conversation $conversation)
+    {
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+        $currentUser->setConversationStatus($conversation, request('status'));
+        return;
+    }
 }

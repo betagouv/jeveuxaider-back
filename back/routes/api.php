@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('conversations/{conversation}/messages', 'Api\ConversationsController@messages');
     Route::post('conversations/{conversation}/messages', 'Api\MessagesController@store');
     Route::get('conversation/{conversation}/benevole', 'Api\ConversationsController@benevole');
+    Route::post('conversation/{conversation}/setStatus', 'Api\ConversationsController@setStatus');
 
     Route::post('invitation/{token}/resend', 'Api\InvitationController@resend');
     Route::post('invitation/{token}/accept', 'Api\InvitationController@accept');

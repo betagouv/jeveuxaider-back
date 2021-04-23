@@ -23,15 +23,39 @@
       </div>
     </div>
 
-    <button
-      class="order-3 ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
-      @click="$emit('toggle-panel-right')"
-      v-html="
-        $store.getters['messaging/showPanelRight']
-          ? 'Masquer les détails'
-          : 'Voir les détails'
-      "
-    />
+    <div class="order-3 ml-2 flex items-center my-4 sm:my-0">
+      <button
+        v-if="$store.getters.contextRole != 'admin'"
+        v-tooltip="{
+          content:
+            currentUser.pivot.status == 0
+              ? `Retirer la conversation des archives`
+              : `Archiver la conversation`,
+          hideOnTargetClick: true,
+          placement: 'bottom',
+        }"
+        class="flex-none rounded-full hover:bg-gray-200 transition whitespace-no-wrap mr-2 w-7 h-7 flex items-center justify-center"
+        @click="onArchiveClick"
+      >
+        <img
+          src="@/assets/images/archive.svg"
+          :alt="
+            currentUser.pivot.status == 0 ? `Retirer de l'archive` : `Archiver`
+          "
+          width="16"
+        />
+      </button>
+
+      <button
+        class="text-xs flex-none rounded-full px-3 py-1 border hover:border-black transition whitespace-no-wrap"
+        @click="$emit('toggle-panel-right')"
+        v-html="
+          $store.getters['messaging/showPanelRight']
+            ? 'Masquer les détails'
+            : 'Voir les détails'
+        "
+      />
+    </div>
   </div>
 </template>
 
@@ -65,11 +89,50 @@ export default {
         return user.id != this.$store.getters.user.id
       })[0]
     },
+    currentUser() {
+      return this.conversation.users.find((user) => {
+        return user.id == this.$store.getters.user.id
+      })
+    },
   },
   methods: {
     onPanelLeftToggle() {
       this.$store.commit('messaging/setShowPanelCenter', false)
       this.$store.commit('messaging/setShowPanelLeft', true)
+    },
+    onArchiveClick() {
+      // Update status
+      this.$api.setConversationStatus(this.conversation.id, {
+        status: this.currentUser.pivot.status == 0,
+      })
+
+      // Change current conversation
+      const key = this.$store.getters['messaging/conversations'].findIndex(
+        (conversation) => {
+          return conversation.id == this.conversation.id
+        }
+      )
+      if (this.$store.getters['messaging/conversations'][key + 1]) {
+        this.$router.push(
+          `/messages/${
+            this.$store.getters['messaging/conversations'][key + 1].id
+          }`
+        )
+      } else if (this.$store.getters['messaging/conversations'][key - 1]) {
+        this.$router.push(
+          `/messages/${
+            this.$store.getters['messaging/conversations'][key - 1].id
+          }`
+        )
+      } else {
+        this.$router.push('/messages')
+      }
+
+      // Remove conversation from conversations
+      this.$store.commit(
+        'messaging/removeConversationInConversations',
+        this.conversation
+      )
     },
   },
 }

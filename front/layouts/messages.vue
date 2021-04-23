@@ -20,7 +20,10 @@
                 {{ conversationsLabel }}
               </div>
 
-              <ConversationToggleStatus @update="onStatusChange" />
+              <ConversationToggleStatus
+                v-if="$store.getters.contextRole != 'admin'"
+                @update="onStatusChange"
+              />
             </div>
 
             <div
@@ -66,6 +69,10 @@
                     class="p-6 font-light"
                   >
                     Aucune conversation
+                    <span v-if="conversationFilters['filter[status]'] == '0'"
+                      >archivée</span
+                    >
+                    <span v-else>active</span>
                   </div>
 
                   <ConversationTeaser
@@ -126,7 +133,7 @@ export default {
       conversationFilters: {
         'filter[search]': null,
         'filter[exclude]': null,
-        'filter[status]': 1,
+        'filter[status]': this.$store.getters.contextRole == 'admin' ? null : 1,
       },
       windowWidth: 0,
       loading: true,
@@ -137,13 +144,27 @@ export default {
   async fetch() {
     this.loading = true
     this.currentPageConversation = 1
+
+    // If conversation is archived, set status filter accordingly
+    if (this.$router.currentRoute.params.id && !this.isInitialized) {
+      const currentUser = this.$store.getters[
+        'messaging/conversation'
+      ].users.find((user) => {
+        return user.id == this.$store.getters.user.id
+      })
+
+      if (currentUser && !currentUser.pivot.status) {
+        this.conversationFilters['filter[status]'] = 0
+      }
+    }
+
+    // Fetch conversations
     let conversations = await this.$api.fetchConversations({
       page: 1,
       ...this.conversationFilters,
     })
     this.lastPageConversation = conversations.data.last_page
     conversations = conversations.data.data
-
     // Like Facebook.
     // If the conversation is not present in the first
     // page of results, we get it here.
@@ -159,10 +180,10 @@ export default {
         this.conversationFilters['filter[exclude]'] = conversation.id
       }
     }
-
     this.$store.commit('messaging/setConversations', conversations)
+
     this.conversationsLabel =
-      this.conversationFilters['filter[status]'] == 1 ? 'Messages' : 'Archivés'
+      this.conversationFilters['filter[status]'] == 0 ? 'Archivés' : 'Messages'
     this.isInitialized = true
     this.loading = false
   },

@@ -18,4 +18,7 @@ export default (axios) => ({
     const { data } = await axios.get(`/conversation/${id}/benevole`)
     return data
   },
+  async setConversationStatus(id, status) {
+    return await axios.post(`/conversation/${id}/setStatus`, status)
+  },
 })

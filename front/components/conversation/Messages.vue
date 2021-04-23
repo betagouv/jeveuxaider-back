@@ -167,7 +167,7 @@ export default {
         this.$refs.messagesContainer.scrollTop = 0
         await this.$store.dispatch(
           'messaging/refreshConversation',
-          this.conversation.id
+          this.conversation
         )
       }
     },

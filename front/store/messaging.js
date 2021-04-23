@@ -29,6 +29,17 @@ export const mutations = {
     state.conversations = conversations
   },
   setConversation: (state, payload) => {
+    state.conversation = payload
+  },
+  removeConversationInConversations(state, payload) {
+    state.conversations.splice(
+      state.conversations.findIndex(
+        (conversation) => conversation.id == payload.id
+      ),
+      1
+    )
+  },
+  replaceConversationInConversations(state, payload) {
     state.conversations.splice(
       state.conversations.findIndex(
         (conversation) => conversation.id == payload.id
@@ -36,8 +47,6 @@ export const mutations = {
       1,
       payload
     )
-
-    state.conversation = payload
   },
   setMessages: (state, messages) => {
     state.messages = messages
@@ -72,8 +81,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async refreshConversation({ commit }, conversationId) {
-    const conversation = await this.$api.getConversation(conversationId)
+  async refreshConversation({ state, commit }, payload) {
+    const conversation = await this.$api.getConversation(payload.id)
     commit('setConversation', conversation)
+    commit('replaceConversationInConversations', conversation)
   },
 }

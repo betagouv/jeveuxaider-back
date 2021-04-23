@@ -112,7 +112,12 @@ class User extends Authenticatable
         ]);
     }
 
-    // TODO markConversationAsActive, markConversationAsArchived
+    public function setConversationStatus($conversation, $status)
+    {
+        $this->conversations()->updateExistingPivot($conversation->id, [
+            'status' => $status
+        ]);
+    }
 
     public function sendMessage($conversation_id, $content)
     {
