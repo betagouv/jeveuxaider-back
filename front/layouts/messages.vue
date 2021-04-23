@@ -230,18 +230,21 @@ export default {
     },
     onScrollConversations() {
       const isBottom =
-        this.$refs.conversationsContainer.offsetHeight +
-          this.$refs.conversationsContainer.scrollTop ==
-        this.$refs.conversationsContainer.scrollHeight
+        this.$refs.conversationsContainer.scrollHeight -
+          (this.$refs.conversationsContainer.offsetHeight +
+            this.$refs.conversationsContainer.scrollTop) <=
+        45
 
       if (
         this.currentPageConversation < this.lastPageConversation &&
-        isBottom
+        isBottom &&
+        !this.loadingNewPage
       ) {
         this.fetchNextPageConversations()
       }
     },
     async fetchNextPageConversations() {
+      this.loadingNewPage = true
       const conversations = await this.$api.fetchConversations({
         page: this.currentPageConversation + 1,
         ...this.conversationFilters,
@@ -252,6 +255,10 @@ export default {
       ])
 
       this.currentPageConversation = conversations.data.current_page
+
+      this.$nextTick(() => {
+        this.loadingNewPage = false
+      })
     },
     onResize() {
       this.windowWidth = window.innerWidth
