@@ -68,10 +68,27 @@ class PassportController extends Controller
             $attributes
         );
 
-        $structure = Structure::create([
+        $structureAttributes = [
             'user_id' => $user->id,
-            'name' => request('structure_name')
-        ]);
+            'name' => request('structure_name'),
+        ];
+
+        if ($request->has('structure_api')) {
+            $structureApi = $request->input('structure_api');
+
+            $structureAttributes['rna'] = $structureApi->id_rna ? $structureApi->id_rna : null;
+            // identite_regime -> type ?
+            $structureAttributes['description'] = $structureApi->activites_objet ? $structureApi->activites_objet : null;
+            $structureAttributes['zip'] = $structureApi->coordonnees_adresse_siege_cp ? $structureApi->coordonnees_adresse_siege_cp : null;
+            $structureAttributes['city'] = $structureApi->coordonnees_adresse_siege_commune ? $structureApi->coordonnees_adresse_siege_commune : null;
+            $structureAttributes['address'] = implode(' ', [
+                $structureApi->coordonnees_adresse_siege_num_voie,
+                $structureApi->coordonnees_adresse_siege_type_voie,
+                $structureApi->coordonnees_adresse_siege_voie
+            ]);
+        }
+
+        $structure = Structure::create($structureAttributes);
 
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')

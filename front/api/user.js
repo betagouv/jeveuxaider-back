@@ -125,7 +125,8 @@ export default (axios) => ({
     password,
     firstName,
     lastName,
-    structureName
+    structureName,
+    structureApi
   ) {
     return await axios.post('/register/responsable', {
       email: email.toLowerCase(),
@@ -133,6 +134,7 @@ export default (axios) => ({
       first_name: firstName,
       last_name: lastName,
       structure_name: structureName,
+      structure_api: structureApi,
     })
   },
 

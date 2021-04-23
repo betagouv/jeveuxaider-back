@@ -42,6 +42,15 @@
               placeholder="Nom de votre organisation"
             />
           </el-form-item>
+
+          <el-form-item label="Numéro RNA" prop="rna">
+            <input
+              v-model="form.rna"
+              class="custom-input placeholder-gray-600"
+              placeholder="Ex: W771009633"
+            />
+          </el-form-item>
+
           <el-form-item label="Statut juridique" prop="statut_juridique">
             <el-select
               v-model="form.statut_juridique"
@@ -273,7 +282,10 @@ export default {
         ? {
             ...store.getters.structure_as_responsable,
           }
-        : {},
+        : {
+            domaines: [],
+            publics_beneficiaires: [],
+          },
     }
   },
   data() {
@@ -352,19 +364,31 @@ export default {
   computed: {
     domainesSelected: {
       get() {
-        return this.form.domaines.map((item) => item.name.fr)
+        return this.form.domaines
+          ? this.form.domaines.map((item) => item.name.fr)
+          : []
       },
       set(items) {
         //
       },
     },
+    // publicsSelected: {
+    //   get() {
+    //     return this.form.publics_beneficiaires ? this.publics_beneficiaires : []
+    //   },
+    //   set(items) {
+    //     //
+    //   },
+    // },
   },
   mounted() {
     document.getElementById('step-container').scrollTop = 0
   },
   methods: {
     isDomaineSelected(id) {
-      return this.form.domaines.filter((item) => item.id == id).length > 0
+      return this.form.domaines
+        ? this.form.domaines.filter((item) => item.id == id).length > 0
+        : 0
     },
     handleClickDomaine(domaine) {
       if (this.isDomaineSelected(domaine.id)) {

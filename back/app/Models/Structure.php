@@ -52,6 +52,7 @@ class Structure extends Model
         'publics_beneficiaires',
         'image_1',
         'image_2',
+        'rna',
     ];
 
     protected $attributes = [

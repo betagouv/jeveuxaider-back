@@ -53,6 +53,7 @@ class StructureRequest extends FormRequest
             'domaines' => '',
             'image_1' => '',
             'image_2' => '',
+            'rna' => '',
         ];
     }
 

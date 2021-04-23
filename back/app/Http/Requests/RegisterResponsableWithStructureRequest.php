@@ -28,7 +28,8 @@ class RegisterResponsableWithStructureRequest extends FormRequest
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
-            'structure_name' => 'required|min:3'
+            'structure_name' => 'required|min:3',
+            'structure_api' => ''
         ];
     }
 

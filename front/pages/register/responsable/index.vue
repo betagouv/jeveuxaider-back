@@ -144,6 +144,16 @@
                             :disabled="disableFields"
                           />
                         </el-form-item>
+                        <el-form-item prop="structure_name" class="w-full p-2">
+                          <StructureApiSearchInput
+                            @selected="onStructureApiSelected"
+                          />
+                        </el-form-item>
+
+                        <template v-if="structureApi">
+                          RNA: {{ structureApi.id_rna }}
+                        </template>
+
                         <el-form-item
                           prop="first_name"
                           class="w-full sm:w-1/2 p-2"
@@ -448,6 +458,7 @@ export default {
         password: '',
         structure_name: '',
       },
+      structureApi: null,
       rules: {
         email: [
           {
@@ -520,6 +531,9 @@ export default {
     },
   },
   methods: {
+    onStructureApiSelected(structure) {
+      this.structureApi = structure
+    },
     onSubmit() {
       this.loading = true
       this.$refs.registerResponsableForm.validate((valid) => {
@@ -531,6 +545,7 @@ export default {
               first_name: this.form.first_name,
               last_name: this.form.last_name,
               structure_name: this.form.structure_name,
+              structure_api: this.structureApi,
             })
             .then(() => {
               this.loading = false
