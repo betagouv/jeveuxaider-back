@@ -31,7 +31,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: '/images/jva-logo.png',
+          content: '/images/share-image.png',
         },
       ],
     }
