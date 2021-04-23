@@ -275,7 +275,7 @@
                       <template v-else>
                         <a
                           v-if="item.provider == 'api_engagement'"
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
                           :href="item.application_url"
                           target="_blank"
                         >
@@ -283,7 +283,7 @@
                         </a>
                         <nuxt-link
                           v-else
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
                           :to="`/missions-benevolat/${item.id}/${item.slug}`"
                         >
                           <CardMission :mission="item" />
@@ -304,11 +304,15 @@
                       class="flex lg:ml-3"
                     >
                       <li
+                        tabindex="0"
                         class="mr-auto"
                         :class="[
                           { 'cursor-not-allowed': isFirstPage },
                           { 'cursor-pointer': !isFirstPage },
                         ]"
+                        @keyup.enter="
+                          !isFirstPage ? refine(currentRefinement - 1) : null
+                        "
                         @click.prevent="
                           !isFirstPage ? refine(currentRefinement - 1) : null
                         "
@@ -317,6 +321,7 @@
                       </li>
 
                       <li
+                        tabindex="0"
                         v-for="pageItem in pages"
                         :key="pageItem"
                         class="page-number cursor-pointer"
@@ -325,6 +330,11 @@
                             active: currentRefinement === pageItem,
                           },
                         ]"
+                        @keyup.enter="
+                          currentRefinement !== pageItem
+                            ? refine(pageItem)
+                            : null
+                        "
                         @click.prevent="
                           currentRefinement !== pageItem
                             ? refine(pageItem)
@@ -334,11 +344,15 @@
                         {{ pageItem + 1 }}
                       </li>
                       <li
+                        tabindex="0"
                         class="ml-auto"
                         :class="[
                           { 'cursor-not-allowed': isLastPage },
                           { 'cursor-pointer': !isLastPage },
                         ]"
+                        @keyup.enter="
+                          !isLastPage ? refine(currentRefinement + 1) : null
+                        "
                         @click.prevent="
                           !isLastPage ? refine(currentRefinement + 1) : null
                         "

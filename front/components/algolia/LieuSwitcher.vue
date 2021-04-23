@@ -6,9 +6,9 @@
       class="flex item w-full lg:w-auto"
     >
       <el-radio
-        :value="radio"
+        v-model="radio"
         :label="item.value"
-        class="flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10"
+        class="flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10 focus:shadow-outline"
         :class="[
           { 'opacity-75': radio && radio != item.value },
           `el-radio-${index}`,

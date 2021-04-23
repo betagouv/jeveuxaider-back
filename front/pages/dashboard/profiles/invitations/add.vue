@@ -226,7 +226,11 @@ export default {
         user_id: this.$store.getters.user.id,
         properties: {},
       },
-      rules: {
+    }
+  },
+  computed: {
+    rules() {
+      const rules = {
         email: [
           {
             type: 'email',
@@ -246,8 +250,9 @@ export default {
             trigger: 'blur',
           },
         ],
-      },
-    }
+      }
+      return rules
+    },
   },
   created() {},
   methods: {

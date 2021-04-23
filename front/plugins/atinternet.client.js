@@ -1,25 +1,23 @@
-/* eslint-disable */
-export default ({app}) => {
-  if(process.env.NODE_ENV !== 'production') {
-    return;
-  }
+export default (app) => {
   document.addEventListener('DOMContentLoaded', function () {
-    window.ATInternet = {}
-    ;(function () {
-      const d = document
-      const s = d.createElement('script')
+    const script = document.createElement('script')
+    script.onload = function () {
+      const tag = new window.ATInternet.Tracker.Tag()
+      tag.page.set({
+        name: app.route.fullPath,
+      })
+      tag.dispatch()
+    }
+    script.src = '//tag.aticdn.net/610648/smarttag.js'
+    script.async = true
+    document.head.appendChild(script)
 
-      s.src = '//tag.aticdn.net/610648/smarttag.js'
-      s.async = 1
-      d.getElementsByTagName('head')[0].appendChild(s)
-    })()
-
-    app.router.afterEach((to, from) => {
-      if(window.ATInternet && window.ATInternet.Tracker) {
+    app.app.router.afterEach(() => {
+      if (window.ATInternet && window.ATInternet.Tracker) {
         const tag = new window.ATInternet.Tracker.Tag()
 
         tag.page.set({
-          name: to.name
+          name: app.route.fullPath,
         })
         tag.dispatch()
       }

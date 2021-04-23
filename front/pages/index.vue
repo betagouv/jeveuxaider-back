@@ -10,29 +10,36 @@
         alt="Je Veux Aider"
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
-        width="100%"
-        height="100%"
       />
 
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
         <client-only placeholder="Je veux aider, bénévolat partout en France">
-          <vue-typed-js
-            ref="typedJS"
-            :strings="strings"
-            :loop="true"
-            :start-delay="70"
-            :type-speed="70"
-            :back-delay="2000"
-            cursor-char="|"
-          >
+          <div v-if="hasReduceMotion">
             <div
               class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
             >
-              Je veux <br class="lg:hidden" /><span class="typing"></span>
+              Je veux aider
             </div>
-          </vue-typed-js>
+          </div>
+          <div v-else>
+            <vue-typed-js
+              ref="typedJS"
+              :strings="strings"
+              :loop="true"
+              :start-delay="70"
+              :type-speed="70"
+              :back-delay="2000"
+              cursor-char="|"
+            >
+              <div
+                class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+              >
+                Je veux <br class="lg:hidden" /><span class="typing"></span>
+              </div>
+            </vue-typed-js>
+          </div>
         </client-only>
 
         <div
@@ -47,12 +54,12 @@
 
         <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-5">
           <div class="rounded-full shadow-lg">
-            <div
+            <button
               class="font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
               @click="handleClickCTA()"
             >
               Je veux aider
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -86,8 +93,8 @@
                     class="m-auto"
                     alt="partenaire engagement J'agis pour la nature"
                     src="@/assets/images/logo-jagis-pour-la-nature.png"
-                    width="100px"
-                    height="40px"
+                    width="100"
+                    height="40"
                   />
                 </div>
                 <div
@@ -97,8 +104,8 @@
                     class="m-auto"
                     alt="partenaire engagement Banque Alimentaire"
                     src="@/assets/images/logo_banquealimentaire.png"
-                    width="150px"
-                    height="60px"
+                    width="150"
+                    height="60"
                   />
                 </div>
                 <div
@@ -108,8 +115,8 @@
                     class="m-auto"
                     src="@/assets/images/logo_emmaus.png"
                     alt="partenaire engagement Emmaus"
-                    width="150px"
-                    height="60px"
+                    width="150"
+                    height="60"
                   />
                 </div>
                 <div
@@ -119,8 +126,8 @@
                     class="m-auto"
                     src="@/assets/images/logo_aphp.png"
                     alt="partenaire engagement APHP"
-                    width="150px"
-                    height="60px"
+                    width="150"
+                    height="60"
                   />
                 </div>
                 <a
@@ -171,7 +178,7 @@
 
     <div class="bg-gray-50 pb-20 px-4 md:px-6 lg:px-8">
       <p
-        class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+        class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
       >
         Parmi les missions prioritaires
       </p>
@@ -199,8 +206,8 @@
                 class="h-48 w-full object-cover"
                 :src="mission.image"
                 :alt="mission.name"
-                width="600px"
-                height="286px"
+                width="600"
+                height="286"
               />
             </div>
           </div>
@@ -412,7 +419,7 @@
       <div class="relative max-w-screen-xl text-center mx-auto">
         <div class="max-w-md mx-auto lg:max-w-screen-xl">
           <p
-            class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-500 tracking-wider"
+            class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
           >
             les autres domaines d'action
           </p>
@@ -428,8 +435,8 @@
                   :alt="domaine.name"
                   class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
                   :src="require(`@/assets/images/dynamic/${domaine.image}`)"
-                  width="40px"
-                  height="28px"
+                  width="40"
+                  height="28"
                 />
                 {{ domaine.name }}
               </nuxt-link>
@@ -505,8 +512,8 @@
                       class="h-14 w-14 mt-1 rounded-full shadow-lg"
                       src="@/assets/images/sante-3.jpg"
                       alt="domaine sante"
-                      width="56px"
-                      height="56px"
+                      width="56"
+                      height="56"
                     />
                   </div>
                   <div class="ml-5">
@@ -522,8 +529,8 @@
                       class="h-9"
                       src="@/assets/images/logo_banquealimentaire.png"
                       alt="logo banque alimentaire"
-                      width="90px"
-                      height="36px"
+                      width="90"
+                      height="36"
                     />
                   </div>
                 </div>
@@ -561,8 +568,8 @@
                       class="mt-0 rounded-full shadow-lg"
                       src="@/assets/images/clement.jpeg"
                       alt="candidature bénévole"
-                      width="56px"
-                      height="56px"
+                      width="56"
+                      height="56"
                     />
                   </div>
                   <div class="ml-5">
@@ -578,8 +585,8 @@
                       class="h-6"
                       src="@/assets/images/lafourmiliere.png"
                       alt="logo la fourmiliere"
-                      width="138px"
-                      height="24px"
+                      width="138"
+                      height="24"
                     />
                   </div>
                 </div>
@@ -617,8 +624,8 @@
                 :src="require(`@/assets/images/dynamic/${actualite.image}`)"
                 :alt="actualite.title"
                 class="h-48 w-full object-cover"
-                width="554px"
-                height="312px"
+                width="554"
+                height="312"
               />
             </div>
             <div class="flex-1 bg-white p-8 flex flex-col justify-between">
@@ -696,7 +703,7 @@
                   aria-label="Email address"
                   type="email"
                   required
-                  class="w-full px-5 py-3 appearance-none shadow-lg border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 transition duration-150 ease-in-out"
+                  class="w-full px-5 py-3 appearance-none shadow-lg border border-transparent text-lg leading-6 rounded-full text-gray-900 bg-white placeholder-gray-500 focus:placeholder-gray-400 transition duration-150 ease-in-out"
                   placeholder="Votre e-mail"
                 />
                 <div v-if="emailError" class="text-red-600 font-semibold">
@@ -1104,8 +1111,26 @@ export default {
           content:
             "Trouvez une mission de bénévolat dans une association, organisation publique ou une commune, partout en France, sur le terrain ou à distance. 50 000 places disponibles dans 10 domaines d'action : solidarité, insertion, éducation, environnement, santé, sport, culture ...",
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.png',
+        },
       ],
     }
+  },
+  computed: {
+    hasReduceMotion() {
+      if (process.client) {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+        if (!mediaQuery || mediaQuery.matches) {
+          return true
+        } else {
+          return false
+        }
+      }
+      return false
+    },
   },
   beforeDestroy() {
     if (this.$refs.typedJS) {

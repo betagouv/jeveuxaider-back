@@ -28,6 +28,11 @@ export default {
           content:
             "50 000 places disponibles dans 10 domaines d'action : solidarité, insertion, éducation, environnement, santé, sport, culture ... Trouvez la mission qui vous correspond, sur le terrain ou à distance, partout en France, dès 16 ans.",
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.png',
+        },
       ],
     }
   },

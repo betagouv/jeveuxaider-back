@@ -5,18 +5,18 @@
 <script>
 export default {
   async asyncData({ $api }) {
-    const page = await $api.getPage(4)
+    const page = await $api.getPage(39)
     return {
       page,
     }
   },
   head() {
     return {
-      title: 'Charte de la Réserve Civique | JeVeuxAider.gouv.fr',
+      title: 'Accessibilité | JeVeuxAider.gouv.fr',
       link: [
         {
           rel: 'canonical',
-          href: 'https://www.jeveuxaider.gouv.fr/charte-reserve-civique',
+          href: 'https://www.jeveuxaider.gouv.fr/accessibilite',
         },
       ],
       meta: [
@@ -24,7 +24,7 @@ export default {
           hid: 'description',
           name: 'description',
           content:
-            'La réserve civique permet à toute personne qui le souhaite de s’engager à servir les valeurs de la République en participant à des missions d’intérêt général, à titre bénévole et occasionnel.',
+            "La plateforme JeVeuxAider.gouv.fr est un service public numérique destiné à organiser l'engagement civique bénévole en France. Elle permet à toute personne âgée de plus de 16 ans de s’engager dans des missions de bénévolat.",
         },
         {
           hid: 'og:image',

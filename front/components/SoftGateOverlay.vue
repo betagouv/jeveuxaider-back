@@ -5,12 +5,12 @@
       class="w-full h-full flex flex-col items-center justify-center"
     >
       <div class="flex flex-col w-full h-full px-4">
-        <div
+        <button
           class="p-4 -mr-4 lg:m-0 lg:p-8 cursor-pointer ml-auto lg:absolute lg:right-0"
           @click="onClose"
         >
           <img src="/images/close-white.svg" alt="Fermer" width="24px" />
-        </div>
+        </button>
 
         <div
           v-scroll-lock="true"

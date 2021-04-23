@@ -109,8 +109,6 @@ export default {
     i
       font-size: 24px
       margin: 0
-      &:focus
-        outline: none
     &.is-active
       &::before
         content: ""

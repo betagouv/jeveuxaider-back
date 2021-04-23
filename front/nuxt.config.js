@@ -32,22 +32,22 @@ export default {
       {
         rel: 'preconnect',
         href: 'https://gqlg3qh7po-dsn.algolia.net',
-        crossorigin: true,
+        crossorigin: 'anonymous',
       },
       {
         rel: 'preconnect',
         href: 'https://static.axept.io',
-        crossorigin: true,
+        crossorigin: 'anonymous',
       },
       {
         rel: 'preconnect',
         href: 'https://client.axept.io',
-        crossorigin: true,
+        crossorigin: 'anonymous',
       },
       {
         rel: 'preconnect',
         href: 'https://client.crisp.chat',
-        crossorigin: true,
+        crossorigin: 'anonymous',
       },
     ],
   },
@@ -146,8 +146,16 @@ export default {
 
   redirect: [
     /* eslint-disable */
-    { from: '^\/missions(?!-benevolat|\/)(.*)$', to: '/missions-benevolat$1', statusCode: 301 },
-    { from: '^\/missions(?!-benevolat)\/(.*)$', to: '/missions-benevolat/$1', statusCode: 301 },
+    {
+      from: '^/missions(?!-benevolat|/)(.*)$',
+      to: '/missions-benevolat$1',
+      statusCode: 301,
+    },
+    {
+      from: '^/missions(?!-benevolat)/(.*)$',
+      to: '/missions-benevolat/$1',
+      statusCode: 301,
+    },
   ],
 
   privateRuntimeConfig: {
@@ -168,9 +176,6 @@ export default {
     },
     axios: {
       browserBaseURL: `${process.env.API_URL}/api`,
-    },
-    googleAnalytics: {
-      id: process.env.GOOGLE_ANALYTICS_ID,
     },
     franceConnect: process.env.FRANCE_CONNECT,
     oauth: {
@@ -228,9 +233,7 @@ export default {
     return {
       hostname: 'https://www.jeveuxaider.gouv.fr',
       gzip: true,
-      exclude: [
-        '/**'
-      ],
+      exclude: ['/**'],
       routes: async () => {
         const { data } = await axios.get(`${process.env.API_URL}/api/sitemap`)
         return data

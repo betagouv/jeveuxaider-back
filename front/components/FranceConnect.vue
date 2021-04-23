@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="cursor-pointer" @click="handleClickFranceConnect">
+    <button
+      class="block m-auto cursor-pointer"
+      @click="handleClickFranceConnect"
+    >
       <img
         class="hover:opacity-75 mx-auto w-auto h-16 mb-1 shadow-lg rounded-lg overflow-hidden transform transition duration-150 ease-in-out"
         :src="
@@ -10,7 +13,7 @@
         "
         alt="Soumettre"
       />
-    </div>
+    </button>
     <a
       href="https://franceconnect.gouv.fr/"
       target="_blank"
@@ -61,7 +64,6 @@ export default {
   },
   methods: {
     handleClickFranceConnect() {
-      console.log('click go')
       this.$api.franceConnectLoginAuthorize().then((res) => {
         window.location.href = res.data
       })

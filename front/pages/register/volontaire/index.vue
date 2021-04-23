@@ -6,8 +6,6 @@
         alt="Je Veux Aider"
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
-        width="100%"
-        height="100%"
       />
 
       <div class="relative py-4 lg:py-12 z-10">
@@ -264,7 +262,7 @@
                         <el-button
                           type="primary"
                           :loading="loading"
-                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:border-indigo-700 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
                           @click="onSubmit"
                           >Je m'inscris<span class="hidden sm:inline">
                             en tant que bénévole</span
@@ -595,6 +593,11 @@ export default {
           name: 'description',
           content:
             'Créez votre page dédiée et centralisez les missions de vos associations et organisations publiques afin de promouvoir le bénévolat de proximité.',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.png',
         },
       ],
     }

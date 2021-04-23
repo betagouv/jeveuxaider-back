@@ -57,7 +57,7 @@
                 <input
                   id="search_field"
                   v-model="query"
-                  class="block w-full text-xl h-full pl-8 pr-6 py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:outline-none focus:placeholder-cool-gray-400"
+                  class="block w-full text-xl h-full pl-8 pr-6 py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:placeholder-cool-gray-400"
                   placeholder="Trouvez votre département ou votre collectivité"
                   type="search"
                 />
@@ -74,7 +74,7 @@
                   ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
                   : 'text-gray-500 hover:text-blue-800 bg-white'
               "
-              class="px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              class="px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md"
               @click="tab = 'departments'"
             >
               Départements ({{ departmentsCount }})
@@ -85,7 +85,7 @@
                   ? 'text-white bg-blue-800 focus:text-white focus:bg-blue-800'
                   : 'text-gray-500 hover:text-blue-800 bg-white'
               "
-              class="ml-4 px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none"
+              class="ml-4 px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md"
               @click="tab = 'collectivities'"
             >
               Collectivités ({{ collectivitiesCount }})
@@ -216,6 +216,11 @@ export default {
           name: 'description',
           content:
             "Partout en France, des milliers de bénévoles, d'associations et de communes se mobilisent sur JeVeuxAider.gouv.fr. Rejoignez la plateforme et faites vivre la solidarité locale. ",
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.png',
         },
       ],
     }
