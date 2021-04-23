@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     handleClickFranceConnect() {
-      console.log('click go')
       this.$api.franceConnectLoginAuthorize().then((res) => {
         window.location.href = res.data
       })

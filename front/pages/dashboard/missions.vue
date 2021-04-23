@@ -274,6 +274,7 @@ export default {
           fileDownload(response.data, 'missions.xlsx')
         })
         .catch((error) => {
+          this.loadingExport = false
           console.log('exportMissions', error)
         })
     },
