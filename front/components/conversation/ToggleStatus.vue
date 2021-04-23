@@ -1,12 +1,11 @@
 <template>
   <el-dropdown trigger="click" @command="handleCommand">
-    <span class="el-dropdown-link">
-      <button
-        class="ml-2 text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition"
-      >
-        Filtres
-      </button>
-    </span>
+    <button
+      class="el-dropdown-link text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition focus:outline-none focus:border-black text-black"
+    >
+      Filtres
+    </button>
+
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item
         :command="{ status: 1 }"
