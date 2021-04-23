@@ -507,6 +507,11 @@ export default {
           content:
             'Inscrivez votre organisation en quelques clics. Publiez vos missions de bénévolat. Trouvez des bénévoles motivés et disponibles partout en France. 5000 organisations sont déjà inscrites.',
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },

@@ -26,6 +26,11 @@ export default {
           content:
             'La réserve civique permet à toute personne qui le souhaite de s’engager à servir les valeurs de la République en participant à des missions d’intérêt général, à titre bénévole et occasionnel.',
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },

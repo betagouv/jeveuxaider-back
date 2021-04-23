@@ -594,6 +594,11 @@ export default {
           content:
             'Créez votre page dédiée et centralisez les missions de vos associations et organisations publiques afin de promouvoir le bénévolat de proximité.',
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },

@@ -343,6 +343,11 @@ export default {
           name: 'description',
           content: `Des milliers de places sont disponibles dans des associations pour ${this.thematiqueSeo}. Trouvez la mission qui vous correspond, sur le terrain ou à distance, partout en France, dès 16 ans.`,
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },

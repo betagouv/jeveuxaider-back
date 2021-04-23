@@ -26,6 +26,11 @@ export default {
           content:
             "La plateforme JeVeuxAider.gouv.fr est un service public numérique destiné à organiser l'engagement civique bénévole en France. Elle permet à toute personne âgée de plus de 16 ans de s’engager dans des missions de bénévolat.",
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },

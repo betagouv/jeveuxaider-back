@@ -357,6 +357,11 @@ export default {
           content:
             "Trouvez des missions en quelques clics. Devenez bénévole près de chez vous ou à distance. Faites vivre l'engagement de chacun pour tous ! Plus de 300 000 bénévoles sont déjà inscrits.",
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },

@@ -704,6 +704,11 @@ export default {
             .replace(/<\/?[^>]+>/gi, ' ')
             .substring(0, 300),
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/jva-logo.png',
+        },
       ],
     }
   },
