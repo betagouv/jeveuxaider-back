@@ -222,7 +222,7 @@
                     <div class="-m-3 flex justify-center">
                       <!-- Mail -->
                       <a
-                        :href="`mailto:?&subject=${mission.name}&body=${baseUrl}${$router.currentRoute.fullPath}`"
+                        :href="`mailto:?&subject=${mission.name}&body=J'ai trouvé ma future mission de bénévolat sur JeVeuxAider.%0d%0aRejoignez le mouvement #ChacunPourTous%0d%0a${baseUrl}${$router.currentRoute.fullPath}`"
                         class="m-3 text-indigo-300 hover:text-white transition"
                       >
                         <svg
@@ -257,7 +257,7 @@
                       <!-- Twitter -->
                       <a
                         target="_blank"
-                        :href="`https://twitter.com/intent/tweet?url=${baseUrl}${$router.currentRoute.fullPath}`"
+                        :href="`https://twitter.com/intent/tweet?url=${baseUrl}${$router.currentRoute.fullPath}&text=J'ai trouvé ma future mission de bénévolat sur JeVeuxAider. Rejoignez le mouvement #ChacunPourTous`"
                         class="m-3 text-indigo-300 hover:text-white transition"
                       >
                         <svg
@@ -707,7 +707,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: '/images/share-image.png',
+          content: '/images/share-image.jpg',
         },
       ],
     }
