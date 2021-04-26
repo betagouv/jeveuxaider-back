@@ -2,7 +2,7 @@
 
 export const state = () => ({
   conversations: [],
-  conversation: null,
+  conversation: {},
   messages: [],
   newMessagesCount: 0,
   showPanelLeft: true,
@@ -74,7 +74,7 @@ export const mutations = {
   },
   reset: (state) => {
     state.conversations = []
-    state.conversation = null
+    state.conversation = {}
     state.messages = []
     state.newMessagesCount = 0
   },

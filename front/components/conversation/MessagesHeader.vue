@@ -37,13 +37,19 @@
         class="flex-none rounded-full transition whitespace-no-wrap mr-2 w-7 h-7 flex items-center justify-center focus:outline-none focus:bg-gray-200 hover:bg-gray-200"
         @click="onArchiveClick"
       >
-        <img
-          src="@/assets/images/archive.svg"
-          :alt="
-            currentUser.pivot.status == 0 ? `Retirer de l'archive` : `Archiver`
-          "
-          width="16"
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
+          <path
+            fill-rule="evenodd"
+            d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
 
       <button
@@ -61,16 +67,10 @@
 
 <script>
 export default {
-  props: {
-    conversation: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {}
-  },
   computed: {
+    conversation() {
+      return this.$store.getters['messaging/conversation']
+    },
     formattedDate() {
       let start = this.conversation.conversable.mission.start_date
       let end = this.conversation.conversable.mission.end_date

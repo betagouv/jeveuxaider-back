@@ -99,12 +99,6 @@
 </template>
 <script>
 export default {
-  props: {
-    conversation: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       profile: null,
@@ -118,6 +112,11 @@ export default {
     )
     this.profile = profile
     this.loading = false
+  },
+  computed: {
+    conversation() {
+      return this.$store.getters['messaging/conversation']
+    },
   },
 }
 </script>
