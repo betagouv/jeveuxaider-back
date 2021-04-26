@@ -50,9 +50,18 @@ class MessageCreated extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)
-            ->subject('Nouveau message de la part de ' . $this->message->from->profile->full_name)
-            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
+        $fromOrga = false;
+        if($this->message->conversation->conversable->mission->responsable_id == $this->message->from->profile->id) {
+            $fromOrga = $this->message->conversation->conversable->mission->structure;
+        }
+        $message = (new MailMessage);
+        if($fromOrga) {
+            $message->subject('Nouveau message de la part de ' . $this->message->from->profile->first_name . ' ('.$fromOrga->name.')');
+        }
+        else {
+            $message->subject('Nouveau message de la part de ' . $this->message->from->profile->first_name);
+        }
+        $message->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
             ->line($this->message->from->profile->full_name .' a répondu à votre message concernant la mission "' . $this->message->conversation->conversable->mission->name . '"')
             ->line('Vous pouvez échanger avec cette personne directement via la messagerie de JeVeuxAider.gouv.fr.');
 
