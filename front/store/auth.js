@@ -162,6 +162,7 @@ export const actions = {
     const { data } = await this.$axios.post(`/impersonate/${userId}`)
     commit('setAccessTokenImpersonate', data.accessToken)
     commit('setTokenIdImpersonate', data.token.id)
+    commit('messaging/reset', null, { root: true })
     this.$cookies.set('access-token-impersonate', data.accessToken, {
       maxAge: 3600, // 1 heure
     })
@@ -178,6 +179,7 @@ export const actions = {
     })
     commit('setAccessTokenImpersonate', null)
     commit('setTokenIdImpersonate', null)
+    commit('messaging/reset', null, { root: true })
     this.$cookies.remove('access-token-impersonate')
     this.$cookies.remove('token-id-impersonate')
     await dispatch('fetchUser')

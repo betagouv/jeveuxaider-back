@@ -59,7 +59,12 @@
                   </el-input>
                 </div>
 
-                <ElContainer v-if="loading" key="loading" v-loading="true">
+                <ElContainer
+                  v-if="loading"
+                  key="loading"
+                  v-loading="true"
+                  class="border-cool-gray-200 md:border-r"
+                >
                   <div class="w-16 h-16"></div>
                 </ElContainer>
 

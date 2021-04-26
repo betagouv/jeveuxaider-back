@@ -19,7 +19,7 @@
       </div>
     </section>
 
-    <ConversationBenevole v-if="!isBenevole" :conversation="conversation" />
+    <ConversationBenevole v-if="!isBenevole" />
 
     <section>
       <div v-if="participation.mission.domaine" class="mb-4">
@@ -194,16 +194,10 @@
 
 <script>
 export default {
-  props: {
-    conversation: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {}
-  },
   computed: {
+    conversation() {
+      return this.$store.getters['messaging/conversation']
+    },
     participation() {
       return this.conversation.conversable
     },

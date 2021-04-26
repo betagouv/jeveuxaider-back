@@ -92,12 +92,6 @@
 
 <script>
 export default {
-  props: {
-    conversation: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       newMessage: '',
@@ -109,7 +103,9 @@ export default {
   },
   async fetch() {
     this.loading = true
-    const messages = await this.$api.fetchMessages(this.conversation.id)
+    const messages = await this.$api.fetchMessages(
+      this.$store.getters['messaging/conversation'].id
+    )
     this.$store.commit('messaging/setMessages', messages.data.data)
     this.lastPageMessages = messages.data.last_page
     this.loading = false
@@ -151,7 +147,7 @@ export default {
     async onAddMessage() {
       if (this.newMessage.trim().length) {
         const response = await this.$api.addMessageToConversation(
-          this.conversation.id,
+          this.$store.getters['messaging/conversation'].id,
           {
             content: this.newMessage,
           }
@@ -167,7 +163,7 @@ export default {
         this.$refs.messagesContainer.scrollTop = 0
         await this.$store.dispatch(
           'messaging/refreshConversation',
-          this.conversation
+          this.$store.getters['messaging/conversation']
         )
       }
     },

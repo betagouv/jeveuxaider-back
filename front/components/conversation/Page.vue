@@ -18,14 +18,12 @@
         class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
       >
         <ConversationMessagesHeader
-          :conversation="$store.getters['messaging/conversation']"
+          v-if="$store.getters['messaging/conversation']"
           @toggle-panel-right="onPanelRightToggle"
         />
       </div>
 
-      <ConversationMessages
-        :conversation="$store.getters['messaging/conversation']"
-      />
+      <ConversationMessages v-if="$store.getters['messaging/conversation']" />
     </div>
 
     <!-- RIGHT -->
@@ -49,7 +47,7 @@
       <div ref="participationContainer" class="panel--container">
         <div class="panel--content">
           <ConversationDetails
-            :conversation="$store.getters['messaging/conversation']"
+            v-if="$store.getters['messaging/conversation']"
           />
         </div>
       </div>

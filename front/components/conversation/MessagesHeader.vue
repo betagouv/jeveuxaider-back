@@ -61,16 +61,10 @@
 
 <script>
 export default {
-  props: {
-    conversation: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {}
-  },
   computed: {
+    conversation() {
+      return this.$store.getters['messaging/conversation']
+    },
     formattedDate() {
       let start = this.conversation.conversable.mission.start_date
       let end = this.conversation.conversable.mission.end_date
