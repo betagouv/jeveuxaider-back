@@ -13,8 +13,8 @@
         <img
           v-for="imageName in availableImages"
           :key="`${imageName}`"
-          :src="`/images/domaines/${imageName}.jpg`"
-          :srcset="`/images/domaines/${imageName}@2x.jpg 2x`"
+          :src="`/images/organisations/domaines/${imageName}.jpg`"
+          :srcset="`/images/organisations/domaines/${imageName}@2x.jpg 2x`"
           class="thumbnail w-32 sm:w-64"
           :class="[
             {
@@ -59,8 +59,8 @@ export default {
     availableImages() {
       const ids = []
       this.domaines.forEach((domaine) => {
-        for (let index = 1; index < 3; index++) {
-          ids.push(`${domaine}_${index}`)
+        for (let index = 1; index < 6; index++) {
+          ids.push(`${domaine.id}_${index}`)
         }
       })
       return ids

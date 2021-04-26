@@ -57,8 +57,8 @@
             Visuel N°1
           </div>
           <img
-            :src="`/images/domaines/${selectedImages[0]}.jpg`"
-            :srcset="`/images/domaines/${selectedImages[0]}@2x.jpg 2x`"
+            :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
+            :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
             class="w-full h-auto rounded-lg cursor-pointer"
           />
           <div
@@ -80,8 +80,8 @@
             Visuel N°2
           </div>
           <img
-            :src="`/images/domaines/${selectedImages[1]}.jpg`"
-            :srcset="`/images/domaines/${selectedImages[1]}@2x.jpg 2x`"
+            :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+            :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
             class="w-full h-auto rounded-lg cursor-pointer"
           />
           <div
@@ -112,7 +112,7 @@
     </div>
     <DialogOrganisationImagesPicker
       :initial-image="selectedImages[imageIndex]"
-      :domaines="[1, 2, 3]"
+      :domaines="form.domaines"
       :is-visible="showDialog"
       @picked="onPickedImage"
       @close="showDialog = false"
@@ -128,12 +128,18 @@ export default {
       return error({ statusCode: 403 })
     }
     const form = { ...store.getters.structure_as_responsable }
+    const defaultImages = store.getters.structure_as_responsable.domaines
+      ? [
+          store.getters.structure_as_responsable.domaines[0].id + '_1',
+          store.getters.structure_as_responsable.domaines[0].id + '_2',
+        ]
+      : ['1_1', '2_1']
     return {
       structureId: store.getters.structure_as_responsable.id,
       form,
       selectedImages: form.image_1
         ? [form.image_1, form.image_2]
-        : ['1_1', '2_1'],
+        : defaultImages,
     }
   },
   data() {
