@@ -65,6 +65,8 @@ export const actions = {
     commit('setUser', null)
     commit('messaging/reset', null, { root: true })
     this.$cookies.remove('access-token')
+    this.$cookies.remove('access-token-impersonate')
+    this.$cookies.remove('token-id-impersonate')
   },
 
   async fetchUser({ commit }) {
