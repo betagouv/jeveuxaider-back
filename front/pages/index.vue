@@ -1113,7 +1113,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: '/images/share-image.png',
+          content: '/images/share-image.jpg',
         },
       ],
     }
