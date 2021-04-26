@@ -42,7 +42,6 @@
           class="h-5 w-5"
           viewBox="0 0 20 20"
           fill="currentColor"
-          width="16"
         >
           <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
           <path
