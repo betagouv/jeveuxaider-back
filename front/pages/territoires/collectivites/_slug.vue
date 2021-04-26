@@ -230,6 +230,11 @@ export default {
           content:
             'Faites vivre la solidarité grâce au bénévolat dans votre collectivité. Trouvez la mission qui vous correspond, dès 16 ans.',
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.png',
+        },
       ],
     }
   },

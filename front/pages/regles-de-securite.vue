@@ -155,6 +155,11 @@ export default {
           content:
             'Des gestes simples pour préserver votre santé et celle des autres lors des missions de bénévolat.',
         },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.png',
+        },
       ],
     }
   },

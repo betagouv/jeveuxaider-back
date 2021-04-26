@@ -7,7 +7,7 @@ export default () => {
 
       s.defer = 1
       s.dataDomain = 'jeveuxaider.gouv.fr'
-      s.src = 'https://plausible.io/js/plausible.js'
+      s.src = 'https://plausible.io/js/plausible.outbound-links.js'
       s.async = 1
       d.getElementsByTagName('head')[0].appendChild(s)
       window.plausible =

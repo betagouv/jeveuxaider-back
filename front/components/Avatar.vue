@@ -9,7 +9,12 @@
 
     <template v-else>
       <template v-if="initialSource">
-        <img :src="initialSource" :alt="fallback" @error="onSourceError" />
+        <img
+          class="object-cover w-full h-full"
+          :src="initialSource"
+          :alt="fallback"
+          @error="onSourceError"
+        />
       </template>
       <template v-else>
         {{ fallback }}
