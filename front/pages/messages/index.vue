@@ -23,8 +23,6 @@ export default {
       immediate: true,
       async handler() {
         if (this.conversation && !this.conversationIsSet) {
-          this.conversationIsSet = true
-
           const conversation = await this.$api.getConversation(
             this.conversation.id
           )
@@ -41,6 +39,8 @@ export default {
               conversation.id
             )
           }
+
+          this.conversationIsSet = true
         }
       },
     },

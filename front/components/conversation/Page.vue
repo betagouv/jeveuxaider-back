@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="$store.getters['messaging/conversation']"
     class="flex flex-1"
     :class="[
       {
@@ -60,18 +59,6 @@
 
 <script>
 export default {
-  async asyncData({ store, error, $api, params }) {
-    const conversation = await $api.getConversation(params.id)
-
-    if (!conversation) {
-      return error({ statusCode: 403 })
-    }
-
-    store.commit('messaging/setConversation', conversation)
-  },
-  data() {
-    return {}
-  },
   methods: {
     onPanelRightToggle() {
       this.$store.commit(
