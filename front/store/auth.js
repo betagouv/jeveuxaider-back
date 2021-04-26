@@ -167,9 +167,11 @@ export const actions = {
     commit('messaging/reset', null, { root: true })
     this.$cookies.set('access-token-impersonate', data.accessToken, {
       maxAge: 3600, // 1 heure
+      path: '/',
     })
     this.$cookies.set('token-id-impersonate', data.token.id, {
       maxAge: 3600, // 1 heure
+      path: '/',
     })
     await dispatch('fetchUser')
     this.$router.push('/')
