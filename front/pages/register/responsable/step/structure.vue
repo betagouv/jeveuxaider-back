@@ -218,6 +218,22 @@
               <el-input v-model="form.city" disabled placeholder="Ville" />
             </el-form-item>
           </div>
+          <div class="hidden">
+            <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
+              <el-input
+                v-model="form.latitude"
+                disabled
+                placeholder="Latitude"
+              />
+            </el-form-item>
+            <el-form-item label="Longitude" prop="longitude" class="flex-1">
+              <el-input
+                v-model="form.longitude"
+                disabled
+                placeholder="Longitude"
+              />
+            </el-form-item>
+          </div>
 
           <template v-if="form.statut_juridique != 'Collectivité'">
             <el-form-item

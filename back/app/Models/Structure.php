@@ -142,6 +142,23 @@ class Structure extends Model
         $this->attributes['structure_privee_type'] = ($this->statut_juridique == 'Structure privée') ? $value : null;
     }
 
+    public function setStatutJuridiqueAttribute($value)
+    {
+        switch ($value) {
+            case 'loi1901':
+                $value = 'Association';
+                break;
+            case 'collectivite':
+                $value = 'Collectivité';
+                break;
+            case 'alsaceMoselle':
+                $value = 'Association';
+                break;
+        }
+
+        $this->attributes['statut_juridique'] = $value;
+    }
+
     public function scopeCeu($query, $value)
     {
         if ($value) {

@@ -135,26 +135,30 @@
                       label-position="top"
                       :rules="rules"
                       :hide-required-asterisk="true"
+                      class="form-register-steps"
                     >
                       <div class="flex flex-wrap -m-2">
-                        <el-form-item prop="structure_name" class="w-full p-2">
-                          <el-input
-                            v-model="form.structure_name"
-                            placeholder="Votre organisation"
-                            :disabled="disableFields"
-                          />
-                        </el-form-item>
-                        <el-form-item prop="structure_name" class="w-full p-2">
+                        <el-form-item
+                          label="Nom de votre organisation"
+                          prop="structure_name"
+                          class="w-full p-2"
+                        >
                           <StructureApiSearchInput
+                            v-model="form.structure_name"
                             @selected="onStructureApiSelected"
+                            @clear="structureApi = null"
+                            @change="onStructureApiChanged"
                           />
+                          <div
+                            v-if="structureApi"
+                            class="text-xs text-gray-400 leading-tight"
+                          >
+                            RNA: {{ structureApi.id_rna }}
+                          </div>
                         </el-form-item>
-
-                        <template v-if="structureApi">
-                          RNA: {{ structureApi.id_rna }}
-                        </template>
 
                         <el-form-item
+                          label="Prénom"
                           prop="first_name"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -165,6 +169,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Nom"
                           prop="last_name"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -174,7 +179,11 @@
                             :disabled="disableFields"
                           />
                         </el-form-item>
-                        <el-form-item prop="email" class="w-full p-2">
+                        <el-form-item
+                          label="E-mail"
+                          prop="email"
+                          class="w-full p-2"
+                        >
                           <el-input
                             v-model.trim="form.email"
                             placeholder="E-mail"
@@ -183,6 +192,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Mot de passe"
                           prop="password"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -194,6 +204,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Confirmation"
                           prop="password_confirmation"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -533,6 +544,9 @@ export default {
   methods: {
     onStructureApiSelected(structure) {
       this.structureApi = structure
+    },
+    onStructureApiChanged(value) {
+      this.form.structure_name = value
     },
     onSubmit() {
       this.loading = true

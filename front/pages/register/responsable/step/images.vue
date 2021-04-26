@@ -1,7 +1,9 @@
 <template>
   <div class="relative">
     <portal to="sidebar"
-      ><div class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12">
+      ><div
+        class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12 text-center sm:text-left"
+      >
         Ça ne devrait pas prendre plus de 3 minutes 😉
       </div>
       <Steps :steps="steps"

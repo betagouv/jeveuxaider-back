@@ -15,7 +15,7 @@
           :key="`${imageName}`"
           :src="`/images/domaines/${imageName}.jpg`"
           :srcset="`/images/domaines/${imageName}@2x.jpg 2x`"
-          class="thumbnail w-64"
+          class="thumbnail w-32 sm:w-64"
           :class="[
             {
               selected: selectedImage == `${imageName}`,

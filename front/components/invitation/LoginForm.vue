@@ -2,11 +2,11 @@
   <div class="">
     <el-form
       ref="loginInvitationForm"
-      class="mt-4"
       :model="form"
       label-position="top"
       :rules="rules"
       :hide-required-asterisk="true"
+      class="form-register-steps mt-4"
     >
       <el-form-item label="E-mail" prop="email">
         <el-input v-model.trim="form.email" placeholder="Email" disabled />

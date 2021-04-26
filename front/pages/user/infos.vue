@@ -158,7 +158,12 @@ export default {
   data() {
     return {
       loading: false,
-      form: { ...this.$store.getters.user.profile },
+      form: {
+        ...this.$store.getters.user.profile,
+        disponibilities: this.$store.getters.profile.disponibilities
+          ? this.$store.getters.profile.disponibilities
+          : [],
+      },
       model: 'profile',
       rules: {
         email: [

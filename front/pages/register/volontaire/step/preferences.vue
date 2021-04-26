@@ -238,24 +238,15 @@ export default {
       }
     },
     onSubmit() {
-      this.$refs.profileForm.validate((valid) => {
+      this.$refs.profileForm.validate(async (valid) => {
         if (valid) {
           this.loading = true
-
-          this.$store
-            .dispatch('user/updateProfile', {
-              id: this.$store.getters.profile.id,
-              ...this.form,
-            })
-            .then(() => {
-              this.loading = false
-              this.$router.push('/register/volontaire/step/competences')
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
+          await this.$store.dispatch('user/updateProfile', {
+            id: this.$store.getters.profile.id,
+            ...this.form,
+          })
           this.loading = false
+          this.$router.push('/register/volontaire/step/competences')
         }
       })
     },

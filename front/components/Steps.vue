@@ -91,7 +91,7 @@
       </li>
     </ol>
 
-    <ol class="block lg:hidden flex items-center">
+    <ol class="block lg:hidden flex items-center justify-center">
       <li
         v-for="(step, stepIdx) in steps"
         :key="step.name"

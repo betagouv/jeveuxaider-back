@@ -169,12 +169,15 @@ class ProfileController extends Controller
         $profile->update($request->validated());
 
         if ($request->has('domaines')) {
+            ray('has domaines', $request->input('domaines'));
             $domaines_ids = collect($request->input('domaines'))->pluck('id');
             $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $profile->syncTagsWithType($domaines, 'domaine');
         }
 
         if ($request->has('skills')) {
+            ray('has skills', $request->input('skills'));
+
             $skills_ids = collect($request->input('skills'))->pluck('id');
             $skills = Tag::whereIn('id', $skills_ids)->get();
             $profile->syncTagsWithType($skills, 'competence');

@@ -168,7 +168,12 @@ export default {
   layout: 'register-steps',
   asyncData({ $api, store }) {
     return {
-      form: { ...store.getters.profile },
+      form: {
+        ...store.getters.profile,
+        disponibilities: store.getters.profile.disponibilities
+          ? store.getters.profile.disponibilities
+          : [],
+      },
     }
   },
   data() {
@@ -246,19 +251,13 @@ export default {
         }
       })
     },
-    updateProfile() {
-      this.$store
-        .dispatch('user/updateProfile', {
-          id: this.$store.getters.profile.id,
-          ...this.form,
-        })
-        .then(() => {
-          this.loading = false
-          this.$router.push('/register/volontaire/step/preferences')
-        })
-        .catch(() => {
-          this.loading = false
-        })
+    async updateProfile() {
+      await this.$store.dispatch('user/updateProfile', {
+        id: this.$store.getters.profile.id,
+        ...this.form,
+      })
+      this.loading = false
+      this.$router.push('/register/volontaire/step/preferences')
     },
   },
 }
