@@ -16,8 +16,10 @@ class ProfileObserver
      */
     public function created(Profile $profile)
     {
-        if ($profile->user) {
-            SendinblueSyncUser::dispatch($profile->user);
+        if(config('app.env') === 'production') {
+            if ($profile->user) {
+                SendinblueSyncUser::dispatch($profile->user);
+            }
         }
     }
 
@@ -35,8 +37,10 @@ class ProfileObserver
         if ($oldEmail != $newEmail) {
             $profile->user()->update(['email' => $newEmail]);
         }
-        if ($profile->user) {
-            SendinblueSyncUser::dispatch($profile->user);
+        if(config('app.env') === 'production') {
+            if ($profile->user) {
+                SendinblueSyncUser::dispatch($profile->user);
+            }
         }
     }
 

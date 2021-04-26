@@ -46,8 +46,9 @@ class StructureObserver
         if ($structure->statut_juridique == 'Collectivité') {
             $this->createCollectivity($structure);
         }
-
-        SendinblueSyncUser::dispatch($structure->user);
+        if(config('app.env') === 'production') {
+            SendinblueSyncUser::dispatch($structure->user);
+        }  
     }
 
     public function updated(Structure $structure)
@@ -120,12 +121,14 @@ class StructureObserver
         }
 
         // Maj Sendinblue
-        if ($structure->isDirty('name')) {
-            $structure->responsables->each(function ($profile, $key) {
-                if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                    SendinblueSyncUser::dispatch($profile->user);
-                }
-            });
+        if(config('app.env') === 'production') {
+            if ($structure->isDirty('name')) {
+                $structure->responsables->each(function ($profile, $key) {
+                    if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
+                        SendinblueSyncUser::dispatch($profile->user);
+                    }
+                });
+            }
         }
     }
 
