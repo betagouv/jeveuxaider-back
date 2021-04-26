@@ -216,9 +216,9 @@ export default {
       return error({ statusCode: 403 })
     }
 
-    if (['responsable'].includes(store.getters.contextRole)) {
-      await store.dispatch('reminders')
-    }
+    // if (['responsable'].includes(store.getters.contextRole)) {
+    //   await store.dispatch('reminders')
+    // }
 
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
     const templates = await $api.fetchMissionTemplates({ pagination: 1000 })

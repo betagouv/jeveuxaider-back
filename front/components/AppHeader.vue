@@ -308,15 +308,6 @@ export default {
       default: true,
     },
   },
-  created() {
-    // if (
-    //   this.$store.getters.isLogged &&
-    //   this.$store.getters.roles &&
-    //   this.$store.getters.roles.length > 0
-    // ) {
-    //   this.$store.dispatch('reminders')
-    // }
-  },
   methods: {
     onClickJdma() {
       this.$cookies.set('click-jdma', true, {

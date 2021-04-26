@@ -69,11 +69,17 @@ export const actions = {
     this.$cookies.remove('token-id-impersonate')
   },
 
-  async fetchUser({ commit }) {
+  async fetchUser({ commit, dispatch }) {
     const res = await this.$axios
       .get('/user')
       .catch(() => this.$cookies.remove('access-token'))
     commit('setUser', res ? res.data : null)
+
+    if (['referent', 'responsable'].includes(this.getters.contextRole)) {
+      await dispatch('reminders', null, { root: true })
+    } else {
+      commit('setReminders', null, { root: true })
+    }
   },
 
   registerVolontaire({ dispatch }, user) {

@@ -72,10 +72,5 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData({ $api, params, store, error }) {
-    if (['referent', 'responsable'].includes(store.getters.contextRole)) {
-      await store.dispatch('reminders')
-    }
-  },
 }
 </script>
