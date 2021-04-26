@@ -40,11 +40,13 @@ class MissionObserver
         }
 
         // Maj Sendinblue
-        $mission->structure->responsables->each(function ($profile, $key) {
-            if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                SendinblueSyncUser::dispatch($profile->user);
-            }
-        });
+        if(config('app.env') === 'production') {
+            $mission->structure->responsables->each(function ($profile, $key) {
+                if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
+                    SendinblueSyncUser::dispatch($profile->user);
+                }
+            });
+        }
     }
 
     /**
@@ -129,10 +131,12 @@ class MissionObserver
     public function deleting(Mission $mission)
     {
         // Maj Sendinblue
-        $mission->structure->responsables->each(function ($profile, $key) {
-            if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
-                SendinblueSyncUser::dispatch($profile->user);
-            }
-        });
+        if(config('app.env') === 'production') {
+            $mission->structure->responsables->each(function ($profile, $key) {
+                if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
+                    SendinblueSyncUser::dispatch($profile->user);
+                }
+            });
+        }
     }
 }

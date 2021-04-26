@@ -22,7 +22,7 @@ class MessageObserver
         }
 
         // Envoyer un message au destinaire
-        $send = false; // TODO : Mettre à true pour passer en prod
+        $send = true;
         if($message->type != 'chat') {
             $send = false;
         }
