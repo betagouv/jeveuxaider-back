@@ -21,15 +21,32 @@ class MessageObserver
             }
         }
 
-        // TODO : Envoyer le message via queue, et éviter le spam
-
         // Envoyer un message au destinaire
-        // Si ce n'est pas un message contextuel et ce n'est pas le premier message
-        // if($message->type == 'chat' && $message->conversation->messages->count() > 1) { 
-        //     $toUser = $message->conversation->users->filter(function($user) use ($message) {
-        //         return $user->id !== $message->from_id;
-        //     })->first();
-        //     $toUser->notify(new MessageCreated($message));
-        // }
+        $send = false; // TODO : Mettre à true pour passer en prod
+        if($message->type != 'chat') {
+            $send = false;
+        }
+        // Si c'est le premier message il y a déjà une notif liée à la participation
+        if($message->conversation->messages->count() == 1) {
+            $send = false;
+        }
+        // Éviter le flood
+        if($send) {
+            $lastMessage = $message->conversation->messages->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
+            if($lastMessage->from_id == $message->from_id) {
+                // 1 heure entre deux emails de la même personne
+                $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);
+                if($diffInMinutes < 60) {
+                    $send = false;
+                }
+            }
+        }
+
+        if($send) {
+            $toUser = $message->conversation->users->filter(function($user) use ($message) {
+                return $user->id !== $message->from_id;
+            })->first();
+            $toUser->notify(new MessageCreated($message));
+        }
     }
 }
