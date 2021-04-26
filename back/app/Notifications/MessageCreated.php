@@ -66,7 +66,7 @@ class MessageCreated extends Notification implements ShouldQueue
             ->line('Vous pouvez échanger avec cette personne directement via la messagerie de JeVeuxAider.gouv.fr.');
 
         $url = $this->message->conversation ? '/messages/' . $this->message->conversation->id : '/messages';
-        $message->action('Continuez la conversation sur JeVeuxAider', url(config('app.url') . $url));
+        $message->action('Continuez la conversation', url(config('app.url') . $url));
 
         return $message;
     }
