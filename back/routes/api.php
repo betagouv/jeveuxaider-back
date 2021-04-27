@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
+    Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
+    Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
     Route::post('collectivity', 'Api\CollectivityController@store');
     Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');

@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Structure extends Model
+class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -70,7 +73,7 @@ class Structure extends Model
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'domaines'];
+    protected $appends = ['full_address', 'domaines', 'logo'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -333,5 +336,37 @@ class Structure extends Model
         return static::withoutEvents(function () use ($options) {
             return $this->save($options);
         });
+    }
+
+    public function getLogoAttribute()
+    {
+        return $this->getMediaUrls('logo');
+    }
+
+    protected function getMediaUrls($field)
+    {
+        $media = $this->getFirstMedia('structures', ['field' => $field]);
+        ray($media);
+        if ($media) {
+            $mediaUrls = ['original' => $media->getFullUrl()];
+            foreach ($media->getGeneratedConversions() as $key => $conversion) {
+                $mediaUrls[$key] = $media->getUrl($key);
+            }
+            return $mediaUrls;
+        }
+        return null;
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('large')
+            ->width(640)
+            ->nonQueued()
+            ->performOnCollections('structures');
+
+        $this->addMediaConversion('thumb')
+            ->width(320)
+            ->nonQueued()
+            ->performOnCollections('structures');
     }
 }

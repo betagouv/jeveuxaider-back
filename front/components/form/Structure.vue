@@ -8,6 +8,20 @@
   >
     <div class="mb-6 text-xl text-gray-800">Informations générales</div>
 
+    <ImageField
+      model="structure"
+      :model-id="form.id"
+      :max-size="2000000"
+      :preview-width="'200px'"
+      :field="form.logo"
+      :aspect-ratio="0"
+      label="Logo"
+      field-name="logo"
+      :min-width="120"
+      @add-or-crop="logo = $event"
+      @delete="logo = null"
+    />
+
     <el-form-item label="Nom de votre organisation" prop="name">
       <el-input v-model="form.name" placeholder="Nom de votre organisation" />
     </el-form-item>
@@ -326,6 +340,7 @@ export default {
           },
         ],
       },
+      logo: null,
     }
   },
   computed: {
@@ -353,8 +368,18 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.structureForm.validate((valid) => {
+      this.$refs.structureForm.validate(async (valid) => {
         if (valid) {
+          if (this.logo) {
+            await this.$api.uploadImage(
+              this.form.id,
+              'structure',
+              this.logo.blob,
+              this.logo.cropSettings,
+              'logo'
+            )
+          }
+
           this.$api
             .addOrUpdateStructure(this.structure.id, this.form)
             .then(() => {
