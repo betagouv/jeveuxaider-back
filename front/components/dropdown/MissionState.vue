@@ -99,9 +99,7 @@ export default {
         this.$store.getters.contextRole == 'referent' ||
         this.$store.getters.contextRole == 'referent_regional'
       ) {
-        return !['Signalée', 'Terminée', 'Annulée', 'Brouillon'].includes(
-          this.mission.state
-        )
+        return !['Signalée'].includes(this.mission.state)
       }
       return false
     },
@@ -114,6 +112,15 @@ export default {
         return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
           (item) =>
             !['Signalée', 'En attente de validation'].includes(item.value) &&
+            item.value != this.mission.state
+        )
+      } else if (
+        this.$store.getters.contextRole == 'referent' ||
+        this.$store.getters.contextRole == 'referent_regional'
+      ) {
+        return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
+          (item) =>
+            ['Signalée', 'Validée'].includes(item.value) &&
             item.value != this.mission.state
         )
       } else {

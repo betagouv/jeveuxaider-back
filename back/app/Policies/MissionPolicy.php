@@ -56,7 +56,10 @@ class MissionPolicy
             }
             return false;
         } elseif (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
-            return true;
+            if (in_array($newState, ['Signalée', 'Validée'])) {
+                return true;
+            } 
+            return false;
         }
         return false;
     }

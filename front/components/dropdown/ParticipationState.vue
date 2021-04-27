@@ -30,7 +30,12 @@
       </el-dropdown-menu>
     </el-dropdown>
 
-    <div v-else class="text-sm">{{ participation.state }}</div>
+    <TagModelState
+      v-else
+      :state="participation.state"
+      size="small"
+      class="flex items-center"
+    />
 
     <DialogParticipationDecline
       :participation="participation"
@@ -78,6 +83,13 @@ export default {
     canEditStatut() {
       if (this.$store.getters.contextRole == 'admin') {
         return true
+      }
+      if (
+        ['referent', 'referent_regional'].includes(
+          this.$store.getters.contextRole
+        )
+      ) {
+        return false
       }
       return !!['En attente de validation', 'Validée'].includes(
         this.participation.state
@@ -131,13 +143,14 @@ export default {
       })
         .then(() => {
           this.loading = true
-
+          console.log('go update participation')
           this.$api
             .updateParticipation(this.participation.id, {
               ...this.participation,
               state,
             })
             .then((response) => {
+              console.log('then ?!')
               this.$message.success({
                 message: 'Le statut de la participation a été mis à jour',
               })
@@ -150,6 +163,7 @@ export default {
               this.loading = false
             })
             .catch((error) => {
+              console.log('catch !')
               this.loading = false
               this.errors = error.response.data.errors
             })

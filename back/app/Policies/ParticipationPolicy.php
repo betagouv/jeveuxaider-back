@@ -52,6 +52,10 @@ class ParticipationPolicy
             return true;
         }
 
+        if (in_array(request()->header('Context-Role'), ['referent','referent_regional'])) {
+            return false;
+        }
+
         $ids = Participation::role(request()->header('Context-Role'))->get()->pluck('id')->all();
 
         if (in_array($participation->id, $ids)) {
@@ -63,7 +67,7 @@ class ParticipationPolicy
 
     public function delete()
     {
-        if (in_array(request()->header('Context-Role'), ['referent','referent_regional','admin'])) {
+        if (in_array(request()->header('Context-Role'), ['admin'])) {
             return true;
         }
 
