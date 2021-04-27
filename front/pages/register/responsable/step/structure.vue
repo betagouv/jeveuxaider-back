@@ -43,13 +43,13 @@
             />
           </el-form-item>
 
-          <el-form-item label="Numéro RNA" prop="rna">
+          <!-- <el-form-item label="Numéro RNA" prop="rna">
             <input
               v-model="form.rna"
               class="custom-input placeholder-gray-600"
               placeholder="Ex: W771009633"
             />
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item label="Statut juridique" prop="statut_juridique">
             <el-select

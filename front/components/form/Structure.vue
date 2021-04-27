@@ -12,9 +12,9 @@
       <el-input v-model="form.name" placeholder="Nom de votre organisation" />
     </el-form-item>
 
-    <el-form-item label="RNA" prop="rna">
+    <!-- <el-form-item label="RNA" prop="rna">
       <el-input v-model="form.rna" placeholder="Numéro RNA" />
-    </el-form-item>
+    </el-form-item> -->
 
     <el-form-item label="Statut juridique" prop="statut_juridique">
       <el-select v-model="form.statut_juridique" placeholder="Statut juridique">
