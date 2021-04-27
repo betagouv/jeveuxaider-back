@@ -46,6 +46,7 @@
                 :preview-width="'100px'"
                 :field="form.image"
                 label="Photo de profil"
+                alt="Photo"
                 @add-or-crop="avatar = $event"
                 @delete="avatar = null"
               >

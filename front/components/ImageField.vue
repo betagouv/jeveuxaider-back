@@ -18,7 +18,7 @@
           '--preview-area__width': previewWidth,
         }"
       >
-        <img :src="imgPreview" alt="Cropped Image" />
+        <img :src="imgPreview" :alt="alt" />
       </div>
 
       <div class="actions mt-4">
@@ -106,6 +106,10 @@
 <script>
 export default {
   props: {
+    alt: {
+      type: String,
+      default: 'Image',
+    },
     minWidth: {
       type: Number,
       default: null,
