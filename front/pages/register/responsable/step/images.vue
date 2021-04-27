@@ -26,29 +26,71 @@
           class="flex flex-col items-center text-center mb-8"
           style="margin-top: -100px"
         >
-          <div class="cursor-pointer" @click="onUpload()">
-            <!-- <ImageField
-                  :model="model"
-                  :model-id="$store.getters.profile.id"
-                  :min-width="320"
-                  :min-height="320"
-                  :max-size="2000000"
-                  :preview-width="'150px'"
-                  :field="form.image"
-                  label="Photo de profil"
-                  @add-or-crop="avatar = $event"
-                  @delete="avatar = null"
-                ></ImageField> -->
-            <img
-              src="@/assets/images/logo-placeholder.svg"
-              alt="Logo"
-              title="Logo"
-            />
-            <div class="text-xs font-bold text-gray-700 uppercase">
-              AJOUTER VOTRE PHOTO
-            </div>
-            <div class="text-xs text-gray-300 uppercase">FACULTATIF</div>
-          </div>
+          <ImageField
+            model="structure"
+            :model-id="form.id"
+            :max-size="2000000"
+            :preview-width="'200px'"
+            :field="form.logo"
+            :aspect-ratio="0"
+            label="Logo"
+            field-name="logo"
+            :min-width="120"
+            @add-or-crop="logo = $event"
+            @delete="logo = null"
+          >
+            <div slot="label"></div>
+            <div slot="description"></div>
+
+            <template slot="dragZone">
+              <img
+                src="@/assets/images/logo-placeholder.svg"
+                alt="Logo"
+                title="Logo"
+                class="m-auto"
+              />
+              <div class="text-xs font-bold text-gray-700 uppercase">
+                AJOUTER VOTRE LOGO
+              </div>
+              <div class="text-xs text-gray-300 uppercase">FACULTATIF</div>
+            </template>
+
+            <template
+              slot="button-crop"
+              slot-scope="{ events: { setDialogCropVisible } }"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-green-400 focus:text-green-400 duration-300 ease-in-out"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                @click="setDialogCropVisible(true)"
+              >
+                <path
+                  d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"
+                />
+              </svg>
+            </template>
+
+            <template
+              slot="button-delete"
+              slot-scope="{ events: { onDelete } }"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-red-700 focus:text-red-700 duration-300 ease-in-out"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                @click.prevent="onDelete()"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </template>
+          </ImageField>
         </div>
         <div class="relative mb-8" @click="onEditImageClick(0)">
           <div
@@ -173,6 +215,7 @@ export default {
           status: 'current',
         },
       ],
+      logo: null,
     }
   },
   created() {},
@@ -187,13 +230,18 @@ export default {
     onPickedImage(imageName) {
       this.selectedImages[this.imageIndex] = imageName
     },
-    onUpload() {
-      alert('Cette fonctionnalité est à venir prochainement !')
-    },
     async onSubmit() {
       this.loading = true
 
-      // @TODO: upload logo
+      if (this.logo) {
+        await this.$api.uploadImage(
+          this.form.id,
+          'structure',
+          this.logo.blob,
+          this.logo.cropSettings,
+          'logo'
+        )
+      }
 
       await this.$api.updateStructure(this.structureId, {
         ...this.form,
@@ -217,4 +265,22 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.component--image-field
+  ::v-deep
+    .el-upload-dragger
+      width: inherit
+      height: inherit
+      border: none
+      background: transparent
+    .preview-area
+      height: 100px
+      box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, .06)
+      border-radius: 1rem
+      @apply bg-white m-auto overflow-hidden mt-2
+      > img
+        @apply object-contain w-full h-full
+    .actions
+      margin-top: .25rem !important
+      @apply flex items-center justify-center mb-6
+</style>
