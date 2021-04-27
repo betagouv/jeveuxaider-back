@@ -18,10 +18,8 @@ use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Models\Activity;
 use App\Models\SocialAccount;
 use App\Models\Structure;
-use App\Notifications\RegisterUserResponsable;
-use App\Services\AlgoliaPlacesGeocoder;
+use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Geocoder\Facades\Geocoder;
 
 class PassportController extends Controller
 {
@@ -75,29 +73,21 @@ class PassportController extends Controller
             'name' => request('structure_name'),
         ];
 
+        // MAPPING API ENGAGEMENT
         if ($request->has('structure_api')) {
-            $structureApi = $request->input('structure_api');
-            $structureAttributes['rna'] = $structureApi['id_rna'] ? $structureApi['id_rna'] : null;
-            $structureAttributes['statut_juridique'] = $structureApi['identite_regime'] ? $structureApi['identite_regime'] : null;
-            $structureAttributes['description'] = $structureApi['activites_objet'] ? $structureApi['activites_objet'] : null;
-            $structureAttributes['city'] = $structureApi['coordonnees_adresse_siege_commune'] ? $structureApi['coordonnees_adresse_siege_commune'] : null;
-            $structureAttributes['address'] = implode(' ', [
-                $structureApi['coordonnees_adresse_siege_num_voie'],
-                $structureApi['coordonnees_adresse_siege_type_voie'],
-                $structureApi['coordonnees_adresse_siege_voie']
-            ]);
-            $structureAttributes['department'] = $structureApi['coordonnees_adresse_siege_cp'] ? substr($structureApi['coordonnees_adresse_siege_cp'], 0, 2) : null;
-            if ($structureApi['coordonnees_adresse_siege_cp']) {
-                $structureAttributes['zip'] = $structureApi['coordonnees_adresse_siege_cp'] ? $structureApi['coordonnees_adresse_siege_cp'] : null;
-                $coordonates = AlgoliaPlacesGeocoder::getCoordinatesForZip($structureAttributes['zip']);
-                if ($coordonates) {
-                    $structureAttributes['latitude'] = $coordonates['latitude'];
-                    $structureAttributes['longitude'] = $coordonates['longitude'];
-                }
-            }
+            $structureAttributes = array_merge(
+                $structureAttributes,
+                ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
+            );
         }
 
         $structure = Structure::create($structureAttributes);
+
+        // MAPPING DOMAINES ACTIONS API ENGAGEMENT
+        $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
+        if ($domaine) {
+            $structure->attachTag($domaine, 'domaine');
+        }
 
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')

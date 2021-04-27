@@ -235,4 +235,61 @@ class ApiEngagement
         'post_date' => strtotime($mission['postedAt']),
         ];
     }
+
+    public static function prepareStructureAttributes($structureApi)
+    {
+        $attributes = [];
+        $attributes['rna'] = $structureApi['id_rna'] ? $structureApi['id_rna'] : null;
+        $attributes['statut_juridique'] = $structureApi['identite_regime'] ? $structureApi['identite_regime'] : null;
+        $attributes['description'] = $structureApi['activites_objet'] ? $structureApi['activites_objet'] : null;
+        $attributes['city'] = $structureApi['coordonnees_adresse_siege_commune'] ? $structureApi['coordonnees_adresse_siege_commune'] : null;
+        $attributes['address'] = implode(' ', [
+            $structureApi['coordonnees_adresse_siege_num_voie'],
+            $structureApi['coordonnees_adresse_siege_type_voie'],
+            $structureApi['coordonnees_adresse_siege_voie']
+        ]);
+        if ($structureApi['coordonnees_adresse_siege_cp']) {
+            $attributes['zip'] = $structureApi['coordonnees_adresse_siege_cp'] ? $structureApi['coordonnees_adresse_siege_cp'] : null;
+            $attributes['department'] = $structureApi['coordonnees_adresse_siege_cp'] ? substr($structureApi['coordonnees_adresse_siege_cp'], 0, 2) : null;
+            if ($attributes['department'] == 20) {
+                $zip3 = substr($structureApi['coordonnees_adresse_siege_cp'], 0, 3);
+                if ($zip3 == '200' || $zip3 == '201') {
+                    $attributes['department'] = '2A';
+                } else {
+                    $attributes['department'] = '2B';
+                }
+            }
+            $coordonates = AlgoliaPlacesGeocoder::getCoordinatesForZip($attributes['zip']);
+            if ($coordonates) {
+                $attributes['latitude'] = $coordonates['latitude'];
+                $attributes['longitude'] = $coordonates['longitude'];
+            }
+        }
+        return $attributes;
+    }
+
+    public static function prepareStructureDomaines($structureApi)
+    {
+        $domaine = null;
+        if ($structureApi['activites_lib_theme1']) {
+            switch ($structureApi['activites_lib_theme1']) {
+                case 'Culture':
+                    $domaine = 'Art et culture pour tous';
+                    break;
+                case 'Education et formation':
+                    $domaine = 'Éducation pour tous';
+                    break;
+                case 'Environnement et patrimoine':
+                    $domaine = 'Protection de la nature';
+                    break;
+                case 'Santé et action sociale':
+                    $domaine = 'Santé pour tous';
+                    break;
+                case 'Sport':
+                    $domaine = 'Sport pour tous';
+                    break;
+            }
+        }
+        return $domaine;
+    }
 }
