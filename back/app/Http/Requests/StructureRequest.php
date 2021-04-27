@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StructureRequest extends FormRequest
@@ -45,13 +46,15 @@ class StructureRequest extends FormRequest
             'facebook' => '',
             'twitter' => '',
             'instagram' => '',
+            'donation' => '',
             'reseau_id' => '',
             'is_reseau' => '',
-            'association_types' => '',
-            'structure_publique_type' => '',
-            'structure_publique_etat_type' => '',
-            'structure_privee_type' => '',
             'state' => '',
+            'publics_beneficiaires' => '',
+            'domaines' => '',
+            'image_1' => '',
+            'image_2' => '',
+            'rna' => '',
         ];
     }
 

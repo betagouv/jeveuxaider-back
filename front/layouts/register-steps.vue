@@ -1,57 +1,58 @@
 <template>
-  <el-container class="w-full h-full flex flex-wrap lg:flex-no-wrap">
+  <div class="w-full lg:h-full flex flex-col lg:flex-row">
+    <div class="bg-white lg:w-1/3 lg:h-full">
+      <div class="p-6 lg:p-12 border-b border-cool-gray-100">
+        <nuxt-link to="/">
+          <img
+            src="@/assets/images/jeveuxaider-logo.svg"
+            alt="Bénévolat je veux aider"
+            title="Bénévolat association"
+            class="mx-auto"
+            width="243px"
+            height="39px"
+          />
+        </nuxt-link>
+      </div>
+      <div class="p-6 lg:p-12">
+        <portal-target name="sidebar"></portal-target>
+      </div>
+    </div>
     <div
-      class="aside flex flex-wrap sm:flex-no-wrap lg:flex-col w-full gradient-primary"
+      id="step-container"
+      class="lg:w-2/3 relative bg-blue-800 lg:overflow-auto lg:h-full"
     >
-      <div
-        class="flex-grow lg:flex-grow-0 text-white px-6 py-5 m-4 lg:mx-10 lg:mt-24 rounded-lg order-2 lg:order-1"
-        style="background: rgba(255, 255, 255, 0.2)"
-      >
-        <portal-target
-          class="text-center text-sm font-light"
-          name="register-steps-help"
-        />
-      </div>
-
-      <div
-        class="flex sm:flex-col sm:flex-none items-center lg:mt-auto w-full sm:w-auto lg:w-full p-4 order-1 lg:order-2"
-      >
-        <img
-          src="@/assets/images/JVA_dark.svg"
-          class="logo sm:mb-2 lg:mb-2 h-7 lg:h-24 w-auto"
-        />
-        <div
-          class="flex justify-center text-blue-200 font-light border-blue-400 ml-auto sm:ml-0 sm:w-full sm:border-t"
-        >
-          <div
-            v-if="isImpersonating"
-            class="text-sm p-6 cursor-pointer hover:text-white"
-            @click="$store.dispatch('auth/stopImpersonate')"
-          >
-            Unmasquerade
-          </div>
-          <div
-            v-else
-            class="text-sm sm:pt-2 lg:p-6 cursor-pointer hover:text-white"
-            @click="handleLogout()"
-          >
-            Se déconnecter
-          </div>
-        </div>
+      <img
+        class="z-1 object-cover absolute h-screen lg:h-auto"
+        alt="Je Veux Aider"
+        :srcSet="bgHeroMultipleSizes.srcSet"
+        :src="bgHeroMultipleSizes.src"
+        width="100%"
+        height="100%"
+      />
+      <div class="p-6 lg:p-12">
+        <Nuxt :nuxt-child-key="$route.fullPath" class="" />
       </div>
     </div>
-    <div class="main-content flex-grow flex flex-col">
-      <Nuxt :nuxt-child-key="$route.fullPath" class="app-main" />
-    </div>
-  </el-container>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
   name: 'RegisterStepsLayout',
   middleware: 'logged',
+  data() {
+    return {
+      bgHeroMultipleSizes,
+    }
+  },
+  head: {
+    bodyAttrs: {
+      class: 'full-height-layout',
+    },
+  },
   computed: {
     ...mapGetters(['isImpersonating']),
   },

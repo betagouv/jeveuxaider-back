@@ -6,7 +6,7 @@
       label-position="top"
       :rules="rules"
       :hide-required-asterisk="true"
-      class="mt-4"
+      class="form-register-steps mt-4"
     >
       <div class="flex flex-wrap -m-2">
         <el-form-item

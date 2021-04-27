@@ -390,3 +390,51 @@ body.full-height-layout
 
 .break-word
   word-break: break-word
+
+.form-register-steps
+  &.el-form--label-top
+    .el-form-item__label
+      font-size: 10px
+      @apply uppercase font-bold
+  .custom-input
+    @apply w-full px-4 rounded-lg border border-gray-200
+    &:focus
+      border-color: #070191
+      @apply shadow-none
+  .custom-textarea
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 leading-6
+    &:focus
+      @apply shadow-none
+  .prefix
+    padding-left: 40px
+    background-position: 15px center
+    @apply bg-no-repeat
+    &.prefix-website
+      background-image: url('../images/icones/steps/website.svg')
+    &.prefix-facebook
+      background-image: url('../images/icones/steps/facebook.svg')
+    &.prefix-twitter
+      background-image: url('../images/icones/steps/twitter.svg')
+    &.prefix-instagram
+      background-image: url('../images/icones/steps/instagram.svg')
+    &.prefix-donation
+      background-image: url('../images/icones/steps/instagram.svg')
+
+.custom-checkbox
+  @apply -m-1 flex flex-wrap
+  .el-checkbox
+    margin: 0.25rem!important
+
+
+
+// OUTLINE
+input
+  outline-color: #070191
+.el-select .el-input__inner
+  &:focus
+    border: 2px solid #070191
+.el-select .el-input.is-focus .el-input__inner
+  border: 2px solid #070191
+.el-input__inner
+  &:focus
+    border: 2px solid #070191

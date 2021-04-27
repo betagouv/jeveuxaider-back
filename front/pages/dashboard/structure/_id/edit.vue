@@ -12,7 +12,7 @@
       />
     </div>
 
-    <FormStructure :structure="structure" />
+    <FormStructure :structure="structure" :domaines="domaines" />
   </div>
 </template>
 
@@ -21,8 +21,10 @@ export default {
   layout: 'dashboard',
   async asyncData({ $api, params }) {
     const structure = await $api.getStructure(params.id)
+    const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
     return {
       structure,
+      domaines: tags.data.data,
     }
   },
   methods: {},

@@ -25,7 +25,9 @@ use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 // use App\Jobs\ProcessExportStructures;
 use App\Models\Mission;
+use App\Models\Tag;
 use Illuminate\Support\Str;
+use App\Http\Requests\Api\StructureUploadRequest;
 
 class StructureController extends Controller
 {
@@ -105,10 +107,15 @@ class StructureController extends Controller
             return $request->validated();
         }
 
-
         $structure = Structure::create(
             array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
         );
+
+        if ($request->has('domaines')) {
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $structure->syncTagsWithType($domaines, 'domaine');
+        }
 
         return $structure;
     }
@@ -119,10 +126,15 @@ class StructureController extends Controller
             return $request->validated();
         }
 
+        if ($request->has('domaines')) {
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $structure->syncTagsWithType($domaines, 'domaine');
+        }
+
         $structure->update($request->validated());
 
         return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
-        ;
     }
 
     public function delete(StructureDeleteRequest $request, Structure $structure)
@@ -185,5 +197,57 @@ class StructureController extends Controller
         $mission = $structure->addMission($attributes);
 
         return $mission;
+    }
+
+    public function upload(StructureUploadRequest $request, Structure $structure, String $field)
+    {
+
+        // Delete previous file
+        if ($media = $structure->getFirstMedia('structures', ['field' => $field])) {
+            $media->delete();
+        }
+
+        $data = $request->all();
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(30);
+
+        $cropSettings = json_decode($data['cropSettings']);
+        if (!empty($cropSettings)) {
+            $stringCropSettings = implode(",", [
+                $cropSettings->width,
+                $cropSettings->height,
+                $cropSettings->x,
+                $cropSettings->y
+            ]);
+        } else {
+            $pathName = $request->file('image')->getPathname();
+            $infos = getimagesize($pathName);
+            $stringCropSettings = implode(",", [
+                $infos[0],
+                $infos[1],
+                0,
+                0
+            ]);
+        }
+
+        $structure
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->withCustomProperties(['field' => $field])
+            ->withManipulations([
+                'thumb' => ['manualCrop' => $stringCropSettings],
+                'large' => ['manualCrop' => $stringCropSettings]
+            ])
+            ->toMediaCollection('structures');
+
+        return $structure;
+    }
+
+    public function uploadDelete(StructureUploadRequest $request, Structure $structure, String $field)
+    {
+        if ($media = $structure->getFirstMedia('structures', ['field' => $field])) {
+            $media->delete();
+        }
     }
 }

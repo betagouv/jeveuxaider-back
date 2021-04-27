@@ -15,41 +15,116 @@
       :rules="rules"
       :hide-required-asterisk="true"
     >
-      <el-form-item
-        label="Mes domaines d'action"
-        prop="domaines"
-        class="flex-1 max-w-xl mb-7"
-      >
-        <el-select
-          v-model="form.domaines"
-          multiple
-          filterable
-          placeholder="Sélectionner vos domaines d'actions"
+      <el-form-item label="Domaines d'action" prop="domaines" class="">
+        <el-checkbox-group
+          v-model="domainesSelected"
+          size="medium"
+          class="custom-checkbox"
         >
-          <el-option
+          <el-checkbox
             v-for="domaine in domaines"
             :key="domaine.id"
             :label="domaine.name.fr"
-            :value="domaine.name.fr"
-          ></el-option>
-        </el-select>
+            class="bg-white"
+            border
+            :checked="isDomaineSelected(domaine.id)"
+            @change="handleClickDomaine(domaine)"
+          ></el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item
-        :label="
-          form.is_visible
-            ? 'Votre profil est visible'
-            : 'Votre profil n\'est pas visible'
-        "
-        prop="is_visible"
-        class="mb-6"
-      >
-        <el-switch
-          v-model="form.is_visible"
-          active-color="#070191"
-          inactive-color="#959595"
-        />
-      </el-form-item>
+      <div class="font-bold text-2xl text-gray-800 mb-4 mt-12">
+        Visibilité de votre profil
+      </div>
+
+      <div class="mb-8 text-md text-gray-600">
+        Un profil visible vous offre plus de chances de trouver une mission qui
+        répond à votre envie d'engagement, en permettant à une organisation
+        publique ou associative de vous contacter en fonction des domaines
+        d'action que vous avez sélectionnés.
+      </div>
+      <fieldset class="mb-8">
+        <legend class="sr-only">Visibilité de votre profil</legend>
+        <div class="bg-white rounded-md -space-y-px">
+          <label
+            class="rounded-tl-md rounded-tr-md relative border p-4 flex cursor-pointer"
+            :class="
+              !isProfileVisible
+                ? 'bg-blue-50 border-blue-800 z-10'
+                : 'border-gray-200'
+            "
+          >
+            <input
+              type="radio"
+              name="is_visible"
+              :value="false"
+              class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-blue-800 border-gray-300 focus:ring-blue-800"
+              aria-labelledby="privacy-setting-0-label"
+              aria-describedby="privacy-setting-0-description"
+              :checked="!isProfileVisible"
+              @click="form.is_visible = 0"
+            />
+            <div class="ml-3 flex flex-col flex-1">
+              <span
+                id="privacy-setting-0-label"
+                class="block text-sm font-medium"
+                :class="
+                  !isProfileVisible
+                    ? 'text-blue-900 font-bold'
+                    : 'text-gray-900'
+                "
+              >
+                Profil privé
+              </span>
+              <span
+                id="privacy-setting-0-description"
+                class="block text-sm"
+                :class="!isProfileVisible ? 'text-gray-700' : 'text-gray-500'"
+              >
+                Votre profil ne sera pas visible des organisations.
+              </span>
+            </div>
+          </label>
+
+          <label
+            class="relative rounded-bl-md rounded-br-md border p-4 flex cursor-pointer"
+            :class="
+              isProfileVisible
+                ? 'bg-blue-50 border-blue-800 z-10'
+                : 'border-gray-200'
+            "
+          >
+            <input
+              type="radio"
+              name="is_visible"
+              :value="true"
+              class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-blue-800 border-gray-300 focus:ring-blue-800"
+              aria-labelledby="privacy-setting-1-label"
+              aria-describedby="privacy-setting-1-description"
+              :checked="isProfileVisible"
+              @click="form.is_visible = 1"
+            />
+            <div class="ml-3 flex flex-col flex-1">
+              <span
+                id="privacy-setting-1-label"
+                class="text-gray-900 block text-sm font-medium"
+                :class="
+                  isProfileVisible ? 'text-blue-900 font-bold' : 'text-gray-900'
+                "
+              >
+                Profil public
+              </span>
+              <span
+                id="privacy-setting-1-description"
+                class="block text-sm"
+                :class="isProfileVisible ? 'text-gray-700' : 'text-gray-500'"
+              >
+                Votre profil sera visible des organisations.
+              </span>
+            </div>
+          </label>
+        </div>
+      </fieldset>
 
       <div class="mt-8">
         <el-button type="primary" :loading="loading" class="" @click="onSubmit">
@@ -61,44 +136,45 @@
 </template>
 
 <script>
-import { groupBy } from 'lodash'
-
 export default {
   layout: 'profile',
+  async asyncData({ $api, store }) {
+    const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    return {
+      domaines: tags.data.data,
+      form: { ...store.getters.user.profile },
+    }
+  },
   data() {
     return {
       loading: false,
-      form: { ...this.$store.getters.user.profile },
-
-      domaines: null,
       rules: {},
     }
   },
   computed: {
-    skillGroups() {
-      return groupBy(this.optionsSkills, (skill) => skill.group)
+    isProfileVisible() {
+      return this.form.is_visible
+    },
+    domainesSelected: {
+      get() {
+        return this.form.domaines.map((item) => item.name.fr)
+      },
+      set(items) {
+        //
+      },
     },
   },
-  created() {
-    this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((response) => {
-      this.domaines = response.data.data
-      if (this.form.domaines && typeof this.form.domaines[0] === 'object') {
-        this.form.domaines = this.form.domaines.map((tag) => tag.name.fr)
-      }
-    })
-  },
   methods: {
-    fetchSkills(query) {
-      if (query !== '') {
-        this.loading = true
-        this.$api
-          .fetchTags({ 'filter[type]': 'competence', 'filter[name]': query })
-          .then((response) => {
-            this.loading = false
-            this.optionsSkills = response.data.data
-          })
+    isDomaineSelected(id) {
+      return this.form.domaines.filter((item) => item.id == id).length > 0
+    },
+    handleClickDomaine(domaine) {
+      if (this.isDomaineSelected(domaine.id)) {
+        this.form.domaines = this.form.domaines.filter(
+          (item) => item.id !== domaine.id
+        )
       } else {
-        this.optionsSkills = []
+        this.$set(this.form, 'domaines', [...this.form.domaines, domaine])
       }
     },
     onSubmit() {
@@ -106,7 +182,10 @@ export default {
       this.$refs.profileForm.validate((valid) => {
         if (valid) {
           this.$store
-            .dispatch('user/updateProfile', this.form)
+            .dispatch('user/updateProfile', {
+              id: this.$store.getters.profile.id,
+              ...this.form,
+            })
             .then(() => {
               this.loading = false
               this.$message({
@@ -117,7 +196,6 @@ export default {
             .catch(() => {
               this.loading = false
             })
-          this.loading = false
         } else {
           this.loading = false
         }
@@ -129,5 +207,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-    @apply mb-3
+  @apply mb-3
 </style>

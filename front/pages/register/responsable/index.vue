@@ -91,7 +91,7 @@
 
             <div
               id="form"
-              class="max-w-2xl mx-auto lg:col-span-6 lg:px-0 lg:w-full"
+              class="max-w-xl mx-auto lg:col-span-6 lg:px-0 lg:w-full"
             >
               <div class="rounded-lg shadow-xl">
                 <div class="bg-white rounded-t-lg px-6 pt-8 pb-8">
@@ -104,7 +104,7 @@
                       <strong>association</strong> ?
                     </p>
                     <h2
-                      class="mt-2 text-center text-4xl leading-9 font-bold text-gray-900 sm:-mx-6 tracking-tight"
+                      class="mt-2 text-center text-3xl leading-9 font-extrabold text-black sm:-mx-6 tracking-tight"
                     >
                       Rejoignez le mouvement
                     </h2>
@@ -133,16 +133,30 @@
                       label-position="top"
                       :rules="rules"
                       :hide-required-asterisk="true"
+                      class="form-register-steps"
                     >
                       <div class="flex flex-wrap -m-2">
-                        <el-form-item prop="structure_name" class="w-full p-2">
-                          <el-input
-                            v-model="form.structure_name"
-                            placeholder="Votre organisation"
-                            :disabled="disableFields"
-                          />
-                        </el-form-item>
                         <el-form-item
+                          label="Nom de votre organisation"
+                          prop="structure_name"
+                          class="w-full p-2"
+                        >
+                          <StructureApiSearchInput
+                            v-model="form.structure_name"
+                            @selected="onStructureApiSelected"
+                            @clear="structureApi = null"
+                            @change="onStructureApiChanged"
+                          />
+                          <div
+                            v-if="structureApi"
+                            class="text-xs text-gray-400 leading-tight"
+                          >
+                            RNA: {{ structureApi.id_rna }}
+                          </div>
+                        </el-form-item>
+
+                        <el-form-item
+                          label="Prénom"
                           prop="first_name"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -153,6 +167,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Nom"
                           prop="last_name"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -162,7 +177,11 @@
                             :disabled="disableFields"
                           />
                         </el-form-item>
-                        <el-form-item prop="email" class="w-full p-2">
+                        <el-form-item
+                          label="E-mail"
+                          prop="email"
+                          class="w-full p-2"
+                        >
                           <el-input
                             v-model.trim="form.email"
                             placeholder="E-mail"
@@ -171,6 +190,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Mot de passe"
                           prop="password"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -182,6 +202,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Confirmation"
                           prop="password_confirmation"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -446,6 +467,7 @@ export default {
         password: '',
         structure_name: '',
       },
+      structureApi: null,
       rules: {
         email: [
           {
@@ -523,6 +545,12 @@ export default {
     },
   },
   methods: {
+    onStructureApiSelected(structure) {
+      this.structureApi = structure
+    },
+    onStructureApiChanged(value) {
+      this.form.structure_name = value
+    },
     onSubmit() {
       this.loading = true
       this.$refs.registerResponsableForm.validate((valid) => {
@@ -534,6 +562,7 @@ export default {
               first_name: this.form.first_name,
               last_name: this.form.last_name,
               structure_name: this.form.structure_name,
+              structure_api: this.structureApi,
             })
             .then(() => {
               this.loading = false

@@ -61,6 +61,11 @@ export default (context, inject) => {
       /* webpackChunkName: 'element-ui-checkbox' */ 'element-ui/lib/checkbox'
     )
   )
+  Vue.component('ElCheckboxGroup', () =>
+    import(
+      /* webpackChunkName: 'element-ui-checkbox-group' */ 'element-ui/lib/checkbox-group'
+    )
+  )
   Vue.component('ElContainer', () =>
     import(
       /* webpackChunkName: 'element-ui-container' */ 'element-ui/lib/container'

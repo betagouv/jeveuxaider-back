@@ -7,16 +7,20 @@
       </div>
     </div>
 
-    <FormStructure />
+    <FormStructure :domaines="domaines" />
   </div>
 </template>
 
 <script>
 export default {
   layout: 'dashboard',
-  asyncData({ $api, store, error, params }) {
+  async asyncData({ $api, store, error, params }) {
     if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
+    }
+    const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    return {
+      domaines: tags.data.data,
     }
   },
 }

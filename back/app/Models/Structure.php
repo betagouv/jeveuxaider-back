@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Structure extends Model
+class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -44,26 +48,32 @@ class Structure extends Model
         'facebook',
         'twitter',
         'instagram',
+        'donation',
         'reseau_id',
         'is_reseau',
         'state',
+        'publics_beneficiaires',
+        'image_1',
+        'image_2',
+        'rna',
     ];
 
     protected $attributes = [
         'state' => 'En attente de validation',
-        'country' => 'France'
+        'country' => 'France',
     ];
 
     protected $casts = [
         'is_reseau' => 'boolean',
         'association_types' => 'array',
         'latitude' => 'float',
-        'longitude' => 'float'
+        'longitude' => 'float',
+        'publics_beneficiaires' => 'array',
     ];
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'ceu'];
+    protected $appends = ['full_address', 'domaines', 'logo'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -105,6 +115,11 @@ class Structure extends Model
         }
     }
 
+    public function getDomainesAttribute()
+    {
+        return $this->tagsWithType('domaine')->values();
+    }
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = Utils::ucfirst($value);
@@ -128,6 +143,23 @@ class Structure extends Model
     public function setStructurePriveeTypeAttribute($value)
     {
         $this->attributes['structure_privee_type'] = ($this->statut_juridique == 'Structure privée') ? $value : null;
+    }
+
+    public function setStatutJuridiqueAttribute($value)
+    {
+        switch ($value) {
+            case 'loi1901':
+                $value = 'Association';
+                break;
+            case 'collectivite':
+                $value = 'Collectivité';
+                break;
+            case 'alsaceMoselle':
+                $value = 'Association';
+                break;
+        }
+
+        $this->attributes['statut_juridique'] = $value;
     }
 
     public function scopeCeu($query, $value)
@@ -304,5 +336,37 @@ class Structure extends Model
         return static::withoutEvents(function () use ($options) {
             return $this->save($options);
         });
+    }
+
+    public function getLogoAttribute()
+    {
+        return $this->getMediaUrls('logo');
+    }
+
+    protected function getMediaUrls($field)
+    {
+        $media = $this->getFirstMedia('structures', ['field' => $field]);
+        ray($media);
+        if ($media) {
+            $mediaUrls = ['original' => $media->getFullUrl()];
+            foreach ($media->getGeneratedConversions() as $key => $conversion) {
+                $mediaUrls[$key] = $media->getUrl($key);
+            }
+            return $mediaUrls;
+        }
+        return null;
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('large')
+            ->width(640)
+            ->nonQueued()
+            ->performOnCollections('structures');
+
+        $this->addMediaConversion('thumb')
+            ->width(320)
+            ->nonQueued()
+            ->performOnCollections('structures');
     }
 }

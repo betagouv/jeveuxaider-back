@@ -23,7 +23,7 @@
             v-if="$store.getters.structure && $store.getters.structure.name"
             :source="
               $store.getters.structure.logo
-                ? $store.getters.structure.logo
+                ? $store.getters.structure.logo.thumb
                 : null
             "
             :fallback="$store.getters.structure.name[0]"

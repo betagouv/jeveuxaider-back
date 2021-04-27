@@ -1,9 +1,14 @@
 <template>
-  <div class="mb-6">
-    <div :class="labelClass">{{ label }}</div>
-    <item-description container-class="mb-3">
-      <span class="whitespace-pre">{{ renderDescription.join('\n') }}</span>
-    </item-description>
+  <div class="component--image-field mb-6">
+    <slot name="label">
+      <div :class="labelClass">{{ label }}</div>
+    </slot>
+
+    <slot name="description">
+      <item-description container-class="mb-3">
+        <span class="whitespace-pre">{{ renderDescription.join('\n') }}</span>
+      </item-description>
+    </slot>
 
     <div v-show="imgPreview">
       <div
@@ -13,25 +18,29 @@
           '--preview-area__width': previewWidth,
         }"
       >
-        <img :src="imgPreview" alt="Cropped Image" />
+        <img :src="imgPreview" :alt="alt" />
       </div>
 
       <div class="actions mt-4">
-        <el-button
-          v-if="crop"
-          type="secondary"
-          @click.prevent="dialogCropVisible = true"
-        >
-          Recadrer
-        </el-button>
-        <el-button
-          type="danger"
-          icon="el-icon-delete"
-          :loading="loadingDelete"
-          @click.prevent="onDelete()"
-        >
-          Supprimer
-        </el-button>
+        <slot v-if="crop" name="button-crop" :events="{ setDialogCropVisible }">
+          <el-button
+            type="secondary"
+            @click.prevent="setDialogCropVisible(true)"
+          >
+            Recadrer
+          </el-button>
+        </slot>
+
+        <slot :events="{ onDelete }" name="button-delete">
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            :loading="loadingDelete"
+            @click.prevent="onDelete()"
+          >
+            Supprimer
+          </el-button>
+        </slot>
       </div>
 
       <el-dialog
@@ -81,10 +90,14 @@
         :on-change="onSelectFile"
         :accept="acceptedFiles"
       >
-        <i class="el-icon-upload" />
-        <div class="el-upload__text">
-          Glissez votre image ou <br /><em>cliquez ici pour la sélectionner</em>
-        </div>
+        <slot name="dragZone">
+          <i class="el-icon-upload" />
+          <div class="el-upload__text">
+            Glissez votre image ou <br /><em
+              >cliquez ici pour la sélectionner</em
+            >
+          </div>
+        </slot>
       </el-upload>
     </div>
   </div>
@@ -93,6 +106,10 @@
 <script>
 export default {
   props: {
+    alt: {
+      type: String,
+      default: 'Image',
+    },
     minWidth: {
       type: Number,
       default: null,
@@ -347,6 +364,9 @@ export default {
         ? this.field.original
         : null
       this.$refs.cropper.replace(src)
+    },
+    setDialogCropVisible(value) {
+      this.dialogCropVisible = value
     },
   },
 }

@@ -15,6 +15,13 @@
       >Préférences</el-menu-item
     >
     <el-menu-item
+      index="/user/competences"
+      :class="{
+        'is-active': isActive('user/competences'),
+      }"
+      >Compétences</el-menu-item
+    >
+    <el-menu-item
       index="/user/settings"
       :class="{
         'is-active': isActive('user/settings'),

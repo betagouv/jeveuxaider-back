@@ -166,9 +166,11 @@
                       label-position="top"
                       :rules="rules"
                       :hide-required-asterisk="true"
+                      class="form-register-steps"
                     >
                       <div class="flex flex-wrap -m-2">
                         <el-form-item
+                          label="Prénom"
                           prop="first_name"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -179,6 +181,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Nom"
                           prop="last_name"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -188,21 +191,33 @@
                             placeholder="Nom"
                           />
                         </el-form-item>
-                        <el-form-item prop="email" class="w-full sm:w-1/2 p-2">
+                        <el-form-item
+                          label="E-mail"
+                          prop="email"
+                          class="w-full sm:w-1/2 p-2"
+                        >
                           <el-input
                             v-model.trim="form.email"
                             label="E-mail"
                             placeholder="E-mail"
                           />
                         </el-form-item>
-                        <el-form-item prop="zip" class="w-full sm:w-1/2 p-2">
+                        <el-form-item
+                          label="Code postal"
+                          prop="zip"
+                          class="w-full sm:w-1/2 p-2"
+                        >
                           <el-input
                             v-model="form.zip"
                             label="Code postal"
                             placeholder="Code Postal"
                           />
                         </el-form-item>
-                        <el-form-item prop="mobile" class="w-full sm:w-1/2 p-2">
+                        <el-form-item
+                          label="Portable"
+                          prop="mobile"
+                          class="w-full sm:w-1/2 p-2"
+                        >
                           <el-input
                             v-model="form.mobile"
                             label="Mobile"
@@ -210,6 +225,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Date de naissance"
                           prop="birthday"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -221,6 +237,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Mot de passe"
                           prop="password"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -233,6 +250,7 @@
                           />
                         </el-form-item>
                         <el-form-item
+                          label="Confirmation"
                           prop="password_confirmation"
                           class="w-full sm:w-1/2 p-2"
                         >
@@ -566,6 +584,11 @@ export default {
             message: 'Le format du numéro de téléphone est incorrect',
             trigger: 'blur',
           },
+          {
+            min: 10,
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
         ],
         password: [
           {
@@ -659,7 +682,7 @@ export default {
               if (this.$route.query.redirect) {
                 this.$router.push(this.$route.query.redirect)
               } else {
-                this.$router.push('/register/volontaire/step/preferences')
+                this.$router.push('/register/volontaire/step/profile')
               }
             })
             .catch(() => {

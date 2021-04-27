@@ -18,7 +18,7 @@ use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Models\Activity;
 use App\Models\SocialAccount;
 use App\Models\Structure;
-use App\Notifications\RegisterUserResponsable;
+use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
 
 class PassportController extends Controller
@@ -68,9 +68,26 @@ class PassportController extends Controller
             $attributes
         );
 
-        $structure = Structure::create(
-            ['user_id' => $user->id, 'name' => request('structure_name')]
-        );
+        $structureAttributes = [
+            'user_id' => $user->id,
+            'name' => request('structure_name'),
+        ];
+
+        // MAPPING API ENGAGEMENT
+        if ($request->has('structure_api')) {
+            $structureAttributes = array_merge(
+                $structureAttributes,
+                ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
+            );
+        }
+
+        $structure = Structure::create($structureAttributes);
+
+        // MAPPING DOMAINES ACTIONS API ENGAGEMENT
+        $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
+        if ($domaine) {
+            $structure->attachTag($domaine, 'domaine');
+        }
 
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')

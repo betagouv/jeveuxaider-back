@@ -27,6 +27,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Participation;
+use App\Models\Tag;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -166,19 +167,20 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
-        $domaines = $request->input('domaines');
-        $skills = $request->input('skills');
 
-        if ($domaines) {
-            if (is_string($domaines[0])) {
-                $profile->syncTagsWithType($domaines, 'domaine');
-            }
+        if ($request->has('domaines')) {
+            ray('has domaines', $request->input('domaines'));
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $profile->syncTagsWithType($domaines, 'domaine');
         }
 
-        if ($skills) {
-            if (is_string($skills[0])) {
-                $profile->syncTagsWithType($skills, 'competence');
-            }
+        if ($request->has('skills')) {
+            ray('has skills', $request->input('skills'));
+
+            $skills_ids = collect($request->input('skills'))->pluck('id');
+            $skills = Tag::whereIn('id', $skills_ids)->get();
+            $profile->syncTagsWithType($skills, 'competence');
         }
 
         // Hack pour éviter de le mettre append -> trop gourmand en queries

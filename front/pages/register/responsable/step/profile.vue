@@ -1,88 +1,136 @@
 <template>
-  <div v-if="$store.getters.profile" class="register-step">
-    <portal to="register-steps-help">
-      <p>
-        Bienvenue {{ firstName }} ! <br />Commencez par
-        <span class="font-bold">compléter le profil</span> de votre compte
-        Responsable de l'organisation.
-      </p>
-      <p>
-        Une question? Contactez
-        <br />
-        <span class="font-bold">
-          <a
-            target="_blank"
-            href="mailto:contact@reserve-civique.on.crisp.email"
-          >
-            le support</a
-          >
-        </span>
-        ou
-        <button onclick="$crisp.push(['do', 'chat:open'])">
-          chatez en cliquant sur le bouton en bas à droite.
-        </button>
-      </p>
-    </portal>
-    <el-steps :active="1" align-center class="p-4 sm:p-8 border-b-2">
-      <el-step
-        title="Profil"
-        description="Je complète les informations de mon profil"
-      />
-      <el-step
-        title="Organisation"
-        description="J'enregistre mon organisation en tant que responsable"
-      />
-      <el-step
-        title="Adresse"
-        description="J'enregistre le lieu de mon établissement"
-      />
-    </el-steps>
+  <div class="relative">
+    <portal to="sidebar"
+      ><div class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12">
+        Ça ne devrait pas prendre plus de 3 minutes 😉
+      </div>
+      <Steps :steps="steps"
+    /></portal>
 
-    <div class="p-4 sm:p-12">
-      <div class="font-bold text-2xl text-gray-800">Mon profil</div>
-
-      <el-form
-        ref="profileForm"
-        :model="form"
-        label-position="top"
-        :rules="rules"
+    <div class="mb-6 lg:mb-12 text-center text-white">
+      <h1 class="text-4xl lg:text-5xl font-medium leading-12 mb-4">
+        Bienvenue
+        <span class="font-bold">{{ $store.getters.profile.first_name }}</span> !
+      </h1>
+      <div class="text-lg font-medium">
+        Inscrire votre structure sur JeVeuxAider.gouv.fr, <br />
+        c'est l'opportunité de proposer vos missions à plus de 300 000
+        bénévoles.
+      </div>
+    </div>
+    <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
+      <div
+        class="px-8 pt-6 pb-20 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
-        <div class="my-8">
-          <ImageField
-            :model="model"
-            :model-id="$store.getters.profile.id"
-            :min-width="320"
-            :min-height="320"
-            :max-size="2000000"
-            :preview-width="'150px'"
-            :field="form.image"
-            label="Photo de profil"
-            @add-or-crop="avatar = $event"
-            @delete="avatar = null"
-          ></ImageField>
-        </div>
+        Complétez votre profil
+      </div>
+      <div class="p-8 bg-gray-50 border-t border-gray-200">
+        <el-form
+          ref="profileForm"
+          :model="form"
+          class="form-register-steps"
+          label-position="top"
+          :rules="rules"
+          :hide-required-asterisk="true"
+        >
+          <div class="">
+            <div
+              class="flex flex-col items-center text-center mb-3"
+              style="margin-top: -110px"
+            >
+              <ImageField
+                :model="model"
+                :model-id="$store.getters.profile.id"
+                :min-width="320"
+                :min-height="320"
+                :max-size="2000000"
+                :preview-width="'100px'"
+                :field="form.image"
+                label="Photo de profil"
+                @add-or-crop="avatar = $event"
+                @delete="avatar = null"
+              >
+                <div slot="label"></div>
+                <div slot="description"></div>
 
-        <div class="flex flex-wrap -m-2">
-          <el-form-item
-            label="Téléphone mobile"
-            prop="mobile"
-            class="w-full sm:w-1/2 lg:w-1/3 p-2"
-          >
-            <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
-          </el-form-item>
-          <el-form-item
-            label="Téléphone fixe"
-            prop="phone"
-            class="w-full sm:w-1/2 lg:w-1/3 p-2"
-          >
-            <el-input v-model="form.phone" placeholder="Téléphone fixe" />
-          </el-form-item>
+                <template slot="dragZone">
+                  <img
+                    src="@/assets/images/picture-placeholder.svg"
+                    alt="Photo"
+                    title="Photo"
+                    class="m-auto"
+                  />
+                  <div class="text-xs font-bold text-gray-700 uppercase">
+                    AJOUTER UNE PHOTO
+                  </div>
+                  <div class="text-xs text-gray-300 uppercase">FACULTATIF</div>
+                </template>
+
+                <template
+                  slot="button-crop"
+                  slot-scope="{ events: { setDialogCropVisible } }"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-green-400 focus:text-green-400 duration-300 ease-in-out"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    @click="setDialogCropVisible(true)"
+                  >
+                    <path
+                      d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"
+                    />
+                  </svg>
+                </template>
+
+                <template
+                  slot="button-delete"
+                  slot-scope="{ events: { onDelete } }"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-red-700 focus:text-red-700 duration-300 ease-in-out"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    @click.prevent="onDelete()"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </template>
+              </ImageField>
+            </div>
+
+            <el-form-item label="Téléphone mobile" prop="mobile" class="mb-5">
+              <input
+                v-model="form.mobile"
+                placeholder="Téléphone mobile"
+                class="custom-input placeholder-gray-600"
+              />
+            </el-form-item>
+            <el-form-item label="Téléphone fixe" prop="phone" class="mb-5">
+              <input
+                v-model="form.phone"
+                placeholder="Téléphone fixe"
+                class="custom-input placeholder-gray-600"
+              />
+            </el-form-item>
+          </div>
+        </el-form>
+        <div class="sm:col-span-">
+          <span class="block w-full rounded-md shadow-sm">
+            <el-button
+              type="primary"
+              :loading="loading"
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              @click="onSubmit"
+              >Continuer</el-button
+            >
+          </span>
         </div>
-      </el-form>
-      <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">
-          Continuer
-        </el-button>
       </div>
     </div>
   </div>
@@ -102,6 +150,29 @@ export default {
       },
       model: 'profile',
       avatar: null,
+      steps: [
+        {
+          name: 'Rejoignez le mouvement',
+          status: 'complete',
+          href: '/register/responsable/step/profile',
+        },
+        {
+          name: 'Votre profil',
+          status: 'current',
+        },
+        {
+          name: `Informations sur l'organisation`,
+          status: 'upcoming',
+        },
+        {
+          name: `Quelques mots sur l'organisation`,
+          status: 'upcoming',
+        },
+        {
+          name: `Votre organisation en image`,
+          status: 'upcoming',
+        },
+      ],
       rules: {
         mobile: [
           {
@@ -123,12 +194,8 @@ export default {
       },
     }
   },
-  computed: {
-    firstName() {
-      return this.$store.getters.profile
-        ? this.$store.getters.profile.first_name
-        : null
-    },
+  mounted() {
+    document.getElementById('step-container').scrollTop = 0
   },
   methods: {
     onSubmit() {
@@ -173,8 +240,20 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-::v-deep .el-step__description
-  @apply hidden
-    @screen sm
-      @apply block
+.component--image-field
+  ::v-deep
+    .el-upload-dragger
+      width: inherit
+      height: inherit
+      border: none
+      background: transparent
+    .preview-area
+      height: 100px
+      box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, .06)
+      @apply rounded-full m-auto overflow-hidden mt-2
+      > img
+        @apply object-cover w-full h-full
+    .actions
+      margin-top: .25rem !important
+      @apply flex items-center justify-center mb-6
 </style>
