@@ -1,6 +1,7 @@
 <template>
   <div>
     <vue-autosuggest
+      ref="autocompleterna"
       v-model="query"
       :suggestions="suggestions"
       :get-suggestion-value="getSuggestionValue"
@@ -8,8 +9,12 @@
         placeholder: 'Nom de votre organisation',
       }"
       class="relative w-full leading-none"
+      :limit="5"
+      :loading="renderSuggestions"
       @input="onInputChange"
       @selected="onSelected"
+      @keydown.tab="onTab"
+      @focus="onFocus"
     >
       <template slot-scope="{ suggestion }">
         <div class="mb-1">{{ suggestion.item['_source'].identite_nom }}</div>
@@ -48,12 +53,14 @@ export default {
       query: null,
       selected: null,
       suggestions: [],
+      renderSuggestions: true,
     }
   },
   methods: {
     onSelected(item) {
       if (item) {
         this.selected = item.item._source
+        this.$emit('change', this.selected.identite_nom)
         this.$emit('selected', this.selected)
       }
     },
@@ -61,6 +68,17 @@ export default {
       this.$emit('change', text)
       this.$emit('clear')
       this.search()
+    },
+    onFocus() {
+      document.getElementById(
+        'autosuggest-autosuggest__results'
+      ).style.display = 'block'
+    },
+    onTab() {
+      this.$refs.autocompleterna.listeners.selected(true)
+      document.getElementById(
+        'autosuggest-autosuggest__results'
+      ).style.display = 'none'
     },
     getSuggestionValue(suggestion) {
       return suggestion.item._source.identite_nom
@@ -87,7 +105,7 @@ export default {
   background: transparent
   @apply text-blue-800 font-semibold
 ::v-deep .autosuggest__results-container
-  .autosuggest__results
+  .autosuggest__results ul
     max-width: 480px
     @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200
   .autosuggest__results-item
