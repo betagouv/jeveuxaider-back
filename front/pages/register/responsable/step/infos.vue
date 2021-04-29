@@ -115,7 +115,7 @@
           <el-form-item label="Plateforme de don" prop="donation">
             <input
               v-model="form.donation"
-              class="custom-input placeholder-gray-600 prefix prefix-instagram"
+              class="custom-input placeholder-gray-600 prefix prefix-donation"
               placeholder="URL de votre page (Helloasso, Microdon, Ulule, etc...)"
             />
           </el-form-item>

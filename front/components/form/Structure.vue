@@ -1,12 +1,17 @@
 <template>
   <el-form
     ref="structureForm"
-    class="max-w-2xl"
+    class=""
     :model="form"
     label-position="top"
     :rules="rules"
   >
-    <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <div class="flex justify-between mb-6 text-1-5xl font-bold">
+      <div class="text-gray-800">Informations générales</div>
+      <div v-if="form.rna" class="text-gray-400">
+        <span class="font-medium">RNA</span> {{ form.rna }}
+      </div>
+    </div>
 
     <ImageField
       model="structure"
@@ -42,12 +47,12 @@
     </el-form-item>
     <el-form-item
       v-if="form.statut_juridique == 'Association'"
-      label="Disposez vous d'un agrément ?"
+      label="Disposez vous d'agréments ?"
       prop="association_types"
     >
       <el-select
         v-model="form.association_types"
-        placeholder="Choix de l'agrément"
+        placeholder="Choix des agréments"
         multiple
       >
         <el-option
@@ -164,7 +169,7 @@
       />
     </el-form-item>
 
-    <div class="mt-12 mb-6 flex text-xl text-gray-800">
+    <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
       Réseau national ou territorial
     </div>
     <ItemDescription container-class="mb-6">
@@ -191,7 +196,7 @@
       </el-select>
     </el-form-item>
 
-    <div class="mt-12 mb-6 flex text-xl text-gray-800">
+    <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
       Lieu de l'établissement
     </div>
     <el-form-item label="Département" prop="department">
@@ -229,7 +234,7 @@
       </el-form-item>
     </div>
 
-    <div class="mt-12 mb-6 flex text-xl text-gray-800">
+    <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
       Votre organisation sur les réseaux
     </div>
     <el-form-item label="Site de l'organisation" prop="website">

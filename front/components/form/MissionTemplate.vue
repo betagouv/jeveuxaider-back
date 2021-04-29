@@ -5,7 +5,9 @@
     label-position="top"
     :rules="rules"
   >
-    <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+      Informations générales
+    </div>
 
     <el-form-item label="Titre" prop="title">
       <el-input v-model="form.title" placeholder="Titre" />
@@ -71,7 +73,7 @@
       :preview-width="'80px'"
       preview-area-class="bg-primary rounded-md p-3"
       label="Icone"
-      label-class="mb-6 text-xl text-gray-800"
+      label-class="mb-6 text-1-5xl font-bold text-gray-800"
       description="Format accepté: SVG"
       @add-or-crop="icone = $event"
       @delete="icone = null"

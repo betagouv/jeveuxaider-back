@@ -20,7 +20,7 @@
         :value="domaine.id"
       ></el-option>
     </el-select>
-    <div class="mb-6 text-xl text-gray-800 flex items-center">
+    <div class="mb-6 text-1-5xl font-bold text-gray-800 flex items-center">
       <div>Publier une mission à partir d'un modèle</div>
       <el-tag type="success" size="small" class="ml-2"
         >Publication automatique</el-tag

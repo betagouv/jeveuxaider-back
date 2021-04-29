@@ -1,6 +1,8 @@
 <template>
   <el-form ref="profileForm" :model="form" label-position="top" :rules="rules">
-    <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+      Informations générales
+    </div>
 
     <el-form-item label="Email" prop="email">
       <el-input

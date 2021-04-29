@@ -5,7 +5,9 @@
     label-position="top"
     :rules="rules"
   >
-    <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <div class="mb-6 text-1-5xl font-bold text-gray-800">
+      Informations générales
+    </div>
 
     <el-form-item label="Nom de la collectivité" prop="name">
       <el-input

@@ -67,12 +67,12 @@
           </el-form-item>
           <el-form-item
             v-if="form.statut_juridique == 'Association'"
-            label="Disposez vous d'un agrément ?"
+            label="Disposez vous d'agréments ?"
             prop="association_types"
           >
             <el-select
               v-model="form.association_types"
-              placeholder="Choix de l'agrément"
+              placeholder="Choix des agréments"
               multiple
             >
               <el-option
@@ -196,7 +196,7 @@
           </el-form-item>
 
           <algolia-places-input
-            label="Entrez l'adresse de l'organisation"
+            label="Modifier l'adresse de l'organisation"
             :description="false"
             :class-name="false"
             @selected="setAddress"

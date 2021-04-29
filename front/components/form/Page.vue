@@ -1,13 +1,15 @@
 <template>
   <el-form ref="pageForm" :model="form" label-position="top" :rules="rules">
-    <div class="mb-6 text-xl text-gray-800">Informations générales</div>
+    <div class="mb-6 text-1-5xl font-bold text-gray-800">
+      Informations générales
+    </div>
 
     <el-form-item label="Titre" prop="title">
       <el-input v-model="form.title" placeholder="Titre" />
     </el-form-item>
 
     <el-form-item label="Description" prop="description">
-      <RichEditor v-model="form.description" withHeading />
+      <RichEditor v-model="form.description" with-heading />
     </el-form-item>
 
     <div class="flex pt-2">
