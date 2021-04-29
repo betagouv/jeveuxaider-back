@@ -100,7 +100,7 @@
         </div>
       </div>
     </template>
-    <div class="mt-10 text-xl text-gray-800 flex items-center">
+    <div class="mt-10 text-1-5xl font-bold text-gray-800 flex items-center">
       <div>Rédiger intégralement la mission</div>
       <el-tag type="warning" size="small" class="ml-2"
         >Validation par un référent</el-tag

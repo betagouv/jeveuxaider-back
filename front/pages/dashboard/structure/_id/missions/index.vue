@@ -3,8 +3,8 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Organisation</div>
-        <div class="flex flex-wrap mb-8">
-          <div class="font-bold text-2xl text-gray-800 mr-2">
+        <div class="flex items-center flex-wrap mb-8">
+          <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ structure.name }}
           </div>
           <TagModelState v-if="structure.state" :state="structure.state" />

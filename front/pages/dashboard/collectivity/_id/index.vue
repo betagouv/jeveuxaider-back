@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Collectivité</div>
         <div class="flex flex-wrap mb-8">
-          <div class="font-bold text-2xl text-gray-800 mr-2">
+          <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ collectivity.name }}
           </div>
           <TagModelState
@@ -35,7 +35,7 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">Informations</div>
+            <div class="mb-6 text-xl font-semibold">Informations</div>
           </div>
           <ModelCollectivityInfos :collectivity="collectivity" />
         </el-card>
@@ -43,7 +43,7 @@
           <div class="flex justify-between">
             <nuxt-link
               :to="`/dashboard/structure/${collectivity.structure.id}`"
-              class="mb-6 text-xl hover:text-blue-800"
+              class="mb-6 text-xl font-semibold hover:text-blue-800"
               >{{ collectivity.structure.name }}</nuxt-link
             >
           </div>

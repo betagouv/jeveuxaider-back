@@ -2,7 +2,7 @@
   <div class="pl-12 pb-12">
     <div class="text-m text-gray-600 uppercase">Release</div>
     <div class="mb-8 flex">
-      <div class="font-bold text-2xl text-gray-800">
+      <div class="font-bold text-2-5xl text-gray-800">
         {{ release.title }}
       </div>
     </div>

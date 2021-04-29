@@ -11,6 +11,7 @@
     <input
       :id="selector"
       type="text"
+      autocomplete="off"
       class="el-input__inner places-search"
       :placeholder="placeholder"
     />

@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters['user/contextRoleLabel'] }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">
+        <div class="mb-8 font-bold text-2-5xl text-gray-800">
           Utilisateurs - Responsables
         </div>
       </div>

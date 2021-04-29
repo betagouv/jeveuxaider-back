@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Collectivité</div>
         <div class="flex flex-wrap mb-8">
-          <div class="font-bold text-2xl text-gray-800 mr-2">
+          <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ collectivity.name }}
           </div>
           <TagModelState

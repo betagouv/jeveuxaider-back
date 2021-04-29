@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-12 font-bold text-2xl text-gray-800">
+        <div class="mb-12 font-bold text-2-5xl text-gray-800">
           Inviter une personne à rejoindre la plateforme
         </div>
       </div>

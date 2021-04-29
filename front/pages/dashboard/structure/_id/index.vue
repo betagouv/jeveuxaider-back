@@ -3,8 +3,8 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Organisation</div>
-        <div class="flex flex-wrap mb-8">
-          <div class="font-bold text-2xl text-gray-800 mr-2">
+        <div class="flex items-center flex-wrap mb-8">
+          <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ structure.name }}
           </div>
           <TagModelState v-if="structure.state" :state="structure.state" />
@@ -52,13 +52,15 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">Organisation</div>
+            <div class="mb-6 text-xl font-semibold">Organisation</div>
           </div>
           <ModelStructureInfos :structure="structure" />
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div v-if="structure.members" class="mb-6 text-xl">Membres</div>
+            <div v-if="structure.members" class="mb-6 text-xl font-semibold">
+              Membres
+            </div>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <ModelMemberTeaser
@@ -91,5 +93,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>

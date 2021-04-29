@@ -5,7 +5,9 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2xl text-gray-800">Contenus - Tags</div>
+        <div class="mb-8 font-bold text-2-5xl text-gray-800">
+          Contenus - Tags
+        </div>
       </div>
       <div class>
         <nuxt-link :to="`/dashboard/contents/template/add`">

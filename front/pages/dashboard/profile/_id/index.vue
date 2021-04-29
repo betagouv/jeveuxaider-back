@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Utilisateur</div>
         <div class="mb-8 flex">
-          <div class="font-bold text-2xl text-gray-800">
+          <div class="font-bold text-2-5xl text-gray-800">
             {{ profile.first_name }} {{ profile.last_name }}
           </div>
           <TagProfileRoles
@@ -38,7 +38,7 @@
     <div class="px-12 grid grid-cols-1 gap-4 xl:grid-cols-2">
       <el-card shadow="never" class="p-4">
         <div class="flex justify-between">
-          <div class="mb-6 text-xl">Informations</div>
+          <div class="mb-6 text-xl font-semibold">Informations</div>
         </div>
         <ModelProfileInfos :profile="profile" />
       </el-card>

@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2xl text-gray-800 mb-4">Préférences</div>
+    <div class="font-bold text-2-5xl text-gray-800 mb-4">Préférences</div>
 
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec vos domaines d'action de prédilection ainsi
@@ -33,7 +33,7 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <div class="font-bold text-2xl text-gray-800 mb-4 mt-12">
+      <div class="font-bold text-2-5xl text-gray-800 mb-4 mt-12">
         Visibilité de votre profil
       </div>
 

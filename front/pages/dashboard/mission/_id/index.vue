@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Mission</div>
         <div class="flex flex-wrap mb-8 max-w-3xl">
-          <div class="font-bold text-2xl text-gray-800 mr-2">
+          <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ mission.name }}
           </div>
           <TagModelState :state="mission.state" />
@@ -41,14 +41,14 @@
       <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div class="mb-6 text-xl">Informations</div>
+            <div class="mb-6 text-xl font-semibold">Informations</div>
           </div>
           <ModelMissionInfos :mission="mission" />
         </el-card>
         <div>
           <el-card shadow="never" class="p-4 mb-4">
             <div class="flex justify-between">
-              <div class="mb-6 text-xl">Responsable</div>
+              <div class="mb-6 text-xl font-semibold">Responsable</div>
             </div>
             <ModelMemberTeaser
               class="member py-2"
@@ -59,7 +59,7 @@
             <div class="flex justify-between">
               <nuxt-link
                 :to="`/dashboard/structure/${structure.id}`"
-                class="mb-6 text-xl hover:text-blue-800"
+                class="mb-6 text-xl font-semibold hover:text-blue-800"
                 >{{ structure.name }}</nuxt-link
               >
             </div>

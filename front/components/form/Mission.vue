@@ -342,6 +342,11 @@
       <AlgoliaPlacesInput
         ref="alogoliaInput"
         :initial-value="form.full_address"
+        :label="
+          form.address
+            ? 'Modifier l\'adresse de la mission'
+            : 'Entrer l\'adresse de la mission'
+        "
         @selected="setAddress"
         @clear="clearAddress"
       />

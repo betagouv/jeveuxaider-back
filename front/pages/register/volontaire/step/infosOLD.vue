@@ -26,7 +26,7 @@
       class="flex flex-col items-center lg:items-start lg:flex-row lg:justify-between"
     >
       <div class="p-4 sm:p-12 max-w-2xl order-2">
-        <div class="font-bold text-2xl text-gray-800 mb-4">
+        <div class="font-bold text-2-5xl text-gray-800 mb-4">
           Complétez votre profil
         </div>
         <div class="mb-8 text-md text-gray-600">

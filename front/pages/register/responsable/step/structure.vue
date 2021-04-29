@@ -196,7 +196,11 @@
           </el-form-item>
 
           <algolia-places-input
-            label="Modifier l'adresse de l'organisation"
+            :label="
+              form.zip
+                ? 'Modifier l\'adresse de l\'organisation'
+                : 'Entrer l\'adresse de l\'organisation'
+            "
             :description="false"
             :class-name="false"
             @selected="setAddress"

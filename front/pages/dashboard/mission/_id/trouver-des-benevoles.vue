@@ -3,7 +3,7 @@
     <div class="header px-12 flex border-b border-gray-200 pb-4">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Trouver des bénévoles</div>
-        <div class="mb-1 font-bold text-2xl text-gray-800">
+        <div class="mb-1 font-bold text-2-5xl text-gray-800">
           {{ mission.name }}
         </div>
         <div class="text-xl text-gray-800 flex items-center">
