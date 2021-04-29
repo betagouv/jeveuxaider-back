@@ -74,7 +74,7 @@ class PassportController extends Controller
         ];
 
         // MAPPING API ENGAGEMENT
-        if ($request->has('structure_api')) {
+        if ($request->has('structure_api') && $request->input('structure_api')) {
             $structureAttributes = array_merge(
                 $structureAttributes,
                 ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
@@ -84,9 +84,11 @@ class PassportController extends Controller
         $structure = Structure::create($structureAttributes);
 
         // MAPPING DOMAINES ACTIONS API ENGAGEMENT
-        $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
-        if ($domaine) {
-            $structure->attachTag($domaine, 'domaine');
+        if ($request->has('structure_api') && $request->input('structure_api')) {
+            $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
+            if ($domaine) {
+                $structure->attachTag($domaine, 'domaine');
+            }
         }
 
         // UPDATE LOG
