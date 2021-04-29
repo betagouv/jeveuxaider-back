@@ -5,14 +5,17 @@
       <template slot-scope="{ indices, refine }">
         <div class="">
           <vue-autosuggest
+            ref="autocompleteskills"
             :suggestions="indicesToSuggestions(indices)"
             :get-suggestion-value="getSuggestionValue"
             :input-props="{
               placeholder: placeholder,
             }"
-            class="relative"
+            class="relative w-full leading-none"
             @input="onInput(refine, $event)"
             @selected="onSelect"
+            @keydown.tab="onTab"
+            @focus="onFocus"
           >
             <template slot="after-input"
               ><div
@@ -98,6 +101,17 @@ export default {
         this.selectedItem = selected.item
         this.$emit('add-item', this.selectedItem)
       }
+    },
+    onFocus() {
+      document.getElementById(
+        'autosuggest-autosuggest__results'
+      ).style.display = 'block'
+    },
+    onTab() {
+      this.$refs.autocompleteskills.listeners.selected(true)
+      document.getElementById(
+        'autosuggest-autosuggest__results'
+      ).style.display = 'none'
     },
     onInput(refine, $event) {
       this.query = $event
