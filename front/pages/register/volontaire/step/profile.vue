@@ -184,7 +184,7 @@
                 v-model="form.description"
                 rows="4"
                 class="custom-textarea placeholder-gray-600"
-                placeholder="Décrivez-vous de manière succinte"
+                placeholder="Vos motivations en quelques mots"
               />
             </el-form-item>
           </div>

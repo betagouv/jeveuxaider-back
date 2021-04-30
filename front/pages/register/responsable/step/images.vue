@@ -92,6 +92,12 @@
             </template>
           </ImageField>
         </div>
+
+        <div
+          class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
+        >
+          Choisissez 2 visuels pour illustrer l'activité de votre organisation.
+        </div>
         <div class="relative mb-8" @click="onEditImageClick(0)">
           <div
             class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
@@ -101,7 +107,7 @@
           <img
             :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
             :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
-            class="w-full h-auto rounded-lg cursor-pointer"
+            class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
           />
           <div
             class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
@@ -124,7 +130,7 @@
           <img
             :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
             :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
-            class="w-full h-auto rounded-lg cursor-pointer"
+            class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
           />
           <div
             class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
@@ -211,7 +217,7 @@ export default {
           href: '/register/responsable/step/infos',
         },
         {
-          name: `Votre organisation en image`,
+          name: `Votre organisation en images`,
           status: 'current',
         },
       ],

@@ -139,7 +139,7 @@
           name="description"
           type="textarea"
           :autosize="{ minRows: 4, maxRows: 6 }"
-          placeholder="Décrivez-vous de manière succinte"
+          placeholder="Vos motivations en quelques mots"
         ></el-input>
       </el-form-item>
 

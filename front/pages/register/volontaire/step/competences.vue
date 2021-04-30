@@ -122,7 +122,7 @@ export default {
         ...this.form,
       })
       this.loading = false
-      this.$router.push('/missions-benevolat')
+      this.$router.push('/user/infos')
     },
   },
 }

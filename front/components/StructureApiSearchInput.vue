@@ -16,6 +16,14 @@
       @keydown.tab="onTab"
       @focus="onFocus"
     >
+      <template slot="before-section-default">
+        <div
+          class="text-md text-gray-700 py-3 px-4 font-bold uppercase bg-gray-200 tracking-wider"
+        >
+          Suggestions
+        </div>
+      </template>
+
       <template slot-scope="{ suggestion }">
         <div class="mb-1">{{ suggestion.item['_source'].identite_nom }}</div>
         <div class="text-xs text-gray-500">

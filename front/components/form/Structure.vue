@@ -157,15 +157,15 @@
     </el-form-item>
 
     <el-form-item
-      label="Présentation synthétique de l'organisation"
+      label="À propos de votre organisation (200 caractères min.)"
       prop="description"
       class="flex-1"
     >
       <el-input
         v-model="form.description"
         type="textarea"
-        :autosize="{ minRows: 2, maxRows: 6 }"
-        placeholder="Décrivez votre organisation, en quelques mots"
+        rows="4"
+        placeholder="Dites-nous tout à propos de votre organisation"
       />
     </el-form-item>
 

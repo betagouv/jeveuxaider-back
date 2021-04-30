@@ -29,7 +29,7 @@
         >
           <div class="mb-4 lg:mb-6 wrapper-textarea">
             <el-form-item
-              label="Mission de l'organisation"
+              :label="`À propos de votre organisation (200 caractères min.)`"
               prop="description"
               class=""
             >
@@ -37,7 +37,7 @@
                 v-model="form.description"
                 rows="4"
                 class="custom-textarea placeholder-gray-600"
-                placeholder="Quel est le but de votre organisation ?"
+                placeholder="Dites-nous tout à propos de votre organisation"
               />
             </el-form-item>
           </div>
@@ -182,7 +182,7 @@ export default {
           status: 'current',
         },
         {
-          name: `Votre organisation en image`,
+          name: `Votre organisation en images`,
           status: 'upcoming',
         },
       ],
@@ -195,6 +195,11 @@ export default {
           {
             required: true,
             message: 'Ce champ est requis',
+            trigger: 'blur',
+          },
+          {
+            min: 200,
+            message: 'Minimum 200 caractères',
             trigger: 'blur',
           },
         ],

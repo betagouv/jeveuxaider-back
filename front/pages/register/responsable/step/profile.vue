@@ -169,7 +169,7 @@ export default {
           status: 'upcoming',
         },
         {
-          name: `Votre organisation en image`,
+          name: `Votre organisation en images`,
           status: 'upcoming',
         },
       ],
