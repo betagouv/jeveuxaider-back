@@ -95,34 +95,6 @@
                       >
                     </p>
                   </li>
-
-                  <!-- <li class="mt-5 flex items-start lg:col-span-6 lg:mt-0">
-                    <div class="flex-shrink-0">
-                      <img
-                        src="/images/public.svg"
-                        width="22"
-                        class="mt-2"
-                        alt="public"
-                      />
-                    </div>
-
-                    <div class="ml-4 text-md font-bold leading-5 text-gray-900">
-                      <span class="uppercase text-sm text-gray-500 font-medium"
-                        >Bénéficiaires</span
-                      ><br />
-                      <div
-                        v-for="(
-                          publicBeneficiaire, key
-                        ) in mission.publics_beneficiaires"
-                        :key="key"
-                      >
-                        {{
-                          publicBeneficiaire
-                            | labelFromValue('mission_publics_beneficiaires')
-                        }}
-                      </div>
-                    </div>
-                  </li> -->
                 </ul>
               </div>
 
@@ -154,12 +126,24 @@
               </div>
 
               <div class="mt-4">
-                <span>Mission proposée par</span>
-                <span class="font-bold text-black">
-                  {{ mission.publisher_name }}
-                </span>
-                <div class="text-gray-600 text-base">
-                  Vous serez redirigé vers {{ mission.publisher_url }}
+                <div class="md:flex items-center">
+                  <div>
+                    <span>Mission proposée par</span>
+                    <span class="font-bold text-black">
+                      {{ mission.publisher_name }}
+                    </span>
+                    <div class="text-gray-600 text-base">
+                      Vous serez redirigé vers {{ mission.publisher_url }}
+                    </div>
+                  </div>
+
+                  <img
+                    v-if="mission.publisher_logo"
+                    :src="mission.publisher_logo"
+                    :alt="mission.publisher_name"
+                    width="70px"
+                    class="h-auto mt-4 md:mt-0 md:ml-4"
+                  />
                 </div>
               </div>
             </div>
@@ -169,12 +153,9 @@
             >
               <div class="py-8 px-6 lg:p-12">
                 <div
+                  v-if="formattedDate"
                   class="text-base leading-6 text-indigo-200 mb-2"
                   v-html="formattedDate"
-                />
-                <div
-                  class="text-base leading-6 text-indigo-200 mb-4 lg:mb-12"
-                  v-text="mission.format"
                 />
 
                 <div
@@ -341,6 +322,10 @@ export default {
       const endDate = this.mission.end_date
 
       if (!endDate) {
+        return null
+      }
+
+      if (this.$dayjs(endDate).diff(this.$dayjs(startDate), 'year') > 1) {
         return null
       }
 
