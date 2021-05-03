@@ -242,19 +242,18 @@ class ApiEngagement
         $attributes['rna'] = isset($structureApi['rna']) ? $structureApi['rna'] : null;
         $attributes['statut_juridique'] = isset($structureApi['regime']) ? $structureApi['regime'] : null;
         $attributes['description'] = isset($structureApi['objet']) ? $structureApi['objet'] : null;
-        $attributes['city'] = isset($structureApi['commune']) ? $structureApi['commune'] : null;
-        $attributes['address'] = isset($structureApi['coordonnees_adresse_siege_voie'])
+        $attributes['city'] = isset($structureApi['coordonnees']['adresse_siege']['commune']) ? $structureApi['coordonnees']['adresse_siege']['commune'] : null;
+        $attributes['address'] = isset($structureApi['coordonnees']['adresse_siege'])
             ? implode(' ', [
-                isset($structureApi['coordonnees_adresse_siege_num_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : '',
-                isset($structureApi['coordonnees_adresse_siege_type_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : '',
-                isset($structureApi['coordonnees_adresse_siege_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : ''
+                isset($structureApi['coordonnees']['adresse_siege']['type_voie']) ? $structureApi['coordonnees']['adresse_siege']['type_voie'] : '',
+                isset($structureApi['coordonnees']['adresse_siege']['voie']) ? $structureApi['coordonnees']['adresse_siege']['voie'] : ''
             ]) : null;
 
-        if (isset($structureApi['coordonnees_adresse_siege_cp'])) {
-            $attributes['zip'] = isset($structureApi['coordonnees_adresse_siege_cp']) ? $structureApi['coordonnees_adresse_siege_cp'] : null;
-            $attributes['department'] = isset($structureApi['coordonnees_adresse_siege_cp']) ? substr($structureApi['coordonnees_adresse_siege_cp'], 0, 2) : null;
+        if (isset($structureApi['coordonnees']['adresse_siege']['cp'])) {
+            $attributes['zip'] = isset($structureApi['coordonnees']['adresse_siege']['cp']) ? $structureApi['coordonnees']['adresse_siege']['cp'] : null;
+            $attributes['department'] = isset($structureApi['coordonnees']['adresse_siege']['cp']) ? substr($structureApi['coordonnees']['adresse_siege']['cp'], 0, 2) : null;
             if ($attributes['department'] == 20) {
-                $zip3 = substr($structureApi['coordonnees_adresse_siege_cp'], 0, 3);
+                $zip3 = substr($structureApi['coordonnees']['adresse_siege']['cp'], 0, 3);
                 if ($zip3 == '200' || $zip3 == '201') {
                     $attributes['department'] = '2A';
                 } else {
