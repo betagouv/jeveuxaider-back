@@ -43,8 +43,6 @@ class ApiEngagement
             'apikey' => config('app.api_engagement_key'),
             ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission/" . $id);
 
-        ray($response['data']);
-
         return $this->formatMission($response['data']);
     }
 

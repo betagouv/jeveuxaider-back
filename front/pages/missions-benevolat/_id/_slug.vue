@@ -758,6 +758,15 @@ export default {
       }
 
       if (
+        this.$dayjs(startDate).format('D MMMM YYYY') ==
+        this.$dayjs(endDate).format('D MMMM YYYY')
+      ) {
+        return `Le <b class="text-white">${this.$dayjs(startDate).format(
+          'D MMMM YYYY'
+        )}</b>`
+      }
+
+      if (
         this.$dayjs(startDate).format('YYYY') !=
         this.$dayjs(endDate).format('YYYY')
       ) {
