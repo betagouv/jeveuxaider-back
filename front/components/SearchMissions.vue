@@ -273,18 +273,13 @@
                       </nuxt-link>
 
                       <template v-else>
-                        <a
-                          v-if="item.provider == 'api_engagement'"
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
-                          :href="item.application_url"
-                          target="_blank"
-                        >
-                          <CardMission :mission="item" />
-                        </a>
                         <nuxt-link
-                          v-else
                           class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
-                          :to="`/missions-benevolat/${item.id}/${item.slug}`"
+                          :to="
+                            item.provider == 'api_engagement'
+                              ? `/missions-benevolat/${item.id}`
+                              : `/missions-benevolat/${item.id}/${item.slug}`
+                          "
                         >
                           <CardMission :mission="item" />
                         </nuxt-link>
@@ -321,9 +316,9 @@
                       </li>
 
                       <li
-                        tabindex="0"
                         v-for="pageItem in pages"
                         :key="pageItem"
+                        tabindex="0"
                         class="page-number cursor-pointer"
                         :class="[
                           {

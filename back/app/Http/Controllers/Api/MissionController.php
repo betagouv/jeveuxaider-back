@@ -20,6 +20,7 @@ use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Models\Structure;
+use App\Services\ApiEngagement;
 
 class MissionController extends Controller
 {
@@ -53,11 +54,22 @@ class MissionController extends Controller
         return Excel::download(new MissionsExport($request), 'missions.xlsx');
     }
 
-    public function show(Request $request, Int $id)
+    public function show(Request $request, $id)
     {
-        $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+        if (is_numeric($id)) {
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+        } else {
+            // API ENGAGEMENT
+            $api = new ApiEngagement();
+            $mission = $api->getMission($id);
+            $mission['isFromApi'] = true;
+        }
 
-        return $mission ? $mission->append('participations_total') : abort(404, 'Cette mission n\'existe pas');
+        if (!$mission) {
+            abort(404, 'Cette mission n\'existe pas');
+        }
+
+        return $mission['isFromApi'] ? $mission : $mission->append('participations_total');
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)
