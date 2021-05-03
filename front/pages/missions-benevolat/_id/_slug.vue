@@ -667,7 +667,7 @@ export default {
       loading: true,
       mission: {},
       otherMissions: {},
-      baseUrl: this.$config.apiUrl,
+      baseUrl: this.$config.appUrl,
       form: {
         content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },
