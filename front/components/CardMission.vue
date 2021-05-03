@@ -86,8 +86,12 @@
         </div>
       </div>
       <div v-if="$store.getters.contextRole == 'admin'">
-        Distance :
-        {{ mission._rankingInfo.matchedGeoLocation.distance / 1000 }} km<br />
+        <template
+          v-if="mission._rankingInfo && mission._rankingInfo.matchedGeoLocation"
+        >
+          Distance :
+          {{ mission._rankingInfo.matchedGeoLocation.distance / 1000 }} km<br />
+        </template>
 
         Score : {{ mission.score }}<br />
         <span class="text-sm text-gray-400">

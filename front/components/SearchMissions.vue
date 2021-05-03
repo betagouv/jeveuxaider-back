@@ -274,13 +274,29 @@
                       </nuxt-link>
 
                       <template v-else>
-                        <nuxt-link
+                        <!-- <nuxt-link
                           class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
                           :to="
                             item.provider == 'api_engagement'
                               ? `/missions-benevolat/${item.id}`
                               : `/missions-benevolat/${item.id}/${item.slug}`
                           "
+                        >
+                          <CardMission :mission="item" />
+                        </nuxt-link> -->
+
+                        <a
+                          v-if="item.provider == 'api_engagement'"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :href="item.application_url"
+                          target="_blank"
+                        >
+                          <CardMission :mission="item" />
+                        </a>
+                        <nuxt-link
+                          v-else
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
+                          :to="`/missions-benevolat/${item.id}/${item.slug}`"
                         >
                           <CardMission :mission="item" />
                         </nuxt-link>
