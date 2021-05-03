@@ -151,7 +151,7 @@
                             v-if="structureApi"
                             class="text-xs text-gray-400 leading-tight"
                           >
-                            RNA: {{ structureApi.id_rna }}
+                            RNA: {{ structureApi.rna }}
                           </div>
                         </el-form-item>
 

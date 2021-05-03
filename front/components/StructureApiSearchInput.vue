@@ -25,10 +25,8 @@
       </template>
 
       <template slot-scope="{ suggestion }">
-        <div class="mb-1">{{ suggestion.item['_source'].identite_nom }}</div>
-        <div class="text-xs text-gray-500">
-          RNA {{ suggestion.item._source.id_rna }}
-        </div>
+        <div class="mb-1">{{ suggestion.item.name }}</div>
+        <div class="text-xs text-gray-500">RNA {{ suggestion.item.rna }}</div>
       </template>
       <template slot="after-input">
         <div
@@ -67,8 +65,8 @@ export default {
   methods: {
     onSelected(item) {
       if (item) {
-        this.selected = item.item._source
-        this.$emit('change', this.selected.identite_nom)
+        this.selected = item.item
+        this.$emit('change', this.selected.name)
         this.$emit('selected', this.selected)
       }
     },
@@ -89,17 +87,23 @@ export default {
       ).style.display = 'none'
     },
     getSuggestionValue(suggestion) {
-      return suggestion.item._source.identite_nom
+      return suggestion.item.name
     },
     async search() {
       this.loading = true
-      const url =
-        'https://api.api-engagement.beta.gouv.fr/v0/association/search'
-      const res = await this.$axios.post(url, {
-        query: this.query,
-      })
+      const res = await this.$axios.post(
+        'https://api.api-engagement.beta.gouv.fr/v0/association/search',
+        {
+          name: this.query,
+        },
+        {
+          headers: {
+            apikey: this.$config.apieng.key,
+          },
+        }
+      )
       this.loading = false
-      this.suggestions = [{ data: res.data.hits.hits }]
+      this.suggestions = [{ data: res.data.data }]
     },
   },
 }

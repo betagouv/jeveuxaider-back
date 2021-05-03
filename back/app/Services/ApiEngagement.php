@@ -239,15 +239,17 @@ class ApiEngagement
     public static function prepareStructureAttributes($structureApi)
     {
         $attributes = [];
-        $attributes['rna'] = isset($structureApi['id_rna']) ? $structureApi['id_rna'] : null;
-        $attributes['statut_juridique'] = isset($structureApi['identite_regime']) ? $structureApi['identite_regime'] : null;
-        $attributes['description'] = isset($structureApi['activites_objet']) ? $structureApi['activites_objet'] : null;
-        $attributes['city'] = isset($structureApi['coordonnees_adresse_siege_commune']) ? $structureApi['coordonnees_adresse_siege_commune'] : null;
-        $attributes['address'] = implode(' ', [
-            isset($structureApi['coordonnees_adresse_siege_num_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : '',
-            isset($structureApi['coordonnees_adresse_siege_type_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : '',
-            isset($structureApi['coordonnees_adresse_siege_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : ''
-        ]);
+        $attributes['rna'] = isset($structureApi['rna']) ? $structureApi['rna'] : null;
+        $attributes['statut_juridique'] = isset($structureApi['regime']) ? $structureApi['regime'] : null;
+        $attributes['description'] = isset($structureApi['objet']) ? $structureApi['objet'] : null;
+        $attributes['city'] = isset($structureApi['commune']) ? $structureApi['commune'] : null;
+        $attributes['address'] = isset($structureApi['coordonnees_adresse_siege_voie'])
+            ? implode(' ', [
+                isset($structureApi['coordonnees_adresse_siege_num_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : '',
+                isset($structureApi['coordonnees_adresse_siege_type_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : '',
+                isset($structureApi['coordonnees_adresse_siege_voie']) ? $structureApi['coordonnees_adresse_siege_num_voie'] : ''
+            ]) : null;
+
         if (isset($structureApi['coordonnees_adresse_siege_cp'])) {
             $attributes['zip'] = isset($structureApi['coordonnees_adresse_siege_cp']) ? $structureApi['coordonnees_adresse_siege_cp'] : null;
             $attributes['department'] = isset($structureApi['coordonnees_adresse_siege_cp']) ? substr($structureApi['coordonnees_adresse_siege_cp'], 0, 2) : null;
@@ -271,8 +273,8 @@ class ApiEngagement
     public static function prepareStructureDomaines($structureApi)
     {
         $domaine = null;
-        if ($structureApi['activites_lib_theme1']) {
-            switch ($structureApi['activites_lib_theme1']) {
+        if (isset($structureApi['theme'])) {
+            switch ($structureApi['theme']) {
                 case 'Culture':
                     $domaine = 'Art et culture pour tous';
                     break;

@@ -85,6 +85,7 @@ class PassportController extends Controller
 
         // MAPPING DOMAINES ACTIONS API ENGAGEMENT
         if ($request->has('structure_api') && $request->input('structure_api')) {
+            ray($request->input('structure_api'));
             $domaine = ApiEngagement::prepareStructureDomaines($request->input('structure_api'));
             if ($domaine) {
                 $structure->attachTag($domaine, 'domaine');

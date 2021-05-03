@@ -198,8 +198,8 @@
           <algolia-places-input
             :label="
               form.zip
-                ? 'Modifier l\'adresse de l\'organisation'
-                : 'Entrer l\'adresse de l\'organisation'
+                ? 'Modifiez l\'adresse de l\'organisation'
+                : 'Renseignez l\'adresse de l\'organisation'
             "
             :description="false"
             :class-name="false"
