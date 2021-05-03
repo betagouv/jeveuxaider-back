@@ -13,8 +13,7 @@
         <span class="font-bold">{{ $store.getters.profile.first_name }}</span> !
       </h1>
       <div class="text-lg font-medium">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-        voluptatibus doloremque praesentium.
+        Nous sommes ravis de vous compter parmi nos bénévoles.
       </div>
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
