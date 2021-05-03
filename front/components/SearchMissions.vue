@@ -9,6 +9,7 @@
           aroundLatLng || type == 'Mission à distance' ? false : true
         "
         :around-radius.camel="aroundRadius"
+        :around-precision.camel="2000"
         :get-ranking-info.camel="true"
         :filters.camel="aisFilters"
       />
@@ -321,9 +322,9 @@
                       </li>
 
                       <li
-                        tabindex="0"
                         v-for="pageItem in pages"
                         :key="pageItem"
+                        tabindex="0"
                         class="page-number cursor-pointer"
                         :class="[
                           {

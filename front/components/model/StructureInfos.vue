@@ -54,6 +54,12 @@
       </div>
     </div>
     <div class="mb-2 flex">
+      <div class="card-label">Score Temps rép.</div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.response_time_score }}/100
+      </div>
+    </div>
+    <div class="mb-2 flex">
       <div class="card-label">NB Mission</div>
       <div class="text-gray-900 flex-1">
         {{ structure.missions_count }}
@@ -63,6 +69,12 @@
       <div class="card-label">NB Particip.</div>
       <div class="text-gray-900 flex-1">
         {{ structure.participations_count }}
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <div class="card-label">NB Convers.</div>
+      <div class="text-gray-900 flex-1">
+        {{ structure.conversations_count }}
       </div>
     </div>
     <div v-if="structure.statut_juridique" class="mb-2 flex">
