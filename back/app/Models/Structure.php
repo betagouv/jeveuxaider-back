@@ -320,7 +320,9 @@ class Structure extends Model
             return 50;
         }
         $responseTime = $this->response_time / 86400;
-        return round(100 - ( 100 * $responseTime / 10 ));
+        $scoreResponseTime = round(100 - ( 100 * $responseTime / 10 ));
+        
+        return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
     }
 
     // TEMP LARAVEL 7. DISPO DANS LARAVEL 8
