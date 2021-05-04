@@ -86,7 +86,7 @@
               href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
               target="_blank"
               rel="noopener"
-              >Organisations</a
+              >Partenaires</a
             >
             <a
               class="block p-3 hover:underline"
