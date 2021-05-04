@@ -126,24 +126,12 @@
               </div>
 
               <div class="mt-4">
-                <div class="md:flex items-center">
-                  <div>
-                    <span>Mission proposée par</span>
-                    <span class="font-bold text-black">
-                      {{ mission.publisher_name }}
-                    </span>
-                    <div class="text-gray-600 text-base">
-                      Vous serez redirigé vers {{ mission.publisher_url }}
-                    </div>
-                  </div>
-
-                  <img
-                    v-if="mission.publisher_logo"
-                    :src="mission.publisher_logo"
-                    :alt="mission.publisher_name"
-                    width="70px"
-                    class="h-auto mt-4 md:mt-0 md:ml-4"
-                  />
+                <span>Mission proposée par</span>
+                <span class="font-bold text-black">
+                  {{ mission.publisher_name }}
+                </span>
+                <div class="text-gray-600 text-base">
+                  Vous serez redirigé vers {{ mission.publisher_url }}
                 </div>
               </div>
             </div>
