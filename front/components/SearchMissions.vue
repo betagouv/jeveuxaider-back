@@ -281,6 +281,7 @@
                               ? `/missions-benevolat/${item.id}`
                               : `/missions-benevolat/${item.id}/${item.slug}`
                           "
+                          @click.native="handleClickCard"
                         >
                           <CardMission :mission="item" />
                         </nuxt-link>
@@ -756,6 +757,11 @@ export default {
         items.splice(8, 1)
       }
       return items
+    },
+    handleClickCard() {
+      window.plausible('Click Card Missions - Liste résultat', {
+        props: { isLogged: this.$store.getters.isLogged },
+      })
     },
   },
 }

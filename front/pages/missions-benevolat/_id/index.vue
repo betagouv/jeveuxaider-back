@@ -45,6 +45,7 @@ export default {
           property: 'og:image',
           content: '/images/share-image.jpg',
         },
+        { hid: 'robots', name: 'robots', content: 'noindex' },
       ],
     }
   },
