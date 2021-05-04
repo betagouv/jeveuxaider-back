@@ -243,11 +243,12 @@ class ApiEngagement
         $attributes['statut_juridique'] = isset($structureApi['regime']) ? $structureApi['regime'] : null;
         $attributes['description'] = isset($structureApi['objet']) ? $structureApi['objet'] : null;
         $attributes['city'] = isset($structureApi['coordonnees']['adresse_siege']['commune']) ? $structureApi['coordonnees']['adresse_siege']['commune'] : null;
-        $attributes['address'] = isset($structureApi['coordonnees']['adresse_siege'])
+        $attributes['address'] = isset($structureApi['coordonnees']['adresse_siege']['voie'])
             ? implode(' ', [
+                isset($structureApi['coordonnees']['adresse_siege']['num_voie']) ? $structureApi['coordonnees']['adresse_siege']['num_voie'] : '',
                 isset($structureApi['coordonnees']['adresse_siege']['type_voie']) ? $structureApi['coordonnees']['adresse_siege']['type_voie'] : '',
                 isset($structureApi['coordonnees']['adresse_siege']['voie']) ? $structureApi['coordonnees']['adresse_siege']['voie'] : ''
-            ]) : null;
+            ]) : $attributes['city'];
 
         if (isset($structureApi['coordonnees']['adresse_siege']['cp'])) {
             $attributes['zip'] = isset($structureApi['coordonnees']['adresse_siege']['cp']) ? $structureApi['coordonnees']['adresse_siege']['cp'] : null;

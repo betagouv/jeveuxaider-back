@@ -27,6 +27,16 @@
       <template slot-scope="{ suggestion }">
         <div class="mb-1">{{ suggestion.item.name }}</div>
         <div class="text-xs text-gray-500">RNA {{ suggestion.item.rna }}</div>
+        <div
+          v-if="suggestion.item.coordonnees.adresse_siege"
+          class="text-xs text-gray-500"
+        >
+          {{ suggestion.item.coordonnees.adresse_siege.num_voie }}
+          {{ suggestion.item.coordonnees.adresse_siege.type_voie }}
+          {{ suggestion.item.coordonnees.adresse_siege.voie }}
+          {{ suggestion.item.coordonnees.adresse_siege.cp }}
+          {{ suggestion.item.coordonnees.adresse_siege.commune }}
+        </div>
       </template>
       <template slot="after-input">
         <div

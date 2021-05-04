@@ -18,7 +18,15 @@
       >
         Votre organisation en quelques mots
       </div>
+
       <div class="p-8 bg-gray-50 border-t border-gray-200">
+        <div class="mb-8 text-md text-gray-500">
+          Cette description doit expliquer votre raison d'être et susciter le
+          désir d'engagement des milliers bénévoles découvrant votre
+          organisation sur la plateforme JeVeuxAider. Cette description
+          apparaîtra sur votre future page vitrine et sur l'ensemble de vos
+          missions de bénévolat publiées sur la plateforme.
+        </div>
         <el-form
           ref="structureForm"
           :model="form"
