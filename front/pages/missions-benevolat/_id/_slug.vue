@@ -667,7 +667,7 @@ export default {
       loading: true,
       mission: {},
       otherMissions: {},
-      baseUrl: this.$config.apiUrl,
+      baseUrl: this.$config.appUrl,
       form: {
         content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
       },
@@ -755,6 +755,15 @@ export default {
 
       if (!endDate) {
         return null
+      }
+
+      if (
+        this.$dayjs(startDate).format('D MMMM YYYY') ==
+        this.$dayjs(endDate).format('D MMMM YYYY')
+      ) {
+        return `Le <b class="text-white">${this.$dayjs(startDate).format(
+          'D MMMM YYYY'
+        )}</b>`
       }
 
       if (

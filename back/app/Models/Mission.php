@@ -93,6 +93,9 @@ class Mission extends Model
             'structure' => $this->structure ? [
                 'id' => $this->structure->id,
                 'name' => $this->structure->name,
+                'response_time' => $this->structure->response_time,
+                'response_time_score' => $this->structure->response_time_score,
+                'response_ratio' => $this->structure->response_ratio
             ] : null,
             'type' => $this->type,
             'template_title' => $this->template ? $this->template->title : null,
@@ -108,6 +111,7 @@ class Mission extends Model
             'thumbnail' => $this->thumbnail,
             'domaine_id' => $this->domaine_id,
             'template_id' => $this->template_id,
+            'score' => $this->score
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -201,6 +205,13 @@ class Mission extends Model
     {
         return $this->template_id ? $this->template->objectif : $value;
     }
+
+    public function getScoreAttribute()
+    {
+        // Score = ( Taux de reponse score + Response time score ) / 2
+        return round(( $this->structure->response_time_score + $this->structure->response_ratio ) / 2);
+    }
+
 
     public function scopeHasPlacesLeft($query)
     {

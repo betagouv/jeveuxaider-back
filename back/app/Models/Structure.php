@@ -321,6 +321,14 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
+    public function getResponseRatioAttribute($response_ratio)
+    {
+        if($response_ratio == null) {
+            return 50;
+        }
+        return $response_ratio;
+    }
+
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations->avg('response_time');
@@ -328,6 +336,25 @@ class Structure extends Model implements HasMedia
             $this->response_time = intval($avgResponseTime);
         }
         return $this;
+    }
+
+    public function getResponseTimeScoreAttribute()
+    {
+        // Response time ( note sur 100 )
+            // 1 jour = 100 - ( 100 * 1 /10  )
+            // 2 jours = 100 - ( 100 * 2 / 10 )
+            // ...
+            // 10 jours = 0
+        
+        // Dans le cas d'une nouvelle orga, le responseTime est null on met donc un score arbitraire 50
+        // Dans le cas d'une orga inactive après janvier 2021, le responseTime est null on met donc un score arbitraire 50
+        if($this->response_time == null) {
+            return 50;
+        }
+        $responseTime = $this->response_time / 86400;
+        $scoreResponseTime = round(100 - ( 100 * $responseTime / 10 ));
+        
+        return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
     }
 
     // TEMP LARAVEL 7. DISPO DANS LARAVEL 8

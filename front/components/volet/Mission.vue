@@ -35,7 +35,8 @@
             v-if="
               $store.getters.contextRole == 'admin' ||
               $store.getters.contextRole == 'referent' ||
-              $store.getters.contextRole == 'referent_regional'
+              $store.getters.contextRole == 'referent_regional' ||
+              row.state == 'Brouillon'
             "
             type="button"
             class="ml-1 el-button is-plain el-button--danger el-button--mini"

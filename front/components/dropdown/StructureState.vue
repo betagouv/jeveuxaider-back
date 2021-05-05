@@ -62,6 +62,14 @@ export default {
       if (this.$store.getters.contextRole == 'admin') {
         return true
       }
+
+      if (
+        this.$store.getters.contextRole == 'superviseur' &&
+        this.structure.state == 'En attente de validation'
+      ) {
+        return false
+      }
+
       return !!(
         this.structure.state != 'Signalée' &&
         this.structure.state != 'Désinscrite'

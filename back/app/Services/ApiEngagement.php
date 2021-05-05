@@ -37,6 +37,15 @@ class ApiEngagement
         return $missions;
     }
 
+    public function getMission($id)
+    {
+        $response = Http::withHeaders([
+            'apikey' => config('app.api_engagement_key'),
+            ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission/" . $id);
+
+        return $this->formatMission($response['data']);
+    }
+
     public function delete()
     {
         $client = SearchClient::create(
@@ -203,36 +212,42 @@ class ApiEngagement
     private function formatMission($mission)
     {
         return [
-        'objectID' => 'ApiEngagement/' . $mission['_id'],
-        'publisher_name' => $mission['publisherName'],
-        'publisher_logo' => $mission['publisherLogo'],
-        'application_url' => $mission['applicationUrl'],
-        'id' => $mission['_id'],
-        'name' => $mission['title'],
-        'city' => $mission['city'] ?? null,
-        'department' => $mission['departmentCode'] ?? null,
-        'department_name' => isset($mission['departmentName']) && !empty($mission['departmentName']) ?
-            $mission['departmentCode'] . ' - ' . $mission['departmentName'] : null,
-        'zip' => $mission['postalCode'] ?? null,
-        'places_left' => $mission['places'] ?? null,
-        'participations_max' => $mission['places'] ?? null,
-        'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : null,
-        'structure' => [
-        'id' => $mission['organizationId'] ?? null,
-        'name' => $mission['organizationName'] ?? null,
-        ],
-        'type' => $this->formatRemote($mission),
-        'template_title' => $this->formatTemplateTitle($mission),
-        'domaine_name' => $this->formatDomain($mission)['name'],
-        'domaine_image' => $this->formatDomain($mission)['logo'], // Url de l'icone du domaine
-        'domaine_id' => $this->formatDomain($mission)['id'],
-        'domaines' => [$this->formatDomain($mission)['name']],
-        'provider' => 'api_engagement',
-        '_geoloc' => [
-        'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
-        'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0
-        ],
-        'post_date' => strtotime($mission['postedAt']),
+            'objectID' => 'ApiEngagement/' . $mission['_id'],
+            'publisher_name' => $mission['publisherName'],
+            'publisher_logo' => $mission['publisherLogo'],
+            'publisher_url' => $mission['publisherUrl'],
+            'application_url' => $mission['applicationUrl'],
+            'id' => $mission['_id'],
+            'name' => $mission['title'],
+            'city' => $mission['city'] ?? null,
+            'department' => $mission['departmentCode'] ?? null,
+            'department_name' => isset($mission['departmentName']) && !empty($mission['departmentName']) ?
+                $mission['departmentCode'] . ' - ' . $mission['departmentName'] : null,
+            'zip' => $mission['postalCode'] ?? null,
+            'places_left' => $mission['places'] ?? null,
+            'participations_max' => $mission['places'] ?? null,
+            'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : null,
+            'structure' => [
+                'id' => $mission['organizationId'] ?? null,
+                'name' => $mission['organizationName'] ?? null,
+                'description' => $mission['organizationDescription'] ?? null,
+            ],
+            'type' => $this->formatRemote($mission),
+            'template_title' => $this->formatTemplateTitle($mission),
+            'domaine_name' => $this->formatDomain($mission)['name'],
+            'domaine_image' => $this->formatDomain($mission)['logo'], // Url de l'icone du domaine
+            'domaine_id' => $this->formatDomain($mission)['id'],
+            'domaines' => [$this->formatDomain($mission)['name']],
+            'provider' => 'api_engagement',
+            '_geoloc' => [
+                'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
+                'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0
+            ],
+            'post_date' => strtotime($mission['postedAt']),
+            'description' => $mission['description'],
+            'start_date' => $mission['startAt'] ?? null,
+            'end_date' => $mission['endAt'] ?? null,
+            'full_address' => $mission['adresse'],
         ];
     }
 
