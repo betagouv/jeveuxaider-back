@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default ({ $config }) => {
-  if (!$config.apieng.key) {
+  if (!$config.apieng.tracking_key) {
     return;
   }
   document.addEventListener('DOMContentLoaded', function () {
@@ -23,6 +23,6 @@ export default ({ $config }) => {
       'https://app.api-engagement.beta.gouv.fr/jstag.js',
       'apieng'
     )
-    '5f5931496c7ea514150a818f'
+    apieng('config', $config.apieng.tracking_key)
   })
 }
