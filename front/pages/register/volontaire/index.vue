@@ -177,6 +177,7 @@
                           <el-input
                             v-model="form.first_name"
                             label="Prénom"
+                            autocomplete="new-password"
                             placeholder="Prénom"
                           />
                         </el-form-item>
@@ -188,6 +189,7 @@
                           <el-input
                             v-model="form.last_name"
                             label="Nom"
+                            autocomplete="new-password"
                             placeholder="Nom"
                           />
                         </el-form-item>
@@ -199,6 +201,7 @@
                           <el-input
                             v-model.trim="form.email"
                             label="E-mail"
+                            autocomplete="new-password"
                             placeholder="E-mail"
                           />
                         </el-form-item>
@@ -210,6 +213,7 @@
                           <el-input
                             v-model="form.zip"
                             label="Code postal"
+                            autocomplete="new-password"
                             placeholder="Code Postal"
                           />
                         </el-form-item>
@@ -232,6 +236,7 @@
                           <el-input
                             v-model="form.birthday"
                             v-mask="'##/##/####'"
+                            autocomplete="new-password"
                             label="Date de naissance"
                             placeholder="Date de naissance"
                           />

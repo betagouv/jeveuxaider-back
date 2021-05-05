@@ -163,6 +163,7 @@
                           <el-input
                             v-model="form.first_name"
                             placeholder="Prénom"
+                            autocomplete="new-password"
                             :disabled="disableFields"
                           />
                         </el-form-item>
@@ -174,6 +175,7 @@
                           <el-input
                             v-model="form.last_name"
                             placeholder="Nom"
+                            autocomplete="new-password"
                             :disabled="disableFields"
                           />
                         </el-form-item>

@@ -7,6 +7,7 @@
       :get-suggestion-value="getSuggestionValue"
       :input-props="{
         placeholder: 'Nom de votre organisation',
+        autocomplete: 'new-password',
       }"
       class="relative w-full leading-none"
       :limit="5"
