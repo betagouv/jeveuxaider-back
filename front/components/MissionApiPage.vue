@@ -109,7 +109,7 @@
                 </h2>
               </div>
 
-              <div
+              <!-- <div
                 v-if="structure.description"
                 class="mt-2 text-base leading-7 text-gray-600"
               >
@@ -123,7 +123,7 @@
                     <div v-html="structure.description" />
                   </template>
                 </client-only>
-              </div>
+              </div> -->
 
               <div class="mt-4">
                 <span>Mission proposée par</span>
