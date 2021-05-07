@@ -1,7 +1,7 @@
 <template>
   <div
     ref="messagesContainer"
-    class="panel--container"
+    class="panel--container pb-24 md:pb-0"
     style="overflow-anchor: none"
     @scroll="onScrollMessages"
   >
@@ -54,7 +54,8 @@
             </template>
 
             <div
-              class="sticky bottom-0 bg-white pb-6 mt-auto"
+              id="textarea--container"
+              class="fixed md:sticky bottom-0 bg-white pb-6 mt-auto"
               style="border-top-right-radius: 8px; border-top-left-radius: 8px"
             >
               <div class="m-auto w-full" style="max-width: 550px">
@@ -170,3 +171,10 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+#textarea--container
+  width: calc(100% - 3rem)
+  @screen md
+    @apply w-auto
+</style>

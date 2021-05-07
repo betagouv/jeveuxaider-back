@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-1"
+    class="w-full flex flex-1"
     :class="[
       {
         hidden:
