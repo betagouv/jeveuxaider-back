@@ -42,7 +42,7 @@ class CorrectProfileDisponibilities extends Command
     public function handle()
     {
         $profiles = Profile::whereJsonLength('disponibilities', '>=', 1)
-            ->whereDate('created_at', '>', (new Carbon('2021-05-05 14:00:00')))
+            ->whereDate('created_at', '>', (new Carbon('2021-05-04 14:00:00')))
             ->get();
 
         $this->info($profiles->count(). ' profile(s) will be treated.');
