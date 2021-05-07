@@ -93,10 +93,11 @@
             v-for="item in $store.getters.taxonomies.profile_disponibilities
               .terms"
             :key="item.value"
-            :label="item.label"
+            :label="item.value"
             class="bg-white"
             border
-          ></el-checkbox>
+            >{{ item.label }}</el-checkbox
+          >
         </el-checkbox-group>
       </el-form-item>
       <div class="flex items-end">

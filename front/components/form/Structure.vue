@@ -149,10 +149,11 @@
           v-for="item in $store.getters.taxonomies.mission_publics_beneficiaires
             .terms"
           :key="item.value"
-          :label="item.label"
+          :label="item.value"
           class="bg-white"
           border
-        ></el-checkbox>
+          >{{ item.label }}</el-checkbox
+        >
       </el-checkbox-group>
     </el-form-item>
 

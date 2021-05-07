@@ -173,10 +173,11 @@
                 v-for="item in $store.getters.taxonomies
                   .mission_publics_beneficiaires.terms"
                 :key="item.value"
-                :label="item.label"
+                :label="item.value"
                 class="bg-white"
                 border
-              ></el-checkbox>
+                >{{ item.label }}</el-checkbox
+              >
             </el-checkbox-group>
           </el-form-item>
 
@@ -419,18 +420,18 @@ export default {
         this.$set(this.form, 'domaines', [...this.form.domaines, domaine])
       }
     },
-    handleClickPublicBeneficiaire(value) {
-      if (this.form.publics_beneficiaires.includes(value)) {
-        this.form.publics_beneficiaires = this.form.publics_beneficiaires.filter(
-          (item) => item !== value
-        )
-      } else {
-        this.$set(this.form, 'publics_beneficiaires', [
-          ...this.form.publics_beneficiaires,
-          value,
-        ])
-      }
-    },
+    // handleClickPublicBeneficiaire(value) {
+    //   if (this.form.publics_beneficiaires.includes(value)) {
+    //     this.form.publics_beneficiaires = this.form.publics_beneficiaires.filter(
+    //       (item) => item !== value
+    //     )
+    //   } else {
+    //     this.$set(this.form, 'publics_beneficiaires', [
+    //       ...this.form.publics_beneficiaires,
+    //       value,
+    //     ])
+    //   }
+    // },
     onSubmit() {
       this.$refs.structureForm.validate((valid) => {
         if (valid) {
