@@ -201,7 +201,6 @@ export default {
         background-color: #E6EAF5
         border-color: #E6EAF5
 
-
 .facet-search
   ::v-deep .el-input__inner
     height: 28px
@@ -209,6 +208,9 @@ export default {
     color: #171725
     padding: 0 30px 0 8px
     line-height: 1
+    @apply text-base
+    @screen md
+      font-size: 14px
   ::v-deep .el-input__icon
     line-height: 28px
 </style>

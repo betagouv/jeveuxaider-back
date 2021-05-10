@@ -131,7 +131,9 @@ export default {
 
 <style lang="sass">
 .places-search
-  font-size: 14px !important
+  @apply text-base
+  @screen md
+    font-size: 14px !important
 .ap-dropdown-menu
   border-radius: 0
 .ap-suggestion

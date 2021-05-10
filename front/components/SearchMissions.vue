@@ -775,6 +775,9 @@ export default {
       border-color: #EDE8E9
       height: 46px
       color: #171725
+      @apply text-base
+      @screen md
+        font-size: 14px
 
 ::v-deep .ais-Hits-list
   height: max-content

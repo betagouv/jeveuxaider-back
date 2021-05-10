@@ -34,8 +34,8 @@
                 :class="[{ 'lg:flex': index == 0 }]"
               >
                 <el-radio
-                  v-model="radio"
                   :id="`radio-${index}`"
+                  v-model="radio"
                   :label="item.value"
                   name="mission-type"
                   class="flex items-center lg:h-full py-6 px-10 transition"
@@ -77,10 +77,12 @@
               </div>
 
               <div
-                class="submit py-6 px-10 text-white font-extrabold cursor-pointer transition rounded-r-full"
+                class="submit py-6 px-10 cursor-pointer transition rounded-r-full"
                 @click="onSubmit"
               >
-                <button class="flex items-center justify-center relative">
+                <button
+                  class="mx-auto flex items-center justify-center relative text-white font-extrabold"
+                >
                   <ClipLoader
                     v-if="loading"
                     :loading="loading"

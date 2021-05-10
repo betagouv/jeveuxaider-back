@@ -62,14 +62,14 @@
               Gestion des cookies
             </a>
             <a
-              class="p-3 hover:underline flex items-center"
+              class="p-3 hover:underline flex items-center justify-center lg:justify-start"
               href="https://www.gouvernement.fr/info-coronavirus"
               target="_blank"
               rel="noopener"
               >Info Coronavirus
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -111,13 +111,13 @@
           </div>
           <div class="lg:max-w-1/4 text-black">
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.elysee.fr/"
               target="_blank"
               rel="noopener"
               >elysee.fr<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -130,13 +130,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://service-public.fr"
               target="_blank"
               rel="noopener"
               >service-public.fr<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -149,13 +149,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://legifrance.gouv.fr"
               target="_blank"
               rel="noopener"
               >legifrance.gouv.fr<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -168,13 +168,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://data.gouv.fr"
               target="_blank"
               rel="noopener"
               >data.gouv.fr<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -187,13 +187,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.france.fr"
               target="_blank"
               rel="noopener"
               >france.fr<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -208,13 +208,13 @@
           </div>
           <div class="lg:max-w-1/2 text-black">
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.service-civique.gouv.fr/"
               target="_blank"
               rel="noopener"
               >Service Civique<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -227,13 +227,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.snu.gouv.fr/"
               target="_blank"
               rel="noopener"
               >Service National Universel<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -246,13 +246,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.corpseuropeensolidarite.fr/"
               target="_blank"
               rel="noopener"
               >Corps Européen de solidarité<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -265,13 +265,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.service-public.fr/particuliers/vosdroits/F11444"
               target="_blank"
               rel="noopener"
               >Volontariat de solidarité internationale<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -284,13 +284,13 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center p-3 hover:underline"
+              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://garde-nationale.gouv.fr/"
               target="_blank"
               rel="noopener"
               >Garde Nationale<svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-2"
+                class="h-4 w-4 ml-2 flex-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
