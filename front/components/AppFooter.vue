@@ -25,7 +25,9 @@
           id="menu-footer"
           class="lg:flex lg:flex-1 lg:justify-around mt-8 lg:mt-0"
         >
-          <div class="lg:max-w-1/4 text-black">
+          <div
+            class="lg:max-w-1/4 text-black flex flex-col items-center lg:items-start"
+          >
             <a
               class="block p-3 hover:underline"
               href="https://reserve-civique.crisp.help/fr/"
@@ -62,7 +64,7 @@
               Gestion des cookies
             </a>
             <a
-              class="p-3 hover:underline flex items-center justify-center lg:justify-start"
+              class="p-3 hover:underline inline-flex items-center justify-center lg:justify-start"
               href="https://www.gouvernement.fr/info-coronavirus"
               target="_blank"
               rel="noopener"
@@ -109,9 +111,11 @@
               >Statistiques</a
             >
           </div>
-          <div class="lg:max-w-1/4 text-black">
+          <div
+            class="lg:max-w-1/4 text-black flex flex-col items-center lg:items-start"
+          >
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.elysee.fr/"
               target="_blank"
               rel="noopener"
@@ -130,7 +134,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://service-public.fr"
               target="_blank"
               rel="noopener"
@@ -149,7 +153,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://legifrance.gouv.fr"
               target="_blank"
               rel="noopener"
@@ -168,7 +172,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://data.gouv.fr"
               target="_blank"
               rel="noopener"
@@ -187,7 +191,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.france.fr"
               target="_blank"
               rel="noopener"
@@ -206,9 +210,11 @@
                 /></svg
             ></a>
           </div>
-          <div class="lg:max-w-1/2 text-black">
+          <div
+            class="lg:max-w-1/2 text-black flex flex-col items-center lg:items-start"
+          >
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.service-civique.gouv.fr/"
               target="_blank"
               rel="noopener"
@@ -227,7 +233,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.snu.gouv.fr/"
               target="_blank"
               rel="noopener"
@@ -246,7 +252,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.corpseuropeensolidarite.fr/"
               target="_blank"
               rel="noopener"
@@ -265,7 +271,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://www.service-public.fr/particuliers/vosdroits/F11444"
               target="_blank"
               rel="noopener"
@@ -284,7 +290,7 @@
                 /></svg
             ></a>
             <a
-              class="flex items-center justify-center lg:justify-start p-3 hover:underline"
+              class="inline-flex items-center justify-center lg:justify-start p-3 hover:underline"
               href="https://garde-nationale.gouv.fr/"
               target="_blank"
               rel="noopener"
@@ -308,9 +314,11 @@
     </div>
     <hr class="border-grey-200 mt-4" />
     <div class="container mx-auto px-4 py-6 flex">
-      <ul class="flex items-center text-xs divide-x divide-gray-400">
-        <li class="px-3">© JEVEUXAIDER.GOUV.FR, 2021</li>
-        <li class="px-3">
+      <ul
+        class="mx-auto lg:mx-0 sm:flex items-center text-xs sm:divide-x sm:divide-gray-400"
+      >
+        <li class="sm:pr-3">© JEVEUXAIDER.GOUV.FR, 2021</li>
+        <li class="sm:pl-3">
           <nuxt-link to="/accessibilite"
             >Accessibilité : non conforme</nuxt-link
           >
