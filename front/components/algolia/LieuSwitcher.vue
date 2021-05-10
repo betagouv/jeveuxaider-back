@@ -202,7 +202,9 @@ export default {
       width: 80px
       border: none !important
       background: none !important
-      @apply pl-2 text-black font-bold
+      @apply pl-2 text-black font-bold text-base
+      @screen md
+        font-size: 14px
       @screen lg
         width: 100px
     .el-input__suffix

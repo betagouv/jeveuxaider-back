@@ -781,15 +781,17 @@ export default {
 
 ::v-deep .ais-Hits-list
   height: max-content
-  @apply -m-3 justify-center
+  @screen sm
+    @apply -m-3 justify-center
   @screen lg
     @apply ml-auto justify-start
 
 ::v-deep .ais-Hits-item
   width: 100%
-  @apply border-0 shadow-none p-0 m-3
+  @apply border-0 shadow-none p-0 mb-6
   @screen sm
     width: 292px
+    @apply m-3
   @screen lg
     width: 300px
     @apply flex flex-col
