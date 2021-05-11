@@ -13,10 +13,13 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+use App\Models\Tag;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -58,6 +61,7 @@ class Structure extends Model implements HasMedia
         'rna',
         'phone',
         'email',
+        'slug'
     ];
 
     protected $attributes = [
@@ -120,6 +124,11 @@ class Structure extends Model implements HasMedia
     public function getDomainesAttribute()
     {
         return $this->tagsWithType('domaine')->values();
+    }
+
+    public function getDomainesWithImageAttribute()
+    {
+        return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
     }
 
     public function setNameAttribute($value)
@@ -396,5 +405,12 @@ class Structure extends Model implements HasMedia
             ->width(320)
             ->nonQueued()
             ->performOnCollections('structures');
+    }
+
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['name', 'rna'])
+            ->saveSlugsTo('slug');
     }
 }

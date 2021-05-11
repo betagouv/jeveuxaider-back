@@ -5,6 +5,11 @@ export default (axios) => ({
     })
     return data
   },
+  async fetchStructureAvailableMissionsWithPagination(id, params) {
+    return await axios.get(`/structure/${id}/availableMissions`, {
+      params,
+    })
+  },
   async fetchStructures(params) {
     return await axios.get('/structures', { params })
   },
@@ -22,6 +27,10 @@ export default (axios) => ({
   },
   async getStructure(id) {
     const { data } = await axios.get(`/structure/${id}`)
+    return data
+  },
+  async getStructureBySlug(slug) {
+    const { data } = await axios.get(`/organisation/${slug}`)
     return data
   },
   async addOrUpdateStructure(id, structure) {

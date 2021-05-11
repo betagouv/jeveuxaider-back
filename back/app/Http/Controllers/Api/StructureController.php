@@ -85,6 +85,7 @@ class StructureController extends Controller
         $query = QueryBuilder::for(Mission::with('domaine'))
             ->allowedAppends(['domaines'])
             ->available()
+            ->with('structure')
             ->where('structure_id', $structure->id);
 
         if ($request->has('exclude')) {
@@ -93,13 +94,21 @@ class StructureController extends Controller
 
         return $query
             ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->allowedSorts(['places_left', 'type'])
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
     public function show(StructureRequest $request, Structure $structure)
     {
         $structure = Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
+        return $structure;
+    }
+
+    public function slug(Request $request, $slug)
+    {
+        $structure = Structure::where('slug', $slug)->first();
+        $structure->append('domaines_with_image');
         return $structure;
     }
 

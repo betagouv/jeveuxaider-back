@@ -132,12 +132,12 @@
 
               <div class="grid lg:grid-cols-2 gap-3 xl:gap-x-6">
                 <div
-                  v-for="domaine in organisation.domaines"
+                  v-for="domaine in organisation.domaines_with_image"
                   :key="domaine.id"
                   class="flex items-start"
                 >
                   <div class="flex-none w-6 h-6 mr-3">
-                    <img :src="iconDomain(domaine.id)" :alt="domaine.name.fr" />
+                    <img :src="domaine.image" :alt="domaine.name.fr" />
                   </div>
                   <div class="">{{ domaine.name.fr }}</div>
                 </div>
@@ -269,7 +269,7 @@
       </div>
     </div>
 
-    <!-- SEARCH -->
+    <!-- MISSIONS -->
     <div v-if="missions.data.length" class="pt-16 pb-32">
       <div class="container px-4 mx-auto">
         <h2
@@ -406,7 +406,6 @@
       </div>
 
       <!-- 3 -- RIGHT -->
-      <!-- TODO cle API -->
       <div>
         <iframe
           width="100%"
@@ -414,7 +413,7 @@
           style="border: 0"
           loading="lazy"
           allowfullscreen
-          :src="`https://www.google.com/maps/embed/v1/place?key=${this.$config.google.places}
+          :src="`https://www.google.com/maps/embed/v1/place?key=${$config.google.places}
             &q=${organisation.full_address}`"
         />
       </div>
@@ -425,19 +424,25 @@
 <script>
 export default {
   layout: 'organisation',
-  async asyncData({ $api, params }) {
-    const organisation = await $api.getStructure(params.id)
-    const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
-    const missions = await $api.fetchMissions({
-      'filter[structure_id]': params.id,
-      'filter[state]': 'Validée',
-      itemsPerPage: 6,
-      sort: '-places_left',
-    })
+  async asyncData({ $api, params, error }) {
+    const organisation = await $api.getStructureBySlug(params.slug)
+
+    // if (!organisation) {
+    //   return error({ statusCode: 403 })
+    // }
+
+    // TODO: Faire marche itemPerPage et sort
+    const missions = await $api.fetchStructureAvailableMissionsWithPagination(
+      organisation.id,
+      {
+        append: 'domaines',
+        itemsPerPage: 6,
+        sort: '-places_left',
+      }
+    )
 
     return {
       organisation,
-      domaines: domaines.data.data,
       missions: missions.data,
     }
   },
@@ -518,9 +523,6 @@ export default {
       }
 
       return icon
-    },
-    iconDomain(domainId) {
-      return this.domaines.find((domaine) => domaine.id == domainId).image
     },
   },
 }
