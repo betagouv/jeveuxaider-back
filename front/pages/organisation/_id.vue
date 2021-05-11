@@ -392,9 +392,14 @@
               <p>{{ organisation.full_address }}</p>
             </div>
 
-            <div class="mb-8">
+            <div v-if="organisation.email || organisation.phone" class="mb-8">
               <div class="text-gray-500 font-bold uppercase">Contact</div>
-              <p>XX XX XX XX XX<br />todo@todo.fr</p>
+              <p>
+                <span v-if="organisation.phone">
+                  {{ organisation.phone }}<br />
+                </span>
+                <span v-if="organisation.email">{{ organisation.email }}</span>
+              </p>
             </div>
           </div>
         </div>
