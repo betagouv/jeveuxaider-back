@@ -2,7 +2,7 @@
   <div class="relative">
     <portal to="sidebar"
       ><div class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12">
-        Ça ne devrait pas prendre plus de 3 minutes 😉
+        Ça ne devrait pas prendre plus de quelques secondes 😉
       </div>
       <Steps :steps="steps"
     /></portal>
@@ -13,9 +13,7 @@
         <span class="font-bold">{{ $store.getters.profile.first_name }}</span> !
       </h1>
       <div class="text-lg font-medium">
-        Inscrire votre structure sur JeVeuxAider.gouv.fr, <br />
-        c'est l'opportunité de proposer vos missions à plus de 300 000
-        bénévoles.
+        Vous avez été invité à rejoindre JeVeuxAider.gouv.fr.
       </div>
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
@@ -170,18 +168,6 @@ export default {
           name: 'Votre profil',
           status: 'current',
         },
-        {
-          name: `Informations sur l'organisation`,
-          status: 'upcoming',
-        },
-        {
-          name: `Quelques mots sur l'organisation`,
-          status: 'upcoming',
-        },
-        {
-          name: `Votre organisation en images`,
-          status: 'upcoming',
-        },
       ],
       rules: {
         mobile: [
@@ -257,7 +243,7 @@ export default {
         })
         .then(() => {
           this.loading = false
-          this.$router.push('/register/responsable/step/structure')
+          this.$router.push('/dashboard')
         })
         .catch(() => {
           this.loading = false
