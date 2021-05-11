@@ -161,9 +161,16 @@
                   </template>
                   <template v-else>Nombre de places non défini</template>
                 </div> -->
-                <div class="text-indigo-300 text-sm mt-1">
+
+                <div
+                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
+                >
                   {{ placesLeftText }}
                 </div>
+
+                <!-- <div class="text-indigo-300 text-sm mt-1">
+                  {{ placesLeftText }}
+                </div> -->
 
                 <div
                   class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
