@@ -85,7 +85,10 @@
           />
         </div>
       </div>
-      <div v-if="$store.getters.contextRole == 'admin'">
+      <div
+        v-if="$store.getters.contextRole == 'admin'"
+        class="bg-gray-50 rounded-lg p-4 text-xs"
+      >
         <template
           v-if="mission._rankingInfo && mission._rankingInfo.matchedGeoLocation"
         >
@@ -94,15 +97,16 @@
         </template>
 
         Score : {{ mission.score }}<br />
-        <span class="text-sm text-gray-400">
+        <span class="text-gray-400">
           Temps de réponse :
           <span v-if="mission.structure.response_time">
             {{ Math.round(mission.structure.response_time / 86400) }}
             jours</span
-          ><span v-else>n/a</span> (
-          {{ mission.structure.response_time_score }}/ 100)
+          ><span v-else>n/a</span> ({{
+            mission.structure.response_time_score
+          }}/100)
           <br />
-          Taux de réponse : {{ mission.structure.response_ratio }} %
+          Taux de réponse : {{ mission.structure.response_ratio }}%
         </span>
       </div>
     </div>
