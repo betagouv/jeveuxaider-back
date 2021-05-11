@@ -136,7 +136,13 @@ export default {
         })
         this.$refs.dropdown.visible = false
         // TODO: pb de cache en prod, il faut reload la page
-        window.location.href = '/dashboard'
+        this.$message({
+          message: 'Vous allez être transféré dans quelques secondes !',
+          type: 'success',
+        })
+        setTimeout(() => {
+          window.location.href = '/dashboard'
+        }, 1000)
       }
     },
   },
