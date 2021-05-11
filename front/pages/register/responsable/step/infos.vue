@@ -50,6 +50,25 @@
             </el-form-item>
           </div>
 
+          <el-form-item
+            label="Email publique de votre organisation"
+            prop="email"
+          >
+            <input
+              v-model="form.email"
+              class="custom-input placeholder-gray-600"
+              placeholder="Email publique de votre organisation"
+            />
+          </el-form-item>
+
+          <el-form-item label="Téléphone de votre organisation" prop="phone">
+            <input
+              v-model="form.phone"
+              class="custom-input placeholder-gray-600"
+              placeholder="Téléphone de votre organisation"
+            />
+          </el-form-item>
+
           <template v-if="collectivity">
             <div
               class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
@@ -211,6 +230,20 @@ export default {
             trigger: 'blur',
           },
         ],
+        email: [
+          {
+            type: 'email',
+            message: "Le format de l'email n'est pas correct",
+            trigger: 'blur',
+          },
+        ],
+        phone: [
+          {
+            pattern: /^[+|\s|\d]*$/,
+            message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
       }
 
       if (this.collectivity) {
@@ -241,10 +274,17 @@ export default {
               this.collectivity
             )
           }
-          await this.$api.updateStructure(this.structureId, this.form)
-          await this.$store.dispatch('auth/fetchUser')
-          this.loading = false
-          this.$router.push('/register/responsable/step/images')
+          this.$api
+            .updateStructure(this.structureId, this.form)
+            .then(async (res) => {
+              console.log('res', res)
+              this.loading = false
+              await this.$store.dispatch('auth/fetchUser')
+              this.$router.push('/register/responsable/step/images')
+            })
+            .catch(() => {
+              this.loading = false
+            })
         }
       })
     },

@@ -170,6 +170,17 @@
       />
     </el-form-item>
 
+    <el-form-item label="Email publique de votre organisation" prop="email">
+      <el-input
+        v-model="form.email"
+        placeholder="contact@mon-organisation.fr"
+      />
+    </el-form-item>
+
+    <el-form-item label="Téléphone de votre organisation" prop="phone">
+      <el-input v-model="form.phone" placeholder="01 23 45 67 89" />
+    </el-form-item>
+
     <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
       Réseau national ou territorial
     </div>
@@ -342,6 +353,20 @@ export default {
           {
             required: true,
             message: 'Veuillez renseigner un ville',
+            trigger: 'blur',
+          },
+        ],
+        email: [
+          {
+            type: 'email',
+            message: "Le format de l'email n'est pas correct",
+            trigger: 'blur',
+          },
+        ],
+        phone: [
+          {
+            pattern: /^[+|\s|\d]*$/,
+            message: 'Le format du numéro de téléphone est incorrect',
             trigger: 'blur',
           },
         ],
