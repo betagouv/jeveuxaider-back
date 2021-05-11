@@ -187,6 +187,9 @@ export default {
       key: process.env.APIENG_KEY,
       tracking_key: process.env.APIENG_TRACKING_KEY,
     },
+    google: {
+      places: process.env.GOOGLE_PLACE_API_KEY
+    }
   },
 
   env: {
