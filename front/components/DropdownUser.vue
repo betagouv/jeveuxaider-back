@@ -134,6 +134,8 @@ export default {
         await this.$store.dispatch('auth/updateUser', {
           context_role: command.value,
         })
+        this.$refs.dropdown.visible = false
+        // TODO: pb de cache en prod, il faut reload la page
         window.location.href = '/dashboard'
       }
     },
