@@ -276,7 +276,7 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 return $query
-                    ->whereIn('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id'));
+                    ->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
             break;
             case 'referent':
                 // Missions qui sont dans mon département

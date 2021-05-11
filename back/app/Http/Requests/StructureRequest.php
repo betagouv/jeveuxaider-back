@@ -42,11 +42,11 @@ class StructureRequest extends FormRequest
             'city' => '',
             'department' => '',
             'country' => '',
-            'website' => '',
-            'facebook' => '',
-            'twitter' => '',
-            'instagram' => '',
-            'donation' => '',
+            'website' => 'max:255',
+            'facebook' => 'max:255',
+            'twitter' => 'max:255',
+            'instagram' => 'max:255',
+            'donation' => 'max:255',
             'reseau_id' => '',
             'is_reseau' => '',
             'state' => '',
@@ -55,6 +55,8 @@ class StructureRequest extends FormRequest
             'image_1' => '',
             'image_2' => '',
             'rna' => '',
+            'phone' => '',
+            'email' => '',
         ];
     }
 
@@ -71,6 +73,11 @@ class StructureRequest extends FormRequest
             'name.min' => 'Le nom de la structure doit contenir au moins :min lettres',
             'name.max' => 'Le nom de la structure peut contenir au plus :min lettres',
             'statut_juridique.required' => 'Le statut juridique est requis',
+            'website.max' => 'Le lien de votre site doit contenir au plus :max caractères',
+            'facebook.max' => 'Le lien facebook doit contenir au plus :max caractères',
+            'twitter.max' => 'Le lien twitter doit contenir au plus :max caractères',
+            'instagram.max' => 'Le lien instagram doit contenir au plus :max caractères',
+            'donation.max' => 'Le lien de donation doit contenir au plus :max caractères',
         ];
     }
 }

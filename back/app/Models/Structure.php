@@ -56,6 +56,8 @@ class Structure extends Model implements HasMedia
         'image_1',
         'image_2',
         'rna',
+        'phone',
+        'email',
     ];
 
     protected $attributes = [
@@ -323,7 +325,7 @@ class Structure extends Model implements HasMedia
 
     public function getResponseRatioAttribute($response_ratio)
     {
-        if($response_ratio == null) {
+        if ($response_ratio == null) {
             return 50;
         }
         return $response_ratio;
@@ -345,15 +347,15 @@ class Structure extends Model implements HasMedia
             // 2 jours = 100 - ( 100 * 2 / 10 )
             // ...
             // 10 jours = 0
-        
+
         // Dans le cas d'une nouvelle orga, le responseTime est null on met donc un score arbitraire 50
         // Dans le cas d'une orga inactive après janvier 2021, le responseTime est null on met donc un score arbitraire 50
-        if($this->response_time == null) {
+        if ($this->response_time == null) {
             return 50;
         }
         $responseTime = $this->response_time / 86400;
         $scoreResponseTime = round(100 - ( 100 * $responseTime / 10 ));
-        
+
         return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
     }
 
@@ -373,7 +375,6 @@ class Structure extends Model implements HasMedia
     protected function getMediaUrls($field)
     {
         $media = $this->getFirstMedia('structures', ['field' => $field]);
-        ray($media);
         if ($media) {
             $mediaUrls = ['original' => $media->getFullUrl()];
             foreach ($media->getGeneratedConversions() as $key => $conversion) {

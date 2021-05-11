@@ -11,8 +11,10 @@ class EngagementController extends Controller
 {
     public function feed()
     {
-        $missions = Mission::whereHas('structure', function (Builder $query) {
-            $query->where('state', 'Validée');
+        $structuresNotInApi = [25, 7383, 5577]; // Bénénovat
+        $missions = Mission::whereHas('structure', function (Builder $query) use ($structuresNotInApi) {
+            $query->where('state', 'Validée')
+                  ->whereNotIn('id', $structuresNotInApi);
         })->where('state', 'Validée')->where('places_left', '>', 0)->get();
 
         return response()->view('flux-api-engagement', compact('missions'))->header('Content-Type', 'text/xml');

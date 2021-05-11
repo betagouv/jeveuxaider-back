@@ -146,7 +146,7 @@
                   v-html="formattedDate"
                 />
 
-                <div
+                <!-- <div
                   class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
                 >
                   <template v-if="mission.has_places_left === true">
@@ -160,17 +160,17 @@
                     Complet
                   </template>
                   <template v-else>Nombre de places non défini</template>
+                </div> -->
+
+                <div
+                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
+                >
+                  {{ placesLeftText }}
                 </div>
-                <div class="text-indigo-300 text-sm mt-1">
-                  {{ mission.participations_max | formatNumber }}
-                  {{
-                    mission.participations_max
-                      | pluralize([
-                        'bénévole recherché',
-                        'bénévoles recherchés',
-                      ])
-                  }}
-                </div>
+
+                <!-- <div class="text-indigo-300 text-sm mt-1">
+                  {{ placesLeftText }}
+                </div> -->
 
                 <div
                   class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
@@ -338,6 +338,28 @@ export default {
   computed: {
     structure() {
       return this.mission.structure
+    },
+    placesLeftText() {
+      if (
+        this.mission.publisher_name &&
+        this.mission.publisher_name != 'Réserve Civique' &&
+        this.mission.places_left > 99
+      ) {
+        return 'Plusieurs bénévoles recherchés'
+      } else if (this.mission.has_places_left && this.mission.places_left > 0) {
+        return (
+          this.mission.places_left +
+          ' ' +
+          this.$options.filters.pluralize(this.mission.places_left, [
+            'bénévole recherché',
+            'bénévoles recherchés',
+          ])
+        )
+      } else {
+        return this.mission.has_places_left === false
+          ? 'Complet'
+          : 'Plusieurs bénévoles recherchés'
+      }
     },
     formattedDate() {
       const startDate = this.mission.start_date

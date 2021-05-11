@@ -134,7 +134,15 @@ export default {
         await this.$store.dispatch('auth/updateUser', {
           context_role: command.value,
         })
-        window.location.href = '/dashboard'
+        this.$refs.dropdown.visible = false
+        // TODO: pb de cache en prod, il faut reload la page
+        this.$message({
+          message: 'Vous allez être transféré dans quelques secondes !',
+          type: 'success',
+        })
+        setTimeout(() => {
+          window.location.href = '/dashboard'
+        }, 1000)
       }
     },
   },

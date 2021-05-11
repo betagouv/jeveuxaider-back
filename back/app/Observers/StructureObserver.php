@@ -13,6 +13,7 @@ use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
+use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
 
 class StructureObserver
@@ -46,9 +47,9 @@ class StructureObserver
         if ($structure->statut_juridique == 'Collectivité') {
             $this->createCollectivity($structure);
         }
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             SendinblueSyncUser::dispatch($structure->user);
-        }  
+        }
     }
 
     public function updated(Structure $structure)
@@ -76,6 +77,9 @@ class StructureObserver
                             $mission->searchable();
                         }
                     }
+
+
+
                     break;
                 case 'Signalée':
                     if ($structure->user->profile) {
@@ -121,7 +125,7 @@ class StructureObserver
         }
 
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             if ($structure->isDirty('name')) {
                 $structure->responsables->each(function ($profile, $key) {
                     if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
@@ -129,6 +133,11 @@ class StructureObserver
                     }
                 });
             }
+        }
+
+        // Update API Engagement
+        if ($structure->rna && $structure->state == 'Validée') {
+            (new ApiEngagement())->syncAssociation($structure);
         }
     }
 

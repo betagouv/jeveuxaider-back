@@ -214,7 +214,7 @@
                             v-model="form.zip"
                             label="Code postal"
                             autocomplete="new-password"
-                            placeholder="Code Postal"
+                            placeholder="Code postal"
                           />
                         </el-form-item>
                         <el-form-item

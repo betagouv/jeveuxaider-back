@@ -37,7 +37,7 @@ class NotificationBenevole extends Model
             case 'responsable':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
-                        $query->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id'));
+                        $query->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
                     });
             break;
         }

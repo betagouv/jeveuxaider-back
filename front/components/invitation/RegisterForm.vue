@@ -133,9 +133,9 @@ export default {
               this.loading = false
               window.plausible('Inscription depuis une invitation')
               if (this.invitation.role == 'benevole') {
-                this.$router.push('/')
+                this.$router.push('/register/volontaire/step/profile')
               } else {
-                this.$router.push('/dashboard')
+                this.$router.push('/register/invitation/step/profile')
               }
             })
             .catch(() => {
