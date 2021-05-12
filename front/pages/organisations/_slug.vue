@@ -72,9 +72,17 @@
         <footer
           class="grid grid-cols-3 divide-x divide-gray-100 text-center border-t"
         >
-          <div class="footer--button">Devenir bénévole</div>
-          <div class="footer--button">Faire un don</div>
-          <div class="footer--button">Infos pratiques</div>
+          <button class="footer--button">Devenir bénévole</button>
+
+          <button
+            v-if="organisation.donation"
+            class="footer--button"
+            @click="goTo(organisation.donation)"
+          >
+            Faire un don
+          </button>
+
+          <button class="footer--button">Infos pratiques</button>
         </footer>
       </div>
 
@@ -192,76 +200,56 @@
 
               <div class="flex -m-1">
                 <!-- STRUCTURE LINK -->
-                <a
+                <button
                   v-if="organisation.website"
-                  :href="organisation.website"
-                  target="_blank"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  @click="goTo(organisation.website)"
                 >
-                  <div
-                    class="border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  >
-                    <img
-                      class="flex-none"
-                      src="/images/link.svg"
-                      :alt="organisation.name"
-                    />
-                  </div>
-                </a>
+                  <img
+                    class="flex-none"
+                    src="/images/link.svg"
+                    :alt="organisation.name"
+                  />
+                </button>
 
                 <!-- FACEBOOK -->
-                <a
+                <button
                   v-if="organisation.facebook"
-                  :href="organisation.facebook"
-                  target="_blank"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  @click="goTo(organisation.facebook)"
                 >
-                  <div
-                    class="border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  >
-                    <img
-                      class="flex-none"
-                      src="/images/facebook.svg"
-                      alt="Facebook"
-                    />
-                  </div>
-                </a>
+                  <img
+                    class="flex-none"
+                    src="/images/facebook.svg"
+                    alt="Facebook"
+                  />
+                </button>
 
                 <!-- TWITTER -->
-                <a
+                <button
                   v-if="organisation.twitter"
-                  :href="organisation.twitter"
-                  target="_blank"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  @click="goTo(organisation.twitter)"
                 >
-                  <div
-                    class="border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  >
-                    <img
-                      class="flex-none"
-                      src="/images/twitter_white_2.svg"
-                      alt="twitter"
-                    />
-                  </div>
-                </a>
+                  <img
+                    class="flex-none"
+                    src="/images/twitter_white_2.svg"
+                    alt="twitter"
+                  />
+                </button>
 
                 <!-- INSTAGRAM -->
-                <a
+                <button
                   v-if="organisation.instagram"
-                  :href="organisation.instagram"
-                  target="_blank"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  @click="goTo(organisation.instagram)"
                 >
-                  <div
-                    class="border border-white rounded-full w-10 h-10 flex items-center justify-center"
-                  >
-                    <img
-                      class="flex-none"
-                      src="/images/instagram.svg"
-                      alt="instagram"
-                    />
-                  </div>
-                </a>
+                  <img
+                    class="flex-none"
+                    src="/images/instagram.svg"
+                    alt="instagram"
+                  />
+                </button>
               </div>
             </template>
           </div>
@@ -342,13 +330,12 @@
           </div>
           <div class="bg-white">
             <div class="text-center transform -translate-y-1/2">
-              <a :href="organisation.donation" target="_blank">
-                <button
-                  class="font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out will-change-transform"
-                >
-                  Faire un don
-                </button>
-              </a>
+              <button
+                class="font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 focus:outline-none transform transition duration-150 ease-in-out will-change-transform"
+                @click="goTo(organisation.donation)"
+              >
+                Faire un don
+              </button>
             </div>
 
             <div
@@ -431,7 +418,6 @@ export default {
     //   return error({ statusCode: 403 })
     // }
 
-    // TODO: Faire marche itemPerPage et sort
     const missions = await $api.fetchStructureAvailableMissionsWithPagination(
       organisation.id,
       {
@@ -499,6 +485,9 @@ export default {
     },
   },
   methods: {
+    goTo(url) {
+      window.open(url, '_blank')
+    },
     iconPublicType(publicType) {
       let icon
       switch (publicType) {
@@ -560,7 +549,10 @@ export default {
 
 .footer--button
   font-size: 10px
-  @apply font-bold uppercase py-6
+  @apply font-bold uppercase py-6 outline-none transition-colors ease-in-out duration-200
+  &:focus-visible,
+  &:hover
+    @apply bg-gray-100
   @screen sm
     @apply text-sm
 </style>
