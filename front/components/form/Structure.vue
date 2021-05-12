@@ -399,7 +399,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.structureForm.validate(async (valid) => {
+      this.$refs.structureForm.validate(async (valid, fields) => {
         if (valid) {
           if (this.logo) {
             await this.$api.uploadImage(
@@ -426,6 +426,14 @@ export default {
             })
         } else {
           this.loading = false
+          const errors = []
+          for (const property in fields) {
+            errors.push(fields[property][0].message)
+          }
+          this.$message.error({
+            message: errors.join('<br/>'),
+            dangerouslyUseHTMLString: true,
+          })
         }
       })
     },
