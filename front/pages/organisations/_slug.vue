@@ -70,7 +70,15 @@
         </div>
 
         <footer
-          class="grid grid-cols-3 divide-x divide-gray-100 text-center border-t"
+          class="grid divide-x divide-gray-100 text-center border-t"
+          :class="[
+            { 'grid-cols-3': missions.data.length && organisation.donation },
+            {
+              'grid-cols-2':
+                (missions.data.length && !organisation.donation) ||
+                (organisation.donation && !missions.data.length),
+            },
+          ]"
         >
           <button
             v-if="missions.data.length"
@@ -82,7 +90,7 @@
 
           <button
             v-if="organisation.donation"
-            v-scroll-to="{ el: '#faire-un-don', offset: -200 }"
+            v-scroll-to="'#faire-un-don'"
             class="footer--button"
           >
             Faire un don
