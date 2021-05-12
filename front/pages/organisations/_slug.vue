@@ -33,7 +33,11 @@
 
             <img
               v-if="organisation.logo"
-              :src="organisation.logo.large"
+              :src="
+                organisation.logo.large
+                  ? organisation.logo.large
+                  : organisation.logo.original
+              "
               :alt="organisation.name"
               class="h-16 my-8"
             />
