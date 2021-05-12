@@ -79,7 +79,7 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'domaines', 'logo'];
+    protected $appends = ['full_address', 'domaines', 'logo', 'places_left'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -412,5 +412,10 @@ class Structure extends Model implements HasMedia
         return SlugOptions::create()
             ->generateSlugsFrom(['name', 'rna'])
             ->saveSlugsTo('slug');
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return $this->missions()->available()->get()->sum('places_left');
     }
 }

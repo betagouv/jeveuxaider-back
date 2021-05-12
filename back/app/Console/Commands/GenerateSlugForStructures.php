@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mission;
+use App\Models\Structure;
 use Illuminate\Console\Command;
 
-class GenerateSlugForMissions extends Command
+class GenerateSlugForStructures extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'mission:generate-slugs';
+    protected $signature = 'structure:generate-slugs';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate slug for missions';
+    protected $description = 'Generate slug for structures';
 
     /**
      * Create a new command instance.
@@ -38,12 +38,12 @@ class GenerateSlugForMissions extends Command
      */
     public function handle()
     {
-        $missions = Mission::whereNull('slug')->get();
-        $this->info($missions->count() . ' missions will be updated.');
+        $structures = Structure::whereNull('slug')->withTrashed()->get();
+        $this->info($structures->count() . ' structures will be updated.');
         if ($this->confirm('Do you wish to continue?')) {
-            foreach ($missions as $mission) {
-                $mission->generateSlug();
-                $mission->save();
+            foreach ($structures as $structure) {
+                $structure->generateSlug();
+                $structure->save();
             }
         }
     }

@@ -108,6 +108,7 @@
           :src="`/images/organisations/domaines/${organisation.image_1}.jpg`"
           :srcset="`/images/organisations/domaines/${organisation.image_1}@2x.jpg 2x`"
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
+          @error="defaultImg($event, 'image_1')"
         />
       </div>
     </div>
@@ -122,6 +123,7 @@
           :src="`/images/organisations/domaines/${organisation.image_2}.jpg`"
           :srcset="`/images/organisations/domaines/${organisation.image_2}@2x.jpg 2x`"
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
+          @error="defaultImg($event, 'image_2')"
         />
       </div>
 
@@ -133,12 +135,12 @@
         <div class="max-w-3xl mr-auto">
           <div class="text-white px-4 py-8 md:p-8 xl:p-16">
             <div
-              v-if="organisation.waiting_participations_count"
+              v-if="organisation.places_left"
               class="font-extrabold text-3xl mb-4"
             >
-              {{ organisation.waiting_participations_count | formatNumber }}
+              {{ organisation.places_left | formatNumber }}
               {{
-                organisation.waiting_participations_count
+                organisation.places_left
                   | pluralize(['bénévole recherché', 'bénévoles recherchés'])
               }}
             </div>
@@ -152,7 +154,11 @@
                 <hr class="w-full border-white opacity-25" />
               </div>
 
-              <div class="grid lg:grid-cols-2 gap-3 xl:gap-x-6">
+              <div v-if="!organisation.domaines_with_image.length">
+                Non renseigné
+              </div>
+
+              <div v-else class="grid lg:grid-cols-2 gap-3 xl:gap-x-6">
                 <div
                   v-for="domaine in organisation.domaines_with_image"
                   :key="domaine.id"
@@ -175,10 +181,15 @@
                 <hr class="w-full border-white opacity-25" />
               </div>
 
+              <div v-if="!organisation.publics_beneficiaires.length">
+                Non renseigné
+              </div>
+
               <div
                 v-for="(
                   public_beneficiaire, key
                 ) in organisation.publics_beneficiaires"
+                v-else
                 :key="key"
                 class="flex items-center mb-3"
               >
@@ -354,7 +365,12 @@
             </div>
 
             <div
-              v-if="organisation.donation.includes('helloasso')"
+              v-if="
+                organisation.donation.includes('helloasso') ||
+                organisation.donation.includes('leetchi') ||
+                organisation.donation.includes('microdon') ||
+                organisation.donation.includes('ulule')
+              "
               class="-mt-7 p-6"
             >
               <div class="flex items-center justify-center">
@@ -363,10 +379,36 @@
                   style="font-size: 10px"
                   >Par</span
                 >
+
                 <img
-                  src="/images/helloasso.png"
-                  srcset="/images/helloasso@2x.png 2x"
+                  v-if="organisation.donation.includes('helloasso')"
+                  src="/images/helloasso.svg"
                   alt="Helloasso"
+                  class="flex-none"
+                  width="92px"
+                />
+
+                <img
+                  v-if="organisation.donation.includes('leetchi')"
+                  src="/images/leetchi.png"
+                  srcset="/images/leetchi@2x.png 2x"
+                  alt="Leetchi"
+                  class="flex-none"
+                />
+
+                <img
+                  v-if="organisation.donation.includes('ulule')"
+                  src="/images/ulule.svg"
+                  alt="Ulule"
+                  class="flex-none"
+                  width="92px"
+                />
+
+                <img
+                  v-if="organisation.donation.includes('microdon')"
+                  src="/images/microdon.png"
+                  srcset="/images/microdon@2x.png 2x"
+                  alt="Microdon"
                   class="flex-none"
                 />
               </div>
@@ -397,13 +439,16 @@
               <p>{{ organisation.full_address }}</p>
             </div>
 
-            <div v-if="organisation.email || organisation.phone">
+            <div>
               <div class="text-gray-500 font-bold uppercase">Contact</div>
               <p>
                 <span v-if="organisation.phone">
                   {{ organisation.phone }}<br />
                 </span>
                 <span v-if="organisation.email">{{ organisation.email }}</span>
+                <span v-if="!organisation.email && !organisation.phone"
+                  >Non renseigné</span
+                >
               </p>
             </div>
           </div>
@@ -432,9 +477,9 @@ export default {
   async asyncData({ $api, params, error }) {
     const organisation = await $api.getStructureBySlug(params.slug)
 
-    // if (!organisation) {
-    //   return error({ statusCode: 403 })
-    // }
+    if (!organisation) {
+      return error({ statusCode: 404 })
+    }
 
     const missions = await $api.fetchStructureAvailableMissionsWithPagination(
       organisation.id,
@@ -470,8 +515,10 @@ export default {
           hid: 'description',
           name: 'description',
           content: this.organisation.description
-            .replace(/<\/?[^>]+>/gi, ' ')
-            .substring(0, 300),
+            ? this.organisation.description
+                .replace(/<\/?[^>]+>/gi, ' ')
+                .substring(0, 300)
+            : '',
         },
         {
           hid: 'og:image',
@@ -506,6 +553,18 @@ export default {
     goTo(url) {
       window.open(url, '_blank')
     },
+    defaultImg(e, field) {
+      switch (field) {
+        case 'image_1':
+          e.target.src = `/images/bg_orga_placeholder.jpg`
+          e.target.srcset = `/images/bg_orga_placeholder@2x.jpg 2x`
+          break
+        case 'image_2':
+          e.target.src = `/images/bg_orga_placeholder2.jpg`
+          e.target.srcset = `/images/bg_orga_placeholder2@2x.jpg 2x`
+          break
+      }
+    },
     iconPublicType(publicType) {
       let icon
       switch (publicType) {
@@ -519,13 +578,13 @@ export default {
           icon = require('@/assets/images/icones/helping_hand.svg?include')
           break
         case 'Parents':
-          icon = require('@/assets/images/icones/personnes_agees.svg?include')
+          icon = require('@/assets/images/icones/parents.svg?include')
           break
         case 'jeunes_enfants':
-          icon = require('@/assets/images/icones/personnes_agees.svg?include')
+          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
           break
         case 'Tous publics':
-          icon = require('@/assets/images/icones/personnes_agees.svg?include')
+          icon = require('@/assets/images/icones/tous_public.svg?include')
           break
       }
 

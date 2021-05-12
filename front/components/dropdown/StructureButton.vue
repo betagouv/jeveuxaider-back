@@ -4,6 +4,11 @@
       Modifier l'organisation
     </nuxt-link>
     <el-dropdown-menu slot="dropdown">
+      <nuxt-link target="_blank" :to="`/organisations/${structure.slug}`">
+        <el-dropdown-item :command="{}"
+          >Afficher l'organisation</el-dropdown-item
+        >
+      </nuxt-link>
       <nuxt-link :to="`/dashboard/structure/${structure.id}/missions/add`">
         <el-dropdown-item :command="{}">Ajouter une mission</el-dropdown-item>
       </nuxt-link>
@@ -76,5 +81,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>
