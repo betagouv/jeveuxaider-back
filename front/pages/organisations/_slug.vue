@@ -335,8 +335,8 @@
         >
           <div class="relative">
             <img
-              :src="bgDon.src"
-              :srcset="bgDon.srcset"
+              src="/images/bg_don.png"
+              srcset="/images/bg_don@2x.png 2x"
               class="absolute object-cover w-full h-full"
             />
 
@@ -498,7 +498,6 @@ export default {
   data() {
     return {
       expandDescription: false,
-      bgDon: require('@/assets/images/bg-jva.jpg?resize&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900'),
     }
   },
   head() {
