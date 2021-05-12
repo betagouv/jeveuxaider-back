@@ -43,7 +43,7 @@ class GenerateSlugForStructures extends Command
         if ($this->confirm('Do you wish to continue?')) {
             foreach ($structures as $structure) {
                 $structure->generateSlug();
-                $structure->save();
+                $structure->saveQuietly();
             }
         }
     }
