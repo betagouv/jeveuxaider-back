@@ -65,20 +65,11 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <SearchFiltersQueryAutocompleteCollectivities
           type="select"
           name="collectivity"
           :value="query['filter[collectivity]']"
           label="Collectivité"
-          :options="
-            collectivities.map((collectivity) => {
-              return {
-                label: collectivity.name,
-                value: collectivity.id,
-              }
-            })
-          "
-          @changed="onFilterChange"
         />
         <SearchFiltersQuery
           name="zips"
@@ -253,14 +244,10 @@ export default {
     }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
     const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
-    const collectivities = await $api.fetchCollectivities({
-      'filter[state]': 'validated',
-      pagination: 1000,
-    })
+
     return {
       domaines: domaines.data.data,
       templates: templates.data.data,
-      collectivities: collectivities.data.data,
     }
   },
   data() {
@@ -307,14 +294,6 @@ export default {
     '$route.query': '$fetch',
   },
   methods: {
-    // fetchRows() {
-    //   return fetchProfiles(
-    //     {
-    //       ...this.query,
-    //     },
-    //     ['last_online_at', 'roles', 'has_user', 'skills', 'domaines']
-    //   )
-    // },
     handleCommand(command) {
       if (command.action == 'impersonate') {
         this.$store.dispatch('auth/impersonate', command.id)

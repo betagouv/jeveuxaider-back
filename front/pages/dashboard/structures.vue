@@ -81,20 +81,11 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <SearchFiltersQueryAutocompleteCollectivities
           type="select"
           name="collectivity"
           :value="query['filter[collectivity]']"
           label="Collectivité"
-          :options="
-            collectivities.map((collectivity) => {
-              return {
-                label: collectivity.name,
-                value: collectivity.id,
-              }
-            })
-          "
-          @changed="onFilterChange"
         />
       </div>
     </div>
@@ -213,7 +204,6 @@ export default {
   data() {
     return {
       loadingExport: false,
-      collectivities: [],
     }
   },
   async fetch() {
@@ -225,14 +215,6 @@ export default {
   },
   watch: {
     '$route.query': '$fetch',
-  },
-  async created() {
-    // @TODO: Filtre autocomplete
-    const collectivities = await this.$api.fetchCollectivities({
-      'filter[state]': 'validated',
-      pagination: 1000,
-    })
-    this.collectivities = collectivities.data.data
   },
   methods: {
     onExport() {
