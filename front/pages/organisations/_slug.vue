@@ -506,7 +506,7 @@ export default {
   },
   head() {
     return {
-      title: this.organisation.name,
+      title: `${this.organisation.statut_juridique} ${this.organisation.name} - Devenez bénévole dans ${this.legalStatus} ${this.organisation.name} - JeVeuxAider.gouv.fr`,
       link: [
         {
           rel: 'canonical',
