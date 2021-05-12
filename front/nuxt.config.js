@@ -94,6 +94,7 @@ export default {
     '@nuxtjs/redirect-module',
     '@nuxtjs/sentry',
     'cookie-universal-nuxt',
+    'vue-scrollto/nuxt',
   ],
 
   dayjs: {

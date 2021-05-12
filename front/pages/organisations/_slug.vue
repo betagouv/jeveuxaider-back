@@ -72,26 +72,33 @@
         <footer
           class="grid grid-cols-3 divide-x divide-gray-100 text-center border-t"
         >
-          <button class="footer--button">Devenir bénévole</button>
+          <button
+            v-if="missions.data.length"
+            v-scroll-to="'#missions'"
+            class="footer--button"
+          >
+            Devenir bénévole
+          </button>
 
           <button
             v-if="organisation.donation"
+            v-scroll-to="{ el: '#faire-un-don', offset: -200 }"
             class="footer--button"
-            @click="goTo(organisation.donation)"
           >
             Faire un don
           </button>
 
-          <button class="footer--button">Infos pratiques</button>
+          <button v-scroll-to="'#infos'" class="footer--button">
+            Infos pratiques
+          </button>
         </footer>
       </div>
 
       <!-- 1 -- RIGHT -->
       <div>
-        <!-- TODO -->
         <img
-          src="/images/bg_orga_placeholder.jpg"
-          srcset="/images/bg_orga_placeholder@2x.jpg 2x"
+          :src="`/images/organisations/domaines/${organisation.image_1}.jpg`"
+          :srcset="`/images/organisations/domaines/${organisation.image_1}@2x.jpg 2x`"
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
         />
       </div>
@@ -103,10 +110,9 @@
     >
       <!-- 2 -- LEFT -->
       <div class="order-2 md:order-1">
-        <!-- TODO -->
         <img
-          src="/images/bg_orga_placeholder2.jpg"
-          srcset="/images/bg_orga_placeholder2@2x.jpg 2x"
+          :src="`/images/organisations/domaines/${organisation.image_2}.jpg`"
+          :srcset="`/images/organisations/domaines/${organisation.image_2}@2x.jpg 2x`"
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
         />
       </div>
@@ -258,7 +264,7 @@
     </div>
 
     <!-- MISSIONS -->
-    <div v-if="missions.data.length" class="pt-16 pb-32">
+    <div v-if="missions.data.length" id="missions" class="pt-16 pb-32">
       <div class="container px-4 mx-auto">
         <h2
           class="text-center mb-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
@@ -299,6 +305,7 @@
     <!-- FAIRE UN DON -->
     <div
       v-if="organisation.donation"
+      id="faire-un-don"
       class="gradient"
       :class="[{ 'py-16': !missions.data.length }]"
     >
@@ -362,11 +369,14 @@
     </div>
 
     <!-- ROW 3 -->
-    <div class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2">
+    <div
+      id="infos"
+      class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2"
+    >
       <!-- 3 -- LEFT -->
       <div class="col-span-2 lg:col-span-1 md:border-b">
         <div class="px-4 max-w-3xl ml-auto">
-          <div class="pb-4 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
+          <div class="pt-4 pb-8 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
             <h2
               class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
@@ -379,7 +389,7 @@
               <p>{{ organisation.full_address }}</p>
             </div>
 
-            <div v-if="organisation.email || organisation.phone" class="mb-8">
+            <div v-if="organisation.email || organisation.phone">
               <div class="text-gray-500 font-bold uppercase">Contact</div>
               <p>
                 <span v-if="organisation.phone">
@@ -397,7 +407,7 @@
         <iframe
           width="100%"
           height="100%"
-          style="border: 0"
+          style="border: 0; min-height: 320px"
           loading="lazy"
           allowfullscreen
           :src="`https://www.google.com/maps/embed/v1/place?key=${$config.google.places}
