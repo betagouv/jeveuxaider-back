@@ -123,20 +123,11 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <SearchFiltersQueryAutocompleteCollectivities
           type="select"
           name="collectivity"
           :value="query['filter[collectivity]']"
           label="Collectivité"
-          :options="
-            collectivities.map((collectivity) => {
-              return {
-                label: collectivity.name,
-                value: collectivity.id,
-              }
-            })
-          "
-          @changed="onFilterChange"
         />
         <SearchFiltersQuery
           type="select"
@@ -218,21 +209,12 @@ export default {
       return error({ statusCode: 403 })
     }
 
-    // if (['responsable'].includes(store.getters.contextRole)) {
-    //   await store.dispatch('reminders')
-    // }
-
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
     const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
-    const collectivities = await $api.fetchCollectivities({
-      'filter[state]': 'validated',
-      pagination: 1000,
-    })
 
     return {
       domaines: domaines.data.data,
       templates: templates.data.data,
-      collectivities: collectivities.data.data,
     }
   },
   data() {
