@@ -50,7 +50,7 @@
         </el-button>
         <div class="mt-2 text-center">
           <nuxt-link
-            :to="`/password/forgot?email=${form.email}`"
+            :to="`/password-reset?email=${form.email}`"
             target="_blank"
             class="text-sm leading-5 font-medium text-gray-400 hover:text-gray-900 focus:underline transition ease-in-out duration-150"
           >
