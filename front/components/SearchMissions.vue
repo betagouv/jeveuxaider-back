@@ -166,6 +166,7 @@
                   <AisSearchBox ref="searchbox" class="mb-8">
                     <div slot-scope="{ refine }">
                       <el-input
+                        ref="searchbox_input"
                         v-model="routeState.query"
                         label="Recherche"
                         placeholder="Recherche par mots-clés"
@@ -174,6 +175,7 @@
                         autocomplete="new-password"
                         @input="onQueryInput(refine, $event)"
                         @clear="onQueryClear"
+                        @change="onChange()"
                       />
                     </div>
                   </AisSearchBox>
@@ -762,6 +764,9 @@ export default {
       window.plausible('Click Card Missions - Liste résultat', {
         props: { isLogged: this.$store.getters.isLogged },
       })
+    },
+    onChange() {
+      this.$refs.searchbox_input.blur()
     },
   },
 }
