@@ -455,9 +455,11 @@
               <div class="text-gray-500 font-bold uppercase">Contact</div>
               <p>
                 <span v-if="organisation.phone">
-                  {{ organisation.phone }}<br />
+                  Téléphone&nbsp;: {{ organisation.phone }}<br />
                 </span>
-                <span v-if="organisation.email">{{ organisation.email }}</span>
+                <span v-if="organisation.email"
+                  >E-mail&nbsp;: {{ organisation.email }}</span
+                >
                 <span v-if="!organisation.email && !organisation.phone"
                   >Non renseigné</span
                 >
