@@ -4,9 +4,9 @@
     <div class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2">
       <!-- 1 -- LEFT -->
       <div class="col-span-2 lg:col-span-1">
-        <header class="border-b flex justify-between items-center">
-          <div class="p-4 border-r">
-            <img src="/images/logo_arianne.svg" width="55" />
+        <header class="border-b flex justify-between items-stretch">
+          <div class="p-4 border-r flex items-center">
+            <img src="/images/logo_arianne.svg" width="55" class="my-auto" />
           </div>
 
           <div class="p-4 flex items-center">
@@ -39,11 +39,12 @@
                   : organisation.logo.original
               "
               :alt="organisation.name"
-              class="h-16 my-8"
+              class="my-8 h-auto"
+              style="max-width: 16rem"
             />
 
             <h1
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-tight"
             >
               <div v-if="legalStatus">Découvrez {{ legalStatus }}</div>
               <span class="font-extrabold">{{ organisation.name }}</span>
@@ -74,7 +75,7 @@
         </div>
 
         <footer
-          class="grid divide-x divide-gray-100 text-center border-t"
+          class="grid divide-x divide-gray-200 text-center border-t"
           :class="[
             { 'grid-cols-3': missions.data.length && organisation.donation },
             {
@@ -140,7 +141,7 @@
           <div class="text-white px-4 py-8 md:p-8 xl:p-16">
             <div
               v-if="organisation.places_left"
-              class="font-extrabold text-3xl mb-4"
+              class="font-extrabold text-4xl mb-4"
             >
               {{ organisation.places_left | formatNumber }}
               {{
@@ -290,10 +291,10 @@
     <div v-if="missions.data.length" id="missions" class="pt-16 pb-32">
       <div class="container px-4 mx-auto">
         <h2
-          class="text-center mb-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+          class="text-center mb-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-tight"
         >
           <span>Trouvez une mission dans {{ legalStatus }}</span>
-          <br />
+          <br class="hidden xl:block" />
           <span class="font-extrabold">{{ organisation.name }}</span>
         </h2>
 
@@ -346,10 +347,10 @@
 
             <div class="relative text-white p-8 py-16 text-center">
               <h2
-                class="font-extrabold text-center mb-6 text-3xl leading-8 tracking-tight sm:text-4xl sm:leading-10"
+                class="font-extrabold text-center mb-6 text-3xl leading-8 tracking-tight sm:text-5xl sm:leading-tight"
               >
                 <span>Faites un don à {{ legalStatus }}</span>
-                <br />
+                <br class="hidden xl:block" />
                 <span>{{ organisation.name }}</span>
               </h2>
 
@@ -434,7 +435,8 @@
             <h2
               class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
             >
-              <div v-if="legalStatus">En savoir plus à propos de</div>
+              <span v-if="legalStatus">Contactez {{ legalStatus }}</span>
+              <br class="hidden xl:block" />
               <span class="font-extrabold">{{ organisation.name }}</span>
             </h2>
 
@@ -599,7 +601,7 @@ export default {
 
 <style lang="sass" scoped>
 *
-  border-color: #F5F5F5
+  @apply border-gray-200
 
 .breadcrumb
   border-bottom: 0 !important
@@ -614,10 +616,8 @@ export default {
   width: 100%
   @apply border-0 shadow-none p-0 mb-6
   @screen sm
-    width: 280px
+    width: 330px
     @apply m-3 flex flex-col
-  @screen lg
-    width: 300px
 
 .gradient
   background: linear-gradient(to bottom, #FFFFFF 43.75%, rgba(255, 255, 255, 0) 100%)
