@@ -132,9 +132,11 @@
               <div>
                 <h2 class="text-lg font-medium">
                   <span>L'organisation</span>
-                  <b class="text-blue-800">
-                    {{ structure.name }}
-                  </b>
+                  <nuxt-link :to="`/organisations/${structure.slug}`">
+                    <b class="text-blue-800">
+                      {{ structure.name }}
+                    </b>
+                  </nuxt-link>
                 </h2>
               </div>
 
@@ -343,9 +345,11 @@
           <div class="mt-6">
             <span class="text-lg font-medium">
               <span>L'organisation</span>
-              <b class="text-blue-800">
-                {{ structure.name }}
-              </b>
+              <nuxt-link :to="`/organisations/${structure.slug}`">
+                <b class="text-blue-800">
+                  {{ structure.name }}
+                </b>
+              </nuxt-link>
             </span>
           </div>
         </div>
