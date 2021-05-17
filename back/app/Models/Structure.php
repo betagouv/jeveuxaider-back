@@ -61,7 +61,8 @@ class Structure extends Model implements HasMedia
         'rna',
         'phone',
         'email',
-        'slug'
+        'slug',
+        'color'
     ];
 
     protected $attributes = [

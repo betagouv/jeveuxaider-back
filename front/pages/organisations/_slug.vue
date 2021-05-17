@@ -135,7 +135,7 @@
       <!-- 2 -- RIGHT -->
       <div
         class="order-1 md:order-2 col-span-2 lg:col-span-1"
-        style="background-color: #d33c4a"
+        :style="`background-color: ${color}`"
       >
         <div class="max-w-3xl mr-auto">
           <div class="text-white px-4 py-8 md:p-8 xl:p-16">
@@ -342,8 +342,13 @@
             <img
               src="/images/bg_don.png"
               srcset="/images/bg_don@2x.png 2x"
-              class="absolute object-cover w-full h-full"
+              class="bg-img absolute object-cover w-full h-full"
             />
+
+            <div
+              class="absolute inset-0 w-full h-full opacity-70"
+              :style="`background: ${color}`"
+            ></div>
 
             <div class="relative text-white p-8 py-16 text-center">
               <h2
@@ -359,6 +364,7 @@
               </p>
             </div>
           </div>
+
           <div class="bg-white">
             <div class="text-center transform -translate-y-1/2">
               <button
@@ -553,6 +559,9 @@ export default {
 
       return output
     },
+    color() {
+      return this.organisation.color ? this.organisation.color : '#d33c4a'
+    },
   },
   methods: {
     goTo(url) {
@@ -626,6 +635,7 @@ export default {
   border-radius: 24px
   max-width: 960px
   overflow: hidden
+  @apply bg-white
 
 .footer--button
   font-size: 10px

@@ -27,6 +27,25 @@
       @delete="logo = null"
     />
 
+    <el-form-item label="Couleur" prop="color">
+      <el-select v-model="form.color" placeholder="Couleur">
+        <el-option
+          v-for="item in colors"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+          <div class="flex items-center">
+            <span
+              class="w-6 h-6 rounded-full mr-4 my-auto"
+              :style="`float: left; background-color: ${item.value};`"
+            ></span>
+            <span>{{ item.label }}</span>
+          </div>
+        </el-option>
+      </el-select>
+    </el-form-item>
+
     <el-form-item label="Nom de votre organisation" prop="name">
       <el-input v-model="form.name" placeholder="Nom de votre organisation" />
     </el-form-item>
@@ -370,8 +389,21 @@ export default {
             trigger: 'blur',
           },
         ],
+        color: [
+          {
+            required: true,
+            message: 'Veuillez choisir une couleur',
+            trigger: 'blur',
+          },
+        ],
       },
       logo: null,
+      colors: [
+        { label: 'Rouge', value: '#F56564' },
+        { label: 'Bleu', value: '#070191' },
+        { label: 'Vert', value: '#0D9F6E' },
+        { label: 'Violet', value: '#553C9A' },
+      ],
     }
   },
   computed: {
