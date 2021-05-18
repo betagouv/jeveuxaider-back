@@ -517,13 +517,6 @@ export default {
             trigger: 'blur',
           },
         ],
-        color: [
-          {
-            required: true,
-            message: 'Veuillez choisir une couleur',
-            trigger: 'blur',
-          },
-        ],
       },
       logo: null,
       colors: [
