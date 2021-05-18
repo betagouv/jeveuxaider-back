@@ -346,7 +346,7 @@
             />
 
             <div
-              class="absolute inset-0 w-full h-full opacity-70"
+              class="absolute inset-0 w-full h-full opacity-90"
               :style="`background: ${color}`"
             ></div>
 
