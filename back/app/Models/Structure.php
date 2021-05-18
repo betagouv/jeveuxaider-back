@@ -80,7 +80,7 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'domaines', 'logo', 'places_left'];
+    protected $appends = ['full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -406,6 +406,11 @@ class Structure extends Model implements HasMedia
             ->width(320)
             ->nonQueued()
             ->performOnCollections('structures');
+
+        $this->addMediaConversion('xxl')
+            ->width(1920)
+            ->nonQueued()
+            ->performOnCollections('structures');
     }
 
     public function getSlugOptions() : SlugOptions
@@ -418,5 +423,15 @@ class Structure extends Model implements HasMedia
     public function getPlacesLeftAttribute()
     {
         return $this->missions()->available()->get()->sum('places_left');
+    }
+
+    public function getOverrideImage1Attribute()
+    {
+        return $this->getMediaUrls('override_image_1');
+    }
+
+    public function getOverrideImage2Attribute()
+    {
+        return $this->getMediaUrls('override_image_2');
     }
 }

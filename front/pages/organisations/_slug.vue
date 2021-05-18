@@ -110,8 +110,18 @@
       <!-- 1 -- RIGHT -->
       <div>
         <img
-          :src="`/images/organisations/domaines/${organisation.image_1}.jpg`"
-          :srcset="`/images/organisations/domaines/${organisation.image_1}@2x.jpg 2x`"
+          :src="
+            organisation.override_image_1
+              ? organisation.override_image_1.xxl
+                ? organisation.override_image_1.xxl
+                : organisation.override_image_1.original
+              : `/images/organisations/domaines/${organisation.image_1}.jpg`
+          "
+          :srcset="
+            organisation.override_image_1
+              ? null
+              : `/images/organisations/domaines/${organisation.image_1}@2x.jpg 2x`
+          "
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
           @error="defaultImg($event, 'image_1')"
         />
@@ -125,8 +135,18 @@
       <!-- 2 -- LEFT -->
       <div class="order-2 md:order-1">
         <img
-          :src="`/images/organisations/domaines/${organisation.image_2}.jpg`"
-          :srcset="`/images/organisations/domaines/${organisation.image_2}@2x.jpg 2x`"
+          :src="
+            organisation.override_image_2
+              ? organisation.override_image_2.xxl
+                ? organisation.override_image_2.xxl
+                : organisation.override_image_2.original
+              : `/images/organisations/domaines/${organisation.image_2}.jpg`
+          "
+          :srcset="
+            organisation.override_image_2
+              ? null
+              : `/images/organisations/domaines/${organisation.image_2}@2x.jpg 2x`
+          "
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
           @error="defaultImg($event, 'image_2')"
         />
@@ -562,7 +582,7 @@ export default {
       return output
     },
     color() {
-      return this.organisation.color ? this.organisation.color : '#d33c4a'
+      return this.organisation.color ? this.organisation.color : '#B91C1C'
     },
   },
   methods: {

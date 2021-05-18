@@ -250,7 +250,8 @@ class StructureController extends Controller
             ->withCustomProperties(['field' => $field])
             ->withManipulations([
                 'thumb' => ['manualCrop' => $stringCropSettings],
-                'large' => ['manualCrop' => $stringCropSettings]
+                'large' => ['manualCrop' => $stringCropSettings],
+                'xxl' => ['manualCrop' => $stringCropSettings]
             ])
             ->toMediaCollection('structures');
 
