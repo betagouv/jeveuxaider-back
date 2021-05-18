@@ -71,7 +71,7 @@
 
     <DialogOrganisationImagesPicker
       :initial-image="selectedImages[imageIndex]"
-      :domaines="form.domaines"
+      :domaines="form.domaines.length ? form.domaines : domaines"
       :is-visible="showDialog"
       @picked="onPickedImage"
       @close="showDialog = false"
@@ -475,7 +475,8 @@ export default {
     selectedImages() {
       return this.form.image_1
         ? [this.form.image_1, this.form.image_2]
-        : this.$store.getters.structure_as_responsable.domaines
+        : this.$store.getters.structure_as_responsable &&
+          this.$store.getters.structure_as_responsable.domaines
         ? [
             this.$store.getters.structure_as_responsable.domaines[0].id + '_1',
             this.$store.getters.structure_as_responsable.domaines[0].id + '_2',

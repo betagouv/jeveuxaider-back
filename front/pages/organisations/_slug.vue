@@ -572,12 +572,12 @@ export default {
     defaultImg(e, field) {
       switch (field) {
         case 'image_1':
-          e.target.src = `/images/bg_orga_placeholder.jpg`
-          e.target.srcset = `/images/bg_orga_placeholder@2x.jpg 2x`
+          e.target.src = `/images/organisations/domaines/1_1.jpg`
+          e.target.srcset = `/images/organisations/domaines/1_1@2x.jpg 2x`
           break
         case 'image_2':
-          e.target.src = `/images/bg_orga_placeholder2.jpg`
-          e.target.srcset = `/images/bg_orga_placeholder2@2x.jpg 2x`
+          e.target.src = `/images/organisations/domaines/2_1.jpg`
+          e.target.srcset = `/images/organisations/domaines/2_1@2x.jpg 2x`
           break
       }
     },
