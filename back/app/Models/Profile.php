@@ -37,6 +37,7 @@ class Profile extends Model implements HasMedia
         'description',
         'frequence',
         'frequence_granularite',
+        'type',
         'user_id',
     ];
 
