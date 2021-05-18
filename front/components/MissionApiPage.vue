@@ -313,7 +313,7 @@
             <a
               :href="mission.application_url"
               target="_blank"
-              class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-md sm:text-xl px-5 py-3 pb-4"
+              class="mx-auto w-full sm:w-80 flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-md sm:text-xl px-5 py-3 pb-4"
               >Je propose mon aide
               <svg
                 xmlns="http://www.w3.org/2000/svg"
