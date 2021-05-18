@@ -27,6 +27,56 @@
       @delete="logo = null"
     />
 
+    <div class="relative mb-8" @click="onEditImageClick(0)">
+      <div class="el-form-item__label">Visuel N° 1</div>
+      <div class="relative inline-flex">
+        <img
+          :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
+          :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
+          class="h-auto rounded-lg cursor-pointer shadow-xl"
+          width="250px"
+        />
+        <div
+          class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+          style="right: 12px; bottom: 12px"
+        >
+          <div
+            class="text-blue-800"
+            v-html="require('@/assets/images/icones/heroicon/edit.svg?include')"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="relative mb-8" @click="onEditImageClick(1)">
+      <div class="el-form-item__label">Visuel N° 2</div>
+      <div class="relative inline-flex">
+        <img
+          :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+          :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
+          class="h-auto rounded-lg cursor-pointer shadow-xl"
+          width="250px"
+        />
+        <div
+          class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+          style="right: 12px; bottom: 12px"
+        >
+          <div
+            class="text-blue-800"
+            v-html="require('@/assets/images/icones/heroicon/edit.svg?include')"
+          />
+        </div>
+      </div>
+    </div>
+
+    <DialogOrganisationImagesPicker
+      :initial-image="selectedImages[imageIndex]"
+      :domaines="form.domaines"
+      :is-visible="showDialog"
+      @picked="onPickedImage"
+      @close="showDialog = false"
+    />
+
     <el-form-item label="Couleur" prop="color">
       <el-select v-model="form.color" placeholder="Couleur">
         <el-option
@@ -331,6 +381,8 @@ export default {
     return {
       loading: false,
       form: { ...this.structure },
+      imageIndex: 0,
+      showDialog: false,
       rules: {
         name: [
           {
@@ -420,6 +472,16 @@ export default {
         //
       },
     },
+    selectedImages() {
+      return this.form.image_1
+        ? [this.form.image_1, this.form.image_2]
+        : this.$store.getters.structure_as_responsable.domaines
+        ? [
+            this.$store.getters.structure_as_responsable.domaines[0].id + '_1',
+            this.$store.getters.structure_as_responsable.domaines[0].id + '_2',
+          ]
+        : ['1_1', '2_1']
+    },
   },
   methods: {
     isDomaineSelected(id) {
@@ -433,6 +495,14 @@ export default {
       } else {
         this.$set(this.form, 'domaines', [...this.form.domaines, domaine])
       }
+    },
+    onEditImageClick(index) {
+      this.imageIndex = index
+      this.showDialog = true
+    },
+    onPickedImage(imageName) {
+      this.selectedImages[this.imageIndex] = imageName
+      this.form[`image_${this.imageIndex + 1}`] = imageName
     },
     onSubmit() {
       this.loading = true
