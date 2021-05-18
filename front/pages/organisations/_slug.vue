@@ -44,7 +44,7 @@
             />
 
             <h1
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-tight"
+              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-13"
             >
               <div v-if="legalStatus">Découvrez {{ legalStatus }}</div>
               <span class="font-extrabold">{{ organisation.name }}</span>
@@ -655,7 +655,7 @@ export default {
 
 .card--don
   border-radius: 24px
-  max-width: 960px
+  max-width: 1038px
   overflow: hidden
   @apply bg-white
 
