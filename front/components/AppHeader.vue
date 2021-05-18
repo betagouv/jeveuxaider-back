@@ -42,14 +42,14 @@
               <nuxt-link
                 v-if="$store.getters.roles && $store.getters.roles.length > 0"
                 to="/dashboard"
-                class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+                class="font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-12 py-2 transition ease-in-out duration-150"
               >
                 Tableau de bord
               </nuxt-link>
               <nuxt-link
                 v-else
                 to="/register/responsable/step/structure"
-                class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+                class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-12 py-2 transition ease-in-out duration-150"
               >
                 Créer mon organisation
               </nuxt-link>
@@ -57,21 +57,29 @@
             <nuxt-link
               v-if="!$store.getters.isLogged"
               to="/collectivite"
-              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-12 py-2 transition ease-in-out duration-150"
             >
               Inscrire ma collectivité
             </nuxt-link>
             <nuxt-link
               to="/territoires"
-              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-12 py-2 transition ease-in-out duration-150"
             >
               Territoires engagés
             </nuxt-link>
             <a
               target="_blank"
               rel="noopener"
+              href="https://www.jeveuxaider.gouv.fr/engagement/ecoles-et-universites/"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-12 py-2 transition ease-in-out duration-150"
+            >
+              Écoles et universités
+            </a>
+            <a
+              target="_blank"
+              rel="noopener"
               href="https://reserve-civique.crisp.help/fr/"
-              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-12 py-2 transition ease-in-out duration-150"
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-12 py-2 transition ease-in-out duration-150"
             >
               Centre d'aide
             </a>

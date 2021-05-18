@@ -104,6 +104,19 @@
               </ImageField>
             </div>
 
+            <el-form-item label="Type de profil" prop="type" class="mb-5">
+              <el-select
+                v-model="form.type"
+                placeholder="Sélectionnez votre profil"
+              >
+                <el-option
+                  v-for="item in $store.getters.taxonomies.profile_types.terms"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="Téléphone mobile" prop="mobile" class="mb-5">
               <input
                 v-model="form.mobile"
@@ -157,6 +170,7 @@ export default {
         mobile: this.$store.getters.profile.mobile,
         phone: this.$store.getters.profile.phone,
         image: this.$store.getters.profile.image,
+        type: this.$store.getters.profile.type,
       },
       model: 'profile',
       avatar: null,
@@ -193,6 +207,13 @@ export default {
           {
             pattern: /^[+|\s|\d]*$/,
             message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
+        type: [
+          {
+            required: true,
+            message: 'Choisissez votre type de profil',
             trigger: 'blur',
           },
         ],

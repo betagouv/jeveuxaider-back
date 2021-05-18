@@ -742,6 +742,18 @@ return [
         ]
     ],
 
+    'profile_types' => [
+        "vocabulary" => "Type de profil",
+        "terms" => [
+            "etudiant" => "Étudiant",
+            "salarie" => "Salarié",
+            "travailleur_independant" => "Travailleur Indépendant",
+            "agent_fonction_publique" => "Agent de la Fonction Publique",
+            "retraite" => "Retraité",
+            "autre" => "Autre",
+        ]
+    ],
+
      /*
     |--------------------------------------------------------------------------
     | ROLES

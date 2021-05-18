@@ -180,7 +180,7 @@
                   <a
                     :href="mission.application_url"
                     target="_blank"
-                    class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-xl px-5 py-3 pb-4"
+                    class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-md sm:text-xl px-5 py-3 pb-4"
                     >Je propose mon aide
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -282,17 +282,42 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <hr class="border-gray-200 my-12" />
+      <div class="mt-8 sm:mt-12 container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg">
+          <div class="flex justify-between">
+            <div class="px-6 pt-8 lg:p-12 lg:pb-0 lg:mr-16">
+              <h3
+                class="text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
+              >
+                Tout savoir sur cette mission
+              </h3>
 
-        <div class="flex max-w-3xl mx-auto">
-          <div class="flex-shrink-0">
-            <div
-              class="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-blue-800 rounded-lg"
-            >
+              <div
+                class="inline-flex w-16 mt-8 mb-2"
+                style="height: 2px; background-color: #d33c4a"
+              ></div>
+
+              <div
+                class="whitespace-pre-line text-gray-600"
+                style="word-break: break-word"
+              >
+                {{ mission.description }}
+              </div>
+            </div>
+            <img class="my-8 hidden xl:block" src="/images/france_right.svg" />
+          </div>
+
+          <div class="py-12 px-6">
+            <a
+              :href="mission.application_url"
+              target="_blank"
+              class="mx-auto w-full sm:w-80 flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-md sm:text-xl px-5 py-3 pb-4"
+              >Je propose mon aide
               <svg
-                class="h-6 w-6 text-white"
                 xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 ml-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -301,19 +326,9 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                ></path>
-              </svg>
-            </div>
-          </div>
-          <div class="ml-4">
-            <h4 class="mt-3 text-lg leading-6 font-bold text-gray-900">
-              Description de la mission
-            </h4>
-
-            <div class="whitespace-pre-line text-gray-600">
-              {{ mission.description }}
-            </div>
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                /></svg
+            ></a>
           </div>
         </div>
       </div>
