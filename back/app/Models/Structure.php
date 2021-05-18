@@ -408,7 +408,7 @@ class Structure extends Model implements HasMedia
             ->performOnCollections('structures');
 
         $this->addMediaConversion('xxl')
-            ->width(1920)
+            ->width(1440)
             ->nonQueued()
             ->performOnCollections('structures');
     }
