@@ -56,6 +56,7 @@ export const actions = {
       .catch(() => {
         commit('setAccessToken', null)
         this.$cookies.remove('access-token')
+        return Promise.reject(new Error('Login failed'))
       })
   },
 
