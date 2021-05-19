@@ -113,7 +113,6 @@ class GenerateSitemap extends Command
         $organisations = Structure::where('state', 'Validée')
         ->whereNotNull('slug')
         ->get();
-        ray(count($organisations));
         foreach ($organisations as $organisation) {
             $sitemap->add(Url::create('/organisations/' . $organisation->slug)
             ->setLastModificationDate($organisation->updated_at)

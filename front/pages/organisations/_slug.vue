@@ -40,7 +40,7 @@
               "
               :alt="organisation.name"
               class="my-8 h-auto"
-              style="max-width: 16rem"
+              style="max-width: 16rem; max-height: 10rem"
             />
 
             <h1
