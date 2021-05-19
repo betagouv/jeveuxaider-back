@@ -652,8 +652,13 @@
 <script>
 export default {
   name: 'Mission',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, error }) {
     const mission = await $api.getMission(params.id)
+
+    if (!mission) {
+      return error({ statusCode: 404 })
+    }
+
     const otherMissions = await $api.fetchStructureAvailableMissions(
       mission.structure.id,
       {

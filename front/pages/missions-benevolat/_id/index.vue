@@ -7,8 +7,12 @@
 
 <script>
 export default {
-  async asyncData({ $api, params, redirect, route }) {
+  async asyncData({ $api, params, redirect, route, error }) {
     const mission = await $api.getMission(params.id)
+
+    if (!mission) {
+      return error({ statusCode: 404 })
+    }
 
     if (!mission.isFromApi) {
       const query = new URLSearchParams(route.query)
