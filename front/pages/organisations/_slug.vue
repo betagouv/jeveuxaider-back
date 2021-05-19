@@ -535,8 +535,13 @@ export default {
     }
   },
   head() {
+    const status =
+      this.organisation.statut_juridique != 'Autre'
+        ? this.organisation.statut_juridique
+        : ''
+
     return {
-      title: `${this.organisation.statut_juridique} ${this.organisation.name} - Devenez bénévole dans ${this.legalStatus} ${this.organisation.name} - JeVeuxAider.gouv.fr`,
+      title: `${status} ${this.organisation.name} - Devenez bénévole dans ${this.legalStatus} ${this.organisation.name} - JeVeuxAider.gouv.fr`,
       link: [
         {
           rel: 'canonical',
@@ -576,6 +581,9 @@ export default {
           break
         case 'Structure privée':
           output = "l'organisation privée"
+          break
+        default:
+          output = "l'organisation"
           break
       }
 
