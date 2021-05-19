@@ -545,7 +545,7 @@ export default {
       return this.form.image_1
         ? [this.form.image_1, this.form.image_2]
         : this.$store.getters.structure_as_responsable &&
-          this.$store.getters.structure_as_responsable.domaines
+          this.$store.getters.structure_as_responsable.domaines.length > 0
         ? [
             this.$store.getters.structure_as_responsable.domaines[0].id + '_1',
             this.$store.getters.structure_as_responsable.domaines[0].id + '_2',

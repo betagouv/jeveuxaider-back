@@ -314,12 +314,35 @@ class ApiEngagement
     {
         if ($structure->rna) {
             try {
-                $attributes = [
-                    'url' => $structure->website,
-                    'facebook' => $structure->facebook,
-                    'twitter' => $structure->twitter,
-                    'logo' => $structure->logo ? $structure->logo['large'] : null,
-                ];
+                // $attributes = [
+                //     'description' => $structure->description,
+                //     'objet' => $structure->description,
+                //     'url' => $structure->website,
+                //     'statut_juridique' => $structure->statut_juridique,
+                //     'publics_beneficiaires' => $structure->publics_beneficiaires,
+                //     'domaines' => !empty($structure->domaines) ? $structure->domaines->pluck('name')->toArray() : null,
+                //     'donation' => $structure->donation,
+                //     'facebook' => $structure->facebook,
+                //     'twitter' => $structure->twitter,
+                //     'logo' => $structure->logo ? $structure->logo['original'] : null,
+                //     'telephone' => $structure->phone,
+                //     'courriel' => $structure->email,
+                // ];
+
+                // if ($structure->latitude) {
+                //     $attributes['coordonnees'] = json_decode(json_encode([
+                //         'adresse_publique' => [
+                //             'voie' => $structure->address,
+                //             'commune' => $structure->city,
+                //             'cp' => $structure->zip,
+                //             'latitude_longitude' => [
+                //                 'lat' => $structure->latitude,
+                //                 'lon' => $structure->longitude,
+                //             ],
+                //             'departement' => $structure->department,
+                //         ]
+                //     ]));
+                // }
 
                 // ray($attributes);
 
