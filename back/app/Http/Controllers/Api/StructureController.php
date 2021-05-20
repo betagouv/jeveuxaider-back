@@ -28,6 +28,7 @@ use App\Models\Mission;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
+use App\Services\ApiEngagement;
 
 class StructureController extends Controller
 {
@@ -262,6 +263,13 @@ class StructureController extends Controller
     {
         if ($media = $structure->getFirstMedia('structures', ['field' => $field])) {
             $media->delete();
+        }
+    }
+
+    public function pushApiEngagement(Request $request, Structure $structure)
+    {
+        if ($structure) {
+            return (new ApiEngagement())->syncAssociation($structure);
         }
     }
 }

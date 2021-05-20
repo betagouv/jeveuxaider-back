@@ -18,6 +18,15 @@
       </nuxt-link>
     </div>
     <div class="mb-2 flex">
+      <div class="card-label">RNA</div>
+      <div class="text-gray-900 flex-1">
+        <template v-if="structure.rna">
+          {{ structure.rna }}
+        </template>
+        <template v-else> N/A </template>
+      </div>
+    </div>
+    <div class="mb-2 flex">
       <div class="card-label">Créée le</div>
       <div class="text-gray-900 flex-1">
         {{ structure.created_at | formatMediumWithTime }}
