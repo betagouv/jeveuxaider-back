@@ -7,7 +7,7 @@
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
           <Avatar
-            :source="row.logo ? row.logo : null"
+            :source="row.logo ? row.logo.thumb : null"
             :fallback="row.name[0]"
           />
         </div>
