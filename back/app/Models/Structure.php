@@ -425,7 +425,7 @@ class Structure extends Model implements HasMedia
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['name'])
+            ->generateSlugsFrom(['name','id'])
             ->saveSlugsTo('slug');
     }
 
