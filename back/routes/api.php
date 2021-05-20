@@ -184,6 +184,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     Route::post('structure/{structure}/push-api-engagement', 'Api\StructureController@pushApiEngagement');
+    Route::get('structures-without-rna', 'Api\RnaController@index');
 
     // TRASH
     Route::get('trash/structures', 'Api\TrashController@structures');

@@ -59,4 +59,7 @@ export default (axios) => ({
   async sendStructureToApiEngagement(structureId) {
     return await axios.post(`/structure/${structureId}/push-api-engagement`)
   },
+  async fetchStructuresWithoutRna(params) {
+    return await axios.get('/structures-without-rna', { params })
+  },
 })

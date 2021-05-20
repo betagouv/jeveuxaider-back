@@ -6,10 +6,7 @@
     <el-card shadow="never" class="overflow-visible relative">
       <div slot="header" class="clearfix flex flex-col items-center">
         <div class="-mt-10">
-          <Avatar
-            :source="row.logo ? row.logo.thumb : null"
-            :fallback="row.name[0]"
-          />
+          <Avatar :fallback="row.name[0]" />
         </div>
         <nuxt-link
           class="font-semibold text-sm my-3 text-primary text-center"

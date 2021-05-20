@@ -1,0 +1,191 @@
+<template>
+  <div class="has-full-table">
+    <div class="header px-12 flex">
+      <div class="header-titles flex-1">
+        <div class="text-m text-gray-600 uppercase">
+          {{ $store.getters.contextRoleLabel }}
+        </div>
+        <div class="mb-8 font-bold text-2-5xl text-gray-800">
+          Module d'assignation RNA pour les organisations
+        </div>
+      </div>
+    </div>
+    <div class="px-12 mb-3 flex flex-wrap">
+      <div class="flex w-full mb-4">
+        <SearchFiltersQueryMain
+          name="search"
+          placeholder="Rechercher par mots clés..."
+          :initial-value="query['filter[search]']"
+          @changed="onFilterChange"
+        />
+        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+          <el-button
+            icon="el-icon-s-operation"
+            class="ml-4"
+            @click="showFilters = !showFilters"
+          >
+            Filtres avancés
+          </el-button>
+        </el-badge>
+        <el-button
+          v-else
+          icon="el-icon-s-operation"
+          class="ml-4"
+          @click="showFilters = !showFilters"
+        >
+          Filtres avancés
+        </el-button>
+      </div>
+      <div v-if="showFilters" class="flex flex-wrap">
+        <SearchFiltersQueryInput
+          name="lieu"
+          label="Lieu"
+          placeholder="Ville ou code postal"
+          :initial-value="query['filter[lieu]']"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          name="state"
+          label="Statut"
+          multiple
+          :value="query['filter[state]']"
+          :options="$store.getters.taxonomies.structure_workflow_states.terms"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          name="statut_juridique"
+          label="Statut juridique"
+          :value="query['filter[statut_juridique]']"
+          :options="$store.getters.taxonomies.structure_legal_status.terms"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          v-if="$store.getters.contextRole === 'admin'"
+          name="department"
+          label="Département"
+          multiple
+          :value="query['filter[department]']"
+          :options="
+            $store.getters.taxonomies.departments.terms.map((term) => {
+              return {
+                label: `${term.value} - ${term.label}`,
+                value: term.value,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+      </div>
+    </div>
+    <el-table
+      ref="table"
+      v-loading="$fetchState.pending"
+      :data="tableData"
+      :highlight-current-row="true"
+      @row-click="onClickedRow"
+    >
+      <el-table-column width="70" label="Id" align="center">
+        <template slot-scope="scope">
+          <div class="text-secondary text-sm">{{ scope.row.id }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="Organisation" min-width="320">
+        <template slot-scope="scope">
+          <client-only>
+            <v-clamp :max-lines="1" autoresize
+              >{{ scope.row.name }}
+              <span v-if="scope.row.rna" class="">{{
+                scope.row.rna
+              }}</span></v-clamp
+            >
+          </client-only>
+          <div v-if="scope.row.full_address" class="text-secondary text-xs">
+            {{ scope.row.full_address }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Contextes" min-width="300">
+        <template slot-scope="scope">
+          <div class="flex flex-wrap">
+            <TagModelState
+              v-if="scope.row.state"
+              :state="scope.row.state"
+              size="big"
+            />
+            <el-tag v-if="scope.row.is_reseau" class="m-1 ml-0" type="info">
+              Tête de réseau
+            </el-tag>
+            <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0">
+              {{ scope.row.reseau_id | reseauFromValue }}
+            </el-tag>
+            <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
+              {{ scope.row.department | fullDepartmentFromValue }}
+            </el-tag>
+            <el-tag
+              v-if="scope.row.missions_count"
+              type="info"
+              class="m-1 ml-0"
+            >
+              {{ scope.row.missions_count }}
+              {{
+                scope.row.missions_count | pluralize(['mission', 'missions'])
+              }}
+            </el-tag>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      </div>
+      <div class="ml-auto"></div>
+    </div>
+    <portal to="volet">
+      <VoletRna @updated="onUpdatedRow" />
+    </portal>
+  </div>
+</template>
+
+<script>
+import TableWithVolet from '@/mixins/table-with-volet'
+import TableWithFilters from '@/mixins/table-with-filters'
+
+export default {
+  mixins: [TableWithVolet, TableWithFilters],
+  layout: 'dashboard',
+  asyncData({ $api, params, store, error }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
+  },
+  async fetch() {
+    const { data } = await this.$api.fetchStructuresWithoutRna(this.query)
+    this.tableData = data.data
+    this.totalRows = data.total
+    this.fromRow = data.from
+    this.toRow = data.to
+  },
+  watch: {
+    '$route.query': '$fetch',
+  },
+  methods: {
+    async onUpdatedRow() {
+      await this.$fetch()
+      if (this.totalRows) {
+        // @TODO CLICK
+        this.$refs.table.setCurrentRow(this.tableData[0])
+        this.onClickedRow(this.tableData[0])
+      }
+    },
+  },
+}
+</script>
