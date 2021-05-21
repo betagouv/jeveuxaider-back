@@ -625,6 +625,9 @@ export default {
   },
   methods: {
     goTo(url) {
+      window.plausible('Click Module de don - Page Orga', {
+        props: { isLogged: this.$store.getters.isLogged },
+      })
       window.open(url, '_blank')
     },
     defaultImg(e, field) {
