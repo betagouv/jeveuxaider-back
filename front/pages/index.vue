@@ -1155,9 +1155,10 @@ export default {
       setTimeout(() => (this.emailError = ''), 5000)
     },
     handleClickCTA() {
-      window.plausible('Click CTA - Homepage', {
-        props: { isLogged: this.$store.getters.isLogged },
-      })
+      window.plausible &&
+        window.plausible('Click CTA - Homepage', {
+          props: { isLogged: this.$store.getters.isLogged },
+        })
       this.$store.commit('toggleSearchOverlay')
     },
   },

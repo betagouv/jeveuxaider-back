@@ -131,7 +131,8 @@ export default {
             })
             .then(() => {
               this.loading = false
-              window.plausible('Inscription depuis une invitation')
+              window.plausible &&
+                window.plausible('Inscription depuis une invitation')
               if (this.invitation.role == 'benevole') {
                 this.$router.push('/register/volontaire/step/profile')
               } else {

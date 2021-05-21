@@ -87,7 +87,8 @@ export default {
             )
             .then(() => {
               window.apieng && window.apieng('trackApplication')
-              window.plausible('Demande de participation à une mission')
+              window.plausible &&
+                window.plausible('Demande de participation à une mission')
               this.$message({
                 message:
                   'Votre participation a été enregistrée et est en attente de validation !',
