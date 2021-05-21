@@ -248,7 +248,15 @@ export default {
               window.plausible &&
                 window.plausible('Inscription depuis une page mission')
               this.loading = false
-              this.$emit('next')
+
+              if (
+                this.$store.getters.user
+                  .nbTodayParticipationsOnPendingValidation >= 3
+              ) {
+                this.$emit('too-many-participations')
+              } else {
+                this.$emit('next')
+              }
             })
             .catch(() => {
               this.loading = false

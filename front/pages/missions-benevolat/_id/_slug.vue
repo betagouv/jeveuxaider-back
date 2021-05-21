@@ -655,11 +655,29 @@
 <script>
 export default {
   name: 'Mission',
-  async asyncData({ $api, params, error }) {
+  async asyncData({ $api, params, error, store }) {
     const mission = await $api.getMission(params.id)
 
-    if (!mission) {
+    if (!mission || !mission.structure) {
       return error({ statusCode: 404 })
+    }
+
+    // Si mission signalée ou organisation désinscrite / signalée
+    if (
+      ['Signalée'].includes(mission.state) ||
+      ['Désinscrite', 'Signalée'].includes(mission.structure.state)
+    ) {
+      if (store.getters.isLogged) {
+        if (
+          !store.getters.user.profile.participations.filter(
+            (participation) => participation.mission_id == mission.id
+          ).length
+        ) {
+          return error({ statusCode: 403 })
+        }
+      } else {
+        return error({ statusCode: 403 })
+      }
     }
 
     const otherMissions = await $api.fetchStructureAvailableMissions(
