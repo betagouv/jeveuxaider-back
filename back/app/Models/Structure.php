@@ -292,6 +292,15 @@ class Structure extends Model implements HasMedia
         );
     }
 
+    public function secondariesDomainesFromMissions()
+    {
+        return $this->hasManyDeep(
+            'App\Models\Tag',
+            ['App\Models\Mission', 'taggables'],
+            [null, ['taggable_type', 'taggable_id']]
+        );
+    }
+
     public function addMember(Profile $profile, $role)
     {
         return $this->members()->attach($profile, ['role' => $role]);
@@ -416,7 +425,7 @@ class Structure extends Model implements HasMedia
     public function getSlugOptions() : SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['name', 'rna'])
+            ->generateSlugsFrom(['id', 'name'])
             ->saveSlugsTo('slug');
     }
 

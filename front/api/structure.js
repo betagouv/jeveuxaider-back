@@ -56,18 +56,7 @@ export default (axios) => ({
   async getStructureInvitations(id) {
     return await axios.get(`/structure/${id}/invitations`)
   },
+  async sendStructureToApiEngagement(structureId) {
+    return await axios.post(`/structure/${structureId}/push-api-engagement`)
+  },
 })
-
-/*
-
-async updateStructureLogo(id, logo) {
-  var data = new FormData()
-  data.append('logo', logo)
-  return await axios.post(`/structure/${id}`, data, {
-    'Content-Type': 'multipart/form-data',
-  })
-}
-
-
-
-*/

@@ -183,6 +183,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
+    Route::post('structure/{structure}/push-api-engagement', 'Api\StructureController@pushApiEngagement');
+
     // TRASH
     Route::get('trash/structures', 'Api\TrashController@structures');
     Route::get('trash/missions', 'Api\TrashController@missions');

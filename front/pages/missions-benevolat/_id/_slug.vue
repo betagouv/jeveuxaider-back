@@ -21,7 +21,10 @@
             )}`,
           },
           {
-            label: `Bénévolat ${mission.structure.name} à ${mission.city}`,
+            label:
+              mission.type == 'Mission en présentiel'
+                ? `Bénévolat ${mission.structure.name} à ${mission.city}`
+                : `Bénévolat ${mission.structure.name} à distance`,
             h1: true,
           },
         ]"

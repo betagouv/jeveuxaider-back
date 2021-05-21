@@ -135,10 +135,10 @@ class StructureObserver
             }
         }
 
-        // Update API Engagement
-        if ($structure->rna && $structure->state == 'Validée') {
-            (new ApiEngagement())->syncAssociation($structure);
-        }
+        // Update API Engagement (NOT READY YET)
+        // if ($structure->rna && $structure->state == 'Validée') {
+        //     (new ApiEngagement())->syncAssociation($structure);
+        // }
     }
 
     public function deleted(Structure $structure)

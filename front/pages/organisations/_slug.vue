@@ -404,10 +404,24 @@
           <div class="bg-white">
             <div class="text-center transform -translate-y-1/2">
               <button
-                class="font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 focus:outline-none transform transition duration-150 ease-in-out will-change-transform"
+                class="mx-auto flex items-center justify-center font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 focus:outline-none transform transition duration-150 ease-in-out will-change-transform"
                 @click="goTo(organisation.donation)"
               >
                 Faire un don
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
               </button>
             </div>
 
@@ -611,6 +625,9 @@ export default {
   },
   methods: {
     goTo(url) {
+      window.plausible('Click Module de don - Page Orga', {
+        props: { isLogged: this.$store.getters.isLogged },
+      })
       window.open(url, '_blank')
     },
     defaultImg(e, field) {
