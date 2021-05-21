@@ -15,7 +15,7 @@ class FiltersStructureWithRna implements Filter
             } else if($value == 'na') {
                 $query->where('rna','N/A');
             } else if($value=='filled') {
-                $query->whereNotNull('rna');
+                $query->whereNotNull('rna')->where('rna', '!=', 'N/A');
             }
         });
     }

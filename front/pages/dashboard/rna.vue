@@ -103,13 +103,11 @@
       <el-table-column prop="name" label="Organisation" min-width="320">
         <template slot-scope="scope">
           <client-only>
-            <v-clamp :max-lines="1" autoresize
-              >{{ scope.row.name }}
-              <span v-if="scope.row.rna" class="">{{
-                scope.row.rna
-              }}</span></v-clamp
-            >
+            <v-clamp :max-lines="1" autoresize>{{ scope.row.name }} </v-clamp>
           </client-only>
+          <div v-if="scope.row.statut_juridique" class="text-secondary text-xs">
+            {{ scope.row.statut_juridique }}
+          </div>
           <div v-if="scope.row.full_address" class="text-secondary text-xs">
             {{ scope.row.full_address }}
           </div>

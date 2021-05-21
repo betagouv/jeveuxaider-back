@@ -40,15 +40,15 @@ export default {
       return this.$store.getters['volet/row']
     },
   },
-  watch: {
-    row: {
-      immediate: true,
-      deep: false,
-      handler(newValue, oldValue) {
-        this.form = { ...newValue }
-      },
-    },
-  },
+  // watch: {
+  //   row: {
+  //     immediate: true,
+  //     deep: false,
+  //     handler(newValue, oldValue) {
+  //       this.form = { ...newValue }
+  //     },
+  //   },
+  // },
   methods: {
     onOrganisationSelected(selected) {
       this.rna = selected.rna
