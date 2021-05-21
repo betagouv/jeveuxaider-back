@@ -9,6 +9,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
+use App\Filters\FiltersStructureWithRna;
 
 class RnaController extends Controller
 {
@@ -20,8 +21,15 @@ class RnaController extends Controller
                 AllowedFilter::exact('department'),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('rna', new FiltersStructureWithRna),
             ])
             ->defaultSort('created_at')
             ->paginate(config('query-builder.results_per_page'));
+    }
+
+    public function assign(Request $request, Structure $structure)
+    {
+        $structure->update(['rna' => $request->input('rna')]);
+        return $structure;
     }
 }

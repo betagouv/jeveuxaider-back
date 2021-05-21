@@ -136,7 +136,7 @@ class StructureObserver
         }
 
         // Update API Engagement (NOT READY YET)
-        // if ($structure->rna && $structure->state == 'Validée') {
+        // if ($structure->canBeSendToApiEngagement()) {
         //     (new ApiEngagement())->syncAssociation($structure);
         // }
     }

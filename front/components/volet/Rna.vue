@@ -1,13 +1,28 @@
 <template>
-  <Volet v-if="$store.getters['volet/active']">
+  <Volet v-if="$store.getters['volet/active']" class="flex flex-col h-full">
     <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-6">
       {{ row.name }}
     </div>
-    <!-- <el-card shadow="never" class="overflow-visible relative"> RES </el-card> -->
+
     <StructureApiSearchInputWithResults
+      class="flex-1 overflow-y-auto"
       :initial-value="row.name"
-      @submitted="onOrganisationSubmit"
+      :structure="row"
+      @selected="onOrganisationSelected"
     />
+
+    <div class="border-t pt-4 flex items-end justify-end">
+      <el-button :loading="loadingNA" @click="onSubmitRnaNA"
+        >RNA non applicable</el-button
+      >
+      <el-button
+        v-if="rna && rna != 'N/A'"
+        type="primary"
+        :loading="loading"
+        @click="onSubmit"
+        >Assigner</el-button
+      >
+    </div>
   </Volet>
 </template>
 
@@ -16,8 +31,8 @@ export default {
   data() {
     return {
       loading: false,
-      structureApi: null,
-      form: {},
+      loadingNA: false,
+      rna: null,
     }
   },
   computed: {
@@ -35,8 +50,22 @@ export default {
     },
   },
   methods: {
-    onOrganisationSubmit() {
-      console.log('onOrganisationSubmit')
+    onOrganisationSelected(selected) {
+      this.rna = selected.rna
+    },
+    async onSubmit() {
+      this.loading = true
+      await this.$api.assignStructureRna(this.row.id, { rna: this.rna })
+      this.loading = false
+      this.rna = null
+
+      this.$emit('updated')
+    },
+    async onSubmitRnaNA() {
+      this.loadingNA = true
+      await this.$api.assignStructureRna(this.row.id, { rna: 'N/A' })
+      this.loadingNA = false
+      this.rna = null
       this.$emit('updated')
     },
   },

@@ -268,7 +268,7 @@ class StructureController extends Controller
 
     public function pushApiEngagement(Request $request, Structure $structure)
     {
-        if ($structure) {
+        if ($structure && $structure->canBeSendToApiEngagement()) {
             return (new ApiEngagement())->syncAssociation($structure);
         }
     }

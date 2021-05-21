@@ -62,4 +62,7 @@ export default (axios) => ({
   async fetchStructuresWithoutRna(params) {
     return await axios.get('/structures-without-rna', { params })
   },
+  async assignStructureRna(structureId, params) {
+    return await axios.post(`/structure/${structureId}/rna`, params)
+  },
 })

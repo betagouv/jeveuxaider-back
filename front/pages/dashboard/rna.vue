@@ -37,6 +37,17 @@
         </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
+        <SearchFiltersQuery
+          name="rna"
+          label="RNA"
+          :value="query['filter[rna]']"
+          :options="[
+            { label: 'Non renseigné', value: 'empty' },
+            { label: 'Non applicable', value: 'na' },
+            { label: 'Renseigné', value: 'filled' },
+          ]"
+          @changed="onFilterChange"
+        />
         <SearchFiltersQueryInput
           name="lieu"
           label="Lieu"
@@ -131,6 +142,13 @@
                 scope.row.missions_count | pluralize(['mission', 'missions'])
               }}
             </el-tag>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="rna" label="RNA" width="200">
+        <template slot-scope="scope">
+          <div v-if="scope.row.rna" class="">
+            {{ scope.row.rna }}
           </div>
         </template>
       </el-table-column>

@@ -40,8 +40,6 @@
         </div>
       </div>
     </div>
-
-    <div @click="onSubmit()">SUBMIT</div>
   </div>
 </template>
 
@@ -52,6 +50,10 @@ export default {
       type: String,
       required: false,
       default: null,
+    },
+    structure: {
+      type: Object,
+      required: true,
     },
   },
   data() {
@@ -83,18 +85,22 @@ export default {
       if (this.selected) {
         return this.selected.rna == suggestion.rna
       }
+      if (this.structure) {
+        return this.structure.rna == suggestion.rna
+      }
       return false
     },
     onSelected(suggestion) {
       this.selected = suggestion
+      this.$emit('selected', this.selected)
     },
     onInputChange(text) {
       console.log('onInputChange', text)
       this.search()
     },
-    onSubmit() {
-      this.$emit('submitted')
-    },
+    // onSubmit() {
+    //   this.$emit('submitted', this.selected)
+    // },
     async search() {
       this.loading = true
       if (this.query) {

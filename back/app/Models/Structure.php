@@ -443,4 +443,9 @@ class Structure extends Model implements HasMedia
     {
         return $this->getMediaUrls('override_image_2');
     }
+
+    public function canBeSendToApiEngagement()
+    {
+        return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A';
+    }
 }
