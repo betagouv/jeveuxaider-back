@@ -24,6 +24,12 @@
         {{ profile.last_online_at | fromNow }}
       </div>
     </div>
+    <div v-if="profile.type && canViewPrivateData" class="mb-2 flex">
+      <div class="card-label">Type</div>
+      <div class="text-gray-900 flex-1">
+        {{ profile.type | labelFromValue('profile_types') }}
+      </div>
+    </div>
     <div v-if="profile.email && canViewPrivateData" class="mb-2 flex">
       <div class="card-label">Email</div>
       <div class="text-gray-900 flex-1">

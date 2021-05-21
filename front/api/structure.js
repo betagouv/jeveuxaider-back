@@ -5,6 +5,11 @@ export default (axios) => ({
     })
     return data
   },
+  async fetchStructureAvailableMissionsWithPagination(id, params) {
+    return await axios.get(`/structure/${id}/availableMissions`, {
+      params,
+    })
+  },
   async fetchStructures(params) {
     return await axios.get('/structures', { params })
   },
@@ -22,6 +27,10 @@ export default (axios) => ({
   },
   async getStructure(id) {
     const { data } = await axios.get(`/structure/${id}`)
+    return data
+  },
+  async getStructureBySlug(slug) {
+    const { data } = await axios.get(`/organisation/${slug}`)
     return data
   },
   async addOrUpdateStructure(id, structure) {
@@ -47,18 +56,7 @@ export default (axios) => ({
   async getStructureInvitations(id) {
     return await axios.get(`/structure/${id}/invitations`)
   },
+  async sendStructureToApiEngagement(structureId) {
+    return await axios.post(`/structure/${structureId}/push-api-engagement`)
+  },
 })
-
-/*
-
-async updateStructureLogo(id, logo) {
-  var data = new FormData()
-  data.append('logo', logo)
-  return await axios.post(`/structure/${id}`, data, {
-    'Content-Type': 'multipart/form-data',
-  })
-}
-
-
-
-*/

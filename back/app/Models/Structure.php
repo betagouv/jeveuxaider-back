@@ -13,10 +13,13 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+use App\Models\Tag;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -58,6 +61,8 @@ class Structure extends Model implements HasMedia
         'rna',
         'phone',
         'email',
+        'slug',
+        'color'
     ];
 
     protected $attributes = [
@@ -75,7 +80,7 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'domaines', 'logo'];
+    protected $appends = ['full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -120,6 +125,11 @@ class Structure extends Model implements HasMedia
     public function getDomainesAttribute()
     {
         return $this->tagsWithType('domaine')->values();
+    }
+
+    public function getDomainesWithImageAttribute()
+    {
+        return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
     }
 
     public function setNameAttribute($value)
@@ -282,6 +292,15 @@ class Structure extends Model implements HasMedia
         );
     }
 
+    public function secondariesDomainesFromMissions()
+    {
+        return $this->hasManyDeep(
+            'App\Models\Tag',
+            ['App\Models\Mission', 'taggables'],
+            [null, ['taggable_type', 'taggable_id']]
+        );
+    }
+
     public function addMember(Profile $profile, $role)
     {
         return $this->members()->attach($profile, ['role' => $role]);
@@ -396,5 +415,32 @@ class Structure extends Model implements HasMedia
             ->width(320)
             ->nonQueued()
             ->performOnCollections('structures');
+
+        $this->addMediaConversion('xxl')
+            ->width(1440)
+            ->nonQueued()
+            ->performOnCollections('structures');
+    }
+
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['id', 'name'])
+            ->saveSlugsTo('slug');
+    }
+
+    public function getPlacesLeftAttribute()
+    {
+        return $this->missions()->available()->get()->sum('places_left');
+    }
+
+    public function getOverrideImage1Attribute()
+    {
+        return $this->getMediaUrls('override_image_1');
+    }
+
+    public function getOverrideImage2Attribute()
+    {
+        return $this->getMediaUrls('override_image_2');
     }
 }

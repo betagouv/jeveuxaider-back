@@ -4,6 +4,11 @@
       Modifier l'organisation
     </nuxt-link>
     <el-dropdown-menu slot="dropdown">
+      <nuxt-link target="_blank" :to="`/organisations/${structure.slug}`">
+        <el-dropdown-item :command="{}"
+          >Afficher l'organisation</el-dropdown-item
+        >
+      </nuxt-link>
       <nuxt-link :to="`/dashboard/structure/${structure.id}/missions/add`">
         <el-dropdown-item :command="{}">Ajouter une mission</el-dropdown-item>
       </nuxt-link>
@@ -13,6 +18,13 @@
       <nuxt-link :to="`/dashboard/structure/${structure.id}/members/add`">
         <el-dropdown-item :command="{}"> Ajouter un membre </el-dropdown-item>
       </nuxt-link>
+      <el-dropdown-item
+        v-if="canBeSentToApiEngagement"
+        :command="{ action: 'send-api' }"
+        divided
+      >
+        Envoyer à l'API Engagement
+      </el-dropdown-item>
       <el-dropdown-item :command="{ action: 'delete' }" divided>
         Supprimer l'organisation
       </el-dropdown-item>
@@ -28,10 +40,33 @@ export default {
       required: true,
     },
   },
+  computed: {
+    canBeSentToApiEngagement() {
+      return (
+        this.structure.state == 'Validée' &&
+        this.structure.rna &&
+        this.$store.getters.contextRole == 'admin'
+      )
+    },
+  },
   methods: {
     handleCommand(command) {
       if (command.action == 'delete') {
         this.handleDeleteStructure()
+      }
+      if (command.action == 'send-api') {
+        this.handleSendApiEngagement()
+      }
+    },
+    async handleSendApiEngagement() {
+      const res = await this.$api.sendStructureToApiEngagement(
+        this.structure.id
+      )
+      console.log(res)
+      if (res) {
+        this.$message.success({
+          message: `L'organisation ${this.structure.name} a été envoyée à l'API Engagement.`,
+        })
       }
     },
     handleDeleteStructure() {
@@ -76,5 +111,5 @@ export default {
   @apply px-12
   > .el-menu-item
     @apply mr-8 p-0 font-medium
-    border-bottom: solid 3px #070191
+      border-bottom: solid 3px #070191
 </style>

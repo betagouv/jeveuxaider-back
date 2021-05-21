@@ -135,9 +135,11 @@
               <div>
                 <h2 class="text-lg font-medium">
                   <span>L'organisation</span>
-                  <b class="text-blue-800">
-                    {{ structure.name }}
-                  </b>
+                  <nuxt-link :to="`/organisations/${structure.slug}`">
+                    <b class="text-blue-800">
+                      {{ structure.name }}
+                    </b>
+                  </nuxt-link>
                 </h2>
               </div>
 
@@ -346,9 +348,11 @@
           <div class="mt-6">
             <span class="text-lg font-medium">
               <span>L'organisation</span>
-              <b class="text-blue-800">
-                {{ structure.name }}
-              </b>
+              <nuxt-link :to="`/organisations/${structure.slug}`">
+                <b class="text-blue-800">
+                  {{ structure.name }}
+                </b>
+              </nuxt-link>
             </span>
           </div>
         </div>
@@ -651,8 +655,13 @@
 <script>
 export default {
   name: 'Mission',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, error }) {
     const mission = await $api.getMission(params.id)
+
+    if (!mission) {
+      return error({ statusCode: 404 })
+    }
+
     const otherMissions = await $api.fetchStructureAvailableMissions(
       mission.structure.id,
       {

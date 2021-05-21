@@ -314,20 +314,63 @@ class ApiEngagement
     {
         if ($structure->rna) {
             try {
-                $attributes = [
-                    'url' => $structure->website,
-                    'facebook' => $structure->facebook,
-                    'twitter' => $structure->twitter,
-                    'logo' => $structure->logo ? $structure->logo['large'] : null,
-                ];
+                if ($structure->statut_juridique) {
+                    $attributes['statut_juridique'] = $structure->statut_juridique;
+                }
+                if (!empty($structure->domaines)) {
+                    $attributes['domaines'] = $structure->domaines->pluck('name')->toArray();
+                }
+                if (!empty($structure->publics_beneficiaires)) {
+                    $attributes['publics_beneficiaires'] = $structure->publics_beneficiaires;
+                }
+                if ($structure->description) {
+                    $attributes['description'] = $structure->description;
+                }
+                if ($structure->logo) {
+                    $attributes['logo'] = $structure->logo['original'];
+                }
+                if ($structure->website) {
+                    $attributes['url'] = $structure->website;
+                }
+                if ($structure->donation) {
+                    $attributes['donation'] = $structure->donation;
+                }
+                if ($structure->facebook) {
+                    $attributes['facebook'] = $structure->facebook;
+                }
+                if ($structure->twitter) {
+                    $attributes['twitter'] = $structure->twitter;
+                }
+
+                if ($structure->latitude) {
+                    $attributes['coordonnees'] = [
+                        'adresse_publique' => [
+                            'voie' => $structure->address,
+                            'commune' => $structure->city,
+                            'cp' => $structure->zip,
+                            'latitude_longitude' => [
+                                'lat' => $structure->latitude,
+                                'lon' => $structure->longitude,
+                            ],
+                            'departement' => $structure->department,
+                        ],
+                    ];
+                }
+
+                if ($structure->phone) {
+                    $attributes['coordonnees']['telephone'] = $structure->phone;
+                }
+                if ($structure->email) {
+                    $attributes['coordonnees']['courriel'] = $structure->email;
+                }
 
                 // ray($attributes);
 
-                // return Http::withHeaders([
-                //     'apikey' => config('app.api_engagement_key'),
-                // ])->put("https://api.api-engagement.beta.gouv.fr/v0/association/". $structure->rna, $attributes);
+                return Http::withHeaders([
+                    'apikey' => config('app.api_engagement_key'),
+                ])->put("https://api.api-engagement.beta.gouv.fr/v0/association/". $structure->rna, $attributes);
             } catch (\Throwable $th) {
-                //throw $th;
+                throw $th;
             }
         }
     }

@@ -83,6 +83,17 @@
         </el-form-item>
       </div>
 
+      <el-form-item label="Type de profil" prop="type" class="mb-6">
+        <el-select v-model="form.type" placeholder="Sélectionnez votre profil">
+          <el-option
+            v-for="item in $store.getters.taxonomies.profile_types.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="Disponibilités" prop="disponibilities" class="mb-6">
         <el-checkbox-group
           v-model="form.disponibilities"
@@ -100,7 +111,7 @@
           >
         </el-checkbox-group>
       </el-form-item>
-      <div class="flex items-end">
+      <div class="flex items-end mb-3">
         <el-form-item
           label="Fréquence"
           prop="disponibilities"
@@ -130,6 +141,7 @@
           </el-select>
         </el-form-item>
       </div>
+
       <el-form-item
         label="Décrivez vos motivations"
         prop="description"
@@ -220,6 +232,13 @@ export default {
           {
             pattern: /^[+|\s|\d]*$/,
             message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
+        type: [
+          {
+            required: true,
+            message: 'Choisissez votre type de profil',
             trigger: 'blur',
           },
         ],

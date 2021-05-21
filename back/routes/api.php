@@ -24,6 +24,8 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
+Route::get('organisation/{slug}', 'Api\StructureController@slug');
+
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
@@ -180,6 +182,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
+
+    Route::post('structure/{structure}/push-api-engagement', 'Api\StructureController@pushApiEngagement');
 
     // TRASH
     Route::get('trash/structures', 'Api\TrashController@structures');

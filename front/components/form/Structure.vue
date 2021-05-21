@@ -13,27 +13,17 @@
       </div>
     </div>
 
-    <ImageField
-      model="structure"
-      :model-id="form.id"
-      :max-size="2000000"
-      :preview-width="'200px'"
-      :field="form.logo"
-      :aspect-ratio="0"
-      label="Logo"
-      field-name="logo"
-      :min-width="120"
-      @add-or-crop="logo = $event"
-      @delete="logo = null"
-    />
-
     <el-form-item label="Nom de votre organisation" prop="name">
       <el-input v-model="form.name" placeholder="Nom de votre organisation" />
     </el-form-item>
 
-    <!-- <el-form-item label="RNA" prop="rna">
+    <el-form-item
+      v-if="$store.getters.contextRole == 'admin'"
+      label="RNA"
+      prop="rna"
+    >
       <el-input v-model="form.rna" placeholder="Numéro RNA" />
-    </el-form-item> -->
+    </el-form-item>
 
     <el-form-item label="Statut juridique" prop="statut_juridique">
       <el-select v-model="form.statut_juridique" placeholder="Statut juridique">
@@ -276,6 +266,164 @@
         placeholder="URL de votre page (Helloasso, Microdon, Ulule, etc...)"
       />
     </el-form-item>
+
+    <div class="mt-12 mb-6 text-gray-800 text-1-5xl font-bold">
+      Visuels & personnalisation
+    </div>
+
+    <ImageField
+      model="structure"
+      :model-id="form.id"
+      :max-size="2000000"
+      :preview-width="'200px'"
+      :field="form.logo"
+      :aspect-ratio="0"
+      label="Logo"
+      field-name="logo"
+      :min-width="120"
+      component-classes="mb-8"
+      @add-or-crop="handleAddOrCrop($event)"
+      @delete="handleDelete($event)"
+    />
+
+    <div class="mb-8">
+      <div class="el-form-item__label">Visuel N° 1</div>
+      <template
+        v-if="$store.getters.contextRole != 'admin' && form['override_image_1']"
+      >
+        <ItemDescription container-class="mb-6">
+          Cette image a été surchargée par un administrateur et n'est pas
+          modifiable.
+        </ItemDescription>
+
+        <img
+          :src="form.override_image_1.thumb"
+          class="opacity-50"
+          width="250px"
+        />
+      </template>
+
+      <div v-else class="relative inline-flex flex-col group">
+        <img
+          :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
+          :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
+          class="h-auto rounded-lg cursor-pointer shadow-xl"
+          width="250px"
+          @click="onEditImageClick(0)"
+        />
+        <div
+          class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+          style="right: 12px; bottom: 12px"
+        >
+          <div
+            class="text-blue-800"
+            v-html="require('@/assets/images/icones/heroicon/edit.svg?include')"
+          />
+        </div>
+      </div>
+    </div>
+
+    <ImageField
+      v-if="$store.getters.contextRole === 'admin'"
+      model="structure"
+      :model-id="form.id ? form.id : null"
+      :max-size="2000000"
+      :min-width="1440"
+      :min-height="1080"
+      :aspect-ratio="1440 / 1080"
+      :field="form[`override_image_1`]"
+      :field-name="`override_image_1`"
+      label="Surcharger Visuel N° 1"
+      component-classes="mb-8"
+      @add-or-crop="handleAddOrCrop($event)"
+      @delete="handleDelete($event)"
+    ></ImageField>
+
+    <div class="mb-8">
+      <div class="el-form-item__label">Visuel N° 2</div>
+
+      <template
+        v-if="$store.getters.contextRole != 'admin' && form['override_image_2']"
+      >
+        <ItemDescription container-class="mb-6">
+          Cette image a été surchargée par un administrateur et n'est pas
+          modifiable.
+        </ItemDescription>
+
+        <img
+          :src="form.override_image_2.thumb"
+          class="opacity-50"
+          width="250px"
+        />
+      </template>
+
+      <div v-else class="relative inline-flex group">
+        <img
+          :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+          :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
+          class="h-auto rounded-lg cursor-pointer shadow-xl"
+          width="250px"
+          @click="onEditImageClick(1)"
+        />
+        <div
+          class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+          style="right: 12px; bottom: 12px"
+        >
+          <div
+            class="text-blue-800"
+            v-html="require('@/assets/images/icones/heroicon/edit.svg?include')"
+          />
+        </div>
+      </div>
+    </div>
+
+    <ImageField
+      v-if="$store.getters.contextRole === 'admin'"
+      model="structure"
+      :model-id="form.id ? form.id : null"
+      :max-size="2000000"
+      :min-width="1440"
+      :min-height="1080"
+      :aspect-ratio="1440 / 1080"
+      :field="form[`override_image_2`]"
+      :field-name="`override_image_2`"
+      label="Surcharger Visuel N° 2"
+      component-classes="mb-8"
+      @add-or-crop="handleAddOrCrop($event)"
+      @delete="handleDelete($event)"
+    ></ImageField>
+
+    <DialogOrganisationImagesPicker
+      :initial-image="selectedImages[imageIndex]"
+      :domaines="form.domaines.length ? form.domaines : domaines"
+      :is-visible="showDialog"
+      @picked="onPickedImage"
+      @close="showDialog = false"
+    />
+
+    <el-form-item
+      v-if="$store.getters.contextRole === 'admin'"
+      label="Couleur"
+      prop="color"
+    >
+      <el-select v-model="form.color" placeholder="Couleur">
+        <el-option
+          v-for="item in colors"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+          <div class="flex items-center">
+            <span
+              class="w-6 h-6 rounded-full mr-4 my-auto"
+              :style="`float: left; background-color: ${item.value};`"
+            ></span>
+            <span>{{ item.label }}</span>
+          </div>
+        </el-option>
+      </el-select>
+    </el-form-item>
+
     <div class="flex pt-2 items-center">
       <el-button type="primary" :loading="loading" @click="onSubmit">
         Enregistrer
@@ -312,6 +460,9 @@ export default {
     return {
       loading: false,
       form: { ...this.structure },
+      uploads: [],
+      imageIndex: 0,
+      showDialog: false,
       rules: {
         name: [
           {
@@ -372,6 +523,17 @@ export default {
         ],
       },
       logo: null,
+      colors: [
+        { label: 'Noir', value: '#111827' },
+        { label: 'Gris', value: '#4B5563' },
+        { label: 'Rouge', value: '#B91C1C' },
+        { label: 'Orange', value: '#D97706' },
+        { label: 'Vert', value: '#047857' },
+        { label: 'Bleu', value: '#1E40AF' },
+        { label: 'Indigo', value: '#3730A3' },
+        { label: 'Violet', value: '#5B21B6' },
+        { label: 'Rose', value: '#DB2777' },
+      ],
     }
   },
   computed: {
@@ -382,6 +544,13 @@ export default {
       set(items) {
         //
       },
+    },
+    selectedImages() {
+      return this.form.image_1
+        ? [this.form.image_1, this.form.image_2]
+        : this.form.domaines.length > 0
+        ? [this.form.domaines[0].id + '_1', this.form.domaines[0].id + '_2']
+        : ['1_1', '2_1']
     },
   },
   methods: {
@@ -397,20 +566,37 @@ export default {
         this.$set(this.form, 'domaines', [...this.form.domaines, domaine])
       }
     },
+    onEditImageClick(index) {
+      this.imageIndex = index
+      this.showDialog = true
+    },
+    onPickedImage(imageName) {
+      this.selectedImages[this.imageIndex] = imageName
+      this.form[`image_${this.imageIndex + 1}`] = imageName
+    },
+    handleAddOrCrop($event) {
+      const existingIndex = this.uploads.findIndex(
+        (upload) => upload.fieldName === $event.fieldName
+      )
+      if (existingIndex != -1) {
+        this.uploads.splice(existingIndex, 1, $event)
+      } else {
+        this.uploads.push($event)
+      }
+    },
+    handleDelete($event) {
+      this.uploads.splice(
+        this.uploads.findIndex(
+          (upload) => upload.fieldName === $event.fieldName
+        ),
+        1
+      )
+    },
     onSubmit() {
       this.loading = true
-      this.$refs.structureForm.validate(async (valid) => {
+      this.$refs.structureForm.validate(async (valid, fields) => {
         if (valid) {
-          if (this.logo) {
-            await this.$api.uploadImage(
-              this.form.id,
-              'structure',
-              this.logo.blob,
-              this.logo.cropSettings,
-              'logo'
-            )
-          }
-
+          await this.uploadImages()
           this.$api
             .addOrUpdateStructure(this.structure.id, this.form)
             .then(() => {
@@ -426,6 +612,14 @@ export default {
             })
         } else {
           this.loading = false
+          const errors = []
+          for (const property in fields) {
+            errors.push(fields[property][0].message)
+          }
+          this.$message.error({
+            message: errors.join('<br/>'),
+            dangerouslyUseHTMLString: true,
+          })
         }
       })
     },
@@ -449,6 +643,21 @@ export default {
           this.$router.push('/')
         })
       })
+    },
+    uploadImages() {
+      const promises = []
+      this.uploads.forEach((upload) => {
+        promises.push(
+          this.$api.uploadImage(
+            this.form.id,
+            'structure',
+            upload.blob,
+            upload.cropSettings,
+            upload.fieldName
+          )
+        )
+      })
+      Promise.all(promises)
     },
   },
 }

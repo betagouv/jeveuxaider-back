@@ -176,12 +176,13 @@ export default {
       return error({ statusCode: 403 })
     }
     const form = { ...store.getters.structure_as_responsable }
-    const defaultImages = store.getters.structure_as_responsable.domaines
-      ? [
-          store.getters.structure_as_responsable.domaines[0].id + '_1',
-          store.getters.structure_as_responsable.domaines[0].id + '_2',
-        ]
-      : ['1_1', '2_1']
+    const defaultImages =
+      store.getters.structure_as_responsable.domaines.length > 0
+        ? [
+            store.getters.structure_as_responsable.domaines[0].id + '_1',
+            store.getters.structure_as_responsable.domaines[0].id + '_2',
+          ]
+        : ['1_1', '2_1']
     return {
       structureId: store.getters.structure_as_responsable.id,
       form,

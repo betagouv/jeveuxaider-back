@@ -56,6 +56,7 @@
     "vue-filter-pretty-bytes": "^0.1.6",
     "vue-instantsearch": "^3.5.0",
     "vue-nl2br": "^0.1.2",
+    "vue-scrollto": "^2.20.0",
     "vue-spinner": "^1.0.4",
     "vue-textarea-autosize": "^1.1.1",
     "vue-the-mask": "^0.11.1",

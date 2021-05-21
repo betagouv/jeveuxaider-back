@@ -42,6 +42,7 @@ class GenerateSlugForMissions extends Command
         $this->info($missions->count() . ' missions will be updated.');
         if ($this->confirm('Do you wish to continue?')) {
             foreach ($missions as $mission) {
+                $mission->generateSlug();
                 $mission->save();
             }
         }

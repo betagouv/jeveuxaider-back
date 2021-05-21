@@ -28,6 +28,7 @@ use App\Models\Mission;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
+use App\Services\ApiEngagement;
 
 class StructureController extends Controller
 {
@@ -85,6 +86,7 @@ class StructureController extends Controller
         $query = QueryBuilder::for(Mission::with('domaine'))
             ->allowedAppends(['domaines'])
             ->available()
+            ->with('structure')
             ->where('structure_id', $structure->id);
 
         if ($request->has('exclude')) {
@@ -93,13 +95,23 @@ class StructureController extends Controller
 
         return $query
             ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->allowedSorts(['places_left', 'type'])
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
     public function show(StructureRequest $request, Structure $structure)
     {
         $structure = Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
+        return $structure;
+    }
+
+    public function slug(Request $request, $slug)
+    {
+        $structure = Structure::where('slug', $slug)->where('state', 'Validée')->first();
+        if ($structure) {
+            $structure->append('domaines_with_image');
+        }
         return $structure;
     }
 
@@ -239,7 +251,8 @@ class StructureController extends Controller
             ->withCustomProperties(['field' => $field])
             ->withManipulations([
                 'thumb' => ['manualCrop' => $stringCropSettings],
-                'large' => ['manualCrop' => $stringCropSettings]
+                'large' => ['manualCrop' => $stringCropSettings],
+                'xxl' => ['manualCrop' => $stringCropSettings]
             ])
             ->toMediaCollection('structures');
 
@@ -250,6 +263,13 @@ class StructureController extends Controller
     {
         if ($media = $structure->getFirstMedia('structures', ['field' => $field])) {
             $media->delete();
+        }
+    }
+
+    public function pushApiEngagement(Request $request, Structure $structure)
+    {
+        if ($structure) {
+            return (new ApiEngagement())->syncAssociation($structure);
         }
     }
 }

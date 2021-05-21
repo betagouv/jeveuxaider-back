@@ -57,6 +57,7 @@ class StructureRequest extends FormRequest
             'rna' => '',
             'phone' => '',
             'email' => '',
+            'color' => '',
         ];
     }
 

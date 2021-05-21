@@ -45,8 +45,9 @@ class MissionController extends Controller
             AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
             AllowedFilter::exact('responsable_id'),
         ])
+        ->allowedSorts(['places_left', 'type'])
         ->defaultSort('-updated_at')
-        ->paginate(config('query-builder.results_per_page'));
+        ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
     public function export(Request $request)
@@ -56,6 +57,7 @@ class MissionController extends Controller
 
     public function show(Request $request, $id)
     {
+
         if (is_numeric($id)) {
             $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
         } else {

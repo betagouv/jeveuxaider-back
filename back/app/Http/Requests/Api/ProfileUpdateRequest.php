@@ -49,6 +49,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'skills' => '',
             'frequence' => '',
             'frequence_granularite' => '',
+            'type' => '',
         ];
 
         if (request()->user()->isAdmin()) {

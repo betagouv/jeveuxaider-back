@@ -1,5 +1,5 @@
 <template>
-  <div class="component--image-field mb-6">
+  <div class="component--image-field" :class="[componentClasses]">
     <slot name="label">
       <div :class="labelClass">{{ label }}</div>
     </slot>
@@ -169,6 +169,10 @@ export default {
     description: {
       type: String,
       default: null,
+    },
+    componentClasses: {
+      type: String,
+      default: 'mb-6',
     },
   },
   data() {
