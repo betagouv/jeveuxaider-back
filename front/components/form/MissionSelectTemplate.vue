@@ -20,7 +20,40 @@
         :value="domaine.id"
       ></el-option>
     </el-select>
-    <div class="mb-6 text-1-5xl font-bold text-gray-800 flex items-center">
+
+    <div class="text-1-5xl font-bold text-gray-800 flex items-center">
+      <div>Rédiger intégralement la mission</div>
+      <el-tag type="warning" size="small" class="ml-2"
+        >Validation par un référent</el-tag
+      >
+    </div>
+    <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
+      <i class="el-icon-info text-primary mt-1 mr-2"></i>
+      <div class="flex-1">
+        En choisissant de rédiger intégralement votre mission, tous les champs
+        sont éditables. La mission est publiée après validation par le référent
+        départemental de JeVeuxAider.gouv.fr.
+      </div>
+    </div>
+    <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
+      <div class="mr-3">
+        <div class="mb-1">Modèle libre</div>
+        <div class="text-xs text-gray-400">
+          Je personnalise le contenu de ma mission.
+        </div>
+      </div>
+      <el-button
+        plain
+        type="primary"
+        class="ml-auto h-full"
+        @click="$emit('selected')"
+        >Choisir</el-button
+      >
+    </div>
+
+    <div
+      class="mt-10 mb-6 text-1-5xl font-bold text-gray-800 flex items-center"
+    >
       <div>Publier une mission à partir d'un modèle</div>
       <el-tag type="success" size="small" class="ml-2"
         >Publication automatique</el-tag
@@ -100,35 +133,6 @@
         </div>
       </div>
     </template>
-    <div class="mt-10 text-1-5xl font-bold text-gray-800 flex items-center">
-      <div>Rédiger intégralement la mission</div>
-      <el-tag type="warning" size="small" class="ml-2"
-        >Validation par un référent</el-tag
-      >
-    </div>
-    <div class="mt-2 mb-6 text-xs leading-snug text-gray-500 flex">
-      <i class="el-icon-info text-primary mt-1 mr-2"></i>
-      <div class="flex-1">
-        En choisissant de rédiger intégralement votre mission, tous les champs
-        sont éditables. La mission est publiée après validation par le référent
-        départemental de JeVeuxAider.gouv.fr.
-      </div>
-    </div>
-    <div class="bg-gray-100 p-4 mb-4 rounded flex items-center">
-      <div class="mr-3">
-        <div class="mb-1">Modèle libre</div>
-        <div class="text-xs text-gray-400">
-          Je personnalise le contenu de ma mission.
-        </div>
-      </div>
-      <el-button
-        plain
-        type="primary"
-        class="ml-auto h-full"
-        @click="$emit('selected')"
-        >Choisir</el-button
-      >
-    </div>
   </div>
 </template>
 
