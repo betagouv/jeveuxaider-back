@@ -166,7 +166,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'profile',
   data() {
     return {
@@ -275,14 +278,8 @@ export default {
             this.updateProfile()
           }
         } else {
+          this.showErrors(fields)
           this.loading = false
-          const errors = []
-          for (const property in fields) {
-            errors.push(fields[property][0].message)
-          }
-          this.$message.error({
-            message: errors.join('\r\n'),
-          })
         }
       })
     },

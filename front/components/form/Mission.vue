@@ -413,11 +413,12 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import MissionMixin from '@/mixins/MissionMixin'
 
 export default {
-  mixins: [FormWithAddress, MissionMixin],
+  mixins: [FormMixin, FormWithAddress, MissionMixin],
   props: {
     structureId: {
       type: Number,
@@ -602,14 +603,8 @@ export default {
               })
           }
         } else {
+          this.showErrors(fields)
           this.loading = false
-          const errors = []
-          for (const property in fields) {
-            errors.push(fields[property][0].message)
-          }
-          this.$message.error({
-            message: errors.join('\r\n'),
-          })
         }
       })
     },

@@ -454,10 +454,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
 import FormWithAddress from '@/mixins/FormWithAddress'
 
 export default {
-  mixins: [FormWithAddress],
+  mixins: [FormMixin, FormWithAddress],
   props: {
     structure: {
       type: Object,
@@ -625,14 +626,8 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
-          const errors = []
-          for (const property in fields) {
-            errors.push(fields[property][0].message)
-          }
-          this.$message.error({
-            message: errors.join('\r\n'),
-          })
         }
       })
     },
