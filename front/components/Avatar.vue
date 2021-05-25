@@ -1,7 +1,12 @@
 <template>
   <div
-    class="overflow-hidden rounded-full flex-none flex items-center justify-center bg-primary text-white"
-    :class="[width, fontSize]"
+    class="overflow-hidden rounded-full flex-none flex items-center justify-center text-white"
+    :class="[
+      width,
+      fontSize,
+      { 'bg-primary': !initialSource },
+      { 'bg-white': initialSource },
+    ]"
   >
     <template v-if="icon">
       <i :class="icon" />
@@ -60,6 +65,7 @@ export default {
             "Avatar.vue : property 'fallback' is required when using property 'source'. "
           )
         }
+        this.initialSource = value
       },
       immediate: true,
     },
