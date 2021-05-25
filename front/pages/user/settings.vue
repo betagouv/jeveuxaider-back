@@ -60,7 +60,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'profile',
   data() {
     const validatePass2 = (rule, value, callback) => {
@@ -100,7 +103,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.settingsForm.validate((valid) => {
+      this.$refs.settingsForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .updatePassword(this.form)
@@ -116,6 +119,7 @@ export default {
             })
           this.loading = false
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

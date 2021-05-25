@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class>
-        <nuxt-link :to="`/dashboard/contents/template/add`">
+        <nuxt-link :to="`/dashboard/contents/tag/add`">
           <el-button type="primary"> Ajouter un tag </el-button>
         </nuxt-link>
       </div>

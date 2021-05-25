@@ -169,7 +169,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'register-steps',
   async asyncData({ $api, store }) {
     const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
@@ -238,7 +241,7 @@ export default {
       }
     },
     onSubmit() {
-      this.$refs.profileForm.validate(async (valid) => {
+      this.$refs.profileForm.validate(async (valid, fields) => {
         if (valid) {
           this.loading = true
           await this.$store.dispatch('user/updateProfile', {
@@ -247,6 +250,8 @@ export default {
           })
           this.loading = false
           this.$router.push('/register/volontaire/step/competences')
+        } else {
+          this.showErrors(fields)
         }
       })
     },

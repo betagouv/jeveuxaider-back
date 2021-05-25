@@ -21,7 +21,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     page: {
       type: Object,
@@ -55,7 +58,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.pageForm.validate((valid) => {
+      this.$refs.pageForm.validate((valid, fields) => {
         if (valid) {
           if (this.page.id) {
             this.$api
@@ -87,6 +90,7 @@ export default {
               })
           }
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

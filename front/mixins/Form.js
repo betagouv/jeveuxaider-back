@@ -2,9 +2,16 @@ export default {
   methods: {
     showErrors(fields) {
       const errors = []
-      for (const property in fields) {
-        errors.push(fields[property][0].message)
+      const nbErrors = Object.entries(fields).length
+
+      if (nbErrors > 4) {
+        errors.push(`${nbErrors} champs obligatoires ne sont pas valides.`)
+      } else {
+        for (const property in fields) {
+          errors.push(fields[property][0].message)
+        }
       }
+
       this.$message.error({
         message: errors.join('\r\n'),
       })

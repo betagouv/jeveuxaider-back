@@ -164,7 +164,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'register-steps',
   asyncData({ $api, store, error }) {
     if (!store.getters.structure_as_responsable) {
@@ -221,7 +224,7 @@ export default {
         description: [
           {
             required: true,
-            message: 'Ce champ est requis',
+            message: 'Veuillez renseigner une description',
             trigger: 'blur',
           },
           {
@@ -264,7 +267,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.structureForm.validate(async (valid) => {
+      this.$refs.structureForm.validate(async (valid, fields) => {
         if (valid) {
           this.loading = true
           if (this.collectivity) {
@@ -285,6 +288,8 @@ export default {
             .catch(() => {
               this.loading = false
             })
+        } else {
+          this.showErrors(fields)
         }
       })
     },

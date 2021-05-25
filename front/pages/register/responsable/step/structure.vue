@@ -287,10 +287,10 @@
 </template>
 
 <script>
-import FormWithAddress from '@/mixins/FormWithAddress'
+import FormMixin from '@/mixins/Form'
 
 export default {
-  mixins: [FormWithAddress],
+  mixins: [FormMixin],
   layout: 'register-steps',
   async asyncData({ $api, store }) {
     const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
@@ -433,7 +433,7 @@ export default {
     //   }
     // },
     onSubmit() {
-      this.$refs.structureForm.validate((valid) => {
+      this.$refs.structureForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           this.$api
@@ -447,6 +447,8 @@ export default {
             .catch(() => {
               this.loading = false
             })
+        } else {
+          this.showErrors(fields)
         }
       })
     },

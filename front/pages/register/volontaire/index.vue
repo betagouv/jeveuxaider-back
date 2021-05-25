@@ -500,9 +500,12 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
+  mixins: [FormMixin],
   middleware: 'guest',
   data() {
     const validatePass2 = (rule, value, callback) => {
@@ -664,7 +667,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.registerVolontaireForm.validate((valid) => {
+      this.$refs.registerVolontaireForm.validate((valid, fields) => {
         if (valid) {
           const birthdayValidFormat = this.$dayjs(
             this.form.birthday,
@@ -695,6 +698,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

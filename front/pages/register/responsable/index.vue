@@ -446,9 +446,12 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
+  mixins: [FormMixin],
   middleware: 'guest',
   data() {
     const validatePass2 = (rule, value, callback) => {
@@ -500,7 +503,7 @@ export default {
         structure_name: [
           {
             required: true,
-            message: 'Nom de votre organisation obligatoire',
+            message: 'Le nom de votre organisation obligatoire',
             trigger: 'blur',
           },
         ],
@@ -555,7 +558,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.registerResponsableForm.validate((valid) => {
+      this.$refs.registerResponsableForm.validate((valid, fields) => {
         if (valid) {
           this.$store
             .dispatch('auth/registerResponsable', {
@@ -576,6 +579,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

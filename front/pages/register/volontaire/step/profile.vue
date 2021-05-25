@@ -220,7 +220,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'register-steps',
   asyncData({ $api, store }) {
     return {
@@ -293,7 +296,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.profileForm.validate((valid) => {
+      this.$refs.profileForm.validate((valid, fields) => {
         if (valid) {
           if (this.avatar) {
             this.$api
@@ -310,6 +313,7 @@ export default {
             this.updateProfile()
           }
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

@@ -160,10 +160,13 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
   name: 'Login',
+  mixins: [FormMixin],
   middleware: 'guest',
   data() {
     return {
@@ -190,7 +193,7 @@ export default {
         password: [
           {
             required: true,
-            message: 'Choisissez votre mot de passe',
+            message: 'Veuillez renseigner votre mot de passe',
             trigger: 'change',
           },
           {
@@ -234,12 +237,14 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate((valid, fields) => {
         if (valid) {
           this.$store.dispatch('auth/login', {
             email: this.form.email,
             password: this.form.password,
           })
+        } else {
+          this.showErrors(fields)
         }
       })
     },

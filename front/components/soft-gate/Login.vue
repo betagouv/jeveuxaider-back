@@ -63,8 +63,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
   name: 'SoftGateLogin',
+  mixins: [FormMixin],
   props: {
     datas: {
       type: Object,
@@ -101,7 +104,7 @@ export default {
   created() {},
   methods: {
     onSubmit() {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           this.$store
@@ -124,6 +127,8 @@ export default {
             .catch(() => {
               this.loading = false
             })
+        } else {
+          this.showErrors(fields)
         }
       })
     },

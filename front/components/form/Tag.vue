@@ -72,7 +72,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     tag: {
       type: Object,
@@ -127,7 +130,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.tagForm.validate((valid) => {
+      this.$refs.tagForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addOrUpdateTag(this.tag.id, this.form)
@@ -151,6 +154,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })
