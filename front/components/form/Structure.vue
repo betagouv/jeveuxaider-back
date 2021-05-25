@@ -617,8 +617,7 @@ export default {
             errors.push(fields[property][0].message)
           }
           this.$message.error({
-            message: errors.join('<br/>'),
-            dangerouslyUseHTMLString: true,
+            message: errors.join('\r\n'),
           })
         }
       })
