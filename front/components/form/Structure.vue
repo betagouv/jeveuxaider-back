@@ -18,7 +18,10 @@
     </el-form-item>
 
     <el-form-item
-      v-if="$store.getters.contextRole == 'admin'"
+      v-if="
+        $store.getters.contextRole == 'admin' &&
+        form.statut_juridique == 'Association'
+      "
       label="RNA"
       prop="rna"
     >
@@ -286,120 +289,131 @@
       @delete="handleDelete($event)"
     />
 
-    <div class="mb-8">
-      <div class="el-form-item__label">Visuel N° 1</div>
-      <template
-        v-if="$store.getters.contextRole != 'admin' && form['override_image_1']"
-      >
-        <ItemDescription container-class="mb-6">
-          Cette image a été surchargée par un administrateur et n'est pas
-          modifiable.
-        </ItemDescription>
-
-        <img
-          :src="form.override_image_1.thumb"
-          class="opacity-50"
-          width="250px"
-        />
-      </template>
-
-      <div v-else class="relative inline-flex flex-col group">
-        <img
-          :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
-          :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
-          class="h-auto rounded-lg cursor-pointer shadow-xl"
-          width="250px"
-          @click="onEditImageClick(0)"
-        />
-        <div
-          class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
-          style="right: 12px; bottom: 12px"
+    <!-- Visuel N° 1 et 2 -->
+    <template v-if="form.statut_juridique == 'Association'">
+      <div class="mb-8">
+        <div class="el-form-item__label">Visuel N° 1</div>
+        <template
+          v-if="
+            $store.getters.contextRole != 'admin' && form['override_image_1']
+          "
         >
-          <div
-            class="text-blue-800"
-            v-html="require('@/assets/images/icones/heroicon/edit.svg?include')"
+          <ItemDescription container-class="mb-6">
+            Cette image a été surchargée par un administrateur et n'est pas
+            modifiable.
+          </ItemDescription>
+
+          <img
+            :src="form.override_image_1.thumb"
+            class="opacity-50"
+            width="250px"
           />
+        </template>
+
+        <div v-else class="relative inline-flex flex-col group">
+          <img
+            :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
+            :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
+            class="h-auto rounded-lg cursor-pointer shadow-xl"
+            width="250px"
+            @click="onEditImageClick(0)"
+          />
+          <div
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+            style="right: 12px; bottom: 12px"
+          >
+            <div
+              class="text-blue-800"
+              v-html="
+                require('@/assets/images/icones/heroicon/edit.svg?include')
+              "
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <ImageField
-      v-if="$store.getters.contextRole === 'admin'"
-      model="structure"
-      :model-id="form.id ? form.id : null"
-      :max-size="2000000"
-      :min-width="1440"
-      :min-height="1080"
-      :aspect-ratio="1440 / 1080"
-      :field="form[`override_image_1`]"
-      :field-name="`override_image_1`"
-      label="Surcharger Visuel N° 1"
-      component-classes="mb-8"
-      @add-or-crop="handleAddOrCrop($event)"
-      @delete="handleDelete($event)"
-    ></ImageField>
+      <ImageField
+        v-if="$store.getters.contextRole === 'admin'"
+        model="structure"
+        :model-id="form.id ? form.id : null"
+        :max-size="2000000"
+        :min-width="1440"
+        :min-height="1080"
+        :aspect-ratio="1440 / 1080"
+        :field="form[`override_image_1`]"
+        :field-name="`override_image_1`"
+        label="Surcharger Visuel N° 1"
+        component-classes="mb-8"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
 
-    <div class="mb-8">
-      <div class="el-form-item__label">Visuel N° 2</div>
+      <div class="mb-8">
+        <div class="el-form-item__label">Visuel N° 2</div>
 
-      <template
-        v-if="$store.getters.contextRole != 'admin' && form['override_image_2']"
-      >
-        <ItemDescription container-class="mb-6">
-          Cette image a été surchargée par un administrateur et n'est pas
-          modifiable.
-        </ItemDescription>
-
-        <img
-          :src="form.override_image_2.thumb"
-          class="opacity-50"
-          width="250px"
-        />
-      </template>
-
-      <div v-else class="relative inline-flex group">
-        <img
-          :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
-          :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
-          class="h-auto rounded-lg cursor-pointer shadow-xl"
-          width="250px"
-          @click="onEditImageClick(1)"
-        />
-        <div
-          class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
-          style="right: 12px; bottom: 12px"
+        <template
+          v-if="
+            $store.getters.contextRole != 'admin' && form['override_image_2']
+          "
         >
-          <div
-            class="text-blue-800"
-            v-html="require('@/assets/images/icones/heroicon/edit.svg?include')"
+          <ItemDescription container-class="mb-6">
+            Cette image a été surchargée par un administrateur et n'est pas
+            modifiable.
+          </ItemDescription>
+
+          <img
+            :src="form.override_image_2.thumb"
+            class="opacity-50"
+            width="250px"
           />
+        </template>
+
+        <div v-else class="relative inline-flex group">
+          <img
+            :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+            :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
+            class="h-auto rounded-lg cursor-pointer shadow-xl"
+            width="250px"
+            @click="onEditImageClick(1)"
+          />
+          <div
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+            style="right: 12px; bottom: 12px"
+          >
+            <div
+              class="text-blue-800"
+              v-html="
+                require('@/assets/images/icones/heroicon/edit.svg?include')
+              "
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <ImageField
-      v-if="$store.getters.contextRole === 'admin'"
-      model="structure"
-      :model-id="form.id ? form.id : null"
-      :max-size="2000000"
-      :min-width="1440"
-      :min-height="1080"
-      :aspect-ratio="1440 / 1080"
-      :field="form[`override_image_2`]"
-      :field-name="`override_image_2`"
-      label="Surcharger Visuel N° 2"
-      component-classes="mb-8"
-      @add-or-crop="handleAddOrCrop($event)"
-      @delete="handleDelete($event)"
-    ></ImageField>
+      <ImageField
+        v-if="$store.getters.contextRole === 'admin'"
+        model="structure"
+        :model-id="form.id ? form.id : null"
+        :max-size="2000000"
+        :min-width="1440"
+        :min-height="1080"
+        :aspect-ratio="1440 / 1080"
+        :field="form[`override_image_2`]"
+        :field-name="`override_image_2`"
+        label="Surcharger Visuel N° 2"
+        component-classes="mb-8"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
 
-    <DialogOrganisationImagesPicker
-      :initial-image="selectedImages[imageIndex]"
-      :domaines="form.domaines.length ? form.domaines : domaines"
-      :is-visible="showDialog"
-      @picked="onPickedImage"
-      @close="showDialog = false"
-    />
+      <DialogOrganisationImagesPicker
+        :initial-image="selectedImages[imageIndex]"
+        :domaines="form.domaines.length ? form.domaines : domaines"
+        :is-visible="showDialog"
+        @picked="onPickedImage"
+        @close="showDialog = false"
+      />
+    </template>
 
     <el-form-item
       v-if="$store.getters.contextRole === 'admin'"

@@ -539,7 +539,7 @@
 export default {
   layout: 'organisation',
   async asyncData({ $api, params, error }) {
-    const organisation = await $api.getStructureBySlug(params.slug)
+    const organisation = await $api.getAssociationBySlug(params.slug)
 
     if (!organisation) {
       return error({ statusCode: 404 })

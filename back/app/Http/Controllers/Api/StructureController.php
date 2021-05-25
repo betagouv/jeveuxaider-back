@@ -106,9 +106,12 @@ class StructureController extends Controller
         return $structure;
     }
 
-    public function slug(Request $request, $slug)
+    public function associationSlug(Request $request, $slug)
     {
-        $structure = Structure::where('slug', $slug)->where('state', 'Validée')->first();
+        $structure = Structure::where('slug', $slug)
+            ->where('state', 'Validée')
+            ->where('statut_juridique', 'Association')
+            ->first();
         if ($structure) {
             $structure->append('domaines_with_image');
         }
