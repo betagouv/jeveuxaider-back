@@ -93,57 +93,61 @@
           </ImageField>
         </div>
 
-        <div
-          class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
-        >
-          Choisissez 2 visuels pour illustrer l'activité de votre organisation.
-        </div>
-        <div class="relative mb-8" @click="onEditImageClick(0)">
+        <template v-if="form.statut_juridique == 'Association'">
           <div
-            class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+            class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
           >
-            Visuel N°1
+            Choisissez 2 visuels pour illustrer l'activité de votre
+            organisation.
           </div>
-          <img
-            :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
-            :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
-            class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
-          />
-          <div
-            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
-            style="right: 12px; bottom: 12px"
-          >
+          <div class="relative mb-8" @click="onEditImageClick(0)">
             <div
-              class="text-blue-800"
-              v-html="
-                require('@/assets/images/icones/heroicon/edit.svg?include')
-              "
+              class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+            >
+              Visuel N°1
+            </div>
+            <img
+              :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
+              :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
+              class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
             />
-          </div>
-        </div>
-        <div class="relative mb-8" @click="onEditImageClick(1)">
-          <div
-            class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
-          >
-            Visuel N°2
-          </div>
-          <img
-            :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
-            :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
-            class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
-          />
-          <div
-            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
-            style="right: 12px; bottom: 12px"
-          >
             <div
-              class="text-blue-800"
-              v-html="
-                require('@/assets/images/icones/heroicon/edit.svg?include')
-              "
-            />
+              class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+              style="right: 12px; bottom: 12px"
+            >
+              <div
+                class="text-blue-800"
+                v-html="
+                  require('@/assets/images/icones/heroicon/edit.svg?include')
+                "
+              />
+            </div>
           </div>
-        </div>
+
+          <div class="relative mb-8" @click="onEditImageClick(1)">
+            <div
+              class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+            >
+              Visuel N°2
+            </div>
+            <img
+              :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+              :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
+              class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
+            />
+            <div
+              class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+              style="right: 12px; bottom: 12px"
+            >
+              <div
+                class="text-blue-800"
+                v-html="
+                  require('@/assets/images/icones/heroicon/edit.svg?include')
+                "
+              />
+            </div>
+          </div>
+        </template>
 
         <div class="sm:col-span-">
           <span class="block w-full rounded-md shadow-sm">
