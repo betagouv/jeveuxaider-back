@@ -258,7 +258,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.profileForm.validate((valid) => {
+      this.$refs.profileForm.validate((valid, fields) => {
         if (valid) {
           if (this.avatar) {
             this.$api
@@ -276,6 +276,13 @@ export default {
           }
         } else {
           this.loading = false
+          const errors = []
+          for (const property in fields) {
+            errors.push(fields[property][0].message)
+          }
+          this.$message.error({
+            message: errors.join('\r\n'),
+          })
         }
       })
     },
