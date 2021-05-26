@@ -1,5 +1,3 @@
-<!-- eslint-disable prettier/prettier -->
-
 <template>
   <div class="relative">
     <portal to="sidebar"
@@ -19,7 +17,15 @@
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
-        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+        class="
+          px-8
+          py-6
+          bg-white
+          text-black text-3xl
+          font-extrabold
+          leading-9
+          text-center
+        "
       >
         <template v-if="structureId">
           Validez ou complétez les informations suivantes
@@ -277,7 +283,31 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="
+                shadow-lg
+                block
+                w-full
+                text-center
+                rounded-lg
+                z-10
+                border border-transparent
+                bg-green-400
+                px-4
+                sm:px-6
+                py-4
+                text-lg
+                sm:text-xl
+                leading-6
+                font-bold
+                text-white
+                hover:bg-green-500
+                focus:outline-none
+                focus:border-indigo-700
+                focus:shadow-outline-indigo
+                transition
+                ease-in-out
+                duration-150
+              "
               @click="onSubmit"
               >Continuer</el-button
             >
