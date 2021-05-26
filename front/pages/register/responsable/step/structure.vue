@@ -1,3 +1,5 @@
+<!-- eslint-disable prettier/prettier -->
+
 <template>
   <div class="relative">
     <portal to="sidebar"
@@ -288,9 +290,10 @@
 
 <script>
 import FormMixin from '@/mixins/Form'
+import FormWithAddress from '@/mixins/FormWithAddress'
 
 export default {
-  mixins: [FormMixin],
+  mixins: [FormMixin, FormWithAddress],
   layout: 'register-steps',
   async asyncData({ $api, store }) {
     const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
