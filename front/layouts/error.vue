@@ -1,46 +1,76 @@
 <template>
-  <div class="min-h-screen bg-white flex">
-    <div
-      class="flex flex-col w-full justify-center items-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24 -mt-32"
-    >
-      <template v-if="error.statusCode == 404">
-        <h2 class="text-blue-800 my-8 text-3xl leading-tight font-extrabold">
-          Cette page n'a pas été trouvée
-        </h2>
-        <p>
-          La page que vous souhaitez afficher n'existe pas ou a été modifiée.
-        </p>
-      </template>
-      <template v-else-if="error.statusCode == 403">
-        <h2 class="text-blue-800 my-8 text-3xl leading-tight font-extrabold">
-          Accès non autorisé
-        </h2>
-        <div class="mt-8 border-t pt-8" />
-        <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
-      </template>
-      <template v-else>
-        <h2 class="my-8 text-3xl leading-tight font-extrabold text-gray-900">
-          Ouuppps!
-          <span class="text-blue-800"> Erreur {{ error.statusCode }}</span>
-        </h2>
-        <p>{{ error.message }}</p>
-      </template>
-      <div class="flex mt-8">
-        <div class="inline-flex rounded-md shadow">
+  <div class="relative flex-1 flex flex-col">
+    <div class="absolute inset-0" style="background-color: #191682">
+      <img
+        class="z-1 object-cover absolute h-full"
+        alt="Je Veux Aider"
+        :srcSet="bgHeroMultipleSizes.srcSet"
+        :src="bgHeroMultipleSizes.src"
+        width="100%"
+        height="100%"
+      />
+    </div>
+
+    <div class="relative m-auto">
+      <div class="px-4 py-8 lg:p-12 xl:p-24 text-white text-center">
+        <template v-if="error.statusCode == 404">
+          <h2 id="titre-error" class="font-bold text-3xl lg:text-5xl">
+            Oups, cette page est introuvable&nbsp;…
+          </h2>
+
+          <p class="text-xl lg:text-2xl mt-4 mb-8 lg:my-8">
+            À priori cette page n'existe plus. <br class="hidden sm:block" />
+            Ou pire, elle peut ne jamais avoir existée&nbsp;…
+          </p>
+        </template>
+
+        <template v-else-if="error.statusCode == 403">
+          <h2 id="titre-error" class="font-bold text-3xl lg:text-5xl">
+            Oups, ce contenu ne vous est pas destiné&nbsp;…
+          </h2>
+
+          <p class="text-xl lg:text-2xl mt-4 mb-8 lg:my-8">
+            À priori vous n'êtes pas autorisé à accéder à cette page.
+          </p>
+        </template>
+
+        <template v-else>
+          <h2 id="titre-error" class="font-bold text-3xl lg:text-5xl">
+            Erreur {{ error.statusCode }}
+          </h2>
+
+          <p class="text-xl lg:text-2xl mt-4 mb-8 lg:my-8">
+            {{ error.message }}
+          </p>
+        </template>
+
+        <div class="flex flex-col items-center">
           <nuxt-link
             to="/"
-            class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+            class="
+              rounded-full
+              bg-white
+              text-blue-800
+              font-extrabold
+              py-4
+              px-12
+              text-xl
+              hover:scale-105
+              transform
+              transition
+              duration-150
+              ease-in-out
+              inline-block
+            "
           >
-            Allez sur la page d'accueil
+            Revenir en lieu sûr
           </nuxt-link>
-        </div>
-        <div class="ml-3 inline-flex">
-          <div
-            class="inline-flex cursor-pointer items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-800 border-blue-800 hover:text-blue-800 hover:bg-blue-50 focus:outline-none focus:shadow-outline focus:border-blue-800 transition duration-150 ease-in-out"
-            @click="back()"
+
+          <a
+            class="underline hover:no-underline mt-4 text-lg cursor-pointer"
+            @click.prevent="back()"
+            >Page précédente</a
           >
-            Revenir en arrière
-          </div>
         </div>
       </div>
     </div>
@@ -48,13 +78,20 @@
 </template>
 
 <script>
+const bgHeroMultipleSizes = require('@/assets/images/bg-error.png?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
+
 export default {
-  name: 'ErrorLayout',
+  layout: 'error-layout',
   props: {
     error: {
       type: Object,
       default: null,
     },
+  },
+  data() {
+    return {
+      bgHeroMultipleSizes,
+    }
   },
   methods: {
     back() {
@@ -63,3 +100,10 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+#titre-error
+  letter-spacing: -1px
+  @screen lg
+    letter-spacing: -2px
+</style>
