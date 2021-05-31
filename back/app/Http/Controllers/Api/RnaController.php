@@ -18,6 +18,8 @@ class RnaController extends Controller
         return QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->withCount('missions')
             ->allowedFilters([
+                'state',
+                'statut_juridique',
                 AllowedFilter::exact('department'),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),

@@ -51,7 +51,9 @@ export default {
   },
   mounted() {
     if (this.initialValue) {
-      this.$refs[this.name].focus()
+      if (this.$refs[this.name]) {
+        this.$refs[this.name].focus()
+      }
     }
   },
 }
