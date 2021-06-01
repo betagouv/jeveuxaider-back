@@ -12,14 +12,14 @@ class FillStructureWithReseauFields extends Command
      *
      * @var string
      */
-    protected $signature = 'cnut:fill-structure-with-reseau-fields';
+    protected $signature = 'cnut:fill-structure-with-reseau-fields {id?*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Fill structure with their reseau's fields";
+    protected $description = "Fill structure with their reseau's fields. You can specify a list of ids to only run the script for these.";
 
     /**
      * Create a new command instance.
@@ -38,11 +38,20 @@ class FillStructureWithReseauFields extends Command
      */
     public function handle()
     {
-        $reseaux = Structure::where('is_reseau', true)->get();
-        $query = Structure::whereNotNull('reseau_id')->where('is_reseau', false);
-        $this->info($query->count() . ' structures will be updated');
+        $reseauIds = $this->argument('id');
+        $queryCount = Structure::whereNotNull('reseau_id')->where('is_reseau', false);
+        if (!empty($reseauIds)) {
+            $queryCount->whereIn('reseau_id', $reseauIds);
+        }
+        $this->info($queryCount->count() . ' structures will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
+            $queryReseaux = Structure::where('is_reseau', true);
+            if (!empty($reseauIds)) {
+                $queryReseaux->whereIn('id', $reseauIds);
+            }
+            $reseaux = $queryReseaux->get();
+
             foreach ($reseaux as $reseau) {
                 $array = [
                     'image_1' => $reseau->image_1,
