@@ -226,7 +226,7 @@ class ApiEngagement
         'zip' => $mission['postalCode'] ?? null,
         'places_left' => $mission['places'] ?? null,
         'participations_max' => $mission['places'] ?? null,
-        'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : null,
+        'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : true, // Fallback to true for sorting purposes
         'structure' => [
             'id' => $mission['organizationId'] ?? null,
             'name' => $mission['organizationName'] ?? null,
