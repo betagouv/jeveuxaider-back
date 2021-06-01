@@ -27,6 +27,16 @@
         "
         class="mb-6"
       />
+
+      <BannerPageOrga
+        v-if="
+          $store.getters.contextRole === 'responsable' &&
+          $store.getters.structure_as_responsable.statut_juridique ==
+            'Association' &&
+          $store.getters.structure_as_responsable.state == 'Validée'
+        "
+        class="mb-6"
+      />
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">
