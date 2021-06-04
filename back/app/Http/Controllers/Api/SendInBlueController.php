@@ -17,7 +17,8 @@ class SendInBlueController extends Controller
         );
         $createContact = new \SendinBlue\Client\Model\CreateContact([
             'email' => request('email'),
-            'listIds' => [233]
+            'listIds' => [request('id_liste')?request('id_liste'):233],
+            'attributes' => request('url_mission')?array('URL_MISSION_SIGNUP' => request('url_mission')):array('URL_MISSION_SIGNUP'=>'')
         ]);
 
         try {
