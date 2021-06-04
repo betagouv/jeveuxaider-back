@@ -158,8 +158,8 @@ class StructureObserver
             'state' => 'waiting'
         ]);
         $collectivity->save();
-        Notification::route('mail', ['achkar.joe@hotmail.fr', 'sophie.hacktiv@gmail.com', 'nassim.merzouk@beta.gouv.fr'])
-        ->route('slack', config('services.slack.hook_url'))
-        ->notify(new CollectivityWaitingValidation($collectivity));
+
+        Notification::route('slack', config('services.slack.hook_url'))
+            ->notify(new CollectivityWaitingValidation($collectivity));
     }
 }

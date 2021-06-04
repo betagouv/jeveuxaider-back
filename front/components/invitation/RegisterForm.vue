@@ -54,8 +54,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
   name: 'InvitationRegisterForm',
+  mixins: [FormMixin],
   props: {
     invitation: {
       type: Object,
@@ -122,7 +125,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.registerInvitationForm.validate((valid) => {
+      this.$refs.registerInvitationForm.validate((valid, fields) => {
         if (valid) {
           this.$store
             .dispatch('auth/registerInvitation', {
@@ -131,7 +134,8 @@ export default {
             })
             .then(() => {
               this.loading = false
-              window.plausible('Inscription depuis une invitation')
+              window.plausible &&
+                window.plausible('Inscription depuis une invitation')
               if (this.invitation.role == 'benevole') {
                 this.$router.push('/register/volontaire/step/profile')
               } else {
@@ -142,6 +146,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

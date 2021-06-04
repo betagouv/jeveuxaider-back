@@ -97,9 +97,12 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
 
 export default {
+  mixins: [FormMixin],
   middleware: 'guest',
   data() {
     return {
@@ -147,7 +150,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.resetPasswordForm.validate((valid) => {
+      this.$refs.resetPasswordForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           this.$api
@@ -160,6 +163,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

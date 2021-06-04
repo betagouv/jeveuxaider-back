@@ -64,7 +64,9 @@ class MissionController extends Controller
             // API ENGAGEMENT
             $api = new ApiEngagement();
             $mission = $api->getMission($id);
-            $mission['isFromApi'] = true;
+            if ($mission) {
+                $mission['isFromApi'] = true;
+            }
         }
 
         if (!$mission) {

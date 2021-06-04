@@ -210,7 +210,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'dashboard',
   asyncData({ $api, store, error, params }) {
     if (!['admin'].includes(store.getters.contextRole)) {
@@ -293,7 +296,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.invitationForm.validate((valid) => {
+      this.$refs.invitationForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addInvitation(this.form)
@@ -309,6 +312,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

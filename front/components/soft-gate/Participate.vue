@@ -28,7 +28,7 @@
         :hide-required-asterisk="true"
         class="mt-4 mb-0 form-center"
       >
-        <el-form-item class="mb-2" prop="content">
+        <el-form-item class="mb-5" prop="content">
           <textarea
             v-model="form.content"
             placeholder=""
@@ -50,8 +50,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
   name: 'SoftGateParticipate',
+  mixins: [FormMixin],
   data() {
     return {
       loading: false,
@@ -76,7 +79,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.participateForm.validate((valid) => {
+      this.$refs.participateForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           this.$api
@@ -87,7 +90,8 @@ export default {
             )
             .then(() => {
               window.apieng && window.apieng('trackApplication')
-              window.plausible('Demande de participation à une mission')
+              window.plausible &&
+                window.plausible('Demande de participation à une mission')
               this.$message({
                 message:
                   'Votre participation a été enregistrée et est en attente de validation !',
@@ -101,6 +105,8 @@ export default {
             .catch(() => {
               this.loading = false
             })
+        } else {
+          this.showErrors(fields)
         }
       })
     },
@@ -108,4 +114,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+textarea
+  @apply flex flex-col
+</style>

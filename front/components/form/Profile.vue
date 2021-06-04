@@ -168,7 +168,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     profile: {
       type: Object,
@@ -231,7 +234,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.profileForm.validate((valid) => {
+      this.$refs.profileForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .updateProfile(this.form.id, this.form)
@@ -253,6 +256,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

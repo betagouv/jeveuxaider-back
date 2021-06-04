@@ -44,8 +44,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
   name: 'InvitationLoginForm',
+  mixins: [FormMixin],
   props: {
     invitation: {
       type: Object,
@@ -85,7 +88,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.loginInvitationForm.validate((valid) => {
+      this.$refs.loginInvitationForm.validate((valid, fields) => {
         if (valid) {
           this.$emit('on-processing', true)
           this.$store
@@ -108,6 +111,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

@@ -95,30 +95,30 @@ class Structure extends Model implements HasMedia
             case 'admin':
             case 'analyste':
                 return $query;
-            break;
+                break;
             case 'responsable':
                 return $query->whereHas('responsables', function (Builder $query) {
                     $query->where('profile_id', Auth::guard('api')->user()->profile->id);
                 });
-            break;
+                break;
             case 'referent':
                 return $query
                     ->whereNotNull('department')
                     ->where('department', Auth::guard('api')->user()->profile->referent_department);
-            break;
+                break;
             case 'referent_regional':
                 return $query
                     ->whereNotNull('department')
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
-            break;
+                break;
             case 'superviseur':
                 return $query
                     ->whereNotNull('reseau_id')
                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
-            break;
+                break;
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-            break;
+                break;
         }
     }
 
@@ -181,8 +181,8 @@ class Structure extends Model implements HasMedia
                 ->whereIn('structure_publique_etat_type', self::CEU_TYPES);
         }
         return $query
-                ->whereNull('structure_publique_etat_type')
-                ->orWhereNotIn('structure_publique_etat_type', self::CEU_TYPES);
+            ->whereNull('structure_publique_etat_type')
+            ->orWhereNotIn('structure_publique_etat_type', self::CEU_TYPES);
     }
 
     public function scopeDepartment($query, $value)
@@ -202,9 +202,9 @@ class Structure extends Model implements HasMedia
         return $query
             ->whereHas('missions', function (Builder $query) use ($domain_id) {
                 $query->where('domaine_id', $domain_id)
-                ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
-                    $query->where('id', $domain_id);
-                });
+                    ->orWhereHas('tags', function (Builder $query) use ($domain_id) {
+                        $query->where('id', $domain_id);
+                    });
             });
     }
 
@@ -362,10 +362,10 @@ class Structure extends Model implements HasMedia
     public function getResponseTimeScoreAttribute()
     {
         // Response time ( note sur 100 )
-            // 1 jour = 100 - ( 100 * 1 /10  )
-            // 2 jours = 100 - ( 100 * 2 / 10 )
-            // ...
-            // 10 jours = 0
+        // 1 jour = 100 - ( 100 * 1 /10  )
+        // 2 jours = 100 - ( 100 * 2 / 10 )
+        // ...
+        // 10 jours = 0
 
         // Dans le cas d'une nouvelle orga, le responseTime est null on met donc un score arbitraire 50
         // Dans le cas d'une orga inactive après janvier 2021, le responseTime est null on met donc un score arbitraire 50
@@ -373,7 +373,7 @@ class Structure extends Model implements HasMedia
             return 50;
         }
         $responseTime = $this->response_time / 86400;
-        $scoreResponseTime = round(100 - ( 100 * $responseTime / 10 ));
+        $scoreResponseTime = round(100 - (100 * $responseTime / 10));
 
         return $scoreResponseTime > 0 ? $scoreResponseTime : 0;
     }
@@ -422,10 +422,10 @@ class Structure extends Model implements HasMedia
             ->performOnCollections('structures');
     }
 
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['name','id'])
+            ->generateSlugsFrom(['id', 'name'])
             ->saveSlugsTo('slug');
     }
 

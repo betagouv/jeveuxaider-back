@@ -88,7 +88,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     template: {
       type: Object,
@@ -159,7 +162,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.missionTemplateForm.validate((valid) => {
+      this.$refs.missionTemplateForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addOrUpdateMissionTemplate(this.template.id, this.form)
@@ -179,6 +182,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

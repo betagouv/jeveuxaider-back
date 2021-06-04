@@ -50,7 +50,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     isVisible: {
       type: Boolean,
@@ -78,7 +81,7 @@ export default {
   },
   methods: {
     handleDeclineSubmit() {
-      this.$refs.cancelForm.validate((valid) => {
+      this.$refs.cancelForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           this.$api
@@ -98,6 +101,8 @@ export default {
               console.log(error.response)
               this.errors = error.response.data.errors
             })
+        } else {
+          this.showErrors(fields)
         }
       })
     },

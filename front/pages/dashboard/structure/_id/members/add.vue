@@ -32,7 +32,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'dashboard',
   async asyncData({ $api, params }) {
     const structure = await $api.getStructure(params.id)
@@ -57,7 +60,7 @@ export default {
           },
           {
             required: true,
-            message: 'Veuillez renseigner votre email',
+            message: 'Veuillez renseigner une adresse email',
             trigger: 'blur',
           },
         ],
@@ -68,7 +71,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.invitationForm.validate((valid) => {
+      this.$refs.invitationForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addInvitation(this.form)
@@ -85,6 +88,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

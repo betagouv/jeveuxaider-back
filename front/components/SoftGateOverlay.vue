@@ -36,11 +36,18 @@
                 v-if="step == 'login'"
                 :datas="datas"
                 @next="step = 'participate'"
+                @too-many-participations="step = 'too-many-participations'"
               />
               <SoftGateRegister
                 v-if="step == 'register'"
                 :datas="datas"
                 @next="step = 'participate'"
+                @too-many-participations="step = 'too-many-participations'"
+              />
+              <SoftGateTooManyParticipations
+                v-if="step == 'too-many-participations'"
+                @next="step = 'participate'"
+                @close="onClose"
               />
               <SoftGateParticipate
                 v-if="step == 'participate'"
@@ -66,7 +73,13 @@ export default {
   },
   created() {
     if (this.$store.getters.isLogged) {
-      this.step = 'participate'
+      if (
+        this.$store.getters.user.nbTodayParticipationsOnPendingValidation >= 3
+      ) {
+        this.step = 'too-many-participations'
+      } else {
+        this.step = 'participate'
+      }
     }
   },
   methods: {

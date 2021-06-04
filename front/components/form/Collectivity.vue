@@ -178,7 +178,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     collectivity: {
       type: Object,
@@ -270,7 +273,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.collectivityForm.validate((valid) => {
+      this.$refs.collectivityForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addOrUpdateCollectivity(this.form.id, this.form)
@@ -282,6 +285,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

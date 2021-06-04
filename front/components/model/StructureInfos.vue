@@ -6,7 +6,7 @@
         {{ structure.id }}
       </div>
     </div>
-    <div class="mb-2 flex">
+    <div v-if="structure.statut_juridique == 'Association'" class="mb-2 flex">
       <div class="card-label">Page</div>
 
       <nuxt-link

@@ -539,7 +539,7 @@
 export default {
   layout: 'organisation',
   async asyncData({ $api, params, error }) {
-    const organisation = await $api.getStructureBySlug(params.slug)
+    const organisation = await $api.getAssociationBySlug(params.slug)
 
     if (!organisation) {
       return error({ statusCode: 404 })
@@ -625,6 +625,10 @@ export default {
   },
   methods: {
     goTo(url) {
+      window.plausible &&
+        window.plausible('Click Module de don - Page Orga', {
+          props: { isLogged: this.$store.getters.isLogged },
+        })
       window.open(url, '_blank')
     },
     defaultImg(e, field) {

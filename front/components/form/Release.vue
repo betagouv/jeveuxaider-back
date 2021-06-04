@@ -32,7 +32,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
+
   props: {
     release: {
       type: Object,
@@ -73,7 +77,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.releaseForm.validate((valid) => {
+      this.$refs.releaseForm.validate((valid, fields) => {
         if (valid) {
           if (this.release.id) {
             this.$api
@@ -105,6 +109,7 @@ export default {
               })
           }
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

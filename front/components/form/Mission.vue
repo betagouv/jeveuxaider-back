@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-3xl">
+  <div v-if="hasBeenInitialized" class="max-w-3xl">
     <template v-if="mode == 'add'">
       <div v-if="form.template" class="mb-6 text-md leading-snug text-gray-500">
         En choisissant un modèle, certains champs de la mission sont prédéfinis
@@ -413,11 +413,12 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
 import FormWithAddress from '@/mixins/FormWithAddress'
 import MissionMixin from '@/mixins/MissionMixin'
 
 export default {
-  mixins: [FormWithAddress, MissionMixin],
+  mixins: [FormMixin, FormWithAddress, MissionMixin],
   props: {
     structureId: {
       type: Number,
@@ -430,6 +431,7 @@ export default {
   },
   data() {
     return {
+      hasBeenInitialized: false,
       loading: false,
       modalVisible: false,
       form: {
@@ -441,7 +443,7 @@ export default {
         name: [
           {
             required: true,
-            message: "Veuillez choisir un domaine d'action",
+            message: 'Veuillez choisir un titre',
             trigger: 'blur',
           },
         ],
@@ -559,6 +561,8 @@ export default {
         this.$set(this.form, 'state', 'Validée')
       }
     }
+
+    this.hasBeenInitialized = true
   },
   methods: {
     onSubmit() {
@@ -566,7 +570,7 @@ export default {
     },
     addOrUpdateMission() {
       this.loading = true
-      this.$refs.missionForm.validate((valid) => {
+      this.$refs.missionForm.validate((valid, fields) => {
         if (valid) {
           if (this.mission.id) {
             this.$api
@@ -587,8 +591,11 @@ export default {
               .then(() => {
                 this.loading = false
                 this.$router.push(`/dashboard/missions`)
+                const message = this.form.template
+                  ? 'La mission a été ajoutée !'
+                  : 'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
                 this.$message.success({
-                  message: 'La mission a été ajoutée !',
+                  message,
                 })
               })
               .catch(() => {
@@ -596,6 +603,7 @@ export default {
               })
           }
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

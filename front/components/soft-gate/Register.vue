@@ -4,7 +4,7 @@
       <div
         class="text-gray-900 font-extrabold text-2xl lg:text-3xl leading-8 mb-2 lg:mb-3"
       >
-        Rejoignez le mouvement !
+        Rejoignez le mouvement&nbsp;!
       </div>
       <div class="text-gray-500 font-semibold text-lg lg:text-xl">
         Créez rapidement votre compte Bénévole
@@ -124,11 +124,14 @@
 
 <script>
 import dayjs from 'dayjs'
+import FormMixin from '@/mixins/Form'
+
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
 export default {
   name: 'SoftGateRegister',
+  mixins: [FormMixin],
   props: {
     datas: {
       type: Object,
@@ -148,70 +151,70 @@ export default {
           },
           {
             required: true,
-            message: 'Champ obligatoire',
+            message: 'Veuillez renseigner votre email',
             trigger: 'blur',
           },
         ],
         first_name: [
           {
             required: true,
-            message: 'Champ obligatoire',
+            message: 'Veuillez renseigner votre prénom',
             trigger: 'blur',
           },
         ],
         last_name: [
           {
             required: true,
-            message: 'Nom obligatoire',
+            message: 'Veuillez renseigner votre nom',
             trigger: 'blur',
           },
         ],
         birthday: [
           {
             required: true,
-            message: 'Champ obligatoire',
+            message: 'Veuillez renseigner votre date de naissance',
             trigger: 'blur',
           },
         ],
         zip: [
           {
             required: true,
-            message: 'Champ obligatoire',
+            message: 'Veuillez renseigner votre code postal',
             trigger: 'blur',
           },
           {
             pattern: /^\d+$/,
-            message: 'Format incorrect',
+            message: 'Code postal incorrect',
             trigger: 'blur',
           },
           {
             min: 5,
             max: 6,
-            message: 'Format erroné',
+            message: 'Code postal erroné',
             trigger: 'blur',
           },
         ],
         mobile: [
           {
             required: true,
-            message: 'Champ obligatoire',
+            message: 'Veuillez renseigner votre téléphone',
             trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: 'Format incorrect',
+            message: 'Téléphone incorrect',
             trigger: 'blur',
           },
           {
             min: 10,
-            message: 'Format incorrect',
+            message: 'Téléphone incorrect',
             trigger: 'blur',
           },
         ],
         password: [
           {
             required: true,
-            message: 'Champ obligatoire',
+            message: 'Veuillez renseigner un mot de passe',
             trigger: 'change',
           },
           {
@@ -226,7 +229,7 @@ export default {
   created() {},
   methods: {
     onSubmit() {
-      this.$refs.registerForm.validate((valid) => {
+      this.$refs.registerForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           const birthdayValidFormat = dayjs(
@@ -245,14 +248,24 @@ export default {
               service_civique: this.form.service_civique,
             })
             .then(() => {
-              window.plausible('Inscription depuis une page mission')
+              window.plausible &&
+                window.plausible('Inscription depuis une page mission')
               this.loading = false
-              this.$emit('next')
+
+              if (
+                this.$store.getters.user
+                  .nbTodayParticipationsOnPendingValidation >= 3
+              ) {
+                this.$emit('too-many-participations')
+              } else {
+                this.$emit('next')
+              }
             })
             .catch(() => {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

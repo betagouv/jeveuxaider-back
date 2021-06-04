@@ -761,9 +761,10 @@ export default {
       return items
     },
     handleClickCard() {
-      window.plausible('Click Card Missions - Liste résultat', {
-        props: { isLogged: this.$store.getters.isLogged },
-      })
+      window.plausible &&
+        window.plausible('Click Card Missions - Liste résultat', {
+          props: { isLogged: this.$store.getters.isLogged },
+        })
     },
     onChange() {
       this.$refs.searchbox_input.blur()

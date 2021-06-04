@@ -55,9 +55,11 @@
 
 <script>
 // import FranceConnect from '@/components/FranceConnect.vue'
+import FormMixin from '@/mixins/Form'
 
 export default {
   name: 'SoftGateEmail',
+  mixins: [FormMixin],
   // components: { FranceConnect },
   data() {
     return {
@@ -81,7 +83,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.emailForm.validate((valid) => {
+      this.$refs.emailForm.validate((valid, fields) => {
         if (valid) {
           this.loading = true
           this.$api
@@ -97,6 +99,8 @@ export default {
             .catch(() => {
               this.loading = false
             })
+        } else {
+          this.showErrors(fields)
         }
       })
     },

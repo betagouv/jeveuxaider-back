@@ -1,6 +1,13 @@
 <template>
   <div
-    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden"
+    class="
+      card--mission
+      h-auto
+      flex flex-col flex-1
+      bg-white
+      rounded-lg
+      overflow-hidden
+    "
   >
     <div class="thumbnail--wrapper relative">
       <img
@@ -122,7 +129,7 @@
     <div v-else class="footer border-t p-4 text-center relative">
       <span
         class="places-left font-bold"
-        :class="[{ 'is-full': !mission.has_places_left }]"
+        :class="[{ 'is-full': mission.has_places_left === false }]"
       >
         {{ placesLeftText }}
       </span>
@@ -135,7 +142,7 @@
             : '/images/external_gray.svg'
         "
         width="15px"
-        class="absolute m-4 right-0 top-0 bottom-0"
+        class="absolute mx-4 my-auto right-0 top-0 bottom-0"
         alt="Lien externe"
       />
     </div>

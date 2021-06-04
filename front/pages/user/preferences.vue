@@ -136,7 +136,10 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   layout: 'profile',
   async asyncData({ $api, store }) {
     const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
@@ -148,7 +151,13 @@ export default {
   data() {
     return {
       loading: false,
-      rules: {},
+      rules: {
+        domaines: {
+          required: true,
+          message: "Sélectionnez au moins un domaine d'action",
+          trigger: 'blur',
+        },
+      },
     }
   },
   computed: {
@@ -179,7 +188,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.profileForm.validate((valid) => {
+      this.$refs.profileForm.validate((valid, fields) => {
         if (valid) {
           this.$store
             .dispatch('user/updateProfile', {
@@ -197,6 +206,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

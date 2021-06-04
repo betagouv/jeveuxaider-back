@@ -76,7 +76,10 @@
   </el-form>
 </template>
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
+  mixins: [FormMixin],
   props: {
     domaine: {
       type: Object,
@@ -111,7 +114,7 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.thematiqueForm.validate((valid) => {
+      this.$refs.thematiqueForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addOrUpdateThematique(this.domaine.id, this.form)
@@ -136,6 +139,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

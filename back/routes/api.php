@@ -24,7 +24,7 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
-Route::get('organisation/{slug}', 'Api\StructureController@slug');
+Route::get('association/{slug}', 'Api\StructureController@associationSlug');
 
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 

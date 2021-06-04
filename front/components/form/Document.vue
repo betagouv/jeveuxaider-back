@@ -135,10 +135,11 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
 import FileUpload from '@/mixins/FileUpload'
 
 export default {
-  mixins: [FileUpload],
+  mixins: [FormMixin, FileUpload],
   props: {
     document: {
       type: Object,
@@ -171,7 +172,7 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.documentForm.validate((valid) => {
+      this.$refs.documentForm.validate((valid, fields) => {
         if (valid) {
           this.$api
             .addOrUpdateDocument(this.document.id, this.form)
@@ -191,6 +192,7 @@ export default {
               this.loading = false
             })
         } else {
+          this.showErrors(fields)
           this.loading = false
         }
       })

@@ -43,7 +43,7 @@ class ApiEngagement
         'apikey' => config('app.api_engagement_key'),
         ])->get("https://api.api-engagement.beta.gouv.fr/v0/mission/" . $id);
 
-        return $this->formatMission($response['data']);
+        return isset($response['data']) ? $this->formatMission($response['data']) : null;
     }
 
     public function delete()
@@ -226,7 +226,7 @@ class ApiEngagement
         'zip' => $mission['postalCode'] ?? null,
         'places_left' => $mission['places'] ?? null,
         'participations_max' => $mission['places'] ?? null,
-        'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : null,
+        'has_places_left' => isset($mission['places']) ? ($mission['places'] > 0 ? true : false) : true, // Fallback to true for sorting purposes
         'structure' => [
             'id' => $mission['organizationId'] ?? null,
             'name' => $mission['organizationName'] ?? null,

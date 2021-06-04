@@ -4,7 +4,11 @@
       Modifier l'organisation
     </nuxt-link>
     <el-dropdown-menu slot="dropdown">
-      <nuxt-link target="_blank" :to="`/organisations/${structure.slug}`">
+      <nuxt-link
+        v-if="structure.statut_juridique == 'Association'"
+        target="_blank"
+        :to="`/organisations/${structure.slug}`"
+      >
         <el-dropdown-item :command="{}"
           >Afficher l'organisation</el-dropdown-item
         >
