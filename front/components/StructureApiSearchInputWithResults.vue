@@ -8,6 +8,7 @@
         prefix-icon="el-icon-search"
         placeholder="Rechercher..."
         clearable
+        autocomplete="password"
         @input="onInputChange"
       />
 
@@ -17,6 +18,7 @@
         class="mb-8"
         prefix-icon="el-icon-position"
         placeholder="Ville..."
+        autocomplete="password"
         clearable
         @input="onInputChange"
       />
