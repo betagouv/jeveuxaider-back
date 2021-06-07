@@ -1,12 +1,19 @@
 <template>
   <Volet v-if="$store.getters['volet/active']" class="flex flex-col h-full">
     <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-6">
-      {{ row.name }}
+      <nuxt-link
+        class="font-semibold text-sm my-3 text-primary text-center"
+        :to="`/dashboard/structure/${row.id}/edit`"
+        target="_blank"
+      >
+        {{ row.name }}
+      </nuxt-link>
     </div>
 
     <StructureApiSearchInputWithResults
       class="flex-1 overflow-y-auto"
-      :initial-value="row.name"
+      :initial-search="row.name"
+      :initial-city="row.city"
       :structure="row"
       @selected="onOrganisationSelected"
     />
