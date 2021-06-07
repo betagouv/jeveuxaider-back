@@ -171,6 +171,10 @@
                 <h2 class="text-lg font-medium">
                   <span>L'organisation</span>
                   <nuxt-link
+                    v-if="
+                      structure.statut_juridique == 'Association' &&
+                      structure.state == 'Validée'
+                    "
                     target="_blank"
                     :to="`/organisations/${structure.slug}`"
                   >
@@ -178,6 +182,9 @@
                       {{ structure.name }}
                     </b>
                   </nuxt-link>
+                  <b v-else class="text-blue-800">
+                    {{ structure.name }}
+                  </b>
                 </h2>
               </div>
 
@@ -445,6 +452,10 @@
             <span class="text-lg font-medium">
               <span>L'organisation</span>
               <nuxt-link
+                v-if="
+                  structure.statut_juridique == 'Association' &&
+                  structure.state == 'Validée'
+                "
                 target="_blank"
                 :to="`/organisations/${structure.slug}`"
               >
@@ -452,6 +463,9 @@
                   {{ structure.name }}
                 </b>
               </nuxt-link>
+              <b v-else class="text-blue-800">
+                {{ structure.name }}
+              </b>
             </span>
           </div>
         </div>
