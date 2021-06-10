@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: "yarn"
+    directory: "/front"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "jeremypinto"
+      - "ijahman"
+      - "nvaissaud"
+    assignees:
+      - "jeremypinto"
+      - "ijahman"
+      - "nvaissaud"
+    commit-message:
+      prefix: "fix"
+      prefix-development: "chore"
+      include: "scope"
