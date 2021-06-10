@@ -2,7 +2,15 @@
   <div>
     <div class="text-center mb-6">
       <div
-        class="text-gray-900 font-extrabold text-2xl lg:text-3xl leading-8 mb-2 lg:mb-3"
+        class="
+          text-gray-900
+          font-extrabold
+          text-2xl
+          lg:text-3xl
+          leading-8
+          mb-2
+          lg:mb-3
+        "
       >
         Proposez votre aide
       </div>
@@ -25,21 +33,54 @@
         ref="participateForm"
         :model="form"
         :rules="rules"
+        label-position="top"
+        class="mb-0 form-register-steps"
         :hide-required-asterisk="true"
-        class="mt-4 mb-0 form-center"
       >
-        <el-form-item class="mb-5" prop="content">
+        <el-form-item class="mb-5" prop="content" label="Votre message">
           <textarea
             v-model="form.content"
             placeholder=""
-            class="input-shadow w-full bg-white rounded-lg border-0 p-6 leading-6 text-gray-900"
+            class="
+              input-shadow
+              w-full
+              bg-white
+              rounded-lg
+              border-0
+              p-6
+              leading-6
+              text-gray-900
+            "
             rows="7"
             autocomplete="off"
           ></textarea>
         </el-form-item>
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          class="
+            font-bold
+            max-w-sm
+            mx-auto
+            w-full
+            flex
+            items-center
+            justify-center
+            px-5
+            py-3
+            border border-transparent
+            text-xl
+            leading-6
+            rounded-full
+            text-white
+            bg-green-400
+            hover:bg-green-500
+            focus:outline-none
+            focus:shadow-outline
+            transition
+            duration-150
+            ease-in-out
+            mt-8
+          "
           @click.prevent="onSubmit"
         >
           Envoyer

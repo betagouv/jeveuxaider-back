@@ -36,28 +36,15 @@
         ref="emailForm"
         :model="form"
         :rules="rules"
-        class="mb-0 form-center"
+        label-position="top"
+        class="mb-0 form-register-steps"
+        :hide-required-asterisk="true"
         @submit.prevent.native="onSubmit"
       >
-        <el-form-item prop="email" class="mb-5">
-          <input
+        <el-form-item label="Email" prop="email" class="mb-5">
+          <el-input
             v-model.trim="form.email"
-            :autofocus="true"
-            class="
-              input-shadow
-              text-center
-              bg-white
-              px-5
-              py-1
-              w-full
-              rounded-full
-              text-gray-900
-              placeholder-gray-400
-              focus:outline-none
-              focus:shadow-outline
-            "
-            placeholder="Votre e-mail"
-            @keyup.enter.prevent="onSubmit"
+            placeholder="prenom.nom@email.fr"
           />
         </el-form-item>
 
@@ -85,6 +72,7 @@
             transition
             duration-150
             ease-in-out
+            mt-8
           "
           @click.prevent="onSubmit"
         >

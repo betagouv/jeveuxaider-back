@@ -65,8 +65,7 @@ class ProfileController extends Controller
                 'referent_region'
             )
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'))
-        ;
+            ->paginate(config('query-builder.results_per_page'));
     }
 
     public function participations(Request $request, Profile $profile)
@@ -80,7 +79,7 @@ class ProfileController extends Controller
     // LARAVEL EXCEL
     public function export(Request $request)
     {
-        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
         $fileName = 'profiles-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
@@ -90,7 +89,7 @@ class ProfileController extends Controller
         //         new NotifyUserOfCompletedExport($request->user(), $filePath),
         //     ]);
 
-        return response()->json(['message'=> 'Export en cours...'], 200);
+        return response()->json(['message' => 'Export en cours...'], 200);
     }
 
     // FAST EXCEL
@@ -169,15 +168,12 @@ class ProfileController extends Controller
         $profile->update($request->validated());
 
         if ($request->has('domaines')) {
-            ray('has domaines', $request->input('domaines'));
             $domaines_ids = collect($request->input('domaines'))->pluck('id');
             $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $profile->syncTagsWithType($domaines, 'domaine');
         }
 
         if ($request->has('skills')) {
-            ray('has skills', $request->input('skills'));
-
             $skills_ids = collect($request->input('skills'))->pluck('id');
             $skills = Tag::whereIn('id', $skills_ids)->get();
             $profile->syncTagsWithType($skills, 'competence');
