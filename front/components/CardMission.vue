@@ -37,6 +37,13 @@
         </template>
         <template v-else> À distance </template>
       </div>
+
+      <div
+        v-if="formattedDate"
+        class="pill absolute mr-4 bottom-0 right-0 rounded-b-none"
+      >
+        {{ formattedDate }}
+      </div>
     </div>
 
     <div class="mb-auto p-4">
@@ -206,6 +213,44 @@ export default {
       }
       return ''
     },
+    formattedDate() {
+      const startDate = this.mission.start_date
+      const endDate = this.mission.end_date
+      let startDateObject
+      let endDateObject
+
+      if (!startDate) {
+        return
+      }
+
+      if (this.mission.provider == 'api_engagement') {
+        // API Engagement
+        if (!endDate) {
+          return
+        }
+        if (this.$dayjs(endDate).diff(this.$dayjs(startDate), 'year') > 1) {
+          return
+        }
+        startDateObject = this.$dayjs(startDate)
+        endDateObject = this.$dayjs(endDate)
+      } else {
+        // JVA
+        startDateObject = this.$dayjs.unix(startDate)
+        if (endDate) {
+          endDateObject = this.$dayjs.unix(endDate)
+        }
+      }
+
+      if (
+        endDate &&
+        startDateObject.format('D MMMM YYYY') ==
+          endDateObject.format('D MMMM YYYY')
+      ) {
+        return startDateObject.format('D MMMM')
+      } else {
+        return `À partir du ${startDateObject.format('D MMMM')}`
+      }
+    },
   },
 }
 </script>
@@ -251,7 +296,7 @@ export default {
   font-size: 11px
   color: #171725
   height: 23.5px
-  @apply px-3 mb-4 inline-flex items-center truncate
+  @apply px-3 inline-flex items-center truncate
 
 .pill-2
   border-radius: 35px

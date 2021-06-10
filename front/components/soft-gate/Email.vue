@@ -121,6 +121,11 @@ export default {
             .then((res) => {
               this.loading = false
               if (!res.data) {
+                this.$axios.post('/sendinblue/contact', {
+                  email: this.form.email,
+                  id_liste: 383,
+                  url_mission: window.location.href,
+                })
                 this.$emit('register', { email: this.form.email })
               } else {
                 this.$emit('login', res.data)

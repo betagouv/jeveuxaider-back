@@ -107,6 +107,8 @@ class Mission extends Model
             'provider' => 'reserve_civique',
             'publisher_name' => 'Réserve Civique',
             'post_date' => strtotime($this->created_at),
+            'start_date' => $this->start_date ? strtotime($this->start_date) : null,
+            'end_date' => $this->end_date ? strtotime($this->end_date) : null,
             'format' => $this->format,
             'thumbnail' => $this->thumbnail,
             'domaine_id' => $this->domaine_id,
