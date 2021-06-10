@@ -930,6 +930,10 @@ export default {
       return error({ statusCode: 404 })
     }
 
+    if (mission.state == 'En attente de validation') {
+      return error({ statusCode: 403 })
+    }
+
     // Si mission signalée ou organisation désinscrite / signalée
     if (
       ['Signalée'].includes(mission.state) ||
