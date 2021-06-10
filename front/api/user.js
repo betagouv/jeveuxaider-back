@@ -98,6 +98,7 @@ export default (axios) => ({
       profile_id: profileId,
     })
   },
+
   registerVolontaire(
     email,
     password,
@@ -106,7 +107,8 @@ export default (axios) => ({
     mobile,
     birthday,
     zip,
-    sc
+    sc,
+    type
   ) {
     return axios.post('/register/volontaire', {
       email: email.toLowerCase(),
@@ -117,6 +119,7 @@ export default (axios) => ({
       birthday,
       zip,
       sc,
+      type,
     })
   },
 

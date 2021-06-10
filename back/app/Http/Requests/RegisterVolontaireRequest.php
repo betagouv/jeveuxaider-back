@@ -24,7 +24,7 @@ class RegisterVolontaireRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required','email', 'unique:users'],
+            'email' => ['required', 'email', 'unique:users'],
             'password' => 'required|min:8',
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
@@ -32,6 +32,7 @@ class RegisterVolontaireRequest extends FormRequest
             'birthday' => 'required|date|before:-16 years|after:-100 years',
             'zip' => 'required|postal_code:FR',
             'service_civique' => 'boolean',
+            'type' => '',
         ];
     }
 

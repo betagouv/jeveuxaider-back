@@ -94,7 +94,8 @@ export const actions = {
           user.mobile,
           user.birthday,
           user.zip,
-          user.service_civique
+          user.service_civique,
+          user.type
         )
         .then(() => {
           dispatch('login', user).then((response) => {

@@ -2,7 +2,15 @@
   <div>
     <div class="text-center mb-6">
       <div
-        class="text-gray-900 font-extrabold text-2xl lg:text-3xl leading-8 mb-2 lg:mb-3"
+        class="
+          text-gray-900
+          font-extrabold
+          text-2xl
+          lg:text-3xl
+          leading-8
+          mb-2
+          lg:mb-3
+        "
       >
         {{ form.first_name }}, ravi de vous retrouver !
       </div>
@@ -15,35 +23,54 @@
         ref="loginForm"
         :model="form"
         :rules="rules"
-        class="mb-0 form-center"
+        label-position="top"
+        class="mb-0 form-register-steps"
+        :hide-required-asterisk="true"
         @submit.prevent.native="onSubmit"
       >
-        <el-form-item prop="email" class="mb-5">
-          <div
-            class="input-shadow relative text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-          >
-            {{ form.email }}
-
-            <img
-              class="absolute inset-y-0 my-auto"
-              style="right: 15px"
-              src="@/assets/images/email-check.svg"
-              alt="Email valide"
-            />
-          </div>
+        <el-form-item label="Email" prop="email" class="mb-5">
+          <el-input
+            v-model.trim="form.email"
+            placeholder="prenom.nom@email.fr"
+            disabled
+            suffix-icon="el-icon-check"
+          />
         </el-form-item>
-        <el-form-item prop="password" class="mb-5">
-          <input
+        <el-form-item label="Mot de passe" prop="password" class="mb-5">
+          <el-input
             v-model="form.password"
-            :autofocus="true"
-            type="password"
-            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-400 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-            placeholder="Votre mot de passe"
+            placeholder="Mot de passe"
+            label="Mot de passe"
+            show-password
+            autocomplete="new-password"
           />
         </el-form-item>
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          class="
+            font-bold
+            max-w-sm
+            mx-auto
+            w-full
+            flex
+            items-center
+            justify-center
+            px-5
+            py-3
+            border border-transparent
+            text-xl
+            leading-6
+            rounded-full
+            text-white
+            bg-green-400
+            hover:bg-green-500
+            focus:outline-none
+            focus:shadow-outline
+            transition
+            duration-150
+            ease-in-out
+            mt-8
+          "
           @click.prevent="onSubmit"
         >
           Se connecter
@@ -52,7 +79,17 @@
           <nuxt-link
             :to="`/password-reset?email=${form.email}`"
             target="_blank"
-            class="text-sm leading-5 font-medium text-gray-400 hover:text-gray-900 focus:underline transition ease-in-out duration-150"
+            class="
+              text-sm
+              leading-5
+              font-medium
+              text-gray-400
+              hover:text-gray-900
+              focus:underline
+              transition
+              ease-in-out
+              duration-150
+            "
           >
             Mot de passe perdu ?
           </nuxt-link>

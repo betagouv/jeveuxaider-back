@@ -2,7 +2,15 @@
   <div>
     <div class="text-center mb-6">
       <div
-        class="text-gray-900 font-extrabold text-2xl lg:text-3xl leading-8 mb-2 lg:mb-3"
+        class="
+          text-gray-900
+          font-extrabold
+          text-2xl
+          lg:text-3xl
+          leading-8
+          mb-2
+          lg:mb-3
+        "
       >
         Rejoignez le mouvement&nbsp;!
       </div>
@@ -15,82 +23,107 @@
         ref="registerForm"
         :model="form"
         :rules="rules"
-        class="mb-0 form-center"
+        label-position="top"
+        class="mb-0 form-register-steps"
+        :hide-required-asterisk="true"
         @submit.prevent.native="onSubmit"
       >
-        <el-form-item prop="email" class="mb-5">
-          <div
-            class="input-shadow relative text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-          >
-            {{ form.email }}
-
-            <img
-              class="absolute inset-y-0 my-auto"
-              style="right: 15px"
-              src="@/assets/images/email-check.svg"
-              alt="Email valide"
-            />
-          </div>
-        </el-form-item>
-
-        <el-form-item prop="password" class="mb-5">
-          <input
-            v-model="form.password"
-            type="password"
-            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-            placeholder="Votre mot de passe"
+        <el-form-item label="Email" prop="email" class="mb-5">
+          <el-input
+            v-model.trim="form.email"
+            placeholder="prenom.nom@email.fr"
+            disabled
+            suffix-icon="el-icon-check"
           />
         </el-form-item>
-
-        <div class="lg:flex lg:space-x-4">
-          <el-form-item prop="first_name" class="w-full lg:w-1/2 mb-5">
-            <input
-              v-model="form.first_name"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-              label="Prénom"
-              placeholder="Prénom"
-            />
+        <el-form-item label="Mot de passe" prop="password" class="mb-5">
+          <el-input
+            v-model="form.password"
+            placeholder="Mot de passe"
+            label="Mot de passe"
+            show-password
+            autocomplete="new-password"
+          />
+        </el-form-item>
+        <div class="flex mb-5 space-x-4">
+          <el-form-item label="Prénom" prop="first_name" class="flex-1 mb-0">
+            <el-input v-model="form.first_name" placeholder="Prénom" />
           </el-form-item>
-          <el-form-item prop="last_name" class="w-full lg:w-1/2 mb-5">
-            <input
-              v-model="form.last_name"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-              label="Nom"
-              placeholder="Nom"
-            />
+          <el-form-item label="Nom" prop="last_name" class="flex-1 mb-0">
+            <el-input v-model="form.last_name" placeholder="Nom" />
           </el-form-item>
         </div>
-        <div class="lg:flex lg:space-x-4">
-          <el-form-item prop="zip" class="w-full lg:w-1/2 mb-5">
-            <input
-              v-model="form.zip"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-              label="Code postal"
-              placeholder="Code Postal"
-            />
+        <div class="flex mb-5 space-x-4">
+          <el-form-item
+            label="Téléphone mobile"
+            prop="mobile"
+            class="flex-1 mb-0"
+          >
+            <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
           </el-form-item>
-          <el-form-item prop="birthday" class="w-full lg:w-1/2 mb-5">
-            <input
+          <el-form-item label="Téléphone fixe" prop="phone" class="flex-1 mb-0">
+            <el-input v-model="form.phone" placeholder="Téléphone fixe" />
+          </el-form-item>
+        </div>
+        <div class="flex mb-5 space-x-4">
+          <el-form-item label="Code postal" prop="zip" class="flex-1 mb-0">
+            <el-input v-model="form.zip" placeholder="Code postal" />
+          </el-form-item>
+          <el-form-item
+            label="Date de naissance"
+            prop="birthday"
+            class="flex-1 mb-0"
+          >
+            <el-input
               v-model="form.birthday"
               v-mask="'##/##/####'"
-              class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
+              autocomplete="new-password"
               label="Date de naissance"
-              placeholder="Date de naissance"
+              placeholder="JJ/MM/AAAA"
             />
           </el-form-item>
         </div>
-        <el-form-item prop="mobile" class="mb-5">
-          <input
-            v-model="form.mobile"
-            class="input-shadow text-center bg-white px-5 py-1 w-full rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:shadow-outline"
-            label="Mobile"
-            placeholder="Téléphone mobile"
-          />
+
+        <el-form-item label="Type de profil" prop="type" class="mb-5">
+          <el-select
+            v-model="form.type"
+            placeholder="Sélectionnez votre profil"
+          >
+            <el-option
+              v-for="item in $store.getters.taxonomies.profile_types.terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
 
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          class="
+            font-bold
+            max-w-sm
+            mx-auto
+            w-full
+            flex
+            items-center
+            justify-center
+            px-5
+            py-3
+            border border-transparent
+            text-xl
+            leading-6
+            rounded-full
+            text-white
+            bg-green-400
+            hover:bg-green-500
+            focus:outline-none
+            focus:shadow-outline
+            transition
+            duration-150
+            ease-in-out
+            mt-8
+          "
           @click.prevent="onSubmit"
         >
           S'inscrire
@@ -146,80 +179,87 @@ export default {
         email: [
           {
             type: 'email',
-            message: "Le format de l'email n'est pas correct",
+            message: "Format de l'email incorrect",
             trigger: 'blur',
           },
           {
             required: true,
-            message: 'Veuillez renseigner votre email',
+            message: 'Email obligatoire',
             trigger: 'blur',
           },
         ],
         first_name: [
           {
             required: true,
-            message: 'Veuillez renseigner votre prénom',
+            message: 'Prénom obligatoire',
             trigger: 'blur',
           },
         ],
         last_name: [
           {
             required: true,
-            message: 'Veuillez renseigner votre nom',
+            message: 'Nom obligatoire',
             trigger: 'blur',
           },
         ],
         birthday: [
           {
             required: true,
-            message: 'Veuillez renseigner votre date de naissance',
+            message: 'Date obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        type: [
+          {
+            required: true,
+            message: 'Champs obligatoire',
             trigger: 'blur',
           },
         ],
         zip: [
           {
             required: true,
-            message: 'Veuillez renseigner votre code postal',
+            message: 'Code postal obligatoire',
             trigger: 'blur',
           },
           {
             pattern: /^\d+$/,
-            message: 'Code postal incorrect',
+            message: 'Format du code postal incorrect',
             trigger: 'blur',
           },
           {
             min: 5,
             max: 6,
-            message: 'Code postal erroné',
+            message: 'Format erroné',
             trigger: 'blur',
           },
         ],
         mobile: [
           {
             required: true,
-            message: 'Veuillez renseigner votre téléphone',
+            message: 'Mobile obligatoire',
             trigger: 'blur',
           },
           {
             pattern: /^[+|\s|\d]*$/,
-            message: 'Téléphone incorrect',
+            message: 'Format mobile incorrect',
             trigger: 'blur',
           },
           {
             min: 10,
-            message: 'Téléphone incorrect',
+            message: 'Format incorrect',
             trigger: 'blur',
           },
         ],
         password: [
           {
             required: true,
-            message: 'Veuillez renseigner un mot de passe',
+            message: 'Mot de passe obligatoire',
             trigger: 'change',
           },
           {
             min: 8,
-            message: 'Votre mot de passe doit contenir au moins 8 caractères',
+            message: 'Au moins 8 caractères',
             trigger: 'blur',
           },
         ],
@@ -246,6 +286,7 @@ export default {
               birthday: birthdayValidFormat,
               zip: this.form.zip,
               service_civique: this.form.service_civique,
+              type: this.form.type,
             })
             .then(() => {
               window.plausible &&
