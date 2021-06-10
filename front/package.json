@@ -31,7 +31,7 @@
     "algoliasearch": "^4.8.5",
     "chart.js": "^2.9.4",
     "cookie-universal-nuxt": "^2.1.4",
-    "core-js": "^3.9.0",
+    "core-js": "^3.14.0",
     "element-ui": "^2.15.2",
     "instantsearch.css": "^7.4.5",
     "js-file-download": "^0.4.12",
