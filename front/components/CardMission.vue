@@ -100,7 +100,7 @@
         </div>
       </div>
       <div
-        v-if="$store.getters.contextRole == 'adminNNNNN'"
+        v-if="$store.getters.contextRole == 'admin'"
         class="bg-gray-50 rounded-lg p-4 text-xs"
       >
         <template
