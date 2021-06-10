@@ -32,7 +32,7 @@
     "chart.js": "^2.9.4",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.9.0",
-    "element-ui": "^2.15.1",
+    "element-ui": "^2.15.2",
     "instantsearch.css": "^7.4.5",
     "js-file-download": "^0.4.12",
     "numeral": "^2.0.6",
