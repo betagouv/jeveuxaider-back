@@ -35,6 +35,24 @@
     </el-menu-item>
 
     <el-menu-item
+      index="/dashboard/territoires"
+      :class="{
+        'is-active': isActive('territoires'),
+      }"
+    >
+      <span v-if="$store.getters.isSidebarExpanded">Territoires</span>
+
+      <i
+        v-else
+        v-tooltip.right="{
+          content: `Territoires`,
+          classes: 'bo-style',
+        }"
+        class="el-icon-office-building"
+      />
+    </el-menu-item>
+
+    <el-menu-item
       index="/dashboard/structures"
       :class="{
         'is-active': isActive('structures'),

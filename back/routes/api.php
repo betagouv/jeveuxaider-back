@@ -51,6 +51,8 @@ Route::post('firstname', 'Api\ProfileController@firstname');
 Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 
+Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -263,4 +265,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // INVITATIONS
     Route::get('invitations', 'Api\InvitationController@index');
+
+
+    Route::get('territoires', 'Api\TerritoireController@index');
+    Route::post('territoire', 'Api\TerritoireController@store');
+    Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
 });

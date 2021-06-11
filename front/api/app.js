@@ -213,6 +213,19 @@ export default (axios) => ({
   async chartCollectivityCreated(id, params) {
     return await axios.get(`/collectivity/${id}/charts/created`, { params })
   },
+  async fetchTerritoires(params) {
+    return await axios.get(`/territoires`, { params })
+  },
+  async addTerritoire(territoire) {
+    return await axios.post('/territoire', territoire)
+  },
+  async updateTerritoire(id, territoire) {
+    return await axios.post(`/territoire/${id}`, territoire)
+  },
+  async getTerritoire(id) {
+    const { data } = await axios.get(`/territoire/${id}`)
+    return data
+  },
 })
 
 // async bootstrap() {
