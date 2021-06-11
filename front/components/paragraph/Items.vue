@@ -1,18 +1,27 @@
 <template>
   <div>
-    <div
-      v-for="(item, index) in values"
-      :key="item.uuid"
-      class="bg-gray-50 py-4 px-4 mb-2"
-    >
-      <ParagraphFieldsItem
-        :fields="fields"
-        :item="item"
-        @update="onUpdate($event, index)"
-        @remove="onRemove(index)"
-      />
+    <div v-if="values.length > 0">
+      <div
+        v-for="(item, index) in values"
+        :key="item.uuid"
+        class="bg-gray-50 py-4 px-4 mb-2"
+      >
+        <ParagraphRowItems
+          :fields="fields"
+          :item="item"
+          @update="onUpdate($event, index)"
+          @remove="onRemove(index)"
+        />
+      </div>
     </div>
-    <el-button type="secondary" @click="addRow"> Ajouter une entrée </el-button>
+    <div v-else class="bg-gray-50 py-4 px-4 mb-2 text-gray-500">
+      Aucune entrée
+    </div>
+    <div class="flex justify-end">
+      <el-button type="secondary" @click="addRow">
+        Ajouter une entrée
+      </el-button>
+    </div>
   </div>
 </template>
 

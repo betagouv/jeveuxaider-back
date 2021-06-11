@@ -102,7 +102,7 @@
             {
               key: 'description',
               label: 'Description',
-              type: 'textarea',
+              type: 'richtext',
               required: true,
             },
           ]"
@@ -180,7 +180,6 @@ export default {
   methods: {
     onUpdateItems(items) {
       this.form.seo_engage_paragraphs = items
-      console.log('onUpdateItems', this.form.seo_engage_paragraphs)
     },
     onSubmit() {
       this.loading = true

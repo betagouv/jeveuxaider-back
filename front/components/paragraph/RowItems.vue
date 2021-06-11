@@ -1,23 +1,22 @@
 <template>
-  <div class="flex items-center space-x-4">
+  <div class="flex flex-col space-y-4">
     <el-form
       :ref="`paragraph-fields-item-form`"
       :model="form"
       label-position="top"
       :rules="rules"
-      class="flex space-x-4 flex-1"
+      class="flex flex-col space-y-4"
     >
       <el-form-item
         v-for="(field, index) in fields"
         :key="index"
         :label="field.label"
         :prop="field.key"
-        class="w-full"
       >
         <template v-if="field.type == 'text'">
           <el-input
             v-model="form[field.key]"
-            placeholder="Placeholder text"
+            :placeholder="field.placeholder ? field.placeholder : ''"
             @input="onSubmit"
           />
         </template>
@@ -25,16 +24,20 @@
           <el-input
             v-model="form[field.key]"
             type="textarea"
-            placeholder="Placeholder textarea"
+            :placeholder="field.placeholder ? field.placeholder : ''"
+            rows="4"
             @input="onSubmit"
           />
         </template>
+        <template v-if="field.type == 'richtext'">
+          <RichEditor v-model="form[field.key]" @input="onSubmit" />
+        </template>
       </el-form-item>
     </el-form>
-    <div class="">
-      <el-button type="danger" @click="onRemove"
-        ><i class="el-icon-delete"
-      /></el-button>
+    <div class="flex justify-end">
+      <el-button type="danger" size="small" @click="onRemove"
+        ><i class="el-icon-delete" /> Supprimer cette entrée</el-button
+      >
     </div>
   </div>
 </template>
