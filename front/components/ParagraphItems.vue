@@ -2,10 +2,9 @@
   <div>
     <div
       v-for="(item, index) in values"
-      :key="index"
+      :key="item.uuid"
       class="bg-gray-50 py-4 px-4 mb-2"
     >
-      {{ index }}
       <ParagraphFieldsItem
         :fields="fields"
         :item="item"
@@ -18,6 +17,8 @@
 </template>
 
 <script>
+import { uniqueId } from 'lodash'
+
 export default {
   props: {
     fields: {
@@ -26,12 +27,14 @@ export default {
     },
     items: {
       type: Array,
-      default: null,
+      default: () => {
+        return []
+      },
     },
   },
   data() {
     return {
-      values: this.items ? [...this.items] : [],
+      values: [...this.items],
     }
   },
   methods: {
@@ -40,17 +43,18 @@ export default {
       this.fields.forEach((field) => {
         newRow[field.key] = null
       })
-      this.values.push(newRow)
+
+      this.values.push({
+        ...newRow,
+        uuid: uniqueId(),
+      })
     },
     onRemove(index) {
-      console.log('onRemove', index)
-      // this.values.findIndex((value) => value == payload)
-      // console.log('this values', this.values)
-      this.values.splice(index, 1)
-      // this.$emit('update-items', this.values)
+      this.$delete(this.values, index)
+      this.$emit('update-items', this.values)
     },
     onUpdate(payload, index) {
-      this.values[index] = payload
+      this.$set(this.values, index, payload)
       this.$emit('update-items', this.values)
     },
   },
