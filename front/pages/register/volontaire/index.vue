@@ -850,6 +850,11 @@ export default {
               if (this.$route.query.redirect) {
                 this.$router.push(this.$route.query.redirect)
               } else {
+                this.$axios.post('/sendinblue/contact', {
+                  email: this.form.email,
+                  id_liste: 383,
+                  url_mission: window.location.href,
+                })
                 this.$router.push('/register/volontaire/step/profile')
               }
             })
