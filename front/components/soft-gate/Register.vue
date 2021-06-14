@@ -84,10 +84,10 @@
           </el-form-item>
         </div>
 
-        <el-form-item label="Type de profil" prop="type" class="mb-5">
+        <el-form-item label="Profession" prop="type" class="mb-5">
           <el-select
             v-model="form.type"
-            placeholder="Sélectionnez votre profil"
+            placeholder="Sélectionnez votre profession"
           >
             <el-option
               v-for="item in $store.getters.taxonomies.profile_types.terms"
