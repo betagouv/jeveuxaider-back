@@ -15,7 +15,16 @@
     </div>
     <div class="max-w-lg mx-auto">
       <div
-        class="px-8 py-6 bg-white rounded-t-lg text-black text-3xl font-extrabold leading-9 text-center"
+        class="
+          px-8
+          py-6
+          bg-white
+          rounded-t-lg
+          text-black text-3xl
+          font-extrabold
+          leading-9
+          text-center
+        "
       >
         Enrichissez vos informations
       </div>
@@ -42,13 +51,30 @@
             <div
               v-for="item in form.skills"
               :key="item.id"
-              class="flex items-center space-x-4 px-4 py-3 rounded-lg border border-blue-800 bg-white m-1"
+              class="
+                flex
+                items-center
+                space-x-4
+                px-4
+                py-3
+                rounded-lg
+                border border-blue-800
+                bg-white
+                m-1
+              "
             >
               <div class="flex-none text-sm text-blue-800 font-bold">
                 {{ item.name.fr }}
               </div>
               <div
-                class="flex-none cursor-pointer w-4 h-4 text-blue-800 hover:text-blue-900"
+                class="
+                  flex-none
+                  cursor-pointer
+                  w-4
+                  h-4
+                  text-blue-800
+                  hover:text-blue-900
+                "
                 @click="handleRemoveSkill(item.id)"
                 v-html="
                   require('@/assets/images/icones/heroicon/close.svg?include')
@@ -63,7 +89,31 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="
+                shadow-lg
+                block
+                w-full
+                text-center
+                rounded-lg
+                z-10
+                border border-transparent
+                bg-green-400
+                px-4
+                sm:px-6
+                py-4
+                text-lg
+                sm:text-xl
+                leading-6
+                font-bold
+                text-white
+                hover:bg-green-500
+                focus:outline-none
+                focus:border-indigo-700
+                focus:shadow-outline-indigo
+                transition
+                ease-in-out
+                duration-150
+              "
               @click="onSubmit"
               >Terminer</el-button
             >
@@ -122,6 +172,8 @@ export default {
         ...this.form,
       })
       this.loading = false
+      window.plausible &&
+        window.plausible('Inscription bénévole - Étape 4 - Compétences')
       this.$router.push('/user/infos')
     },
   },

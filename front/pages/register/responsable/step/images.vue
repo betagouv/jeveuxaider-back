@@ -2,7 +2,15 @@
   <div class="relative">
     <portal to="sidebar"
       ><div
-        class="text-xl lg:text-2xl font-bold mb-6 lg:mb-12 text-center sm:text-left"
+        class="
+          text-xl
+          lg:text-2xl
+          font-bold
+          mb-6
+          lg:mb-12
+          text-center
+          sm:text-left
+        "
       >
         Ça ne devrait pas prendre plus de 3 minutes 😉
       </div>
@@ -17,7 +25,16 @@
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
-        class="px-8 pt-6 pb-20 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+        class="
+          px-8
+          pt-6
+          pb-20
+          bg-white
+          text-black text-3xl
+          font-extrabold
+          leading-9
+          text-center
+        "
       >
         Faites briller votre organisation
       </div>
@@ -61,7 +78,17 @@
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-green-400 focus:text-green-400 duration-300 ease-in-out"
+                class="
+                  h-5
+                  w-5
+                  m-1
+                  cursor-pointer
+                  transition-colors
+                  hover:text-green-400
+                  focus:text-green-400
+                  duration-300
+                  ease-in-out
+                "
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 @click="setDialogCropVisible(true)"
@@ -78,7 +105,17 @@
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-red-700 focus:text-red-700 duration-300 ease-in-out"
+                class="
+                  h-5
+                  w-5
+                  m-1
+                  cursor-pointer
+                  transition-colors
+                  hover:text-red-700
+                  focus:text-red-700
+                  duration-300
+                  ease-in-out
+                "
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 @click.prevent="onDelete()"
@@ -95,14 +132,26 @@
 
         <template v-if="form.statut_juridique == 'Association'">
           <div
-            class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
+            class="
+              mb-8
+              text-black text-2xl
+              font-extrabold
+              leading-9
+              text-center
+            "
           >
             Choisissez 2 visuels pour illustrer l'activité de votre
             organisation.
           </div>
           <div class="relative mb-8" @click="onEditImageClick(0)">
             <div
-              class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+              class="
+                text-center text-gray-400
+                font-semibold
+                text-sm
+                uppercase
+                mb-4
+              "
             >
               Visuel N°1
             </div>
@@ -112,7 +161,21 @@
               class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
             />
             <div
-              class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+              class="
+                z-1
+                absolute
+                flex
+                justify-center
+                items-center
+                w-8
+                h-8
+                text-blue-800
+                bg-white
+                rounded-full
+                opacity-75
+                hover:opacity-100
+                cursor-pointer
+              "
               style="right: 12px; bottom: 12px"
             >
               <div
@@ -126,7 +189,13 @@
 
           <div class="relative mb-8" @click="onEditImageClick(1)">
             <div
-              class="text-center text-gray-400 font-semibold text-sm uppercase mb-4"
+              class="
+                text-center text-gray-400
+                font-semibold
+                text-sm
+                uppercase
+                mb-4
+              "
             >
               Visuel N°2
             </div>
@@ -136,7 +205,21 @@
               class="w-full h-auto rounded-lg cursor-pointer shadow-xl"
             />
             <div
-              class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 hover:opacity-100 cursor-pointer"
+              class="
+                z-1
+                absolute
+                flex
+                justify-center
+                items-center
+                w-8
+                h-8
+                text-blue-800
+                bg-white
+                rounded-full
+                opacity-75
+                hover:opacity-100
+                cursor-pointer
+              "
               style="right: 12px; bottom: 12px"
             >
               <div
@@ -154,7 +237,31 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="
+                shadow-lg
+                block
+                w-full
+                text-center
+                rounded-lg
+                z-10
+                border border-transparent
+                bg-green-400
+                px-4
+                sm:px-6
+                py-4
+                text-lg
+                sm:text-xl
+                leading-6
+                font-bold
+                text-white
+                hover:bg-green-500
+                focus:outline-none
+                focus:border-indigo-700
+                focus:shadow-outline-indigo
+                transition
+                ease-in-out
+                duration-150
+              "
               @click="onSubmit"
               >Terminer</el-button
             >
@@ -261,6 +368,11 @@ export default {
       })
       await this.$store.dispatch('auth/fetchUser')
       this.loading = false
+
+      window.plausible &&
+        window.plausible(
+          'Inscription responsable - Étape 5 - Votre organisation en images'
+        )
 
       if (this.form.collectivity) {
         this.$router.push(

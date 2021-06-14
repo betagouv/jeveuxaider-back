@@ -475,6 +475,10 @@ export default {
               // Get profile to get new role
               await this.$store.dispatch('auth/fetchUser')
               this.loading = false
+              window.plausible &&
+                window.plausible(
+                  'Inscription responsable - Étape 3 - Informations sur l’organisation'
+                )
               this.$router.push('/register/responsable/step/infos')
             })
             .catch(() => {
