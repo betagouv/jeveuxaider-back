@@ -40,7 +40,7 @@ class Territoire extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected static $logFillable = true;
+    protected static $logUnguarded = true;
 
     protected static $logOnlyDirty = true;
 

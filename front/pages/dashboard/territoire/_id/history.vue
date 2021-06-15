@@ -1,5 +1,5 @@
 <template>
-  <div class="territoire-view">
+  <div class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1 mb-8">
         <div class="text-m text-gray-600 uppercase">Territoire</div>
@@ -69,40 +69,28 @@
         Historique
       </el-menu-item>
     </el-menu>
-
-    <div class="px-12">
-      <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-        <el-card shadow="never" class="p-4">
-          <div class="flex justify-between">
-            <div class="mb-6 text-xl font-semibold">Territoire</div>
-          </div>
-          <ModelTerritoireInfos :territoire="territoire" />
-        </el-card>
-        <el-card shadow="never" class="p-4">
-          <div class="flex justify-between">
-            <div
-              v-if="territoire.responsables"
-              class="mb-6 text-xl font-semibold"
-            >
-              Responsables
-            </div>
-          </div>
-          <div class="grid grid-cols-2 gap-3">
-            <ModelMemberTeaser
-              v-for="responsable in territoire.responsables"
-              :key="responsable.id"
-              class="member py-2"
-              :member="responsable"
-            />
-          </div>
-        </el-card>
+    <TableActivities :table-data="tableData" />
+    <div class="m-3 flex items-center">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="totalRows"
+        :page-size="15"
+        :current-page="Number(query.page)"
+        @current-change="onPageChange"
+      />
+      <div class="text-secondary text-xs ml-3">
+        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import TableWithFilters from '@/mixins/table-with-filters'
+
 export default {
+  mixins: [TableWithFilters],
   layout: 'dashboard',
   async asyncData({ $api, params }) {
     const territoire = await $api.getTerritoire(params.id)
@@ -110,6 +98,21 @@ export default {
       territoire,
     }
   },
+  async fetch() {
+    const { data } = await this.$api.fetchActivities({
+      'filter[subject_id]': this.$route.params.id,
+      'filter[subject_type]': 'Territoire',
+      page: this.$route.query.page || 1,
+    })
+    this.tableData = data.data
+    this.totalRows = data.total
+    this.fromRow = data.from
+    this.toRow = data.to
+  },
+  watch: {
+    '$route.query': '$fetch',
+  },
+  methods: {},
 }
 </script>
 
