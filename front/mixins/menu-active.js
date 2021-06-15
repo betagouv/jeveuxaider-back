@@ -1,6 +1,9 @@
 export default {
   name: 'MenuWithActive',
   methods: {
+    doesPathContains(item) {
+      return this.$route.path.includes(item)
+    },
     isActive(item) {
       switch (item) {
         case 'dashboard':

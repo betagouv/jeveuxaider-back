@@ -104,8 +104,25 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
     const territoire = await $api.getTerritoire(params.id)
+
+    if (
+      !['admin', 'responsable_territoire'].includes(store.getters.contextRole)
+    ) {
+      return error({ statusCode: 403 })
+    }
+
+    if (store.getters.contextRole == 'responsable_territoire') {
+      if (
+        !store.getters.user.profile.territoires.filter(
+          (item) => item.id == params.id
+        ).length
+      ) {
+        return error({ statusCode: 403 })
+      }
+    }
+
     return {
       territoire,
     }

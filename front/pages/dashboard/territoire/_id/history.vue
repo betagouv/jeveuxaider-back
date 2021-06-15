@@ -92,8 +92,12 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters],
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, store, error }) {
     const territoire = await $api.getTerritoire(params.id)
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
+
     return {
       territoire,
     }

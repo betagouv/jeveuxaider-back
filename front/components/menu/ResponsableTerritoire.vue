@@ -20,7 +20,7 @@
       :key="territoire.id"
       :index="`/dashboard/territoire/${territoire.id}`"
       :class="{
-        'is-active': isActive('territoire'),
+        'is-active': doesPathContains(`/dashboard/territoire/${territoire.id}`),
       }"
     >
       <span v-if="$store.getters.isSidebarExpanded">{{ territoire.name }}</span>
