@@ -30,7 +30,8 @@ class TerritoireController extends Controller
             ? Territoire::where('id', $slugOrId)->with('responsables')->firstOrFail()
             : Territoire::where('slug', $slugOrId)->firstOrFail();
 
-        return $territoire->setAppends(['banner', 'logo']);
+        return $territoire;
+        // return $territoire->setAppends(['completion_rate', 'full_url']);
     }
 
     public function store(TerritoireRequest $request)

@@ -34,7 +34,7 @@ class Territoire extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $appends = ['completion_rate'];
+    protected $appends = ['completion_rate', 'full_url'];
 
     // protected $appends = ['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
 
@@ -57,9 +57,24 @@ class Territoire extends Model implements HasMedia
         return $this->getMediaUrls('logo');
     }
 
+    public function getFullUrlAttribute()
+    {
+        switch ($this->type) {
+            case 'department':
+                return "/territoires/departements/$this->slug";
+                break;
+            case 'collectivity':
+                return "/territoires/collectivites/$this->slug";
+                break;
+            case 'city':
+                return "/territoires/villes/$this->slug";
+                break;
+        }
+    }
+
     public function getCompletionRateAttribute()
     {
-        $fields = ['suffix_title', 'department', 'description', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
+        $fields = ['cover', 'suffix_title', 'department', 'description', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
         $filled = 0;
 
         foreach ($fields as $field) {
@@ -80,9 +95,9 @@ class Territoire extends Model implements HasMedia
             }
         }
 
-        ray($fields);
+        //ray($fields);
 
-        return $filled / count($fields) * 100;
+        return round($filled / count($fields) * 100);
     }
 
     protected function getMediaUrls($field)

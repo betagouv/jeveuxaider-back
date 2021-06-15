@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      values: [...this.items],
+      values: this.items ? [...this.items] : [],
     }
   },
   methods: {

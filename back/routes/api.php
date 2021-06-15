@@ -180,6 +180,13 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
+
+    // TERRITOIRES
+    Route::get('territoires', 'Api\TerritoireController@index');
+    Route::post('territoire', 'Api\TerritoireController@store');
+    Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
+    Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
+    Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
 });
 
 // ONLY ADMIN
@@ -265,11 +272,4 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // INVITATIONS
     Route::get('invitations', 'Api\InvitationController@index');
-
-
-    Route::get('territoires', 'Api\TerritoireController@index');
-    Route::post('territoire', 'Api\TerritoireController@store');
-    Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
-    Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
-    Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
 });

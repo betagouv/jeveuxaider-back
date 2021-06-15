@@ -14,7 +14,9 @@
 export default {
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
-    if (!['admin'].includes(store.getters.contextRole)) {
+    if (
+      !['admin', 'responsable_territoire'].includes(store.getters.contextRole)
+    ) {
       return error({ statusCode: 403 })
     }
     const territoire = await $api.getTerritoire(params.id)

@@ -10,6 +10,12 @@
         Informations générales
       </div>
 
+      <el-form-item label="Publication de la page" prop="is_published">
+        <el-checkbox v-model="form.is_published">
+          Cochez la case pour publier la page
+        </el-checkbox>
+      </el-form-item>
+
       <el-form-item label="Nom du territoire" prop="name">
         <el-input v-model="form.name" placeholder="Titre" />
       </el-form-item>
@@ -67,73 +73,77 @@
       </el-form-item>
     </div>
 
-    <div>
-      <div class="mb-6 text-1-5xl font-bold text-gray-800">SEO</div>
+    <template v-if="$store.getters.contextRole == 'admin'">
+      <div>
+        <div class="mb-6 text-1-5xl font-bold text-gray-800">SEO</div>
 
-      <el-form-item label="Titre pour le recrutement" prop="seo_recruit_title">
-        <el-input
-          v-model="form.seo_recruit_title"
-          placeholder="Ces associations recrutent des bénévoles"
-        />
-      </el-form-item>
-      <el-form-item
-        label="Description pour le recrutement"
-        prop="seo_recruit_description"
-      >
-        <client-only>
-          <RichEditor v-model="form.seo_recruit_description" />
-        </client-only>
-      </el-form-item>
+        <el-form-item
+          label="Titre pour le recrutement"
+          prop="seo_recruit_title"
+        >
+          <el-input
+            v-model="form.seo_recruit_title"
+            placeholder="Ces associations recrutent des bénévoles"
+          />
+        </el-form-item>
+        <el-form-item
+          label="Description pour le recrutement"
+          prop="seo_recruit_description"
+        >
+          <client-only>
+            <RichEditor v-model="form.seo_recruit_description" />
+          </client-only>
+        </el-form-item>
 
-      <el-form-item label="Titre pour l'engagement" prop="seo_engage_title">
-        <el-input
-          v-model="form.seo_engage_title"
-          placeholder="Engagez-vous pour une cause bénévole qui vous ressemble"
-        />
-      </el-form-item>
+        <el-form-item label="Titre pour l'engagement" prop="seo_engage_title">
+          <el-input
+            v-model="form.seo_engage_title"
+            placeholder="Engagez-vous pour une cause bénévole qui vous ressemble"
+          />
+        </el-form-item>
 
-      <el-form-item
-        label="Description pour le recrutement"
-        prop="seo_engage_paragraphs"
-      >
-        <ParagraphItems
-          :fields="[
-            { key: 'title', label: 'Titre', type: 'text', required: true },
-            {
-              key: 'description',
-              label: 'Description',
-              type: 'richtext',
-              required: true,
-            },
-          ]"
-          :items="form.seo_engage_paragraphs"
-          @update-items="onUpdateItems"
-        />
-      </el-form-item>
-    </div>
-
-    <div>
-      <div class="mb-6 text-1-5xl font-bold text-gray-800">
-        Articles du blog
+        <el-form-item
+          label="Description pour le recrutement"
+          prop="seo_engage_paragraphs"
+        >
+          <ParagraphItems
+            :fields="[
+              { key: 'title', label: 'Titre', type: 'text', required: true },
+              {
+                key: 'description',
+                label: 'Description',
+                type: 'richtext',
+                required: true,
+              },
+            ]"
+            :items="form.seo_engage_paragraphs"
+            @update-items="onUpdateItems"
+          />
+        </el-form-item>
       </div>
 
-      <el-form-item
-        label="Tags pour récupérer les articles du blog"
-        prop="tags"
-        class="flex-1"
-      >
-        <el-select
-          v-model="form.tags"
-          multiple
-          allow-create
-          filterable
-          default-first-option
-          placeholder="Saisissez tous les tags"
-        >
-        </el-select>
-      </el-form-item>
-    </div>
+      <div>
+        <div class="mb-6 text-1-5xl font-bold text-gray-800">
+          Articles du blog
+        </div>
 
+        <el-form-item
+          label="Tags pour récupérer les articles du blog"
+          prop="tags"
+          class="flex-1"
+        >
+          <el-select
+            v-model="form.tags"
+            multiple
+            allow-create
+            filterable
+            default-first-option
+            placeholder="Saisissez tous les tags"
+          >
+          </el-select>
+        </el-form-item>
+      </div>
+    </template>
     <div class="flex pt-2">
       <el-button type="primary" :loading="loading" @click="onSubmit">
         Enregistrer
@@ -188,9 +198,18 @@ export default {
           if (this.territoire.id) {
             this.$api
               .updateTerritoire(this.form.id, this.form)
-              .then(() => {
+              .then(async () => {
                 this.loading = false
-                this.$router.push('/dashboard/territoires')
+                this.$router.back()
+                // Si responsable on refetch profile
+                console.log('role', this.$store.getters.contextRole)
+                if (
+                  this.$store.getters.contextRole == 'responsable_territoire'
+                ) {
+                  console.log('fetchUser')
+
+                  await this.$store.dispatch('auth/fetchUser')
+                }
                 this.$message({
                   message: 'Le territoire a été enregistrée !',
                   type: 'success',
@@ -204,7 +223,7 @@ export default {
               .addTerritoire(this.form)
               .then(() => {
                 this.loading = false
-                this.$router.push('/dashboard/territoires')
+                this.$router.back()
                 this.$message({
                   message: 'Le territoire a été enregistrée !',
                   type: 'success',

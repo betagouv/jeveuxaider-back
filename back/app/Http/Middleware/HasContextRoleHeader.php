@@ -23,6 +23,7 @@ class HasContextRoleHeader
             'superviseur',
             'responsable',
             'responsable_collectivity',
+            'responsable_territoire',
             'analyste',
         ];
 

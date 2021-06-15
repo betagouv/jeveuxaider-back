@@ -8,7 +8,8 @@ class TerritoireRequest extends FormRequest
 {
     public function authorize()
     {
-        return $this->user()->isAdmin();
+        // @TODO: territoire policy
+        return true;
     }
 
     public function rules()

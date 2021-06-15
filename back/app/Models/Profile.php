@@ -299,7 +299,7 @@ class Profile extends Model implements HasMedia
 
     public function territoires()
     {
-        return $this->belongsToMany('App\Models\Territoire');
+        return $this->belongsToMany('App\Models\Territoire')->orderBy('name', 'ASC');
     }
 
     public function structureAsResponsable()
