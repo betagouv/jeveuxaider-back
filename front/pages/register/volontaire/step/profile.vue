@@ -18,7 +18,16 @@
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
-        class="px-8 pt-6 pb-20 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+        class="
+          px-8
+          pt-6
+          pb-20
+          bg-white
+          text-black text-3xl
+          font-extrabold
+          leading-9
+          text-center
+        "
       >
         Complétez votre profil
       </div>
@@ -71,7 +80,17 @@
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-green-400 focus:text-green-400 duration-300 ease-in-out"
+                    class="
+                      h-5
+                      w-5
+                      m-1
+                      cursor-pointer
+                      transition-colors
+                      hover:text-green-400
+                      focus:text-green-400
+                      duration-300
+                      ease-in-out
+                    "
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     @click="setDialogCropVisible(true)"
@@ -88,7 +107,17 @@
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-red-700 focus:text-red-700 duration-300 ease-in-out"
+                    class="
+                      h-5
+                      w-5
+                      m-1
+                      cursor-pointer
+                      transition-colors
+                      hover:text-red-700
+                      focus:text-red-700
+                      duration-300
+                      ease-in-out
+                    "
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     @click.prevent="onDelete()"
@@ -103,10 +132,10 @@
               </ImageField>
             </div>
 
-            <el-form-item label="Type de profil" prop="type" class="mb-5">
+            <el-form-item label="Profession" prop="type" class="mb-5">
               <el-select
                 v-model="form.type"
-                placeholder="Sélectionnez votre profil"
+                placeholder="Sélectionnez votre profession"
               >
                 <el-option
                   v-for="item in $store.getters.taxonomies.profile_types.terms"
@@ -208,7 +237,31 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="
+                shadow-lg
+                block
+                w-full
+                text-center
+                rounded-lg
+                z-10
+                border border-transparent
+                bg-green-400
+                px-4
+                sm:px-6
+                py-4
+                text-lg
+                sm:text-xl
+                leading-6
+                font-bold
+                text-white
+                hover:bg-green-500
+                focus:outline-none
+                focus:border-indigo-700
+                focus:shadow-outline-indigo
+                transition
+                ease-in-out
+                duration-150
+              "
               @click="onSubmit"
               >Continuer</el-button
             >
@@ -263,7 +316,7 @@ export default {
         type: [
           {
             required: true,
-            message: 'Choisissez votre type de profil',
+            message: 'Choisissez votre profession',
             trigger: 'blur',
           },
         ],
@@ -324,6 +377,8 @@ export default {
         ...this.form,
       })
       this.loading = false
+      window.plausible &&
+        window.plausible('Inscription bénévole - Étape 2 - Profil')
       this.$router.push('/register/volontaire/step/preferences')
     },
   },

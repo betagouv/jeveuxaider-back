@@ -54,7 +54,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <template v-else>
-        <div class="text-sm">{{ mission.state }}</div>
+        <div class="text-sm leading-normal">{{ mission.state }}</div>
       </template>
     </template>
   </div>

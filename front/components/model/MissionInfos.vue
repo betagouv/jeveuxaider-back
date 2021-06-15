@@ -6,6 +6,20 @@
         {{ mission.id }}
       </div>
     </div>
+    <div
+      v-if="!['En attente de validation', 'Signalée'].includes(mission.state)"
+      class="mb-2 flex"
+    >
+      <div class="card-label">Page</div>
+
+      <nuxt-link
+        class="text-gray-900 flex-1 hover:underline truncate"
+        target="_blank"
+        :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+      >
+        /missions-benevolat/{{ mission.id }}/{{ mission.slug }}
+      </nuxt-link>
+    </div>
     <div class="mb-2 flex">
       <div class="card-label">Organisation</div>
       <div class="text-gray-900 flex-1">

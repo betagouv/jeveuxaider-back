@@ -26,7 +26,7 @@
       </el-dropdown-menu>
     </el-dropdown>
     <template v-else>
-      <div class="text-sm">{{ structure.state }}</div>
+      <div class="text-sm leading-normal">{{ structure.state }}</div>
     </template>
   </div>
 </template>

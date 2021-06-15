@@ -216,29 +216,40 @@ export default {
     formattedDate() {
       const startDate = this.mission.start_date
       const endDate = this.mission.end_date
-      let startDateObject
-      let endDateObject
 
       if (!startDate) {
         return
       }
 
+      // API Engagement
       if (this.mission.provider == 'api_engagement') {
-        // API Engagement
         if (!endDate) {
           return
         }
         if (this.$dayjs(endDate).diff(this.$dayjs(startDate), 'year') > 1) {
           return
         }
-        startDateObject = this.$dayjs(startDate)
-        endDateObject = this.$dayjs(endDate)
-      } else {
-        // JVA
-        startDateObject = this.$dayjs.unix(startDate)
-        if (endDate) {
-          endDateObject = this.$dayjs.unix(endDate)
-        }
+      }
+
+      const startDateObject =
+        Number.isInteger(startDate) && this.$dayjs.unix(startDate).isValid()
+          ? this.$dayjs.unix(startDate)
+          : this.$dayjs(startDate, 'YYYY-MM-DD HH:mm:ss', 'fr', true).isValid()
+          ? this.$dayjs(startDate, 'YYYY-MM-DD HH:mm:ss')
+          : this.$dayjs(startDate).isValid()
+          ? this.$dayjs(startDate)
+          : null
+
+      let endDateObject
+      if (endDate) {
+        endDateObject =
+          Number.isInteger(endDate) && this.$dayjs.unix(endDate).isValid()
+            ? this.$dayjs.unix(endDate)
+            : this.$dayjs(endDate, 'YYYY-MM-DD HH:mm:ss', 'fr', true).isValid()
+            ? this.$dayjs(endDate, 'YYYY-MM-DD HH:mm:ss')
+            : this.$dayjs(endDate).isValid()
+            ? this.$dayjs(endDate)
+            : null
       }
 
       if (

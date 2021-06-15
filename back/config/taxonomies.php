@@ -750,6 +750,7 @@ return [
             "travailleur_independant" => "Travailleur Indépendant",
             "agent_fonction_publique" => "Agent de la Fonction Publique",
             "retraite" => "Retraité",
+            "chomeur" => "Sans activité professionnelle",
             "autre" => "Autre",
         ]
     ],
