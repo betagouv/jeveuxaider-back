@@ -764,6 +764,7 @@ return [
         "vocabulary" => "Roles",
         "terms" => [
             "responsable_organisation" => "Responsable d'une organisation",
+            "responsable_territoire" => "Responsable d'un territoire",
             "responsable_collectivity" => "Responsable d'une collectivité",
             "referent_departemental" => "Référent départemental",
             "referent_regional" => "Référent régional",

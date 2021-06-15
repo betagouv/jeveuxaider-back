@@ -270,4 +270,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('territoires', 'Api\TerritoireController@index');
     Route::post('territoire', 'Api\TerritoireController@store');
     Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
+    Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
+    Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
 });

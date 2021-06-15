@@ -44,19 +44,6 @@
       </div>
       <ModelTerritoireInfos :territoire="row" />
     </el-card>
-    <div class="text-lg mt-6 mb-2">Responsables</div>
-    <el-card
-      v-if="row.responsables"
-      shadow="never"
-      class="overflow-visible relative"
-    >
-      <ModelMemberTeaser
-        v-for="member in row.responsables"
-        :key="member.id"
-        class="member py-2"
-        :member="member"
-      />
-    </el-card>
   </Volet>
 </template>
 

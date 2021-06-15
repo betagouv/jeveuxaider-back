@@ -226,6 +226,15 @@ export default (axios) => ({
     const { data } = await axios.get(`/territoire/${id}`)
     return data
   },
+  async deleteTerritoire(id) {
+    return await axios.delete(`/territoire/${id}`)
+  },
+  async getTerritoireResponsables(id) {
+    return await axios.get(`/territoire/${id}/responsables`)
+  },
+  async getTerritoireInvitations(id) {
+    return await axios.get(`/territoire/${id}/invitations`)
+  },
 })
 
 // async bootstrap() {

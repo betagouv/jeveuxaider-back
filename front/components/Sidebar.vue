@@ -11,6 +11,9 @@
         <LazyMenuResponsable
           v-if="$store.getters.contextRole == 'responsable'"
         />
+        <LazyMenuResponsableTerritoire
+          v-if="$store.getters.contextRole == 'responsable_territoire'"
+        />
         <LazyMenuModerateur v-if="$store.getters.contextRole == 'admin'" />
         <LazyMenuReferent v-if="$store.getters.contextRole == 'referent'" />
         <LazyMenuReferentRegional
@@ -36,7 +39,13 @@
 
     <div
       v-if="$store.getters.isSidebarExpanded"
-      class="p-5 flex flex-col border-t border-gray-200 justify-center items-center"
+      class="
+        p-5
+        flex flex-col
+        border-t border-gray-200
+        justify-center
+        items-center
+      "
     >
       <nuxt-link to="/">
         <img alt="JeVeuxAider" src="@/assets/images/jeveuxaider-logo.svg" />
@@ -59,7 +68,13 @@
     </div>
     <div
       v-else
-      class="p-2 flex flex-col border-t border-gray-200 justify-center items-center"
+      class="
+        p-2
+        flex flex-col
+        border-t border-gray-200
+        justify-center
+        items-center
+      "
     >
       <nuxt-link
         v-tooltip.right="{

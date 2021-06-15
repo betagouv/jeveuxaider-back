@@ -79,7 +79,7 @@ export default {
   methods: {
     onSubmitState(state) {
       if (state == 'validated') {
-        this.message = `Vous êtes sur le point de <b>valider</b> cette territoire.`
+        this.message = `Vous êtes sur le point de <b>valider</b> ce territoire.`
       }
 
       if (state == 'refused') {

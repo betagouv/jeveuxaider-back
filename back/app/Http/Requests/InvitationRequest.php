@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,7 +28,7 @@ class InvitationRequest extends FormRequest
             'user_id' => 'required',
             'email' => 'email|required|unique:invitations,email',
             'role' => 'required',
-            'invitable_id' => 'required_if:role,responsable_organisation,responsable_collectivity,superviseur',
+            'invitable_id' => 'required_if:role,responsable_organisation,responsable_collectivity,responsable_territoire,superviseur',
             'invitable_type' => '',
             'properties' => 'required_if:role,referent_regional,referent_departemental'
         ];
@@ -36,10 +37,10 @@ class InvitationRequest extends FormRequest
     }
 
     /**
-    * Get the validation messages that apply to the request.
-    *
-    * @return array
-    */
+     * Get the validation messages that apply to the request.
+     *
+     * @return array
+     */
     public function messages()
     {
         return [

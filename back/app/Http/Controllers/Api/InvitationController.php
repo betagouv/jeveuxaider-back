@@ -134,6 +134,6 @@ class InvitationController extends Controller
         $invitation->accept();
         $invitation->delete();
 
-        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+        return User::with(['profile.territoires', 'profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 }

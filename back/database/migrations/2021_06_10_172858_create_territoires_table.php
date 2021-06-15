@@ -33,7 +33,6 @@ class CreateTerritoiresTable extends Migration
             $table->boolean('is_published')->default(false);
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

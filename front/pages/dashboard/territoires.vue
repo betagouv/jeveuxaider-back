@@ -93,13 +93,19 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Modifiée le" width="150">
+      <el-table-column label="Taux de complétion" width="200">
+        <template slot-scope="scope">
+          <el-progress :percentage="scope.row.completion_rate"></el-progress>
+        </template>
+      </el-table-column>
+      <el-table-column label="Modifiée le" width="200">
         <template slot-scope="scope">
           <div class="text-sm text-gray-600">
             {{ scope.row.updated_at | fromNow }}
           </div>
         </template>
       </el-table-column>
+
       <el-table-column
         prop="state"
         label="Statut"
@@ -157,7 +163,14 @@ export default {
   },
   methods: {
     url(row) {
-      return `/territoires/${row.type}/${row.slug}`
+      switch (row.type) {
+        case 'department':
+          return `/territoires/departements/${row.slug}`
+        case 'collectivity':
+          return `/territoires/collectivites/${row.slug}`
+        case 'city':
+          return `/territoires/villes/${row.slug}`
+      }
     },
   },
 }

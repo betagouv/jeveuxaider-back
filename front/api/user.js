@@ -6,6 +6,7 @@ export const rolesList = [
   { key: 'responsable', label: 'Responsable' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
+  { key: 'responsable_territoire', label: 'Territoire' },
 ]
 
 export default (axios) => ({
