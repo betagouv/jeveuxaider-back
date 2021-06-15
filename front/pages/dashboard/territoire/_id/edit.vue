@@ -20,15 +20,15 @@ export default {
       return error({ statusCode: 403 })
     }
 
-    if (store.getters.contextRole == 'responsable_territoire') {
-      if (
-        !store.getters.user.profile.territoires.filter(
-          (item) => item.id == params.id
-        ).length
-      ) {
-        return error({ statusCode: 403 })
-      }
-    }
+    // if (store.getters.contextRole == 'responsable_territoire') {
+    //   if (
+    //     !store.getters.user.profile.territoires.filter(
+    //       (item) => item.id == params.id
+    //     ).length
+    //   ) {
+    //     return error({ statusCode: 403 })
+    //   }
+    // }
 
     const territoire = await $api.getTerritoire(params.id)
     return {

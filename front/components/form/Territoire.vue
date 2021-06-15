@@ -201,13 +201,9 @@ export default {
               .then(async () => {
                 this.loading = false
                 this.$router.back()
-                // Si responsable on refetch profile
-                console.log('role', this.$store.getters.contextRole)
                 if (
                   this.$store.getters.contextRole == 'responsable_territoire'
                 ) {
-                  console.log('fetchUser')
-
                   await this.$store.dispatch('auth/fetchUser')
                 }
                 this.$message({

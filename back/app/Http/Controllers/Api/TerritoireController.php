@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\TerritoireUpdateRequest;
 use App\Http\Requests\TerritoireRequest;
 use App\Models\Mission;
 use App\Models\Profile;
@@ -39,7 +40,7 @@ class TerritoireController extends Controller
         return Territoire::create($request->all());
     }
 
-    public function update(TerritoireRequest $request, Territoire $territoire)
+    public function update(TerritoireUpdateRequest $request, Territoire $territoire)
     {
         $territoire->update($request->validated());
         return $territoire;
