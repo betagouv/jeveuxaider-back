@@ -183,7 +183,7 @@ class StatisticsController extends Controller
 
             $missionsCollection = Mission::role($request->header('Context-Role'))
                 ->domaine($domaine->id)
-                ->whereIn('state', ['Validée','Terminée'])
+                ->whereIn('state', ['Validée', 'Terminée'])
                 ->get();
 
             $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
@@ -240,7 +240,7 @@ class StatisticsController extends Controller
                 ->get();
 
             $missionsCollection = Mission::whereIn('zip', $collectivity->zips)
-                ->whereIn('state', ['Validée','Terminée'])
+                ->whereIn('state', ['Validée', 'Terminée'])
                 ->get();
 
             $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
@@ -266,7 +266,8 @@ class StatisticsController extends Controller
                 'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
                 'places_available' => $missionsAvailableCollection->sum('places_left'),
                 'total_offered_places' => $total_participations_max,
-                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,]);
+                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
+            ]);
         }
 
         return [
@@ -294,7 +295,7 @@ class StatisticsController extends Controller
     public function occupationRate(Request $request)
     {
         $missionsCollection = Mission::role($request->header('Context-Role'))
-            ->whereIn('state', ['Validée','Terminée'])
+            ->whereIn('state', ['Validée', 'Terminée'])
             ->get();
 
         $missionsAvailableCollection = Mission::role($request->header('Context-Role'))
@@ -343,7 +344,7 @@ class StatisticsController extends Controller
                 ->get();
 
             $missionsCollection = Mission::department($departement->department)
-                ->whereIn('state', ['Validée','Terminée'])
+                ->whereIn('state', ['Validée', 'Terminée'])
                 ->get();
 
             $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
@@ -396,5 +397,33 @@ class StatisticsController extends Controller
                 $query->where('last_online_at', '>', Carbon::now()->subDays(7));
             })->count(),
         ];
+    }
+
+
+    public function fetch(Request $request, $type, $id)
+    {
+
+        if ($type == 'territoires') {
+            $organisations = Structure::territoire($id);
+            $missions = Mission::territoire($id);
+            $participations = Participation::territoire($id);
+            return [
+                'organisations' => [
+                    'total' => $organisations->count(),
+                    'month' => $organisations->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                    'week' => $organisations->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+                ],
+                'missions' => [
+                    'total' => $missions->count(),
+                    'month' => $missions->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                    'week' => $missions->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+                ],
+                'participations' => [
+                    'total' => $participations->count(),
+                    'month' => $participations->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                    'week' => $participations->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+                ]
+            ];
+        }
     }
 }

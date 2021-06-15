@@ -24,6 +24,12 @@
         {{ territoire.type | labelFromValue('territoires_types') }}
       </div>
     </div>
+    <div v-if="territoire.type" class="mb-2 flex">
+      <div class="card-label">Departement</div>
+      <div class="text-gray-900 flex-1">
+        {{ territoire.department | labelFromValue('departments') }}
+      </div>
+    </div>
     <div v-if="territoire.zips" class="mb-2 flex">
       <div class="card-label">Codes post.</div>
       <div class="text-gray-900 flex-1">

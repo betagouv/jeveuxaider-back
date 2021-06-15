@@ -56,7 +56,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count','participations_total', 'domaine_name'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name'];
 
     protected static $logFillable = true;
 
@@ -72,7 +72,7 @@ class Mission extends Model
 
     public function searchableAs()
     {
-        return config('scout.prefix').'_covid_missions';
+        return config('scout.prefix') . '_covid_missions';
     }
 
     public function toSearchableArray()
@@ -211,7 +211,7 @@ class Mission extends Model
     public function getScoreAttribute()
     {
         // Score = ( Taux de reponse score + Response time score ) / 2
-        return round(( $this->structure->response_time_score + $this->structure->response_ratio ) / 2);
+        return round(($this->structure->response_time_score + $this->structure->response_ratio) / 2);
     }
 
 
@@ -263,6 +263,26 @@ class Mission extends Model
         }
     }
 
+    public function scopeTerritoire($query, $territoire_id)
+    {
+        $territoire = Territoire::find($territoire_id);
+
+        if ($territoire->type == 'department') {
+            return $query
+                ->where('department', $territoire->department);
+        }
+
+        if ($territoire->type == 'collectivity') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
+        }
+
+        if ($territoire->type == 'city') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
+        }
+    }
+
     public function scopeName($query, $value)
     {
         return $query->where('name', $value);
@@ -274,34 +294,34 @@ class Mission extends Model
             case 'admin':
             case 'analyste':
                 return $query;
-            break;
+                break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 return $query
                     ->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
-            break;
+                break;
             case 'referent':
                 // Missions qui sont dans mon département
                 return $query
                     ->whereNotNull('department')
                     ->where('department', Auth::guard('api')->user()->profile->referent_department);
-            break;
+                break;
             case 'referent_regional':
                 // Missions qui sont dans ma région
                 return $query
                     ->whereNotNull('department')
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
-            break;
+                break;
             case 'superviseur':
                 // Missions qui sont dans une structure rattachée à mon réseau
                 return $query
                     ->whereHas('structure', function (Builder $query) {
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
-            break;
+                break;
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-            break;
+                break;
         }
     }
 
@@ -311,7 +331,7 @@ class Mission extends Model
         $lonName = 'longitude';
         $query->select($this->getTable() . '.*');
         $sql = "((ACOS(SIN(? * PI() / 180) * SIN(" . $latName . " * PI() / 180) + COS(? * PI() / 180) * COS(" .
-        $latName . " * PI() / 180) * COS((? - " . $lonName . ") * PI() / 180)) * 180 / PI()) * 60 * ?) as distance";
+            $latName . " * PI() / 180) * COS((? - " . $lonName . ") * PI() / 180)) * 180 / PI()) * 60 * ?) as distance";
 
         $query->selectRaw($sql, [$latitude, $latitude, $longitude, 1.1515 * 1.609344]);
 

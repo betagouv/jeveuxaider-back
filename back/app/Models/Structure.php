@@ -223,6 +223,26 @@ class Structure extends Model implements HasMedia
         }
     }
 
+    public function scopeTerritoire($query, $territoire_id)
+    {
+        $territoire = Territoire::find($territoire_id);
+
+        if ($territoire->type == 'department') {
+            return $query
+                ->where('department', $territoire->department);
+        }
+
+        if ($territoire->type == 'collectivity') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
+        }
+
+        if ($territoire->type == 'city') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
+        }
+    }
+
     public function scopeValidated($query)
     {
         return $query->where('state', 'Validée');

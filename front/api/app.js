@@ -2,6 +2,9 @@ export default (axios) => ({
   async statistics(name, params) {
     return await axios.get(`/statistics/${name}`, { params })
   },
+  async statisticsBySubject(type, id, params) {
+    return await axios.get(`/statistics/${type}/${id}`, { params })
+  },
   async chartCreated(params) {
     return await axios.get('/charts/created', { params })
   },

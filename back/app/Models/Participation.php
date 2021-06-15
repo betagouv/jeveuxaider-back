@@ -56,19 +56,19 @@ class Participation extends Model
             case 'admin':
             case 'analyste':
                 return $query;
-            break;
+                break;
             case 'referent':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
                         $query->where('department', Auth::guard('api')->user()->profile->referent_department);
                     });
-            break;
+                break;
             case 'referent_regional':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
                         $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
                     });
-            break;
+                break;
             case 'superviseur':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
@@ -76,16 +76,16 @@ class Participation extends Model
                             $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
                         });
                     });
-            break;
+                break;
             case 'responsable':
                 return $query
                     ->whereHas('mission', function (Builder $query) {
                         $query->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
                     });
-            break;
+                break;
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-            break;
+                break;
         }
     }
 
@@ -119,6 +119,13 @@ class Participation extends Model
     {
         return $query->whereHas('mission', function (Builder $query) use ($collectivity_id) {
             $query->collectivity($collectivity_id);
+        });
+    }
+
+    public function scopeTerritoire($query, $territoire_id)
+    {
+        return $query->whereHas('mission', function (Builder $query) use ($territoire_id) {
+            $query->territoire($territoire_id);
         });
     }
 

@@ -187,6 +187,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
     Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
     Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
+
+    Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
 });
 
 // ONLY ADMIN
