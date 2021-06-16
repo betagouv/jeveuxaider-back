@@ -274,4 +274,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // INVITATIONS
     Route::get('invitations', 'Api\InvitationController@index');
+
+    // TERRITOIRES
+    Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
 });

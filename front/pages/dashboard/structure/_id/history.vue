@@ -43,6 +43,14 @@
           >({{ structure.missions_count }})</span
         >
       </el-menu-item>
+      <el-menu-item
+        :index="`/dashboard/structure/${structure.id}/participations`"
+      >
+        Participations
+        <span class="text-xs text-gray-600"
+          >({{ structure.participations_count }})</span
+        >
+      </el-menu-item>
       <el-menu-item :index="`/dashboard/structure/${structure.id}/history`">
         Historique
       </el-menu-item>

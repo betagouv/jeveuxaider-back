@@ -184,6 +184,20 @@ export default {
             trigger: 'blur',
           },
         ],
+        type: [
+          {
+            required: true,
+            message: 'Veuillez renseigner un type',
+            trigger: 'blur',
+          },
+        ],
+        department: [
+          {
+            required: true,
+            message: 'Veuillez renseigner un département',
+            trigger: 'blur',
+          },
+        ],
       },
     }
   },

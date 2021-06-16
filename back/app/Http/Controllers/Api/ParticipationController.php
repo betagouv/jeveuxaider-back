@@ -41,11 +41,11 @@ class ParticipationController extends Controller
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('mission.structure_id'),
                 AllowedFilter::exact('mission.responsable_id'),
             )
             ->defaultSort('-created_at')
-            ->paginate(config('query-builder.results_per_page'))
-        ;
+            ->paginate(config('query-builder.results_per_page'));
     }
 
     public function show(Request $request, Int $id)
@@ -127,7 +127,7 @@ class ParticipationController extends Controller
             $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
         }
 
-        $participation->update(['state'=>'Refusée']);
+        $participation->update(['state' => 'Refusée']);
 
         // Places left & Algolia
         if ($participation->mission) {
