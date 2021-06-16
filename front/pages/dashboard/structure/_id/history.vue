@@ -37,6 +37,9 @@
       <el-menu-item :index="`/dashboard/structure/${structure.id}`">
         Informations
       </el-menu-item>
+      <el-menu-item :index="`/dashboard/structure/${structure.id}/statistics`">
+        Statistiques
+      </el-menu-item>
       <el-menu-item :index="`/dashboard/structure/${structure.id}/missions`">
         Missions
         <span class="text-xs text-gray-600"

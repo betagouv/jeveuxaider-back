@@ -38,6 +38,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
                 'mission.type',
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
+                AllowedFilter::exact('mission.structure_id'),
                 AllowedFilter::exact('mission.id'),
                 AllowedFilter::exact('mission.responsable_id'),
             )
@@ -71,7 +72,7 @@ class ParticipationsExport implements FromCollection, WithMapping, WithHeadings
     public function map($participation): array
     {
         $hidden = ($participation->mission && $participation->mission->state == 'Signalée') && $this->request->header('Context-Role') == 'responsable'
-         ? true : false;
+            ? true : false;
 
         return [
             $participation->id,
