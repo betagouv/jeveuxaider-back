@@ -51,7 +51,7 @@
         <SearchFiltersQuery
           name="is_published"
           label="Publiée"
-          :value="query['filter[published]']"
+          :value="query['filter[is_published]']"
           :options="[
             { label: 'Oui', value: true },
             { label: 'Non', value: false },
@@ -81,21 +81,25 @@
             ></div>
             <nuxt-link
               v-if="scope.row.is_published"
-              :to="url(scope.row)"
+              :to="scope.row.full_url"
               target="_blank"
               class="hover:underline"
             >
-              {{ url(scope.row) }}
+              {{ scope.row.full_url }}
             </nuxt-link>
             <span v-else class="cursor-default">
-              {{ url(scope.row) }}
+              {{ scope.row.full_url }}
             </span>
           </div>
         </template>
       </el-table-column>
       <el-table-column label="Taux de complétion" width="200">
         <template slot-scope="scope">
-          <el-progress :percentage="scope.row.completion_rate"></el-progress>
+          <el-progress
+            :percentage="scope.row.completion_rate"
+            :show-text="false"
+            style="max-width: 130px"
+          ></el-progress>
         </template>
       </el-table-column>
       <el-table-column label="Modifiée le" width="200">
@@ -161,17 +165,6 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  methods: {
-    url(row) {
-      switch (row.type) {
-        case 'department':
-          return `/territoires/departements/${row.slug}`
-        case 'collectivity':
-          return `/territoires/collectivites/${row.slug}`
-        case 'city':
-          return `/territoires/villes/${row.slug}`
-      }
-    },
-  },
+  methods: {},
 }
 </script>

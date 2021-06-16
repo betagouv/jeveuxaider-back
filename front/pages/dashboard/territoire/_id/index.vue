@@ -8,40 +8,24 @@
             {{ territoire.name }}
           </div>
           <TagModelState v-if="territoire.state" :state="territoire.state" />
-          <el-tag v-if="territoire.is_published" size="medium" class="m-1 ml-0">
-            En ligne
-          </el-tag>
-          <el-tag
-            v-if="!territoire.is_published"
-            size="medium"
-            class="m-1 ml-0"
-          >
-            Hors ligne
-          </el-tag>
         </div>
-        <div
-          v-if="territoire.state == 'validated' && territoire.is_published"
-          class="mt-2 flex items-center"
-        >
-          <div class="mr-2 text-gray-450">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
-          <nuxt-link target="_blank" :to="`${territoire.full_url}`">
-            <span class="text-sm underline hover:no-underline">
-              {{ $config.appUrl }}{{ territoire.full_url }}
-            </span>
+
+        <div class="font-light text-gray-600 flex items-center">
+          <div
+            :class="territoire.is_published ? 'bg-green-500' : 'bg-red-500'"
+            class="rounded-full h-2 w-2 mr-2"
+          ></div>
+          <nuxt-link
+            v-if="territoire.is_published"
+            :to="territoire.full_url"
+            target="_blank"
+            class="underline hover:no-underline"
+          >
+            {{ territoire.full_url }}
           </nuxt-link>
+          <span v-else class="cursor-default">
+            {{ territoire.full_url }}
+          </span>
         </div>
       </div>
       <div>

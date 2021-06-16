@@ -4,59 +4,73 @@
       v-for="territoire in $store.getters.user.profile.territoires"
       :key="territoire.id"
       shadow="never"
-      class="border rounded-lg border-gray-200"
+      class="flex flex-col bg-gray-100 p-6 rounded-md"
     >
-      <div class="p-5">
-        <div class="flex items-center space-x-4">
-          <div class="label text-lg font-bold text-secondary uppercase">
-            {{ territoire.name }}
-          </div>
-          <div class="flex items-center">
-            <TagModelState v-if="territoire.state" :state="territoire.state" />
-            <el-tag
-              v-if="territoire.is_published"
-              size="medium"
-              class="m-1 ml-0"
-            >
-              En ligne
-            </el-tag>
-            <el-tag
-              v-if="!territoire.is_published"
-              size="medium"
-              class="m-1 ml-0"
-            >
-              Hors ligne
-            </el-tag>
-          </div>
+      <div class="flex items-center justify-between">
+        <div class="label text-lg font-bold text-secondary uppercase">
+          {{ territoire.name }}
         </div>
-        <div class="text-gray-400 mt-3">
-          <template v-if="territoire.type == 'department'">
-            Accédez aux informations de votre page département pour compléter sa
-            présentation.
-          </template>
-          <template v-if="territoire.type == 'collectivity'">
-            Accédez aux informations de votre page collectivité pour compléter
-            sa présentation.
-          </template>
-          <template v-if="territoire.type == 'city'">
-            Accédez aux informations de votre page ville pour compléter sa
-            présentation.
-          </template>
+        <div class="">
+          <TagModelState v-if="territoire.state" :state="territoire.state" />
         </div>
       </div>
-      <div class="px-5 py-3 border-t border-gray-200">
-        <div class="flex justify-end">
+      <div class="font-light text-gray-400 text-sm flex items-center">
+        <div
+          :class="territoire.is_published ? 'bg-green-500' : 'bg-red-500'"
+          class="rounded-full h-2 w-2 mr-2"
+        ></div>
+        <nuxt-link
+          v-if="territoire.is_published"
+          :to="territoire.full_url"
+          target="_blank"
+          class="hover:underline"
+        >
+          {{ territoire.full_url }}
+        </nuxt-link>
+        <span v-else class="cursor-default">
+          {{ territoire.full_url }}
+        </span>
+      </div>
+      <div class="text-gray-400 my-3">
+        <template v-if="territoire.type == 'department'">
+          Accédez aux informations de votre page département pour compléter sa
+          présentation.
+        </template>
+        <template v-if="territoire.type == 'collectivity'">
+          <template v-if="territoire.state == 'waiting'">
+            <p>
+              Votre page collectivité a bien été créé et est en attente de
+              validation par nos équipes.
+            </p>
+            <p>Vous serez prochainement notifié par email de sa validation.</p>
+          </template>
+          <template v-else
+            >Accédez aux informations de votre page collectivité pour compléter
+            sa présentation.</template
+          >
+        </template>
+        <template v-if="territoire.type == 'city'">
+          Accédez aux informations de votre page ville pour compléter sa
+          présentation.
+        </template>
+      </div>
+      <div class="flex justify-end">
+        <template
+          v-if="
+            territoire.type == 'collectivity' && territoire.state == 'waiting'
+          "
+        >
+        </template>
+        <template v-else>
           <nuxt-link
             :to="`/dashboard/territoire/${territoire.id}`"
             class="text-gray-400 hover:text-primary flex space-x-4 font-bold"
-            ><span>Accéder à la vue d'ensemble</span>
-            <div
-              class="w-5 h-5"
-              v-html="
-                require('@/assets/images/icones/heroicon/arrow-narrow-right.svg?include')
-              "
-          /></nuxt-link>
-        </div>
+          >
+            <el-button type="primary" plain class="flex-none">
+              Accéder à la vue d'ensemble
+            </el-button>
+          </nuxt-link>
+        </template>
       </div>
     </div>
   </div>

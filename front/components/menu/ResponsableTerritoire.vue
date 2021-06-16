@@ -16,7 +16,7 @@
       />
     </el-menu-item>
     <el-menu-item
-      v-for="territoire in $store.getters.user.profile.territoires"
+      v-for="territoire in territoires"
       :key="territoire.id"
       :index="`/dashboard/territoire/${territoire.id}`"
       :class="{
@@ -42,6 +42,18 @@ import MenuActive from '@/mixins/menu-active'
 
 export default {
   mixins: [MenuActive],
+  computed: {
+    territoires() {
+      return this.$store.getters.user.profile.territoires.filter(
+        (territoire) => {
+          if (territoire.type == 'collectivity') {
+            return !!(territoire.state == 'validated')
+          }
+          return true
+        }
+      )
+    },
+  },
 }
 </script>
 
