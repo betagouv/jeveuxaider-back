@@ -130,6 +130,9 @@ export default {
               } else {
                 this.$emit('login', res.data)
               }
+
+              window.plausible &&
+                window.plausible('Soft Gate - Étape 1 - Email')
             })
             .catch(() => {
               this.loading = false

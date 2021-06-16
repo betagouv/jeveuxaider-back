@@ -2,7 +2,15 @@
   <div>
     <div class="text-center mb-6">
       <div
-        class="text-gray-900 font-extrabold text-2xl lg:text-3xl leading-8 mb-2 lg:mb-3"
+        class="
+          text-gray-900
+          font-extrabold
+          text-2xl
+          lg:text-3xl
+          leading-8
+          mb-2
+          lg:mb-3
+        "
       >
         Êtes-vous sûr de <br class="hidden sm:block" />
         vouloir participer&nbsp;?
@@ -23,14 +31,58 @@
 
     <div class="max-w-md mx-auto">
       <el-button
-        class="font-bold w-full flex items-center justify-center px-5 py-4 border border-transparent text-lg leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out whitespace-normal"
+        class="
+          font-bold
+          w-full
+          flex
+          items-center
+          justify-center
+          px-5
+          py-4
+          border border-transparent
+          text-lg
+          leading-6
+          rounded-full
+          text-white
+          bg-green-400
+          hover:bg-green-500
+          focus:outline-none
+          focus:shadow-outline
+          transition
+          duration-150
+          ease-in-out
+          whitespace-normal
+        "
         @click.prevent="$emit('close')"
       >
         J'attends la validation de mes inscriptions
       </el-button>
 
       <el-button
-        class="mt-4 mx-0 font-bold w-full flex items-center justify-center px-5 py-4 border border-transparent text-lg leading-6 rounded-full text-gray-500 bg-white hover:bg-gray-200 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out shadow-md"
+        class="
+          mt-4
+          mx-0
+          font-bold
+          w-full
+          flex
+          items-center
+          justify-center
+          px-5
+          py-4
+          border border-transparent
+          text-lg
+          leading-6
+          rounded-full
+          text-gray-500
+          bg-white
+          hover:bg-gray-200
+          focus:outline-none
+          focus:shadow-outline
+          transition
+          duration-150
+          ease-in-out
+          shadow-md
+        "
         @click.prevent="$emit('next')"
       >
         Je m'inscris quand même
