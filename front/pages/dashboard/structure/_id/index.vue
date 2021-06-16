@@ -23,7 +23,7 @@
       </div>
       <div>
         <DropdownStructureButton
-          v-if="$store.getters.contextRole == 'admin'"
+          v-if="['responsable', 'admin'].includes($store.getters.contextRole)"
           :structure="structure"
         />
       </div>

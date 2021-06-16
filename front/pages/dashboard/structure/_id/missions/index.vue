@@ -22,10 +22,12 @@
         </div>
       </div>
       <div>
-        <DropdownStructureButton
-          v-if="$store.getters.contextRole == 'admin'"
-          :structure="structure"
-        />
+        <nuxt-link
+          v-if="$store.getters.contextRole === 'responsable'"
+          :to="`/dashboard/structure/${structure.id}/missions/add`"
+        >
+          <el-button type="primary"> Créer une mission </el-button>
+        </nuxt-link>
       </div>
     </div>
     <el-menu
