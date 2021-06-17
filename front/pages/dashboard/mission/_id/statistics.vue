@@ -73,7 +73,7 @@
     <div class="px-12">
       <div class="flex flex-col space-y-5">
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             JeVeuxAider.gouv.fr
           </div>
           <div class="flex flex-wrap">
@@ -97,8 +97,12 @@
           </div>
         </div>
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             API Engagement
+          </div>
+          <div class="text-gray-500 mb-6">
+            Toutes les missions validées sont diffusées sur nos plateformes
+            partenaires pour vous amener plus de visibilité.
           </div>
           <div class="flex flex-wrap">
             <CardStatisticsDefaultCount
@@ -126,7 +130,7 @@
           </div>
         </div>
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             Analytics sur la dernière année
           </div>
           <div class="flex flex-wrap">

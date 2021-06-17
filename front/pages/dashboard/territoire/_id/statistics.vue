@@ -56,7 +56,7 @@
     <div class="px-12">
       <div class="flex flex-col space-y-5">
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             JeVeuxAider.gouv.fr
           </div>
           <div class="flex flex-wrap">
@@ -114,7 +114,7 @@
           </div>
         </div>
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             Analytics sur la dernière année
           </div>
           <div class="flex flex-wrap">

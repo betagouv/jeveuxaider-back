@@ -119,7 +119,7 @@
                     "
                     role="menuitem"
                   >
-                    Gérer les membres'
+                    Gérer les membres
                   </router-link>
                 </template>
               </TailwindDropdownEllipsis>
@@ -182,7 +182,7 @@
                     Accéder à la vue d'ensemble
                   </router-link>
                   <router-link
-                    :to="`/dashboard/structure/${territoire.id}/missions/add`"
+                    :to="`/dashboard/territoire/${territoire.id}/missions/add`"
                     class="
                       block
                       px-4
@@ -194,6 +194,20 @@
                     role="menuitem"
                   >
                     Afficher les statistiques
+                  </router-link>
+                  <router-link
+                    :to="`/dashboard/territoire/${territoire.id}/responsables`"
+                    class="
+                      block
+                      px-4
+                      py-2
+                      text-sm text-gray-700
+                      hover:bg-gray-100
+                      hover:text-gray-900
+                    "
+                    role="menuitem"
+                  >
+                    Gérer les responsables
                   </router-link>
                 </template>
               </TailwindDropdownEllipsis>
