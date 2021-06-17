@@ -3,6 +3,7 @@
     <!-- Tableau de bord -->
     <router-link
       to="/dashboard"
+      :class="{ 'bg-gray-50': isActive('dashboard') }"
       class="
         text-gray-700
         hover:text-gray-900
@@ -54,6 +55,11 @@
           font-medium
           rounded-md
         "
+        :class="{
+          'bg-gray-50': doesPathContains(
+            `/dashboard/territoire/${territoire.id}`
+          ),
+        }"
         x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
       >
         <div
@@ -65,9 +71,7 @@
             h-6
             w-6
           "
-          v-html="
-            require('@/assets/images/icones/heroicon/library.svg?include')
-          "
+          v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
         />
         {{ territoire.name }}
       </router-link>
@@ -91,6 +95,11 @@
           font-medium
           rounded-md
         "
+        :class="{
+          'bg-gray-50': doesPathContains(
+            `/dashboard/structure/${structure.id}`
+          ),
+        }"
         x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
       >
         <div
