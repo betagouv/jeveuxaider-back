@@ -154,6 +154,12 @@ export default (axios) => ({
   async franceConnectLoginCallback(params) {
     return await axios.get('/franceconnect/login-callback', { params })
   },
+
+  async fetchActions(params) {
+    return await axios.get(`/actions`, {
+      params,
+    })
+  },
 })
 
 // import axios from 'axios'

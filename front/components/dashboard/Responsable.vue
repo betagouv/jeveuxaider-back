@@ -1,5 +1,26 @@
 <template>
   <div class="px-12 max-w-4xl flex flex-col space-y-8">
+    <div v-if="actions.length">
+      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+        Actions en attente
+        <span>({{ actions.length }})</span>
+      </div>
+      <div class="bg-white border border-gray-200 sm:rounded-md">
+        <ul class="divide-y divide-gray-200">
+          <li v-for="(action, index) in actions" :key="index">
+            <template v-if="action.type == 'unread_messages'">
+              <ActionUnreadMessages :action="action" />
+            </template>
+            <template v-if="action.type == 'waiting_participations'">
+              <ActionWaitingParticipations :action="action" />
+            </template>
+            <template v-if="action.type == 'outdated_missions'">
+              <ActionOutdatedMissions :action="action" />
+            </template>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div v-if="$store.getters.user.profile.structures.length">
       <div class="font-semibold text-md uppercase text-gray-800 mb-4">
         Organisations
@@ -220,5 +241,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      actions: [],
+    }
+  },
+  async created() {
+    const { data } = await this.$api.fetchActions()
+    this.actions = data
+    console.log('actions', data)
+  },
+}
 </script>

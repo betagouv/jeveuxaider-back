@@ -189,6 +189,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
 
     Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
+
+    // ACTIONS
+    Route::get('actions', 'Api\ActionController@index');
 });
 
 // ONLY ADMIN
