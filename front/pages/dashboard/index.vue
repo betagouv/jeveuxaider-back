@@ -11,8 +11,8 @@
       </div>
     </div>
 
-    <template v-if="$store.getters.contextRole === 'responsable_territoire'">
-      <DashboardTerritoire />
+    <template v-if="$store.getters.contextRole === 'responsable'">
+      <DashboardResponsable />
     </template>
 
     <template v-else>

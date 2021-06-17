@@ -148,13 +148,11 @@
 export default {
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
-    if (
-      !['admin', 'responsable_territoire'].includes(store.getters.contextRole)
-    ) {
+    if (!['admin', 'responsable'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
 
-    if (store.getters.contextRole == 'responsable_territoire') {
+    if (store.getters.contextRole == 'responsable') {
       if (
         !store.getters.user.profile.territoires.filter(
           (item) => item.id == params.id

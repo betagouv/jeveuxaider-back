@@ -1,5 +1,5 @@
 <template>
-  <div class="has-full-table">
+  <div v-if="structure" class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Mission</div>
@@ -70,28 +70,94 @@
         Historique
       </el-menu-item>
     </el-menu>
-    <TableActivities :table-data="tableData" />
-    <div class="m-3 flex items-center">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="totalRows"
-        :page-size="15"
-        :current-page="Number(query.page)"
-        @current-change="onPageChange"
-      />
-      <div class="text-secondary text-xs ml-3">
-        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+    <div class="px-12">
+      <div class="flex flex-col space-y-5">
+        <div>
+          <div class="font-bold text-2xl text-gray-800 mb-4">
+            JeVeuxAider.gouv.fr
+          </div>
+          <div class="flex flex-wrap">
+            <CardStatisticsDefaultCount
+              label="Participations"
+              :value="statistics.participations.total"
+            >
+              <div class="my-1">
+                <span class
+                  >+{{ statistics.participations.month | formatNumber }}</span
+                >
+                <span class="text-xs text-gray-500">les 30 derniers jours</span>
+              </div>
+              <div class="my-1">
+                <span class
+                  >+{{ statistics.participations.week | formatNumber }}</span
+                >
+                <span class="text-xs text-gray-500">les 7 derniers jours</span>
+              </div>
+            </CardStatisticsDefaultCount>
+          </div>
+        </div>
+        <div>
+          <div class="font-bold text-2xl text-gray-800 mb-4">
+            API Engagement
+          </div>
+          <div class="flex flex-wrap">
+            <CardStatisticsDefaultCount
+              v-for="click in apiengagement.clicks"
+              :key="click.key"
+              :label="click.key"
+              :value="click.doc_count"
+            >
+              <div
+                v-if="
+                  apiengagement.applications.filter(
+                    (item) => item.key == click.key
+                  ).length
+                "
+                class="my-1"
+              >
+                <span class>{{
+                  apiengagement.applications.find(
+                    (item) => item.key == click.key
+                  ).doc_count | formatNumber
+                }}</span>
+                <span class="text-xs text-gray-500">clicks sur CTA</span>
+              </div>
+            </CardStatisticsDefaultCount>
+          </div>
+        </div>
+        <div>
+          <div class="font-bold text-2xl text-gray-800 mb-4">
+            Analytics sur la dernière année
+          </div>
+          <div class="flex flex-wrap">
+            <CardStatisticsDefaultCount
+              label="Nombre de vues"
+              :value="plausible.results.pageviews.value"
+            >
+              <div class="my-1">
+                <span class>{{
+                  plausible.results.visitors.value | formatNumber
+                }}</span>
+                <span class="text-xs text-gray-500">visiteurs uniques</span>
+              </div>
+              <div class="my-1">
+                <span class>{{
+                  plausible.results.visit_duration.value | formatNumber
+                }}</span>
+                <span class="text-xs text-gray-500"
+                  >secondes de durée moyenne</span
+                >
+              </div>
+            </CardStatisticsDefaultCount>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import TableWithFilters from '@/mixins/table-with-filters'
-
 export default {
-  mixins: [TableWithFilters],
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
     if (
@@ -114,24 +180,30 @@ export default {
     }
 
     const structure = await $api.getStructure(mission.structure.id)
+    const { data: statistics } = await $api.statisticsBySubject(
+      'missions',
+      mission.id
+    )
+
+    const { data: plausible } = await $api.plausibleAggregate(
+      '12mo',
+      'visitors,pageviews,visit_duration',
+      `event:page==${mission.full_url}`
+    )
+
+    const { data: apiengagement } = await $api.apiEngagementMyMission(
+      mission.id
+    )
+
+    console.log('apiengameent stats', apiengagement.data.stats)
+
     return {
       structure,
       mission,
+      plausible,
+      statistics,
+      apiengagement: apiengagement.data.stats,
     }
-  },
-  async fetch() {
-    const { data } = await this.$api.fetchActivities({
-      'filter[subject_id]': this.$route.params.id,
-      'filter[subject_type]': 'Mission',
-      page: this.$route.query.page || 1,
-    })
-    this.tableData = data.data
-    this.totalRows = data.total
-    this.fromRow = data.from
-    this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   methods: {},
 }

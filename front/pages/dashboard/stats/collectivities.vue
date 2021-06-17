@@ -139,7 +139,7 @@ export default {
   layout: 'dashboard',
   asyncData({ $api, store, error, params }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+      !['admin', 'referent', 'referent_regional', 'analyste'].includes(
         store.getters.contextRole
       )
     ) {

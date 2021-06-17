@@ -1,176 +1,315 @@
 <template>
-  <div>
-    <el-menu-item
-      index="/dashboard"
-      :class="{ 'is-active': isActive('dashboard') }"
+  <div class="space-y-1">
+    <!-- Tableau de bord -->
+    <router-link
+      to="/dashboard"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': isActive('dashboard') }"
+      x-state:on="Current"
+      x-state:off="Default"
+      aria-current="page"
+      x-state-description='Current: "bg-gray-200 text-gray-900", Default: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Tableau de bord</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Tableau de bord`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-data-analysis"
+      <div
+        class="
+          text-gray-400
+          hover:text-gray-900
+          group-hover:text-gray-900
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
-    </el-menu-item>
+      Tableau de bord
+    </router-link>
 
-    <el-menu-item
-      index="/dashboard/collectivities"
-      :class="{
-        'is-active': isActive('collectivities'),
-      }"
+    <!-- Territoires -->
+    <router-link
+      to="/dashboard/territoires"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/territoire') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Collectivités</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Collectivités`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-office-building"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
       />
-    </el-menu-item>
+      Territoires
+    </router-link>
 
-    <el-menu-item
-      index="/dashboard/territoires"
-      :class="{
-        'is-active': isActive('territoires'),
-      }"
+    <!-- Structures -->
+    <router-link
+      to="/dashboard/structures"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/structure') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Territoires</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Territoires`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-office-building"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
-    </el-menu-item>
+      Organisations
+    </router-link>
 
-    <el-menu-item
-      index="/dashboard/structures"
-      :class="{
-        'is-active': isActive('structures'),
-      }"
+    <!-- Missions -->
+    <router-link
+      to="/dashboard/missions"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/mission') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Organisations</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Organisations`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-school"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
       />
-    </el-menu-item>
+      Missions
+    </router-link>
 
-    <el-menu-item
-      index="/dashboard/missions"
-      :class="{
-        'is-active': isActive('missions'),
-      }"
+    <!-- Participations -->
+    <router-link
+      to="/dashboard/participations"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/participation') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Missions</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Missions`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-collection"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
       />
-    </el-menu-item>
+      Participations
+    </router-link>
 
-    <el-menu-item
-      index="/dashboard/participations"
-      :class="{ 'is-active': isActive('participations') }"
+    <!-- Utilisateurs -->
+    <router-link
+      to="/dashboard/profiles"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/profile') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Participations</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Participations`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-finished"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="
+          require('@/assets/images/icones/heroicon/user-group.svg?include')
+        "
       />
-    </el-menu-item>
+      Utilisateurs
+    </router-link>
 
-    <el-menu-item
-      index="/dashboard/profiles"
-      :class="{ 'is-active': isActive('profiles') }"
+    <!-- Messagerie -->
+    <router-link
+      to="/messages"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Utilisateurs</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Utilisateurs`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-user"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
       />
-    </el-menu-item>
-
-    <el-menu-item
-      index="/dashboard/contents/releases"
-      :class="{ 'is-active': isActive('contents') }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Contenus</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Contenus`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-help"
-      />
-    </el-menu-item>
-
-    <el-menu-item index="/messages">
-      <el-badge
-        v-if="$store.getters.isSidebarExpanded"
-        :value="$store.getters.user.unreadConversations.length"
-        :hidden="$store.getters.user.unreadConversations.length == 0"
-        :max="99"
+      Messagerie
+      <span v-if="$store.getters.user.unreadConversations.length"
+        >({{ $store.getters.user.unreadConversations.length }})</span
       >
-        <span>Messagerie</span>
-      </el-badge>
+    </router-link>
 
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Messagerie`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-message"
-      />
-    </el-menu-item>
-
-    <el-menu-item
-      index="/dashboard/activities"
-      :class="{ 'is-active': isActive('activities') }"
+    <!-- Contenus -->
+    <router-link
+      to="/dashboard/contents/releases"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/contents') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Activités</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Activités`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-document"
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="
+          require('@/assets/images/icones/heroicon/view-list.svg?include')
+        "
       />
-    </el-menu-item>
+      Contenus
+    </router-link>
+
+    <!-- Activités -->
+    <router-link
+      to="/dashboard/activities"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': doesPathContains('dashboard/activities') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/flag.svg?include')"
+      />
+      Activités
+    </router-link>
   </div>
 </template>
 

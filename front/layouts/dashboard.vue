@@ -1,11 +1,11 @@
 <template>
-  <div class="h-screen bg-gray-100">
+  <div id="dashboard-layout" class="h-screen bg-gray-100">
     <client-only>
-      <el-container
+      <div
         v-if="$store.getters.isAppLoaded"
         class="h-full flex overflow-hidden"
       >
-        <Sidebar class="bg-gray-100" />
+        <Sidebar class="" />
 
         <div class="main-container bg-white overflow-y-auto w-full">
           <Nuxt :nuxt-child-key="$route.fullPath" class="app-main pt-8" />
@@ -17,7 +17,7 @@
           name="volet"
           style="width: 420px"
         />
-      </el-container>
+      </div>
     </client-only>
   </div>
 </template>

@@ -7,7 +7,7 @@
       trigger="click"
       @command="handleCommand"
     >
-      <div class="el-dropdown-link flex justify-between p-5 items-center">
+      <div class="el-dropdown-link flex justify-between items-center">
         <div class="flex">
           <Avatar
             v-if="$store.getters.user.profile"
@@ -38,7 +38,7 @@
       </div>
       <el-dropdown-menu slot="dropdown" style="max-width: 300px">
         <div v-if="activeMenu == 'profile'">
-          <nuxt-link
+          <!-- <nuxt-link
             v-if="$store.getters.contextRole == 'responsable'"
             :to="`/dashboard/structure/${$store.getters.structure.id}/members`"
           >
@@ -56,7 +56,7 @@
               $store.getters.contextRole == 'admin'
             "
             divided
-          />
+          /> -->
           <nuxt-link to="/user/infos">
             <el-dropdown-item>Mon compte</el-dropdown-item>
           </nuxt-link>

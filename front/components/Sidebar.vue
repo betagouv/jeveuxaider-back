@@ -1,13 +1,32 @@
 <template>
-  <el-aside
-    :width="asideWidth"
-    :class="{ collapsed: !$store.getters.isSidebarExpanded }"
-    class="flex flex-col overflow-x-hidden overflow-y-auto"
-  >
-    <DropdownUser class="border-b border-gray-200" />
+  <div class="flex flex-shrink-0">
+    <div
+      class="
+        flex flex-col
+        overflow-x-hidden overflow-y-auto
+        border-gray-200 border-r
+        w-64
+        pt-5
+      "
+    >
+      <div
+        v-if="$store.getters.isSidebarExpanded"
+        class="px-6 flex flex-col justify-center items-center"
+      >
+        <nuxt-link to="/">
+          <img
+            alt="JeVeuxAider"
+            class="h-8 w-auto"
+            src="@/assets/images/jeveuxaider-logo.svg"
+          />
+        </nuxt-link>
+      </div>
 
-    <div class="flex flex-col flex-1">
-      <el-menu :router="true">
+      <div class="px-3 mt-6 relative inline-block text-left">
+        <DropdownUser class="px-3.5 py-2 hover:bg-gray-200 rounded-md" />
+      </div>
+
+      <nav class="px-3 mt-6">
         <LazyMenuResponsable
           v-if="$store.getters.contextRole == 'responsable'"
         />
@@ -23,89 +42,144 @@
           v-if="$store.getters.contextRole == 'superviseur'"
         />
         <LazyMenuAnalyste v-if="$store.getters.contextRole == 'analyste'" />
-      </el-menu>
-    </div>
 
-    <div class="text-center p-5">
-      <el-button
-        icon="el-icon-arrow-left"
-        size="small"
-        circle
-        plain
-        class="toggle-collapse"
-        @click="handleCollapse"
-      />
-    </div>
+        <!-- Secondary navigation -->
+        <div class="mt-8">
+          <h3
+            id="teams-headline"
+            class="
+              px-3
+              text-xs
+              font-semibold
+              text-gray-500
+              uppercase
+              tracking-wider
+            "
+          >
+            Liens utiles
+          </h3>
+          <div
+            class="mt-1 space-y-1"
+            role="group"
+            aria-labelledby="teams-headline"
+          >
+            <router-link
+              v-if="
+                ['referent', 'responsable', 'admin'].includes(
+                  $store.getters.contextRole
+                )
+              "
+              to="/dashboard/ressources"
+              class="
+                group
+                flex
+                items-center
+                px-3
+                py-2
+                text-sm
+                font-medium
+                text-gray-700
+                rounded-md
+                hover:text-gray-900
+                hover:bg-gray-50
+              "
+              :class="{
+                'bg-gray-50': doesPathContains('dashboard/ressources'),
+              }"
+            >
+              <span
+                class="w-2.5 h-2.5 mr-4 bg-purple-500 rounded-full"
+                aria-hidden="true"
+              ></span>
+              <span class="truncate"> Ressources </span>
+            </router-link>
 
-    <div
-      v-if="$store.getters.isSidebarExpanded"
-      class="
-        p-5
-        flex flex-col
-        border-t border-gray-200
-        justify-center
-        items-center
-      "
-    >
-      <nuxt-link to="/">
-        <img alt="JeVeuxAider" src="@/assets/images/jeveuxaider-logo.svg" />
-      </nuxt-link>
-      <div class="flex py-2 justify-center items-center">
-        <nuxt-link to="/dashboard/news">
-          <div class="text-xs text-gray-600 hover:text-gray-800">
-            Nouveautés
+            <router-link
+              to="/dashboard/news"
+              class="
+                group
+                flex
+                items-center
+                px-3
+                py-2
+                text-sm
+                font-medium
+                text-gray-700
+                rounded-md
+                hover:text-gray-900
+                hover:bg-gray-50
+              "
+              :class="{ 'bg-gray-50': doesPathContains('dashboard/news') }"
+            >
+              <span
+                class="w-2.5 h-2.5 mr-4 bg-green-500 rounded-full"
+                aria-hidden="true"
+              ></span>
+              <span class="truncate"> Nouveautés </span>
+            </router-link>
+
+            <a
+              href="https://reserve-civique.crisp.help/fr/"
+              target="_blank"
+              class="
+                group
+                flex
+                items-center
+                px-3
+                py-2
+                text-sm
+                font-medium
+                text-gray-700
+                rounded-md
+                hover:text-gray-900
+                hover:bg-gray-50
+              "
+            >
+              <span
+                class="w-2.5 h-2.5 mr-4 bg-indigo-500 rounded-full"
+                aria-hidden="true"
+              ></span>
+              <span class="truncate"> Centre d'aide </span>
+            </a>
+
+            <a
+              href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
+              target="_blank"
+              class="
+                group
+                flex
+                items-center
+                px-3
+                py-2
+                text-sm
+                font-medium
+                text-gray-700
+                rounded-md
+                hover:text-gray-900
+                hover:bg-gray-50
+              "
+            >
+              <span
+                class="w-2.5 h-2.5 mr-4 bg-red-500 rounded-full"
+                aria-hidden="true"
+              ></span>
+              <span class="truncate"> Contacter le support </span>
+            </a>
           </div>
-        </nuxt-link>
-        <span class="mx-2 text-gray-700">-</span>
-        <a
-          class="text-xs text-gray-600 hover:text-gray-800"
-          href="https://reserve-civique.crisp.help/fr/"
-          target="_blank"
-        >
-          Centre d'aide
-        </a>
-      </div>
+        </div>
+      </nav>
     </div>
-    <div
-      v-else
-      class="
-        p-2
-        flex flex-col
-        border-t border-gray-200
-        justify-center
-        items-center
-      "
-    >
-      <nuxt-link
-        v-tooltip.right="{
-          content: 'Nouveautés',
-          classes: 'bo-style',
-        }"
-        to="/dashboard/news"
-        class="py-2"
-      >
-        <i class="el-icon-news text-2xl text-gray-400" />
-      </nuxt-link>
-      <a
-        v-tooltip.right="{
-          content: `Centre d'aide`,
-          classes: 'bo-style',
-        }"
-        href="https://reserve-civique.crisp.help/fr/"
-        target="_blank"
-        class="py-2"
-      >
-        <i class="el-icon-help text-2xl text-gray-400" />
-      </a>
-    </div>
-  </el-aside>
+  </div>
 </template>
 
 <script>
+import MenuActive from '@/mixins/menu-active'
+
 export default {
+  mixins: [MenuActive],
   computed: {
     asideWidth() {
-      return this.$store.getters.isSidebarExpanded ? '232px' : '88px'
+      return this.$store.getters.isSidebarExpanded ? '256px' : '88px'
     },
   },
   methods: {

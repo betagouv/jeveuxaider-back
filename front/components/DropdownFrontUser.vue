@@ -2,7 +2,24 @@
   <div class="m-2">
     <el-dropdown v-if="$store.getters.user.profile" @command="handleCommand">
       <div
-        class="el-dropdown-link flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-gray-800 hover:bg-gray-50 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
+        class="
+          el-dropdown-link
+          flex
+          border border-gray-200
+          cursor-pointer
+          rounded-full
+          px-4
+          py-2
+          text-xs
+          font-semibold
+          text-gray-800
+          hover:bg-gray-50
+          hover:text-blue-800
+          focus:text-gray-900
+          transition
+          ease-in-out
+          duration-150
+        "
       >
         <img
           class="mr-2"
@@ -14,7 +31,7 @@
         {{ $store.getters.user.profile.first_name }}
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item
+        <!-- <el-dropdown-item
           v-if="$store.getters.contextRole == 'responsable'"
           command="/dashboard"
           class="flex items-center"
@@ -33,7 +50,7 @@
           />
 
           <span class="truncate">{{ $store.getters.structure.name }}</span>
-        </el-dropdown-item>
+        </el-dropdown-item> -->
 
         <template
           v-if="
