@@ -8,14 +8,19 @@
       />
 
       <div class="flex-1 min-w-0">
-        <div class="flex items-center">
-          <div :class="[{ 'font-bold': !hasRead }]">
+        <div class="flex items-center space-x-2">
+          <div :class="[{ 'font-bold unread': !hasRead }]">
             {{ recipient.profile.first_name }}
           </div>
 
-          <div v-if="nametype" class="text-secondary ml-2 text-sm truncate">
+          <div v-if="nametype" class="text-secondary text-sm truncate">
             • {{ nametype }}
           </div>
+          <span
+            v-if="!hasRead"
+            class="w-2.5 h-2.5 mr-4 bg-red-500 rounded-full"
+            aria-hidden="true"
+          ></span>
         </div>
 
         <div

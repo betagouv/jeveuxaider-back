@@ -1,5 +1,6 @@
 <template>
-  <div
+  <router-link
+    :to="`/dashboard/structure/${action.structure.id}/participations?filter[state]=En attente de validation`"
     class="
       px-5
       py-3
@@ -22,9 +23,8 @@
           {{ action.structure.name }}
         </div>
       </div>
-      <div class="">CTA</div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

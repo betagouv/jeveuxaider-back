@@ -38,7 +38,6 @@
                 py-3
                 flex
                 hover:bg-gray-50
-                hover:text-primary
                 cursor-pointer
                 items-center
                 justify-between
@@ -166,7 +165,6 @@
                 py-3
                 flex
                 hover:bg-gray-50
-                hover:text-primary
                 cursor-pointer
                 items-center
                 justify-between

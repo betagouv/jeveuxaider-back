@@ -21,7 +21,6 @@
         </div>
         <div class="text-sm text-gray-500">Restez à l'écoute des bénévoles</div>
       </div>
-      <div class="">CTA</div>
     </div>
   </router-link>
 </template>

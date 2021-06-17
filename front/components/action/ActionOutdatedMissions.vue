@@ -1,5 +1,6 @@
 <template>
-  <div
+  <router-link
+    :to="`/dashboard/structure/${action.structure.id}/missions`"
     class="
       px-5
       py-3
@@ -21,9 +22,8 @@
           Penser à terminer les missions de {{ action.structure.name }}
         </div>
       </div>
-      <div class="">CTA</div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

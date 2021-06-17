@@ -55,7 +55,7 @@
         <template
           v-if="
             $store.getters.contextRole &&
-            !['volontaire', 'responsable'].includes($store.getters.contextRole)
+            !['volontaire'].includes($store.getters.contextRole)
           "
         >
           <el-dropdown-item command="/dashboard">
