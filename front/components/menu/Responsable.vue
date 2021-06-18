@@ -1,144 +1,160 @@
 <template>
-  <div>
-    <el-submenu v-if="$store.getters.structure.collectivity" index="1" open>
-      <template slot="title">
-        <div class="truncate pr-4">
-          <i class="el-icon-school"></i
-          >{{ $store.getters.structure.collectivity.name }}
-        </div></template
-      >
-      <el-menu-item
-        v-if="$store.getters.profile.roles.responsable_collectivity == true"
-        :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/stats`"
+  <div class="space-y-1">
+    <!-- Tableau de bord -->
+    <router-link
+      to="/dashboard"
+      :class="{ 'bg-gray-50': isActive('dashboard') }"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      x-state:on="Current"
+      x-state:off="Default"
+      aria-current="page"
+      x-state-description='Current: "bg-gray-200 text-gray-900", Default: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
+        class="
+          text-gray-400
+          hover:text-gray-900
+          group-hover:text-gray-900
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
+      />
+      Tableau de bord
+    </router-link>
+
+    <div v-if="$store.getters.user.profile.territoires.length">
+      <router-link
+        v-for="territoire in $store.getters.user.profile.territoires"
+        :key="territoire.id"
+        :to="`/dashboard/territoire/${territoire.id}`"
+        class="
+          text-gray-700
+          hover:text-gray-900
+          hover:bg-gray-50
+          group
+          flex
+          items-center
+          px-2
+          py-2
+          text-sm
+          font-medium
+          rounded-md
+        "
         :class="{
-          'is-active': isActive('collectivity-stats'),
+          'bg-gray-50': doesPathContains(
+            `/dashboard/territoire/${territoire.id}`
+          ),
         }"
-        >Statistiques de la page
-      </el-menu-item>
+        x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+      >
+        <div
+          class="
+            text-gray-400
+            group-hover:text-gray-500
+            mr-3
+            flex-shrink-0
+            h-6
+            w-6
+          "
+          v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
+        />
+        {{ territoire.name }}
+      </router-link>
+    </div>
 
-      <el-menu-item
-        v-else
-        v-tooltip="{
-          content: `Votre collectivité est en cours de validation.`,
-          classes: 'bo-style',
-        }"
-        index="#"
-        disabled
-        >Statistiques de la page
-      </el-menu-item>
-
-      <el-menu-item
-        :index="`/dashboard/collectivity/${$store.getters.structure.collectivity.id}/edit`"
+    <div v-if="$store.getters.user.profile.structures.length">
+      <router-link
+        v-for="structure in $store.getters.user.profile.structures"
+        :key="structure.id"
+        :to="`/dashboard/structure/${structure.id}`"
+        class="
+          text-gray-700
+          hover:text-gray-900
+          hover:bg-gray-50
+          group
+          flex
+          items-center
+          px-2
+          py-2
+          text-sm
+          font-medium
+          rounded-md
+        "
         :class="{
-          'is-active': isActive('collectivity-edit'),
+          'bg-gray-50': doesPathContains(
+            `/dashboard/structure/${structure.id}`
+          ),
         }"
-        >Éditer la page
-      </el-menu-item>
-    </el-submenu>
-
-    <el-menu-item
-      index="/dashboard"
-      :class="{ 'is-active': isActive('dashboard') }"
-    >
-      <div v-if="$store.getters.isSidebarExpanded">Tableau de bord</div>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Tableau de bord`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-data-analysis"
-      />
-    </el-menu-item>
-    <el-menu-item
-      :index="`/dashboard/structure/${$store.getters.structure.id}/edit`"
-      :class="{
-        'is-active': isActive('structures'),
-      }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Mon organisation</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Mon organisation`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-school"
-      />
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/missions"
-      :class="{ 'is-active': isActive('missions') }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Missions</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Missions`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-collection"
-      />
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/participations"
-      :class="{ 'is-active': isActive('participations') }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Participations</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Participations`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-finished"
-      />
-    </el-menu-item>
-    <el-menu-item index="/messages">
-      <el-badge
-        v-if="$store.getters.isSidebarExpanded"
-        :value="$store.getters.user.unreadConversations.length"
-        :hidden="$store.getters.user.unreadConversations.length == 0"
-        :max="99"
+        x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
       >
-        <span>Messagerie</span>
-      </el-badge>
+        <div
+          class="
+            text-gray-400
+            group-hover:text-gray-500
+            mr-3
+            flex-shrink-0
+            h-6
+            w-6
+          "
+          v-html="
+            require('@/assets/images/icones/heroicon/library.svg?include')
+          "
+        />
+        {{ structure.name }}
+      </router-link>
 
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Messagerie`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-message"
-      />
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/ressources"
-      :class="{ 'is-active': isActive('ressources') }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">Ressources</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Ressources`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-help"
-      />
-    </el-menu-item>
-    <el-menu-item v-if="$store.getters.isSidebarExpanded" index="#">
-      <a
-        target="_blank"
-        href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
-        >Contacter le support</a
+      <!-- Messagerie -->
+      <router-link
+        to="/messages"
+        class="
+          text-gray-700
+          hover:text-gray-900
+          hover:bg-gray-50
+          group
+          flex
+          items-center
+          px-2
+          py-2
+          text-sm
+          font-medium
+          rounded-md
+        "
+        x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
       >
-    </el-menu-item>
+        <div
+          class="
+            text-gray-400
+            group-hover:text-gray-500
+            mr-3
+            flex-shrink-0
+            h-6
+            w-6
+          "
+          v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
+        />
+        Messagerie
+        <span
+          v-if="$store.getters.user.unreadConversations.length"
+          class="ml-2 text-xs text-gray-500"
+          >({{ $store.getters.user.unreadConversations.length }})</span
+        >
+      </router-link>
+    </div>
   </div>
 </template>
 

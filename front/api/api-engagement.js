@@ -1,11 +1,10 @@
-export default (axios) => ({
-  async statisticsMission(id, params) {
-    return await this.$axios.post(
+export default (axios, config) => ({
+  async apiEngagementMyMission(id) {
+    return await axios.get(
       `https://api.api-engagement.beta.gouv.fr/v0/mymission/${id}`,
-      { params },
       {
         headers: {
-          apikey: this.$config.apieng.key,
+          apikey: config.apieng.key,
         },
       }
     )

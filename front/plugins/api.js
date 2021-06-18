@@ -21,7 +21,7 @@ export default ({ $axios, $config }, inject) => {
     ...apiConversation($axios),
     ...apiUser($axios),
     ...apiPlausible($axios, $config),
-    ...apiEngagement($axios),
+    ...apiEngagement($axios, $config),
     ...apiTerritoire($axios),
   }
 

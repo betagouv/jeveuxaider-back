@@ -10,13 +10,21 @@
     <el-menu-item index="missions"> Missions </el-menu-item>
     <el-menu-item index="participations"> Participations </el-menu-item>
     <el-menu-item
-      v-if="$store.getters.contextRole != 'responsable'"
+      v-if="
+        ['admin', 'analyste', 'referent', 'referent_regional'].includes(
+          $store.getters.contextRole
+        )
+      "
       index="profiles"
     >
       Utilisateurs
     </el-menu-item>
     <el-menu-item
-      v-if="$store.getters.contextRole != 'responsable'"
+      v-if="
+        ['admin', 'analyste', 'referent', 'referent_regional'].includes(
+          $store.getters.contextRole
+        )
+      "
       index="departments"
     >
       Départements

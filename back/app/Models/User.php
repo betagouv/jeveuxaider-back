@@ -171,6 +171,16 @@ class User extends Authenticatable
             })->pluck('conversations.id')->toArray();
     }
 
+    public function getUnreadConversationsCount()
+    {
+        return $this->conversations()
+            ->whereHas('messages')
+            ->where(function ($query) {
+                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+                    ->orWhere('conversations_users.read_at', null);
+            })->count();
+    }
+
     public static function getNbParticipationsOver($pid)
     {
         return Profile::find($pid)->participations->whereIn('state', ['Validée', 'Terminée'])->count();

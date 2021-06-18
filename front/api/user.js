@@ -6,7 +6,6 @@ export const rolesList = [
   { key: 'responsable', label: 'Responsable' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
-  { key: 'responsable_territoire', label: 'Territoire' },
 ]
 
 export default (axios) => ({
@@ -154,6 +153,12 @@ export default (axios) => ({
 
   async franceConnectLoginCallback(params) {
     return await axios.get('/franceconnect/login-callback', { params })
+  },
+
+  async fetchActions(params) {
+    return await axios.get(`/actions`, {
+      params,
+    })
   },
 })
 

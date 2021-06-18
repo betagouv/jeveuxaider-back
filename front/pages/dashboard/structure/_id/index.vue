@@ -23,7 +23,7 @@
       </div>
       <div>
         <DropdownStructureButton
-          v-if="$store.getters.contextRole == 'admin'"
+          v-if="['responsable', 'admin'].includes($store.getters.contextRole)"
           :structure="structure"
         />
       </div>
@@ -37,10 +37,21 @@
       <el-menu-item :index="`/dashboard/structure/${structure.id}`">
         Informations
       </el-menu-item>
+      <el-menu-item :index="`/dashboard/structure/${structure.id}/statistics`">
+        Statistiques
+      </el-menu-item>
       <el-menu-item :index="`/dashboard/structure/${structure.id}/missions`">
         Missions
         <span class="text-xs text-gray-600"
           >({{ structure.missions_count }})</span
+        >
+      </el-menu-item>
+      <el-menu-item
+        :index="`/dashboard/structure/${structure.id}/participations`"
+      >
+        Participations
+        <span class="text-xs text-gray-600"
+          >({{ structure.participations_count }})</span
         >
       </el-menu-item>
       <el-menu-item :index="`/dashboard/structure/${structure.id}/history`">

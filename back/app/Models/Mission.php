@@ -75,6 +75,11 @@ class Mission extends Model
         return config('scout.prefix') . '_covid_missions';
     }
 
+    public function getFullUrlAttribute()
+    {
+        return "/missions-benevolat/$this->id/$this->slug";
+    }
+
     public function toSearchableArray()
     {
         $mission = [

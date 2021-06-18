@@ -56,7 +56,7 @@
     <div class="px-12">
       <div class="flex flex-col space-y-5">
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             JeVeuxAider.gouv.fr
           </div>
           <div class="flex flex-wrap">
@@ -114,7 +114,7 @@
           </div>
         </div>
         <div>
-          <div class="font-bold text-2xl text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             Analytics sur la dernière année
           </div>
           <div class="flex flex-wrap">
@@ -148,13 +148,11 @@
 export default {
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
-    if (
-      !['admin', 'responsable_territoire'].includes(store.getters.contextRole)
-    ) {
+    if (!['admin', 'responsable'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
 
-    if (store.getters.contextRole == 'responsable_territoire') {
+    if (store.getters.contextRole == 'responsable') {
       if (
         !store.getters.user.profile.territoires.filter(
           (item) => item.id == params.id

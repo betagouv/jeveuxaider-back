@@ -35,4 +35,16 @@ class TerritoireRequest extends FormRequest
             'seo_engage_paragraphs' => '',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Le nom est requis',
+            'name.min' => 'Le nom doit contenir au moins :min lettres',
+            'name.max' => 'Le nom peut contenir au plus :min lettres',
+            'suffix_title.required' => 'Le suffix est requis',
+            'type.required' => 'Le type est requis',
+            'department.required' => 'Le département est requis',
+        ];
+    }
 }

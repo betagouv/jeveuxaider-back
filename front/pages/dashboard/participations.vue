@@ -63,7 +63,7 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <!-- <SearchFiltersQuery
           v-if="$store.getters.contextRole === 'responsable'"
           type="select"
           name="mission.responsable_id"
@@ -78,7 +78,7 @@
             })
           "
           @changed="onFilterChange"
-        />
+        /> -->
         <SearchFiltersQueryInput
           name="mission.id"
           label="# Mission"
@@ -221,7 +221,6 @@ export default {
     return {
       loadingButton: false,
       loadingExport: false,
-      responsables: [],
     }
   },
   async fetch() {
@@ -234,18 +233,7 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  created() {
-    if (
-      this.$store.getters.contextRole === 'responsable' &&
-      this.$store.getters.structure
-    ) {
-      this.$api
-        .getStructureMembers(this.$store.getters.structure.id)
-        .then((res) => {
-          this.responsables = res.data
-        })
-    }
-  },
+  created() {},
   methods: {
     canShowProfileDetails(row) {
       return !!(

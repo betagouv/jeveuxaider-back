@@ -54,6 +54,9 @@
       <el-menu-item :index="`/dashboard/mission/${mission.id}`">
         Informations
       </el-menu-item>
+      <el-menu-item :index="`/dashboard/mission/${mission.id}/statistics`">
+        Statistiques
+      </el-menu-item>
       <el-menu-item
         v-if="mission"
         :index="`/dashboard/mission/${mission.id}/participations`"

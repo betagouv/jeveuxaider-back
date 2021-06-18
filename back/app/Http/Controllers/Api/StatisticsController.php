@@ -425,5 +425,35 @@ class StatisticsController extends Controller
                 ]
             ];
         }
+
+        if ($type == 'organisations') {
+            $missions = Mission::where('structure_id', $id);
+            $participations = Participation::whereHas('mission', function (Builder $query) use ($id) {
+                $query->where('structure_id', $id);
+            });
+            return [
+                'missions' => [
+                    'total' => $missions->count(),
+                    'month' => $missions->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                    'week' => $missions->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+                ],
+                'participations' => [
+                    'total' => $participations->count(),
+                    'month' => $participations->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                    'week' => $participations->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+                ]
+            ];
+        }
+
+        if ($type == 'missions') {
+            $participations = Participation::where('mission_id', $id);
+            return [
+                'participations' => [
+                    'total' => $participations->count(),
+                    'month' => $participations->where('created_at', '>=', Carbon::today()->subDays(30))->count(),
+                    'week' => $participations->where('created_at', '>=', Carbon::today()->subDays(7))->count()
+                ]
+            ];
+        }
     }
 }

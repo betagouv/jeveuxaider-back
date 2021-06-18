@@ -7,7 +7,20 @@
       <button
         id="options-menu"
         type="button"
-        class="px-2 py-2 bg-white rounded flex items-center text-gray-400 hover:text-gray-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+        class="
+          px-2
+          py-2
+          bg-white
+          rounded
+          flex
+          items-center
+          text-gray-400
+          hover:text-gray-600
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-offset-gray-100
+          focus:ring-indigo-500
+        "
         aria-haspopup="true"
         aria-expanded="true"
         @click="isOpen = !isOpen"
@@ -30,7 +43,18 @@
 
     <div
       v-show="isOpen"
-      class="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+      class="
+        origin-top-right
+        absolute
+        z-10
+        right-0
+        mt-2
+        w-64
+        rounded-md
+        shadow-lg
+        bg-white
+        ring-1 ring-black ring-opacity-5
+      "
       @click="isOpen = !isOpen"
     >
       <div

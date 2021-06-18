@@ -193,6 +193,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@uploadDelete');
 
     Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
+
+    // ACTIONS
+    Route::get('actions', 'Api\ActionController@index');
 });
 
 // ONLY ADMIN
@@ -278,4 +281,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // INVITATIONS
     Route::get('invitations', 'Api\InvitationController@index');
+
+    // TERRITOIRES
+    Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
 });
