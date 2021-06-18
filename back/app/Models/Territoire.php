@@ -34,9 +34,7 @@ class Territoire extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $appends = ['completion_rate', 'full_url'];
-
-    // protected $appends = ['banner', 'logo', 'image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6'];
+    protected $appends = ['completion_rate', 'full_url', 'banner', 'logo'];
 
     protected $hidden = ['media'];
 
@@ -61,20 +59,20 @@ class Territoire extends Model implements HasMedia
     {
         switch ($this->type) {
             case 'department':
-                return "/territoires/departements/$this->slug";
+                return "/territoires-2/departements/$this->slug";
                 break;
             case 'collectivity':
-                return "/territoires/collectivites/$this->slug";
+                return "/territoires-2/collectivites/$this->slug";
                 break;
             case 'city':
-                return "/territoires/villes/$this->slug";
+                return "/territoires-2/villes/$this->slug";
                 break;
         }
     }
 
     public function getCompletionRateAttribute()
     {
-        $fields = ['cover', 'suffix_title', 'department', 'description', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
+        $fields = ['banner', 'suffix_title', 'department', 'description', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
         $filled = 0;
 
         foreach ($fields as $field) {
@@ -116,7 +114,7 @@ class Territoire extends Model implements HasMedia
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['id', 'name'])
+            ->generateSlugsFrom(['name'])
             ->saveSlugsTo('slug');
     }
 
@@ -124,7 +122,6 @@ class Territoire extends Model implements HasMedia
     {
         $this->addMediaConversion('large')
             ->width(2000)
-            ->height(750)
             ->nonQueued()
             ->performOnCollections('territoires');
 
@@ -155,5 +152,28 @@ class Territoire extends Model implements HasMedia
         $this->responsables()->detach($profile);
 
         return $this->load('responsables');
+    }
+
+    public function setCoordonates()
+    {
+        if (!empty($this->zips)) {
+            $places = PlacesClient::create(env('MIX_ALGOLIA_PLACES_APP_ID'), env('MIX_ALGOLIA_PLACES_API_KEY'));
+            $result = $places->search(
+                $this->zips[0],
+                [
+                    'restrictSearchableAttributes' => 'postcode',
+                    'type' => 'city',
+                    'hitsPerPage' => 1,
+                    'countries' => 'fr',
+                    'language' => 'fr'
+                ]
+            );
+
+            if (!empty($result['nbHits'])) {
+                $result = $result['hits'][0];
+                $this->latitude = $result['_geoloc']['lat'];
+                $this->longitude = $result['_geoloc']['lng'];
+            }
+        }
     }
 }
