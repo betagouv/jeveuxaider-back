@@ -24,6 +24,8 @@
     />
 
     <TerritoireAssociations :territoire="territoire" />
+    <TerritoireEngagement :territoire="territoire" />
+    <TerritoireSubscribe :territoire="territoire" />
   </div>
 </template>
 

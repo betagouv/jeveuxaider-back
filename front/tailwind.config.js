@@ -143,6 +143,7 @@ module.exports = {
         700: '#6b46c1',
         800: '#553c9a',
         900: '#44337a',
+        pale: '#EEEDF8',
       },
       pink: {
         100: '#fff5f7',
