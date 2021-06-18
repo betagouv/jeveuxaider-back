@@ -102,8 +102,6 @@
                 <!-- @todo libellés courts..! -->
                 <button
                   class="
-                    max-w-sm
-                    mx-auto
                     w-full
                     flex
                     items-center
@@ -122,9 +120,8 @@
                     font-bold
                     text-xl
                     px-5
-                    py-3
-                    pb-4
-                    leading-tight
+                    py-4
+                    leading-none
                   "
                   style="background-color: #09c19d"
                   @click="onClick"
@@ -194,7 +191,8 @@ export default {
   ::v-deep
     .el-input__inner
       text-overflow: ellipsis
-      @apply rounded-xl outline-none h-14 text-black
+      height: 54px
+      @apply rounded-xl outline-none text-black
     .el-input.is-focus .el-input__inner,
     .el-input__inner:focus
       border-width: 1px !important

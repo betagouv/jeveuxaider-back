@@ -3,8 +3,8 @@
     <hr class="opacity-25" />
 
     <section class="section-subscribe bg-purple-pale relative">
-      <div class="relative container mx-auto px-4">
-        <div class="py-16 lg:py-28">
+      <div class="relative z-10 container mx-auto px-4">
+        <div class="pt-16 pb-8 lg:py-28">
           <h2 class="max-w-2xl mb-12">
             <p class="uppercase text-red-500 font-extrabold text-sm mb-4">
               Chacun pour tous
@@ -26,12 +26,57 @@
             </p>
           </h2>
 
-          <p class="text-xl text-gray-700 max-w-lg mb-8">
+          <p class="md:text-xl text-gray-700 sm:max-w-md md:max-w-lg mb-8">
             Trouvez des missions en quelques clics et devenez bénévole près de
             chez vous ou à distance
           </p>
 
-          <div>@todo</div>
+          <div class="rounded-xl px-8 py-4 bg-white shadow-lg max-w-3xl">
+            <div class="flex flex-wrap sm:flex-no-wrap gap-1 sm:gap-8">
+              <div class="input-wrapper relative">
+                <el-input
+                  v-model="email"
+                  type="email"
+                  placeholder="Renseignez votre e-mail"
+                  class="w-full"
+                />
+              </div>
+
+              <button
+                class="
+                  w-full
+                  sm:w-auto
+                  sm:flex-none
+                  flex
+                  items-center
+                  justify-center
+                  border border-transparent
+                  rounded-xl
+                  text-white
+                  focus:outline-none
+                  focus:shadow-outline
+                  transition
+                  duration-150
+                  hover:scale-105
+                  transform
+                  will-change-transform
+                  ease-in-out
+                  font-bold
+                  text-xl
+                  px-5
+                  py-4
+                  sm:px-8
+                  sm:py-4
+                  sm:pb-5
+                  leading-none
+                "
+                style="background-color: #09c19d"
+                @click="onSubmit"
+              >
+                Je m'engage
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -42,17 +87,20 @@
           xl:max-w-full
           h-full
           relative
-          lg:absolute
+          sm:absolute
           right-0
           bottom-0
+          sm:pt-36
+          lg:pt-8
+          z-0
         "
       >
         <img
           src="/images/subscribe-pattern.svg"
           class="
             ml-auto
-            lg:w-full
-            lg:h-full
+            w-full
+            h-full
             object-contain object-right-bottom
             absolute
           "
@@ -64,8 +112,8 @@
               ${territoire.suffix_title}`"
           class="
             ml-auto
-            lg:w-full
-            lg:h-full
+            w-full
+            h-full
             object-contain object-right-bottom
             relative
           "
@@ -83,7 +131,39 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      email: '',
+    }
+  },
+  methods: {
+    onSubmit() {
+      console.log('@todo')
+    },
+  },
 }
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.input-wrapper
+  @apply w-full
+  &::after
+      content: "E-MAIL"
+      position: absolute
+      pointer-events: none
+      left: 0
+      top: 12px
+      font-size: 12px
+      color: black
+      letter-spacing: -0.1px
+      line-height: 18px
+      font-weight: bold
+  .el-input
+    position: relative
+    top: 22px
+    margin-bottom: 25px
+    left: -15px
+    ::v-deep
+      input
+        border: none !important
+</style>
