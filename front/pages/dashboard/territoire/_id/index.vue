@@ -9,7 +9,6 @@
           </div>
           <TagModelState v-if="territoire.state" :state="territoire.state" />
         </div>
-
         <div class="font-light text-gray-600 flex items-center">
           <div
             :class="territoire.is_published ? 'bg-green-500' : 'bg-red-500'"

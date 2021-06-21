@@ -21,7 +21,7 @@
     </el-menu-item>
     <el-menu-item
       v-if="
-        ['admin', 'analyste', 'referent', 'referent_regional'].includes(
+        ['admin', 'analyste', 'referent_regional'].includes(
           $store.getters.contextRole
         )
       "
