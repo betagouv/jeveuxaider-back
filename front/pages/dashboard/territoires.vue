@@ -41,6 +41,13 @@
       </div>
       <div v-if="showFilters" class="flex flex-wrap">
         <SearchFiltersQuery
+          name="type"
+          label="Type"
+          :value="query['filter[type]']"
+          :options="$store.getters.taxonomies.territoires_types.terms"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
           name="state"
           label="Statut"
           multiple
