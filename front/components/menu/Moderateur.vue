@@ -238,7 +238,9 @@
         v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
       />
       Messagerie
-      <span v-if="$store.getters.user.unreadConversations.length"
+      <span
+        v-if="$store.getters.user.unreadConversations.length"
+        class="ml-2 text-xs text-gray-500"
         >({{ $store.getters.user.unreadConversations.length }})</span
       >
     </router-link>

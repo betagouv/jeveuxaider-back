@@ -214,21 +214,20 @@ export default {
   mixins: [FormMixin],
   layout: 'register-steps',
   asyncData({ $api, store, error }) {
-    if (!store.getters.structure_as_responsable) {
+    if (!store.getters.structure) {
       return error({ statusCode: 403 })
     }
     return {
-      structureId: store.getters.structure_as_responsable.id,
+      structureId: store.getters.structure.id,
       form: {
-        ...store.getters.structure_as_responsable,
-        zips: store.getters.structure_as_responsable.collectivity
-          ? store.getters.structure_as_responsable.collectivity.zips
+        ...store.getters.structure,
+        zips: store.getters.structure.collectivity
+          ? store.getters.structure.collectivity.zips
           : null,
       },
       collectivity:
-        store.getters.structure_as_responsable &&
-        store.getters.structure_as_responsable.collectivity
-          ? { ...store.getters.structure_as_responsable.collectivity }
+        store.getters.structure && store.getters.structure.collectivity
+          ? { ...store.getters.structure.collectivity }
           : null,
     }
   },

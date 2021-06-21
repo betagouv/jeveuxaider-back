@@ -32,7 +32,15 @@
         <div class="container mx-auto px-4">
           <div class="py-8 text-center sm:text-left">
             <h1
-              class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
+              class="
+                text-4xl
+                max-w-4xl
+                leading-none
+                font-bold
+                text-white
+                sm:text-5xl
+                md:text-6xl
+              "
             >
               <template v-if="collectivity.title">{{
                 collectivity.title
@@ -44,7 +52,13 @@
             </h1>
 
             <p
-              class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
+              class="
+                mt-5
+                text-base text-gray-100
+                max-w-xl
+                sm:text-lg
+                md:text-xl
+              "
             >
               <template v-if="collectivity.description">{{
                 collectivity.description
@@ -65,14 +79,60 @@
                 <nuxt-link
                   v-if="!$store.getters.isLogged"
                   to="/register/volontaire"
-                  class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                  class="
+                    shadow-lg
+                    w-full
+                    flex
+                    items-center
+                    justify-center
+                    px-10
+                    py-3
+                    text-base
+                    leading-6
+                    font-medium
+                    rounded-full
+                    bg-white
+                    text-blue-800
+                    hover:bg-gray-100 hover:bg-white
+                    focus:outline-none
+                    focus:shadow-outline
+                    transition
+                    duration-150
+                    ease-in-out
+                    md:py-4
+                    md:text-lg
+                    md:px-15
+                  "
                 >
                   Devenir réserviste
                 </nuxt-link>
                 <a
                   v-else
                   href="#search"
-                  class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white text-blue-800 hover:bg-gray-100 hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
+                  class="
+                    shadow-lg
+                    w-full
+                    flex
+                    items-center
+                    justify-center
+                    px-10
+                    py-3
+                    text-base
+                    leading-6
+                    font-medium
+                    rounded-full
+                    bg-white
+                    text-blue-800
+                    hover:bg-gray-100 hover:bg-white
+                    focus:outline-none
+                    focus:shadow-outline
+                    transition
+                    duration-150
+                    ease-in-out
+                    md:py-4
+                    md:text-lg
+                    md:px-15
+                  "
                 >
                   Trouver une mission
                 </a>
@@ -88,7 +148,31 @@
                       ? `/dashboard/structure/${$store.getters.structure.id}/missions/add`
                       : '/login'
                   "
-                  class="shadow-lg w-full flex items-center justify-center px-8 py-3 border border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
+                  class="
+                    shadow-lg
+                    w-full
+                    flex
+                    items-center
+                    justify-center
+                    px-8
+                    py-3
+                    border border-transparent border
+                    text-base
+                    leading-6
+                    font-medium
+                    rounded-full
+                    text-white
+                    bg-red-600
+                    hover:bg-red-700
+                    focus:outline-none
+                    focus:shadow-outline
+                    transition
+                    duration-150
+                    ease-in-out
+                    md:py-4
+                    md:text-lg
+                    md:px-9
+                  "
                 >
                   Proposer une mission
                 </nuxt-link>
@@ -111,13 +195,28 @@
             width="auto"
           />
           <h2
-            class="text-center text-5xl leading-10 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
+            class="
+              text-center text-5xl
+              leading-10
+              font-bold
+              tracking-tight
+              text-gray-900
+              sm:text-5xl
+              sm:leading-10
+            "
           >
             <span class="text-blue-900">{{ collectivity.name }}</span> : faites
             vivre l'engagement !
           </h2>
           <p
-            class="mt-4 max-w-2xl mx-auto text-center text-xl leading-7 text-gray-500"
+            class="
+              mt-4
+              max-w-2xl
+              mx-auto
+              text-center text-xl
+              leading-7
+              text-gray-500
+            "
           >
             Soutenez l'action des associations, collectivités et organisations
             locales à travers différents types de missions.
@@ -144,7 +243,14 @@
       <div class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto text-center">
           <h2
-            class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
+            class="
+              text-3xl
+              leading-9
+              font-extrabold
+              text-white
+              sm:text-4xl
+              sm:leading-10
+            "
           >
             Rejoignez le mouvement #JeVeuxAider
           </h2>
@@ -167,10 +273,29 @@
 
     <div class="bg-gray-50 border-b border-gray-200">
       <div
-        class="container mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
+        class="
+          container
+          mx-auto
+          py-12
+          px-4
+          sm:px-6
+          lg:py-16
+          lg:px-8
+          lg:flex
+          lg:items-center
+          lg:justify-between
+        "
       >
         <h2
-          class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+          class="
+            text-3xl
+            leading-9
+            font-bold
+            tracking-tight
+            text-gray-900
+            sm:text-4xl
+            sm:leading-10
+          "
         >
           Votre organisation a besoin de
           <span class="text-blue-800">bénévoles</span> ?
@@ -184,12 +309,31 @@
                   ? {
                       name: 'DashboardMissionFormAdd',
                       params: {
-                        structureId: $store.getters.structure_as_responsable.id,
+                        structureId: $store.getters.structure.id,
                       },
                     }
                   : '/register/responsable'
               "
-              class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+              class="
+                inline-flex
+                items-center
+                justify-center
+                px-7
+                py-3
+                border border-transparent
+                text-base
+                leading-6
+                font-medium
+                rounded-full
+                text-white
+                bg-blue-800
+                hover:bg-blue-900
+                focus:outline-none
+                focus:shadow-outline
+                transition
+                duration-150
+                ease-in-out
+              "
             >
               Rejoignez JeVeuxAider.gouv.fr
             </nuxt-link>
