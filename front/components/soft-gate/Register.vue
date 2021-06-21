@@ -301,6 +301,9 @@ export default {
               } else {
                 this.$emit('next')
               }
+
+              window.plausible &&
+                window.plausible('Soft Gate - Étape 2 - Inscription')
             })
             .catch(() => {
               this.loading = false
