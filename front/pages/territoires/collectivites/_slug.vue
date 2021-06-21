@@ -348,6 +348,9 @@
 export default {
   async asyncData({ $api, params, error, store }) {
     const collectivity = await $api.getCollectivity(params.slug)
+    if (!collectivity) {
+      return error({ statusCode: 404 })
+    }
     if (
       (collectivity.state != 'validated' || !collectivity.published) &&
       !['admin'].includes(store.getters.contextRole)

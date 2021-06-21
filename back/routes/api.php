@@ -52,6 +52,8 @@ Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthL
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 
 Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
+Route::get('territoire/{territoire}/availableMissions', 'Api\TerritoireController@availableMissions');
+Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@cities');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -187,6 +189,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
     Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
     Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
+    Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');
+    Route::delete('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@uploadDelete');
 
     Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
 

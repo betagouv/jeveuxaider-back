@@ -120,6 +120,7 @@ module.exports = {
         800: '#070191', // Color primary
         900: '#1F0391', // Overriden #2a4365
         royal: '#002D83',
+        pale: '#fafaff',
       },
       indigo: {
         100: '#ebf4ff',
@@ -142,6 +143,7 @@ module.exports = {
         700: '#6b46c1',
         800: '#553c9a',
         900: '#44337a',
+        pale: '#EEEDF8',
       },
       pink: {
         100: '#fff5f7',
@@ -218,6 +220,8 @@ module.exports = {
       default: '0.25rem',
       md: '.375rem',
       lg: '0.5rem',
+      xl: '1rem',
+      '2xl': '2rem',
       full: '9999px',
     },
     borderWidth: {
@@ -338,6 +342,8 @@ module.exports = {
       wide: '0.025em',
       wider: '0.05em',
       widest: '0.1em',
+      px: '-1px',
+      '2px': '-2px',
     },
     lineHeight: {
       none: '1',
@@ -420,6 +426,7 @@ module.exports = {
       50: '0.5',
       70: '0.70',
       75: '0.75',
+      85: '0.85',
       90: '0.90',
       100: '1',
     },

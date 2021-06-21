@@ -6,6 +6,7 @@ import apiConversation from '@/api/conversation'
 import apiUser from '@/api/user'
 import apiPlausible from '@/api/plausible'
 import apiEngagement from '@/api/api-engagement'
+import apiTerritoire from '@/api/territoire'
 
 export default ({ $axios, $config }, inject) => {
   // Inject `api` key
@@ -21,6 +22,7 @@ export default ({ $axios, $config }, inject) => {
     ...apiUser($axios),
     ...apiPlausible($axios, $config),
     ...apiEngagement($axios, $config),
+    ...apiTerritoire($axios),
   }
 
   inject('api', api)

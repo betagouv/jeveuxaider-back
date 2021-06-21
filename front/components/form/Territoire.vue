@@ -144,6 +144,37 @@
         </el-form-item>
       </div>
     </template>
+
+    <div>
+      <div class="mb-6 text-1-5xl font-bold text-gray-800">Images</div>
+
+      <ImageField
+        model="territoire"
+        :model-id="form.id ? form.id : null"
+        :min-width="1200"
+        :min-height="450"
+        :field="form.banner"
+        field-name="banner"
+        :aspect-ratio="8 / 3"
+        label="Bannière"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
+
+      <ImageField
+        v-if="form.type == 'collectivity'"
+        model="territoire"
+        :model-id="form.id ? form.id : null"
+        :max-size="1000000"
+        :field="form.logo"
+        field-name="logo"
+        :aspect-ratio="0"
+        label="Logo"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
+    </div>
+
     <div class="flex pt-2">
       <el-button type="primary" :loading="loading" @click="onSubmit">
         Enregistrer
@@ -169,6 +200,7 @@ export default {
     return {
       loading: false,
       form: { ...this.territoire },
+      uploads: [],
       rules: {
         name: [
           {
@@ -207,47 +239,61 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      this.$refs.territoireForm.validate((valid, fields) => {
+      this.$refs.territoireForm.validate(async (valid, fields) => {
         if (valid) {
           if (this.territoire.id) {
-            this.$api
-              .updateTerritoire(this.form.id, this.form)
-              .then(async () => {
-                this.loading = false
-                this.$router.back()
-                if (
-                  this.$store.getters.contextRole == 'responsable_territoire'
-                ) {
-                  await this.$store.dispatch('auth/fetchUser')
-                }
-                this.$message({
-                  message: 'Le territoire a été enregistrée !',
-                  type: 'success',
-                })
-              })
-              .catch(() => {
-                this.loading = false
-              })
+            await this.$api.updateTerritoire(this.form.id, this.form)
+            if (this.$store.getters.contextRole == 'responsable_territoire') {
+              await this.$store.dispatch('auth/fetchUser')
+            }
           } else {
-            this.$api
-              .addTerritoire(this.form)
-              .then(() => {
-                this.loading = false
-                this.$router.back()
-                this.$message({
-                  message: 'Le territoire a été enregistrée !',
-                  type: 'success',
-                })
-              })
-              .catch(() => {
-                this.loading = false
-              })
+            await this.$api.addTerritoire(this.form)
           }
+          await this.uploadImages()
+          this.loading = false
+          this.$router.back()
+          this.$message({
+            message: 'Le territoire a été enregistrée !',
+            type: 'success',
+          })
         } else {
           this.showErrors(fields)
           this.loading = false
         }
       })
+    },
+    async uploadImages() {
+      const promises = []
+      this.uploads.forEach((upload) => {
+        promises.push(
+          this.$api.uploadImage(
+            this.form.id,
+            'territoire',
+            upload.blob,
+            upload.cropSettings,
+            upload.fieldName
+          )
+        )
+      })
+      await Promise.all(promises)
+    },
+    handleAddOrCrop($event) {
+      const existingIndex = this.uploads.findIndex(
+        (upload) => upload.fieldName === $event.fieldName
+      )
+      if (existingIndex != -1) {
+        this.uploads.splice(existingIndex, 1, $event)
+      } else {
+        this.uploads.push($event)
+      }
+    },
+    handleDelete($event) {
+      this.uploads.splice(
+        this.uploads.findIndex(
+          (upload) => upload.fieldName === $event.fieldName
+        ),
+        1
+      )
     },
   },
 }
