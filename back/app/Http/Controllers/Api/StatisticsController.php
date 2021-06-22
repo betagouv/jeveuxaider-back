@@ -15,6 +15,7 @@ use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
+use App\Models\Territoire;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -402,8 +403,8 @@ class StatisticsController extends Controller
 
     public function fetch(Request $request, $type, $id)
     {
-
         if ($type == 'territoires') {
+            $this->authorize('viewStats', Territoire::find($id));
             $organisations = Structure::territoire($id);
             $missions = Mission::territoire($id);
             $participations = Participation::territoire($id);

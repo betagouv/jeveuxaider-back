@@ -176,4 +176,12 @@ class Territoire extends Model implements HasMedia
             }
         }
     }
+
+    public function getPermissionsAttribute()
+    {
+        return[
+            'canViewStats' => Auth::guard('api')->user() ? Auth::guard('api')->user()->can('viewStats', $this) : false
+        ];
+    }
+
 }

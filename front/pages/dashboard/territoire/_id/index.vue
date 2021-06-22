@@ -41,6 +41,7 @@
         Informations
       </el-menu-item>
       <el-menu-item
+        v-if="territoire.permissions.canViewStats"
         :index="`/dashboard/territoire/${territoire.id}/statistics`"
       >
         Statistiques
