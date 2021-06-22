@@ -32,11 +32,10 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-        ? Territoire::where('id', $slugOrId)->with('responsables')->firstOrFail()
-        : Territoire::where('slug', $slugOrId)->firstOrFail();
+        ? Territoire::where('id', $slugOrId)->with(['responsables', 'structures'])->firstOrFail()
+        : Territoire::where('slug', $slugOrId)->with(['structures'])->firstOrFail();
 
         return $territoire;
-        // return $territoire->setAppends(['completion_rate', 'full_url']);
     }
 
     public function store(TerritoireRequest $request)
@@ -46,7 +45,11 @@ class TerritoireController extends Controller
 
     public function update(TerritoireUpdateRequest $request, Territoire $territoire)
     {
-        $territoire->update($request->validated());
+        $request = $request->validated();
+        $ids = array_column($request['structures'], 'id');
+
+        $territoire->update($request);
+        $territoire->structures()->sync($ids);
         return $territoire;
     }
 

@@ -106,18 +106,46 @@
           label="Description pour le recrutement"
           prop="seo_engage_paragraphs"
         >
-          <ParagraphItems
-            :fields="[
-              { key: 'title', label: 'Titre', type: 'text', required: true },
-              {
-                key: 'description',
-                label: 'Description',
-                type: 'richtext',
-                required: true,
-              },
+          <Paragraph
+            :schema="[
+              { key: 'title', label: 'Titre', type: 'text' },
+              { key: 'description', label: 'Description', type: 'richtext' },
             ]"
+            :rules="{
+              title: [
+                {
+                  required: true,
+                  message: 'Titre obligatoire',
+                  trigger: 'blur',
+                },
+              ],
+              description: [
+                {
+                  required: true,
+                  message: 'Description obligatoire',
+                  trigger: 'blur',
+                },
+              ],
+            }"
             :items="form.seo_engage_paragraphs"
-            @update-items="onUpdateItems"
+            @add="onParagraphAddItem('seo_engage_paragraphs', $event)"
+            @update="onParagraphUpdateItem('seo_engage_paragraphs', $event)"
+            @remove="onParagraphRemoveItem('seo_engage_paragraphs', $event)"
+          />
+        </el-form-item>
+      </div>
+
+      <div>
+        <div class="mb-6 text-1-5xl font-bold text-gray-800">Associations</div>
+        <el-form-item>
+          <Paragraph
+            :schema="[
+              { key: 'structure', type: 'autocomplete', model: 'structure' },
+            ]"
+            :items="form.structures"
+            @add="onParagraphAddItem('structures', $event)"
+            @update="onParagraphUpdateItem('structures', $event)"
+            @remove="onParagraphRemoveItem('structures', $event)"
           />
         </el-form-item>
       </div>
@@ -185,9 +213,10 @@
 
 <script>
 import FormMixin from '@/mixins/Form'
+import ParagraphMixin from '@/mixins/ParagraphMixin'
 
 export default {
-  mixins: [FormMixin],
+  mixins: [FormMixin, ParagraphMixin],
   props: {
     territoire: {
       type: Object,
@@ -234,9 +263,6 @@ export default {
     }
   },
   methods: {
-    onUpdateItems(items) {
-      this.form.seo_engage_paragraphs = items
-    },
     onSubmit() {
       this.loading = true
       this.$refs.territoireForm.validate(async (valid, fields) => {

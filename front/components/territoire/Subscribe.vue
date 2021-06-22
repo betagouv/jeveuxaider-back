@@ -3,7 +3,7 @@
     <hr class="opacity-25" />
 
     <section class="section-subscribe bg-purple-pale relative">
-      <div class="relative z-10 container mx-auto px-4">
+      <div class="relative z-10 container mx-auto px-4 lg:px-12">
         <div class="pt-16 pb-8 lg:py-28">
           <h2 class="max-w-2xl mb-12">
             <p class="uppercase text-red-500 font-extrabold text-sm mb-4">
@@ -31,7 +31,9 @@
             chez vous ou à distance
           </p>
 
-          <div class="rounded-xl px-8 py-4 bg-white shadow-lg max-w-3xl">
+          <div
+            class="rounded-xl p-4 sm:pl-8 bg-white shadow-lg max-w-3xl lg:-mx-8"
+          >
             <div class="flex flex-wrap sm:flex-no-wrap gap-1 sm:gap-8">
               <div class="input-wrapper relative">
                 <el-input
@@ -77,12 +79,35 @@
               </button>
             </div>
           </div>
+
+          <p
+            class="
+              text-gray-600 text-sm
+              mt-6
+              sm:max-w-md
+              md:max-w-lg
+              lg:max-w-full
+            "
+          >
+            En m'inscrivant j'accepte la
+            <nuxt-link to="/charte-reserve-civique" class="hover:underline">
+              <strong>politique de confidentialité</strong>
+            </nuxt-link>
+            et la
+            <nuxt-link
+              to="/politique-de-confidentialite"
+              class="hover:underline"
+            >
+              <strong>charte</strong>
+            </nuxt-link>
+            de JeVeuxAider.gouv.fr
+          </p>
         </div>
       </div>
 
       <div
         class="
-          max-w-xs
+          max-w-md
           ml-auto
           xl:max-w-full
           h-full

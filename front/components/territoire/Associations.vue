@@ -22,6 +22,16 @@
                 {{ territoire.seo_recruit_title }}
               </p>
             </h2>
+
+            <div class="mt-12 grid sm:grid-cols-2 gap-8">
+              <img
+                v-for="structure in structuresLogos"
+                :key="structure.id"
+                class="my-auto w-auto h-20"
+                :alt="structure.name"
+                :src="structure.logo"
+              />
+            </div>
           </div>
 
           <div v-html="territoire.seo_recruit_description" />
@@ -37,6 +47,15 @@ export default {
     territoire: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    structuresLogos() {
+      return this.territoire.structures
+        .filter(({ logo }) => logo)
+        .map(({ logo, id, name }) => {
+          return { id, name, logo: logo.thumb || logo.original }
+        })
     },
   },
 }
