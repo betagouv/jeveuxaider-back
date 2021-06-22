@@ -46,7 +46,7 @@ class ProfileController extends Controller
                 abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
             }
         }
-        return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id']))
+        return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id', 'territoires:name,id']))
             ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),

@@ -329,12 +329,10 @@ export default {
     const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
     return {
       domaines: tags.data.data,
-      structureId: store.getters.structure_as_responsable
-        ? store.getters.structure_as_responsable.id
-        : null,
-      form: store.getters.structure_as_responsable
+      structureId: store.getters.structure ? store.getters.structure.id : null,
+      form: store.getters.structure
         ? {
-            ...store.getters.structure_as_responsable,
+            ...store.getters.structure,
           }
         : {
             domaines: [],

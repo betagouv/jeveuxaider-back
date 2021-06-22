@@ -73,7 +73,12 @@
           "
           v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
         />
-        {{ territoire.name }}
+        <div>
+          <div class="uppercase text-xxs font-semibold text-gray-500">
+            Territoire
+          </div>
+          <div>{{ territoire.name }}</div>
+        </div>
       </router-link>
     </div>
 
@@ -115,7 +120,12 @@
             require('@/assets/images/icones/heroicon/library.svg?include')
           "
         />
-        {{ structure.name }}
+        <div>
+          <div class="uppercase text-xxs font-semibold text-gray-500">
+            Organisation
+          </div>
+          <div>{{ structure.name }}</div>
+        </div>
       </router-link>
 
       <!-- Messagerie -->

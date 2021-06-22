@@ -53,18 +53,38 @@
       Analyste
     </el-tag>
 
-    <el-tag
-      v-if="profile.roles.responsable"
-      v-tooltip="{
-        content: structure.name,
-        classes: 'bo-style',
-      }"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Responsable
-    </el-tag>
+    <template v-if="profile.roles.responsable">
+      <template v-if="profile.structures.length > 0">
+        <el-tag
+          v-for="structure in profile.structures"
+          :key="structure.id"
+          v-tooltip="{
+            content: structure.name,
+            classes: 'bo-style',
+          }"
+          type="info"
+          :size="size"
+          class="m-1"
+        >
+          Responsable
+        </el-tag>
+      </template>
+      <template v-if="profile.territoires.length">
+        <el-tag
+          v-for="territoire in profile.territoires"
+          :key="territoire.id"
+          v-tooltip="{
+            content: territoire.name,
+            classes: 'bo-style',
+          }"
+          type="info"
+          :size="size"
+          class="m-1"
+        >
+          Responsable
+        </el-tag>
+      </template>
+    </template>
 
     <el-tag
       v-if="profile.is_visible"
@@ -117,13 +137,7 @@ export default {
   data() {
     return {}
   },
-  computed: {
-    structure() {
-      return this.profile.structures.filter(
-        (structure) => structure.pivot.role == 'responsable'
-      )[0]
-    },
-  },
+  computed: {},
   methods: {},
 }
 </script>

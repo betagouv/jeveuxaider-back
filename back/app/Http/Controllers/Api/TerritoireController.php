@@ -21,12 +21,13 @@ class TerritoireController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Territoire::with(['responsables']))
-        ->allowedFilters([
-            'state',
-            AllowedFilter::exact('is_published'),
-        ])
-        ->defaultSort('-created_at')
-        ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+            ->allowedFilters([
+                'state',
+                'type',
+                AllowedFilter::exact('is_published'),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     public function show($slugOrId)

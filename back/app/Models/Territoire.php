@@ -34,7 +34,7 @@ class Territoire extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $appends = ['completion_rate', 'full_url', 'banner', 'logo'];
+    protected $appends = ['completion_rate', 'full_url', 'banner', 'logo', 'permissions'];
 
     protected $hidden = ['media'];
 
@@ -180,5 +180,12 @@ class Territoire extends Model implements HasMedia
                 $this->longitude = $result['_geoloc']['lng'];
             }
         }
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return[
+            'canViewStats' => Auth::guard('api')->user() ? Auth::guard('api')->user()->can('viewStats', $this) : false
+        ];
     }
 }

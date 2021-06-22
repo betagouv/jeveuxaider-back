@@ -21,9 +21,8 @@
       <BannerPageOrga
         v-if="
           $store.getters.contextRole === 'responsable' &&
-          $store.getters.structure_as_responsable.statut_juridique ==
-            'Association' &&
-          $store.getters.structure_as_responsable.state == 'Validée'
+          $store.getters.structure.statut_juridique == 'Association' &&
+          $store.getters.structure.state == 'Validée'
         "
         class="mb-6"
       />

@@ -42,4 +42,17 @@ class TerritoirePolicy
     {
         return false;
     }
+
+    public function viewStats(User $user, Territoire $territoire)
+    {
+        if($territoire->state !== 'validated') {
+            return false;
+        }
+
+        if($user->profile->territoires()->where('territoire_id', $territoire->id)->count() > 1) {
+            return true;
+        }
+
+        return true;
+    }
 }

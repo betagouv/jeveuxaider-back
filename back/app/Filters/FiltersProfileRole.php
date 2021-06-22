@@ -7,42 +7,40 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FiltersProfileRole implements Filter
 {
-    public function __invoke(Builder $query, $value, string $property) : Builder
+    public function __invoke(Builder $query, $value, string $property): Builder
     {
         switch ($value) {
             case 'admin':
                 return $query->whereHas('user', function (Builder $query) use ($value) {
                     $query->where('is_admin', true);
                 });
-            break;
+                break;
             case 'analyste':
                 return $query->where('is_analyste', true);
-            break;
+                break;
             case 'volontaire':
                 return $query->whereHas('user', function (Builder $query) use ($value) {
                     $query->where('context_role', 'volontaire');
                 });
-            break;
+                break;
             case 'referent':
                 return $query->whereNotNull('referent_department');
-            break;
+                break;
             case 'referent_regional':
                 return $query->whereNotNull('referent_region');
-            break;
+                break;
             case 'superviseur':
                 return $query->whereNotNull('reseau_id');
-            break;
+                break;
             case 'responsable':
-                return $query->whereHas('structures', function (Builder $query) use ($value) {
-                    $query->where('role', 'responsable');
-                });
-            break;
+                return $query->whereHas('structures')->orWhereHas('territoires');
+                break;
             case 'responsable_collectivity':
                 return $query->whereNotNull('collectivity_id');
-            break;
+                break;
             default:
                 return $query;
-            break;
+                break;
         }
     }
 }

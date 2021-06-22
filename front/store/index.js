@@ -50,14 +50,6 @@ export const getters = {
       (structure) => structure.pivot.role == 'responsable'
     )[0]
   },
-  structure_as_responsable: (state, getters) => {
-    if (!getters.profile && !getters.profile.structures) {
-      return null
-    }
-    return getters.profile.structures.filter(
-      (structure) => structure.pivot.role == 'responsable'
-    )[0]
-  },
 }
 
 export const mutations = {

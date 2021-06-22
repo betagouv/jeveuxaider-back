@@ -3,7 +3,7 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Organisation</div>
-        <div class="flex items-center flex-wrap mb-8">
+        <div class="flex items-center flex-wrap">
           <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ structure.name }}
           </div>
@@ -20,6 +20,25 @@
             {{ structure.reseau_id | reseauFromValue }}
           </el-tag>
         </div>
+        <div class="font-light text-gray-600 flex items-center">
+          <div
+            :class="
+              structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'
+            "
+            class="rounded-full h-2 w-2 mr-2"
+          ></div>
+          <nuxt-link
+            v-if="structure.state == 'Validée'"
+            :to="structure.full_url"
+            target="_blank"
+            class="underline hover:no-underline"
+          >
+            {{ structure.full_url }}
+          </nuxt-link>
+          <span v-else class="cursor-default">
+            {{ structure.full_url }}
+          </span>
+        </div>
       </div>
       <div>
         <DropdownStructureButton
@@ -31,7 +50,7 @@
     <el-menu
       :default-active="$router.history.current.path"
       mode="horizontal"
-      class="mb-8"
+      class="my-8"
       @select="$router.push($event)"
     >
       <el-menu-item :index="`/dashboard/structure/${structure.id}`">

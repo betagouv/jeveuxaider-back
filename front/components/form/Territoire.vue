@@ -273,9 +273,12 @@ export default {
               await this.$store.dispatch('auth/fetchUser')
             }
           } else {
-            await this.$api.addTerritoire(this.form)
+            const { data } = await this.$api.addTerritoire(this.form)
+            this.form = data
           }
-          await this.uploadImages()
+          if (this.form.id) {
+            await this.uploadImages()
+          }
           this.loading = false
           this.$router.back()
           this.$message({

@@ -309,7 +309,7 @@
                   ? {
                       name: 'DashboardMissionFormAdd',
                       params: {
-                        structureId: $store.getters.structure_as_responsable.id,
+                        structureId: $store.getters.structure.id,
                       },
                     }
                   : '/register/responsable'

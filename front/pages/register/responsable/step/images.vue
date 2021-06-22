@@ -283,19 +283,19 @@
 export default {
   layout: 'register-steps',
   asyncData({ $api, store, error }) {
-    if (!store.getters.structure_as_responsable) {
+    if (!store.getters.structure) {
       return error({ statusCode: 403 })
     }
-    const form = { ...store.getters.structure_as_responsable }
+    const form = { ...store.getters.structure }
     const defaultImages =
-      store.getters.structure_as_responsable.domaines.length > 0
+      store.getters.structure.domaines.length > 0
         ? [
-            store.getters.structure_as_responsable.domaines[0].id + '_1',
-            store.getters.structure_as_responsable.domaines[0].id + '_2',
+            store.getters.structure.domaines[0].id + '_1',
+            store.getters.structure.domaines[0].id + '_2',
           ]
         : ['1_1', '2_1']
     return {
-      structureId: store.getters.structure_as_responsable.id,
+      structureId: store.getters.structure.id,
       form,
       selectedImages: form.image_1
         ? [form.image_1, form.image_2]
