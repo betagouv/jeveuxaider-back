@@ -16,14 +16,6 @@ export default {
     onParagraphRemoveItem(field, index) {
       this.$delete(this.form[field], index)
     },
-    // paragraphItemsWithIds(field) {
-    //   return this.form[field]
-    //     ? this.form[field].map((obj) => ({
-    //         ...obj,
-    //         // uuid: uniqid(),
-    //       }))
-    //     : []
-    // },
   },
 }
 </script>
