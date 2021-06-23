@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="territoire.seo_engage_paragraphs">
     <hr class="opacity-25" />
 
     <section class="section-associations bg-blue-pale">

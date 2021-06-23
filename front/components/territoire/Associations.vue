@@ -2,7 +2,10 @@
   <div>
     <section class="section-associations bg-white">
       <div class="container mx-auto px-4 py-12">
-        <div class="grid gap-16 lg:grid-cols-2">
+        <div
+          v-if="territoire.seo_recruit_title"
+          class="grid gap-16 lg:grid-cols-2"
+        >
           <div>
             <h2>
               <p class="uppercase text-red-500 font-extrabold text-sm mb-4">

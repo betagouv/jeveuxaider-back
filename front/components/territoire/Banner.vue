@@ -10,13 +10,7 @@
       <div class="banner-gradient absolute inset-0" style=""></div>
 
       <div class="relative">
-        <Breadcrumb
-          theme="transparent"
-          :items="[
-            { label: 'Territoires', link: '/territoires' },
-            { label: `Bénévolat ${territoire.name}` },
-          ]"
-        />
+        <Breadcrumb theme="transparent" :items="breadcrumb" />
 
         <hr class="opacity-25" />
 
@@ -144,6 +138,10 @@ export default {
       type: Object,
       required: true,
     },
+    cities: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -157,27 +155,58 @@ export default {
     this.domaine = this.domaines[0].name.fr
   },
   computed: {
-    link() {
+    banner() {
+      return this.territoire.banner?.large
+    },
+    breadcrumb() {
+      const breadcrumb = [
+        { label: 'Missions de bénévolat', link: '/missions-benevolat' },
+      ]
+      if (this.territoire.type != 'department' && this.territoire.department) {
+        const departmentName = this.$options.filters.departmentFromValue(
+          this.territoire.department
+        )
+        breadcrumb.push({
+          label: `Bénévolat ${departmentName}`,
+          link: this.link(false, 'department'),
+        })
+      }
+
+      breadcrumb.push({
+        label: `Bénévolat ${this.territoire.name}`,
+      })
+
+      return breadcrumb
+    },
+  },
+  methods: {
+    link(withDomaine = true, type = this.territoire.type) {
       let link = null
-      switch (this.territoire.type) {
+      switch (type) {
         case 'department':
           link = `refinementList[department_name][0]=${this.$options.filters.fullDepartmentFromValue(
             this.territoire.department
           )}`
           break
         case 'city':
-          link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]} ${this.territoire.name}&aroundRadius=25000`
+          link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]} ${this.territoire.name}&aroundRadius=35000`
           break
+        case 'collectivity': {
+          const name = this.cities[0]?.name ?? this.territoire.name
+          const zip = this.cities[0]?.zipcode ?? this.territoire.zips[0]
+          const coordonates =
+            this.cities[0]?.coordonates ??
+            `${this.territoire.latitude},${this.territoire.longitude}`
+          link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${coordonates}&place=${zip} ${name}&aroundRadius=35000`
+          break
+        }
       }
-      return `/missions-benevolat?refinementList[domaines][0]=${this.domaine}&${link}`
+      return withDomaine
+        ? `/missions-benevolat?refinementList[domaines][0]=${this.domaine}&${link}`
+        : `/missions-benevolat?${link}`
     },
-    banner() {
-      return this.territoire.banner?.large
-    },
-  },
-  methods: {
     onClick() {
-      this.$router.push(this.link)
+      this.$router.push(this.link())
     },
   },
 }

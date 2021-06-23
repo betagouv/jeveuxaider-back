@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TerritoireBanner :territoire="territoire" />
+    <TerritoireBanner :territoire="territoire" :cities="cities" />
 
     <div
       v-if="territoire.type == 'collectivity' && logo"
@@ -20,7 +20,7 @@
     <TerritoireCities
       v-if="territoire.type == 'collectivity'"
       :territoire="territoire"
-      @ready="setCities"
+      :cities="cities"
     />
 
     <TerritoireAssociations :territoire="territoire" />
@@ -42,14 +42,17 @@ export default {
       cities: [],
     }
   },
+  async fetch() {
+    if (this.territoire.type == 'collectivity') {
+      const { data: cities } = await this.$api.getCollectivityCities(
+        this.territoire.id
+      )
+      this.cities = cities
+    }
+  },
   computed: {
     logo() {
       return this.territoire.logo?.thumb
-    },
-  },
-  methods: {
-    setCities($event) {
-      this.$set(this, 'cities', $event)
     },
   },
 }
