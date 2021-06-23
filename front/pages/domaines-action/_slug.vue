@@ -184,7 +184,7 @@
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-14"
+                class="h-14 object-contain"
                 alt="logo-partenaire-thematique"
                 :src="`/images/thematiques/${thematique.slug}-partenaire-1.jpg`"
               />
@@ -192,7 +192,7 @@
 
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-14"
+                class="h-14 object-contain"
                 alt="logo-partenaire-thematique"
                 :src="`/images/thematiques/${thematique.slug}-partenaire-2.jpg`"
               />
@@ -200,7 +200,7 @@
 
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
-                class="h-14"
+                class="h-14 object-contain"
                 alt="logo-partenaire-thematique"
                 :src="`/images/thematiques/${thematique.slug}-partenaire-3.jpg`"
               />
@@ -425,35 +425,35 @@
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 alt="logo-partenaire-thematique"
-                class="h-14"
+                class="h-14 object-contain"
                 :src="`/images/thematiques/${thematique.slug}-active-1.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 alt="logo-partenaire-thematique"
-                class="h-14"
+                class="h-14 object-contain"
                 :src="`/images/thematiques/${thematique.slug}-active-2.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 alt="logo-partenaire-thematique"
-                class="h-14"
+                class="h-14 object-contain"
                 :src="`/images/thematiques/${thematique.slug}-active-3.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 alt="logo-partenaire-thematique"
-                class="h-14"
+                class="h-14 object-contain"
                 :src="`/images/thematiques/${thematique.slug}-active-4.jpg`"
               />
             </div>
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <img
                 alt="logo-partenaire-thematique"
-                class="h-14"
+                class="h-14 object-contain"
                 :src="`/images/thematiques/${thematique.slug}-active-5.jpg`"
               />
             </div>
