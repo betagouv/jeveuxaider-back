@@ -155,6 +155,9 @@ p:not(:last-child)
     max-width: calc(100% - 2rem)
     .el-select-dropdown__item
       @apply whitespace-normal overflow-auto leading-normal h-full py-2
+  .el-select-dropdown__wrap
+    @screen lg
+      @apply overscroll-contain
 
 // Correct click twice under IOS to trigger the selected event
 // See https://github.com/ElemeFE/element/issues/17794

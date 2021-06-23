@@ -65,18 +65,10 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      cities: [],
-    }
-  },
-  async fetch() {
-    const { data: cities } = await this.$api.getCollectivityCities(
-      this.territoire.id
-    )
-    this.cities = cities
-    this.$emit('ready', cities)
+    cities: {
+      type: Array,
+      required: true,
+    },
   },
 }
 </script>

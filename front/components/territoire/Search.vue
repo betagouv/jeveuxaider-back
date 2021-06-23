@@ -33,13 +33,11 @@
       >
         <div class="container mx-auto px-4">
           <div
-            class="
-              flex flex-wrap
-              justify-center
-              transform
-              -translate-y-24
-              -mb-24
-            "
+            class="flex flex-wrap justify-center transform -translate-y-24"
+            :class="[
+              { '-mb-24': missions.length },
+              { '-mb-28': !missions.length },
+            ]"
           >
             <nuxt-link
               v-for="mission in missions.slice(0, 3)"
@@ -51,7 +49,10 @@
             </nuxt-link>
           </div>
 
-          <div v-if="missions.length > 3 && moreLink" class="text-center mt-6">
+          <div
+            v-if="(missions.length > 3 || !missions.length) && moreLink"
+            class="text-center mt-6"
+          >
             <nuxt-link :to="moreLink">
               <button
                 class="
@@ -73,7 +74,8 @@
                   will-change-transform
                 "
               >
-                Plus de missions
+                <span v-if="!missions.length">Voir les missions</span>
+                <span v-else>Plus de missions</span>
               </button>
             </nuxt-link>
           </div>
