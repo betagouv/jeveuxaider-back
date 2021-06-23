@@ -32,19 +32,39 @@
           </p>
 
           <div
-            class="rounded-xl p-4 sm:pl-8 bg-white shadow-lg max-w-3xl lg:-mx-8"
+            class="
+              rounded-xl
+              py-4
+              px-6
+              sm:pr-4
+              sm:pl-8
+              bg-white
+              shadow-lg
+              lg:-mx-8
+            "
+            :class="[{ 'inline-block': submitted }]"
+            style="max-width: 746px"
           >
-            <div class="flex flex-wrap sm:flex-no-wrap gap-1 sm:gap-8">
+            <el-form
+              v-if="!submitted"
+              ref="subscribeForm"
+              :model="form"
+              :rules="rules"
+              class="flex flex-wrap sm:flex-no-wrap gap-4 sm:gap-8"
+            >
               <div class="input-wrapper relative">
-                <el-input
-                  v-model="email"
-                  type="email"
-                  placeholder="Renseignez votre e-mail"
-                  class="w-full"
-                />
+                <el-form-item prop="email">
+                  <el-input
+                    v-model="form.email"
+                    type="email"
+                    placeholder="Renseignez votre e-mail"
+                    class="w-full"
+                  />
+                </el-form-item>
               </div>
 
               <button
+                :disabled="loading"
                 class="
                   w-full
                   sm:w-auto
@@ -73,9 +93,42 @@
                   leading-none
                 "
                 style="background-color: #09c19d"
-                @click="onSubmit"
+                @click.prevent="onSubmit"
               >
                 Je m'engage
+              </button>
+            </el-form>
+
+            <div v-else class="flex flex-wrap items-center">
+              <div class="font-bold tracking-px w-full sm:w-auto">
+                Merci pour votre inscription&nbsp;!
+              </div>
+              <button
+                ref="buttonBack"
+                class="
+                  mt-4
+                  sm:ml-4
+                  sm:mt-0
+                  px-4
+                  py-2
+                  text-sm
+                  cursor-pointer
+                  rounded-lg
+                  bg-green-100
+                  text-green-800
+                  font-extrabold
+                  focus:outline-none
+                  focus:shadow-outline
+                  transition
+                  duration-150
+                  hover:scale-105
+                  transform
+                  will-change-transform
+                  ease-in-out
+                "
+                @click="onBack"
+              >
+                Retour
               </button>
             </div>
           </div>
@@ -158,12 +211,44 @@ export default {
   },
   data() {
     return {
-      email: '',
+      form: {},
+      loading: false,
+      submitted: false,
+      error: null,
+      rules: {
+        email: [
+          {
+            required: true,
+            message: 'Veuillez renseigner un email',
+            trigger: 'change',
+          },
+          {
+            type: 'email',
+            message: "Le format de l'email n'est pas correct",
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   methods: {
     onSubmit() {
-      console.log('@todo')
+      this.loading = true
+      this.$refs.subscribeForm.validate(async (valid, fields) => {
+        if (valid) {
+          await this.$axios.post('/sendinblue/contact', {
+            email: this.form.email,
+            zipcode: this.territoire.zips ? this.territoire.zips[0] : null,
+            department: this.territoire.department,
+          })
+          this.submitted = true
+        }
+        this.loading = false
+      })
+    },
+    onBack() {
+      this.form.email = ''
+      this.submitted = false
     },
   },
 }
@@ -183,12 +268,19 @@ export default {
       letter-spacing: -0.1px
       line-height: 18px
       font-weight: bold
+  .el-form-item
+    @apply mb-0
   .el-input
     position: relative
     top: 22px
     margin-bottom: 25px
     left: -15px
+    box-shadow: none !important
     ::v-deep
       input
         border: none !important
+  ::v-deep
+    .el-form-item__error
+      top: auto
+      bottom: -3px
 </style>

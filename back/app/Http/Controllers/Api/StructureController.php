@@ -47,7 +47,7 @@ class StructureController extends Controller
                 AllowedFilter::custom('is_collectivity', new FiltersStructureIsCollectivity),
             ])
             ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
     // LARAVEL EXCEL

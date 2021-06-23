@@ -17,8 +17,12 @@ class SendInBlueController extends Controller
         );
         $createContact = new \SendinBlue\Client\Model\CreateContact([
             'email' => request('email'),
-            'listIds' => [request('id_liste')?request('id_liste'):233],
-            'attributes' => request('url_mission')?array('URL_MISSION_SIGNUP' => request('url_mission')):array('URL_MISSION_SIGNUP'=>'')
+            'attributes' => [
+                'CODE_POSTAL' => request('zipcode') ? request('zipcode') : '',
+                'DEPARTEMENT' => request('department') ? request('department') : '',
+                'URL_MISSION_SIGNUP' => request('url_mission') ? request('url_mission') : '',
+            ],
+            'listIds' => [request('id_liste') ? request('id_liste') : 233],
         ]);
 
         try {
