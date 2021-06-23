@@ -8,7 +8,7 @@
   >
     <div class="flex justify-between mb-6 text-1-5xl font-bold">
       <div class="text-gray-800">Informations générales</div>
-      <div v-if="form.rna" class="text-gray-400">
+      <div v-if="form.rna && form.rna != 'N/A'" class="text-gray-400">
         <span class="font-medium">RNA</span> {{ form.rna }}
       </div>
     </div>

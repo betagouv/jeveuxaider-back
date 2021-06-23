@@ -248,7 +248,6 @@ export default {
   async created() {
     const { data } = await this.$api.fetchActions()
     this.actions = data
-    console.log('actions', data)
   },
 }
 </script>

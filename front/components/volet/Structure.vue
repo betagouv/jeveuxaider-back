@@ -33,11 +33,7 @@
             <el-button icon="el-icon-edit" type="mini"> Modifier </el-button>
           </nuxt-link>
           <el-button
-            v-if="
-              $store.getters.contextRole == 'admin' ||
-              $store.getters.contextRole == 'referent' ||
-              $store.getters.contextRole == 'referent_regional'
-            "
+            v-if="$store.getters.contextRole == 'admin'"
             type="button"
             class="ml-1 el-button is-plain el-button--danger el-button--mini"
             @click="onClickDelete"
@@ -56,7 +52,12 @@
       </div>
       <ModelStructureInfos :structure="row" />
     </el-card>
-    <el-form ref="structureForm" :model="form" label-position="top">
+    <el-form
+      v-if="$store.getters.contextRole == 'admin'"
+      ref="structureForm"
+      :model="form"
+      label-position="top"
+    >
       <div class="mb-6 mt-12 flex text-xl text-gray-800">Réseau national</div>
       <div v-if="$store.getters.contextRole !== 'referent'">
         <ItemDescription container-class="mb-6">

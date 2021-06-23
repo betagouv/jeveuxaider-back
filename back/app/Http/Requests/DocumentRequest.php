@@ -15,8 +15,10 @@ class DocumentRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'link' => 'required_if:type,link',
             'description' => '',
             'roles' => '',
+            'type' => '',
         ];
     }
 }

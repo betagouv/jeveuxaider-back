@@ -88,7 +88,11 @@
             </CardStatisticsDefaultCount>
           </div>
         </div>
-        <div v-if="apiengagement.clicks.length">
+        <div
+          v-if="
+            apiEngagementMyMission && apiEngagementMyMission.stats.clicks.length
+          "
+        >
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             API Engagement
           </div>
@@ -98,21 +102,21 @@
           </div>
           <div class="flex flex-wrap">
             <CardStatisticsDefaultCount
-              v-for="click in apiengagement.clicks"
+              v-for="click in apiEngagementMyMission.stats.clicks"
               :key="click.key"
-              :label="click.key"
+              :label="click.name"
               :value="click.doc_count"
             >
               <div
                 v-if="
-                  apiengagement.applications.filter(
+                  apiEngagementMyMission.stats.applications.filter(
                     (item) => item.key == click.key
                   ).length
                 "
                 class="my-1"
               >
                 <span class>{{
-                  apiengagement.applications.find(
+                  apiEngagementMyMission.stats.applications.find(
                     (item) => item.key == click.key
                   ).doc_count | formatNumber
                 }}</span>
@@ -178,7 +182,7 @@ export default {
     const structure = await $api.getStructure(mission.structure.id)
     const { data: statistics } = await $api.statisticsBySubject(
       'missions',
-      mission.id
+      params.id
     )
 
     const { data: plausible } = await $api.plausibleAggregate(
@@ -187,18 +191,14 @@ export default {
       `event:page==${mission.full_url}`
     )
 
-    const { data: apiengagement } = await $api.apiEngagementMyMission(
-      mission.id
-    )
-
-    console.log('apiengameent stats', apiengagement.data.stats)
+    const apiEngagementMyMission = await $api.apiEngagementMyMission(params.id)
 
     return {
       structure,
       mission,
       plausible,
       statistics,
-      apiengagement: apiengagement.data.stats,
+      apiEngagementMyMission: apiEngagementMyMission.data,
     }
   },
   methods: {},
