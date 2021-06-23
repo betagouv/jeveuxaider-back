@@ -112,7 +112,7 @@ export default (axios) => ({
     return await axios.post(`/document/${id}`, document)
   },
   async notifyDocument(id) {
-    return await axios.post(`/document/${id}/notify/`)
+    return await axios.post(`/document/${id}/notify`)
   },
   async addOrUpdateDocument(id, document) {
     return id

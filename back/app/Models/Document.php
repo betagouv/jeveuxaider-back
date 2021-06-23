@@ -17,6 +17,8 @@ class Document extends Model implements HasMedia
         'file',
         'description',
         'roles',
+        'type',
+        'link'
     ];
 
     protected $casts = [
@@ -42,14 +44,14 @@ class Document extends Model implements HasMedia
         switch ($contextRole) {
             case 'admin':
                 return $query;
-            break;
+                break;
             case 'referent':
             case 'referent_regional':
                 return $query->whereJsonContains('roles', 'referent');
-            break;
+                break;
             case 'responsable':
                 return $query->whereJsonContains('roles', 'responsable');
-            break;
+                break;
         }
     }
 }
