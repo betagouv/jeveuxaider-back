@@ -70,7 +70,7 @@ class Territoire extends Model implements HasMedia
 
     public function getCompletionRateAttribute()
     {
-        $fields = ['banner', 'suffix_title', 'department', 'description', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
+        $fields = ['banner', 'suffix_title', 'department', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
         $filled = 0;
 
         foreach ($fields as $field) {
@@ -79,19 +79,12 @@ class Territoire extends Model implements HasMedia
             }
         }
 
-        if ($this->type == 'collectivity') {
-            array_push($fields, 'logo', 'image1');
+        if ($this->type == 'cities') {
+            array_push($fields, 'logo');
             if ($this->logo) {
-                ray('OK LOGO');
-                $filled++;
-            }
-            if ($this->image1) {
-                ray('OK IMAHGE1');
                 $filled++;
             }
         }
-
-        //ray($fields);
 
         return round($filled / count($fields) * 100);
     }
