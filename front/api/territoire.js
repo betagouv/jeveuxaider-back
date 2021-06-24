@@ -35,7 +35,7 @@ export default (axios) => ({
   },
 
   async getCitiesWithAvailableMissions(id, params) {
-    return await axios.get(`/territoires`, {
+    return await axios.get(`/territoire/${id}/cities`, {
       params,
     })
   },
