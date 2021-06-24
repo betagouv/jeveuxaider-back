@@ -127,7 +127,9 @@
               flex
               overflow-scroll
               sm:overflow-visible
-              pb-4
+              pt-1
+              pb-3
+              sm:py-0
               sm:justify-center
               sm:gap-4
             "
