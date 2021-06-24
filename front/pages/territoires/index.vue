@@ -31,6 +31,7 @@
               <br />
               dans votre territoire
             </h1>
+
             <p
               class="
                 mt-4
@@ -83,6 +84,7 @@
                       ></path>
                     </svg>
                   </div>
+
                   <input
                     id="search_field"
                     v-model="query"
@@ -118,6 +120,7 @@
           </div>
         </div>
 
+        <!-- Tabs -->
         <div class="relative my-8 sm:px-4">
           <nav
             class="
@@ -179,6 +182,7 @@
           </nav>
         </div>
 
+        <!-- Tab content -->
         <div class="relative px-4">
           <div class="mx-auto">
             <div
@@ -235,59 +239,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <div v-if="tab == 'cities'" class="mx-auto">
-            <div
-              v-for="(group, i) in citiesGroups"
-              :key="i"
-              class="mt-10 text-xl font-bold pl-2"
-            >
-              <div v-if="citiesFilteredByLetters(group).length">
-                {{ group[0] }} - {{ group[group.length - 1] }}
-                <div
-                  class="
-                    mt-2
-                    grid grid-cols-1
-                    gap-3
-                    md:grid-cols-2
-                    lg:grid-cols-4
-                    lg:mt-2
-                  "
-                >
-                  <nuxt-link
-                    v-for="city in citiesFilteredByLetters(group)"
-                    :key="city.id"
-                    :to="city.full_url"
-                    class="
-                      col-span-1
-                      flex
-                      justify-center
-                      items-center
-                      text-center
-                      px-4
-                      py-2
-                      bg-white
-                      shadow-md
-                      rounded-lg
-                      border-blue-800 border-b-2
-                      text-gray-800
-                      hover:border
-                      hover:shadow-lg
-                      hover:text-gray-900
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
-                    style="min-height: 80px"
-                  >
-                    <span class="font-semibold">{{ city.name }}</span>
-                  </nuxt-link>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -387,7 +338,6 @@ export default {
       ).length
     },
     territoriesByGroup(group) {
-      console.log(group)
       return this[this.activeType]
         .filter(
           (territory) =>
