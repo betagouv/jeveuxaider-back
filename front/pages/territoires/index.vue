@@ -6,7 +6,7 @@
 
     <div class="py-8 md:py-12 lg:py-20 bg-gray-50 overflow-hidden shadow-lg">
       <div class="relative max-w-xl mx-auto lg:max-w-screen-xl">
-        <div class="px-4 lg:px-8">
+        <div class="px-4">
           <img
             class="hidden lg:block absolute transform translate-y-1 opacity-50"
             style="left: 100%; transform: translateX(-75%) !important"
@@ -44,7 +44,7 @@
               "
             >
               Sur l'ensemble du territoire français, des milliers de
-              réservistes, de structures et d'association ont déjà rejoint la
+              réservistes, de structures et d'association ont déjà rejoint
               <b>JeVeuxAider.gouv.fr</b>.
             </p>
           </div>
