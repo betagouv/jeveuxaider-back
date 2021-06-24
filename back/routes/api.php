@@ -53,7 +53,7 @@ Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLo
 
 Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
 Route::get('territoire/{territoire}/availableMissions', 'Api\TerritoireController@availableMissions');
-Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@cities');
+Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG

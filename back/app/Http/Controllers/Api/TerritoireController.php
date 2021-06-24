@@ -166,7 +166,7 @@ class TerritoireController extends Controller
         return true;
     }
 
-    public function cities(Request $request, Territoire $territoire)
+    public function citiesWithAvailableMissions(Request $request, Territoire $territoire)
     {
         $cities = [];
         $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count, MIN(missions.latitude) as latitude, MIN(missions.longitude) as longitude, MIN(missions.zip) as zipcode')

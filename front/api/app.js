@@ -58,9 +58,9 @@ export default (axios) => ({
   async fetchActivities(params) {
     return await axios.get('/activities', { params })
   },
-  async fetchAllCollectivities(params) {
-    return await axios.get('/collectivities/all', { params })
-  },
+  // async fetchAllCollectivities(params) {
+  //   return await axios.get('/collectivities/all', { params })
+  // },
   async uploadImage(id, model, image, cropSettings, fieldName = null) {
     const data = new FormData()
     const options = {
@@ -216,28 +216,6 @@ export default (axios) => ({
   async chartCollectivityCreated(id, params) {
     return await axios.get(`/collectivity/${id}/charts/created`, { params })
   },
-  async fetchTerritoires(params) {
-    return await axios.get(`/territoires`, { params })
-  },
-  async addTerritoire(territoire) {
-    return await axios.post('/territoire', territoire)
-  },
-  async updateTerritoire(id, territoire) {
-    return await axios.post(`/territoire/${id}`, territoire)
-  },
-  async getTerritoire(id) {
-    const { data } = await axios.get(`/territoire/${id}`)
-    return data
-  },
-  async deleteTerritoire(id) {
-    return await axios.delete(`/territoire/${id}`)
-  },
-  async getTerritoireResponsables(id) {
-    return await axios.get(`/territoire/${id}/responsables`)
-  },
-  async getTerritoireInvitations(id) {
-    return await axios.get(`/territoire/${id}/invitations`)
-  },
 })
 
 // async bootstrap() {
@@ -279,10 +257,6 @@ export default (axios) => ({
 // // async submitCollectivity(collectivity) {
 // //   return await axios.post("/submit/collectivity", collectivity);
 // // }
-
-// async fetchAllCollectivities(params) {
-//   return await axios.get('/collectivities/all', { params })
-// }
 
 // async destroyCollectivity(id) {
 //   return await axios.delete(`/collectivity/${id}/destroy`)

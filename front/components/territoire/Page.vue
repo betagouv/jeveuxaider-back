@@ -41,7 +41,7 @@ export default {
   },
   async fetch() {
     if (this.territoire.type == 'cities') {
-      const { data: cities } = await this.$api.getCollectivityCities(
+      const { data: cities } = await this.$api.getCitiesWithAvailableMissions(
         this.territoire.id
       )
       this.cities = cities
