@@ -1,11 +1,8 @@
 <template>
   <div>
-    <TerritoireBanner :territoire="territoire" :cities="cities" />
+    <TerritoireBanner :territoire="territoire" />
 
-    <div
-      v-if="territoire.type == 'collectivity' && logo"
-      class="bg-white pt-12"
-    >
+    <div v-if="territoire.type == 'cities' && logo" class="bg-white pt-12">
       <img
         :src="logo"
         :alt="territoire.name"
@@ -14,11 +11,11 @@
       />
     </div>
 
-    <TerritoireSearch :territoire="territoire" :cities="cities" />
+    <TerritoireSearch :territoire="territoire" />
     <TerritoirePromote :territoire="territoire" />
 
     <TerritoireCities
-      v-if="territoire.type == 'collectivity'"
+      v-if="territoire.type == 'cities'"
       :territoire="territoire"
       :cities="cities"
     />
@@ -43,7 +40,7 @@ export default {
     }
   },
   async fetch() {
-    if (this.territoire.type == 'collectivity') {
+    if (this.territoire.type == 'cities') {
       const { data: cities } = await this.$api.getCollectivityCities(
         this.territoire.id
       )
@@ -57,5 +54,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

@@ -46,7 +46,7 @@ export default {
     territoires() {
       return this.$store.getters.user.profile.territoires.filter(
         (territoire) => {
-          if (territoire.type == 'collectivity') {
+          if (territoire.type == 'cities') {
             return !!(territoire.state == 'validated')
           }
           return true

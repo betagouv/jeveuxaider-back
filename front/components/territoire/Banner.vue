@@ -92,8 +92,6 @@
                   />
                 </el-select>
 
-                <!-- @todo redireiger vers page recherche -->
-                <!-- @todo libellés courts..! -->
                 <button
                   class="
                     w-full
@@ -138,10 +136,6 @@ export default {
       type: Object,
       required: true,
     },
-    cities: {
-      type: Array,
-      required: true,
-    },
   },
   data() {
     return {
@@ -166,10 +160,12 @@ export default {
         const departmentName = this.$options.filters.departmentFromValue(
           this.territoire.department
         )
-        breadcrumb.push({
-          label: `Bénévolat ${departmentName}`,
-          link: this.link(false, 'department'),
-        })
+        if (departmentName != this.territoire.name) {
+          breadcrumb.push({
+            label: `Bénévolat ${departmentName}`,
+            link: this.link(false, 'department'),
+          })
+        }
       }
 
       breadcrumb.push({
@@ -188,18 +184,9 @@ export default {
             this.territoire.department
           )}`
           break
-        case 'city':
-          link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]} ${this.territoire.name}&aroundRadius=35000`
+        case 'cities':
+          link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]}&aroundRadius=35000`
           break
-        case 'collectivity': {
-          const name = this.cities[0]?.name ?? this.territoire.name
-          const zip = this.cities[0]?.zipcode ?? this.territoire.zips[0]
-          const coordonates =
-            this.cities[0]?.coordonates ??
-            `${this.territoire.latitude},${this.territoire.longitude}`
-          link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${coordonates}&place=${zip} ${name}&aroundRadius=35000`
-          break
-        }
       }
       return withDomaine
         ? `/missions-benevolat?refinementList[domaines][0]=${this.domaine}&${link}`

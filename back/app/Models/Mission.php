@@ -277,12 +277,7 @@ class Mission extends Model
                 ->where('department', $territoire->department);
         }
 
-        if ($territoire->type == 'collectivity') {
-            return $query
-                ->whereIn('zip', $territoire->zips);
-        }
-
-        if ($territoire->type == 'city') {
+        if ($territoire->type == 'cities') {
             return $query
                 ->whereIn('zip', $territoire->zips);
         }

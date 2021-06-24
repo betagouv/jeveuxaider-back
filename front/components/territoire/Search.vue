@@ -29,7 +29,7 @@
 
       <div
         class="pb-12 bg-blue-pale"
-        :class="[{ 'pb-44': territoire.type != 'collectivity' }]"
+        :class="[{ 'pb-44': territoire.type != 'cities' }]"
       >
         <div class="container mx-auto px-4">
           <div
@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      <hr v-if="territoire.type != 'collectivity'" class="opacity-25" />
+      <hr v-if="territoire.type != 'cities'" class="opacity-25" />
     </section>
   </div>
 </template>
@@ -93,12 +93,6 @@ export default {
     territoire: {
       type: Object,
       required: true,
-    },
-    cities: {
-      type: Array,
-      default() {
-        return []
-      },
     },
   },
   data() {
@@ -121,18 +115,9 @@ export default {
             this.territoire.department
           )}`
           break
-        case 'city':
-          link = `/missions-benevolat?refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]} ${this.territoire.name}&aroundRadius=35000`
+        case 'cities':
+          link = `/missions-benevolat?refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]}&aroundRadius=35000`
           break
-        case 'collectivity': {
-          const name = this.cities[0]?.name ?? this.territoire.name
-          const zip = this.cities[0]?.zipcode ?? this.territoire.zips[0]
-          const coordonates =
-            this.cities[0]?.coordonates ??
-            `${this.territoire.latitude},${this.territoire.longitude}`
-          link = `/missions-benevolat?refinementList[type][0]=Mission en présentiel&aroundLatLng=${coordonates}&place=${zip} ${name}&aroundRadius=35000`
-          break
-        }
       }
       return link
     },

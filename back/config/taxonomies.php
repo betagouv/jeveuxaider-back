@@ -784,9 +784,8 @@ return [
     'territoires_types' => [
         "vocabulary" => "Type des territoires",
         "terms" => [
-            "collectivity" => "Collectivité",
             "department" => "Département",
-            "city" => "Ville",
+            "cities" => "Villes",
         ]
     ],
     'territoires_states' => [

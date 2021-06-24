@@ -59,13 +59,11 @@ class Territoire extends Model implements HasMedia
     {
         switch ($this->type) {
             case 'department':
-                return "/territoires-2/departements/$this->slug";
+                return "/departements/$this->slug";
                 break;
-            case 'collectivity':
-                return "/territoires-2/collectivites/$this->slug";
-                break;
-            case 'city':
-                return "/territoires-2/villes/$this->slug";
+
+            case 'cities':
+                return "/villes/$this->slug";
                 break;
         }
     }
