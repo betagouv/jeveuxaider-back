@@ -42,8 +42,10 @@ class TerritoireController extends Controller
     public function store(TerritoireRequest $request)
     {
         $territoire = Territoire::create($request->all());
-        $ids = array_column($request['structures'], 'id');
-        $territoire->structures()->sync($ids);
+        if (!empty($request['structures'])) {
+            $ids = array_column($request['structures'], 'id');
+            $territoire->structures()->sync($ids);
+        }
 
         return $territoire;
     }
@@ -51,9 +53,9 @@ class TerritoireController extends Controller
     public function update(TerritoireUpdateRequest $request, Territoire $territoire)
     {
         $request = $request->validated();
-        $ids = array_column($request['structures'], 'id');
-
         $territoire->update($request);
+
+        $ids = !empty($request['structures']) ? array_column($request['structures'], 'id') : [];
         $territoire->structures()->sync($ids);
         return $territoire;
     }
