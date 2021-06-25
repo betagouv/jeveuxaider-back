@@ -150,7 +150,7 @@
     </div>
     <div v-if="$store.getters.user.profile.territoires.length">
       <div class="font-semibold text-md uppercase text-gray-800 mb-4">
-        Territoires
+        Villes
         <span>({{ $store.getters.user.profile.territoires.length }})</span>
       </div>
       <div class="bg-white border border-gray-200 sm:rounded-md">
