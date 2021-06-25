@@ -15,6 +15,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Models\Territoire;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Filters\FiltersTerritoireSearch;
 
 class TerritoireController extends Controller
 {
@@ -25,7 +26,9 @@ class TerritoireController extends Controller
                 'state',
                 'type',
                 AllowedFilter::exact('is_published'),
+                AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
+
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
