@@ -2,7 +2,9 @@
   <div class="territoire-view">
     <div class="header px-12 flex">
       <div class="header-titles flex-1 mb-8">
-        <div class="text-m text-gray-600 uppercase">Territoire</div>
+        <div class="text-m text-gray-600 uppercase">
+          {{ territoire.type | labelFromValue('territoires_types') }}
+        </div>
         <div class="flex items-center flex-wrap">
           <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ territoire.name }}
