@@ -39,7 +39,7 @@ class ConvertCollectivityToTerritoire extends Command
      */
     public function handle()
     {
-        $collectivities = Collectivity::where('type', 'commune')->get();
+        $collectivities = Collectivity::get();
         if ($this->confirm($collectivities->count() . ' villes et départements vont être crées à partir des collectivités')) {
             $collectivities->each(function($collectivity) {
                 $territoire = Territoire::create([
@@ -52,9 +52,13 @@ class ConvertCollectivityToTerritoire extends Command
                     'type' => $collectivity->type == 'commune' ? 'city' : $collectivity->type,
                     'state' => $collectivity->state
                 ]);
-                $mediaItem = $collectivity->getMedia('collectivities')->first();
-                if($mediaItem) {
-                    $mediaItem->copy($territoire, 'territoires');
+                $mediaBanner = $collectivity->getFirstMedia('collectivities', ['field' => 'banner']);
+                if($mediaBanner) {
+                    // $mediaBanner->copy($territoire, 'territoires');
+                }
+                $mediaLogo = $collectivity->getFirstMedia('collectivities', ['field' => 'logo']);
+                if($mediaLogo) {
+                    // $mediaLogo->copy($territoire, 'territoires');
                 }
                 if($collectivity->structure) {
                     $collectivity->structure->responsables()->each(function ($responsable) use ($territoire) {

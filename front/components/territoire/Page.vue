@@ -2,7 +2,7 @@
   <div>
     <TerritoireBanner :territoire="territoire" />
 
-    <div v-if="territoire.type == 'cities' && logo" class="bg-white pt-12">
+    <div v-if="territoire.type == 'city' && logo" class="bg-white pt-12">
       <img
         :src="logo"
         :alt="territoire.name"
@@ -15,7 +15,7 @@
     <TerritoirePromote :territoire="territoire" />
 
     <TerritoireCities
-      v-if="territoire.type == 'cities'"
+      v-if="territoire.type == 'city'"
       :territoire="territoire"
       :cities="cities"
     />
@@ -40,7 +40,7 @@ export default {
     }
   },
   async fetch() {
-    if (this.territoire.type == 'cities') {
+    if (this.territoire.type == 'city') {
       const { data: cities } = await this.$api.getCitiesWithAvailableMissions(
         this.territoire.id
       )

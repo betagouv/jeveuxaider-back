@@ -2,14 +2,14 @@
   <div>
     <section
       class="section-promote bg-white"
-      :class="[{ 'bg-blue-pale': territoire.type == 'cities' }]"
+      :class="[{ 'bg-blue-pale': territoire.type == 'city' }]"
     >
       <div class="container px-4 mx-auto">
         <div
           :class="[
             {
               'transform -translate-y-32 -mb-32 lg:-translate-y-1/2':
-                territoire.type != 'cities',
+                territoire.type != 'city',
             },
           ]"
         >

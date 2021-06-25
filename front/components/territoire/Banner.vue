@@ -184,7 +184,7 @@ export default {
             this.territoire.department
           )}`
           break
-        case 'cities':
+        case 'city':
           link = `refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]}&aroundRadius=35000`
           break
       }

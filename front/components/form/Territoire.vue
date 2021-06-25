@@ -190,7 +190,7 @@
       ></ImageField>
 
       <ImageField
-        v-if="form.type == 'cities'"
+        v-if="form.type == 'city'"
         model="territoire"
         :model-id="form.id ? form.id : null"
         :max-size="1000000"

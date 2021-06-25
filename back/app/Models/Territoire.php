@@ -62,7 +62,7 @@ class Territoire extends Model implements HasMedia
                 return "/departements/$this->slug";
                 break;
 
-            case 'cities':
+            case 'city':
                 return "/villes/$this->slug";
                 break;
         }
@@ -79,7 +79,7 @@ class Territoire extends Model implements HasMedia
             }
         }
 
-        if ($this->type == 'cities') {
+        if ($this->type == 'city') {
             array_push($fields, 'logo');
             if ($this->logo) {
                 $filled++;

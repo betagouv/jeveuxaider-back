@@ -785,7 +785,7 @@ return [
         "vocabulary" => "Type des territoires",
         "terms" => [
             "department" => "Département",
-            "cities" => "Villes",
+            "city" => "Ville",
         ]
     ],
     'territoires_states' => [

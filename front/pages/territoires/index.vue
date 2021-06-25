@@ -253,7 +253,7 @@ export default {
     const { data: cities } = await $api.fetchTerritoires({
       'filter[state]': 'validated',
       'filter[is_published]': true,
-      'filter[type]': 'cities',
+      'filter[type]': 'city',
       pagination: 999,
     })
 

@@ -29,7 +29,7 @@
 
       <div
         class="pb-12 bg-blue-pale"
-        :class="[{ 'pb-44': territoire.type != 'cities' }]"
+        :class="[{ 'pb-44': territoire.type != 'city' }]"
       >
         <div class="container mx-auto px-4">
           <div
@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      <hr v-if="territoire.type != 'cities'" class="opacity-25" />
+      <hr v-if="territoire.type != 'city'" class="opacity-25" />
     </section>
   </div>
 </template>
@@ -115,7 +115,7 @@ export default {
             this.territoire.department
           )}`
           break
-        case 'cities':
+        case 'city':
           link = `/missions-benevolat?refinementList[type][0]=Mission en présentiel&aroundLatLng=${this.territoire.latitude},${this.territoire.longitude}&place=${this.territoire.zips[0]}&aroundRadius=35000`
           break
       }
