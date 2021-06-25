@@ -20,7 +20,10 @@
             {{ structure.reseau_id | reseauFromValue }}
           </el-tag>
         </div>
-        <div class="font-light text-gray-600 flex items-center">
+        <div
+          v-if="structure.statut_juridique == 'Association'"
+          class="font-light text-gray-600 flex items-center"
+        >
           <div
             :class="
               structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'

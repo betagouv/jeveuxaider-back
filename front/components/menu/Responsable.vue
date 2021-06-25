@@ -75,7 +75,7 @@
         />
         <div>
           <div class="uppercase text-xxs font-semibold text-gray-500">
-            Territoire
+            {{ territoire.type | labelFromValue('territoires_types') }}
           </div>
           <div>{{ territoire.name }}</div>
         </div>
