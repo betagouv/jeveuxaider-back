@@ -187,12 +187,11 @@
         <!-- Tab content -->
         <div class="relative px-4">
           <div class="mx-auto">
-            <div
-              v-for="(group, index) in groups[activeType]"
-              :key="index"
-              class="mt-10 text-xl font-bold"
-            >
-              <div v-if="territoriesByGroup(group).length">
+            <div v-for="(group, index) in groups[activeType]" :key="index">
+              <div
+                v-if="territoriesByGroup(group).length > 0"
+                class="mt-10 text-xl font-bold"
+              >
                 <span>{{ group[0] }}</span>
                 <span v-if="group.length > 1">
                   - {{ group[group.length - 1] }}
