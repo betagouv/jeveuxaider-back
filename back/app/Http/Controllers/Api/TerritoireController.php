@@ -106,7 +106,7 @@ class TerritoireController extends Controller
             ->where('type', 'Mission en présentiel')
             ->where(function ($query) {
                 $query
-                    ->where('end_date', '<', Carbon::now())
+                    ->where('end_date', '>', Carbon::now())
                     ->orWhereNull('end_date');
             })
             ->with('structure')
