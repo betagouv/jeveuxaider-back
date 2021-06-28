@@ -386,7 +386,7 @@
             <img
               alt="J'agis Pour la Nature"
               class="min-w-0 m-4 sm:m-8 object-contain"
-              src="@/assets/images/logo-jagis-pour-la-nature.png"
+              src="@/assets/images/logo-jagis-pour-la-nature.svg"
               style="max-height: 3rem"
             />
           </div>

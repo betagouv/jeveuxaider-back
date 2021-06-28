@@ -62,7 +62,7 @@
                     tracking-px
                   "
                 >
-                  Trouver une nouvelle<br />cause à défendre
+                  Trouvez une nouvelle<br />cause à défendre
                 </p>
               </div>
 
@@ -170,6 +170,7 @@ export default {
 
       breadcrumb.push({
         label: `Bénévolat ${this.territoire.name}`,
+        h1: true,
       })
 
       return breadcrumb
