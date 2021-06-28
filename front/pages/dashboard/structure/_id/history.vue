@@ -1,6 +1,9 @@
 <template>
   <div class="has-full-table">
-    <div class="header px-12 flex">
+    <div
+      class="header px-12 flex"
+      :class="{ 'mb-8': $store.getters.contextRole == 'responsable' }"
+    >
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Organisation</div>
         <div class="flex items-center flex-wrap">
@@ -47,36 +50,10 @@
         />
       </div>
     </div>
-    <el-menu
-      :default-active="$router.history.current.path"
-      mode="horizontal"
-      class="my-8"
-      @select="$router.push($event)"
-    >
-      <el-menu-item :index="`/dashboard/structure/${structure.id}`">
-        Informations
-      </el-menu-item>
-      <el-menu-item :index="`/dashboard/structure/${structure.id}/statistics`">
-        Statistiques
-      </el-menu-item>
-      <el-menu-item :index="`/dashboard/structure/${structure.id}/missions`">
-        Missions
-        <span class="text-xs text-gray-600"
-          >({{ structure.missions_count }})</span
-        >
-      </el-menu-item>
-      <el-menu-item
-        :index="`/dashboard/structure/${structure.id}/participations`"
-      >
-        Participations
-        <span class="text-xs text-gray-600"
-          >({{ structure.participations_count }})</span
-        >
-      </el-menu-item>
-      <el-menu-item :index="`/dashboard/structure/${structure.id}/history`">
-        Historique
-      </el-menu-item>
-    </el-menu>
+    <NavTabStructure
+      v-if="$store.getters.contextRole != 'responsable'"
+      :structure="structure"
+    />
     <TableActivities :table-data="tableData" />
     <div class="m-3 flex items-center">
       <el-pagination

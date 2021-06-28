@@ -12,10 +12,30 @@
       <div
         v-for="domaine in domaines"
         :key="domaine.id"
-        class="flex flex-col bg-gray-100 p-6 m-2 text-center items-center rounded-md w-56"
+        class="
+          flex flex-col
+          bg-gray-100
+          p-6
+          m-2
+          text-center
+          items-center
+          rounded-md
+          w-56
+        "
       >
         <div
-          class="p-2 flex items-center justify-center bg-primary h-14 w-14 rounded-md text-white mb-4"
+          class="
+            p-2
+            flex
+            items-center
+            justify-center
+            bg-primary
+            h-14
+            w-14
+            rounded-md
+            text-white
+            mb-4
+          "
         >
           <img v-if="domaine.image" :src="domaine.image" />
         </div>

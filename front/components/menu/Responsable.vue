@@ -2,7 +2,7 @@
   <div class="space-y-1">
     <!-- Tableau de bord -->
     <router-link
-      to="/dashboard"
+      :to="`/dashboard/structure/${structureId}/statistics`"
       :class="{ 'bg-gray-50': isActive('dashboard') }"
       class="
         text-gray-700
@@ -37,134 +37,145 @@
       Tableau de bord
     </router-link>
 
-    <div v-if="$store.getters.user.profile.territoires.length">
-      <router-link
-        v-for="territoire in $store.getters.user.profile.territoires"
-        :key="territoire.id"
-        :to="`/dashboard/territoire/${territoire.id}`"
+    <!-- Mon organisation -->
+    <router-link
+      :to="`/dashboard/structure/${structureId}`"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': isActive('dashboard/structure') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
         class="
-          text-gray-700
-          hover:text-gray-900
-          hover:bg-gray-50
-          group
-          flex
-          items-center
-          px-2
-          py-2
-          text-sm
-          font-medium
-          rounded-md
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
         "
-        :class="{
-          'bg-gray-50': doesPathContains(
-            `/dashboard/territoire/${territoire.id}`
-          ),
-        }"
-        x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
-      >
-        <div
-          class="
-            text-gray-400
-            group-hover:text-gray-500
-            mr-3
-            flex-shrink-0
-            h-6
-            w-6
-          "
-          v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
-        />
-        <div>
-          <div class="uppercase text-xxs font-semibold text-gray-500">
-            {{ territoire.type | labelFromValue('territoires_types') }}
-          </div>
-          <div>{{ territoire.name }}</div>
-        </div>
-      </router-link>
-    </div>
+        v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
+      />
+      Mon organisation
+    </router-link>
 
-    <div v-if="$store.getters.user.profile.structures.length">
-      <router-link
-        v-for="structure in $store.getters.user.profile.structures"
-        :key="structure.id"
-        :to="`/dashboard/structure/${structure.id}`"
+    <!-- Missions -->
+    <router-link
+      :to="`/dashboard/structure/${structureId}/missions`"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': isActive('dashboard/mission') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
         class="
-          text-gray-700
-          hover:text-gray-900
-          hover:bg-gray-50
-          group
-          flex
-          items-center
-          px-2
-          py-2
-          text-sm
-          font-medium
-          rounded-md
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
         "
-        :class="{
-          'bg-gray-50': doesPathContains(
-            `/dashboard/structure/${structure.id}`
-          ),
-        }"
-        x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
-      >
-        <div
-          class="
-            text-gray-400
-            group-hover:text-gray-500
-            mr-3
-            flex-shrink-0
-            h-6
-            w-6
-          "
-          v-html="
-            require('@/assets/images/icones/heroicon/library.svg?include')
-          "
-        />
-        <div>
-          <div class="uppercase text-xxs font-semibold text-gray-500">
-            Organisation
-          </div>
-          <div>{{ structure.name }}</div>
-        </div>
-      </router-link>
+        v-html="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
+      />
+      Mes Missions
+    </router-link>
 
-      <!-- Messagerie -->
-      <router-link
-        to="/messages"
+    <!-- Participations -->
+    <router-link
+      :to="`/dashboard/structure/${structureId}/participations`"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      :class="{ 'bg-gray-50': isActive('dashboard/participation') }"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
         class="
-          text-gray-700
-          hover:text-gray-900
-          hover:bg-gray-50
-          group
-          flex
-          items-center
-          px-2
-          py-2
-          text-sm
-          font-medium
-          rounded-md
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
         "
-        x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+        v-html="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
+      />
+      Participations
+    </router-link>
+
+    <!-- Messagerie -->
+    <router-link
+      to="/messages"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
+        class="
+          text-gray-400
+          group-hover:text-gray-500
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
+      />
+      Messagerie
+      <span
+        v-if="$store.getters.user.unreadConversations.length"
+        class="ml-2 text-xs text-gray-500"
+        >({{ $store.getters.user.unreadConversations.length }})</span
       >
-        <div
-          class="
-            text-gray-400
-            group-hover:text-gray-500
-            mr-3
-            flex-shrink-0
-            h-6
-            w-6
-          "
-          v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
-        />
-        Messagerie
-        <span
-          v-if="$store.getters.user.unreadConversations.length"
-          class="ml-2 text-xs text-gray-500"
-          >({{ $store.getters.user.unreadConversations.length }})</span
-        >
-      </router-link>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -173,6 +184,11 @@ import MenuActive from '@/mixins/menu-active'
 
 export default {
   mixins: [MenuActive],
+  computed: {
+    structureId() {
+      return this.$store.state.auth.user.contextable_id
+    },
+  },
 }
 </script>
 

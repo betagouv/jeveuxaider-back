@@ -28,10 +28,16 @@
 
       <nav class="px-3 mt-6">
         <LazyMenuResponsable
-          v-if="$store.getters.contextRole == 'responsable'"
+          v-if="
+            $store.getters.contextRole == 'responsable' &&
+            $store.getters.contextableType == 'structure'
+          "
         />
         <LazyMenuResponsableTerritoire
-          v-if="$store.getters.contextRole == 'responsable_territoire'"
+          v-if="
+            $store.getters.contextRole == 'responsable' &&
+            $store.getters.contextableType == 'territoire'
+          "
         />
         <LazyMenuModerateur v-if="$store.getters.contextRole == 'admin'" />
         <LazyMenuReferent v-if="$store.getters.contextRole == 'referent'" />

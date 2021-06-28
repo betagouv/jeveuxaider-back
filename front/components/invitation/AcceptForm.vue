@@ -2,7 +2,26 @@
   <div class="">
     <div class="mt-4">
       <button
-        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-blue-800 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+        class="
+          w-full
+          flex
+          justify-center
+          py-3
+          px-4
+          border border-transparent
+          rounded-lg
+          shadow-lg
+          text-lg
+          font-bold
+          text-white
+          bg-blue-800
+          hover:shadow-lg
+          hover:scale-105
+          transform
+          transition
+          duration-150
+          ease-in-out
+        "
         @click="handleAcceptInvitation"
       >
         J'accepte l'invitation
