@@ -5,8 +5,6 @@ export default {
       return this.$route.path.includes(item)
     },
     isActive(item) {
-      console.log('item', item)
-      console.log('route name', this.$route.name)
       switch (item) {
         case 'dashboard':
           return [
