@@ -42,7 +42,7 @@
 
                   <div class="flex flex-col w-full">
                     <div class="px-4 lg:pt-8 lg:px-10 xl:px-16">
-                      <div
+                      <h2
                         class="
                           text-2xl
                           xl:text-2-5xl
@@ -54,7 +54,7 @@
                         "
                       >
                         Favoriser et promouvoir l’engagement de chacun pour tous
-                      </div>
+                      </h2>
                     </div>
 
                     <div class="flex flex-wrap">

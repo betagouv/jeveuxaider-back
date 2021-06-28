@@ -170,6 +170,7 @@ export default {
 
       breadcrumb.push({
         label: `Bénévolat ${this.territoire.name}`,
+        h1: true,
       })
 
       return breadcrumb

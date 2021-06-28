@@ -18,5 +18,28 @@ export default {
       territoire,
     }
   },
+  head() {
+    return {
+      title: `Devenez bénévole ${this.territoire.suffix_title} | Bénévolat ${this.territoire.name} | JeVeuxAider.gouv.fr`,
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/territoires',
+        },
+      ],
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: `Trouvez une mission de bénévolat ${this.territoire.suffix_title} parmi les missions actuellement disponibles et faites vivre l'engagement de chacun pour tous`,
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.jpg',
+        },
+      ],
+    }
+  },
 }
 </script>
