@@ -30,7 +30,7 @@
               <img
                 v-for="structure in structuresLogos"
                 :key="structure.id"
-                class="my-auto w-auto h-20"
+                class="my-auto w-auto h-20 object-contain"
                 :alt="structure.name"
                 :src="structure.logo"
               />

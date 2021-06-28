@@ -62,7 +62,7 @@
                     tracking-px
                   "
                 >
-                  Trouver une nouvelle<br />cause à défendre
+                  Trouvez une nouvelle<br />cause à défendre
                 </p>
               </div>
 
