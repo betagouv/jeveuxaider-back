@@ -26,6 +26,7 @@
       <el-table-column label="" width="90" align="center">
         <template slot-scope="scope">
           <img
+            v-if="scope.row.type == 'file'"
             :src="
               require(`@/assets/images/dynamic/${$options.filters.icoFromMimeType(
                 scope.row.file.mime_type
@@ -34,6 +35,14 @@
             alt="File"
             class="h-10 w-auto mx-auto"
           />
+          <div v-else class="flex items-center justify-center">
+            <div
+              class="w-10"
+              v-html="
+                require('@/assets/images/icones/heroicon/link.svg?include')
+              "
+            ></div>
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Ressource" min-width="320">
@@ -42,7 +51,10 @@
             <div class="mr-8 flex-1">
               <div>{{ scope.row.title }}</div>
               <div class="text-sm text-gray-600">
-                {{ scope.row.file.size | fileSizeOctets }}
+                <template v-if="scope.row.type == 'file'">
+                  {{ scope.row.file.size | fileSizeOctets }}
+                </template>
+                <template v-else>Lien externe</template>
               </div>
             </div>
           </div>
@@ -57,12 +69,24 @@
       </el-table-column>
       <el-table-column label="Actions" width="205">
         <template slot-scope="scope">
-          <el-button
-            type="secondary"
-            icon="el-icon-download"
-            @click.prevent="onDownloadFile(scope.row.file)"
-            >Télécharger</el-button
-          >
+          <div class="text-sm text-gray-600">
+            <template v-if="scope.row.type == 'file'">
+              <el-button
+                type="secondary"
+                icon="el-icon-download"
+                @click.prevent="onDownloadFile(scope.row.file)"
+                >Télécharger</el-button
+              >
+            </template>
+            <template v-else>
+              <el-button
+                type="secondary"
+                icon="el-icon-link"
+                @click.prevent="onClickLink(scope.row)"
+                >Ouvrir le lien</el-button
+              ></template
+            >
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -106,6 +130,9 @@ export default {
   methods: {
     onDownloadFile(file) {
       window.open(file.url, '_blank')
+    },
+    onClickLink(document) {
+      window.open(document.link, '_blank')
     },
   },
 }

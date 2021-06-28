@@ -43,6 +43,9 @@
           <div class="text-gray-900">
             {{ scope.row.title }}
           </div>
+          <div class="text-gray-500">
+            {{ scope.row.type | labelFromValue('document_types') }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
