@@ -90,7 +90,7 @@
                   <img
                     class="m-auto"
                     alt="partenaire engagement J'agis pour la nature"
-                    src="@/assets/images/logo-jagis-pour-la-nature.png"
+                    src="@/assets/images/logo-jagis-pour-la-nature.svg"
                     width="100"
                     height="40"
                   />
