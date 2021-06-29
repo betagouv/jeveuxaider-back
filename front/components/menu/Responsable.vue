@@ -3,35 +3,23 @@
     <!-- Tableau de bord -->
     <router-link
       :to="`/dashboard/structure/${structureId}/statistics`"
-      :class="{ 'bg-gray-50': isActive('dashboard') }"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        isActive('dashboard-statistics')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium ',
+      ]"
       x-state:on="Current"
       x-state:off="Default"
       aria-current="page"
-      x-state-description='Current: "bg-gray-200 text-gray-900", Default: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          hover:text-gray-900
-          group-hover:text-gray-900
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          isActive('dashboard-statistics')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
       Tableau de bord
@@ -40,31 +28,21 @@
     <!-- Mon organisation -->
     <router-link
       :to="`/dashboard/structure/${structureId}`"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': isActive('dashboard/structure') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        isActive('dashboard-mon-organisation')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium ',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          isActive('dashboard-mon-organisation')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
       Mon organisation
@@ -73,31 +51,21 @@
     <!-- Missions -->
     <router-link
       :to="`/dashboard/structure/${structureId}/missions`"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': isActive('dashboard/mission') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        isActive('dashboard-mes-missions')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium ',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          isActive('dashboard-mes-missions')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="
           require('@/assets/images/icones/heroicon/collection.svg?include')
         "
@@ -108,31 +76,21 @@
     <!-- Participations -->
     <router-link
       :to="`/dashboard/structure/${structureId}/participations`"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': isActive('dashboard/participation') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        isActive('dashboard-mes-participations')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium ',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          isActive('dashboard-mes-participations')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="
           require('@/assets/images/icones/heroicon/identification.svg?include')
         "
