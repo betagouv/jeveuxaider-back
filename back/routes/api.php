@@ -51,10 +51,13 @@ Route::post('firstname', 'Api\ProfileController@firstname');
 Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 
+Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
 Route::get('territoire/{territoire}/availableMissions', 'Api\TerritoireController@availableMissions');
 Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
 Route::get('territoires', 'Api\TerritoireController@index');
+
+Route::get('tags', 'Api\TagController@index');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -80,8 +83,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
 
     Route::post('user/password', 'Api\UserController@updatePassword');
-
-    Route::get('tags', 'Api\TagController@index');
 
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
 

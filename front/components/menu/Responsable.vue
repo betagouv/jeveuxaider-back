@@ -102,7 +102,7 @@
           require('@/assets/images/icones/heroicon/collection.svg?include')
         "
       />
-      Mes Missions
+      Mes missions
     </router-link>
 
     <!-- Participations -->

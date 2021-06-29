@@ -20,26 +20,6 @@
       Utilisateurs
     </el-menu-item>
     <el-menu-item
-      v-if="
-        ['admin', 'analyste', 'referent_regional'].includes(
-          $store.getters.contextRole
-        )
-      "
-      index="departments"
-    >
-      Départements
-    </el-menu-item>
-    <el-menu-item
-      v-if="
-        ['admin', 'analyste', 'referent', 'referent_regional'].includes(
-          $store.getters.contextRole
-        )
-      "
-      index="collectivities"
-    >
-      Collectivités
-    </el-menu-item>
-    <el-menu-item
       v-if="['admin', 'analyste'].includes($store.getters.contextRole)"
       index="domaines"
     >
