@@ -55,6 +55,7 @@ Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
 Route::get('territoire/{territoire}/availableMissions', 'Api\TerritoireController@availableMissions');
 Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
+Route::get('territoires', 'Api\TerritoireController@index');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
