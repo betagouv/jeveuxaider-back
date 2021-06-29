@@ -32,27 +32,10 @@
         <DropdownTerritoireButton :territoire="territoire" />
       </div>
     </div>
-    <el-menu
-      :default-active="$router.history.current.path"
-      mode="horizontal"
-      class="mb-8"
-      @select="$router.push($event)"
-    >
-      <el-menu-item :index="`/dashboard/territoire/${territoire.id}`">
-        Informations
-      </el-menu-item>
-      <el-menu-item
-        :index="`/dashboard/territoire/${territoire.id}/statistics`"
-      >
-        Statistiques
-      </el-menu-item>
-      <el-menu-item
-        v-if="$store.getters.contextRole == 'admin'"
-        :index="`/dashboard/territoire/${territoire.id}/history`"
-      >
-        Historique
-      </el-menu-item>
-    </el-menu>
+    <NavTabTerritoire
+      v-if="$store.getters.contextRole != 'responsable'"
+      :territoire="territoire"
+    />
     <div class="px-12">
       <div class="flex flex-col space-y-5">
         <div>

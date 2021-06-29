@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'context_role',
+        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id',
     ];
 
     protected $hidden = [
@@ -141,6 +141,34 @@ class User extends Authenticatable
         }
 
         return $this->attributes['context_role'];
+    }
+
+    public function getContextableTypeAttribute()
+    {
+        if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
+            if ($this->profile->structures->first()) {
+                return 'structure';
+            }
+            else if($this->profile->territoires->first()) {
+                return 'territoire';
+            } 
+        }
+
+        return $this->attributes['contextable_type'];
+    }
+
+    public function getContextableIdAttribute()
+    {
+        if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
+            if ($this->profile->structures->first()) {
+                return $this->profile->structures->first()['id'];
+            }
+            else if($this->profile->territoires->first()) {
+                return $this->profile->territoires->first()['id'];
+            } 
+        }
+
+        return $this->attributes['contextable_id'];
     }
 
     public function anonymize()

@@ -12,7 +12,7 @@
     </div>
 
     <template v-if="$store.getters.contextRole === 'responsable'">
-      <DashboardResponsable />
+      <!-- <DashboardResponsable /> -->
     </template>
 
     <template v-else>
@@ -24,5 +24,22 @@
 <script>
 export default {
   layout: 'dashboard',
+  created() {
+    if (
+      this.$store.getters.contextRole == 'responsable' &&
+      this.$store.getters.contextableType == 'territoire'
+    ) {
+      this.$router.push(
+        `/dashboard/territoire/${this.$store.state.auth.user.contextable_id}/statistics`
+      )
+    } else if (
+      this.$store.getters.contextRole == 'responsable' &&
+      this.$store.getters.contextableType == 'structure'
+    ) {
+      this.$router.push(
+        `/dashboard/structure/${this.$store.state.auth.user.contextable_id}/statistics`
+      )
+    }
+  },
 }
 </script>

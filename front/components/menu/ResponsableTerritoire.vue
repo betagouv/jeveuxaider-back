@@ -1,39 +1,41 @@
 <template>
-  <div>
-    <el-menu-item
-      index="/dashboard"
-      :class="{ 'is-active': isActive('dashboard') }"
+  <div class="space-y-1">
+    <!-- Tableau de bord -->
+    <router-link
+      :to="`/dashboard/territoire/${territoireId}/statistics`"
+      :class="{ 'bg-gray-50': isActive('dashboard') }"
+      class="
+        text-gray-700
+        hover:text-gray-900
+        hover:bg-gray-50
+        group
+        flex
+        items-center
+        px-2
+        py-2
+        text-sm
+        font-medium
+        rounded-md
+      "
+      x-state:on="Current"
+      x-state:off="Default"
+      aria-current="page"
+      x-state-description='Current: "bg-gray-200 text-gray-900", Default: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <div v-if="$store.getters.isSidebarExpanded">Tableau de bord</div>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Tableau de bord`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-data-analysis"
+      <div
+        class="
+          text-gray-400
+          hover:text-gray-900
+          group-hover:text-gray-900
+          mr-3
+          flex-shrink-0
+          h-6
+          w-6
+        "
+        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
-    </el-menu-item>
-    <el-menu-item
-      v-for="territoire in territoires"
-      :key="territoire.id"
-      :index="`/dashboard/territoire/${territoire.id}`"
-      :class="{
-        'is-active': doesPathContains(`/dashboard/territoire/${territoire.id}`),
-      }"
-    >
-      <span v-if="$store.getters.isSidebarExpanded">{{ territoire.name }}</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: territoire.name,
-          classes: 'bo-style',
-        }"
-        class="el-icon-school"
-      />
-    </el-menu-item>
+      Tableau de bord
+    </router-link>
   </div>
 </template>
 
@@ -43,15 +45,8 @@ import MenuActive from '@/mixins/menu-active'
 export default {
   mixins: [MenuActive],
   computed: {
-    territoires() {
-      return this.$store.getters.user.profile.territoires.filter(
-        (territoire) => {
-          if (territoire.type == 'city') {
-            return !!(territoire.state == 'validated')
-          }
-          return true
-        }
-      )
+    territoireId() {
+      return this.$store.state.auth.user.contextable_id
     },
   },
 }
