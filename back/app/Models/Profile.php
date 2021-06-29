@@ -312,17 +312,8 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation');
     }
 
-    // public function collectivities()
-    // {
-    //     return $this->hasMany('App\Models\Collectivity');
-    // }
-
     public function getDomainesAttribute()
     {
-        // return $this->tagsWithType('domaine')->map(function ($item) {
-        //     return $item->id;
-        // });
-
         return $this->tagsWithType('domaine')->values();
     }
 
@@ -364,11 +355,6 @@ class Profile extends Model implements HasMedia
         return $structure->collectivity;
     }
 
-    // public function isResponsableCollectivity()
-    // {
-    //     return (bool) $this->collectivity;
-    // }
-
     public function isResponsable()
     {
         if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
@@ -376,11 +362,6 @@ class Profile extends Model implements HasMedia
         }
         return false;
     }
-
-    // public function isResponsableTerritoire()
-    // {
-    //     return (bool) $this->belongsToMany('App\Models\Territoire')->first();
-    // }
 
     public function isAdmin()
     {
@@ -405,8 +386,6 @@ class Profile extends Model implements HasMedia
             'referent_regional' => $this->isReferentRegional(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
-            // 'responsable_collectivity' => $this->isResponsableCollectivity(),
-            // 'responsable_territoire' => $this->isResponsableTerritoire(),
             'analyste' => $this->is_analyste
         ];
     }

@@ -132,11 +132,13 @@ class User extends Authenticatable
     public function getContextRoleAttribute()
     {
         if ($this->attributes['context_role'] == null || $this->attributes['context_role'] == 'volontaire') {
-            $userRoles = array_filter($this->profile->roles, function ($role) {
-                return $role === true;
-            });
-            if (count($userRoles) > 0) {
-                $this->attributes['context_role'] = array_key_first($userRoles);
+            if($this->profile) {
+                $userRoles = array_filter($this->profile->roles, function ($role) {
+                    return $role === true;
+                });
+                if (count($userRoles) > 0) {
+                    $this->attributes['context_role'] = array_key_first($userRoles);
+                }
             }
         }
 
