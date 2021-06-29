@@ -39,10 +39,11 @@ class PassportController extends Controller
         $attributes = $request->validated();
         $attributes['user_id'] = $user->id;
 
-        $profile = Profile::firstOrCreate(
+        Profile::firstOrCreate(
             ['email' => request('email')],
             $attributes
         );
+        $user->refresh();
 
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
