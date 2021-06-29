@@ -58,9 +58,10 @@
             !['volontaire'].includes($store.getters.contextRole)
           "
         >
-          <el-dropdown-item command="/dashboard">
+          <el-dropdown-item command="dashboard">
             Tableau de bord
           </el-dropdown-item>
+
           <el-dropdown-item divided />
         </template>
         <el-dropdown-item command="/user/infos"> Mon compte </el-dropdown-item>
@@ -92,6 +93,14 @@ export default {
       } else if (command.action == 'logout') {
         this.$router.push('/')
         await this.$store.dispatch('auth/logout')
+      } else if (command == 'dashboard') {
+        if (this.$store.getters.contextRole == 'responsable') {
+          this.$router.push(
+            `/dashboard/${this.$store.getters.contextableType}/${this.$store.getters.contextStructure.id}/statistics`
+          )
+        } else {
+          this.$router.push('/dashboard')
+        }
       } else {
         this.$router.push(command)
       }
