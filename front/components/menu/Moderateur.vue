@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-1">
     <!-- Tableau de bord -->
-    <router-link
+    <nuxt-link
       to="/dashboard"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -23,10 +23,10 @@
         v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
       Tableau de bord
-    </router-link>
+    </nuxt-link>
 
     <!-- Territoires -->
-    <router-link
+    <nuxt-link
       to="/dashboard/territoires"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -45,10 +45,10 @@
         v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
       />
       Territoires
-    </router-link>
+    </nuxt-link>
 
     <!-- Structures -->
-    <router-link
+    <nuxt-link
       to="/dashboard/structures"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -68,10 +68,10 @@
         v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
       Organisations
-    </router-link>
+    </nuxt-link>
 
     <!-- Missions -->
-    <router-link
+    <nuxt-link
       to="/dashboard/missions"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -92,10 +92,10 @@
         "
       />
       Missions
-    </router-link>
+    </nuxt-link>
 
     <!-- Participations -->
-    <router-link
+    <nuxt-link
       to="/dashboard/participations"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -117,10 +117,10 @@
         "
       />
       Participations
-    </router-link>
+    </nuxt-link>
 
     <!-- Utilisateurs -->
-    <router-link
+    <nuxt-link
       to="/dashboard/profiles"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -142,10 +142,10 @@
         "
       />
       Utilisateurs
-    </router-link>
+    </nuxt-link>
 
     <!-- Messagerie -->
-    <router-link
+    <nuxt-link
       to="/messages"
       class="
         text-gray-700
@@ -179,10 +179,10 @@
         class="ml-2 text-xs text-gray-500"
         >({{ $store.getters.user.unreadConversations.length }})</span
       >
-    </router-link>
+    </nuxt-link>
 
     <!-- Contenus -->
-    <router-link
+    <nuxt-link
       to="/dashboard/contents/releases"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -204,10 +204,10 @@
         "
       />
       Contenus
-    </router-link>
+    </nuxt-link>
 
     <!-- Activités -->
-    <router-link
+    <nuxt-link
       to="/dashboard/activities"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -227,7 +227,7 @@
         v-html="require('@/assets/images/icones/heroicon/flag.svg?include')"
       />
       Activités
-    </router-link>
+    </nuxt-link>
   </div>
 </template>
 

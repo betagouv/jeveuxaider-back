@@ -43,7 +43,7 @@
                 justify-between
               "
             >
-              <router-link
+              <nuxt-link
                 :to="`/dashboard/structure/${structure.id}`"
                 class="flex-1 flex space-x-4"
               >
@@ -54,10 +54,10 @@
                   dot
                   >{{ structure.state }}</TailwindBadge
                 >
-              </router-link>
+              </nuxt-link>
               <TailwindDropdownEllipsis>
                 <template slot="menu">
-                  <router-link
+                  <nuxt-link
                     :to="`/dashboard/structure/${structure.id}`"
                     class="
                       block
@@ -70,8 +70,8 @@
                     role="menuitem"
                   >
                     Accéder à la vue d'ensemble
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/missions/add`"
                     class="
                       block
@@ -84,8 +84,8 @@
                     role="menuitem"
                   >
                     Créer une nouvelle mission
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/missions`"
                     class="
                       block
@@ -98,8 +98,8 @@
                     role="menuitem"
                   >
                     Afficher les missions
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/participations`"
                     class="
                       block
@@ -112,8 +112,8 @@
                     role="menuitem"
                   >
                     Afficher les participations
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/statistics`"
                     class="
                       block
@@ -126,8 +126,8 @@
                     role="menuitem"
                   >
                     Afficher les statistiques
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/members`"
                     class="
                       block
@@ -140,7 +140,7 @@
                     role="menuitem"
                   >
                     Gérer les membres
-                  </router-link>
+                  </nuxt-link>
                 </template>
               </TailwindDropdownEllipsis>
             </div>
@@ -170,7 +170,7 @@
                 justify-between
               "
             >
-              <router-link
+              <nuxt-link
                 :to="`/dashboard/territoire/${territoire.id}`"
                 class="flex-1 flex space-x-4"
               >
@@ -183,10 +183,10 @@
                     territoire.state | labelFromValue('territoires_states')
                   }}</TailwindBadge
                 >
-              </router-link>
+              </nuxt-link>
               <TailwindDropdownEllipsis>
                 <template slot="menu">
-                  <router-link
+                  <nuxt-link
                     :to="`/dashboard/territoire/${territoire.id}`"
                     class="
                       block
@@ -199,8 +199,8 @@
                     role="menuitem"
                   >
                     Accéder à la vue d'ensemble
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/territoire/${territoire.id}/missions/add`"
                     class="
                       block
@@ -213,8 +213,8 @@
                     role="menuitem"
                   >
                     Afficher les statistiques
-                  </router-link>
-                  <router-link
+                  </nuxt-link>
+                  <nuxt-link
                     :to="`/dashboard/territoire/${territoire.id}/responsables`"
                     class="
                       block
@@ -227,7 +227,7 @@
                     role="menuitem"
                   >
                     Gérer les responsables
-                  </router-link>
+                  </nuxt-link>
                 </template>
               </TailwindDropdownEllipsis>
             </div>

@@ -14,10 +14,21 @@
             style="top: 1rem; left: 1rem"
             aria-hidden="true"
           />
-          <router-link :to="step.href" class="relative flex items-center group">
+          <nuxt-link :to="step.href" class="relative flex items-center group">
             <span class="h-9 flex items-center">
               <div
-                class="relative z-10 w-8 h-8 flex items-center justify-center bg-blue-800 rounded-full group-hover:bg-blue-900"
+                class="
+                  relative
+                  z-10
+                  w-8
+                  h-8
+                  flex
+                  items-center
+                  justify-center
+                  bg-blue-800
+                  rounded-full
+                  group-hover:bg-blue-900
+                "
               >
                 <div
                   class="w-5 h-5 text-white"
@@ -33,7 +44,7 @@
               }}</span>
               <span class="text-sm text-gray-500">{{ step.description }}</span>
             </span>
-          </router-link>
+          </nuxt-link>
         </template>
         <template
           v-else-if="step.status === 'current'"
@@ -48,14 +59,31 @@
           <div class="relative flex items-center group" aria-current="step">
             <span class="h-9 flex items-center" aria-hidden="true">
               <span
-                class="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-blue-800 rounded-full"
+                class="
+                  relative
+                  z-10
+                  w-8
+                  h-8
+                  flex
+                  items-center
+                  justify-center
+                  bg-white
+                  border-2 border-blue-800
+                  rounded-full
+                "
               >
                 <span class="h-2.5 w-2.5 bg-blue-800 rounded-full" />
               </span>
             </span>
             <span class="ml-4 min-w-0 flex flex-col">
               <span
-                class="text-xs font-semibold tracking-wide uppercase text-blue-800"
+                class="
+                  text-xs
+                  font-semibold
+                  tracking-wide
+                  uppercase
+                  text-blue-800
+                "
                 >{{ step.name }}</span
               >
               <span class="text-sm text-gray-500">{{ step.description }}</span>
@@ -72,16 +100,40 @@
           <div class="relative flex items-center group">
             <span class="h-9 flex items-center" aria-hidden="true">
               <span
-                class="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400"
+                class="
+                  relative
+                  z-10
+                  w-8
+                  h-8
+                  flex
+                  items-center
+                  justify-center
+                  bg-white
+                  border-2 border-gray-300
+                  rounded-full
+                  group-hover:border-gray-400
+                "
               >
                 <span
-                  class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"
+                  class="
+                    h-2.5
+                    w-2.5
+                    bg-transparent
+                    rounded-full
+                    group-hover:bg-gray-300
+                  "
                 />
               </span>
             </span>
             <span class="ml-4 min-w-0 flex flex-col">
               <span
-                class="text-xs font-semibold tracking-wide uppercase text-gray-500"
+                class="
+                  text-xs
+                  font-semibold
+                  tracking-wide
+                  uppercase
+                  text-gray-500
+                "
                 >{{ step.name }}</span
               >
               <span class="text-sm text-gray-500">{{ step.description }}</span>
@@ -104,9 +156,19 @@
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
             <div class="h-0.5 w-full bg-blue-800" />
           </div>
-          <router-link
+          <nuxt-link
             :to="step.href"
-            class="relative w-8 h-8 flex items-center justify-center bg-blue-800 rounded-full hover:bg-indigo-900"
+            class="
+              relative
+              w-8
+              h-8
+              flex
+              items-center
+              justify-center
+              bg-blue-800
+              rounded-full
+              hover:bg-indigo-900
+            "
           >
             <div
               class="w-5 h-5 text-white"
@@ -115,7 +177,7 @@
               "
             />
             <span class="sr-only">{{ step.name }}</span>
-          </router-link>
+          </nuxt-link>
         </template>
         <template
           v-else-if="step.status === 'current'"
@@ -125,7 +187,17 @@
             <div class="h-0.5 w-full bg-gray-200" />
           </div>
           <div
-            class="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-blue-800 rounded-full"
+            class="
+              relative
+              w-8
+              h-8
+              flex
+              items-center
+              justify-center
+              bg-white
+              border-2 border-blue-800
+              rounded-full
+            "
             aria-current="step"
           >
             <span
@@ -141,10 +213,28 @@
           </div>
           <div
             href="#"
-            class="group relative w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full hover:border-gray-400"
+            class="
+              group
+              relative
+              w-8
+              h-8
+              flex
+              items-center
+              justify-center
+              bg-white
+              border-2 border-gray-300
+              rounded-full
+              hover:border-gray-400
+            "
           >
             <span
-              class="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"
+              class="
+                h-2.5
+                w-2.5
+                bg-transparent
+                rounded-full
+                group-hover:bg-gray-300
+              "
               aria-hidden="true"
             />
             <span class="sr-only">{{ step.name }}</span>

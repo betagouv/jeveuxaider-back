@@ -69,7 +69,7 @@
             role="group"
             aria-labelledby="teams-headline"
           >
-            <router-link
+            <nuxt-link
               v-if="
                 ['referent', 'responsable', 'admin'].includes(
                   $store.getters.contextRole
@@ -98,9 +98,9 @@
                 aria-hidden="true"
               ></span>
               <span class="truncate"> Ressources </span>
-            </router-link>
+            </nuxt-link>
 
-            <router-link
+            <nuxt-link
               to="/dashboard/news"
               class="
                 group
@@ -122,7 +122,7 @@
                 aria-hidden="true"
               ></span>
               <span class="truncate"> Nouveautés </span>
-            </router-link>
+            </nuxt-link>
 
             <a
               href="https://reserve-civique.crisp.help/fr/"

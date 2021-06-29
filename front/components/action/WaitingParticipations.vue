@@ -1,5 +1,5 @@
 <template>
-  <router-link
+  <nuxt-link
     :to="`/dashboard/structure/${action.structure.id}/participations?filter[state]=En attente de validation`"
     class="
       px-5
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-  </router-link>
+  </nuxt-link>
 </template>
 
 <script>

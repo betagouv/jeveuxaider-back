@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-1">
     <!-- Tableau de bord -->
-    <router-link
+    <nuxt-link
       to="/dashboard"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -23,10 +23,10 @@
         v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
       Tableau de bord
-    </router-link>
+    </nuxt-link>
 
     <!-- Structures -->
-    <router-link
+    <nuxt-link
       to="/dashboard/structures"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -46,10 +46,10 @@
         v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
       Organisations
-    </router-link>
+    </nuxt-link>
 
     <!-- Missions -->
-    <router-link
+    <nuxt-link
       to="/dashboard/missions"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -70,10 +70,10 @@
         "
       />
       Missions
-    </router-link>
+    </nuxt-link>
 
     <!-- Participations -->
-    <router-link
+    <nuxt-link
       to="/dashboard/participations"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -95,7 +95,7 @@
         "
       />
       Participations
-    </router-link>
+    </nuxt-link>
   </div>
 </template>
 

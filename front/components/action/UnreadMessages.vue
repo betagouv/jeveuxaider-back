@@ -1,5 +1,5 @@
 <template>
-  <router-link
+  <nuxt-link
     to="/messages"
     class="
       px-5
@@ -22,7 +22,7 @@
         <div class="text-sm text-gray-500">Restez à l'écoute des bénévoles</div>
       </div>
     </div>
-  </router-link>
+  </nuxt-link>
 </template>
 
 <script>

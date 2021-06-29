@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-1">
     <!-- Tableau de bord -->
-    <router-link
+    <nuxt-link
       :to="`/dashboard/structure/${structureId}/statistics`"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -23,10 +23,10 @@
         v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
       Tableau de bord
-    </router-link>
+    </nuxt-link>
 
     <!-- Mon organisation -->
-    <router-link
+    <nuxt-link
       :to="`/dashboard/structure/${structureId}`"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -46,10 +46,10 @@
         v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
       Mon organisation
-    </router-link>
+    </nuxt-link>
 
     <!-- Missions -->
-    <router-link
+    <nuxt-link
       :to="`/dashboard/structure/${structureId}/missions`"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -71,10 +71,10 @@
         "
       />
       Mes missions
-    </router-link>
+    </nuxt-link>
 
     <!-- Participations -->
-    <router-link
+    <nuxt-link
       :to="`/dashboard/structure/${structureId}/participations`"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -96,10 +96,10 @@
         "
       />
       Participations
-    </router-link>
+    </nuxt-link>
 
     <!-- Messagerie -->
-    <router-link
+    <nuxt-link
       to="/messages"
       class="
         text-gray-700
@@ -133,7 +133,7 @@
         class="ml-2 text-xs text-gray-500"
         >({{ $store.getters.user.unreadConversations.length }})</span
       >
-    </router-link>
+    </nuxt-link>
   </div>
 </template>
 
