@@ -56,13 +56,12 @@ class PassportController extends Controller
             [
                 'name' => request("email"),
                 'email' => request("email"),
-                'password' => Hash::make(request("password"))
+                'password' => Hash::make(request("password")),
+                'context_role' => 'responsable',
             ]
         );
-
         $attributes = $request->validated();
         $attributes['user_id'] = $user->id;
-
         $profile = Profile::firstOrCreate(
             ['email' => request('email')],
             $attributes
@@ -90,7 +89,6 @@ class PassportController extends Controller
                 $structure->attachTag($domaine, 'domaine');
             }
         }
-
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
@@ -107,7 +105,7 @@ class PassportController extends Controller
                     ]
                 ]
             );
-
+            
         return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
