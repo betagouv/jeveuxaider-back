@@ -160,12 +160,16 @@ export default {
         const departmentName = this.$options.filters.departmentFromValue(
           this.territoire.department
         )
-        if (departmentName != this.territoire.name) {
-          breadcrumb.push({
-            label: `Bénévolat ${departmentName}`,
-            link: this.link(false, 'department'),
-          })
-        }
+
+        breadcrumb.push({
+          label:
+            departmentName != this.territoire.name
+              ? `Bénévolat ${departmentName}`
+              : `Bénévolat département ${departmentName}`,
+          link: `/departements/${this.$options.filters.slugify(
+            departmentName
+          )}`,
+        })
       }
 
       breadcrumb.push({
