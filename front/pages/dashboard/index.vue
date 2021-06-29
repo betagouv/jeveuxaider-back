@@ -24,20 +24,10 @@
 <script>
 export default {
   layout: 'dashboard',
-  created() {
-    if (
-      this.$store.getters.contextRole == 'responsable' &&
-      this.$store.getters.contextableType == 'territoire'
-    ) {
-      this.$router.push(
-        `/dashboard/territoire/${this.$store.state.auth.user.contextable_id}/statistics`
-      )
-    } else if (
-      this.$store.getters.contextRole == 'responsable' &&
-      this.$store.getters.contextableType == 'structure'
-    ) {
-      this.$router.push(
-        `/dashboard/structure/${this.$store.state.auth.user.contextable_id}/statistics`
+  middleware({ $api, route, redirect, store }) {
+    if (store.getters.contextRole == 'responsable') {
+      redirect(
+        `/dashboard/${store.getters.contextableType}/${store.state.auth.user.contextable_id}/statistics`
       )
     }
   },

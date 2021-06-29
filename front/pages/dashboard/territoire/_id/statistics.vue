@@ -2,7 +2,9 @@
   <div v-if="territoire" class="has-full-table">
     <div class="header px-12 flex">
       <div class="header-titles flex-1 mb-8">
-        <div class="text-m text-gray-600 uppercase">Territoire</div>
+        <div class="text-m text-gray-600 uppercase">
+          {{ territoire.type | labelFromValue('territoires_types') }}
+        </div>
         <div class="flex items-center flex-wrap">
           <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ territoire.name }}
@@ -29,14 +31,23 @@
         </div>
       </div>
       <div>
-        <DropdownTerritoireButton :territoire="territoire" />
+        <DropdownTerritoireButton
+          v-if="territoire.permissions.canViewStats"
+          :territoire="territoire"
+        />
       </div>
     </div>
     <NavTabTerritoire
       v-if="$store.getters.contextRole != 'responsable'"
       :territoire="territoire"
     />
-    <div class="px-12">
+    <div v-if="!territoire.permissions.canViewStats">
+      <div class="px-12 text-gray-800">
+        Votre territoire est en attente de validation. <br />Vous pourrez
+        accéder à ses statistiques quand il aura été validé par un référent.
+      </div>
+    </div>
+    <div v-else class="px-12">
       <div class="flex flex-col space-y-5">
         <div>
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
@@ -146,21 +157,27 @@ export default {
     }
 
     const territoire = await $api.getTerritoire(params.id)
-    const { data } = await $api.statisticsBySubject(
-      'territoires',
-      territoire.id
-    )
+    if (territoire.permissions.canViewStats) {
+      const { data } = await $api.statisticsBySubject(
+        'territoires',
+        territoire.id
+      )
 
-    const { data: plausible } = await $api.plausibleAggregate(
-      '12mo',
-      'visitors,pageviews,visit_duration',
-      `event:page==${territoire.full_url}`
-    )
-
+      const { data: plausible } = await $api.plausibleAggregate(
+        '12mo',
+        'visitors,pageviews,visit_duration',
+        `event:page==${territoire.full_url}`
+      )
+      return {
+        plausible,
+        territoire,
+        statistics: data,
+      }
+    }
     return {
-      plausible,
       territoire,
-      statistics: data,
+      statistics: null,
+      plausible: null,
     }
   },
   methods: {},
