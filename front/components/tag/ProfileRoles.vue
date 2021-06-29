@@ -69,7 +69,7 @@
           Responsable
         </el-tag>
       </template>
-      <template v-if="profile.territoires.length">
+      <template v-if="profile.territoires">
         <el-tag
           v-for="territoire in profile.territoires"
           :key="territoire.id"
