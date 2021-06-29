@@ -39,9 +39,8 @@
         <div class="flex justify-end">
           <slot name="top-menu">
             <template v-if="$store.getters.isLogged">
-              <nuxt-link
+              <div
                 v-if="$store.getters.roles && $store.getters.roles.length > 0"
-                to="/dashboard"
                 class="
                   font-semibold
                   tracking-wide
@@ -56,9 +55,10 @@
                   ease-in-out
                   duration-150
                 "
+                @click="goToDashboard()"
               >
                 Tableau de bord
-              </nuxt-link>
+              </div>
               <nuxt-link
                 v-else
                 to="/register/responsable/step/structure"
@@ -520,6 +520,15 @@ export default {
         path: '/',
         secure: true,
       })
+    },
+    goToDashboard() {
+      if (this.$store.getters.contextRole == 'responsable') {
+        this.$router.push(
+          `/dashboard/${this.$store.getters.contextableType}/${this.$store.getters.contextStructure.id}/statistics`
+        )
+      } else {
+        this.$router.push('/dashboard')
+      }
     },
   },
 }
