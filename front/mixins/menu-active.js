@@ -5,7 +5,7 @@ export default {
       return this.$route.path.includes(item)
     },
     isActive(item) {
-      console.log('this.$route.name', this.$route.name)
+      // console.log('this.$route.name', this.$route.name)
       switch (item) {
         case 'dashboard':
           return [
@@ -17,7 +17,6 @@ export default {
             'dashboard-stats-departments',
             'dashboard-stats-collectivities',
             'dashboard-stats-domaines',
-            'dashboard-structure-id-statistics',
           ].includes(this.$route.name)
         case 'dashboard/structure':
           return ['dashboard-structure-id'].includes(this.$route.name)
