@@ -168,7 +168,7 @@ class User extends Authenticatable
             } 
         }
 
-        return $this->attributes['contextable_type'];
+        return $this->attributes['contextable_id'];
     }
 
     public function anonymize()
