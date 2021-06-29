@@ -65,7 +65,7 @@
         </nuxt-link>
         <el-dropdown-item
           v-for="structure in $store.getters.profile.structures"
-          :key="structure.id"
+          :key="'structure-' + structure.id"
           :command="{
             action: 'changeContext',
             context_role: 'responsable',
@@ -83,7 +83,7 @@
         </el-dropdown-item>
         <el-dropdown-item
           v-for="territoire in $store.getters.profile.territoires"
-          :key="territoire.id"
+          :key="'territoire-' + territoire.id"
           :command="{
             action: 'changeContext',
             context_role: 'responsable',
