@@ -3,35 +3,23 @@
     <!-- Tableau de bord -->
     <router-link
       to="/dashboard"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': isActive('dashboard') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        isActive('dashboard')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium ',
+      ]"
       x-state:on="Current"
       x-state:off="Default"
       aria-current="page"
-      x-state-description='Current: "bg-gray-200 text-gray-900", Default: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          hover:text-gray-900
-          group-hover:text-gray-900
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          isActive('dashboard')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
       Tableau de bord
@@ -40,31 +28,20 @@
     <!-- Territoires -->
     <router-link
       to="/dashboard/territoires"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/territoire') }"
-      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/territoire')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/territoire')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
       />
       Territoires
@@ -73,31 +50,21 @@
     <!-- Structures -->
     <router-link
       to="/dashboard/structures"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/structure') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/structure')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/structure')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
       Organisations
@@ -106,31 +73,20 @@
     <!-- Missions -->
     <router-link
       to="/dashboard/missions"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/mission') }"
-      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/mission')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/mission')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="
           require('@/assets/images/icones/heroicon/collection.svg?include')
         "
@@ -141,31 +97,21 @@
     <!-- Participations -->
     <router-link
       to="/dashboard/participations"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/participation') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/participation')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/participation')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="
           require('@/assets/images/icones/heroicon/identification.svg?include')
         "
@@ -176,31 +122,21 @@
     <!-- Utilisateurs -->
     <router-link
       to="/dashboard/profiles"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/profile') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/profiles')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/profile')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="
           require('@/assets/images/icones/heroicon/user-group.svg?include')
         "
@@ -248,31 +184,21 @@
     <!-- Contenus -->
     <router-link
       to="/dashboard/contents/releases"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/contents') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/contents')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/contents')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="
           require('@/assets/images/icones/heroicon/view-list.svg?include')
         "
@@ -283,31 +209,21 @@
     <!-- Activités -->
     <router-link
       to="/dashboard/activities"
-      class="
-        text-gray-700
-        hover:text-gray-900
-        hover:bg-gray-50
-        group
-        flex
-        items-center
-        px-2
-        py-2
-        text-sm
-        font-medium
-        rounded-md
-      "
-      :class="{ 'bg-gray-50': doesPathContains('dashboard/activities') }"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/activities')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
       x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
       <div
-        class="
-          text-gray-400
-          group-hover:text-gray-500
-          mr-3
-          flex-shrink-0
-          h-6
-          w-6
-        "
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/activities')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
         v-html="require('@/assets/images/icones/heroicon/flag.svg?include')"
       />
       Activités
