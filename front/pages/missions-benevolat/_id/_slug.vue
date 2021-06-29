@@ -936,13 +936,17 @@ export default {
 
     // Si mission signalée ou organisation désinscrite / signalée
     if (
-      ['Signalée'].includes(mission.state) ||
+      ['Signalée', 'Brouillon'].includes(mission.state) ||
       ['Désinscrite', 'Signalée'].includes(mission.structure.state)
     ) {
       if (store.getters.isLogged) {
+        // Si on participe à cette mission ou si on est responsable de la structure
         if (
           !store.getters.user.profile.participations.filter(
             (participation) => participation.mission_id == mission.id
+          ).length &&
+          !store.getters.user.profile.structures.filter(
+            (structure) => structure.id == mission.structure_id
           ).length
         ) {
           return error({ statusCode: 403 })
