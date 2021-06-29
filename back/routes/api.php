@@ -57,6 +57,8 @@ Route::get('territoire/{territoire}/availableMissions', 'Api\TerritoireControlle
 Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
 Route::get('territoires', 'Api\TerritoireController@index');
 
+Route::get('tags', 'Api\TagController@index');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -81,8 +83,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
 
     Route::post('user/password', 'Api\UserController@updatePassword');
-
-    Route::get('tags', 'Api\TagController@index');
 
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
