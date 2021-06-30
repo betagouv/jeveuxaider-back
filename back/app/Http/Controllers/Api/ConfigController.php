@@ -179,7 +179,7 @@ class ConfigController extends Controller
 
         $departementsUrls = Territoire::where('type', 'department')
             ->where('state', 'validated')
-            ->where('published', true)
+            ->where('is_published', true)
             ->get()
             ->map(function ($territoire) {
                 $date = new Carbon($territoire->updated_at);
@@ -191,7 +191,7 @@ class ConfigController extends Controller
 
         $citiesUrls = Territoire::where('type', 'city')
             ->where('state', 'validated')
-            ->where('published', true)
+            ->where('is_published', true)
             ->get()
             ->map(function ($territoire) {
                 return [
