@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
+use App\Models\Territoire;
 use App\Models\Release;
 use App\Models\Structure;
 use App\Models\Mission;
@@ -176,25 +177,25 @@ class ConfigController extends Controller
                 ];
             });
 
-        $departementsUrls = Collectivity::where('type', 'department')
+        $departementsUrls = Territoire::where('type', 'department')
             ->where('state', 'validated')
             ->where('published', true)
             ->get()
             ->map(function ($departement) {
                 $date = new Carbon($departement->updated_at);
                 return [
-                    'url' => '/territoires/departements/' . $departement->slug,
+                    'url' => '/departements/' . $departement->slug,
                     'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $departement->updated_at,
                 ];
             });
 
-        $collectivitesUrls = Collectivity::where('type', 'commune')
+        $collectivitesUrls = Territoire::where('type', 'city')
             ->where('state', 'validated')
             ->where('published', true)
             ->get()
             ->map(function ($collectivite) {
                 return [
-                    'url' => '/territoires/collectivites/' . $collectivite->slug,
+                    'url' => '/villes/' . $collectivite->slug,
                     'lastmod' => Carbon::now()->subDays(1),
                 ];
             });
