@@ -152,7 +152,7 @@
         />
         <SearchFiltersQuery
           name="dates"
-          label="Période"
+          label="Dates"
           :value="query['filter[dates]']"
           :options="[
             { label: 'À venir', value: 'incoming' },
