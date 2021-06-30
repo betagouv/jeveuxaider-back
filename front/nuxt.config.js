@@ -65,7 +65,6 @@ export default {
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
     '@/plugins/axeptio.client.js',
-    '@/plugins/hotjar.client.js',
     '@/plugins/apiengagement.client.js',
     '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
