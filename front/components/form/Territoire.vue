@@ -228,7 +228,15 @@ export default {
   data() {
     return {
       loading: false,
-      form: { ...this.territoire },
+      form: {
+        ...this.territoire,
+        seo_recruit_title:
+          this.territoire.seo_recruit_title ??
+          'Ces associations recrutent des bénévoles',
+        seo_engage_title:
+          this.territoire.seo_engage_title ??
+          'Engagez-vous pour une cause bénévole qui vous ressemble',
+      },
       uploads: [],
       rules: {
         name: [
