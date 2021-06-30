@@ -1,6 +1,6 @@
 <template>
   <nuxt-link
-    :to="`/dashboard/structure/${action.structure.id}/missions`"
+    :to="`/dashboard/structure/${action.structure.id}/missions?filter[dates]=outdated&filter[state]=Validée`"
     class="
       px-5
       py-3

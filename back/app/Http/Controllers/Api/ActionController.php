@@ -69,7 +69,7 @@ class ActionController extends Controller
                 'structure' => $structure,
             ]);
         }
-        if ($outdated_missions_count = $structure->missions->where('end_date', '<', Carbon::now())->count()) {
+        if ($outdated_missions_count = $structure->missions->whereIn('state', ['Validée'])->where('end_date', '<', Carbon::now())->count()) {
             array_push($actions, [
                 'type' => 'outdated_missions',
                 'value' => $outdated_missions_count,
