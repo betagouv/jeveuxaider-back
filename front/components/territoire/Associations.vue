@@ -26,13 +26,14 @@
               </p>
             </h2>
 
-            <div class="mt-12 grid sm:grid-cols-2 gap-8">
+            <div class="mt-12 grid grid-cols-2 gap-8">
               <img
                 v-for="structure in structuresLogos"
                 :key="structure.id"
-                class="my-auto w-auto h-20 object-contain"
+                class="mx-auto md:mx-0 my-auto w-auto h-20 object-contain"
                 :alt="structure.name"
                 :src="structure.logo"
+                style="max-width: 130px"
               />
             </div>
           </div>
