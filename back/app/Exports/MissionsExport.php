@@ -15,6 +15,7 @@ use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
 use App\Filters\FiltersMissionCollectivity;
+use App\Filters\FiltersMissionDates;
 
 class MissionsExport implements FromCollection, WithMapping, WithHeadings
 {
@@ -38,10 +39,13 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 'type',
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('template_id'),
+                AllowedFilter::exact('structure_id'),
+                AllowedFilter::exact('id'),
                 AllowedFilter::custom('ceu', new FiltersMissionCeu),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
                 AllowedFilter::exact('responsable_id'),
