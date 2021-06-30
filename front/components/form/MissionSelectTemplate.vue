@@ -128,7 +128,7 @@
             Aucun modèle de mission dans ce domaine pour l'instant
           </div>
           <div class="text-xs text-gray-400">
-            Choisissez de rédiger votre mission ci-dessous
+            Choisissez de rédiger votre mission ci-dessus
           </div>
         </div>
       </div>
