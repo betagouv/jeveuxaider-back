@@ -58,7 +58,28 @@
       :structure="structure"
     />
     <div class="px-12">
-      <div class="flex flex-col space-y-5">
+      <div class="flex flex-col space-y-8">
+        <div v-if="actions.length" class="max-w-3xl">
+          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+            Actions en attente
+            <span>({{ actions.length }})</span>
+          </div>
+          <div class="bg-white border border-gray-200 sm:rounded-md">
+            <ul class="divide-y divide-gray-200">
+              <li v-for="(action, index) in actions" :key="index">
+                <template v-if="action.type == 'unread_messages'">
+                  <ActionUnreadMessages :action="action" />
+                </template>
+                <template v-if="action.type == 'waiting_participations'">
+                  <ActionWaitingParticipations :action="action" />
+                </template>
+                <template v-if="action.type == 'outdated_missions'">
+                  <ActionOutdatedMissions :action="action" />
+                </template>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div>
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             JeVeuxAider.gouv.fr
@@ -173,10 +194,15 @@ export default {
       analytics = plausible
     }
 
+    // Actions
+
+    const { data: actions } = await $api.fetchStructureActions(structure.id)
+
     return {
       plausible: analytics,
       structure,
       statistics: data,
+      actions,
     }
   },
   methods: {},

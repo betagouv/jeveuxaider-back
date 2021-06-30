@@ -49,6 +49,7 @@
       <div
         v-if="
           $store.getters.contextRole == 'responsable' &&
+          $store.getters.reminders &&
           $store.getters.reminders.participations > 0
         "
       >

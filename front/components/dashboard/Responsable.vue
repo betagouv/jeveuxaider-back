@@ -246,7 +246,7 @@ export default {
     }
   },
   async created() {
-    const { data } = await this.$api.fetchActions()
+    const { data } = await this.$api.fetchUserActions()
     this.actions = data
   },
 }

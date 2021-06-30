@@ -18,7 +18,6 @@ use Illuminate\Http\Response;
 class ActionController extends Controller
 {
 
-
     public function index(Request $request)
     {
 
@@ -54,6 +53,29 @@ class ActionController extends Controller
 
         //outdated_missions
 
+
+        return $actions;
+    }
+
+    public function structure(Request $request, Structure $structure)
+    {
+
+        $actions =  [];
+
+        if ($waiting_participations_count = $structure->participations->where('state', 'En attente de validation')->count()) {
+            array_push($actions, [
+                'type' => 'waiting_participations',
+                'value' => $waiting_participations_count,
+                'structure' => $structure,
+            ]);
+        }
+        if ($outdated_missions_count = $structure->missions->where('end_date', '<', Carbon::now())->count()) {
+            array_push($actions, [
+                'type' => 'outdated_missions',
+                'value' => $outdated_missions_count,
+                'structure' => $structure,
+            ]);
+        }
 
         return $actions;
     }

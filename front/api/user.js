@@ -155,8 +155,13 @@ export default (axios) => ({
     return await axios.get('/franceconnect/login-callback', { params })
   },
 
-  async fetchActions(params) {
+  async fetchUserActions(params) {
     return await axios.get(`/actions`, {
+      params,
+    })
+  },
+  async fetchStructureActions(id, params) {
+    return await axios.get(`/structure/${id}/actions`, {
       params,
     })
   },
