@@ -54,11 +54,11 @@ class ConvertCollectivityToTerritoire extends Command
                 ]);
                 $mediaBanner = $collectivity->getFirstMedia('collectivities', ['field' => 'banner']);
                 if($mediaBanner) {
-                    // $mediaBanner->copy($territoire, 'territoires');
+                    $mediaBanner->copy($territoire, 'territoires');
                 }
                 $mediaLogo = $collectivity->getFirstMedia('collectivities', ['field' => 'logo']);
                 if($mediaLogo) {
-                    // $mediaLogo->copy($territoire, 'territoires');
+                    $mediaLogo->copy($territoire, 'territoires');
                 }
                 if($collectivity->structure) {
                     $collectivity->structure->responsables()->each(function ($responsable) use ($territoire) {
