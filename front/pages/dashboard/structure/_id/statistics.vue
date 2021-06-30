@@ -100,7 +100,7 @@
             </CardStatisticsDefaultCount>
           </div>
         </div>
-        <div>
+        <div v-if="plausible">
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             Analytics sur la dernière année
           </div>
@@ -162,14 +162,19 @@ export default {
       structure.id
     )
 
-    const { data: plausible } = await $api.plausibleAggregate(
-      '12mo',
-      'visitors,pageviews,visit_duration',
-      `event:page==${structure.full_url}`
-    )
+    // Only for Association
+    let analytics = null
+    if (structure.statut_juridique == 'Association') {
+      const { data: plausible } = await $api.plausibleAggregate(
+        '12mo',
+        'visitors,pageviews,visit_duration',
+        `event:page==${structure.full_url}`
+      )
+      analytics = plausible
+    }
 
     return {
-      plausible,
+      plausible: analytics,
       structure,
       statistics: data,
     }

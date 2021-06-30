@@ -43,6 +43,7 @@
                 v-if="$store.getters.roles && $store.getters.roles.length > 0"
                 class="
                   font-semibold
+                  cursor-pointer
                   tracking-wide
                   uppercase
                   bg-gray-50
