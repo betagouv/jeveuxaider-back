@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use Spatie\Tags\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Carbon\Carbon;
 
 class Mission extends Model
 {
@@ -228,6 +229,25 @@ class Mission extends Model
     public function scopeComplete($query)
     {
         return $query->where('places_left', '<=', 0);
+    }
+
+    public function scopeIncoming($query)
+    {
+        return $query
+            ->where('start_date', '>=', Carbon::now());
+    }
+
+    public function scopeOutdated($query)
+    {
+        return $query
+            ->where('end_date', '<=', Carbon::now());
+    }
+
+    public function scopeCurrent($query)
+    {
+        return $query
+            ->where('start_date', '<=', Carbon::now())
+            ->where('end_date', '>=', Carbon::now());
     }
 
     public function scopeAvailable($query)

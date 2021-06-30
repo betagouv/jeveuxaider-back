@@ -150,6 +150,17 @@
           ]"
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          name="dates"
+          label="Période"
+          :value="query['filter[dates]']"
+          :options="[
+            { label: 'À venir', value: 'incoming' },
+            { label: 'En cours', value: 'current' },
+            { label: 'Date de fin passée', value: 'outdated' },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 

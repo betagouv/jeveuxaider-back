@@ -67,9 +67,6 @@
           <div class="bg-white border border-gray-200 sm:rounded-md">
             <ul class="divide-y divide-gray-200">
               <li v-for="(action, index) in actions" :key="index">
-                <template v-if="action.type == 'unread_messages'">
-                  <ActionUnreadMessages :action="action" />
-                </template>
                 <template v-if="action.type == 'waiting_participations'">
                   <ActionWaitingParticipations :action="action" />
                 </template>
