@@ -102,7 +102,7 @@
       to="/dashboard/profiles"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
-        doesPathContains('dashboard/profiles')
+        doesPathContains('dashboard/profile')
           ? 'bg-primary text-white font-semibold'
           : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
       ]"
