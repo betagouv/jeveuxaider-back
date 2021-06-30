@@ -8,7 +8,7 @@
       @command="handleCommand"
     >
       <div class="el-dropdown-link flex justify-between items-center">
-        <div class="flex">
+        <div class="flex pr-2 truncate">
           <Avatar
             v-if="$store.getters.user.profile"
             :source="
@@ -21,12 +21,12 @@
 
           <div
             v-if="$store.getters.isSidebarExpanded"
-            class="flex flex-col ml-2"
+            class="flex flex-col ml-2 truncate"
           >
-            <div class="text-black">
+            <div class="text-black truncate">
               {{ $store.getters.user.profile.first_name }}
             </div>
-            <div class="uppercase text-xs">
+            <div class="uppercase text-xs truncate">
               {{
                 $store.getters.contextStructure
                   ? $store.getters.contextStructure.name
@@ -183,7 +183,6 @@ export default {
   font-size: 12px;
 }
 .el-dropdown-menu {
-  margin-top: -10px !important;
   margin-left: 16px !important;
 }
 .el-dropdown-menu__item {
