@@ -4,11 +4,23 @@
       Modifier le territoire
     </nuxt-link>
     <el-dropdown-menu slot="dropdown">
-      <nuxt-link target="_blank" :to="url(territoire)">
-        <el-dropdown-item :command="{}"
-          >Afficher le territoire</el-dropdown-item
-        >
+      <nuxt-link
+        v-if="
+          territoire.state == 'validated' && territoire.is_published == true
+        "
+        target="_blank"
+        :to="territoire.full_url"
+        class="cursor-not-allowed"
+      >
+        <el-dropdown-item :command="{}">
+          Afficher le territoire
+        </el-dropdown-item>
       </nuxt-link>
+      <div v-else>
+        <el-dropdown-item :command="{}">
+          <div class="cursor-not-allowed">Afficher le territoire</div>
+        </el-dropdown-item>
+      </div>
       <nuxt-link :to="`/dashboard/territoire/${territoire.id}/responsables`">
         <el-dropdown-item :command="{}">
           Gérer les responsables

@@ -207,6 +207,13 @@ import fileDownload from 'js-file-download'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
+  middleware({ $api, route, redirect, store }) {
+    if (store.getters.contextRole == 'responsable') {
+      redirect(
+        `/dashboard/${store.getters.contextableType}/${store.state.auth.user.contextable_id}/missions`
+      )
+    }
+  },
   asyncData({ store, error }) {
     if (
       !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
