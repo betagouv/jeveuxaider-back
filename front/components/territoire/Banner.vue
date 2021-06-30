@@ -140,13 +140,13 @@ export default {
   data() {
     return {
       domaines: [],
-      domaine: null,
+      domaine: 'Solidarité et insertion',
     }
   },
   async fetch() {
     const domaines = await this.$api.fetchTags({ 'filter[type]': 'domaine' })
     this.domaines = domaines.data.data
-    this.domaine = this.domaines[0].name.fr
+    // this.domaine = this.domaines[0].name.fr
   },
   computed: {
     banner() {
