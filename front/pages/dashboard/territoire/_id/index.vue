@@ -49,14 +49,15 @@
         </el-card>
         <el-card shadow="never" class="p-4">
           <div class="flex justify-between">
-            <div
-              v-if="territoire.responsables"
-              class="mb-6 text-xl font-semibold"
-            >
-              Responsables
-            </div>
+            <div class="mb-6 text-xl font-semibold">Responsables</div>
           </div>
           <div class="grid grid-cols-2 gap-3">
+            <template
+              v-if="territoire.responsables && !territoire.responsables.length"
+            >
+              Aucun responsable
+            </template>
+
             <ModelMemberTeaser
               v-for="responsable in territoire.responsables"
               :key="responsable.id"
