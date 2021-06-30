@@ -617,7 +617,9 @@ export default {
               .addStructureMission(this.structureId, this.form)
               .then(() => {
                 this.loading = false
-                this.$router.push(`/dashboard/missions`)
+                this.$router.push(
+                  `/dashboard/structure/${this.structureId}/missions`
+                )
                 const message = this.form.template
                   ? 'La mission a été ajoutée !'
                   : 'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
