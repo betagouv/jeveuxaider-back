@@ -131,8 +131,8 @@ class User extends Authenticatable
 
     public function getContextRoleAttribute()
     {
-        if ($this->attributes['context_role'] == null || $this->attributes['context_role'] == 'volontaire') {
-            if($this->profile) {
+        if (empty($this->attributes['context_role']) || $this->attributes['context_role'] == 'volontaire') {
+            if ($this->profile) {
                 $userRoles = array_filter($this->profile->roles, function ($role) {
                     return $role === true;
                 });
@@ -150,10 +150,9 @@ class User extends Authenticatable
         if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
             if ($this->profile->structures->first()) {
                 return 'structure';
-            }
-            else if($this->profile->territoires->first()) {
+            } elseif ($this->profile->territoires->first()) {
                 return 'territoire';
-            } 
+            }
         }
 
         return $this->attributes['contextable_type'];
@@ -164,10 +163,9 @@ class User extends Authenticatable
         if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
             if ($this->profile->structures->first()) {
                 return $this->profile->structures->first()['id'];
-            }
-            else if($this->profile->territoires->first()) {
+            } elseif ($this->profile->territoires->first()) {
                 return $this->profile->territoires->first()['id'];
-            } 
+            }
         }
 
         return $this->attributes['contextable_id'];
