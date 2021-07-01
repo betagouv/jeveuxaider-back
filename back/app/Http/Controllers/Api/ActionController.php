@@ -62,14 +62,14 @@ class ActionController extends Controller
 
         $actions =  [];
 
-        if ($waiting_participations_count = $structure->participations->where('state', 'En attente de validation')->count()) {
+        if ($waiting_participations_count = $structure->participations()->where('participations.state', 'En attente de validation')->count()) {
             array_push($actions, [
                 'type' => 'waiting_participations',
                 'value' => $waiting_participations_count,
                 'structure' => $structure,
             ]);
         }
-        if ($outdated_missions_count = $structure->missions->whereIn('state', ['Validée'])->where('end_date', '<', Carbon::now())->count()) {
+        if ($outdated_missions_count = $structure->missions()->whereIn('state', ['Validée'])->outdated()->count()) {
             array_push($actions, [
                 'type' => 'outdated_missions',
                 'value' => $outdated_missions_count,
