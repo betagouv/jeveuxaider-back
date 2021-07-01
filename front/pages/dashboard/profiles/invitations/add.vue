@@ -108,7 +108,7 @@
 
         <template v-if="form.role == 'superviseur'">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Superviseur réseau national
+            Tête de réseau national
           </div>
           <ItemDescription container-class="mb-6">
             Renseignez le nom du réseau national. Vous permettez à cet

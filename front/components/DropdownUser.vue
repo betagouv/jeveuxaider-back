@@ -109,7 +109,9 @@
           divided
         >
           <div class="leading-normal py-2">
-            <div class="uppercase font-medium text-gray-400 text-xs">Rôle</div>
+            <div class="uppercase font-medium text-gray-400 text-xs">
+              Mon Espace {{ role.label }}
+            </div>
             <div class="font-semibold">{{ role.label }}</div>
           </div>
         </el-dropdown-item>

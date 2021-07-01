@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Collectivity;
+use App\Models\Territoire;
 use App\Models\Release;
 use App\Models\Structure;
 use App\Models\Mission;
@@ -176,25 +177,25 @@ class ConfigController extends Controller
                 ];
             });
 
-        $departementsUrls = Collectivity::where('type', 'department')
+        $departementsUrls = Territoire::where('type', 'department')
             ->where('state', 'validated')
-            ->where('published', true)
+            ->where('is_published', true)
             ->get()
-            ->map(function ($departement) {
-                $date = new Carbon($departement->updated_at);
+            ->map(function ($territoire) {
+                $date = new Carbon($territoire->updated_at);
                 return [
-                    'url' => '/territoires/departements/' . $departement->slug,
-                    'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $departement->updated_at,
+                    'url' => '/departements/' . $territoire->slug,
+                    'lastmod' => $date->lt(Carbon::now()->startOfMonth()) ? Carbon::now()->startOfMonth() : $territoire->updated_at,
                 ];
             });
 
-        $collectivitesUrls = Collectivity::where('type', 'commune')
+        $citiesUrls = Territoire::where('type', 'city')
             ->where('state', 'validated')
-            ->where('published', true)
+            ->where('is_published', true)
             ->get()
-            ->map(function ($collectivite) {
+            ->map(function ($territoire) {
                 return [
-                    'url' => '/territoires/collectivites/' . $collectivite->slug,
+                    'url' => '/villes/' . $territoire->slug,
                     'lastmod' => Carbon::now()->subDays(1),
                 ];
             });
@@ -212,7 +213,7 @@ class ConfigController extends Controller
             ...$pagesUrls,
             ...$missionsUrls,
             ...$departementsUrls,
-            ...$collectivitesUrls,
+            ...$citiesUrls,
             ...$domainesUrls,
         ];
     }

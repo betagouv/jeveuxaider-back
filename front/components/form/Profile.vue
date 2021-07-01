@@ -53,7 +53,7 @@
 
     <template v-if="$store.getters.contextRole == 'admin'">
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
-        Superviseur réseau national
+        Tête de réseau national
       </div>
       <ItemDescription container-class="mb-6">
         Si cet utilisateur est membre d'un réseau national (Les Banques

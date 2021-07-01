@@ -180,10 +180,10 @@
     <ItemDescription container-class="mb-6">
       Si votre organisation est membre d'un réseau national ou territorial qui
       figure dans le menu déroulant du champ ci-dessous, sélectionnez-le. Vous
-      permettrez au superviseur de votre réseau de visualiser les missions et
-      bénévoles rattachés à votre organisation. Vous faciliterez également la
-      validation de votre organisation par les autorités territoriales lors de
-      votre inscription.
+      permettrez à la tête de réseau de visualiser les missions et bénévoles
+      rattachés à votre organisation. Vous faciliterez également la validation
+      de votre organisation par les autorités territoriales lors de votre
+      inscription.
     </ItemDescription>
     <el-form-item label="Réseau national" prop="reseau" class="flex-1">
       <el-select

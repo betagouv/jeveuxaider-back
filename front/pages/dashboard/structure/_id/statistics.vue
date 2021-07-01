@@ -59,7 +59,7 @@
     />
     <div class="px-12">
       <div class="flex flex-col space-y-8">
-        <div v-if="actions.length" class="max-w-3xl">
+        <div v-if="actions && actions.length" class="max-w-3xl">
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             Actions en attente
             <span>({{ actions.length }})</span>
@@ -81,7 +81,7 @@
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
             JeVeuxAider.gouv.fr
           </div>
-          <div class="flex flex-wrap">
+          <div v-if="statistics" class="flex flex-wrap">
             <CardStatisticsDefaultCount
               label="Missions"
               :value="statistics.missions.total"
@@ -175,34 +175,38 @@ export default {
     }
 
     const structure = await $api.getStructure(params.id)
-    const { data } = await $api.statisticsBySubject(
-      'organisations',
-      structure.id
-    )
-
-    // Only for Association
-    let analytics = null
-    if (structure.statut_juridique == 'Association') {
-      const { data: plausible } = await $api.plausibleAggregate(
-        '12mo',
-        'visitors,pageviews,visit_duration',
-        `event:page==${structure.full_url}`
-      )
-      analytics = plausible
-    }
-
-    // Actions
-
-    const { data: actions } = await $api.fetchStructureActions(structure.id)
 
     return {
-      plausible: analytics,
       structure,
-      statistics: data,
-      actions,
     }
   },
-  methods: {},
+  data() {
+    return {
+      actions: null,
+      plausible: null,
+      statistics: null,
+    }
+  },
+  created() {
+    // Statistics
+    this.$api
+      .statisticsBySubject('organisations', this.structure.id)
+      .then(({ data }) => (this.statistics = data))
+    // Actions
+    this.$api
+      .fetchStructureActions(this.structure.id)
+      .then(({ data }) => (this.actions = data))
+    // Only for Association
+    if (this.structure.statut_juridique == 'Association') {
+      this.$api
+        .plausibleAggregate(
+          '12mo',
+          'visitors,pageviews,visit_duration',
+          `event:page==${this.structure.full_url}`
+        )
+        .then(({ data }) => (this.plausible = data))
+    }
+  },
 }
 </script>
 

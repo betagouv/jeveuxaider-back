@@ -240,7 +240,7 @@ class Mission extends Model
     public function scopeOutdated($query)
     {
         return $query
-            ->where('end_date', '<=', Carbon::now());
+            ->where('end_date', '<', Carbon::now());
     }
 
     public function scopeCurrent($query)
