@@ -98,21 +98,12 @@ class TerritoireController extends Controller
         return $territoire->responsables;
     }
 
-    public function availableMissions(Request $request, Territoire $territoire)
+    public function promotedMissions(Request $request, Territoire $territoire)
     {
-        $missions = Mission::territoire($territoire->id)
-            ->where('state', 'Validée')
-            ->where('places_left', '>', 0)
-            ->where('type', 'Mission en présentiel')
-            ->where(function ($query) {
-                $query
-                    ->where('end_date', '>', Carbon::now())
-                    ->orWhereNull('end_date');
-            })
-            ->with('structure')
-            ->inRandomOrder()
-            ->limit(4)
-            ->get();
+        $missions = $territoire->promotedMissions();
+        if ($missions->isEmpty()) {
+            $missions = $territoire->promotedMissions(true);
+        }
 
         return $missions;
     }
@@ -174,30 +165,17 @@ class TerritoireController extends Controller
     public function citiesWithAvailableMissions(Request $request, Territoire $territoire)
     {
         $cities = [];
-        $cities = Mission::selectRaw('missions.city, count(missions.city) as missions_count, MIN(missions.latitude) as latitude, MIN(missions.longitude) as longitude, MIN(missions.zip) as zipcode')
-            ->where('type', 'Mission en présentiel')
-            ->where('state', 'Validée')
-            ->where('places_left', '>', 0)
-            ->whereIn('zip', $territoire->zips)
-            ->where(function ($query) {
-                $query
-                    ->where('end_date', '<', Carbon::now())
-                    ->orWhereNull('end_date');
-            })
-            ->groupBy('city')
-            ->take(20)
-            ->orderBy('missions_count', 'desc')
-            ->get();
+        $missionsByCity = $territoire->promotedMissions(true, 50)->groupBy('city');
 
-        foreach ($cities as $key => $city) {
-            $cities[$key] = [
-                'name' => $city->city,
-                'missions_count' => $city->missions_count,
-                'coordonates' => $city->latitude . ',' . $city->longitude,
-                'zipcode' => $city->zipcode,
+        foreach ($missionsByCity as $missions) {
+            $mission = $missions->first();
+            $cities[] = [
+                'name' => $mission->city,
+                'coordonates' => $mission->latitude . ',' . $mission->longitude,
+                'zipcode' => $mission->zip,
             ];
         }
 
-        return $cities;
+        return array_slice($cities, 0, 10);
     }
 }

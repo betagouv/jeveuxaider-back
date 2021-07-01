@@ -30,7 +30,15 @@
               <img
                 v-for="structure in structuresLogos"
                 :key="structure.id"
-                class="mx-auto md:mx-0 my-auto w-auto h-20 object-contain"
+                class="
+                  mx-auto
+                  lg:mx-0
+                  my-auto
+                  w-full
+                  sm:w-auto
+                  h-20
+                  object-contain
+                "
                 :alt="structure.name"
                 :src="structure.logo"
                 style="max-width: 130px"

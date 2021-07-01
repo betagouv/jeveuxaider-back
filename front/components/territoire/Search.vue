@@ -49,10 +49,7 @@
             </nuxt-link>
           </div>
 
-          <div
-            v-if="(missions.length > 3 || !missions.length) && moreLink"
-            class="text-center mt-6"
-          >
+          <div v-if="moreLink" class="text-center mt-6">
             <nuxt-link :to="moreLink">
               <button
                 class="
@@ -101,7 +98,7 @@ export default {
     }
   },
   async fetch() {
-    const missions = await this.$api.fetchTerritoireAvailableMissions(
+    const missions = await this.$api.fetchTerritoirePromotedMissions(
       this.territoire.id
     )
     this.missions = missions.data

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Algolia\AlgoliaSearch\PlacesClient;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Carbon\Carbon;
 
 class Territoire extends Model implements HasMedia
 {
@@ -178,5 +179,58 @@ class Territoire extends Model implements HasMedia
         return[
             'canViewStats' => Auth::guard('api')->user() ? Auth::guard('api')->user()->can('viewStats', $this) : false
         ];
+    }
+
+    public function promotedMissions($byRadius = false, $limit = 4)
+    {
+        // Missions within the territory postcodes, random sort
+        if (!$byRadius) {
+            $missions = Mission::territoire($this->id)
+                ->where('state', 'Validée')
+                ->where('places_left', '>', 0)
+                ->where('type', 'Mission en présentiel')
+                ->where(function ($query) {
+                    $query
+                        ->where('end_date', '>', Carbon::now())
+                        ->orWhereNull('end_date');
+                })
+                ->with('structure')
+                ->inRandomOrder()
+                ->limit($limit)
+                -> get();
+        } else {
+            // By radius, sorted by score and distance (like the search page)
+            $territoire = $this;
+            $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
+                $config =  [
+                    'filters' => 'has_places_left=1',
+                    'aroundPrecision' => 2000,
+                    'hitsPerPage' => $limit,
+                ];
+
+                if ($territoire->type == 'department') {
+                    $departmentName = config('taxonomies.departments')["terms"][$territoire->department];
+                    $config = array_merge($config, [
+                        'facetFilters' => [
+                            'department_name:' . $territoire->department . ' - ' . $departmentName,
+                        ],
+                    ]);
+                } else {
+                    $config = array_merge($config, [
+                        'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
+                        'aroundRadius' => 35000,
+                        'facetFilters' => ['type:Mission en présentiel'],
+                    ]);
+                }
+
+                $options = array_merge($options, $config);
+                return $algolia->search($query, $options);
+            });
+
+            $missions = $missions->get()->load(['structure'])->append('score');
+        }
+
+
+        return $missions;
     }
 }

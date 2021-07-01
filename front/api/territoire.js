@@ -28,8 +28,8 @@ export default (axios) => ({
     return await axios.get(`/territoire/${id}/invitations`)
   },
 
-  async fetchTerritoireAvailableMissions(id, params) {
-    return await axios.get(`/territoire/${id}/availableMissions`, {
+  async fetchTerritoirePromotedMissions(id, params) {
+    return await axios.get(`/territoire/${id}/promotedMissions`, {
       params,
     })
   },
