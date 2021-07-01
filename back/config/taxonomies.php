@@ -769,7 +769,7 @@ return [
             "responsable_collectivity" => "Responsable d'une collectivité",
             "referent_departemental" => "Référent départemental",
             "referent_regional" => "Référent régional",
-            "superviseur" => "Superviseur réseau national",
+            "superviseur" => "Tête de réseau national",
             "datas_analyst" => "Datas analyste",
             "benevole" => "Bénévole",
         ]

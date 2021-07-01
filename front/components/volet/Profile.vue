@@ -28,7 +28,7 @@
     <template v-if="$store.getters.contextRole === 'admin'">
       <el-form ref="profileForm" :model="form" label-position="top">
         <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Superviseur réseau national
+          Tête de réseau national
         </div>
         <item-description container-class="mb-6">
           Si cet utilisateur est membre d'un réseau national (Les Banques

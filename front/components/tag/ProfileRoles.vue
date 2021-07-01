@@ -46,7 +46,7 @@
       :size="size"
       class="m-1"
     >
-      Superviseur
+      Tête de réseau
     </el-tag>
 
     <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
