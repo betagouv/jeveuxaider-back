@@ -203,7 +203,7 @@ class Territoire extends Model implements HasMedia
             $territoire = $this;
             $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
                 $config =  [
-                    'filters' => 'has_places_left=1',
+                    'filters' => 'has_places_left=1 AND provider:reserve_civique',
                     'aroundPrecision' => 2000,
                     'hitsPerPage' => $limit,
                 ];
