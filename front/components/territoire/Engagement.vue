@@ -33,7 +33,7 @@
             class="grid gap-8 lg:gap-16 lg:grid-cols-5 my-16"
             :class="[{ 'mb-6 lg:mb-16': key === last }]"
           >
-            <div
+            <h3
               class="lg:col-span-2 text-2xl font-extrabold tracking-px"
               v-html="item.title"
             />
