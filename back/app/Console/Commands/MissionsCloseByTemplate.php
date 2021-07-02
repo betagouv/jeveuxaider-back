@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
+use App\Models\MissionTemplate;
 use Illuminate\Console\Command;
 
 class MissionsCloseByTemplate extends Command
@@ -40,6 +41,12 @@ class MissionsCloseByTemplate extends Command
     {
         $templateIds = $this->argument('templateIds');
         $queryMissions = Mission::whereIn('template_id', $templateIds)->available();
+
+        foreach ($templateIds as $templateId) {
+            $template = MissionTemplate::findOrFail($templateId);
+            $templateCount = (clone $queryMissions)->where('template_id', $templateId)->count();
+            $this->info("{$template->title} : {$templateCount}");
+        }
 
         if ($this->confirm($queryMissions->count() . ' missions vont être mises à jour.')) {
             $missions = (clone $queryMissions)->get();
