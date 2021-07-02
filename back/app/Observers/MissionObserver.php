@@ -40,7 +40,7 @@ class MissionObserver
         }
 
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             $mission->structure->responsables->each(function ($profile, $key) {
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);
@@ -115,6 +115,7 @@ class MissionObserver
         $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
 
+        // @todo dans model Mission (avec Sluggable)
         $slug = 'benevolat-'.$mission->structure->name;
         if ($mission->city) {
             $slug .= '-' . $mission->city;
@@ -131,7 +132,7 @@ class MissionObserver
     public function deleting(Mission $mission)
     {
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             $mission->structure->responsables->each(function ($profile, $key) {
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);

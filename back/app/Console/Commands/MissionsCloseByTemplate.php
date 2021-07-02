@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Models\Mission;
 use Illuminate\Console\Command;
 
-class EndAssessorMissions extends Command
+class MissionsCloseByTemplate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cnut:end-assessor-missions';
+    protected $signature = 'cnut:missions-close-by-template {templateIds*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Ends all assessor missions';
+    protected $description = 'Ends all missions that uses template id {templateIds*}';
 
     /**
      * Create a new command instance.
@@ -38,8 +38,8 @@ class EndAssessorMissions extends Command
      */
     public function handle()
     {
-        $queryMissions = Mission::where('template_id', 112)
-            ->where('state', '<>', 'Terminée');
+        $templateIds = $this->argument('templateIds');
+        $queryMissions = Mission::whereIn('template_id', $templateIds)->available();
 
         if ($this->confirm($queryMissions->count() . ' missions vont être mises à jour.')) {
             $missions = (clone $queryMissions)->get();

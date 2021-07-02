@@ -20,8 +20,7 @@ class MissionCancelParticipations extends Command
      *
      * @var string
      */
-    protected $description = 'Cancel waiting participation of a mission
-                                {mission : The ID of the mission}';
+    protected $description = 'Cancel waiting participation of a mission {mission : The ID of the mission}';
 
     /**
      * Create a new command instance.
