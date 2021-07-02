@@ -1,12 +1,14 @@
 <template>
   <div>
-    <div class="absolute" style="height: 360px">
-      <img
-        src="@/assets/images/bg_header_mission.jpg"
-        alt="Mission bénévolat"
-        class="object-cover w-full h-full"
-      />
-      <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
+    <div class="relative">
+      <div class="absolute" style="height: 360px">
+        <img
+          src="@/assets/images/bg_header_mission.jpg"
+          alt="Mission bénévolat"
+          class="object-cover w-full h-full"
+        />
+        <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
+      </div>
     </div>
 
     <div class="relative mb-12">
