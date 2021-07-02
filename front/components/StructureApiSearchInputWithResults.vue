@@ -49,14 +49,10 @@
         </div>
         <div class="text-xs text-gray-500">RNA {{ suggestion.rna }}</div>
         <div
-          v-if="suggestion.coordonnees.adresse_siege"
+          v-if="suggestion.coordonnees.adresse"
           class="text-xs text-gray-500"
         >
-          {{ suggestion.coordonnees.adresse_siege.num_voie }}
-          {{ suggestion.coordonnees.adresse_siege.type_voie }}
-          {{ suggestion.coordonnees.adresse_siege.voie }}
-          {{ suggestion.coordonnees.adresse_siege.cp }}
-          {{ suggestion.coordonnees.adresse_siege.commune }}
+          {{ suggestion.coordonnees.adresse.nom_complet }}
         </div>
       </div>
     </div>

@@ -266,25 +266,24 @@ class ApiEngagement
         $attributes['rna'] = isset($structureApi['rna']) ? $structureApi['rna'] : null;
         $attributes['statut_juridique'] = isset($structureApi['regime']) ? $structureApi['regime'] : null;
         $attributes['description'] = isset($structureApi['objet']) ? $structureApi['objet'] : null;
-        $attributes['city'] = isset($structureApi['coordonnees']['adresse_siege']['commune']) ? $structureApi['coordonnees']['adresse_siege']['commune'] : null;
-        $attributes['address'] = isset($structureApi['coordonnees']['adresse_siege']['voie'])
-            ? implode(' ', [
-                isset($structureApi['coordonnees']['adresse_siege']['num_voie']) ? $structureApi['coordonnees']['adresse_siege']['num_voie'] : '',
-                isset($structureApi['coordonnees']['adresse_siege']['type_voie']) ? $structureApi['coordonnees']['adresse_siege']['type_voie'] : '',
-                isset($structureApi['coordonnees']['adresse_siege']['voie']) ? $structureApi['coordonnees']['adresse_siege']['voie'] : ''
-            ]) : $attributes['city'];
 
-        if (isset($structureApi['coordonnees']['adresse_siege']['cp'])) {
-            $attributes['zip'] = isset($structureApi['coordonnees']['adresse_siege']['cp']) ? $structureApi['coordonnees']['adresse_siege']['cp'] : null;
-            $attributes['department'] = isset($structureApi['coordonnees']['adresse_siege']['cp']) ? substr($structureApi['coordonnees']['adresse_siege']['cp'], 0, 2) : null;
-            if ($attributes['department'] == 20) {
-                $zip3 = substr($structureApi['coordonnees']['adresse_siege']['cp'], 0, 3);
-                if ($zip3 == '200' || $zip3 == '201') {
-                    $attributes['department'] = '2A';
-                } else {
-                    $attributes['department'] = '2B';
-                }
-            }
+        $attributes['city'] = isset($structureApi['coordonnees']['adresse']['commune'])
+            ? $structureApi['coordonnees']['adresse']['commune']
+            : null;
+
+        $attributes['address'] = isset($structureApi['coordonnees']['adresse']['nom_complet'])
+            ? $structureApi['coordonnees']['adresse']['nom_complet']
+            : $attributes['city'];
+
+        if (isset($structureApi['coordonnees']['adresse']['code_postal'])) {
+            $attributes['zip'] = isset($structureApi['coordonnees']['adresse']['code_postal'])
+                ? $structureApi['coordonnees']['adresse']['code_postal']
+                : null;
+
+            $attributes['department'] = isset($structureApi['coordonnees']['adresse']['departement_numero'])
+                ? $structureApi['coordonnees']['adresse']['departement_numero']
+                : null;
+
             $coordonates = AlgoliaPlacesGeocoder::getCoordinatesForZip($attributes['zip']);
             if ($coordonates) {
                 $attributes['latitude'] = $coordonates['latitude'];
