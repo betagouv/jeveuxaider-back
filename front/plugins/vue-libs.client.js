@@ -14,7 +14,11 @@ import VueTheMask from 'vue-the-mask'
 Vue.use(VueClipboard)
 Vue.use(vClickOutside)
 Vue.use(VueTypedJs)
-Vue.use(VScrollLock)
+Vue.use(VScrollLock, {
+  bodyScrollOptions: {
+    reserveScrollBarGap: true,
+  },
+})
 Vue.use(Vue2Filters)
 Vue.use(PortalVue)
 
