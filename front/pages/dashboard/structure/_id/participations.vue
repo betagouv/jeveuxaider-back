@@ -277,7 +277,7 @@ export default {
       if (this.structure.missions_count > 0) {
         this.$alert(
           'Il est impossible de supprimer une organisation qui contient des missions.',
-          "Supprimer l'organisation",
+          'Supprimer l\'organisation',
           {
             confirmButtonText: 'Retour',
             type: 'warning',
@@ -287,7 +287,7 @@ export default {
       } else {
         this.$confirm(
           `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-          "Supprimer l'organisation",
+          'Supprimer l\'organisation',
           {
             confirmButtonText: 'Supprimer',
             confirmButtonClass: 'el-button--danger',
