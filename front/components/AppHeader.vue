@@ -21,7 +21,7 @@
             />
           </nuxt-link>
         </div>
-        <div class="flex items-center px-4 lg:px-6 xl:px-8">
+        <div class="flex items-center px-4 lg:px-6 xl:px-8 flex-shrink-0">
           <nuxt-link to="/">
             <img
               src="@/assets/images/jeveuxaider-logo.svg"
@@ -385,7 +385,7 @@
               </nuxt-link>
             </nav>
           </slot>
-          <div class="ml-6 xl:ml-12">
+          <div class="ml-6 xl:ml-12 flex items-center space-x-2">
             <template v-if="!$store.getters.isLogged">
               <nuxt-link
                 to="/login"
@@ -398,23 +398,40 @@
                   py-2
                   text-xs
                   font-semibold
-                  text-gray-800
+                  text-blue-800
                   hover:bg-gray-50
-                  hover:text-blue-800
-                  focus:text-gray-900
+                  hover:scale-105
+                  transform
                   transition
                   ease-in-out
                   duration-150
+                  uppercase
                 "
               >
-                <img
-                  class="mr-2"
-                  src="@/assets/images/icones/mon-espace.svg"
-                  alt="Mon espace"
-                  width="12"
-                  height="18"
-                />
-                Mon espace
+                Connexion
+              </nuxt-link>
+              <nuxt-link
+                to="/inscription"
+                class="
+                  flex
+                  border border-gray-200
+                  cursor-pointer
+                  rounded-full
+                  px-4
+                  py-2
+                  text-xs
+                  font-semibold
+                  text-white
+                  bg-blue-800
+                  hover:scale-105
+                  transform
+                  transition
+                  ease-in-out
+                  duration-150
+                  uppercase
+                "
+              >
+                Inscription
               </nuxt-link>
             </template>
             <template v-else>
