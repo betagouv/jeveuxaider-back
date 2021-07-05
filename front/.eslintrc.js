@@ -10,6 +10,9 @@ module.exports = {
   },
   plugins: ['prettier'],
   rules: {
+    'no-console': 'off',
+    eqeqeq: 'off',
+    'vue/no-v-html': 'off',
     'prettier/prettier': 'error',
   },
 }
