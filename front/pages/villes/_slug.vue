@@ -24,7 +24,7 @@ export default {
       link: [
         {
           rel: 'canonical',
-          href: 'https://www.jeveuxaider.gouv.fr/territoires',
+          href: `https://www.jeveuxaider.gouv.fr${this.territoire.full_url}`,
         },
       ],
       meta: [

@@ -193,13 +193,13 @@ export default {
   data () {
     const types = [
       {
+        slug: 'cities',
+        label: 'Villes'
+      },
+      {
         slug: 'departments',
         label: 'Départements'
       },
-      {
-        slug: 'cities',
-        label: 'Villes'
-      }
     ]
 
     return {
@@ -231,7 +231,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: "Partout en France, des milliers de bénévoles, d'associations et de communes se mobilisent sur JeVeuxAider.gouv.fr. Rejoignez la plateforme et faites vivre la solidarité locale. "
+          content: 'Partout en France, des milliers de bénévoles, d\'associations et de communes se mobilisent sur JeVeuxAider.gouv.fr. Rejoignez la plateforme et faites vivre la solidarité locale. '
         },
         {
           hid: 'og:image',

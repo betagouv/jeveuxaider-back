@@ -39,10 +39,10 @@
             target="_blank"
             class="underline hover:no-underline"
           >
-            {{ structure.full_url }}
+            {{ $config.appUrl }}{{ structure.full_url }}
           </nuxt-link>
           <span v-else class="cursor-default">
-            {{ structure.full_url }}
+            {{ $config.appUrl }}{{ structure.full_url }}
           </span>
         </div>
       </div>
@@ -66,10 +66,15 @@
           <ModelStructureInfos :structure="structure" />
         </el-card>
         <el-card shadow="never" class="p-4">
-          <div class="flex justify-between">
+          <div class="flex justify-between items-start">
             <div v-if="structure.members" class="mb-6 text-xl font-semibold">
               Membres
             </div>
+            <nuxt-link :to="`/dashboard/structure/${structure.id}/members`">
+              <el-button size="small" type="secondary">
+                Gérer les membres
+              </el-button>
+            </nuxt-link>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <ModelMemberTeaser
