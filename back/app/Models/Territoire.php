@@ -35,7 +35,7 @@ class Territoire extends Model implements HasMedia
         'state' => 'validated'
     ];
 
-    protected $appends = ['completion_rate', 'full_url', 'banner', 'logo', 'permissions'];
+    // protected $appends = ['completion_rate', 'full_url', 'banner', 'logo', 'permissions'];
 
     protected $hidden = ['media'];
 

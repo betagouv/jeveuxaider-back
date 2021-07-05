@@ -5,11 +5,15 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2-5xl text-gray-800">Territoires</div>
+        <div class="mb-8 font-bold text-2-5xl text-gray-800">
+          Territoires
+        </div>
       </div>
       <div class>
         <nuxt-link :to="`/dashboard/territoire/add`">
-          <el-button type="primary"> Ajouter un territoire </el-button>
+          <el-button type="primary">
+            Ajouter un territoire
+          </el-button>
         </nuxt-link>
       </div>
     </div>
@@ -75,17 +79,21 @@
     >
       <el-table-column width="70" label="Id" align="center">
         <template slot-scope="scope">
-          <div class="text-secondary text-sm">{{ scope.row.id }}</div>
+          <div class="text-secondary text-sm">
+            {{ scope.row.id }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Territoire" min-width="320">
         <template slot-scope="scope">
-          <div class="text-gray-900">{{ scope.row.name }}</div>
+          <div class="text-gray-900">
+            {{ scope.row.name }}
+          </div>
           <div class="font-light text-gray-600 text-xs flex items-center">
             <div
               :class="scope.row.is_published ? 'bg-green-500' : 'bg-red-500'"
               class="rounded-full h-2 w-2 mr-2"
-            ></div>
+            />
             <nuxt-link
               v-if="scope.row.is_published"
               :to="scope.row.full_url"
@@ -106,7 +114,7 @@
             :percentage="scope.row.completion_rate"
             :show-text="false"
             style="max-width: 130px"
-          ></el-progress>
+          />
         </template>
       </el-table-column>
       <el-table-column label="Modifiée le" width="200">
@@ -139,7 +147,7 @@
         :page-size="15"
         :current-page="Number(query.page)"
         @current-change="onPageChange"
-      ></el-pagination>
+      />
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
@@ -157,21 +165,21 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
-  asyncData({ store, error }) {
+  asyncData ({ store, error }) {
     if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
   },
-  async fetch() {
-    const { data } = await this.$api.fetchTerritoires(this.query)
+  async fetch () {
+    const { data } = await this.$api.fetchTerritoires({ ...this.query, append: 'completion_rate,full_url' })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
   },
   watch: {
-    '$route.query': '$fetch',
+    '$route.query': '$fetch'
   },
-  methods: {},
+  methods: {}
 }
 </script>
