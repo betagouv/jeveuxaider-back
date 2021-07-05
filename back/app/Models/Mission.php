@@ -10,10 +10,12 @@ use Laravel\Scout\Searchable;
 use Spatie\Tags\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Carbon\Carbon;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable, HasTags, LogsActivity;
+    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug;
 
     protected $table = 'missions';
 
@@ -45,6 +47,7 @@ class Mission extends Model
         'domaine_id',
         'template_id',
         'thumbnail',
+        'slug',
     ];
 
     protected $casts = [
@@ -365,5 +368,14 @@ class Mission extends Model
         $mission->save();
 
         return $mission;
+    }
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(function ($model) {
+                return "benevolat-{$model->structure->name}-{$model->city}";
+            })
+            ->saveSlugsTo('slug');
     }
 }
