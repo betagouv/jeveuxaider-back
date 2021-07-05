@@ -109,7 +109,7 @@
         </div>
         <div>
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
-            Analytics sur la dernière année
+            Visiteurs sur la dernière année
           </div>
           <div class="flex flex-wrap">
             <CardStatisticsDefaultCount

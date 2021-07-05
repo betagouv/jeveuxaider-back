@@ -19,7 +19,8 @@
           la date de fin est passée
         </div>
         <div class="text-sm text-gray-500">
-          Penser à terminer les missions de {{ action.structure.name }}
+          Pensez à terminer ou mettre à jour les missions de
+          {{ action.structure.name }}
         </div>
       </div>
     </div>

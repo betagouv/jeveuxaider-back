@@ -39,10 +39,10 @@
             target="_blank"
             class="underline hover:no-underline"
           >
-            {{ structure.full_url }}
+            {{ $config.appUrl }}{{ structure.full_url }}
           </nuxt-link>
           <span v-else class="cursor-default">
-            {{ structure.full_url }}
+            {{ $config.appUrl }}{{ structure.full_url }}
           </span>
         </div>
       </div>
