@@ -21,7 +21,7 @@ class TerritoireController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Territoire::class)
+        return QueryBuilder::for(Territoire::with(['media']))
             ->allowedFilters([
                 'state',
                 'type',
