@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
+use App\Models\MissionTemplate;
 use App\Models\Participation;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,12 @@ class MissionsSetFullByTemplate extends Command
     {
         $templateIds = $this->argument('templateIds');
         $queryMissions = Mission::hasPlacesLeft()->available()->whereIn('template_id', $templateIds);
+
+        foreach ($templateIds as $templateId) {
+            $template = MissionTemplate::findOrFail($templateId);
+            $templateCount = (clone $queryMissions)->where('template_id', $templateId)->count();
+            $this->info("{$template->title} : {$templateCount}");
+        }
 
         if ($this->confirm($queryMissions->count() . ' missions vont être mises à jour.')) {
             $missions = $queryMissions->get();

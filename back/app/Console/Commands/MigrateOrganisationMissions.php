@@ -6,6 +6,7 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Structure;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 
 class MigrateOrganisationMissions extends Command
 {
@@ -55,21 +56,23 @@ class MigrateOrganisationMissions extends Command
             return;
         }
 
-        $responsable = $structureDestination->members->first();
-
-        if (!$responsable) {
-            $this->error("This organisation {$this->argument('destination_id')} doesnt have any responsable");
-            return;
-        }
 
         $missionsQuery = Mission::where('structure_id', $structureOrigin->id)->withTrashed();
 
         $count = $missionsQuery->count();
-        if ($this->confirm("{$count} missions(s) will be migrated from {$structureOrigin->name} to {$structureDestination->name} and will be linked to {$responsable->full_name} {$responsable->email}")) {
+        if ($this->confirm("{$count} missions(s) will be migrated from {$structureOrigin->name} to {$structureDestination->name}")) {
+            // Migre les responsables de l'ancienne structure dans la nouvelle
+            $responsablesOrigin = $structureOrigin->members()
+                ->where('role', 'responsable')
+                ->pluck('profile_id')
+                ->toArray();
+            $structureDestination->members()
+                ->syncWithPivotValues($responsablesOrigin, ['role' => 'responsable'], false);
+
             $missionsQuery->update([
                 'structure_id' => $structureDestination->id,
-                'responsable_id' => $responsable->id
             ]);
+
             $this->info($count . ' missions(s) has been migrated.');
         }
     }

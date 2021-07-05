@@ -28,7 +28,10 @@ class TerritoireController extends Controller
                 AllowedFilter::exact('is_published'),
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
-
+            ->allowedAppends([
+                'completion_rate',
+                'full_url',
+            ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
@@ -39,7 +42,7 @@ class TerritoireController extends Controller
         ? Territoire::where('id', $slugOrId)->with(['responsables', 'structures'])->firstOrFail()
         : Territoire::where('slug', $slugOrId)->with(['structures'])->firstOrFail();
 
-        return $territoire;
+        return $territoire->setAppends(['full_url', 'banner', 'logo', 'permissions']);
     }
 
     public function store(TerritoireRequest $request)

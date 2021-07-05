@@ -39,10 +39,10 @@
             target="_blank"
             class="underline hover:no-underline"
           >
-            {{ structure.full_url }}
+            {{ $config.appUrl }}{{ structure.full_url }}
           </nuxt-link>
           <span v-else class="cursor-default">
-            {{ structure.full_url }}
+            {{ $config.appUrl }}{{ structure.full_url }}
           </span>
         </div>
       </div>
@@ -120,7 +120,7 @@
         </div>
         <div v-if="plausible">
           <div class="font-semibold text-md uppercase text-gray-800 mb-4">
-            Analytics sur la dernière année
+            Visiteurs sur la dernière année
           </div>
           <div class="flex flex-wrap">
             <CardStatisticsDefaultCount
