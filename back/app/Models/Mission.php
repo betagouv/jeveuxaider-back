@@ -373,8 +373,10 @@ class Mission extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(function ($model) {
-                return "benevolat-{$model->structure->name}-{$model->city}";
+            ->generateSlugsFrom(function ($mission) {
+                return !empty($mission->city)
+                    ? "benevolat-{$mission->structure->name}-{$mission->city}"
+                    : "benevolat-{$mission->structure->name}";
             })
             ->saveSlugsTo('slug');
     }
