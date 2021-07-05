@@ -142,7 +142,7 @@ class User extends Authenticatable
             }
         }
 
-        return $this->attributes['context_role'];
+        return $this->attributes['context_role'] ?? null;
     }
 
     public function getContextableTypeAttribute()
@@ -155,7 +155,7 @@ class User extends Authenticatable
             }
         }
 
-        return $this->attributes['contextable_type'];
+        return $this->attributes['contextable_type'] ?? null;
     }
 
     public function getContextableIdAttribute()
@@ -168,7 +168,7 @@ class User extends Authenticatable
             }
         }
 
-        return $this->attributes['contextable_id'];
+        return $this->attributes['contextable_id'] ?? null;
     }
 
     public function anonymize()
