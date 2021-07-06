@@ -44,9 +44,9 @@ class MissionRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     $datas = $this->validator->getData();
                     if (!empty($datas['zip'])) {
-                        if (!str_contains($datas['zip'], $value)) {
+                        if (substr($datas['zip'], 0, 2) != $value) {
                             // Exeptions.
-                            if (in_array($value, ['2A', '2B']) && str_contains($datas['zip'], '20')) {
+                            if (in_array($value, ['2A', '2B']) && substr($datas['zip'], 0, 2) == '20') {
                                 return;
                             }
 
