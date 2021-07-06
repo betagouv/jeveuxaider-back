@@ -2,7 +2,7 @@
   <div class="p-4">
     <div class="flex items-center">
       <Avatar
-        v-for="(recipient, i) in recipients"
+        v-for="(recipient, i) in recipients.slice(0, 3)"
         :key="recipient.id"
         class="mr-4 relative"
         :class="[{ '-ml-10': i !== 0 }, { 'shadow-md': recipients.length > 1 }]"
