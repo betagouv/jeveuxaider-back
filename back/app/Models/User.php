@@ -196,7 +196,10 @@ class User extends Authenticatable
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
-            })->pluck('conversations.id')->toArray();
+            })
+            ->where('conversations_users.status', true)
+            ->pluck('conversations.id')
+            ->toArray();
     }
 
     public function getUnreadConversationsCount()
@@ -206,7 +209,9 @@ class User extends Authenticatable
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
-            })->count();
+            })
+            ->where('conversations_users.status', true)
+            ->count();
     }
 
     public static function getNbParticipationsOver($pid)

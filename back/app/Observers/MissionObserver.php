@@ -107,6 +107,19 @@ class MissionObserver
                     break;
             }
         }
+
+        // Transfert des conversations.
+        if ($mission->getOriginal('responsable_id') != $mission->responsable_id) {
+            $oldResponsable = Profile::find($mission->getOriginal('responsable_id'))->user;
+            $newResponsable = $mission->responsable->user;
+
+            $participations = $mission->participations()->pluck('id')->toArray();
+            $conversationsQuery = $oldResponsable->conversations()->whereIn('conversable_id', $participations);
+
+            foreach ($conversationsQuery->get() as $conversation) {
+                $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
+            }
+        }
     }
 
     public function saving(Mission $mission)

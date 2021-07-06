@@ -13,8 +13,6 @@ module.exports = {
     'no-console': 'off',
     eqeqeq: 'off',
     'vue/no-v-html': 'off',
-    'vue/html-closing-bracket-newline': 'off',
-    'vue/html-self-closing': 'off',
     'prettier/prettier': 'error',
   },
 }

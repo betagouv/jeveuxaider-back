@@ -2,15 +2,18 @@
   <div class="p-4">
     <div class="flex items-center">
       <Avatar
-        class="mr-4"
+        v-for="(recipient, i) in recipients"
+        :key="recipient.id"
+        class="mr-4 relative"
+        :class="[{ '-ml-10': i !== 0 }, { 'shadow-md': recipients.length > 1 }]"
         :source="recipient.profile.image ? recipient.profile.image.thumb : null"
         :fallback="recipient.profile.short_name"
       />
 
       <div class="flex-1 min-w-0">
         <div class="flex items-center space-x-2">
-          <div :class="[{ 'font-bold unread': !hasRead }]">
-            {{ recipient.profile.first_name }}
+          <div class="truncate" :class="[{ 'font-bold unread': !hasRead }]">
+            {{ recipientNames }}
           </div>
 
           <div v-if="nametype" class="text-secondary text-sm truncate">
@@ -64,15 +67,27 @@ export default {
     },
   },
   computed: {
-    recipient() {
-      return this.conversation.users.filter((user) => {
-        return user.id != this.$store.getters.user.id
-      })[0]
-    },
     currentUser() {
-      return this.conversation.users.filter((user) => {
+      return this.conversation.users.find((user) => {
         return user.id == this.$store.getters.user.id
-      })[0]
+      })
+    },
+    participant() {
+      return this.conversation.users.find((user) => {
+        return user.profile.id == this.conversation.conversable.profile_id
+      })
+    },
+    recipients() {
+      return this.participant.id == this.$store.getters.user.id
+        ? this.conversation.users.filter((user) => {
+            return user.id != this.$store.getters.user.id
+          })
+        : [this.participant]
+    },
+    recipientNames() {
+      return this.recipients
+        .map((recipient) => recipient.profile.first_name)
+        .join(', ')
     },
     hasRead() {
       return !this.$store.getters.user.unreadConversations.includes(
