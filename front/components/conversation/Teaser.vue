@@ -78,6 +78,7 @@ export default {
       })
     },
     recipients() {
+      // @todo: Seulement le responsable actuel ?
       return this.participant.id == this.$store.getters.user.id
         ? this.conversation.users.filter((user) => {
             return user.id != this.$store.getters.user.id
