@@ -1,18 +1,21 @@
 <template>
-  <div class="relative text-center z-10">
+  <div class="relative z-10">
     <h2
-      class="text-3xl md:text-5xl text-white leading-tight tracking-tight font-bold"
-    >
-      Excellent choix !
-    </h2>
-    <div class="text-xl md:text-3xl text-white mt-7 tracking-tight">
-      Vous êtes...
-    </div>
+      class="text-3xl md:text-5xl text-white leading-tight tracking-tight font-bold text-center"
+      v-html="currentStep.title"
+    />
     <div
-      class="flex flex-col space-y-4 items-center justify-center mt-10 mb-12 md:flex-row md:space-x-6 md:space-y-0"
+      class="text-xl md:text-3xl text-white mt-7 tracking-tight text-center"
+      v-html="currentStep.subtitle"
+    />
+
+    <div
+      v-if="currentStep.key == 'choix_orga_type'"
+      class="max-w-5xl flex flex-col flex-wrap items-center justify-center mt-10 mb-12 md:flex-row mx-auto"
     >
-      <div
-        class="bg-white w-72 h-64 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+      <nuxt-link
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        to="?orga_type=association"
       >
         <p class="text-4xl mb-0">💪</p>
         <p class="text-2xl leading-tight">
@@ -22,9 +25,9 @@
           Trouver des bénévoles<br />
           pour vos missions
         </p>
-      </div>
+      </nuxt-link>
       <div
-        class="bg-white w-72 h-64 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🏫️</p>
         <p class="text-2xl leading-tight">
@@ -36,7 +39,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🚀</p>
         <p class="text-2xl leading-tight">
@@ -48,7 +51,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🏢</p>
         <p class="text-2xl leading-tight">
@@ -59,7 +62,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🏩</p>
         <p class="text-2xl leading-tight">
@@ -72,7 +75,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 px-4 py-10 flex-col items-center justify-center rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 px-4 py-10 flex-col items-center justify-center text-center rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🤔</p>
         <p class="text-2xl leading-tight">
@@ -85,14 +88,63 @@
         </p>
       </div>
     </div>
+    <div v-else-if="currentStep.key == 'choix_nom_asso'" class="mt-10">
+      <el-form
+        ref="registerResponsableForm"
+        :model="form"
+        label-position="top"
+        :hide-required-asterisk="true"
+        class="max-w-2xl mx-auto bg-gray-100 p-12 rounded-xl"
+      >
+        <div class="w-full m-0">
+          <label
+            class="uppercase font-semibold text-gray-800 text-sm mb-2 block"
+          >
+            Nom de votre association
+          </label>
+          <StructureApiSearchInput
+            v-model="form.structure.name"
+            placeholder="Nom de votre association"
+            @selected="onStructureApiSelected"
+            @clear="structureApi = null"
+          />
+          <div v-if="structureApi" class="text-xs text-gray-400 leading-tight">
+            RNA: {{ structureApi.rna }}
+          </div>
+        </div>
+      </el-form>
+    </div>
+    <div v-else-if="currentStep.key == 'form_utilisateur'">
+      <el-form
+        ref="formUtilisateur"
+        :model="form"
+        label-position="top"
+        :hide-required-asterisk="true"
+        class="max-w-2xl mx-auto bg-gray-100 p-12 rounded-xl"
+      >
+        <div class="w-full m-0">Formulaire utilisateur</div>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Login',
+  name: 'InscriptionOrganisation',
   layout: 'header-only',
   middleware: 'guest',
+  data() {
+    return {
+      currentStepKey:
+        this.$route.query.orga_type === 'association'
+          ? 'choix_nom_asso'
+          : 'choix_orga_type',
+      form: {
+        structure: {},
+      },
+      structureApi: null,
+    }
+  },
   head() {
     return {
       title:
@@ -111,6 +163,36 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    steps() {
+      return [
+        {
+          key: 'choix_orga_type',
+          title: 'Excellent choix !',
+          subtitle: 'Vous êtes...',
+        },
+        {
+          key: 'choix_nom_asso',
+          title: 'Votre association est <br /> la bienvenue chez nous !',
+          subtitle: 'Quel est son petit nom ?',
+        },
+        {
+          key: 'form_utilisateur',
+          title: "On n'attendait plus que vous, chez Codeconut",
+          subtitle: 'Et vous dans tout ça ?',
+        },
+      ]
+    },
+    currentStep() {
+      return this.steps.find((step) => step.key == this.currentStepKey)
+    },
+  },
+  methods: {
+    onStructureApiSelected(structure) {
+      this.form.structure = structure
+      this.currentStepKey = 'form_utilisateur'
+    },
   },
 }
 </script>

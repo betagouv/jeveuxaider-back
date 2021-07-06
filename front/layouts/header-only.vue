@@ -1,13 +1,28 @@
 <template>
   <div class="relative bg-blue-800 h-full">
     <AppHeader />
-    <img class="z-1 object-cover absolute" style="max-height: 700px" alt="Je Veux Aider" :srcSet="bgHeroMultipleSizes.srcSet" :src="bgHeroMultipleSizes.src" width="100%" height="100%" />
+    <img
+      class="z-1 object-cover absolute"
+      alt="Je Veux Aider"
+      :srcSet="bgHeroMultipleSizes.srcSet"
+      :src="bgHeroMultipleSizes.src"
+      width="100%"
+      height="100%"
+    />
     <div class="p-6 lg:p-12">
       <Nuxt :nuxt-child-key="$route.fullPath" class="" />
     </div>
     <transition name="fade">
-      <LazySearchOverlay v-if="$store.getters.searchOverlay" @submitted="$store.commit('toggleSearchOverlay')" @closed="$store.commit('toggleSearchOverlay')" />
-      <LazySoftGateOverlay v-if="$store.getters.softGateOverlay" @submitted="$store.commit('toggleSoftGateOverlay')" @closed="$store.commit('toggleSoftGateOverlay')" />
+      <LazySearchOverlay
+        v-if="$store.getters.searchOverlay"
+        @submitted="$store.commit('toggleSearchOverlay')"
+        @closed="$store.commit('toggleSearchOverlay')"
+      />
+      <LazySoftGateOverlay
+        v-if="$store.getters.softGateOverlay"
+        @submitted="$store.commit('toggleSoftGateOverlay')"
+        @closed="$store.commit('toggleSoftGateOverlay')"
+      />
     </transition>
   </div>
 </template>
@@ -24,7 +39,7 @@ export default {
   },
   head: {
     bodyAttrs: {
-      class: 'full-height-layout',
+      class: 'h-full',
     },
   },
 }
