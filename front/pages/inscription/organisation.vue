@@ -88,6 +88,7 @@
         </p>
       </div>
     </div>
+
     <div v-else-if="currentStep.key == 'choix_nom_asso'" class="mt-10">
       <el-form
         ref="registerResponsableForm"
@@ -114,15 +115,110 @@
         </div>
       </el-form>
     </div>
+
     <div v-else-if="currentStep.key == 'form_utilisateur'">
       <el-form
-        ref="formUtilisateur"
+        ref="registerVolontaireForm"
         :model="form"
         label-position="top"
         :hide-required-asterisk="true"
-        class="max-w-2xl mx-auto bg-gray-100 p-12 rounded-xl"
+        class="form-register-steps max-w-2xl mx-auto bg-gray-100 p-12 rounded-xl"
       >
-        <div class="w-full m-0">Formulaire utilisateur</div>
+        <div class="flex flex-wrap -m-2">
+          <el-form-item
+            label="Prénom"
+            prop="first_name"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.first_name"
+              label="Prénom"
+              autocomplete="new-password"
+              placeholder="Prénom"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Nom"
+            prop="last_name"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.last_name"
+              label="Nom"
+              autocomplete="new-password"
+              placeholder="Nom"
+            />
+          </el-form-item>
+          <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 p-2">
+            <el-input
+              v-model.trim="form.email"
+              label="E-mail"
+              autocomplete="new-password"
+              placeholder="E-mail"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Code postal"
+            prop="zip"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.zip"
+              label="Code postal"
+              autocomplete="new-password"
+              placeholder="Code postal"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Portable"
+            prop="mobile"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.mobile"
+              label="Mobile"
+              placeholder="Téléphone mobile"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Date de naissance"
+            prop="birthday"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.birthday"
+              v-mask="'##/##/####'"
+              autocomplete="new-password"
+              label="Date de naissance"
+              placeholder="Date de naissance"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Mot de passe"
+            prop="password"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.password"
+              placeholder="Mot de passe"
+              label="Mot de passe"
+              show-password
+              autocomplete="new-password"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Confirmation"
+            prop="password_confirmation"
+            class="w-full sm:w-1/2 p-2"
+          >
+            <el-input
+              v-model="form.password_confirmation"
+              label="Confirmation mot de passe"
+              placeholder="Confirmation mot de passe"
+              show-password
+            />
+          </el-form-item>
+        </div>
       </el-form>
     </div>
   </div>
