@@ -77,8 +77,15 @@ export default {
         return user.profile.id == this.conversation.conversable.profile_id
       })
     },
+    responsable() {
+      return this.conversation.users.find((user) => {
+        return (
+          user.profile.id ==
+          this.conversation.conversable.mission.responsable_id
+        )
+      })
+    },
     recipients() {
-      // @todo: Seulement le responsable actuel ?
       return this.participant.id == this.$store.getters.user.id
         ? this.conversation.users.filter((user) => {
             return user.id != this.$store.getters.user.id
