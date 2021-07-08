@@ -1,69 +1,6 @@
 <template>
   <div class="has-full-table">
-    <div
-      class="header px-12 flex"
-      :class="{ 'mb-8': $store.getters.contextRole == 'responsable' }"
-    >
-      <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">Organisation</div>
-        <div class="flex items-center flex-wrap">
-          <div class="font-bold text-2-5xl text-gray-800 mr-2">
-            {{ structure.name }}
-          </div>
-          <TagModelState v-if="structure.state" :state="structure.state" />
-          <el-tag
-            v-if="structure.is_reseau"
-            size="medium"
-            class="m-1 ml-0"
-            type="danger"
-          >
-            Tête de réseau
-          </el-tag>
-          <el-tag v-if="structure.reseau_id" class="m-1 ml-0" size="medium">
-            {{ structure.reseau_id | reseauFromValue }}
-          </el-tag>
-        </div>
-        <div
-          v-if="structure.statut_juridique == 'Association'"
-          class="font-light text-gray-600 flex items-center"
-        >
-          <div
-            :class="
-              structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'
-            "
-            class="rounded-full h-2 w-2 mr-2"
-          ></div>
-          <nuxt-link
-            v-if="structure.state == 'Validée'"
-            :to="structure.full_url"
-            target="_blank"
-            class="underline hover:no-underline"
-          >
-            {{ $config.appUrl }}{{ structure.full_url }}
-          </nuxt-link>
-          <span v-else class="cursor-default">
-            {{ $config.appUrl }}{{ structure.full_url }}
-          </span>
-        </div>
-      </div>
-      <div
-        v-if="
-          $store.getters.contextRole == 'responsable' &&
-          $store.getters.reminders &&
-          $store.getters.reminders.participations > 0
-        "
-      >
-        <el-button
-          type="primary"
-          :loading="loadingButton"
-          @click="onMassValidation"
-        >
-          Valider toutes les participations en attente ({{
-            $store.getters.reminders.participations
-          }})
-        </el-button>
-      </div>
-    </div>
+    <HeaderOrganisation :structure="structure" />
     <NavTabStructure
       v-if="$store.getters.contextRole != 'responsable'"
       :structure="structure"
@@ -277,7 +214,7 @@ export default {
       if (this.structure.missions_count > 0) {
         this.$alert(
           'Il est impossible de supprimer une organisation qui contient des missions.',
-          'Supprimer l\'organisation',
+          "Supprimer l'organisation",
           {
             confirmButtonText: 'Retour',
             type: 'warning',
@@ -287,7 +224,7 @@ export default {
       } else {
         this.$confirm(
           `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-          'Supprimer l\'organisation',
+          "Supprimer l'organisation",
           {
             confirmButtonText: 'Supprimer',
             confirmButtonClass: 'el-button--danger',
