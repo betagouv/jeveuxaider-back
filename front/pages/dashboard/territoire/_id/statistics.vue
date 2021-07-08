@@ -13,6 +13,10 @@
         </div>
 
         <div class="font-light text-gray-600 flex items-center">
+          <div class="mr-2">
+            La page vitrine de votre
+            {{ territoire.type | labelFromValue('territoires_types') }} :
+          </div>
           <div
             :class="territoire.is_published ? 'bg-green-500' : 'bg-red-500'"
             class="rounded-full h-2 w-2 mr-2"
@@ -23,10 +27,10 @@
             target="_blank"
             class="underline hover:no-underline"
           >
-            {{ territoire.full_url }}
+            {{ $config.appUrl }}{{ territoire.full_url }}
           </nuxt-link>
           <span v-else class="cursor-default">
-            {{ territoire.full_url }}
+            {{ $config.appUrl }}{{ territoire.full_url }}
           </span>
         </div>
       </div>

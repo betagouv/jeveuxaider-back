@@ -25,8 +25,9 @@
             hover:border-black
             transition
           "
-          >Consulter la fiche</nuxt-link
         >
+          Consulter la fiche
+        </nuxt-link>
       </div>
     </section>
 
@@ -64,6 +65,8 @@
       <DropdownParticipationState
         v-if="
           $store.getters.contextRole == 'responsable' &&
+          $store.getters.contextStructure.id ==
+            participation.mission.structure_id &&
           !!['En attente de validation', 'Validée'].includes(
             participation.state
           )

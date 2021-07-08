@@ -5,15 +5,11 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2-5xl text-gray-800">
-          Territoires
-        </div>
+        <div class="mb-8 font-bold text-2-5xl text-gray-800">Territoires</div>
       </div>
       <div class>
         <nuxt-link :to="`/dashboard/territoire/add`">
-          <el-button type="primary">
-            Ajouter un territoire
-          </el-button>
+          <el-button type="primary"> Ajouter un territoire </el-button>
         </nuxt-link>
       </div>
     </div>
@@ -165,21 +161,24 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
-  asyncData ({ store, error }) {
+  asyncData({ store, error }) {
     if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
   },
-  async fetch () {
-    const { data } = await this.$api.fetchTerritoires({ ...this.query, append: 'completion_rate,full_url' })
+  async fetch() {
+    const { data } = await this.$api.fetchTerritoires({
+      ...this.query,
+      append: 'completion_rate,full_url',
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
   },
   watch: {
-    '$route.query': '$fetch'
+    '$route.query': '$fetch',
   },
-  methods: {}
+  methods: {},
 }
 </script>

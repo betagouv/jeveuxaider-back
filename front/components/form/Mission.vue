@@ -45,7 +45,9 @@
 
         <div class="w-full flex items-center p-4">
           <div class="mr-3">
-            <div class="mb-1">{{ form.template.title }}</div>
+            <div class="mb-1">
+              {{ form.template.title }}
+            </div>
 
             <client-only>
               <v-clamp
@@ -74,8 +76,9 @@
             type="primary"
             class="ml-3"
             @click.prevent="modalVisible = true"
-            >Aperçu</el-button
           >
+            Aperçu
+          </el-button>
         </div>
       </div>
 
@@ -99,9 +102,11 @@
           >
             Titre de la mission
           </h4>
-          <div class="flex-1 border-t-2 border-gray-200"></div>
+          <div class="flex-1 border-t-2 border-gray-200" />
         </div>
-        <div class="mt-2">{{ form.template.subtitle }}</div>
+        <div class="mt-2">
+          {{ form.template.subtitle }}
+        </div>
         <div class="flex items-center mt-6">
           <h4
             class="
@@ -117,9 +122,9 @@
           >
             Objectif de la mission
           </h4>
-          <div class="flex-1 border-t-2 border-gray-200"></div>
+          <div class="flex-1 border-t-2 border-gray-200" />
         </div>
-        <div class="mt-2 break-normal" v-html="form.template.objectif"></div>
+        <div class="mt-2 break-normal" v-html="form.template.objectif" />
         <div class="flex items-center mt-6">
           <h4
             class="
@@ -135,9 +140,9 @@
           >
             Description de la mission et règles à suivre impérativement
           </h4>
-          <div class="flex-1 border-t-2 border-gray-200"></div>
+          <div class="flex-1 border-t-2 border-gray-200" />
         </div>
-        <div class="mt-2" v-html="form.template.description"></div>
+        <div class="mt-2" v-html="form.template.description" />
       </el-dialog>
     </div>
 
@@ -182,7 +187,7 @@
               :key="domaine.id"
               :label="domaine.name.fr"
               :value="domaine.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
 
@@ -241,7 +246,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -263,7 +268,7 @@
             :key="domaine.id"
             :label="domaine.name.fr"
             :value="domaine.name.fr"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -431,9 +436,9 @@
         </el-select>
       </el-form-item>
       <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit"
-          >Enregistrer</el-button
-        >
+        <el-button type="primary" :loading="loading" @click="onSubmit">
+          Enregistrer
+        </el-button>
       </div>
     </el-form>
   </div>
