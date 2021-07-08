@@ -8,7 +8,6 @@ use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
-use App\Notifications\ParticipationFinished;
 
 class ParticipationObserver
 {
@@ -51,11 +50,6 @@ class ParticipationObserver
                 case 'Annulée':
                     if ($participation->profile) {
                         $participation->profile->notify(new ParticipationCanceled($participation));
-                    }
-                    break;
-                case 'Effectuée':
-                    if ($participation->profile) {
-                        $participation->profile->notify(new ParticipationFinished($participation));
                     }
                     break;
             }

@@ -71,6 +71,7 @@ class PassportController extends Controller
         $structureAttributes = [
             'user_id' => $user->id,
             'name' => request('structure_name'),
+            'statut_juridique' => request('structure_statut_juridique')
         ];
 
         // MAPPING API ENGAGEMENT

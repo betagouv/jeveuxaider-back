@@ -15,7 +15,7 @@
     >
       <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
-        to="?orga_type=association"
+        to="?orga_type=Association"
       >
         <p class="text-4xl mb-0">💪</p>
         <p class="text-2xl leading-tight">
@@ -26,8 +26,9 @@
           pour vos missions
         </p>
       </nuxt-link>
-      <div
+      <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        to="?orga_type=Collectivité"
       >
         <p class="text-4xl mb-0">🏫️</p>
         <p class="text-2xl leading-tight">
@@ -37,7 +38,7 @@
           Mairies, départements,<br />
           régions et EPCI
         </p>
-      </div>
+      </nuxt-link>
       <div
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
@@ -101,34 +102,51 @@
           <label
             class="uppercase font-semibold text-gray-800 text-sm mb-2 block"
           >
-            Nom de votre association
+            <template v-if="$route.query.orga_type === 'Collectivité'">
+              Nom de votre collectivité
+            </template>
+            <template v-else>Nom de votre association</template>
           </label>
           <StructureApiSearchInput
+            v-if="$route.query.orga_type === 'Association'"
             v-model="form.structure.name"
             placeholder="Nom de votre association"
             @selected="onStructureApiSelected"
             @clear="structureApi = null"
           />
+          <el-input
+            v-else
+            v-model="form.structure.name"
+            placeholder="Nom de votre collectivité"
+          />
           <div v-if="structureApi" class="text-xs text-gray-400 leading-tight">
             RNA: {{ structureApi.rna }}
           </div>
         </div>
+        <el-button
+          type="primary"
+          class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
+          @click="onSubmitChooseName"
+        >
+          Continuer
+        </el-button>
       </el-form>
     </div>
 
-    <div v-else-if="currentStep.key == 'form_utilisateur'">
+    <div v-else-if="currentStep.key == 'form_utilisateur'" class="mt-10">
       <el-form
-        ref="registerVolontaireForm"
+        ref="registerResponsableForm"
         :model="form"
         label-position="top"
         :hide-required-asterisk="true"
-        class="form-register-steps max-w-2xl mx-auto bg-gray-100 p-12 rounded-xl"
+        :rules="rules"
+        class="form-register-steps max-w-xl mx-auto bg-gray-100 p-12 rounded-xl"
       >
-        <div class="flex flex-wrap -m-2">
+        <div class="flex flex-wrap -mx-2">
           <el-form-item
             label="Prénom"
             prop="first_name"
-            class="w-full sm:w-1/2 p-2"
+            class="w-full sm:w-1/2 px-2"
           >
             <el-input
               v-model="form.first_name"
@@ -140,7 +158,7 @@
           <el-form-item
             label="Nom"
             prop="last_name"
-            class="w-full sm:w-1/2 p-2"
+            class="w-full sm:w-1/2 px-2"
           >
             <el-input
               v-model="form.last_name"
@@ -149,7 +167,7 @@
               placeholder="Nom"
             />
           </el-form-item>
-          <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 p-2">
+          <el-form-item label="E-mail" prop="email" class="w-full px-2">
             <el-input
               v-model.trim="form.email"
               label="E-mail"
@@ -158,45 +176,9 @@
             />
           </el-form-item>
           <el-form-item
-            label="Code postal"
-            prop="zip"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input
-              v-model="form.zip"
-              label="Code postal"
-              autocomplete="new-password"
-              placeholder="Code postal"
-            />
-          </el-form-item>
-          <el-form-item
-            label="Portable"
-            prop="mobile"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input
-              v-model="form.mobile"
-              label="Mobile"
-              placeholder="Téléphone mobile"
-            />
-          </el-form-item>
-          <el-form-item
-            label="Date de naissance"
-            prop="birthday"
-            class="w-full sm:w-1/2 p-2"
-          >
-            <el-input
-              v-model="form.birthday"
-              v-mask="'##/##/####'"
-              autocomplete="new-password"
-              label="Date de naissance"
-              placeholder="Date de naissance"
-            />
-          </el-form-item>
-          <el-form-item
             label="Mot de passe"
             prop="password"
-            class="w-full sm:w-1/2 p-2"
+            class="w-full sm:w-1/2 px-2"
           >
             <el-input
               v-model="form.password"
@@ -209,7 +191,7 @@
           <el-form-item
             label="Confirmation"
             prop="password_confirmation"
-            class="w-full sm:w-1/2 p-2"
+            class="w-full sm:w-1/2 px-2"
           >
             <el-input
               v-model="form.password_confirmation"
@@ -219,25 +201,86 @@
             />
           </el-form-item>
         </div>
+        <el-button
+          type="primary"
+          :loading="loading"
+          class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
+          @click="onSubmitRegisterResponsableForm"
+        >
+          Continuer
+        </el-button>
       </el-form>
     </div>
   </div>
 </template>
 
 <script>
+import FormMixin from '@/mixins/Form'
+
 export default {
   name: 'InscriptionOrganisation',
+  mixins: [FormMixin],
   layout: 'header-only',
   middleware: 'guest',
   data() {
+    const validatePass2 = (rule, value, callback) => {
+      if (value !== this.form.password) {
+        callback(new Error('Les mots de passe ne sont pas identiques'))
+      } else {
+        callback()
+      }
+    }
     return {
       currentStepKey:
-        this.$route.query.orga_type === 'association'
+        this.$route.query.orga_type === 'Association' ||
+        this.$route.query.orga_type === 'Collectivité'
           ? 'choix_nom_asso'
           : 'choix_orga_type',
       form: {
         structure: {},
       },
+      rules: {
+        email: [
+          {
+            type: 'email',
+            message: "Le format de l'email n'est pas correct",
+            trigger: 'blur',
+          },
+          {
+            required: true,
+            message: 'Veuillez renseigner votre email',
+            trigger: 'blur',
+          },
+        ],
+        first_name: [
+          {
+            required: true,
+            message: 'Prénom obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        last_name: [
+          {
+            required: true,
+            message: 'Nom obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: 'Choisissez votre mot de passe',
+            trigger: 'change',
+          },
+          {
+            min: 8,
+            message: 'Votre mot de passe doit contenir au moins 8 caractères',
+            trigger: 'blur',
+          },
+        ],
+        password_confirmation: [{ validator: validatePass2, trigger: 'blur' }],
+      },
+      loading: false,
       structureApi: null,
     }
   },
@@ -270,13 +313,22 @@ export default {
         },
         {
           key: 'choix_nom_asso',
-          title: 'Votre association est <br /> la bienvenue chez nous !',
+          title:
+            this.$route.query.orga_type === 'Collectivité'
+              ? 'Voilà un grand pas<br /> pour votre collectivité !'
+              : 'Votre association est <br /> la bienvenue chez nous !',
           subtitle: 'Quel est son petit nom ?',
         },
         {
           key: 'form_utilisateur',
-          title: "On n'attendait plus que vous, chez Codeconut",
-          subtitle: 'Et vous dans tout ça ?',
+          title:
+            this.$route.query.orga_type === 'Association'
+              ? `On n'attendait plus que vous,<br /> Chez ${this.form.structure.name}`
+              : `Bienvenue parmi nous <br /> ${this.form.structure.name}`,
+          subtitle:
+            this.$route.query.orga_type === 'Association'
+              ? 'Et vous dans tout ça ?'
+              : 'Qui êtes-vous ?',
         },
       ]
     },
@@ -289,6 +341,48 @@ export default {
       this.form.structure = structure
       this.currentStepKey = 'form_utilisateur'
     },
+    onSubmitChooseName() {
+      this.currentStepKey = 'form_utilisateur'
+    },
+    onSubmitRegisterResponsableForm() {
+      this.loading = true
+      this.$refs.registerResponsableForm.validate((valid, fields) => {
+        if (valid) {
+          this.$store
+            .dispatch('auth/registerResponsable', {
+              email: this.form.email,
+              password: this.form.password,
+              first_name: this.form.first_name,
+              last_name: this.form.last_name,
+              structure_name: this.form.structure.name,
+              structure_statut_juridique: this.$route.query.orga_type,
+              structure_api: this.form.structure.rna
+                ? this.form.structure
+                : null,
+            })
+            .then(() => {
+              this.loading = false
+              window.plausible &&
+                window.plausible(
+                  'Inscription responsable - Étape 1 - Création de compte'
+                )
+              this.$router.push('/register/responsable/step/profile')
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          this.showErrors(fields)
+          this.loading = false
+        }
+      })
+    },
   },
 }
 </script>
+
+<style scoped>
+.el-form-item {
+  margin-bottom: 26px;
+}
+</style>

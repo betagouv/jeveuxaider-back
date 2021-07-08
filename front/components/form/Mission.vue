@@ -89,16 +89,7 @@
       >
         <div class="flex items-center">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Titre de la mission
           </h4>
@@ -109,16 +100,7 @@
         </div>
         <div class="flex items-center mt-6">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Objectif de la mission
           </h4>
@@ -127,16 +109,7 @@
         <div class="mt-2 break-normal" v-html="form.template.objectif" />
         <div class="flex items-center mt-6">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Description de la mission et règles à suivre impérativement
           </h4>
