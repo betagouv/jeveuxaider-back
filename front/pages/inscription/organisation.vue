@@ -125,7 +125,11 @@
           <el-input
             v-else
             v-model="form.structure.name"
-            placeholder="Nom de votre collectivité"
+            :placeholder="
+              $route.query.orga_type === 'Collectivité'
+                ? 'Nom de votre collectivité'
+                : 'Nom de votre organisation'
+            "
           />
           <div v-if="structureApi" class="text-xs text-gray-400 leading-tight">
             RNA: {{ structureApi.rna }}
