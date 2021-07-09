@@ -39,8 +39,9 @@
           régions et EPCI
         </p>
       </nuxt-link>
-      <div
+      <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        to="?orga_type=Tête de réseau"
       >
         <p class="text-4xl mb-0">🚀</p>
         <p class="text-2xl leading-tight">
@@ -50,7 +51,7 @@
           Gérer vos différentes antennes, <br />délégations, associations
           locales ...
         </p>
-      </div>
+      </nuxt-link>
       <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
         to="?orga_type=Organisation publique"
@@ -77,7 +78,8 @@
           fondation, ESUS
         </p>
       </nuxt-link>
-      <div
+      <a
+        href="mailto:nassim@jeuveuxaider.gouv.fr"
         class="bg-white w-72 h-64 m-4 px-4 py-10 flex-col items-center justify-center text-center rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🤔</p>
@@ -89,7 +91,7 @@
           Notre équipe se fera une joie<br />
           de vous guider :)
         </p>
-      </div>
+      </a>
     </div>
 
     <div v-else-if="currentStep.key == 'choix_orga_nom'" class="mt-10">
@@ -236,6 +238,10 @@
         </el-button>
       </el-form>
     </div>
+
+    <div v-else-if="currentStep.key == 'form_reseau'" class="mt-10">
+      <FormLeadReseau />
+    </div>
   </div>
 </template>
 
@@ -262,6 +268,8 @@ export default {
         this.$route.query.orga_type === 'Organisation publique' ||
         this.$route.query.orga_type === 'Organisation privée'
           ? 'choix_orga_nom'
+          : this.$route.query.orga_type === 'Tête de réseau'
+          ? 'form_reseau'
           : 'choix_orga_type',
       form: {
         structure: {},
@@ -359,6 +367,11 @@ export default {
             this.$route.query.orga_type === 'Association'
               ? 'Et vous dans tout ça ?'
               : 'Qui êtes-vous ?',
+        },
+        {
+          key: 'form_reseau',
+          title: 'Voilà un grand pas<br /> pour votre réseau !',
+          subtitle: 'Quel est le nom de votre tête de réseau ?',
         },
       ]
     },
