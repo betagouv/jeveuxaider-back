@@ -51,8 +51,9 @@
           locales ...
         </p>
       </div>
-      <div
+      <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        to="?orga_type=Organisation publique"
       >
         <p class="text-4xl mb-0">🏢</p>
         <p class="text-2xl leading-tight">
@@ -61,9 +62,10 @@
         <p class="text-gray-500 text-sm leading-tight">
           CCAS, Ehpad public, <br />services de l’Etat ...
         </p>
-      </div>
-      <div
+      </nuxt-link>
+      <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        to="?orga_type=Organisation privée"
       >
         <p class="text-4xl mb-0">🏩</p>
         <p class="text-2xl leading-tight">
@@ -74,7 +76,7 @@
           Établissement de santé privé d'intérêt collectif, Ehpad privé,
           fondation, ESUS
         </p>
-      </div>
+      </nuxt-link>
       <div
         class="bg-white w-72 h-64 m-4 px-4 py-10 flex-col items-center justify-center text-center rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
@@ -90,13 +92,13 @@
       </div>
     </div>
 
-    <div v-else-if="currentStep.key == 'choix_nom_asso'" class="mt-10">
+    <div v-else-if="currentStep.key == 'choix_orga_nom'" class="mt-10">
       <el-form
         ref="registerResponsableForm"
         :model="form"
         label-position="top"
         :hide-required-asterisk="true"
-        class="max-w-2xl mx-auto bg-gray-100 p-12 rounded-xl"
+        class="max-w-2xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-xl"
       >
         <div class="w-full m-0">
           <label
@@ -105,7 +107,10 @@
             <template v-if="$route.query.orga_type === 'Collectivité'">
               Nom de votre collectivité
             </template>
-            <template v-else>Nom de votre association</template>
+            <template v-else-if="$route.query.orga_type === 'Association'">
+              Nom de votre association
+            </template>
+            <template v-else>Nom de votre organisation</template>
           </label>
           <StructureApiSearchInput
             v-if="$route.query.orga_type === 'Association'"
@@ -113,6 +118,7 @@
             placeholder="Nom de votre association"
             @selected="onStructureApiSelected"
             @clear="structureApi = null"
+            @change="rnaExist = null"
           />
           <el-input
             v-else
@@ -124,12 +130,25 @@
           </div>
         </div>
         <el-button
+          v-if="!rnaExist"
           type="primary"
           class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
           @click="onSubmitChooseName"
         >
           Continuer
         </el-button>
+        <div v-else class="text-center mt-4">
+          <p class="mb-0 font-bold">
+            L'association
+            <span class="text-primary">{{ rnaExist.structure_name }}</span> est
+            déjà inscrite sur la plateforme.
+          </p>
+          <p class="text-gray-500 text-sm">
+            Veuillez vous rapprocher de la personne suivante pour intégrer
+            l'équipe :<br />
+            <span class="text-black">{{ rnaExist.responsable_fullname }}</span>
+          </p>
+        </div>
       </el-form>
     </div>
 
@@ -140,7 +159,7 @@
         label-position="top"
         :hide-required-asterisk="true"
         :rules="rules"
-        class="form-register-steps max-w-xl mx-auto bg-gray-100 p-12 rounded-xl"
+        class="form-register-steps max-w-xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-xl"
       >
         <div class="flex flex-wrap -mx-2">
           <el-form-item
@@ -207,7 +226,13 @@
           class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
           @click="onSubmitRegisterResponsableForm"
         >
-          Continuer
+          <template v-if="$route.query.orga_type === 'Collectivité'">
+            J'inscris ma collectivité
+          </template>
+          <template v-else-if="$route.query.orga_type === 'Association'">
+            J'inscris mon association
+          </template>
+          <template v-else>J'inscris mon organisation</template>
         </el-button>
       </el-form>
     </div>
@@ -233,12 +258,15 @@ export default {
     return {
       currentStepKey:
         this.$route.query.orga_type === 'Association' ||
-        this.$route.query.orga_type === 'Collectivité'
-          ? 'choix_nom_asso'
+        this.$route.query.orga_type === 'Collectivité' ||
+        this.$route.query.orga_type === 'Organisation publique' ||
+        this.$route.query.orga_type === 'Organisation privée'
+          ? 'choix_orga_nom'
           : 'choix_orga_type',
       form: {
         structure: {},
       },
+      rnaExist: null,
       rules: {
         email: [
           {
@@ -312,18 +340,20 @@ export default {
           subtitle: 'Vous êtes...',
         },
         {
-          key: 'choix_nom_asso',
+          key: 'choix_orga_nom',
           title:
             this.$route.query.orga_type === 'Collectivité'
               ? 'Voilà un grand pas<br /> pour votre collectivité !'
-              : 'Votre association est <br /> la bienvenue chez nous !',
+              : this.$route.query.orga_type === 'Association'
+              ? 'Votre association est <br /> la bienvenue chez nous !'
+              : 'Voilà un grand pas<br /> pour votre organisation !',
           subtitle: 'Quel est son petit nom ?',
         },
         {
           key: 'form_utilisateur',
           title:
             this.$route.query.orga_type === 'Association'
-              ? `On n'attendait plus que vous,<br /> Chez ${this.form.structure.name}`
+              ? `On n'attendait plus que vous,<br /> ${this.form.structure.name}`
               : `Bienvenue parmi nous <br /> ${this.form.structure.name}`,
           subtitle:
             this.$route.query.orga_type === 'Association'
@@ -337,9 +367,14 @@ export default {
     },
   },
   methods: {
-    onStructureApiSelected(structure) {
-      this.form.structure = structure
-      this.currentStepKey = 'form_utilisateur'
+    async onStructureApiSelected(structure) {
+      const res = await this.$api.structureExists(structure.rna)
+      if (res.data) {
+        this.rnaExist = res.data
+      } else {
+        this.form.structure = structure
+        this.currentStepKey = 'form_utilisateur'
+      }
     },
     onSubmitChooseName() {
       this.currentStepKey = 'form_utilisateur'

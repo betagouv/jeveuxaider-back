@@ -275,4 +275,19 @@ class StructureController extends Controller
             return (new ApiEngagement())->syncAssociation($structure);
         }
     }
+
+    public function exist(Request $request, $rna)
+    {
+        $structure = Structure::where('rna', '=', $rna)->first();
+        if ($structure === null) {
+            ray('not found');
+            return false;
+        }
+        ray('found !', $structure);
+
+        return [
+            'structure_name' => $structure->name, 
+            'responsable_fullname' => $structure->responsables->first()->full_name
+        ];
+    }
 }
