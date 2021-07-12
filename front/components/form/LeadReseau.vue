@@ -122,32 +122,15 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.reseauForm.validate((valid, fields) => {
+      this.$refs.reseauForm.validate(async (valid, fields) => {
         if (valid) {
-          console.log('TODO !')
-          this.sent = true
-          //   this.$api
-          //     .addOrUpdateThematique(this.domaine.id, this.form)
-          //     .then((response) => {
-          //       this.form = response.data
-          //       if (this.photo) {
-          //         this.$api
-          //           .uploadImage(
-          //             this.form.id,
-          //             this.model,
-          //             this.photo.blob,
-          //             this.photo.cropSettings
-          //           )
-          //           .then(() => {
-          //             this.onSubmitEnd()
-          //           })
-          //       } else {
-          //         this.onSubmitEnd()
-          //       }
-          //     })
-          //     .catch(() => {
-          //       this.loading = false
-          //     })
+          console.log('go !', this.form)
+          const res = await this.$api.reseauLead(this.form)
+          if (res.data) {
+            this.sent = true
+          } else {
+            this.loading = false
+          }
         } else {
           this.showErrors(fields)
           this.loading = false
