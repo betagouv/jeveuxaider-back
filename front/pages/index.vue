@@ -1808,6 +1808,11 @@ export default {
           property: 'og:image',
           content: '/images/share-image.jpg',
         },
+        {
+          hid: 'facebook-domain-verification',
+          property: 'facebook-domain-verification',
+          content: '8jnmyx2s1iopvryhthxappg6b3tryp',
+        },
       ],
     }
   },
