@@ -246,6 +246,20 @@
           </template>
           <template v-else>J'inscris mon organisation</template>
         </el-button>
+        <div class="mt-4 text-center text-gray-800 text-sm">
+          En m'inscrivant j'accepte
+          <a
+            href="/politique-de-confidentialite"
+            target="_blank"
+            class="underline"
+          >
+            la politique de confidentialité
+          </a>
+          et
+          <a href="/charte-reserve-civique" target="_blank" class="underline">
+            la charte de JeVeuxAider.gouv.fr
+          </a>
+        </div>
       </el-form>
     </div>
 

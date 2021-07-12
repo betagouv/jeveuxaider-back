@@ -163,7 +163,7 @@
       />
     </el-form-item>
 
-    <el-form-item label="Email publique de votre organisation" prop="email">
+    <el-form-item label="E-mail public de votre organisation" prop="email">
       <el-input
         v-model="form.email"
         placeholder="contact@mon-organisation.fr"
@@ -319,21 +319,7 @@
             @click="onEditImageClick(0)"
           />
           <div
-            class="
-              z-1
-              absolute
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              text-blue-800
-              bg-white
-              rounded-full
-              opacity-75
-              group-hover:opacity-100
-              pointer-events-none
-            "
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
@@ -391,21 +377,7 @@
             @click="onEditImageClick(1)"
           />
           <div
-            class="
-              z-1
-              absolute
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              text-blue-800
-              bg-white
-              rounded-full
-              opacity-75
-              group-hover:opacity-100
-              pointer-events-none
-            "
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
