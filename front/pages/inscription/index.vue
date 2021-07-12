@@ -6,11 +6,11 @@
       Un petit clic pour vous, <br />
       <span class="font-bold">un grand geste pour la solidarité.</span>
     </h2>
-    <div class="text-xl md:text-3xl text-white mt-7 tracking-tight">
+    <div class="text-xl md:text-3xl text-white mt-2 tracking-tight">
       Que peut-on faire pour vous ?
     </div>
     <div
-      class="flex flex-col space-y-4 items-center justify-center mt-10 mb-12 md:flex-row md:space-x-6 md:space-y-0"
+      class="flex flex-col space-y-4 items-center justify-center mt-4 mb-12 md:flex-row md:space-x-6 md:space-y-0"
     >
       <nuxt-link to="/register/volontaire">
         <div

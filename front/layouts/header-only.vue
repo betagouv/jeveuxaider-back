@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-blue-800 h-full">
+  <div class="relative h-full">
     <AppHeader />
     <img
       class="z-1 object-cover absolute"
@@ -39,7 +39,7 @@ export default {
   },
   head: {
     bodyAttrs: {
-      class: 'h-full',
+      class: 'h-full bg-blue-800',
     },
   },
 }

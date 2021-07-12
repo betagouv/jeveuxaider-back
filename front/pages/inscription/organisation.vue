@@ -5,13 +5,13 @@
       v-html="currentStep.title"
     />
     <div
-      class="text-xl md:text-3xl text-white mt-7 tracking-tight text-center"
+      class="text-xl md:text-3xl text-white mt-2 tracking-tight text-center"
       v-html="currentStep.subtitle"
     />
 
     <div
       v-if="currentStep.key == 'choix_orga_type'"
-      class="max-w-5xl flex flex-col flex-wrap items-center justify-center mt-10 mb-12 md:flex-row mx-auto"
+      class="max-w-5xl flex flex-col flex-wrap items-center justify-center mt-4 mb-12 md:flex-row mx-auto"
     >
       <nuxt-link
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
@@ -94,7 +94,7 @@
       </a>
     </div>
 
-    <div v-else-if="currentStep.key == 'choix_orga_nom'" class="mt-10">
+    <div v-else-if="currentStep.key == 'choix_orga_nom'" class="mt-4">
       <el-form
         ref="registerResponsableForm"
         :model="form"
@@ -121,7 +121,9 @@
             @selected="onStructureApiSelected"
             @clear="structureApi = null"
             @change="rnaExist = null"
-          />
+            @added="onSubmitChooseName"
+          >
+          </StructureApiSearchInput>
           <el-input
             v-else
             v-model="form.structure.name"
@@ -135,30 +137,34 @@
             RNA: {{ structureApi.rna }}
           </div>
         </div>
-        <el-button
-          v-if="!rnaExist"
-          type="primary"
-          class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
-          @click="onSubmitChooseName"
-        >
-          Continuer
-        </el-button>
-        <div v-else class="text-center mt-4">
-          <p class="mb-0 font-bold">
-            L'association
-            <span class="text-primary">{{ rnaExist.structure_name }}</span> est
-            déjà inscrite sur la plateforme.
-          </p>
-          <p class="text-gray-500 text-sm">
-            Veuillez vous rapprocher de la personne suivante pour intégrer
-            l'équipe :<br />
-            <span class="text-black">{{ rnaExist.responsable_fullname }}</span>
-          </p>
-        </div>
+        <template v-if="$route.query.orga_type !== 'Association'">
+          <el-button
+            v-if="!rnaExist"
+            type="primary"
+            class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
+            @click="onSubmitChooseName"
+          >
+            Continuer
+          </el-button>
+          <div v-else class="text-center mt-4">
+            <p class="mb-0 font-bold">
+              L'association
+              <span class="text-primary">{{ rnaExist.structure_name }}</span>
+              est déjà inscrite sur la plateforme.
+            </p>
+            <p class="text-gray-500 text-sm">
+              Veuillez vous rapprocher de la personne suivante pour intégrer
+              l'équipe :<br />
+              <span class="text-black">{{
+                rnaExist.responsable_fullname
+              }}</span>
+            </p>
+          </div>
+        </template>
       </el-form>
     </div>
 
-    <div v-else-if="currentStep.key == 'form_utilisateur'" class="mt-10">
+    <div v-else-if="currentStep.key == 'form_utilisateur'" class="mt-4">
       <el-form
         ref="registerResponsableForm"
         :model="form"
@@ -243,7 +249,7 @@
       </el-form>
     </div>
 
-    <div v-else-if="currentStep.key == 'form_reseau'" class="mt-10">
+    <div v-else-if="currentStep.key == 'form_reseau'" class="mt-4">
       <FormLeadReseau />
     </div>
   </div>
@@ -365,7 +371,7 @@ export default {
           key: 'form_utilisateur',
           title:
             this.$route.query.orga_type === 'Association'
-              ? `On n'attendait plus que vous,<br /> ${this.form.structure.name}`
+              ? `On n'attendait plus que vous,<br /> ${this.form.structure.name} !`
               : `Bienvenue parmi nous <br /> ${this.form.structure.name}`,
           subtitle:
             this.$route.query.orga_type === 'Association'

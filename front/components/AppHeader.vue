@@ -10,7 +10,7 @@
     />
     <div id="header-wrapper" class="flex justify-between items-center">
       <div class="flex h-full">
-        <div class="hidden lg:flex items-center px-2 shadow-lg">
+        <div class="hidden md:flex items-center px-2 shadow-lg">
           <nuxt-link to="/">
             <img
               class="mx-auto lg:mx-0"
@@ -35,7 +35,7 @@
       </div>
 
       <!-- DESKTOP -->
-      <div class="hidden md:flex md:flex-none md:flex-col h-full">
+      <div class="hidden lg:flex lg:flex-none lg:flex-col h-full">
         <div class="flex justify-end">
           <slot name="top-menu">
             <template v-if="$store.getters.isLogged">
@@ -301,7 +301,7 @@
 
       <!-- MOBILE -->
       <mobile-menu
-        class="flex h-full items-center md:hidden"
+        class="flex h-full items-center lg:hidden"
         @mission-search-clicked="$store.commit('toggleSearchOverlay')"
       />
     </div>

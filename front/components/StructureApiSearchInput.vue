@@ -35,20 +35,29 @@
           {{ suggestion.item.coordonnees.adresse.nom_complet }}
         </div>
       </template>
-      <template slot="after-input">
+      <slot slot="after-input">
         <div
           v-if="loading"
           class="absolute z-10 w-5 h-5 text-gray-300 animate-spin"
           style="right: 15px; top: 13px"
           v-html="require('@/assets/images/icones/spinner.svg?include')"
         ></div>
+        <el-button
+          v-else-if="query && query.length > 0"
+          style="right: 7px; top: 7px"
+          type="primary"
+          class="absolute z-10 justify-center uppercase px-4 py-2 border border-transparent rounded-lg shadow font-bold text-white hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+          @click="$emit('added', query)"
+        >
+          Ajouter
+        </el-button>
         <div
           v-else
           class="absolute z-10 w-5 h-5 text-gray-300"
           style="right: 15px; top: 13px"
           v-html="require('@/assets/images/icones/heroicon/search.svg?include')"
         ></div>
-      </template>
+      </slot>
     </vue-autosuggest>
   </div>
 </template>
