@@ -13,20 +13,19 @@
             "
             class="rounded-full h-4 w-4"
           ></div>
-          <div class="flex-1">
-            <div class="text-lg text-gray-900">En ligne</div>
-            <nuxt-link
-              target="_blank"
-              :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
-            >
-              <span class="text-sm underline hover:no-underline">
-                {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
-                  mission.slug
-                }}
-              </span>
-            </nuxt-link>
-          </div>
+          <div class="text-lg text-gray-900">En ligne</div>
         </div>
+
+        <nuxt-link
+          target="_blank"
+          :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+        >
+          <span class="text-sm underline hover:no-underline">
+            {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
+              mission.slug
+            }}
+          </span>
+        </nuxt-link>
       </VoletCard>
 
       <!-- PLACES RESTANTES -->

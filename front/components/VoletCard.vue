@@ -7,7 +7,7 @@
           class="flex-shrink-0 h-5 w-5 text-gray-900"
           v-html="icon"
         /> -->
-        <div class="font-medium">{{ label }}</div>
+        <div class="text-lg font-medium">{{ label }}</div>
       </div>
       <router-link v-if="link" :to="link" class="text-xs hover:text-primary">
         {{ linkLabel }}
@@ -26,7 +26,8 @@ export default {
   props: {
     label: {
       type: String,
-      required: true,
+      default: null,
+      required: false,
     },
     link: {
       type: String,
