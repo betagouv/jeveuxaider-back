@@ -1,6 +1,21 @@
 <template>
   <Volet>
-    <div class="flex flex-col space-y-6 mt-12">
+    <div class="flex flex-col space-y-6" :class="[{ 'mt-12': !conversation }]">
+      <!-- ACTIONS -->
+      <div v-if="conversation" class="flex flex-wrap space-x-2">
+        <nuxt-link :to="`/messages/${conversation.id}`">
+          <el-button
+            v-tooltip="{
+              content: 'Accéder à la conversation',
+              classes: 'bo-style',
+            }"
+            icon="el-icon-message
+"
+            >Messagerie</el-button
+          >
+        </nuxt-link>
+      </div>
+
       <!-- PARTICIPATION -->
       <VoletCard
         v-if="participation"
@@ -227,6 +242,7 @@ export default {
       participation: null,
       mission: null,
       responsable: null,
+      conversation: null,
     }
   },
   computed: {
@@ -262,6 +278,9 @@ export default {
       async handler(newValue, oldValue) {
         this.form = { ...newValue }
         this.participation = { ...newValue }
+        this.conversation = await this.$api.getParticipationConversation(
+          this.participation.id
+        )
         this.profile = await this.$api.getProfile(this.participation.profile_id)
         this.mission = await this.$api.getMission(this.participation.mission_id)
         this.responsable = await this.$api.getProfile(

@@ -138,6 +138,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // PARTICIPATIONS
     Route::get('participation/{participation}', 'Api\ParticipationController@show');
+    Route::get('participation/{participation}/conversation', 'Api\ParticipationController@conversation');
     Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
     Route::get('participations', 'Api\ParticipationController@index');
     Route::post('participation/{participation}', 'Api\ParticipationController@update');

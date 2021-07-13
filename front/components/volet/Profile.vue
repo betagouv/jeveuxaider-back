@@ -1,8 +1,28 @@
 <template>
   <Volet>
-    <div v-if="profile" class="mt-12">
-      <!-- <TagProfileRoles class="mb-6 mr-8" :profile="profile" /> -->
+    <div
+      v-if="profile"
+      :class="[{ 'mt-12': !$store.getters.contextRole == 'admin' }]"
+    >
       <div class="flex flex-col space-y-6">
+        <!-- PROFILE -->
+
+        <div
+          v-if="$store.getters.contextRole == 'admin'"
+          class="flex flex-wrap space-x-2"
+        >
+          <nuxt-link :to="`/dashboard/profile/${profile.id}/edit`">
+            <el-button
+              v-tooltip="{
+                content: 'Modifier cet utilisateur',
+                classes: 'bo-style',
+              }"
+              icon="el-icon-edit"
+              >Modifier</el-button
+            >
+          </nuxt-link>
+        </div>
+
         <!-- PROFILE -->
         <VoletCard
           v-if="profile"
@@ -22,18 +42,16 @@
             </template>
             <template v-else> N/A </template>
           </VoletRowItem>
-          <template v-if="canShowProfileDetails">
-            <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
-            <VoletRowItem v-if="profile.mobile" label="Mobile">{{
-              profile.mobile
-            }}</VoletRowItem>
-            <VoletRowItem v-if="profile.birthday" label="Anniversaire">{{
-              profile.birthday
-            }}</VoletRowItem>
-            <VoletRowItem v-if="profile.zip" label="Zip">{{
-              profile.zip
-            }}</VoletRowItem>
-          </template>
+          <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
+          <VoletRowItem v-if="profile.mobile" label="Mobile">{{
+            profile.mobile
+          }}</VoletRowItem>
+          <VoletRowItem v-if="profile.birthday" label="Anniversaire">{{
+            profile.birthday
+          }}</VoletRowItem>
+          <VoletRowItem v-if="profile.zip" label="Zip">{{
+            profile.zip
+          }}</VoletRowItem>
           <VoletRowItem label="Domaines">
             <template v-if="profile.domaines && profile.domaines.length > 0">
               {{

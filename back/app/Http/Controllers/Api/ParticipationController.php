@@ -196,4 +196,10 @@ class ParticipationController extends Controller
             $participation->update(['state' => 'Validée']);
         }
     }
+
+    public function conversation(Request $request, Participation $participation)
+    {
+        ray($participation->conversation);
+        return $participation->conversation;
+    }
 }

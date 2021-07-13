@@ -1,6 +1,53 @@
 <template>
   <Volet>
-    <div class="flex flex-col space-y-6 mt-12">
+    <div class="flex flex-col space-y-6">
+      <!-- ACTIONS -->
+      <div class="flex flex-wrap space-x-2">
+        <template v-if="showAskValidation">
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="onAskValidationSubmit"
+            >Publier la mission</el-button
+          >
+        </template>
+        <nuxt-link :to="`/dashboard/mission/${row.id}/edit`">
+          <el-button
+            v-tooltip="{
+              content: 'Modifier la mission',
+              classes: 'bo-style',
+            }"
+            icon="el-icon-edit"
+          ></el-button>
+        </nuxt-link>
+        <el-button
+          v-if="canClone"
+          v-tooltip="{
+            content: 'Dupliquer la mission',
+            classes: 'bo-style',
+          }"
+          class="ml-1"
+          icon="el-icon-document-copy"
+          @click="clone(row.id)"
+        ></el-button>
+        <button
+          v-if="
+            $store.getters.contextRole == 'admin' ||
+            ($store.getters.contextRole == 'responsable' &&
+              row.state == 'Brouillon')
+          "
+          v-tooltip="{
+            content: 'Supprimer la mission',
+            classes: 'bo-style',
+          }"
+          type="button"
+          class="ml-1 el-button is-plain el-button--danger el-button--mini"
+          @click="onClickDelete"
+        >
+          <i class="el-icon-delete" />
+        </button>
+      </div>
+
       <!-- PLACES RESTANTES -->
       <VoletCard v-if="mission">
         <div class="flex space-x-4 items-center">
