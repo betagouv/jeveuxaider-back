@@ -124,8 +124,20 @@ class StructureController extends Controller
             return $request->validated();
         }
 
+        $structureAttributes = [
+            'user_id' => Auth::guard('api')->user()->id,
+        ];
+
+        // MAPPING API ENGAGEMENT
+        if ($request->has('structure_api') && $request->input('structure_api')) {
+            $structureAttributes = array_merge(
+                $structureAttributes,
+                ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
+            );
+        }
+
         $structure = Structure::create(
-            array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
+            array_merge($request->validated(), $structureAttributes)
         );
 
         if ($request->has('domaines')) {

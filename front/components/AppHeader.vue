@@ -48,7 +48,7 @@
               </div>
               <nuxt-link
                 v-else
-                to="/register/responsable/step/structure"
+                to="/inscription/organisation"
                 class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
               >
                 Créer mon organisation

@@ -120,6 +120,7 @@
             v-model="form.structure.name"
             placeholder="Nom de votre association"
             :show-add-button="!rnaExist"
+            :loading-add-button="loading"
             @selected="onStructureApiSelected"
             @change="rnaExist = null"
             @added="onSubmitChooseName"
@@ -273,7 +274,6 @@ export default {
   name: 'InscriptionOrganisation',
   mixins: [FormMixin],
   layout: 'header-only',
-  middleware: 'guest',
   data() {
     const validatePass2 = (rule, value, callback) => {
       if (value !== this.form.password) {
@@ -406,11 +406,19 @@ export default {
         this.rnaExist = res.data
       } else {
         this.form.structure = structure
-        this.currentStepKey = 'form_utilisateur'
+        if (this.$store.getters.isLogged) {
+          this.registerStructure()
+        } else {
+          this.currentStepKey = 'form_utilisateur'
+        }
       }
     },
     onSubmitChooseName() {
-      this.currentStepKey = 'form_utilisateur'
+      if (this.$store.getters.isLogged) {
+        this.registerStructure()
+      } else {
+        this.currentStepKey = 'form_utilisateur'
+      }
     },
     onSubmitRegisterResponsableForm() {
       this.loading = true
@@ -444,6 +452,25 @@ export default {
           this.loading = false
         }
       })
+    },
+    registerStructure() {
+      this.loading = true
+      this.form.structure.statut_juridique = this.$route.query.orga_type
+
+      this.$api
+        .addStructure({
+          name: this.form.structure.name,
+          statut_juridique: this.$route.query.orga_type,
+          structure_api: this.form.structure.rna ? this.form.structure : null,
+        })
+        .then(async () => {
+          this.loading = false
+          await this.$store.dispatch('auth/fetchUser')
+          this.$router.push('/register/responsable/step/structure')
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
   },
 }

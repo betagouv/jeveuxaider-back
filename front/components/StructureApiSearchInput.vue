@@ -44,6 +44,7 @@
         ></div>
         <el-button
           v-else-if="showAddButton && query && query.length > 0"
+          :loading="loadingAddButton"
           style="right: 7px; top: 7px"
           type="primary"
           class="absolute z-10 justify-center uppercase px-4 py-2 border border-transparent rounded-lg shadow font-bold text-white hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
@@ -79,6 +80,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    loadingAddButton: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
