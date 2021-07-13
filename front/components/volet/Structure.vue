@@ -135,9 +135,13 @@ export default {
     row: {
       immediate: true,
       deep: false,
-      handler(newValue, oldValue) {
+      async handler(newValue, oldValue) {
         this.form = { ...newValue }
         this.structure = { ...newValue }
+        const responsables = await this.$api.getStructureMembers(
+          this.structure.id
+        )
+        this.responsables = responsables.data
       },
     },
   },
