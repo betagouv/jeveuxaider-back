@@ -16,7 +16,7 @@
           class="w-full px-2"
         >
           <el-input
-            v-model.trim="form.name"
+            v-model="form.name"
             label="Nom de votre réseau d'organisation"
             placeholder="Nom de votre réseau d'organisation"
           />
