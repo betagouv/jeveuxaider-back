@@ -3,21 +3,24 @@
     <div v-if="profile" class="mt-12">
       <!-- <TagProfileRoles class="mb-6 mr-8" :profile="profile" /> -->
       <div class="flex flex-col space-y-6">
+        <!-- PROFILE -->
         <VoletCard
           v-if="profile"
           label="Bénévole"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
           :link="`/dashboard/profile/${profile.id}`"
         >
-          <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem>
-          <VoletRowItem label="Nom">{{ profile.full_name }}</VoletRowItem>
+          <!-- <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem> -->
+          <VoletRowItem label="Nom"
+            ><span class="font-bold">{{
+              profile.full_name
+            }}</span></VoletRowItem
+          >
           <VoletRowItem label="Type">
             <template v-if="profile.type">
               {{ profile.type | labelFromValue('profile_types') }}
             </template>
             <template v-else> N/A </template>
-          </VoletRowItem>
-          <VoletRowItem label="Nom">
-            {{ profile.full_name }}
           </VoletRowItem>
           <template v-if="canShowProfileDetails">
             <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
@@ -92,9 +95,14 @@
             :key="structure.id"
             label="Organisation"
             :link="`/dashboard/structure/${structure.id}`"
+            :icon="
+              require('@/assets/images/icones/heroicon/library.svg?include')
+            "
           >
-            <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem>
-            <VoletRowItem label="Nom">{{ structure.name }}</VoletRowItem>
+            <!-- <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem> -->
+            <VoletRowItem label="Nom"
+              ><span class="font-bold">{{ structure.name }}</span></VoletRowItem
+            >
             <VoletRowItem label="Statut">{{
               structure.state | labelFromValue('structure_workflow_states')
             }}</VoletRowItem>
@@ -111,9 +119,14 @@
             :key="territoire.id"
             label="Territoire"
             :link="`/dashboard/territoire/${territoire.id}`"
+            :icon="require('@/assets/images/icones/heroicon/globe.svg?include')"
           >
-            <VoletRowItem label="ID">{{ territoire.id }}</VoletRowItem>
-            <VoletRowItem label="Nom">{{ territoire.name }}</VoletRowItem>
+            <!-- <VoletRowItem label="ID">{{ territoire.id }}</VoletRowItem> -->
+            <VoletRowItem label="Nom"
+              ><span class="font-bold">{{
+                territoire.name
+              }}</span></VoletRowItem
+            >
             <VoletRowItem label="Statut">
               {{ territoire.state | labelFromValue('territoires_states') }}
             </VoletRowItem>
@@ -133,9 +146,12 @@
           v-if="reseau"
           label="Réseau"
           :link="`/dashboard/structure/${reseau.id}`"
+          :icon="require('@/assets/images/icones/heroicon/globe.svg?include')"
         >
-          <VoletRowItem label="ID">{{ reseau.id }}</VoletRowItem>
-          <VoletRowItem label="Nom">{{ reseau.name }}</VoletRowItem>
+          <!-- <VoletRowItem label="ID">{{ reseau.id }}</VoletRowItem> -->
+          <VoletRowItem label="Nom"
+            ><span class="font-bold">{{ reseau.name }}</span></VoletRowItem
+          >
           <VoletRowItem label="Statut">{{
             reseau.state | labelFromValue('structure_workflow_states')
           }}</VoletRowItem>

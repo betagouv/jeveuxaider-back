@@ -1,9 +1,13 @@
 <template>
   <Volet>
     <div class="flex flex-col space-y-6 mt-12">
+      <!-- PARTICIPATION -->
       <VoletCard
         v-if="participation"
         label="Participation"
+        :icon="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
         :link="`/dashboard/participation/${participation.id}`"
       >
         <VoletRowItem label="ID">{{ participation.id }}</VoletRowItem>
@@ -16,21 +20,22 @@
         }}</VoletRowItem>
       </VoletCard>
 
+      <!-- BENEVOLE -->
       <VoletCard
         v-if="profile"
         label="Bénévole"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
         :link="`/dashboard/profile/${profile.id}`"
       >
-        <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem>
-        <VoletRowItem label="Nom">{{ profile.full_name }}</VoletRowItem>
+        <!-- <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ profile.full_name }}</span></VoletRowItem
+        >
         <VoletRowItem label="Type">
           <template v-if="profile.type">
             {{ profile.type | labelFromValue('profile_types') }}
           </template>
           <template v-else> N/A </template>
-        </VoletRowItem>
-        <VoletRowItem label="Nom">
-          {{ profile.full_name }}
         </VoletRowItem>
         <template v-if="canShowProfileDetails">
           <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
@@ -97,14 +102,27 @@
         }}</VoletRowItem>
       </VoletCard>
 
+      <!-- MISSION -->
       <VoletCard
         v-if="mission"
         label="Mission"
+        :icon="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
         :link="`/dashboard/mission/${mission.id}`"
       >
-        <VoletRowItem label="ID">{{ mission.id }}</VoletRowItem>
-        <VoletRowItem label="Nom">{{ mission.name }}</VoletRowItem>
+        <!-- <VoletRowItem label="ID">{{ mission.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ mission.name }}</span></VoletRowItem
+        >
         <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
+        <VoletRowItem label="Places restantes">
+          {{ mission.places_left }}
+        </VoletRowItem>
+        <VoletRowItem label="Participation max">
+          {{ mission.participations_max }}
+        </VoletRowItem>
+
         <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
         <VoletRowItem label="Format"> {{ mission.format }} </VoletRowItem>
         <VoletRowItem v-if="mission.start_date" label="Debut">
@@ -120,42 +138,79 @@
           {{ mission.department | fullDepartmentFromValue }}
         </VoletRowItem>
         <VoletRowItem label="Information">
-          <ReadMore
-            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-            more-str="Lire plus"
-            :text="mission.information"
-            :max-chars="120"
-          ></ReadMore>
+          <template v-if="mission.information">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.information"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
         </VoletRowItem>
         <VoletRowItem label="Objectif">
-          <ReadMore
-            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-            more-str="Lire plus"
-            :text="mission.objectif"
-            :max-chars="120"
-          ></ReadMore>
+          <template v-if="mission.objectif">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.objectif"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
         </VoletRowItem>
         <VoletRowItem label="Règles">
-          <ReadMore
-            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
-            more-str="Lire plus"
-            :text="mission.description"
-            :max-chars="120"
-          ></ReadMore>
+          <template v-if="mission.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
         </VoletRowItem>
       </VoletCard>
 
+      <!-- RESPONSABLE -->
       <VoletCard
         v-if="responsable"
         label="Responsable"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
         :link="`/dashboard/profile/${responsable.id}`"
       >
-        <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem>
-        <VoletRowItem label="Nom">{{ responsable.full_name }}</VoletRowItem>
+        <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            responsable.full_name
+          }}</span></VoletRowItem
+        >
         <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
         <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
         <VoletRowItem v-if="responsable.phone" label="Tel">{{
           responsable.phone
+        }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- STRUCTURE -->
+      <VoletCard
+        v-if="mission && mission.structure"
+        label="Organisation"
+        :link="`/dashboard/structure/${mission.structure.id}`"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+      >
+        <!-- <VoletRowItem label="ID">{{ mission.structure.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            mission.structure.name
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{
+          mission.structure.state | labelFromValue('structure_workflow_states')
+        }}</VoletRowItem>
+        <VoletRowItem label="Type">{{
+          mission.structure.statut_juridique
+            | labelFromValue('structure_legal_status')
         }}</VoletRowItem>
       </VoletCard>
     </div>
@@ -206,7 +261,7 @@ export default {
       deep: false,
       async handler(newValue, oldValue) {
         this.form = { ...newValue }
-        this.participation = await this.$api.getParticipation(this.form.id)
+        this.participation = { ...newValue }
         this.profile = await this.$api.getProfile(this.participation.profile_id)
         this.mission = await this.$api.getMission(this.participation.mission_id)
         this.responsable = await this.$api.getProfile(

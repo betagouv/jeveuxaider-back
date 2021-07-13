@@ -1,7 +1,14 @@
 <template>
   <div>
     <div class="flex justify-between items-end mb-1">
-      <div class="font-semibold">{{ label }}</div>
+      <div class="flex space-x-2 justify-center">
+        <!-- <div
+          v-if="icon"
+          class="flex-shrink-0 h-5 w-5 text-gray-900"
+          v-html="icon"
+        /> -->
+        <div class="font-medium">{{ label }}</div>
+      </div>
       <router-link v-if="link" :to="link" class="text-xs hover:text-primary">
         {{ linkLabel }}
       </router-link>
@@ -29,6 +36,11 @@ export default {
     linkLabel: {
       type: String,
       default: 'Accéder à la fiche',
+      required: false,
+    },
+    icon: {
+      type: String,
+      default: null,
       required: false,
     },
   },
