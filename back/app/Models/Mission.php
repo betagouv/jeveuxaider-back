@@ -380,4 +380,14 @@ class Mission extends Model
             })
             ->saveSlugsTo('slug');
     }
+
+    public function getSkillsAttribute()
+    {
+        return $this->tagsWithType('competence')->values();
+    }
+
+    public function getDomaineSecondaireAttribute()
+    {
+        return $this->tagsWithType('domaine')->first();
+    }
 }

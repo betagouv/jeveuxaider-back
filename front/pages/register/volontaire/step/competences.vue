@@ -39,7 +39,7 @@
             <label for="compentences" class="el-form-item__label"
               >Renseignez vos compétences</label
             >
-            <ProfileAlgoliaSkillsInput
+            <AlgoliaSkillsInput
               :items="form.skills"
               @add-item="handleSelectItems"
             />

@@ -16,10 +16,8 @@
         :items="[
           { label: 'Missions de bénévolat', link: '/missions-benevolat' },
           {
-            label: domainName(mission),
-            link: `/missions-benevolat?refinementList[domaines][0]=${domainName(
-              mission
-            )}`,
+            label: domainName,
+            link: `/missions-benevolat?refinementList[domaines][0]=${domainName}`,
           },
           {
             label:
@@ -77,10 +75,7 @@
 
                 <div class="sm:order-1 flex flex-wrap gap-2">
                   <div
-                    v-for="(tag, index) in [
-                      domainName(mission),
-                      ...mission.tags,
-                    ]"
+                    v-for="(tag, index) in domains"
                     :key="index"
                     class="
                       inline-flex
@@ -162,7 +157,7 @@
                 </component>
               </div>
 
-              <div class="flex items-center gap-4 mb-4">
+              <div class="flex items-center gap-4 mt-8 mb-4">
                 <div
                   class="flex-none font-bold text-xs uppercase text-gray-696974"
                 >
@@ -191,25 +186,35 @@
                     text-white
                   "
                 >
-                  {{
-                    publicBeneficiaire
-                      | labelFromValue('mission_publics_beneficiaires')
-                  }}
+                  {{ publicBeneficiaire }}
                 </div>
               </div>
 
-              <div class="flex items-center gap-4 mt-8 mb-4">
+              <template v-if="mission.skills.length">
+                <div class="flex items-center gap-4 mt-8 mb-4">
+                  <div
+                    class="
+                      flex-none
+                      font-bold
+                      text-xs
+                      uppercase
+                      text-gray-696974
+                    "
+                  >
+                    COMPÉTENCES RECHERCHÉES
+                  </div>
+                  <hr class="text-gray-E6E8EC w-full" />
+                </div>
+
                 <div
-                  class="flex-none font-bold text-xs uppercase text-gray-696974"
-                >
-                  COMPÉTENCES RECHERCHÉES
-                </div>
-                <hr class="text-gray-E6E8EC w-full" />
-              </div>
-
-              <div class="text-sm text-gray-777E90">
-                {{ ['@todo', '@todo', '@todo'].join(' • ') }}
-              </div>
+                  class="text-sm text-gray-777E90"
+                  v-html="
+                    mission.skills
+                      .map((skill) => skill.name.fr)
+                      .join(`<span class='mx-2'>•</span>`)
+                  "
+                />
+              </template>
             </div>
 
             <div class="mt-6 rounded-10 shadow-lg overflow-hidden">
@@ -335,8 +340,8 @@
               <div class="grid xl:grid-cols-2 gap-3">
                 <div
                   v-for="(
-                    public_beneficiaire, key
-                  ) in mission.publics_beneficiaires"
+                    public_volontaire, key
+                  ) in mission.publics_volontaires"
                   :key="key"
                   class="flex items-center"
                 >
@@ -350,14 +355,11 @@
                       items-center
                       justify-center
                     "
-                    v-html="iconPublicType(public_beneficiaire)"
+                    v-html="iconPublicType(public_volontaire)"
                   />
 
                   <div class="text-sm text-gray-777E90">
-                    {{
-                      public_beneficiaire
-                        | labelFromValue('mission_publics_beneficiaires')
-                    }}
+                    {{ public_volontaire }}
                   </div>
                 </div>
               </div>
@@ -449,11 +451,12 @@
               style="top: 24px"
             >
               <img
-                src="/images/mission-default.jpg"
-                srcset="/images/mission-default@2x.jpg 2x"
+                :src="thumbnail.default"
+                :srcset="`${thumbnail.x2} 2x`"
                 alt=""
                 class="w-full object-cover object-top"
                 style="max-height: 210px"
+                @error="defaultThumbnail($event)"
               />
 
               <div
@@ -631,8 +634,11 @@
 </template>
 
 <script>
+import MissionMixin from '@/mixins/MissionMixin'
+
 export default {
   name: 'Mission',
+  mixins: [MissionMixin],
   async asyncData({ $api, params, error, store }) {
     const mission = await $api.getMission(params.id)
 
@@ -798,6 +804,19 @@ export default {
 
       return dates
     },
+    domainName() {
+      return (
+        this.mission?.domaine?.name.fr ??
+        this.mission?.template?.domaine?.name.fr ??
+        null
+      )
+    },
+    secondaryDomainName() {
+      return this.mission?.domaine_secondaire?.name.fr
+    },
+    domains() {
+      return [this.domainName, this.secondaryDomainName].filter((el) => el)
+    },
   },
   created() {
     if (this.mission.responsable && this.$store.getters.profile) {
@@ -805,16 +824,16 @@ export default {
     }
   },
   methods: {
-    domainName(mission) {
-      return mission.domaine && mission.domaine.name && mission.domaine.name.fr
-        ? mission.domaine.name.fr
-        : mission.template &&
-          mission.template.domaine &&
-          mission.template.domaine.name &&
-          mission.template.domaine.name.fr
-        ? mission.template.domaine.name.fr
-        : null
-    },
+    // domainName {
+    //   return mission.domaine && mission.domaine.name && mission.domaine.name.fr
+    //     ? mission.domaine.name.fr
+    //     : mission.template &&
+    //       mission.template.domaine &&
+    //       mission.template.domaine.name &&
+    //       mission.template.domaine.name.fr
+    //     ? mission.template.domaine.name.fr
+    //     : null
+    // },
     iconPublicType(publicType) {
       let icon
       switch (publicType) {
@@ -830,11 +849,14 @@ export default {
         case 'Parents':
           icon = require('@/assets/images/icones/parents.svg?include')
           break
-        case 'jeunes_enfants':
+        case 'Jeunes / enfants':
           icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
           break
         case 'Tous publics':
           icon = require('@/assets/images/icones/tous_public.svg?include')
+          break
+        case 'Mineurs':
+          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
           break
       }
 
@@ -843,6 +865,10 @@ export default {
     onClickShare() {
       this.$store.commit('setMissionSelected', this.mission)
       this.$store.commit('toggleShareOverlay')
+    },
+    defaultThumbnail(e) {
+      e.target.src = `/images/mission-default.jpg"`
+      e.target.srcset = `/images/mission-default@2x.jpg 2x`
     },
   },
 }

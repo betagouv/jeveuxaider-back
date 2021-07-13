@@ -318,8 +318,8 @@ return [
     'mission_publics_volontaires' => [
         "vocabulary" => "Publics volontaires",
         "terms" => [
-            "Personnes mobiles" => "Personnes mobiles",
-            "À determiner" => "À determiner"
+            "Personnes en situation de handicap" => "Personnes en situation de handicap",
+            "Mineurs" => "Mineurs"
         ]
     ],
 

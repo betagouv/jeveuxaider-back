@@ -16,15 +16,15 @@
       </div>
     </template>
 
-    <div class="mt-2 mb-6 text-xs leading-snug text-gray-500">
+    <div class="mt-2 mb-8 text-xs leading-snug text-gray-500">
       <span>Une question? Contactez </span>
       <a
         target="_blank"
         href="mailto:contact@reserve-civique.on.crisp.email"
         class="font-bold"
       >
-        le support</a
-      >
+        le support
+      </a>
       <span> ou chatez en cliquant sur le bouton en bas à droite.</span>
     </div>
 
@@ -120,7 +120,7 @@
               text-gray-700
             "
           >
-            Objectif de la mission
+            Présentation de la mission
           </h4>
           <div class="flex-1 border-t-2 border-gray-200" />
         </div>
@@ -154,42 +154,79 @@
       :rules="rules"
     >
       <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
-        Détails de la mission
+        Descriptif de la mission
       </div>
       <div v-if="!form.template">
-        <el-form-item
-          label="Titre de la mission"
-          prop="name"
-          class="flex-1 mr-2"
-        >
+        <el-form-item label="Titre de la mission" prop="name" class="flex-1">
           <ItemDescription container-class="mb-3">
             Le titre de la mission doit être une phrase qui précise l'action du
-            bénévole, par exemple "Je fais les courses de produits essentiels
-            pour mes voisins les plus fragiles".
+            bénévole.<br />
+            Exemple : Je fais les courses de produits essentiels pour mes
+            voisins les plus fragiles
           </ItemDescription>
+
           <el-input
             v-model="form.name"
             placeholder="Décrivez l'action du bénévole en une phrase"
           />
         </el-form-item>
-        <el-form-item
-          label="Domaine d'action principal"
-          prop="domaine_id"
-          class="flex-1"
-        >
-          <el-select
-            v-model="form.domaine_id"
-            placeholder="Sélectionner un domaine d'action"
-            @change="$set(form, 'thumbnail', `${form.domaine_id}_1`)"
+
+        <div class="grid grid-cols-2 gap-4">
+          <el-form-item
+            label="Domaine d'action principal"
+            prop="domaine_id"
+            class="flex-1"
           >
-            <el-option
-              v-for="domaine in domaines"
-              :key="domaine.id"
-              :label="domaine.name.fr"
-              :value="domaine.id"
-            />
-          </el-select>
-        </el-form-item>
+            <el-select
+              v-model="form.domaine_id"
+              placeholder="Sélectionner un domaine d'action"
+              @change="$set(form, 'thumbnail', `${form.domaine_id}_1`)"
+            >
+              <el-option
+                v-for="domaine in domaines"
+                :key="domaine.id"
+                :label="domaine.name.fr"
+                :value="domaine.id"
+              />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item
+            label="Domaine d'action secondaire"
+            prop="domaine_secondaire"
+          >
+            <el-select
+              v-model="form.domaine_secondaire"
+              placeholder="Sélectionner le domaine"
+              clearable
+              value-key="id"
+            >
+              <el-option
+                v-for="domaine in secondaryDomaines"
+                :key="domaine.value.id"
+                :label="domaine.label"
+                :value="domaine.value"
+              />
+            </el-select>
+          </el-form-item>
+
+          <!-- <el-form-item label="Domaines d'action complémentaires" prop="tags">
+            <el-select
+              v-model="form.tags"
+              filterable
+              multiple
+              :multiple-limit="3"
+              placeholder="Sélectionner les domaines d'action complémentaires"
+            >
+              <el-option
+                v-for="domaine in secondaryDomaines"
+                :key="domaine.id"
+                :label="domaine.name.fr"
+                :value="domaine.name.fr"
+              />
+            </el-select>
+          </el-form-item> -->
+        </div>
 
         <div v-if="mainDomaineId" class="el-form-item is-required">
           <MissionThumbnailPicker
@@ -204,22 +241,126 @@
           prop="objectif"
           class="flex-1"
         >
-          <ItemDescription container-class="mb-3">
-            Décrivez les enjeux et la finalité de la mission.
-          </ItemDescription>
           <RichEditor v-model="form.objectif" />
         </el-form-item>
-        <el-form-item
-          label="Description et règles à appliquer"
-          prop="description"
-          class="flex-1"
-        >
-          <ItemDescription container-class="mb-3">
-            Décrivez précisément le rôle et les activités du bénévole.
-          </ItemDescription>
+
+        <el-form-item label="Précisions" prop="description" class="flex-1">
           <RichEditor v-model="form.description" />
         </el-form-item>
       </div>
+
+      <el-form-item
+        label="Quelques mots pour motiver les bénévoles à participer"
+        prop="information"
+        class="flex-1"
+      >
+        <RichEditor v-model="form.information" />
+      </el-form-item>
+
+      <el-form-item label="Publics bénéficiaires" prop="publics_beneficiaires">
+        <el-checkbox-group v-model="form.publics_beneficiaires">
+          <el-checkbox
+            v-for="item in $store.getters.taxonomies
+              .mission_publics_beneficiaires.terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            border
+          ></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+
+      <el-form-item
+        label="Nombre de bénévoles recherchés durant la mission"
+        prop="participations_max"
+      >
+        <div class="flex items-center gap-4">
+          <el-input-number
+            v-model="form.participations_max"
+            :step="1"
+            :step-strictly="true"
+            :min="1"
+            class="flex-grow"
+          />
+          <span class="flex-none ml-auto" style="width: 150px">
+            {{
+              form.participations_max
+                | pluralize(['bénévole recherché', 'bénévoles recherchés'])
+            }}
+          </span>
+        </div>
+      </el-form-item>
+
+      <el-form-item
+        label="Compétences recherchées (facultatif)"
+        prop="skills"
+        class="form-item--skills"
+      >
+        <ItemDescription container-class="mb-6">
+          Vous pouvez préciser jusqu'à 3 compétences
+        </ItemDescription>
+
+        <AlgoliaSkillsInput
+          ref="algoliaSkillsInput"
+          :items="form.skills"
+          :max="3"
+          placeholder="Exemples: communication, action sociale, accompagnement..."
+          @add-item="handleSkillSelected($event)"
+        />
+
+        <div v-if="form.skills.length" class="mt-4 leading-relaxed">
+          <div class="flex flex-wrap gap-4">
+            <div
+              v-for="item in form.skills"
+              :key="item.id"
+              class="
+                flex
+                items-center
+                space-x-4
+                px-3
+                py-2
+                rounded-10
+                border border-blue-800
+                bg-white
+              "
+            >
+              <div class="flex-none text-sm text-blue-800 font-bold">
+                {{ item.name.fr }}
+              </div>
+              <div
+                class="
+                  flex-none
+                  cursor-pointer
+                  w-4
+                  h-4
+                  text-blue-800
+                  hover:text-blue-900
+                "
+                @click="handleRemoveSkill(item.id)"
+                v-html="
+                  require('@/assets/images/icones/heroicon/close.svg?include')
+                "
+              />
+            </div>
+          </div>
+        </div>
+      </el-form-item>
+
+      <el-form-item
+        label="Mission également ouverte aux"
+        prop="publics_volontaires"
+      >
+        <el-checkbox-group v-model="form.publics_volontaires">
+          <el-checkbox
+            v-for="item in $store.getters.taxonomies.mission_publics_volontaires
+              .terms"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            border
+          ></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
 
       <el-form-item label="Type de mission" prop="type">
         <el-select
@@ -250,70 +391,6 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="Domaines d'action complémentaires" prop="tags">
-        <!-- <ItemDescription container-class="mb-3">
-              Le choix d'un ou plusieurs domaines d'action complémentaires
-              permettra à votre mission d'être référencée dans les domaines
-              d'action correspondant lors d'une recherche par les réservistes
-            </ItemDescription> -->
-        <el-select
-          v-model="form.tags"
-          filterable
-          multiple
-          :multiple-limit="3"
-          placeholder="Sélectionner les domaines d'action complémentaires"
-        >
-          <el-option
-            v-for="domaine in secondaryDomaines"
-            :key="domaine.id"
-            :label="domaine.name.fr"
-            :value="domaine.name.fr"
-          />
-        </el-select>
-      </el-form-item>
-
-      <el-form-item
-        label="Un mot pour motiver les bénévoles à participer"
-        prop="information"
-        class="flex-1"
-      >
-        <ItemDescription container-class="mb-3">
-          Informations complémentaires à l'attention du bénévole.
-        </ItemDescription>
-        <RichEditor v-model="form.information" />
-      </el-form-item>
-
-      <el-form-item
-        label="Nombre de bénévoles susceptibles d’être accueillis de façon concomitante sur cette mission"
-        prop="participations_max"
-      >
-        <ItemDescription container-class="mb-3">
-          Précisez ce nombre en fonction de vos contraintes logistiques et votre
-          capacité à accompagner les bénévoles.
-        </ItemDescription>
-        <el-input-number
-          v-model="form.participations_max"
-          :step="1"
-          :min="1"
-          class="w-full"
-        />
-      </el-form-item>
-
-      <el-form-item label="Publics bénéficiaires" prop="publics_beneficiaires">
-        <el-select
-          v-model="form.publics_beneficiaires"
-          placeholder="Sélectionner les publics bénéficiaires"
-          multiple
-        >
-          <el-option
-            v-for="item in $store.getters.taxonomies
-              .mission_publics_beneficiaires.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
       <div class="mt-12 mb-6 text-1-5xl font-bold text-gray-800">
         Dates de la mission
       </div>
@@ -468,7 +545,10 @@ export default {
       modalVisible: false,
       form: {
         participations_max: 1,
+        skills: [],
         ...this.mission,
+        publics_beneficiaires: this.mission.publics_beneficiaires ?? [],
+        publics_volontaires: this.mission.publics_volontaires ?? [],
       },
       domaines: [],
       rules: {
@@ -562,7 +642,12 @@ export default {
         : this.form.domaine_id
     },
     secondaryDomaines() {
-      return this.domaines.filter((item) => item.id != this.mainDomaineId)
+      const secondaryDomains = this.domaines.filter(
+        (item) => item.id != this.mainDomaineId
+      )
+      return secondaryDomains.map((domain) => {
+        return { label: domain.name.fr, value: domain }
+      })
     },
   },
   async created() {
@@ -660,6 +745,12 @@ export default {
     onThumbnailClick(thumbnail) {
       this.$set(this.form, 'thumbnail', thumbnail)
     },
+    handleSkillSelected(payload) {
+      this.$set(this.form, 'skills', [...this.form.skills, payload])
+    },
+    handleRemoveSkill(id) {
+      this.form.skills = this.form.skills.filter((item) => item.id !== id)
+    },
   },
 }
 </script>
@@ -672,4 +763,20 @@ export default {
     display: flex
     align-items: center
     justify-content: center
+
+.el-checkbox-group
+  @apply flex flex-wrap gap-4
+  > label
+    @apply m-0 rounded-10 #{!important}
+    @apply ease-in-out duration-150 transition
+    &:hover
+      @apply border-primary
+
+.form-item--skills
+  ::v-deep
+    #autosuggest
+      input
+        @apply rounded-10 leading-relaxed py-2
+      .after-input
+        top: 10px !important
 </style>

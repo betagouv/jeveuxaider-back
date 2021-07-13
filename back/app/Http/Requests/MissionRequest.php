@@ -74,6 +74,8 @@ class MissionRequest extends FormRequest
             'template_id' => '',
             'tags' => '',
             'thumbnail' => '',
+            'skills' => '',
+            'domaine_secondaire' => '',
         ];
     }
 

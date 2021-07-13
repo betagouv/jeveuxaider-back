@@ -178,8 +178,8 @@ p:not(:last-child)
 .el-form
   .ck-content
     padding: 15px 25px!important
-    color: #6b7280
-    line-height: 16px
+    color: black
+    line-height: 24px
     h2
       font-size: 24px
       font-weight: 800
@@ -194,7 +194,7 @@ p:not(:last-child)
       padding-bottom: 24px
       padding-left: 24px
       li
-        line-height: 16px
+        line-height: 24px
     ul
       list-style: disc
     ol
@@ -449,4 +449,34 @@ input
 .el-input__inner
   &:focus
     border: 2px solid #070191
+
+#dashboard-layout
+  .el-form-item .el-input
+    box-shadow: none
+  .el-input__inner
+    border-radius: 10px
+    border-color: rgba(0, 0, 0, 0.1)
+    color: black
+    &:hover
+      border-color: #070191
+  .el-form-item__label
+    font-size: 10px
+    @apply uppercase font-bold
+  .el-input-number
+    .el-input__inner
+      &:focus
+        border: 1px solid #070191
+    .el-input-number__increase
+      border-radius: 0 10px 10px 0
+    .el-input-number__decrease
+      border-radius: 10px 0 0 10px
+
+  --ck-border-radius: 10px
+  --ck-color-base-border: rgba(0, 0, 0, 0.1)
+  --ck-color-toolbar-border: rgba(0, 0, 0, 0.1)
+  --ck-inner-shadow: none
+  --ck-color-base-active-focus: #070191
+  --ck-color-focus-border: #070191
+  --ck-focus-ring: 1px solid #070191
+
 
