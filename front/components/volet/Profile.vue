@@ -1,7 +1,7 @@
 <template>
   <Volet>
     <div v-if="profile" class="mt-12">
-      <TagProfileRoles class="mb-6 mr-8" :profile="profile" />
+      <!-- <TagProfileRoles class="mb-6 mr-8" :profile="profile" /> -->
       <div class="flex flex-col space-y-6">
         <VoletCard
           :label="profile.full_name"

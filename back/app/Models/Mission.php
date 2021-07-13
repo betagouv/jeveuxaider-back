@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use Spatie\Tags\HasTags;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Carbon\Carbon;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Mission extends Model
 {
-    use SoftDeletes, Searchable, HasTags, LogsActivity;
+    use SoftDeletes, Searchable, HasTags, LogsActivity, HasSlug;
 
     protected $table = 'missions';
 
@@ -44,6 +47,7 @@ class Mission extends Model
         'domaine_id',
         'template_id',
         'thumbnail',
+        'slug',
     ];
 
     protected $casts = [
@@ -56,7 +60,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count','participations_total', 'domaine_name'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name'];
 
     protected static $logFillable = true;
 
@@ -72,7 +76,12 @@ class Mission extends Model
 
     public function searchableAs()
     {
-        return config('scout.prefix').'_covid_missions';
+        return config('scout.prefix') . '_covid_missions';
+    }
+
+    public function getFullUrlAttribute()
+    {
+        return "/missions-benevolat/$this->id/$this->slug";
     }
 
     public function toSearchableArray()
@@ -107,6 +116,8 @@ class Mission extends Model
             'provider' => 'reserve_civique',
             'publisher_name' => 'Réserve Civique',
             'post_date' => strtotime($this->created_at),
+            'start_date' => $this->start_date ? strtotime($this->start_date) : null,
+            'end_date' => $this->end_date ? strtotime($this->end_date) : null,
             'format' => $this->format,
             'thumbnail' => $this->thumbnail,
             'domaine_id' => $this->domaine_id,
@@ -209,7 +220,7 @@ class Mission extends Model
     public function getScoreAttribute()
     {
         // Score = ( Taux de reponse score + Response time score ) / 2
-        return round(( $this->structure->response_time_score + $this->structure->response_ratio ) / 2);
+        return round(($this->structure->response_time_score + $this->structure->response_ratio) / 2);
     }
 
 
@@ -221,6 +232,25 @@ class Mission extends Model
     public function scopeComplete($query)
     {
         return $query->where('places_left', '<=', 0);
+    }
+
+    public function scopeIncoming($query)
+    {
+        return $query
+            ->where('start_date', '>=', Carbon::now());
+    }
+
+    public function scopeOutdated($query)
+    {
+        return $query
+            ->where('end_date', '<', Carbon::now());
+    }
+
+    public function scopeCurrent($query)
+    {
+        return $query
+            ->where('start_date', '<=', Carbon::now())
+            ->where('end_date', '>=', Carbon::now());
     }
 
     public function scopeAvailable($query)
@@ -261,6 +291,21 @@ class Mission extends Model
         }
     }
 
+    public function scopeTerritoire($query, $territoire_id)
+    {
+        $territoire = Territoire::find($territoire_id);
+
+        if ($territoire->type == 'department') {
+            return $query
+                ->where('department', $territoire->department);
+        }
+
+        if ($territoire->type == 'city') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
+        }
+    }
+
     public function scopeName($query, $value)
     {
         return $query->where('name', $value);
@@ -272,34 +317,34 @@ class Mission extends Model
             case 'admin':
             case 'analyste':
                 return $query;
-            break;
+                break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 return $query
                     ->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
-            break;
+                break;
             case 'referent':
                 // Missions qui sont dans mon département
                 return $query
                     ->whereNotNull('department')
                     ->where('department', Auth::guard('api')->user()->profile->referent_department);
-            break;
+                break;
             case 'referent_regional':
                 // Missions qui sont dans ma région
                 return $query
                     ->whereNotNull('department')
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
-            break;
+                break;
             case 'superviseur':
                 // Missions qui sont dans une structure rattachée à mon réseau
                 return $query
                     ->whereHas('structure', function (Builder $query) {
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
-            break;
+                break;
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-            break;
+                break;
         }
     }
 
@@ -309,7 +354,7 @@ class Mission extends Model
         $lonName = 'longitude';
         $query->select($this->getTable() . '.*');
         $sql = "((ACOS(SIN(? * PI() / 180) * SIN(" . $latName . " * PI() / 180) + COS(? * PI() / 180) * COS(" .
-        $latName . " * PI() / 180) * COS((? - " . $lonName . ") * PI() / 180)) * 180 / PI()) * 60 * ?) as distance";
+            $latName . " * PI() / 180) * COS((? - " . $lonName . ") * PI() / 180)) * 180 / PI()) * 60 * ?) as distance";
 
         $query->selectRaw($sql, [$latitude, $latitude, $longitude, 1.1515 * 1.609344]);
 
@@ -323,5 +368,16 @@ class Mission extends Model
         $mission->save();
 
         return $mission;
+    }
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(function ($mission) {
+                return !empty($mission->city)
+                    ? "benevolat-{$mission->structure->name}-{$mission->city}"
+                    : "benevolat-{$mission->structure->name}";
+            })
+            ->saveSlugsTo('slug');
     }
 }

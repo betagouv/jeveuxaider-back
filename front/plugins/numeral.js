@@ -25,5 +25,8 @@ numeral.register('locale', 'fr', {
 numeral.locale('fr')
 
 Vue.filter('formatNumber', function (number) {
+  if (number == 'lessthan12') {
+    return '< 12'
+  }
   return numeral(number).format()
 })

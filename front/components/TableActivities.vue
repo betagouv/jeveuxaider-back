@@ -141,6 +141,8 @@ export default {
           return 'Utilisateur'
         case 'App\\Models\\Collectivity':
           return 'Collectivité'
+        case 'App\\Models\\Territoire':
+          return 'Territoire'
         default:
           return 'Autre'
       }
@@ -153,6 +155,8 @@ export default {
           return `/dashboard/structure/${row.subject_id}`
         case 'App\\Models\\Collectivity':
           return `/dashboard/collectivity/${row.subject_id}`
+        case 'App\\Models\\Territoire':
+          return `/dashboard/territoire/${row.subject_id}`
         case 'App\\Models\\Participation':
           return `/dashboard/participations`
         case 'App\\Models\\Profile':

@@ -80,7 +80,7 @@ class Structure extends Model implements HasMedia
 
     protected $hidden = ['media'];
 
-    protected $appends = ['full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
+    protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
     // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
@@ -88,6 +88,11 @@ class Structure extends Model implements HasMedia
     protected static $logOnlyDirty = true;
 
     protected static $submitEmptyLogs = false;
+
+    public function getFullUrlAttribute()
+    {
+        return "/organisations/$this->slug";
+    }
 
     public function scopeRole($query, $contextRole)
     {
@@ -220,6 +225,26 @@ class Structure extends Model implements HasMedia
         if ($collectivity->type == 'commune') {
             return $query
                 ->whereIn('zip', $collectivity->zips);
+        }
+    }
+
+    public function scopeTerritoire($query, $territoire_id)
+    {
+        $territoire = Territoire::find($territoire_id);
+
+        if ($territoire->type == 'department') {
+            return $query
+                ->where('department', $territoire->department);
+        }
+
+        if ($territoire->type == 'collectivity') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
+        }
+
+        if ($territoire->type == 'city') {
+            return $query
+                ->whereIn('zip', $territoire->zips);
         }
     }
 

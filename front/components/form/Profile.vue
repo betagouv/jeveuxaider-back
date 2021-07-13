@@ -53,7 +53,7 @@
 
     <template v-if="$store.getters.contextRole == 'admin'">
       <div class="mb-6 mt-12 flex text-xl text-gray-800">
-        Superviseur réseau national
+        Tête de réseau national
       </div>
       <ItemDescription container-class="mb-6">
         Si cet utilisateur est membre d'un réseau national (Les Banques
@@ -125,29 +125,7 @@
           />
         </el-select>
       </el-form-item>
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">
-        Responsable collectivité
-      </div>
-      <ItemDescription container-class="mb-6">
-        Si cet utilisateur est responsable d'une collectivité, renseignez le nom
-        de la collectivité. Vous permettez à cet utilisateur de visualiser les
-        statistiques rattachées à cette collectivité.
-      </ItemDescription>
-      <el-form-item label="Collectivité" prop="collectivity_id" class="flex-1">
-        <el-select
-          v-model="form.collectivity_id"
-          filterable
-          clearable
-          placeholder="Collectivité"
-        >
-          <el-option
-            v-for="item in $store.getters.collectivities"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
+
       <div class="mb-6 mt-12 flex text-xl text-gray-800">Datas analyste</div>
       <ItemDescription container-class="mb-6">
         Si cet utilisateur est un datas analyste, cochez la case. Il aura accès

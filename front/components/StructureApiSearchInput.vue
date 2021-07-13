@@ -19,7 +19,15 @@
     >
       <template slot="before-section-default">
         <div
-          class="text-md text-gray-700 py-3 px-4 font-bold uppercase bg-gray-200 tracking-wider"
+          class="
+            text-md text-gray-700
+            py-3
+            px-4
+            font-bold
+            uppercase
+            bg-gray-200
+            tracking-wider
+          "
         >
           Suggestions
         </div>
@@ -29,14 +37,10 @@
         <div class="mb-1">{{ suggestion.item.name }}</div>
         <div class="text-xs text-gray-500">RNA {{ suggestion.item.rna }}</div>
         <div
-          v-if="suggestion.item.coordonnees.adresse_siege"
+          v-if="suggestion.item.coordonnees.adresse"
           class="text-xs text-gray-500"
         >
-          {{ suggestion.item.coordonnees.adresse_siege.num_voie }}
-          {{ suggestion.item.coordonnees.adresse_siege.type_voie }}
-          {{ suggestion.item.coordonnees.adresse_siege.voie }}
-          {{ suggestion.item.coordonnees.adresse_siege.cp }}
-          {{ suggestion.item.coordonnees.adresse_siege.commune }}
+          {{ suggestion.item.coordonnees.adresse.nom_complet }}
         </div>
       </template>
       <template slot="after-input">

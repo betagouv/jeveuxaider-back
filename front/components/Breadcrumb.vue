@@ -8,7 +8,17 @@
     ]"
   >
     <ol
-      class="w-full max-w-full mx-auto overflow-x-auto whitespace-no-wrap px-4 flex sm:px-6 lg:px-8"
+      class="
+        w-full
+        max-w-full
+        mx-auto
+        overflow-x-auto
+        whitespace-no-wrap
+        px-4
+        flex
+        sm:px-6
+        lg:px-8
+      "
     >
       <li v-for="(item, index) in withHome" :key="index" class="flex">
         <div

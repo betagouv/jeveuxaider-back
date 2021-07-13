@@ -3,11 +3,37 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Mission</div>
-        <div class="flex flex-wrap mb-8 max-w-3xl">
+        <div class="mb-8 max-w-3xl">
           <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ mission.name }}
           </div>
-          <TagModelState :state="mission.state" />
+          <div
+            v-if="
+              !['En attente de validation', 'Signalée'].includes(mission.state)
+            "
+            class="font-light text-gray-600 flex items-center"
+          >
+            <div
+              :class="
+                structure.state == 'Validée' &&
+                ['Validée', 'Terminée'].includes(mission.state)
+                  ? 'bg-green-500'
+                  : 'bg-red-500'
+              "
+              class="rounded-full h-2 w-2 mr-2"
+            ></div>
+            <nuxt-link
+              target="_blank"
+              :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+            >
+              <span class="text-sm underline hover:no-underline">
+                {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
+                  mission.slug
+                }}
+              </span>
+            </nuxt-link>
+          </div>
+          <TagModelState class="mt-4" :state="mission.state" />
         </div>
       </div>
       <div>
@@ -23,6 +49,9 @@
       <el-menu-item :index="`/dashboard/mission/${mission.id}`">
         Informations
       </el-menu-item>
+      <el-menu-item :index="`/dashboard/mission/${mission.id}/statistics`">
+        Statistiques
+      </el-menu-item>
       <el-menu-item
         v-if="mission"
         :index="`/dashboard/mission/${mission.id}/participations`"
@@ -36,6 +65,62 @@
         Historique
       </el-menu-item>
     </el-menu>
+
+    <div class="px-12 mb-3 flex flex-wrap">
+      <div class="flex w-full mb-4">
+        <SearchFiltersQueryMain
+          name="search"
+          placeholder="Rechercher par mots clés, mission ou structure..."
+          :initial-value="query['filter[search]']"
+          @changed="onFilterChange"
+        />
+        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+          <el-button
+            icon="el-icon-s-operation"
+            class="ml-4"
+            @click="showFilters = !showFilters"
+          >
+            Filtres avancés
+          </el-button>
+        </el-badge>
+        <el-button
+          v-else
+          icon="el-icon-s-operation"
+          class="ml-4"
+          @click="showFilters = !showFilters"
+        >
+          Filtres avancés
+        </el-button>
+      </div>
+      <div v-if="showFilters" class="flex flex-wrap">
+        <SearchFiltersQuery
+          name="state"
+          label="Statut"
+          multiple
+          :value="query['filter[state]']"
+          :options="
+            $store.getters.taxonomies.participation_workflow_states.terms
+          "
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          v-if="$store.getters.contextRole === 'responsable'"
+          type="select"
+          name="mission.responsable_id"
+          :value="query['filter[mission.responsable_id]']"
+          label="Responsable"
+          :options="
+            responsables.map((responsable) => {
+              return {
+                label: responsable.full_name,
+                value: responsable.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+      </div>
+    </div>
 
     <TableParticipations
       :loading="$fetchState.pending"
@@ -66,19 +151,16 @@
 <script>
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
+import fileDownload from 'js-file-download'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
     if (
-      ![
-        'admin',
-        'referent',
-        'referent_regional',
-        'superviseur',
-        'responsable',
-      ].includes(store.getters.contextRole)
+      !['admin', 'superviseur', 'responsable'].includes(
+        store.getters.contextRole
+      )
     ) {
       return error({ statusCode: 403 })
     }
@@ -91,16 +173,28 @@ export default {
     }
 
     const structure = await $api.getStructure(mission.structure.id)
+
+    const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
+    const responsables = await $api.getStructureMembers(structure.id)
+
     return {
       structure,
       mission,
+      domaines: domaines.data.data,
+      templates: templates.data.data,
+      responsables: responsables.data,
+    }
+  },
+
+  data() {
+    return {
+      loadingExport: false,
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchParticipations({
-      'filter[mission.id]': this.$route.params.id,
-      page: this.$route.query.page || 1,
-    })
+    this.query['filter[mission.id]'] = this.mission.id
+    const { data } = await this.$api.fetchParticipations(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -109,7 +203,50 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  methods: {},
+  methods: {
+    onExport() {
+      this.loadingExport = true
+      this.$api
+        .exportParticipations(this.query)
+        .then((response) => {
+          this.loadingExport = false
+          fileDownload(response.data, 'participations.xlsx')
+        })
+        .catch((error) => {
+          console.log('exportParticipations', error)
+        })
+    },
+    // onMassValidation() {
+    //   this.$confirm(
+    //     'Vous êtes sur le point de valider toutes les participations actuellement en attente de validation (' +
+    //       this.$store.getters.reminders.participations +
+    //       ').<br><br>Êtes-vous sûr de vouloir continuer ?',
+    //     'Validation massive',
+    //     {
+    //       confirmButtonText: 'Oui, je confirme',
+    //       cancelButtonText: 'Annuler',
+    //       dangerouslyUseHTMLString: true,
+    //       // center: true,
+    //       // type: 'warning',
+    //     }
+    //   ).then(() => {
+    //     this.loadingButton = true
+    //     this.$api
+    //       .massValidationParticipation()
+    //       .then(() => {
+    //         this.loadingButton = false
+    //         this.$store.dispatch('reminders')
+    //         this.$message.success({
+    //           message: 'Les participations ont été mises à jour',
+    //         })
+    //         this.$fetch()
+    //       })
+    //       .catch(() => {
+    //         this.loadingButton = false
+    //       })
+    //   })
+    // },
+  },
 }
 </script>
 

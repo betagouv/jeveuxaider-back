@@ -1,7 +1,7 @@
 <template>
   <el-card shadow="never" class="p-5">
     <div class>
-      {{ $store.getters.structure_as_responsable.name }} a sa propre page sur
+      {{ $store.getters.structure.name }} a sa propre page sur
       JeVeuxAider.gouv.fr
     </div>
     <div class="text-gray-400 mt-3 mb-4">
@@ -9,14 +9,12 @@
       présentation.
     </div>
     <div class="flex mt-2">
-      <nuxt-link
-        :to="`/organisations/${$store.getters.structure_as_responsable.slug}`"
-      >
+      <nuxt-link :to="`/organisations/${$store.getters.structure.slug}`">
         <el-button type="primary" class="mr-2"> Consulter ma page </el-button>
       </nuxt-link>
 
       <nuxt-link
-        :to="`/dashboard/structure/${$store.getters.structure_as_responsable.id}/edit`"
+        :to="`/dashboard/structure/${$store.getters.structure.id}/edit`"
       >
         <el-button type="primary">Éditer les informations</el-button>
       </nuxt-link>

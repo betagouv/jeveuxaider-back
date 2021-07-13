@@ -15,21 +15,42 @@
     <TailwindDropdownEllipsis>
       <template slot="menu">
         <div
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          class="
+            block
+            px-4
+            py-2
+            text-sm text-gray-700
+            hover:bg-gray-100
+            hover:text-gray-900
+          "
           role="menuitem"
           @click="onCopyInvitationLink"
         >
           Copier le lien d'invitation
         </div>
         <div
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          class="
+            block
+            px-4
+            py-2
+            text-sm text-gray-700
+            hover:bg-gray-100
+            hover:text-gray-900
+          "
           role="menuitem"
           @click="onResendInvitationLink"
         >
           Renvoyer le mail
         </div>
         <div
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          class="
+            block
+            px-4
+            py-2
+            text-sm text-gray-700
+            hover:bg-gray-100
+            hover:text-gray-900
+          "
           role="menuitem"
           @click="onDeleteInvitation"
         >

@@ -5,7 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Collectivity;
+use App\Models\Territoire;
 use Illuminate\Notifications\Messages\SlackMessage;
 
 class CollectivityWaitingValidation extends Notification
@@ -15,18 +15,18 @@ class CollectivityWaitingValidation extends Notification
     /**
      * The order instance.
      *
-     * @var Collectivity
+     * @var Territoire
      */
-    public $collectivity;
+    public $territoire;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Collectivity $collectivity)
+    public function __construct(Territoire $territoire)
     {
-        $this->collectivity = $collectivity;
+        $this->territoire = $territoire;
     }
 
     /**
@@ -49,11 +49,11 @@ class CollectivityWaitingValidation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('La collectivité "'. $this->collectivity->name .'" vient de s\'inscrire. Elle est en attente de validation.')
+            ->subject('La collectivité "'. $this->territoire->name .'" vient de s\'inscrire. Elle est en attente de validation.')
             ->greeting('Bonjour,')
-            ->line('La collectivité "'. $this->collectivity->name .'" a rejoint JeVeuxAider.gouv.fr !')
+            ->line('La collectivité "'. $this->territoire->name .'" a rejoint JeVeuxAider.gouv.fr !')
             ->line('Elle est en attente de validation par un modérateur.')
-            ->action('Voir la collectivité', url(config('app.url') . '/dashboard/collectivity/' . $this->collectivity->id . '/edit'))
+            ->action('Voir la collectivité', url(config('app.url') . '/dashboard/territoire/' . $this->territoire->id))
         ;
     }
 
@@ -65,15 +65,15 @@ class CollectivityWaitingValidation extends Notification
      */
     public function toSlack($notifiable)
     {
-        $collectivity = $this->collectivity;
+        $territoire = $this->territoire;
 
         return (new SlackMessage)
                     ->from('JeVeuxAider.gouv.fr')
                     ->success()
                     ->to('#collectivités-déploiement')
                     ->content('Une nouvelle collectivité vient de s\'inscrire! Elle est en attente de validation.')
-                    ->attachment(function ($attachment) use ($collectivity) {
-                        $attachment->title($collectivity->name, url(config('app.url') . '/dashboard/collectivity/' . $collectivity->id . '/edit'));
+                    ->attachment(function ($attachment) use ($territoire) {
+                        $attachment->title($territoire->name, url(config('app.url') . '/dashboard/territoire/' . $territoire->id));
                     });
     }
 

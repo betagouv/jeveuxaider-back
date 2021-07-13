@@ -46,7 +46,7 @@
       :size="size"
       class="m-1"
     >
-      Superviseur
+      Tête de réseau
     </el-tag>
 
     <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">
@@ -137,13 +137,7 @@ export default {
   data() {
     return {}
   },
-  computed: {
-    structure() {
-      return this.profile.structures.filter(
-        (structure) => structure.pivot.role == 'responsable'
-      )[0]
-    },
-  },
+  computed: {},
   methods: {},
 }
 </script>

@@ -1,7 +1,11 @@
 export default {
   name: 'MenuWithActive',
   methods: {
+    doesPathContains(item) {
+      return this.$route.path.includes(item)
+    },
     isActive(item) {
+      // console.log('this.$route.name', this.$route.name)
       switch (item) {
         case 'dashboard':
           return [
@@ -14,6 +18,14 @@ export default {
             'dashboard-stats-collectivities',
             'dashboard-stats-domaines',
           ].includes(this.$route.name)
+        case 'dashboard/structure':
+          return ['dashboard-structure-id'].includes(this.$route.name)
+        case 'dashboard/mission':
+          return ['dashboard-structure-id-missions'].includes(this.$route.name)
+        case 'dashboard/participation':
+          return ['dashboard-structure-id-participations'].includes(
+            this.$route.name
+          )
         case 'collectivities':
           return [
             'dashboard-collectivities',
@@ -79,6 +91,34 @@ export default {
           ].includes(this.$route.name)
         case 'collectivity-edit':
           return ['dashboard-collectivity-id-edit'].includes(this.$route.name)
+        case 'dashboard-statistics':
+          return [
+            'dashboard-structure-id-statistics',
+            'dashboard-territoire-id-statistics',
+          ].includes(this.$route.name)
+        case 'dashboard-mon-organisation':
+          return [
+            'dashboard-structure-id',
+            'dashboard-structure-id-edit',
+            'dashboard-structure-id-members',
+            'dashboard-structure-id-members-add',
+          ].includes(this.$route.name)
+        case 'dashboard-mes-missions':
+          return [
+            'dashboard-structure-id-missions',
+            'dashboard-structure-id-missions-add',
+            'dashboard-mission-id-edit',
+            'dashboard-mission-id',
+            'dashboard-mission-id-statistics',
+            'dashboard-mission-id-participations',
+            'dashboard-mission-id-history',
+            'dashboard-mission-id-trouver-des-benevoles',
+          ].includes(this.$route.name)
+        case 'dashboard-mes-participations':
+          return [
+            'dashboard-participation-id',
+            'dashboard-structure-id-participations',
+          ].includes(this.$route.name)
         default:
           return false
       }

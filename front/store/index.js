@@ -17,6 +17,8 @@ export const getters = {
   isSidebarExpanded: (state) => state.isSidebarExpanded,
   contextRole: (state, getters) =>
     getters.user ? getters.user.context_role : null,
+  contextableType: (state, getters) =>
+    getters.user ? getters.user.contextable_type : null,
   contextRoleLabel: (state, getters) => {
     const rolesLabel = rolesList.filter(
       (role) => role.key == getters.contextRole
@@ -25,6 +27,18 @@ export const getters = {
       return rolesLabel[0].label
     }
     return 'Aucun rôle'
+  },
+  contextStructure: (state, getters) => {
+    if (state.auth.user.contextable_type == 'territoire') {
+      return getters.profile.territoires.find(
+        (territoire) => territoire.id == state.auth.user.contextable_id
+      )
+    }
+    if (state.auth.user.contextable_type == 'structure') {
+      return getters.profile.structures.find(
+        (structure) => structure.id == state.auth.user.contextable_id
+      )
+    }
   },
   roles: (state, getters) => {
     return (
@@ -43,14 +57,6 @@ export const getters = {
   taxonomies: (state) => state.taxonomies,
   reseaux: (state) => state.reseaux,
   structure: (state, getters) => {
-    if (!getters.profile && !getters.profile.structures) {
-      return null
-    }
-    return getters.profile.structures.filter(
-      (structure) => structure.pivot.role == 'responsable'
-    )[0]
-  },
-  structure_as_responsable: (state, getters) => {
     if (!getters.profile && !getters.profile.structures) {
       return null
     }

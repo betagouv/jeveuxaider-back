@@ -2,7 +2,7 @@ export const rolesList = [
   { key: 'admin', label: 'Modérateur' },
   { key: 'referent', label: 'Référent' },
   { key: 'referent_regional', label: 'Régional' },
-  { key: 'superviseur', label: 'Superviseur' },
+  { key: 'superviseur', label: 'Tête de réseau' },
   { key: 'responsable', label: 'Responsable' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
@@ -98,6 +98,7 @@ export default (axios) => ({
       profile_id: profileId,
     })
   },
+
   registerVolontaire(
     email,
     password,
@@ -106,7 +107,8 @@ export default (axios) => ({
     mobile,
     birthday,
     zip,
-    sc
+    sc,
+    type
   ) {
     return axios.post('/register/volontaire', {
       email: email.toLowerCase(),
@@ -117,6 +119,7 @@ export default (axios) => ({
       birthday,
       zip,
       sc,
+      type,
     })
   },
 
@@ -150,6 +153,17 @@ export default (axios) => ({
 
   async franceConnectLoginCallback(params) {
     return await axios.get('/franceconnect/login-callback', { params })
+  },
+
+  async fetchUserActions(params) {
+    return await axios.get(`/actions`, {
+      params,
+    })
+  },
+  async fetchStructureActions(id, params) {
+    return await axios.get(`/structure/${id}/actions`, {
+      params,
+    })
   },
 })
 

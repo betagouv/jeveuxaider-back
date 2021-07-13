@@ -13,7 +13,19 @@
           <div class="px-4 lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 pb-10">
             <div class="max-w-2xl mx-auto lg:col-span-6">
               <h1
-                class="mt-10 lg:mt-24 text-4xl tracking-tight leading-10 font-bold text-white sm:leading-none sm:text-6xl lg:text-5xl xl:text-6xl"
+                class="
+                  mt-10
+                  lg:mt-24
+                  text-4xl
+                  tracking-tight
+                  leading-10
+                  font-bold
+                  text-white
+                  sm:leading-none
+                  sm:text-6xl
+                  lg:text-5xl
+                  xl:text-6xl
+                "
               >
                 Trouvez des bénévoles avec JeVeuxAider.gouv.fr
               </h1>
@@ -82,7 +94,17 @@
               </ul>
 
               <p
-                class="pt-10 pb-16 lg:pb-0 leading-10 text-4xl font-medium text-white sm:mt-5 tracking-tight"
+                class="
+                  pt-10
+                  pb-16
+                  lg:pb-0
+                  leading-10
+                  text-4xl
+                  font-medium
+                  text-white
+                  sm:mt-5
+                  tracking-tight
+                "
               >
                 Plus de <b class="font-bold">300 000 bénévoles</b> <br />sont
                 prêts à vous aider.
@@ -97,21 +119,42 @@
                 <div class="bg-white rounded-t-lg px-6 pt-8 pb-8">
                   <div>
                     <p
-                      class="text-center text-base text-gray-800 sm:text-xl lg:text-lg xl:text-xl"
+                      class="
+                        text-center text-base text-gray-800
+                        sm:text-xl
+                        lg:text-lg
+                        xl:text-xl
+                      "
                     >
                       Vous êtes une <strong>organisation publique</strong>, une
                       <strong>collectivité</strong> ou une
                       <strong>association</strong> ?
                     </p>
                     <h2
-                      class="mt-2 text-center text-3xl leading-9 font-extrabold text-black sm:-mx-6 tracking-tight"
+                      class="
+                        mt-2
+                        text-center text-3xl
+                        leading-9
+                        font-extrabold
+                        text-black
+                        sm:-mx-6
+                        tracking-tight
+                      "
                     >
                       Rejoignez le mouvement
                     </h2>
                   </div>
                 </div>
                 <div
-                  class="border-t-2 border-gray-100 rounded-b-lg pt-10 pb-2 px-4 sm:px-12 bg-gray-50"
+                  class="
+                    border-t-2 border-gray-100
+                    rounded-b-lg
+                    pt-10
+                    pb-2
+                    px-4
+                    sm:px-12
+                    bg-gray-50
+                  "
                 >
                   <template v-if="modeLight">
                     <div class="pt-6 pb-16 text-center">
@@ -221,7 +264,31 @@
                         <el-button
                           type="primary"
                           :loading="loading"
-                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:border-indigo-700 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
+                          class="
+                            shadow-lg
+                            block
+                            w-full
+                            text-center
+                            rounded-lg
+                            z-10
+                            border border-transparent
+                            bg-green-400
+                            px-4
+                            sm:px-6
+                            py-4
+                            text-lg
+                            sm:text-2xl
+                            leading-6
+                            font-medium
+                            text-white
+                            hover:bg-green-500
+                            focus:border-indigo-700
+                            focus:outline-none
+                            focus:shadow-outline-indigo
+                            transition
+                            ease-in-out
+                            duration-150
+                          "
                           @click="onSubmit"
                           >J'inscris mon organisation</el-button
                         >
@@ -251,7 +318,14 @@
                         <span>Déjà inscrit ? </span>
                         <nuxt-link to="/login">
                           <span
-                            class="text-xs leading-5 text-center font-medium text-gray-900 hover:underline"
+                            class="
+                              text-xs
+                              leading-5
+                              text-center
+                              font-medium
+                              text-gray-900
+                              hover:underline
+                            "
                           >
                             Je me connecte
                           </span>
@@ -270,7 +344,16 @@
     <div class="bg-gray-100">
       <div class="max-w-screen-xl mx-auto pt-14 pb-20 px-4 sm:px-6 lg:px-8">
         <h2
-          class="text-center leading-8 pb-8 text-gray-800 text-sm font-medium text-3xl tracking-tight px-4"
+          class="
+            text-center
+            leading-8
+            pb-8
+            text-gray-800 text-sm
+            font-medium
+            text-3xl
+            tracking-tight
+            px-4
+          "
         >
           Plus de <b class="font-bold">4000 organisations</b> ont déjà rejoint
           JeVeuxAider.gouv.fr
@@ -303,7 +386,7 @@
             <img
               alt="J'agis Pour la Nature"
               class="min-w-0 m-4 sm:m-8 object-contain"
-              src="@/assets/images/logo-jagis-pour-la-nature.png"
+              src="@/assets/images/logo-jagis-pour-la-nature.svg"
               style="max-height: 3rem"
             />
           </div>
@@ -313,10 +396,27 @@
 
     <section class="bg-gray-100 pb-16">
       <div
-        class="max-w-screen-xl mx-auto grid gap-6 lg:grid-cols-2 px-4 lg:px-6 lg:px-8"
+        class="
+          max-w-screen-xl
+          mx-auto
+          grid
+          gap-6
+          lg:grid-cols-2
+          px-4
+          lg:px-6 lg:px-8
+        "
       >
         <div
-          class="p-8 sm:p-12 sm:px-24 lg:px-12 lg:flex lg:flex-col bg-white rounded-lg shadow-lg"
+          class="
+            p-8
+            sm:p-12
+            sm:px-24
+            lg:px-12
+            lg:flex lg:flex-col
+            bg-white
+            rounded-lg
+            shadow-lg
+          "
         >
           <div class="md:flex-shrink-0">
             <img
@@ -328,10 +428,27 @@
 
           <blockquote class="mt-8 lg:flex-grow lg:flex lg:flex-col">
             <div
-              class="relative text-lg leading-7 font-medium text-gray-800 md:flex-grow"
+              class="
+                relative
+                text-lg
+                leading-7
+                font-medium
+                text-gray-800
+                md:flex-grow
+              "
             >
               <svg
-                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                class="
+                  absolute
+                  top-0
+                  left-0
+                  transform
+                  -translate-x-3 -translate-y-3
+                  h-8
+                  w-8
+                  text-gray-300
+                  opacity-50
+                "
                 fill="currentColor"
                 viewBox="0 0 32 32"
               >
@@ -351,7 +468,12 @@
             <footer class="mt-6">
               <div class="flex items-start">
                 <div
-                  class="flex-shrink-0 inline-flex rounded-full border-2 border-gray-200"
+                  class="
+                    flex-shrink-0
+                    inline-flex
+                    rounded-full
+                    border-2 border-gray-200
+                  "
                 >
                   <img
                     alt="Témoignage Clément"
@@ -372,7 +494,16 @@
           </blockquote>
         </div>
         <div
-          class="p-8 sm:p-12 sm:px-24 lg:px-12 lg:flex lg:flex-col bg-white rounded-lg shadow-lg"
+          class="
+            p-8
+            sm:p-12
+            sm:px-24
+            lg:px-12
+            lg:flex lg:flex-col
+            bg-white
+            rounded-lg
+            shadow-lg
+          "
         >
           <div class="md:flex-shrink-0">
             <img alt="GIP" class="h-10 mt-4" src="@/assets/images/gip.png" />
@@ -380,10 +511,27 @@
 
           <blockquote class="mt-8 lg:flex-grow lg:flex lg:flex-col">
             <div
-              class="relative text-lg leading-7 font-medium text-gray-800 md:flex-grow"
+              class="
+                relative
+                text-lg
+                leading-7
+                font-medium
+                text-gray-800
+                md:flex-grow
+              "
             >
               <svg
-                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                class="
+                  absolute
+                  top-0
+                  left-0
+                  transform
+                  -translate-x-3 -translate-y-3
+                  h-8
+                  w-8
+                  text-gray-300
+                  opacity-50
+                "
                 fill="currentColor"
                 viewBox="0 0 32 32"
               >
@@ -405,7 +553,12 @@
             <footer class="mt-6">
               <div class="flex items-start">
                 <div
-                  class="flex-shrink-0 inline-flex rounded-full border-2 border-gray-200"
+                  class="
+                    flex-shrink-0
+                    inline-flex
+                    rounded-full
+                    border-2 border-gray-200
+                  "
                 >
                   <img
                     class="h-12 w-12 rounded-full"
@@ -572,7 +725,9 @@ export default {
             .then(() => {
               this.loading = false
               window.plausible &&
-                window.plausible('Inscription depuis une page organisation')
+                window.plausible(
+                  'Inscription responsable - Étape 1 - Création de compte'
+                )
               this.$router.push('/register/responsable/step/profile')
             })
             .catch(() => {

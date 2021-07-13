@@ -2,6 +2,9 @@ export default (axios) => ({
   async statistics(name, params) {
     return await axios.get(`/statistics/${name}`, { params })
   },
+  async statisticsBySubject(type, id, params) {
+    return await axios.get(`/statistics/${type}/${id}`, { params })
+  },
   async chartCreated(params) {
     return await axios.get('/charts/created', { params })
   },
@@ -55,9 +58,9 @@ export default (axios) => ({
   async fetchActivities(params) {
     return await axios.get('/activities', { params })
   },
-  async fetchAllCollectivities(params) {
-    return await axios.get('/collectivities/all', { params })
-  },
+  // async fetchAllCollectivities(params) {
+  //   return await axios.get('/collectivities/all', { params })
+  // },
   async uploadImage(id, model, image, cropSettings, fieldName = null) {
     const data = new FormData()
     const options = {
@@ -112,7 +115,7 @@ export default (axios) => ({
     return await axios.post(`/document/${id}`, document)
   },
   async notifyDocument(id) {
-    return await axios.post(`/document/${id}/notify/`)
+    return await axios.post(`/document/${id}/notify`)
   },
   async addOrUpdateDocument(id, document) {
     return id
@@ -254,10 +257,6 @@ export default (axios) => ({
 // // async submitCollectivity(collectivity) {
 // //   return await axios.post("/submit/collectivity", collectivity);
 // // }
-
-// async fetchAllCollectivities(params) {
-//   return await axios.get('/collectivities/all', { params })
-// }
 
 // async destroyCollectivity(id) {
 //   return await axios.delete(`/collectivity/${id}/destroy`)

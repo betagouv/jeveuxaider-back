@@ -5,7 +5,15 @@
         <div class="bg-white p-4">
           <div class="flex mb-3">
             <div
-              class="label mb-3 text-lg font-bold text-secondary uppercase flex-1"
+              class="
+                label
+                mb-3
+                text-lg
+                font-bold
+                text-secondary
+                uppercase
+                flex-1
+              "
             >
               Nouvelles créations
             </div>

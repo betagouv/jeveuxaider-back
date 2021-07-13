@@ -14,6 +14,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersMissionCollectivity;
+use App\Filters\FiltersMissionDates;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
@@ -27,27 +28,28 @@ class MissionController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure:id,name,state', 'responsable'))
-        ->allowedAppends('domaines')
-        ->allowedFilters([
-            'name',
-            'state',
-            'format',
-            'type',
-            AllowedFilter::exact('department'),
-            AllowedFilter::exact('template_id'),
-            AllowedFilter::exact('structure_id'),
-            AllowedFilter::exact('id'),
-            AllowedFilter::custom('ceu', new FiltersMissionCeu),
-            AllowedFilter::custom('search', new FiltersMissionSearch),
-            AllowedFilter::custom('lieu', new FiltersMissionLieu),
-            AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
-            AllowedFilter::custom('domaine', new FiltersMissionDomaine),
-            AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
-            AllowedFilter::exact('responsable_id'),
-        ])
-        ->allowedSorts(['places_left', 'type'])
-        ->defaultSort('-updated_at')
-        ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+            ->allowedAppends('domaines')
+            ->allowedFilters([
+                'name',
+                'state',
+                'format',
+                'type',
+                AllowedFilter::exact('department'),
+                AllowedFilter::exact('template_id'),
+                AllowedFilter::exact('structure_id'),
+                AllowedFilter::exact('id'),
+                AllowedFilter::custom('ceu', new FiltersMissionCeu),
+                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::custom('lieu', new FiltersMissionLieu),
+                AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('dates', new FiltersMissionDates),
+                AllowedFilter::custom('domaine', new FiltersMissionDomaine),
+                AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
+                AllowedFilter::exact('responsable_id'),
+            ])
+            ->allowedSorts(['places_left', 'type'])
+            ->defaultSort('-updated_at')
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
     public function export(Request $request)
@@ -73,7 +75,7 @@ class MissionController extends Controller
             abort(404, 'Cette mission n\'existe pas');
         }
 
-        return $mission['isFromApi'] ? $mission : $mission->append('participations_total');
+        return $mission['isFromApi'] ? $mission : $mission->append('participations_total', 'full_url');
     }
 
     public function update(MissionUpdateRequest $request, Mission $mission)

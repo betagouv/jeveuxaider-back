@@ -28,6 +28,8 @@ use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
 use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
+use App\Models\Territoire;
+use App\Observers\TerritoireObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -70,6 +72,8 @@ class AppServiceProvider extends ServiceProvider
         Message::observe(MessageObserver::class);
         Conversation::observe(ConversationObserver::class);
         Invitation::observe(InvitationObserver::class);
+        Territoire::observe(TerritoireObserver::class);
+
 
         Validator::extend('phone', function ($attribute, $value, $parameters) {
             return preg_match('/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/', $value);

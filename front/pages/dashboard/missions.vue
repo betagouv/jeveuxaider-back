@@ -150,6 +150,17 @@
           ]"
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          name="dates"
+          label="Dates"
+          :value="query['filter[dates]']"
+          :options="[
+            { label: 'À venir', value: 'incoming' },
+            { label: 'En cours', value: 'current' },
+            { label: 'Date de fin passée', value: 'outdated' },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -196,15 +207,18 @@ import fileDownload from 'js-file-download'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
+  middleware({ $api, route, redirect, store }) {
+    if (store.getters.contextRole == 'responsable') {
+      redirect(
+        `/dashboard/${store.getters.contextableType}/${store.state.auth.user.contextable_id}/missions`
+      )
+    }
+  },
   asyncData({ store, error }) {
     if (
-      ![
-        'admin',
-        'referent',
-        'referent_regional',
-        'superviseur',
-        'responsable',
-      ].includes(store.getters.contextRole)
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
     ) {
       return error({ statusCode: 403 })
     }

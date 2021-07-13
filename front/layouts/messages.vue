@@ -14,7 +14,17 @@
             :class="[{ hide: !$store.getters['messaging/showPanelLeft'] }]"
           >
             <div
-              class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
+              class="
+                panel--header
+                sticky
+                top-0
+                bg-white
+                px-6
+                border-b border-r border-cool-gray-200
+                flex
+                items-center
+                justify-between
+              "
             >
               <div class="text-lg leading-8 font-bold text-gray-900">
                 {{ conversationsLabel }}
@@ -89,7 +99,7 @@
                     class="cursor-pointer hover:bg-gray-100 transition"
                     :class="[
                       {
-                        'bg-gray-200':
+                        'bg-gray-100':
                           $store.getters['messaging/conversation'] &&
                           conversationTeaser.id ==
                             $store.getters['messaging/conversation'].id,

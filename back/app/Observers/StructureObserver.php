@@ -6,6 +6,7 @@ use App\Jobs\SendinblueSyncUser;
 use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Models\Territoire;
 use App\Notifications\CollectivityWaitingValidation;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
@@ -45,7 +46,7 @@ class StructureObserver
         }
 
         if ($structure->statut_juridique == 'Collectivité') {
-            $this->createCollectivity($structure);
+            $this->createTerritoire($structure);
         }
         if (config('app.env') === 'production') {
             SendinblueSyncUser::dispatch($structure->user);
@@ -120,7 +121,7 @@ class StructureObserver
         // STRUCTURE PUBLIQUE TYPE
         if (!$structure->getOriginal('statut_juridique') && $structure->statut_juridique) {
             if ($structure->statut_juridique == 'Collectivité') {
-                $this->createCollectivity($structure);
+                $this->createTerritoire($structure);
             }
         }
 
@@ -147,19 +148,21 @@ class StructureObserver
         $structure->invitations()->delete();
     }
 
-    private function createCollectivity($structure)
+    private function createTerritoire($structure)
     {
-        $collectivity = Collectivity::create([
+        $territoire = Territoire::create([
             'name' => $structure->city ?? $structure->name,
+            'suffix_title' => 'à ' . $structure->city ?? $structure->name,
             'zips' => $structure->zip ? [$structure->zip] : [],
-            'structure_id' => $structure->id,
-            'published' => false,
-            'type' => 'commune',
+            'department' => $structure->department,
+            'is_published' => false,
+            'type' => 'city',
             'state' => 'waiting'
         ]);
-        $collectivity->save();
+        $territoire->save();
+        $territoire->addResponsable($structure->user->profile);
 
         Notification::route('slack', config('services.slack.hook_url'))
-            ->notify(new CollectivityWaitingValidation($collectivity));
+            ->notify(new CollectivityWaitingValidation($territoire));
     }
 }

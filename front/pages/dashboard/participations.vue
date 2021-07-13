@@ -12,6 +12,7 @@
       <div
         v-if="
           $store.getters.contextRole == 'responsable' &&
+          $store.getters.reminders &&
           $store.getters.reminders.participations > 0
         "
       >
@@ -63,7 +64,7 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <!-- <SearchFiltersQuery
           v-if="$store.getters.contextRole === 'responsable'"
           type="select"
           name="mission.responsable_id"
@@ -78,7 +79,7 @@
             })
           "
           @changed="onFilterChange"
-        />
+        /> -->
         <SearchFiltersQueryInput
           name="mission.id"
           label="# Mission"
@@ -196,15 +197,18 @@ import fileDownload from 'js-file-download'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
+  middleware({ $api, route, redirect, store }) {
+    if (store.getters.contextRole == 'responsable') {
+      redirect(
+        `/dashboard/${store.getters.contextableType}/${store.state.auth.user.contextable_id}/participations`
+      )
+    }
+  },
   async asyncData({ $api, store, error, params }) {
     if (
-      ![
-        'admin',
-        'referent',
-        'referent_regional',
-        'superviseur',
-        'responsable',
-      ].includes(store.getters.contextRole)
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
     ) {
       return error({ statusCode: 403 })
     }
@@ -221,7 +225,6 @@ export default {
     return {
       loadingButton: false,
       loadingExport: false,
-      responsables: [],
     }
   },
   async fetch() {
@@ -234,18 +237,7 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  created() {
-    if (
-      this.$store.getters.contextRole === 'responsable' &&
-      this.$store.getters.structure
-    ) {
-      this.$api
-        .getStructureMembers(this.$store.getters.structure.id)
-        .then((res) => {
-          this.responsables = res.data
-        })
-    }
-  },
+  created() {},
   methods: {
     canShowProfileDetails(row) {
       return !!(

@@ -3,11 +3,37 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Mission</div>
-        <div class="flex flex-wrap mb-8 max-w-3xl">
+        <div class="mb-8 max-w-3xl">
           <div class="font-bold text-2-5xl text-gray-800 mr-2">
             {{ mission.name }}
           </div>
-          <TagModelState :state="mission.state" />
+          <div
+            v-if="
+              !['En attente de validation', 'Signalée'].includes(mission.state)
+            "
+            class="font-light text-gray-600 flex items-center"
+          >
+            <div
+              :class="
+                structure.state == 'Validée' &&
+                ['Validée', 'Terminée'].includes(mission.state)
+                  ? 'bg-green-500'
+                  : 'bg-red-500'
+              "
+              class="rounded-full h-2 w-2 mr-2"
+            ></div>
+            <nuxt-link
+              target="_blank"
+              :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+            >
+              <span class="text-sm underline hover:no-underline">
+                {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
+                  mission.slug
+                }}
+              </span>
+            </nuxt-link>
+          </div>
+          <TagModelState class="mt-4" :state="mission.state" />
         </div>
       </div>
       <div>
@@ -22,6 +48,9 @@
     >
       <el-menu-item :index="`/dashboard/mission/${mission.id}`">
         Informations
+      </el-menu-item>
+      <el-menu-item :index="`/dashboard/mission/${mission.id}/statistics`">
+        Statistiques
       </el-menu-item>
       <el-menu-item
         v-if="mission"

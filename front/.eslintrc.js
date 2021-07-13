@@ -1,24 +1,18 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
     node: true,
+    es2021: true,
   },
+  extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier'],
   parserOptions: {
     parser: 'babel-eslint',
   },
-  extends: [
-    '@nuxtjs',
-    'prettier',
-    'prettier/vue',
-    'plugin:prettier/recommended',
-    'plugin:nuxt/recommended',
-  ],
   plugins: ['prettier'],
-  // add your custom rules here
   rules: {
     'no-console': 'off',
     eqeqeq: 'off',
     'vue/no-v-html': 'off',
+    'prettier/prettier': 'error',
   },
 }

@@ -5,7 +5,7 @@ export default {
       const nbErrors = Object.entries(fields).length
 
       if (nbErrors > 4) {
-        errors.push(`${nbErrors} champs obligatoires ne sont pas valides.`)
+        errors.push(`${nbErrors} champs ne sont pas valides.`)
       } else {
         for (const property in fields) {
           errors.push(fields[property][0].message)

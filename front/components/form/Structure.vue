@@ -8,7 +8,7 @@
   >
     <div class="flex justify-between mb-6 text-1-5xl font-bold">
       <div class="text-gray-800">Informations générales</div>
-      <div v-if="form.rna" class="text-gray-400">
+      <div v-if="form.rna && form.rna != 'N/A'" class="text-gray-400">
         <span class="font-medium">RNA</span> {{ form.rna }}
       </div>
     </div>
@@ -180,10 +180,10 @@
     <ItemDescription container-class="mb-6">
       Si votre organisation est membre d'un réseau national ou territorial qui
       figure dans le menu déroulant du champ ci-dessous, sélectionnez-le. Vous
-      permettrez au superviseur de votre réseau de visualiser les missions et
-      bénévoles rattachés à votre organisation. Vous faciliterez également la
-      validation de votre organisation par les autorités territoriales lors de
-      votre inscription.
+      permettrez à la tête de réseau de visualiser les missions et bénévoles
+      rattachés à votre organisation. Vous faciliterez également la validation
+      de votre organisation par les autorités territoriales lors de votre
+      inscription.
     </ItemDescription>
     <el-form-item label="Réseau national" prop="reseau" class="flex-1">
       <el-select

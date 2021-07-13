@@ -60,6 +60,10 @@ class Invitation extends Model
             if ($this->role == 'responsable_organisation') {
                 $this->invitable->addMember($profile, 'responsable');
             }
+            // RESPONSABLE TERRITOIRE
+            if ($this->role == 'responsable_territoire') {
+                $this->invitable->addResponsable($profile);
+            }
             // RESPONSABLE COLLECTIVITE
             if ($this->role == 'responsable_collectivity') {
                 $this->invitable->addMember($profile, 'responsable');

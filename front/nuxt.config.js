@@ -65,7 +65,6 @@ export default {
     '@/plugins/api.js',
     '@/plugins/vue-filters.js',
     '@/plugins/axeptio.client.js',
-    '@/plugins/hotjar.client.js',
     '@/plugins/apiengagement.client.js',
     '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
@@ -95,7 +94,13 @@ export default {
     '@nuxtjs/sentry',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
+    '@nuxtjs/gtm',
   ],
+
+  gtm: {
+    id: 'GTM-5S3DCV6',
+    enabled: true,
+  },
 
   dayjs: {
     locales: ['fr'],
@@ -187,6 +192,11 @@ export default {
     apieng: {
       key: process.env.APIENG_KEY,
       tracking_key: process.env.APIENG_TRACKING_KEY,
+    },
+    plausible: {
+      site_id: process.env.PLAUSIBLE_SITE_ID,
+      base_url: process.env.PLAUSIBLE_BASE_URL,
+      token: process.env.PLAUSIBLE_TOKEN,
     },
     google: {
       places: process.env.GOOGLE_PLACE_API_KEY

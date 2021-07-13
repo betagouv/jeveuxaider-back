@@ -94,6 +94,86 @@
           {{ participation.profile.zip }}
         </div>
       </div>
+      <div
+        v-if="
+          participation.profile.domaines &&
+          participation.profile.domaines.length > 0
+        "
+        class="mb-2 flex"
+      >
+        <div class="card-label">Domaines</div>
+        <div class="text-gray-900 flex-1">
+          {{
+            participation.profile.domaines
+              .map(function (item) {
+                return item.name.fr
+              })
+              .join(', ')
+          }}
+        </div>
+      </div>
+      <div class="mb-2 flex">
+        <div class="card-label">Compétences</div>
+        <div class="text-gray-900 flex-1">
+          <template
+            v-if="
+              participation.profile.skills &&
+              participation.profile.skills.length > 0
+            "
+          >
+            {{
+              participation.profile.skills
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </div>
+      </div>
+      <div class="mb-2 flex">
+        <div class="card-label">Dispos</div>
+        <div class="text-gray-900 flex-1">
+          <template
+            v-if="
+              participation.profile.disponibilities &&
+              participation.profile.disponibilities.length > 0
+            "
+          >
+            {{
+              participation.profile.disponibilities
+                .map(function (item) {
+                  return $options.filters.labelFromValue(
+                    item,
+                    'profile_disponibilities'
+                  )
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </div>
+      </div>
+      <div class="mb-2 flex">
+        <div class="card-label">Fréquence</div>
+        <div class="text-gray-900 flex-1">
+          <template v-if="participation.profile.frequence">
+            {{ participation.profile.frequence }}
+            {{ participation.profile.frequence_granularite }}
+          </template>
+          <template v-else> N/A </template>
+        </div>
+      </div>
+      <div class="mb-2 flex">
+        <div class="card-label">Motivation</div>
+        <div class="text-gray-900 flex-1">
+          <template v-if="participation.profile.frequence">
+            {{ participation.profile.description }}
+          </template>
+          <template v-else> N/A </template>
+        </div>
+      </div>
     </template>
   </div>
 </template>

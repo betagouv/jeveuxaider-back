@@ -7,7 +7,16 @@
     >
       <div class="flex flex-col w-full h-full px-4">
         <button
-          class="p-4 -mr-4 lg:m-0 lg:p-8 cursor-pointer ml-auto lg:absolute lg:right-0"
+          class="
+            p-4
+            -mr-4
+            lg:m-0
+            lg:p-8
+            cursor-pointer
+            ml-auto
+            lg:absolute
+            lg:right-0
+          "
           @click="onClose"
         >
           <img src="/images/close-white.svg" alt="Fermer" width="24px" />
@@ -77,11 +86,26 @@
               </div>
 
               <div
-                class="submit py-6 px-10 cursor-pointer transition rounded-r-full"
+                class="
+                  submit
+                  py-6
+                  px-10
+                  cursor-pointer
+                  transition
+                  rounded-r-full
+                "
                 @click="onSubmit"
               >
                 <button
-                  class="mx-auto flex items-center justify-center relative text-white font-extrabold"
+                  class="
+                    mx-auto
+                    flex
+                    items-center
+                    justify-center
+                    relative
+                    text-white
+                    font-extrabold
+                  "
                 >
                   <ClipLoader
                     v-if="loading"

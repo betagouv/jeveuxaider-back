@@ -7,8 +7,8 @@
       trigger="click"
       @command="handleCommand"
     >
-      <div class="el-dropdown-link flex justify-between p-5 items-center">
-        <div class="flex">
+      <div class="el-dropdown-link flex justify-between items-center">
+        <div class="flex pr-2 truncate">
           <Avatar
             v-if="$store.getters.user.profile"
             :source="
@@ -21,13 +21,17 @@
 
           <div
             v-if="$store.getters.isSidebarExpanded"
-            class="flex flex-col ml-2"
+            class="flex flex-col ml-2 truncate"
           >
-            <div class="text-black">
+            <div class="text-black truncate">
               {{ $store.getters.user.profile.first_name }}
             </div>
-            <div class="uppercase text-xs">
-              {{ $store.getters.contextRoleLabel }}
+            <div class="uppercase text-xs truncate">
+              {{
+                $store.getters.contextStructure
+                  ? $store.getters.contextStructure.name
+                  : $store.getters.contextRoleLabel
+              }}
             </div>
           </div>
         </div>
@@ -37,8 +41,7 @@
         />
       </div>
       <el-dropdown-menu slot="dropdown" style="max-width: 300px">
-        <div v-if="activeMenu == 'profile'">
-          <nuxt-link
+        <!-- <nuxt-link
             v-if="$store.getters.contextRole == 'responsable'"
             :to="`/dashboard/structure/${$store.getters.structure.id}/members`"
           >
@@ -56,50 +59,78 @@
               $store.getters.contextRole == 'admin'
             "
             divided
-          />
-          <nuxt-link to="/user/infos">
-            <el-dropdown-item>Mon compte</el-dropdown-item>
-          </nuxt-link>
-          <el-dropdown-item
-            v-if="$store.getters.roles && $store.getters.roles.length > 1"
-            :command="{ action: 'menu', value: 'role' }"
-            divided
-          >
-            <div class="flex space-between items-center">
-              Changer de rôle
-              <i class="el-icon-arrow-right ml-auto" />
+          /> -->
+        <nuxt-link to="/user/infos">
+          <el-dropdown-item>Mon compte</el-dropdown-item>
+        </nuxt-link>
+        <el-dropdown-item
+          v-for="structure in $store.getters.profile.structures"
+          :key="'structure-' + structure.id"
+          :command="{
+            action: 'changeContext',
+            context_role: 'responsable',
+            contextable_type: 'structure',
+            contextable_id: structure.id,
+          }"
+          divided
+        >
+          <div class="leading-normal py-2">
+            <div class="uppercase font-medium text-gray-400 text-xs">
+              Mon espace organisation
             </div>
-          </el-dropdown-item>
-          <el-dropdown-item v-if="isImpersonating" divided />
-          <el-dropdown-item
-            v-if="isImpersonating"
-            class="text-orange-500 flex space-between items-center"
-            :command="{ action: 'stopImpersonate' }"
-          >
-            Unmasquarade
-            <i class="el-icon-s-custom ml-auto" />
-          </el-dropdown-item>
-          <el-dropdown-item
-            divided
-            :command="{ action: 'logout' }"
-            class="text-red-500"
-          >
-            Se déconnecter
-          </el-dropdown-item>
-        </div>
-        <div v-if="activeMenu == 'role'">
-          <el-dropdown-item :command="{ action: 'menu', value: 'profile' }">
-            <i class="el-icon-arrow-left" />Retour
-          </el-dropdown-item>
-          <el-dropdown-item divided />
-          <el-dropdown-item
-            v-for="role in $store.getters.roles"
-            :key="role.key"
-            :command="{ action: 'role', value: role.key }"
-          >
-            {{ role.label }}
-          </el-dropdown-item>
-        </div>
+            <div class="font-semibold">{{ structure.name }}</div>
+          </div>
+        </el-dropdown-item>
+        <el-dropdown-item
+          v-for="territoire in $store.getters.profile.territoires"
+          :key="'territoire-' + territoire.id"
+          :command="{
+            action: 'changeContext',
+            context_role: 'responsable',
+            contextable_type: 'territoire',
+            contextable_id: territoire.id,
+          }"
+          divided
+        >
+          <div class="leading-normal py-2">
+            <div class="uppercase font-medium text-gray-400 text-xs">
+              Mon espace
+              {{ territoire.type | labelFromValue('territoires_types') }}
+            </div>
+            <div class="font-semibold">{{ territoire.name }}</div>
+          </div>
+        </el-dropdown-item>
+        <el-dropdown-item
+          v-for="role in $store.getters.roles.filter(
+            (role) => role.key != 'responsable'
+          )"
+          :key="role.key"
+          :command="{ action: 'changeContext', context_role: role.key }"
+          divided
+        >
+          <div class="leading-normal py-2">
+            <div class="uppercase font-medium text-gray-400 text-xs">
+              Mon Espace {{ role.label }}
+            </div>
+            <div class="font-semibold">{{ role.label }}</div>
+          </div>
+        </el-dropdown-item>
+        <el-dropdown-item v-if="isImpersonating" divided />
+        <el-dropdown-item
+          v-if="isImpersonating"
+          class="text-orange-500 flex space-between items-center"
+          :command="{ action: 'stopImpersonate' }"
+        >
+          Unmasquarade
+          <i class="el-icon-s-custom ml-auto" />
+        </el-dropdown-item>
+        <el-dropdown-item
+          divided
+          :command="{ action: 'logout' }"
+          class="text-red-500"
+        >
+          Se déconnecter
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -109,11 +140,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  data() {
-    return {
-      activeMenu: 'profile',
-    }
-  },
   computed: {
     ...mapGetters(['isImpersonating']),
   },
@@ -128,15 +154,23 @@ export default {
         this.$router.push('/')
         await this.$store.dispatch('auth/logout')
       }
-      if (command.action == 'menu') {
-        this.activeMenu = command.value
-      } else if (command.action == 'role') {
+      if (command.action == 'changeContext') {
         await this.$store.dispatch('auth/updateUser', {
-          context_role: command.value,
+          context_role: command.context_role,
+          contextable_type: command.contextable_type,
+          contextable_id: command.contextable_id,
         })
         this.$refs.dropdown.visible = false
-        this.$router.push('/dashboard')
-        this.$router.app.refresh()
+
+        let path = '/dashboard'
+        if (command.context_role == 'responsable') {
+          path = `/dashboard/${command.contextable_type}/${command.contextable_id}/statistics`
+        }
+        this.$router.push(path)
+
+        if (this.$router.history.current.path == path) {
+          this.$router.app.refresh()
+        }
       }
     },
   },
@@ -151,7 +185,6 @@ export default {
   font-size: 12px;
 }
 .el-dropdown-menu {
-  margin-top: -10px !important;
   margin-left: 16px !important;
 }
 .el-dropdown-menu__item {

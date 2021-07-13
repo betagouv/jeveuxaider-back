@@ -45,7 +45,9 @@
 
         <div class="w-full flex items-center p-4">
           <div class="mr-3">
-            <div class="mb-1">{{ form.template.title }}</div>
+            <div class="mb-1">
+              {{ form.template.title }}
+            </div>
 
             <client-only>
               <v-clamp
@@ -74,8 +76,9 @@
             type="primary"
             class="ml-3"
             @click.prevent="modalVisible = true"
-            >Aperçu</el-button
           >
+            Aperçu
+          </el-button>
         </div>
       </div>
 
@@ -86,31 +89,60 @@
       >
         <div class="flex items-center">
           <h4
-            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+            class="
+              flex-shrink-0
+              pr-4
+              bg-white
+              text-sm
+              tracking-wider
+              font-semibold
+              uppercase
+              text-gray-700
+            "
           >
             Titre de la mission
           </h4>
-          <div class="flex-1 border-t-2 border-gray-200"></div>
+          <div class="flex-1 border-t-2 border-gray-200" />
         </div>
-        <div class="mt-2">{{ form.template.subtitle }}</div>
+        <div class="mt-2">
+          {{ form.template.subtitle }}
+        </div>
         <div class="flex items-center mt-6">
           <h4
-            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+            class="
+              flex-shrink-0
+              pr-4
+              bg-white
+              text-sm
+              tracking-wider
+              font-semibold
+              uppercase
+              text-gray-700
+            "
           >
             Objectif de la mission
           </h4>
-          <div class="flex-1 border-t-2 border-gray-200"></div>
+          <div class="flex-1 border-t-2 border-gray-200" />
         </div>
-        <div class="mt-2 break-normal" v-html="form.template.objectif"></div>
+        <div class="mt-2 break-normal" v-html="form.template.objectif" />
         <div class="flex items-center mt-6">
           <h4
-            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
+            class="
+              flex-shrink-0
+              pr-4
+              bg-white
+              text-sm
+              tracking-wider
+              font-semibold
+              uppercase
+              text-gray-700
+            "
           >
             Description de la mission et règles à suivre impérativement
           </h4>
-          <div class="flex-1 border-t-2 border-gray-200"></div>
+          <div class="flex-1 border-t-2 border-gray-200" />
         </div>
-        <div class="mt-2" v-html="form.template.description"></div>
+        <div class="mt-2" v-html="form.template.description" />
       </el-dialog>
     </div>
 
@@ -155,7 +187,7 @@
               :key="domaine.id"
               :label="domaine.name.fr"
               :value="domaine.id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
 
@@ -214,7 +246,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -236,7 +268,7 @@
             :key="domaine.id"
             :label="domaine.name.fr"
             :value="domaine.name.fr"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -404,9 +436,9 @@
         </el-select>
       </el-form-item>
       <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit"
-          >Enregistrer</el-button
-        >
+        <el-button type="primary" :loading="loading" @click="onSubmit">
+          Enregistrer
+        </el-button>
       </div>
     </el-form>
   </div>
@@ -590,7 +622,9 @@ export default {
               .addStructureMission(this.structureId, this.form)
               .then(() => {
                 this.loading = false
-                this.$router.push(`/dashboard/missions`)
+                this.$router.push(
+                  `/dashboard/structure/${this.structureId}/missions`
+                )
                 const message = this.form.template
                   ? 'La mission a été ajoutée !'
                   : 'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'

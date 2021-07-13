@@ -22,7 +22,7 @@ class TagController extends Controller
 
         return QueryBuilder::for(Tag::class)
             ->allowedFilters([AllowedFilter::custom('name', new FiltersTagName), 'type'])
-            ->defaultSort('order_column')
+            ->defaultSort('name->fr')
             ->paginate($paginate);
     }
 

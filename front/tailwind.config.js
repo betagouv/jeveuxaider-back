@@ -41,8 +41,8 @@ module.exports = {
       },
       gray: {
         50: '#f9fafb',
-        100: '#F6F6F6',
-        200: '#e8e8e8',
+        100: '#F3F4F6',
+        200: '#E5E7EB',
         300: '#d2d6dc',
         400: '#9fa6b2',
         450: '#908E8E',
@@ -120,6 +120,7 @@ module.exports = {
         800: '#070191', // Color primary
         900: '#1F0391', // Overriden #2a4365
         royal: '#002D83',
+        pale: '#fafaff',
       },
       indigo: {
         100: '#ebf4ff',
@@ -142,6 +143,7 @@ module.exports = {
         700: '#6b46c1',
         800: '#553c9a',
         900: '#44337a',
+        pale: '#EEEDF8',
       },
       pink: {
         100: '#fff5f7',
@@ -218,6 +220,8 @@ module.exports = {
       default: '0.25rem',
       md: '.375rem',
       lg: '0.5rem',
+      xl: '1rem',
+      '2xl': '2rem',
       full: '9999px',
     },
     borderWidth: {
@@ -231,12 +235,9 @@ module.exports = {
       default:
         '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
       xs: '0 0 0 1px rgba(0,0,0,.05)',
-      md:
-        '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-      lg:
-        '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-      xl:
-        '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+      xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
       shards:
         '0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1)',
@@ -341,6 +342,8 @@ module.exports = {
       wide: '0.025em',
       wider: '0.05em',
       widest: '0.1em',
+      px: '-1px',
+      '2px': '-2px',
     },
     lineHeight: {
       none: '1',
@@ -423,6 +426,7 @@ module.exports = {
       50: '0.5',
       70: '0.70',
       75: '0.75',
+      85: '0.85',
       90: '0.90',
       100: '1',
     },

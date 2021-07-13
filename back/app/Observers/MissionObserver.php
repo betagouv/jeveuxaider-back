@@ -40,7 +40,7 @@ class MissionObserver
         }
 
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             $mission->structure->responsables->each(function ($profile, $key) {
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);
@@ -107,6 +107,19 @@ class MissionObserver
                     break;
             }
         }
+
+        // Transfert des conversations.
+        if ($mission->getOriginal('responsable_id') != $mission->responsable_id) {
+            $oldResponsable = Profile::find($mission->getOriginal('responsable_id'))->user;
+            $newResponsable = $mission->responsable->user;
+
+            $participations = $mission->participations()->pluck('id')->toArray();
+            $conversationsQuery = $oldResponsable->conversations()->whereIn('conversable_id', $participations);
+
+            foreach ($conversationsQuery->get() as $conversation) {
+                $conversation->users()->syncWithoutDetaching([$newResponsable->id]);
+            }
+        }
     }
 
     public function saving(Mission $mission)
@@ -114,12 +127,6 @@ class MissionObserver
         // Calcul Places Left
         $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
-
-        $slug = 'benevolat-'.$mission->structure->name;
-        if ($mission->city) {
-            $slug .= '-' . $mission->city;
-        }
-        $mission->slug = Utils::slug($slug);
     }
 
     /**
@@ -131,7 +138,7 @@ class MissionObserver
     public function deleting(Mission $mission)
     {
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             $mission->structure->responsables->each(function ($profile, $key) {
                 if ($profile->user) { // Parfois il n'y a pas de user car ce sont des profiles invités
                     SendinblueSyncUser::dispatch($profile->user);

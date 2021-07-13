@@ -60,7 +60,16 @@
             >
               <div class="m-auto w-full" style="max-width: 550px">
                 <div
-                  class="px-4 py-2 pr-2 border focus-within:border-black transition flex items-end"
+                  class="
+                    px-4
+                    py-2
+                    pr-2
+                    border
+                    focus-within:border-black
+                    transition
+                    flex
+                    items-end
+                  "
                   style="border-radius: 8px"
                 >
                   <client-only>
@@ -70,13 +79,33 @@
                       :disabled="$store.getters.contextRole == 'admin'"
                       rows="1"
                       :max-height="120"
-                      class="m-auto w-full outline-none leading-tight custom-scrollbar"
+                      class="
+                        m-auto
+                        w-full
+                        outline-none
+                        leading-tight
+                        custom-scrollbar
+                      "
                       @keydown.enter.exact.prevent.native="onAddMessage"
                     />
                   </client-only>
 
                   <button
-                    class="px-3 py-1 ml-3 font-semibold text-sm rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
+                    class="
+                      px-3
+                      py-1
+                      ml-3
+                      font-semibold
+                      text-sm
+                      rounded-full
+                      bg-blue-800
+                      text-white
+                      hover:scale-105
+                      transform
+                      transition
+                      duration-150
+                      ease-in-out
+                    "
                     @click="onAddMessage"
                   >
                     Envoyer

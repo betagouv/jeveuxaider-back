@@ -26,7 +26,7 @@ class ParticipationObserver
         $structure->saveQuietly();
 
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             SendinblueSyncUser::dispatch($participation->profile->user);
         }
     }
@@ -45,7 +45,7 @@ class ParticipationObserver
                     break;
                 case 'Validée':
                     if ($participation->profile) {
-                       $participation->profile->notify(new ParticipationValidated($participation));
+                        $participation->profile->notify(new ParticipationValidated($participation));
                     }
                     break;
                 case 'Annulée':
@@ -79,7 +79,7 @@ class ParticipationObserver
         }
 
         // Maj Sendinblue : Le nombre de participation effectuées / validées peut avoir changé
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             if ($oldState != $newState) {
                 SendinblueSyncUser::dispatch($participation->profile->user);
             }
@@ -93,7 +93,7 @@ class ParticipationObserver
         }
 
         // Maj Sendinblue
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             SendinblueSyncUser::dispatch($participation->profile->user);
         }
     }

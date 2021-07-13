@@ -151,4 +151,7 @@ export default (context, inject) => {
   Vue.component('ElStep', () =>
     import(/* webpackChunkName: 'element-step' */ 'element-ui/lib/step')
   )
+  Vue.component('ElProgress', () =>
+    import(/* webpackChunkName: 'element-progress' */ 'element-ui/lib/progress')
+  )
 }

@@ -68,7 +68,18 @@
                   />
 
                   <div
-                    class="toggle-filters w-full p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
+                    class="
+                      toggle-filters
+                      w-full
+                      p-2
+                      pr-3
+                      lg:hidden
+                      border border-white
+                      rounded-lg
+                      flex
+                      items-center
+                      justify-center
+                    "
                     @click="showFilters = !showFilters"
                   >
                     <img
@@ -120,7 +131,16 @@
 
                     <div class="p-2 right-0 top-0" @click="showFilters = false">
                       <div
-                        class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-primary"
+                        class="
+                          text-center
+                          px-4
+                          py-2
+                          rounded-full
+                          text-white
+                          shadow-md
+                          cursor-pointer
+                          bg-primary
+                        "
                       >
                         Afficher
                       </div>
@@ -130,7 +150,15 @@
 
                 <div
                   v-scroll-lock="showFilters && isMobile"
-                  class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
+                  class="
+                    px-4
+                    pt-8
+                    pb-32
+                    lg:p-0
+                    overflow-y-auto
+                    lg:overflow-hidden
+                    flex flex-col flex-1
+                  "
                 >
                   <client-only>
                     <AisClearRefinements :excluded-attributes="clearExcludes">
@@ -144,7 +172,17 @@
                             Effacer tous les filtres
                           </span>
                           <div
-                            class="ml-3 rounded-full bg-gray-100 w-6 h-6 relative flex items-center justify-center"
+                            class="
+                              ml-3
+                              rounded-full
+                              bg-gray-100
+                              w-6
+                              h-6
+                              relative
+                              flex
+                              items-center
+                              justify-center
+                            "
                           >
                             <img
                               class="clear-refinement--icon"
@@ -240,17 +278,46 @@
                       <nuxt-link
                         v-if="item.isBannerRemoteMissions"
                         to="/missions-benevolat?refinementList[type][0]=Mission à distance"
-                        class="banner-remote relative h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden cursor-pointer group"
+                        class="
+                          banner-remote
+                          relative
+                          h-auto
+                          flex flex-col flex-1
+                          bg-white
+                          rounded-lg
+                          overflow-hidden
+                          cursor-pointer
+                          group
+                        "
                       >
                         <img
                           src="/images/banner_a_distance.jpg"
                           srcset="/images/banner_a_distance@2x.jpg 2x"
                           alt="Engagez-vous à distance"
-                          class="background absolute object-cover w-full h-full transition duration-300 ease-in-out"
+                          class="
+                            background
+                            absolute
+                            object-cover
+                            w-full
+                            h-full
+                            transition
+                            duration-300
+                            ease-in-out
+                          "
                         />
 
                         <div
-                          class="foreground text-white relative flex flex-col h-full items-center text-center px-4 py-8"
+                          class="
+                            foreground
+                            text-white
+                            relative
+                            flex flex-col
+                            h-full
+                            items-center
+                            text-center
+                            px-4
+                            py-8
+                          "
                         >
                           <img
                             src="/images/computer.svg"
@@ -267,7 +334,25 @@
                           </div>
 
                           <div
-                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-green-400 group-hover:bg-green-500 transition duration-150 ease-in-out mt-6 font-extrabold inline-flex justify-center items-center"
+                            class="
+                              text-center
+                              px-4
+                              py-2
+                              rounded-full
+                              text-white
+                              shadow-md
+                              cursor-pointer
+                              bg-green-400
+                              group-hover:bg-green-500
+                              transition
+                              duration-150
+                              ease-in-out
+                              mt-6
+                              font-extrabold
+                              inline-flex
+                              justify-center
+                              items-center
+                            "
                             style="width: 212px; height: 45px"
                           >
                             Missions à distance
@@ -277,7 +362,14 @@
 
                       <template v-else>
                         <nuxt-link
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
+                          class="
+                            flex flex-col flex-1
+                            hover:bg-gray-50
+                            focus:bg-gray-50
+                            transition
+                            duration-150
+                            ease-in-out
+                          "
                           :to="
                             item.provider == 'api_engagement'
                               ? `/missions-benevolat/${item.id}`
@@ -364,7 +456,18 @@
 
                 <div
                   v-show="!nbHits"
-                  class="w-full mb-16 bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
+                  class="
+                    w-full
+                    mb-16
+                    bg-white
+                    rounded-lg
+                    shadow
+                    px-4
+                    py-8
+                    sm:p-8
+                    lg:p-12
+                    xl:p-16
+                  "
                 >
                   Pas de résultats.
                 </div>
@@ -732,13 +835,13 @@ export default {
       this.$set(this.routeState.refinementList, $event.name, values)
     },
     deleteFacet($event) {
-      this.routeState.refinementList[$event.name].splice(
+      this.routeState.refinementList[$event.name]?.splice(
         this.routeState.refinementList[$event.name].findIndex((i) => {
           return i == $event.value
         }),
         1
       )
-      if (this.routeState.refinementList[$event.name].length == 0) {
+      if (this.routeState.refinementList[$event.name]?.length == 0) {
         this.$delete(this.routeState.refinementList, $event.name)
       }
     },

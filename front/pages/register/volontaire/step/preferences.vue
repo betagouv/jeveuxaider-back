@@ -14,7 +14,15 @@
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
-        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
+        class="
+          px-8
+          py-6
+          bg-white
+          text-black text-3xl
+          font-extrabold
+          leading-9
+          text-center
+        "
       >
         Sélectionnez vos préférences
       </div>
@@ -51,7 +59,13 @@
           </el-form-item>
 
           <div
-            class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
+            class="
+              mb-8
+              text-black text-2xl
+              font-extrabold
+              leading-9
+              text-center
+            "
           >
             Visibilité de votre profil
           </div>
@@ -67,7 +81,14 @@
             <legend class="sr-only">Visibilité de votre profil</legend>
             <div class="bg-white rounded-md -space-y-px">
               <label
-                class="rounded-tl-md rounded-tr-md relative border p-4 flex cursor-pointer"
+                class="
+                  rounded-tl-md rounded-tr-md
+                  relative
+                  border
+                  p-4
+                  flex
+                  cursor-pointer
+                "
                 :class="
                   !isProfileVisible
                     ? 'bg-blue-50 border-blue-800 z-10'
@@ -78,7 +99,16 @@
                   type="radio"
                   name="is_visible"
                   :value="false"
-                  class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-blue-800 border-gray-300 focus:ring-blue-800"
+                  class="
+                    form-radio
+                    h-4
+                    w-4
+                    mt-0.5
+                    cursor-pointer
+                    text-blue-800
+                    border-gray-300
+                    focus:ring-blue-800
+                  "
                   aria-labelledby="privacy-setting-0-label"
                   aria-describedby="privacy-setting-0-description"
                   :checked="!isProfileVisible"
@@ -109,7 +139,14 @@
               </label>
 
               <label
-                class="relative rounded-bl-md rounded-br-md border p-4 flex cursor-pointer"
+                class="
+                  relative
+                  rounded-bl-md rounded-br-md
+                  border
+                  p-4
+                  flex
+                  cursor-pointer
+                "
                 :class="
                   isProfileVisible
                     ? 'bg-blue-50 border-blue-800 z-10'
@@ -120,7 +157,16 @@
                   type="radio"
                   name="is_visible"
                   :value="true"
-                  class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-blue-800 border-gray-300 focus:ring-blue-800"
+                  class="
+                    form-radio
+                    h-4
+                    w-4
+                    mt-0.5
+                    cursor-pointer
+                    text-blue-800
+                    border-gray-300
+                    focus:ring-blue-800
+                  "
                   aria-labelledby="privacy-setting-1-label"
                   aria-describedby="privacy-setting-1-description"
                   :checked="isProfileVisible"
@@ -157,7 +203,31 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150"
+              class="
+                shadow-lg
+                block
+                w-full
+                text-center
+                rounded-lg
+                z-10
+                border border-transparent
+                bg-green-400
+                px-4
+                sm:px-6
+                py-4
+                text-lg
+                sm:text-xl
+                leading-6
+                font-bold
+                text-white
+                hover:bg-green-500
+                focus:outline-none
+                focus:border-blue-700
+                focus:shadow-outline-blue
+                transition
+                ease-in-out
+                duration-150
+              "
               @click="onSubmit"
               >Continuer</el-button
             >
@@ -249,6 +319,8 @@ export default {
             ...this.form,
           })
           this.loading = false
+          window.plausible &&
+            window.plausible('Inscription bénévole - Étape 3 - Préférences')
           this.$router.push('/register/volontaire/step/competences')
         } else {
           this.showErrors(fields)

@@ -161,15 +161,15 @@ class Profile extends Model implements HasMedia
             case 'referent':
                 $departement = Auth::guard('api')->user()->profile->referent_department;
                 return $query
-                ->where('zip', 'LIKE', $departement . '%')
-                ->orWhereHas(
-                    'missions',
-                    function (Builder $query) use ($departement) {
+                    ->where('zip', 'LIKE', $departement . '%')
+                    ->orWhereHas(
+                        'missions',
+                        function (Builder $query) use ($departement) {
                             $query
                                 ->whereNotNull('department')
                                 ->where('department', $departement);
-                    }
-                )
+                        }
+                    )
                     ->orWhereHas(
                         'structures',
                         function (Builder $query) use ($departement) {
@@ -183,14 +183,14 @@ class Profile extends Model implements HasMedia
             case 'referent_regional':
                 $departements = config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region];
                 return $query
-                ->whereHas(
-                    'missions',
-                    function (Builder $query) use ($departements) {
+                    ->whereHas(
+                        'missions',
+                        function (Builder $query) use ($departements) {
                             $query
                                 ->whereNotNull('department')
                                 ->whereIn('department', $departements);
-                    }
-                )
+                        }
+                    )
                     ->orWhereHas(
                         'structures',
                         function (Builder $query) use ($departements) {
@@ -210,14 +210,14 @@ class Profile extends Model implements HasMedia
                 break;
             case 'superviseur':
                 return $query
-                ->whereHas(
-                    'structures',
-                    function (Builder $query) {
+                    ->whereHas(
+                        'structures',
+                        function (Builder $query) {
                             $query
                                 ->whereNotNull('reseau_id')
                                 ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                    }
-                );
+                        }
+                    );
                 break;
             case 'responsable_collectivity':
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
@@ -297,6 +297,11 @@ class Profile extends Model implements HasMedia
             ->withPivot('role');
     }
 
+    public function territoires()
+    {
+        return $this->belongsToMany('App\Models\Territoire')->orderBy('name', 'ASC');
+    }
+
     public function structureAsResponsable()
     {
         return $this->structures()->wherePivot('role', 'responsable')->first();
@@ -307,17 +312,8 @@ class Profile extends Model implements HasMedia
         return $this->hasMany('App\Models\Participation');
     }
 
-    // public function collectivities()
-    // {
-    //     return $this->hasMany('App\Models\Collectivity');
-    // }
-
     public function getDomainesAttribute()
     {
-        // return $this->tagsWithType('domaine')->map(function ($item) {
-        //     return $item->id;
-        // });
-
         return $this->tagsWithType('domaine')->values();
     }
 
@@ -359,14 +355,12 @@ class Profile extends Model implements HasMedia
         return $structure->collectivity;
     }
 
-    public function isResponsableCollectivity()
-    {
-        return (bool) $this->collectivity;
-    }
-
     public function isResponsable()
     {
-        return (bool) $this->belongsToMany('App\Models\Structure', 'members')->wherePivot('role', 'responsable')->first();
+        if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
+            return true;
+        }
+        return false;
     }
 
     public function isAdmin()
@@ -392,7 +386,6 @@ class Profile extends Model implements HasMedia
             'referent_regional' => $this->isReferentRegional(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
-            'responsable_collectivity' => $this->isResponsableCollectivity(),
             'analyste' => $this->is_analyste
         ];
     }

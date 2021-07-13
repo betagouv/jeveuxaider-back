@@ -51,6 +51,14 @@ Route::post('firstname', 'Api\ProfileController@firstname');
 Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthLoginAuthorize');
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 
+Route::get('territoires', 'Api\TerritoireController@index');
+Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
+Route::get('territoire/{territoire}/promotedMissions', 'Api\TerritoireController@promotedMissions');
+Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
+Route::get('territoires', 'Api\TerritoireController@index');
+
+Route::get('tags', 'Api\TagController@index');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -76,8 +84,6 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('user/password', 'Api\UserController@updatePassword');
 
-    Route::get('tags', 'Api\TagController@index');
-
     Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
     // MESSAGES
@@ -93,6 +99,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('invitation/{token}/delete', 'Api\InvitationController@delete');
 
     Route::post('logout', 'Api\PassportController@logout');
+
+    // API ENGAGEMENT
+    Route::get('apiengagement/mymission/{id}', 'Api\ApiEngagementController@myMission');
 });
 
 // Pour info : Les middleware 'auth:api', 'has.context.role.header' ajoutent 9 queries
@@ -106,11 +115,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     Route::delete('structure/{structure}', 'Api\StructureController@delete');
 
-    // STRUCTURE MEMBERS
+    // STRUCTURE
     Route::post('structure/{structure}/missions', 'Api\StructureController@addMission');
     Route::get('structure/{structure}/members', 'Api\StructureController@members');
     Route::post('structure/{structure}/members', 'Api\StructureController@addMember');
     Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
+    Route::get('structure/{structure}/actions', 'Api\ActionController@structure');
 
     // STRUCTURE INVITATIONS
     Route::get('structure/{structure}/invitations', 'Api\StructureController@invitations');
@@ -178,6 +188,19 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');
+
+    // TERRITOIRES
+    Route::post('territoire', 'Api\TerritoireController@store');
+    Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
+    Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
+    Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
+    Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');
+    Route::delete('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@uploadDelete');
+
+    Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
+
+    // ACTIONS
+    Route::get('actions', 'Api\ActionController@index');
 });
 
 // ONLY ADMIN
@@ -263,4 +286,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // INVITATIONS
     Route::get('invitations', 'Api\InvitationController@index');
+
+    // TERRITOIRES
+    Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
 });

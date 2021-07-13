@@ -1,72 +1,101 @@
 <template>
-  <div>
-    <el-menu-item
-      index="/dashboard"
-      :class="{ 'is-active': isActive('dashboard') }"
+  <div class="space-y-1">
+    <!-- Tableau de bord -->
+    <nuxt-link
+      to="/dashboard"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        isActive('dashboard')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium ',
+      ]"
+      x-state:on="Current"
+      x-state:off="Default"
+      aria-current="page"
     >
-      <span v-if="$store.getters.isSidebarExpanded">Tableau de bord</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Tableau de bord`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-data-analysis"
+      <div
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          isActive('dashboard')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
+        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
       />
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/structures"
-      :class="{ 'is-active': isActive('structures') }"
+      Tableau de bord
+    </nuxt-link>
+
+    <!-- Structures -->
+    <nuxt-link
+      to="/dashboard/structures"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/structure')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Organisations</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Organisations`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-school"
+      <div
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/structure')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
+        v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/missions"
-      :class="{ 'is-active': isActive('missions') }"
+      Organisations
+    </nuxt-link>
+
+    <!-- Missions -->
+    <nuxt-link
+      to="/dashboard/missions"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/mission')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
     >
-      <span v-if="$store.getters.isSidebarExpanded">Missions</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Missions`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-collection"
+      <div
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/mission')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
+        v-html="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
       />
-    </el-menu-item>
-    <el-menu-item
-      index="/dashboard/participations"
-      :class="{ 'is-active': isActive('participations') }"
+      Missions
+    </nuxt-link>
+
+    <!-- Participations -->
+    <nuxt-link
+      to="/dashboard/participations"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/participation')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
     >
-      <span v-if="$store.getters.isSidebarExpanded">Participations</span>
-
-      <i
-        v-else
-        v-tooltip.right="{
-          content: `Participations`,
-          classes: 'bo-style',
-        }"
-        class="el-icon-finished"
+      <div
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/participation')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
+        v-html="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
       />
-    </el-menu-item>
-    <el-menu-item v-if="$store.getters.isSidebarExpanded" index="#">
-      <a
-        target="_blank"
-        href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
-        >Contacter le support</a
-      >
-    </el-menu-item>
+      Participations
+    </nuxt-link>
   </div>
 </template>
 

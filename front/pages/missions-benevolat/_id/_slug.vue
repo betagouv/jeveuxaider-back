@@ -1,12 +1,14 @@
 <template>
   <div>
-    <div class="absolute" style="height: 360px">
-      <img
-        src="@/assets/images/bg_header_mission.jpg"
-        alt="Mission bénévolat"
-        class="object-cover w-full h-full"
-      />
-      <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
+    <div class="relative">
+      <div class="absolute" style="height: 360px">
+        <img
+          src="@/assets/images/bg_header_mission.jpg"
+          alt="Mission bénévolat"
+          class="object-cover w-full h-full"
+        />
+        <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
+      </div>
     </div>
 
     <div class="relative mb-12">
@@ -171,6 +173,10 @@
                 <h2 class="text-lg font-medium">
                   <span>L'organisation</span>
                   <nuxt-link
+                    v-if="
+                      structure.statut_juridique == 'Association' &&
+                      structure.state == 'Validée'
+                    "
                     target="_blank"
                     :to="`/organisations/${structure.slug}`"
                   >
@@ -178,6 +184,9 @@
                       {{ structure.name }}
                     </b>
                   </nuxt-link>
+                  <b v-else class="text-blue-800">
+                    {{ structure.name }}
+                  </b>
                 </h2>
               </div>
 
@@ -445,6 +454,10 @@
             <span class="text-lg font-medium">
               <span>L'organisation</span>
               <nuxt-link
+                v-if="
+                  structure.statut_juridique == 'Association' &&
+                  structure.state == 'Validée'
+                "
                 target="_blank"
                 :to="`/organisations/${structure.slug}`"
               >
@@ -452,6 +465,9 @@
                   {{ structure.name }}
                 </b>
               </nuxt-link>
+              <b v-else class="text-blue-800">
+                {{ structure.name }}
+              </b>
             </span>
           </div>
         </div>
@@ -916,15 +932,23 @@ export default {
       return error({ statusCode: 404 })
     }
 
+    if (mission.state == 'En attente de validation') {
+      return error({ statusCode: 403 })
+    }
+
     // Si mission signalée ou organisation désinscrite / signalée
     if (
-      ['Signalée'].includes(mission.state) ||
+      ['Signalée', 'Brouillon'].includes(mission.state) ||
       ['Désinscrite', 'Signalée'].includes(mission.structure.state)
     ) {
       if (store.getters.isLogged) {
+        // Si on participe à cette mission ou si on est responsable de la structure
         if (
           !store.getters.user.profile.participations.filter(
             (participation) => participation.mission_id == mission.id
+          ).length &&
+          !store.getters.user.profile.structures.filter(
+            (structure) => structure.id == mission.structure_id
           ).length
         ) {
           return error({ statusCode: 403 })

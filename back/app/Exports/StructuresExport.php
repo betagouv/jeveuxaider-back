@@ -12,6 +12,7 @@ use App\Filters\FiltersStructureCeu;
 use App\Filters\FiltersStructureCollectivity;
 use App\Filters\FiltersStructureSearch;
 use App\Filters\FiltersStructureLieu;
+use App\Filters\FiltersStructureWithRna;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
 
@@ -27,8 +28,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return QueryBuilder::for(Structure::role($this->role)->with('user'))
@@ -40,6 +41,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
+                AllowedFilter::custom('rna', new FiltersStructureWithRna),
             ])
             ->defaultSort('-created_at')
             ->get();
@@ -50,6 +52,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
         return [
             'id',
             'nom',
+            'rna',
             'statut',
             'reponse_ratio',
             'reponse_delai',
@@ -90,6 +93,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
         return [
             $structure->id,
             $structure->name,
+            $structure->rna,
             $structure->state,
             $structure->response_ratio,
             $structure->response_time,

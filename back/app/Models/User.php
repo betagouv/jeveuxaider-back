@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'context_role',
+        'name', 'email', 'password', 'context_role', 'contextable_type', 'contextable_id',
     ];
 
     protected $hidden = [
@@ -43,7 +43,7 @@ class User extends Authenticatable
             return null;
         }
         $id = Auth::guard('api')->user()->id;
-        $user = User::with(['profile.structures','profile.structures.collectivity', 'profile.participations'])->where('id', $id)->first();
+        $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.collectivity', 'profile.participations'])->where('id', $id)->first();
         $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
@@ -131,16 +131,44 @@ class User extends Authenticatable
 
     public function getContextRoleAttribute()
     {
-        if ($this->attributes['context_role'] == null || $this->attributes['context_role'] == 'volontaire') {
-            $userRoles = array_filter($this->profile->roles, function ($role) {
-                return $role === true;
-            });
-            if (count($userRoles) > 0) {
-                $this->attributes['context_role'] = array_key_first($userRoles);
+        if (empty($this->attributes['context_role']) || $this->attributes['context_role'] == 'volontaire') {
+            if ($this->profile) {
+                $userRoles = array_filter($this->profile->roles, function ($role) {
+                    return $role === true;
+                });
+                if (count($userRoles) > 0) {
+                    $this->attributes['context_role'] = array_key_first($userRoles);
+                }
             }
         }
 
-        return $this->attributes['context_role'];
+        return $this->attributes['context_role'] ?? null;
+    }
+
+    public function getContextableTypeAttribute()
+    {
+        if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
+            if ($this->profile->structures->first()) {
+                return 'structure';
+            } elseif ($this->profile->territoires->first()) {
+                return 'territoire';
+            }
+        }
+
+        return $this->attributes['contextable_type'] ?? null;
+    }
+
+    public function getContextableIdAttribute()
+    {
+        if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
+            if ($this->profile->structures->first()) {
+                return $this->profile->structures->first()['id'];
+            } elseif ($this->profile->territoires->first()) {
+                return $this->profile->territoires->first()['id'];
+            }
+        }
+
+        return $this->attributes['contextable_id'] ?? null;
     }
 
     public function anonymize()
@@ -168,7 +196,22 @@ class User extends Authenticatable
             ->where(function ($query) {
                 $query->whereRaw('conversations_users.read_at < conversations.updated_at')
                     ->orWhere('conversations_users.read_at', null);
-            })->pluck('conversations.id')->toArray();
+            })
+            ->where('conversations_users.status', true)
+            ->pluck('conversations.id')
+            ->toArray();
+    }
+
+    public function getUnreadConversationsCount()
+    {
+        return $this->conversations()
+            ->whereHas('messages')
+            ->where(function ($query) {
+                $query->whereRaw('conversations_users.read_at < conversations.updated_at')
+                    ->orWhere('conversations_users.read_at', null);
+            })
+            ->where('conversations_users.status', true)
+            ->count();
     }
 
     public static function getNbParticipationsOver($pid)

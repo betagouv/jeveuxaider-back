@@ -4,8 +4,11 @@ import apiStructure from '@/api/structure'
 import apiParticipation from '@/api/participation'
 import apiConversation from '@/api/conversation'
 import apiUser from '@/api/user'
+import apiPlausible from '@/api/plausible'
+import apiEngagement from '@/api/api-engagement'
+import apiTerritoire from '@/api/territoire'
 
-export default ({ $axios }, inject) => {
+export default ({ $axios, $config }, inject) => {
   // Inject `api` key
   // -> app.$api
   // -> this.$api in vue components
@@ -17,6 +20,9 @@ export default ({ $axios }, inject) => {
     ...apiParticipation($axios),
     ...apiConversation($axios),
     ...apiUser($axios),
+    ...apiPlausible($axios, $config),
+    ...apiEngagement($axios, $config),
+    ...apiTerritoire($axios),
   }
 
   inject('api', api)
