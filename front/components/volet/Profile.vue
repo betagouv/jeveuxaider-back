@@ -1,90 +1,133 @@
 <template>
   <Volet>
-    <el-card shadow="never" class="overflow-visible mt-12">
-      <div slot="header" class="clearfix flex flex-col items-center">
-        <div class="-mt-10">
-          <Avatar
-            :source="row.avatar ? row.avatar : null"
-            :fallback="`${row.first_name[0]}${row.last_name[0]}`"
-          />
-        </div>
-        <nuxt-link
-          class="font-bold text-lg text-primary mb-2 mt-3"
-          :to="`/dashboard/profile/${row.id}`"
+    <div v-if="profile" class="mt-12">
+      <TagProfileRoles class="mb-6 mr-8" :profile="profile" />
+      <div class="flex flex-col space-y-6">
+        <VoletCard
+          :label="profile.full_name"
+          :link="`/dashboard/participation/${profile.id}`"
         >
-          <template v-if="hidePersonalFields">
-            {{ row.first_name }} {{ row.last_name[0] }}.
-          </template>
-          <template v-else>
-            {{ row.full_name }}
-          </template>
-        </nuxt-link>
-      </div>
-      <div class="flex items-center justify-center mb-4">
-        <TagProfileRoles v-if="row.roles" :profile="row" size="small" />
-      </div>
-      <ModelProfileInfos :profile="row" />
-    </el-card>
-    <template v-if="$store.getters.contextRole === 'admin'">
-      <el-form ref="profileForm" :model="form" label-position="top">
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Superviseur réseau national
-        </div>
-        <item-description container-class="mb-6">
-          Si cet utilisateur est membre d'un réseau national (Les Banques
-          alimentaires, Armée du Salut...), renseignez son nom. Vous permettez à
-          cet utilisateur de visualiser les missions et bénévoles rattachés aux
-          organisations de ce réseau national.
-        </item-description>
-        <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-          <el-select
-            v-model="form.reseau_id"
-            clearable
-            placeholder="Sélectionner un réseau national"
-          >
-            <el-option
-              v-for="item in $store.getters.reseaux"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Référent départemental
-        </div>
-        <item-description container-class="mb-6">
-          Si cet utilisateur est référent, renseignez le nom du département Vous
-          permettez à cet utilisateur de visualiser les missions et bénévoles
-          rattachés aux organisations de ce département.
-        </item-description>
+          <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem>
+          <VoletRowItem label="Type">
+            {{ profile.type | labelFromValue('profile_types') }}
+          </VoletRowItem>
+          <VoletRowItem label="Nom">
+            {{ profile.full_name }}
+          </VoletRowItem>
+          <VoletRowItem label="Domaines">
+            <template v-if="profile.domaines && profile.domaines.length > 0">
+              {{
+                profile.domaines
+                  .map(function (item) {
+                    return item.name.fr
+                  })
+                  .join(', ')
+              }}
+            </template>
+            <template v-else> N/A </template>
+          </VoletRowItem>
+          <VoletRowItem label="Compétences">
+            <template v-if="profile.skills && profile.skills.length > 0">
+              {{
+                profile.skills
+                  .map(function (item) {
+                    return item.name.fr
+                  })
+                  .join(', ')
+              }}
+            </template>
+            <template v-else> N/A </template>
+          </VoletRowItem>
+          <VoletRowItem label="Disponibilités">
+            <template
+              v-if="
+                profile.disponibilities && profile.disponibilities.length > 0
+              "
+            >
+              {{
+                profile.disponibilities
+                  .map(function (item) {
+                    return $options.filters.labelFromValue(
+                      item,
+                      'profile_disponibilities'
+                    )
+                  })
+                  .join(', ')
+              }}
+            </template>
+            <template v-else> N/A </template>
+          </VoletRowItem>
+          <VoletRowItem label="Crée le">{{
+            profile.created_at | formatMediumWithTime
+          }}</VoletRowItem>
+          <VoletRowItem label="Modifié le">{{
+            profile.updated_at | formatMediumWithTime
+          }}</VoletRowItem>
 
-        <el-form-item
-          label="Département"
-          prop="referent_department"
-          class="flex-1"
-        >
-          <el-select
-            v-model="form.referent_department"
-            filterable
-            clearable
-            placeholder="Département"
+          <VoletRowItem label="Dernière co.">{{
+            profile.last_online_at | fromNow
+          }}</VoletRowItem>
+        </VoletCard>
+
+        <template v-if="structures">
+          <VoletCard
+            v-for="structure in structures"
+            :key="structure.id"
+            label="Organisation"
+            :link="`/dashboard/structure/${structure.id}`"
           >
-            <el-option
-              v-for="item in $store.getters.taxonomies.departments.terms"
-              :key="item.value"
-              :label="`${item.value} - ${item.label}`"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <div class="flex pt-2">
-          <el-button type="primary" :loading="loading" @click="onSubmit">
-            Enregistrer
-          </el-button>
-        </div>
-      </el-form>
-    </template>
+            <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem>
+            <VoletRowItem label="Nom">{{ structure.name }}</VoletRowItem>
+            <VoletRowItem label="Statut">{{
+              structure.state | labelFromValue('structure_workflow_states')
+            }}</VoletRowItem>
+            <VoletRowItem label="Type">{{
+              structure.statut_juridique
+                | labelFromValue('structure_legal_status')
+            }}</VoletRowItem>
+          </VoletCard>
+        </template>
+
+        <template v-if="territoires">
+          <VoletCard
+            v-for="territoire in territoires"
+            :key="territoire.id"
+            label="Territoire"
+            :link="`/dashboard/territoire/${territoire.id}`"
+          >
+            <VoletRowItem label="ID">{{ territoire.id }}</VoletRowItem>
+            <VoletRowItem label="Nom">{{ territoire.name }}</VoletRowItem>
+            <VoletRowItem label="Statut">
+              {{ territoire.state | labelFromValue('territoires_states') }}
+            </VoletRowItem>
+            <VoletRowItem label="Type">
+              {{ territoire.type | labelFromValue('territoires_types') }}
+            </VoletRowItem>
+            <VoletRowItem label="Département">
+              {{ territoire.department | labelFromValue('departments') }}
+            </VoletRowItem>
+            <VoletRowItem label="Zips">
+              {{ territoire.zips.join(', ') }}
+            </VoletRowItem>
+          </VoletCard>
+        </template>
+
+        <VoletCard
+          v-if="reseau"
+          label="Réseau"
+          :link="`/dashboard/structure/${reseau.id}`"
+        >
+          <VoletRowItem label="ID">{{ reseau.id }}</VoletRowItem>
+          <VoletRowItem label="Nom">{{ reseau.name }}</VoletRowItem>
+          <VoletRowItem label="Statut">{{
+            reseau.state | labelFromValue('structure_workflow_states')
+          }}</VoletRowItem>
+          <VoletRowItem label="Type">{{
+            reseau.statut_juridique | labelFromValue('structure_legal_status')
+          }}</VoletRowItem>
+        </VoletCard>
+      </div>
+    </div>
   </Volet>
 </template>
 
@@ -100,19 +143,30 @@ export default {
     return {
       loading: false,
       form: {},
+      profile: null,
     }
   },
   computed: {
     row() {
       return this.$store.getters['volet/row']
     },
+    structures() {
+      return this.profile.structures ? this.profile.structures : null
+    },
+    territoires() {
+      return this.profile.territoires ? this.profile.territoires : null
+    },
+    reseau() {
+      return this.profile.reseau ? this.profile.reseau : null
+    },
   },
   watch: {
     row: {
       immediate: true,
       deep: false,
-      handler(newValue, oldValue) {
+      async handler(newValue, oldValue) {
         this.form = { ...newValue }
+        this.profile = await this.$api.getProfile(this.form.id)
       },
     },
   },

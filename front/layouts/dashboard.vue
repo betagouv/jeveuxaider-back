@@ -26,7 +26,7 @@ export default {
   middleware: 'dashboard',
   head: {
     bodyAttrs: {
-      class: 'full-height-layout',
+      class: 'full-height-layout overflow-x-hidden',
     },
   },
 }

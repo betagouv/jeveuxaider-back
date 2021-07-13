@@ -53,18 +53,38 @@
       Analyste
     </el-tag>
 
-    <el-tag
-      v-if="profile.roles.responsable"
-      v-tooltip="{
-        content: structure.name,
-        classes: 'bo-style',
-      }"
-      type="info"
-      :size="size"
-      class="m-1"
-    >
-      Responsable
-    </el-tag>
+    <template v-if="profile.roles.responsable">
+      <template v-if="profile.structures.length > 0">
+        <el-tag
+          v-for="structure in profile.structures"
+          :key="structure.id"
+          v-tooltip="{
+            content: structure.name,
+            classes: 'bo-style',
+          }"
+          type="info"
+          :size="size"
+          class="m-1"
+        >
+          Responsable
+        </el-tag>
+      </template>
+      <template v-if="profile.territoires">
+        <el-tag
+          v-for="territoire in profile.territoires"
+          :key="`territoire-${territoire.id}`"
+          v-tooltip="{
+            content: territoire.name,
+            classes: 'bo-style',
+          }"
+          type="info"
+          :size="size"
+          class="m-1"
+        >
+          Territoire
+        </el-tag>
+      </template>
+    </template>
 
     <el-tag
       v-if="profile.is_visible"
@@ -79,7 +99,7 @@
       <i class="el-icon-search" /> Visible
     </el-tag>
 
-    <el-tag
+    <!-- <el-tag
       v-if="profile.domaines.length > 0"
       type="info"
       :size="size"
@@ -97,7 +117,7 @@
     >
       {{ profile.skills.length }}
       {{ profile.skills.length | pluralize(['compétence', 'compétences']) }}
-    </el-tag>
+    </el-tag> -->
   </div>
 </template>
 

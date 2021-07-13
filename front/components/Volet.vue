@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="">
     <i
       class="el-icon-close cursor-pointer absolute text-xl"
       style="right: 32px; top: 16px"
       @click="handleCloseVolet"
     />
-    <slot> VOLET CONTENT </slot>
+    <slot> </slot>
   </div>
 </template>
 
