@@ -43,7 +43,7 @@
           v-html="require('@/assets/images/icones/spinner.svg?include')"
         ></div>
         <el-button
-          v-else-if="query && query.length > 0"
+          v-else-if="showAddButton && query && query.length > 0"
           style="right: 7px; top: 7px"
           type="primary"
           class="absolute z-10 justify-center uppercase px-4 py-2 border border-transparent rounded-lg shadow font-bold text-white hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
@@ -73,6 +73,11 @@ export default {
     placeholder: {
       type: String,
       default: 'Nom de votre organisation',
+    },
+    showAddButton: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   data() {
@@ -114,19 +119,23 @@ export default {
     },
     async search() {
       this.loading = true
-      const res = await this.$axios.post(
-        'https://api.api-engagement.beta.gouv.fr/v0/association/search',
-        {
-          name: this.query,
-        },
-        {
-          headers: {
-            apikey: this.$config.apieng.key,
+      const res = await this.$axios
+        .post(
+          'https://api.api-engagement.beta.gouv.fr/v0/association/search',
+          {
+            name: this.query,
           },
-        }
-      )
-      this.loading = false
-      this.suggestions = [{ data: res.data.data }]
+          {
+            headers: {
+              apikey: this.$config.apieng.key,
+            },
+          }
+        )
+        .catch(() => (this.loading = false))
+      if (res.data) {
+        this.loading = false
+        this.suggestions = [{ data: res.data.data }]
+      }
     },
   },
 }

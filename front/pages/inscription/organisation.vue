@@ -118,8 +118,8 @@
             v-if="$route.query.orga_type === 'Association'"
             v-model="form.structure.name"
             placeholder="Nom de votre association"
+            :show-add-button="!rnaExist"
             @selected="onStructureApiSelected"
-            @clear="structureApi = null"
             @change="rnaExist = null"
             @added="onSubmitChooseName"
           >
@@ -133,34 +133,28 @@
                 : 'Nom de votre organisation'
             "
           />
-          <div v-if="structureApi" class="text-xs text-gray-400 leading-tight">
-            RNA: {{ structureApi.rna }}
-          </div>
         </div>
         <template v-if="$route.query.orga_type !== 'Association'">
           <el-button
-            v-if="!rnaExist"
             type="primary"
             class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
             @click="onSubmitChooseName"
           >
             Continuer
           </el-button>
-          <div v-else class="text-center mt-4">
-            <p class="mb-0 font-bold">
-              L'association
-              <span class="text-primary">{{ rnaExist.structure_name }}</span>
-              est déjà inscrite sur la plateforme.
-            </p>
-            <p class="text-gray-500 text-sm">
-              Veuillez vous rapprocher de la personne suivante pour intégrer
-              l'équipe :<br />
-              <span class="text-black">{{
-                rnaExist.responsable_fullname
-              }}</span>
-            </p>
-          </div>
         </template>
+        <div v-else-if="rnaExist" class="text-center mt-4">
+          <p class="mb-0 font-bold">
+            L'association
+            <span class="text-primary">{{ rnaExist.structure_name }}</span>
+            est déjà inscrite sur la plateforme.
+          </p>
+          <p class="text-gray-500 text-sm">
+            Veuillez vous rapprocher de la personne suivante pour intégrer
+            l'équipe :<br />
+            <span class="text-black">{{ rnaExist.responsable_fullname }}</span>
+          </p>
+        </div>
       </el-form>
     </div>
 
@@ -341,7 +335,6 @@ export default {
         password_confirmation: [{ validator: validatePass2, trigger: 'blur' }],
       },
       loading: false,
-      structureApi: null,
     }
   },
   head() {
