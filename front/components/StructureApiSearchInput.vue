@@ -19,15 +19,7 @@
     >
       <template slot="before-section-default">
         <div
-          class="
-            text-md text-gray-700
-            py-3
-            px-4
-            font-bold
-            uppercase
-            bg-gray-200
-            tracking-wider
-          "
+          class="text-md text-gray-700 py-3 px-4 font-bold uppercase bg-gray-200 tracking-wider"
         >
           Suggestions
         </div>

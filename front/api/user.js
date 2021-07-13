@@ -110,6 +110,7 @@ export default (axios) => ({
     sc,
     type
   ) {
+    // TODO : get utm
     return axios.post('/register/volontaire', {
       email: email.toLowerCase(),
       password,
@@ -131,6 +132,7 @@ export default (axios) => ({
     structureName,
     structureApi
   ) {
+    // TODO : get utm
     return await axios.post('/register/responsable', {
       email: email.toLowerCase(),
       password,

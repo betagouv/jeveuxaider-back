@@ -32,7 +32,8 @@ class PassportController extends Controller
                 'name' => request("email"),
                 'email' => request("email"),
                 'context_role' => 'volontaire',
-                'password' => Hash::make(request("password"))
+                'password' => Hash::make(request("password")),
+                'utm_source' => request("utm_source")
             ]
         );
 
@@ -59,6 +60,7 @@ class PassportController extends Controller
                 'email' => request("email"),
                 'password' => Hash::make(request("password")),
                 'context_role' => 'responsable',
+                'utm_source' => request("utm_source")
             ]
         );
         $attributes = $request->validated();
