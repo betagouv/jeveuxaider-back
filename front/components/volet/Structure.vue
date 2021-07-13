@@ -1,100 +1,110 @@
 <template>
-  <Volet v-if="$store.getters['volet/active']">
-    <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12">
-      {{ row.statut_juridique }}
-    </div>
-    <el-card shadow="never" class="overflow-visible relative">
-      <div slot="header" class="clearfix flex flex-col items-center">
-        <div class="-mt-10">
-          <Avatar
-            :source="
-              row.logo
-                ? row.logo.thumb
-                  ? row.logo.thumb
-                  : row.logo.original
-                : null
-            "
-            :fallback="row.name[0]"
-          />
-        </div>
-        <nuxt-link
-          class="font-semibold text-sm my-3 text-primary text-center"
-          :to="`/dashboard/structure/${row.id}`"
-        >
-          {{ row.name }}
-        </nuxt-link>
-        <div class="flex items-center">
-          <nuxt-link :to="`/dashboard/structure/${row.id}`">
-            <el-button class="mr-1" icon="el-icon-view" type="mini">
-              Voir
-            </el-button>
-          </nuxt-link>
-          <nuxt-link :to="`/dashboard/structure/${row.id}/edit`">
-            <el-button icon="el-icon-edit" type="mini"> Modifier </el-button>
-          </nuxt-link>
+  <Volet>
+    <div class="flex flex-col space-y-6">
+      <!-- ACTIONS -->
+      <div class="flex flex-wrap space-x-2">
+        <nuxt-link :to="`/dashboard/structure/${row.id}/edit`">
           <el-button
-            v-if="$store.getters.contextRole == 'admin'"
-            type="button"
-            class="ml-1 el-button is-plain el-button--danger el-button--mini"
-            @click="onClickDelete"
-          >
-            <i class="el-icon-delete" />
-          </el-button>
+            v-tooltip="{
+              content: 'Modifier l\'organisation',
+              classes: 'bo-style',
+            }"
+            icon="el-icon-edit"
+          ></el-button>
+        </nuxt-link>
+
+        <button
+          v-if="$store.getters.contextRole == 'admin'"
+          v-tooltip="{
+            content: 'Supprimer la mission',
+            classes: 'bo-style',
+          }"
+          type="button"
+          class="ml-1 el-button is-plain el-button--danger el-button--mini"
+          @click="onClickDelete"
+        >
+          <i class="el-icon-delete" />
+        </button>
+      </div>
+
+      <!-- LIGNE -->
+      <VoletCard
+        v-if="structure && structure.statut_juridique == 'Association'"
+      >
+        <div class="flex space-x-4 items-center">
+          <div
+            :class="
+              structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'
+            "
+            class="rounded-full h-4 w-4"
+          ></div>
+          <div class="text-lg text-gray-900">En ligne</div>
         </div>
-      </div>
-      <div class="flex flex-wrap items-center justify-center mb-4">
-        <el-tag v-if="row.is_reseau" size="small" class="m-1 ml-0">
-          Tête de réseau
-        </el-tag>
-        <el-tag v-if="row.reseau_id" class="m-1 ml-0" size="small">
-          {{ row.reseau_id | reseauFromValue }}
-        </el-tag>
-      </div>
-      <ModelStructureInfos :structure="row" />
-    </el-card>
-    <el-form
-      v-if="$store.getters.contextRole == 'admin'"
-      ref="structureForm"
-      :model="form"
-      label-position="top"
-    >
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">Réseau national</div>
-      <div v-if="$store.getters.contextRole !== 'referent'">
-        <ItemDescription container-class="mb-6">
-          Si votre organisation est membre d'un réseau national (Les Banques
-          alimentaires, Armée du Salut...), renseignez son nom. Vous permettez
-          ainsi à la tête de réseau de visualiser les missions et bénévoles
-          rattachés à votre organisation.
-        </ItemDescription>
-        <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-          <el-select
-            v-model="form.reseau_id"
-            clearable
-            filterable
-            placeholder="Réseau national"
-          >
-            <el-option
-              v-for="item in $store.getters.reseaux"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-      </div>
-      <el-form-item label="Tête de réseau" prop="is_reseau" class="flex-1">
-        <el-checkbox v-model="form.is_reseau">
-          <span class="text-xs font-light text-gray-600">
-            Cette organisation est une tête de réseau
+
+        <nuxt-link target="_blank" :to="structure.full_url">
+          <span class="text-sm underline hover:no-underline">
+            {{ $config.appUrl }}{{ structure.full_url }}
           </span>
-        </el-checkbox>
-      </el-form-item>
-      <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">
-          Enregistrer
-        </el-button>
-      </div>
-    </el-form>
+        </nuxt-link>
+      </VoletCard>
+
+      <!-- PLACES RESTANTES -->
+      <VoletCard v-if="structure">
+        <div class="flex space-x-4">
+          <div class="text-5xl leading-none text-gray-900">
+            {{ structure.participations_count }}
+          </div>
+          <div class="">
+            <div class="text-lg text-gray-900">participations</div>
+            <div class="text-sm">
+              sur {{ structure.missions_count }} mission(s)
+            </div>
+          </div>
+        </div>
+      </VoletCard>
+
+      <!-- STRUCTURE -->
+      <VoletCard
+        v-if="structure"
+        label="Organisation"
+        :link="`/dashboard/structure/${structure.id}`"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+      >
+        <!-- <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ structure.name }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{
+          structure.state | labelFromValue('structure_workflow_states')
+        }}</VoletRowItem>
+        <VoletRowItem label="Type">{{
+          structure.statut_juridique | labelFromValue('structure_legal_status')
+        }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- RESPONSABLE -->
+      <template v-if="responsables.length > 0">
+        <VoletCard
+          v-for="responsable in responsables"
+          :key="responsable.id"
+          label="Responsable"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :link="`/dashboard/profile/${responsable.id}`"
+        >
+          <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
+          <VoletRowItem label="Nom"
+            ><span class="font-bold">{{
+              responsable.full_name
+            }}</span></VoletRowItem
+          >
+          <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
+          <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
+          <VoletRowItem v-if="responsable.phone" label="Tel">{{
+            responsable.phone
+          }}</VoletRowItem>
+        </VoletCard>
+      </template>
+    </div>
   </Volet>
 </template>
 
@@ -104,6 +114,8 @@ export default {
     return {
       loading: false,
       form: {},
+      structure: null,
+      responsables: [],
     }
   },
   computed: {
@@ -125,6 +137,7 @@ export default {
       deep: false,
       handler(newValue, oldValue) {
         this.form = { ...newValue }
+        this.structure = { ...newValue }
       },
     },
   },
