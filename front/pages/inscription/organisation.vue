@@ -119,10 +119,10 @@
             v-if="$route.query.orga_type === 'Association'"
             v-model="form.structure.name"
             placeholder="Nom de votre association"
-            :show-add-button="!rnaExist"
+            :show-add-button="!orgaExist"
             :loading-add-button="loading"
             @selected="onStructureApiSelected"
-            @change="rnaExist = null"
+            @change="orgaExist = null"
             @added="onSubmitChooseName"
           >
           </StructureApiSearchInput>
@@ -136,7 +136,7 @@
             "
           />
         </div>
-        <template v-if="$route.query.orga_type !== 'Association'">
+        <template v-if="!orgaExist && $route.query.orga_type !== 'Association'">
           <el-button
             type="primary"
             class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
@@ -146,16 +146,16 @@
             Continuer
           </el-button>
         </template>
-        <div v-else-if="rnaExist" class="text-center mt-4">
+        <div v-if="orgaExist" class="text-center mt-4">
           <p class="mb-0 font-bold">
             L'association
-            <span class="text-primary">{{ rnaExist.structure_name }}</span>
+            <span class="text-primary">{{ orgaExist.structure_name }}</span>
             est déjà inscrite sur la plateforme.
           </p>
           <p class="text-gray-500 text-sm">
             Veuillez vous rapprocher de la personne suivante pour intégrer
             l'équipe :<br />
-            <span class="text-black">{{ rnaExist.responsable_fullname }}</span>
+            <span class="text-black">{{ orgaExist.responsable_fullname }}</span>
           </p>
         </div>
       </el-form>
@@ -295,7 +295,7 @@ export default {
       form: {
         structure: {},
       },
-      rnaExist: null,
+      orgaExist: null,
       rules: {
         email: [
           {
@@ -403,7 +403,7 @@ export default {
     async onStructureApiSelected(structure) {
       const res = await this.$api.structureExists(structure.rna)
       if (res.data) {
-        this.rnaExist = res.data
+        this.orgaExist = res.data
       } else {
         this.form.structure = structure
         if (this.$store.getters.isLogged) {
@@ -413,7 +413,16 @@ export default {
         }
       }
     },
-    onSubmitChooseName() {
+    async onSubmitChooseName() {
+      if (this.$route.query.orga_type === 'Collectivité') {
+        // Todo check if name collecvitivité
+        console.log('check orga exist', this.form.structure.name)
+        const res = await this.$api.structureExists(this.form.structure.name)
+        if (res.data) {
+          this.orgaExist = res.data
+          return false
+        }
+      }
       if (this.$store.getters.isLogged) {
         this.registerStructure()
       } else {

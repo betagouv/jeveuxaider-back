@@ -288,14 +288,14 @@ class StructureController extends Controller
         }
     }
 
-    public function exist(Request $request, $rna)
+    public function exist(Request $request, $rnaOrName)
     {
-        $structure = Structure::where('rna', '=', $rna)->first();
+        $structure = Structure::where('rna', '=', $rnaOrName)
+            ->orWhere('name', 'ILIKE', $rnaOrName)
+            ->first();
         if ($structure === null) {
-            ray('not found');
             return false;
         }
-        ray('found !', $structure);
 
         return [
             'structure_name' => $structure->name, 

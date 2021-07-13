@@ -26,7 +26,7 @@ Route::get('page/{page}', 'Api\PageController@show');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('association/{slug}', 'Api\StructureController@associationSlug');
 
-Route::get('structure/{rna}/exist', 'Api\StructureController@exist');
+Route::get('structure/{rnaOrName}/exist', 'Api\StructureController@exist');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
