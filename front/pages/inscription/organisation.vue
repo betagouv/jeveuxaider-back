@@ -79,7 +79,8 @@
         </p>
       </nuxt-link>
       <a
-        href="mailto:nassim@jeuveuxaider.gouv.fr"
+        href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
+        target="_blank"
         class="bg-white w-72 h-64 m-4 px-4 py-10 flex-col items-center justify-center text-center rounded-xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🤔</p>
@@ -139,6 +140,7 @@
             type="primary"
             class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
             @click="onSubmitChooseName"
+            @keyup.enter="onSubmitChooseName"
           >
             Continuer
           </el-button>
@@ -231,6 +233,7 @@
           :loading="loading"
           class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
           @click="onSubmitRegisterResponsableForm"
+          @keydown.enter="onSubmitRegisterResponsableForm"
         >
           <template v-if="$route.query.orga_type === 'Collectivité'">
             J'inscris ma collectivité
