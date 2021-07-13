@@ -4,24 +4,46 @@
       <VoletCard
         v-if="participation"
         label="Participation"
-        :link="`/dashboard/profile/${participation.id}`"
+        :link="`/dashboard/participation/${participation.id}`"
       >
         <VoletRowItem label="ID">{{ participation.id }}</VoletRowItem>
         <VoletRowItem label="Statut">{{ participation.state }}</VoletRowItem>
+        <VoletRowItem label="Crée le">{{
+          participation.created_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Modifié le">{{
+          participation.updated_at | formatMediumWithTime
+        }}</VoletRowItem>
       </VoletCard>
 
       <VoletCard
         v-if="profile"
-        :label="profile.full_name"
+        label="Bénévole"
         :link="`/dashboard/profile/${profile.id}`"
       >
         <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem>
+        <VoletRowItem label="Nom">{{ profile.full_name }}</VoletRowItem>
         <VoletRowItem label="Type">
-          {{ profile.type | labelFromValue('profile_types') }}
+          <template v-if="profile.type">
+            {{ profile.type | labelFromValue('profile_types') }}
+          </template>
+          <template v-else> N/A </template>
         </VoletRowItem>
         <VoletRowItem label="Nom">
           {{ profile.full_name }}
         </VoletRowItem>
+        <template v-if="canShowProfileDetails">
+          <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
+          <VoletRowItem v-if="profile.mobile" label="Mobile">{{
+            profile.mobile
+          }}</VoletRowItem>
+          <VoletRowItem v-if="profile.birthday" label="Anniversaire">{{
+            profile.birthday
+          }}</VoletRowItem>
+          <VoletRowItem v-if="profile.zip" label="Zip">{{
+            profile.zip
+          }}</VoletRowItem>
+        </template>
         <VoletRowItem label="Domaines">
           <template v-if="profile.domaines && profile.domaines.length > 0">
             {{
@@ -83,6 +105,58 @@
         <VoletRowItem label="ID">{{ mission.id }}</VoletRowItem>
         <VoletRowItem label="Nom">{{ mission.name }}</VoletRowItem>
         <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
+        <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
+        <VoletRowItem label="Format"> {{ mission.format }} </VoletRowItem>
+        <VoletRowItem v-if="mission.start_date" label="Debut">
+          {{ mission.start_date | formatLongWithTime }}</VoletRowItem
+        >
+        <VoletRowItem v-if="mission.end_date" label="Fin">
+          {{ mission.end_date | formatLongWithTime }}
+        </VoletRowItem>
+        <VoletRowItem label="Adresse">
+          {{ mission.full_address }}
+        </VoletRowItem>
+        <VoletRowItem label="Département">
+          {{ mission.department | fullDepartmentFromValue }}
+        </VoletRowItem>
+        <VoletRowItem label="Information">
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="mission.information"
+            :max-chars="120"
+          ></ReadMore>
+        </VoletRowItem>
+        <VoletRowItem label="Objectif">
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="mission.objectif"
+            :max-chars="120"
+          ></ReadMore>
+        </VoletRowItem>
+        <VoletRowItem label="Règles">
+          <ReadMore
+            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-str="Lire plus"
+            :text="mission.description"
+            :max-chars="120"
+          ></ReadMore>
+        </VoletRowItem>
+      </VoletCard>
+
+      <VoletCard
+        v-if="responsable"
+        label="Responsable"
+        :link="`/dashboard/profile/${responsable.id}`"
+      >
+        <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem>
+        <VoletRowItem label="Nom">{{ responsable.full_name }}</VoletRowItem>
+        <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
+        <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
+        <VoletRowItem v-if="responsable.phone" label="Tel">{{
+          responsable.phone
+        }}</VoletRowItem>
       </VoletCard>
     </div>
   </Volet>
@@ -97,19 +171,20 @@ export default {
       profile: null,
       participation: null,
       mission: null,
+      responsable: null,
     }
   },
   computed: {
     row() {
       return this.$store.getters['volet/row']
     },
-    // canShowProfileDetails() {
-    //   return !!(
-    //     this.row.mission &&
-    //     (this.row.mission.state != 'Signalée' ||
-    //       this.$store.getters.contextRole !== 'responsable')
-    //   )
-    // },
+    canShowProfileDetails() {
+      return !!(
+        this.mission &&
+        (this.mission.state != 'Signalée' ||
+          this.$store.getters.contextRole !== 'responsable')
+      )
+    },
     // canChangeState() {
     //   const state = ['En attente de validation', 'Validée']
     //   return state.includes(this.row.state) === true
@@ -134,6 +209,9 @@ export default {
         this.participation = await this.$api.getParticipation(this.form.id)
         this.profile = await this.$api.getProfile(this.participation.profile_id)
         this.mission = await this.$api.getMission(this.participation.mission_id)
+        this.responsable = await this.$api.getProfile(
+          this.mission.responsable_id
+        )
       },
     },
   },

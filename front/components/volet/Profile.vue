@@ -4,16 +4,33 @@
       <!-- <TagProfileRoles class="mb-6 mr-8" :profile="profile" /> -->
       <div class="flex flex-col space-y-6">
         <VoletCard
-          :label="profile.full_name"
-          :link="`/dashboard/participation/${profile.id}`"
+          v-if="profile"
+          label="Bénévole"
+          :link="`/dashboard/profile/${profile.id}`"
         >
           <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem>
+          <VoletRowItem label="Nom">{{ profile.full_name }}</VoletRowItem>
           <VoletRowItem label="Type">
-            {{ profile.type | labelFromValue('profile_types') }}
+            <template v-if="profile.type">
+              {{ profile.type | labelFromValue('profile_types') }}
+            </template>
+            <template v-else> N/A </template>
           </VoletRowItem>
           <VoletRowItem label="Nom">
             {{ profile.full_name }}
           </VoletRowItem>
+          <template v-if="canShowProfileDetails">
+            <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
+            <VoletRowItem v-if="profile.mobile" label="Mobile">{{
+              profile.mobile
+            }}</VoletRowItem>
+            <VoletRowItem v-if="profile.birthday" label="Anniversaire">{{
+              profile.birthday
+            }}</VoletRowItem>
+            <VoletRowItem v-if="profile.zip" label="Zip">{{
+              profile.zip
+            }}</VoletRowItem>
+          </template>
           <VoletRowItem label="Domaines">
             <template v-if="profile.domaines && profile.domaines.length > 0">
               {{
