@@ -190,7 +190,7 @@
                 </div>
               </div>
 
-              <template v-if="mission.skills.length">
+              <template v-if="mission.skills && mission.skills.length">
                 <div class="flex items-center gap-4 mt-8 mb-4">
                   <div
                     class="
@@ -330,7 +330,10 @@
               />
 
               <div
-                v-if="mission.publics_volontaires.length"
+                v-if="
+                  mission.publics_volontaires &&
+                  mission.publics_volontaires.length
+                "
                 class="flex items-center gap-4 mt-8 mb-4"
               >
                 <div
@@ -573,7 +576,13 @@
                 </div>
 
                 <div class="mx-8 sm:mx-12">
-                  <div class="text-center">
+                  <div
+                    v-if="
+                      mission.commitment_duration ||
+                      mission.commitment_frequency
+                    "
+                    class="text-center"
+                  >
                     <div
                       class="mt-6 uppercase text-gray-777E90 text-xs font-bold"
                     >
@@ -783,9 +792,9 @@ export default {
       return status.match('^[aieouAIEOU].*') ? `l'${status}` : `la ${status}`
     },
     participationsCount() {
-      return 999
-      // @todo uncomment
-      // return this.mission.participations_max - this.mission.places_left
+      // return 999
+      // // @todo uncomment
+      return this.mission.participations_max - this.mission.places_left
     },
     portraits() {
       const portraits = []
