@@ -1,5 +1,5 @@
 <template>
-  <Volet>
+  <Volet :title="profile.full_name">
     <div
       v-if="profile"
       :class="[{ 'mt-12': !$store.getters.contextRole == 'admin' }]"

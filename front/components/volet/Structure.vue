@@ -1,5 +1,5 @@
 <template>
-  <Volet>
+  <Volet :title="row.name">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
       <div class="flex flex-wrap space-x-2">
@@ -48,17 +48,65 @@
         </nuxt-link>
       </VoletCard>
 
-      <!-- PLACES RESTANTES -->
+      <!-- PARTICIPATIONS -->
       <VoletCard v-if="structure">
         <div class="flex space-x-4">
           <div class="text-5xl leading-none text-gray-900">
             {{ structure.participations_count }}
           </div>
           <div class="">
-            <div class="text-lg text-gray-900">participations</div>
+            <div class="text-lg text-gray-900">participation(s)</div>
             <div class="text-sm">
               sur {{ structure.missions_count }} mission(s)
             </div>
+          </div>
+        </div>
+      </VoletCard>
+
+      <VoletCard
+        v-if="
+          structure && structure.response_time && structure.participations_count
+        "
+      >
+        <div class="flex space-x-4">
+          <div class="text-5xl leading-none text-gray-900">
+            {{ structure.response_time | daysFromTimestamp
+            }}<span class="text-xl">j</span>
+          </div>
+          <div class="">
+            <div class="text-lg text-gray-900">de temps de réponse</div>
+            <div class="text-sm">
+              <span>aux bénévoles </span>
+              <template v-if="structure.response_time / (60 * 60 * 24) > 9">
+                <span class="text-red-500">(mauvais)</span>
+              </template>
+              <template
+                v-else-if="structure.response_time / (60 * 60 * 24) > 4"
+              >
+                <span class="text-orange-500">(moyen)</span>
+              </template>
+              <template v-else>
+                <span class="text-green-500">(bon)</span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </VoletCard>
+
+      <VoletCard
+        v-if="
+          structure &&
+          structure.response_ratio &&
+          structure.participations_count
+        "
+      >
+        <div class="flex space-x-4">
+          <div class="text-5xl leading-none text-gray-900">
+            {{ structure.response_ratio }}<span class="text-xl">%</span>
+          </div>
+          <div class="">
+            <div class="text-lg text-gray-900">de taux de réponse</div>
+            <div class="text-sm">aux candidatures</div>
           </div>
         </div>
       </VoletCard>

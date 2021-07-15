@@ -1,5 +1,5 @@
 <template>
-  <Volet>
+  <Volet :title="row.profile.full_name">
     <div class="flex flex-col space-y-6" :class="[{ 'mt-12': !conversation }]">
       <!-- ACTIONS -->
       <div v-if="conversation" class="flex flex-wrap space-x-2">

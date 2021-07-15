@@ -1,5 +1,5 @@
 <template>
-  <Volet>
+  <Volet :title="row.name">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
       <div class="flex flex-wrap space-x-2">
