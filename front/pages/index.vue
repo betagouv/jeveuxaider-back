@@ -1810,7 +1810,7 @@ export default {
         },
         {
           hid: 'facebook-domain-verification',
-          property: 'facebook-domain-verification',
+          name: 'facebook-domain-verification',
           content: '8jnmyx2s1iopvryhthxappg6b3tryp',
         },
       ],
