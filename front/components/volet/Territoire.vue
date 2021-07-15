@@ -10,22 +10,24 @@
               classes: 'bo-style',
             }"
             icon="el-icon-edit"
+            size="medium"
             >Modifier</el-button
           >
         </nuxt-link>
 
-        <button
+        <el-button
           v-if="$store.getters.contextRole == 'admin'"
           v-tooltip="{
-            content: 'Supprimer la mission',
+            content: 'Supprimer le territoire',
             classes: 'bo-style',
           }"
-          type="button"
-          class="ml-1 el-button is-plain el-button--danger el-button--mini"
+          type="danger"
+          size="medium"
+          plain
           @click="onClickDelete"
         >
           <i class="el-icon-delete" />
-        </button>
+        </el-button>
       </div>
 
       <!-- LIGNE -->

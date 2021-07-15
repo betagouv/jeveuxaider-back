@@ -5,8 +5,6 @@
       :class="[{ 'mt-12': !$store.getters.contextRole == 'admin' }]"
     >
       <div class="flex flex-col space-y-6">
-        <!-- ROLES -->
-
         <!-- ACTIONS -->
         <div
           v-if="$store.getters.contextRole == 'admin'"
@@ -18,6 +16,7 @@
                 content: 'Modifier cet utilisateur',
                 classes: 'bo-style',
               }"
+              size="medium"
               icon="el-icon-edit"
               >Modifier</el-button
             >

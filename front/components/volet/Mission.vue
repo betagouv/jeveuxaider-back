@@ -8,6 +8,7 @@
             type="primary"
             :loading="loading"
             icon="el-icon-upload2"
+            size="medium"
             @click="onAskValidationSubmit"
             >Publier</el-button
           >
@@ -19,6 +20,7 @@
               classes: 'bo-style',
             }"
             icon="el-icon-edit"
+            size="medium"
             >Modifier</el-button
           >
         </nuxt-link>
@@ -28,10 +30,11 @@
             content: 'Dupliquer la mission',
             classes: 'bo-style',
           }"
+          size="medium"
           icon="el-icon-document-copy"
           @click="clone(row.id)"
         ></el-button>
-        <button
+        <el-button
           v-if="
             $store.getters.contextRole == 'admin' ||
             ($store.getters.contextRole == 'responsable' &&
@@ -41,27 +44,31 @@
             content: 'Supprimer la mission',
             classes: 'bo-style',
           }"
-          type="button"
-          class="el-button is-plain el-button--danger el-button--mini"
+          type="danger"
+          size="medium"
+          plain
           @click="onClickDelete"
         >
           <i class="el-icon-delete" />
-        </button>
+        </el-button>
       </div>
 
-      <!-- PLACES RESTANTES -->
+      <!-- EN LIGNE -->
       <VoletCard v-if="mission">
         <div class="flex space-x-4 items-center">
-          <div
-            :class="
+          <template
+            v-if="
               mission.structure.state == 'Validée' &&
               ['Validée', 'Terminée'].includes(mission.state)
-                ? 'bg-green-500'
-                : 'bg-red-500'
             "
-            class="rounded-full h-4 w-4"
-          ></div>
-          <div class="text-lg text-gray-900">En ligne</div>
+          >
+            <div class="bg-green-500 rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">En ligne</div>
+          </template>
+          <template v-else>
+            <div class="bg-red-500 rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">Hors ligne</div>
+          </template>
         </div>
 
         <nuxt-link
