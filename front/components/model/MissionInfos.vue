@@ -6,10 +6,7 @@
         {{ mission.id }}
       </div>
     </div>
-    <div
-      v-if="!['En attente de validation', 'Signalée'].includes(mission.state)"
-      class="mb-2 flex"
-    >
+    <div v-if="!['Signalée'].includes(mission.state)" class="mb-2 flex">
       <div class="card-label">Page</div>
 
       <nuxt-link

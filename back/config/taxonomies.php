@@ -811,4 +811,36 @@ return [
         ]
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | MISSION DURÉE D'ENGAGEMENT
+    |--------------------------------------------------------------------------
+    |
+    */
+    'mission_commitment_duration' => [
+        "vocabulary" => "Durée d'engagement",
+        "terms" => [
+            "1h" => "1 heure",
+            "2h" => "2 heures",
+            "3h" => "3 heures",
+            "half_day" => "1 demi-journée",
+            "day" => "1 journée"
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | MISSION FRÉQUENCE D'ENGAGEMENT
+    |--------------------------------------------------------------------------
+    |
+    */
+    'mission_commitment_frequency' => [
+        "vocabulary" => "Fréquence d'engagement",
+        "terms" => [
+            "day" => "jour",
+            "week" => "semaine",
+            "month" => "mois"
+        ]
+    ],
+
 ];

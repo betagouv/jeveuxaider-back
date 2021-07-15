@@ -21,10 +21,9 @@
       <a
         target="_blank"
         href="mailto:contact@reserve-civique.on.crisp.email"
-        class="font-bold"
+        class="font-bold hover:underline"
+        >le support</a
       >
-        le support
-      </a>
       <span> ou chatez en cliquant sur le bouton en bas à droite.</span>
     </div>
 
@@ -138,7 +137,7 @@
               text-gray-700
             "
           >
-            Description de la mission et règles à suivre impérativement
+            Précisions
           </h4>
           <div class="flex-1 border-t-2 border-gray-200" />
         </div>
@@ -237,14 +236,19 @@
         </div>
 
         <el-form-item
-          label="Objectif de la mission"
+          label="Présentation de la mission"
           prop="objectif"
           class="flex-1"
         >
           <RichEditor v-model="form.objectif" />
         </el-form-item>
 
-        <el-form-item label="Précisions" prop="description" class="flex-1">
+        <el-form-item
+          id="precisions"
+          label="Précisions"
+          prop="description"
+          class="flex-1"
+        >
           <RichEditor v-model="form.description" />
         </el-form-item>
       </div>
@@ -317,8 +321,9 @@
                 flex
                 items-center
                 space-x-4
-                px-3
                 py-2
+                pl-3
+                pr-2
                 rounded-10
                 border border-blue-800
                 bg-white
@@ -331,10 +336,17 @@
                 class="
                   flex-none
                   cursor-pointer
-                  w-4
-                  h-4
+                  w-6
+                  h-6
+                  p-1
+                  transform
+                  will-change-transform
                   text-blue-800
-                  hover:text-blue-900
+                  hover:text-red-700
+                  hover:scale-125
+                  transition
+                  ease-in-out
+                  duration-150
                 "
                 @click="handleRemoveSkill(item.id)"
                 v-html="
@@ -362,122 +374,160 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="Type de mission" prop="type">
-        <el-select
-          v-model="form.type"
-          placeholder="Sélectionner un type de mission"
-          @change="handleTypeChanged()"
-        >
-          <el-option
-            v-for="item in $store.getters.taxonomies.mission_types.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="Format de mission" prop="format">
-        <el-select
-          v-model="form.format"
-          placeholder="Sélectionner un format de mission"
-        >
-          <el-option
-            v-for="item in $store.getters.taxonomies.mission_formats.terms"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-
       <div class="mt-12 mb-6 text-1-5xl font-bold text-gray-800">
         Dates de la mission
       </div>
 
-      <div class="flex">
-        <el-form-item
-          label="Date de début"
-          prop="start_date"
-          class="flex-1 mr-2"
-        >
+      <div class="grid grid-cols-2 gap-4">
+        <el-form-item label="Date de début" prop="start_date">
           <el-date-picker
             v-model="form.start_date"
             class="w-full"
             type="datetime"
             placeholder="Date de début"
+            format="dd MMMM yyyy à H[h]mm"
             value-format="yyyy-MM-dd HH:mm:ss"
             default-time="09:00:00"
             :picker-options="{ firstDayOfWeek: 1 }"
           />
         </el-form-item>
-        <el-form-item label="Date de fin" prop="start_date" class="flex-1 ml-2">
+
+        <el-form-item label="Date de fin (facultatif)" prop="end_date">
           <el-date-picker
             v-model="form.end_date"
             class="w-full"
             type="datetime"
             placeholder="Date de fin"
             default-time="18:00:00"
+            format="dd MMMM yyyy à H[h]mm"
             value-format="yyyy-MM-dd HH:mm:ss"
             :picker-options="{ firstDayOfWeek: 1 }"
           />
         </el-form-item>
       </div>
 
-      <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
-        Le lieu où se déroule la mission
-      </div>
-
-      <ItemDescription container-class="mb-6">
-        Recruter au plus près du lieu de mission et des bénéficiaires permet de
-        faciliter l'engagement des bénévoles. Vous avez la possibilité de
-        dupliquer cette mission sur plusieurs lieux.
-      </ItemDescription>
-
-      <el-form-item label="Département" prop="department">
-        <el-select
-          v-model="form.department"
-          filterable
-          placeholder="Département"
+      <div class="grid grid-cols-2 gap-4">
+        <el-form-item
+          label="Durée d'engagement minimum"
+          prop="commitment_duration"
         >
-          <el-option
-            v-for="item in $store.getters.taxonomies.departments.terms"
+          <el-select
+            v-model="form.commitment_duration"
+            placeholder="Sélectionner une durée"
+          >
+            <el-option
+              v-for="duration in $store.getters.taxonomies
+                .mission_commitment_duration.terms"
+              :key="duration.value"
+              :label="duration.label"
+              :value="duration.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="Fréquence (facultatif)"
+          prop="commitment_frequency"
+        >
+          <el-select
+            v-model="form.commitment_frequency"
+            placeholder="Sélectionner une fréquencee"
+            clearable
+          >
+            <el-option
+              v-for="frequency in $store.getters.taxonomies
+                .mission_commitment_frequency.terms"
+              :key="frequency.value"
+              :label="`par ${frequency.label}`"
+              :value="frequency.value"
+            />
+          </el-select>
+        </el-form-item>
+      </div>
+
+      <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
+        Lieu de la mission
+      </div>
+
+      <el-form-item prop="type">
+        <el-radio-group v-model="form.type" @change="handleTypeChanged()">
+          <el-radio-button
+            v-for="item in $store.getters.taxonomies.mission_types.terms"
             :key="item.value"
-            :label="`${item.value} - ${item.label}`"
+            :label="item.label"
             :value="item.value"
-          />
-        </el-select>
+          ></el-radio-button>
+        </el-radio-group>
+
+        <ItemDescription container-class="mt-6">
+          <template v-if="form.type == 'Mission en présentiel'">
+            Recruter au plus près du lieu de mission et des bénéficiaires permet
+            de faciliter l'engagement des bénévoles. Vous avez la possibilité de
+            dupliquer cette mission sur plusieurs lieux.
+          </template>
+          <template v-else>
+            Le volontaire est donc invité à réaliser la mission en autonomie, à
+            domicile ou près de chez lui.
+            <template v-if="!form.template_id">
+              <br />N’hésitez pas à en dire davantage dans le champ
+              <a href="#precisions" class="underline">Précisions</a>.
+            </template>
+          </template>
+        </ItemDescription>
       </el-form-item>
-      <AlgoliaPlacesInput
-        ref="alogoliaInput"
-        :initial-value="form.full_address"
-        :label="
-          form.address
-            ? 'Modifier l\'adresse de la mission'
-            : 'Entrer l\'adresse de la mission'
-        "
-        @selected="setAddress"
-        @clear="clearAddress"
-      />
-      <el-form-item label="Adresse" prop="address">
-        <el-input v-model="form.address" disabled placeholder="Adresse" />
-      </el-form-item>
-      <div class="flex">
-        <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
-          <el-input v-model="form.zip" disabled placeholder="Code postal" />
+
+      <template v-if="form.type == 'Mission en présentiel'">
+        <el-form-item label="Département" prop="department">
+          <el-select
+            v-model="form.department"
+            filterable
+            placeholder="Département"
+          >
+            <el-option
+              v-for="item in $store.getters.taxonomies.departments.terms"
+              :key="item.value"
+              :label="`${item.value} - ${item.label}`"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="Ville" prop="city" class="flex-1">
-          <el-input v-model="form.city" disabled placeholder="Ville" />
-        </el-form-item>
-      </div>
-      <div class="flex hidden">
-        <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
-          <el-input v-model="form.latitude" disabled placeholder="Latitude" />
-        </el-form-item>
-        <el-form-item label="Longitude" prop="longitude" class="flex-1">
-          <el-input v-model="form.longitude" disabled placeholder="Longitude" />
-        </el-form-item>
-      </div>
+
+        <AlgoliaPlacesInput
+          ref="alogoliaInput"
+          :initial-value="form.full_address"
+          :label="`Rechercher l'adresse du lieu de la mission`"
+          @selected="setAddress"
+          @clear="clearAddress"
+        />
+
+        <div class="grid grid-cols-6 gap-4">
+          <el-form-item label="Adresse" prop="address" class="col-span-3">
+            <el-input v-model="form.address" disabled placeholder="Adresse" />
+          </el-form-item>
+
+          <el-form-item label="Code postal" prop="zip" class="col-span-1">
+            <el-input v-model="form.zip" disabled placeholder="Code postal" />
+          </el-form-item>
+
+          <el-form-item label="Ville" prop="city" class="col-span-2">
+            <el-input v-model="form.city" disabled placeholder="Ville" />
+          </el-form-item>
+        </div>
+
+        <div class="hidden">
+          <el-form-item label="Latitude" prop="latitude">
+            <el-input v-model="form.latitude" disabled placeholder="Latitude" />
+          </el-form-item>
+
+          <el-form-item label="Longitude" prop="longitude">
+            <el-input
+              v-model="form.longitude"
+              disabled
+              placeholder="Longitude"
+            />
+          </el-form-item>
+        </div>
+      </template>
 
       <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
         Responsable de la mission
@@ -494,6 +544,7 @@
         </nuxt-link>
         à votre équipe.
       </ItemDescription>
+
       <el-form-item
         v-if="form.structure"
         label="Responsable"
@@ -501,20 +552,64 @@
         class="flex-1"
       >
         <el-select
-          v-model="form.responsable_id"
+          v-model="form.responsable"
           placeholder="Sélectionner un responsable"
+          value-key="id"
+          @change="form.responsable_id = $event.id"
         >
           <el-option
-            v-for="item in form.structure.members"
-            :key="item.id"
-            :label="item.full_name"
-            :value="item.id"
+            v-for="member in members"
+            :key="member.value.id"
+            :label="member.label"
+            :value="member.value"
           />
         </el-select>
       </el-form-item>
-      <div class="flex pt-2">
-        <el-button type="primary" :loading="loading" @click="onSubmit">
-          Enregistrer
+
+      <hr class="mt-16" />
+
+      <div class="flex items-start gap-4 pt-8">
+        <div
+          v-if="form.state == 'Brouillon'"
+          class="flex flex-col items-center"
+        >
+          <el-button
+            type="secondary"
+            :loading="loading"
+            class="el-button--submit"
+            @click="onSubmit()"
+          >
+            Enregistrer en brouillon
+          </el-button>
+
+          <nuxt-link
+            v-if="mission.id"
+            target="_blank"
+            :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+            class="text-xs text-gray-500 hover:underline mt-2"
+          >
+            Aperçu de la mission ›
+          </nuxt-link>
+        </div>
+
+        <el-button
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="
+            onSubmit(form.template_id ? 'Validée' : 'En attente de validation')
+          "
+        >
+          <template
+            v-if="
+              !form.template_id &&
+              (!form.state ||
+                ['En attente de validation', 'Brouillon'].includes(form.state))
+            "
+          >
+            Soumettre à validation
+          </template>
+          <template v-else> Enregistrer </template>
         </el-button>
       </div>
     </el-form>
@@ -546,6 +641,8 @@ export default {
       form: {
         participations_max: 1,
         skills: [],
+        state: 'Brouillon',
+        type: 'Mission en présentiel',
         ...this.mission,
         publics_beneficiaires: this.mission.publics_beneficiaires ?? [],
         publics_volontaires: this.mission.publics_volontaires ?? [],
@@ -563,13 +660,6 @@ export default {
           {
             required: true,
             message: "Veuillez choisir un domaine d'action principal",
-            trigger: 'blur',
-          },
-        ],
-        format: [
-          {
-            required: true,
-            message: 'Veuillez choisir un format de mission',
             trigger: 'blur',
           },
         ],
@@ -629,6 +719,18 @@ export default {
             trigger: 'blur',
           },
         ],
+        start_date: [
+          {
+            required: true,
+            message: 'La date de début est requise',
+          },
+        ],
+        commitment_duration: [
+          {
+            required: true,
+            message: "La durée d'engagement minimum est requise",
+          },
+        ],
       },
     }
   },
@@ -648,6 +750,41 @@ export default {
       return secondaryDomains.map((domain) => {
         return { label: domain.name.fr, value: domain }
       })
+    },
+    members() {
+      const members = this.form.structure.members
+      return members.map((member) => {
+        return { label: member.full_name, value: member }
+      })
+    },
+    messageOnSubmit() {
+      let message
+      switch (this.form.state) {
+        case 'Brouillon':
+          message = 'La mission a été enregistrée en tant que brouillon.'
+          break
+        case 'En attente de validation':
+          message =
+            'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
+          break
+        case 'Validée':
+          message = !this.form.id
+            ? 'La mission a été ajoutée !'
+            : 'La mission a été mise à jour !'
+          break
+        default:
+          message = 'La mission a été enregistrée.'
+          break
+      }
+
+      return message
+    },
+  },
+  watch: {
+    'form.type'(newVal) {
+      if (newVal == 'Mission à distance') {
+        this.setAddressFromStructure()
+      }
     },
   },
   async created() {
@@ -675,20 +812,20 @@ export default {
         )
         this.$set(this.form, 'template_id', template.id)
         this.$set(this.form, 'template', template)
-        this.$set(this.form, 'state', 'Validée')
       }
+
+      this.setAddressFromStructure()
     }
 
     this.hasBeenInitialized = true
   },
   methods: {
-    onSubmit() {
-      this.addOrUpdateMission()
-    },
-    addOrUpdateMission() {
+    onSubmit(state = this.form.state) {
       this.loading = true
       this.$refs.missionForm.validate((valid, fields) => {
         if (valid) {
+          this.form.state = state
+
           if (this.mission.id) {
             this.$api
               .updateMission(this.mission.id, this.form)
@@ -696,7 +833,7 @@ export default {
                 this.loading = false
                 this.$router.go(-1)
                 this.$message.success({
-                  message: 'La mission a été mise à jour !',
+                  message: this.messageOnSubmit,
                 })
               })
               .catch(() => {
@@ -710,12 +847,7 @@ export default {
                 this.$router.push(
                   `/dashboard/structure/${this.structureId}/missions`
                 )
-                const message = this.form.template
-                  ? 'La mission a été ajoutée !'
-                  : 'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
-                this.$message.success({
-                  message,
-                })
+                this.$message.success({ message: this.messageOnSubmit })
               })
               .catch(() => {
                 this.loading = false
@@ -734,7 +866,7 @@ export default {
           'Confirmation',
           {
             confirmButtonText: 'Je confirme',
-            cancelButtonText: 'Annuler',
+            showCancelButton: false,
             type: 'warning',
             center: true,
             dangerouslyUseHTMLString: true,
@@ -750,6 +882,15 @@ export default {
     },
     handleRemoveSkill(id) {
       this.form.skills = this.form.skills.filter((item) => item.id !== id)
+    },
+    setAddressFromStructure() {
+      this.form.address = this.form.structure.address
+      this.form.city = this.form.structure.city
+      this.form.zip = this.form.structure.zip
+      this.form.department = this.form.structure.department
+      this.form.full_address = `${this.form.address} ${this.form.zip} ${this.form.city}`
+      this.form.latitude = this.form.structure.latitude
+      this.form.longitude = this.form.structure.longitude
     },
   },
 }
@@ -779,4 +920,15 @@ export default {
         @apply rounded-10 leading-relaxed py-2
       .after-input
         top: 10px !important
+
+.el-radio-button
+  ::v-deep .el-radio-button__inner
+    @apply px-16 #{!important}
+
+.el-button--submit
+  border-radius: 10px
+  font-weight: bold
+  padding: 16px 32px
+  font-size: 18px
+  letter-spacing: -1px
 </style>

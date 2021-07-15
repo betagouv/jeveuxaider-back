@@ -207,8 +207,8 @@ class StructureController extends Controller
     {
         $attributes = array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]);
 
-        if ($structure->state != 'Validée') {
-            $attributes['state'] = 'En attente de validation';
+        if ($structure->state != 'Validée' && empty($attributes['state'])) {
+            $attributes['state'] = 'Brouillon';
         }
 
         $mission = $structure->addMission($attributes);

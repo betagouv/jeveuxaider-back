@@ -298,6 +298,7 @@
               />
 
               <div
+                v-if="mission.information"
                 class="
                   mt-6
                   p-6
@@ -328,7 +329,10 @@
                 v-html="mission.description"
               />
 
-              <div class="flex items-center gap-4 mt-8 mb-4">
+              <div
+                v-if="mission.publics_volontaires.length"
+                class="flex items-center gap-4 mt-8 mb-4"
+              >
                 <div
                   class="flex-none font-bold text-xs uppercase text-gray-696974"
                 >
@@ -568,7 +572,7 @@
                   </div>
                 </div>
 
-                <div class="mx-12">
+                <div class="mx-8 sm:mx-12">
                   <div class="text-center">
                     <div
                       class="mt-6 uppercase text-gray-777E90 text-xs font-bold"
@@ -576,9 +580,21 @@
                       Engagement minimum
                     </div>
                     <div class="font-bold">
-                      <span>@todo</span>
-                      <span class="font-normal">par</span>
-                      <span>@todo</span>
+                      <span>
+                        {{
+                          mission.commitment_duration
+                            | labelFromValue('mission_commitment_duration')
+                        }}
+                      </span>
+                      <template v-if="mission.commitment_frequency">
+                        <span class="font-normal">par</span>
+                        <span>
+                          {{
+                            mission.commitment_frequency
+                              | labelFromValue('mission_commitment_frequency')
+                          }}
+                        </span>
+                      </template>
                     </div>
                   </div>
 
@@ -646,18 +662,34 @@ export default {
       return error({ statusCode: 404 })
     }
 
-    if (mission.state == 'En attente de validation') {
-      return error({ statusCode: 403 })
+    if (['Brouillon', 'En attente de validation'].includes(mission.state)) {
+      // Si on est pas modérateur
+      // Ou si on n'est pas responsable de la structure
+      if (store.getters.isLogged) {
+        if (
+          store.getters.user.context_role != 'admin' &&
+          !store.getters.user.profile.structures.filter(
+            (structure) => structure.id == mission.structure_id
+          ).length
+        ) {
+          return error({ statusCode: 403 })
+        }
+      } else {
+        return error({ statusCode: 403 })
+      }
     }
 
     // Si mission signalée ou organisation désinscrite / signalée
     if (
-      ['Signalée', 'Brouillon'].includes(mission.state) ||
+      ['Signalée'].includes(mission.state) ||
       ['Désinscrite', 'Signalée'].includes(mission.structure.state)
     ) {
       if (store.getters.isLogged) {
-        // Si on participe à cette mission ou si on est responsable de la structure
+        // Si on est pas modérateur
+        // Si on ne participe pas à cette mission
+        // Ou si on n'est pas responsable de la structure
         if (
+          store.getters.user.context_role != 'admin' &&
           !store.getters.user.profile.participations.filter(
             (participation) => participation.mission_id == mission.id
           ).length &&

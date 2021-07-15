@@ -8,9 +8,7 @@
             {{ mission.name }}
           </div>
           <div
-            v-if="
-              !['En attente de validation', 'Signalée'].includes(mission.state)
-            "
+            v-if="!['Signalée'].includes(mission.state)"
             class="font-light text-gray-600 flex items-center"
           >
             <div
