@@ -36,8 +36,12 @@
         "
         :link="`/dashboard/participation/${participation.id}`"
       >
-        <VoletRowItem label="ID">{{ participation.id }}</VoletRowItem>
-        <VoletRowItem label="Statut">{{ participation.state }}</VoletRowItem>
+        <!-- <VoletRowItem label="ID">{{ participation.id }}</VoletRowItem> -->
+        <VoletRowItem label="Statut"
+          ><span class="font-bold">{{
+            participation.state
+          }}</span></VoletRowItem
+        >
         <VoletRowItem label="Crée le">{{
           participation.created_at | formatMediumWithTime
         }}</VoletRowItem>

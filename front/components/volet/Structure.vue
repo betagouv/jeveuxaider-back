@@ -32,13 +32,14 @@
         v-if="structure && structure.statut_juridique == 'Association'"
       >
         <div class="flex space-x-4 items-center">
-          <div
-            :class="
-              structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'
-            "
-            class="rounded-full h-4 w-4"
-          ></div>
-          <div class="text-lg text-gray-900">En ligne</div>
+          <template v-if="['Validée', 'Terminée'].includes(structure.state)">
+            <div class="bg-green-500 rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">En ligne</div>
+          </template>
+          <template v-else>
+            <div class="bg-red-500 rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">Hors ligne</div>
+          </template>
         </div>
 
         <nuxt-link target="_blank" :to="structure.full_url">
@@ -106,7 +107,15 @@
           </div>
           <div class="">
             <div class="text-lg text-gray-900">de taux de réponse</div>
-            <div class="text-sm">aux candidatures</div>
+            <div class="text-sm flex items-center space-x-2">
+              <span>aux candidatures</span>
+              <span class="text-xs"
+                >({{
+                  structure.participations_count -
+                  structure.waiting_participations_count
+                }}/{{ structure.participations_count }})</span
+              >
+            </div>
           </div>
         </div>
       </VoletCard>
@@ -122,6 +131,12 @@
         <VoletRowItem label="Nom"
           ><span class="font-bold">{{ structure.name }}</span></VoletRowItem
         >
+        <VoletRowItem label="Crée le">{{
+          structure.created_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Modifié le">{{
+          structure.updated_at | formatMediumWithTime
+        }}</VoletRowItem>
         <VoletRowItem label="Statut">{{
           structure.state | labelFromValue('structure_workflow_states')
         }}</VoletRowItem>

@@ -104,6 +104,12 @@
         <VoletRowItem label="Nom"
           ><span class="font-bold">{{ mission.name }}</span></VoletRowItem
         >
+        <VoletRowItem label="Crée le">{{
+          mission.created_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Modifié le">{{
+          mission.updated_at | formatMediumWithTime
+        }}</VoletRowItem>
         <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
         <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
         <VoletRowItem label="Format"> {{ mission.format }} </VoletRowItem>
