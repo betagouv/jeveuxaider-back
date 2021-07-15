@@ -128,6 +128,37 @@
         <VoletRowItem label="Type">{{
           structure.statut_juridique | labelFromValue('structure_legal_status')
         }}</VoletRowItem>
+        <VoletRowItem
+          v-if="structure.structure_publique_type"
+          label="Type (pub.)"
+          >{{ structure.structure_publique_type }}</VoletRowItem
+        >
+        <VoletRowItem v-if="structure.association_types" label="Type (asso.)">{{
+          structure.association_types.join(', ')
+        }}</VoletRowItem>
+        <VoletRowItem
+          v-if="structure.structure_publique_etat_type"
+          label="Corps"
+          >{{ structure.structure_publique_etat_type }}</VoletRowItem
+        >
+        <VoletRowItem label="Adresse">
+          {{ structure.full_address }}
+        </VoletRowItem>
+        <VoletRowItem v-if="structure.department" label="Département">
+          {{ structure.department | fullDepartmentFromValue }}
+        </VoletRowItem>
+
+        <VoletRowItem label="Description">
+          <template v-if="structure.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="structure.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
       </VoletCard>
 
       <!-- RESPONSABLE -->

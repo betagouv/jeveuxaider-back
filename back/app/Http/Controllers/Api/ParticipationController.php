@@ -17,6 +17,7 @@ use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
+use App\Models\Conversation;
 use App\Models\Mission;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
@@ -199,7 +200,7 @@ class ParticipationController extends Controller
 
     public function conversation(Request $request, Participation $participation)
     {
-        ray($participation->conversation);
-        return $participation->conversation;
+        $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
+        return $conversation;
     }
 }

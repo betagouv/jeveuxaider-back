@@ -3,8 +3,15 @@
     <div class="flex justify-between items-start mb-6">
       <div v-if="title" class="text-xl font-semibold">{{ title }}</div>
       <i
-        class="el-icon-close cursor-pointer text-xl"
-        style="right: 32px; top: 16px"
+        class="
+          el-icon-close
+          cursor-pointer
+          text-xl
+          font-semibold
+          mt-1
+          text-gray-400
+          hover:text-gray-900
+        "
         @click="handleCloseVolet"
       />
     </div>
