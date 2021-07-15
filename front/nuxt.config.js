@@ -95,7 +95,13 @@ export default {
     '@nuxtjs/sentry',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
+    '@nuxtjs/gtm',
   ],
+
+  gtm: {
+    id: 'GTM-5S3DCV6',
+    enabled: true,
+  },
 
   dayjs: {
     locales: ['fr'],

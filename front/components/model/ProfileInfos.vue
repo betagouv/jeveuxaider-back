@@ -75,43 +75,57 @@
         }}
       </div>
     </div>
-    <div v-if="profile.skills && profile.skills.length > 0" class="mb-2 flex">
+    <div class="mb-2 flex">
       <div class="card-label">Compétences</div>
       <div class="text-gray-900 flex-1">
-        {{
-          profile.skills
-            .map(function (item) {
-              return item.name.fr
-            })
-            .join(', ')
-        }}
+        <template v-if="profile.skills && profile.skills.length > 0">
+          {{
+            profile.skills
+              .map(function (item) {
+                return item.name.fr
+              })
+              .join(', ')
+          }}
+        </template>
+        <template v-else> N/A </template>
       </div>
     </div>
-    <div v-if="profile.disponibilities" class="mb-2 flex">
+    <div class="mb-2 flex">
       <div class="card-label">Dispos</div>
       <div class="text-gray-900 flex-1">
-        {{
-          profile.disponibilities
-            .map(function (item) {
-              return $options.filters.labelFromValue(
-                item,
-                'profile_disponibilities'
-              )
-            })
-            .join(', ')
-        }}
+        <template
+          v-if="profile.disponibilities && profile.disponibilities.length > 0"
+        >
+          {{
+            profile.disponibilities
+              .map(function (item) {
+                return $options.filters.labelFromValue(
+                  item,
+                  'profile_disponibilities'
+                )
+              })
+              .join(', ')
+          }}
+        </template>
+        <template v-else> N/A </template>
       </div>
     </div>
-    <div v-if="profile.frequence" class="mb-2 flex">
-      <div class="card-label">Durée</div>
+    <div class="mb-2 flex">
+      <div class="card-label">Fréquence</div>
       <div class="text-gray-900 flex-1">
-        {{ profile.frequence }} {{ profile.frequence_granularite }}
+        <template v-if="profile.frequence">
+          {{ profile.frequence }} {{ profile.frequence_granularite }}
+        </template>
+        <template v-else> N/A </template>
       </div>
     </div>
-    <div v-if="profile.description" class="mb-2 flex">
+    <div class="mb-2 flex">
       <div class="card-label">Motivation</div>
       <div class="text-gray-900 flex-1">
-        {{ profile.description }}
+        <template v-if="profile.frequence">
+          {{ profile.description }}
+        </template>
+        <template v-else> N/A </template>
       </div>
     </div>
   </div>

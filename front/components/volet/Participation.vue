@@ -1,36 +1,252 @@
 <template>
-  <Volet>
-    <el-card shadow="never" class="overflow-visible mt-24">
-      <div slot="header" class="clearfix flex flex-col items-center">
-        <div class="-mt-10">
-          <Avatar
-            :fallback="canShowProfileDetails ? row.profile.short_name : 'XX'"
-          />
-        </div>
+  <Volet
+    :title="row.profile.full_name"
+    :link="`/dashboard/participation/${row.id}`"
+  >
+    <div class="flex flex-col space-y-6">
+      <!-- CONVERSATION -->
+      <VoletCard v-if="conversation">
         <nuxt-link
-          class="font-bold text-primary text-lg my-3"
-          :to="`/dashboard/participation/${row.id}`"
+          :to="`/messages/${conversation.id}`"
+          class="flex items-center space-x-4"
         >
-          <span v-if="canShowProfileDetails">
-            {{ row.profile.full_name }}
-          </span>
-          <span v-else>Anonyme</span>
+          <div class="text-5xl leading-none text-gray-900">
+            <div
+              class="text-gray-400 group-hover:text-gray-500 flex-shrink-0"
+              v-html="
+                require('@/assets/images/icones/heroicon/mail.svg?include')
+              "
+            />
+          </div>
+          <div class="">
+            <div class="text-lg text-gray-900">Accéder à la conversation</div>
+            <div class="text-sm">
+              Dernier message le
+              {{
+                conversation.latest_message.created_at | formatMediumWithTime
+              }}
+            </div>
+          </div>
         </nuxt-link>
-        <div class="flex items-center">
-          <nuxt-link class="mr-1" :to="`/dashboard/participation/${row.id}`">
-            <el-button icon="el-icon-view" type="mini">Voir</el-button>
-          </nuxt-link>
-        </div>
-      </div>
-      <div class="flex items-center justify-center mb-4">
-        <TagModelState
-          :state="row.state"
-          size="small"
-          class="flex items-center"
-        />
-      </div>
-      <ModelParticipationInfos :participation="row" />
-    </el-card>
+      </VoletCard>
+
+      <!-- PARTICIPATION -->
+      <VoletCard
+        v-if="participation"
+        label="Participation"
+        :icon="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
+        :link="`/dashboard/participation/${participation.id}`"
+      >
+        <!-- <VoletRowItem label="ID">{{ participation.id }}</VoletRowItem> -->
+        <VoletRowItem label="Statut"
+          ><span class="font-bold">{{
+            participation.state
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Crée le">{{
+          participation.created_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Modifié le">{{
+          participation.updated_at | formatMediumWithTime
+        }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- BENEVOLE -->
+      <VoletCard
+        v-if="profile"
+        label="Bénévole"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+        :link="`/dashboard/profile/${profile.id}`"
+      >
+        <!-- <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ profile.full_name }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Type">
+          <template v-if="profile.type">
+            {{ profile.type | labelFromValue('profile_types') }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <template v-if="canShowProfileDetails">
+          <VoletRowItem label="Email">{{ profile.email }}</VoletRowItem>
+          <VoletRowItem v-if="profile.mobile" label="Mobile">{{
+            profile.mobile
+          }}</VoletRowItem>
+          <VoletRowItem v-if="profile.birthday" label="Anniversaire">{{
+            profile.birthday
+          }}</VoletRowItem>
+          <VoletRowItem v-if="profile.zip" label="Zip">{{
+            profile.zip
+          }}</VoletRowItem>
+        </template>
+        <VoletRowItem label="Domaines">
+          <template v-if="profile.domaines && profile.domaines.length > 0">
+            {{
+              profile.domaines
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Compétences">
+          <template v-if="profile.skills && profile.skills.length > 0">
+            {{
+              profile.skills
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Disponibilités">
+          <template
+            v-if="profile.disponibilities && profile.disponibilities.length > 0"
+          >
+            {{
+              profile.disponibilities
+                .map(function (item) {
+                  return $options.filters.labelFromValue(
+                    item,
+                    'profile_disponibilities'
+                  )
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Crée le">{{
+          profile.created_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Modifié le">{{
+          profile.updated_at | formatMediumWithTime
+        }}</VoletRowItem>
+
+        <VoletRowItem label="Dernière co.">{{
+          profile.last_online_at | fromNow
+        }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- MISSION -->
+      <VoletCard
+        v-if="mission"
+        label="Mission"
+        :icon="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
+        :link="`/dashboard/mission/${mission.id}`"
+      >
+        <!-- <VoletRowItem label="ID">{{ mission.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ mission.name }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
+        <VoletRowItem label="Places restantes">
+          {{ mission.places_left }}
+        </VoletRowItem>
+        <VoletRowItem label="Participation max">
+          {{ mission.participations_max }}
+        </VoletRowItem>
+
+        <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
+        <VoletRowItem label="Format"> {{ mission.format }} </VoletRowItem>
+        <VoletRowItem v-if="mission.start_date" label="Debut">
+          {{ mission.start_date | formatLongWithTime }}</VoletRowItem
+        >
+        <VoletRowItem v-if="mission.end_date" label="Fin">
+          {{ mission.end_date | formatLongWithTime }}
+        </VoletRowItem>
+        <VoletRowItem label="Adresse">
+          {{ mission.full_address }}
+        </VoletRowItem>
+        <VoletRowItem label="Département">
+          {{ mission.department | fullDepartmentFromValue }}
+        </VoletRowItem>
+        <VoletRowItem label="Information">
+          <template v-if="mission.information">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.information"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Objectif">
+          <template v-if="mission.objectif">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.objectif"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Règles">
+          <template v-if="mission.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+      </VoletCard>
+
+      <!-- RESPONSABLE -->
+      <VoletCard
+        v-if="responsable"
+        label="Responsable"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+        :link="`/dashboard/profile/${responsable.id}`"
+      >
+        <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            responsable.full_name
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
+        <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
+        <VoletRowItem v-if="responsable.phone" label="Tel">{{
+          responsable.phone
+        }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- STRUCTURE -->
+      <VoletCard
+        v-if="mission && mission.structure"
+        label="Organisation"
+        :link="`/dashboard/structure/${mission.structure.id}`"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+      >
+        <!-- <VoletRowItem label="ID">{{ mission.structure.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            mission.structure.name
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{
+          mission.structure.state | labelFromValue('structure_workflow_states')
+        }}</VoletRowItem>
+        <VoletRowItem label="Type">{{
+          mission.structure.statut_juridique
+            | labelFromValue('structure_legal_status')
+        }}</VoletRowItem>
+      </VoletCard>
+    </div>
   </Volet>
 </template>
 
@@ -40,6 +256,11 @@ export default {
     return {
       loading: false,
       form: { ...this.$store.getters['volet/row'] },
+      profile: null,
+      participation: null,
+      mission: null,
+      responsable: null,
+      conversation: null,
     }
   },
   computed: {
@@ -48,80 +269,98 @@ export default {
     },
     canShowProfileDetails() {
       return !!(
-        this.row.mission &&
-        (this.row.mission.state != 'Signalée' ||
+        this.mission &&
+        (this.mission.state != 'Signalée' ||
           this.$store.getters.contextRole !== 'responsable')
       )
     },
-    canChangeState() {
-      const state = ['En attente de validation', 'Validée']
-      return state.includes(this.row.state) === true
-    },
-    statesAvailable() {
-      if (this.$store.getters.contextRole == 'responsable') {
-        return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
-          (item) => item.value != 'Annulée'
+    // canChangeState() {
+    //   const state = ['En attente de validation', 'Validée']
+    //   return state.includes(this.row.state) === true
+    // },
+    // statesAvailable() {
+    //   if (this.$store.getters.contextRole == 'responsable') {
+    //     return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+    //       (item) => item.value != 'Annulée'
+    //     )
+    //   } else {
+    //     return this.$store.getters.taxonomies.participation_workflow_states
+    //       .terms
+    //   }
+    // },
+  },
+  watch: {
+    row: {
+      immediate: true,
+      deep: false,
+      async handler(newValue, oldValue) {
+        this.form = { ...newValue }
+        this.participation = { ...newValue }
+        this.conversation = await this.$api.getParticipationConversation(
+          this.participation.id
         )
-      } else {
-        return this.$store.getters.taxonomies.participation_workflow_states
-          .terms
-      }
+        this.profile = await this.$api.getProfile(this.participation.profile_id)
+        this.mission = await this.$api.getMission(this.participation.mission_id)
+        this.responsable = await this.$api.getProfile(
+          this.mission.responsable_id
+        )
+      },
     },
   },
   methods: {
-    onClickDelete() {
-      this.$confirm(
-        `La participation sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
-        'Supprimer la participation',
-        {
-          confirmButtonText: 'Supprimer',
-          confirmButtonClass: 'el-button--danger',
-          cancelButtonText: 'Annuler',
-          center: true,
-          type: 'error',
-        }
-      ).then(() => {
-        this.$api.deleteParticipation(this.row.id).then(() => {
-          this.$message.success({
-            message: `La participation ${this.row.name} a été supprimée.`,
-          })
-          this.$emit('deleted', this.row)
-          // this.$store.commit('volet/setRow', null)
-          this.$store.commit('volet/hide')
-        })
-      })
-    },
-    onSubmit() {
-      this.$confirm(
-        'Êtes vous sur de vos changements ?<br><br> Une notification sera envoyée au réserviste<br><br>',
-        'Confirmation',
-        {
-          confirmButtonText: 'Je confirme',
-          cancelButtonText: 'Annuler',
-          dangerouslyUseHTMLString: true,
-          center: true,
-          type: 'warning',
-        }
-      ).then(() => {
-        this.loading = true
-        this.$api
-          .updateParticipation(this.form.id, this.form)
-          .then((response) => {
-            this.loading = false
-            this.$message.success({
-              message: 'La participation a été mise à jour',
-            })
-            this.$emit('updated', { ...this.form, ...response.data })
-            this.$store.commit('volet/setRow', {
-              ...this.row,
-              ...response.data,
-            })
-          })
-          .catch(() => {
-            this.loading = false
-          })
-      })
-    },
+    // onClickDelete() {
+    //   this.$confirm(
+    //     `La participation sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
+    //     'Supprimer la participation',
+    //     {
+    //       confirmButtonText: 'Supprimer',
+    //       confirmButtonClass: 'el-button--danger',
+    //       cancelButtonText: 'Annuler',
+    //       center: true,
+    //       type: 'error',
+    //     }
+    //   ).then(() => {
+    //     this.$api.deleteParticipation(this.row.id).then(() => {
+    //       this.$message.success({
+    //         message: `La participation ${this.row.name} a été supprimée.`,
+    //       })
+    //       this.$emit('deleted', this.row)
+    //       // this.$store.commit('volet/setRow', null)
+    //       this.$store.commit('volet/hide')
+    //     })
+    //   })
+    // },
+    // onSubmit() {
+    //   this.$confirm(
+    //     'Êtes vous sur de vos changements ?<br><br> Une notification sera envoyée au réserviste<br><br>',
+    //     'Confirmation',
+    //     {
+    //       confirmButtonText: 'Je confirme',
+    //       cancelButtonText: 'Annuler',
+    //       dangerouslyUseHTMLString: true,
+    //       center: true,
+    //       type: 'warning',
+    //     }
+    //   ).then(() => {
+    //     this.loading = true
+    //     this.$api
+    //       .updateParticipation(this.form.id, this.form)
+    //       .then((response) => {
+    //         this.loading = false
+    //         this.$message.success({
+    //           message: 'La participation a été mise à jour',
+    //         })
+    //         this.$emit('updated', { ...this.form, ...response.data })
+    //         this.$store.commit('volet/setRow', {
+    //           ...this.row,
+    //           ...response.data,
+    //         })
+    //       })
+    //       .catch(() => {
+    //         this.loading = false
+    //       })
+    //   })
+    // },
   },
 }
 </script>

@@ -199,6 +199,6 @@ export default function ({ store, $dayjs }) {
   })
 
   Vue.filter('daysFromTimestamp', function (value) {
-    return (value / (60 * 60 * 24)).toFixed(1)
+    return (value / (60 * 60 * 24)).toFixed(0)
   })
 }
