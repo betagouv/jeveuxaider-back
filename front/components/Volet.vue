@@ -1,7 +1,17 @@
 <template>
   <div>
     <div class="flex justify-between items-start mb-6">
-      <div v-if="title" class="text-xl font-semibold">{{ title }}</div>
+      <template v-if="link">
+        <router-link
+          :to="link"
+          class="text-xl font-semibold hover:text-primary"
+          >{{ title }}</router-link
+        >
+      </template>
+      <template v-else>
+        <div class="text-xl font-semibold">{{ title }}</div>
+      </template>
+
       <i
         class="
           el-icon-close
@@ -23,9 +33,14 @@
 export default {
   props: {
     title: {
-      type: String,
+      type: [String, Boolean],
       required: false,
-      default: null,
+      default: 'Informations',
+    },
+    link: {
+      type: [String, Boolean],
+      required: false,
+      default: false,
     },
   },
   methods: {

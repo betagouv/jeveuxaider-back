@@ -1,5 +1,8 @@
 <template>
-  <Volet :title="row.profile.full_name">
+  <Volet
+    :title="row.profile.full_name"
+    :link="`/dashboard/participation/${row.id}`"
+  >
     <div class="flex flex-col space-y-6">
       <!-- CONVERSATION -->
       <VoletCard v-if="conversation">

@@ -1,5 +1,5 @@
 <template>
-  <Volet :title="row.name">
+  <Volet :title="row.name" :link="`/dashboard/structure/${row.id}`">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
       <div class="flex flex-wrap space-x-2">
