@@ -7,8 +7,9 @@
           <el-button
             type="primary"
             :loading="loading"
+            icon="el-icon-upload2"
             @click="onAskValidationSubmit"
-            >Publier la mission</el-button
+            >Publier</el-button
           >
         </template>
         <nuxt-link :to="`/dashboard/mission/${row.id}/edit`">
@@ -18,7 +19,8 @@
               classes: 'bo-style',
             }"
             icon="el-icon-edit"
-          ></el-button>
+            >Modifier</el-button
+          >
         </nuxt-link>
         <el-button
           v-if="canClone"
@@ -26,7 +28,6 @@
             content: 'Dupliquer la mission',
             classes: 'bo-style',
           }"
-          class="ml-1"
           icon="el-icon-document-copy"
           @click="clone(row.id)"
         ></el-button>
@@ -41,7 +42,7 @@
             classes: 'bo-style',
           }"
           type="button"
-          class="ml-1 el-button is-plain el-button--danger el-button--mini"
+          class="el-button is-plain el-button--danger el-button--mini"
           @click="onClickDelete"
         >
           <i class="el-icon-delete" />
