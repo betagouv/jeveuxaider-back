@@ -10,7 +10,8 @@
               classes: 'bo-style',
             }"
             icon="el-icon-edit"
-          ></el-button>
+            >Modifier</el-button
+          >
         </nuxt-link>
 
         <button

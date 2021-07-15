@@ -5,6 +5,8 @@
       :class="[{ 'mt-12': !$store.getters.contextRole == 'admin' }]"
     >
       <div class="flex flex-col space-y-6">
+        <!-- ROLES -->
+
         <!-- ACTIONS -->
         <div
           v-if="$store.getters.contextRole == 'admin'"
@@ -35,6 +37,12 @@
               profile.full_name
             }}</span></VoletRowItem
           >
+          <VoletRowItem label="Rôle(s)">
+            <template v-if="profile.roles">
+              <TagProfileRoles :profile="profile" size="mini" />
+            </template>
+            <template v-else> N/A </template>
+          </VoletRowItem>
           <VoletRowItem label="Type">
             <template v-if="profile.type">
               {{ profile.type | labelFromValue('profile_types') }}
