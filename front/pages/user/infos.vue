@@ -71,7 +71,6 @@
         >
           <el-date-picker
             v-model="form.birthday"
-            :disabled="candEditFields"
             type="date"
             placeholder="Date de naissance"
             autocomplete="off"
