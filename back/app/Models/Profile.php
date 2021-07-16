@@ -223,13 +223,7 @@ class Profile extends Model implements HasMedia
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
             case 'responsable':
-                // TODO: PAS ICI, c'est juste pour un cas spécifique (trouver des benevoles)
-                // Get missions validées
-                $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
-                if ($missions->count() == 0) {
-                    return $query->where('id', -1);
-                }
-                return $query->where('is_visible', true);
+                return $query->where('id', -1);
                 break;
             default:
                 abort(403, 'This action is not authorized');

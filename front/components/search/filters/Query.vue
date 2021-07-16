@@ -13,7 +13,6 @@
       :placeholder="placeholder"
       @change="onChangeFilter"
     >
-      <template #empty>Aucune donnéeee</template>
       <el-option
         v-for="option in options"
         :key="option.value"
