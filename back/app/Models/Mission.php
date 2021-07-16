@@ -48,6 +48,8 @@ class Mission extends Model
         'template_id',
         'thumbnail',
         'slug',
+        'commitment_duration',
+        'commitment_frequency',
     ];
 
     protected $casts = [
@@ -379,5 +381,15 @@ class Mission extends Model
                     : "benevolat-{$mission->structure->name}";
             })
             ->saveSlugsTo('slug');
+    }
+
+    public function getSkillsAttribute()
+    {
+        return $this->tagsWithType('competence')->values();
+    }
+
+    public function getDomaineSecondaireAttribute()
+    {
+        return $this->tagsWithType('domaine')->first();
     }
 }

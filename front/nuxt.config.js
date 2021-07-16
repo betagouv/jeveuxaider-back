@@ -69,6 +69,7 @@ export default {
     '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
     '@/plugins/plausible.client.js',
+    '@/plugins/vue-awesome-swiper.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

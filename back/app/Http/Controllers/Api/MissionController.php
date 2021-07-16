@@ -27,6 +27,7 @@ use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
 use App\Models\Profile;
 use App\Models\Structure;
+use App\Models\Tag;
 use App\Services\ApiEngagement;
 
 class MissionController extends Controller
@@ -67,7 +68,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first()->append(['skills', 'domaine_secondaire']);
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
@@ -86,8 +87,16 @@ class MissionController extends Controller
 
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
-        if ($request->has('tags')) {
-            $mission->syncTagsWithType($request->input('tags'), 'domaine');
+        if ($request->has('domaine_secondaire')) {
+            $domaine_id = collect($request->input('domaine_secondaire'))->get('id');
+            $domaine_secondaire = Tag::where('id', $domaine_id)->get();
+            $mission->syncTagsWithType($domaine_secondaire, 'domaine');
+        }
+
+        if ($request->has('skills')) {
+            $skills_ids = collect($request->input('skills'))->pluck('id');
+            $skills = Tag::whereIn('id', $skills_ids)->get();
+            $mission->syncTagsWithType($skills, 'competence');
         }
 
         $mission->update($request->validated());

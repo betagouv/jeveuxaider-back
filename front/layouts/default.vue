@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 overflow-x-hidden">
+  <div class="bg-gray-100">
     <div class="nav-skip" lang="fr">
       <ul id="top">
         <li>
@@ -25,6 +25,10 @@
         v-if="$store.getters.softGateOverlay"
         @submitted="$store.commit('toggleSoftGateOverlay')"
         @closed="$store.commit('toggleSoftGateOverlay')"
+      />
+      <LazyShareOverlay
+        v-if="$store.getters.shareOverlay"
+        @closed="$store.commit('toggleShareOverlay')"
       />
     </transition>
   </div>

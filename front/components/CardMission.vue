@@ -9,13 +9,13 @@
       overflow-hidden
     "
   >
-    <div class="thumbnail--wrapper relative">
+    <div class="thumbnail--wrapper relative will-change-transform">
       <img
         v-if="thumbnail.default"
         :src="thumbnail.default"
         :srcset="`${thumbnail.x2} 2x`"
         :alt="mission.domaine_name"
-        class="w-full h-full object-cover will-change-transform"
+        class="w-full h-full object-cover"
         width="300px"
         height="143px"
         @error="defaultThumbnail($event)"

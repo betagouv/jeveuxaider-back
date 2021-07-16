@@ -142,6 +142,11 @@ export default (context, inject) => {
       /* webpackChunkName: 'element-radio-group' */ 'element-ui/lib/radio-group'
     )
   )
+  Vue.component('ElRadioButton', () =>
+    import(
+      /* webpackChunkName: 'element-radio-button' */ 'element-ui/lib/radio-button'
+    )
+  )
   Vue.component('ElSwitch', () =>
     import(/* webpackChunkName: 'element-switch' */ 'element-ui/lib/switch')
   )

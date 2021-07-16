@@ -5,6 +5,7 @@ export const state = () => ({
   isSidebarExpanded: true,
   searchOverlay: false,
   softGateOverlay: false,
+  shareOverlay: false,
   missionSelected: null,
   taxonomies: null,
   reseaux: null,
@@ -51,6 +52,7 @@ export const getters = {
   reminders: (state) => state.reminders,
   searchOverlay: (state) => state.searchOverlay,
   softGateOverlay: (state) => state.softGateOverlay,
+  shareOverlay: (state) => state.shareOverlay,
   missionSelected: (state) => state.missionSelected,
   user: (state) => state.auth.user,
   isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
@@ -84,6 +86,9 @@ export const mutations = {
   },
   toggleSoftGateOverlay: (state) => {
     state.softGateOverlay = !state.softGateOverlay
+  },
+  toggleShareOverlay: (state) => {
+    state.shareOverlay = !state.shareOverlay
   },
   setMissionSelected: (state, mission) => {
     state.missionSelected = mission

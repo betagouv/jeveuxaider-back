@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div class="absolute" style="height: 360px">
+    <div class="absolute w-full" style="height: 360px">
       <img
-        src="@/assets/images/bg_header_mission.jpg"
+        src="/images/bg_header_mission.jpg"
         alt="Mission bénévolat"
         class="object-cover w-full h-full"
       />
-      <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
     </div>
 
     <div class="relative mb-12">
@@ -23,6 +22,7 @@
             h1: true,
           },
         ]"
+        style="filter: drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 1px)"
       />
 
       <div class="container mx-auto px-4">
@@ -33,14 +33,40 @@
                 <div class="-m-2 flex flex-wrap">
                   <span
                     v-if="mission.domaine_name"
-                    class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
+                    class="
+                      m-2
+                      inline-flex
+                      px-3
+                      py-1
+                      rounded-full
+                      text-sm
+                      leading-5
+                      font-semibold
+                      tracking-wide
+                      uppercase
+                      bg-indigo-100
+                      text-blue-900
+                    "
                     >{{ mission.domaine_name }}</span
                   >
                   <template v-if="tags">
                     <span
                       v-for="tag in tags"
                       :key="tag"
-                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-gray-100 text-gray-900"
+                      class="
+                        m-2
+                        inline-flex
+                        px-3
+                        py-1
+                        rounded-full
+                        text-sm
+                        leading-5
+                        font-semibold
+                        tracking-wide
+                        uppercase
+                        bg-gray-100
+                        text-gray-900
+                      "
                     >
                       {{ tag }}
                     </span>
@@ -49,7 +75,16 @@
               </div>
 
               <h2
-                class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
+                class="
+                  mt-4
+                  pb-3
+                  text-2xl
+                  sm:text-4xl
+                  leading-7
+                  sm:leading-10
+                  font-bold
+                  text-gray-900
+                "
               >
                 {{ mission.name }}
               </h2>
@@ -137,7 +172,15 @@
             </div>
 
             <div
-              class="aside text-center bg-blue-800 rounded-b-lg lg:rounded-b-none lg:rounded-r-lg lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center"
+              class="
+                aside
+                text-center
+                bg-blue-800
+                rounded-b-lg
+                lg:rounded-b-none lg:rounded-r-lg
+                lg:flex-shrink-0 lg:flex lg:flex-col
+                lg:justify-center
+              "
             >
               <div class="py-8 px-6 lg:p-12">
                 <div
@@ -163,7 +206,19 @@
                 </div> -->
 
                 <div
-                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
+                  class="
+                    inline-flex
+                    px-5
+                    py-1
+                    rounded-full
+                    text-sm
+                    leading-5
+                    font-semibold
+                    tracking-wide
+                    uppercase
+                    bg-indigo-100
+                    text-blue-800
+                  "
                 >
                   {{ placesLeftText }}
                 </div>
@@ -173,14 +228,46 @@
                 </div> -->
 
                 <div
-                  class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
+                  class="
+                    mt-4
+                    flex
+                    items-center
+                    justify-center
+                    text-5xl
+                    leading-none
+                    font-extrabold
+                    text-gray-900
+                  "
                 />
 
                 <div class="mt-6">
                   <a
                     :href="mission.application_url"
                     target="_blank"
-                    class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-md sm:text-xl px-5 py-3 pb-4"
+                    class="
+                      max-w-sm
+                      mx-auto
+                      w-full
+                      flex
+                      items-center
+                      justify-center
+                      border border-transparent
+                      rounded-full
+                      text-white
+                      bg-green-400
+                      hover:bg-green-500
+                      focus:outline-none
+                      focus:shadow-outline
+                      transition
+                      duration-150
+                      ease-in-out
+                      font-bold
+                      text-md
+                      sm:text-xl
+                      px-5
+                      py-3
+                      pb-4
+                    "
                     >Je propose mon aide
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +286,17 @@
                 </div>
 
                 <div
-                  class="mt-8 lg:mt-12 block text-center text-sm leading-2 font-medium text-indigo-300 max-w-xs mx-auto"
+                  class="
+                    mt-8
+                    lg:mt-12
+                    block
+                    text-center text-sm
+                    leading-2
+                    font-medium
+                    text-indigo-300
+                    max-w-xs
+                    mx-auto
+                  "
                 >
                   À plusieurs on est meilleur ! Et si vous partagiez cette
                   mission à votre entourage ?
@@ -289,7 +386,14 @@
           <div class="flex justify-between">
             <div class="px-6 pt-8 lg:p-12 lg:pb-0 lg:mr-16">
               <h3
-                class="text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
+                class="
+                  text-2xl
+                  sm:text-4xl
+                  leading-7
+                  sm:leading-10
+                  font-bold
+                  text-gray-900
+                "
               >
                 Tout savoir sur cette mission
               </h3>
@@ -313,7 +417,30 @@
             <a
               :href="mission.application_url"
               target="_blank"
-              class="mx-auto w-full sm:w-80 flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-md sm:text-xl px-5 py-3 pb-4"
+              class="
+                mx-auto
+                w-full
+                sm:w-80
+                flex
+                items-center
+                justify-center
+                border border-transparent
+                rounded-full
+                text-white
+                bg-green-400
+                hover:bg-green-500
+                focus:outline-none
+                focus:shadow-outline
+                transition
+                duration-150
+                ease-in-out
+                font-bold
+                text-md
+                sm:text-xl
+                px-5
+                py-3
+                pb-4
+              "
               >Je propose mon aide
               <svg
                 xmlns="http://www.w3.org/2000/svg"
