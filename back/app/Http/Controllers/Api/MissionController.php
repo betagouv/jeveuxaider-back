@@ -126,7 +126,7 @@ class MissionController extends Controller
             ->allowedAppends('last_online_at', 'skills', 'domaines')
             ->allowedFilters(
                 AllowedFilter::custom('zips', new FiltersProfileZips),
-                AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::custom('domaine', new FiltersProfileTag),
                 AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),

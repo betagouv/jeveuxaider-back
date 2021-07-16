@@ -36,6 +36,20 @@
       </div>
       <div class="mt-6 flex flex-wrap">
         <SearchFiltersQuery
+          name="department"
+          label="Département"
+          :value="query['filter[department]']"
+          :options="
+            $store.getters.taxonomies.departments.terms.map((term) => {
+              return {
+                label: `${term.value} - ${term.label}`,
+                value: term.value,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
           name="zips"
           label="Codes postaux"
           multiple
@@ -43,6 +57,7 @@
           default-first-option
           :value="query['filter[zips]']"
           :options="[]"
+          placeholder="Entrer les codes post."
           @changed="onFilterChange"
         />
         <SearchFiltersQuery
@@ -51,6 +66,21 @@
           :value="query['filter[disponibilities]']"
           label="Disponibilités"
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          type="select"
+          name="domaine"
+          :value="query['filter[domaine]']"
+          label="Domaines d'action"
+          :options="
+            domaines.map((domaine) => {
+              return {
+                label: domaine.name.fr,
+                value: domaine.id,
+              }
+            })
+          "
           @changed="onFilterChange"
         />
         <SearchFiltersQuerySkills
