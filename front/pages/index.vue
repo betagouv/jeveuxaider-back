@@ -382,18 +382,9 @@
       >
         Parmi les missions prioritaires
       </p>
+
       <div
-        class="
-          mt-10
-          grid
-          gap-5
-          max-w-6xl
-          mx-auto
-          lg:grid-cols-3
-          lg:max-w-none
-          px-4
-          lg:px-0
-        "
+        class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3 lg:max-w-none"
       >
         <nuxt-link
           v-for="mission in missions_prioritaires"
@@ -501,6 +492,67 @@
             </div>
           </div>
         </nuxt-link>
+      </div>
+
+      <div class="mt-8">
+        <p
+          class="
+            text-center
+            pt-10
+            text-base
+            leading-6
+            font-semibold
+            uppercase
+            text-gray-600
+            tracking-wider
+          "
+        >
+          Partout en france
+        </p>
+
+        <div
+          class="
+            mt-12
+            max-w-3xl
+            mx-auto
+            flex flex-wrap
+            gap-4
+            sm:gap-6
+            items-center
+            justify-center
+          "
+        >
+          <nuxt-link
+            v-for="(city, index) in hightlightedCities"
+            :key="city.name"
+            :class="[
+              { 'text-gray-400': index == hightlightedCities.length - 1 },
+              { 'text-gray-800': index != hightlightedCities.length - 1 },
+            ]"
+            class="
+              leading-none
+              truncate
+              px-8
+              py-4
+              rounded-full
+              text-sm
+              shadow-md
+              font-extrabold
+              tracking-wide
+              uppercase
+              bg-white
+              transform
+              transition
+              duration-150
+              ease-in-out
+              will-change-transform
+              hover:scale-105
+            "
+            :to="city.url"
+          >
+            {{ city.name }}
+          </nuxt-link>
+        </div>
       </div>
     </div>
 
@@ -769,62 +821,62 @@
         </div>
       </div>
       <div class="relative max-w-screen-xl text-center mx-auto">
-        <div class="max-w-md mx-auto lg:max-w-screen-xl">
-          <p
+        <p
+          class="
+            text-center
+            pt-10
+            text-base
+            leading-6
+            font-semibold
+            uppercase
+            text-gray-600
+            tracking-wider
+          "
+        >
+          les autres domaines d'action
+        </p>
+
+        <div
+          class="py-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6"
+        >
+          <nuxt-link
+            v-for="domaine in domaines"
+            :key="domaine.name"
+            :to="domaine.link"
             class="
-              text-center
-              pt-10
-              text-base
-              leading-6
+              inline-flex
+              items-center
+              py-2
+              px-4
+              sm:py-3
+              rounded-full
+              text-xs
+              sm:text-sm
+              lg:text-base
+              leading-8
               font-semibold
+              tracking-wide
               uppercase
-              text-gray-600
-              tracking-wider
+              bg-white
+              shadow-lg
+              text-gray-800
+              hover:scale-105
+              transform
+              transition
+              duration-150
+              ease-in-out
+              hover:text-blue-800
             "
           >
-            les autres domaines d'action
-          </p>
-          <div class="px-0 lg:px-2 py-8 lg:flex lg:items-center">
-            <div class="flex-1">
-              <nuxt-link
-                v-for="domaine in domaines"
-                :key="domaine.name"
-                :to="domaine.link"
-                class="
-                  mx-0
-                  my-2
-                  lg:m-2
-                  inline-flex
-                  px-3
-                  py-4
-                  rounded-full
-                  text-base
-                  leading-8
-                  font-semibold
-                  tracking-wide
-                  uppercase
-                  bg-white
-                  shadow-lg
-                  text-gray-800
-                  hover:scale-105
-                  transform
-                  transition
-                  duration-150
-                  ease-in-out
-                  hover:text-blue-800
-                "
-              >
-                <img
-                  :alt="domaine.name"
-                  class="h-7 pr-3 opacity-50 mb-2 lg:mb-0"
-                  :src="require(`@/assets/images/dynamic/${domaine.image}`)"
-                  width="40"
-                  height="28"
-                />
-                {{ domaine.name }}
-              </nuxt-link>
-            </div>
-          </div>
+            <img
+              :alt="domaine.name"
+              class="h-7 pr-3 opacity-50"
+              :src="require(`@/assets/images/dynamic/${domaine.image}`)"
+              width="40"
+              height="28"
+            />
+            {{ domaine.name }}
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -1200,15 +1252,13 @@
       </div>
     </div>
 
-    <div class="relative pb-10 -mt-20">
+    <div class="relative pb-10 px-4 sm:px-6 lg:px-8">
       <div class="relative max-w-6xl mx-auto">
-        <div class="max-w-screen-xl mx-auto md:grid gap-6 md:grid-cols-2">
+        <div class="max-w-screen-xl mx-auto grid gap-6 lg:grid-cols-2">
           <div
             class="
-              m-2
-              lg:m-0
-              p-9
-              m:p-12
+              sm:p-9
+              p-6
               pb-8
               md:flex md:flex-col
               rounded-lg
@@ -1242,7 +1292,7 @@
             </p>
             <form
               v-if="!successNewsletter"
-              class="sm:flex mt-9"
+              class="sm:flex items-start mt-9 max-w-xl"
               aria-labelledby="newsletter-headline"
             >
               <div class="w-full">
@@ -1257,9 +1307,6 @@
                     py-3
                     appearance-none
                     shadow-lg
-                    border border-transparent
-                    text-lg
-                    leading-6
                     rounded-full
                     text-gray-900
                     bg-white
@@ -1271,57 +1318,50 @@
                   "
                   placeholder="Votre e-mail"
                 />
-                <div v-if="emailError" class="text-red-600 font-semibold">
+                <div v-if="emailError" class="text-red-600 font-semibold ml-6">
                   {{ emailError }}
                 </div>
               </div>
-              <div
+
+              <button
                 class="
-                  mt-3
+                  w-full
+                  sm:w-auto
+                  flex
+                  items-center
+                  justify-center
+                  px-6
+                  py-3
+                  font-medium
                   rounded-full
                   shadow-lg
+                  text-white
+                  bg-green-400
+                  hover:text-white
+                  mt-3
                   sm:mt-0
                   sm:ml-3
                   sm:flex-shrink-0
+                  hover:scale-105
+                  transform
+                  transition
+                  duration-150
+                  ease-in-out
                 "
+                @click.prevent="handleSubmitNewsletter(email)"
               >
-                <button
-                  class="
-                    w-full
-                    flex
-                    items-center
-                    justify-center
-                    px-6
-                    py-3
-                    text-lg
-                    leading-8
-                    font-medium
-                    rounded-full
-                    shadow-lg
-                    text-white
-                    bg-green-400
-                    hover:text-white
-                    hover:scale-105
-                    transform
-                    transition
-                    duration-150
-                    ease-in-out
-                  "
-                  @click.prevent="handleSubmitNewsletter(email)"
-                >
-                  S'inscrire
-                </button>
-              </div>
+                S'inscrire
+              </button>
             </form>
             <div
               v-if="!successNewsletter"
               class="
                 mt-2
-                ml-6
+                sm:ml-6
                 text-sm
                 leading-5
                 text-blue-200 text-center
-                lg:text-left
+                sm:text-left
               "
             >
               Nous veillons à respecter votre vie privée
@@ -1335,10 +1375,8 @@
           </div>
           <div
             class="
-              m-2
-              lg:m-0
-              p-9
-              m:p-12
+              sm:p-9
+              p-6
               rounded-lg
               shadow-lg
               bg-gradient-to-r
@@ -1382,7 +1420,7 @@
                 px-5
                 inline-flex
                 items-center
-                text-lg
+                sm:text-lg
                 leading-7
                 font-medium
                 text-blue-800
@@ -1529,7 +1567,7 @@
                 justify-center
                 px-6
                 py-3
-                text-lg
+                sm:text-lg
                 leading-6
                 font-medium
                 rounded-full
@@ -1658,7 +1696,7 @@
                 px-6
                 py-3
                 border border-transparent
-                text-lg
+                sm:text-lg
                 leading-6
                 font-medium
                 rounded-full
@@ -1783,6 +1821,60 @@ export default {
         'une société solidaire',
         'me rendre utile',
         'faire vivre les valeurs de la République',
+      ],
+      hightlightedCities: [
+        {
+          name: 'Paris',
+          url: '/villes/paris',
+        },
+        {
+          name: 'Toulouse',
+          url: '/villes/toulouse',
+        },
+        {
+          name: 'Lyon',
+          url: '/villes/lyon',
+        },
+        {
+          name: 'Marseille',
+          url: '/villes/marseille',
+        },
+        {
+          name: 'Bordeaux',
+          url: '/villes/bordeaux',
+        },
+        {
+          name: 'Lille',
+          url: '/villes/lille',
+        },
+        {
+          name: 'Rennes',
+          url: '/villes/rennes',
+        },
+        {
+          name: 'Montpellier',
+          url: '/villes/montpellier',
+        },
+        {
+          name: 'Strasbourg',
+          url: '/villes/strasbourg',
+        },
+        {
+          name: 'Nice',
+          url: '/villes/nice',
+        },
+        {
+          name: 'Rouen',
+          url: '/villes/rouen',
+        },
+        {
+          name: 'Angers',
+          url: '/villes/angers',
+        },
+        {
+          name: 'Plus de villes',
+          url: '/territoires',
+        },
       ],
     }
   },
