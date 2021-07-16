@@ -34,8 +34,7 @@ class StructureController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role'))
-            ->withCount('missions', 'participations', 'waitingParticipations'))
+        return QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
                 AllowedFilter::exact('department'),
                 'state',

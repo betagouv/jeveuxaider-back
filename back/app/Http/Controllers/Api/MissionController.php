@@ -118,7 +118,7 @@ class MissionController extends Controller
 
     public function benevoles(Request $request, Mission $mission)
     {
-        if (!$mission->has_places_left || $mission->state != 'Validée') {
+        if (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée') {
             abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
         }
 

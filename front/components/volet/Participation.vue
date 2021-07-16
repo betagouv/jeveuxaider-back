@@ -58,7 +58,11 @@
         v-if="profile"
         label="Bénévole"
         :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
-        :link="`/dashboard/profile/${profile.id}`"
+        :link="
+          $store.getters.contextRole == 'admin'
+            ? `/dashboard/profile/${profile.id}`
+            : null
+        "
       >
         <!-- <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem> -->
         <VoletRowItem label="Nom"
@@ -210,7 +214,11 @@
         v-if="responsable"
         label="Responsable"
         :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
-        :link="`/dashboard/profile/${responsable.id}`"
+        :link="
+          $store.getters.contextRole == 'admin'
+            ? `/dashboard/profile/${responsable.id}`
+            : null
+        "
       >
         <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
         <VoletRowItem label="Nom"

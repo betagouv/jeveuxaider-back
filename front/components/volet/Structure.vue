@@ -53,15 +53,15 @@
       </VoletCard>
 
       <!-- PARTICIPATIONS -->
-      <VoletCard v-if="structure">
+      <VoletCard v-if="statistics">
         <div class="flex space-x-4">
           <div class="text-5xl leading-none text-gray-900">
-            {{ structure.participations_count }}
+            {{ statistics.participations.total }}
           </div>
           <div class="">
             <div class="text-lg text-gray-900">participation(s)</div>
             <div class="text-sm">
-              sur {{ structure.missions_count }} mission(s)
+              sur {{ statistics.missions.total }} mission(s)
             </div>
           </div>
         </div>
@@ -186,7 +186,11 @@
           :key="responsable.id"
           label="Responsable"
           :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
-          :link="`/dashboard/profile/${responsable.id}`"
+          :link="
+            $store.getters.contextRole == 'admin'
+              ? `/dashboard/profile/${responsable.id}`
+              : null
+          "
         >
           <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
           <VoletRowItem label="Nom"
@@ -213,6 +217,7 @@ export default {
       form: {},
       structure: null,
       responsables: [],
+      statistics: null,
     }
   },
   computed: {
@@ -239,6 +244,12 @@ export default {
           this.structure.id
         )
         this.responsables = responsables.data
+
+        const statistics = await this.$api.statisticsBySubject(
+          'organisations',
+          this.structure.id
+        )
+        this.statistics = statistics.data
       },
     },
   },
