@@ -250,8 +250,8 @@ export default {
       async handler(newValue, oldValue) {
         this.form = { ...newValue }
         this.mission = { ...newValue }
-        this.responsable = await this.$api.getProfile(
-          this.mission.responsable_id
+        this.responsable = await this.$api.getMissionResponsable(
+          this.mission.id
         )
       },
     },

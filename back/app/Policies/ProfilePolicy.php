@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Participation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\Profile;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProfilePolicy
 {
@@ -22,17 +24,6 @@ class ProfilePolicy
 
         if ($user->id == $profile->user_id) {
             return true;
-        }
-
-        if (request()->header('Context-Role') == 'responsable') {
-            // Participe à l'une de ses missions ?
-            // Est membre d'une de ses structures
-            $structures_id =  $user->profile->structures->pluck('id')->toArray();
-            ray($structures_id);
-            return true;
-            // if (in_array($profile->id, $members_id)) {
-            //     return true;
-            // }
         }
 
         $ids = Profile::role(request()->header('Context-Role'))->get()->pluck('id')->all();

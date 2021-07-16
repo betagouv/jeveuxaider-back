@@ -17,6 +17,7 @@ use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
+use App\Http\Requests\Api\ParticipationManageRequest;
 use App\Models\Conversation;
 use App\Models\Mission;
 use App\Models\User;
@@ -198,9 +199,14 @@ class ParticipationController extends Controller
         }
     }
 
-    public function conversation(Request $request, Participation $participation)
+    public function conversation(ParticipationManageRequest $request, Participation $participation)
     {
         $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
         return $conversation;
+    }
+
+    public function benevole(ParticipationManageRequest $request, Participation $participation)
+    {
+        return $participation->profile;
     }
 }

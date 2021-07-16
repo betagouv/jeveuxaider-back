@@ -275,7 +275,7 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[structure_id]'] = this.structure.id
+    // this.query['filter[structure_id]'] = this.structure.id
     const { data } = await this.$api.fetchMissions(this.query)
     this.tableData = data.data
     this.totalRows = data.total

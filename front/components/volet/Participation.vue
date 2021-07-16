@@ -299,10 +299,12 @@ export default {
         this.conversation = await this.$api.getParticipationConversation(
           this.participation.id
         )
-        this.profile = await this.$api.getProfile(this.participation.profile_id)
+        this.profile = await this.$api.getParticipationBenevole(
+          this.participation.id
+        )
         this.mission = await this.$api.getMission(this.participation.mission_id)
-        this.responsable = await this.$api.getProfile(
-          this.mission.responsable_id
+        this.responsable = await this.$api.getMissionResponsable(
+          this.participation.mission_id
         )
       },
     },

@@ -223,7 +223,18 @@ class Profile extends Model implements HasMedia
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
             case 'responsable':
-                return $query->where('id', -1);
+                $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
+                return $query->whereHas(
+                    'participations',
+                    function (Builder $query) use ($structures_id) {
+                        $query->whereHas('mission', function (Builder $query) use ($structures_id) {
+                            $query->whereIn('structure_id', $structures_id);
+                        });
+                    }
+                )->orWhereHas('structures', function (Builder $query) use ($structures_id) {
+                    $query->whereIn('id', $structures_id);
+                });
+                //return $query->where('id', -1);
                 break;
             default:
                 abort(403, 'This action is not authorized');

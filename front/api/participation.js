@@ -34,6 +34,10 @@ export default (axios) => ({
     const { data } = await axios.get(`/participation/${id}/conversation`)
     return data
   },
+  async getParticipationBenevole(id) {
+    const { data } = await axios.get(`/participation/${id}/benevole`)
+    return data
+  },
   async deleteParticipation(id) {
     return await axios.delete(`/participation/${id}`)
   },

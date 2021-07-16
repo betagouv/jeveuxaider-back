@@ -134,4 +134,10 @@ class MissionController extends Controller
             ->defaultSort('-participations_count')
             ->paginate(config('query-builder.results_per_page'));
     }
+
+    public function responsable(MissionStructureRequest $request, Mission $mission)
+    {
+
+        return $mission->responsable;
+    }
 }
