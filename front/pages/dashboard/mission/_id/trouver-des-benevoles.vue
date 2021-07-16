@@ -85,57 +85,68 @@
             {{ scope.row.first_name }} {{ scope.row.last_name[0] }}.
           </div>
           <div class="text-secondary">
+            <div class="text-xs">Habite dans le {{ scope.row.zip }}</div>
+          </div>
+          <div class="text-secondary">
             <div class="text-xs">
-              {{ scope.row.zip }}
+              <template v-if="scope.row.participations_count">
+                {{ scope.row.participations_count }} participations déjà
+                effectuées
+              </template>
+              <template v-else> Aucune participation </template>
             </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Disponibilités" min-width="320">
+      <el-table-column prop="name" label="Informations" min-width="320">
         <template slot-scope="scope">
-          <div v-if="scope.row.disponibilities" class="text-secondary text-sm">
-            {{
-              scope.row.disponibilities
-                .map(
-                  (disponibility) =>
-                    $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                      (dispo) => dispo.value == disponibility
-                    )[0].label
-                )
-                .join(' / ')
-            }}
-          </div>
-          <div
-            v-if="scope.row.frequence && scope.row.frequence_granularite"
-            class="text-secondary text-sm"
-          >
-            {{ scope.row.frequence }} par {{ scope.row.frequence_granularite }}
+          <div class="text-xs text-secondary">
+            <div v-if="scope.row.disponibilities">
+              <span class="font-semibold mr-2">Disponibilités:</span>
+              <span
+                >{{
+                  scope.row.disponibilities
+                    .map(
+                      (disponibility) =>
+                        $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                          (dispo) => dispo.value == disponibility
+                        )[0].label
+                    )
+                    .join(' / ')
+                }}
+              </span>
+            </div>
+            <div v-if="scope.row.frequence && scope.row.frequence_granularite">
+              <span class="font-semibold mr-2">Fréquence:</span>
+              <span
+                >{{ scope.row.frequence }} par
+                {{ scope.row.frequence_granularite }}</span
+              >
+            </div>
+            <div v-if="scope.row.skills && scope.row.skills.length > 0">
+              <span class="font-semibold mr-2">Compétences:</span>
+              <span>{{
+                scope.row.skills
+                  .map(function (item) {
+                    return item.name.fr
+                  })
+                  .join(', ')
+              }}</span>
+            </div>
+            <div v-if="scope.row.domaines && scope.row.domaines.length > 0">
+              <span class="font-semibold mr-2">Domaines:</span>
+              <span>{{
+                scope.row.domaines
+                  .map(function (item) {
+                    return item.name.fr
+                  })
+                  .join(', ')
+              }}</span>
+            </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Domaines d'actions" min-width="320">
-        <template v-if="scope.row.tags" slot-scope="scope">
-          <el-tag type="info" class="m-1">
-            {{
-              scope.row.tags.filter((tag) => tag.type == 'domaine')[0].name.fr
-            }}
-          </el-tag>
-          <el-tag
-            v-if="
-              scope.row.tags.filter((tag) => tag.type == 'domaine').length > 1
-            "
-            type="info"
-            class="m-1"
-          >
-            +
-            {{
-              scope.row.tags.filter((tag) => tag.type == 'domaine').length - 1
-            }}
-            domaines
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="Actions" width="360">
+      <el-table-column label="Actions">
         <template slot-scope="scope">
           <el-button
             v-if="
@@ -217,12 +228,12 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchProfiles(
+    const { data } = await this.$api.fetchMatchingBenevoles(
+      this.mission.id,
       {
-        'filter[match_mission]': this.mission.id,
         ...this.query,
       },
-      ['roles', 'has_user', 'skills', 'domaines']
+      ['skills', 'domaines']
     )
     this.tableData = data.data
     this.totalRows = data.total

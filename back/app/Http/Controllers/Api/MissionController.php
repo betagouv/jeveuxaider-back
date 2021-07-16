@@ -13,13 +13,19 @@ use App\Filters\FiltersMissionCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
+use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMissionCollectivity;
 use App\Filters\FiltersMissionDates;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
+use App\Filters\FiltersProfileDepartment;
+use App\Filters\FiltersProfileSkill;
+use App\Filters\FiltersProfileTag;
+use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
+use App\Models\Profile;
 use App\Models\Structure;
 use App\Services\ApiEngagement;
 
@@ -108,5 +114,24 @@ class MissionController extends Controller
     public function structure(MissionStructureRequest $request, Mission $mission)
     {
         return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $mission->structure_id)->first();
+    }
+
+    public function benevoles(Request $request, Mission $mission)
+    {
+        if (!$mission->has_places_left || $mission->state != 'Validée') {
+            abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+        }
+
+        return QueryBuilder::for(Profile::withCount('participations')->where('is_visible', true))
+            ->allowedAppends('last_online_at', 'skills', 'domaines')
+            ->allowedFilters(
+                AllowedFilter::custom('zips', new FiltersProfileZips),
+                AllowedFilter::custom('domaines', new FiltersProfileTag),
+                AllowedFilter::custom('department', new FiltersProfileDepartment),
+                AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+                AllowedFilter::custom('skills', new FiltersProfileSkill),
+            )
+            ->defaultSort('-participations_count')
+            ->paginate(config('query-builder.results_per_page'));
     }
 }

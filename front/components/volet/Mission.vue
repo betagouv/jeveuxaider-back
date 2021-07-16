@@ -84,7 +84,12 @@
       </VoletCard>
 
       <!-- PLACES RESTANTES -->
-      <VoletCard v-if="mission">
+      <VoletCard
+        v-if="mission"
+        label="Places"
+        link-label="Trouver des bénévoles"
+        :link="`/dashboard/mission/${mission.id}/trouver-des-benevoles`"
+      >
         <div class="flex space-x-4">
           <div class="text-5xl leading-none text-gray-900">
             {{ mission.places_left }}
