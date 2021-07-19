@@ -99,12 +99,7 @@
       </div>
     </div>
 
-    <el-table
-      v-loading="$fetchState.pending"
-      :data="tableData"
-      :highlight-current-row="true"
-      @row-click="onClickedRow"
-    >
+    <el-table v-loading="$fetchState.pending" :data="tableData">
       <el-table-column width="70" align="center">
         <template slot-scope="scope">
           <Avatar

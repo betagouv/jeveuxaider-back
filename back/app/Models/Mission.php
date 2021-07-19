@@ -12,6 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Helpers\Utils;
 
 class Mission extends Model
 {
@@ -395,20 +396,9 @@ class Mission extends Model
 
     public function setCommitmentTotal()
     {
-        $multiplier = 1;
-        switch ($this->commitment__time_period) {
-            case 'day':
-                $multiplier = 365;
-                break;
-            case 'week':
-                $multiplier = 52;
-                break;
-            case 'month':
-                $multiplier = 12;
-                break;
-            default:
-                break;
-        }
-        $this->commitment__total = $multiplier * $this->commitment__hours;
+        $this->commitment__total = Utils::calculateCommitmentTotal(
+            $this->commitment__hours,
+            $this->commitment__time_period
+        );
     }
 }
