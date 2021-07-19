@@ -307,9 +307,15 @@ export default {
       async handler(newValue, oldValue) {
         this.form = { ...newValue }
         this.participation = { ...newValue }
-        this.conversation = await this.$api.getParticipationConversation(
-          this.participation.id
-        )
+
+        if (
+          ['admin', 'responsable'].includes(this.$store.getters.contextRole)
+        ) {
+          this.conversation = await this.$api.getParticipationConversation(
+            this.participation.id
+          )
+        }
+
         this.profile = await this.$api.getParticipationBenevole(
           this.participation.id
         )
