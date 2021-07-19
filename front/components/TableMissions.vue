@@ -67,11 +67,7 @@
               plain
               size="mini"
               icon="el-icon-search"
-              @click.prevent="
-                $router.push(
-                  `/dashboard/mission/${scope.row.id}/trouver-des-benevoles`
-                )
-              "
+              @click.prevent="$router.push(prefilteredUrl(scope.row))"
             ></el-button>
 
             <!-- <nuxt-link
@@ -130,6 +126,26 @@ export default {
     onClickedRow: {
       type: Function,
       default: () => {},
+    },
+  },
+  methods: {
+    prefilteredUrl(mission) {
+      const filters = []
+
+      if (mission.type == 'Mission en présentiel') {
+        filters.push(`filter[department]=${mission.department}`)
+      }
+      if (mission.commitment__hours) {
+        const filterCommitment = mission.commitment__time_period
+          ? `${mission.commitment__hours},${mission.commitment__time_period}`
+          : mission.commitment__hours
+
+        filters.push(`filter[minimum_commitment]=${filterCommitment}`)
+      }
+
+      return `/dashboard/mission/${
+        mission.id
+      }/trouver-des-benevoles?${filters.join('&')}`
     },
   },
 }

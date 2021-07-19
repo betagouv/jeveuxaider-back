@@ -397,20 +397,15 @@ class Profile extends Model implements HasMedia
 
     public function setCommitmentTotal()
     {
-        $multiplier = 1;
-        switch ($this->commitment__time_period) {
-            case 'day':
-                $multiplier = 365;
-                break;
-            case 'week':
-                $multiplier = 52;
-                break;
-            case 'month':
-                $multiplier = 12;
-                break;
-            default:
-                break;
-        }
-        $this->commitment__total = $multiplier * $this->commitment__hours;
+        $this->commitment__total = Utils::calculateCommitmentTotal(
+            $this->commitment__hours,
+            $this->commitment__time_period
+        );
+    }
+
+    public function scopeMinimumCommitment($query, $hours, $time_period = null)
+    {
+        $total = Utils::calculateCommitmentTotal($hours, $time_period);
+        return $query->where('commitment__total', '>=', $total);
     }
 }

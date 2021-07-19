@@ -30,4 +30,23 @@ class Utils
         }
         return $department;
     }
+
+    public static function calculateCommitmentTotal($hours, $time_period = null)
+    {
+        $multiplier = 1;
+        switch ($time_period) {
+            case 'day':
+                $multiplier = 365;
+                break;
+            case 'week':
+                $multiplier = 52;
+                break;
+            case 'month':
+                $multiplier = 12;
+                break;
+            default:
+                break;
+        }
+        return $multiplier * $hours;
+    }
 }

@@ -92,6 +92,10 @@
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
           @changed="onFilterChange"
         />
+
+        <SearchFiltersQueryCommitment
+          :minimum-commitment="query['filter[minimum_commitment]']"
+        />
       </div>
     </div>
 
@@ -146,13 +150,26 @@
                 }}
               </span>
             </div>
-            <div v-if="scope.row.frequence && scope.row.frequence_granularite">
+
+            <div v-if="scope.row.commitment__hours">
               <span class="font-semibold mr-2">Fréquence:</span>
-              <span
-                >{{ scope.row.frequence }} par
-                {{ scope.row.frequence_granularite }}</span
-              >
+              <span>
+                {{ scope.row.commitment__hours }}
+                {{
+                  scope.row.commitment__hours | pluralize(['heure', 'heures'])
+                }}
+              </span>
+              <template v-if="scope.row.commitment__time_period">
+                <span class="font-normal">par</span>
+                <span>
+                  {{
+                    scope.row.commitment__time_period
+                      | labelFromValue('time_period')
+                  }}
+                </span>
+              </template>
             </div>
+
             <div v-if="scope.row.skills && scope.row.skills.length > 0">
               <span class="font-semibold mr-2">Compétences:</span>
               <span>{{
@@ -163,6 +180,7 @@
                   .join(', ')
               }}</span>
             </div>
+
             <div v-if="scope.row.domaines && scope.row.domaines.length > 0">
               <span class="font-semibold mr-2">Domaines:</span>
               <span>{{
@@ -176,6 +194,7 @@
           </div>
         </template>
       </el-table-column>
+
       <el-table-column label="Actions">
         <template slot-scope="scope">
           <el-button

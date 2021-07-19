@@ -139,6 +139,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
+                AllowedFilter::scope('minimum_commitment')
             )
             ->defaultSort('-participations_count')
             ->paginate(config('query-builder.results_per_page'));
