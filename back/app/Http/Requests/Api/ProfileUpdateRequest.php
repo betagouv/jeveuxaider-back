@@ -47,9 +47,9 @@ class ProfileUpdateRequest extends ProfileRequest
             'description' => '',
             'domaines' => '',
             'skills' => '',
-            'frequence' => '',
-            'frequence_granularite' => '',
             'type' => '',
+            'commitment__hours' => '',
+            'commitment__time_period' => '',
         ];
 
         if (request()->user()->isAdmin()) {

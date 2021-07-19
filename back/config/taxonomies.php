@@ -248,27 +248,27 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'mission_periodicites' => [
-        "vocabulary" => "Périodicités",
-        "terms" => [
-            "1 heure par jour" => "1 heure par jour",
-            "2 heures par jour" => "2 heures par jour",
-            "3 heures par jour" => "3 heures par jour",
-            "4 heures par jour" => "4 heures par jour",
-            "1 heure par semaine" => "1 heure par semaine",
-            "2 heures par semaine" => "2 heures par semaine",
-            "3 heures par semaine" => "3 heures par semaine",
-            "4 heures par semaine" => "4 heures par semaine",
-            "1 journée par semaine" => "1 journée par semaine",
-            "2 journées par semaine" => "2 journées par semaine",
-            "3 journées par semaine" => "3 journées par semaine",
-            "4 journées par semaine" => "4 journées par semaine",
-            "5 journées par semaine" => "5 journées par semaine",
-            "10 jours par mois" => "10 jours par mois",
-            "15 jours par mois" => "15 jours par mois",
-            "20 jours par mois" => "20 jours par mois",
-        ]
-    ],
+    // 'mission_periodicites' => [
+    //     "vocabulary" => "Périodicités",
+    //     "terms" => [
+    //         "1 heure par jour" => "1 heure par jour",
+    //         "2 heures par jour" => "2 heures par jour",
+    //         "3 heures par jour" => "3 heures par jour",
+    //         "4 heures par jour" => "4 heures par jour",
+    //         "1 heure par semaine" => "1 heure par semaine",
+    //         "2 heures par semaine" => "2 heures par semaine",
+    //         "3 heures par semaine" => "3 heures par semaine",
+    //         "4 heures par semaine" => "4 heures par semaine",
+    //         "1 journée par semaine" => "1 journée par semaine",
+    //         "2 journées par semaine" => "2 journées par semaine",
+    //         "3 journées par semaine" => "3 journées par semaine",
+    //         "4 journées par semaine" => "4 journées par semaine",
+    //         "5 journées par semaine" => "5 journées par semaine",
+    //         "10 jours par mois" => "10 jours par mois",
+    //         "15 jours par mois" => "15 jours par mois",
+    //         "20 jours par mois" => "20 jours par mois",
+    //     ]
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -720,28 +720,6 @@ return [
         ]
     ],
 
-    'profile_frequences' => [
-        "vocabulary" => "Frequences",
-        "terms" => [
-            "1-2 heures" => "1-2 heures",
-            "2-3 heures" => "2-3 heures",
-            "4+ heures" => "4+ heures",
-            "1 jour" => "1 jour",
-            "2 jours " => "2 jours",
-            "3+ jours" => "3+ jours",
-        ]
-    ],
-
-    'profile_frequences_granularite' => [
-        "vocabulary" => "Frequences granularité",
-        "terms" => [
-            "jour" => "Par jour",
-            "semaine" => "Par semaine",
-            "mois" => "Par mois",
-            "annee" => "Par année",
-        ]
-    ],
-
     'profile_types' => [
         "vocabulary" => "Type de profil",
         "terms" => [
@@ -813,33 +791,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | MISSION DURÉE D'ENGAGEMENT
+    | FRÉQUENCE D'ENGAGEMENT
     |--------------------------------------------------------------------------
     |
     */
-    'mission_commitment_duration' => [
-        "vocabulary" => "Durée d'engagement",
-        "terms" => [
-            "1h" => "1 heure",
-            "2h" => "2 heures",
-            "3h" => "3 heures",
-            "half_day" => "1 demi-journée",
-            "day" => "1 journée"
-        ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | MISSION FRÉQUENCE D'ENGAGEMENT
-    |--------------------------------------------------------------------------
-    |
-    */
-    'mission_commitment_frequency' => [
-        "vocabulary" => "Fréquence d'engagement",
+    'time_period' => [
+        "vocabulary" => "Période de temps",
         "terms" => [
             "day" => "jour",
             "week" => "semaine",
-            "month" => "mois"
+            "month" => "mois",
+            "year" => "an"
         ]
     ],
 

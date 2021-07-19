@@ -48,8 +48,8 @@ class Mission extends Model
         'template_id',
         'thumbnail',
         'slug',
-        'commitment_duration',
-        'commitment_frequency',
+        'commitment__hours',
+        'commitment__time_period',
     ];
 
     protected $casts = [
@@ -391,5 +391,24 @@ class Mission extends Model
     public function getDomaineSecondaireAttribute()
     {
         return $this->tagsWithType('domaine')->first();
+    }
+
+    public function setCommitmentTotal()
+    {
+        $multiplier = 1;
+        switch ($this->commitment__time_period) {
+            case 'day':
+                $multiplier = 365;
+                break;
+            case 'week':
+                $multiplier = 52;
+                break;
+            case 'month':
+                $multiplier = 12;
+                break;
+            default:
+                break;
+        }
+        $this->commitment__total = $multiplier * $this->commitment__hours;
     }
 }

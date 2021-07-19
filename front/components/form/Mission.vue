@@ -284,9 +284,9 @@
             :step="1"
             :step-strictly="true"
             :min="1"
-            class="flex-grow"
+            :max="1000000"
           />
-          <span class="flex-none ml-auto" style="width: 150px">
+          <span class="flex-none" style="width: 150px">
             {{
               form.participations_max
                 | pluralize(['bénévole recherché', 'bénévoles recherchés'])
@@ -406,40 +406,39 @@
         </el-form-item>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4 mb-8">
         <el-form-item
           label="Durée d'engagement minimum"
-          prop="commitment_duration"
+          prop="commitment__hours"
+          class="mb-0 flex-none"
         >
-          <el-select
-            v-model="form.commitment_duration"
-            placeholder="Sélectionner une durée"
-          >
-            <el-option
-              v-for="duration in $store.getters.taxonomies
-                .mission_commitment_duration.terms"
-              :key="duration.value"
-              :label="duration.label"
-              :value="duration.value"
-            />
-          </el-select>
+          <el-input-number
+            v-model="form.commitment__hours"
+            :step="1"
+            :min="1"
+            step-strictly
+          ></el-input-number>
         </el-form-item>
+
+        <span class="flex-none pt-5 h-10">
+          {{ form.commitment__hours | pluralize(['heure par', 'heures par']) }}
+        </span>
 
         <el-form-item
           label="Fréquence (facultatif)"
           prop="commitment_frequency"
+          class="mb-0 w-full"
         >
           <el-select
-            v-model="form.commitment_frequency"
-            placeholder="Sélectionner une fréquencee"
+            v-model="form.commitment__time_period"
+            placeholder="Choisissez une fréquence"
             clearable
           >
             <el-option
-              v-for="frequency in $store.getters.taxonomies
-                .mission_commitment_frequency.terms"
-              :key="frequency.value"
-              :label="`par ${frequency.label}`"
-              :value="frequency.value"
+              v-for="item in $store.getters.taxonomies.time_period.terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             />
           </el-select>
         </el-form-item>
@@ -643,6 +642,7 @@ export default {
         skills: [],
         state: 'Brouillon',
         type: 'Mission en présentiel',
+        commitment__hours: 1,
         ...this.mission,
         publics_beneficiaires: this.mission.publics_beneficiaires ?? [],
         publics_volontaires: this.mission.publics_volontaires ?? [],
@@ -725,7 +725,7 @@ export default {
             message: 'La date de début est requise',
           },
         ],
-        commitment_duration: [
+        commitment__hours: [
           {
             required: true,
             message: "La durée d'engagement minimum est requise",
@@ -800,11 +800,14 @@ export default {
     if (!this.form.id) {
       const structure = await this.$api.getStructure(this.$route.params.id)
       this.$set(this.form, 'structure', structure)
-      this.$set(
-        this.form,
-        'responsable_id',
-        parseInt(this.$store.getters.user.profile.id)
-      )
+
+      const responsable =
+        structure.members.find(
+          (member) => member.id == parseInt(this.$store.getters.user.profile.id)
+        ) ?? structure.members[0]
+      this.$set(this.form, 'responsable_id', parseInt(responsable.id))
+      this.$set(this.form, 'responsable', responsable)
+
       this.$set(this.form, 'structure_id', parseInt(this.$route.params.id))
       if (this.$route.query.template) {
         const template = await this.$api.getMissionTemplate(

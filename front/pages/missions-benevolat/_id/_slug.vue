@@ -576,13 +576,7 @@
                 </div>
 
                 <div class="mx-8 sm:mx-12">
-                  <div
-                    v-if="
-                      mission.commitment_duration ||
-                      mission.commitment_frequency
-                    "
-                    class="text-center"
-                  >
+                  <div v-if="mission.commitment__hours" class="text-center">
                     <div
                       class="mt-6 uppercase text-gray-777E90 text-xs font-bold"
                     >
@@ -590,17 +584,18 @@
                     </div>
                     <div class="font-bold">
                       <span>
+                        {{ mission.commitment__hours }}
                         {{
-                          mission.commitment_duration
-                            | labelFromValue('mission_commitment_duration')
+                          mission.commitment__hours
+                            | pluralize(['heure', 'heures'])
                         }}
                       </span>
-                      <template v-if="mission.commitment_frequency">
+                      <template v-if="mission.commitment__time_period">
                         <span class="font-normal">par</span>
                         <span>
                           {{
-                            mission.commitment_frequency
-                              | labelFromValue('mission_commitment_frequency')
+                            mission.commitment__time_period
+                              | labelFromValue('time_period')
                           }}
                         </span>
                       </template>
@@ -792,8 +787,6 @@ export default {
       return status.match('^[aieouAIEOU].*') ? `l'${status}` : `la ${status}`
     },
     participationsCount() {
-      // return 999
-      // // @todo uncomment
       return this.mission.participations_max - this.mission.places_left
     },
     portraits() {
