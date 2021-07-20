@@ -149,11 +149,11 @@
               >Connexion</nuxt-link
             >
             <nuxt-link
-              to="/register/volontaire"
+              to="/inscription"
               class="px-3 py-2 rounded-md text-base font-medium text-white"
               role="menuitem"
               @click.native="closeMobileMenu"
-              >Inscription bénévole</nuxt-link
+              >Inscription</nuxt-link
             >
           </template>
         </div>
