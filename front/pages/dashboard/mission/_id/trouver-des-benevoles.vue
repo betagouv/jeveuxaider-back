@@ -125,7 +125,7 @@
           class="col-span-1 bg-white rounded-lg shadow flex flex-col"
         >
           <div class="p-6 flex-1 flex flex-col space-y-4">
-            <div class="w-full flex items-center justify-between space-x-6">
+            <div class="w-full flex items-center justify-between space-x-4">
               <Avatar
                 :source="item.image ? item.image.thumb : null"
                 :fallback="item.short_name"
@@ -168,7 +168,7 @@
               </div>
             </div>
 
-            <div class="text-gray-500 text-sm">
+            <div class="h-10 text-gray-500 text-sm">
               {{
                 item.disponibilities
                   .map(
@@ -185,15 +185,19 @@
                 Compétences
               </div>
               <div class="text-gray-500 text-sm">
-                <template v-if="item.skills.length">
-                  {{
+                <ReadMore
+                  v-if="item.skills.length"
+                  more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+                  more-str="voir plus"
+                  :text="
                     item.skills
                       .map(function (item) {
                         return item.name.fr
                       })
                       .join(', ')
-                  }}
-                </template>
+                  "
+                  :max-chars="80"
+                ></ReadMore>
                 <template v-else>Non renseignées</template>
               </div>
             </div>
