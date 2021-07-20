@@ -233,7 +233,7 @@ class Structure extends Model implements HasMedia
         }
     }
 
-    public function scopeTerritoire($query, $territoire_id)
+    public function scopeOfTerritoire($query, $territoire_id)
     {
         $territoire = Territoire::find($territoire_id);
 
