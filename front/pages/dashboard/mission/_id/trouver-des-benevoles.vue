@@ -18,7 +18,7 @@
         {{ mission.name }}
       </div>
 
-      <div class="text-secondary flex items-center">
+      <div class="text-secondary flex items-center flex-wrap">
         <div
           v-if="mission.type"
           class="border-r leading-none border-gray-300 mr-3 pr-3"
@@ -31,12 +31,50 @@
         >
           {{ mission.format }}
         </div>
-        <div class="leading-none mr-3 pr-3">
+        <div class="border-r leading-none border-gray-300 mr-3 pr-3">
           {{ mission.places_left }}
           {{
             mission.places_left
               | pluralize(['place disponible', 'places disponibles'])
           }}
+        </div>
+        <div class="flex space-x-2">
+          <div class="">Pré-filtres:</div>
+          <div class="flex space-x-2">
+            <div v-if="mission.domaines" class="flex space-x-2">
+              <div
+                v-for="domain in mission.domaines"
+                :key="domain.id"
+                class="
+                  flex-shrink-0
+                  inline-block
+                  px-2
+                  py-0.5
+                  text-gray-800 text-xs
+                  font-medium
+                  bg-gray-100
+                  rounded-full
+                "
+              >
+                {{ domain.name.fr }}
+              </div>
+            </div>
+            <div
+              v-if="mission.type == 'Mission en présentiel'"
+              class="
+                flex-shrink-0
+                inline-block
+                px-2
+                py-0.5
+                text-gray-800 text-xs
+                font-medium
+                bg-gray-100
+                rounded-full
+              "
+            >
+              {{ mission.department | labelFromValue('departments') }}
+            </div>
+          </div>
         </div>
         <!-- <div>
           {{ mission.participations_max - mission.places_left }}/{{
