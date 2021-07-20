@@ -120,21 +120,24 @@
                     rounded-full
                   "
                 >
-                  <span>
-                    {{ item.commitment__hours }}
-                    {{
-                      item.commitment__hours | pluralize(['heure', 'heures'])
-                    }}
-                  </span>
-                  <template v-if="item.commitment__time_period">
-                    <span class="font-normal">par</span>
+                  <template v-if="item.commitment__hours">
                     <span>
+                      {{ item.commitment__hours }}
                       {{
-                        item.commitment__time_period
-                          | labelFromValue('time_period')
+                        item.commitment__hours | pluralize(['heure', 'heures'])
                       }}
                     </span>
+                    <template v-if="item.commitment__time_period">
+                      <span class="font-normal">par</span>
+                      <span>
+                        {{
+                          item.commitment__time_period
+                            | labelFromValue('time_period')
+                        }}
+                      </span>
+                    </template>
                   </template>
+                  <template v-else>Non renseigné</template>
                 </div>
               </div>
               <div v-if="item.zip" class="text-secondary text-sm">
