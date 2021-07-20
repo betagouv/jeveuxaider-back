@@ -150,6 +150,7 @@ class StructureObserver
 
     private function createTerritoire($structure)
     {
+        ray('department', $structure);
         $territoire = Territoire::create([
             'structure_id' => $structure->id,
             'name' => $structure->city ?? $structure->name,
@@ -160,6 +161,7 @@ class StructureObserver
             'type' => 'city',
             'state' => 'waiting',
         ]);
+        ray('territoire', $territoire);
         $territoire->save();
         $territoire->addResponsable($structure->user->profile);
 

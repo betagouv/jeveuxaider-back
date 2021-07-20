@@ -452,6 +452,12 @@ export default {
           this.$api
             .addOrUpdateStructure(this.structureId, this.form)
             .then(async () => {
+              if (this.form.territoire) {
+                await this.$api.updateTerritoire(this.form.territoire.id, {
+                  ...this.form.territoire,
+                  department: this.form.department,
+                })
+              }
               // Get profile to get new role
               await this.$store.dispatch('auth/fetchUser')
               this.loading = false
