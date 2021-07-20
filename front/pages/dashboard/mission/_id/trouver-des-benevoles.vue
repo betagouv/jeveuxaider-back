@@ -72,7 +72,13 @@
         </div>
       </div>
       <div class="mt-6 flex flex-wrap">
+        <SearchFiltersQueryCommitment
+          label="Engagement minimum"
+          :minimum-commitment="query['filter[minimum_commitment]']"
+          class="w-64"
+        />
         <SearchFiltersQuery
+          v-if="mission.type == 'Mission en présentiel'"
           name="zips"
           label="Codes postaux"
           multiple
@@ -100,127 +106,118 @@
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
           @changed="onFilterChange"
         />
-
-        <SearchFiltersQueryCommitment
-          label="Engagement minimum"
-          :minimum-commitment="query['filter[minimum_commitment]']"
-        />
       </div>
     </div>
 
-    <el-table v-loading="$fetchState.pending" :data="tableData">
-      <el-table-column width="70" align="center">
-        <template slot-scope="scope">
-          <Avatar
-            :source="scope.row.image ? scope.row.image.thumb : null"
-            :fallback="scope.row.short_name"
-          />
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="Bénévole" min-width="120">
-        <template slot-scope="scope">
-          <div class="text-gray-900">
-            {{ scope.row.first_name }} {{ scope.row.last_name[0] }}.
-          </div>
-          <div class="text-secondary">
-            <div class="text-xs">Habite dans le {{ scope.row.zip }}</div>
-          </div>
-          <div class="text-secondary">
-            <div class="text-xs">
-              <template v-if="scope.row.participations_count">
-                {{ scope.row.participations_count }} participations déjà
-                effectuées
-              </template>
-              <template v-else> Aucune participation </template>
-            </div>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="Informations" min-width="320">
-        <template slot-scope="scope">
-          <div class="text-xs text-secondary">
-            <div v-if="scope.row.disponibilities">
-              <span class="font-semibold mr-2">Disponibilités:</span>
-              <span
-                >{{
-                  scope.row.disponibilities
-                    .map(
-                      (disponibility) =>
-                        $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                          (dispo) => dispo.value == disponibility
-                        )[0].label
-                    )
-                    .join(' / ')
-                }}
-              </span>
+    <div class="px-12 my-6">
+      <ul
+        class="
+          grid grid-cols-1
+          gap-6
+          xs:grid-cols-2
+          lg:grid-cols-2
+          xl:grid-cols-3
+        "
+      >
+        <li
+          v-for="item in tableData"
+          :key="item.id"
+          class="col-span-1 bg-white rounded-lg shadow flex flex-col"
+        >
+          <div class="p-6 flex-1 flex flex-col space-y-4">
+            <div class="w-full flex items-center justify-between space-x-6">
+              <Avatar
+                :source="item.image ? item.image.thumb : null"
+                :fallback="item.short_name"
+              />
+              <div class="flex-1 truncate">
+                <h3 class="text-gray-900 text-sm font-bold truncate">
+                  {{ item.first_name }} {{ item.last_name[0] }}.
+                </h3>
+                <div
+                  class="
+                    flex-shrink-0
+                    inline-block
+                    px-2
+                    py-0.5
+                    text-green-800 text-xs
+                    font-medium
+                    bg-green-100
+                    rounded-full
+                  "
+                >
+                  <span>
+                    {{ item.commitment__hours }}
+                    {{
+                      item.commitment__hours | pluralize(['heure', 'heures'])
+                    }}
+                  </span>
+                  <template v-if="item.commitment__time_period">
+                    <span class="font-normal">par</span>
+                    <span>
+                      {{
+                        item.commitment__time_period
+                          | labelFromValue('time_period')
+                      }}
+                    </span>
+                  </template>
+                </div>
+              </div>
+              <div v-if="item.zip" class="text-secondary text-sm">
+                📍 {{ item.zip }}
+              </div>
             </div>
 
-            <div v-if="scope.row.commitment__hours">
-              <span class="font-semibold mr-2">Fréquence:</span>
-              <span>
-                {{ scope.row.commitment__hours }}
-                {{
-                  scope.row.commitment__hours | pluralize(['heure', 'heures'])
-                }}
-              </span>
-              <template v-if="scope.row.commitment__time_period">
-                <span class="font-normal">par</span>
-                <span>
+            <div class="text-gray-500 text-sm">
+              {{
+                item.disponibilities
+                  .map(
+                    (disponibility) =>
+                      $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                        (dispo) => dispo.value == disponibility
+                      )[0].label
+                  )
+                  .join(' • ')
+              }}
+            </div>
+            <div class="border-t border-dashed pt-4 flex flex-col space-y-2">
+              <div class="text-xs uppercase text-gray-900 font-bold">
+                Compétences
+              </div>
+              <div class="text-gray-500 text-sm">
+                <template v-if="item.skills.length">
                   {{
-                    scope.row.commitment__time_period
-                      | labelFromValue('time_period')
+                    item.skills
+                      .map(function (item) {
+                        return item.name.fr
+                      })
+                      .join(', ')
                   }}
-                </span>
-              </template>
-            </div>
-
-            <div v-if="scope.row.skills && scope.row.skills.length > 0">
-              <span class="font-semibold mr-2">Compétences:</span>
-              <span>{{
-                scope.row.skills
-                  .map(function (item) {
-                    return item.name.fr
-                  })
-                  .join(', ')
-              }}</span>
-            </div>
-
-            <div v-if="scope.row.domaines && scope.row.domaines.length > 0">
-              <span class="font-semibold mr-2">Domaines:</span>
-              <span>{{
-                scope.row.domaines
-                  .map(function (item) {
-                    return item.name.fr
-                  })
-                  .join(', ')
-              }}</span>
+                </template>
+                <template v-else>Non renseignées</template>
+              </div>
             </div>
           </div>
-        </template>
-      </el-table-column>
 
-      <el-table-column label="Actions">
-        <template slot-scope="scope">
-          <el-button
-            v-if="
-              notifications.filter(
-                (notification) => notification.profile_id == scope.row.id
-              ).length == 0
-            "
-            size="small"
-            type="success"
-            round
-            @click="handleSendNotfication(scope.row)"
-          >
-            Proposer la mission
-          </el-button>
-          <div v-else class="text-sm font-semibold text-green-500">
-            E-mail envoyé !
+          <div class="text-center font-bold border-gray-200 border-t">
+            <div
+              v-if="
+                notifications.filter(
+                  (notification) => notification.profile_id == item.id
+                ).length == 0
+              "
+              class="py-4 text-primary hover:bg-gray-50 cursor-pointer"
+              @click="handleSendNotfication(item)"
+            >
+              Proposer la mission
+            </div>
+            <div v-else class="py-4 text-green-700">E-mail envoyé !</div>
           </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="m-3 flex items-center">
+        </li>
+      </ul>
+    </div>
+
+    <div class="px-12 flex items-center">
       <el-pagination
         background
         layout="prev, pager, next"
@@ -233,9 +230,9 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
-    <portal to="volet">
+    <!-- <portal to="volet">
       <VoletProfile hide-personal-fields @updated="onUpdatedRow" />
-    </portal>
+    </portal> -->
   </div>
 </template>
 
