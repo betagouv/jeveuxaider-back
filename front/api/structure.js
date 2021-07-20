@@ -65,4 +65,10 @@ export default (axios) => ({
   async assignStructureRna(structureId, params) {
     return await axios.post(`/structure/${structureId}/rna`, params)
   },
+  async structureExists(rna) {
+    return await axios.get(`/structure/${rna}/exist`)
+  },
+  async reseauLead(form) {
+    return await axios.post('/reseau/lead', form)
+  },
 })

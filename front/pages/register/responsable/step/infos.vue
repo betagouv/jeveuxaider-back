@@ -51,13 +51,13 @@
           </div>
 
           <el-form-item
-            label="Email publique de votre organisation"
+            label="E-mail public de votre organisation"
             prop="email"
           >
             <input
               v-model="form.email"
               class="custom-input placeholder-gray-600"
-              placeholder="Email publique de votre organisation"
+              placeholder="E-mail public de votre organisation"
             />
           </el-form-item>
 
@@ -209,6 +209,8 @@ export default {
         {
           name: `Quelques mots sur l'organisation`,
           status: 'current',
+          disable:
+            this.$store.getters.structure.statut_juridique == 'Collectivité',
         },
         {
           name: `Votre organisation en images`,

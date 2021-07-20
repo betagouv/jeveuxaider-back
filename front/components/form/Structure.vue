@@ -111,7 +111,12 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="Domaines d'action" prop="domaines" class="">
+    <el-form-item
+      v-if="form.statut_juridique != 'Collectivité'"
+      label="Domaines d'action"
+      prop="domaines"
+      class=""
+    >
       <el-checkbox-group
         v-model="domainesSelected"
         size="medium"
@@ -129,6 +134,7 @@
       </el-checkbox-group>
     </el-form-item>
     <el-form-item
+      v-if="form.statut_juridique != 'Collectivité'"
       label="Publics bénéficiaires"
       prop="publics_beneficiaires"
       class=""
@@ -163,7 +169,7 @@
       />
     </el-form-item>
 
-    <el-form-item label="Email publique de votre organisation" prop="email">
+    <el-form-item label="E-mail public de votre organisation" prop="email">
       <el-input
         v-model="form.email"
         placeholder="contact@mon-organisation.fr"

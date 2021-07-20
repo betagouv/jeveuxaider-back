@@ -125,7 +125,8 @@ export const actions = {
           user.first_name,
           user.last_name,
           user.structure_name,
-          user.structure_api
+          user.structure_api,
+          user.structure_statut_juridique
         )
         .then(() => {
           dispatch('login', user).then((response) => {

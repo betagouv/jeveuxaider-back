@@ -10,7 +10,7 @@
     />
     <div id="header-wrapper" class="flex justify-between items-center">
       <div class="flex h-full">
-        <div class="hidden lg:flex items-center px-2 shadow-lg">
+        <div class="hidden md:flex items-center px-2 shadow-lg">
           <nuxt-link to="/">
             <img
               class="mx-auto lg:mx-0"
@@ -21,7 +21,7 @@
             />
           </nuxt-link>
         </div>
-        <div class="flex items-center px-4 lg:px-6 xl:px-8">
+        <div class="flex items-center px-4 lg:px-6 xl:px-8 flex-shrink-0">
           <nuxt-link to="/">
             <img
               src="@/assets/images/jeveuxaider-logo.svg"
@@ -35,7 +35,7 @@
       </div>
 
       <!-- DESKTOP -->
-      <div class="hidden md:flex md:flex-none md:flex-col h-full">
+      <div class="hidden lg:flex lg:flex-none lg:flex-col h-full">
         <div class="flex justify-end">
           <slot name="top-menu">
             <template v-if="$store.getters.isLogged">
@@ -48,7 +48,7 @@
               </div>
               <nuxt-link
                 v-else
-                to="/register/responsable/step/structure"
+                to="/inscription/organisation"
                 class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
               >
                 Créer mon organisation
@@ -221,20 +221,19 @@
               </nuxt-link>
             </nav>
           </slot>
-          <div class="ml-6 xl:ml-12">
+          <div class="ml-6 xl:ml-12 flex items-center space-x-2">
             <template v-if="!$store.getters.isLogged">
               <nuxt-link
                 to="/login"
-                class="flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-gray-800 hover:bg-gray-50 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
+                class="flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-blue-800 hover:bg-gray-50 hover:scale-105 transform transition ease-in-out duration-150 uppercase"
               >
-                <img
-                  class="mr-2"
-                  src="@/assets/images/icones/mon-espace.svg"
-                  alt="Mon espace"
-                  width="12"
-                  height="18"
-                />
-                Mon espace
+                Connexion
+              </nuxt-link>
+              <nuxt-link
+                to="/inscription"
+                class="flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-white bg-blue-800 hover:scale-105 transform transition ease-in-out duration-150 uppercase"
+              >
+                Inscription
               </nuxt-link>
             </template>
             <template v-else>
@@ -302,7 +301,7 @@
 
       <!-- MOBILE -->
       <mobile-menu
-        class="flex h-full items-center md:hidden"
+        class="flex h-full items-center lg:hidden"
         @mission-search-clicked="$store.commit('toggleSearchOverlay')"
       />
     </div>

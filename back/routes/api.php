@@ -26,6 +26,7 @@ Route::get('page/{page}', 'Api\PageController@show');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('association/{slug}', 'Api\StructureController@associationSlug');
 
+Route::get('structure/{rnaOrName}/exist', 'Api\StructureController@exist');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
@@ -58,6 +59,8 @@ Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWit
 Route::get('territoires', 'Api\TerritoireController@index');
 
 Route::get('tags', 'Api\TagController@index');
+
+Route::post('reseau/lead', 'Api\ReseauController@lead');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
