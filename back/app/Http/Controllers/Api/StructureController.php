@@ -101,8 +101,9 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        $structure = Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
+        $structure = Structure::with(['members', 'territoire'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
+        ray('structure', $structure);
         return $structure;
     }
 

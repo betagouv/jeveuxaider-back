@@ -415,8 +415,6 @@ export default {
     },
     async onSubmitChooseName() {
       if (this.$route.query.orga_type === 'Collectivité') {
-        // Todo check if name collecvitivité
-        console.log('check orga exist', this.form.structure.name)
         const res = await this.$api.structureExists(this.form.structure.name)
         if (res.data) {
           this.orgaExist = res.data

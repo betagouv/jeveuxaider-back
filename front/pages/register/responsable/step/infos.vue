@@ -209,6 +209,8 @@ export default {
         {
           name: `Quelques mots sur l'organisation`,
           status: 'current',
+          disable:
+            this.$store.getters.structure.statut_juridique == 'Collectivité',
         },
         {
           name: `Votre organisation en images`,

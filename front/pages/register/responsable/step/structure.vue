@@ -146,7 +146,11 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Domaines d'action" prop="domaines" class="">
+          <el-form-item
+            v-if="form.statut_juridique != 'Collectivité'"
+            label="Domaines d'action"
+            prop="domaines"
+          >
             <el-checkbox-group
               v-model="domainesSelected"
               size="medium"
@@ -164,6 +168,7 @@
             </el-checkbox-group>
           </el-form-item>
           <el-form-item
+            v-if="form.statut_juridique != 'Collectivité'"
             label="Publics bénéficiaires"
             prop="publics_beneficiaires"
             class=""
@@ -334,6 +339,8 @@ export default {
         {
           name: `Quelques mots sur l'organisation`,
           status: 'upcoming',
+          disable:
+            this.$store.getters.structure.statut_juridique == 'Collectivité',
         },
         {
           name: `Votre organisation en images`,
@@ -353,12 +360,14 @@ export default {
           trigger: 'blur',
         },
         domaines: {
-          required: true,
+          required:
+            this.$store.getters.structure.statut_juridique != 'Collectivité',
           message: "Sélectionnez au moins un domaine d'action",
           trigger: 'blur',
         },
         publics_beneficiaires: {
-          required: true,
+          required:
+            this.$store.getters.structure.statut_juridique != 'Collectivité',
           message: 'Sélectionnez au moins un type',
           trigger: 'blur',
         },
@@ -450,7 +459,11 @@ export default {
                 window.plausible(
                   'Inscription responsable - Étape 3 - Informations sur l’organisation'
                 )
-              this.$router.push('/register/responsable/step/infos')
+              if (this.form.statut_juridique == 'Collectivité') {
+                this.$router.push('/register/responsable/step/images')
+              } else {
+                this.$router.push('/register/responsable/step/infos')
+              }
             })
             .catch(() => {
               this.loading = false

@@ -134,6 +134,11 @@ class Territoire extends Model implements HasMedia
         return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 
+    public function structure()
+    {
+        return $this->belongsTo('App\Models\Structure');
+    }
+
     public function structures()
     {
         return $this->morphedByMany('App\Models\Structure', 'relation', 'territoire_relations');
