@@ -2,51 +2,52 @@
   <div class="missions">
     <div class="header px-12 flex border-b border-gray-200 pb-4">
       <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">Trouver des bénévoles</div>
+        <!-- <div class="text-gray-600 uppercase">Trouver des bénévoles</div> -->
         <div class="mb-1 font-bold text-2-5xl text-gray-800">
-          {{ mission.name }}
+          Proposez directement cette mission aux bénévoles
         </div>
-        <div class="text-xl text-gray-800 flex items-center">
-          <div
-            v-if="mission.type"
-            class="border-r leading-none border-gray-300 mr-3 pr-3"
-          >
-            {{ mission.type }}
-          </div>
-          <div
-            v-if="mission.format"
-            class="border-r leading-none border-gray-300 mr-3 pr-3"
-          >
-            {{ mission.format }}
-          </div>
-          <div class="border-r leading-none border-gray-300 mr-3 pr-3">
-            {{ mission.places_left }}
-            {{
-              mission.places_left
-                | pluralize(['place disponible', 'places disponibles'])
-            }}
-          </div>
-          <div>
-            {{ mission.participations_max - mission.places_left }}/{{
-              mission.participations_max
-            }}
-          </div>
+        <div class="text-gray-500 mt-1">
+          Les bénévoles ci-dessous sont sélectionnés en fonction des domaines
+          d'action et codes postaux de la mission. <br />En cliquant sur
+          "Proposer une mission", un e-mail leur sera envoyé.
         </div>
       </div>
     </div>
-    <div class="px-12 mb-4 mt-4">
-      <div class="text-lg font-semibold">
-        Proposez directement vos missions aux bénévoles les plus actifs.
+    <div class="px-12 py-6 flex flex-col space-y-4">
+      <div class="text-lg font-bold">
+        {{ mission.name }}
       </div>
-      <div class="text-gray-500 mt-1">
-        Les bénévoles ci-dessous sont sélectionnés en fonction des domaines
-        d'action et codes postaux de la mission. <br />En cliquant sur "Proposer
-        une mission", un e-mail leur sera envoyé.
+
+      <div class="text-secondary flex items-center">
+        <div
+          v-if="mission.type"
+          class="border-r leading-none border-gray-300 mr-3 pr-3"
+        >
+          {{ mission.type }}
+        </div>
+        <div
+          v-if="mission.format"
+          class="border-r leading-none border-gray-300 mr-3 pr-3"
+        >
+          {{ mission.format }}
+        </div>
+        <div class="leading-none mr-3 pr-3">
+          {{ mission.places_left }}
+          {{
+            mission.places_left
+              | pluralize(['place disponible', 'places disponibles'])
+          }}
+        </div>
+        <!-- <div>
+          {{ mission.participations_max - mission.places_left }}/{{
+            mission.participations_max
+          }}
+        </div> -->
       </div>
-      <div class="text-gray-500 mt-1 flex flex-wrap items-center space-x-4">
+      <!-- <div class="text-gray-500 mt-1 flex flex-wrap items-center space-x-4">
         <div v-if="mission.domaines">
           <div class="text-secondary text-xs uppercase font-semibold mb-2">
-            Domaines
+            Domaines d'action
           </div>
           <div class="flex flex-wrap space-x-4">
             <el-tag
@@ -66,14 +67,27 @@
             Département
           </div>
           <el-tag type="info" size="sm">
-            <span class="font-semibold">Département:</span>
             {{ mission.department | labelFromValue('departments') }}
           </el-tag>
         </div>
-      </div>
-      <div class="mt-6 flex flex-wrap">
+      </div> -->
+    </div>
+
+    <div class="px-12 py-6 bg-gray-50 border-gray-200 border-t">
+      <!-- <div class="mb-12">
+        <div class="text-lg font-semibold">
+          Proposez directement vos missions aux bénévoles les plus actifs.
+        </div>
+        <div class="text-gray-500 mt-1">
+          Les bénévoles ci-dessous sont sélectionnés en fonction des domaines
+          d'action et codes postaux de la mission. <br />En cliquant sur
+          "Proposer une mission", un e-mail leur sera envoyé.
+        </div>
+      </div> -->
+      <div class="flex flex-wrap mb-2">
         <SearchFiltersQueryCommitment
           label="Engagement minimum"
+          placeholder-period="an"
           :minimum-commitment="query['filter[minimum_commitment]']"
           class="w-64"
         />
@@ -107,9 +121,6 @@
           @changed="onFilterChange"
         />
       </div>
-    </div>
-
-    <div class="px-12 my-6">
       <ul
         class="
           grid grid-cols-1
@@ -169,16 +180,18 @@
             </div>
 
             <div class="h-10 text-gray-500 text-sm">
-              {{
-                item.disponibilities
-                  .map(
-                    (disponibility) =>
-                      $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                        (dispo) => dispo.value == disponibility
-                      )[0].label
-                  )
-                  .join(' • ')
-              }}
+              <template v-if="item.disponibilities">
+                {{
+                  item.disponibilities
+                    .map(
+                      (disponibility) =>
+                        $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                          (dispo) => dispo.value == disponibility
+                        )[0].label
+                    )
+                    .join(' • ')
+                }}
+              </template>
             </div>
             <div class="border-t border-dashed pt-4 flex flex-col space-y-2">
               <div class="text-xs uppercase text-gray-900 font-bold">

@@ -21,7 +21,7 @@
 
       <el-select
         v-model="timePeriod"
-        placeholder="Choisir une fréquence"
+        :placeholder="placeholderPeriod"
         clearable
         class="w-52"
         @change="setcommitmentFilters"
@@ -43,6 +43,10 @@ export default {
     label: {
       type: String,
       default: 'Fréquence',
+    },
+    placeholderPeriod: {
+      type: String,
+      default: 'Choisir une période',
     },
     minimumCommitment: {
       type: String,
