@@ -7,7 +7,16 @@
           {{ mission.name }}
         </div>
         <div class="text-xl text-gray-800 flex items-center">
-          <div class="border-r leading-none border-gray-300 mr-3 pr-3">
+          <div
+            v-if="mission.type"
+            class="border-r leading-none border-gray-300 mr-3 pr-3"
+          >
+            {{ mission.type }}
+          </div>
+          <div
+            v-if="mission.format"
+            class="border-r leading-none border-gray-300 mr-3 pr-3"
+          >
             {{ mission.format }}
           </div>
           <div class="border-r leading-none border-gray-300 mr-3 pr-3">
@@ -34,21 +43,35 @@
         d'action et codes postaux de la mission. <br />En cliquant sur "Proposer
         une mission", un e-mail leur sera envoyé.
       </div>
+      <div class="text-gray-500 mt-1 flex flex-wrap items-center space-x-4">
+        <div v-if="mission.domaines">
+          <div class="text-secondary text-xs uppercase font-semibold mb-2">
+            Domaines
+          </div>
+          <div class="flex flex-wrap space-x-4">
+            <el-tag
+              v-for="domaine in mission.domaines"
+              :key="domaine.id"
+              type="info"
+              size="sm"
+            >
+              {{ domaine.name.fr }}
+            </el-tag>
+          </div>
+        </div>
+        <div
+          v-if="mission.type == 'Mission en présentiel' && mission.department"
+        >
+          <div class="text-secondary text-xs uppercase font-semibold mb-2">
+            Département
+          </div>
+          <el-tag type="info" size="sm">
+            <span class="font-semibold">Département:</span>
+            {{ mission.department | labelFromValue('departments') }}
+          </el-tag>
+        </div>
+      </div>
       <div class="mt-6 flex flex-wrap">
-        <SearchFiltersQuery
-          name="department"
-          label="Département"
-          :value="query['filter[department]']"
-          :options="
-            $store.getters.taxonomies.departments.terms.map((term) => {
-              return {
-                label: `${term.value} - ${term.label}`,
-                value: term.value,
-              }
-            })
-          "
-          @changed="onFilterChange"
-        />
         <SearchFiltersQuery
           name="zips"
           label="Codes postaux"
@@ -68,21 +91,6 @@
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
-          type="select"
-          name="domaine"
-          :value="query['filter[domaine]']"
-          label="Domaines d'action"
-          :options="
-            domaines.map((domaine) => {
-              return {
-                label: domaine.name.fr,
-                value: domaine.id,
-              }
-            })
-          "
-          @changed="onFilterChange"
-        />
         <SearchFiltersQuerySkills
           type="select"
           name="skills"
@@ -94,6 +102,7 @@
         />
 
         <SearchFiltersQueryCommitment
+          label="Engagement minimum"
           :minimum-commitment="query['filter[minimum_commitment]']"
         />
       </div>

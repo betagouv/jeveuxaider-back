@@ -29,6 +29,7 @@ use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
+use Illuminate\Database\Eloquent\Builder;
 
 class MissionController extends Controller
 {
@@ -68,7 +69,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first()->append(['skills', 'domaine_secondaire']);
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first()->append(['skills','domaines', 'domaine_secondaire']);
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
@@ -131,7 +132,18 @@ class MissionController extends Controller
             abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
         }
 
-        return QueryBuilder::for(Profile::withCount('participations')->where('is_visible', true))
+        $profilesQueryBuilder =  Profile::withCount('participations')
+            ->where('is_visible', true)
+            ->withAnyTags($mission->domaines)
+            ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
+                $query->where('mission_id', $mission->id);
+            });
+
+        if($mission->type == 'Mission en présentiel'){
+            $profilesQueryBuilder->department($mission->departement);
+        }
+
+        return QueryBuilder::for($profilesQueryBuilder)
             ->allowedAppends('last_online_at', 'skills', 'domaines')
             ->allowedFilters(
                 AllowedFilter::custom('zips', new FiltersProfileZips),

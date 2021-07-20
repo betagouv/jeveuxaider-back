@@ -145,9 +145,13 @@ class Mission extends Model
 
     public function getDomainesAttribute()
     {
-        return collect([
-            $this->template ? $this->template->domaine : $this->domaine, // domaine principal
-        ]);
+
+        $domains =  collect([
+            $this->template ? $this->template->domaine : $this->domaine,
+            $this->domaine_secondaire
+        ])->filter();
+
+        return $domains;
     }
 
     public function user()
