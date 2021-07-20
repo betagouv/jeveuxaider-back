@@ -168,6 +168,34 @@
         <VoletRowItem v-if="mission.end_date" label="Fin">
           {{ mission.end_date | formatLongWithTime }}
         </VoletRowItem>
+        <VoletRowItem v-if="mission.commitment__hours" label="Engag. min.">
+          {{ mission.commitment__hours }} heures par
+          {{ mission.commitment__time_period | labelFromValue('time_period') }}
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.domaine_name" label="Domaine">
+          {{ mission.domaine_name }}
+        </VoletRowItem>
+        <VoletRowItem
+          v-if="mission.publics_beneficiaires"
+          label="Publics bénéf."
+        >
+          {{ mission.publics_beneficiaires.join(', ') }}
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
+          {{ mission.publics_volontaires.join(', ') }}
+        </VoletRowItem>
+        <VoletRowItem label="Compétences">
+          <template v-if="mission.skills && mission.skills.length > 0">
+            {{
+              mission.skills
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
         <VoletRowItem label="Adresse">
           {{ mission.full_address }}
         </VoletRowItem>

@@ -101,6 +101,12 @@
             </template>
             <template v-else> N/A </template>
           </VoletRowItem>
+          <VoletRowItem v-if="profile.commitment__hours" label="Engagement">
+            {{ profile.commitment__hours }} heures par
+            {{
+              profile.commitment__time_period | labelFromValue('time_period')
+            }}
+          </VoletRowItem>
           <VoletRowItem label="Crée le">{{
             profile.created_at | formatMediumWithTime
           }}</VoletRowItem>
