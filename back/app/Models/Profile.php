@@ -229,7 +229,12 @@ class Profile extends Model implements HasMedia
                 if ($missions->count() == 0) {
                     return $query->where('id', -1);
                 }
+
+
+                // Tous les profils qui ont une participation rattachée à une de mes structures
+                // Tous les membres de mes structures
                 return $query->where('is_visible', true);
+
                 break;
             default:
                 abort(403, 'This action is not authorized');

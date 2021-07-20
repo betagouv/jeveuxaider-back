@@ -88,7 +88,7 @@
           <div class="font-light text-gray-600 text-xs flex items-center">
             <div
               :class="scope.row.published ? 'bg-green-500' : 'bg-red-500'"
-              class="rounded-full h-2 w-2 mr-2"
+              class="rounded-full h-2 w-2 mr-2 flex-none"
             ></div>
             <nuxt-link
               v-if="scope.row.published"
