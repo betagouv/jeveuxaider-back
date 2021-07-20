@@ -1,6 +1,6 @@
 <template>
   <div class="missions">
-    <div class="header px-12 flex border-b border-gray-200 pb-4">
+    <div class="header px-12 flex border-b border-gray-200 pb-8">
       <div class="header-titles flex-1">
         <!-- <div class="text-gray-600 uppercase">Trouver des bénévoles</div> -->
         <div class="mb-1 font-bold text-2-5xl text-gray-800">
@@ -44,46 +44,9 @@
           }}
         </div> -->
       </div>
-      <!-- <div class="text-gray-500 mt-1 flex flex-wrap items-center space-x-4">
-        <div v-if="mission.domaines">
-          <div class="text-secondary text-xs uppercase font-semibold mb-2">
-            Domaines d'action
-          </div>
-          <div class="flex flex-wrap space-x-4">
-            <el-tag
-              v-for="domaine in mission.domaines"
-              :key="domaine.id"
-              type="info"
-              size="sm"
-            >
-              {{ domaine.name.fr }}
-            </el-tag>
-          </div>
-        </div>
-        <div
-          v-if="mission.type == 'Mission en présentiel' && mission.department"
-        >
-          <div class="text-secondary text-xs uppercase font-semibold mb-2">
-            Département
-          </div>
-          <el-tag type="info" size="sm">
-            {{ mission.department | labelFromValue('departments') }}
-          </el-tag>
-        </div>
-      </div> -->
     </div>
 
     <div class="px-12 py-6 bg-gray-50 border-gray-200 border-t">
-      <!-- <div class="mb-12">
-        <div class="text-lg font-semibold">
-          Proposez directement vos missions aux bénévoles les plus actifs.
-        </div>
-        <div class="text-gray-500 mt-1">
-          Les bénévoles ci-dessous sont sélectionnés en fonction des domaines
-          d'action et codes postaux de la mission. <br />En cliquant sur
-          "Proposer une mission", un e-mail leur sera envoyé.
-        </div>
-      </div> -->
       <div class="flex flex-wrap mb-2">
         <SearchFiltersQueryCommitment
           label="Engagement minimum"
@@ -232,21 +195,21 @@
           </div>
         </li>
       </ul>
-    </div>
-
-    <div class="px-12 flex items-center">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="totalRows"
-        :page-size="15"
-        :current-page="Number(query.page)"
-        @current-change="onPageChange"
-      />
-      <div class="text-secondary text-xs ml-3">
-        Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+      <div class="mt-8 flex items-center">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="totalRows"
+          :page-size="15"
+          :current-page="Number(query.page)"
+          @current-change="onPageChange"
+        />
+        <div class="text-secondary text-xs ml-3">
+          Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
+        </div>
       </div>
     </div>
+
     <!-- <portal to="volet">
       <VoletProfile hide-personal-fields @updated="onUpdatedRow" />
     </portal> -->
