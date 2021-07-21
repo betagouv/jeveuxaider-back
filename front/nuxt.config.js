@@ -71,6 +71,10 @@ export default {
     '@/plugins/plausible.client.js',
   ],
 
+  router: {
+    middleware: 'set-utm',
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 

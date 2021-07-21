@@ -8,7 +8,7 @@ export const rolesList = [
   { key: 'analyste', label: 'Analyste' },
 ]
 
-export default (axios) => ({
+export default (axios, $cookies) => ({
   async fetchProfileParticipations(id) {
     const { data } = await axios.get(`/profile/${id}/participations`)
     return data
@@ -110,7 +110,6 @@ export default (axios) => ({
     sc,
     type
   ) {
-    // TODO : get utm
     return axios.post('/register/volontaire', {
       email: email.toLowerCase(),
       password,
@@ -121,6 +120,7 @@ export default (axios) => ({
       zip,
       sc,
       type,
+      utm_source: $cookies.get('utm_source'),
     })
   },
 
@@ -133,7 +133,6 @@ export default (axios) => ({
     structureApi,
     structureStatutJuridique
   ) {
-    // TODO : get utm
     return await axios.post('/register/responsable', {
       email: email.toLowerCase(),
       password,
@@ -142,6 +141,7 @@ export default (axios) => ({
       structure_name: structureName,
       structure_api: structureApi,
       structure_statut_juridique: structureStatutJuridique,
+      utm_source: $cookies.get('utm_source'),
     })
   },
 
