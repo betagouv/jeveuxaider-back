@@ -9,7 +9,11 @@
         /> -->
         <div class="text-lg font-medium">{{ label }}</div>
       </div>
-      <router-link v-if="link" :to="link" class="text-xs hover:text-primary">
+      <router-link
+        v-if="link"
+        :to="link"
+        class="text-xs text-primary hover:text-primary"
+      >
         {{ linkLabel }}
       </router-link>
     </div>

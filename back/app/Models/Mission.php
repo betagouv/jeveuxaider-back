@@ -63,7 +63,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name', 'permissions'];
 
     protected static $logFillable = true;
 
@@ -404,5 +404,13 @@ class Mission extends Model
             $this->commitment__hours,
             $this->commitment__time_period
         );
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return [
+            'canFindBenevoles' => true,
+            //'canFindBenevoles' => $this->state == 'Validée' && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
+        ];
     }
 }

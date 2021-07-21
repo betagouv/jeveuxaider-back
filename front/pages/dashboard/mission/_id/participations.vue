@@ -24,7 +24,7 @@
               target="_blank"
               :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
             >
-              <span class="text-sm underline hover:no-underline">
+              <span class="text-sm underline hover:no-underline break-all">
                 {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
                   mission.slug
                 }}

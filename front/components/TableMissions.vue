@@ -55,8 +55,7 @@
 
             <el-button
               v-if="
-                scope.row.state == 'Validée' &&
-                scope.row.has_places_left &&
+                scope.row.permissions.canFindBenevoles &&
                 $store.getters.contextRole == 'responsable'
               "
               v-tooltip="{

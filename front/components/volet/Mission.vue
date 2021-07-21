@@ -75,7 +75,7 @@
           target="_blank"
           :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
         >
-          <span class="text-sm underline hover:no-underline">
+          <span class="text-sm underline hover:no-underline break-all">
             {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
               mission.slug
             }}
@@ -87,7 +87,9 @@
       <VoletCard
         v-if="mission"
         label="Places"
-        link-label="Trouver des bénévoles"
+        :link-label="
+          mission.permissions.canFindBenevoles ? 'Trouver des bénévoles' : null
+        "
         :link="`/dashboard/mission/${mission.id}/trouver-des-benevoles`"
       >
         <div class="flex space-x-4">
@@ -125,7 +127,6 @@
         }}</VoletRowItem>
         <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
         <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
-        <VoletRowItem label="Format"> {{ mission.format }} </VoletRowItem>
         <VoletRowItem v-if="mission.start_date" label="Debut">
           {{ mission.start_date | formatLongWithTime }}</VoletRowItem
         >
@@ -166,7 +167,7 @@
         <VoletRowItem label="Département">
           {{ mission.department | fullDepartmentFromValue }}
         </VoletRowItem>
-        <VoletRowItem label="Information">
+        <VoletRowItem label="Message">
           <template v-if="mission.information">
             <ReadMore
               more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
@@ -177,7 +178,7 @@
           </template>
           <template v-else> N/A </template>
         </VoletRowItem>
-        <VoletRowItem label="Objectif">
+        <VoletRowItem label="Présentation">
           <template v-if="mission.objectif">
             <ReadMore
               more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
@@ -188,7 +189,7 @@
           </template>
           <template v-else> N/A </template>
         </VoletRowItem>
-        <VoletRowItem label="Règles">
+        <VoletRowItem label="Précisions">
           <template v-if="mission.description">
             <ReadMore
               more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"

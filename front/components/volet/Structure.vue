@@ -46,7 +46,7 @@
         </div>
 
         <nuxt-link target="_blank" :to="structure.full_url">
-          <span class="text-sm underline hover:no-underline">
+          <span class="text-sm underline hover:no-underline break-all">
             {{ $config.appUrl }}{{ structure.full_url }}
           </span>
         </nuxt-link>
@@ -59,9 +59,17 @@
             {{ statistics.participations.total }}
           </div>
           <div class="">
-            <div class="text-lg text-gray-900">participation(s)</div>
+            <div class="text-lg text-gray-900">
+              {{
+                statistics.participations.total
+                  | pluralize(['participation', 'participations'])
+              }}
+            </div>
             <div class="text-sm">
-              sur {{ statistics.missions.total }} mission(s)
+              sur {{ statistics.missions.total }}
+              {{
+                statistics.missions.total | pluralize(['mission', 'missions'])
+              }}
             </div>
           </div>
         </div>

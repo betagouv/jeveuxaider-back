@@ -46,7 +46,7 @@
         </div>
 
         <nuxt-link target="_blank" :to="territoire.full_url">
-          <span class="text-sm underline hover:no-underline">
+          <span class="text-sm underline hover:no-underline break-all">
             {{ $config.appUrl }}{{ territoire.full_url }}
           </span>
         </nuxt-link>

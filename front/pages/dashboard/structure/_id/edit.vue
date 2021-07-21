@@ -36,7 +36,7 @@
           </svg>
         </div>
         <nuxt-link target="_blank" :to="`/organisations/${structure.slug}`">
-          <span class="text-sm underline hover:no-underline">
+          <span class="text-sm underline hover:no-underline break-all">
             {{ $config.appUrl }}/organisations/{{ structure.slug }}
           </span>
         </nuxt-link>
