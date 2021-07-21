@@ -13,15 +13,7 @@
 
         <portal-target
           v-if="$store.getters['volet/active'] && $store.getters['volet/row']"
-          class="
-            p-4
-            overflow-y-auto
-            flex-none
-            border-l
-            bg-gray-100
-            shadow-lg
-            z-10
-          "
+          class="p-4 overflow-y-auto flex-none border-l bg-gray-50"
           name="volet"
           style="width: 420px"
         />
