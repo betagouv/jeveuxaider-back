@@ -139,8 +139,8 @@ class MissionController extends Controller
                 $query->where('mission_id', $mission->id);
             });
 
-        if($mission->type == 'Mission en présentiel'){
-            $profilesQueryBuilder->department($mission->departement);
+        if ($mission->type == 'Mission en présentiel') {
+            $profilesQueryBuilder->department($mission->department);
         }
 
         return QueryBuilder::for($profilesQueryBuilder)
