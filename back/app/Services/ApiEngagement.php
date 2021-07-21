@@ -265,7 +265,6 @@ class ApiEngagement
         $attributes = [];
         $attributes['rna'] = isset($structureApi['rna']) ? $structureApi['rna'] : null;
         $attributes['statut_juridique'] = isset($structureApi['regime']) ? $structureApi['regime'] : null;
-        $attributes['description'] = isset($structureApi['objet']) ? $structureApi['objet'] : null;
 
         $attributes['city'] = isset($structureApi['coordonnees']['adresse']['commune'])
             ? $structureApi['coordonnees']['adresse']['commune']
