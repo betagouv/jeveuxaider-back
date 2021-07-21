@@ -30,6 +30,7 @@ use App\Models\Structure;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\AllowedSort;
 
 class MissionController extends Controller
 {
@@ -132,8 +133,7 @@ class MissionController extends Controller
             abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
         }
 
-        $profilesQueryBuilder =  Profile::withCount('participations')
-            ->where('is_visible', true)
+        $profilesQueryBuilder =  Profile::where('is_visible', true)
             ->withAnyTags($mission->domaines)
             ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
                 $query->where('mission_id', $mission->id);
@@ -142,6 +142,7 @@ class MissionController extends Controller
         if ($mission->type == 'Mission en présentiel') {
             $profilesQueryBuilder->department($mission->department);
         }
+
 
         return QueryBuilder::for($profilesQueryBuilder)
             ->allowedAppends('last_online_at', 'skills', 'domaines')
@@ -153,7 +154,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::scope('minimum_commitment')
             )
-            ->defaultSort('-participations_count')
+            ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 

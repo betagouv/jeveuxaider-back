@@ -304,7 +304,7 @@ export default {
       {
         ...this.query,
       },
-      ['skills', 'domaines']
+      ['last_online_at', 'skills', 'domaines']
     )
     this.tableData = data.data
     this.totalRows = data.total
