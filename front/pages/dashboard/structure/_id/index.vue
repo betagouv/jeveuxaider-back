@@ -1,6 +1,10 @@
 <template>
   <div class="structure-view">
-    <HeaderOrganisation :structure="structure" />
+    <HeaderOrganisation :structure="structure">
+      <template #action>
+        <DropdownStructureButton :structure="structure" />
+      </template>
+    </HeaderOrganisation>
     <NavTabStructure
       v-if="$store.getters.contextRole != 'responsable'"
       :structure="structure"

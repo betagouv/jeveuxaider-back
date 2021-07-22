@@ -13,9 +13,6 @@
           >Afficher l'organisation</el-dropdown-item
         >
       </nuxt-link>
-      <nuxt-link :to="`/dashboard/structure/${structure.id}/missions/add`">
-        <el-dropdown-item :command="{}">Ajouter une mission</el-dropdown-item>
-      </nuxt-link>
       <nuxt-link :to="`/dashboard/structure/${structure.id}/members`">
         <el-dropdown-item :command="{}"> Gérer les membres </el-dropdown-item>
       </nuxt-link>

@@ -1,6 +1,12 @@
 <template>
   <div class="has-full-table">
-    <HeaderOrganisation :structure="structure" />
+    <HeaderOrganisation :structure="structure">
+      <template #action>
+        <nuxt-link :to="`/dashboard/structure/${structure.id}/missions/add`">
+          <el-button type="primary">Créer une mission</el-button>
+        </nuxt-link>
+      </template>
+    </HeaderOrganisation>
     <NavTabStructure
       v-if="$store.getters.contextRole != 'responsable'"
       :structure="structure"

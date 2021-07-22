@@ -44,12 +44,7 @@
         </span>
       </div>
     </div>
-    <div>
-      <DropdownStructureButton
-        v-if="['responsable', 'admin'].includes($store.getters.contextRole)"
-        :structure="structure"
-      />
-    </div>
+    <slot name="action" />
   </div>
 </template>
 
