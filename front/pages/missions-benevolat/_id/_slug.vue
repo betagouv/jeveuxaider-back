@@ -290,7 +290,7 @@
               </div>
 
               <h2
-                class="text-gray-777E90 leading-7"
+                class="wysiwyg-field text-gray-777E90 leading-7"
                 v-html="mission.objectif"
               />
 
@@ -313,14 +313,14 @@
                 />
 
                 <div class="relative z-10 citation text-lg">
-                  <h3 v-html="mission.information" />
+                  <h3 class="wysiwyg-field" v-html="mission.information" />
                 </div>
               </div>
 
               <div class="font-extrabold text-xl mb-4 mt-10">Précisions</div>
 
               <div
-                class="text-gray-777E90 leading-7"
+                class="wysiwyg-field text-gray-777E90 leading-7"
                 v-html="mission.description"
               />
 
