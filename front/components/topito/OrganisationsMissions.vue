@@ -48,10 +48,16 @@ export default {
       items: [],
     }
   },
-  async created() {
-    const response = await this.$api.fetchTopitoOrganisationsMissions()
-    this.items = response.data.items
-    this.loading = false
+  created() {
+    this.fetch({ daterange: 'current-month' })
+  },
+  methods: {
+    async fetch(filters) {
+      this.loading = true
+      const response = await this.$api.fetchTopitoOrganisationsMissions(filters)
+      this.items = response.data.items
+      this.loading = false
+    },
   },
 }
 </script>

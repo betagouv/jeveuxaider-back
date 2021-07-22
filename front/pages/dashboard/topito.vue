@@ -7,17 +7,22 @@
         </div>
         <div class="mb-12 font-bold text-2-5xl text-gray-800">TOPITO</div>
       </div>
+      <div>
+        <DropdownTimeframeButton @change="onChangeTimeframe" />
+      </div>
     </div>
 
     <div class="px-12">
       <div class="flex flex-col space-y-12">
         <div class="grid grid-cols-3 gap-6">
-          <BenevolesDuMoment />
-          <UtilisateursLesPlusActifs />
+          <TopitoBenevolesDuMoment ref="benevolesDuMoment" />
+          <TopitoUtilisateursLesPlusActifs ref="utilisateursLesPlusActifs" />
         </div>
         <div class="grid grid-cols-3 gap-6">
-          <OrganisationsMissions />
-          <OrganisationsParticipations />
+          <TopitoOrganisationsMissions ref="organisationsMissions" />
+          <TopitoOrganisationsParticipations
+            ref="organisationsParticipations"
+          />
         </div>
       </div>
     </div>
@@ -25,29 +30,20 @@
 </template>
 
 <script>
-import BenevolesDuMoment from '@/components/topito/BenevolesDuMoment'
-import UtilisateursLesPlusActifs from '@/components/topito/UtilisateursLesPlusActifs'
-import OrganisationsMissions from '@/components/topito/OrganisationsMissions'
-import OrganisationsParticipations from '@/components/topito/OrganisationsParticipations'
-
 export default {
-  components: {
-    BenevolesDuMoment,
-    UtilisateursLesPlusActifs,
-    OrganisationsMissions,
-    OrganisationsParticipations,
-  },
   layout: 'dashboard',
   asyncData({ $api, params, error, store }) {
     if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
-
-    // const benevoles = await $api.fetchTopitoBenevolesDuMoment()
-    // const utiliseurs = await $api.fetchTopitoUtilisateursLesPlusActifs()
-    // const organisationsMissions = await $api.fetchTopitoOrganisationsMissions()
-    // const organisationsParticipations =
-    //   await $api.fetchTopitoOrganisationsParticipations()
+  },
+  methods: {
+    onChangeTimeframe(filter) {
+      this.$refs.benevolesDuMoment.fetch(filter)
+      this.$refs.utilisateursLesPlusActifs.fetch(filter)
+      this.$refs.organisationsMissions.fetch(filter)
+      this.$refs.organisationsParticipations.fetch(filter)
+    },
   },
 }
 </script>
