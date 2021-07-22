@@ -49,7 +49,7 @@ class Mission extends Model
         'template_id',
         'thumbnail',
         'slug',
-        'commitment__hours',
+        'commitment__duration',
         'commitment__time_period',
     ];
 
@@ -401,7 +401,7 @@ class Mission extends Model
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
-            $this->commitment__hours,
+            $this->commitment__duration,
             $this->commitment__time_period
         );
     }

@@ -409,20 +409,24 @@
       <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4 mb-8">
         <el-form-item
           label="Durée d'engagement minimum"
-          prop="commitment__hours"
+          prop="commitment__duration"
           class="mb-0 flex-none"
         >
-          <el-input-number
-            v-model="form.commitment__hours"
-            :step="1"
-            :min="1"
-            step-strictly
-          ></el-input-number>
+          <el-select
+            v-model="form.commitment__duration"
+            placeholder="Choisissez une durée"
+            clearable
+          >
+            <el-option
+              v-for="item in $store.getters.taxonomies.duration.terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
 
-        <span class="flex-none pt-5 h-10">
-          {{ form.commitment__hours | pluralize(['heure par', 'heures par']) }}
-        </span>
+        <span class="flex-none pt-5 h-10"> par </span>
 
         <el-form-item
           label="Fréquence (facultatif)"
@@ -651,7 +655,6 @@ export default {
         skills: [],
         state: 'Brouillon',
         type: 'Mission en présentiel',
-        commitment__hours: 1,
         ...this.mission,
         publics_beneficiaires: this.mission.publics_beneficiaires ?? [],
         publics_volontaires: this.mission.publics_volontaires ?? [],
@@ -734,7 +737,7 @@ export default {
             message: 'La date de début est requise',
           },
         ],
-        commitment__hours: [
+        commitment__duration: [
           {
             required: true,
             message: "La durée d'engagement minimum est requise",

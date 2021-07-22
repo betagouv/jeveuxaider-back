@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <component :is="tag">
     <span
       class="wysiwyg-field read-more--content"
       v-html="formattedString"
@@ -17,7 +17,7 @@
         {{ lessStr }}
       </span>
     </span>
-  </div>
+  </component>
 </template>
 
 <script>
@@ -42,6 +42,10 @@ export default {
     maxChars: {
       type: Number,
       default: 100,
+    },
+    tag: {
+      type: String,
+      default: 'div',
     },
   },
 

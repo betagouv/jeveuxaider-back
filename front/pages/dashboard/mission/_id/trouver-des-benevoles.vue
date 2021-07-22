@@ -85,12 +85,12 @@
     </div>
 
     <div class="px-12 py-6 bg-gray-50 border-gray-200 border-t">
-      <div class="flex flex-wrap mb-2">
+      <div class="flex flex-wrap gap-4 mb-6">
         <SearchFiltersQueryCommitment
           label="Engagement minimum"
-          placeholder-period="an"
-          :minimum-commitment="query['filter[minimum_commitment]']"
-          class="w-64"
+          :value="query['filter[minimum_commitment]']"
+          name="minimum_commitment"
+          @changed="onFilterChange"
         />
         <SearchFiltersQuery
           v-if="mission.type == 'Mission en présentiel'"
@@ -99,9 +99,11 @@
           multiple
           allow-create
           default-first-option
+          popper-classes="hidden"
           :value="query['filter[zips]']"
           :options="[]"
-          placeholder="Entrer les codes post."
+          placeholder="Entrer les codes postaux"
+          class="hide-carret w-52"
           @changed="onFilterChange"
         />
         <SearchFiltersQuery
@@ -110,6 +112,7 @@
           :value="query['filter[disponibilities]']"
           label="Disponibilités"
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
+          class="w-52"
           @changed="onFilterChange"
         />
         <SearchFiltersQuerySkills
@@ -119,6 +122,8 @@
           :value="query['filter[skills]']"
           label="Compétences"
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
+          style="min-width: 280px"
+          class="flex-grow"
           @changed="onFilterChange"
         />
       </div>
@@ -158,11 +163,10 @@
                     rounded-full
                   "
                 >
-                  <template v-if="item.commitment__hours">
+                  <template v-if="item.commitment__duration">
                     <span>
-                      {{ item.commitment__hours }}
                       {{
-                        item.commitment__hours | pluralize(['heure', 'heures'])
+                        item.commitment__duration | labelFromValue('duration')
                       }}
                     </span>
                     <template v-if="item.commitment__time_period">
@@ -183,19 +187,36 @@
               </div>
             </div>
 
-            <div class="h-10 text-gray-500 text-sm">
-              <template v-if="item.disponibilities">
-                {{
-                  item.disponibilities
-                    .map(
-                      (disponibility) =>
-                        $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                          (dispo) => dispo.value == disponibility
-                        )[0].label
-                    )
-                    .join(' • ')
-                }}
-              </template>
+            <div class="text-gray-500 text-sm" style="min-height: 40px">
+              <v-clamp :max-lines="2" autoresize class="">
+                <template v-if="item.disponibilities">
+                  {{
+                    item.disponibilities
+                      .map(
+                        (disponibility) =>
+                          $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                            (dispo) => dispo.value == disponibility
+                          )[0].label
+                      )
+                      .join(' • ')
+                  }}
+                </template>
+
+                <template slot="after" slot-scope="{ clamped, toggle }">
+                  <span
+                    v-if="clamped"
+                    class="
+                      ml-1
+                      cursor-pointer
+                      uppercase
+                      font-bold
+                      text-xs text-gray-800
+                    "
+                    @click="toggle"
+                    >Voir plus</span
+                  >
+                </template>
+              </v-clamp>
             </div>
             <div class="border-t border-dashed pt-4 flex flex-col space-y-2">
               <div class="text-xs uppercase text-gray-900 font-bold">
@@ -354,3 +375,12 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.hide-carret
+  &::v-deep
+    .el-input__suffix
+      @apply hidden
+    .el-input__inner
+      padding: 0 15px
+</style>

@@ -35,7 +35,7 @@ class Profile extends Model implements HasMedia
         'is_visible',
         'disponibilities',
         'description',
-        'commitment__hours',
+        'commitment__duration',
         'commitment__time_period',
         'type',
         'user_id',
@@ -398,14 +398,14 @@ class Profile extends Model implements HasMedia
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
-            $this->commitment__hours,
+            $this->commitment__duration,
             $this->commitment__time_period
         );
     }
 
-    public function scopeMinimumCommitment($query, $hours, $time_period = null)
+    public function scopeMinimumCommitment($query, $duration, $time_period = null)
     {
-        $total = Utils::calculateCommitmentTotal($hours, $time_period);
+        $total = Utils::calculateCommitmentTotal($duration, $time_period);
         return $query->where('commitment__total', '>=', $total);
     }
 }

@@ -101,11 +101,17 @@
             </template>
             <template v-else> N/A </template>
           </VoletRowItem>
-          <VoletRowItem v-if="profile.commitment__hours" label="Engagement">
-            {{ profile.commitment__hours }} heures par
-            {{
-              profile.commitment__time_period | labelFromValue('time_period')
-            }}
+          <VoletRowItem v-if="profile.commitment__duration" label="Engagement">
+            {{ profile.commitment__duration | labelFromValue('duration') }}
+            <template v-if="profile.commitment__time_period">
+              <span>par</span>
+              <span>
+                {{
+                  profile.commitment__time_period
+                    | labelFromValue('time_period')
+                }}
+              </span>
+            </template>
           </VoletRowItem>
           <VoletRowItem label="Crée le">{{
             profile.created_at | formatMediumWithTime

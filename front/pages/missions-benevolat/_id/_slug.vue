@@ -181,7 +181,10 @@
                     text-white
                   "
                 >
-                  {{ publicBeneficiaire }}
+                  {{
+                    publicBeneficiaire
+                      | labelFromValue('mission_publics_beneficiaires')
+                  }}
                 </div>
               </div>
 
@@ -582,7 +585,7 @@
                 </div>
 
                 <div class="mx-8 sm:mx-12">
-                  <div v-if="mission.commitment__hours" class="text-center">
+                  <div v-if="mission.commitment__duration" class="text-center">
                     <div
                       class="mt-6 uppercase text-gray-777E90 text-xs font-bold"
                     >
@@ -590,10 +593,9 @@
                     </div>
                     <div class="font-bold">
                       <span>
-                        {{ mission.commitment__hours }}
                         {{
-                          mission.commitment__hours
-                            | pluralize(['heure', 'heures'])
+                          mission.commitment__duration
+                            | labelFromValue('duration')
                         }}
                       </span>
                       <template v-if="mission.commitment__time_period">

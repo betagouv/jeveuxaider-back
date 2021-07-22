@@ -48,7 +48,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'domaines' => '',
             'skills' => '',
             'type' => '',
-            'commitment__hours' => '',
+            'commitment__duration' => '',
             'commitment__time_period' => '',
         ];
 

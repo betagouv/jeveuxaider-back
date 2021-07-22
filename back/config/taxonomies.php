@@ -789,6 +789,25 @@ return [
         ]
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | DURÉE
+    |--------------------------------------------------------------------------
+    |
+    */
+    'duration' => [
+        "vocabulary" => "Durée",
+        "terms" => [
+            "1_hour" => "1 heure",
+            "2_hours" => "2 heures",
+            "half_day" => "Une demi journée",
+            "day" => "1 jour",
+            "3_days" => "3 jours",
+            "5_days" => "5 jours",
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | FRÉQUENCE D'ENGAGEMENT
@@ -798,7 +817,6 @@ return [
     'time_period' => [
         "vocabulary" => "Période de temps",
         "terms" => [
-            "day" => "jour",
             "week" => "semaine",
             "month" => "mois",
             "year" => "an"

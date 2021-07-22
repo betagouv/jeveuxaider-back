@@ -133,9 +133,16 @@
         <VoletRowItem v-if="mission.end_date" label="Fin">
           {{ mission.end_date | formatLongWithTime }}
         </VoletRowItem>
-        <VoletRowItem v-if="mission.commitment__hours" label="Engag. min.">
-          {{ mission.commitment__hours }} heures par
-          {{ mission.commitment__time_period | labelFromValue('time_period') }}
+        <VoletRowItem v-if="mission.commitment__duration" label="Engag. min.">
+          {{ mission.commitment__duration | labelFromValue('duration') }}
+          <template v-if="mission.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                mission.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
         </VoletRowItem>
         <VoletRowItem v-if="mission.domaine_name" label="Domaine">
           {{ mission.domaine_name }}
