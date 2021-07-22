@@ -226,4 +226,9 @@ class User extends Authenticatable
             ->count();
         return $result;
     }
+
+    public function activities()
+    {
+        return $this->morphMany('App\Models\Activity', 'causer');
+    }
 }

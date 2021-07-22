@@ -15,7 +15,7 @@ use App\Models\User;
 
 Route::get('api/api-engagement/flux', 'Api\EngagementController@feed');
 
-Route::get('test', function() {
+Route::get('test', function () {
 
     $user = User::find(2);
 

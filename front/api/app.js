@@ -216,6 +216,18 @@ export default (axios) => ({
   async chartCollectivityCreated(id, params) {
     return await axios.get(`/collectivity/${id}/charts/created`, { params })
   },
+  async fetchTopitoBenevolesDuMoment(params) {
+    return await axios.get('/topito/benevoles-du-moment', { params })
+  },
+  async fetchTopitoUtilisateursLesPlusActifs(params) {
+    return await axios.get('/topito/utilisateurs-les-plus-actifs', { params })
+  },
+  async fetchTopitoOrganisationsMissions(params) {
+    return await axios.get('/topito/organisations-missions', { params })
+  },
+  async fetchTopitoOrganisationsParticipations(params) {
+    return await axios.get('/topito/organisations-participations', { params })
+  },
 })
 
 // async bootstrap() {

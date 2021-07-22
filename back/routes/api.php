@@ -210,6 +210,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
+    Route::get('topito/benevoles-du-moment', 'Api\TopitoController@benevolesDuMoment');
+    Route::get('topito/utilisateurs-les-plus-actifs', 'Api\TopitoController@utilisateursLesPlusActifs');
+    Route::get('topito/organisations-missions', 'Api\TopitoController@organisationsMissions');
+    Route::get('topito/organisations-participations', 'Api\TopitoController@organisationsParticipations');
+
     Route::post('structure/{structure}/push-api-engagement', 'Api\StructureController@pushApiEngagement');
     Route::get('structures-without-rna', 'Api\RnaController@index');
     Route::post('structure/{structure}/rna', 'Api\RnaController@assign');
