@@ -24,7 +24,10 @@
             <div class="text-sm font-medium text-gray-900">
               {{ item.profile.full_name }}
             </div>
-            <div class="text-sm text-gray-500">{{ item.count }} actions</div>
+            <div class="text-sm text-gray-500">
+              {{ item.count | formatNumber }}
+              {{ item.count | pluralize(['action', 'actions']) }}
+            </div>
           </div>
         </div>
         <div class="text-gray-400 font-bold text-sm">

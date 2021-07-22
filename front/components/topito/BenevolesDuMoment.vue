@@ -25,7 +25,8 @@
               {{ item.full_name }}
             </div>
             <div class="text-sm text-gray-500">
-              {{ item.count }} candidatures
+              {{ item.count | formatNumber }}
+              {{ item.count | pluralize(['candidature', 'candidatures']) }}
             </div>
           </div>
         </div>
