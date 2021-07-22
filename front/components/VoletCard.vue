@@ -2,11 +2,6 @@
   <div>
     <div class="flex justify-between items-end mb-1">
       <div class="flex space-x-2 justify-center">
-        <!-- <div
-          v-if="icon"
-          class="flex-shrink-0 h-5 w-5 text-gray-900"
-          v-html="icon"
-        /> -->
         <div class="text-lg font-medium">{{ label }}</div>
       </div>
       <router-link
@@ -17,11 +12,24 @@
         {{ linkLabel }}
       </router-link>
     </div>
-    <el-card shadow="never" class="overflow-visible">
-      <div class="flex flex-col space-y-2 text-xs text-gray-500">
-        <slot></slot>
+    <template v-if="cardLink">
+      <router-link
+        :to="cardLink"
+        target="_blank"
+        class="rounded bg-white p-4 border-blue-800 border-2 block"
+      >
+        <div class="flex flex-col space-y-2 text-xs text-gray-500">
+          <slot></slot>
+        </div>
+      </router-link>
+    </template>
+    <template v-else>
+      <div class="rounded bg-white p-4 border border-gray-200">
+        <div class="flex flex-col space-y-2 text-xs text-gray-500">
+          <slot></slot>
+        </div>
       </div>
-    </el-card>
+    </template>
   </div>
 </template>
 
@@ -43,13 +51,15 @@ export default {
       default: 'Accéder à la fiche',
       required: false,
     },
-    icon: {
-      type: String,
-      default: null,
-      required: false,
+    cardLink: {
+      type: [String, Boolean],
+      default: false,
     },
   },
 }
 </script>
 
-<style></style>
+<style lang="sass">
+.card-link
+  @apply border border-blue-800
+</style>
