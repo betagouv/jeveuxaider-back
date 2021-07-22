@@ -16,7 +16,7 @@
       <router-link
         :to="cardLink"
         target="_blank"
-        class="rounded bg-white p-4 border-blue-800 border-2 block"
+        class="rounded bg-white p-4 border-blue-800 border block shadow-lg"
       >
         <div class="flex flex-col space-y-2 text-xs text-gray-500">
           <slot></slot>
