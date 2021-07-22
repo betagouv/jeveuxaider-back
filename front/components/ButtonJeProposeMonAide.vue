@@ -40,6 +40,10 @@ export default {
       type: Object,
       required: true,
     },
+    additionalBtnClasses: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {}
@@ -48,7 +52,7 @@ export default {
     btnClasses() {
       const classes =
         'max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:scale-105 focus:outline-none focus:scale-105 transition duration-150 ease-in-out font-extrabold text-xl px-5 py-3 pb-4 transform will-change-transform'
-      return classes
+      return [classes, this.additionalBtnClasses].join(' ')
     },
     hasParticipation() {
       return this.$store.getters.isLogged && this.$store.getters.profile

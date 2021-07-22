@@ -27,7 +27,6 @@
             h1: true,
           },
         ]"
-        style="filter: drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 1px)"
       />
 
       <div class="container mx-auto px-4">
@@ -37,43 +36,9 @@
               class="bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
             >
               <div
-                class="
-                  flex flex-wrap
-                  lg:flex-no-wrap
-                  gap-6
-                  justify-between
-                  items-center
-                  lg:items-start
-                "
+                class="flex gap-4 sm:gap-6 justify-between items-start relative"
               >
-                <div
-                  class="
-                    flex-none
-                    rounded-full
-                    h-8
-                    w-8
-                    flex
-                    items-center
-                    justify-center
-                    p-2
-                    border-2
-                    transform
-                    will-change-transform
-                    hover:scale-110
-                    focus:scale-110
-                    focus:outline-none
-                    transition
-                    ease-in-out
-                    duration-150
-                    cursor-pointer
-                    sm:order-2
-                  "
-                  @click="onClickShare"
-                >
-                  <img src="/images/share.svg" alt="Partager" class="-ml-px" />
-                </div>
-
-                <div class="sm:order-1 flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2">
                   <div
                     v-for="(tag, index) in domains"
                     :key="index"
@@ -102,6 +67,36 @@
                     </template>
                   </div>
                 </div>
+
+                <div
+                  class="
+                    absolute
+                    sm:static
+                    bg-white
+                    flex-none
+                    rounded-full
+                    h-8
+                    w-8
+                    flex
+                    items-center
+                    justify-center
+                    p-2
+                    border-2
+                    transform
+                    will-change-transform
+                    hover:scale-110
+                    focus:scale-110
+                    focus:outline-none
+                    transition
+                    ease-in-out
+                    duration-150
+                    cursor-pointer
+                  "
+                  style="right: -8px; top: -46px"
+                  @click="onClickShare"
+                >
+                  <img src="/images/share.svg" alt="Partager" class="-ml-px" />
+                </div>
               </div>
 
               <h1
@@ -120,7 +115,7 @@
                 {{ mission.name }}
               </h1>
 
-              <div class="mt-2 mb-5 text-sm text-gray-777E90 font-medium">
+              <div class="mt-2 mb-5 text-base text-gray-777E90 font-medium">
                 <span>Publié par </span>
                 <img
                   v-if="mission.responsable.image"
@@ -207,7 +202,7 @@
                 </div>
 
                 <div
-                  class="text-sm text-gray-777E90"
+                  class="text-gray-777E90"
                   v-html="
                     mission.skills
                       .map((skill) => skill.name.fr)
@@ -242,10 +237,7 @@
                   "
                 >
                   <div class="uppercase font-bold" style="color: #393939">
-                    <template v-if="mission.type == 'Mission en présentiel'">
-                      Mission sur le terrain
-                    </template>
-                    <template v-else> Mission à distance </template>
+                    Mission sur le terrain
                   </div>
                   <div class="text-gray-777E90">
                     📍 {{ mission.full_address }}
@@ -265,7 +257,9 @@
                   <div class="absolute inset-0 custom-gradient-2"></div>
 
                   <div class="text-white relative px-6 xl:px-16 py-8">
-                    <div class="font-extrabold text-lg">Mission à distance</div>
+                    <div class="font-extrabold text-2xl mb-2">
+                      Mission à distance
+                    </div>
                     <div>
                       Réalisez cette mission de bénévolat<br />
                       <strong>depuis chez vous</strong> ou
@@ -288,7 +282,7 @@
                 xl:px-16
               "
             >
-              <div class="font-extrabold text-lg tracking-px mb-4">
+              <div class="font-extrabold text-xl mb-4">
                 Présentation de la mission
               </div>
 
@@ -320,9 +314,7 @@
                 </div>
               </div>
 
-              <div class="font-extrabold text-lg tracking-px mb-4 mt-10">
-                Précisions
-              </div>
+              <div class="font-extrabold text-xl mb-4 mt-10">Précisions</div>
 
               <div
                 class="text-gray-777E90 leading-7"
@@ -365,7 +357,7 @@
                     v-html="iconPublicType(public_volontaire)"
                   />
 
-                  <div class="text-sm text-gray-777E90">
+                  <div class="text-gray-777E90">
                     {{ public_volontaire }}
                   </div>
                 </div>
@@ -384,7 +376,9 @@
                 xl:px-16
               "
             >
-              <div class="flex flex-col sm:flex-row gap-6">
+              <div
+                class="flex flex-col sm:flex-row gap-6 text-center sm:text-left"
+              >
                 <img
                   v-if="structure.logo"
                   :src="structure.logo.original"
@@ -394,7 +388,7 @@
                 />
 
                 <div>
-                  <h2 class="font-bold text-xl tracking-px mb-4">
+                  <h2 class="font-bold text-2xl tracking-px mb-4">
                     Découvrez {{ structureType }}
                     <component
                       :is="
@@ -418,6 +412,14 @@
                       class="text-gray-777E90 leading-7"
                     >
                       {{ structure.description }}
+                      <template slot="after" slot-scope="{ clamped, toggle }">
+                        <span
+                          v-if="clamped"
+                          class="hover:underline ml-1 cursor-pointer"
+                          @click="toggle"
+                          >Lire plus</span
+                        >
+                      </template>
                     </v-clamp>
                   </client-only>
 
@@ -458,8 +460,8 @@
               style="top: 24px"
             >
               <img
-                :src="thumbnail.default"
-                :srcset="`${thumbnail.x2} 2x`"
+                :src="illustration.default"
+                :srcset="illustration.x2"
                 alt=""
                 class="w-full object-cover object-top"
                 style="max-height: 210px"
@@ -474,7 +476,7 @@
                   :src="structure.logo.original"
                   :alt="structure.name"
                   class="my-auto h-10 object-contain"
-                  style="max-width: 100px"
+                  style="max-width: 120px"
                 />
               </div>
 
@@ -507,11 +509,11 @@
                       <img
                         v-for="(portrait, index) in portraits"
                         :key="index"
-                        :src="portrait.src"
-                        :srcset="`${portrait.x2} 2x`"
+                        :src="portrait"
                         alt=""
                         :class="[{ '-ml-1': index !== 0 }]"
-                        class="portrait"
+                        class="portrait rounded-full"
+                        style="width: 34px"
                       />
                       <div
                         v-if="participationsCount - 3 > 0"
@@ -527,42 +529,46 @@
                           -ml-1
                         "
                       >
-                        +{{ participationsCount - 3 }}
+                        {{ formattedBenevoleCount }}
                       </div>
                     </div>
                   </template>
                 </div>
 
-                <div class="px-8 sm:px-32 lg:px-8 mt-8">
+                <div class="px-8 sm:px-32 lg:px-8 mt-4 sm:mt-8">
                   <div
                     v-if="dates"
-                    class="grid sm:divide-x border-b"
+                    class="grid sm:divide-x border-b pb-3 sm:pb-0"
                     :class="[{ 'sm:grid-cols-2': dates.length == 2 }]"
                   >
                     <div
                       v-for="(date, i) in dates"
                       :key="i"
+                      class="mx-auto sm:mx-0 sm:pb-3"
                       :class="[{ 'sm:pr-3': i == 0 }, { 'sm:pl-3': i == 1 }]"
-                      class="pb-3 mx-auto sm:mx-0"
                     >
                       <div
-                        class="
-                          flex
-                          items-center
-                          sm:items-start
-                          flex-col
-                          sm:flex-row
-                          gap-2
-                        "
+                        class="flex items-center flex-col sm:flex-row gap-2"
                         :class="[{ 'justify-center': dates.length == 1 }]"
                       >
                         <img
                           src="/images/calendar.svg"
                           alt="Icône calendrier"
-                          :class="[{ 'hidden sm:block': i == 1 }]"
+                          class="hidden sm:block"
+                          style="margin-bottom: 4px"
                         />
 
-                        <div class="font-bold text-center sm:text-left">
+                        <div
+                          class="
+                            font-bold
+                            text-center
+                            sm:text-left
+                            flex
+                            gap-2
+                            items-baseline
+                            sm:block
+                          "
+                        >
                           <div class="text-gray-777E90" style="font-size: 11px">
                             {{ date.label }}
                           </div>
@@ -602,7 +608,11 @@
                     </div>
                   </div>
 
-                  <ButtonJeProposeMonAide class="mt-6" :mission="mission" />
+                  <ButtonJeProposeMonAide
+                    class="mt-6"
+                    additional-btn-classes="shadow-xl"
+                    :mission="mission"
+                  />
                 </div>
               </div>
             </div>
@@ -792,7 +802,7 @@ export default {
     portraits() {
       const portraits = []
       const randomNumbers = []
-      const portraitsCount = 5 // The total number of portraits existing
+      const portraitsCount = 74 // The total number of portraits existing
       const portraitsToGetCount = Math.min(this.participationsCount, 3)
 
       while (randomNumbers.length < portraitsToGetCount) {
@@ -803,10 +813,7 @@ export default {
       }
 
       randomNumbers.forEach((i) => {
-        portraits.push({
-          src: `/images/portraits/${i}.png`,
-          x2: `/images/portraits/${i}@2x.png`,
-        })
+        portraits.push(`/images/portraits/${i}.png`)
       })
 
       return portraits
@@ -821,6 +828,11 @@ export default {
         startDate && endDate && startDateYear != endDateYear
           ? 'D MMMM YYYY'
           : 'D MMMM'
+
+      // Si date de départ dépassée et pas de date de fin, masquer les dates
+      if (this.$dayjs(startDate).isBefore(this.$dayjs())) {
+        return dates
+      }
 
       if (startDate) {
         dates.push({
@@ -850,6 +862,32 @@ export default {
     },
     domains() {
       return [this.domainName, this.secondaryDomainName].filter((el) => el)
+    },
+    formattedBenevoleCount() {
+      const count = this.participationsCount - 3
+      return count < 1000 ? `+${count}` : `+1k`
+    },
+    illustration() {
+      let illustration = {}
+      if (this.structure.statut_juridique == 'Association') {
+        if (this.structure?.override_image_1?.original) {
+          illustration = {
+            default:
+              this.structure?.override_image_1?.large ??
+              this.structure?.override_image_1?.original,
+            x2: null,
+          }
+        } else {
+          illustration = {
+            default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
+            x2: `/images/organisations/domaines/${this.structure.image_1}@2x.jpg 2x`,
+          }
+        }
+      } else {
+        return this.thumbnail
+      }
+
+      return illustration
     },
   },
   created() {

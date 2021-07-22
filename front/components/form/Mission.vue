@@ -596,7 +596,11 @@
           :loading="loading"
           class="el-button--submit"
           @click="
-            onSubmit(form.template_id ? 'Validée' : 'En attente de validation')
+            onSubmit(
+              form.state == 'Validée' || form.template_id
+                ? 'Validée'
+                : 'En attente de validation'
+            )
           "
         >
           <template
@@ -607,6 +611,11 @@
             "
           >
             Soumettre à validation
+          </template>
+          <template
+            v-else-if="form.template_id && ['Brouillon'].includes(form.state)"
+          >
+            Enregistrer et publier
           </template>
           <template v-else> Enregistrer </template>
         </el-button>
@@ -827,11 +836,9 @@ export default {
       this.loading = true
       this.$refs.missionForm.validate((valid, fields) => {
         if (valid) {
-          this.form.state = state
-
           if (this.mission.id) {
             this.$api
-              .updateMission(this.mission.id, this.form)
+              .updateMission(this.mission.id, { ...this.form, state })
               .then(() => {
                 this.loading = false
                 this.$router.go(-1)
@@ -844,7 +851,7 @@ export default {
               })
           } else if (this.structureId) {
             this.$api
-              .addStructureMission(this.structureId, this.form)
+              .addStructureMission(this.structureId, { ...this.form, state })
               .then(() => {
                 this.loading = false
                 this.$router.push(

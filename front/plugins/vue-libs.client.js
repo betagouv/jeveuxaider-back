@@ -3,6 +3,7 @@ import VueTypedJs from 'vue-typed-js'
 import VScrollLock from 'v-scroll-lock'
 import Vue2Filters from 'vue2-filters'
 import VClamp from 'vue-clamp'
+import lineClamp from 'vue-line-clamp'
 import PortalVue from 'portal-vue'
 import VTooltip from 'v-tooltip'
 import vClickOutside from 'v-click-outside'
@@ -40,3 +41,5 @@ Vue.use(VueTheMask)
 
 Vue.component('VClamp', VClamp)
 Vue.component('Nl2br', Nl2br)
+
+Vue.use(lineClamp)
