@@ -1,5 +1,5 @@
 <template>
-  <CardTopito title="Bénévole du moment" :loading="loading">
+  <CardTopito title="Bénévoles du moment" :loading="loading">
     <ul v-if="items.length" class="divide-y divide-gray-200">
       <router-link
         v-for="(item, index) in items"

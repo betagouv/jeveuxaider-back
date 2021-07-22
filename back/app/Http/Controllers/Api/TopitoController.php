@@ -57,8 +57,6 @@ class TopitoController extends Controller
     public function benevolesDuMoment(Request $request)
     {
 
-        ray($request->input('daterange'));
-
         $results = DB::select("
             SELECT participations.profile_id, COUNT(*) AS count FROM participations
             WHERE participations.deleted_at IS NULL
