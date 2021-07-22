@@ -36,6 +36,22 @@ class TopitoController extends Controller
             $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
         }
+        if ($request->input('daterange') == 'current-year') {
+            $this->year = date('Y');
+            $this->date = Carbon::parse($this->year."-01-01");
+            $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
+            $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
+        }
+        if ($request->input('daterange') == 'last-year') {
+            $this->year = date('Y') - 1;
+            $this->date = Carbon::parse($this->year."-01-01");
+            $this->startDate = $this->date->startOfYear()->format('Y-m-d H:i:s');
+            $this->endDate = $this->date->endOfYear()->format('Y-m-d H:i:s');
+        }
+        if ($request->input('daterange') == 'all') {
+            $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
+            $this->endDate = Carbon::create(3000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
+        }
     }
 
     public function benevolesDuMoment(Request $request)

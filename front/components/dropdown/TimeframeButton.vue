@@ -35,6 +35,10 @@ export default {
           key: 'last-year',
           label: "L'année dernière",
         },
+        {
+          key: 'all',
+          label: 'Depuis le début',
+        },
       ],
     }
   },
