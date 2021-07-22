@@ -289,10 +289,18 @@
                 Présentation de la mission
               </div>
 
-              <h2
-                class="wysiwyg-field text-gray-777E90 leading-7"
-                v-html="mission.objectif"
-              />
+              <client-only>
+                <ReadMore
+                  tag="h2"
+                  more-str="Lire plus"
+                  :text="mission.objectif"
+                  :max-chars="300"
+                  class="wysiwyg-field text-gray-777E90 leading-7"
+                />
+                <template slot="placeholder">
+                  <div v-html="mission.objectif" />
+                </template>
+              </client-only>
 
               <div
                 v-if="mission.information"
@@ -319,10 +327,17 @@
 
               <div class="font-extrabold text-xl mb-4 mt-10">Précisions</div>
 
-              <div
-                class="wysiwyg-field text-gray-777E90 leading-7"
-                v-html="mission.description"
-              />
+              <client-only>
+                <ReadMore
+                  more-str="Lire plus"
+                  :text="mission.description"
+                  :max-chars="300"
+                  class="wysiwyg-field text-gray-777E90 leading-7"
+                />
+                <template slot="placeholder">
+                  <div v-html="mission.description" />
+                </template>
+              </client-only>
 
               <div
                 v-if="
@@ -467,7 +482,7 @@
                 :srcset="illustration.x2"
                 alt=""
                 class="w-full object-cover object-top"
-                style="max-height: 210px"
+                style="min-height: 180px"
                 @error="defaultThumbnail($event)"
               />
 
