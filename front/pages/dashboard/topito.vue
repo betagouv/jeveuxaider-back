@@ -38,7 +38,8 @@ export default {
     }
   },
   methods: {
-    onChangeTimeframe(filter) {
+    onChangeTimeframe(value) {
+      const filter = { daterange: value }
       this.$refs.benevolesDuMoment.fetch(filter)
       this.$refs.utilisateursLesPlusActifs.fetch(filter)
       this.$refs.organisationsMissions.fetch(filter)
