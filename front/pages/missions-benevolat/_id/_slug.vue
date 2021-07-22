@@ -181,10 +181,7 @@
                     text-white
                   "
                 >
-                  {{
-                    publicBeneficiaire
-                      | labelFromValue('mission_publics_beneficiaires')
-                  }}
+                  {{ publicBeneficiaire }}
                 </div>
               </div>
 
@@ -376,7 +373,10 @@
                   />
 
                   <div class="text-gray-777E90">
-                    {{ public_volontaire }}
+                    {{
+                      public_volontaire
+                        | labelFromValue('mission_publics_volontaires')
+                    }}
                   </div>
                 </div>
               </div>
