@@ -66,7 +66,7 @@ export default {
     isResponsableOfMission() {
       return this.$store.getters.isLogged && this.$store.getters.profile
         ? this.$store.getters.profile.id == this.mission.responsable_id
-        : true
+        : false
     },
     isAlreadyRegistered() {
       return this.hasParticipation.length > 0
