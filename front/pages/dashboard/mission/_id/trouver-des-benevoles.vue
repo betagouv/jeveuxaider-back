@@ -299,6 +299,10 @@ export default {
     }
     const mission = await $api.getMission(params.id)
 
+    if (!mission?.permissions?.canFindBenevoles) {
+      return error({ statusCode: 403 })
+    }
+
     if (store.getters.contextRole == 'responsable') {
       if (store.getters.structure.id != mission.structure_id) {
         return error({ statusCode: 403 })
