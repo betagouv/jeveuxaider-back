@@ -1,10 +1,19 @@
 <template>
   <CardTopito title="Utilisateurs les plus actifs" :loading="loading">
     <ul v-if="items.length" class="divide-y divide-gray-200">
-      <li
+      <router-link
         v-for="(item, index) in items"
         :key="item.id"
-        class="p-4 flex justify-between items-center"
+        class="
+          p-4
+          flex
+          justify-between
+          items-center
+          hover:bg-gray-50
+          cursor-pointer
+        "
+        :to="`/dashboard/profile/${item.profile.id}`"
+        target="_blank"
       >
         <div class="flex">
           <Avatar
@@ -21,7 +30,7 @@
         <div class="text-gray-400 font-bold text-sm">
           {{ index + 1 }}
         </div>
-      </li>
+      </router-link>
     </ul>
   </CardTopito>
 </template>

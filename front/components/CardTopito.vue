@@ -2,7 +2,11 @@
   <div class="">
     <div class="text-lg font-bold uppercase">{{ title }}</div>
     <div class="border border-gray-200 rounded-lg">
-      <template v-if="loading">Loading...</template>
+      <template v-if="loading">
+        <div class="py-24 flex items-center justify-center">
+          <IconSpin class="animate-spin h-10 w-10 text-gray-400" />
+        </div>
+      </template>
       <template v-else>
         <slot></slot>
       </template>
@@ -11,7 +15,12 @@
 </template>
 
 <script>
+import IconSpin from '@/components/icons/IconSpin'
+
 export default {
+  components: {
+    IconSpin,
+  },
   props: {
     title: {
       type: String,
