@@ -1,6 +1,6 @@
 <template>
   <div
-    class="header px-12 flex"
+    class="header px-12 flex items-start"
     :class="{ 'mb-8': $store.getters.contextRole == 'responsable' }"
   >
     <div class="header-titles flex-1">

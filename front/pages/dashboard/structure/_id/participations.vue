@@ -1,6 +1,25 @@
 <template>
   <div class="has-full-table">
-    <HeaderOrganisation :structure="structure" />
+    <HeaderOrganisation :structure="structure">
+      <template
+        v-if="
+          $store.getters.contextRole == 'responsable' &&
+          $store.getters.reminders &&
+          $store.getters.reminders.participations > 0
+        "
+        #action
+      >
+        <el-button
+          type="primary"
+          :loading="loadingButton"
+          @click="onMassValidation"
+        >
+          Valider toutes les participations en attente ({{
+            $store.getters.reminders.participations
+          }})
+        </el-button>
+      </template>
+    </HeaderOrganisation>
     <NavTabStructure
       v-if="$store.getters.contextRole != 'responsable'"
       :structure="structure"
