@@ -318,7 +318,18 @@
                 />
 
                 <div class="relative z-10 citation text-lg">
-                  <h3 class="wysiwyg-field" v-html="mission.information" />
+                  <client-only>
+                    <ReadMore
+                      tag="h3"
+                      more-str="Lire plus"
+                      :text="mission.information"
+                      :max-chars="300"
+                      class="wysiwyg-field"
+                    />
+                    <template slot="placeholder">
+                      <div v-html="mission.information" />
+                    </template>
+                  </client-only>
                 </div>
               </div>
 
@@ -395,7 +406,14 @@
               "
             >
               <div
-                class="flex flex-col sm:flex-row gap-6 text-center sm:text-left"
+                class="
+                  flex flex-col
+                  sm:flex-row
+                  gap-6
+                  xl:gap-8
+                  text-center
+                  sm:text-left
+                "
               >
                 <img
                   v-if="structure.logo"
@@ -555,7 +573,7 @@
 
                 <div class="px-8 sm:px-32 lg:px-8 mt-4 sm:mt-8">
                   <div
-                    v-if="dates"
+                    v-if="dates.length"
                     class="grid sm:divide-x border-b pb-3 sm:pb-0"
                     :class="[{ 'sm:grid-cols-2': dates.length == 2 }]"
                   >
@@ -847,7 +865,7 @@ export default {
           : 'D MMMM'
 
       // Si date de départ dépassée et pas de date de fin, masquer les dates
-      if (this.$dayjs(startDate).isBefore(this.$dayjs())) {
+      if (this.$dayjs(startDate).isBefore(this.$dayjs()) && !endDate) {
         return dates
       }
 
@@ -945,7 +963,7 @@ export default {
           icon = require('@/assets/images/icones/tous_public.svg?include')
           break
         case 'Mineurs':
-          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
+          icon = require('@/assets/images/icones/mineur.svg?include')
           break
       }
 
