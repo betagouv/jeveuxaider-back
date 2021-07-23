@@ -220,7 +220,8 @@ class Mission extends Model
     public function getScoreAttribute()
     {
         // Score = ( Taux de reponse score + Response time score ) / 2
-        return round(($this->structure->response_time_score + $this->structure->response_ratio) / 2);
+        $structure_response_ratio = $this->structure->response_ratio ?? 50;
+        return round(($this->structure->response_time_score + $structure_response_ratio) / 2);
     }
 
 

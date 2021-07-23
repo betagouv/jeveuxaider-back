@@ -371,15 +371,7 @@ class Structure extends Model implements HasMedia
 
         return $this;
     }
-
-    public function getResponseRatioAttribute($response_ratio)
-    {
-        if ($response_ratio == null) {
-            return 50;
-        }
-        return $response_ratio;
-    }
-
+    
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations->avg('response_time');
