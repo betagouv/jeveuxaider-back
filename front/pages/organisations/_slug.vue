@@ -538,8 +538,12 @@
 <script>
 export default {
   layout: 'organisation',
-  async asyncData({ $api, params, error }) {
-    const organisation = await $api.getAssociationBySlug(params.slug)
+  async asyncData({ $api, params, error, redirect }) {
+    const organisation = await $api.getAssociationBySlugOrId(params.slug)
+    if (/^\d+$/.test(params.slug)) {
+      // Redirect orga/id vers orga/slug
+      redirect(301, `/organisations/${organisation.slug}`)
+    }
 
     if (!organisation) {
       return error({ statusCode: 404 })
@@ -575,7 +579,7 @@ export default {
       link: [
         {
           rel: 'canonical',
-          href: `https://www.jeveuxaider.gouv.fr/organisation/${this.organisation.id}`,
+          href: `https://www.jeveuxaider.gouv.fr/organisation/${this.organisation.slug}`,
         },
       ],
       meta: [

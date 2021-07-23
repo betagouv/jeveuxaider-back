@@ -29,8 +29,8 @@ export default (axios) => ({
     const { data } = await axios.get(`/structure/${id}`)
     return data
   },
-  async getAssociationBySlug(slug) {
-    const { data } = await axios.get(`/association/${slug}`)
+  async getAssociationBySlugOrId(slugOrId) {
+    const { data } = await axios.get(`/association/${slugOrId}`)
     return data
   },
   async addOrUpdateStructure(id, structure) {

@@ -39,40 +39,14 @@
                 <div class="-m-2 flex flex-wrap">
                   <span
                     v-if="domainName(mission)"
-                    class="
-                      m-2
-                      inline-flex
-                      px-3
-                      py-1
-                      rounded-full
-                      text-sm
-                      leading-5
-                      font-semibold
-                      tracking-wide
-                      uppercase
-                      bg-indigo-100
-                      text-blue-900
-                    "
+                    class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-900"
                     >{{ domainName(mission) }}</span
                   >
                   <template v-if="mission.tags">
                     <span
                       v-for="tag in mission.tags"
                       :key="tag.id"
-                      class="
-                        m-2
-                        inline-flex
-                        px-3
-                        py-1
-                        rounded-full
-                        text-sm
-                        leading-5
-                        font-semibold
-                        tracking-wide
-                        uppercase
-                        bg-gray-100
-                        text-gray-900
-                      "
+                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-gray-100 text-gray-900"
                     >
                       {{ tag.name.fr }}
                     </span>
@@ -81,16 +55,7 @@
               </div>
 
               <h2
-                class="
-                  mt-4
-                  pb-3
-                  text-2xl
-                  sm:text-4xl
-                  leading-7
-                  sm:leading-10
-                  font-bold
-                  text-gray-900
-                "
+                class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
               >
                 {{ mission.name }}
               </h2>
@@ -208,15 +173,7 @@
             </div>
 
             <div
-              class="
-                aside
-                text-center
-                bg-blue-800
-                rounded-b-lg
-                lg:rounded-b-none lg:rounded-r-lg
-                lg:flex-shrink-0 lg:flex lg:flex-col
-                lg:justify-center
-              "
+              class="aside text-center bg-blue-800 rounded-b-lg lg:rounded-b-none lg:rounded-r-lg lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center"
             >
               <div class="py-8 px-6 lg:p-12">
                 <div
@@ -229,19 +186,7 @@
                 />
 
                 <div
-                  class="
-                    inline-flex
-                    px-5
-                    py-1
-                    rounded-full
-                    text-sm
-                    leading-5
-                    font-semibold
-                    tracking-wide
-                    uppercase
-                    bg-indigo-100
-                    text-blue-800
-                  "
+                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
                 >
                   <template v-if="mission.has_places_left === true">
                     {{ mission.places_left | formatNumber }}
@@ -267,16 +212,7 @@
                 </div>
 
                 <div
-                  class="
-                    mt-4
-                    flex
-                    items-center
-                    justify-center
-                    text-5xl
-                    leading-none
-                    font-extrabold
-                    text-gray-900
-                  "
+                  class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
                 />
 
                 <div class="mt-6">
@@ -293,17 +229,7 @@
 
                 <template v-if="mission.state && mission.state == 'Validée'">
                   <div
-                    class="
-                      mt-8
-                      lg:mt-12
-                      block
-                      text-center text-sm
-                      leading-2
-                      font-medium
-                      text-indigo-300
-                      max-w-xs
-                      mx-auto
-                    "
+                    class="mt-8 lg:mt-12 block text-center text-sm leading-2 font-medium text-indigo-300 max-w-xs mx-auto"
                   >
                     À plusieurs on est meilleur ! Et si vous partagiez cette
                     mission à votre entourage ?
@@ -412,32 +338,13 @@
             </svg>
           </div>
           <h3
-            class="
-              z-10
-              relative
-              text-2xl
-              leading-8
-              font-bold
-              tracking-tight
-              text-gray-900
-              sm:text-4xl
-              sm:leading-10
-            "
+            class="z-10 relative text-2xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
           >
             Le mot de l'organisation
           </h3>
 
           <div
-            class="
-              mt-4
-              relative
-              max-w-4xl
-              text-xl
-              sm:text-2xl
-              leading-9
-              text-gray-500
-              lg:mx-auto
-            "
+            class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-9 text-gray-500 lg:mx-auto"
           >
             <client-only>
               <ReadMore
@@ -458,7 +365,6 @@
                   structure.statut_juridique == 'Association' &&
                   structure.state == 'Validée'
                 "
-                target="_blank"
                 :to="`/organisations/${structure.slug}`"
               >
                 <b class="text-blue-800">
@@ -479,16 +385,7 @@
             <div class="flex">
               <div class="flex-shrink-0">
                 <div
-                  class="
-                    flex-shrink-0
-                    h-12
-                    w-12
-                    flex
-                    items-center
-                    justify-center
-                    bg-blue-800
-                    rounded-lg
-                  "
+                  class="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-blue-800 rounded-lg"
                 >
                   <svg
                     class="h-6 w-6 text-white"
@@ -529,16 +426,7 @@
             <div class="flex">
               <div class="flex-shrink-0">
                 <div
-                  class="
-                    flex-shrink-0
-                    h-12
-                    w-12
-                    flex
-                    items-center
-                    justify-center
-                    bg-blue-800
-                    rounded-lg
-                  "
+                  class="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-blue-800 rounded-lg"
                 >
                   <svg
                     class="h-6 w-6 text-white"
@@ -616,30 +504,12 @@
 
         <div class="text-center pb-20">
           <h2
-            class="
-              text-4xl
-              leading-9
-              font-bold
-              tracking-tight
-              text-gray-900
-              sm:text-5xl
-              sm:leading-10
-            "
+            class="text-4xl leading-9 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-10"
           >
             Prêt à rejoindre le mouvement&nbsp;?
           </h2>
           <p
-            class="
-              mt-4
-              relative
-              max-w-4xl
-              text-xl
-              sm:text-2xl
-              leading-7
-              sm:leading-9
-              text-gray-500
-              lg:mx-auto
-            "
+            class="mt-4 relative max-w-4xl text-xl sm:text-2xl leading-7 sm:leading-9 text-gray-500 lg:mx-auto"
           >
             Inscrivez-vous à la mission et l'organisation vous recontactera dans
             les plus brefs délais. Vous pourrez aussi échanger avec elle pour
@@ -680,28 +550,13 @@
             class="border-t border-gray-200"
           >
             <nuxt-link
-              class="
-                block
-                hover:bg-gray-50
-                focus:bg-gray-50
-                transition
-                duration-150
-                ease-in-out
-              "
+              class="block hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
               :to="`/missions-benevolat/${otherMission.id}/${otherMission.slug}`"
             >
               <div class="p-4 sm:p-6 md:p-8">
                 <div class="flex items-center">
                   <div
-                    class="
-                      hidden
-                      sm:block
-                      flex-shrink-0
-                      bg-primary
-                      rounded-md
-                      p-3
-                      text-center
-                    "
+                    class="hidden sm:block flex-shrink-0 bg-primary rounded-md p-3 text-center"
                   >
                     <img
                       v-if="otherMission.template"
@@ -720,38 +575,16 @@
                   </div>
                   <div class="min-w-0 flex-1 sm:pl-4">
                     <div
-                      class="
-                        flex
-                        items-center
-                        justify-between
-                        flex-wrap
-                        sm:flex-no-wrap
-                        -m-2
-                      "
+                      class="flex items-center justify-between flex-wrap sm:flex-no-wrap -m-2"
                     >
                       <div class="m-2 min-w-0 flex-shrink">
                         <div
-                          class="
-                            text-sm
-                            leading-5
-                            uppercase
-                            font-medium
-                            text-gray-500
-                            truncate
-                          "
+                          class="text-sm leading-5 uppercase font-medium text-gray-500 truncate"
                         >
                           {{ mission.structure.name }}
                         </div>
                         <div
-                          class="
-                            text-sm
-                            md:text-base
-                            lg:text-lg
-                            xl:text-xl
-                            font-semibold
-                            text-gray-900
-                            truncate
-                          "
+                          class="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-900 truncate"
                         >
                           {{ otherMission.name }}
                         </div>
@@ -762,20 +595,7 @@
                           otherMission.has_places_left &&
                           otherMission.places_left > 0
                         "
-                        class="
-                          m-2
-                          flex-shrink-0
-                          border-transparent
-                          px-4
-                          py-2
-                          border
-                          text-xs
-                          lg:text-sm
-                          font-medium
-                          rounded-full
-                          text-white
-                          shadow-md
-                        "
+                        class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
                         style="background: #31c48d"
                       >
                         <template
@@ -797,20 +617,7 @@
                       </div>
                       <div
                         v-else
-                        class="
-                          m-2
-                          flex-shrink-0
-                          border-transparent
-                          px-4
-                          py-2
-                          border
-                          text-xs
-                          lg:text-sm
-                          font-medium
-                          rounded-full
-                          text-white
-                          shadow-md
-                        "
+                        class="m-2 flex-shrink-0 border-transparent px-4 py-2 border text-xs lg:text-sm font-medium rounded-full text-white shadow-md"
                         style="background: #73777d"
                       >
                         <span v-if="otherMission.has_places_left === false"
@@ -823,15 +630,7 @@
                 </div>
 
                 <div
-                  class="
-                    flex
-                    items-center
-                    flex-wrap
-                    text-s
-                    leading-5
-                    text-gray-500
-                    mt-4
-                  "
+                  class="flex items-center flex-wrap text-s leading-5 text-gray-500 mt-4"
                 >
                   <template
                     v-if="
@@ -841,75 +640,27 @@
                   >
                     <span
                       v-if="otherMission.department"
-                      class="
-                        mr-3
-                        mt-1
-                        px-2.5
-                        py-1.5
-                        border border-gray-200
-                        text-xs
-                        leading-4
-                        font-medium
-                        rounded-full
-                        text-gray-500
-                        bg-white
-                      "
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
                       >Mission en présentiel - {{ otherMission.city }} ({{
                         otherMission.department
                       }})</span
                     >
                     <span
                       v-else
-                      class="
-                        mr-3
-                        mt-1
-                        px-2.5
-                        py-1.5
-                        border border-gray-200
-                        text-xs
-                        leading-4
-                        font-medium
-                        rounded-full
-                        text-gray-500
-                        bg-white
-                      "
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
                       >Mission en présentiel - {{ otherMission.city }}</span
                     >
                   </template>
                   <template v-else>
                     <span
-                      class="
-                        mr-3
-                        mt-1
-                        px-2.5
-                        py-1.5
-                        border border-gray-200
-                        text-xs
-                        leading-4
-                        font-medium
-                        rounded-full
-                        text-gray-500
-                        bg-white
-                      "
+                      class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
                       >Mission à distance</span
                     >
                   </template>
 
                   <span
                     v-if="otherMission.domaines[0]"
-                    class="
-                      mr-3
-                      mt-1
-                      px-2.5
-                      py-1.5
-                      border border-gray-200
-                      text-xs
-                      leading-4
-                      font-medium
-                      rounded-full
-                      text-gray-500
-                      bg-white
-                    "
+                    class="mr-3 mt-1 px-2.5 py-1.5 border border-gray-200 text-xs leading-4 font-medium rounded-full text-gray-500 bg-white"
                     >{{ otherMission.domaines[0].name.fr }}</span
                   >
                 </div>
