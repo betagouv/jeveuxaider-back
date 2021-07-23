@@ -5,21 +5,23 @@
   >
     <div class="flex flex-col space-y-6">
       <!-- CONVERSATION -->
-      <VoletCard v-if="conversation">
-        <nuxt-link
-          :to="`/messages/${conversation.id}`"
-          class="flex items-center space-x-4"
-        >
-          <div class="text-5xl leading-none text-gray-900">
+      <VoletCard
+        v-if="conversation"
+        :card-link="`/messages/${conversation.id}`"
+      >
+        <div class="flex items-center space-x-4">
+          <div class="text-5xl leading-none text-blue-800">
             <div
-              class="text-gray-400 group-hover:text-gray-500 flex-shrink-0"
+              class="text-blue-800 group-hover:text-blue-800 flex-shrink-0"
               v-html="
                 require('@/assets/images/icones/heroicon/mail.svg?include')
               "
             />
           </div>
           <div class="">
-            <div class="text-lg text-gray-900">Accéder à la conversation</div>
+            <div class="text-lg text-primary font-bold">
+              Accéder à la conversation
+            </div>
             <div class="text-sm">
               Dernier message le
               {{
@@ -27,7 +29,7 @@
               }}
             </div>
           </div>
-        </nuxt-link>
+        </div>
       </VoletCard>
 
       <!-- PARTICIPATION -->
