@@ -13,15 +13,24 @@ use App\Filters\FiltersMissionCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
+use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMissionCollectivity;
 use App\Filters\FiltersMissionDates;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
+use App\Filters\FiltersProfileDepartment;
+use App\Filters\FiltersProfileSkill;
+use App\Filters\FiltersProfileTag;
+use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
+use App\Models\Profile;
 use App\Models\Structure;
+use App\Models\Tag;
 use App\Services\ApiEngagement;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\QueryBuilder\AllowedSort;
 
 class MissionController extends Controller
 {
@@ -61,7 +70,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first()->append(['skills','domaines', 'domaine_secondaire']);
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
@@ -80,8 +89,16 @@ class MissionController extends Controller
 
     public function update(MissionUpdateRequest $request, Mission $mission)
     {
-        if ($request->has('tags')) {
-            $mission->syncTagsWithType($request->input('tags'), 'domaine');
+        if ($request->has('domaine_secondaire')) {
+            $domaine_id = collect($request->input('domaine_secondaire'))->get('id');
+            $domaine_secondaire = Tag::where('id', $domaine_id)->get();
+            $mission->syncTagsWithType($domaine_secondaire, 'domaine');
+        }
+
+        if ($request->has('skills')) {
+            $skills_ids = collect($request->input('skills'))->pluck('id');
+            $skills = Tag::whereIn('id', $skills_ids)->get();
+            $mission->syncTagsWithType($skills, 'competence');
         }
 
         $mission->update($request->validated());
@@ -108,5 +125,42 @@ class MissionController extends Controller
     public function structure(MissionStructureRequest $request, Mission $mission)
     {
         return Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations')->where('id', $mission->structure_id)->first();
+    }
+
+    public function benevoles(Request $request, Mission $mission)
+    {
+        if (!$mission->has_places_left || $mission->state != 'Validée' || $mission->structure->state != 'Validée') {
+            abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+        }
+
+        $profilesQueryBuilder =  Profile::where('is_visible', true)
+            ->withAnyTags($mission->domaines)
+            ->whereDoesntHave('participations', function (Builder $query) use ($mission) {
+                $query->where('mission_id', $mission->id);
+            });
+
+        if ($mission->type == 'Mission en présentiel') {
+            $profilesQueryBuilder->department($mission->department);
+        }
+
+
+        return QueryBuilder::for($profilesQueryBuilder)
+            ->allowedAppends('last_online_at', 'skills', 'domaines')
+            ->allowedFilters(
+                AllowedFilter::custom('zips', new FiltersProfileZips),
+                AllowedFilter::custom('domaine', new FiltersProfileTag),
+                AllowedFilter::custom('department', new FiltersProfileDepartment),
+                AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+                AllowedFilter::custom('skills', new FiltersProfileSkill),
+                AllowedFilter::scope('minimum_commitment')
+            )
+            ->defaultSort('-created_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
+    public function responsable(MissionStructureRequest $request, Mission $mission)
+    {
+
+        return $mission->responsable;
     }
 }

@@ -128,6 +128,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // MISSIONS
     Route::get('missions', 'Api\MissionController@index');
+    Route::get('mission/{mission}/benevoles', 'Api\MissionController@benevoles');
+    Route::get('mission/{mission}/responsable', 'Api\MissionController@responsable');
     Route::post('mission/{mission}', 'Api\MissionController@update');
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
@@ -138,6 +140,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // PARTICIPATIONS
     Route::get('participation/{participation}', 'Api\ParticipationController@show');
+    Route::get('participation/{participation}/conversation', 'Api\ParticipationController@conversation');
+    Route::get('participation/{participation}/benevole', 'Api\ParticipationController@benevole');
     Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
     Route::get('participations', 'Api\ParticipationController@index');
     Route::post('participation/{participation}', 'Api\ParticipationController@update');

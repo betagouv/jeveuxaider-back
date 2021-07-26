@@ -1,5 +1,5 @@
 <template>
-  <div class="query-filter-skills mr-4 mb-4">
+  <div class="query-filter-skills">
     <div class="text-secondary text-xs uppercase font-semibold mb-2">
       {{ label }}
     </div>
@@ -88,10 +88,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped>
-.query-filter-skills
-  ::v-deep
-    .el-input__inner
-      width: 400px
-</style>

@@ -1,7 +1,10 @@
 <template>
   <div>
-    <label for="thumbnail" class="el-form-item__label"> Illustration </label>
-    <div class="flex -m-2">
+    <label for="thumbnail" class="el-form-item__label">
+      Visuel d'Illustration
+    </label>
+
+    <div class="flex gap-1">
       <img
         v-for="index in 3"
         :key="`${domainId}_${index}`"
@@ -46,7 +49,7 @@ export default {
 <style lang="sass" scoped>
 .thumbnail
   transition: all .25s
-  @apply opacity-25 p-1 bg-white border border-transparent min-w-0 m-2 w-full h-auto cursor-pointer
+  @apply opacity-25 p-1 bg-white border-2 border-transparent min-w-0 w-full h-auto cursor-pointer rounded-xl
   &.selected
     @apply opacity-100 border-primary
 </style>

@@ -132,7 +132,7 @@
               </ImageField>
             </div>
 
-            <el-form-item label="Profession" prop="type" class="mb-5">
+            <el-form-item label="Profession" prop="type">
               <el-select
                 v-model="form.type"
                 placeholder="Sélectionnez votre profession"
@@ -146,14 +146,14 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="Téléphone mobile" prop="mobile" class="mb-5">
+            <el-form-item label="Téléphone mobile" prop="mobile">
               <input
                 v-model="form.mobile"
                 placeholder="Téléphone mobile"
                 class="custom-input placeholder-gray-600"
               />
             </el-form-item>
-            <el-form-item label="Téléphone fixe" prop="phone" class="mb-5">
+            <el-form-item label="Téléphone fixe" prop="phone">
               <input
                 v-model="form.phone"
                 placeholder="Téléphone fixe"
@@ -181,43 +181,39 @@
                 >
               </el-checkbox-group>
             </el-form-item>
-            <div class="flex items-end">
-              <el-form-item
-                label="Fréquence"
-                prop="frequence"
-                class="w-full sm:w-2/3 pr-2"
-              >
+
+            <el-form-item label="Fréquence" prop="disponibilities">
+              <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
                 <el-select
-                  v-model="form.frequence"
-                  placeholder="Sélectionnez votre fréquence"
+                  v-model="form.commitment__duration"
+                  placeholder="Choisissez une durée"
                 >
                   <el-option
-                    v-for="item in $store.getters.taxonomies.profile_frequences
-                      .terms"
+                    v-for="item in $store.getters.taxonomies.duration.terms"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
                   />
                 </el-select>
-              </el-form-item>
-              <el-form-item
-                prop="frequence_granularite"
-                class="w-full sm:w-1/3 pl-2"
-              >
+
+                <span class="flex-none"> par </span>
+
                 <el-select
-                  v-model="form.frequence_granularite"
-                  placeholder="Par..."
+                  v-model="form.commitment__time_period"
+                  placeholder="Choisissez une fréquence"
+                  class="w-full"
+                  clearable
                 >
                   <el-option
-                    v-for="item in $store.getters.taxonomies
-                      .profile_frequences_granularite.terms"
+                    v-for="item in $store.getters.taxonomies.time_period.terms"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
                   />
                 </el-select>
-              </el-form-item>
-            </div>
+              </div>
+            </el-form-item>
+
             <el-form-item
               label="Décrivez vos motivations"
               prop="description"
@@ -402,4 +398,7 @@ export default {
     .actions
       margin-top: .25rem !important
       @apply flex items-center justify-center mb-6
+
+.el-form-item
+  @apply mb-6
 </style>

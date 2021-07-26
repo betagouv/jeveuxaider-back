@@ -9,7 +9,9 @@
             :suggestions="indicesToSuggestions(indices)"
             :get-suggestion-value="getSuggestionValue"
             :input-props="{
-              placeholder: placeholder,
+              placeholder: limitReached ? placeholderLimitReached : placeholder,
+              disabled: limitReached,
+              class: [{ 'cursor-not-allowed': limitReached }],
             }"
             class="relative w-full leading-none"
             @input="onInput(refine, $event)"
@@ -19,7 +21,7 @@
           >
             <template slot="after-input"
               ><div
-                class="absolute z-10 w-5 h-5 text-gray-300"
+                class="after-input absolute z-10 w-5 h-5 text-gray-300"
                 style="right: 15px; top: 12px"
                 v-html="
                   require('@/assets/images/icones/heroicon/search.svg?include')
@@ -29,13 +31,27 @@
             <template slot-scope="{ suggestion }">
               <div>
                 <div
-                  class="ml-auto leading-6 text-sm font-medium text-gray-500 flex-none"
+                  class="
+                    ml-auto
+                    leading-6
+                    text-sm
+                    font-medium
+                    text-gray-500
+                    flex-none
+                  "
                 >
                   <div class="flex items-center space-x-2">
                     <div class="">{{ suggestion.item.name.fr }}</div>
                     <div
                       v-if="isAlreadySelected(suggestion.item.id)"
-                      class="px-2 rounded-full text-xxs bg-blue-800 text-white leading-5"
+                      class="
+                        px-2
+                        rounded-full
+                        text-xxs
+                        bg-blue-800
+                        text-white
+                        leading-5
+                      "
                     >
                       Ajoutée
                     </div>
@@ -83,6 +99,14 @@ export default {
       type: String,
       default: 'Communication, action sociale, accompagnement...',
     },
+    placeholderLimitReached: {
+      type: String,
+      default: 'La limite a été atteinte',
+    },
+    max: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -92,12 +116,26 @@ export default {
       query: null,
     }
   },
+  computed: {
+    limitReached() {
+      return this.max ? this.items.length >= this.max : false
+    },
+  },
+  watch: {
+    limitReached(newVal) {
+      this.$emit('limit-reached-change', newVal)
+    },
+  },
   methods: {
     isAlreadySelected(id) {
       return this.items.filter((item) => item.id == id).length > 0
     },
     onSelect(selected) {
-      if (selected && !this.isAlreadySelected(selected.item.id)) {
+      if (
+        selected &&
+        !this.isAlreadySelected(selected.item.id) &&
+        !this.limitReached
+      ) {
         this.selectedItem = selected.item
         this.$emit('add-item', this.selectedItem)
       }
@@ -132,7 +170,9 @@ export default {
 <style lang="sass" scoped>
 ::v-deep #autosuggest
   input
-    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm
+    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm transition ease-in-out duration-150
+    &:hover
+      @apply border-primary
 ::v-deep .ais-Highlight-highlighted
   background: transparent
   @apply text-blue-800 font-semibold

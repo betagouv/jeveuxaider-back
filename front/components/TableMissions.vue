@@ -32,7 +32,7 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="Places" width="280">
+    <el-table-column label="Places" width="150">
       <template slot-scope="scope">
         <template v-if="['Annulée', 'Signalée'].includes(scope.row.state)">
           N/A
@@ -52,7 +52,24 @@
                 {{ scope.row.participations_max }}
               </div>
             </div>
-            <nuxt-link
+
+            <el-button
+              v-if="
+                scope.row.permissions.canFindBenevoles &&
+                $store.getters.contextRole == 'responsable'
+              "
+              v-tooltip="{
+                delay: { show: 700, hide: 100 },
+                content: 'Trouver des bénévoles',
+              }"
+              type="primary"
+              plain
+              size="mini"
+              icon="el-icon-search"
+              @click.prevent="$router.push(prefilteredUrl(scope.row))"
+            ></el-button>
+
+            <!-- <nuxt-link
               v-if="
                 scope.row.state == 'Validée' &&
                 scope.row.has_places_left &&
@@ -61,7 +78,7 @@
               :to="`/dashboard/mission/${scope.row.id}/trouver-des-benevoles`"
             >
               <el-button size="mini" round> Trouver des bénévoles </el-button>
-            </nuxt-link>
+            </nuxt-link> -->
           </div>
         </template>
       </template>
@@ -108,6 +125,26 @@ export default {
     onClickedRow: {
       type: Function,
       default: () => {},
+    },
+  },
+  methods: {
+    prefilteredUrl(mission) {
+      const filters = []
+
+      if (mission.type == 'Mission en présentiel') {
+        filters.push(`filter[department]=${mission.department}`)
+      }
+      if (mission.commitment__duration) {
+        const filterCommitment = mission.commitment__time_period
+          ? `${mission.commitment__duration},${mission.commitment__time_period}`
+          : mission.commitment__duration
+
+        filters.push(`filter[minimum_commitment]=${filterCommitment}`)
+      }
+
+      return `/dashboard/mission/${
+        mission.id
+      }/trouver-des-benevoles?${filters.join('&')}`
     },
   },
 }

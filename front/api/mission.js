@@ -3,6 +3,10 @@ export default (axios) => ({
     const { data } = await axios.get(`/mission/${id}`)
     return data
   },
+  async getMissionResponsable(id) {
+    const { data } = await axios.get(`/mission/${id}/responsable`)
+    return data
+  },
   async fetchMissions(params) {
     return await axios.get('/missions', { params })
   },

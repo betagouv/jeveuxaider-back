@@ -35,8 +35,8 @@ class Profile extends Model implements HasMedia
         'is_visible',
         'disponibilities',
         'description',
-        'frequence',
-        'frequence_granularite',
+        'commitment__duration',
+        'commitment__time_period',
         'type',
         'user_id',
     ];
@@ -223,18 +223,18 @@ class Profile extends Model implements HasMedia
                 return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
             case 'responsable':
-                // TODO: PAS ICI, c'est juste pour un cas spécifique (trouver des benevoles)
-                // Get missions validées
-                $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
-                if ($missions->count() == 0) {
-                    return $query->where('id', -1);
-                }
-
-
-                // Tous les profils qui ont une participation rattachée à une de mes structures
-                // Tous les membres de mes structures
-                return $query->where('is_visible', true);
-
+                $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
+                return $query->whereHas(
+                    'participations',
+                    function (Builder $query) use ($structures_id) {
+                        $query->whereHas('mission', function (Builder $query) use ($structures_id) {
+                            $query->whereIn('structure_id', $structures_id);
+                        });
+                    }
+                )->orWhereHas('structures', function (Builder $query) use ($structures_id) {
+                    $query->whereIn('id', $structures_id);
+                });
+                //return $query->where('id', -1);
                 break;
             default:
                 abort(403, 'This action is not authorized');
@@ -393,5 +393,19 @@ class Profile extends Model implements HasMedia
             'responsable' => $this->isResponsable(),
             'analyste' => $this->is_analyste
         ];
+    }
+
+    public function setCommitmentTotal()
+    {
+        $this->commitment__total = Utils::calculateCommitmentTotal(
+            $this->commitment__duration,
+            $this->commitment__time_period
+        );
+    }
+
+    public function scopeMinimumCommitment($query, $duration, $time_period = null)
+    {
+        $total = Utils::calculateCommitmentTotal($duration, $time_period);
+        return $query->where('commitment__total', '>=', $total);
     }
 }

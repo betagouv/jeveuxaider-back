@@ -52,6 +52,10 @@ module.exports = {
         800: '#242526', // Overriden (#2d3748)
         900: '#1a202c',
         1000: '#171725',
+        '777E90': '#777E90',
+        696974: '#696974',
+        '4E4E54': '#4E4E54',
+        E6E8EC: '#E6E8EC',
       },
       red: {
         100: '#fff5f5',
@@ -63,6 +67,7 @@ module.exports = {
         700: '#EF4036', // Overriden (#c53030),
         800: '#9b2c2c',
         900: '#742a2a',
+        FC7069: '#FC7069',
       },
       orange: {
         100: '#fffaf0',
@@ -121,6 +126,7 @@ module.exports = {
         900: '#1F0391', // Overriden #2a4365
         royal: '#002D83',
         pale: '#fafaff',
+        282562: '#282562',
       },
       indigo: {
         100: '#ebf4ff',
@@ -223,6 +229,7 @@ module.exports = {
       xl: '1rem',
       '2xl': '2rem',
       full: '9999px',
+      10: '10px',
     },
     borderWidth: {
       default: '1px',

@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Participation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\Profile;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProfilePolicy
 {
@@ -19,6 +21,7 @@ class ProfilePolicy
 
     public function view(User $user, Profile $profile)
     {
+
         if ($user->id == $profile->user_id) {
             return true;
         }

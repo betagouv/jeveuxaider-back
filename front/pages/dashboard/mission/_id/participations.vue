@@ -8,9 +8,7 @@
             {{ mission.name }}
           </div>
           <div
-            v-if="
-              !['En attente de validation', 'Signalée'].includes(mission.state)
-            "
+            v-if="!['Signalée'].includes(mission.state)"
             class="font-light text-gray-600 flex items-center"
           >
             <div
@@ -26,7 +24,7 @@
               target="_blank"
               :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
             >
-              <span class="text-sm underline hover:no-underline">
+              <span class="text-sm underline hover:no-underline break-all">
                 {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
                   mission.slug
                 }}
@@ -92,7 +90,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
           name="state"
           label="Statut"
@@ -158,9 +156,13 @@ export default {
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
     if (
-      !['admin', 'superviseur', 'responsable'].includes(
-        store.getters.contextRole
-      )
+      ![
+        'admin',
+        'superviseur',
+        'responsable',
+        'referent',
+        'referent_regional',
+      ].includes(store.getters.contextRole)
     ) {
       return error({ statusCode: 403 })
     }

@@ -29,18 +29,20 @@
         @delete="avatar = null"
       />
 
-      <el-form-item label="Email" prop="email" class="mb-6">
+      <el-form-item label="Email" prop="email">
         <el-input v-model.trim="form.email" placeholder="Email" />
       </el-form-item>
-      <div class="flex mb-4">
-        <el-form-item label="Prénom" prop="first_name" class="flex-1 mr-2">
+
+      <div class="grid gap-x-6 sm:grid-cols-2">
+        <el-form-item label="Prénom" prop="first_name">
           <el-input
             v-model="form.first_name"
             placeholder="Prénom"
             :disabled="candEditFields"
           />
         </el-form-item>
-        <el-form-item label="Nom" prop="last_name" class="flex-1 ml-2">
+
+        <el-form-item label="Nom" prop="last_name">
           <el-input
             v-model="form.last_name"
             placeholder="Nom"
@@ -48,30 +50,25 @@
           />
         </el-form-item>
       </div>
-      <div class="flex mb-4">
-        <el-form-item
-          label="Téléphone mobile"
-          prop="mobile"
-          class="flex-1 mr-2"
-        >
+
+      <div class="grid gap-x-6 sm:grid-cols-2">
+        <el-form-item label="Téléphone mobile" prop="mobile">
           <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
         </el-form-item>
-        <el-form-item label="Téléphone fixe" prop="phone" class="flex-1 ml-2">
+
+        <el-form-item label="Téléphone fixe" prop="phone">
           <el-input v-model="form.phone" placeholder="Téléphone fixe" />
         </el-form-item>
       </div>
-      <div class="flex mb-4">
-        <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
+
+      <div class="grid gap-x-6 sm:grid-cols-2">
+        <el-form-item label="Code postal" prop="zip">
           <el-input v-model="form.zip" placeholder="Code postal" />
         </el-form-item>
-        <el-form-item
-          label="Date de naissance"
-          prop="birthday"
-          class="flex-1 ml-2"
-        >
+
+        <el-form-item label="Date de naissance" prop="birthday">
           <el-date-picker
             v-model="form.birthday"
-            :disabled="candEditFields"
             type="date"
             placeholder="Date de naissance"
             autocomplete="off"
@@ -83,7 +80,7 @@
         </el-form-item>
       </div>
 
-      <el-form-item label="Profession" prop="type" class="mb-6">
+      <el-form-item label="Profession" prop="type">
         <el-select
           v-model="form.type"
           placeholder="Sélectionnez votre profession"
@@ -97,7 +94,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="Disponibilités" prop="disponibilities" class="mb-6">
+      <el-form-item label="Disponibilités" prop="disponibilities">
         <el-checkbox-group
           v-model="form.disponibilities"
           size="medium"
@@ -114,42 +111,40 @@
           >
         </el-checkbox-group>
       </el-form-item>
-      <div class="flex items-end mb-3">
-        <el-form-item
-          label="Fréquence"
-          prop="disponibilities"
-          class="w-full sm:w-1/2 pr-2"
-        >
+
+      <el-form-item label="Fréquence" prop="disponibilities">
+        <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
           <el-select
-            v-model="form.frequence"
-            placeholder="Sélectionnez votre fréquence"
+            v-model="form.commitment__duration"
+            placeholder="Choisissez une durée"
           >
             <el-option
-              v-for="item in $store.getters.taxonomies.profile_frequences.terms"
+              v-for="item in $store.getters.taxonomies.duration.terms"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             />
           </el-select>
-        </el-form-item>
-        <el-form-item prop="frequence_granularite" class="w-full sm:w-1/2 pl-2">
-          <el-select v-model="form.frequence_granularite" placeholder="Par...">
-            <el-option
-              v-for="item in $store.getters.taxonomies
-                .profile_frequences_granularite.terms"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-      </div>
 
-      <el-form-item
-        label="Décrivez vos motivations"
-        prop="description"
-        class="flex-1 mt-4"
-      >
+          <span class="flex-none"> par </span>
+
+          <el-select
+            v-model="form.commitment__time_period"
+            placeholder="Choisissez une fréquence"
+            class="w-full"
+            clearable
+          >
+            <el-option
+              v-for="item in $store.getters.taxonomies.time_period.terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      </el-form-item>
+
+      <el-form-item label="Décrivez vos motivations" prop="description">
         <el-input
           v-model="form.description"
           name="description"
@@ -159,7 +154,7 @@
         ></el-input>
       </el-form-item>
 
-      <div class="mt-8">
+      <div class="mt-12">
         <el-button type="primary" :loading="loading" class="" @click="onSubmit">
           Enregistrer les modifications
         </el-button>
@@ -305,5 +300,5 @@ export default {
 
 <style lang="sass" scoped>
 ::v-deep .el-form-item
-  @apply mb-3
+  @apply mb-6
 </style>

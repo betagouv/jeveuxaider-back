@@ -1,16 +1,46 @@
 <template>
   <div class="pl-12 pb-12 max-w-3xl">
     <div class="text-m text-gray-600 uppercase">Mission</div>
-    <div class="mb-8 pb-4 flex border-b border-gray-200">
+    <div class="flex gap-3 justify-between items-start">
       <div class="font-bold text-2-5xl text-gray-800">
         {{ mission.name }}
       </div>
       <TagModelState
         :state="mission.state"
-        class="relative ml-3"
+        size=""
+        class="relative"
         style="top: 1px"
       />
     </div>
+
+    <div
+      v-if="!['Signalée'].includes(mission.state)"
+      class="font-light text-gray-600 flex items-center"
+    >
+      <div
+        :class="
+          mission.structure.state == 'Validée' &&
+          ['Validée', 'Terminée'].includes(mission.state)
+            ? 'bg-green-500'
+            : 'bg-red-500'
+        "
+        class="rounded-full h-2 w-2 mr-2"
+      ></div>
+
+      <nuxt-link
+        target="_blank"
+        :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+      >
+        <span class="text-sm underline hover:no-underline break-all">
+          {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
+            mission.slug
+          }}
+        </span>
+      </nuxt-link>
+    </div>
+
+    <hr class="border-gray-200 my-4" />
+
     <FormMission :mission="mission" :structure-id="mission.structure_id" />
   </div>
 </template>

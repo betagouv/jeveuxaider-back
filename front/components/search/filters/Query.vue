@@ -1,5 +1,5 @@
 <template>
-  <div class="query-filter mr-4 mb-4">
+  <div class="query-filter">
     <div class="text-secondary text-xs uppercase font-semibold mb-2">
       {{ label }}
     </div>
@@ -11,6 +11,7 @@
       :allow-create="allowCreate"
       :default-first-option="defaultFirstOption"
       :placeholder="placeholder"
+      :popper-class="popperClasses"
       @change="onChangeFilter"
     >
       <el-option
@@ -62,6 +63,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    popperClasses: {
+      type: String,
+      default: '',
     },
   },
   computed: {

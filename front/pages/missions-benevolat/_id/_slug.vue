@@ -1,13 +1,12 @@
 <template>
   <div>
     <div class="relative">
-      <div class="absolute" style="height: 360px">
+      <div class="absolute w-full" style="height: 360px">
         <img
-          src="@/assets/images/bg_header_mission.jpg"
+          src="/images/bg_header_mission.jpg"
           alt="Mission bénévolat"
           class="object-cover w-full h-full"
         />
-        <div class="bg-blue-900 opacity-25 absolute inset-0"></div>
       </div>
     </div>
 
@@ -17,10 +16,8 @@
         :items="[
           { label: 'Missions de bénévolat', link: '/missions-benevolat' },
           {
-            label: domainName(mission),
-            link: `/missions-benevolat?refinementList[domaines][0]=${domainName(
-              mission
-            )}`,
+            label: domainName,
+            link: `/missions-benevolat?refinementList[domaines][0]=${domainName}`,
           },
           {
             label:
@@ -31,900 +28,682 @@
           },
         ]"
       />
+
       <div class="container mx-auto px-4">
-        <div class="bg-white rounded-lg shadow-lg">
-          <div class="lg:flex">
-            <div class="flex-grow px-6 py-8 lg:flex-shrink-1 lg:p-12">
-              <div class="mb-4">
-                <div class="-m-2 flex flex-wrap">
-                  <span
-                    v-if="domainName(mission)"
+        <div class="flex flex-wrap lg:flex-no-wrap gap-6">
+          <div class="w-full">
+            <div
+              class="bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
+            >
+              <div
+                class="flex gap-4 sm:gap-6 justify-between items-start relative"
+              >
+                <div class="flex flex-wrap gap-2">
+                  <div
+                    v-for="(tag, index) in domains"
+                    :key="index"
                     class="
-                      m-2
                       inline-flex
                       px-3
                       py-1
                       rounded-full
-                      text-sm
+                      text-xs
                       leading-5
                       font-semibold
                       tracking-wide
                       uppercase
-                      bg-indigo-100
-                      text-blue-900
+                      truncate
                     "
-                    >{{ domainName(mission) }}</span
+                    :class="[
+                      { 'bg-indigo-100 text-blue-900': index === 0 },
+                      { 'bg-gray-100 text-gray-900': index !== 0 },
+                    ]"
                   >
-                  <template v-if="mission.tags">
-                    <span
-                      v-for="tag in mission.tags"
-                      :key="tag.id"
-                      class="
-                        m-2
-                        inline-flex
-                        px-3
-                        py-1
-                        rounded-full
-                        text-sm
-                        leading-5
-                        font-semibold
-                        tracking-wide
-                        uppercase
-                        bg-gray-100
-                        text-gray-900
-                      "
-                    >
+                    <template v-if="tag.name">
                       {{ tag.name.fr }}
-                    </span>
-                  </template>
+                    </template>
+                    <template v-else>
+                      {{ tag }}
+                    </template>
+                  </div>
+                </div>
+
+                <div
+                  class="
+                    absolute
+                    sm:static
+                    bg-white
+                    flex-none
+                    rounded-full
+                    h-8
+                    w-8
+                    flex
+                    items-center
+                    justify-center
+                    p-2
+                    border-2
+                    transform
+                    will-change-transform
+                    hover:scale-110
+                    focus:scale-110
+                    focus:outline-none
+                    transition
+                    ease-in-out
+                    duration-150
+                    cursor-pointer
+                  "
+                  style="right: -8px; top: -46px"
+                  @click="onClickShare"
+                >
+                  <img src="/images/share.svg" alt="Partager" class="-ml-px" />
                 </div>
               </div>
 
-              <h2
+              <h1
                 class="
-                  mt-4
+                  mt-6
                   pb-3
                   text-2xl
                   sm:text-4xl
                   leading-7
                   sm:leading-10
-                  font-bold
-                  text-gray-900
+                  font-extrabold
+                  text-black
+                  tracking-px
                 "
               >
                 {{ mission.name }}
-              </h2>
+              </h1>
 
-              <div class="mb-8">
-                <ul class="mt-5 lg:grid lg:grid-cols-12 lg:gap-x-6 lg:gap-y-5">
-                  <li class="flex items-start lg:col-span-6">
-                    <div class="flex-shrink-0">
-                      <template v-if="mission.type == 'Mission en présentiel'">
-                        <img
-                          src="/images/picker.svg"
-                          width="29"
-                          class="mt-2"
-                          alt="picker"
-                        />
-                      </template>
-                      <template v-else>
-                        <img
-                          src="/images/maison.svg"
-                          width="29"
-                          class="mt-2"
-                          alt="maison"
-                        />
-                      </template>
-                    </div>
-                    <p class="ml-4 text-md font-bold leading-5 text-gray-900">
-                      <span class="uppercase text-sm text-gray-500 font-medium">
-                        <template
-                          v-if="mission.type == 'Mission en présentiel'"
-                        >
-                          Mission en présentiel
-                        </template>
-                        <template v-else> Mission à distance </template>
-                      </span>
-
-                      <br />
-
-                      <template v-if="mission.type == 'Mission en présentiel'">
-                        {{ mission.full_address }}
-                      </template>
-                      <template v-else
-                        >Réalisez cette mission depuis chez vous</template
-                      >
-                    </p>
-                  </li>
-
-                  <li class="mt-5 flex items-start lg:col-span-6 lg:mt-0">
-                    <div class="flex-shrink-0">
-                      <img
-                        src="/images/public.svg"
-                        width="22"
-                        class="mt-2"
-                        alt="public"
-                      />
-                    </div>
-
-                    <div class="ml-4 text-md font-bold leading-5 text-gray-900">
-                      <span class="uppercase text-sm text-gray-500 font-medium"
-                        >Bénéficiaires</span
-                      ><br />
-                      <div
-                        v-for="(
-                          publicBeneficiaire, key
-                        ) in mission.publics_beneficiaires"
-                        :key="key"
-                      >
-                        {{
-                          publicBeneficiaire
-                            | labelFromValue('mission_publics_beneficiaires')
-                        }}
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+              <div class="mt-2 mb-5 text-base text-gray-777E90 font-medium">
+                <span>Publié par </span>
+                <img
+                  v-if="mission.responsable.image"
+                  :src="
+                    mission.responsable.image.thumb
+                      ? mission.responsable.image.thumb
+                      : mission.responsable.image.original
+                  "
+                  :alt="`Portrait de ${mission.responsable.full_name}`"
+                  class="
+                    inline-flex
+                    w-7
+                    h-7
+                    rounded-full
+                    border-2 border-gray-200
+                  "
+                />
+                <span class="text-gray-1000">
+                  {{ mission.responsable.full_name }}
+                </span>
+                <span>de {{ structureType }}</span>
+                <component
+                  :is="
+                    structure.statut_juridique == 'Association' &&
+                    structure.state == 'Validée'
+                      ? 'nuxt-link'
+                      : 'span'
+                  "
+                  target="_blank"
+                  :to="`/organisations/${structure.slug}`"
+                  class="font-bold uppercase text-blue-800"
+                >
+                  <h2 class="inline">{{ structure.name }}</h2>
+                </component>
               </div>
 
-              <hr class="border-gray-200 mb-8" />
+              <div class="flex items-center gap-4 mt-8 mb-4">
+                <div
+                  class="flex-none font-bold text-xs uppercase text-gray-696974"
+                >
+                  PUBLICS AIDÉS
+                </div>
+                <hr class="text-gray-E6E8EC w-full" />
+              </div>
 
-              <div>
-                <h2 class="text-lg font-medium">
-                  <span>L'organisation</span>
-                  <nuxt-link
-                    v-if="
-                      structure.statut_juridique == 'Association' &&
-                      structure.state == 'Validée'
+              <div class="flex flex-wrap gap-2">
+                <div
+                  v-for="(
+                    publicBeneficiaire, key
+                  ) in mission.publics_beneficiaires"
+                  :key="key"
+                  class="
+                    inline-flex
+                    px-3
+                    py-1
+                    rounded-full
+                    text-xs
+                    leading-5
+                    font-semibold
+                    tracking-wide
+                    uppercase
+                    bg-gray-4E4E54
+                    text-white
+                  "
+                >
+                  {{ publicBeneficiaire }}
+                </div>
+              </div>
+
+              <template v-if="mission.skills && mission.skills.length">
+                <div class="flex items-center gap-4 mt-8 mb-4">
+                  <div
+                    class="
+                      flex-none
+                      font-bold
+                      text-xs
+                      uppercase
+                      text-gray-696974
                     "
-                    target="_blank"
-                    :to="`/organisations/${structure.slug}`"
                   >
-                    <b class="text-blue-800">
-                      {{ structure.name }}
-                    </b>
-                  </nuxt-link>
-                  <b v-else class="text-blue-800">
-                    {{ structure.name }}
-                  </b>
-                </h2>
+                    COMPÉTENCES RECHERCHÉES
+                  </div>
+                  <hr class="text-gray-E6E8EC w-full" />
+                </div>
+
+                <div
+                  class="text-gray-777E90"
+                  v-html="
+                    mission.skills
+                      .map((skill) => skill.name.fr)
+                      .join(`<span class='mx-2'>•</span>`)
+                  "
+                />
+              </template>
+            </div>
+
+            <div class="mt-6 rounded-10 shadow-lg overflow-hidden">
+              <template v-if="mission.type == 'Mission en présentiel'">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style="border: 0; min-height: 190px"
+                  loading="lazy"
+                  allowfullscreen
+                  :src="`https://www.google.com/maps/embed/v1/place?key=${$config.google.places}
+                    &q=${mission.full_address}`"
+                />
+
+                <div
+                  class="
+                    bg-white
+                    px-6
+                    xl:px-16
+                    py-3
+                    md:flex
+                    flex-wrap
+                    justify-between
+                    text-sm
+                  "
+                >
+                  <div class="uppercase font-bold" style="color: #393939">
+                    Mission sur le terrain
+                  </div>
+                  <div class="text-gray-777E90">
+                    📍 {{ mission.full_address }}
+                  </div>
+                </div>
+              </template>
+
+              <template v-else>
+                <div class="relative">
+                  <img
+                    src="/images/mission_a_distance.jpg"
+                    srcset="/images/mission_a_distance@2x.jpg 2x"
+                    alt="Personne assise devant un ordinateur portable"
+                    class="absolute inset-0 w-full h-full object-cover"
+                  />
+
+                  <div class="absolute inset-0 custom-gradient-2"></div>
+
+                  <div class="text-white relative px-6 xl:px-16 py-8">
+                    <div class="font-extrabold text-2xl mb-2">
+                      Mission à distance
+                    </div>
+                    <div>
+                      Réalisez cette mission de bénévolat<br />
+                      <strong>depuis chez vous</strong> ou
+                      <strong>en autonomie</strong>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+
+            <div
+              class="
+                mt-6
+                bg-white
+                rounded-10
+                shadow-lg
+                px-6
+                py-8
+                xl:py-12
+                xl:px-16
+              "
+            >
+              <div class="font-extrabold text-xl mb-4">
+                Présentation de la mission
               </div>
+
+              <client-only>
+                <ReadMore
+                  tag="h2"
+                  more-str="Lire plus"
+                  :text="mission.objectif"
+                  :max-chars="300"
+                  class="wysiwyg-field text-gray-777E90 leading-7"
+                />
+                <template slot="placeholder">
+                  <div v-html="mission.objectif" />
+                </template>
+              </client-only>
 
               <div
-                v-if="structure.description"
-                class="mt-2 text-base leading-7 text-gray-600"
+                v-if="mission.information"
+                class="
+                  mt-6
+                  p-6
+                  md:p-8
+                  xl:p-12
+                  rounded-10
+                  custom-gradient
+                  relative
+                "
               >
-                <client-only>
-                  <ReadMore
-                    more-str="Lire plus"
-                    :text="structure.description"
-                    :max-chars="250"
+                <img
+                  class="absolute right-0 bottom-0 p-6"
+                  src="/images/quote.svg"
+                  alt="Guillemets"
+                />
+
+                <div class="relative z-10 citation text-lg">
+                  <client-only>
+                    <ReadMore
+                      tag="h3"
+                      more-str="Lire plus"
+                      :text="mission.information"
+                      :max-chars="300"
+                      class="wysiwyg-field"
+                    />
+                    <template slot="placeholder">
+                      <div v-html="mission.information" />
+                    </template>
+                  </client-only>
+                </div>
+              </div>
+
+              <div class="font-extrabold text-xl mb-4 mt-10">Précisions</div>
+
+              <client-only>
+                <ReadMore
+                  more-str="Lire plus"
+                  :text="mission.description"
+                  :max-chars="300"
+                  class="wysiwyg-field text-gray-777E90 leading-7"
+                />
+                <template slot="placeholder">
+                  <div v-html="mission.description" />
+                </template>
+              </client-only>
+
+              <div
+                v-if="
+                  mission.publics_volontaires &&
+                  mission.publics_volontaires.length
+                "
+                class="flex items-center gap-4 mt-8 mb-4"
+              >
+                <div
+                  class="flex-none font-bold text-xs uppercase text-gray-696974"
+                >
+                  MISSION OUVERTE ÉGALEMENT AUX
+                </div>
+                <hr class="text-gray-E6E8EC w-full" />
+              </div>
+
+              <div class="grid xl:grid-cols-2 gap-3">
+                <div
+                  v-for="(
+                    public_volontaire, key
+                  ) in mission.publics_volontaires"
+                  :key="key"
+                  class="flex items-center"
+                >
+                  <div
+                    class="
+                      public-wrapper
+                      w-6
+                      h-6
+                      mr-3
+                      flex
+                      items-center
+                      justify-center
+                    "
+                    v-html="iconPublicType(public_volontaire)"
                   />
-                  <template slot="placeholder">
-                    <div v-html="structure.description" />
-                  </template>
-                </client-only>
+
+                  <div class="text-gray-777E90">
+                    {{
+                      public_volontaire
+                        | labelFromValue('mission_publics_volontaires')
+                    }}
+                  </div>
+                </div>
               </div>
             </div>
 
             <div
               class="
-                aside
-                text-center
-                bg-blue-800
-                rounded-b-lg
-                lg:rounded-b-none lg:rounded-r-lg
-                lg:flex-shrink-0 lg:flex lg:flex-col
-                lg:justify-center
+                mt-6
+                bg-white
+                rounded-10
+                shadow-lg
+                px-6
+                py-8
+                xl:py-12
+                xl:px-16
               "
             >
-              <div class="py-8 px-6 lg:p-12">
-                <div
-                  class="text-base leading-6 text-indigo-200 mb-2"
-                  v-html="formattedDate"
-                />
-                <div
-                  class="text-base leading-6 text-indigo-200 mb-4 lg:mb-12"
-                  v-text="mission.format"
-                />
-
-                <div
-                  class="
-                    inline-flex
-                    px-5
-                    py-1
-                    rounded-full
-                    text-sm
-                    leading-5
-                    font-semibold
-                    tracking-wide
-                    uppercase
-                    bg-indigo-100
-                    text-blue-800
-                  "
-                >
-                  <template v-if="mission.has_places_left === true">
-                    {{ mission.places_left | formatNumber }}
-                    {{
-                      mission.places_left
-                        | pluralize(['place disponible', 'places disponibles'])
-                    }}
-                  </template>
-                  <template v-else-if="mission.has_places_left === false">
-                    Complet
-                  </template>
-                  <template v-else>Nombre de places non défini</template>
-                </div>
-                <div class="text-indigo-300 text-sm mt-1">
-                  {{ mission.participations_max | formatNumber }}
-                  {{
-                    mission.participations_max
-                      | pluralize([
-                        'bénévole recherché',
-                        'bénévoles recherchés',
-                      ])
-                  }}
-                </div>
-
-                <div
-                  class="
-                    mt-4
-                    flex
-                    items-center
-                    justify-center
-                    text-5xl
-                    leading-none
-                    font-extrabold
-                    text-gray-900
-                  "
+              <div
+                class="
+                  flex flex-col
+                  sm:flex-row
+                  gap-6
+                  xl:gap-8
+                  text-center
+                  sm:text-left
+                "
+              >
+                <img
+                  v-if="structure.logo"
+                  :src="structure.logo.original"
+                  :alt="structure.name"
+                  class="mx-auto lg:mx-0 my-auto h-20 object-contain"
+                  style="max-width: 150px"
                 />
 
-                <div class="mt-6">
-                  <ButtonJeProposeMonAide :mission="mission" />
-                </div>
+                <div>
+                  <h2 class="font-bold text-2xl tracking-px mb-4">
+                    Découvrez {{ structureType }}
+                    <component
+                      :is="
+                        structure.statut_juridique == 'Association' &&
+                        structure.state == 'Validée'
+                          ? 'nuxt-link'
+                          : 'span'
+                      "
+                      target="_blank"
+                      :to="`/organisations/${structure.slug}`"
+                      class="font-extrabold uppercase"
+                    >
+                      {{ structure.name }}
+                    </component>
+                  </h2>
 
-                <!-- <p
-                    v-if="mission.structure.response_time"
-                    class="text-sm leading-6 text-indigo-300"
-                  >
-                    Délai de réponse:
-                    {{ responseTime }}
-                  </p> -->
+                  <client-only :placeholder="structure.description">
+                    <v-clamp
+                      :max-lines="3"
+                      autoresize
+                      class="text-gray-777E90 leading-7"
+                    >
+                      {{ structure.description }}
+                      <template slot="after" slot-scope="{ clamped, toggle }">
+                        <span
+                          v-if="clamped"
+                          class="hover:underline ml-1 cursor-pointer"
+                          @click="toggle"
+                          >Lire plus</span
+                        >
+                      </template>
+                    </v-clamp>
+                  </client-only>
 
-                <template v-if="mission.state && mission.state == 'Validée'">
-                  <div
+                  <nuxt-link
+                    v-if="
+                      structure.statut_juridique == 'Association' &&
+                      structure.state == 'Validée'
+                    "
+                    :to="`/organisations/${structure.slug}`"
                     class="
-                      mt-8
-                      lg:mt-12
-                      block
-                      text-center text-sm
-                      leading-2
-                      font-medium
-                      text-indigo-300
-                      max-w-xs
-                      mx-auto
+                      inline-block
+                      border-2 border-gray-E6E8EC
+                      rounded-full
+                      text-black
+                      hover:border-black
+                      focus:outline-none
+                      focus:border-black
+                      transition
+                      duration-150
+                      ease-in-out
+                      font-bold
+                      text-sm
+                      px-4
+                      py-2
+                      mt-6
                     "
                   >
-                    À plusieurs on est meilleur ! Et si vous partagiez cette
-                    mission à votre entourage ?
+                    En savoir plus
+                  </nuxt-link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-none w-full lg:w-96">
+            <div
+              class="rounded-10 overflow-hidden shadow-lg sticky"
+              style="top: 24px"
+            >
+              <img
+                :src="illustration.default"
+                :srcset="illustration.x2"
+                alt=""
+                class="w-full object-cover object-top"
+                style="min-height: 180px"
+                @error="defaultThumbnail($event)"
+              />
+
+              <div
+                v-if="structure.logo"
+                class="logo-wrapper bg-white shadow-lg rounded-10 p-4"
+              >
+                <img
+                  :src="structure.logo.original"
+                  :alt="structure.name"
+                  class="my-auto h-10 object-contain"
+                  style="max-width: 120px"
+                />
+              </div>
+
+              <div class="bg-white py-12">
+                <div class="px-4 text-center">
+                  <div class="font-extrabold text-xl">
+                    Ils recherchent
+                    {{ mission.participations_max | formatNumber }}
+                    {{
+                      mission.participations_max
+                        | pluralize(['bénévole', 'bénévoles'])
+                    }}
                   </div>
 
-                  <div class="mt-5">
-                    <div class="-m-3 flex justify-center">
-                      <!-- Mail -->
-                      <a
-                        :href="`mailto:?&subject=${mission.name}&body=J'ai trouvé ma future mission de bénévolat sur JeVeuxAider.%0d%0aRejoignez le mouvement #ChacunPourTous%0d%0a${baseUrl}${$router.currentRoute.fullPath}`"
-                        class="m-3 text-indigo-300 hover:text-white transition"
-                      >
-                        <svg
-                          x="0px"
-                          y="0px"
-                          viewBox="0 0 41 38"
-                          style="enable-background: new 0 0 41 38"
-                          xml:space="preserve"
-                          class="h-6 w-7"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M37.6,7.9v22.2H3.4V7.9H37.6z M41,4.8H0v28.5h41V4.8z M37.6,30.1L26.4,19.6l-5.9,5.5l-5.8-5.6L3.4,30.1L12,17.4 L3.4,7.9l17.1,11.8l17-11.8L29,17.4L37.6,30.1z"
-                          />
-                        </svg>
-                      </a>
+                  <template v-if="participationsCount">
+                    <div
+                      class="mt-2 uppercase text-gray-777E90 text-xs font-bold"
+                    >
+                      {{ participationsCount }}
+                      {{
+                        participationsCount
+                          | pluralize([
+                            'personne déjà inscrite',
+                            'personnes déjà inscrites',
+                          ])
+                      }}
+                    </div>
 
-                      <!-- Facebook -->
-                      <a
-                        target="_blank"
-                        :href="`https://www.facebook.com/sharer/sharer.php?u=${baseUrl}${$router.currentRoute.fullPath}`"
-                        class="m-3 text-indigo-300 hover:text-white transition"
+                    <div class="mt-4 flex justify-center">
+                      <img
+                        v-for="(portrait, index) in portraits"
+                        :key="index"
+                        :src="portrait"
+                        alt=""
+                        :class="[{ '-ml-1': index !== 0 }]"
+                        class="portrait rounded-full"
+                        style="width: 34px"
+                      />
+                      <div
+                        v-if="participationsCount - 3 > 0"
+                        class="
+                          portrait-count
+                          bg-white
+                          font-bold
+                          inline-flex
+                          items-center
+                          justify-center
+                          rounded-full
+                          text-xs
+                          -ml-1
+                        "
                       >
-                        <svg class="h-6 w-6" viewBox="0 0 155.139 155.139">
-                          <path
-                            d="m89.584 155.139v-70.761h23.742l3.562-27.585h-27.304v-17.609c0-7.984 2.208-13.425 13.67-13.425l14.595-.006v-24.673c-2.524-.328-11.188-1.08-21.272-1.08-21.057 0-35.473 12.853-35.473 36.452v20.341h-23.814v27.585h23.814v70.761z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </a>
+                        {{ formattedBenevoleCount }}
+                      </div>
+                    </div>
+                  </template>
+                </div>
 
-                      <!-- Twitter -->
-                      <a
-                        target="_blank"
-                        :href="`https://twitter.com/intent/tweet?url=${baseUrl}${$router.currentRoute.fullPath}&text=J'ai trouvé ma future mission de bénévolat sur JeVeuxAider. Rejoignez le mouvement #ChacunPourTous`"
-                        class="m-3 text-indigo-300 hover:text-white transition"
+                <div class="px-8 sm:px-32 lg:px-8 mt-4 sm:mt-8">
+                  <div
+                    v-if="dates.length"
+                    class="grid sm:divide-x border-b pb-3 sm:pb-0"
+                    :class="[{ 'sm:grid-cols-2': dates.length == 2 }]"
+                  >
+                    <div
+                      v-for="(date, i) in dates"
+                      :key="i"
+                      class="mx-auto sm:mx-0 sm:pb-3"
+                      :class="[{ 'sm:pr-3': i == 0 }, { 'sm:pl-3': i == 1 }]"
+                    >
+                      <div
+                        class="flex items-center flex-col sm:flex-row gap-2"
+                        :class="[{ 'justify-center': dates.length == 1 }]"
                       >
-                        <svg
-                          class="w-6 h-6"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
-                          ></path>
-                        </svg>
-                      </a>
+                        <img
+                          src="/images/calendar.svg"
+                          alt="Icône calendrier"
+                          class="hidden sm:block"
+                          style="margin-bottom: 4px"
+                        />
 
-                      <!-- Linkedin -->
-                      <a
-                        target="_blank"
-                        :href="`https://www.linkedin.com/shareArticle?mini=true&url=${baseUrl}${$router.currentRoute.fullPath}`"
-                        class="m-3 text-indigo-300 hover:text-white transition"
-                      >
-                        <svg
-                          class="w-6 h-6"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
+                        <div
+                          class="
+                            font-bold
+                            text-center
+                            sm:text-left
+                            flex
+                            gap-2
+                            items-baseline
+                            sm:block
+                          "
                         >
-                          <path
-                            fill-rule="evenodd"
-                            d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </a>
+                          <div class="text-gray-777E90" style="font-size: 11px">
+                            {{ date.label }}
+                          </div>
+                          <div class="text-black">
+                            {{ date.date }}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </template>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          v-if="
-            (mission.state == 'Validée' ||
-              ($store.getters.isLogged &&
-                mission.user_id == $store.getters.user.id) ||
-              $store.getters.contextRole == 'admin') &&
-            mission.information
-          "
-          class="comment-wrapper mt-20 lg:text-center"
-        >
-          <div class="comment-wrapper--icon absolute mt-1">
-            <svg
-              class="z-1 mr-28 h-32 w-32 text-blue-100"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 144 144"
-            >
-              <path
-                stroke-width="2"
-                d="M41.485 15C17.753 31.753 1 59.208 1 89.455c0 24.664 14.891 39.09 32.109 39.09 16.287 0 28.386-13.03 28.386-28.387 0-15.356-10.703-26.524-24.663-26.524-2.792 0-6.515.465-7.446.93 2.327-15.821 17.218-34.435 32.11-43.742L41.485 15zm80.04 0c-23.268 16.753-40.02 44.208-40.02 74.455 0 24.664 14.891 39.09 32.109 39.09 15.822 0 28.386-13.03 28.386-28.387 0-15.356-11.168-26.524-25.129-26.524-2.792 0-6.049.465-6.98.93 2.327-15.821 16.753-34.435 31.644-43.742L121.525 15z"
-              ></path>
-            </svg>
-          </div>
-          <h3
-            class="
-              z-10
-              relative
-              text-2xl
-              leading-8
-              font-bold
-              tracking-tight
-              text-gray-900
-              sm:text-4xl
-              sm:leading-10
-            "
-          >
-            Le mot de l'organisation
-          </h3>
-
-          <div
-            class="
-              mt-4
-              relative
-              max-w-4xl
-              text-xl
-              sm:text-2xl
-              leading-9
-              text-gray-500
-              lg:mx-auto
-            "
-          >
-            <client-only>
-              <ReadMore
-                more-str="Lire plus"
-                :text="mission.information"
-                :max-chars="235"
-              />
-              <template slot="placeholder">
-                <div v-html="mission.information" />
-              </template>
-            </client-only>
-          </div>
-          <div class="mt-6">
-            <span class="text-lg font-medium">
-              <span>L'organisation</span>
-              <nuxt-link
-                v-if="
-                  structure.statut_juridique == 'Association' &&
-                  structure.state == 'Validée'
-                "
-                target="_blank"
-                :to="`/organisations/${structure.slug}`"
-              >
-                <b class="text-blue-800">
-                  {{ structure.name }}
-                </b>
-              </nuxt-link>
-              <b v-else class="text-blue-800">
-                {{ structure.name }}
-              </b>
-            </span>
-          </div>
-        </div>
-
-        <hr class="border-gray-200 my-12" />
-
-        <ul class="md:grid md:grid-cols-2 gap-x-12">
-          <li>
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <div
-                  class="
-                    flex-shrink-0
-                    h-12
-                    w-12
-                    flex
-                    items-center
-                    justify-center
-                    bg-blue-800
-                    rounded-lg
-                  "
-                >
-                  <svg
-                    class="h-6 w-6 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    ></path>
-                  </svg>
                 </div>
-              </div>
-              <div class="ml-4">
-                <h4 class="text-lg leading-6 font-bold text-gray-900">
-                  Objectifs de votre mission
-                </h4>
-                <div class="mt-2 text-base leading-7 text-gray-600">
-                  <client-only>
-                    <ReadMore
-                      more-str="Lire plus"
-                      :text="mission.objectif"
-                      :max-chars="380"
-                    />
-                    <template slot="placeholder">
-                      <div v-html="mission.objectif" />
-                    </template>
-                  </client-only>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="mt-10 md:mt-0">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <div
-                  class="
-                    flex-shrink-0
-                    h-12
-                    w-12
-                    flex
-                    items-center
-                    justify-center
-                    bg-blue-800
-                    rounded-lg
-                  "
-                >
-                  <svg
-                    class="h-6 w-6 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div class="ml-4">
-                <h4 class="text-lg leading-6 font-bold text-gray-900">
-                  Description et règles à appliquer
-                </h4>
-                <div class="mt-2 text-base leading-7 text-gray-600">
-                  <client-only>
-                    <ReadMore
-                      more-str="Lire plus"
-                      :text="mission.description"
-                      :max-chars="380"
-                    />
-                    <template slot="placeholder">
-                      <div v-html="mission.description" />
-                    </template>
-                  </client-only>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
 
-        <div
-          v-if="mission.template && [4].includes(mission.template.id)"
-          class="mt-16 text-center"
-        >
-          <h4 class="text-lg leading-6 font-bold text-gray-900">
-            Quelques pistes pour l'écoute téléphonique
-          </h4>
+                <div class="mx-8 sm:mx-12">
+                  <div v-if="mission.commitment__duration" class="text-center">
+                    <div
+                      class="mt-6 uppercase text-gray-777E90 text-xs font-bold"
+                    >
+                      Engagement minimum
+                    </div>
+                    <div class="font-bold">
+                      <span>
+                        {{
+                          mission.commitment__duration
+                            | labelFromValue('duration')
+                        }}
+                      </span>
+                      <template v-if="mission.commitment__time_period">
+                        <span class="font-normal">par</span>
+                        <span>
+                          {{
+                            mission.commitment__time_period
+                              | labelFromValue('time_period')
+                          }}
+                        </span>
+                      </template>
+                    </div>
+                  </div>
 
-          <div class="mt-2 text-gray-500">
-            <p>
-              <a
-                class="inline-flex items-center hover:underline"
-                target="_blank"
-                href="/files/PFP_Asso_Fiche_telephonie_COVID19__2020_03_23_.pdf"
-              >
-                Télécharger la fiche pratique
-                <svg
-                  style="margin-top: 2px"
-                  data-v-18b25a0c
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  class="h-4 w-4 text-gray-400"
-                >
-                  <path
-                    data-v-18b25a0c
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
+                  <ButtonJeProposeMonAide
+                    class="mt-6"
+                    additional-btn-classes="shadow-xl"
+                    :mission="mission"
                   />
-                </svg>
-              </a>
-            </p>
-          </div>
-        </div>
-
-        <hr class="border-gray-200 my-12" />
-
-        <div class="text-center pb-20">
-          <h2
-            class="
-              text-4xl
-              leading-9
-              font-bold
-              tracking-tight
-              text-gray-900
-              sm:text-5xl
-              sm:leading-10
-            "
-          >
-            Prêt à rejoindre le mouvement&nbsp;?
-          </h2>
-          <p
-            class="
-              mt-4
-              relative
-              max-w-4xl
-              text-xl
-              sm:text-2xl
-              leading-7
-              sm:leading-9
-              text-gray-500
-              lg:mx-auto
-            "
-          >
-            Inscrivez-vous à la mission et l'organisation vous recontactera dans
-            les plus brefs délais. Vous pourrez aussi échanger avec elle pour
-            obtenir plus de précisions.
-          </p>
-          <div class="mt-10 flex justify-center z-10 relative">
-            <ButtonJeProposeMonAide :mission="mission" size="big" />
-          </div>
-          <div class="mt-8 z-1">
-            <div class="text-center justify-center">
-              <img
-                alt="Chacun pour tous"
-                class="mx-auto w-full h-auto md:w-auto md:h-full opacity-50"
-                src="@/assets/images/chacunpourtous.png"
-                style="max-height: 7rem"
-              />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="otherMissions.total > 0" class="container mx-auto px-4 pb-12">
-      <div class="bg-white shadow overflow-hidden rounded-lg">
-        <div
-          class="bg-white px-4 py-3 flex items-center justify-between sm:px-6"
-        >
-          <div>
-            <p class="text-2xl sm:leading-10 font-bold text-gray-900">
-              Autres missions proposées par cette organisation
-            </p>
+    <div
+      v-if="otherMissions.total > 0"
+      class="bg-blue-282562 border-t-8 border-red-FC7069"
+    >
+      <div class="container mx-auto px-4">
+        <div class="pt-16 pb-24">
+          <div class="text-white font-bold text-4xl text-center mb-8">
+            Vous pourriez aussi aimer&nbsp;…
           </div>
-        </div>
-        <ul>
-          <li
-            v-for="otherMission in otherMissions.data"
-            :key="otherMission.id"
-            class="border-t border-gray-200"
-          >
+
+          <MissionsSlideshow class="mb-6" :missions="otherMissions.data" />
+
+          <div class="text-center">
             <nuxt-link
+              :to="`/missions-benevolat?refinementList[structure.name][0]=${structure.name}`"
               class="
-                block
-                hover:bg-gray-50
-                focus:bg-gray-50
+                inline-block
+                border-2 border-gray-500
+                rounded-full
+                text-white
+                hover:border-white
+                focus:outline-none
+                focus:shadow-outline
                 transition
                 duration-150
                 ease-in-out
+                font-bold
+                text-sm
+                px-4
+                py-2
+                mt-6
               "
-              :to="`/missions-benevolat/${otherMission.id}/${otherMission.slug}`"
             >
-              <div class="p-4 sm:p-6 md:p-8">
-                <div class="flex items-center">
-                  <div
-                    class="
-                      hidden
-                      sm:block
-                      flex-shrink-0
-                      bg-primary
-                      rounded-md
-                      p-3
-                      text-center
-                    "
-                  >
-                    <img
-                      v-if="otherMission.template"
-                      :alt="otherMission.template.name"
-                      :src="otherMission.template.image"
-                      style="width: 28px"
-                    />
-                    <img
-                      v-else-if="
-                        otherMission.domaine && otherMission.domaine.image
-                      "
-                      :alt="otherMission.domaine.name"
-                      :src="otherMission.domaine.image"
-                      style="width: 28px"
-                    />
-                  </div>
-                  <div class="min-w-0 flex-1 sm:pl-4">
-                    <div
-                      class="
-                        flex
-                        items-center
-                        justify-between
-                        flex-wrap
-                        sm:flex-no-wrap
-                        -m-2
-                      "
-                    >
-                      <div class="m-2 min-w-0 flex-shrink">
-                        <div
-                          class="
-                            text-sm
-                            leading-5
-                            uppercase
-                            font-medium
-                            text-gray-500
-                            truncate
-                          "
-                        >
-                          {{ mission.structure.name }}
-                        </div>
-                        <div
-                          class="
-                            text-sm
-                            md:text-base
-                            lg:text-lg
-                            xl:text-xl
-                            font-semibold
-                            text-gray-900
-                            truncate
-                          "
-                        >
-                          {{ otherMission.name }}
-                        </div>
-                      </div>
-
-                      <div
-                        v-if="
-                          otherMission.has_places_left &&
-                          otherMission.places_left > 0
-                        "
-                        class="
-                          m-2
-                          flex-shrink-0
-                          border-transparent
-                          px-4
-                          py-2
-                          border
-                          text-xs
-                          lg:text-sm
-                          font-medium
-                          rounded-full
-                          text-white
-                          shadow-md
-                        "
-                        style="background: #31c48d"
-                      >
-                        <template
-                          v-if="
-                            otherMission.has_places_left &&
-                            otherMission.places_left > 0
-                          "
-                        >
-                          {{ otherMission.places_left | formatNumber }}
-                          {{
-                            otherMission.places_left
-                              | pluralize([
-                                'bénévole recherché',
-                                'bénévoles recherchés',
-                              ])
-                          }}
-                        </template>
-                        <template v-else>Complet</template>
-                      </div>
-                      <div
-                        v-else
-                        class="
-                          m-2
-                          flex-shrink-0
-                          border-transparent
-                          px-4
-                          py-2
-                          border
-                          text-xs
-                          lg:text-sm
-                          font-medium
-                          rounded-full
-                          text-white
-                          shadow-md
-                        "
-                        style="background: #73777d"
-                      >
-                        <span v-if="otherMission.has_places_left === false"
-                          >Complet</span
-                        >
-                        <span v-else>Nombre de places non défini</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="
-                    flex
-                    items-center
-                    flex-wrap
-                    text-s
-                    leading-5
-                    text-gray-500
-                    mt-4
-                  "
-                >
-                  <template
-                    v-if="
-                      otherMission.city &&
-                      otherMission.type == 'Mission en présentiel'
-                    "
-                  >
-                    <span
-                      v-if="otherMission.department"
-                      class="
-                        mr-3
-                        mt-1
-                        px-2.5
-                        py-1.5
-                        border border-gray-200
-                        text-xs
-                        leading-4
-                        font-medium
-                        rounded-full
-                        text-gray-500
-                        bg-white
-                      "
-                      >Mission en présentiel - {{ otherMission.city }} ({{
-                        otherMission.department
-                      }})</span
-                    >
-                    <span
-                      v-else
-                      class="
-                        mr-3
-                        mt-1
-                        px-2.5
-                        py-1.5
-                        border border-gray-200
-                        text-xs
-                        leading-4
-                        font-medium
-                        rounded-full
-                        text-gray-500
-                        bg-white
-                      "
-                      >Mission en présentiel - {{ otherMission.city }}</span
-                    >
-                  </template>
-                  <template v-else>
-                    <span
-                      class="
-                        mr-3
-                        mt-1
-                        px-2.5
-                        py-1.5
-                        border border-gray-200
-                        text-xs
-                        leading-4
-                        font-medium
-                        rounded-full
-                        text-gray-500
-                        bg-white
-                      "
-                      >Mission à distance</span
-                    >
-                  </template>
-
-                  <span
-                    v-if="otherMission.domaines[0]"
-                    class="
-                      mr-3
-                      mt-1
-                      px-2.5
-                      py-1.5
-                      border border-gray-200
-                      text-xs
-                      leading-4
-                      font-medium
-                      rounded-full
-                      text-gray-500
-                      bg-white
-                    "
-                    >{{ otherMission.domaines[0].name.fr }}</span
-                  >
-                </div>
-              </div>
+              Plus de missions
             </nuxt-link>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import MissionMixin from '@/mixins/MissionMixin'
+
 export default {
   name: 'Mission',
+  mixins: [MissionMixin],
   async asyncData({ $api, params, error, store }) {
     const mission = await $api.getMission(params.id)
 
@@ -932,18 +711,34 @@ export default {
       return error({ statusCode: 404 })
     }
 
-    if (mission.state == 'En attente de validation') {
-      return error({ statusCode: 403 })
+    if (['Brouillon', 'En attente de validation'].includes(mission.state)) {
+      // Si on est pas modérateur
+      // Ou si on n'est pas responsable de la structure
+      if (store.getters.isLogged) {
+        if (
+          store.getters.user.context_role != 'admin' &&
+          !store.getters.user.profile.structures.filter(
+            (structure) => structure.id == mission.structure_id
+          ).length
+        ) {
+          return error({ statusCode: 403 })
+        }
+      } else {
+        return error({ statusCode: 403 })
+      }
     }
 
     // Si mission signalée ou organisation désinscrite / signalée
     if (
-      ['Signalée', 'Brouillon'].includes(mission.state) ||
+      ['Signalée'].includes(mission.state) ||
       ['Désinscrite', 'Signalée'].includes(mission.structure.state)
     ) {
       if (store.getters.isLogged) {
-        // Si on participe à cette mission ou si on est responsable de la structure
+        // Si on est pas modérateur
+        // Si on ne participe pas à cette mission
+        // Ou si on n'est pas responsable de la structure
         if (
+          store.getters.user.context_role != 'admin' &&
           !store.getters.user.profile.participations.filter(
             (participation) => participation.mission_id == mission.id
           ).length &&
@@ -1025,71 +820,109 @@ export default {
       return this.mission.structure
     },
     structureType() {
-      const status = this.$options.filters
+      let status = this.$options.filters
         .labelFromValue(
           this.structure.statut_juridique,
           'structure_legal_status'
         )
         .toLowerCase()
-      return `L'${status}`
+      if (status == 'autre') {
+        status = 'organisation'
+      }
+      return status.match('^[aieouAIEOU].*') ? `l'${status}` : `la ${status}`
     },
-    hasParticipation() {
-      return this.$store.getters.profile.participations.filter(
-        (participation) =>
-          participation.mission_id == this.mission.id &&
-          participation.state != 'Annulée'
+    participationsCount() {
+      return this.mission.participations_max - this.mission.places_left
+    },
+    portraits() {
+      const portraits = []
+      const randomNumbers = []
+      const portraitsCount = 74 // The total number of portraits existing
+      const portraitsToGetCount = Math.min(this.participationsCount, 3)
+
+      while (randomNumbers.length < portraitsToGetCount) {
+        const result = Math.floor(Math.random() * portraitsCount) + 1
+        if (!randomNumbers.includes(result)) {
+          randomNumbers.push(result)
+        }
+      }
+
+      randomNumbers.forEach((i) => {
+        portraits.push(`/images/portraits/${i}.png`)
+      })
+
+      return portraits
+    },
+    dates() {
+      const dates = []
+      const startDate = this.mission.start_date?.substring(0, 10)
+      const endDate = this.mission.end_date?.substring(0, 10)
+      const startDateYear = startDate?.substring(0, 4)
+      const endDateYear = endDate?.substring(0, 4)
+      const format =
+        startDate && endDate && startDateYear != endDateYear
+          ? 'D MMMM YYYY'
+          : 'D MMMM'
+
+      // Si date de départ dépassée et pas de date de fin, masquer les dates
+      if (this.$dayjs(startDate).isBefore(this.$dayjs()) && !endDate) {
+        return dates
+      }
+
+      if (startDate) {
+        dates.push({
+          date: this.$dayjs(startDate).format(format),
+          label: 'À PARTIR DU',
+        })
+      }
+
+      if (endDate) {
+        dates.push({
+          date: this.$dayjs(endDate).format(format),
+          label: "JUSQU'AU",
+        })
+      }
+
+      return dates
+    },
+    domainName() {
+      return (
+        this.mission?.domaine?.name.fr ??
+        this.mission?.template?.domaine?.name.fr ??
+        null
       )
     },
-    isNotResponsableOfMission() {
-      return this.$store.getters.profile.id != this.mission.responsable_id
+    secondaryDomainName() {
+      return this.mission?.domaine_secondaire?.name.fr
     },
-    isAlreadyRegistered() {
-      return !(this.hasParticipation.length > 0)
+    domains() {
+      return [this.domainName, this.secondaryDomainName].filter((el) => el)
     },
-    responseTime() {
-      const daysDelay = this.$options.filters.daysFromTimestamp(
-        this.mission.structure.response_time
-      )
-      if (daysDelay < 5) {
-        return 'Moins de 5 jours'
-      } else if (daysDelay < 10) {
-        return 'Entre 5 et 10 jours'
-      }
-      return 'Moins de 15 jours'
+    formattedBenevoleCount() {
+      const count = this.participationsCount - 3
+      return count < 1000 ? `+${count}` : `+1k`
     },
-    formattedDate() {
-      const startDate = this.mission.start_date
-      const endDate = this.mission.end_date
-
-      if (!endDate) {
-        return null
-      }
-
-      if (
-        this.$dayjs(startDate).format('D MMMM YYYY') ==
-        this.$dayjs(endDate).format('D MMMM YYYY')
-      ) {
-        return `Le <b class="text-white">${this.$dayjs(startDate).format(
-          'D MMMM YYYY'
-        )}</b>`
-      }
-
-      if (
-        this.$dayjs(startDate).format('YYYY') !=
-        this.$dayjs(endDate).format('YYYY')
-      ) {
-        return `Du <b class="text-white">${this.$dayjs(startDate).format(
-          'D MMMM YYYY'
-        )}</b> au <b class="text-white">${this.$dayjs(endDate).format(
-          'D MMMM YYYY'
-        )}</b>`
+    illustration() {
+      let illustration = {}
+      if (this.structure.statut_juridique == 'Association') {
+        if (this.structure?.override_image_1?.original) {
+          illustration = {
+            default:
+              this.structure?.override_image_1?.large ??
+              this.structure?.override_image_1?.original,
+            x2: null,
+          }
+        } else {
+          illustration = {
+            default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
+            x2: `/images/organisations/domaines/${this.structure.image_1}@2x.jpg 2x`,
+          }
+        }
       } else {
-        return `Du <b class="text-white">${this.$dayjs(startDate).format(
-          'D MMMM'
-        )}</b> au <b class="text-white">${this.$dayjs(endDate).format(
-          'D MMMM YYYY'
-        )}</b>`
+        return this.thumbnail
       }
+
+      return illustration
     },
   },
   created() {
@@ -1098,15 +931,51 @@ export default {
     }
   },
   methods: {
-    domainName(mission) {
-      return mission.domaine && mission.domaine.name && mission.domaine.name.fr
-        ? mission.domaine.name.fr
-        : mission.template &&
-          mission.template.domaine &&
-          mission.template.domaine.name &&
-          mission.template.domaine.name.fr
-        ? mission.template.domaine.name.fr
-        : null
+    // domainName {
+    //   return mission.domaine && mission.domaine.name && mission.domaine.name.fr
+    //     ? mission.domaine.name.fr
+    //     : mission.template &&
+    //       mission.template.domaine &&
+    //       mission.template.domaine.name &&
+    //       mission.template.domaine.name.fr
+    //     ? mission.template.domaine.name.fr
+    //     : null
+    // },
+    iconPublicType(publicType) {
+      let icon
+      switch (publicType) {
+        case 'Personnes âgées':
+          icon = require('@/assets/images/icones/personnes_agees.svg?include')
+          break
+        case 'Personnes en situation de handicap':
+          icon = require('@/assets/images/icones/handicap.svg?include')
+          break
+        case 'Personnes à la rue':
+          icon = require('@/assets/images/icones/helping_hand.svg?include')
+          break
+        case 'Parents':
+          icon = require('@/assets/images/icones/parents.svg?include')
+          break
+        case 'Jeunes / enfants':
+          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
+          break
+        case 'Tous publics':
+          icon = require('@/assets/images/icones/tous_public.svg?include')
+          break
+        case 'Mineurs':
+          icon = require('@/assets/images/icones/mineur.svg?include')
+          break
+      }
+
+      return icon
+    },
+    onClickShare() {
+      this.$store.commit('setMissionSelected', this.mission)
+      this.$store.commit('toggleShareOverlay')
+    },
+    defaultThumbnail(e) {
+      e.target.src = `/images/mission-default.jpg"`
+      e.target.srcset = `/images/mission-default@2x.jpg 2x`
     },
   },
 }
@@ -1133,4 +1002,40 @@ export default {
 
 ::v-deep .el-dialog__title
   @apply text-gray-800 text-xl font-bold
+
+.custom-gradient
+  background: linear-gradient(to right, #070191 5px, #eeedf7 5px)
+
+.custom-gradient-2
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70.1%)
+
+.citation
+  *,
+  ::v-deep *
+    display: inline
+  h3
+    &::before
+      content: "“\00A0"
+    &::after
+      content: "\00A0”"
+
+.public-wrapper
+  ::v-deep svg
+    @apply w-full h-full
+    > *[fill]
+      fill: #808080
+
+.logo-wrapper
+  left: 50%
+  transform: translateX(-50%) translateY(-70%)
+  @apply absolute
+
+.portrait-count
+  width: 34px
+  height: 34px
+  color: #B6B6B6
+
+.portrait,
+.portrait-count
+  filter: drop-shadow(rgba(0, 0, 0, 0.1) 0 3px 7px)
 </style>
