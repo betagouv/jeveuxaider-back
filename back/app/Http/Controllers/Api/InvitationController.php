@@ -119,7 +119,8 @@ class InvitationController extends Controller
             [
                 'name' => request("email"),
                 'email' => request("email"),
-                'password' => Hash::make(request("password"))
+                'password' => Hash::make(request("password")),
+                'utm_source' => 'invitation'
             ]
         );
 

@@ -14,15 +14,7 @@
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
-        class="
-          px-8
-          py-6
-          bg-white
-          text-black text-3xl
-          font-extrabold
-          leading-9
-          text-center
-        "
+        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
         Votre organisation en quelques mots
       </div>
@@ -59,13 +51,13 @@
           </div>
 
           <el-form-item
-            label="Email publique de votre organisation"
+            label="E-mail public de votre organisation"
             prop="email"
           >
             <input
               v-model="form.email"
               class="custom-input placeholder-gray-600"
-              placeholder="Email publique de votre organisation"
+              placeholder="E-mail public de votre organisation"
             />
           </el-form-item>
 
@@ -79,13 +71,7 @@
 
           <template v-if="collectivity">
             <div
-              class="
-                mb-8
-                text-black text-2xl
-                font-extrabold
-                leading-9
-                text-center
-              "
+              class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
             >
               Codes postaux de votre collectivité
             </div>
@@ -121,13 +107,7 @@
           </template>
 
           <div
-            class="
-              mb-8
-              text-black text-2xl
-              font-extrabold
-              leading-9
-              text-center
-            "
+            class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
           >
             Votre organisation sur les réseaux
           </div>
@@ -172,31 +152,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="
-                shadow-lg
-                block
-                w-full
-                text-center
-                rounded-lg
-                z-10
-                border border-transparent
-                bg-green-400
-                px-4
-                sm:px-6
-                py-4
-                text-lg
-                sm:text-xl
-                leading-6
-                font-bold
-                text-white
-                hover:bg-green-500
-                focus:outline-none
-                focus:border-indigo-700
-                focus:shadow-outline-indigo
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
               @click="onSubmit"
               >Continuer</el-button
             >
@@ -253,6 +209,8 @@ export default {
         {
           name: `Quelques mots sur l'organisation`,
           status: 'current',
+          disable:
+            this.$store.getters.structure.statut_juridique == 'Collectivité',
         },
         {
           name: `Votre organisation en images`,

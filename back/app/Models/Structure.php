@@ -218,6 +218,11 @@ class Structure extends Model implements HasMedia
         return $this->hasOne('App\Models\Collectivity');
     }
 
+    public function territoire()
+    {
+        return $this->hasOne('App\Models\Territoire');
+    }
+
     public function scopeCollectivity($query, $collectivity_id)
     {
         $collectivity = Collectivity::find($collectivity_id);
@@ -228,7 +233,7 @@ class Structure extends Model implements HasMedia
         }
     }
 
-    public function scopeTerritoire($query, $territoire_id)
+    public function scopeOfTerritoire($query, $territoire_id)
     {
         $territoire = Territoire::find($territoire_id);
 
@@ -366,15 +371,7 @@ class Structure extends Model implements HasMedia
 
         return $this;
     }
-
-    public function getResponseRatioAttribute($response_ratio)
-    {
-        if ($response_ratio == null) {
-            return 50;
-        }
-        return $response_ratio;
-    }
-
+    
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations->avg('response_time');

@@ -151,13 +151,14 @@ class StructureObserver
     private function createTerritoire($structure)
     {
         $territoire = Territoire::create([
+            'structure_id' => $structure->id,
             'name' => $structure->city ?? $structure->name,
             'suffix_title' => 'à ' . $structure->city ?? $structure->name,
             'zips' => $structure->zip ? [$structure->zip] : [],
             'department' => $structure->department,
             'is_published' => false,
             'type' => 'city',
-            'state' => 'waiting'
+            'state' => 'waiting',
         ]);
         $territoire->save();
         $territoire->addResponsable($structure->user->profile);

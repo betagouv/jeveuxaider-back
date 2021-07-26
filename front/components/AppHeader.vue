@@ -10,7 +10,7 @@
     />
     <div id="header-wrapper" class="flex justify-between items-center">
       <div class="flex h-full">
-        <div class="hidden lg:flex items-center px-2 shadow-lg">
+        <div class="hidden md:flex items-center px-2 shadow-lg">
           <nuxt-link to="/">
             <img
               class="mx-auto lg:mx-0"
@@ -21,7 +21,7 @@
             />
           </nuxt-link>
         </div>
-        <div class="flex items-center px-4 lg:px-6 xl:px-8">
+        <div class="flex items-center px-4 lg:px-6 xl:px-8 flex-shrink-0">
           <nuxt-link to="/">
             <img
               src="@/assets/images/jeveuxaider-logo.svg"
@@ -35,49 +35,21 @@
       </div>
 
       <!-- DESKTOP -->
-      <div class="hidden md:flex md:flex-none md:flex-col h-full">
+      <div class="hidden lg:flex lg:flex-none lg:flex-col h-full">
         <div class="flex justify-end">
           <slot name="top-menu">
             <template v-if="$store.getters.isLogged">
               <div
                 v-if="$store.getters.roles && $store.getters.roles.length > 0"
-                class="
-                  font-semibold
-                  cursor-pointer
-                  tracking-wide
-                  uppercase
-                  bg-gray-50
-                  text-xxs text-gray-500
-                  hover:text-blue-800
-                  px-4
-                  xl:px-10
-                  py-2
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="font-semibold cursor-pointer tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
                 @click="goToDashboard()"
               >
                 Tableau de bord
               </div>
               <nuxt-link
                 v-else
-                to="/register/responsable/step/structure"
-                class="
-                  ml-1
-                  font-semibold
-                  tracking-wide
-                  uppercase
-                  bg-gray-50
-                  text-xxs text-gray-500
-                  hover:text-blue-800
-                  px-4
-                  xl:px-10
-                  py-2
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                to="/inscription/organisation"
+                class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
               >
                 Créer mon organisation
               </nuxt-link>
@@ -85,41 +57,13 @@
             <nuxt-link
               v-if="!$store.getters.isLogged"
               to="/collectivite"
-              class="
-                ml-1
-                font-semibold
-                tracking-wide
-                uppercase
-                bg-gray-50
-                text-xxs text-gray-500
-                hover:text-blue-800
-                px-4
-                xl:px-10
-                py-2
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
             >
               Inscrire ma collectivité
             </nuxt-link>
             <nuxt-link
               to="/territoires"
-              class="
-                ml-1
-                font-semibold
-                tracking-wide
-                uppercase
-                bg-gray-50
-                text-xxs text-gray-500
-                hover:text-blue-800
-                px-4
-                xl:px-10
-                py-2
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
             >
               Territoires engagés
             </nuxt-link>
@@ -127,21 +71,7 @@
               target="_blank"
               rel="noopener"
               href="https://www.jeveuxaider.gouv.fr/engagement/ecoles-et-universites/"
-              class="
-                ml-1
-                font-semibold
-                tracking-wide
-                uppercase
-                bg-gray-50
-                text-xxs text-gray-500
-                hover:text-blue-800
-                px-4
-                xl:px-10
-                py-2
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
             >
               Écoles et universités
             </a>
@@ -149,39 +79,12 @@
               target="_blank"
               rel="noopener"
               href="https://reserve-civique.crisp.help/fr/"
-              class="
-                ml-1
-                font-semibold
-                tracking-wide
-                uppercase
-                bg-gray-50
-                text-xxs text-gray-500
-                hover:text-blue-800
-                px-4
-                xl:px-10
-                py-2
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="ml-1 font-semibold tracking-wide uppercase bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 xl:px-10 py-2 transition ease-in-out duration-150"
             >
               Centre d'aide
             </a>
             <div
-              class="
-                flex
-                justify-center
-                items-center
-                ml-1
-                bg-gray-50
-                text-xxs text-gray-500
-                hover:text-blue-800
-                px-4
-                py-2
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="flex justify-center items-center ml-1 bg-gray-50 text-xxs text-gray-500 hover:text-blue-800 px-4 py-2 transition ease-in-out duration-150"
             >
               <a
                 target="_blank"
@@ -228,28 +131,11 @@
         <div class="flex h-full items-center justify-end px-4">
           <slot name="menu">
             <nav
-              class="
-                flex-none flex
-                space-x-6
-                xl:space-x-12
-                text-sm
-                lg:text-base
-              "
+              class="flex-none flex space-x-6 xl:space-x-12 text-sm lg:text-base"
             >
               <button
                 id="search"
-                class="
-                  flex
-                  items-center
-                  leading-6
-                  font-semibold
-                  text-gray-800
-                  hover:text-blue-800
-                  focus:text-gray-900
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
                 @click="$store.commit('toggleSearchOverlay')"
               >
                 <img
@@ -263,34 +149,14 @@
               </button>
               <nuxt-link
                 to="/missions-benevolat?refinementList%5Btype%5D%5B0%5D=Mission%20à%20distance"
-                class="
-                  leading-6
-                  font-semibold
-                  text-gray-800
-                  hover:text-blue-800
-                  focus:text-gray-900
-                  transition
-                  ease-in-out
-                  duration-150
-                  hidden
-                  xl:block
-                "
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150 hidden xl:block"
               >
                 À distance
               </nuxt-link>
               <nuxt-link
                 v-if="!$store.getters.isLogged"
                 to="/register/responsable"
-                class="
-                  leading-6
-                  font-semibold
-                  text-gray-800
-                  hover:text-blue-800
-                  focus:text-gray-900
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
               >
                 Publier une mission
               </nuxt-link>
@@ -299,32 +165,11 @@
                 <button
                   type="button"
                   aria-label="S'informer"
-                  class="
-                    flex
-                    items-center
-                    leading-6
-                    font-semibold
-                    text-gray-800
-                    hover:text-blue-800
-                    focus:text-gray-900
-                    transition
-                    ease-in-out
-                    duration-150
-                  "
+                  class="flex items-center leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   <span class="flex-none lg:text-base">S'informer</span>
                   <svg
-                    class="
-                      text-blue-300
-                      hover:text-blue-800
-                      h-5
-                      w-5
-                      group-hover:text-gray-500 group-focus:text-gray-500
-                      transition
-                      ease-in-out
-                      duration-150
-                      flex-none
-                    "
+                    class="text-blue-300 hover:text-blue-800 h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150 flex-none"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -370,51 +215,25 @@
               <nuxt-link
                 v-if="$store.getters.isLogged"
                 to="/user/missions"
-                class="
-                  leading-6
-                  font-semibold
-                  text-gray-800
-                  hover:text-blue-800
-                  focus:text-gray-900
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
               >
                 Mes missions
               </nuxt-link>
             </nav>
           </slot>
-          <div class="ml-6 xl:ml-12">
+          <div class="ml-6 xl:ml-12 flex items-center space-x-2">
             <template v-if="!$store.getters.isLogged">
               <nuxt-link
                 to="/login"
-                class="
-                  flex
-                  border border-gray-200
-                  cursor-pointer
-                  rounded-full
-                  px-4
-                  py-2
-                  text-xs
-                  font-semibold
-                  text-gray-800
-                  hover:bg-gray-50
-                  hover:text-blue-800
-                  focus:text-gray-900
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-blue-800 hover:bg-gray-50 hover:scale-105 transform transition ease-in-out duration-150 uppercase"
               >
-                <img
-                  class="mr-2"
-                  src="@/assets/images/icones/mon-espace.svg"
-                  alt="Mon espace"
-                  width="12"
-                  height="18"
-                />
-                Mon espace
+                Connexion
+              </nuxt-link>
+              <nuxt-link
+                to="/inscription"
+                class="flex border border-gray-200 cursor-pointer rounded-full px-4 py-2 text-xs font-semibold text-white bg-blue-800 hover:scale-105 transform transition ease-in-out duration-150 uppercase"
+              >
+                Inscription
               </nuxt-link>
             </template>
             <template v-else>
@@ -434,15 +253,7 @@
                     :max="99"
                   >
                     <svg
-                      class="
-                        h-6
-                        w-6
-                        text-blue-300
-                        hover:text-blue-800
-                        transition
-                        ease-in-out
-                        duration-150
-                      "
+                      class="h-6 w-6 text-blue-300 hover:text-blue-800 transition ease-in-out duration-150"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -466,15 +277,7 @@
                     is-dot
                   >
                     <svg
-                      class="
-                        h-6
-                        w-6
-                        text-blue-300
-                        hover:text-blue-800
-                        transition
-                        ease-in-out
-                        duration-150
-                      "
+                      class="h-6 w-6 text-blue-300 hover:text-blue-800 transition ease-in-out duration-150"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -498,7 +301,7 @@
 
       <!-- MOBILE -->
       <mobile-menu
-        class="flex h-full items-center md:hidden"
+        class="flex h-full items-center lg:hidden"
         @mission-search-clicked="$store.commit('toggleSearchOverlay')"
       />
     </div>

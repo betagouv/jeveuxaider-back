@@ -111,7 +111,12 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="Domaines d'action" prop="domaines" class="">
+    <el-form-item
+      v-if="form.statut_juridique != 'Collectivité'"
+      label="Domaines d'action"
+      prop="domaines"
+      class=""
+    >
       <el-checkbox-group
         v-model="domainesSelected"
         size="medium"
@@ -129,6 +134,7 @@
       </el-checkbox-group>
     </el-form-item>
     <el-form-item
+      v-if="form.statut_juridique != 'Collectivité'"
       label="Publics bénéficiaires"
       prop="publics_beneficiaires"
       class=""
@@ -163,7 +169,7 @@
       />
     </el-form-item>
 
-    <el-form-item label="Email publique de votre organisation" prop="email">
+    <el-form-item label="E-mail public de votre organisation" prop="email">
       <el-input
         v-model="form.email"
         placeholder="contact@mon-organisation.fr"
@@ -319,21 +325,7 @@
             @click="onEditImageClick(0)"
           />
           <div
-            class="
-              z-1
-              absolute
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              text-blue-800
-              bg-white
-              rounded-full
-              opacity-75
-              group-hover:opacity-100
-              pointer-events-none
-            "
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
@@ -391,21 +383,7 @@
             @click="onEditImageClick(1)"
           />
           <div
-            class="
-              z-1
-              absolute
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              text-blue-800
-              bg-white
-              rounded-full
-              opacity-75
-              group-hover:opacity-100
-              pointer-events-none
-            "
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div

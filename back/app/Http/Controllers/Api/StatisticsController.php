@@ -405,9 +405,9 @@ class StatisticsController extends Controller
     {
         if ($type == 'territoires') {
             $this->authorize('viewStats', Territoire::find($id));
-            $organisations = Structure::territoire($id);
-            $missions = Mission::territoire($id);
-            $participations = Participation::territoire($id);
+            $organisations = Structure::ofTerritoire($id);
+            $missions = Mission::ofTerritoire($id);
+            $participations = Participation::ofTerritoire($id);
             return [
                 'organisations' => [
                     'total' => $organisations->count(),

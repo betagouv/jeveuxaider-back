@@ -29,7 +29,9 @@ class RegisterResponsableWithStructureRequest extends FormRequest
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:2',
             'structure_name' => 'required|min:3',
-            'structure_api' => ''
+            'utm_source' => '',
+            'structure_api' => '',
+            'statut_juridique' => ''
         ];
     }
 

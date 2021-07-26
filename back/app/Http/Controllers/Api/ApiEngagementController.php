@@ -17,8 +17,6 @@ class ApiEngagementController extends Controller
 
         $mission = $service->getMyMission($id);
 
-        ray($mission);
-
         return $mission;
     }
 }

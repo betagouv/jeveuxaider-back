@@ -134,6 +134,11 @@ class Territoire extends Model implements HasMedia
         return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 
+    public function structure()
+    {
+        return $this->belongsTo('App\Models\Structure');
+    }
+
     public function structures()
     {
         return $this->morphedByMany('App\Models\Structure', 'relation', 'territoire_relations');
@@ -185,7 +190,7 @@ class Territoire extends Model implements HasMedia
     {
         // Missions within the territory postcodes, random sort
         if (!$byRadius) {
-            $missions = Mission::territoire($this->id)
+            $missions = Mission::ofTerritoire($this->id)
                 ->where('state', 'Validée')
                 ->where('places_left', '>', 0)
                 ->where('type', 'Mission en présentiel')

@@ -106,6 +106,41 @@
           </el-form-item>
         </template>
 
+        <template v-if="form.role == 'responsable_territoire'">
+          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+            Responsable d'une ville ou d'un département
+          </div>
+          <ItemDescription container-class="mb-6">
+            Renseignez le nom de la ville ou du département. Vous permettez à
+            cet utilisateur de visualiser les missions et bénévoles rattachés à
+            cette collectivité.
+          </ItemDescription>
+          <el-form-item
+            label="Ville ou département"
+            prop="invitable_id"
+            class="flex-1 max-w-xl mb-7"
+          >
+            <el-select
+              v-model="form.invitable_id"
+              filterable
+              reserve-keyword
+              remote
+              :remote-method="fetchTerritoires"
+              placeholder="Nom de la ville ou du département"
+              :loading="loading"
+              @change="form.invitable_type = 'App\\Models\\Territoire'"
+            >
+              <el-option
+                v-for="item in territoires"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+
         <template v-if="form.role == 'superviseur'">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Tête de réseau national
@@ -225,6 +260,7 @@ export default {
       loading: false,
       organisations: [],
       collectivities: [],
+      territoires: [],
       form: {
         user_id: this.$store.getters.user.id,
         properties: {},
@@ -287,12 +323,26 @@ export default {
           })
       }
     },
+    fetchTerritoires(query) {
+      if (query !== '') {
+        this.loading = true
+        this.$api
+          .fetchTerritoires({
+            'filter[search]': query,
+          })
+          .then((response) => {
+            this.loading = false
+            this.territoires = response.data.data
+          })
+      }
+    },
     resetForm() {
       this.$delete(this.form, 'invitable_id')
       this.$delete(this.form, 'invitable_type')
       this.$set(this.form, 'properties', {})
       this.$set(this, 'organisations', [])
       this.$set(this, 'collectivities', [])
+      this.$set(this, 'territoires', [])
     },
     onSubmit() {
       this.loading = true

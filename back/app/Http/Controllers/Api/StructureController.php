@@ -100,17 +100,19 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        $structure = Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
+        $structure = Structure::with(['members', 'territoire'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
+        ray('structure', $structure);
         return $structure;
     }
 
-    public function associationSlug(Request $request, $slug)
+    public function associationSlugOrId(Request $request, $slugOrId)
     {
-        $structure = Structure::where('slug', $slug)
-            ->where('state', 'Validée')
-            ->where('statut_juridique', 'Association')
-            ->first();
+        $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
+        $structure = $query->where('state', 'Validée')
+                        ->where('statut_juridique', 'Association')
+                        ->first();
+
         if ($structure) {
             $structure->append('domaines_with_image');
         }
@@ -123,8 +125,20 @@ class StructureController extends Controller
             return $request->validated();
         }
 
+        $structureAttributes = [
+            'user_id' => Auth::guard('api')->user()->id,
+        ];
+
+        // MAPPING API ENGAGEMENT
+        if ($request->has('structure_api') && $request->input('structure_api')) {
+            $structureAttributes = array_merge(
+                $structureAttributes,
+                ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
+            );
+        }
+
         $structure = Structure::create(
-            array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
+            array_merge($request->validated(), $structureAttributes)
         );
 
         if ($request->has('domaines')) {
@@ -273,5 +287,20 @@ class StructureController extends Controller
         if ($structure && $structure->canBeSendToApiEngagement()) {
             return (new ApiEngagement())->syncAssociation($structure);
         }
+    }
+
+    public function exist(Request $request, $rnaOrName)
+    {
+        $structure = Structure::where('rna', '=', $rnaOrName)
+            ->orWhere('name', 'ILIKE', $rnaOrName)
+            ->first();
+        if ($structure === null) {
+            return false;
+        }
+
+        return [
+            'structure_name' => $structure->name, 
+            'responsable_fullname' => $structure->responsables->first()->full_name
+        ];
     }
 }

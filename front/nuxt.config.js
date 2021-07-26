@@ -72,6 +72,10 @@ export default {
     '@/plugins/vue-awesome-swiper.js',
   ],
 
+  router: {
+    middleware: 'set-utm',
+  },
+
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 

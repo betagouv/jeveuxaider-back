@@ -13,18 +13,7 @@
       <div class="flex flex-wrap mt-2">
         <nuxt-link
           :to="`/missions-benevolat/${participation.mission.id}/${participation.mission.slug}`"
-          class="
-            rounded-full
-            border
-            py-1
-            px-3
-            text-sm
-            font-bold
-            text-gray-900
-            hover:shadow-md
-            hover:border-black
-            transition
-          "
+          class="rounded-full border py-1 px-3 text-sm font-bold text-gray-900 hover:shadow-md hover:border-black transition"
         >
           Consulter la fiche
         </nuxt-link>
@@ -133,18 +122,7 @@
               participation.mission.type,
             ]"
             :key="tag"
-            class="
-              px-4
-              py-1
-              m-2
-              shadow-md
-              inline-flex
-              text-sm
-              font-semibold
-              rounded-full
-              bg-gray-100
-              text-gray-500
-            "
+            class="px-4 py-1 m-2 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
           >
             {{ tag }}
           </div>
