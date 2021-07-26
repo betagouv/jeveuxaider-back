@@ -49,7 +49,7 @@ class Invitation extends Model
     {
         $profile = Profile::whereEmail($this->email)->first();
 
-        if (in_array($this->role, ['responsable_collectivity', 'responsable_organisation'])) {
+        if (in_array($this->role, ['responsable_organisation'])) {
             if ($profile->structures->count() > 0) {
                 return;
             }
@@ -63,10 +63,6 @@ class Invitation extends Model
             // RESPONSABLE TERRITOIRE
             if ($this->role == 'responsable_territoire') {
                 $this->invitable->addResponsable($profile);
-            }
-            // RESPONSABLE COLLECTIVITE
-            if ($this->role == 'responsable_collectivity') {
-                $this->invitable->addMember($profile, 'responsable');
             }
             // REFERENT DEPARTEMENTAL
             if ($this->role == 'referent_departemental') {

@@ -3,18 +3,16 @@
 namespace App\Observers;
 
 use App\Jobs\SendinblueSyncUser;
-use App\Models\Collectivity;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
-use App\Notifications\CollectivityWaitingValidation;
+use App\Notifications\TerritoireWaitingValidation;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
-use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
 
 class StructureObserver
@@ -164,6 +162,6 @@ class StructureObserver
         $territoire->addResponsable($structure->user->profile);
 
         Notification::route('slack', config('services.slack.hook_url'))
-            ->notify(new CollectivityWaitingValidation($territoire));
+            ->notify(new TerritoireWaitingValidation($territoire));
     }
 }

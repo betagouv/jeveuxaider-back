@@ -18,7 +18,6 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Profile' => 'App\Policies\ProfilePolicy',
         'App\Models\Participation' => 'App\Policies\ParticipationPolicy',
         'App\Models\Faq' => 'App\Policies\FaqPolicy',
-        'App\Models\Collectivity' => 'App\Policies\CollectivityPolicy',
         'App\Models\Territoire' => 'App\Policies\TerritoirePolicy',
         'App\Models\Document' => 'App\Policies\DocumentPolicy',
         'App\Models\Release' => 'App\Policies\ReleasePolicy',

@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Collectivity;
 use App\Models\Mission;
 use App\Models\Structure;
 use App\Models\Thematique;
@@ -68,15 +67,6 @@ class GenerateSitemap extends Command
           ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
           ->setPriority(0.8));
 
-        // Départements
-        $departements = Collectivity::where('type', 'department')->get();
-        foreach ($departements as $departement) {
-            $sitemap->add(Url::create('/territoires/' . $departement->slug)
-            ->setLastModificationDate(Carbon::yesterday())
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-            ->setPriority(0.5));
-        }
-
         // Domaines action
         $domaines = Thematique::where('published', true)->get();
         foreach ($domaines as $domaine) {
@@ -84,15 +74,6 @@ class GenerateSitemap extends Command
             ->setLastModificationDate(Carbon::yesterday())
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
             ->setPriority(0.7));
-        }
-
-        // Communes
-        $communes = Collectivity::where('type', 'commune')->get();
-        foreach ($communes as $commune) {
-            $sitemap->add(Url::create('/territoires/' . $commune->slug)
-            ->setLastModificationDate(Carbon::yesterday())
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-            ->setPriority(0.5));
         }
 
         // Missions validées non complètes (orga validées)

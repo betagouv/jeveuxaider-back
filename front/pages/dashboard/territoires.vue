@@ -52,7 +52,7 @@
           label="Statut"
           multiple
           :value="query['filter[state]']"
-          :options="$store.getters.taxonomies.collectivities_states.terms"
+          :options="$store.getters.taxonomies.territoires_states.terms"
           @changed="onFilterChange"
         />
         <SearchFiltersQuery

@@ -289,16 +289,6 @@ class Mission extends Model
             });
     }
 
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        $collectivity = Collectivity::find($collectivity_id);
-
-        if ($collectivity->type == 'commune') {
-            return $query
-                ->whereIn('zip', $collectivity->zips);
-        }
-    }
-
     public function scopeOfTerritoire($query, $territoire_id)
     {
         $territoire = Territoire::find($territoire_id);
@@ -349,9 +339,6 @@ class Mission extends Model
                     ->whereHas('structure', function (Builder $query) {
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
-                break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
         }
     }

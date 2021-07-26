@@ -28,7 +28,7 @@ class InvitationRequest extends FormRequest
             'user_id' => 'required',
             'email' => 'email|required|unique:invitations,email',
             'role' => 'required',
-            'invitable_id' => 'required_if:role,responsable_organisation,responsable_collectivity,responsable_territoire,superviseur',
+            'invitable_id' => 'required_if:role,responsable_organisation,responsable_territoire,superviseur',
             'invitable_type' => '',
             'properties' => 'required_if:role,referent_regional,referent_departemental'
         ];

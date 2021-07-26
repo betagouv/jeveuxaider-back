@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exports\CollectivitiesExport;
-use App\Exports\DepartmentsExport;
 use App\Exports\DomainesExport;
-use App\Filters\FiltersCollectivitySearch;
 use App\Filters\FiltersTagName;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Collectivity;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
@@ -106,10 +102,6 @@ class StatisticsController extends Controller
                     'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
                     'referent_regional' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_region')->count(),
                     'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
-                    'responsable_collectivity' => Profile::role($request->header('Context-Role'))
-                        ->whereHas('structures', function (Builder $query) {
-                            $query->whereHas('collectivity');
-                        })->count(),
                     'admin' => Profile::role($request->header('Context-Role'))
                         ->whereHas('user', function (Builder $query) {
                             $query->where('is_admin', true);
@@ -119,7 +111,6 @@ class StatisticsController extends Controller
                 break;
             case 'referent':
             case 'referent_regional':
-            case 'responsable_collectivity':
             case 'superviseur':
                 $total = Profile::role($request->header('Context-Role'))->count();
                 $volontaire = Profile::role($request->header('Context-Role'))
@@ -218,67 +209,6 @@ class StatisticsController extends Controller
         ];
     }
 
-    public function collectivities(Request $request)
-    {
-        if ($request->has('type') && $request->input('type') == 'export') {
-            return Excel::download(new CollectivitiesExport($request->header('Context-Role')), 'collectivities.csv', \Maatwebsite\Excel\Excel::CSV);
-        }
-
-        $datas = QueryBuilder::for(Collectivity::role($request->header('Context-Role'))->where('type', 'commune'))
-            ->allowedFilters([
-                'state',
-                AllowedFilter::custom('search', new FiltersCollectivitySearch),
-            ])
-            ->defaultSort('name')
-            ->paginate(config('query-builder.results_per_page'));
-
-        $stats = collect();
-
-        foreach ($datas as $collectivity) {
-            $missionsAvailableCollection = Mission::whereIn('zip', $collectivity->zips)
-                ->hasPlacesLeft()
-                ->available()
-                ->get();
-
-            $missionsCollection = Mission::whereIn('zip', $collectivity->zips)
-                ->whereIn('state', ['Validée', 'Terminée'])
-                ->get();
-
-            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
-            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
-            $total_participations_max = $missionsCollection->sum('participations_max');
-
-            $stats->push([
-                'id' => $collectivity->id,
-                'name' => $collectivity->name,
-                'published' => $collectivity->published,
-                'state' => $collectivity->state,
-                'missions_count' => Mission::whereIn('zip', $collectivity->zips)->count(),
-                'structures_count' => Structure::whereIn('zip', $collectivity->zips)->count(),
-                'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($collectivity) {
-                    $query->whereIn('zip', $collectivity->zips);
-                })->count(),
-                'volontaires_count' => Profile::whereIn('zip', $collectivity->zips)->count(),
-                'service_civique_count' => Profile::whereIn('zip', $collectivity->zips)
-                    ->whereHas('user', function (Builder $query) {
-                        $query->where('service_civique', true);
-                    })->count(),
-                'missions_available' => $missionsAvailableCollection->count(),
-                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
-                'places_available' => $missionsAvailableCollection->sum('places_left'),
-                'total_offered_places' => $total_participations_max,
-                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
-            ]);
-        }
-
-        return [
-            'data' => $stats,
-            'from' => $datas->firstItem(),
-            'to' => $datas->lastItem(),
-            'total' => $datas->total(),
-        ];
-    }
-
     public function places(Request $request)
     {
         $missionsCollection = Mission::role($request->header('Context-Role'))
@@ -310,78 +240,6 @@ class StatisticsController extends Controller
         return [
             'total_offered_places' => $total_participations_max,
             'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
-        ];
-    }
-
-    public function departments(Request $request)
-    {
-        if ($request->has('type') && $request->input('type') == 'export') {
-            return Excel::download(new DepartmentsExport($request->header('Context-Role')), 'departments.csv', \Maatwebsite\Excel\Excel::CSV);
-        }
-
-        $query = Collectivity::where('type', 'department')->where('state', 'validated');
-
-        if ($request->header('Context-Role') == 'referent') {
-            $query->where('department', Auth::guard('api')->user()->profile->referent_department);
-        }
-
-        if ($request->header('Context-Role') == 'referent_regional') {
-            $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
-        }
-
-        $departements = QueryBuilder::for($query)
-            ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersCollectivitySearch),
-            ])
-            ->defaultSort('department')
-            ->paginate(config('query-builder.results_per_page'));
-
-        $stats = collect();
-
-        foreach ($departements as $departement) {
-            $missionsAvailableCollection = Mission::department($departement->department)
-                ->hasPlacesLeft()
-                ->available()
-                ->get();
-
-            $missionsCollection = Mission::department($departement->department)
-                ->whereIn('state', ['Validée', 'Terminée'])
-                ->get();
-
-            $places_available_left = $missionsCollection->where('state', 'Validée')->sum('places_left');
-            $places_offered = $missionsCollection->where('state', 'Validée')->sum('participations_max');
-            $total_participations_max = $missionsCollection->sum('participations_max');
-
-            $stats->push([
-                'key' => $departement->department,
-                'name' => $departement->name,
-                'missions_count' => Mission::role($request->header('Context-Role'))->department($departement->department)->count(),
-                'structures_count' => Structure::role($request->header('Context-Role'))->department($departement->department)->count(),
-                'participations_count' => Participation::role($request->header('Context-Role'))->department($departement->department)->count(),
-                'volontaires_count' => Profile::role($request->header('Context-Role'))
-                    ->department($departement->department)
-                    ->whereHas('user', function (Builder $query) {
-                        $query->where('context_role', 'volontaire');
-                    })
-                    ->count(),
-                'service_civique_count' => Profile::role($request->header('Context-Role'))
-                    ->department($departement->department)
-                    ->whereHas('user', function (Builder $query) {
-                        $query->where('service_civique', true);
-                    })->count(),
-                'missions_available' => $missionsAvailableCollection->count(),
-                'organisations_active' => $missionsAvailableCollection->pluck('structure_id')->unique()->count(),
-                'places_available' => $missionsAvailableCollection->sum('places_left'),
-                'total_offered_places' => $total_participations_max,
-                'occupation_rate' => $places_offered ? ($places_available_left / $places_offered) * 100 : 0,
-            ]);
-        }
-
-        return [
-            'data' => $stats,
-            'from' => $departements->firstItem(),
-            'to' => $departements->lastItem(),
-            'total' => $departements->total(),
         ];
     }
 

@@ -81,7 +81,6 @@ class Structure extends Model implements HasMedia
     protected $hidden = ['media'];
 
     protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
-    // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
 
@@ -120,9 +119,6 @@ class Structure extends Model implements HasMedia
                 return $query
                     ->whereNotNull('reseau_id')
                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
-                break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
         }
     }
@@ -213,24 +209,9 @@ class Structure extends Model implements HasMedia
             });
     }
 
-    public function collectivity()
-    {
-        return $this->hasOne('App\Models\Collectivity');
-    }
-
     public function territoire()
     {
         return $this->hasOne('App\Models\Territoire');
-    }
-
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        $collectivity = Collectivity::find($collectivity_id);
-
-        if ($collectivity->type == 'commune') {
-            return $query
-                ->whereIn('zip', $collectivity->zips);
-        }
     }
 
     public function scopeOfTerritoire($query, $territoire_id)

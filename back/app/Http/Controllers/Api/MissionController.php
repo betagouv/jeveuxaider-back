@@ -14,7 +14,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersDisponibility;
-use App\Filters\FiltersMissionCollectivity;
 use App\Filters\FiltersMissionDates;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
@@ -53,7 +52,6 @@ class MissionController extends Controller
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
-                AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
                 AllowedFilter::exact('responsable_id'),
             ])
             ->allowedSorts(['places_left', 'type'])

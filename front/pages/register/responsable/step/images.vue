@@ -254,7 +254,6 @@ export default {
           this.logo.cropSettings,
           'logo'
         )
-        // TODO : upload image for collectivity
         if (this.form.territoire) {
           await this.$api.uploadImage(
             this.form.territoire.id,
