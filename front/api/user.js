@@ -65,6 +65,14 @@ export default (axios, $cookies) => ({
       params,
     })
   },
+  async fetchMatchingBenevoles(id, params, appends) {
+    return await axios.get(
+      `/mission/${id}/benevoles?append=${appends.join(',')}`,
+      {
+        params,
+      }
+    )
+  },
   async exportProfilesReferentsDepartements(params) {
     return await axios.get(`/profiles/referents/departements/export`, {
       responseType: 'blob',

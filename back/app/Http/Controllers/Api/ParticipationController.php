@@ -17,6 +17,8 @@ use App\Http\Requests\Api\ParticipationCreateRequest;
 use App\Http\Requests\Api\ParticipationUpdateRequest;
 use App\Http\Requests\Api\ParticipationDeleteRequest;
 use App\Http\Requests\Api\ParticipationDeclineRequest;
+use App\Http\Requests\Api\ParticipationManageRequest;
+use App\Models\Conversation;
 use App\Models\Mission;
 use App\Models\User;
 use App\Notifications\ParticipationBenevoleCanceled;
@@ -195,5 +197,16 @@ class ParticipationController extends Controller
         foreach ($participations as $participation) {
             $participation->update(['state' => 'Validée']);
         }
+    }
+
+    public function conversation(ParticipationManageRequest $request, Participation $participation)
+    {
+        $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
+        return $conversation;
+    }
+
+    public function benevole(ParticipationManageRequest $request, Participation $participation)
+    {
+        return $participation->profile->append('roles', 'has_user', 'skills', 'domaines');
     }
 }

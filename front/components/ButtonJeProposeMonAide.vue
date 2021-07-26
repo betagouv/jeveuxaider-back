@@ -1,36 +1,34 @@
 <template>
   <div class="relative">
-    <template v-if="mission.state">
-      <template v-if="mission.state == 'Validée'">
-        <template v-if="$store.getters.isLogged && isAlreadyRegistered">
-          <nuxt-link to="/user/missions" :class="btnClasses">
-            Vous êtes inscrit(e)
-          </nuxt-link>
-        </template>
-        <template v-else>
-          <template v-if="mission.has_places_left">
-            <button
-              v-if="isNotResponsableOfMission"
-              :class="btnClasses"
-              @click="onClick"
-            >
-              Je propose mon aide
-            </button>
-            <nuxt-link
-              v-else
-              :to="`/dashboard/mission/${mission.id}`"
-              :class="btnClasses"
-              >Tableau de bord</nuxt-link
-            >
-          </template>
-        </template>
-      </template>
-      <template v-else>
-        <span :class="btnClasses">
-          {{ mission.state }}
-        </span>
-      </template>
+    <template v-if="mission.state == 'Validée'">
+      <nuxt-link
+        v-if="$store.getters.isLogged && isAlreadyRegistered"
+        to="/user/missions"
+        :class="btnClasses"
+      >
+        Vous êtes inscrit(e)
+      </nuxt-link>
+
+      <nuxt-link
+        v-else-if="isResponsableOfMission"
+        :to="`/dashboard/mission/${mission.id}`"
+        :class="btnClasses"
+      >
+        Tableau de bord
+      </nuxt-link>
+
+      <button
+        v-else-if="mission.has_places_left"
+        :class="btnClasses"
+        @click="onClick"
+      >
+        Je propose mon aide
+      </button>
     </template>
+
+    <span v-else :class="btnClasses">
+      {{ mission.state }}
+    </span>
   </div>
 </template>
 
@@ -42,9 +40,9 @@ export default {
       type: Object,
       required: true,
     },
-    size: {
+    additionalBtnClasses: {
       type: String,
-      default: 'medium',
+      default: '',
     },
   },
   data() {
@@ -52,12 +50,9 @@ export default {
   },
   computed: {
     btnClasses() {
-      let classes =
-        'max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out'
-      if (this.size == 'big') {
-        classes += ' px-12 py-3 pb-4 text-2xl leading-9 font-medium'
-      } else classes += ' font-bold text-xl px-5 py-3 pb-4'
-      return classes
+      const classes =
+        'max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-green-400 hover:scale-105 focus:outline-none focus:scale-105 transition duration-150 ease-in-out font-extrabold text-xl px-5 py-3 pb-4 transform will-change-transform'
+      return [classes, this.additionalBtnClasses].join(' ')
     },
     hasParticipation() {
       return this.$store.getters.isLogged && this.$store.getters.profile
@@ -68,10 +63,10 @@ export default {
           )
         : []
     },
-    isNotResponsableOfMission() {
+    isResponsableOfMission() {
       return this.$store.getters.isLogged && this.$store.getters.profile
-        ? this.$store.getters.profile.id != this.mission.responsable_id
-        : true
+        ? this.$store.getters.profile.id == this.mission.responsable_id
+        : false
     },
     isAlreadyRegistered() {
       return this.hasParticipation.length > 0

@@ -13,7 +13,7 @@
 
         <portal-target
           v-if="$store.getters['volet/active'] && $store.getters['volet/row']"
-          class="p-4 overflow-y-auto flex-none border-l bg-gray-100"
+          class="p-4 overflow-y-auto flex-none border-l bg-gray-50"
           name="volet"
           style="width: 420px"
         />
@@ -28,7 +28,7 @@ export default {
   middleware: 'dashboard',
   head: {
     bodyAttrs: {
-      class: 'full-height-layout',
+      class: 'full-height-layout overflow-x-hidden',
     },
   },
 }

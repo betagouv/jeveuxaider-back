@@ -1,12 +1,6 @@
 <script>
 export default {
   name: 'MissionMixin',
-  props: {
-    mission: {
-      type: Object,
-      default: null,
-    },
-  },
   computed: {
     thumbnail() {
       const thumbnail = this.mission.template_id

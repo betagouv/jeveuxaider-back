@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="h-12 flex"
+    class="py-4 flex"
     aria-label="Breadcrumb"
     :class="[
       { 'bg-primary border-blue-750 border-b': theme == 'dark' },
@@ -9,6 +9,7 @@
   >
     <ol
       class="
+        h-6
         w-full
         max-w-full
         mx-auto
@@ -26,8 +27,8 @@
           class="flex items-center text-xxs uppercase font-semibold"
           :class="[
             { 'text-gray-500 hover:text-gray-700': theme == 'light' },
-            { 'text-white hover:text-gray-300': theme == 'dark' },
-            { 'text-white hover:text-gray-300': theme == 'transparent' },
+            { 'text-white hover:text-gray-200': theme == 'dark' },
+            { 'text-white hover:text-gray-200': theme == 'transparent' },
           ]"
         >
           <div
@@ -40,7 +41,11 @@
             ]"
           />
 
-          <nuxt-link v-if="item.link" :to="item.link">
+          <nuxt-link
+            v-if="item.link"
+            :to="item.link"
+            class="flex h-full items-center"
+          >
             {{ item.label }}
           </nuxt-link>
 

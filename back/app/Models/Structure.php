@@ -356,7 +356,7 @@ class Structure extends Model implements HasMedia
     {
         $mission = $this->missions()->create($values);
 
-        if ($values['tags']) {
+        if (!empty($values['tags'])) {
             $mission->syncTagsWithType($values['tags'], 'domaine');
         }
 

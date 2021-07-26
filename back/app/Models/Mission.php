@@ -12,6 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Helpers\Utils;
 
 class Mission extends Model
 {
@@ -48,6 +49,8 @@ class Mission extends Model
         'template_id',
         'thumbnail',
         'slug',
+        'commitment__duration',
+        'commitment__time_period',
     ];
 
     protected $casts = [
@@ -60,7 +63,7 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name'];
+    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name', 'permissions'];
 
     protected static $logFillable = true;
 
@@ -142,9 +145,13 @@ class Mission extends Model
 
     public function getDomainesAttribute()
     {
-        return collect([
-            $this->template ? $this->template->domaine : $this->domaine, // domaine principal
-        ]);
+
+        $domains =  collect([
+            $this->template ? $this->template->domaine : $this->domaine,
+            $this->domaine_secondaire
+        ])->filter();
+
+        return $domains;
     }
 
     public function user()
@@ -380,5 +387,30 @@ class Mission extends Model
                     : "benevolat-{$mission->structure->name}";
             })
             ->saveSlugsTo('slug');
+    }
+
+    public function getSkillsAttribute()
+    {
+        return $this->tagsWithType('competence')->values();
+    }
+
+    public function getDomaineSecondaireAttribute()
+    {
+        return $this->tagsWithType('domaine')->first();
+    }
+
+    public function setCommitmentTotal()
+    {
+        $this->commitment__total = Utils::calculateCommitmentTotal(
+            $this->commitment__duration,
+            $this->commitment__time_period
+        );
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return [
+            'canFindBenevoles' => $this->state == 'Validée' && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
+        ];
     }
 }

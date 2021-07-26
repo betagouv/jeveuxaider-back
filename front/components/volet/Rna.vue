@@ -1,5 +1,9 @@
 <template>
-  <Volet v-if="$store.getters['volet/active']" class="flex flex-col h-full">
+  <Volet
+    v-if="$store.getters['volet/active']"
+    title="API Engagement"
+    class="flex flex-col h-full"
+  >
     <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-6">
       <nuxt-link
         class="font-semibold text-sm my-3 text-primary text-center"

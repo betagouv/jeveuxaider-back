@@ -72,7 +72,7 @@
       <template v-if="profile.territoires">
         <el-tag
           v-for="territoire in profile.territoires"
-          :key="territoire.id"
+          :key="`territoire-${territoire.id}`"
           v-tooltip="{
             content: territoire.name,
             classes: 'bo-style',
@@ -81,7 +81,7 @@
           :size="size"
           class="m-1"
         >
-          Responsable
+          Territoire
         </el-tag>
       </template>
     </template>
@@ -99,7 +99,7 @@
       <i class="el-icon-search" /> Visible
     </el-tag>
 
-    <el-tag
+    <!-- <el-tag
       v-if="profile.domaines.length > 0"
       type="info"
       :size="size"
@@ -117,7 +117,7 @@
     >
       {{ profile.skills.length }}
       {{ profile.skills.length | pluralize(['compétence', 'compétences']) }}
-    </el-tag>
+    </el-tag> -->
   </div>
 </template>
 

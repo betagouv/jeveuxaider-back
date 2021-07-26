@@ -16,7 +16,7 @@ class ProfileObserver
      */
     public function created(Profile $profile)
     {
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);
             }
@@ -37,7 +37,7 @@ class ProfileObserver
         if ($oldEmail != $newEmail) {
             $profile->user()->update(['email' => $newEmail]);
         }
-        if(config('app.env') === 'production') {
+        if (config('app.env') === 'production') {
             if ($profile->user) {
                 SendinblueSyncUser::dispatch($profile->user);
             }
@@ -54,6 +54,10 @@ class ProfileObserver
     {
         if ($profile->zip) {
             $profile->department = Utils::getDepartmentFromZip($profile->zip);
+        }
+
+        if ($profile->commitment__duration) {
+            $profile->setCommitmentTotal();
         }
     }
 

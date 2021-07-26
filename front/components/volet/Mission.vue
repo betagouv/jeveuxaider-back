@@ -1,71 +1,260 @@
 <template>
-  <Volet v-if="$store.getters['volet/active']">
-    <div
-      v-if="row.structure.name"
-      class="text-xs text-gray-600 uppercase text-center mt-8 mb-12"
-    >
-      {{ row.structure.name }}
-    </div>
-    <el-card shadow="never" class="overflow-visible">
-      <div slot="header" class="clearfix flex flex-col items-center">
-        <div class="-mt-10">
-          <Avatar v-if="row.structure.name" :fallback="row.structure.name[0]" />
-        </div>
-        <nuxt-link
-          class="font-semibold text-sm my-3 text-primary text-center"
-          :to="`/dashboard/mission/${row.id}`"
-          >{{ row.name }}
-        </nuxt-link>
-        <div class="flex items-center">
-          <nuxt-link class="mr-1" :to="`/dashboard/mission/${row.id}`">
-            <el-button icon="el-icon-view" type="mini">Voir</el-button>
-          </nuxt-link>
-          <nuxt-link :to="`/dashboard/mission/${row.id}/edit`">
-            <el-button icon="el-icon-edit" type="mini">Modifier</el-button>
-          </nuxt-link>
-          <el-button
-            v-if="canClone"
-            class="ml-1"
-            icon="el-icon-document-copy"
-            type="mini"
-            @click="clone(row.id)"
-            >Dupliquer</el-button
-          >
-          <button
-            v-if="
-              $store.getters.contextRole == 'admin' ||
-              ($store.getters.contextRole == 'responsable' &&
-                row.state == 'Brouillon')
-            "
-            type="button"
-            class="ml-1 el-button is-plain el-button--danger el-button--mini"
-            @click="onClickDelete"
-          >
-            <i class="el-icon-delete" />
-          </button>
-        </div>
-      </div>
-      <ModelMissionInfos :mission="row" />
-    </el-card>
-    <el-form ref="missionForm" :model="form" label-position="top">
-      <template v-if="showAskValidation">
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
-          Publier la mission
-        </div>
-        <item-description container-class="mb-6">
-          Une fois votre mission complétée, vous pouvez la publier pour qu'elle
-          soit proposée aux utilisateurs.
-        </item-description>
-        <div class="flex pt-2">
+  <Volet :title="row.name" :link="`/dashboard/mission/${row.id}`">
+    <div class="flex flex-col space-y-6">
+      <!-- ACTIONS -->
+      <div class="flex flex-wrap space-x-2">
+        <template v-if="showAskValidation">
           <el-button
             type="primary"
             :loading="loading"
+            icon="el-icon-upload2"
+            size="medium"
             @click="onAskValidationSubmit"
-            >Publier la mission</el-button
+            >Publier</el-button
           >
+        </template>
+        <nuxt-link :to="`/dashboard/mission/${row.id}/edit`">
+          <el-button
+            v-tooltip="{
+              content: 'Modifier la mission',
+              classes: 'bo-style',
+            }"
+            icon="el-icon-edit"
+            size="medium"
+            >Modifier</el-button
+          >
+        </nuxt-link>
+        <el-button
+          v-if="canClone"
+          v-tooltip="{
+            content: 'Dupliquer la mission',
+            classes: 'bo-style',
+          }"
+          size="medium"
+          icon="el-icon-document-copy"
+          @click="clone(row.id)"
+        ></el-button>
+        <el-button
+          v-if="
+            $store.getters.contextRole == 'admin' ||
+            ($store.getters.contextRole == 'responsable' &&
+              row.state == 'Brouillon')
+          "
+          v-tooltip="{
+            content: 'Supprimer la mission',
+            classes: 'bo-style',
+          }"
+          type="danger"
+          size="medium"
+          plain
+          @click="onClickDelete"
+        >
+          <i class="el-icon-delete" />
+        </el-button>
+      </div>
+
+      <!-- EN LIGNE -->
+      <VoletCard v-if="mission">
+        <div class="flex space-x-4 items-center">
+          <template
+            v-if="
+              mission.structure.state == 'Validée' &&
+              ['Validée', 'Terminée'].includes(mission.state)
+            "
+          >
+            <div class="bg-green-500 rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">En ligne</div>
+          </template>
+          <template v-else>
+            <div class="bg-red-500 rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">Hors ligne</div>
+          </template>
         </div>
-      </template>
-    </el-form>
+
+        <nuxt-link
+          target="_blank"
+          :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+        >
+          <span class="text-sm underline hover:no-underline break-all">
+            {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
+              mission.slug
+            }}
+          </span>
+        </nuxt-link>
+      </VoletCard>
+
+      <!-- PLACES RESTANTES -->
+      <VoletCard
+        v-if="mission"
+        label="Places"
+        :link-label="
+          mission.permissions.canFindBenevoles ? 'Trouver des bénévoles' : null
+        "
+        :link="`/dashboard/mission/${mission.id}/trouver-des-benevoles`"
+      >
+        <div class="flex space-x-4">
+          <div class="text-5xl leading-none text-gray-900">
+            {{ mission.places_left }}
+          </div>
+          <div class="">
+            <div class="text-lg text-gray-900">places restantes</div>
+            <div class="text-sm">
+              {{ mission.participations_max - mission.places_left }} sur
+              {{ mission.participations_max }}
+            </div>
+          </div>
+        </div>
+      </VoletCard>
+
+      <!-- MISSION -->
+      <VoletCard
+        v-if="mission"
+        label="Mission"
+        :icon="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
+        :link="`/dashboard/mission/${mission.id}`"
+      >
+        <!-- <VoletRowItem label="ID">{{ mission.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ mission.name }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Crée le">{{
+          mission.created_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Modifié le">{{
+          mission.updated_at | formatMediumWithTime
+        }}</VoletRowItem>
+        <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
+        <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
+        <VoletRowItem v-if="mission.start_date" label="Debut">
+          {{ mission.start_date | formatLongWithTime }}</VoletRowItem
+        >
+        <VoletRowItem v-if="mission.end_date" label="Fin">
+          {{ mission.end_date | formatLongWithTime }}
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.commitment__duration" label="Engag. min.">
+          {{ mission.commitment__duration | labelFromValue('duration') }}
+          <template v-if="mission.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                mission.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.domaine_name" label="Domaine">
+          {{ mission.domaine_name }}
+        </VoletRowItem>
+        <VoletRowItem
+          v-if="mission.publics_beneficiaires"
+          label="Publics bénéf."
+        >
+          {{ mission.publics_beneficiaires.join(', ') }}
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
+          {{ mission.publics_volontaires.join(', ') }}
+        </VoletRowItem>
+        <VoletRowItem label="Compétences">
+          <template v-if="mission.skills && mission.skills.length > 0">
+            {{
+              mission.skills
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Adresse">
+          {{ mission.full_address }}
+        </VoletRowItem>
+        <VoletRowItem label="Département">
+          {{ mission.department | fullDepartmentFromValue }}
+        </VoletRowItem>
+        <VoletRowItem label="Message">
+          <template v-if="mission.information">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.information"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Présentation">
+          <template v-if="mission.objectif">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.objectif"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Précisions">
+          <template v-if="mission.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="mission.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+      </VoletCard>
+
+      <!-- RESPONSABLE -->
+      <VoletCard
+        v-if="responsable"
+        label="Responsable"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+        :link="
+          $store.getters.contextRole == 'admin'
+            ? `/dashboard/profile/${responsable.id}`
+            : null
+        "
+      >
+        <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            responsable.full_name
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
+        <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
+        <VoletRowItem v-if="responsable.phone" label="Tel">{{
+          responsable.phone
+        }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- STRUCTURE -->
+      <VoletCard
+        v-if="mission && mission.structure"
+        label="Organisation"
+        :link="`/dashboard/structure/${mission.structure.id}`"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+      >
+        <!-- <VoletRowItem label="ID">{{ mission.structure.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            mission.structure.name
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{
+          mission.structure.state | labelFromValue('structure_workflow_states')
+        }}</VoletRowItem>
+        <VoletRowItem label="Type">{{
+          mission.structure.statut_juridique
+            | labelFromValue('structure_legal_status')
+        }}</VoletRowItem>
+      </VoletCard>
+    </div>
   </Volet>
 </template>
 
@@ -75,6 +264,8 @@ export default {
     return {
       loading: false,
       form: { ...this.$store.getters['volet/row'] },
+      mission: null,
+      responsable: null,
     }
   },
   computed: {
@@ -90,6 +281,19 @@ export default {
     canClone() {
       const roles = ['admin', 'referent', 'responsable']
       return roles.includes(this.$store.getters.contextRole)
+    },
+  },
+  watch: {
+    row: {
+      immediate: true,
+      deep: false,
+      async handler(newValue, oldValue) {
+        this.form = { ...newValue }
+        this.mission = await this.$api.getMission(this.row.id)
+        this.responsable = await this.$api.getMissionResponsable(
+          this.mission.id
+        )
+      },
     },
   },
   methods: {

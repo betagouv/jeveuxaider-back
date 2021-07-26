@@ -8,9 +8,7 @@
             {{ mission.name }}
           </div>
           <div
-            v-if="
-              !['En attente de validation', 'Signalée'].includes(mission.state)
-            "
+            v-if="!['Signalée'].includes(mission.state)"
             class="font-light text-gray-600 flex items-center"
           >
             <div
@@ -26,7 +24,7 @@
               target="_blank"
               :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
             >
-              <span class="text-sm underline hover:no-underline">
+              <span class="text-sm underline hover:no-underline break-all">
                 {{ $config.appUrl }}/missions-benevolat/{{ mission.id }}/{{
                   mission.slug
                 }}
