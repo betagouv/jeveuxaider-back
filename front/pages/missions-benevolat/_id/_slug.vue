@@ -42,18 +42,7 @@
                   <div
                     v-for="(tag, index) in domains"
                     :key="index"
-                    class="
-                      inline-flex
-                      px-3
-                      py-1
-                      rounded-full
-                      text-xs
-                      leading-5
-                      font-semibold
-                      tracking-wide
-                      uppercase
-                      truncate
-                    "
+                    class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase truncate"
                     :class="[
                       { 'bg-indigo-100 text-blue-900': index === 0 },
                       { 'bg-gray-100 text-gray-900': index !== 0 },
@@ -69,29 +58,7 @@
                 </div>
 
                 <div
-                  class="
-                    absolute
-                    sm:static
-                    bg-white
-                    flex-none
-                    rounded-full
-                    h-8
-                    w-8
-                    flex
-                    items-center
-                    justify-center
-                    p-2
-                    border-2
-                    transform
-                    will-change-transform
-                    hover:scale-110
-                    focus:scale-110
-                    focus:outline-none
-                    transition
-                    ease-in-out
-                    duration-150
-                    cursor-pointer
-                  "
+                  class="absolute sm:static bg-white flex-none rounded-full h-8 w-8 flex items-center justify-center p-2 border-2 transform will-change-transform hover:scale-110 focus:scale-110 focus:outline-none transition ease-in-out duration-150 cursor-pointer"
                   style="right: -8px; top: -46px"
                   @click="onClickShare"
                 >
@@ -100,17 +67,7 @@
               </div>
 
               <h1
-                class="
-                  mt-6
-                  pb-3
-                  text-2xl
-                  sm:text-4xl
-                  leading-7
-                  sm:leading-10
-                  font-extrabold
-                  text-black
-                  tracking-px
-                "
+                class="mt-6 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-extrabold text-black tracking-px"
               >
                 {{ mission.name }}
               </h1>
@@ -125,13 +82,7 @@
                       : mission.responsable.image.original
                   "
                   :alt="`Portrait de ${mission.responsable.full_name}`"
-                  class="
-                    inline-flex
-                    w-7
-                    h-7
-                    rounded-full
-                    border-2 border-gray-200
-                  "
+                  class="inline-flex w-7 h-7 rounded-full border-2 border-gray-200"
                 />
                 <span class="text-gray-1000">
                   {{ mission.responsable.full_name }}
@@ -167,19 +118,7 @@
                     publicBeneficiaire, key
                   ) in mission.publics_beneficiaires"
                   :key="key"
-                  class="
-                    inline-flex
-                    px-3
-                    py-1
-                    rounded-full
-                    text-xs
-                    leading-5
-                    font-semibold
-                    tracking-wide
-                    uppercase
-                    bg-gray-4E4E54
-                    text-white
-                  "
+                  class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-gray-4E4E54 text-white"
                 >
                   {{ publicBeneficiaire }}
                 </div>
@@ -188,13 +127,7 @@
               <template v-if="mission.skills && mission.skills.length">
                 <div class="flex items-center gap-4 mt-8 mb-4">
                   <div
-                    class="
-                      flex-none
-                      font-bold
-                      text-xs
-                      uppercase
-                      text-gray-696974
-                    "
+                    class="flex-none font-bold text-xs uppercase text-gray-696974"
                   >
                     COMPÉTENCES RECHERCHÉES
                   </div>
@@ -225,16 +158,7 @@
                 />
 
                 <div
-                  class="
-                    bg-white
-                    px-6
-                    xl:px-16
-                    py-3
-                    md:flex
-                    flex-wrap
-                    justify-between
-                    text-sm
-                  "
+                  class="bg-white px-6 xl:px-16 py-3 md:flex flex-wrap justify-between text-sm"
                 >
                   <div class="uppercase font-bold" style="color: #393939">
                     Mission sur le terrain
@@ -271,16 +195,7 @@
             </div>
 
             <div
-              class="
-                mt-6
-                bg-white
-                rounded-10
-                shadow-lg
-                px-6
-                py-8
-                xl:py-12
-                xl:px-16
-              "
+              class="mt-6 bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
             >
               <div class="font-extrabold text-xl mb-4">
                 Présentation de la mission
@@ -301,15 +216,7 @@
 
               <div
                 v-if="mission.information"
-                class="
-                  mt-6
-                  p-6
-                  md:p-8
-                  xl:p-12
-                  rounded-10
-                  custom-gradient
-                  relative
-                "
+                class="mt-6 p-6 md:p-8 xl:p-12 rounded-10 custom-gradient relative"
               >
                 <img
                   class="absolute right-0 bottom-0 p-6"
@@ -371,15 +278,7 @@
                   class="flex items-center"
                 >
                   <div
-                    class="
-                      public-wrapper
-                      w-6
-                      h-6
-                      mr-3
-                      flex
-                      items-center
-                      justify-center
-                    "
+                    class="public-wrapper w-6 h-6 mr-3 flex items-center justify-center"
                     v-html="iconPublicType(public_volontaire)"
                   />
 
@@ -394,26 +293,10 @@
             </div>
 
             <div
-              class="
-                mt-6
-                bg-white
-                rounded-10
-                shadow-lg
-                px-6
-                py-8
-                xl:py-12
-                xl:px-16
-              "
+              class="mt-6 bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
             >
               <div
-                class="
-                  flex flex-col
-                  sm:flex-row
-                  gap-6
-                  xl:gap-8
-                  text-center
-                  sm:text-left
-                "
+                class="flex flex-col sm:flex-row gap-6 xl:gap-8 text-center sm:text-left"
               >
                 <img
                   v-if="structure.logo"
@@ -465,23 +348,7 @@
                       structure.state == 'Validée'
                     "
                     :to="`/organisations/${structure.slug}`"
-                    class="
-                      inline-block
-                      border-2 border-gray-E6E8EC
-                      rounded-full
-                      text-black
-                      hover:border-black
-                      focus:outline-none
-                      focus:border-black
-                      transition
-                      duration-150
-                      ease-in-out
-                      font-bold
-                      text-sm
-                      px-4
-                      py-2
-                      mt-6
-                    "
+                    class="inline-block border-2 border-gray-E6E8EC rounded-full text-black hover:border-black focus:outline-none focus:border-black transition duration-150 ease-in-out font-bold text-sm px-4 py-2 mt-6"
                   >
                     En savoir plus
                   </nuxt-link>
@@ -553,17 +420,7 @@
                       />
                       <div
                         v-if="participationsCount - 3 > 0"
-                        class="
-                          portrait-count
-                          bg-white
-                          font-bold
-                          inline-flex
-                          items-center
-                          justify-center
-                          rounded-full
-                          text-xs
-                          -ml-1
-                        "
+                        class="portrait-count bg-white font-bold inline-flex items-center justify-center rounded-full text-xs -ml-1"
                       >
                         {{ formattedBenevoleCount }}
                       </div>
@@ -595,15 +452,7 @@
                         />
 
                         <div
-                          class="
-                            font-bold
-                            text-center
-                            sm:text-left
-                            flex
-                            gap-2
-                            items-baseline
-                            sm:block
-                          "
+                          class="font-bold text-center sm:text-left flex gap-2 items-baseline sm:block"
                         >
                           <div class="text-gray-777E90" style="font-size: 11px">
                             {{ date.label }}
@@ -671,23 +520,7 @@
           <div class="text-center">
             <nuxt-link
               :to="`/missions-benevolat?refinementList[structure.name][0]=${structure.name}`"
-              class="
-                inline-block
-                border-2 border-gray-500
-                rounded-full
-                text-white
-                hover:border-white
-                focus:outline-none
-                focus:shadow-outline
-                transition
-                duration-150
-                ease-in-out
-                font-bold
-                text-sm
-                px-4
-                py-2
-                mt-6
-              "
+              class="inline-block border-2 border-gray-500 rounded-full text-white hover:border-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-sm px-4 py-2 mt-6"
             >
               Plus de missions
             </nuxt-link>
@@ -974,7 +807,7 @@ export default {
       this.$store.commit('toggleShareOverlay')
     },
     defaultThumbnail(e) {
-      e.target.src = `/images/mission-default.jpg"`
+      e.target.src = `/images/mission-default.jpg`
       e.target.srcset = `/images/mission-default@2x.jpg 2x`
     },
   },

@@ -88,16 +88,7 @@
       >
         <div class="flex items-center">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Titre de la mission
           </h4>
@@ -108,16 +99,7 @@
         </div>
         <div class="flex items-center mt-6">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Présentation de la mission
           </h4>
@@ -126,16 +108,7 @@
         <div class="mt-2 break-normal" v-html="form.template.objectif" />
         <div class="flex items-center mt-6">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Précisions
           </h4>
@@ -316,37 +289,13 @@
             <div
               v-for="item in form.skills"
               :key="item.id"
-              class="
-                flex
-                items-center
-                space-x-4
-                py-2
-                pl-3
-                pr-2
-                rounded-10
-                border border-blue-800
-                bg-white
-              "
+              class="flex items-center space-x-4 py-2 pl-3 pr-2 rounded-10 border border-blue-800 bg-white"
             >
               <div class="flex-none text-sm text-blue-800 font-bold">
                 {{ item.name.fr }}
               </div>
               <div
-                class="
-                  flex-none
-                  cursor-pointer
-                  w-6
-                  h-6
-                  p-1
-                  transform
-                  will-change-transform
-                  text-blue-800
-                  hover:text-red-700
-                  hover:scale-125
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-blue-800 hover:text-red-700 hover:scale-125 transition ease-in-out duration-150"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
                   require('@/assets/images/icones/heroicon/close.svg?include')
