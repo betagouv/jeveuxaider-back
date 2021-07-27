@@ -68,7 +68,10 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first()->append(['skills','domaines', 'domaine_secondaire']);
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+            if($mission) {
+                $mission->append(['skills','domaines', 'domaine_secondaire']);
+            }
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
