@@ -263,7 +263,9 @@ class Mission extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('state', 'Validée');
+        return $query->where('state', 'Validée')->whereHas('structure', function (Builder $query) {
+            $query->where('state', 'Validée');
+        });
     }
 
     public function scopeDepartment($query, $value)
