@@ -23,10 +23,6 @@ class StructurePolicy
         if (request()->header('Context-Role') == 'referent_regional') {
             return true;
         }
-
-        if (request()->header('Context-Role') == 'analyste') {
-            return false;
-        }
     }
 
     public function view(User $user, Structure $structure)
@@ -58,10 +54,20 @@ class StructurePolicy
 
     public function delete(User $user, Structure $structure)
     {
-        if (in_array(request()->header('Context-Role'), ['referent','referent_regional','admin'])) {
+        if (in_array(request()->header('Context-Role'), ['referent','referent_regional'])) {
             return true;
         }
 
+        return false;
+    }
+
+    public function destroy(User $user, Structure $structure)
+    {
+        return false;
+    }
+
+    public function restore(User $user, Structure $structure)
+    {
         return false;
     }
 }

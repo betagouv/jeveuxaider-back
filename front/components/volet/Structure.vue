@@ -18,7 +18,7 @@
         <el-button
           v-if="$store.getters.contextRole == 'admin'"
           v-tooltip="{
-            content: 'Supprimer la mission',
+            content: 'Supprimer l\'organisation',
             classes: 'bo-style',
           }"
           plain

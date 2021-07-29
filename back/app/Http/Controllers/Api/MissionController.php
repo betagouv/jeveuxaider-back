@@ -112,9 +112,17 @@ class MissionController extends Controller
         return (string) $mission->delete();
     }
 
+    public function restore($id)
+    {
+        $mission = Mission::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $mission);
+        return (string) $mission->restore();
+    }
+
     public function destroy($id)
     {
         $mission = Mission::withTrashed()->findOrFail($id);
+        $this->authorize('destroy', $mission);
         return (string) $mission->forceDelete();
     }
 

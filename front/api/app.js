@@ -172,6 +172,9 @@ export default (axios) => ({
   async deleteTag(id) {
     return await axios.delete(`/tag/${id}`)
   },
+  async fetchTrashItems(type, params) {
+    return await axios.get(`/trash/${type}`, { params })
+  },
 })
 
 // async bootstrap() {
@@ -184,10 +187,6 @@ export default (axios) => ({
 
 // async chartCreated(params) {
 //   return await axios.get('/charts/created', { params })
-// }
-
-// async fetchTrashItems(type, params) {
-//   return await axios.get(`/trash/${type}`, { params })
 // }
 
 // async getFaq(id) {

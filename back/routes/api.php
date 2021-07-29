@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structure/{structure}', 'Api\StructureController@show');
 
     Route::delete('structure/{structure}', 'Api\StructureController@delete');
+    Route::post('structure/{structure}/restore', 'Api\StructureController@restore');
 
     // STRUCTURE
     Route::post('structure/{structure}/missions', 'Api\StructureController@addMission');
@@ -127,6 +128,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
     Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
+    Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -203,9 +205,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('structure/{structure}/rna', 'Api\RnaController@assign');
 
     // TRASH
-    Route::get('trash/structures', 'Api\TrashController@structures');
-    Route::get('trash/missions', 'Api\TrashController@missions');
-    Route::get('trash/participations', 'Api\TrashController@participations');
+    Route::get('trash/{model}', 'Api\TrashController@index');
     Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
     Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
