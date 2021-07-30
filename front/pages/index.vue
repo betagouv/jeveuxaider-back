@@ -18,14 +18,14 @@
         <client-only>
           <template #placeholder>
             <div
-              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white md:h-auto"
             >
               Je veux aider
             </div>
           </template>
-          <div v-if="hasReduceMotion">
+          <div v-if="hasReduceMotionOrMobile">
             <div
-              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white md:h-auto"
             >
               Je veux aider
             </div>
@@ -1206,7 +1206,10 @@ export default {
     }
   },
   computed: {
-    hasReduceMotion() {
+    hasReduceMotionOrMobile() {
+      if (this.$device.isMobile) {
+        return true
+      }
       if (process.client) {
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
         if (!mediaQuery || mediaQuery.matches) {
