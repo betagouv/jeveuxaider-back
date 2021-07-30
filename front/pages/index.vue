@@ -1208,7 +1208,7 @@ export default {
   computed: {
     hasReduceMotion() {
       /* eslint-disable */
-      window.mobileCheck = function () {
+      const mobileCheck = function () {
         let check = false
         ;(function (a) {
           if (
@@ -1224,9 +1224,9 @@ export default {
         return check
       }
 
-      console.log(window.mobileCheck)
+      console.log(mobileCheck)
 
-      if (process.client || window.mobileCheck) {
+      if (process.client || mobileCheck) {
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
         if (!mediaQuery || mediaQuery.matches) {
           return true
