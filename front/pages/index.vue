@@ -56,7 +56,8 @@
             Devenez bénévole et trouvez des missions en quelques clics
           </h1>
           <br class="hidden lg:block" />
-          <b>près de chez vous</b> ou <b>à distance</b>
+          <strong class="font-bold">près de chez vous</strong> ou
+          <strong class="font-bold">à distance</strong>
         </div>
 
         <div class="mt-5">
