@@ -15,7 +15,14 @@
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
-        <client-only placeholder="Je veux aider, bénévolat partout en France">
+        <client-only>
+          <template #placeholder>
+            <div
+              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+            >
+              Je veux aider
+            </div>
+          </template>
           <div v-if="hasReduceMotion">
             <div
               class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
