@@ -328,7 +328,7 @@
           Donnez vie à l'engagement local
         </h2>
         <nuxt-link
-          to="/register/responsable"
+          to="/inscription/organisation?orga_type=Collectivité"
           class="mt-4 lg:mt-0 inline-flex shadow-lg items-center text-center justify-center px-7 py-3 border-transparent text-lg leading-6 font-medium rounded-full border hover:bg-red-700 hover:text-white bg-red-600 text-white transition duration-150 ease-in-out"
         >
           Rejoignez JeVeuxAider.gouv.fr

@@ -896,7 +896,7 @@
             </ul>
 
             <nuxt-link
-              to="/register/responsable"
+              to="/inscription/organisation"
               class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Inscrire mon organisation

@@ -155,7 +155,7 @@
               </nuxt-link>
               <nuxt-link
                 v-if="!$store.getters.isLogged"
-                to="/register/responsable"
+                to="/inscription/organisation"
                 class="leading-6 font-semibold text-gray-800 hover:text-blue-800 focus:text-gray-900 transition ease-in-out duration-150"
               >
                 Publier une mission

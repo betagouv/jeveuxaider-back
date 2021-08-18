@@ -253,7 +253,7 @@
                           structureId: $store.getters.structure.id,
                         },
                       }
-                    : '/register/responsable'
+                    : '/inscription/organisation'
                 "
                 :class="`bg-${thematique.color}`"
                 class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
