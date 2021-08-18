@@ -49,14 +49,20 @@ class GenerateSitemap extends Command
         ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
         ->setPriority(0.2));
 
-        // Register Benevole
-        $sitemap->add(Url::create('/register/benevole')
+        // Inscription
+        $sitemap->add(Url::create('/inscription')
         ->setLastModificationDate(Carbon::yesterday())
         ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
         ->setPriority(0.2));
 
-        // Register Responsable
-        $sitemap->add(Url::create('/register/responsable')
+        // Inscription organisation
+        $sitemap->add(Url::create('/inscription/organisation')
+        ->setLastModificationDate(Carbon::yesterday())
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
+        ->setPriority(0.2));
+
+        // Register Benevole
+        $sitemap->add(Url::create('/register/volontaire')
         ->setLastModificationDate(Carbon::yesterday())
         ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
         ->setPriority(0.2));
@@ -90,7 +96,7 @@ class GenerateSitemap extends Command
             ->setPriority(0.4));
         }
 
-        // Missions validées non complètes (orga validées)
+        // Organisations validées
         $organisations = Structure::where('state', 'Validée')
         ->whereNotNull('slug')
         ->get();
