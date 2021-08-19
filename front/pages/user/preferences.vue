@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-gray-800 mb-4">Préférences</div>
+    <div class="font-bold text-2-5xl text-[#242526] mb-4">Préférences</div>
 
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec vos domaines d'action de prédilection ainsi
@@ -33,7 +33,7 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <div class="font-bold text-2-5xl text-gray-800 mb-4 mt-12">
+      <div class="font-bold text-2-5xl text-[#242526] mb-4 mt-12">
         Visibilité de votre profil
       </div>
 
@@ -50,7 +50,7 @@
             class="rounded-tl-md rounded-tr-md relative border p-4 flex cursor-pointer"
             :class="
               !isProfileVisible
-                ? 'bg-blue-50 border-blue-800 z-10'
+                ? 'bg-blue-50 border-[#070191] z-10'
                 : 'border-gray-200'
             "
           >
@@ -58,7 +58,7 @@
               type="radio"
               name="is_visible"
               :value="false"
-              class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-blue-800 border-gray-300 focus:ring-blue-800"
+              class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-[#070191] border-[#d2d6dc] focus:ring-[#070191]"
               aria-labelledby="privacy-setting-0-label"
               aria-describedby="privacy-setting-0-description"
               :checked="!isProfileVisible"
@@ -70,7 +70,7 @@
                 class="block text-sm font-medium"
                 :class="
                   !isProfileVisible
-                    ? 'text-blue-900 font-bold'
+                    ? 'text-[#1f0391] font-bold'
                     : 'text-gray-900'
                 "
               >
@@ -90,7 +90,7 @@
             class="relative rounded-bl-md rounded-br-md border p-4 flex cursor-pointer"
             :class="
               isProfileVisible
-                ? 'bg-blue-50 border-blue-800 z-10'
+                ? 'bg-blue-50 border-[#070191] z-10'
                 : 'border-gray-200'
             "
           >
@@ -98,7 +98,7 @@
               type="radio"
               name="is_visible"
               :value="true"
-              class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-blue-800 border-gray-300 focus:ring-blue-800"
+              class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-[#070191] border-[#d2d6dc] focus:ring-[#070191]"
               aria-labelledby="privacy-setting-1-label"
               aria-describedby="privacy-setting-1-description"
               :checked="isProfileVisible"
@@ -109,7 +109,9 @@
                 id="privacy-setting-1-label"
                 class="text-gray-900 block text-sm font-medium"
                 :class="
-                  isProfileVisible ? 'text-blue-900 font-bold' : 'text-gray-900'
+                  isProfileVisible
+                    ? 'text-[#1f0391] font-bold'
+                    : 'text-gray-900'
                 "
               >
                 Profil public
@@ -215,7 +217,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-3
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-3;
+}
 </style>

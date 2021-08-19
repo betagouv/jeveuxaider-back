@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="relative bg-blue-800 overflow-hidden z-10">
+    <div class="relative bg-[#070191] overflow-hidden z-10">
       <div
-        class="absolute bottom-0 bg-gradient-to-b from-transparent to-blue-800 z-10 h-32 w-full"
+        class="absolute bottom-0 bg-gradient-to-b from-transparent to-[#070191] z-10 h-32 w-full"
       ></div>
 
       <img
@@ -62,7 +62,7 @@
 
         <div class="mt-5">
           <button
-            class="mx-auto font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="mx-auto font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-[#16a972] py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
             @click="handleClickCTA()"
           >
             Je veux aider
@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <div class="bg-blue-800 pt-6">
+    <div class="bg-[#070191] pt-6">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto text-center">
           <h2
@@ -79,14 +79,14 @@
           >
             Plus de 330 000 bénévoles
           </h2>
-          <p class="mt-3 text-xl lg:text-2xl leading-7 text-blue-200 sm:mt-4">
+          <p class="mt-3 text-xl lg:text-2xl leading-7 text-[#c3ddfd] sm:mt-4">
             soutiennent des milliers d'associations et d'organisations publiques
           </p>
         </div>
       </div>
       <div class="mt-10 pb-12 bg-gray-50">
         <div class="relative">
-          <div class="absolute inset-0 h-14 bg-blue-800"></div>
+          <div class="absolute inset-0 h-14 bg-[#070191]"></div>
           <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
               <div
@@ -140,7 +140,7 @@
                   href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
                   target="_blank"
                   rel="noopener"
-                  class="flex flex-col border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-gray-800 col-span-2 lg:col-span-1"
+                  class="flex flex-col border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-[#242526] col-span-2 lg:col-span-1"
                 >
                   parmi Plus de
                   <span class="text-4xl font-bold">5000</span>
@@ -153,11 +153,11 @@
       </div>
     </div>
 
-    <div class="bg-gray-50 pt-6 shadow-sm z-10 relative">
+    <div class="bg-gray-50 pt-6 z-10 relative">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mx-auto text-center">
           <span
-            class="text-2xl lg:text-3xl leading-8 lg:leading-10 block lg:inline-flex font-bold tracking-tight text-gray-800"
+            class="text-2xl lg:text-3xl leading-8 lg:leading-10 block lg:inline-flex font-bold tracking-tight text-[#242526]"
           >
             <span class="block lg:inline-flex">
               Trouvez une mission de bénévolat</span
@@ -165,7 +165,7 @@
 
             <nuxt-link
               to="/missions-benevolat?refinementList[type][0]=Mission en présentiel"
-              class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
+              class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition duration-150 ease-in-out"
             >
               près de chez vous</nuxt-link
             >
@@ -173,7 +173,7 @@
 
             <nuxt-link
               to="/missions-benevolat?refinementList[type][0]=Mission à distance"
-              class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-gray-800 font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 hover:scale-105 hover:text-blue-800 transform transition duration-150 ease-in-out"
+              class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition duration-150 ease-in-out"
             >
               à distance</nuxt-link
             >
@@ -221,7 +221,7 @@
           <div class="flex-1 bg-white p-8 pt-4 flex flex-col justify-between">
             <div class="flex-1">
               <div
-                class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
+                class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-500 hover:text-[#070191]"
               >
                 {{ mission.thematique }}
               </div>
@@ -232,7 +232,7 @@
             <div class="mt-4 flex items-center">
               <div class="flex-shrink-0">
                 <div
-                  class="hidden sm:block flex-shrink-0 rounded-md p-2 text-center bg-blue-800"
+                  class="hidden sm:block flex-shrink-0 rounded-md p-2 text-center bg-[#070191]"
                 >
                   <img
                     :src="mission.thematique_image"
@@ -243,7 +243,7 @@
               </div>
               <div class="ml-4">
                 <p
-                  class="text-sm leading-5 tracking-tight font-medium text-gray-800"
+                  class="text-sm leading-5 tracking-tight font-medium text-[#242526]"
                   v-html="mission.nb_missions_text"
                 ></p>
               </div>
@@ -267,7 +267,7 @@
             :key="city.name"
             :class="[
               { 'text-gray-400': index == hightlightedCities.length - 1 },
-              { 'text-gray-800': index != hightlightedCities.length - 1 },
+              { 'text-[#242526]': index != hightlightedCities.length - 1 },
             ]"
             class="leading-none truncate px-8 py-4 rounded-full text-sm shadow-md font-extrabold tracking-wide uppercase bg-white transform transition duration-150 ease-in-out will-change-transform hover:scale-105"
             :to="city.url"
@@ -284,7 +284,7 @@
       <div class="relative max-w-6xl mx-auto">
         <div class="text-center">
           <h2
-            class="text-3xl leading-9 tracking-tight font-bold text-gray-800 sm:text-5xl sm:leading-10"
+            class="text-3xl leading-9 tracking-tight font-bold text-[#242526] sm:text-5xl sm:leading-10"
           >
             Trouvez votre domaine d'action
           </h2>
@@ -294,13 +294,13 @@
           class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto"
         >
           <div
-            class="bg-red-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#f56565] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-white px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
                 <nuxt-link
                   to="/domaines-action/solidarite-et-insertion"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
                 >
                   solidarité et insertion</nuxt-link
                 >
@@ -333,13 +333,13 @@
           </div>
 
           <div
-            class="bg-green-500 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#0e9f6e] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
                 <nuxt-link
                   to="/domaines-action/protection-de-la-nature"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
                 >
                   protection de la nature</nuxt-link
                 >
@@ -371,13 +371,13 @@
             </div>
           </div>
           <div
-            class="bg-blue-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#070191] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
                 <nuxt-link
                   to="/domaines-action/education-pour-tous"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
                 >
                   éducation pour tous</nuxt-link
                 >
@@ -409,13 +409,13 @@
             </div>
           </div>
           <div
-            class="bg-purple-800 overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#553c9a] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
                 <nuxt-link
                   to="/domaines-action/sante-pour-tous"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-800"
+                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
                 >
                   santé pour tous</nuxt-link
                 >
@@ -462,7 +462,7 @@
             v-for="domaine in domaines"
             :key="domaine.name"
             :to="domaine.link"
-            class="inline-flex items-center py-2 px-4 sm:py-3 rounded-full text-xs sm:text-sm lg:text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
+            class="inline-flex items-center py-2 px-4 sm:py-3 rounded-full text-xs sm:text-sm lg:text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition duration-150 ease-in-out hover:text-[#070191]"
           >
             <img
               :alt="domaine.name"
@@ -478,7 +478,7 @@
     </div>
 
     <div
-      class="relative bg-gradient-to-r from-blue-800 to-blue-900 overflow-hidden pt-20 pb-6 z-0"
+      class="relative bg-gradient-to-r from-[#070191] to-[#1f0391] overflow-hidden pt-20 pb-6 z-0"
     >
       <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
         <div class="relative h-full max-w-screen-xl mx-auto opacity-25">
@@ -498,10 +498,10 @@
               class="text-3xl leading-9 tracking-tight font-bold text-white sm:text-5xl sm:leading-10"
             >
               Rejoignez le mouvement
-              <span class="text-blue-200">#JeVeuxAider</span>
+              <span class="text-[#c3ddfd]">#JeVeuxAider</span>
             </h2>
             <p
-              class="mt-4 mb-8 text-center max-w-4xl text-2xl leading-7 text-blue-200 lg:mx-auto"
+              class="mt-4 mb-8 text-center max-w-4xl text-2xl leading-7 text-[#c3ddfd] lg:mx-auto"
             >
               Des milliers de bénévoles, associations et collectivités en font
               déjà partie.
@@ -516,10 +516,10 @@
           >
             <blockquote class="md:flex-grow md:flex md:flex-col">
               <div
-                class="relative text-lg leading-7 font-medium text-gray-800 md:flex-grow"
+                class="relative text-lg leading-7 font-medium text-[#242526] md:flex-grow"
               >
                 <svg
-                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
                   fill="currentColor"
                   viewBox="0 0 32 32"
                 >
@@ -573,10 +573,10 @@
           >
             <blockquote class="md:flex-grow md:flex md:flex-col">
               <div
-                class="relative text-lg leading-7 font-medium text-gray-800 md:flex-grow"
+                class="relative text-lg leading-7 font-medium text-[#242526] md:flex-grow"
               >
                 <svg
-                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
                   fill="currentColor"
                   viewBox="0 0 32 32"
                 >
@@ -661,12 +661,12 @@
             </div>
             <div class="flex-1 bg-white p-8 flex flex-col justify-between">
               <div class="flex-1">
-                <p class="text-sm leading-5 font-medium text-blue-800">
+                <p class="text-sm leading-5 font-medium text-[#070191]">
                   <a
                     target="_blank"
                     rel="noopener"
                     href="https://jeveuxaider.gouv.fr/engagement/actualites/"
-                    class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-blue-800"
+                    class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-[#070191]"
                   >
                     {{ actualite.type }}
                   </a>
@@ -677,7 +677,7 @@
                   :href="actualite.link"
                   class="block"
                   ><h3
-                    class="mt-2 text-2xl leading-7 font-bold text-gray-800 tracking-tight"
+                    class="mt-2 text-2xl leading-7 font-bold text-[#242526] tracking-tight"
                   >
                     {{ actualite.title }}
                   </h3>
@@ -696,7 +696,7 @@
           href="https://jeveuxaider.gouv.fr/engagement/actualites/"
           target="_blank"
           rel="noopener"
-          class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-gray-800 hover:scale-105 transform transition duration-150 ease-in-out hover:text-blue-800"
+          class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition duration-150 ease-in-out hover:text-[#070191]"
         >
           Plus d'articles</a
         >
@@ -707,7 +707,7 @@
       <div class="relative max-w-6xl mx-auto">
         <div class="max-w-screen-xl mx-auto grid gap-6 lg:grid-cols-2">
           <div
-            class="sm:p-9 p-6 pb-8 md:flex md:flex-col rounded-lg shadow-lg bg-gradient-to-r from-blue-900 to-blue-800"
+            class="sm:p-9 p-6 pb-8 md:flex md:flex-col rounded-lg shadow-lg bg-gradient-to-r from-[#1f0391] to-[#070191]"
           >
             <h2
               class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10"
@@ -718,7 +718,7 @@
             </h2>
             <p
               id="newsletter-headline"
-              class="mt-3 max-w-3xl text-lg leading-6 text-blue-200"
+              class="mt-3 max-w-3xl text-lg leading-6 text-[#c3ddfd]"
             >
               Chaque mois, nous vous proposons de nouvelles missions de
               bénévolat à distance ou près de chez vous.
@@ -743,7 +743,7 @@
               </div>
 
               <button
-                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 font-medium rounded-full shadow-lg text-white bg-green-400 hover:text-white mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0 hover:scale-105 transform transition duration-150 ease-in-out"
+                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 font-medium rounded-full shadow-lg text-white bg-[#16a972] hover:text-white mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0 hover:scale-105 transform transition duration-150 ease-in-out"
                 @click.prevent="handleSubmitNewsletter(email)"
               >
                 S'inscrire
@@ -751,7 +751,7 @@
             </form>
             <div
               v-if="!successNewsletter"
-              class="mt-2 sm:ml-6 text-sm leading-5 text-blue-200 text-center sm:text-left"
+              class="mt-2 sm:ml-6 text-sm leading-5 text-[#c3ddfd] text-center sm:text-left"
             >
               Nous veillons à respecter votre vie privée
             </div>
@@ -763,7 +763,7 @@
             </div>
           </div>
           <div
-            class="sm:p-9 p-6 rounded-lg shadow-lg bg-gradient-to-r from-blue-800 to-blue-900"
+            class="sm:p-9 p-6 rounded-lg shadow-lg bg-gradient-to-r from-[#070191] to-[#1f0391]"
           >
             <h2
               class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10"
@@ -774,7 +774,7 @@
             </h2>
             <p
               id="facebook-headline"
-              class="mt-3 max-w-3xl text-lg leading-6 text-blue-200"
+              class="mt-3 max-w-3xl text-lg leading-6 text-[#c3ddfd]"
             >
               Posez toutes vos questions aux bénévoles et à l'équipe dans le
               groupe Facebook
@@ -783,7 +783,7 @@
               href="https://www.facebook.com/jeveuxaider.gouv.fr"
               target="_blank"
               rel="noopener"
-              class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center sm:text-lg leading-7 font-medium text-blue-800 hover:scale-105 transform transition duration-150 ease-in-out"
+              class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center sm:text-lg leading-7 font-medium text-[#070191] hover:scale-105 transform transition duration-150 ease-in-out"
             >
               <svg
                 class="mr-2"
@@ -816,7 +816,7 @@
               "
             />
             <p
-              class="leading-6 text-blue-800 font-semibold tracking-wide uppercase"
+              class="leading-6 text-[#070191] font-semibold tracking-wide uppercase"
             >
               associations et organisations publiques
             </p>
@@ -830,7 +830,7 @@
               <li class="flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="text-green-400"
+                    class="text-[#16a972]"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -852,7 +852,7 @@
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="text-green-400"
+                    class="text-[#16a972]"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -874,7 +874,7 @@
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="text-green-400"
+                    class="text-[#16a972]"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -897,7 +897,7 @@
 
             <nuxt-link
               to="/inscription/organisation"
-              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
+              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Inscrire mon organisation
             </nuxt-link>
@@ -910,7 +910,7 @@
               v-html="require('@/assets/images/dynamic/townhall.svg?include')"
             />
             <p
-              class="leading-6 text-blue-800 font-semibold tracking-wide uppercase"
+              class="leading-6 text-[#070191] font-semibold tracking-wide uppercase"
             >
               Collectivités et territoires
             </p>
@@ -924,7 +924,7 @@
               <li class="flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="text-green-400"
+                    class="text-[#16a972]"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -946,7 +946,7 @@
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="text-green-400"
+                    class="text-[#16a972]"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -968,7 +968,7 @@
               <li class="mt-4 flex items-start">
                 <div class="flex-shrink-0">
                   <svg
-                    class="text-green-400"
+                    class="text-[#16a972]"
                     stroke="currentColor"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -990,7 +990,7 @@
             </ul>
             <nuxt-link
               to="/collectivite"
-              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent sm:text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
+              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Inscrire ma collectivité
             </nuxt-link>
@@ -1257,13 +1257,17 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.hide-br
-  br
-    @apply hidden
-      @screen lg
-        @apply inline
+<style lang="postcss" scoped>
+.hide-br {
+  br {
+    @apply hidden;
+    @screen lg {
+      @apply inline;
+    }
+  }
+}
 
-::v-deep .typed-cursor
-  font-weight: 100
+::v-deep .typed-cursor {
+  font-weight: 100;
+}
 </style>

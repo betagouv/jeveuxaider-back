@@ -21,8 +21,8 @@
       class="text-sm"
       :class="
         isDark
-          ? 'text-blue-600 hover:text-blue-800'
-          : 'text-blue-200 hover:text-white'
+          ? 'text-blue-600 hover:text-[#070191]'
+          : 'text-[#c3ddfd] hover:text-white'
       "
       >Qu'est-ce que FranceConnect ?</a
     >

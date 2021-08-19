@@ -1,7 +1,7 @@
 <template>
   <div class="px-12 max-w-4xl flex flex-col space-y-8">
     <div v-if="actions.length">
-      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+      <div class="font-semibold text-md uppercase text-[#242526] mb-4">
         Actions en attente
         <span>({{ actions.length }})</span>
       </div>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div v-if="$store.getters.user.profile.structures.length">
-      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+      <div class="font-semibold text-md uppercase text-[#242526] mb-4">
         Organisations
         <span>({{ $store.getters.user.profile.structures.length }})</span>
       </div>
@@ -33,15 +33,7 @@
             :key="structure.id"
           >
             <div
-              class="
-                px-5
-                py-3
-                flex
-                hover:bg-gray-50
-                cursor-pointer
-                items-center
-                justify-between
-              "
+              class="px-5 py-3 flex hover:bg-gray-50 cursor-pointer items-center justify-between"
             >
               <nuxt-link
                 :to="`/dashboard/structure/${structure.id}`"
@@ -59,84 +51,42 @@
                 <template slot="menu">
                   <nuxt-link
                     :to="`/dashboard/structure/${structure.id}`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Accéder à la vue d'ensemble
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/missions/add`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Créer une nouvelle mission
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/missions`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Afficher les missions
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/participations`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Afficher les participations
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/statistics`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Afficher les statistiques
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/structure/${structure.id}/members`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Gérer les membres
@@ -149,7 +99,7 @@
       </div>
     </div>
     <div v-if="$store.getters.user.profile.territoires.length">
-      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+      <div class="font-semibold text-md uppercase text-[#242526] mb-4">
         Villes
         <span>({{ $store.getters.user.profile.territoires.length }})</span>
       </div>
@@ -160,15 +110,7 @@
             :key="territoire.id"
           >
             <div
-              class="
-                px-5
-                py-3
-                flex
-                hover:bg-gray-50
-                cursor-pointer
-                items-center
-                justify-between
-              "
+              class="px-5 py-3 flex hover:bg-gray-50 cursor-pointer items-center justify-between"
             >
               <nuxt-link
                 :to="`/dashboard/territoire/${territoire.id}`"
@@ -188,42 +130,21 @@
                 <template slot="menu">
                   <nuxt-link
                     :to="`/dashboard/territoire/${territoire.id}`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Accéder à la vue d'ensemble
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/territoire/${territoire.id}/missions/add`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Afficher les statistiques
                   </nuxt-link>
                   <nuxt-link
                     :to="`/dashboard/territoire/${territoire.id}/responsables`"
-                    class="
-                      block
-                      px-4
-                      py-2
-                      text-sm text-gray-700
-                      hover:bg-gray-100
-                      hover:text-gray-900
-                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                     role="menuitem"
                   >
                     Gérer les responsables

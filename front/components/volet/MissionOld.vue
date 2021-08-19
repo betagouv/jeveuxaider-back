@@ -49,7 +49,7 @@
     </el-card>
     <el-form ref="missionForm" :model="form" label-position="top">
       <template v-if="showAskValidation">
-        <div class="mb-6 mt-12 flex text-xl text-gray-800">
+        <div class="mb-6 mt-12 flex text-xl text-[#242526]">
           Publier la mission
         </div>
         <item-description container-class="mb-6">

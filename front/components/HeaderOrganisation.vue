@@ -6,7 +6,7 @@
     <div class="header-titles flex-1">
       <div class="text-m text-gray-600 uppercase">Organisation</div>
       <div class="flex items-center flex-wrap">
-        <div class="font-bold text-2-5xl text-gray-800 mr-2">
+        <div class="font-bold text-2-5xl text-[#242526] mr-2">
           {{ structure.name }}
         </div>
         <TagModelState v-if="structure.state" :state="structure.state" />
@@ -28,7 +28,9 @@
       >
         <div class="mr-2">Votre page vitrine :</div>
         <div
-          :class="structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'"
+          :class="
+            structure.state == 'Validée' ? 'bg-[#0e9f6e]' : 'bg-[#f56565]'
+          "
           class="rounded-full h-2 w-2 mr-2"
         ></div>
         <nuxt-link

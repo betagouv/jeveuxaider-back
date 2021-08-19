@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="showBanner" id="jdma" class="bg-blue-800">
+    <div v-if="showBanner" id="jdma" class="bg-[#070191]">
       <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
         <div class="pr-16 sm:text-center sm:px-16">
           <p class="font-medium text-white">
@@ -14,7 +14,7 @@
               <span
                 href="https://voxusagers.numerique.gouv.fr/Demarches/2603?&amp;view-mode=formulaire-avis&amp;nd_mode=en-ligne-enti%C3%A8rement&amp;nd_source=button&amp;key=e67467d2b689f586a1f53d9e03d92434"
                 target="_blank"
-                class="text-white font-bold underline cursor-pointer hover:text-blue-200"
+                class="text-white font-bold underline cursor-pointer hover:text-[#c3ddfd]"
                 @click="handleClick()"
               >
                 Je donne mon avis →
@@ -31,7 +31,7 @@
             @click="handleClose()"
           >
             <svg
-              class="h-6 w-6 text-white hover:text-blue-200"
+              class="h-6 w-6 text-white hover:text-[#c3ddfd]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

@@ -16,7 +16,7 @@
       <router-link
         :to="cardLink"
         target="_blank"
-        class="rounded bg-white p-4 border-blue-800 border block shadow-lg"
+        class="rounded bg-white p-4 border-[#070191] border block shadow-lg"
       >
         <div class="flex flex-col space-y-2 text-xs text-gray-500">
           <slot></slot>
@@ -59,7 +59,8 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.card-link
-  @apply border border-blue-800
+<style lang="postcss">
+.card-link {
+  @apply border border-[#070191];
+}
 </style>

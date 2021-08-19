@@ -9,7 +9,7 @@
         <div class="px-4">
           <img
             class="hidden lg:block absolute transform translate-y-1 opacity-50"
-            style="left: 100%; transform: translateX(-75%) !important"
+            style="left: 100%; transform: translateX(-75%)"
             src="/images/france.svg"
             width="904"
             alt=""
@@ -81,11 +81,11 @@
               tabindex="0"
               :class="[
                 {
-                  'text-white bg-blue-800 focus:text-white focus:bg-blue-800':
+                  'text-white bg-[#070191] focus:text-white focus:bg-[#070191]':
                     activeType == type.slug,
                 },
                 {
-                  'text-gray-500 hover:text-blue-800 bg-white':
+                  'text-gray-500 hover:text-[#070191] bg-white':
                     activeType != type.slug,
                 },
                 {
@@ -121,7 +121,7 @@
                     v-for="territory in territoriesByGroup(group)"
                     :key="territory.id"
                     :to="territory.full_url"
-                    class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900 focus:outline-none focus:shadow-outline transition ease-in-out duration-150"
+                    class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-[#070191] border-b-2 text-[#242526] hover:border hover:shadow-lg hover:text-gray-900 focus:outline-none focus:shadow-outline transition ease-in-out duration-150"
                     style="min-height: 80px"
                   >
                     <span class="font-semibold">{{ territory.name }}</span>
@@ -259,7 +259,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-input::placeholder
-  font-weight: 400 !important
+<style lang="postcss" scoped>
+input::placeholder {
+  font-weight: 400 !important;
+}
 </style>

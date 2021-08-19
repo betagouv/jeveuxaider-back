@@ -7,7 +7,7 @@
     :rules="rules"
   >
     <div class="flex justify-between mb-6 text-1-5xl font-bold">
-      <div class="text-gray-800">Informations générales</div>
+      <div class="text-[#242526]">Informations générales</div>
       <div v-if="form.rna && form.rna != 'N/A'" class="text-gray-400">
         <span class="font-medium">RNA</span> {{ form.rna }}
       </div>
@@ -180,7 +180,7 @@
       <el-input v-model="form.phone" placeholder="01 23 45 67 89" />
     </el-form-item>
 
-    <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
+    <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Réseau national ou territorial
     </div>
     <ItemDescription container-class="mb-6">
@@ -217,7 +217,7 @@
       </el-checkbox>
     </el-form-item>
 
-    <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
+    <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Lieu de l'établissement
     </div>
     <el-form-item label="Département" prop="department">
@@ -255,7 +255,7 @@
       </el-form-item>
     </div>
 
-    <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
+    <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Votre organisation sur les réseaux
     </div>
     <el-form-item label="Site de l'organisation" prop="website">
@@ -286,7 +286,7 @@
       />
     </el-form-item>
 
-    <div class="mt-12 mb-6 text-gray-800 text-1-5xl font-bold">
+    <div class="mt-12 mb-6 text-[#242526] text-1-5xl font-bold">
       Visuels & personnalisation
     </div>
 
@@ -335,11 +335,11 @@
             @click="onEditImageClick(0)"
           />
           <div
-            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
-              class="text-blue-800"
+              class="text-[#070191]"
               v-html="
                 require('@/assets/images/icones/heroicon/edit.svg?include')
               "
@@ -393,11 +393,11 @@
             @click="onEditImageClick(1)"
           />
           <div
-            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
-              class="text-blue-800"
+              class="text-[#070191]"
               v-html="
                 require('@/assets/images/icones/heroicon/edit.svg?include')
               "
@@ -463,7 +463,7 @@
       </el-button>
       <div
         v-if="$store.getters.contextRole === 'responsable'"
-        class="text-red-500 ml-4 cursor-pointer hover:underline"
+        class="text-[#f56565] ml-4 cursor-pointer hover:underline"
         @click="onSubmitDelete"
       >
         Supprimer mon organisation

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="relative bg-blue-800 overflow-hidden">
+    <div class="relative bg-[#070191] overflow-hidden">
       <img
         class="z-1 object-cover absolute h-screen lg:h-auto"
         alt="Je Veux Aider"
@@ -22,7 +22,7 @@
                 <li class="flex items-start">
                   <div class="flex-shrink-0">
                     <svg
-                      class="h-6 w-6 text-green-400"
+                      class="h-6 w-6 text-[#16a972]"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -42,7 +42,7 @@
                 <li class="mt-6 flex items-start">
                   <div class="flex-shrink-0">
                     <svg
-                      class="h-6 w-6 text-green-400"
+                      class="h-6 w-6 text-[#16a972]"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
                 <li class="mt-6 flex items-start">
                   <div class="flex-shrink-0">
                     <svg
-                      class="h-6 w-6 text-green-400"
+                      class="h-6 w-6 text-[#16a972]"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -285,7 +285,7 @@
                         <el-button
                           type="primary"
                           :loading="loading"
-                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:border-indigo-700 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
+                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-[#0e9f6e] focus:border-indigo-700 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
                           @click="onSubmit"
                           >Je m'inscris<span class="hidden sm:inline">
                             en tant que bénévole</span
@@ -336,7 +336,7 @@
     <div class="bg-gray-100">
       <div class="max-w-screen-xl mx-auto pt-14 pb-20 px-4 sm:px-6 lg:px-8">
         <h3
-          class="text-center leading-8 pb-8 text-gray-800 text-sm font-medium text-3xl tracking-tight px-4"
+          class="text-center leading-8 pb-8 text-[#242526] text-sm font-medium text-3xl tracking-tight px-4"
         >
           Plus de <b class="font-bold">4000 organisations</b> ont déjà rejoint
           JeVeuxAider.gouv.fr
@@ -386,10 +386,10 @@
         >
           <blockquote class="lg:flex-grow lg:flex lg:flex-col">
             <div
-              class="relative text-lg leading-7 font-medium text-gray-800 lg:flex-grow"
+              class="relative text-lg leading-7 font-medium text-[#242526] lg:flex-grow"
             >
               <svg
-                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
                 fill="currentColor"
                 viewBox="0 0 32 32"
               >
@@ -433,10 +433,10 @@
         >
           <blockquote class="lg:flex-grow lg:flex lg:flex-col">
             <div
-              class="relative text-lg leading-7 font-medium text-gray-800 lg:flex-grow"
+              class="relative text-lg leading-7 font-medium text-[#242526] lg:flex-grow"
             >
               <svg
-                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
                 fill="currentColor"
                 viewBox="0 0 32 32"
               >
@@ -714,14 +714,17 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-3
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-3;
+}
 
 ::v-deep .el-input,
-::v-deep .el-input input
-  @apply rounded-lg
+::v-deep .el-input input {
+  @apply rounded-lg;
+}
 
-::v-deep .el-checkbox
-  @apply text-gray-500 font-normal
+::v-deep .el-checkbox {
+  @apply text-gray-500 font-normal;
+}
 </style>

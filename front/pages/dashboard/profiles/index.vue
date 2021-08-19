@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2-5xl text-gray-800">Utilisateurs</div>
+        <div class="mb-8 font-bold text-2-5xl text-[#242526]">Utilisateurs</div>
       </div>
       <div v-if="$store.getters.contextRole === 'admin'" class="">
         <nuxt-link to="/dashboard/profiles/invitations/add">

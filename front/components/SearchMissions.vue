@@ -68,18 +68,7 @@
                   />
 
                   <div
-                    class="
-                      toggle-filters
-                      w-full
-                      p-2
-                      pr-3
-                      lg:hidden
-                      border border-white
-                      rounded-lg
-                      flex
-                      items-center
-                      justify-center
-                    "
+                    class="toggle-filters w-full p-2 pr-3 lg:hidden border border-white rounded-lg flex items-center justify-center"
                     @click="showFilters = !showFilters"
                   >
                     <img
@@ -131,16 +120,7 @@
 
                     <div class="p-2 right-0 top-0" @click="showFilters = false">
                       <div
-                        class="
-                          text-center
-                          px-4
-                          py-2
-                          rounded-full
-                          text-white
-                          shadow-md
-                          cursor-pointer
-                          bg-primary
-                        "
+                        class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-primary"
                       >
                         Afficher
                       </div>
@@ -150,15 +130,7 @@
 
                 <div
                   v-scroll-lock="showFilters && isMobile"
-                  class="
-                    px-4
-                    pt-8
-                    pb-32
-                    lg:p-0
-                    overflow-y-auto
-                    lg:overflow-hidden
-                    flex flex-col flex-1
-                  "
+                  class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
                 >
                   <client-only>
                     <AisClearRefinements :excluded-attributes="clearExcludes">
@@ -172,17 +144,7 @@
                             Effacer tous les filtres
                           </span>
                           <div
-                            class="
-                              ml-3
-                              rounded-full
-                              bg-gray-100
-                              w-6
-                              h-6
-                              relative
-                              flex
-                              items-center
-                              justify-center
-                            "
+                            class="ml-3 rounded-full bg-gray-100 w-6 h-6 relative flex items-center justify-center"
                           >
                             <img
                               class="clear-refinement--icon"
@@ -278,46 +240,17 @@
                       <nuxt-link
                         v-if="item.isBannerRemoteMissions"
                         to="/missions-benevolat?refinementList[type][0]=Mission à distance"
-                        class="
-                          banner-remote
-                          relative
-                          h-auto
-                          flex flex-col flex-1
-                          bg-white
-                          rounded-lg
-                          overflow-hidden
-                          cursor-pointer
-                          group
-                        "
+                        class="banner-remote relative h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden cursor-pointer group"
                       >
                         <img
                           src="/images/banner_a_distance.jpg"
                           srcset="/images/banner_a_distance@2x.jpg 2x"
                           alt="Engagez-vous à distance"
-                          class="
-                            background
-                            absolute
-                            object-cover
-                            w-full
-                            h-full
-                            transition
-                            duration-300
-                            ease-in-out
-                          "
+                          class="background absolute object-cover w-full h-full transition duration-300 ease-in-out"
                         />
 
                         <div
-                          class="
-                            foreground
-                            text-white
-                            relative
-                            flex flex-col
-                            h-full
-                            items-center
-                            text-center
-                            px-4
-                            py-8
-                          "
+                          class="foreground text-white relative flex flex-col h-full items-center text-center px-4 py-8"
                         >
                           <img
                             src="/images/computer.svg"
@@ -334,25 +267,7 @@
                           </div>
 
                           <div
-                            class="
-                              text-center
-                              px-4
-                              py-2
-                              rounded-full
-                              text-white
-                              shadow-md
-                              cursor-pointer
-                              bg-green-400
-                              group-hover:bg-green-500
-                              transition
-                              duration-150
-                              ease-in-out
-                              mt-6
-                              font-extrabold
-                              inline-flex
-                              justify-center
-                              items-center
-                            "
+                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-[#16a972] group-hover:bg-[#0e9f6e] transition duration-150 ease-in-out mt-6 font-extrabold inline-flex justify-center items-center"
                             style="width: 212px; height: 45px"
                           >
                             Missions à distance
@@ -362,14 +277,7 @@
 
                       <template v-else>
                         <nuxt-link
-                          class="
-                            flex flex-col flex-1
-                            hover:bg-gray-50
-                            focus:bg-gray-50
-                            transition
-                            duration-150
-                            ease-in-out
-                          "
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
                           :to="
                             item.provider == 'api_engagement'
                               ? `/missions-benevolat/${item.id}`
@@ -456,18 +364,7 @@
 
                 <div
                   v-show="!nbHits"
-                  class="
-                    w-full
-                    mb-16
-                    bg-white
-                    rounded-lg
-                    shadow
-                    px-4
-                    py-8
-                    sm:p-8
-                    lg:p-12
-                    xl:p-16
-                  "
+                  class="w-full mb-16 bg-white rounded-lg shadow px-4 py-8 sm:p-8 lg:p-12 xl:p-16"
                 >
                   Pas de résultats.
                 </div>
@@ -634,7 +531,7 @@ export default {
           })
           return (
             `<div class="text-black font-bold">${suggestion.highlight.name}</div>` +
-            `<div class="text-gray-800 text-xs font-light">` +
+            `<div class="text-[#242526] text-xs font-light">` +
             `<span>${suggestion.postcode}</span>${detailsOutput}` +
             `</div>`
           )
@@ -876,133 +773,175 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.search-input
-  ::v-deep
-    input
-      border-radius: 8px
-      border-color: #EDE8E9
-      height: 46px
-      color: #171725
-      @apply text-base
-      @screen md
-        font-size: 14px
+<style lang="postcss" scoped>
+.search-input {
+  ::v-deep input {
+    border-radius: 8px;
+    border-color: #ede8e9;
+    height: 46px;
+    color: #171725;
+    @apply text-base;
+    @screen md {
+      font-size: 14px;
+    }
+  }
+}
 
-::v-deep .ais-Hits-list
-  height: max-content
-  @screen sm
-    @apply -m-3 justify-center
-  @screen lg
-    @apply ml-auto justify-start
+::v-deep .ais-Hits-list {
+  height: max-content;
+  @screen sm {
+    @apply -m-3 justify-center;
+  }
+  @screen lg {
+    @apply ml-auto justify-start;
+  }
+}
 
-::v-deep .ais-Hits-item
-  width: 100%
-  @apply border-0 shadow-none p-0 mb-6
-  @screen sm
-    width: 292px
-    @apply m-3
-  @screen lg
-    width: 300px
-    @apply flex flex-col
+::v-deep .ais-Hits-item {
+  width: 100%;
+  @apply border-0 shadow-none p-0 mb-6;
+  @screen sm {
+    width: 292px;
+    @apply m-3;
+  }
+  @screen lg {
+    width: 300px;
+    @apply flex flex-col;
+  }
+}
 
-.ais-Pagination
-  ::v-deep ul
-    li
-      color: black
-      transition: all .25s
-      @apply p-2 border-b-2 border-transparent text-sm
-      &.cursor-not-allowed
-        color: #908E8E
+.ais-Pagination {
+  ::v-deep ul {
+    li {
+      color: black;
+      transition: all 0.25s;
+      @apply p-2 border-b-2 border-transparent text-sm;
+      &.cursor-not-allowed {
+        color: #908e8e;
+      }
       &:hover:not(.cursor-not-allowed),
-      &.active
-        @apply border-primary
-    .page-number
-      @apply mx-2 font-light hidden
-      @screen md
-        @apply inline-block
-      &.active
-        @apply font-bold inline-block
+      &.active {
+        @apply border-primary;
+      }
+    }
 
-.sort
-  width: 180px
-  ::v-deep
-    .el-input__prefix
-      pointer-events: none
-      left: 15px
-      top: 10px
-      font-size: 12px
-      color: rgba(255, 255, 255, 0.7)
-      letter-spacing: -0.1px
-      line-height: 18px
-    input
-      height: 60px
-      padding: 0 15px
-      background-color: transparent
-      color: white
-      letter-spacing: -0.1px
-      font-size: 14px
-      font-weight: bold
-      border: none
-      position: relative
-      top: 10px
-    .el-input
-      border: 1px solid white
-      border-radius: 8px
-      cursor: pointer
-    .el-select__caret
-      color: white
-      font-weight: bold
-      font-size: 12px
-      position: relative
-      right: 10px
+    .page-number {
+      @apply mx-2 font-light hidden;
+      @screen md {
+        @apply inline-block;
+      }
+      &.active {
+        @apply font-bold inline-block;
+      }
+    }
+  }
+}
 
-.facets--wrapper
-  @media screen and (max-width: 1023px)
-    position: fixed
-    width: 100%
-    height: 100%
-    z-index: 100
-    display: flex
-    flex-direction: column
-    @apply inset-0 bg-gray-100
+.sort {
+  width: 180px;
+  ::v-deep {
+    .el-input__prefix {
+      pointer-events: none;
+      left: 15px;
+      top: 10px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: -0.1px;
+      line-height: 18px;
+    }
+    input {
+      height: 60px;
+      padding: 0 15px;
+      background-color: transparent;
+      color: white;
+      letter-spacing: -0.1px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      position: relative;
+      top: 10px;
+    }
+    .el-input {
+      border: 1px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .el-select__caret {
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      position: relative;
+      right: 10px;
+    }
+  }
+}
 
-.clear-refinements
-  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05)
-  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 flex items-center cursor-pointer
-  .clear-refinement--icon
-    transition: opacity .15s
-    @apply absolute m-auto opacity-50
-  &:hover
-    .clear-refinement--icon
-      @apply opacity-100
+.facets--wrapper {
+  @media screen and (max-width: 1023px) {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    @apply inset-0 bg-gray-100;
+  }
+}
 
-.header
-  &.custom-color
-    ::v-deep .el-radio
-      color: white
-      border-color: white
-      .el-radio__label
-        color: currentColor
-      .el-radio__input
-        .el-radio__inner
-          background: currentColor
-          border-color: currentColor
-          &::after
-            filter: grayscale(1) invert(1) contrast(.5)
-      .el-radio__input
-        &.is-checked
-          .el-radio__inner
-            &::after
-              filter: grayscale(1) invert(1)
+.clear-refinements {
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
+  @apply bg-white px-4 py-2 pr-3 rounded-lg text-black text-sm font-semibold mb-8 flex items-center cursor-pointer;
+  .clear-refinement--icon {
+    transition: opacity 0.15s;
+    @apply absolute m-auto opacity-50;
+  }
+  &:hover {
+    .clear-refinement--icon {
+      @apply opacity-100;
+    }
+  }
+}
 
-::v-deep .banner-remote
-  backface-visibility: hidden
-  transform: translate3d(0, 0, 0)
-  will-change: transform
-  &:hover
-    .background
-      transform: scale(1.05)
-  .foreground
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 53.08%, rgba(0, 0, 0, 0.3) 100%)
-    @apply h-full
+.header.custom-color {
+  ::v-deep .el-radio {
+    color: white;
+    border-color: white;
+    .el-radio__label {
+      color: currentColor;
+    }
+    .el-radio__input {
+      .el-radio__inner {
+        background: currentColor;
+        border-color: currentColor;
+        &::after {
+          filter: grayscale(1) invert(1) contrast(0.5);
+        }
+      }
+    }
+    .el-radio__input.is-checked {
+      .el-radio__inner::after {
+        filter: grayscale(1) invert(1);
+      }
+    }
+  }
+}
+
+::v-deep .banner-remote {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  &:hover {
+    .background {
+      transform: scale(1.05);
+    }
+  }
+  .foreground {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 53.08%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    @apply h-full;
+  }
+}
 </style>

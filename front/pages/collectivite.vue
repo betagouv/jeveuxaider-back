@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-blue-800">
+    <div class="bg-[#070191]">
       <div class="relative">
         <div class="relative pt-6 pb-12 lg:pb-10">
           <div class="mt-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:mt-16">
@@ -123,7 +123,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="bg-blue-800 rounded-md p-3 text-white text-center"
+                      class="bg-[#070191] rounded-md p-3 text-white text-center"
                     >
                       <img
                         class="h-7"
@@ -149,7 +149,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="bg-blue-800 rounded-md p-3 text-white text-center"
+                      class="bg-[#070191] rounded-md p-3 text-white text-center"
                     >
                       <img
                         class="h-7"
@@ -174,7 +174,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="bg-blue-800 rounded-md p-3 text-white text-center"
+                      class="bg-[#070191] rounded-md p-3 text-white text-center"
                     >
                       <img class="h-7" src="@/assets/images/users.svg" alt="" />
                     </div>
@@ -218,7 +218,7 @@
               >
                 Rejoignez le mouvement
                 <br class="xl:hidden" />
-                <span class="text-blue-800">#JeVeuxAider</span>
+                <span class="text-[#070191]">#JeVeuxAider</span>
               </h2>
               <p
                 class="mt-4 text-center max-w-4xl text-xl leading-7 text-gray-500 lg:mx-auto"
@@ -277,24 +277,24 @@
               >
                 <div class="flex flex-col mt-10 sm:mt-0">
                   <dt
-                    class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
+                    class="order-2 mt-2 text-lg leading-6 font-medium text-[#242526]"
                   >
                     Bénévoles
                   </dt>
                   <dd
-                    class="order-1 text-5xl leading-none font-bold text-gray-800"
+                    class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
                     313 980
                   </dd>
                 </div>
                 <div class="flex flex-col mt-10 sm:mt-0">
                   <dt
-                    class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
+                    class="order-2 mt-2 text-lg leading-6 font-medium text-[#242526]"
                   >
                     Organisations
                   </dt>
                   <dd
-                    class="order-1 text-5xl leading-none font-bold text-gray-800"
+                    class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
                     3 878
                   </dd>
@@ -302,12 +302,12 @@
 
                 <div class="flex flex-col mt-10 sm:mt-0">
                   <dt
-                    class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
+                    class="order-2 mt-2 text-lg leading-6 font-medium text-[#242526]"
                   >
                     Mises en relation
                   </dt>
                   <dd
-                    class="order-1 text-5xl leading-none font-bold text-gray-800"
+                    class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
                     107 528
                   </dd>
@@ -318,7 +318,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-blue-800 border-b border-gray-200">
+    <div class="bg-[#070191] border-b border-gray-200">
       <div
         class="max-w-screen-lg mx-auto py-12 px-18 sm:px-16 lg:py-16 lg:flex lg:items-center lg:justify-between text-center"
       >

@@ -1,13 +1,7 @@
 <template>
   <div class="flex flex-shrink-0">
     <div
-      class="
-        flex flex-col
-        overflow-x-hidden overflow-y-auto
-        border-gray-200 border-r
-        w-64
-        pt-5
-      "
+      class="flex flex-col overflow-x-hidden overflow-y-auto border-gray-200 border-r w-64 pt-5"
     >
       <div
         v-if="$store.getters.isSidebarExpanded"
@@ -53,14 +47,7 @@
         <div class="mt-8">
           <h3
             id="teams-headline"
-            class="
-              px-3
-              text-xs
-              font-semibold
-              text-gray-500
-              uppercase
-              tracking-wider
-            "
+            class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
           >
             Liens utiles
           </h3>
@@ -76,19 +63,7 @@
                 )
               "
               to="/dashboard/ressources"
-              class="
-                group
-                flex
-                items-center
-                px-3
-                py-2
-                text-sm
-                font-medium
-                text-gray-700
-                rounded-md
-                hover:text-gray-900
-                hover:bg-gray-50
-              "
+              class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
               :class="{
                 'bg-gray-50': doesPathContains('dashboard/ressources'),
               }"
@@ -102,23 +77,11 @@
 
             <nuxt-link
               to="/dashboard/news"
-              class="
-                group
-                flex
-                items-center
-                px-3
-                py-2
-                text-sm
-                font-medium
-                text-gray-700
-                rounded-md
-                hover:text-gray-900
-                hover:bg-gray-50
-              "
+              class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
               :class="{ 'bg-gray-50': doesPathContains('dashboard/news') }"
             >
               <span
-                class="w-2.5 h-2.5 mr-4 bg-green-500 rounded-full"
+                class="w-2.5 h-2.5 mr-4 bg-[#0e9f6e] rounded-full"
                 aria-hidden="true"
               ></span>
               <span class="truncate"> Nouveautés </span>
@@ -127,19 +90,7 @@
             <a
               href="https://reserve-civique.crisp.help/fr/"
               target="_blank"
-              class="
-                group
-                flex
-                items-center
-                px-3
-                py-2
-                text-sm
-                font-medium
-                text-gray-700
-                rounded-md
-                hover:text-gray-900
-                hover:bg-gray-50
-              "
+              class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
             >
               <span
                 class="w-2.5 h-2.5 mr-4 bg-indigo-500 rounded-full"
@@ -151,22 +102,10 @@
             <a
               href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
               target="_blank"
-              class="
-                group
-                flex
-                items-center
-                px-3
-                py-2
-                text-sm
-                font-medium
-                text-gray-700
-                rounded-md
-                hover:text-gray-900
-                hover:bg-gray-50
-              "
+              class="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
             >
               <span
-                class="w-2.5 h-2.5 mr-4 bg-red-500 rounded-full"
+                class="w-2.5 h-2.5 mr-4 bg-[#f56565] rounded-full"
                 aria-hidden="true"
               ></span>
               <span class="truncate"> Contacter le support </span>
@@ -196,33 +135,42 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.el-menu
-  background-color: transparent
-  border: 0
-  ::v-deep .el-menu-item
-    i
-      font-size: 24px
-      margin: 0
-    &.is-active
-      &::before
-        content: ""
-        position: absolute
-        top: 0
-        left: 0
-        width: 4px
-        height: 100%
-        @apply bg-primary
+<style scoped lang="postcss">
+.el-menu {
+  background-color: transparent;
+  border: 0;
+  ::v-deep .el-menu-item {
+    i {
+      font-size: 24px;
+      margin: 0;
+    }
+    &.is-active {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        @apply bg-primary;
+      }
+    }
+  }
+}
 
-// .el-aside
-//   transition: width .25s
-.toggle-collapse
-  ::v-deep i
-    transition: transform .25s
-.collapsed
-  ::v-deep .el-menu-item
-    text-align: center
-  .toggle-collapse
-    ::v-deep i
-      transform: rotate(180deg)
+.toggle-collapse {
+  ::v-deep i {
+    transition: transform 0.25s;
+  }
+}
+.collapsed {
+  ::v-deep .el-menu-item {
+    text-align: center;
+  }
+  .toggle-collapse {
+    ::v-deep i {
+      transform: rotate(180deg);
+    }
+  }
+}
 </style>

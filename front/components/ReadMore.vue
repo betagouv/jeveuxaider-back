@@ -25,7 +25,7 @@ export default {
   props: {
     moreClass: {
       type: String,
-      default: 'cursor-pointer uppercase font-bold text-sm text-gray-800',
+      default: 'cursor-pointer uppercase font-bold text-sm text-[#242526]',
     },
     moreStr: {
       type: String,

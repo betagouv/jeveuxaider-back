@@ -127,7 +127,7 @@
         <el-dropdown-item
           divided
           :command="{ action: 'logout' }"
-          class="text-red-500"
+          class="text-[#f56565]"
         >
           Se déconnecter
         </el-dropdown-item>
@@ -177,7 +177,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .el-dropdown-link {
   cursor: pointer;
 }

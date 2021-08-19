@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-gray-800 mb-4">
+    <div class="font-bold text-2-5xl text-[#242526] mb-4">
       Informations personnelles
     </div>
 
@@ -298,7 +298,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-6
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-6;
+}
 </style>

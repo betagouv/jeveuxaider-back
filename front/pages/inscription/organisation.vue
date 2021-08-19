@@ -105,7 +105,7 @@
       >
         <div class="w-full m-0">
           <label
-            class="uppercase font-semibold text-gray-800 text-sm mb-2 block"
+            class="uppercase font-semibold text-[#242526] text-sm mb-2 block"
           >
             <template v-if="$route.query.orga_type === 'Collectivité'">
               Nom de votre collectivité
@@ -139,7 +139,7 @@
         <template v-if="!orgaExist && $route.query.orga_type !== 'Association'">
           <el-button
             type="primary"
-            class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
+            class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#16a972] hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
             @click="onSubmitChooseName"
             @keyup.enter="onSubmitChooseName"
           >
@@ -232,7 +232,7 @@
         <el-button
           type="primary"
           :loading="loading"
-          class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
+          class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#16a972] hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
           @click="onSubmitRegisterResponsableForm"
           @keydown.enter="onSubmitRegisterResponsableForm"
         >
@@ -244,7 +244,7 @@
           </template>
           <template v-else>J'inscris mon organisation</template>
         </el-button>
-        <div class="mt-4 text-center text-gray-800 text-sm">
+        <div class="mt-4 text-center text-[#242526] text-sm">
           En m'inscrivant j'accepte
           <a
             href="/politique-de-confidentialite"

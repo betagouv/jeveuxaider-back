@@ -27,20 +27,15 @@
       <div
         v-for="suggestion in suggestions"
         :key="suggestion.rna"
-        class="
-          bg-white
-          p-4
-          mb-4
-          rounded-lg
-          hover:border-blue-800
-          cursor-pointer
+        class="bg-white p-4 mb-4 rounded-lg hover:border-[#070191] cursor-pointer"
+        :class="
+          isSelected(suggestion) ? 'border-2 border-[#070191] ' : 'border'
         "
-        :class="isSelected(suggestion) ? 'border-2 border-blue-800 ' : 'border'"
         @click="onSelected(suggestion)"
       >
         <div
           class="mb-1"
-          :class="isSelected(suggestion) ? 'text-blue-800 ' : ''"
+          :class="isSelected(suggestion) ? 'text-[#070191] ' : ''"
         >
           {{ suggestion.name }}
           <span class="text-gray-500 text-xs"
@@ -58,7 +53,7 @@
     </div>
     <!-- <div
       v-else
-      class="bg-white p-4 mb-4 rounded-lg hover:border-blue-800 cursor-pointer"
+      class="bg-white p-4 mb-4 rounded-lg hover:border-[#070191] cursor-pointer"
     >
       <div class="text-sm text-gray-500">Aucun résultat provenant de l'API</div>
     </div> -->

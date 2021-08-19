@@ -87,7 +87,7 @@
           <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <p
-                class="text-center text-base leading-6 mt-2 font-semibold uppercase text-gray-800 tracking-wider"
+                class="text-center text-base leading-6 mt-2 font-semibold uppercase text-[#242526] tracking-wider"
               >
                 En partenariat avec
               </p>

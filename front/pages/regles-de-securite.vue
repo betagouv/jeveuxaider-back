@@ -24,7 +24,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-[#070191] text-white"
                     >
                       1
                     </div>
@@ -43,7 +43,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-[#070191] text-white"
                     >
                       2
                     </div>
@@ -61,7 +61,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
+                      class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-[#070191] text-white"
                     >
                       3
                     </div>
@@ -79,7 +79,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-[#070191] text-white"
                     >4</div>
                   </div>
                   <div class="ml-4">
@@ -95,7 +95,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-blue-800 text-white"
+                      class="flex items-center justify-center h-12 w-12 font-semibold rounded-md bg-[#070191] text-white"
                     >
                       4
                     </div>
@@ -112,7 +112,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-blue-800 text-white"
+                      class="flex items-center justify-center font-semibold h-12 w-12 rounded-md bg-[#070191] text-white"
                     >
                       5
                     </div>

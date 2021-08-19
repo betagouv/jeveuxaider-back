@@ -2,7 +2,7 @@
   <div class="pl-12 pb-12 max-w-3xl">
     <div class="text-m text-gray-600 uppercase">Mission</div>
     <div class="flex gap-3 justify-between items-start">
-      <div class="font-bold text-2-5xl text-gray-800">
+      <div class="font-bold text-2-5xl text-[#242526]">
         {{ mission.name }}
       </div>
       <TagModelState
@@ -21,8 +21,8 @@
         :class="
           mission.structure.state == 'Validée' &&
           ['Validée', 'Terminée'].includes(mission.state)
-            ? 'bg-green-500'
-            : 'bg-red-500'
+            ? 'bg-[#0e9f6e]'
+            : 'bg-[#f56565]'
         "
         class="rounded-full h-2 w-2 mr-2"
       ></div>

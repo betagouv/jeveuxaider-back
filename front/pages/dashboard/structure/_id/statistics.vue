@@ -8,7 +8,7 @@
     <div class="px-12">
       <div class="flex flex-col space-y-8">
         <div v-if="actions && actions.length" class="max-w-3xl">
-          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-[#242526] mb-4">
             Actions en attente
             <span>({{ actions.length }})</span>
           </div>
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div>
-          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-[#242526] mb-4">
             JeVeuxAider.gouv.fr
           </div>
           <div v-if="statistics" class="flex flex-wrap">
@@ -67,7 +67,7 @@
           </div>
         </div>
         <div v-if="plausible">
-          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-[#242526] mb-4">
             Visiteurs sur la dernière année
           </div>
           <div class="flex flex-wrap">
@@ -160,10 +160,12 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.el-menu--horizontal
-  @apply px-12
-  > .el-menu-item
-    @apply mr-8 p-0 font-medium
-      border-bottom: solid 3px #070191
+<style scoped lang="postcss">
+.el-menu--horizontal {
+  @apply px-12;
+  > .el-menu-item {
+    @apply mr-8 p-0 font-medium;
+    border-bottom: solid 3px #070191;
+  }
+}
 </style>

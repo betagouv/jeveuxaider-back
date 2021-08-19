@@ -44,7 +44,7 @@
                     :key="index"
                     class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase truncate"
                     :class="[
-                      { 'bg-indigo-100 text-blue-900': index === 0 },
+                      { 'bg-indigo-100 text-[#1f0391]': index === 0 },
                       { 'bg-gray-100 text-gray-900': index !== 0 },
                     ]"
                   >
@@ -97,7 +97,7 @@
                   "
                   target="_blank"
                   :to="`/organisations/${structure.slug}`"
-                  class="font-bold uppercase text-blue-800"
+                  class="font-bold uppercase text-[#070191]"
                 >
                   <h2 class="inline">{{ structure.name }}</h2>
                 </component>
@@ -118,7 +118,7 @@
                     publicBeneficiaire, key
                   ) in mission.publics_beneficiaires"
                   :key="key"
-                  class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-gray-4E4E54 text-white"
+                  class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-gray-[#4E4E54] text-white"
                 >
                   {{ publicBeneficiaire }}
                 </div>
@@ -814,61 +814,88 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.aside
-  @screen lg
-    max-width: 410px
-    @apply flex-none w-full
+<style lang="postcss" scoped>
+.aside {
+  @screen lg {
+    max-width: 410px;
+    @apply flex-none w-full;
+  }
+}
 
-.comment-wrapper
-  min-height: 200px
-  ::v-deep ul,::v-deep ol
-    @apply flex flex-col items-center
-  @screen lg
-    @apply relative
-  .comment-wrapper--icon
-    @apply hidden
-    @screen lg
-      @apply block
-    @screen xl
-      left: 5%
+.comment-wrapper {
+  min-height: 200px;
+  ::v-deep ul,
+  ::v-deep ol {
+    @apply flex flex-col items-center;
+  }
+  @screen lg {
+    @apply relative;
+  }
+  .comment-wrapper--icon {
+    @apply hidden;
+    @screen lg {
+      @apply block;
+    }
+    @screen xl {
+      left: 5%;
+    }
+  }
+}
 
-::v-deep .el-dialog__title
-  @apply text-gray-800 text-xl font-bold
+::v-deep .el-dialog__title {
+  @apply text-[#242526] text-xl font-bold;
+}
 
-.custom-gradient
-  background: linear-gradient(to right, #070191 5px, #eeedf7 5px)
+.custom-gradient {
+  background: linear-gradient(to right, #070191 5px, #eeedf7 5px);
+}
 
-.custom-gradient-2
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70.1%)
+.custom-gradient-2 {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 70.1%
+  );
+}
 
-.citation
+.citation {
   *,
-  ::v-deep *
-    display: inline
-  h3
-    &::before
-      content: "“\00A0"
-    &::after
-      content: "\00A0”"
+  ::v-deep * {
+    display: inline;
+  }
+  h3 {
+    &::before {
+      content: '“\00A0';
+    }
+    &::after {
+      content: '\00A0”';
+    }
+  }
+}
 
-.public-wrapper
-  ::v-deep svg
-    @apply w-full h-full
-    > *[fill]
-      fill: #808080
+.public-wrapper {
+  ::v-deep svg {
+    @apply w-full h-full;
+    > *[fill] {
+      fill: #808080;
+    }
+  }
+}
 
-.logo-wrapper
-  left: 50%
-  transform: translateX(-50%) translateY(-70%)
-  @apply absolute
+.logo-wrapper {
+  left: 50%;
+  transform: translateX(-50%) translateY(-70%);
+  @apply absolute;
+}
 
-.portrait-count
-  width: 34px
-  height: 34px
-  color: #B6B6B6
+.portrait-count {
+  width: 34px;
+  height: 34px;
+  color: #b6b6b6;
+}
 
 .portrait,
-.portrait-count
-  filter: drop-shadow(rgba(0, 0, 0, 0.1) 0 3px 7px)
+.portrait-count {
+  filter: drop-shadow(rgba(0, 0, 0, 0.1) 0 3px 7px);
+}
 </style>

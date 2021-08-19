@@ -14,17 +14,7 @@
             :class="[{ hide: !$store.getters['messaging/showPanelLeft'] }]"
           >
             <div
-              class="
-                panel--header
-                sticky
-                top-0
-                bg-white
-                px-6
-                border-b border-r border-cool-gray-200
-                flex
-                items-center
-                justify-between
-              "
+              class="panel--header sticky top-0 bg-white px-6 border-b border-r border-cool-gray-200 flex items-center justify-between"
             >
               <div class="text-lg leading-8 font-bold text-gray-900">
                 {{ conversationsLabel }}
@@ -312,31 +302,41 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-#messagerie
-  height: calc(100% - 110px)
-.panel--left
-  transition: opacity .25s
-  opacity: 1
-  pointer-events: auto
-  @apply flex flex-col max-w-full
-  @screen md
-    transition: all .25s
-  &.hide
-    flex: 0 1 0%
-    width: 0
-    opacity: 0
-    pointer-events: none
-  .panel--header
-    min-height: 77px
-  .panel--container
-    @apply flex flex-col overflow-y-auto
+<style lang="postcss" scoped>
+#messagerie {
+  height: calc(100% - 110px);
+}
 
-.panel--left
-  flex: 1 1 0%
-  @screen md
-    width: 415px
-    @apply flex-none
-    > *
-      width: 415px
+.panel--left {
+  transition: opacity 0.25s;
+  opacity: 1;
+  pointer-events: auto;
+  @apply flex flex-col max-w-full;
+  @screen md {
+    transition: all 0.25s;
+  }
+  &.hide {
+    flex: 0 1 0%;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .panel--header {
+    min-height: 77px;
+  }
+  .panel--container {
+    @apply flex flex-col overflow-y-auto;
+  }
+}
+
+.panel--left {
+  flex: 1 1 0%;
+  @screen md {
+    width: 415px;
+    @apply flex-none;
+    > * {
+      width: 415px;
+    }
+  }
+}
 </style>

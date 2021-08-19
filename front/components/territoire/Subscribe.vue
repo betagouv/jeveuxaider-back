@@ -6,20 +6,12 @@
       <div class="relative z-10 container mx-auto px-4 lg:px-12">
         <div class="pt-16 pb-8 lg:py-28">
           <h2 class="max-w-2xl mb-12">
-            <p class="uppercase text-red-500 font-extrabold text-sm mb-4">
+            <p class="uppercase text-[#f56565] font-extrabold text-sm mb-4">
               Chacun pour tous
             </p>
 
             <p
-              class="
-                text-4xl
-                xl:text-5xl
-                leading-none
-                font-extrabold
-                tracking-px
-                lg:tracking-2px
-                text-primary
-              "
+              class="text-4xl xl:text-5xl leading-none font-extrabold tracking-px lg:tracking-2px text-primary"
             >
               Suivez toute l'actualité du bénévolat
               {{ territoire.suffix_title }}
@@ -32,16 +24,7 @@
           </p>
 
           <div
-            class="
-              rounded-xl
-              py-4
-              px-6
-              sm:pr-4
-              sm:pl-8
-              bg-white
-              shadow-lg
-              lg:-mx-8
-            "
+            class="rounded-xl py-4 px-6 sm:pr-4 sm:pl-8 bg-white shadow-lg lg:-mx-8"
             :class="[{ 'inline-block': submitted }]"
             style="max-width: 746px"
           >
@@ -65,33 +48,7 @@
 
               <button
                 :disabled="loading"
-                class="
-                  w-full
-                  sm:w-auto
-                  sm:flex-none
-                  flex
-                  items-center
-                  justify-center
-                  border border-transparent
-                  rounded-xl
-                  text-white
-                  focus:outline-none
-                  focus:shadow-outline
-                  transition
-                  duration-150
-                  hover:scale-105
-                  transform
-                  will-change-transform
-                  ease-in-out
-                  font-bold
-                  text-xl
-                  px-5
-                  py-4
-                  sm:px-8
-                  sm:py-4
-                  sm:pb-5
-                  leading-none
-                "
+                class="w-full sm:w-auto sm:flex-none flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:shadow-outline transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 sm:px-8 sm:py-4 sm:pb-5 leading-none"
                 style="background-color: #09c19d"
                 @click.prevent="onSubmit"
               >
@@ -105,27 +62,7 @@
               </div>
               <button
                 ref="buttonBack"
-                class="
-                  mt-4
-                  sm:ml-4
-                  sm:mt-0
-                  px-4
-                  py-2
-                  text-sm
-                  cursor-pointer
-                  rounded-lg
-                  bg-green-100
-                  text-green-800
-                  font-extrabold
-                  focus:outline-none
-                  focus:shadow-outline
-                  transition
-                  duration-150
-                  hover:scale-105
-                  transform
-                  will-change-transform
-                  ease-in-out
-                "
+                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-green-800 font-extrabold focus:outline-none focus:shadow-outline transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
                 @click="onBack"
               >
                 Retour
@@ -134,13 +71,7 @@
           </div>
 
           <p
-            class="
-              text-gray-600 text-sm
-              mt-6
-              sm:max-w-md
-              md:max-w-lg
-              lg:max-w-full
-            "
+            class="text-gray-600 text-sm mt-6 sm:max-w-md md:max-w-lg lg:max-w-full"
           >
             En m'inscrivant j'accepte la
             <nuxt-link to="/charte-reserve-civique" class="hover:underline">
@@ -159,42 +90,18 @@
       </div>
 
       <div
-        class="
-          max-w-md
-          ml-auto
-          xl:max-w-full
-          h-full
-          relative
-          sm:absolute
-          right-0
-          bottom-0
-          sm:pt-36
-          lg:pt-8
-          z-0
-        "
+        class="max-w-md ml-auto xl:max-w-full h-full relative sm:absolute right-0 bottom-0 sm:pt-36 lg:pt-8 z-0"
       >
         <img
           src="/images/subscribe-pattern.svg"
-          class="
-            ml-auto
-            w-full
-            h-full
-            object-contain object-right-bottom
-            absolute
-          "
+          class="ml-auto w-full h-full object-contain object-right-bottom absolute"
         />
         <img
           src="/images/subscribe-illustration.png"
           srcset="/images/subscribe-illustration@2x.png 2x"
           :alt="`Suivez toute l'actualité du bénévolat
               ${territoire.suffix_title}`"
-          class="
-            ml-auto
-            w-full
-            h-full
-            object-contain object-right-bottom
-            relative
-          "
+          class="ml-auto w-full h-full object-contain object-right-bottom relative"
         />
       </div>
     </section>
@@ -254,33 +161,41 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.input-wrapper
-  @apply w-full
-  &::after
-      content: "E-MAIL"
-      position: absolute
-      pointer-events: none
-      left: 0
-      top: 12px
-      font-size: 12px
-      color: black
-      letter-spacing: -0.1px
-      line-height: 18px
-      font-weight: bold
-  .el-form-item
-    @apply mb-0
-  .el-input
-    position: relative
-    top: 22px
-    margin-bottom: 25px
-    left: -15px
-    box-shadow: none !important
-    ::v-deep
-      input
-        border: none !important
-  ::v-deep
-    .el-form-item__error
-      top: auto
-      bottom: -3px
+<style lang="postcss" scoped>
+.input-wrapper {
+  @apply w-full;
+
+  &::after {
+    content: 'E-MAIL';
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 12px;
+    font-size: 12px;
+    color: black;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+    font-weight: bold;
+  }
+
+  .el-form-item {
+    @apply mb-0;
+  }
+
+  .el-input {
+    position: relative;
+    top: 22px;
+    margin-bottom: 25px;
+    left: -15px;
+    box-shadow: none !important;
+    ::v-deep input {
+      border: none !important;
+    }
+  }
+
+  ::v-deep .el-form-item__error {
+    top: auto;
+    bottom: -3px;
+  }
+}
 </style>

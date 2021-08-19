@@ -1,6 +1,6 @@
 <template>
   <el-form ref="profileForm" :model="form" label-position="top" :rules="rules">
-    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+    <div class="mb-6 text-1-5xl font-boldtext-[#242526]">
       Informations générales
     </div>
 
@@ -52,7 +52,7 @@
     </div>
 
     <template v-if="$store.getters.contextRole == 'admin'">
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">
         Tête de réseau national
       </div>
       <ItemDescription container-class="mb-6">
@@ -76,7 +76,9 @@
         </el-select>
       </el-form-item>
 
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">Référent régional</div>
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">
+        Référent régional
+      </div>
       <ItemDescription container-class="mb-6">
         Si cet utilisateur est référent régional, renseignez le nom de la
         région. Vous permettez à cet utilisateur de visualiser les missions et
@@ -98,7 +100,7 @@
         </el-select>
       </el-form-item>
 
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">
         Référent départemental
       </div>
       <ItemDescription container-class="mb-6">
@@ -126,7 +128,7 @@
         </el-select>
       </el-form-item>
 
-      <div class="mb-6 mt-12 flex text-xl text-gray-800">Datas analyste</div>
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">Datas analyste</div>
       <ItemDescription container-class="mb-6">
         Si cet utilisateur est un datas analyste, cochez la case. Il aura accès
         au tableau de bord et à tous ses indicateurs.

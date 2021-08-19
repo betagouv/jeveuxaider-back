@@ -19,7 +19,7 @@
     </div>
     <div
       id="step-container"
-      class="lg:w-2/3 relative bg-blue-800 lg:overflow-auto lg:h-full"
+      class="lg:w-2/3 relative bg-[#070191] lg:overflow-auto lg:h-full"
     >
       <img
         class="z-1 object-cover absolute h-screen lg:h-auto"
@@ -65,17 +65,25 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.aside
-  @screen lg
-    position: fixed
-    max-width: 390px
-    min-height: 100vh
-.main-content
-  @screen lg
-    margin-left: 390px
-.logo
-  width: 150px
-  @screen lg
-    max-width: 230px
+<style lang="postcss" scoped>
+.aside {
+  @screen lg {
+    position: fixed;
+    max-width: 390px;
+    min-height: 100vh;
+  }
+}
+
+.main-content {
+  @screen lg {
+    margin-left: 390px;
+  }
+}
+
+.logo {
+  width: 150px;
+  @screen lg {
+    max-width: 230px;
+  }
+}
 </style>

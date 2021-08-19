@@ -21,7 +21,7 @@
       ></el-option>
     </el-select>
 
-    <div class="text-1-5xl font-bold text-gray-800 flex items-center">
+    <div class="text-1-5xl font-bold text-[#242526] flex items-center">
       <div>Rédiger intégralement la mission</div>
       <el-tag type="warning" size="small" class="ml-2"
         >Validation par un référent</el-tag
@@ -52,7 +52,7 @@
     </div>
 
     <div
-      class="mt-10 mb-6 text-1-5xl font-bold text-gray-800 flex items-center"
+      class="mt-10 mb-6 text-1-5xl font-bold text-[#242526] flex items-center"
     >
       <div>Publier une mission à partir d'un modèle</div>
       <el-tag type="success" size="small" class="ml-2"

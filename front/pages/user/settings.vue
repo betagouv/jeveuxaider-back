@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="font-bold text-2-5xl text-gray-800 mb-4">
+    <div class="font-bold text-2-5xl text-[#242526] mb-4">
       Paramètres de compte
     </div>
 
@@ -49,7 +49,7 @@
           Enregistrer les modifications
         </el-button>
         <div
-          class="text-red-500 ml-4 cursor-pointer hover:underline"
+          class="text-[#f56565] ml-4 cursor-pointer hover:underline"
           @click="onSubmitDelete"
         >
           Supprimer mon compte
@@ -151,7 +151,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-1
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-1;
+}
 </style>

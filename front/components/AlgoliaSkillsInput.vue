@@ -21,7 +21,7 @@
           >
             <template slot="after-input"
               ><div
-                class="after-input absolute z-10 w-5 h-5 text-gray-300"
+                class="after-input absolute z-10 w-5 h-5 text-[#d2d6dc]"
                 style="right: 15px; top: 12px"
                 v-html="
                   require('@/assets/images/icones/heroicon/search.svg?include')
@@ -31,27 +31,13 @@
             <template slot-scope="{ suggestion }">
               <div>
                 <div
-                  class="
-                    ml-auto
-                    leading-6
-                    text-sm
-                    font-medium
-                    text-gray-500
-                    flex-none
-                  "
+                  class="ml-auto leading-6 text-sm font-medium text-gray-500 flex-none"
                 >
                   <div class="flex items-center space-x-2">
                     <div class="">{{ suggestion.item.name.fr }}</div>
                     <div
                       v-if="isAlreadySelected(suggestion.item.id)"
-                      class="
-                        px-2
-                        rounded-full
-                        text-xxs
-                        bg-blue-800
-                        text-white
-                        leading-5
-                      "
+                      class="px-2 rounded-full text-xxs bg-[#070191] text-white leading-5"
                     >
                       Ajoutée
                     </div>
@@ -167,23 +153,34 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep #autosuggest
-  input
-    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm transition ease-in-out duration-150
-    &:hover
-      @apply border-primary
-::v-deep .ais-Highlight-highlighted
-  background: transparent
-  @apply text-blue-800 font-semibold
-::v-deep .autosuggest__results-container
-  .autosuggest__results
-    max-width: 448px
-    @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200
-  .autosuggest__results-item
-    @apply px-4 py-2
-    &:not(:last-child)
-      @apply border-b border-gray-100
-    &.autosuggest__results-item--highlighted
-      @apply cursor-pointer bg-gray-50 text-gray-700
+<style lang="postcss" scoped>
+::v-deep #autosuggest {
+  input {
+    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm transition ease-in-out duration-150;
+    &:hover {
+      @apply border-primary;
+    }
+  }
+}
+
+::v-deep .ais-Highlight-highlighted {
+  background: transparent;
+  @apply text-[#070191] font-semibold;
+}
+
+::v-deep .autosuggest__results-container {
+  .autosuggest__results {
+    max-width: 448px;
+    @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200;
+  }
+  .autosuggest__results-item {
+    @apply px-4 py-2;
+    &:not(:last-child) {
+      @apply border-b border-gray-100;
+    }
+    &.autosuggest__results-item--highlighted {
+      @apply cursor-pointer bg-gray-50 text-gray-700;
+    }
+  }
+}
 </style>

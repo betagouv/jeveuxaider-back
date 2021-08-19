@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    <hr class="border-blue-800 mt-4">
+    <hr class="border-[#070191] mt-4">
     <div class="container mx-auto px-4 py-6">
         <div style="font-size: 10px; letter-spacing: 0.05em;">© RESERVE-CIVIQUE.GOUV.FR, 2020</div>
     </div>

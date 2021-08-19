@@ -6,7 +6,7 @@
     :rules="rules"
   >
     <div>
-      <div class="mb-6 text-1-5xl font-bold text-gray-800">
+      <div class="mb-6 text-1-5xl font-bold text-[#242526]">
         Informations générales
       </div>
 
@@ -75,7 +75,7 @@
 
     <template v-if="$store.getters.contextRole == 'admin'">
       <div>
-        <div class="mb-6 text-1-5xl font-bold text-gray-800">SEO</div>
+        <div class="mb-6 text-1-5xl font-bold text-[#242526]">SEO</div>
 
         <el-form-item
           label="Titre pour le recrutement"
@@ -136,7 +136,7 @@
       </div>
 
       <div>
-        <div class="mb-6 text-1-5xl font-bold text-gray-800">Associations</div>
+        <div class="mb-6 text-1-5xl font-bold text-[#242526]">Associations</div>
         <el-form-item>
           <Paragraph
             :schema="[
@@ -151,7 +151,7 @@
       </div>
 
       <div>
-        <div class="mb-6 text-1-5xl font-bold text-gray-800">
+        <div class="mb-6 text-1-5xl font-bold text-[#242526]">
           Articles du blog
         </div>
 
@@ -174,7 +174,7 @@
     </template>
 
     <div>
-      <div class="mb-6 text-1-5xl font-bold text-gray-800">Images</div>
+      <div class="mb-6 text-1-5xl font-bold text-[#242526]">Images</div>
 
       <ImageField
         model="territoire"

@@ -5,7 +5,7 @@
     label-position="top"
     :rules="rules"
   >
-    <div class="mb-6 text-1-5xl font-bold text-gray-800">
+    <div class="mb-6 text-1-5xl font-bold text-[#242526]">
       Informations générales
     </div>
     <el-form-item label="Nom du domaine d'action" prop="name">
@@ -61,7 +61,7 @@
       @add-or-crop="photo = $event"
       @delete="photo = null"
     ></ImageField>
-    <div class="mb-6 flex text-xl text-gray-800">Visibilité</div>
+    <div class="mb-6 flex text-xl text-[#242526]">Visibilité</div>
     <ItemDescription container-class="mb-6">
       Si vous souhaitez rendre ce domaine d'action visible, cochez la case.
     </ItemDescription>

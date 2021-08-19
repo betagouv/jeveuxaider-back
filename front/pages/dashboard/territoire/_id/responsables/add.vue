@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ territoire.name }}
         </div>
-        <div class="mb-12 font-bold text-2-5xl text-gray-800">
+        <div class="mb-12 font-bold text-2-5xl text-[#242526]">
           Inviter un nouveau responsable
         </div>
       </div>
@@ -97,9 +97,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.el-radio__label
-  @apply text-gray-800 font-medium
-  .description
-    @apply text-secondary font-light mt-1
+<style lang="postcss" scoped>
+.el-radio__label {
+  @apply text-[#242526] font-medium;
+  .description {
+    @apply text-secondary font-light mt-1;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <el-form ref="releaseForm" :model="form" label-position="top" :rules="rules">
-    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+    <div class="mb-6 text-1-5xl font-boldtext-[#242526]">
       Informations générales
     </div>
 

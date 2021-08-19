@@ -6,7 +6,7 @@
           {{ territoire.type | labelFromValue('territoires_types') }}
         </div>
         <div class="flex items-center flex-wrap">
-          <div class="font-bold text-2-5xl text-gray-800 mr-2">
+          <div class="font-bold text-2-5xl text-[#242526] mr-2">
             {{ territoire.name }}
           </div>
           <TagModelState v-if="territoire.state" :state="territoire.state" />
@@ -18,7 +18,7 @@
             {{ territoire.type | labelFromValue('territoires_types') }} :
           </div>
           <div
-            :class="territoire.is_published ? 'bg-green-500' : 'bg-red-500'"
+            :class="territoire.is_published ? 'bg-[#0e9f6e]' : 'bg-[#f56565]'"
             class="rounded-full h-2 w-2 mr-2 flex-none"
           ></div>
           <nuxt-link
@@ -46,7 +46,7 @@
       :territoire="territoire"
     />
     <div v-if="!territoire.permissions.canViewStats">
-      <div class="px-12 text-gray-800">
+      <div class="px-12 text-[#242526]">
         Votre territoire est en attente de validation. <br />Vous pourrez
         accéder à ses statistiques quand il aura été validé par un référent.
       </div>
@@ -54,7 +54,7 @@
     <div v-else class="px-12">
       <div class="flex flex-col space-y-5">
         <div>
-          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-[#242526] mb-4">
             JeVeuxAider.gouv.fr
           </div>
           <div class="flex flex-wrap">
@@ -112,7 +112,7 @@
           </div>
         </div>
         <div>
-          <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+          <div class="font-semibold text-md uppercase text-[#242526] mb-4">
             Visiteurs sur la dernière année
           </div>
           <div class="flex flex-wrap">
@@ -188,10 +188,12 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.el-menu--horizontal
-  @apply px-12
-  > .el-menu-item
-    @apply mr-8 p-0 font-medium
-      border-bottom: solid 3px #070191
+<style scoped lang="postcss">
+.el-menu--horizontal {
+  @apply px-12;
+  > .el-menu-item {
+    @apply mr-8 p-0 font-medium;
+    border-bottom: solid 3px #070191;
+  }
+}
 </style>

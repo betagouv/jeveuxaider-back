@@ -3,7 +3,7 @@
     <div class="bg-primary pb-32">
         <div class="container mx-auto px-4">
             <div
-                class="flex flex-wrap items-center justify-center md:h-16 border-b border-blue-800"
+                class="flex flex-wrap items-center justify-center md:h-16 border-b border-[#070191]"
             >
                 <div class="flex-shrink-0 my-4 md:my-0">
                     <a href="/">

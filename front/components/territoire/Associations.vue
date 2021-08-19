@@ -8,19 +8,12 @@
         >
           <div>
             <h2>
-              <p class="uppercase text-red-500 font-extrabold text-sm mb-4">
+              <p class="uppercase text-[#f56565] font-extrabold text-sm mb-4">
                 Associations {{ territoire.suffix_title }}
               </p>
 
               <p
-                class="
-                  text-3xl
-                  lg:text-4xl
-                  leading-none
-                  font-extrabold
-                  tracking-px
-                  lg:tracking-2px
-                "
+                class="text-3xl lg:text-4xl leading-none font-extrabold tracking-px lg:tracking-2px"
               >
                 {{ territoire.seo_recruit_title }}
               </p>
@@ -30,15 +23,7 @@
               <img
                 v-for="structure in structuresLogos"
                 :key="structure.id"
-                class="
-                  mx-auto
-                  lg:mx-0
-                  my-auto
-                  w-full
-                  sm:w-auto
-                  h-20
-                  object-contain
-                "
+                class="mx-auto lg:mx-0 my-auto w-full sm:w-auto h-20 object-contain"
                 :alt="structure.name"
                 :src="structure.logo"
                 style="max-width: 130px"

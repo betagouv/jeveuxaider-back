@@ -1,13 +1,6 @@
 <template>
   <div
-    class="
-      card--mission
-      h-auto
-      flex flex-col flex-1
-      bg-white
-      rounded-lg
-      overflow-hidden
-    "
+    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden"
   >
     <div class="thumbnail--wrapper relative will-change-transform">
       <img
@@ -204,7 +197,7 @@ export default {
           case 'En attente de validation':
             return 'text-orange-400'
           case 'Validée':
-            return 'text-green-400'
+            return 'text-[#16a972]'
           case 'Effectuée':
             return 'text-green-600'
           default:
@@ -266,54 +259,66 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.card--mission
-  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, .05)
-  backface-visibility: hidden
-  transform: translate3d(0, 0, 0)
-  &:hover
-    .thumbnail--wrapper
-      img
-        transform: scale(1.05)
+<style lang="postcss" scoped>
+.card--mission {
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  &:hover {
+    .thumbnail--wrapper img {
+      transform: scale(1.05);
+    }
+  }
+}
 
-.thumbnail--wrapper
-  height: 143px
-  @apply bg-gray-200 overflow-hidden
-  img
-    transition: all .25s
+.thumbnail--wrapper {
+  height: 143px;
+  @apply bg-gray-200 overflow-hidden;
+  img {
+    transition: all 0.25s;
+  }
+}
 
-.footer
-  .places-left
-    color: #30C48D
-    font-size: 13px
-    &.is-full
-      color: #d42b3b
+.footer {
+  .places-left {
+    color: #30c48d;
+    font-size: 13px;
+    &.is-full {
+      color: #d42b3b;
+    }
+  }
+}
 
 .structure,
-.api-engagement
-  font-size: 13px
-  color: #696974
+.api-engagement {
+  font-size: 13px;
+  color: #696974;
+}
 
-.name
-  line-height: 22px
+.name {
+  line-height: 22px;
+}
 
-.footer
-  border-color: #D9D9D9
+.footer {
+  border-color: #d9d9d9;
+}
 
-.pill
-  border-radius: 5px
-  background-color: white
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1)
-  font-size: 11px
-  color: #171725
-  height: 23.5px
-  @apply px-3 inline-flex items-center truncate
+.pill {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 11px;
+  color: #171725;
+  height: 23.5px;
+  @apply px-3 inline-flex items-center truncate;
+}
 
-.pill-2
-  border-radius: 35px
-  background-color: #EBF4FF
-  font-size: 11px
-  letter-spacing: 0.01em
-  color: #070191
-  @apply font-bold uppercase py-1 px-3 mb-4 inline-flex
+.pill-2 {
+  border-radius: 35px;
+  background-color: #ebf4ff;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  color: #070191;
+  @apply font-bold uppercase py-1 px-3 mb-4 inline-flex;
+}
 </style>

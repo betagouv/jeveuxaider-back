@@ -21,14 +21,14 @@
           </div>
           <span
             v-if="!hasRead"
-            class="w-2.5 h-2.5 mr-4 bg-red-500 rounded-full"
+            class="w-2.5 h-2.5 mr-4 bg-[#f56565] rounded-full"
             aria-hidden="true"
           ></span>
         </div>
 
         <div
           v-if="conversation.latest_message"
-          class="flex justify-between items-baseline text-gray-800"
+          class="flex justify-between items-baseline text-[#242526]"
           :class="[{ 'font-bold': !hasRead }]"
         >
           <span

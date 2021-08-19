@@ -125,7 +125,7 @@
       label-position="top"
       :rules="rules"
     >
-      <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
+      <div class="mt-6 mb-6 text-1-5xl font-bold text-[#242526]">
         Descriptif de la mission
       </div>
       <div v-if="!form.template">
@@ -289,13 +289,13 @@
             <div
               v-for="item in form.skills"
               :key="item.id"
-              class="flex items-center space-x-4 py-2 pl-3 pr-2 rounded-10 border border-blue-800 bg-white"
+              class="flex items-center space-x-4 py-2 pl-3 pr-2 rounded-10 border border-[#070191] bg-white"
             >
-              <div class="flex-none text-sm text-blue-800 font-bold">
+              <div class="flex-none text-sm text-[#070191] font-bold">
                 {{ item.name.fr }}
               </div>
               <div
-                class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-blue-800 hover:text-red-700 hover:scale-125 transition ease-in-out duration-150"
+                class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-[#070191] hover:text-red-700 hover:scale-125 transition ease-in-out duration-150"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
                   require('@/assets/images/icones/heroicon/close.svg?include')
@@ -322,7 +322,7 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <div class="mt-12 mb-6 text-1-5xl font-bold text-gray-800">
+      <div class="mt-12 mb-6 text-1-5xl font-bold text-[#242526]">
         Dates de la mission
       </div>
 
@@ -396,7 +396,7 @@
         </el-form-item>
       </div>
 
-      <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
+      <div class="mt-6 mb-6 text-1-5xl font-bold text-[#242526]">
         Lieu de la mission
       </div>
 
@@ -480,7 +480,7 @@
         </div>
       </template>
 
-      <div class="mt-6 mb-6 text-1-5xl font-bold text-gray-800">
+      <div class="mt-6 mb-6 text-1-5xl font-bold text-[#242526]">
         Responsable de la mission
       </div>
       <ItemDescription container-class="mb-6">
@@ -857,39 +857,52 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep
+<style lang="postcss" scoped>
+::v-deep {
   .el-input-number__decrease,
-  .el-input-number__increase
-    bottom: 1px
-    display: flex
-    align-items: center
-    justify-content: center
+  .el-input-number__increase {
+    bottom: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 
-.el-checkbox-group
-  @apply flex flex-wrap gap-4
-  > label
-    @apply m-0 rounded-10 #{!important}
-    @apply ease-in-out duration-150 transition
-    &:hover
-      @apply border-primary
+.el-checkbox-group {
+  @apply flex flex-wrap gap-4;
+  > label {
+    @apply m-0 rounded-10 !important;
+    @apply ease-in-out duration-150 transition;
+    &:hover {
+      @apply border-primary;
+    }
+  }
+}
 
-.form-item--skills
-  ::v-deep
-    #autosuggest
-      input
-        @apply rounded-10 leading-relaxed py-2
-      .after-input
-        top: 10px !important
+.form-item--skills {
+  ::v-deep {
+    #autosuggest {
+      input {
+        @apply rounded-10 leading-relaxed py-2;
+      }
+      .after-input {
+        top: 10px !important;
+      }
+    }
+  }
+}
 
-.el-radio-button
-  ::v-deep .el-radio-button__inner
-    @apply px-16 #{!important}
+.el-radio-button {
+  ::v-deep .el-radio-button__inner {
+    @apply px-16 !important;
+  }
+}
 
-.el-button--submit
-  border-radius: 10px
-  font-weight: bold
-  padding: 16px 32px
-  font-size: 18px
-  letter-spacing: -1px
+.el-button--submit {
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 16px 32px;
+  font-size: 18px;
+  letter-spacing: -1px;
+}
 </style>

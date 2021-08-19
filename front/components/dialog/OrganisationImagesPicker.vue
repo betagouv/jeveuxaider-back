@@ -78,10 +78,12 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.thumbnail
-  transition: all .25s
-  @apply p-1 bg-white border border-transparent min-w-0 m-2 w-full h-auto cursor-pointer
-  &.selected
-    @apply border-primary
+<style lang="postcss" scoped>
+.thumbnail {
+  transition: all 0.25s;
+  @apply p-1 bg-white border border-transparent min-w-0 m-2 w-full h-auto cursor-pointer;
+  &.selected {
+    @apply border-primary;
+  }
+}
 </style>

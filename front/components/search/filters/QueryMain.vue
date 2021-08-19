@@ -47,14 +47,17 @@ export default {
 }
 </script>
 
-<style lang="sass">
-
-.query-main-search-filter
-  input
-    @apply bg-gray-100
-    border: none
-  .el-input__inner
-    padding-left: 50px
-  .el-input__prefix
-    padding: 0 10px
+<style lang="postcss" scoped>
+.query-main-search-filter {
+  input {
+    @apply bg-gray-100;
+    border: none;
+  }
+  .el-input__inner {
+    padding-left: 50px;
+  }
+  .el-input__prefix {
+    padding: 0 10px;
+  }
+}
 </style>

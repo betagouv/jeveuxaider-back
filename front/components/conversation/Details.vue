@@ -45,7 +45,7 @@
               participation.state == 'En attente de validation',
             'text-green-800': participation.state == 'Validée',
             'text-green-600': participation.state == 'Effectuée',
-            'text-red-500': participation.state == 'Refusée',
+            'text-[#f56565]': participation.state == 'Refusée',
           }"
           >{{ participation.state | lowercase }}</span
         >
@@ -161,7 +161,7 @@
           >
             <div class="flex-shrink-0" style="margin-top: 2px">
               <svg
-                class="h-5 w-5 text-green-400"
+                class="h-5 w-5 text-[#16a972]"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -231,14 +231,20 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.message--details
-  background-color: #EBEBEB
+<style lang="postcss" scoped>
+.message--details {
+  background-color: #ebebeb;
+}
+
 section,
-::v-deep section
-  @apply bg-white p-6
-  &:not(:last-of-type)
-    @apply mb-1
-hr
-  @apply border-cool-gray-200
+::v-deep section {
+  @apply bg-white p-6;
+  &:not(:last-of-type) {
+    @apply mb-1;
+  }
+}
+
+hr {
+  @apply border-gray-200;
+}
 </style>

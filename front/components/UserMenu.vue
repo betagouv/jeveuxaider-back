@@ -45,12 +45,15 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.el-menu
-  @apply border-0
-  .el-menu-item
-    background: none
-    &:hover
-      background: none
-      @apply text-primary
+<style lang="postcss" scoped>
+.el-menu {
+  @apply border-0;
+  .el-menu-item {
+    background: none;
+    &:hover {
+      background: none;
+      @apply text-primary;
+    }
+  }
+}
 </style>

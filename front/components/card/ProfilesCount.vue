@@ -2,7 +2,7 @@
   <el-card
     shadow="never"
     class="mb-5 p-5 uppercase"
-    :class="{ 'hover:border-blue-900 cursor-pointer': link }"
+    :class="{ 'hover:border-[#1f0391] cursor-pointer': link }"
   >
     <div @click="onClick">
       <div class="label mb-3 text-lg font-bold text-secondary">

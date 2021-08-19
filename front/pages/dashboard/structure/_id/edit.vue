@@ -4,7 +4,7 @@
 
     <div class="mb-8 pb-4 border-b border-gray-200">
       <div class="flex items-center">
-        <div class="font-bold text-2-5xl text-gray-800">
+        <div class="font-bold text-2-5xl text-[#242526]">
           {{ structure.name }}
         </div>
         <TagModelState

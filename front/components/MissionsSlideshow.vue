@@ -55,9 +55,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.card--mission--wrapper
-  @apply flex flex-col h-full
-.slick-slide
-  height: auto !important
+<style lang="postcss" scoped>
+.card--mission--wrapper {
+  @apply flex flex-col h-full;
+}
+.slick-slide {
+  height: auto !important;
+}
 </style>

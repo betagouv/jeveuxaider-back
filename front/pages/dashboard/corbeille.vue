@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="font-bold text-2-5xl text-gray-800">Corbeille</div>
+        <div class="font-bold text-2-5xl text-[#242526]">Corbeille</div>
       </div>
     </div>
 

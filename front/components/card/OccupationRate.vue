@@ -1,7 +1,7 @@
 <template>
   <el-card
     shadow="never"
-    class="mr-5 mb-5 p-5 uppercase hover:border-blue-900"
+    class="mr-5 mb-5 p-5 uppercase hover:border-[#1f0391]"
     style="width: 330px"
   >
     <div>

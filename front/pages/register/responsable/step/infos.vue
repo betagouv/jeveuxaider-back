@@ -152,7 +152,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-[#0e9f6e] focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
               @click="onSubmit"
               >Continuer</el-button
             >
@@ -302,9 +302,12 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.wrapper-textarea
-  ::v-deep
-    .el-form-item__content
-      @apply flex
+<style lang="postcss" scoped>
+.wrapper-textarea {
+  ::v-deep {
+    .el-form-item__content {
+      @apply flex;
+    }
+  }
+}
 </style>
