@@ -159,7 +159,7 @@
                     </AisClearRefinements>
                   </client-only>
 
-                  <div class="font-black text-gray-1000 mb-2 lg:hidden">
+                  <div class="font-black text-[#171725] mb-2 lg:hidden">
                     Mots clés
                   </div>
 

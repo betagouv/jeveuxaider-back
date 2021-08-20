@@ -84,7 +84,7 @@
                   :alt="`Portrait de ${mission.responsable.full_name}`"
                   class="inline-flex w-7 h-7 rounded-full border-2 border-gray-200"
                 />
-                <span class="text-gray-1000">
+                <span class="text-[#171725]">
                   {{ mission.responsable.full_name }}
                 </span>
                 <span>de {{ structureType }}</span>

@@ -1,5 +1,5 @@
 <template>
-  <div class="z-100 text-gray-1000">
+  <div class="z-100 text-[#171725]">
     <AisRefinementList
       :ref="name"
       :key="name"
@@ -21,7 +21,7 @@
         }"
       >
         <div class="h-7 flex justify-between mb-3">
-          <span v-if="!isSearching" class="font-black text-gray-1000">
+          <span v-if="!isSearching" class="font-black text-[#171725]">
             {{ label }}
           </span>
 
@@ -66,7 +66,7 @@
                 autoresize
                 class="w-full mr-2 relative"
                 :class="[
-                  { 'text-gray-1000 font-bold': item.isRefined },
+                  { 'text-[#171725] font-bold': item.isRefined },
                   { 'text-gray-600': !item.isRefined },
                 ]"
               >
@@ -93,7 +93,7 @@
 
         <button
           v-if="canToggleShowMore"
-          class="uppercase text-xs font-bold text-gray-1000 mt-2"
+          class="uppercase text-xs font-bold text-[#171725] mt-2"
           style="margin-left: 30px"
           @click="toggleShowMore"
         >
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-::v-deep .facet-value {
+.facet-list ::v-deep .facet-value {
   > * {
     transition: all 0.25s;
   }
@@ -179,32 +179,17 @@ export default {
   }
 }
 
-::v-deep .el-checkbox {
+.facet-list .el-checkbox {
   @apply flex items-center whitespace-normal;
 
-  .el-checkbox__label {
+  ::v-deep .el-checkbox__label {
     @apply w-full;
   }
 
-  .el-checkbox__input {
+  ::v-deep .el-checkbox__input {
     &.is-focus {
       .el-checkbox__inner {
         border-color: #070191 !important;
-      }
-    }
-    .el-checkbox__inner {
-      width: 20px;
-      height: 20px;
-      border-color: white;
-      border-radius: 4px;
-      &::after {
-        border: 2px solid #5b71b9;
-        border-left: 0;
-        border-top: 0;
-        height: 10px;
-        left: 6px;
-        top: 1px;
-        width: 4px;
       }
     }
     &.is-checked {
@@ -212,6 +197,22 @@ export default {
         background-color: #e6eaf5;
         border-color: #e6eaf5;
       }
+    }
+  }
+
+  ::v-deep .el-checkbox__inner {
+    width: 20px !important;
+    height: 20px !important;
+    border-color: white !important;
+    border-radius: 4px !important;
+    &::after {
+      border: 2px solid #5b71b9 !important;
+      border-left: 0 !important;
+      border-top: 0 !important;
+      height: 10px !important;
+      left: 6px !important;
+      top: 1px !important;
+      width: 4px !important;
     }
   }
 }
