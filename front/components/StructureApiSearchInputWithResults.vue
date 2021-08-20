@@ -4,7 +4,7 @@
       <el-input
         ref="input"
         v-model="search"
-        class="mb-3"
+        class="!mb-3"
         prefix-icon="el-icon-search"
         placeholder="Rechercher..."
         clearable
@@ -15,7 +15,7 @@
       <el-input
         ref="input-city"
         v-model="city"
-        class="mb-8"
+        class="!mb-8"
         prefix-icon="el-icon-position"
         placeholder="Ville..."
         autocomplete="password"

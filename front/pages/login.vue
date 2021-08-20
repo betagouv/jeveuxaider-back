@@ -73,7 +73,7 @@
               <el-form-item label="E-mail" prop="email">
                 <el-input v-model.trim="form.email" placeholder="Email" />
               </el-form-item>
-              <el-form-item label="Mot de passe" prop="password" class="mb-0">
+              <el-form-item label="Mot de passe" prop="password" class="!mb-0">
                 <el-input
                   v-model="form.password"
                   placeholder="Entrez votre mot de passe"
@@ -93,7 +93,7 @@
 
             <div class="mt-4">
               <button
-                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#070191] hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#070191] hover:shadow-lg hover:scale-105 transform transition"
                 @click="onSubmit"
               >
                 Connexion
@@ -115,7 +115,7 @@
               <div>
                 <nuxt-link
                   to="/register/volontaire"
-                  class="mt-4 w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-lg shadow-sm font-bold text-[#242526] border-gray-200 bg-white hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+                  class="mt-4 w-full flex justify-center py-3 px-4 border rounded-lg text-lg font-bold text-[#242526] border-gray-200 bg-white hover:shadow-lg hover:scale-105 transform transition"
                 >
                   Créez votre espace bénévole
                 </nuxt-link>
@@ -126,28 +126,32 @@
       </div>
       <div class="max-w-2xl mx-auto">
         <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div class="border-blue-600 border overflow-hidden shadow rounded-lg">
+          <div
+            class="border-[#1e429f] border overflow-hidden shadow rounded-lg"
+          >
             <div class="px-4 py-5 sm:p-6">
               <dt class="text-base font-medium text-[#c3ddfd] truncate">
                 Vous êtes une organisation ?
               </dt>
               <nuxt-link
                 to="/inscription/organisation"
-                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-[#1f0391] bg-[#c3ddfd] hover:shadow-lg hover:text-[#242526] hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
+                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-[#1f0391] bg-[#c3ddfd] hover:shadow-lg hover:text-[#242526] hover:border-transparent hover:bg-white hover:scale-105 transform transition"
               >
                 Publiez vos missions
               </nuxt-link>
             </div>
           </div>
 
-          <div class="border-blue-600 border overflow-hidden shadow rounded-lg">
+          <div
+            class="border-[#1e429f] border overflow-hidden shadow rounded-lg"
+          >
             <div class="px-4 py-5 sm:p-6">
               <dt class="text-base font-medium text-[#c3ddfd] truncate">
                 Vous êtes une collectivité ?
               </dt>
               <nuxt-link
                 to="/inscription/organisation?orga_type=Collectivité"
-                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-[#1f0391] bg-[#c3ddfd] hover:shadow-lg hover:text-[#242526] hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
+                class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-[#1f0391] bg-[#c3ddfd] hover:shadow-lg hover:text-[#242526] hover:border-transparent hover:bg-white hover:scale-105 transform transition"
               >
                 Créez votre page
               </nuxt-link>

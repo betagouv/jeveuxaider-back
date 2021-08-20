@@ -2,7 +2,7 @@
   <div class="pl-12 pb-12 max-w-3xl">
     <div class="text-m text-gray-600 uppercase">Mission</div>
     <div class="flex gap-3 justify-between items-start">
-      <div class="font-bold text-2-5xl text-[#242526]">
+      <div class="font-bold text-[1.75rem] text-[#242526]">
         {{ mission.name }}
       </div>
       <TagModelState

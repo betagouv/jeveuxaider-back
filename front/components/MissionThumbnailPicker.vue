@@ -49,7 +49,7 @@ export default {
 <style lang="postcss" scoped>
 .thumbnail {
   transition: all 0.25s;
-  @apply opacity-25 p-1 bg-white border-2 border-transparent min-w-0 w-full h-auto cursor-pointer rounded-xl;
+  @apply opacity-25 p-1 bg-white border-2 border-transparent min-w-0 w-full h-auto cursor-pointer rounded-2xl;
   &.selected {
     @apply opacity-100 border-primary;
   }

@@ -267,7 +267,7 @@
                           </div>
 
                           <div
-                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-[#16a972] group-hover:bg-[#0e9f6e] transition duration-150 ease-in-out mt-6 font-extrabold inline-flex justify-center items-center"
+                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-[#16a972] group-hover:bg-[#0e9f6e] transition mt-6 font-extrabold inline-flex justify-center items-center"
                             style="width: 212px; height: 45px"
                           >
                             Missions à distance
@@ -277,7 +277,7 @@
 
                       <template v-else>
                         <nuxt-link
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition duration-150 ease-in-out"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition"
                           :to="
                             item.provider == 'api_engagement'
                               ? `/missions-benevolat/${item.id}`

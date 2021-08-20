@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-xl">
+  <div class="max-w-xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-2xl">
     <el-form
       v-if="sent === false"
       ref="reseauForm"
@@ -53,7 +53,7 @@
       <el-button
         type="primary"
         :loading="loading"
-        class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#16a972] hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
+        class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-4 !leading-none"
         @click="onSubmit"
       >
         Demander la gestion d'un réseau

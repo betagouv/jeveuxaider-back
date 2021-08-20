@@ -2,7 +2,7 @@
   <div class="overflow-hidden">
     <hr class="opacity-25" />
 
-    <section class="section-subscribe bg-purple-pale relative">
+    <section class="section-subscribe bg-[#EEEDF8] relative">
       <div class="relative z-10 container mx-auto px-4 lg:px-12">
         <div class="pt-16 pb-8 lg:py-28">
           <h2 class="max-w-2xl mb-12">
@@ -11,7 +11,7 @@
             </p>
 
             <p
-              class="text-4xl xl:text-5xl leading-none font-extrabold tracking-px lg:tracking-2px text-primary"
+              class="text-4xl xl:text-5xl leading-none font-extrabold tracking[-1px] lg:tracking[-2px] text-primary"
             >
               Suivez toute l'actualité du bénévolat
               {{ territoire.suffix_title }}
@@ -24,7 +24,7 @@
           </p>
 
           <div
-            class="rounded-xl py-4 px-6 sm:pr-4 sm:pl-8 bg-white shadow-lg lg:-mx-8"
+            class="rounded-2xl py-4 px-6 sm:pr-4 sm:pl-8 bg-white shadow-lg lg:-mx-8"
             :class="[{ 'inline-block': submitted }]"
             style="max-width: 746px"
           >
@@ -48,7 +48,7 @@
 
               <button
                 :disabled="loading"
-                class="w-full sm:w-auto sm:flex-none flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 sm:px-8 sm:py-4 sm:pb-5 leading-none"
+                class="w-full sm:w-auto sm:flex-none flex items-center justify-center border border-transparent rounded-2xl text-white !outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 sm:px-8 sm:py-4 sm:pb-5 leading-none"
                 style="background-color: #09c19d"
                 @click.prevent="onSubmit"
               >
@@ -57,12 +57,12 @@
             </el-form>
 
             <div v-else class="flex flex-wrap items-center">
-              <div class="font-bold tracking-px w-full sm:w-auto">
+              <div class="font-bold tracking[-1px] w-full sm:w-auto">
                 Merci pour votre inscription&nbsp;!
               </div>
               <button
                 ref="buttonBack"
-                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-green-800 font-extrabold focus:outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
+                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-green-800 font-extrabold !outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
                 @click="onBack"
               >
                 Retour

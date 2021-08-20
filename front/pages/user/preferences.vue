@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-[#242526] mb-4">Préférences</div>
+    <div class="font-bold text-[1.75rem] text-[#242526] mb-4">Préférences</div>
 
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec vos domaines d'action de prédilection ainsi
@@ -15,7 +15,7 @@
       :rules="rules"
       :hide-required-asterisk="true"
     >
-      <el-form-item label="Domaines d'action" prop="domaines" class="">
+      <el-form-item label="Domaines d'action" prop="domaines">
         <el-checkbox-group
           v-model="domainesSelected"
           size="medium"
@@ -25,7 +25,7 @@
             v-for="domaine in domaines"
             :key="domaine.id"
             :label="domaine.name.fr"
-            class="bg-white"
+            class="!bg-white"
             border
             :checked="isDomaineSelected(domaine.id)"
             @change="handleClickDomaine(domaine)"
@@ -33,7 +33,7 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <div class="font-bold text-2-5xl text-[#242526] mb-4 mt-12">
+      <div class="font-bold text-[1.75rem] text-[#242526] mb-4 mt-12">
         Visibilité de votre profil
       </div>
 

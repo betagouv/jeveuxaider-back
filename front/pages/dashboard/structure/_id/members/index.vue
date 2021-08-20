@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ structure.name }}
         </div>
-        <div class="mb-12 font-bold text-2-5xl text-[#242526]">
+        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
           Gérer votre équipe
         </div>
       </div>
@@ -38,7 +38,7 @@
             type="danger"
             icon="el-icon-delete"
             size="small"
-            class="ml-4 m-auto is-plain"
+            class="!ml-4 !m-auto is-plain"
             @click="deleteConfirm(member)"
           >
             Supprimer

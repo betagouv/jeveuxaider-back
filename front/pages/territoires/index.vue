@@ -5,7 +5,7 @@
     />
 
     <div class="py-8 md:py-12 lg:py-20 bg-gray-50 overflow-hidden shadow-lg">
-      <div class="relative max-w-xl mx-auto lg:max-w-screen-xl">
+      <div class="relative max-w-xl mx-auto lg:max-w-[1280px]">
         <div class="px-4">
           <img
             class="hidden lg:block absolute transform translate-y-1 opacity-50"
@@ -60,7 +60,7 @@
                   <input
                     id="search_field"
                     v-model="query"
-                    class="block w-full h-full pl-10 pr-4 py-4 sm:px-16 sm:py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:placeholder-cool-gray-400 focus:outline-none focus:ring transition duration-150 ease-in-out truncate text-md sm:text-lg md:text-xl"
+                    class="block w-full h-full pl-10 pr-4 py-4 sm:px-16 sm:py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:placeholder-cool-gray-400 !outline-none focus:ring transition truncate text-md sm:text-lg md:text-xl"
                     placeholder="Trouvez votre ville ou département"
                     type="search"
                   />
@@ -93,7 +93,7 @@
                     types[index].slug == types[types.length - 1].slug,
                 },
               ]"
-              class="px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none focus:ring transition duration-150 ease-in-out sm:w-full lg:w-auto flex-none sm:flex-initial ml-4 sm:ml-0"
+              class="px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md !outline-none focus:ring transition sm:w-full lg:w-auto flex-none sm:flex-initial ml-4 sm:ml-0 !outline-none"
               @click="activeType = type.slug"
             >
               {{ type.label }} ({{ typeCount(type.slug) }})
@@ -121,7 +121,7 @@
                     v-for="territory in territoriesByGroup(group)"
                     :key="territory.id"
                     :to="territory.full_url"
-                    class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-[#070191] border-b-2 text-[#242526] hover:border hover:shadow-lg hover:text-gray-900 focus:outline-none focus:ring transition"
+                    class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-[#070191] border-b-2 text-[#242526] hover:shadow-lg hover:text-gray-900 !outline-none focus:ring transition"
                     style="min-height: 80px"
                   >
                     <span class="font-semibold">{{ territory.name }}</span>

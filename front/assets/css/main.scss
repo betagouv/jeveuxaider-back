@@ -459,7 +459,7 @@ p:not(:last-child) {
   box-shadow: 4px 7px 16px rgba(27, 139, 249, 0.4);
   @apply bg-blue-700 text-white;
   &:hover {
-    @apply bg-blue-600;
+    @apply bg-[#1e429f];
   }
   &.plain {
     @apply bg-transparent border-white shadow-none;
@@ -645,10 +645,6 @@ input {
     }
   }
 
-  .el-form--label-top .el-form-item__label {
-    line-height: 1;
-  }
-
   --ck-border-radius: 10px;
   --ck-color-base-border: rgba(0, 0, 0, 0.1);
   --ck-color-toolbar-border: rgba(0, 0, 0, 0.1);
@@ -656,4 +652,8 @@ input {
   --ck-color-base-active-focus: #070191;
   --ck-color-focus-border: #070191;
   --ck-focus-ring: 1px solid #070191;
+}
+
+.el-form--label-top .el-form-item__label {
+  line-height: 1 !important;
 }

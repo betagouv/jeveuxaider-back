@@ -134,7 +134,7 @@
             <el-form-item
               label="Disponibilités"
               prop="disponibilities"
-              class="flex-1 max-w-xl"
+              class="!flex-1 !max-w-xl"
             >
               <el-checkbox-group
                 v-model="form.disponibilities"
@@ -146,7 +146,7 @@
                     .profile_disponibilities.terms"
                   :key="item.value"
                   :label="item.value"
-                  class="bg-white"
+                  class="!bg-white"
                   border
                   >{{ item.label }}</el-checkbox
                 >
@@ -188,7 +188,7 @@
             <el-form-item
               label="Décrivez vos motivations"
               prop="description"
-              class="flex-1"
+              class="!flex-1"
             >
               <textarea
                 v-model="form.description"
@@ -204,7 +204,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-[#0e9f6e] focus:outline-none focus:border-indigo-700 focus:ring-indigo transition"
+              class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-indigo-700 focus:!ring-indigo !transition"
               @click="onSubmit"
               >Continuer</el-button
             >

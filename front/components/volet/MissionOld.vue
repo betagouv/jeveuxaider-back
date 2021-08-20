@@ -25,7 +25,7 @@
           </nuxt-link>
           <el-button
             v-if="canClone"
-            class="ml-1"
+            class="!ml-1"
             icon="el-icon-document-copy"
             type="mini"
             @click="clone(row.id)"

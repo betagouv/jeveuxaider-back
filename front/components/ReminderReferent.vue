@@ -19,7 +19,7 @@
       v-if="$store.getters.reminders.structures > 0"
       to="/dashboard/structures?filter[state]=En attente de validation"
     >
-      <el-button type="primary" class="mt-2">
+      <el-button type="primary" class="!mt-2">
         <template v-if="$store.getters.reminders.structures > 1">
           Afficher les
           {{ $store.getters.reminders.structures | formatNumber }} organisations
@@ -31,7 +31,7 @@
       v-if="$store.getters.reminders.missions > 0"
       to="/dashboard/missions?filter[state]=En attente de validation"
     >
-      <el-button type="primary" class="mt-2">
+      <el-button type="primary" class="!mt-2">
         <template v-if="$store.getters.reminders.missions > 1">
           Afficher les
           {{ $store.getters.reminders.missions | formatNumber }} missions

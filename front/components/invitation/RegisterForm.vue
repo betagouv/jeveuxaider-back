@@ -44,7 +44,7 @@
     </el-form>
     <div class="mt-4">
       <button
-        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#070191] hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#070191] hover:shadow-lg hover:scale-105 transform transition"
         @click="onSubmit"
       >
         J'accepte l'invitation

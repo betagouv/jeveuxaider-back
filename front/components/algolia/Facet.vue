@@ -53,7 +53,7 @@
         <el-checkbox
           v-for="item in items"
           :key="item.value"
-          class="w-full text-sm cursor-pointer mb-3"
+          class="!w-full !text-sm !cursor-pointer !mb-3"
           :label="item.value"
           :value="item.isRefined"
           @change="onChange(refine, item)"

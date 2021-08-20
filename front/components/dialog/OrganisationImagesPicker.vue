@@ -8,14 +8,14 @@
     @open="onOpenDialog"
     @close="$emit('close')"
   >
-    <div class="max-h-350 overflow-y-auto custom-scrollbar">
+    <div class="max-h-[350px] overflow-y-auto custom-scrollbar">
       <div class="flex flex-wrap">
         <img
           v-for="imageName in availableImages"
           :key="`${imageName}`"
           :src="`/images/organisations/domaines/${imageName}.jpg`"
           :srcset="`/images/organisations/domaines/${imageName}@2x.jpg 2x`"
-          class="thumbnail w-32 sm:w-64"
+          class="thumbnail"
           :class="[
             {
               selected: selectedImage == `${imageName}`,
@@ -81,7 +81,7 @@ export default {
 <style lang="postcss" scoped>
 .thumbnail {
   transition: all 0.25s;
-  @apply p-1 bg-white border border-transparent min-w-0 m-2 w-full h-auto cursor-pointer;
+  @apply p-1 bg-white border border-transparent min-w-0 m-2 h-auto cursor-pointer w-32 sm:w-64;
   &.selected {
     @apply border-primary;
   }

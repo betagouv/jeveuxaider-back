@@ -73,7 +73,7 @@
           <el-button
             plain
             type="primary"
-            class="ml-3"
+            class="!ml-3"
             @click.prevent="modalVisible = true"
           >
             Aperçu
@@ -289,7 +289,7 @@
             <div
               v-for="item in form.skills"
               :key="item.id"
-              class="flex items-center space-x-4 py-2 pl-3 pr-2 rounded-10 border border-[#070191] bg-white"
+              class="flex items-center space-x-4 py-2 pl-3 pr-2 rounded-[10px] border border-[#070191] bg-white"
             >
               <div class="flex-none text-sm text-[#070191] font-bold">
                 {{ item.name.fr }}
@@ -330,7 +330,7 @@
         <el-form-item label="Date de début" prop="start_date">
           <el-date-picker
             v-model="form.start_date"
-            class="w-full"
+            class="!w-full"
             type="datetime"
             placeholder="Date de début"
             format="dd MMMM yyyy à H[h]mm"
@@ -343,7 +343,7 @@
         <el-form-item label="Date de fin (facultatif)" prop="end_date">
           <el-date-picker
             v-model="form.end_date"
-            class="w-full"
+            class="!w-full"
             type="datetime"
             placeholder="Date de fin"
             default-time="18:00:00"
@@ -871,7 +871,7 @@ export default {
 .el-checkbox-group {
   @apply flex flex-wrap gap-4;
   > label {
-    @apply m-0 rounded-10 !important;
+    @apply m-0 rounded-[10px] !important;
     @apply ease-in-out duration-150 transition;
     &:hover {
       @apply border-primary;
@@ -883,7 +883,7 @@ export default {
   ::v-deep {
     #autosuggest {
       input {
-        @apply rounded-10 leading-relaxed py-2;
+        @apply rounded-[10px] leading-relaxed py-2;
       }
       .after-input {
         top: 10px !important;

@@ -11,7 +11,7 @@
     <el-form-item label="Date" prop="date">
       <el-date-picker
         v-model="form.date"
-        class="w-full"
+        class="!w-full"
         type="datetime"
         placeholder="Date de début"
         value-format="yyyy-MM-dd HH:mm:ss"

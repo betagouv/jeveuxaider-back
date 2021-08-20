@@ -4,7 +4,7 @@
       <div class="header-titles flex-1 mb-8">
         <div class="text-m text-gray-600 uppercase">Territoire</div>
         <div class="flex items-center flex-wrap">
-          <div class="font-bold text-2-5xl text-[#242526] mr-2">
+          <div class="font-bold text-[1.75rem] text-[#242526] mr-2">
             {{ territoire.name }}
           </div>
           <TagModelState v-if="territoire.state" :state="territoire.state" />

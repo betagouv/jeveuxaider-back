@@ -15,7 +15,7 @@
     <nuxt-link
       to="/dashboard/participations?filter[state]=En attente de validation"
     >
-      <el-button type="primary" class="mt-2">
+      <el-button type="primary" class="!mt-2">
         <template v-if="$store.getters.reminders.participations > 1">
           Afficher les
           {{ $store.getters.reminders.participations | formatNumber }}

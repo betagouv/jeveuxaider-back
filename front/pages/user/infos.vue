@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-[#242526] mb-4">
+    <div class="font-bold text-[1.75rem] text-[#242526] mb-4">
       Informations personnelles
     </div>
 
@@ -105,7 +105,7 @@
               .terms"
             :key="item.value"
             :label="item.value"
-            class="bg-white"
+            class="!bg-white"
             border
             >{{ item.label }}</el-checkbox
           >

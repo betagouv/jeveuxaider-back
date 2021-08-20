@@ -114,7 +114,7 @@
             plain
             type="primary"
             size="medium"
-            class="ml-auto h-full"
+            class="!ml-auto !h-full"
             @click="$emit('selected', template)"
             >Choisir</el-button
           >

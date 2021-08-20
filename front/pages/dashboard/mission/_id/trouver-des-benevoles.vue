@@ -3,7 +3,7 @@
     <div class="header px-12 flex border-b border-gray-200 pb-8">
       <div class="header-titles flex-1">
         <!-- <div class="text-gray-600 uppercase">Trouver des bénévoles</div> -->
-        <div class="mb-1 font-bold text-2-5xl text-[#242526]">
+        <div class="mb-1 font-bold text-[1.75rem] text-[#242526]">
           Proposez directement cette mission aux bénévoles
         </div>
         <div class="text-gray-500 mt-1">

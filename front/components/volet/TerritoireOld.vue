@@ -14,7 +14,7 @@
         </nuxt-link>
         <div class="flex items-center">
           <nuxt-link :to="`/dashboard/territoire/${row.id}`">
-            <el-button class="mr-1" icon="el-icon-view" type="mini">
+            <el-button class="!mr-1" icon="el-icon-view" type="mini">
               Voir
             </el-button>
           </nuxt-link>
@@ -27,7 +27,7 @@
           <el-button
             v-if="$store.getters.contextRole == 'admin'"
             type="button"
-            class="ml-1 el-button is-plain el-button--danger el-button--mini"
+            class="!ml-1 el-button is-plain el-button--danger el-button--mini"
             @click="onClickDelete"
           >
             <i class="el-icon-delete" />

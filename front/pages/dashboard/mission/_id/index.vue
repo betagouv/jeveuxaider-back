@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Mission</div>
         <div class="mb-8 max-w-3xl">
-          <div class="font-bold text-2-5xl text-[#242526] mr-2">
+          <div class="font-bold text-[1.75rem] text-[#242526] mr-2">
             {{ mission.name }}
           </div>
           <div

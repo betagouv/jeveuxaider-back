@@ -22,7 +22,7 @@
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
           <el-button
             icon="el-icon-s-operation"
-            class="ml-4"
+            class="!ml-4"
             @click="showFilters = !showFilters"
           >
             Filtres avancés
@@ -31,7 +31,7 @@
         <el-button
           v-else
           icon="el-icon-s-operation"
-          class="ml-4"
+          class="!ml-4"
           @click="showFilters = !showFilters"
         >
           Filtres avancés

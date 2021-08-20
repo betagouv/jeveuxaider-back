@@ -2,7 +2,7 @@
   <div class="pl-12 pb-12">
     <div class="text-m text-gray-600 uppercase">Modèle de mission</div>
     <div class="mb-8 flex">
-      <div class="font-bold text-2-5xl text-[#242526]">
+      <div class="font-bold text-[1.75rem] text-[#242526]">
         {{ template.title }}
       </div>
     </div>

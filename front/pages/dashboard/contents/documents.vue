@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2-5xl text-[#242526]">
+        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">
           Contenus - Documents
         </div>
       </div>

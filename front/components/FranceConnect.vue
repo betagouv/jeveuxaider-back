@@ -5,7 +5,7 @@
       @click="handleClickFranceConnect"
     >
       <img
-        class="hover:opacity-75 mx-auto w-auto h-16 mb-1 shadow-lg rounded-lg overflow-hidden transform transition duration-150 ease-in-out"
+        class="hover:opacity-75 mx-auto w-auto h-16 mb-1 shadow-lg rounded-lg overflow-hidden transform transition"
         :src="
           isDark
             ? '/images/franceconnect-blue.svg'
@@ -21,7 +21,7 @@
       class="text-sm"
       :class="
         isDark
-          ? 'text-blue-600 hover:text-[#070191]'
+          ? 'text-[#1e429f] hover:text-[#070191]'
           : 'text-[#c3ddfd] hover:text-white'
       "
       >Qu'est-ce que FranceConnect ?</a

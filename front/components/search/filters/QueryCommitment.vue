@@ -20,7 +20,7 @@
         />
       </el-select>
 
-      <span class="flex-none text-xs text-gray-696974"> par </span>
+      <span class="flex-none text-xs text-[#696974]"> par </span>
 
       <el-select
         v-model="timePeriod"

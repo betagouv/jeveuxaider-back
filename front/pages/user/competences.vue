@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-[#242526] mb-4">Compétences</div>
+    <div class="font-bold text-[1.75rem] text-[#242526] mb-4">Compétences</div>
 
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec les compétences que vous souhaitez mettre au

@@ -38,8 +38,8 @@
                   v-model="radio"
                   :label="item.value"
                   name="mission-type"
-                  class="flex items-center lg:h-full py-6 px-10 transition"
-                  :class="[{ 'opacity-25': radio && radio != item.value }]"
+                  class="!flex !items-center lg:!h-full !py-6 !px-10 !transition"
+                  :class="[{ '!opacity-25': radio && radio != item.value }]"
                   @keyup.native.space="handleSpaceRadio($event, item.value)"
                   @hook:mounted="focusKeyboard"
                 >

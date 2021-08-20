@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Participation</div>
         <div v-if="participation.profile" class="flex flex-wrap mb-8">
-          <div class="font-bold text-2-5xl text-[#242526] mr-2">
+          <div class="font-bold text-[1.75rem] text-[#242526] mr-2">
             {{ participation.profile.full_name }}
           </div>
           <TagModelState :state="participation.state" />

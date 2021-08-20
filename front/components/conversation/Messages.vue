@@ -76,7 +76,7 @@
                   </client-only>
 
                   <button
-                    class="px-3 py-1 ml-3 font-semibold text-sm rounded-full bg-[#070191] text-white hover:scale-105 transform transition duration-150 ease-in-out"
+                    class="px-3 py-1 ml-3 font-semibold text-sm rounded-full bg-[#070191] text-white hover:scale-105 transform transition"
                     @click="onAddMessage"
                   >
                     Envoyer

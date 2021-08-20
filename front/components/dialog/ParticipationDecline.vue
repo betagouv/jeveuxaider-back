@@ -25,7 +25,7 @@
               .participation_declined_reasons.terms"
             :key="item.value"
             :label="item.value"
-            class="w-full mb-2"
+            class="!w-full !mb-2"
             >{{ item.label }}</el-radio
           >
         </el-radio-group>

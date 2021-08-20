@@ -126,7 +126,7 @@
           v-for="domaine in domaines"
           :key="domaine.id"
           :label="domaine.name.fr"
-          class="bg-white"
+          class="!bg-white"
           border
           :checked="isDomaineSelected(domaine.id)"
           @change="handleClickDomaine(domaine)"
@@ -149,7 +149,7 @@
             .terms"
           :key="item.value"
           :label="item.value"
-          class="bg-white"
+          class="!bg-white"
           border
           >{{ item.label }}</el-checkbox
         >

@@ -62,7 +62,7 @@
 
         <div class="mt-5">
           <button
-            class="mx-auto font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-[#16a972] py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="mx-auto font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-[#16a972] py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition"
             @click="handleClickCTA()"
           >
             Je veux aider
@@ -72,7 +72,7 @@
     </div>
 
     <div class="bg-[#070191] pt-6">
-      <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto text-center">
           <h2
             class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-5xl sm:leading-10"
@@ -87,7 +87,7 @@
       <div class="mt-10 pb-12 bg-gray-50">
         <div class="relative">
           <div class="absolute inset-0 h-14 bg-[#070191]"></div>
-          <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
               <div
                 class="rounded-lg bg-white py-1 shadow-lg grid grid-cols-2 lg:grid-cols-5"
@@ -154,7 +154,7 @@
     </div>
 
     <div class="bg-gray-50 pt-6 z-10 relative">
-      <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mx-auto text-center">
           <span
             class="text-2xl lg:text-3xl leading-8 lg:leading-10 block lg:inline-flex font-bold tracking-tight text-[#242526]"
@@ -165,7 +165,7 @@
 
             <nuxt-link
               to="/missions-benevolat?refinementList[type][0]=Mission en présentiel"
-              class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition duration-150 ease-in-out"
+              class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition"
             >
               près de chez vous</nuxt-link
             >
@@ -173,7 +173,7 @@
 
             <nuxt-link
               to="/missions-benevolat?refinementList[type][0]=Mission à distance"
-              class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition duration-150 ease-in-out"
+              class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition"
             >
               à distance</nuxt-link
             >
@@ -196,7 +196,7 @@
           v-for="mission in missions_prioritaires"
           :key="mission.name"
           :to="mission.link"
-          class="flex max-w-lg mx-auto flex-col rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition duration-150 ease-in-out"
+          class="flex max-w-lg mx-auto flex-col rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition"
         >
           <div class="flex-shrink-0">
             <div class="absolute transform translate-y-px ml-6 mt-5">
@@ -269,7 +269,7 @@
               { 'text-gray-400': index == hightlightedCities.length - 1 },
               { 'text-[#242526]': index != hightlightedCities.length - 1 },
             ]"
-            class="leading-none truncate px-8 py-4 rounded-full text-sm shadow-md font-extrabold tracking-wide uppercase bg-white transform transition duration-150 ease-in-out will-change-transform hover:scale-105"
+            class="leading-none truncate px-8 py-4 rounded-full text-sm shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-105"
             :to="city.url"
           >
             {{ city.name }}
@@ -294,7 +294,7 @@
           class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto"
         >
           <div
-            class="bg-[#f56565] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#f56565] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
           >
             <div class="bg-white px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
@@ -333,7 +333,7 @@
           </div>
 
           <div
-            class="bg-[#0e9f6e] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#0e9f6e] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
@@ -371,7 +371,7 @@
             </div>
           </div>
           <div
-            class="bg-[#070191] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#070191] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
@@ -409,7 +409,7 @@
             </div>
           </div>
           <div
-            class="bg-[#553c9a] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition duration-150 ease-in-out"
+            class="bg-[#553c9a] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
           >
             <div class="bg-gray-50 px-4 py-2 sm:px-6">
               <div class="text-sm leading-5">
@@ -448,7 +448,7 @@
           </div>
         </div>
       </div>
-      <div class="relative max-w-screen-xl text-center mx-auto">
+      <div class="relative max-w-[1280px] text-center mx-auto">
         <p
           class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
         >
@@ -462,7 +462,7 @@
             v-for="domaine in domaines"
             :key="domaine.name"
             :to="domaine.link"
-            class="inline-flex items-center py-2 px-4 sm:py-3 rounded-full text-xs sm:text-sm lg:text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition duration-150 ease-in-out hover:text-[#070191]"
+            class="inline-flex items-center py-2 px-4 sm:py-3 rounded-full text-xs sm:text-sm lg:text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition hover:text-[#070191]"
           >
             <img
               :alt="domaine.name"
@@ -481,7 +481,7 @@
       class="relative bg-gradient-to-r from-[#070191] to-[#1f0391] overflow-hidden pt-20 pb-6 z-0"
     >
       <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
-        <div class="relative h-full max-w-screen-xl mx-auto opacity-25">
+        <div class="relative h-full max-w-[1280px] mx-auto opacity-25">
           <img
             class="hidden lg:block absolute left-full transform -translate-x-3/4 -translate-y-20 opacity-75"
             src="@/assets/images/france_dark.svg"
@@ -492,7 +492,7 @@
       </div>
 
       <div class="relative pb-12">
-        <div class="max-w-screen-xl mx-auto px-4 sm:px-6">
+        <div class="max-w-[1280px] mx-auto px-4 sm:px-6">
           <div class="text-center mb-10">
             <h2
               class="text-3xl leading-9 tracking-tight font-bold text-white sm:text-5xl sm:leading-10"
@@ -509,7 +509,7 @@
           </div>
         </div>
         <div
-          class="max-w-screen-xl mx-auto md:grid gap-6 md:grid-cols-2 px-4 md:px-6 lg:px-8"
+          class="max-w-[1280px] mx-auto md:grid gap-6 md:grid-cols-2 px-4 md:px-6 lg:px-8"
         >
           <div
             class="p-14 pb-10 md:flex md:flex-col bg-white rounded-lg shadow-lg"
@@ -696,7 +696,7 @@
           href="https://jeveuxaider.gouv.fr/engagement/actualites/"
           target="_blank"
           rel="noopener"
-          class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition duration-150 ease-in-out hover:text-[#070191]"
+          class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition hover:text-[#070191]"
         >
           Plus d'articles</a
         >
@@ -705,7 +705,7 @@
 
     <div class="relative pb-10 px-4 sm:px-6 lg:px-8">
       <div class="relative max-w-6xl mx-auto">
-        <div class="max-w-screen-xl mx-auto grid gap-6 lg:grid-cols-2">
+        <div class="max-w-[1280px] mx-auto grid gap-6 lg:grid-cols-2">
           <div
             class="sm:p-9 p-6 pb-8 md:flex md:flex-col rounded-lg shadow-lg bg-gradient-to-r from-[#1f0391] to-[#070191]"
           >
@@ -734,7 +734,7 @@
                   aria-label="Email address"
                   type="email"
                   required
-                  class="w-full px-5 py-3 appearance-none shadow-lg rounded-full text-gray-900 bg-white placeholder-gray-500 focus:placeholder-gray-400 transition duration-150 ease-in-out"
+                  class="w-full px-5 py-3 appearance-none shadow-lg rounded-full text-gray-900 bg-white placeholder-gray-500 focus:placeholder-gray-400 transition"
                   placeholder="Votre e-mail"
                 />
                 <div v-if="emailError" class="text-red-600 font-semibold ml-6">
@@ -743,7 +743,7 @@
               </div>
 
               <button
-                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 font-medium rounded-full shadow-lg text-white bg-[#16a972] hover:text-white mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0 hover:scale-105 transform transition duration-150 ease-in-out"
+                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 font-medium rounded-full shadow-lg text-white bg-[#16a972] hover:text-white mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0 hover:scale-105 transform transition"
                 @click.prevent="handleSubmitNewsletter(email)"
               >
                 S'inscrire
@@ -783,7 +783,7 @@
               href="https://www.facebook.com/jeveuxaider.gouv.fr"
               target="_blank"
               rel="noopener"
-              class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center sm:text-lg leading-7 font-medium text-[#070191] hover:scale-105 transform transition duration-150 ease-in-out"
+              class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center sm:text-lg leading-7 font-medium text-[#070191] hover:scale-105 transform transition"
             >
               <svg
                 class="mr-2"
@@ -897,7 +897,7 @@
 
             <nuxt-link
               to="/inscription/organisation"
-              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition duration-150 ease-in-out"
+              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition"
             >
               Inscrire mon organisation
             </nuxt-link>
@@ -990,7 +990,7 @@
             </ul>
             <nuxt-link
               to="/collectivite"
-              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition duration-150 ease-in-out"
+              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition"
             >
               Inscrire ma collectivité
             </nuxt-link>

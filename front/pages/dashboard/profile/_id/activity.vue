@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Utilisateur</div>
         <div class="mb-8 flex">
-          <div class="font-bold text-2-5xl text-[#242526]">
+          <div class="font-bold text-[1.75rem] text-[#242526]">
             {{ profile.first_name }} {{ profile.last_name }}
           </div>
           <TagProfileRoles
