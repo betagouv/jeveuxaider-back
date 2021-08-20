@@ -156,7 +156,7 @@ export default {
 <style lang="postcss" scoped>
 ::v-deep #autosuggest {
   input {
-    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm transition ease-in-out duration-150;
+    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm transition;
     &:hover {
       @apply border-primary;
     }

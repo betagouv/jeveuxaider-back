@@ -113,7 +113,7 @@
       </el-form-item>
 
       <el-form-item label="Fréquence" prop="disponibilities">
-        <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-4">
           <el-select
             v-model="form.commitment__duration"
             placeholder="Choisissez une durée"

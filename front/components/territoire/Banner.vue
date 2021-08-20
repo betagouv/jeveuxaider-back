@@ -67,7 +67,7 @@
                 </el-select>
 
                 <button
-                  class="w-full flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:shadow-outline transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 leading-none"
+                  class="w-full flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 leading-none"
                   style="background-color: #09c19d"
                   @click="onClick"
                 >

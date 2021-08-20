@@ -27,7 +27,7 @@
         >
           <button
             type="button"
-            class="flex p-2 rounded-md focus:text-indigo-500 transition ease-in-out duration-150"
+            class="flex p-2 rounded-md focus:text-indigo-500 transition"
             @click="handleClose()"
           >
             <svg

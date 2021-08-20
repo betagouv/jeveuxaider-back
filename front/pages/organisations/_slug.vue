@@ -268,7 +268,7 @@
                 <!-- STRUCTURE LINK -->
                 <button
                   v-if="organisation.website"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.website)"
                 >
                   <img
@@ -281,7 +281,7 @@
                 <!-- FACEBOOK -->
                 <button
                   v-if="organisation.facebook"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.facebook)"
                 >
                   <img
@@ -294,7 +294,7 @@
                 <!-- TWITTER -->
                 <button
                   v-if="organisation.twitter"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.twitter)"
                 >
                   <img
@@ -307,7 +307,7 @@
                 <!-- INSTAGRAM -->
                 <button
                   v-if="organisation.instagram"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.instagram)"
                 >
                   <img

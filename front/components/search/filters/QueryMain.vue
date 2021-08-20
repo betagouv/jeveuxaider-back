@@ -3,7 +3,6 @@
     <el-input
       ref="input"
       v-model="input"
-      class=""
       prefix-icon="el-icon-search"
       :placeholder="placeholder"
       clearable
@@ -49,15 +48,20 @@ export default {
 
 <style lang="postcss" scoped>
 .query-main-search-filter {
-  input {
-    @apply bg-gray-100;
-    border: none;
-  }
-  .el-input__inner {
-    padding-left: 50px;
-  }
-  .el-input__prefix {
-    padding: 0 10px;
+  ::v-deep {
+    input {
+      @apply bg-gray-100 border-transparent !important;
+      &:hover,
+      &:focus {
+        @apply border-[#070191] !important;
+      }
+    }
+    .el-input__inner {
+      padding-left: 50px;
+    }
+    .el-input__prefix {
+      padding: 0 10px;
+    }
   }
 }
 </style>

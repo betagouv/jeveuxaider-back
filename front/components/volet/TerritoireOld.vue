@@ -2,7 +2,7 @@
   <Volet v-if="$store.getters['volet/active']">
     <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-12"></div>
     <el-card shadow="never" class="overflow-visible relative">
-      <div slot="header" class="clearfix flex flex-col items-center">
+      <div slot="header" class="flow-root flex flex-col items-center">
         <div class="-mt-10">
           <Avatar :fallback="row.name[0]" />
         </div>

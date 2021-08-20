@@ -285,7 +285,7 @@
                         <el-button
                           type="primary"
                           :loading="loading"
-                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-[#0e9f6e] focus:border-indigo-700 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
+                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-[#0e9f6e] focus:border-indigo-700 focus:outline-none focus:ring-indigo transition"
                           @click="onSubmit"
                           >Je m'inscris<span class="hidden sm:inline">
                             en tant que bénévole</span

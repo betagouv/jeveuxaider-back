@@ -592,15 +592,15 @@ input {
 }
 .el-select .el-input__inner {
   &:focus {
-    border: 2px solid #070191;
+    border: 1px solid #070191;
   }
 }
 .el-select .el-input.is-focus .el-input__inner {
-  border: 2px solid #070191;
+  border: 1px solid #070191;
 }
 .el-input__inner {
   &:focus {
-    border: 2px solid #070191;
+    border: 1px solid #070191;
   }
 }
 
@@ -622,7 +622,8 @@ input {
     border-radius: 10px;
     border-color: rgba(0, 0, 0, 0.1);
     color: black;
-    &:hover {
+    &:hover,
+    &:focus {
       border-color: #070191;
     }
   }
@@ -642,6 +643,10 @@ input {
     .el-input-number__decrease {
       border-radius: 10px 0 0 10px;
     }
+  }
+
+  .el-form--label-top .el-form-item__label {
+    line-height: 1;
   }
 
   --ck-border-radius: 10px;

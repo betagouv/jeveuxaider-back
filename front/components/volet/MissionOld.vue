@@ -7,7 +7,7 @@
       {{ row.structure.name }}
     </div>
     <el-card shadow="never" class="overflow-visible">
-      <div slot="header" class="clearfix flex flex-col items-center">
+      <div slot="header" class="flow-root flex flex-col items-center">
         <div class="-mt-10">
           <Avatar v-if="row.structure.name" :fallback="row.structure.name[0]" />
         </div>

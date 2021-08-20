@@ -1,7 +1,7 @@
 <template>
   <Volet>
     <el-card shadow="never" class="overflow-visible mt-24">
-      <div slot="header" class="clearfix flex flex-col items-center">
+      <div slot="header" class="flow-root flex flex-col items-center">
         <div class="-mt-10">
           <Avatar
             :fallback="canShowProfileDetails ? row.profile.short_name : 'XX'"

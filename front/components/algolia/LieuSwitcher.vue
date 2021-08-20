@@ -8,7 +8,6 @@
       <el-radio
         v-model="radio"
         :label="item.value"
-        class="flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10 focus:shadow-outline"
         :class="[
           { 'opacity-75': radio && radio != item.value },
           `el-radio-${index}`,
@@ -133,7 +132,7 @@ export default {
   .el-radio {
     border-color: #504db2;
     color: #504db2;
-    @apply m-0 border;
+    @apply m-0 border flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10 focus:ring;
     @screen lg {
       max-height: 70px;
     }
@@ -213,7 +212,7 @@ export default {
   ::v-deep {
     .el-select {
       top: 6px;
-      @apply m-0 relative;
+      @apply relative;
       @screen lg {
         top: 15px;
       }

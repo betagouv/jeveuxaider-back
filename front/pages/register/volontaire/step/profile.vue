@@ -154,7 +154,7 @@
             </el-form-item>
 
             <el-form-item label="Fréquence" prop="disponibilities">
-              <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
+              <div class="flex flex-wrap sm:flex-nowrap items-center gap-4">
                 <el-select
                   v-model="form.commitment__duration"
                   placeholder="Choisissez une durée"
@@ -204,7 +204,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-[#0e9f6e] focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#16a972] px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-[#0e9f6e] focus:outline-none focus:border-indigo-700 focus:ring-indigo transition"
               @click="onSubmit"
               >Continuer</el-button
             >

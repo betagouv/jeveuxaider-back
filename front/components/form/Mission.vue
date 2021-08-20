@@ -295,7 +295,7 @@
                 {{ item.name.fr }}
               </div>
               <div
-                class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-[#070191] hover:text-red-700 hover:scale-125 transition ease-in-out duration-150"
+                class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-[#070191] hover:text-red-700 hover:scale-125 transition"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
                   require('@/assets/images/icones/heroicon/close.svg?include')
@@ -354,7 +354,7 @@
         </el-form-item>
       </div>
 
-      <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4 mb-8">
+      <div class="flex flex-wrap sm:flex-nowrap items-center gap-4 mb-8">
         <el-form-item
           label="Durée d'engagement minimum"
           prop="commitment__duration"

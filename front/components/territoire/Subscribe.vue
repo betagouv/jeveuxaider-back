@@ -33,7 +33,7 @@
               ref="subscribeForm"
               :model="form"
               :rules="rules"
-              class="flex flex-wrap sm:flex-no-wrap gap-4 sm:gap-8"
+              class="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-8"
             >
               <div class="input-wrapper relative">
                 <el-form-item prop="email">
@@ -48,7 +48,7 @@
 
               <button
                 :disabled="loading"
-                class="w-full sm:w-auto sm:flex-none flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:shadow-outline transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 sm:px-8 sm:py-4 sm:pb-5 leading-none"
+                class="w-full sm:w-auto sm:flex-none flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 sm:px-8 sm:py-4 sm:pb-5 leading-none"
                 style="background-color: #09c19d"
                 @click.prevent="onSubmit"
               >
@@ -62,7 +62,7 @@
               </div>
               <button
                 ref="buttonBack"
-                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-green-800 font-extrabold focus:outline-none focus:shadow-outline transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
+                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-green-800 font-extrabold focus:outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
                 @click="onBack"
               >
                 Retour

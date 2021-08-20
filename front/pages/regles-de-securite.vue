@@ -19,7 +19,7 @@
             Des gestes simples pour préserver votre santé et celle des autres
           </h2>
           <div class="mt-20">
-            <ul class="md:grid md:grid-cols-2 md:col-gap-8 md:row-gap-10">
+            <ul class="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
               <li>
                 <div class="flex">
                   <div class="flex-shrink-0">

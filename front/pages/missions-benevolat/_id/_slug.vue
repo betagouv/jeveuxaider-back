@@ -30,7 +30,7 @@
       />
 
       <div class="container mx-auto px-4">
-        <div class="flex flex-wrap lg:flex-no-wrap gap-6">
+        <div class="flex flex-wrap lg:flex-nowrap gap-6">
           <div class="w-full">
             <div
               class="bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
@@ -58,7 +58,7 @@
                 </div>
 
                 <div
-                  class="absolute sm:static bg-white flex-none rounded-full h-8 w-8 flex items-center justify-center p-2 border-2 transform will-change-transform hover:scale-110 focus:scale-110 focus:outline-none transition ease-in-out duration-150 cursor-pointer"
+                  class="absolute sm:static bg-white flex-none rounded-full h-8 w-8 flex items-center justify-center p-2 border-2 transform will-change-transform hover:scale-110 focus:scale-110 focus:outline-none transition cursor-pointer"
                   style="right: -8px; top: -46px"
                   @click="onClickShare"
                 >
@@ -520,7 +520,7 @@
           <div class="text-center">
             <nuxt-link
               :to="`/missions-benevolat?refinementList[structure.name][0]=${structure.name}`"
-              class="inline-block border-2 border-gray-500 rounded-full text-white hover:border-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-sm px-4 py-2 mt-6"
+              class="inline-block border-2 border-gray-500 rounded-full text-white hover:border-white focus:outline-none focus:ring transition duration-150 ease-in-out font-bold text-sm px-4 py-2 mt-6"
             >
               Plus de missions
             </nuxt-link>
