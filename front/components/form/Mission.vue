@@ -213,6 +213,11 @@
           prop="objectif"
           class="flex-1"
         >
+          <ItemDescription container-class="mb-3">
+            Présentez en quelques mots le contexte dans lequel s'inscrit
+            l'intervention du bénévole (historique et objectifs de la mission).
+          </ItemDescription>
+
           <RichEditor v-model="form.objectif" />
         </el-form-item>
 
@@ -222,6 +227,11 @@
           prop="description"
           class="flex-1"
         >
+          <ItemDescription container-class="mb-3">
+            Décrivez les modalités concrètes de l'intervention du bénévole
+            (rôle, actions à réaliser, modalités d'organisation de la mission).
+          </ItemDescription>
+
           <RichEditor v-model="form.description" />
         </el-form-item>
       </div>
@@ -521,7 +531,10 @@
 
       <div class="flex items-start gap-4 pt-8">
         <div
-          v-if="form.state == 'Brouillon'"
+          v-if="
+            form.state == 'Brouillon' &&
+            $store.getters.user.context_role != 'admin'
+          "
           class="flex flex-col items-center"
         >
           <el-button
@@ -555,7 +568,8 @@
 
         <el-button
           v-else-if="
-            ['En attente de validation', 'Brouillon'].includes(form.state)
+            ['En attente de validation', 'Brouillon'].includes(form.state) &&
+            $store.getters.user.context_role != 'admin'
           "
           type="success"
           :loading="loading"

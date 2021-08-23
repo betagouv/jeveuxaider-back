@@ -33,7 +33,8 @@
           size="medium"
           icon="el-icon-document-copy"
           @click="clone(row.id)"
-        ></el-button>
+          >Dupliquer</el-button
+        >
         <el-button
           v-if="
             $store.getters.contextRole == 'admin' ||

@@ -331,14 +331,6 @@
                       class="text-gray-777E90 leading-7"
                     >
                       {{ structure.description }}
-                      <template slot="after" slot-scope="{ clamped, toggle }">
-                        <span
-                          v-if="clamped"
-                          class="hover:underline ml-1 cursor-pointer"
-                          @click="toggle"
-                          >Lire plus</span
-                        >
-                      </template>
                     </v-clamp>
                   </client-only>
 
@@ -386,12 +378,22 @@
               <div class="bg-white py-12">
                 <div class="px-4 text-center">
                   <div class="font-extrabold text-xl">
-                    Ils recherchent
-                    {{ mission.participations_max | formatNumber }}
-                    {{
-                      mission.participations_max
-                        | pluralize(['bénévole', 'bénévoles'])
-                    }}
+                    <template v-if="!mission.has_places_left">
+                      La mission est désormais complète
+                    </template>
+
+                    <template v-else>
+                      <template v-if="mission.state == 'Terminée'">
+                        Ils recherchaient
+                      </template>
+                      <template v-else> Ils recherchent </template>
+
+                      {{ mission.participations_max | formatNumber }}
+                      {{
+                        mission.participations_max
+                          | pluralize(['bénévole', 'bénévoles'])
+                      }}
+                    </template>
                   </div>
 
                   <template v-if="participationsCount">

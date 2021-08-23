@@ -523,7 +523,7 @@ return [
             "other" => "Autres.",
         ]
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | TAGS TYPES
@@ -771,7 +771,7 @@ return [
         "terms" => [
             "1_hour" => "1 heure",
             "2_hours" => "2 heures",
-            "half_day" => "Une demi journée",
+            "half_day" => "Une demi-journée",
             "day" => "1 jour",
             "3_days" => "3 jours",
             "5_days" => "5 jours",
