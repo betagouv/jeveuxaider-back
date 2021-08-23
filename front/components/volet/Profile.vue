@@ -36,12 +36,6 @@
               profile.full_name
             }}</span></VoletRowItem
           >
-          <VoletRowItem label="Rôle(s)">
-            <template v-if="profile.roles">
-              <TagProfileRoles :profile="profile" size="mini" />
-            </template>
-            <template v-else> N/A </template>
-          </VoletRowItem>
           <VoletRowItem label="Type">
             <template v-if="profile.type">
               {{ profile.type | labelFromValue('profile_types') }}
@@ -112,6 +106,17 @@
                 }}
               </span>
             </template>
+          </VoletRowItem>
+          <VoletRowItem label="Motivation">
+            <template v-if="profile.description">
+              <ReadMore
+                more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+                more-str="Lire plus"
+                :text="profile.description"
+                :max-chars="120"
+              ></ReadMore>
+            </template>
+            <template v-else> N/A </template>
           </VoletRowItem>
           <VoletRowItem label="Crée le">{{
             profile.created_at | formatMediumWithTime

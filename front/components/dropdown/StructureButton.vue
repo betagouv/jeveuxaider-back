@@ -63,7 +63,6 @@ export default {
       const res = await this.$api.sendStructureToApiEngagement(
         this.structure.id
       )
-      console.log(res)
       if (res) {
         this.$message.success({
           message: `L'organisation ${this.structure.name} a été envoyée à l'API Engagement.`,

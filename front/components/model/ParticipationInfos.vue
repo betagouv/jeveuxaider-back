@@ -168,7 +168,7 @@
       <div class="mb-2 flex">
         <div class="card-label">Motivation</div>
         <div class="text-gray-900 flex-1">
-          <template v-if="participation.profile.frequence">
+          <template v-if="participation.profile.description">
             {{ participation.profile.description }}
           </template>
           <template v-else> N/A </template>

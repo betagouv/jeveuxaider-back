@@ -143,14 +143,12 @@ export default {
       })
         .then(() => {
           this.loading = true
-          console.log('go update participation')
           this.$api
             .updateParticipation(this.participation.id, {
               ...this.participation,
               state,
             })
             .then((response) => {
-              console.log('then ?!')
               this.$message.success({
                 message: 'Le statut de la participation a été mis à jour',
               })
@@ -163,7 +161,6 @@ export default {
               this.loading = false
             })
             .catch((error) => {
-              console.log('catch !')
               this.loading = false
               this.errors = error.response.data.errors
             })

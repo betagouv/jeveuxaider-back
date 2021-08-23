@@ -27,14 +27,7 @@
       <div
         v-for="suggestion in suggestions"
         :key="suggestion.rna"
-        class="
-          bg-white
-          p-4
-          mb-4
-          rounded-lg
-          hover:border-blue-800
-          cursor-pointer
-        "
+        class="bg-white p-4 mb-4 rounded-lg hover:border-blue-800 cursor-pointer"
         :class="isSelected(suggestion) ? 'border-2 border-blue-800 ' : 'border'"
         @click="onSelected(suggestion)"
       >
@@ -133,7 +126,7 @@ export default {
       this.$emit('selected', this.selected)
     },
     onInputChange(text) {
-      console.log('onInputChange', text)
+      // console.log('onInputChange', text)
       this.fetchResults()
     },
     // onSubmit() {

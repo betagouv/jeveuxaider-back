@@ -129,7 +129,7 @@ export default {
     '$route.query': '$fetch',
   },
   mounted() {
-    console.log('query', this.query)
+    // console.log('query', this.query)
   },
   methods: {
     handleChangeModel(model) {

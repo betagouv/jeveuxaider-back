@@ -129,6 +129,28 @@
           </template>
           <template v-else> N/A </template>
         </VoletRowItem>
+        <VoletRowItem v-if="profile.commitment__duration" label="Engagement">
+          {{ profile.commitment__duration | labelFromValue('duration') }}
+          <template v-if="profile.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                profile.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
+        </VoletRowItem>
+        <VoletRowItem label="Motivation">
+          <template v-if="profile.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="profile.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
         <VoletRowItem label="Crée le">{{
           profile.created_at | formatMediumWithTime
         }}</VoletRowItem>
