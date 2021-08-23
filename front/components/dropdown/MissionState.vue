@@ -183,9 +183,14 @@ export default {
           this.$api
             .updateMission(this.form.id, this.form)
             .then((response) => {
-              this.$message.success({
-                message: 'Le statut de la mission a été mis à jour',
-              })
+              let message = 'Le statut de la mission a été mis à jour'
+              if (
+                response.data.state == 'Validée' &&
+                this.form.structure.state == 'En attente de validation'
+              ) {
+                message = `La mission vient d'être validée.\nAttention, l'organisation qui propose cette mission est toujours en attente de validation`
+              }
+              this.$message.success({ message })
               this.$emit('updated', response.data)
               this.loading = false
             })
