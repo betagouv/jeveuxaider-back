@@ -561,10 +561,12 @@ export default {
       }
     }
 
-    // Si mission signalée ou organisation désinscrite / signalée
+    // Si mission signalée ou organisation désinscrite / signalée / en attente de validation
     if (
       ['Signalée'].includes(mission.state) ||
-      ['Désinscrite', 'Signalée'].includes(mission.structure.state)
+      ['Désinscrite', 'Signalée', 'En attente de validation'].includes(
+        mission.structure.state
+      )
     ) {
       if (store.getters.isLogged) {
         // Si on est pas modérateur

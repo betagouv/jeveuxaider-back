@@ -91,7 +91,7 @@
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">Dispos</div>
+      <div class="card-label">Disponibilités</div>
       <div class="text-gray-900 flex-1">
         <template
           v-if="profile.disponibilities && profile.disponibilities.length > 0"
@@ -111,18 +111,23 @@
       </div>
     </div>
     <div class="mb-2 flex">
-      <div class="card-label">Fréquence</div>
+      <div class="card-label">Engagement</div>
       <div class="text-gray-900 flex-1">
-        <template v-if="profile.frequence">
-          {{ profile.frequence }} {{ profile.frequence_granularite }}
+        {{ profile.commitment__duration | labelFromValue('duration') }}
+        <template v-if="profile.commitment__time_period">
+          <span>par</span>
+          <span>
+            {{
+              profile.commitment__time_period | labelFromValue('time_period')
+            }}
+          </span>
         </template>
-        <template v-else> N/A </template>
       </div>
     </div>
     <div class="mb-2 flex">
       <div class="card-label">Motivation</div>
       <div class="text-gray-900 flex-1">
-        <template v-if="profile.frequence">
+        <template v-if="profile.description">
           {{ profile.description }}
         </template>
         <template v-else> N/A </template>

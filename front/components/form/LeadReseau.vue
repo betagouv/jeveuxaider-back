@@ -124,7 +124,6 @@ export default {
       this.loading = true
       this.$refs.reseauForm.validate(async (valid, fields) => {
         if (valid) {
-          console.log('go !', this.form)
           const res = await this.$api.reseauLead(this.form)
           if (res.data) {
             this.sent = true
