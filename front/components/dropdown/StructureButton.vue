@@ -26,7 +26,11 @@
       >
         Envoyer à l'API Engagement
       </el-dropdown-item>
-      <el-dropdown-item :command="{ action: 'delete' }" divided>
+      <el-dropdown-item
+        v-if="$store.getters.contextRole == 'admin'"
+        :command="{ action: 'delete' }"
+        divided
+      >
         Supprimer l'organisation
       </el-dropdown-item>
     </el-dropdown-menu>
