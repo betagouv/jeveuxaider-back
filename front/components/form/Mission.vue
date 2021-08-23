@@ -528,7 +528,7 @@
             type="secondary"
             :loading="loading"
             class="el-button--submit"
-            @click="onSubmit()"
+            @click="onSubmit('Brouillon')"
           >
             Enregistrer en brouillon
           </el-button>
@@ -544,32 +544,35 @@
         </div>
 
         <el-button
+          v-if="form.template_id && ['Brouillon'].includes(form.state)"
           type="success"
           :loading="loading"
           class="el-button--submit"
-          @click="
-            onSubmit(
-              form.state == 'Validée' || form.template_id
-                ? 'Validée'
-                : 'En attente de validation'
-            )
-          "
+          @click="onSubmit('Validée')"
         >
-          <template
-            v-if="
-              !form.template_id &&
-              (!form.state ||
-                ['En attente de validation', 'Brouillon'].includes(form.state))
-            "
-          >
-            Soumettre à validation
-          </template>
-          <template
-            v-else-if="form.template_id && ['Brouillon'].includes(form.state)"
-          >
-            Enregistrer et publier
-          </template>
-          <template v-else> Enregistrer </template>
+          Enregistrer et publier
+        </el-button>
+
+        <el-button
+          v-else-if="
+            ['En attente de validation', 'Brouillon'].includes(form.state)
+          "
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="onSubmit('En attente de validation')"
+        >
+          Soumettre à validation
+        </el-button>
+
+        <el-button
+          v-else
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="onSubmit()"
+        >
+          Enregistrer
         </el-button>
       </div>
     </el-form>
@@ -790,7 +793,8 @@ export default {
           if (this.mission.id) {
             this.$api
               .updateMission(this.mission.id, { ...this.form, state })
-              .then(() => {
+              .then((updatedMission) => {
+                this.form.state = updatedMission.data.state
                 this.loading = false
                 this.$router.go(-1)
                 this.$message.success({
@@ -803,7 +807,8 @@ export default {
           } else if (this.structureId) {
             this.$api
               .addStructureMission(this.structureId, { ...this.form, state })
-              .then(() => {
+              .then((updatedMission) => {
+                this.form.state = updatedMission.data.state
                 this.loading = false
                 this.$router.push(
                   `/dashboard/structure/${this.structureId}/missions`
