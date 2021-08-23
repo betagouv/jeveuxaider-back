@@ -40,6 +40,10 @@ module.exports = {
       colors: {
         primary: '#070191',
         secondary: '#6A6F85',
+        solidarite: '#e02424',
+        nature: '#057a55',
+        education: '#1f0391',
+        sante: '#553c9a',
       },
       fontSize: {
         0: [0, 0],
