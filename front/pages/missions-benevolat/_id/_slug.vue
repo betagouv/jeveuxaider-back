@@ -120,7 +120,10 @@
                   :key="key"
                   class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-gray-4E4E54 text-white"
                 >
-                  {{ publicBeneficiaire }}
+                  {{
+                    publicBeneficiaire
+                      | labelFromValue('mission_publics_beneficiaires')
+                  }}
                 </div>
               </div>
 
@@ -383,7 +386,9 @@
                     </template>
 
                     <template v-else>
-                      <template v-if="mission.state == 'Terminée'">
+                      <template
+                        v-if="['Terminée', 'Annulée'].includes(mission.state)"
+                      >
                         Ils recherchaient
                       </template>
                       <template v-else> Ils recherchent </template>
@@ -768,36 +773,11 @@ export default {
     }
   },
   methods: {
-    // domainName {
-    //   return mission.domaine && mission.domaine.name && mission.domaine.name.fr
-    //     ? mission.domaine.name.fr
-    //     : mission.template &&
-    //       mission.template.domaine &&
-    //       mission.template.domaine.name &&
-    //       mission.template.domaine.name.fr
-    //     ? mission.template.domaine.name.fr
-    //     : null
-    // },
     iconPublicType(publicType) {
       let icon
       switch (publicType) {
-        case 'Personnes âgées':
-          icon = require('@/assets/images/icones/personnes_agees.svg?include')
-          break
         case 'Personnes en situation de handicap':
           icon = require('@/assets/images/icones/handicap.svg?include')
-          break
-        case 'Personnes à la rue':
-          icon = require('@/assets/images/icones/helping_hand.svg?include')
-          break
-        case 'Parents':
-          icon = require('@/assets/images/icones/parents.svg?include')
-          break
-        case 'Jeunes / enfants':
-          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
-          break
-        case 'Tous publics':
-          icon = require('@/assets/images/icones/tous_public.svg?include')
           break
         case 'Mineurs':
           icon = require('@/assets/images/icones/mineur.svg?include')

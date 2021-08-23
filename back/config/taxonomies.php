@@ -300,12 +300,12 @@ return [
     'mission_publics_beneficiaires' => [
         "vocabulary" => "Publics bénéficiaires",
         "terms" => [
-            "Personnes âgées" => "Personnes âgées",
-            "Personnes en situation de handicap" => "Personnes en situation de handicap",
-            "Personnes à la rue" => "Personnes en difficulté",
-            "Parents" => "Parents",
-            "jeunes_enfants" => "Jeunes / enfants",
-            "Tous publics" => "Tous publics"
+            "seniors" => "Personnes âgées",
+            "persons_with_disabilities" => "Personnes en situation de handicap",
+            "people_in_difficulty" => "Personnes en difficulté",
+            "parents" => "Parents",
+            "children" => "Jeunes / enfants",
+            "any_public" => "Tous publics"
         ]
     ],
 
