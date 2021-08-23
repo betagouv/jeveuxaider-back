@@ -728,7 +728,7 @@ export default {
           break
         case 'En attente de validation':
           message =
-            'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
+            'Les modifications ont été enregistrées.\r\nVotre mission sera modérée très prochainement.'
           break
         case 'Validée':
           message = !this.form.id
