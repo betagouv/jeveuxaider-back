@@ -63,4 +63,14 @@ class MissionPolicy
         }
         return false;
     }
+
+    public function destroy(User $user, Mission $mission)
+    {
+        return false;
+    }
+
+    public function restore(User $user, Mission $mission)
+    {
+        return false;
+    }
 }

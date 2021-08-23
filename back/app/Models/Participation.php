@@ -83,9 +83,6 @@ class Participation extends Model
                         $query->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
                     });
                 break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-                break;
         }
     }
 
@@ -113,13 +110,6 @@ class Participation extends Model
             ->whereHas('mission', function (Builder $query) use ($domain_id) {
                 $query->domaine($domain_id);
             });
-    }
-
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        return $query->whereHas('mission', function (Builder $query) use ($collectivity_id) {
-            $query->collectivity($collectivity_id);
-        });
     }
 
     public function scopeOfTerritoire($query, $territoire_id)

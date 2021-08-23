@@ -13,34 +13,14 @@ use App\Models\Participation;
 
 class TrashController extends Controller
 {
-    public function structures(Request $request)
+    public function index(Request $request, String $model)
     {
-        return QueryBuilder::for(Structure::class)
-            ->onlyTrashed()
-            ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersTrashSearch, 'structures'),
-            ])
-            ->defaultSort('-deleted_at')
-            ->paginate(config('query-builder.results_per_page'));
-    }
+        $className = 'App\Models\\' . ucfirst($model);
 
-    public function missions(Request $request)
-    {
-        return QueryBuilder::for(Mission::class)
+        return QueryBuilder::for($className)
             ->onlyTrashed()
             ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersTrashSearch, 'missions'),
-            ])
-            ->defaultSort('-deleted_at')
-            ->paginate(config('query-builder.results_per_page'));
-    }
-
-    public function participations(Request $request)
-    {
-        return QueryBuilder::for(Participation::with(['profile','mission']))
-            ->onlyTrashed()
-            ->allowedFilters([
-                AllowedFilter::custom('search', new FiltersTrashSearch, 'participations'),
+                AllowedFilter::custom('search', new FiltersTrashSearch,  $model . 's'),
             ])
             ->defaultSort('-deleted_at')
             ->paginate(config('query-builder.results_per_page'));

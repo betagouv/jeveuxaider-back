@@ -15,10 +15,17 @@
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
-        <client-only placeholder="Je veux aider, bénévolat partout en France">
-          <div v-if="hasReduceMotion">
+        <client-only>
+          <template #placeholder>
             <div
-              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
+              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white md:h-auto"
+            >
+              Je veux aider
+            </div>
+          </template>
+          <div v-if="hasReduceMotionOrMobile">
+            <div
+              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white md:h-auto"
             >
               Je veux aider
             </div>
@@ -49,7 +56,8 @@
             Devenez bénévole et trouvez des missions en quelques clics
           </h1>
           <br class="hidden lg:block" />
-          <b>près de chez vous</b> ou <b>à distance</b>
+          <strong class="font-bold">près de chez vous</strong> ou
+          <strong class="font-bold">à distance</strong>
         </div>
 
         <div class="mt-5">
@@ -888,7 +896,7 @@
             </ul>
 
             <nuxt-link
-              to="/register/responsable"
+              to="/inscription/organisation"
               class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-blue-800 text-white hover:scale-105 transform transition duration-150 ease-in-out"
             >
               Inscrire mon organisation
@@ -1199,7 +1207,10 @@ export default {
     }
   },
   computed: {
-    hasReduceMotion() {
+    hasReduceMotionOrMobile() {
+      if (this.$device.isMobile) {
+        return true
+      }
       if (process.client) {
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
         if (!mediaQuery || mediaQuery.matches) {

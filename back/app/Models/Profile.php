@@ -219,9 +219,6 @@ class Profile extends Model implements HasMedia
                         }
                     );
                 break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-                break;
             case 'responsable':
                 $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
                 return $query->whereHas(
@@ -268,16 +265,6 @@ class Profile extends Model implements HasMedia
                     $query->where('id', $domain_id);
                 }
             );
-    }
-
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        $collectivity = Collectivity::find($collectivity_id);
-
-        if ($collectivity->type == 'commune') {
-            return $query
-                ->whereIn('zip', $collectivity->zips);
-        }
     }
 
     public function user()
@@ -340,24 +327,6 @@ class Profile extends Model implements HasMedia
     public function isSuperviseur()
     {
         return $this->reseau ? true : false;
-    }
-
-    public function getCollectivityAttribute()
-    {
-        $structure = $this->structures()
-            ->whereHas(
-                'collectivity',
-                function (Builder $query) {
-                    $query->where('state', 'validated');
-                }
-            )
-            ->wherePivot('role', 'responsable')
-            ->first();
-
-        if (!$structure) {
-            return null;
-        }
-        return $structure->collectivity;
     }
 
     public function isResponsable()

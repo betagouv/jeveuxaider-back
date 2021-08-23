@@ -81,12 +81,6 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
-        />
       </div>
     </div>
 
@@ -207,7 +201,10 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchStructures(this.query)
+    const { data } = await this.$api.fetchStructures({
+      ...this.query,
+      include: 'missionsCount',
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from

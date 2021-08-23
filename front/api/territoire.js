@@ -11,8 +11,8 @@ export default (axios) => ({
     return await axios.post(`/territoire/${id}`, territoire)
   },
 
-  async getTerritoire(id) {
-    const { data } = await axios.get(`/territoire/${id}`)
+  async getTerritoire(slugOrId) {
+    const { data } = await axios.get(`/territoire/${slugOrId}`)
     return data
   },
 

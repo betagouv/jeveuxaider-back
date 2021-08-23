@@ -14,7 +14,6 @@ use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
-use App\Filters\FiltersMissionCollectivity;
 use App\Filters\FiltersMissionDates;
 
 class MissionsExport implements FromCollection, WithMapping, WithHeadings
@@ -47,7 +46,6 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
-                AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
                 AllowedFilter::exact('responsable_id'),
             ])
             ->defaultSort('-created_at')

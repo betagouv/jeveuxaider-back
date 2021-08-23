@@ -121,12 +121,6 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
-        />
         <SearchFiltersQuery
           type="select"
           name="domaine"
@@ -224,45 +218,6 @@ export default {
     '$route.query': '$fetch',
   },
   methods: {
-    handleCommand(command) {
-      if (command.action == 'delete') {
-        this.handleDeleteStructure()
-      }
-    },
-    handleDeleteStructure() {
-      if (this.structure.missions_count > 0) {
-        this.$alert(
-          'Il est impossible de supprimer une organisation qui contient des missions.',
-          "Supprimer l'organisation",
-          {
-            confirmButtonText: 'Retour',
-            type: 'warning',
-            center: true,
-          }
-        )
-      } else {
-        this.$confirm(
-          `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-          "Supprimer l'organisation",
-          {
-            confirmButtonText: 'Supprimer',
-            confirmButtonClass: 'el-button--danger',
-            cancelButtonText: 'Annuler',
-            center: true,
-            dangerouslyUseHTMLString: true,
-            type: 'error',
-          }
-        ).then(() => {
-          this.$api.deleteStructure(this.structure.id).then(() => {
-            this.$message({
-              type: 'success',
-              message: `L'organisation ${this.structure.name} a été supprimée.`,
-            })
-            this.$router.push('/dashboard/structures')
-          })
-        })
-      }
-    },
     onExport() {
       this.loadingExport = true
       this.$api

@@ -17,15 +17,7 @@
 
           <div class="relative">
             <h1
-              class="
-                text-center text-3xl
-                md:text-5xl
-                lg:text-6xl
-                leading-none
-                font-bold
-                tracking-tight
-                text-gray-900
-              "
+              class="text-center text-3xl md:text-5xl lg:text-6xl leading-none font-bold tracking-tight text-gray-900"
             >
               Rejoignez JeVeuxAider.gouv.fr
               <br />
@@ -33,15 +25,7 @@
             </h1>
 
             <p
-              class="
-                mt-4
-                text-center
-                max-w-2xl
-                text-xl
-                leading-7
-                text-gray-500
-                lg:mx-auto
-              "
+              class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
             >
               Sur l'ensemble du territoire français, des milliers de
               réservistes, de structures et d'association ont déjà rejoint
@@ -55,22 +39,10 @@
               <form class="w-full flex md:ml-0 mb-0" action="#" method="GET">
                 <label for="search_field" class="sr-only">Recherche</label>
                 <div
-                  class="
-                    relative
-                    w-full
-                    text-cool-gray-400
-                    focus-within:text-cool-gray-600
-                  "
+                  class="relative w-full text-cool-gray-400 focus-within:text-cool-gray-600"
                 >
                   <div
-                    class="
-                      absolute
-                      inset-y-0
-                      left-0
-                      flex
-                      items-center
-                      pointer-events-none
-                    "
+                    class="absolute inset-y-0 left-0 flex items-center pointer-events-none"
                   >
                     <svg
                       class="h-5 w-5 ml-3 sm:ml-6"
@@ -88,29 +60,7 @@
                   <input
                     id="search_field"
                     v-model="query"
-                    class="
-                      block
-                      w-full
-                      h-full
-                      pl-10
-                      pr-4
-                      py-4
-                      sm:px-16
-                      sm:py-6
-                      rounded-md
-                      text-cool-gray-900
-                      placeholder-cool-gray-500
-                      focus:placeholder-cool-gray-400
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      duration-150
-                      ease-in-out
-                      truncate
-                      text-md
-                      sm:text-lg
-                      md:text-xl
-                    "
+                    class="block w-full h-full pl-10 pr-4 py-4 sm:px-16 sm:py-6 rounded-md text-cool-gray-900 placeholder-cool-gray-500 focus:placeholder-cool-gray-400 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out truncate text-md sm:text-lg md:text-xl"
                     placeholder="Trouvez votre ville ou département"
                     type="search"
                   />
@@ -123,16 +73,7 @@
         <!-- Tabs -->
         <div class="relative my-8 sm:px-4">
           <nav
-            class="
-              flex
-              overflow-scroll
-              sm:overflow-visible
-              pt-1
-              pb-3
-              sm:py-0
-              sm:justify-center
-              sm:gap-4
-            "
+            class="flex overflow-scroll sm:overflow-visible pt-1 pb-3 sm:py-0 sm:justify-center sm:gap-4"
           >
             <span
               v-for="(type, index) in types"
@@ -152,31 +93,7 @@
                     types[index].slug == types[types.length - 1].slug,
                 },
               ]"
-              class="
-                px-3
-                text-center
-                lg:px-5
-                py-3
-                lg:py-4
-                shadow
-                cursor-pointer
-                font-medium
-                text-md
-                lg:text-xl
-                leading-6
-                rounded-md
-                focus:outline-none
-                focus:shadow-outline
-                transition
-                duration-150
-                ease-in-out
-                sm:w-full
-                lg:w-auto
-                flex-none
-                sm:flex-initial
-                ml-4
-                sm:ml-0
-              "
+              class="px-3 text-center lg:px-5 py-3 lg:py-4 shadow cursor-pointer font-medium text-md lg:text-xl leading-6 rounded-md focus:outline-none focus:shadow-outline transition duration-150 ease-in-out sm:w-full lg:w-auto flex-none sm:flex-initial ml-4 sm:ml-0"
               @click="activeType = type.slug"
             >
               {{ type.label }} ({{ typeCount(type.slug) }})
@@ -198,40 +115,13 @@
                 </span>
 
                 <div
-                  class="
-                    mt-2
-                    grid grid-cols-1
-                    gap-3
-                    sm:grid-cols-2
-                    lg:grid-cols-4
-                  "
+                  class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
                 >
                   <nuxt-link
                     v-for="territory in territoriesByGroup(group)"
                     :key="territory.id"
                     :to="territory.full_url"
-                    class="
-                      col-span-1
-                      flex
-                      justify-center
-                      items-center
-                      text-center
-                      px-4
-                      py-2
-                      bg-white
-                      shadow-md
-                      rounded-lg
-                      border-blue-800 border-b-2
-                      text-gray-800
-                      hover:border
-                      hover:shadow-lg
-                      hover:text-gray-900
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      ease-in-out
-                      duration-150
-                    "
+                    class="col-span-1 flex justify-center items-center text-center px-4 py-2 bg-white shadow-md rounded-lg border-blue-800 border-b-2 text-gray-800 hover:border hover:shadow-lg hover:text-gray-900 focus:outline-none focus:shadow-outline transition ease-in-out duration-150"
                     style="min-height: 80px"
                   >
                     <span class="font-semibold">{{ territory.name }}</span>

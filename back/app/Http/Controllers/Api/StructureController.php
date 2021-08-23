@@ -16,8 +16,6 @@ use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
-use App\Filters\FiltersStructureCollectivity;
-use App\Filters\FiltersStructureIsCollectivity;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
@@ -42,8 +40,9 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
-                AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
-                AllowedFilter::custom('is_collectivity', new FiltersStructureIsCollectivity),
+            ])
+            ->allowedIncludes([
+                'missions', 
             ])
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -102,7 +101,6 @@ class StructureController extends Controller
     {
         $structure = Structure::with(['members', 'territoire'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
-        ray('structure', $structure);
         return $structure;
     }
 
@@ -169,12 +167,29 @@ class StructureController extends Controller
 
     public function delete(StructureDeleteRequest $request, Structure $structure)
     {
+        if ($structure->missions()->exists())
+        {
+            return response()->json(['errors'=> [
+                'password' => [
+                    "L'organisation ne peut pas être supprimée car elle a des missions liées.",
+                ]
+            ]], 400);
+        }
+        
         return (string) $structure->delete();
+    }
+
+    public function restore($id)
+    {
+        $structure = Structure::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $structure);
+        return (string) $structure->restore();
     }
 
     public function destroy($id)
     {
         $structure = Structure::withTrashed()->findOrFail($id);
+        $this->authorize('destroy', $structure);
         return (string) $structure->forceDelete();
     }
 

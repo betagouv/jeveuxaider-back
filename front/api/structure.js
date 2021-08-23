@@ -44,6 +44,9 @@ export default (axios) => ({
   async destroyStructure(id) {
     return await axios.delete(`/structure/${id}/destroy`)
   },
+  async restoreStructure(id) {
+    return await axios.post(`/structure/${id}/restore`)
+  },
   async getStructureMembers(id) {
     return await axios.get(`/structure/${id}/members`)
   },

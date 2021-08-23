@@ -28,15 +28,15 @@ export default (axios) => ({
   async addStructureMission(structureId, mission) {
     return await axios.post(`/structure/${structureId}/missions`, mission)
   },
+  async restoreMission(id) {
+    return await axios.post(`/mission/${id}/restore`)
+  },
+  async destroyMission(id) {
+    return await axios.delete(`/mission/${id}/destroy`)
+  },
 })
 
 /*
-
-
-
-async destroyMission(id) {
-  return await axios.delete(`/mission/${id}/destroy`)
-}
 
 async getMissionStructure(id) {
   return await axios.get(`/mission/${id}/structure`)

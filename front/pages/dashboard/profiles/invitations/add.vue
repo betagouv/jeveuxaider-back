@@ -71,41 +71,6 @@
           </el-form-item>
         </template>
 
-        <template v-if="form.role == 'responsable_collectivity'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Responsable d'une collectivité
-          </div>
-          <ItemDescription container-class="mb-6">
-            Renseignez le nom de la collectivité. Vous permettez à cet
-            utilisateur de visualiser les missions et bénévoles rattachés à
-            cette collectivité.
-          </ItemDescription>
-          <el-form-item
-            label="Collectivité"
-            prop="invitable_id"
-            class="flex-1 max-w-xl mb-7"
-          >
-            <el-select
-              v-model="form.invitable_id"
-              filterable
-              reserve-keyword
-              remote
-              :remote-method="fetchCollectivities"
-              placeholder="Nom de la collectivité"
-              :loading="loading"
-              @change="form.invitable_type = 'App\\Models\\Structure'"
-            >
-              <el-option
-                v-for="item in collectivities"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </template>
-
         <template v-if="form.role == 'responsable_territoire'">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
             Responsable d'une ville ou d'un département
@@ -259,7 +224,6 @@ export default {
     return {
       loading: false,
       organisations: [],
-      collectivities: [],
       territoires: [],
       form: {
         user_id: this.$store.getters.user.id,
@@ -300,26 +264,11 @@ export default {
         this.loading = true
         this.$api
           .fetchStructures({
-            'filter[is_collectivity]': false,
             'filter[search]': query,
           })
           .then((response) => {
             this.loading = false
             this.organisations = response.data.data
-          })
-      }
-    },
-    fetchCollectivities(query) {
-      if (query !== '') {
-        this.loading = true
-        this.$api
-          .fetchStructures({
-            'filter[is_collectivity]': true,
-            'filter[search]': query,
-          })
-          .then((response) => {
-            this.loading = false
-            this.collectivities = response.data.data
           })
       }
     },
@@ -341,7 +290,6 @@ export default {
       this.$delete(this.form, 'invitable_type')
       this.$set(this.form, 'properties', {})
       this.$set(this, 'organisations', [])
-      this.$set(this, 'collectivities', [])
       this.$set(this, 'territoires', [])
     },
     onSubmit() {

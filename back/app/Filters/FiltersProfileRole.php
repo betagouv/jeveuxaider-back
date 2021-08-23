@@ -35,9 +35,6 @@ class FiltersProfileRole implements Filter
             case 'responsable':
                 return $query->whereHas('structures')->orWhereHas('territoires');
                 break;
-            case 'responsable_collectivity':
-                return $query->whereNotNull('collectivity_id');
-                break;
             default:
                 return $query;
                 break;

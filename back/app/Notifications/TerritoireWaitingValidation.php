@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Territoire;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class CollectivityWaitingValidation extends Notification
+class TerritoireWaitingValidation extends Notification
 {
     use Queueable;
 

@@ -124,12 +124,6 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
-        />
         <SearchFiltersQuery
           type="select"
           name="domaine"

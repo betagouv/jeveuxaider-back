@@ -69,7 +69,6 @@ export default {
     '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
     '@/plugins/plausible.client.js',
-    '@/plugins/vue-awesome-swiper.js',
   ],
 
   router: {
@@ -85,6 +84,7 @@ export default {
     '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
+    '@nuxtjs/device',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

@@ -523,36 +523,7 @@ return [
             "other" => "Autres.",
         ]
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | COLLECTIVITIES TYPES
-    |--------------------------------------------------------------------------
-    |
-    */
-    'collectivities_types' => [
-        "vocabulary" => "Types de collectivités",
-        "terms" => [
-            "department" => "Département",
-            "commune" => "Commune"
-        ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | COLLECTIVITIES STATES
-    |--------------------------------------------------------------------------
-    |
-    */
-    'collectivities_states' => [
-        "vocabulary" => "Statut des collectivités",
-        "terms" => [
-            "waiting" => "En attente de validation",
-            "validated" => "Validée",
-            "refused" => "Refusée",
-        ]
-    ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | TAGS TYPES

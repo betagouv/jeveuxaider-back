@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Filters\FiltersDisponibility;
 use App\Filters\FiltersMatchMission;
-use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfileMinParticipations;
 use App\Filters\FiltersProfilePostalCode;
 use App\Filters\FiltersProfileRole;
@@ -61,7 +60,6 @@ class ProcessExportProfiles implements ShouldQueue
                 AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
-                AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
                 AllowedFilter::custom('match_mission', new FiltersMatchMission),

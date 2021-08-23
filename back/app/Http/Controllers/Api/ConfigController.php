@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Collectivity;
 use App\Models\Territoire;
 use App\Models\Release;
 use App\Models\Structure;
@@ -25,7 +24,6 @@ class ConfigController extends Controller
             'taxonomies' => $this->taxonomies(),
             'thematiques' => $this->thematiques(),
             'reseaux' => $this->reseaux(),
-            'collectivities' => $this->collectivities(),
         ]);
     }
 
@@ -66,16 +64,6 @@ class ConfigController extends Controller
             return [
                 'id' => $structure->id,
                 'name' => $structure->name
-            ];
-        });
-    }
-
-    private function collectivities()
-    {
-        return Collectivity::where('type', 'commune')->get()->map(function ($collectivity) {
-            return [
-                'id' => $collectivity->id,
-                'name' => $collectivity->name
             ];
         });
     }
@@ -158,11 +146,15 @@ class ConfigController extends Controller
                 'lastmod' => Carbon::now()->startOfMonth(),
             ],
             [
+                'url' => '/inscription',
+                'lastmod' => Carbon::now()->startOfMonth(),
+            ],
+            [
                 'url' => '/register/volontaire',
                 'lastmod' => Carbon::now()->startOfMonth(),
             ],
             [
-                'url' => '/register/responsable',
+                'url' => '/inscription/organisation',
                 'lastmod' => Carbon::now()->startOfMonth(),
             ],
         ];
