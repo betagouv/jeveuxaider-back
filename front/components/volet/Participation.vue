@@ -209,7 +209,16 @@
           v-if="mission.publics_beneficiaires"
           label="Publics bénéf."
         >
-          {{ mission.publics_beneficiaires.join(', ') }}
+          {{
+            mission.publics_beneficiaires
+              .map(function (item) {
+                return $options.filters.labelFromValue(
+                  item,
+                  'mission_publics_beneficiaires'
+                )
+              })
+              .join(', ')
+          }}
         </VoletRowItem>
         <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
           {{ mission.publics_volontaires.join(', ') }}

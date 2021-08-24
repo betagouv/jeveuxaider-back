@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Mission;
+use App\Models\Structure;
 use Illuminate\Console\Command;
 
 class CleanPublicsBeneficiaires extends Command
@@ -12,7 +13,7 @@ class CleanPublicsBeneficiaires extends Command
      *
      * @var string
      */
-    protected $signature = 'cnut:clean-publics-beneficiaires';
+    protected $signature = 'cnut:clean-publics-beneficiaires {--model=}';
 
     /**
      * The console command description.
@@ -38,14 +39,33 @@ class CleanPublicsBeneficiaires extends Command
      */
     public function handle()
     {
-        $query = Mission::withTrashed();
-        $this->info($query->count() . ' missions will be updated');
+        $options = $this->options();
+        if (empty($options['model'])) {
+            $this->error('Mandatory argument: --model');
+            return;
+        }
+        if (!in_array($options['model'], ['mission', 'structure'])) {
+            $this->error('Model should be one of the following: mission, structure');
+            return;
+        }
+
+        switch ($options['model']) {
+            case 'mission':
+                $query = Mission::withTrashed();
+                break;
+
+            case 'structure':
+                $query = Structure::withTrashed();
+                break;
+        }
+
+        $this->info($query->count() . ' ' . $options['model'] . '(s) will be updated');
 
         if ($this->confirm('Do you wish to continue?')) {
             $bar = $this->output->createProgressBar($query->count());
             $bar->start();
 
-            foreach ($query->cursor() as $mission) {
+            foreach ($query->cursor() as $model) {
                 $cleanValues = array_map(function ($value) {
                     switch ($value) {
                         case 'Personnes âgées':
@@ -78,10 +98,10 @@ class CleanPublicsBeneficiaires extends Command
                             break;
                     }
                     return $value;
-                }, $mission->publics_beneficiaires);
-                $mission->publics_beneficiaires = array_unique($cleanValues);
+                }, $model->publics_beneficiaires);
+                $model->publics_beneficiaires = array_unique($cleanValues);
 
-                $mission->saveQuietly();
+                $model->saveQuietly();
                 $bar->advance();
             }
 
