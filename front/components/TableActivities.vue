@@ -121,10 +121,12 @@ export default {
           return 'Nom'
         case 'disponibilities':
           return 'Disponibilités'
-        case 'frequence_granularite':
-          return 'Fréquence par'
-        case 'frequence':
-          return 'Fréquence volume'
+        case 'commitment__duration':
+          return "Fréquence d'engagement"
+        case 'commitment__time_period':
+          return "Durée d'engagement"
+        case 'publics_volontaires':
+          return 'Publics Volontaires'
         default:
           return name
       }

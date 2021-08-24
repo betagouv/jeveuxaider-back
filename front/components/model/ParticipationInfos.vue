@@ -158,9 +158,20 @@
       <div class="mb-2 flex">
         <div class="card-label">Fréquence</div>
         <div class="text-gray-900 flex-1">
-          <template v-if="participation.profile.frequence">
-            {{ participation.profile.frequence }}
-            {{ participation.profile.frequence_granularite }}
+          <template v-if="participation.profile.commitment__duration">
+            {{
+              participation.profile.commitment__duration
+                | labelFromValue('duration')
+            }}
+            <template v-if="participation.profile.commitment__time_period">
+              <span>par</span>
+              <span>
+                {{
+                  participation.profile.commitment__time_period
+                    | labelFromValue('time_period')
+                }}
+              </span>
+            </template>
           </template>
           <template v-else> N/A </template>
         </div>
