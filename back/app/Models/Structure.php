@@ -352,7 +352,7 @@ class Structure extends Model implements HasMedia
 
         return $this;
     }
-    
+
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations->avg('response_time');
@@ -450,5 +450,28 @@ class Structure extends Model implements HasMedia
     public function canBeSendToApiEngagement()
     {
         return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A';
+    }
+
+    public function getCompletionRateAttribute()
+    {
+        $fields = [
+            'rna',
+            'logo',
+            'email',
+            'phone',
+            'website',
+            'facebook',
+            'twitter',
+            'instagram'
+        ];
+        $filled = 0;
+
+        foreach ($fields as $field) {
+            if ($this->$field) {
+                $filled++;
+            }
+        }
+
+        return round($filled / count($fields) * 100);
     }
 }

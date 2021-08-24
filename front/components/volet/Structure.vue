@@ -185,6 +185,14 @@
           </template>
           <template v-else> N/A </template>
         </VoletRowItem>
+
+        <VoletRowItem label="Complétion" slot-classes="m-auto">
+          <el-progress
+            :percentage="structure.completion_rate"
+            :show-text="false"
+            style="max-width: 130px"
+          />
+        </VoletRowItem>
       </VoletCard>
 
       <!-- RESPONSABLE -->

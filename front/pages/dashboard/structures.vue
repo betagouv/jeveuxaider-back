@@ -204,6 +204,7 @@ export default {
     const { data } = await this.$api.fetchStructures({
       ...this.query,
       include: 'missionsCount',
+      append: 'completion_rate',
     })
     this.tableData = data.data
     this.totalRows = data.total

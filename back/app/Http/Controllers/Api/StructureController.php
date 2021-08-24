@@ -42,7 +42,10 @@ class StructureController extends Controller
                 AllowedFilter::custom('search', new FiltersStructureSearch),
             ])
             ->allowedIncludes([
-                'missions', 
+                'missions'
+            ])
+            ->allowedAppends([
+                'completion_rate',
             ])
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -167,15 +170,14 @@ class StructureController extends Controller
 
     public function delete(StructureDeleteRequest $request, Structure $structure)
     {
-        if ($structure->missions()->exists())
-        {
+        if ($structure->missions()->exists()) {
             return response()->json(['errors'=> [
                 'password' => [
                     "L'organisation ne peut pas être supprimée car elle a des missions liées.",
                 ]
             ]], 400);
         }
-        
+
         return (string) $structure->delete();
     }
 
@@ -314,7 +316,7 @@ class StructureController extends Controller
         }
 
         return [
-            'structure_name' => $structure->name, 
+            'structure_name' => $structure->name,
             'responsable_fullname' => $structure->responsables->first()->full_name
         ];
     }
