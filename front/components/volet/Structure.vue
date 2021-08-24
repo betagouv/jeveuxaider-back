@@ -187,11 +187,21 @@
         </VoletRowItem>
 
         <VoletRowItem label="Complétion" slot-classes="m-auto">
-          <el-progress
-            :percentage="structure.completion_rate"
-            :show-text="false"
-            style="max-width: 130px"
-          />
+          <div
+            v-tooltip="{
+              content: tooltipCompletionRate,
+              classes: 'bo-style',
+            }"
+            class="flex items-center py-1 cursor-pointer"
+          >
+            <el-progress
+              :percentage="structure.completion_rate.score"
+              :show-text="false"
+              style="width: 100%"
+            />
+
+            <i class="el-icon-info text-primary ml-2" />
+          </div>
         </VoletRowItem>
       </VoletCard>
 
@@ -247,6 +257,18 @@ export default {
       return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
         (item) => item.value != 'Désinscrite'
       )
+    },
+    tooltipCompletionRate() {
+      let output = `<b>Complétion :</b> ${this.structure.completion_rate.score}%`
+      if (this.structure.completion_rate.missing_fields.length > 0) {
+        output += `<br /><b>Champ(s) manquant(s) :</b> ${this.structure.completion_rate.missing_fields
+          .map(function (field) {
+            return field.label
+          })
+          .join(', ')}`
+      }
+
+      return output
     },
   },
   watch: {

@@ -106,11 +106,21 @@
       </el-table-column>
       <el-table-column label="Taux de complétion" width="200">
         <template slot-scope="scope">
-          <el-progress
-            :percentage="scope.row.completion_rate"
-            :show-text="false"
-            style="max-width: 130px"
-          />
+          <div
+            v-tooltip="{
+              content: tooltipCompletionRate(scope.row.completion_rate),
+              classes: 'bo-style',
+            }"
+            class="flex items-center py-1 cursor-pointer"
+          >
+            <el-progress
+              :percentage="scope.row.completion_rate.score"
+              :show-text="false"
+              style="max-width: 130px; width: 100%"
+            />
+
+            <i class="el-icon-info text-primary ml-2" />
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Modifiée le" width="200">
@@ -179,6 +189,19 @@ export default {
   watch: {
     '$route.query': '$fetch',
   },
-  methods: {},
+  methods: {
+    tooltipCompletionRate(completionRate) {
+      let output = `<b>Complétion :</b> ${completionRate.score}%`
+      if (completionRate.missing_fields.length > 0) {
+        output += `<br /><b>Champ(s) manquant(s) :</b> ${completionRate.missing_fields
+          .map(function (field) {
+            return field.label
+          })
+          .join(', ')}`
+      }
+
+      return output
+    },
+  },
 }
 </script>

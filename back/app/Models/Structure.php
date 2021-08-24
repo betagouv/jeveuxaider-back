@@ -455,23 +455,29 @@ class Structure extends Model implements HasMedia
     public function getCompletionRateAttribute()
     {
         $fields = [
-            'rna',
-            'logo',
-            'email',
-            'phone',
-            'website',
-            'facebook',
-            'twitter',
-            'instagram'
+            ['name' => 'rna', 'label' => 'RNA'],
+            ['name' => 'logo', 'label' => 'Logo'],
+            ['name' => 'email', 'label' => "E-mail public de l'organisation"],
+            ['name' => 'phone', 'label' => "Téléphone de l'organisation"],
+            ['name' => 'website', 'label' => "Site de l'organisation"],
+            ['name' => 'facebook', 'label' => "Page Facebook"],
+            ['name' => 'twitter', 'label' => "Page Twitter"],
+            ['name' => 'instagram', 'label' => "Profil Instagram"],
         ];
-        $filled = 0;
+        $existingFieldsCount = 0;
+        $missingFields = [];
 
         foreach ($fields as $field) {
-            if ($this->$field) {
-                $filled++;
+            if ($this->{$field['name']}) {
+                $existingFieldsCount++;
+            } else {
+                $missingFields[] = $field;
             }
         }
 
-        return round($filled / count($fields) * 100);
+        return [
+            'score' => round($existingFieldsCount / count($fields) * 100),
+            'missing_fields' => $missingFields
+        ];
     }
 }
