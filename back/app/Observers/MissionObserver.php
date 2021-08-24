@@ -97,9 +97,6 @@ class MissionObserver
                     break;
                 case 'Terminée':
                     if ($mission->responsable) {
-                        foreach ($mission->participations->whereIn("state", ["Validée"]) as $participation) {
-                            $participation->update(['state' => 'Effectuée']);
-                        }
                         foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }

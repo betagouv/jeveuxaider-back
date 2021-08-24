@@ -55,17 +55,12 @@ class MissionsCloseByTemplate extends Command
             $queryMissions->update(['state' => 'Terminée']);
 
             foreach ($missions as $mission) {
-                $queryValidatedParticipations = $mission->participations()->where('state', 'Validée');
                 $queryPendingParticipations = $mission->participations()->where('state', 'En attente de validation');
 
                 // Without triggering observers, no notification sent.
-                $queryValidatedParticipations->update(['state' => 'Effectuée']);
                 $queryPendingParticipations->update(['state' => 'Annulée']);
 
                 // With observers, notifications are sent.
-                // foreach ($queryValidatedParticipations->get() as $participation) {
-                //     $participation->update(['state' => 'Effectuée']);
-                // }
                 // foreach ($queryPendingParticipations->get() as $participation) {
                 //     $participation->update(['state' => 'Annulée']);
                 // }

@@ -380,7 +380,7 @@ export default {
         }
 
         if (this.form.state == 'Terminée') {
-          message = `Les participations en attente de validation seront automatiquement déclinées et celles validées passeront au statut mission effectuée.<br><br>Les bénévoles seront notifiés de ces modifications.<br><br> Êtes vous sûr de vouloir continuer ?`
+          message = `Les participations en attente de validation seront automatiquement déclinées. Êtes vous sûr de vouloir continuer ?`
         }
 
         if (this.form.state == 'Signalée') {

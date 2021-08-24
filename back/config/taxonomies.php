@@ -499,7 +499,6 @@ return [
             "En attente de validation" => "En attente de validation",
             "Validée" => "Validée",
             "Refusée" => "Refusée",
-            "Effectuée" => "Effectuée",
             "Annulée" => "Annulée"
         ]
     ],

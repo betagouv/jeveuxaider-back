@@ -23,9 +23,6 @@
           <template v-if="state.value == 'Annulée'"
             >Annuler la participation</template
           >
-          <template v-if="state.value == 'Effectuée'"
-            >Terminer la mission</template
-          >
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -128,9 +125,6 @@ export default {
       }
       if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le bénévole sera notifié de ce changement.`
-      }
-      if (state == 'Effectuée') {
-        this.message = `Le réserviste a terminé la mission. Il sera notifié de ce changement.`
       }
       if (state == 'Annulée') {
         this.message = `Vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le réserviste sera averti automatiquement.`

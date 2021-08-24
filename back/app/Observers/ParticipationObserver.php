@@ -72,7 +72,7 @@ class ParticipationObserver
             }
         }
 
-        // Maj Sendinblue : Le nombre de participation effectuées / validées peut avoir changé
+        // Maj Sendinblue : Le nombre de participations validées peut avoir changé
         if (config('app.env') === 'production') {
             if ($oldState != $newState) {
                 SendinblueSyncUser::dispatch($participation->profile->user);

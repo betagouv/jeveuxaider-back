@@ -115,8 +115,6 @@ export default {
           return 'text-orange-400 font-semibold'
         case 'Validée':
           return 'text-green-800 font-semibold'
-        case 'Effectuée':
-          return 'text-green-600 font-semibold'
         default:
           return 'text-gray-500'
       }

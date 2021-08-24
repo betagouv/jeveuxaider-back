@@ -32,12 +32,6 @@
             </div>
           </div>
           <div class="mr-6 mt-6">
-            <div class="text-gray-500 text-sm">Effectuées</div>
-            <div class>
-              {{ data.done | formatNumber }}
-            </div>
-          </div>
-          <div class="mr-6 mt-6">
             <div class="text-gray-500 text-sm">Annulées</div>
             <div class>
               {{ data.canceled | formatNumber }}

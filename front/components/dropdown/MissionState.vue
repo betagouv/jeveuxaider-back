@@ -161,7 +161,7 @@ export default {
       }
 
       if (state == 'Terminée') {
-        this.message = `Les participations en attente de validation seront automatiquement déclinées et celles validées passeront au statut mission effectuée.<br><br>Les bénévoles seront notifiés de ces modifications.<br><br> Êtes vous sûr de vouloir continuer ?`
+        this.message = `Les participations en attente de validation seront automatiquement déclinées.<br><br> Êtes vous sûr de vouloir continuer ?`
       }
 
       if (state == 'Annulée') {
