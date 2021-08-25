@@ -2,7 +2,7 @@
   <Volet :title="row.name" :link="`/dashboard/mission/${row.id}`">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
-      <div class="flex flex-wrap space-x-2">
+      <div class="flex flex-wrap gap-2">
         <template v-if="showAskValidation">
           <el-button
             type="primary"

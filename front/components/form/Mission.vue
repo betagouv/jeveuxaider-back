@@ -558,7 +558,11 @@
         </div>
 
         <el-button
-          v-if="form.template_id && ['Brouillon'].includes(form.state)"
+          v-if="
+            form.template_id &&
+            ['Brouillon'].includes(form.state) &&
+            $store.getters.user.context_role != 'admin'
+          "
           type="success"
           :loading="loading"
           class="el-button--submit"

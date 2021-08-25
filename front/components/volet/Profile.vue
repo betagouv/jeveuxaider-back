@@ -8,7 +8,7 @@
         <!-- ACTIONS -->
         <div
           v-if="$store.getters.contextRole == 'admin'"
-          class="flex flex-wrap space-x-2"
+          class="flex flex-wrap gap-2"
         >
           <nuxt-link :to="`/dashboard/profile/${profile.id}/edit`">
             <el-button

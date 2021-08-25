@@ -2,7 +2,7 @@
   <Volet :title="row.name" :link="`/dashboard/structure/${row.id}`">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
-      <div class="flex flex-wrap space-x-2">
+      <div class="flex flex-wrap gap-2">
         <nuxt-link :to="`/dashboard/structure/${row.id}/edit`">
           <el-button
             v-tooltip="{
