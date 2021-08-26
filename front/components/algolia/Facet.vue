@@ -194,8 +194,8 @@ export default {
     }
     &.is-checked {
       .el-checkbox__inner {
-        background-color: #e6eaf5;
-        border-color: #e6eaf5;
+        background-color: #e6eaf5 !important;
+        border-color: #e6eaf5 !important;
       }
     }
   }

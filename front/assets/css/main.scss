@@ -123,6 +123,7 @@ p:not(:last-child) {
 
 .el-table__row {
   cursor: pointer;
+  height: 72px; // Acts like min-height
 }
 
 .el-badge__content {
