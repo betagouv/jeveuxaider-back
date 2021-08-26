@@ -45,32 +45,14 @@
               <div
                 v-for="domain in mission.domaines"
                 :key="domain.id"
-                class="
-                  flex-shrink-0
-                  inline-block
-                  px-2
-                  py-0.5
-                  text-gray-800 text-xs
-                  font-medium
-                  bg-gray-100
-                  rounded-full
-                "
+                class="flex-shrink-0 inline-block px-2 py-0.5 text-gray-800 text-xs font-medium bg-gray-100 rounded-full"
               >
                 {{ domain.name.fr }}
               </div>
             </div>
             <div
               v-if="mission.type == 'Mission en présentiel'"
-              class="
-                flex-shrink-0
-                inline-block
-                px-2
-                py-0.5
-                text-gray-800 text-xs
-                font-medium
-                bg-gray-100
-                rounded-full
-              "
+              class="flex-shrink-0 inline-block px-2 py-0.5 text-gray-800 text-xs font-medium bg-gray-100 rounded-full"
             >
               {{ mission.department | labelFromValue('departments') }}
             </div>
@@ -128,13 +110,7 @@
         />
       </div>
       <ul
-        class="
-          grid grid-cols-1
-          gap-6
-          xs:grid-cols-2
-          lg:grid-cols-2
-          xl:grid-cols-3
-        "
+        class="grid grid-cols-1 gap-6 xs:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
       >
         <li
           v-for="item in tableData"
@@ -152,16 +128,7 @@
                   {{ item.first_name }} {{ item.last_name[0] }}.
                 </h3>
                 <div
-                  class="
-                    flex-shrink-0
-                    inline-block
-                    px-2
-                    py-0.5
-                    text-green-800 text-xs
-                    font-medium
-                    bg-green-100
-                    rounded-full
-                  "
+                  class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
                 >
                   <template v-if="item.commitment__duration">
                     <span>
@@ -205,13 +172,7 @@
                 <template slot="after" slot-scope="{ clamped, toggle }">
                   <span
                     v-if="clamped"
-                    class="
-                      ml-1
-                      cursor-pointer
-                      uppercase
-                      font-bold
-                      text-xs text-gray-800
-                    "
+                    class="ml-1 cursor-pointer uppercase font-bold text-xs text-gray-800"
                     @click="toggle"
                     >Voir plus</span
                   >

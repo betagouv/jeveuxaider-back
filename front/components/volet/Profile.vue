@@ -244,30 +244,5 @@ export default {
       },
     },
   },
-  methods: {
-    onSubmit() {
-      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
-        confirmButtonText: 'Je confirme',
-        cancelButtonText: 'Annuler',
-        dangerouslyUseHTMLString: true,
-        center: true,
-        type: 'warning',
-      }).then(() => {
-        this.loading = true
-        this.$api
-          .updateProfile(this.form.id, this.form)
-          .then((response) => {
-            this.loading = false
-            this.$message.success({
-              message: 'Le profil a été mis à jour',
-            })
-            this.$emit('updated', response)
-          })
-          .catch(() => {
-            this.loading = false
-          })
-      })
-    },
-  },
 }
 </script>

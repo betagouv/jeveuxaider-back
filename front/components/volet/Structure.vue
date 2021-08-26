@@ -30,7 +30,7 @@
         </el-button>
       </div>
 
-      <!-- LIGNE -->
+      <!-- PAGE ORGANISATION -->
       <VoletCard
         v-if="structure && structure.statut_juridique == 'Association'"
       >
@@ -321,34 +321,9 @@ export default {
             })
             this.$emit('deleted', this.row)
             this.$store.commit('volet/hide')
-            // this.$store.commit('volet/setRow', null)
           })
         })
       }
-    },
-    onSubmit() {
-      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
-        confirmButtonText: 'Je confirme',
-        cancelButtonText: 'Annuler',
-        dangerouslyUseHTMLString: true,
-        center: true,
-        type: 'warning',
-      }).then(() => {
-        this.loading = true
-        this.$api
-          .updateStructure(this.form.id, this.form)
-          .then((response) => {
-            this.loading = false
-            this.$message.success({
-              message: "L'organisation a été mise à jour",
-            })
-            this.$emit('updated', response.data)
-          })
-          .catch((error) => {
-            this.loading = false
-            this.errors = error.response.data.errors
-          })
-      })
     },
   },
 }

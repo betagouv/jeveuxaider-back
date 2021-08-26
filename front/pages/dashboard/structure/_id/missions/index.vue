@@ -182,7 +182,7 @@
       </div>
     </div>
     <portal to="volet">
-      <VoletMission @deleted="onDeletedRow" />
+      <VoletMission @deleted="onDeletedRow" @updated="onUpdatedRow" />
     </portal>
   </div>
 </template>

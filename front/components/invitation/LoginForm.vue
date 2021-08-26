@@ -24,15 +24,7 @@
           <div class="text-sm leading-5">
             <nuxt-link
               to="/password-reset"
-              class="
-                font-medium
-                text-blue-800
-                hover:text-blue-900
-                focus:underline
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="font-medium text-blue-800 hover:text-blue-900 focus:underline transition ease-in-out duration-150"
             >
               Mot de passe perdu ?
             </nuxt-link>
@@ -42,26 +34,7 @@
     </el-form>
     <div class="mt-4">
       <button
-        class="
-          w-full
-          flex
-          justify-center
-          py-3
-          px-4
-          border border-transparent
-          rounded-lg
-          shadow-lg
-          text-lg
-          font-bold
-          text-white
-          bg-blue-800
-          hover:shadow-lg
-          hover:scale-105
-          transform
-          transition
-          duration-150
-          ease-in-out
-        "
+        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-blue-800 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
         @click="onSubmit"
       >
         J'accepte l'invitation
