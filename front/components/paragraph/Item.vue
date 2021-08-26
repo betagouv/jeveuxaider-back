@@ -82,7 +82,7 @@ export default {
     onInput() {
       this.$refs[`paragraph-fields-item-form`].validate((valid) => {
         if (!valid) {
-          console.log('NOT VALID FORM ROW')
+          // console.log('NOT VALID FORM ROW')
         }
         this.$emit('update', this.form)
       })

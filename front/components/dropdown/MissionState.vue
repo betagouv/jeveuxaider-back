@@ -161,7 +161,7 @@ export default {
       }
 
       if (state == 'Terminée') {
-        this.message = `Les participations en attente de validation seront automatiquement déclinées et celles validées passeront au statut mission effectuée.<br><br>Les bénévoles seront notifiés de ces modifications.<br><br> Êtes vous sûr de vouloir continuer ?`
+        this.message = `Les participations en attente de validation seront automatiquement déclinées.<br><br> Êtes vous sûr de vouloir continuer ?`
       }
 
       if (state == 'Annulée') {
@@ -183,9 +183,14 @@ export default {
           this.$api
             .updateMission(this.form.id, this.form)
             .then((response) => {
-              this.$message.success({
-                message: 'Le statut de la mission a été mis à jour',
-              })
+              let message = 'Le statut de la mission a été mis à jour'
+              if (
+                response.data.state == 'Validée' &&
+                this.form.structure.state == 'En attente de validation'
+              ) {
+                message = `La mission vient d'être validée.\nAttention, l'organisation qui propose cette mission est toujours en attente de validation`
+              }
+              this.$message.success({ message })
               this.$emit('updated', response.data)
               this.loading = false
             })

@@ -6,6 +6,7 @@ use App\Jobs\SendinblueSyncUser;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
+use App\Models\User;
 use App\Notifications\TerritoireWaitingValidation;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
@@ -91,7 +92,17 @@ class StructureObserver
                     }
                     break;
                 case 'Désinscrite':
+
+                    $members = $structure->members;
+
                     $structure->members()->detach();
+
+                    foreach($members as $member){
+                        $user = User::find($member->user->id);
+                        $user->context_role = null;
+                        $user->save();
+                    }
+
                     if ($structure->missions) {
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
                             $mission->update(['state' => 'Annulée']);

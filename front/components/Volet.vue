@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="component--volet">
     <div class="flex justify-between items-start mb-6">
       <template v-if="link">
         <router-link
@@ -13,15 +13,7 @@
       </template>
 
       <i
-        class="
-          el-icon-close
-          cursor-pointer
-          text-xl
-          font-semibold
-          mt-1
-          text-gray-400
-          hover:text-gray-900
-        "
+        class="el-icon-close cursor-pointer text-xl font-semibold mt-1 text-gray-400 hover:text-gray-900"
         @click="handleCloseVolet"
       />
     </div>

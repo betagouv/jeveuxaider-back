@@ -71,23 +71,35 @@ class Territoire extends Model implements HasMedia
 
     public function getCompletionRateAttribute()
     {
-        $fields = ['banner', 'suffix_title', 'department', 'tags', 'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
-        $filled = 0;
-
-        foreach ($fields as $field) {
-            if ($this->$field) {
-                $filled++;
-            }
-        }
+        $fields = [
+            ['name' => 'banner', 'label' => 'Bannière'],
+            ['name' => 'suffix_title', 'label' => 'Suffix du titre'],
+            ['name' => 'department', 'label' => "Département"],
+            ['name' => 'tags', 'label' => "Tags"],
+            ['name' => 'seo_recruit_title', 'label' => "Titre pour le recrutement"],
+            ['name' => 'seo_recruit_description', 'label' => "Description pour le recrutement"],
+            ['name' => 'seo_engage_title', 'label' => "Titre pour l'engagement"],
+            ['name' => 'seo_engage_paragraphs', 'label' => "Description pour l'engagement"],
+        ];
+        $existingFieldsCount = 0;
+        $missingFields = [];
 
         if ($this->type == 'city') {
-            array_push($fields, 'logo');
-            if ($this->logo) {
-                $filled++;
+            $fields[] = ['name' => 'logo', 'label' => "Logo"];
+        }
+
+        foreach ($fields as $field) {
+            if ($this->{$field['name']}) {
+                $existingFieldsCount++;
+            } else {
+                $missingFields[] = $field;
             }
         }
 
-        return round($filled / count($fields) * 100);
+        return [
+            'score' => round($existingFieldsCount / count($fields) * 100),
+            'missing_fields' => $missingFields
+        ];
     }
 
     protected function getMediaUrls($field)

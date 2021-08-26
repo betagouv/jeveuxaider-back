@@ -657,3 +657,11 @@ input {
 .el-form--label-top .el-form-item__label {
   line-height: 1 !important;
 }
+
+#dashboard-layout {
+  .component--volet {
+    .el-button + .el-button {
+      margin-left: 0;
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <Volet :title="row.name" :link="`/dashboard/structure/${row.id}`">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
-      <div class="flex flex-wrap space-x-2">
+      <div class="flex flex-wrap gap-2">
         <nuxt-link :to="`/dashboard/structure/${row.id}/edit`">
           <el-button
             v-tooltip="{
@@ -30,7 +30,7 @@
         </el-button>
       </div>
 
-      <!-- LIGNE -->
+      <!-- PAGE ORGANISATION -->
       <VoletCard
         v-if="structure && structure.statut_juridique == 'Association'"
       >
@@ -185,6 +185,24 @@
           </template>
           <template v-else> N/A </template>
         </VoletRowItem>
+
+        <VoletRowItem label="Complétion" slot-classes="m-auto">
+          <div
+            v-tooltip="{
+              content: tooltipCompletionRate,
+              classes: 'bo-style',
+            }"
+            class="flex items-center py-1 cursor-pointer"
+          >
+            <el-progress
+              :percentage="structure.completion_rate.score"
+              :show-text="false"
+              style="width: 100%"
+            />
+
+            <i class="el-icon-info text-primary ml-2" />
+          </div>
+        </VoletRowItem>
       </VoletCard>
 
       <!-- RESPONSABLE -->
@@ -240,6 +258,18 @@ export default {
         (item) => item.value != 'Désinscrite'
       )
     },
+    tooltipCompletionRate() {
+      let output = `<b>Complétion :</b> ${this.structure.completion_rate.score}%`
+      if (this.structure.completion_rate.missing_fields.length > 0) {
+        output += `<br /><b>Champ(s) manquant(s) :</b> ${this.structure.completion_rate.missing_fields
+          .map(function (field) {
+            return field.label
+          })
+          .join(', ')}`
+      }
+
+      return output
+    },
   },
   watch: {
     row: {
@@ -291,34 +321,9 @@ export default {
             })
             this.$emit('deleted', this.row)
             this.$store.commit('volet/hide')
-            // this.$store.commit('volet/setRow', null)
           })
         })
       }
-    },
-    onSubmit() {
-      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
-        confirmButtonText: 'Je confirme',
-        cancelButtonText: 'Annuler',
-        dangerouslyUseHTMLString: true,
-        center: true,
-        type: 'warning',
-      }).then(() => {
-        this.loading = true
-        this.$api
-          .updateStructure(this.form.id, this.form)
-          .then((response) => {
-            this.loading = false
-            this.$message.success({
-              message: "L'organisation a été mise à jour",
-            })
-            this.$emit('updated', response.data)
-          })
-          .catch((error) => {
-            this.loading = false
-            this.errors = error.response.data.errors
-          })
-      })
     },
   },
 }

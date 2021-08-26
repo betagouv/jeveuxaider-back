@@ -44,9 +44,6 @@
     <el-tag v-if="state == 'Annulée'" type="info" :size="size" class="m-1">
       Annulée
     </el-tag>
-    <el-tag v-if="state == 'Effectuée'" type="" :size="size" class="m-1">
-      Effectuée
-    </el-tag>
     <el-tag v-if="state == 'Signalée'" type="danger" :size="size" class="m-1">
       Signalée
     </el-tag>

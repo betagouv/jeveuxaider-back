@@ -44,7 +44,6 @@
             'text-orange-400':
               participation.state == 'En attente de validation',
             'text-green-800': participation.state == 'Validée',
-            'text-green-600': participation.state == 'Effectuée',
             'text-[#f56565]': participation.state == 'Refusée',
           }"
           >{{ participation.state | lowercase }}</span

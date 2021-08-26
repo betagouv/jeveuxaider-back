@@ -241,9 +241,9 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.loginForm.validate((valid, fields) => {
+      this.$refs.loginForm.validate(async (valid, fields) => {
         if (valid) {
-          this.$store.dispatch('auth/login', {
+          await this.$store.dispatch('auth/login', {
             email: this.form.email,
             password: this.form.password,
           })

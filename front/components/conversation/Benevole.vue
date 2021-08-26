@@ -81,11 +81,18 @@
           }}
         </div>
       </div>
-      <div v-if="profile.frequence" class="mb-2 flex">
-        <div class="text-gray-500 w-24 text-sm mr-1">Durée</div>
+      <div v-if="profile.commitment__duration" class="mb-2 flex">
+        <div class="text-gray-500 w-24 text-sm mr-1">Fréquence</div>
         <div class="text-gray-900 flex-1">
-          {{ profile.frequence }} par
-          {{ profile.frequence_granularite }}
+          {{ profile.commitment__duration | labelFromValue('duration') }}
+          <template v-if="profile.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                profile.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
         </div>
       </div>
       <div v-if="profile.description" class="mb-2 flex">

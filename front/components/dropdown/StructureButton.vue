@@ -26,7 +26,11 @@
       >
         Envoyer à l'API Engagement
       </el-dropdown-item>
-      <el-dropdown-item :command="{ action: 'delete' }" divided>
+      <el-dropdown-item
+        v-if="$store.getters.contextRole == 'admin'"
+        :command="{ action: 'delete' }"
+        divided
+      >
         Supprimer l'organisation
       </el-dropdown-item>
     </el-dropdown-menu>
@@ -63,7 +67,6 @@ export default {
       const res = await this.$api.sendStructureToApiEngagement(
         this.structure.id
       )
-      console.log(res)
       if (res) {
         this.$message.success({
           message: `L'organisation ${this.structure.name} a été envoyée à l'API Engagement.`,

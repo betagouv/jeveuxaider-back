@@ -661,14 +661,14 @@ export default {
           center: true,
           type: 'error',
         }
-      ).then(() => {
+      ).then(async () => {
         this.form.state = 'Désinscrite'
-        this.$api.updateStructure(this.form.id, this.form).then(() => {
-          this.$message.success({
-            message: `Votre organisation ${this.form.name} a bien été supprimée.`,
-          })
-          this.$router.push('/')
+        await this.$api.updateStructure(this.form.id, this.form)
+        await this.$store.dispatch('auth/fetchUser')
+        this.$message.success({
+          message: `Votre organisation ${this.form.name} a bien été supprimée.`,
         })
+        this.$router.push('/')
       })
     },
     uploadImages() {

@@ -281,7 +281,6 @@ export default {
           this.$api
             .updateStructure(this.structureId, this.form)
             .then(async (res) => {
-              console.log('res', res)
               this.loading = false
               await this.$store.dispatch('auth/fetchUser')
               window.plausible &&

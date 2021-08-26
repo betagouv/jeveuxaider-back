@@ -198,8 +198,6 @@ export default {
             return 'text-orange-400'
           case 'Validée':
             return 'text-[#16a972]'
-          case 'Effectuée':
-            return 'text-green-600'
           default:
             return ''
         }

@@ -8,7 +8,7 @@
         <!-- ACTIONS -->
         <div
           v-if="$store.getters.contextRole == 'admin'"
-          class="flex flex-wrap space-x-2"
+          class="flex flex-wrap gap-2"
         >
           <nuxt-link :to="`/dashboard/profile/${profile.id}/edit`">
             <el-button
@@ -36,12 +36,6 @@
               profile.full_name
             }}</span></VoletRowItem
           >
-          <VoletRowItem label="Rôle(s)">
-            <template v-if="profile.roles">
-              <TagProfileRoles :profile="profile" size="mini" />
-            </template>
-            <template v-else> N/A </template>
-          </VoletRowItem>
           <VoletRowItem label="Type">
             <template v-if="profile.type">
               {{ profile.type | labelFromValue('profile_types') }}
@@ -112,6 +106,17 @@
                 }}
               </span>
             </template>
+          </VoletRowItem>
+          <VoletRowItem label="Motivation">
+            <template v-if="profile.description">
+              <ReadMore
+                more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+                more-str="Lire plus"
+                :text="profile.description"
+                :max-chars="120"
+              ></ReadMore>
+            </template>
+            <template v-else> N/A </template>
           </VoletRowItem>
           <VoletRowItem label="Crée le">{{
             profile.created_at | formatMediumWithTime
@@ -237,31 +242,6 @@ export default {
         this.form = { ...newValue }
         this.profile = await this.$api.getProfile(this.form.id)
       },
-    },
-  },
-  methods: {
-    onSubmit() {
-      this.$confirm('Êtes vous sur de vos changements ?<br>', 'Confirmation', {
-        confirmButtonText: 'Je confirme',
-        cancelButtonText: 'Annuler',
-        dangerouslyUseHTMLString: true,
-        center: true,
-        type: 'warning',
-      }).then(() => {
-        this.loading = true
-        this.$api
-          .updateProfile(this.form.id, this.form)
-          .then((response) => {
-            this.loading = false
-            this.$message.success({
-              message: 'Le profil a été mis à jour',
-            })
-            this.$emit('updated', response)
-          })
-          .catch(() => {
-            this.loading = false
-          })
-      })
     },
   },
 }

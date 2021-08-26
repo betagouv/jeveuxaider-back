@@ -352,7 +352,7 @@ class Structure extends Model implements HasMedia
 
         return $this;
     }
-    
+
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations->avg('response_time');
@@ -450,5 +450,34 @@ class Structure extends Model implements HasMedia
     public function canBeSendToApiEngagement()
     {
         return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A';
+    }
+
+    public function getCompletionRateAttribute()
+    {
+        $fields = [
+            ['name' => 'rna', 'label' => 'RNA'],
+            ['name' => 'logo', 'label' => 'Logo'],
+            ['name' => 'email', 'label' => "E-mail public de l'organisation"],
+            ['name' => 'phone', 'label' => "Téléphone de l'organisation"],
+            ['name' => 'website', 'label' => "Site de l'organisation"],
+            ['name' => 'facebook', 'label' => "Page Facebook"],
+            ['name' => 'twitter', 'label' => "Page Twitter"],
+            ['name' => 'instagram', 'label' => "Profil Instagram"],
+        ];
+        $existingFieldsCount = 0;
+        $missingFields = [];
+
+        foreach ($fields as $field) {
+            if ($this->{$field['name']}) {
+                $existingFieldsCount++;
+            } else {
+                $missingFields[] = $field;
+            }
+        }
+
+        return [
+            'score' => round($existingFieldsCount / count($fields) * 100),
+            'missing_fields' => $missingFields
+        ];
     }
 }

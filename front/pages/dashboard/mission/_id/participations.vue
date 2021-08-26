@@ -218,36 +218,6 @@ export default {
           console.log('exportParticipations', error)
         })
     },
-    // onMassValidation() {
-    //   this.$confirm(
-    //     'Vous êtes sur le point de valider toutes les participations actuellement en attente de validation (' +
-    //       this.$store.getters.reminders.participations +
-    //       ').<br><br>Êtes-vous sûr de vouloir continuer ?',
-    //     'Validation massive',
-    //     {
-    //       confirmButtonText: 'Oui, je confirme',
-    //       cancelButtonText: 'Annuler',
-    //       dangerouslyUseHTMLString: true,
-    //       // center: true,
-    //       // type: 'warning',
-    //     }
-    //   ).then(() => {
-    //     this.loadingButton = true
-    //     this.$api
-    //       .massValidationParticipation()
-    //       .then(() => {
-    //         this.loadingButton = false
-    //         this.$store.dispatch('reminders')
-    //         this.$message.success({
-    //           message: 'Les participations ont été mises à jour',
-    //         })
-    //         this.$fetch()
-    //       })
-    //       .catch(() => {
-    //         this.loadingButton = false
-    //       })
-    //   })
-    // },
   },
 }
 </script>

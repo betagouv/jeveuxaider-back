@@ -300,12 +300,12 @@ return [
     'mission_publics_beneficiaires' => [
         "vocabulary" => "Publics bénéficiaires",
         "terms" => [
-            "Personnes âgées" => "Personnes âgées",
-            "Personnes en situation de handicap" => "Personnes en situation de handicap",
-            "Personnes à la rue" => "Personnes en difficulté",
-            "Parents" => "Parents",
-            "jeunes_enfants" => "Jeunes / enfants",
-            "Tous publics" => "Tous publics"
+            "seniors" => "Personnes âgées",
+            "persons_with_disabilities" => "Personnes en situation de handicap",
+            "people_in_difficulty" => "Personnes en difficulté",
+            "parents" => "Parents",
+            "children" => "Jeunes / enfants",
+            "any_public" => "Tous publics"
         ]
     ],
 
@@ -499,7 +499,6 @@ return [
             "En attente de validation" => "En attente de validation",
             "Validée" => "Validée",
             "Refusée" => "Refusée",
-            "Effectuée" => "Effectuée",
             "Annulée" => "Annulée"
         ]
     ],
@@ -523,7 +522,7 @@ return [
             "other" => "Autres.",
         ]
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | TAGS TYPES
@@ -771,7 +770,7 @@ return [
         "terms" => [
             "1_hour" => "1 heure",
             "2_hours" => "2 heures",
-            "half_day" => "Une demi journée",
+            "half_day" => "Une demi-journée",
             "day" => "1 jour",
             "3_days" => "3 jours",
             "5_days" => "5 jours",

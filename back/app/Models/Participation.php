@@ -26,7 +26,6 @@ class Participation extends Model
     const ACTIVE_STATUS = [
         'En attente de validation',
         'Validée',
-        'Effectuée'
     ];
 
     protected static $logFillable = true;

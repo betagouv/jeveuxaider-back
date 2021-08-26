@@ -120,7 +120,10 @@
                   :key="key"
                   class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-[#4E4E54] text-white"
                 >
-                  {{ publicBeneficiaire }}
+                  {{
+                    publicBeneficiaire
+                      | labelFromValue('mission_publics_beneficiaires')
+                  }}
                 </div>
               </div>
 
@@ -331,14 +334,6 @@
                       class="text-[#777E90] leading-7"
                     >
                       {{ structure.description }}
-                      <template slot="after" slot-scope="{ clamped, toggle }">
-                        <span
-                          v-if="clamped"
-                          class="hover:underline ml-1 cursor-pointer"
-                          @click="toggle"
-                          >Lire plus</span
-                        >
-                      </template>
                     </v-clamp>
                   </client-only>
 
@@ -386,12 +381,24 @@
               <div class="bg-white py-12">
                 <div class="px-4 text-center">
                   <div class="font-extrabold text-xl">
-                    Ils recherchent
-                    {{ mission.participations_max | formatNumber }}
-                    {{
-                      mission.participations_max
-                        | pluralize(['bénévole', 'bénévoles'])
-                    }}
+                    <template v-if="!mission.has_places_left">
+                      La mission est désormais complète
+                    </template>
+
+                    <template v-else>
+                      <template
+                        v-if="['Terminée', 'Annulée'].includes(mission.state)"
+                      >
+                        Ils recherchaient
+                      </template>
+                      <template v-else> Ils recherchent </template>
+
+                      {{ mission.participations_max | formatNumber }}
+                      {{
+                        mission.participations_max
+                          | pluralize(['bénévole', 'bénévoles'])
+                      }}
+                    </template>
                   </div>
 
                   <template v-if="participationsCount">
@@ -561,10 +568,12 @@ export default {
       }
     }
 
-    // Si mission signalée ou organisation désinscrite / signalée
+    // Si mission signalée ou organisation désinscrite / signalée / en attente de validation
     if (
       ['Signalée'].includes(mission.state) ||
-      ['Désinscrite', 'Signalée'].includes(mission.structure.state)
+      ['Désinscrite', 'Signalée', 'En attente de validation'].includes(
+        mission.structure.state
+      )
     ) {
       if (store.getters.isLogged) {
         // Si on est pas modérateur
@@ -764,36 +773,11 @@ export default {
     }
   },
   methods: {
-    // domainName {
-    //   return mission.domaine && mission.domaine.name && mission.domaine.name.fr
-    //     ? mission.domaine.name.fr
-    //     : mission.template &&
-    //       mission.template.domaine &&
-    //       mission.template.domaine.name &&
-    //       mission.template.domaine.name.fr
-    //     ? mission.template.domaine.name.fr
-    //     : null
-    // },
     iconPublicType(publicType) {
       let icon
       switch (publicType) {
-        case 'Personnes âgées':
-          icon = require('@/assets/images/icones/personnes_agees.svg?include')
-          break
         case 'Personnes en situation de handicap':
           icon = require('@/assets/images/icones/handicap.svg?include')
-          break
-        case 'Personnes à la rue':
-          icon = require('@/assets/images/icones/helping_hand.svg?include')
-          break
-        case 'Parents':
-          icon = require('@/assets/images/icones/parents.svg?include')
-          break
-        case 'Jeunes / enfants':
-          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
-          break
-        case 'Tous publics':
-          icon = require('@/assets/images/icones/tous_public.svg?include')
           break
         case 'Mineurs':
           icon = require('@/assets/images/icones/mineur.svg?include')

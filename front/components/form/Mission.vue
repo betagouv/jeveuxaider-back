@@ -213,6 +213,11 @@
           prop="objectif"
           class="flex-1"
         >
+          <ItemDescription container-class="mb-3">
+            Présentez en quelques mots le contexte dans lequel s'inscrit
+            l'intervention du bénévole (historique et objectifs de la mission).
+          </ItemDescription>
+
           <RichEditor v-model="form.objectif" />
         </el-form-item>
 
@@ -222,6 +227,11 @@
           prop="description"
           class="flex-1"
         >
+          <ItemDescription container-class="mb-3">
+            Décrivez les modalités concrètes de l'intervention du bénévole
+            (rôle, actions à réaliser, modalités d'organisation de la mission).
+          </ItemDescription>
+
           <RichEditor v-model="form.description" />
         </el-form-item>
       </div>
@@ -240,9 +250,10 @@
             v-for="item in $store.getters.taxonomies
               .mission_publics_beneficiaires.terms"
             :key="item.value"
-            :label="item.label"
+            :label="item.value"
             border
-          ></el-checkbox>
+            >{{ item.label }}</el-checkbox
+          >
         </el-checkbox-group>
       </el-form-item>
 
@@ -521,14 +532,17 @@
 
       <div class="flex items-start gap-4 pt-8">
         <div
-          v-if="form.state == 'Brouillon'"
+          v-if="
+            form.state == 'Brouillon' &&
+            $store.getters.user.context_role != 'admin'
+          "
           class="flex flex-col items-center"
         >
           <el-button
             type="secondary"
             :loading="loading"
             class="el-button--submit"
-            @click="onSubmit()"
+            @click="onSubmit('Brouillon')"
           >
             Enregistrer en brouillon
           </el-button>
@@ -544,32 +558,40 @@
         </div>
 
         <el-button
+          v-if="
+            form.template_id &&
+            ['Brouillon'].includes(form.state) &&
+            $store.getters.user.context_role != 'admin'
+          "
           type="success"
           :loading="loading"
           class="el-button--submit"
-          @click="
-            onSubmit(
-              form.state == 'Validée' || form.template_id
-                ? 'Validée'
-                : 'En attente de validation'
-            )
-          "
+          @click="onSubmit('Validée')"
         >
-          <template
-            v-if="
-              !form.template_id &&
-              (!form.state ||
-                ['En attente de validation', 'Brouillon'].includes(form.state))
-            "
-          >
-            Soumettre à validation
-          </template>
-          <template
-            v-else-if="form.template_id && ['Brouillon'].includes(form.state)"
-          >
-            Enregistrer et publier
-          </template>
-          <template v-else> Enregistrer </template>
+          Enregistrer et publier
+        </el-button>
+
+        <el-button
+          v-else-if="
+            ['En attente de validation', 'Brouillon'].includes(form.state) &&
+            $store.getters.user.context_role != 'admin'
+          "
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="onSubmit('En attente de validation')"
+        >
+          Soumettre à validation
+        </el-button>
+
+        <el-button
+          v-else
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="onSubmit()"
+        >
+          Enregistrer
         </el-button>
       </div>
     </el-form>
@@ -725,7 +747,7 @@ export default {
           break
         case 'En attente de validation':
           message =
-            'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
+            'Les modifications ont été enregistrées.\r\nVotre mission sera modérée très prochainement.'
           break
         case 'Validée':
           message = !this.form.id
@@ -790,7 +812,8 @@ export default {
           if (this.mission.id) {
             this.$api
               .updateMission(this.mission.id, { ...this.form, state })
-              .then(() => {
+              .then((updatedMission) => {
+                this.form.state = updatedMission.data.state
                 this.loading = false
                 this.$router.go(-1)
                 this.$message.success({
@@ -803,7 +826,8 @@ export default {
           } else if (this.structureId) {
             this.$api
               .addStructureMission(this.structureId, { ...this.form, state })
-              .then(() => {
+              .then((updatedMission) => {
+                this.form.state = updatedMission.data.state
                 this.loading = false
                 this.$router.push(
                   `/dashboard/structure/${this.structureId}/missions`

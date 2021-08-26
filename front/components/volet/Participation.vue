@@ -129,6 +129,28 @@
           </template>
           <template v-else> N/A </template>
         </VoletRowItem>
+        <VoletRowItem v-if="profile.commitment__duration" label="Engagement">
+          {{ profile.commitment__duration | labelFromValue('duration') }}
+          <template v-if="profile.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                profile.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
+        </VoletRowItem>
+        <VoletRowItem label="Motivation">
+          <template v-if="profile.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-str="Lire plus"
+              :text="profile.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
         <VoletRowItem label="Crée le">{{
           profile.created_at | formatMediumWithTime
         }}</VoletRowItem>
@@ -187,7 +209,16 @@
           v-if="mission.publics_beneficiaires"
           label="Publics bénéf."
         >
-          {{ mission.publics_beneficiaires.join(', ') }}
+          {{
+            mission.publics_beneficiaires
+              .map(function (item) {
+                return $options.filters.labelFromValue(
+                  item,
+                  'mission_publics_beneficiaires'
+                )
+              })
+              .join(', ')
+          }}
         </VoletRowItem>
         <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
           {{ mission.publics_volontaires.join(', ') }}
@@ -321,20 +352,6 @@ export default {
           this.$store.getters.contextRole !== 'responsable')
       )
     },
-    // canChangeState() {
-    //   const state = ['En attente de validation', 'Validée']
-    //   return state.includes(this.row.state) === true
-    // },
-    // statesAvailable() {
-    //   if (this.$store.getters.contextRole == 'responsable') {
-    //     return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
-    //       (item) => item.value != 'Annulée'
-    //     )
-    //   } else {
-    //     return this.$store.getters.taxonomies.participation_workflow_states
-    //       .terms
-    //   }
-    // },
   },
   watch: {
     row: {
@@ -361,61 +378,6 @@ export default {
         )
       },
     },
-  },
-  methods: {
-    // onClickDelete() {
-    //   this.$confirm(
-    //     `La participation sera définitivement supprimée de la plateforme. Voulez-vous continuer ?`,
-    //     'Supprimer la participation',
-    //     {
-    //       confirmButtonText: 'Supprimer',
-    //       confirmButtonClass: 'el-button--danger',
-    //       cancelButtonText: 'Annuler',
-    //       center: true,
-    //       type: 'error',
-    //     }
-    //   ).then(() => {
-    //     this.$api.deleteParticipation(this.row.id).then(() => {
-    //       this.$message.success({
-    //         message: `La participation ${this.row.name} a été supprimée.`,
-    //       })
-    //       this.$emit('deleted', this.row)
-    //       // this.$store.commit('volet/setRow', null)
-    //       this.$store.commit('volet/hide')
-    //     })
-    //   })
-    // },
-    // onSubmit() {
-    //   this.$confirm(
-    //     'Êtes vous sur de vos changements ?<br><br> Une notification sera envoyée au réserviste<br><br>',
-    //     'Confirmation',
-    //     {
-    //       confirmButtonText: 'Je confirme',
-    //       cancelButtonText: 'Annuler',
-    //       dangerouslyUseHTMLString: true,
-    //       center: true,
-    //       type: 'warning',
-    //     }
-    //   ).then(() => {
-    //     this.loading = true
-    //     this.$api
-    //       .updateParticipation(this.form.id, this.form)
-    //       .then((response) => {
-    //         this.loading = false
-    //         this.$message.success({
-    //           message: 'La participation a été mise à jour',
-    //         })
-    //         this.$emit('updated', { ...this.form, ...response.data })
-    //         this.$store.commit('volet/setRow', {
-    //           ...this.row,
-    //           ...response.data,
-    //         })
-    //       })
-    //       .catch(() => {
-    //         this.loading = false
-    //       })
-    //   })
-    // },
   },
 }
 </script>

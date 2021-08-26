@@ -24,7 +24,7 @@
             ? 'bg-[#0e9f6e]'
             : 'bg-[#f56565]'
         "
-        class="rounded-full h-2 w-2 mr-2"
+        class="rounded-full h-2 w-2 mr-2 flex-none"
       ></div>
 
       <nuxt-link
