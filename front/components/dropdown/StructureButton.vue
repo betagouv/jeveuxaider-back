@@ -50,6 +50,7 @@ export default {
       return (
         this.structure.state == 'Validée' &&
         this.structure.rna &&
+        this.structure.api_id &&
         this.$store.getters.contextRole == 'admin'
       )
     },
