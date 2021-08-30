@@ -113,6 +113,8 @@ class MigrateOrganisationMissions extends Command
                         $user = $member->user;
                         if ($user->contextable_id == $structureOrigin->id) {
                             $user->contextable_id = $structureDestination->id;
+                            // Prevent updated_at timestamp change.
+                            $user->timestamps = false;
                             $user->saveQuietly();
                         }
                     }
