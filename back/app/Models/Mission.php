@@ -320,8 +320,14 @@ class Mission extends Model
                 break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
-                return $query
-                    ->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
+                $user = Auth::guard('api')->user();
+                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                    return $query
+                        ->where('structure_id', $user->contextable_id);
+                } else {
+                    return $query
+                        ->where('structure_id', $user->profile->structures->pluck('id')->first());
+                }
                 break;
             case 'referent':
                 // Missions qui sont dans mon département

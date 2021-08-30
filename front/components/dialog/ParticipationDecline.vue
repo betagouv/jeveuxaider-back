@@ -29,6 +29,16 @@
             >{{ item.label }}</el-radio
           >
         </el-radio-group>
+        <div
+          v-if="form.reason == 'mission_terminated'"
+          class="mt-2 leading-snug text-orange-700 flex font-semibold items-center"
+        >
+          <i class="el-icon-info text-orange-600 mr-2"></i>
+          <div class="flex-1">
+            En validant ce choix, le statut de la mission sera automatiquement
+            mis à jour. Le recrutement de nouveaux bénévoles sera clos.
+          </div>
+        </div>
       </el-form-item>
       <el-form-item label="Message" prop="content">
         <el-input

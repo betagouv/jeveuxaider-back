@@ -124,6 +124,11 @@ class ParticipationController extends Controller
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
+            if($request->input('reason') == 'mission_terminated') {
+                $participation->mission->state = 'Terminée';
+                $participation->mission->save();
+            }
+
             $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
         }
 

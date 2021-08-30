@@ -623,6 +623,7 @@ return [
             "no_response" => "Le bénévole ne répond pas.",
             "requirements_not_fulfilled" => "Le bénévole ne correspond pas aux besoins.",
             "change_mind" => "Le bénévole a changé d'avis.",
+            "mission_terminated" => "La mission est terminée.",
             "other" => "Autres.",
         ]
     ],

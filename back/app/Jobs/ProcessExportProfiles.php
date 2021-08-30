@@ -62,7 +62,7 @@ class ProcessExportProfiles implements ShouldQueue
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
-                AllowedFilter::custom('match_mission', new FiltersMatchMission),
+                // AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
                 AllowedFilter::exact('referent_department'),

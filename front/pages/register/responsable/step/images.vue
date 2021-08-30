@@ -176,19 +176,19 @@
 export default {
   layout: 'register-steps',
   asyncData({ $api, store, error }) {
-    if (!store.getters.structure) {
+    if (!store.getters.contextStructure) {
       return error({ statusCode: 403 })
     }
-    const form = { ...store.getters.structure }
+    const form = { ...store.getters.contextStructure }
     const defaultImages =
-      store.getters.structure.domaines.length > 0
+      store.getters.contextStructure.domaines.length > 0
         ? [
-            store.getters.structure.domaines[0].id + '_1',
-            store.getters.structure.domaines[0].id + '_2',
+            store.getters.contextStructure.domaines[0].id + '_1',
+            store.getters.contextStructure.domaines[0].id + '_2',
           ]
         : ['1_1', '2_1']
     return {
-      structureId: store.getters.structure.id,
+      structureId: store.getters.contextStructure.id,
       form,
       selectedImages: form.image_1
         ? [form.image_1, form.image_2]
@@ -221,7 +221,8 @@ export default {
           status: 'complete',
           href: '/register/responsable/step/infos',
           disable:
-            this.$store.getters.structure.statut_juridique == 'Collectivité',
+            this.$store.getters.contextStructure.statut_juridique ==
+            'Collectivité',
         },
         {
           name: `Votre organisation en images`,
