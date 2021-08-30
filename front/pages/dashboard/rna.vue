@@ -48,6 +48,16 @@
           ]"
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          name="api_id"
+          label="Établissement"
+          :value="query['filter[api_id]']"
+          :options="[
+            { label: 'Non renseigné', value: 'empty' },
+            { label: 'Renseigné', value: 'filled' },
+          ]"
+          @changed="onFilterChange"
+        />
         <SearchFiltersQueryInput
           name="lieu"
           label="Lieu"
@@ -143,11 +153,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="rna" label="RNA" width="200">
+      <el-table-column prop="rna" label="API" width="300">
         <template slot-scope="scope">
-          <div v-if="scope.row.rna" class="">
-            {{ scope.row.rna }}
-          </div>
+          <div v-if="scope.row.rna" class="">RNA: {{ scope.row.rna }}</div>
+          <div v-if="scope.row.api_id" class="">ID: {{ scope.row.api_id }}</div>
         </template>
       </el-table-column>
     </el-table>

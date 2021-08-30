@@ -128,7 +128,7 @@ export default {
       this.loading = true
       const res = await this.$axios
         .post(
-          'https://api.api-engagement.beta.gouv.fr/v0/association/search',
+          'https://api.api-engagement.beta.gouv.fr/v1/association/search',
           {
             name: this.query,
           },

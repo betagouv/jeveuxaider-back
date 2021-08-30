@@ -263,6 +263,7 @@ class ApiEngagement
     public static function prepareStructureAttributes($structureApi)
     {
         $attributes = [];
+        $attributes['api_id'] = isset($structureApi['_id']) ? $structureApi['_id'] : null;
         $attributes['rna'] = isset($structureApi['rna']) ? $structureApi['rna'] : null;
         $attributes['statut_juridique'] = isset($structureApi['regime']) ? $structureApi['regime'] : null;
 
@@ -319,7 +320,7 @@ class ApiEngagement
 
     public static function syncAssociation($structure)
     {
-        if ($structure->rna) {
+        if ($structure->rna && $structure->api_id) {
             try {
                 if ($structure->statut_juridique) {
                     $attributes['statut_juridique'] = $structure->statut_juridique;
@@ -328,7 +329,10 @@ class ApiEngagement
                     $attributes['domaines'] = $structure->domaines->pluck('name')->toArray();
                 }
                 if (!empty($structure->publics_beneficiaires)) {
-                    $attributes['publics_beneficiaires'] = $structure->publics_beneficiaires;
+                    $termsPublicsBeneficiaires = config('taxonomies.mission_publics_beneficiaires.terms');
+                    $attributes['publics_beneficiaires'] = collect($structure->publics_beneficiaires)->map(function ($item) use ($termsPublicsBeneficiaires) {
+                        return $termsPublicsBeneficiaires[$item];
+                    })->toArray();
                 }
                 if ($structure->description) {
                     $attributes['description'] = $structure->description;
@@ -349,33 +353,49 @@ class ApiEngagement
                     $attributes['twitter'] = $structure->twitter;
                 }
 
-                if ($structure->latitude) {
-                    $attributes['coordonnees'] = [
-                        'adresse_publique' => [
-                            'voie' => $structure->address,
-                            'commune' => $structure->city,
-                            'cp' => $structure->zip,
-                            'latitude_longitude' => [
-                                'lat' => $structure->latitude,
-                                'lon' => $structure->longitude,
-                            ],
-                            'departement' => $structure->department,
-                        ],
+                if ($structure->latitude && $structure->longitude) {
+                    $attributes['coordonnees']['adresse']['location'] = [
+                        'lat' => $structure->latitude,
+                        'lon' => $structure->longitude,
                     ];
                 }
 
+                if ($structure->address) {
+                    $attributes['coordonnees']['adresse']['nom_complet'] = $structure->full_address;
+                    $attributes['coordonnees']['adresse']['nom'] = $structure->address;
+                    $attributes['coordonnees']['adresse']['rue'] = $structure->address;
+                }
+
+                if ($structure->city) {
+                    $attributes['coordonnees']['adresse']['commune'] = $structure->city;
+                }
+                if ($structure->zip) {
+                    $attributes['coordonnees']['adresse']['code_postal'] = $structure->zip;
+                }
+                if ($structure->city) {
+                    $attributes['coordonnees']['adresse']['commune'] = $structure->city;
+                }
+
+                if ($structure->department) {
+                    $termsDepartments = config('taxonomies.departments.terms');
+                    $termsRegions = config('taxonomies.department_region.terms');
+                    $attributes['coordonnees']['adresse']['departement_numero'] = $structure->department;
+                    $attributes['coordonnees']['adresse']['departement'] = $termsDepartments[$structure->department];
+                    $attributes['coordonnees']['adresse']['region'] = $termsRegions[$structure->department];
+                }
+
                 if ($structure->phone) {
-                    $attributes['coordonnees']['telephone'] = $structure->phone;
+                    $attributes['coordonnees']['telephone'] = [$structure->phone];
                 }
                 if ($structure->email) {
-                    $attributes['coordonnees']['courriel'] = $structure->email;
+                    $attributes['coordonnees']['courriel'] = [$structure->email];
                 }
 
                 // ray($attributes);
 
                 return Http::withHeaders([
                     'apikey' => config('app.api_engagement_key'),
-                ])->put("https://api.api-engagement.beta.gouv.fr/v0/association/" . $structure->rna, $attributes);
+                ])->put("https://api.api-engagement.beta.gouv.fr/v1/association/" . $structure->rna . "/etablissement/" . $structure->api_id, $attributes);
             } catch (\Throwable $th) {
                 throw $th;
             }

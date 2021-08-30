@@ -401,7 +401,8 @@ export default {
   },
   methods: {
     async onStructureApiSelected(structure) {
-      const res = await this.$api.structureExists(structure.rna)
+      const res = await this.$api.structureExists(structure._id)
+
       if (res.data) {
         this.orgaExist = res.data
       } else {
