@@ -39,6 +39,7 @@
     "numeral": "^2.0.6",
     "nuxt": "^2.14.12",
     "nuxt-compress": "^4.1.0",
+    "nuxt-delay-hydration": "^0.2.4",
     "nuxt-lazy-load": "^1.2.5",
     "places.js": "^1.19.0",
     "plausible-tracker": "^0.3.1",
