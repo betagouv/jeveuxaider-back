@@ -156,7 +156,13 @@
       <el-table-column prop="rna" label="API" width="300">
         <template slot-scope="scope">
           <div v-if="scope.row.rna" class="">RNA: {{ scope.row.rna }}</div>
-          <div v-if="scope.row.api_id" class="">ID: {{ scope.row.api_id }}</div>
+          <a
+            v-if="scope.row.api_id"
+            :href="`https://api-association.cleverapps.io/association/${scope.row.rna}/etablissement/${scope.row.api_id}`"
+            class=""
+            target="_blank"
+            >Fiche: {{ scope.row.api_id }}</a
+          >
         </template>
       </el-table-column>
     </el-table>
