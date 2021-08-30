@@ -35,9 +35,14 @@ class NotificationBenevole extends Model
     {
         switch ($contextRole) {
             case 'responsable':
+                $user = Auth::guard('api')->user();
                 return $query
-                    ->whereHas('mission', function (Builder $query) {
-                        $query->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
+                    ->whereHas('mission', function (Builder $query) use ($user) {
+                        if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                            $query->where('structure_id', $user->contextable_id);
+                        } else {
+                            $query->where('structure_id', $user->profile->structures->pluck('id')->first());
+                        }
                     });
             break;
         }

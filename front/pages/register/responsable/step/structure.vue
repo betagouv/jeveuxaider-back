@@ -307,10 +307,12 @@ export default {
     const tags = await $api.fetchTags({ 'filter[type]': 'domaine' })
     return {
       domaines: tags.data.data,
-      structureId: store.getters.structure ? store.getters.structure.id : null,
-      form: store.getters.structure
+      structureId: store.getters.contextStructure
+        ? store.getters.contextStructure.id
+        : null,
+      form: store.getters.contextStructure
         ? {
-            ...store.getters.structure,
+            ...store.getters.contextStructure,
           }
         : {
             domaines: [],
@@ -340,7 +342,8 @@ export default {
           name: `Quelques mots sur l'organisation`,
           status: 'upcoming',
           disable:
-            this.$store.getters.structure.statut_juridique == 'Collectivité',
+            this.$store.getters.contextStructure.statut_juridique ==
+            'Collectivité',
         },
         {
           name: `Votre organisation en images`,
@@ -361,13 +364,15 @@ export default {
         },
         domaines: {
           required:
-            this.$store.getters.structure.statut_juridique != 'Collectivité',
+            this.$store.getters.contextStructure.statut_juridique !=
+            'Collectivité',
           message: "Sélectionnez au moins un domaine d'action",
           trigger: 'blur',
         },
         publics_beneficiaires: {
           required:
-            this.$store.getters.structure.statut_juridique != 'Collectivité',
+            this.$store.getters.contextStructure.statut_juridique !=
+            'Collectivité',
           message: 'Sélectionnez au moins un type',
           trigger: 'blur',
         },
