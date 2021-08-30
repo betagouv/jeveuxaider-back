@@ -10,14 +10,7 @@
           </p>
 
           <p
-            class="
-              text-3xl
-              lg:text-4xl
-              leading-none
-              font-extrabold
-              tracking-px
-              lg:tracking-2px
-            "
+            class="text-3xl lg:text-4xl leading-none font-extrabold tracking-px lg:tracking-2px"
           >
             {{ territoire.seo_engage_title }}
           </p>

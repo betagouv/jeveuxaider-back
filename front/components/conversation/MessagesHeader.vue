@@ -1,32 +1,9 @@
 <template>
   <div
-    class="
-      min-w-0
-      flex flex-wrap
-      sm:flex-no-wrap
-      flex-1
-      justify-between
-      items-center
-    "
+    class="min-w-0 flex flex-wrap sm:flex-no-wrap flex-1 justify-between items-center"
   >
     <button
-      class="
-        order-1
-        md:hidden
-        text-xs
-        flex-none
-        rounded-full
-        px-3
-        py-1
-        mr-2
-        my-4
-        sm:my-0
-        border
-        hover:border-black
-        transition
-        focus:outline-none
-        focus:border-black
-      "
+      class="order-1 md:hidden text-xs flex-none rounded-full px-3 py-1 mr-2 my-4 sm:my-0 border hover:border-black transition focus:outline-none focus:border-black"
       @click="onPanelLeftToggle"
     >
       Retour
@@ -57,21 +34,7 @@
           hideOnTargetClick: true,
           placement: 'bottom',
         }"
-        class="
-          flex-none
-          rounded-full
-          transition
-          whitespace-no-wrap
-          mr-2
-          w-7
-          h-7
-          flex
-          items-center
-          justify-center
-          focus:outline-none
-          focus:bg-gray-200
-          hover:bg-gray-200
-        "
+        class="flex-none rounded-full transition whitespace-no-wrap mr-2 w-7 h-7 flex items-center justify-center focus:outline-none focus:bg-gray-200 hover:bg-gray-200"
         @click="onArchiveClick"
       >
         <svg
@@ -90,19 +53,7 @@
       </button>
 
       <button
-        class="
-          text-xs
-          flex-none
-          rounded-full
-          px-3
-          py-1
-          border
-          whitespace-no-wrap
-          hover:border-black
-          transition
-          focus:outline-none
-          focus:border-black
-        "
+        class="text-xs flex-none rounded-full px-3 py-1 border whitespace-no-wrap hover:border-black transition focus:outline-none focus:border-black"
         @click="$emit('toggle-panel-right')"
         v-html="
           $store.getters['messaging/showPanelRight']

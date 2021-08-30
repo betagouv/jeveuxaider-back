@@ -41,6 +41,7 @@ class ParticipationController extends Controller
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('profile.id'),
                 AllowedFilter::exact('mission.structure_id'),
                 AllowedFilter::exact('mission.responsable_id'),
             )

@@ -8,17 +8,7 @@
       <el-radio
         v-model="radio"
         :label="item.value"
-        class="
-          flex
-          items-center
-          w-full
-          lg:h-full
-          py-3
-          px-5
-          lg:py-6
-          lg:px-10
-          focus:shadow-outline
-        "
+        class="flex items-center w-full lg:h-full py-3 px-5 lg:py-6 lg:px-10 focus:shadow-outline"
         :class="[
           { 'opacity-75': radio && radio != item.value },
           `el-radio-${index}`,
@@ -33,15 +23,7 @@
 
       <div
         v-if="index == 0 && radio == 'Mission en présentiel'"
-        class="
-          w-full
-          relative
-          flex
-          items-stretch
-          bg-white
-          rounded-tr-lg
-          lg:rounded-tr-none
-        "
+        class="w-full relative flex items-stretch bg-white rounded-tr-lg lg:rounded-tr-none"
       >
         <AlgoliaPlacesInput
           ref="alogoliaInput"
