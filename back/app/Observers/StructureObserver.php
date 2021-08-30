@@ -14,6 +14,7 @@ use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
+use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
 
 class StructureObserver
@@ -92,12 +93,11 @@ class StructureObserver
                     }
                     break;
                 case 'Désinscrite':
-
                     $members = $structure->members;
 
                     $structure->members()->detach();
 
-                    foreach($members as $member){
+                    foreach ($members as $member) {
                         $user = User::find($member->user->id);
                         $user->context_role = null;
                         $user->save();
@@ -145,10 +145,10 @@ class StructureObserver
             }
         }
 
-        // Update API Engagement (NOT READY YET)
-        // if ($structure->canBeSendToApiEngagement()) {
-        //     (new ApiEngagement())->syncAssociation($structure);
-        // }
+        // Update API Engagement
+        if ($structure->canBeSendToApiEngagement()) {
+            (new ApiEngagement())->syncAssociation($structure);
+        }
     }
 
     public function deleted(Structure $structure)
