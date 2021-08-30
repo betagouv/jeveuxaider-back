@@ -10,6 +10,7 @@ Bonjour,
 | Prénom        | {{ $form['first_name'] }} |
 | Nom           | {{ $form['last_name'] }} |
 | E-mail        | {{ $form['email'] }} |
+| Téléphone     | {{ $form['phone'] }} |
 @endcomponent
 
 Bonne journée,

@@ -41,12 +41,24 @@
             placeholder="Nom"
           />
         </el-form-item>
-        <el-form-item label="E-mail" prop="email" class="w-full px-2">
+        <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 px-2">
           <el-input
             v-model.trim="form.email"
             label="E-mail"
             autocomplete="new-password"
             placeholder="E-mail"
+          />
+        </el-form-item>
+        <el-form-item
+          label="Téléphone"
+          prop="phone"
+          class="w-full sm:w-1/2 px-2"
+        >
+          <el-input
+            v-model="form.phone"
+            label="Téléphone"
+            autocomplete="new-password"
+            placeholder="Téléphone"
           />
         </el-form-item>
       </div>
