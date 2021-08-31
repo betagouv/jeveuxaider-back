@@ -28,6 +28,20 @@
       <el-input v-model="form.rna" placeholder="Numéro RNA" />
     </el-form-item>
 
+    <el-form-item
+      v-if="
+        $store.getters.contextRole == 'admin' &&
+        form.statut_juridique == 'Association'
+      "
+      label="API ID Établissement"
+      prop="api_id"
+    >
+      <el-input
+        v-model="form.api_id"
+        placeholder="Numéro d'établissement sur l'API"
+      />
+    </el-form-item>
+
     <el-form-item label="Statut juridique" prop="statut_juridique">
       <el-select v-model="form.statut_juridique" placeholder="Statut juridique">
         <el-option

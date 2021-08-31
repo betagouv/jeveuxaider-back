@@ -20,7 +20,12 @@
     </div>
     <TabsUser :profile-id="profile.id" />
 
-    <TableActivities :table-data="tableData" />
+    <TableParticipations
+      :loading="$fetchState.pending"
+      :table-data="tableData"
+      :on-updated-row="onUpdatedRow"
+      :on-clicked-row="onClickedRow"
+    />
     <div class="m-3 flex items-center">
       <el-pagination
         background
@@ -34,14 +39,19 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
+
+    <portal to="volet">
+      <VoletParticipation @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
 <script>
 import TableWithFilters from '@/mixins/table-with-filters'
+import TableWithVolet from '@/mixins/table-with-volet'
 
 export default {
-  mixins: [TableWithFilters],
+  mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
     if (
@@ -57,11 +67,8 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchActivities({
-      'filter[subject_id]': this.$route.params.id,
-      'filter[subject_type]': 'Profile',
-      page: this.$route.query.page || 1,
-    })
+    this.query['filter[profile.id]'] = this.profile.id
+    const { data } = await this.$api.fetchParticipations(this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -73,11 +80,3 @@ export default {
   methods: {},
 }
 </script>
-
-<style scoped lang="sass">
-.el-menu--horizontal
-  @apply px-12
-  > .el-menu-item
-    border-bottom: solid 3px #070191
-    @apply mr-8 p-0 font-medium
-</style>

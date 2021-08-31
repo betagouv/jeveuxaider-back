@@ -85,6 +85,7 @@ export default {
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
     '@nuxtjs/device',
+    'nuxt-delay-hydration',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -105,6 +106,10 @@ export default {
   gtm: {
     id: 'GTM-5S3DCV6',
     enabled: true,
+  },
+
+  delayHydration: {
+    mode: 'init',
   },
 
   dayjs: {

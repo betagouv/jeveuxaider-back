@@ -306,10 +306,10 @@ class StructureController extends Controller
         }
     }
 
-    public function exist(Request $request, $rnaOrName)
+    public function exist(Request $request, $apiId)
     {
-        $structure = Structure::where('rna', '=', $rnaOrName)
-            ->orWhere('name', 'ILIKE', $rnaOrName)
+        $structure = Structure::where('api_id', '=', $apiId)
+            ->orWhere('name', 'ILIKE', $apiId)
             ->first();
         if ($structure === null) {
             return false;

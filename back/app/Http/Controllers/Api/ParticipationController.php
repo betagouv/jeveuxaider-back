@@ -41,6 +41,7 @@ class ParticipationController extends Controller
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('profile.id'),
                 AllowedFilter::exact('mission.structure_id'),
                 AllowedFilter::exact('mission.responsable_id'),
             )
@@ -123,6 +124,11 @@ class ParticipationController extends Controller
 
             // Trigger updated_at refresh.
             $participation->conversation->touch();
+
+            if($request->input('reason') == 'mission_terminated') {
+                $participation->mission->state = 'Terminée';
+                $participation->mission->save();
+            }
 
             $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
         }

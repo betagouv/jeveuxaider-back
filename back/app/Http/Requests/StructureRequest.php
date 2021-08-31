@@ -55,6 +55,7 @@ class StructureRequest extends FormRequest
             'image_1' => '',
             'image_2' => '',
             'rna' => '',
+            'api_id' => '',
             'phone' => '',
             'email' => '',
             'color' => '',

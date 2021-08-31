@@ -44,6 +44,7 @@ export default {
       loading: false,
       loadingNA: false,
       rna: null,
+      api_id: null,
     }
   },
   computed: {
@@ -63,12 +64,17 @@ export default {
   methods: {
     onOrganisationSelected(selected) {
       this.rna = selected.rna
+      this.api_id = selected._id
     },
     async onSubmit() {
       this.loading = true
-      await this.$api.assignStructureRna(this.row.id, { rna: this.rna })
+      await this.$api.assignStructureRna(this.row.id, {
+        rna: this.rna,
+        api_id: this.api_id,
+      })
       this.loading = false
       this.rna = null
+      this.api_id = null
 
       this.$emit('updated')
     },
@@ -77,6 +83,7 @@ export default {
       await this.$api.assignStructureRna(this.row.id, { rna: 'N/A' })
       this.loadingNA = false
       this.rna = null
+      this.api_id = null
       this.$emit('updated')
     },
   },

@@ -15,6 +15,7 @@ use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
+use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
 
 class StructureObserver
@@ -162,10 +163,10 @@ class StructureObserver
             }
         }
 
-        // Update API Engagement (NOT READY YET)
-        // if ($structure->canBeSendToApiEngagement()) {
-        //     (new ApiEngagement())->syncAssociation($structure);
-        // }
+        // Update API Engagement
+        if ($structure->canBeSendToApiEngagement()) {
+            (new ApiEngagement())->syncAssociation($structure);
+        }
     }
 
     public function deleted(Structure $structure)
