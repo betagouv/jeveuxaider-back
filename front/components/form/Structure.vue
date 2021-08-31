@@ -471,6 +471,17 @@
       </el-select>
     </el-form-item>
 
+    <div
+      v-if="$store.getters.contextRole === 'admin'"
+      class="bg-red-100 p-4 rounded-10 mb-8"
+    >
+      <el-form-item prop="send_volunteer_coordonates" class="flex-1 mb-0">
+        <el-checkbox v-model="form.send_volunteer_coordonates">
+          <span> Inclure les coordonnées des participants dans les mails </span>
+        </el-checkbox>
+      </el-form-item>
+    </div>
+
     <div class="flex pt-2 items-center">
       <el-button type="primary" :loading="loading" @click="onSubmit">
         Enregistrer

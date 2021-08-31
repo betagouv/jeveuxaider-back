@@ -63,7 +63,8 @@ class Structure extends Model implements HasMedia
         'phone',
         'email',
         'slug',
-        'color'
+        'color',
+        'send_volunteer_coordonates',
     ];
 
     protected $attributes = [
@@ -77,6 +78,7 @@ class Structure extends Model implements HasMedia
         'latitude' => 'float',
         'longitude' => 'float',
         'publics_beneficiaires' => 'array',
+        'send_volunteer_coordonates' => 'boolean',
     ];
 
     protected $hidden = ['media'];
