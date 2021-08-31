@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\SendinblueSyncUser;
+use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
@@ -92,12 +93,11 @@ class StructureObserver
                     }
                     break;
                 case 'Désinscrite':
-
                     $members = $structure->members;
 
                     $structure->members()->detach();
 
-                    foreach($members as $member){
+                    foreach ($members as $member) {
                         $user = User::find($member->user->id);
                         $user->context_role = null;
                         $user->save();
@@ -107,6 +107,23 @@ class StructureObserver
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
+
+                        // Notifs ON
+                        Mission::where('structure_id', $structure->id)
+                            ->outdated()
+                            ->where('state', 'Validée')
+                            ->get()->map(function ($mission) {
+                                $mission->update(['state' => 'Terminée']);
+                            });
+
+                        // Notifs ON
+                        Mission::where('structure_id', $structure->id)
+                            ->notOutdated()
+                            ->where('state', 'Validée')
+                            ->get()->map(function ($mission) {
+                                $mission->update(['state' => 'Annulée']);
+                            });
+
                         $structure->missions->unsearchable();
                     }
                     break;

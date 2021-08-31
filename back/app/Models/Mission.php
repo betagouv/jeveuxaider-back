@@ -254,6 +254,23 @@ class Mission extends Model
             ->where('end_date', '<', Carbon::now());
     }
 
+    public function scopeNotOutdated($query)
+    {
+        return $query
+            ->where(function ($query) {
+                $query
+                    ->where('end_date', '>=', Carbon::now())
+                    ->orWhereNull('end_date');
+            });
+    }
+
+    public function scopeOrganizationState($query, $state)
+    {
+        return $query->whereHas('structure', function (Builder $query) use ($state) {
+            $query->where('state', $state);
+        });
+    }
+
     public function scopeCurrent($query)
     {
         return $query
