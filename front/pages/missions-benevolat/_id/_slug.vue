@@ -513,7 +513,7 @@
     </div>
 
     <div
-      v-if="otherMissions.total > 0"
+      v-if="otherMissions.length > 0"
       class="bg-blue-282562 border-t-8 border-red-FC7069"
     >
       <div class="container mx-auto px-4">
@@ -522,7 +522,7 @@
             Vous pourriez aussi aimer&nbsp;…
           </div>
 
-          <MissionsSlideshow class="mb-6" :missions="otherMissions.data" />
+          <MissionsSlideshow class="mb-6" :missions="otherMissions" />
 
           <div class="text-center">
             <nuxt-link
@@ -594,14 +594,16 @@ export default {
         return error({ statusCode: 403 })
       }
     }
-
     const otherMissions = await $api.fetchStructureAvailableMissions(
       mission.structure.id,
       {
         exclude: params.id,
-        append: 'domaines',
+        domaine_name: mission.domaine_name,
+        latitude: mission.latitude,
+        longitude: mission.longitude,
       }
     )
+
     return {
       mission,
       otherMissions,
@@ -610,8 +612,6 @@ export default {
   data() {
     return {
       loading: true,
-      mission: {},
-      otherMissions: {},
       baseUrl: this.$config.appUrl,
       form: {
         content: `Bonjour,\nJe souhaite participer à cette mission et apporter mon aide. \nJe me tiens disponible pour échanger et débuter la mission 🙂\n`,
