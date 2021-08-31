@@ -165,7 +165,7 @@ class StructureController extends Controller
 
         $structure->update($request->validated());
 
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
+        return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
     }
 
     public function delete(StructureDeleteRequest $request, Structure $structure)
