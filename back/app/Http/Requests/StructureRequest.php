@@ -59,6 +59,7 @@ class StructureRequest extends FormRequest
             'phone' => '',
             'email' => '',
             'color' => '',
+            'send_volunteer_coordonates' => '',
         ];
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\Participation;
+use Illuminate\Support\HtmlString;
 
 class ParticipationWaitingValidation extends Notification
 {
@@ -26,6 +27,7 @@ class ParticipationWaitingValidation extends Notification
     public function __construct(Participation $participation)
     {
         $this->participation = $participation;
+        $this->structure = $participation->mission->structure;
     }
 
     /**
@@ -50,8 +52,20 @@ class ParticipationWaitingValidation extends Notification
         $message = (new MailMessage)
             ->subject('Vous avez une nouvelle demande de participation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la mission « ' . $this->participation->mission->name .' »')
-            ->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider.gouv.fr et valider sa participation depuis votre espace de gestion.');
+            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la mission « ' . $this->participation->mission->name .' »');
+
+        if ($this->structure->send_volunteer_coordonates) {
+            $message->line('Voici ses coordonnées :')
+                ->line(
+                    new HtmlString(
+                        $this->participation->profile->full_name . '<br>' .
+                        $this->participation->profile->mobile . '<br>' .
+                        $this->participation->profile->email
+                    )
+                );
+        }
+
+        $message->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider.gouv.fr et valider sa participation depuis votre espace de gestion.');
 
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';
         $message->action('Accéder à ma messagerie', url(config('app.url') . $url));
