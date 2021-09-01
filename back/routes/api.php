@@ -14,11 +14,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('test-flare', function() {
-    test_flare_error();
-    return 'test flate';
-});
-
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
@@ -29,6 +24,7 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
+Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
 Route::get('association/{slugOrId}', 'Api\StructureController@associationSlugOrId');
 
 Route::get('structure/{rnaOrName}/exist', 'Api\StructureController@exist');
@@ -133,7 +129,6 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
     Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
-    Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
     Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
 
     // PROFILES
