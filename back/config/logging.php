@@ -39,7 +39,7 @@ return [
         ],
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'flare'],
+            'channels' => ['daily', 'flare', 'stdout'],
             'ignore_exceptions' => false,
         ],
 
@@ -77,7 +77,6 @@ return [
         'stdout' => [
             'driver' => 'monolog',
             'handler' => StreamHandler::class,
-            'channels' => ['flare'],
             'with' => [
                 'stream' => 'php://stdout',
             ],
