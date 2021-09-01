@@ -125,7 +125,7 @@ class ParticipationController extends Controller
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
-            if($request->input('reason') == 'mission_terminated') {
+            if ($request->input('reason') == 'mission_terminated') {
                 $participation->mission->state = 'Terminée';
                 $participation->mission->save();
             }
@@ -205,8 +205,12 @@ class ParticipationController extends Controller
 
     public function conversation(ParticipationManageRequest $request, Participation $participation)
     {
-        $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
-        return $conversation;
+        if ($participation->conversation) {
+            $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
+            return $conversation;
+        }
+
+        return null;
     }
 
     public function benevole(ParticipationManageRequest $request, Participation $participation)
