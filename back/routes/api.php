@@ -14,6 +14,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('test-flare', function() {
+    test_flare_error();
+    return 'test flate';
+});
+
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
