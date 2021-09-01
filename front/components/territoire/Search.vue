@@ -9,7 +9,7 @@
             </p>
 
             <p
-              class="text-3xl lg:text-4xl leading-none font-extrabold tracking[-1px] lg:tracking[-2px]"
+              class="text-3xl lg:text-4xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px]"
             >
               Parmi les dernières missions <br class="hidden md:block" />de
               bénévolat {{ territoire.suffix_title }}

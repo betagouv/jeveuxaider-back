@@ -8,7 +8,7 @@
         <template v-if="cities.length">
           <div class="text-4xl font-extrabold text-center">
             <h2
-              class="text-3xl lg:text-4xl leading-none font-extrabold tracking[-1px] lg:tracking[-2px]"
+              class="text-3xl lg:text-4xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px]"
             >
               Engagez-vous près de chez vous
             </h2>

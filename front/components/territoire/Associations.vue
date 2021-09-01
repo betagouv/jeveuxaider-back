@@ -13,7 +13,7 @@
               </p>
 
               <p
-                class="text-3xl lg:text-4xl leading-none font-extrabold tracking[-1px] lg:tracking[-2px]"
+                class="text-3xl lg:text-4xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px]"
               >
                 {{ territoire.seo_recruit_title }}
               </p>

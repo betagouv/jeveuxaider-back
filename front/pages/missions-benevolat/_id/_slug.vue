@@ -67,7 +67,7 @@
               </div>
 
               <h1
-                class="mt-6 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-extrabold text-black tracking[-1px]"
+                class="mt-6 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-extrabold text-black tracking-[-1px]"
               >
                 {{ mission.name }}
               </h1>
@@ -219,7 +219,7 @@
 
               <div
                 v-if="mission.information"
-                class="mt-6 p-6 md:p-8 xl:p-12 rounded-[10px] custom-gradient relative"
+                class="mt-6 p-6 md:p-8 xl:p-12 rounded-[10px] custom-gradient relative min-h-[120px]"
               >
                 <img
                   class="absolute right-0 bottom-0 p-6"
@@ -310,7 +310,7 @@
                 />
 
                 <div>
-                  <h2 class="font-bold text-2xl tracking[-1px] mb-4">
+                  <h2 class="font-bold text-2xl tracking-[-1px] mb-4">
                     Découvrez {{ structureType }}
                     <component
                       :is="

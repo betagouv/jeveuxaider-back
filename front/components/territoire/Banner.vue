@@ -20,14 +20,14 @@
           >
             <div class="text-white">
               <h1
-                class="text-4xl lg:text-5xl leading-none font-extrabold text-white tracking[-1px] lg:tracking[-2px]"
+                class="text-4xl lg:text-5xl leading-none font-extrabold text-white tracking-[-1px] lg:tracking-[-2px]"
               >
                 Devenez bénévole {{ territoire.suffix_title }}
               </h1>
 
               <hr class="border-t-4 w-10 my-8" />
 
-              <h2 class="text-xl tracking[-1px]">
+              <h2 class="text-xl tracking-[-1px]">
                 Trouvez une mission de
                 <b class="font-extrabold">
                   bénévolat {{ territoire.suffix_title }}
@@ -40,7 +40,7 @@
             <div class="flex-none rounded-2xl overflow-hidden w-full sm:w-auto">
               <div class="bg-white px-8 sm:px-20 py-6">
                 <p
-                  class="font-extrabold text-[1.75rem] text-center leading-tight tracking[-1px]"
+                  class="font-extrabold text-[1.75rem] text-center leading-tight tracking-[-1px]"
                 >
                   Trouvez une nouvelle<br />cause à défendre
                 </p>
@@ -48,7 +48,7 @@
 
               <div class="bg-gray-100 px-10 py-6">
                 <p
-                  class="text-center uppercase text-gray-700 text-xs tracking[-1px] font-bold"
+                  class="text-center uppercase text-gray-700 text-xs tracking-[-1px] font-bold"
                 >
                   Choisissez un domaine d'action
                 </p>

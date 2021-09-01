@@ -11,7 +11,7 @@
             </p>
 
             <p
-              class="text-4xl xl:text-5xl leading-none font-extrabold tracking[-1px] lg:tracking[-2px] text-primary"
+              class="text-4xl xl:text-5xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px] text-primary"
             >
               Suivez toute l'actualité du bénévolat
               {{ territoire.suffix_title }}
@@ -57,7 +57,7 @@
             </el-form>
 
             <div v-else class="flex flex-wrap items-center">
-              <div class="font-bold tracking[-1px] w-full sm:w-auto">
+              <div class="font-bold tracking-[-1px] w-full sm:w-auto">
                 Merci pour votre inscription&nbsp;!
               </div>
               <button

@@ -10,7 +10,7 @@
           </p>
 
           <p
-            class="text-3xl lg:text-4xl leading-none font-extrabold tracking[-1px] lg:tracking[-2px]"
+            class="text-3xl lg:text-4xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px]"
           >
             {{ territoire.seo_engage_title }}
           </p>
@@ -27,7 +27,7 @@
             :class="[{ 'mb-6 lg:mb-16': key === last }]"
           >
             <h3
-              class="lg:col-span-2 text-2xl font-extrabold tracking[-1px]"
+              class="lg:col-span-2 text-2xl font-extrabold tracking-[-1px]"
               v-html="item.title"
             />
             <div class="lg:col-span-3" v-html="item.description" />

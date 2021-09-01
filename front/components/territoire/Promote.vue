@@ -43,7 +43,7 @@
                   <div class="flex flex-col w-full">
                     <div class="px-4 lg:pt-8 lg:px-10 xl:px-16">
                       <h2
-                        class="text-2xl xl:text-[1.75rem] tracking[-1px] font-semibold mb-8 text-center lg:text-left"
+                        class="text-2xl xl:text-[1.75rem] tracking-[-1px] font-semibold mb-8 text-center lg:text-left"
                       >
                         Favoriser et promouvoir l’engagement de chacun pour tous
                       </h2>
