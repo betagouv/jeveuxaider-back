@@ -95,7 +95,6 @@
                       ? 'nuxt-link'
                       : 'span'
                   "
-                  target="_blank"
                   :to="`/organisations/${structure.slug}`"
                   class="font-bold uppercase text-blue-800"
                 >
@@ -594,15 +593,7 @@ export default {
         return error({ statusCode: 403 })
       }
     }
-    const otherMissions = await $api.fetchStructureAvailableMissions(
-      mission.structure.id,
-      {
-        exclude: params.id,
-        domaine_name: mission.domaine_name,
-        latitude: mission.latitude,
-        longitude: mission.longitude,
-      }
-    )
+    const otherMissions = await $api.similarMission(mission.id)
 
     return {
       mission,

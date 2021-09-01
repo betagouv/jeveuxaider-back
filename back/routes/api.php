@@ -133,6 +133,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
     Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
+    Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
     Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
 
     // PROFILES
