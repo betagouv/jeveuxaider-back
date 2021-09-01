@@ -37,10 +37,17 @@ class MissionPolicy
         return false;
     }
 
-    public function delete()
+    public function delete(User $user, Mission $mission)
     {
         if (in_array(request()->header('Context-Role'), ['referent','referent_regional'])) {
             return true;
+        }
+
+        if (request()->header('Context-Role') == 'responsable') {
+            $structureMembersProfileIds = $mission->structure->members->pluck('id')->toArray();
+            if (in_array($user->profile->id, $structureMembersProfileIds) && $mission->state == 'Brouillon') {
+                return true;
+            }
         }
 
         return false;
@@ -58,9 +65,19 @@ class MissionPolicy
         } elseif (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
             if (in_array($newState, ['Signalée', 'Validée'])) {
                 return true;
-            } 
+            }
             return false;
         }
+        return false;
+    }
+
+    public function destroy(User $user, Mission $mission)
+    {
+        return false;
+    }
+
+    public function restore(User $user, Mission $mission)
+    {
         return false;
     }
 }

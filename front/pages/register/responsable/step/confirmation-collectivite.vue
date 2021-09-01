@@ -35,30 +35,7 @@
               <a
                 target="_blank"
                 href="https://app.livestorm.co/jeveuxaider/session-decouverte-collectivites-territoriales"
-                class="
-                  shadow-lg
-                  block
-                  w-full
-                  text-center
-                  rounded-lg
-                  z-10
-                  border border-transparent
-                  bg-blue-800
-                  px-4
-                  sm:px-6
-                  py-4
-                  text-lg
-                  sm:text-xl
-                  leading-6
-                  font-bold
-                  text-white
-                  hover:bg-blue-900
-                  focus:outline-none
-                  focus:shadow-outline-indigo
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-blue-800 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-blue-900 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
               >
                 <span class="hidden lg:inline"
                   >Participer à la session d'accueil
@@ -80,31 +57,7 @@
             <span class="block w-full rounded-md shadow-sm">
               <el-button
                 type="primary"
-                class="
-                  shadow-lg
-                  block
-                  w-full
-                  text-center
-                  rounded-lg
-                  z-10
-                  border border-transparent
-                  bg-green-400
-                  px-4
-                  sm:px-6
-                  py-4
-                  text-lg
-                  sm:text-xl
-                  leading-6
-                  font-bold
-                  text-white
-                  hover:bg-green-500
-                  focus:outline-none
-                  focus:border-indigo-700
-                  focus:shadow-outline-indigo
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
                 @click="onSubmit"
                 >C'est parti !</el-button
               >
@@ -121,11 +74,14 @@ const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=3
 
 export default {
   asyncData({ $api, store, error }) {
-    if (!store.getters.structure || !store.getters.structure.collectivity) {
+    if (
+      !store.getters.contextStructure ||
+      !store.getters.contextStructure.territoire
+    ) {
       return error({ statusCode: 403 })
     }
     return {
-      structureId: store.getters.structure.id,
+      structureId: store.getters.contextStructure.id,
     }
   },
   data() {

@@ -1,57 +1,13 @@
 <template>
   <div class="has-full-table">
-    <div
-      class="header px-12 flex"
-      :class="{ 'mb-8': $store.getters.contextRole == 'responsable' }"
-    >
-      <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">Organisation</div>
-        <div class="flex items-center flex-wrap">
-          <div class="font-bold text-2-5xl text-gray-800 mr-2">
-            {{ structure.name }}
-          </div>
-          <TagModelState v-if="structure.state" :state="structure.state" />
-          <el-tag
-            v-if="structure.is_reseau"
-            size="medium"
-            class="m-1 ml-0"
-            type="danger"
-          >
-            Tête de réseau
-          </el-tag>
-          <el-tag v-if="structure.reseau_id" class="m-1 ml-0" size="medium">
-            {{ structure.reseau_id | reseauFromValue }}
-          </el-tag>
-        </div>
-        <div
-          v-if="structure.statut_juridique == 'Association'"
-          class="font-light text-gray-600 flex items-center"
-        >
-          <div
-            :class="
-              structure.state == 'Validée' ? 'bg-green-500' : 'bg-red-500'
-            "
-            class="rounded-full h-2 w-2 mr-2"
-          ></div>
-          <nuxt-link
-            v-if="structure.state == 'Validée'"
-            :to="structure.full_url"
-            target="_blank"
-            class="underline hover:no-underline"
-          >
-            {{ $config.appUrl }}{{ structure.full_url }}
-          </nuxt-link>
-          <span v-else class="cursor-default">
-            {{ $config.appUrl }}{{ structure.full_url }}
-          </span>
-        </div>
-      </div>
-      <div
+    <HeaderOrganisation :structure="structure">
+      <template
         v-if="
           $store.getters.contextRole == 'responsable' &&
           $store.getters.reminders &&
           $store.getters.reminders.participations > 0
         "
+        #action
       >
         <el-button
           type="primary"
@@ -62,8 +18,8 @@
             $store.getters.reminders.participations
           }})
         </el-button>
-      </div>
-    </div>
+      </template>
+    </HeaderOrganisation>
     <NavTabStructure
       v-if="$store.getters.contextRole != 'responsable'"
       :structure="structure"
@@ -94,7 +50,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
           name="state"
           label="Statut"
@@ -164,12 +120,6 @@
             })
           "
           @changed="onFilterChange"
-        />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
         />
         <SearchFiltersQuery
           type="select"
@@ -268,45 +218,6 @@ export default {
     '$route.query': '$fetch',
   },
   methods: {
-    handleCommand(command) {
-      if (command.action == 'delete') {
-        this.handleDeleteStructure()
-      }
-    },
-    handleDeleteStructure() {
-      if (this.structure.missions_count > 0) {
-        this.$alert(
-          'Il est impossible de supprimer une organisation qui contient des missions.',
-          "Supprimer l'organisation",
-          {
-            confirmButtonText: 'Retour',
-            type: 'warning',
-            center: true,
-          }
-        )
-      } else {
-        this.$confirm(
-          `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-          "Supprimer l'organisation",
-          {
-            confirmButtonText: 'Supprimer',
-            confirmButtonClass: 'el-button--danger',
-            cancelButtonText: 'Annuler',
-            center: true,
-            dangerouslyUseHTMLString: true,
-            type: 'error',
-          }
-        ).then(() => {
-          this.$api.deleteStructure(this.structure.id).then(() => {
-            this.$message({
-              type: 'success',
-              message: `L'organisation ${this.structure.name} a été supprimée.`,
-            })
-            this.$router.push('/dashboard/structures')
-          })
-        })
-      }
-    },
     onExport() {
       this.loadingExport = true
       this.$api

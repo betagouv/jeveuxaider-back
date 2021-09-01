@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Exports\ParticipationsExport;
-use App\Filters\FiltersParticipationCollectivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Participation;
@@ -36,13 +35,13 @@ class ParticipationController extends Controller
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
                 AllowedFilter::custom('lieu', new FiltersParticipationLieu),
                 AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
-                AllowedFilter::custom('collectivity', new FiltersParticipationCollectivity),
                 'state',
                 AllowedFilter::exact('mission.department'),
                 'mission.type',
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('profile.id'),
                 AllowedFilter::exact('mission.structure_id'),
                 AllowedFilter::exact('mission.responsable_id'),
             )
@@ -125,6 +124,11 @@ class ParticipationController extends Controller
 
             // Trigger updated_at refresh.
             $participation->conversation->touch();
+
+            if($request->input('reason') == 'mission_terminated') {
+                $participation->mission->state = 'Terminée';
+                $participation->mission->save();
+            }
 
             $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
         }

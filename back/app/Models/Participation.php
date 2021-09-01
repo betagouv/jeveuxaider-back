@@ -26,7 +26,6 @@ class Participation extends Model
     const ACTIVE_STATUS = [
         'En attente de validation',
         'Validée',
-        'Effectuée'
     ];
 
     protected static $logFillable = true;
@@ -78,13 +77,15 @@ class Participation extends Model
                     });
                 break;
             case 'responsable':
+                $user = Auth::guard('api')->user();
                 return $query
-                    ->whereHas('mission', function (Builder $query) {
-                        $query->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
+                    ->whereHas('mission', function (Builder $query) use ($user) {
+                        if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                            $query->where('structure_id', $user->contextable_id);
+                        } else {
+                            $query->where('structure_id', $user->profile->structures->pluck('id')->first());
+                        }
                     });
-                break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
         }
     }
@@ -115,17 +116,10 @@ class Participation extends Model
             });
     }
 
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        return $query->whereHas('mission', function (Builder $query) use ($collectivity_id) {
-            $query->collectivity($collectivity_id);
-        });
-    }
-
-    public function scopeTerritoire($query, $territoire_id)
+    public function scopeOfTerritoire($query, $territoire_id)
     {
         return $query->whereHas('mission', function (Builder $query) use ($territoire_id) {
-            $query->territoire($territoire_id);
+            $query->ofTerritoire($territoire_id);
         });
     }
 

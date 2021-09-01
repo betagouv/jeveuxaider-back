@@ -8,7 +8,7 @@ export const rolesList = [
   { key: 'analyste', label: 'Analyste' },
 ]
 
-export default (axios) => ({
+export default (axios, $cookies) => ({
   async fetchProfileParticipations(id) {
     const { data } = await axios.get(`/profile/${id}/participations`)
     return data
@@ -128,6 +128,7 @@ export default (axios) => ({
       zip,
       sc,
       type,
+      utm_source: $cookies.get('utm_source'),
     })
   },
 
@@ -137,7 +138,8 @@ export default (axios) => ({
     firstName,
     lastName,
     structureName,
-    structureApi
+    structureApi,
+    structureStatutJuridique
   ) {
     return await axios.post('/register/responsable', {
       email: email.toLowerCase(),
@@ -146,6 +148,8 @@ export default (axios) => ({
       last_name: lastName,
       structure_name: structureName,
       structure_api: structureApi,
+      structure_statut_juridique: structureStatutJuridique,
+      utm_source: $cookies.get('utm_source'),
     })
   },
 

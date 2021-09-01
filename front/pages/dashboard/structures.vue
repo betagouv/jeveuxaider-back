@@ -42,7 +42,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQueryInput
           name="lieu"
           label="Lieu"
@@ -80,12 +80,6 @@
             })
           "
           @changed="onFilterChange"
-        />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
         />
       </div>
     </div>
@@ -207,7 +201,11 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchStructures(this.query)
+    const { data } = await this.$api.fetchStructures({
+      ...this.query,
+      include: 'missionsCount',
+      append: 'completion_rate',
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from

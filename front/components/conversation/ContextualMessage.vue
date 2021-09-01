@@ -34,9 +34,6 @@ export default {
         case 'Refusée':
           message = `La participation a été déclinée`
           break
-        case 'Effectuée':
-          message = `La participation est terminée`
-          break
         default:
           message = `Le nouveau statut de la participation est: ${this.message.contextual_state}`
       }

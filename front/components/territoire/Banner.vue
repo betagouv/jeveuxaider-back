@@ -16,26 +16,11 @@
 
         <div class="container px-4 mx-auto">
           <div
-            class="
-              py-20
-              flex flex-col
-              lg:flex-row
-              items-center
-              gap-16
-              lg:gap-32
-            "
+            class="py-20 flex flex-col lg:flex-row items-center gap-16 lg:gap-32"
           >
             <div class="text-white">
               <h1
-                class="
-                  text-4xl
-                  lg:text-5xl
-                  leading-none
-                  font-extrabold
-                  text-white
-                  tracking-px
-                  lg:tracking-2px
-                "
+                class="text-4xl lg:text-5xl leading-none font-extrabold text-white tracking-px lg:tracking-2px"
               >
                 Devenez bénévole {{ territoire.suffix_title }}
               </h1>
@@ -55,12 +40,7 @@
             <div class="flex-none rounded-xl overflow-hidden w-full sm:w-auto">
               <div class="bg-white px-8 sm:px-20 py-6">
                 <p
-                  class="
-                    font-extrabold
-                    text-2-5xl text-center
-                    leading-tight
-                    tracking-px
-                  "
+                  class="font-extrabold text-2-5xl text-center leading-tight tracking-px"
                 >
                   Trouvez une nouvelle<br />cause à défendre
                 </p>
@@ -68,13 +48,7 @@
 
               <div class="bg-gray-100 px-10 py-6">
                 <p
-                  class="
-                    text-center
-                    uppercase
-                    text-gray-700 text-xs
-                    tracking-px
-                    font-bold
-                  "
+                  class="text-center uppercase text-gray-700 text-xs tracking-px font-bold"
                 >
                   Choisissez un domaine d'action
                 </p>
@@ -93,28 +67,7 @@
                 </el-select>
 
                 <button
-                  class="
-                    w-full
-                    flex
-                    items-center
-                    justify-center
-                    border border-transparent
-                    rounded-xl
-                    text-white
-                    focus:outline-none
-                    focus:shadow-outline
-                    transition
-                    duration-150
-                    hover:scale-105
-                    transform
-                    will-change-transform
-                    ease-in-out
-                    font-bold
-                    text-xl
-                    px-5
-                    py-4
-                    leading-none
-                  "
+                  class="w-full flex items-center justify-center border border-transparent rounded-xl text-white focus:outline-none focus:shadow-outline transition duration-150 hover:scale-105 transform will-change-transform ease-in-out font-bold text-xl px-5 py-4 leading-none"
                   style="background-color: #09c19d"
                   @click="onClick"
                 >

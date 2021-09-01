@@ -74,12 +74,12 @@ export const actions = {
     const res = await this.$axios
       .get('/user')
       .catch(() => this.$cookies.remove('access-token'))
-    commit('setUser', res ? res.data : null)
 
-    if (['referent', 'responsable'].includes(this.getters.contextRole)) {
-      await dispatch('reminders', null, { root: true })
-    } else {
-      commit('setReminders', null, { root: true })
+    if (res.data) {
+      commit('setUser', res ? res.data : null)
+      if (res.data.context_role && res.data.context_role != 'volontaire') {
+        await dispatch('reminders', null, { root: true })
+      }
     }
   },
 
@@ -125,7 +125,8 @@ export const actions = {
           user.first_name,
           user.last_name,
           user.structure_name,
-          user.structure_api
+          user.structure_api,
+          user.structure_statut_juridique
         )
         .then(() => {
           dispatch('login', user).then((response) => {

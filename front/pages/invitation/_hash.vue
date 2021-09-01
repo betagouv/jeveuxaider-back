@@ -10,16 +10,7 @@
     <div class="pb-12 mt-12 px-4 relative w-full lg:inset-y-0 text-center z-10">
       <div class="">
         <h2
-          class="
-            mt-6
-            mb-4
-            md:mb-0
-            text-center text-3xl
-            font-bold
-            text-white
-            leading-8
-            px-4
-          "
+          class="mt-6 mb-4 md:mb-0 text-center text-3xl font-bold text-white leading-8 px-4"
         >
           Invitation à rejoindre la Réserve Civique
         </h2>
@@ -30,16 +21,7 @@
     </div>
 
     <div
-      class="
-        relative
-        mt-2
-        pb-16
-        sm:mx-auto
-        sm:w-full
-        sm:max-w-md
-        text-left
-        z-10
-      "
+      class="relative mt-2 pb-16 sm:mx-auto sm:w-full sm:max-w-md text-left z-10"
     >
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <div class="mb-8 text-center">
@@ -56,16 +38,6 @@
             Vous avez été invité(e) à rejoindre le territoire
             <strong>{{ invitation.invitable.name }}</strong> en tant que
             responsable.
-          </template>
-          <template v-if="invitation.role == 'responsable_collectivity'">
-            Vous avez été invité(e) à rejoindre la collectivité
-            <strong>{{ invitation.invitable.name }}</strong> en tant que
-            responsable.
-          </template>
-          <template v-if="invitation.role == 'responsable_collectivity'">
-            Vous avez été invité(e) à rejoindre le réseau
-            <strong>{{ invitation.invitable.name }}</strong> en tant que
-            superviseur.
           </template>
           <template v-if="invitation.role == 'referent_departemental'">
             Vous avez été invité(e) à rejoindre le département

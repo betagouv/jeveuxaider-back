@@ -1,22 +1,7 @@
 <template>
   <el-dropdown trigger="click" @command="handleCommand">
     <button
-      class="
-        el-dropdown-link
-        text-xs
-        flex-none
-        rounded-full
-        px-3
-        py-1
-        my-4
-        sm:my-0
-        border
-        hover:border-black
-        transition
-        focus:outline-none
-        focus:border-black
-        text-black
-      "
+      class="el-dropdown-link text-xs flex-none rounded-full px-3 py-1 my-4 sm:my-0 border hover:border-black transition focus:outline-none focus:border-black text-black"
     >
       Filtres
     </button>

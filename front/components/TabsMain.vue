@@ -38,21 +38,9 @@ export default {
   },
   methods: {
     handleSelect(index) {
-      if (
-        this.$router.history.current.name == 'DashboardCollectivityMain' ||
-        this.$router.history.current.name ==
-          'DashboardCollectivityStatsMissions' ||
-        this.$router.history.current.name ==
-          'DashboardCollectivityStatsParticipations'
-      ) {
-        index == 'main'
-          ? this.$router.push('/dashboard/collectivity')
-          : this.$router.push(`/dashboard/collectivity/stats/${index}`)
-      } else {
-        index == 'main'
-          ? this.$router.push('/dashboard')
-          : this.$router.push(`/dashboard/stats/${index}`)
-      }
+      index == 'main'
+        ? this.$router.push('/dashboard')
+        : this.$router.push(`/dashboard/stats/${index}`)
     },
   },
 }

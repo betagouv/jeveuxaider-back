@@ -2,7 +2,7 @@
   <Volet :title="row.name" :link="`/dashboard/mission/${row.id}`">
     <div class="flex flex-col space-y-6">
       <!-- ACTIONS -->
-      <div class="flex flex-wrap space-x-2">
+      <div class="flex flex-wrap gap-2">
         <template v-if="showAskValidation">
           <el-button
             type="primary"
@@ -33,7 +33,8 @@
           size="medium"
           icon="el-icon-document-copy"
           @click="clone(row.id)"
-        ></el-button>
+          >Dupliquer</el-button
+        >
         <el-button
           v-if="
             $store.getters.contextRole == 'admin' ||
@@ -133,9 +134,16 @@
         <VoletRowItem v-if="mission.end_date" label="Fin">
           {{ mission.end_date | formatLongWithTime }}
         </VoletRowItem>
-        <VoletRowItem v-if="mission.commitment__hours" label="Engag. min.">
-          {{ mission.commitment__hours }} heures par
-          {{ mission.commitment__time_period | labelFromValue('time_period') }}
+        <VoletRowItem v-if="mission.commitment__duration" label="Engag. min.">
+          {{ mission.commitment__duration | labelFromValue('duration') }}
+          <template v-if="mission.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                mission.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
         </VoletRowItem>
         <VoletRowItem v-if="mission.domaine_name" label="Domaine">
           {{ mission.domaine_name }}
@@ -144,7 +152,16 @@
           v-if="mission.publics_beneficiaires"
           label="Publics bénéf."
         >
-          {{ mission.publics_beneficiaires.join(', ') }}
+          {{
+            mission.publics_beneficiaires
+              .map(function (item) {
+                return $options.filters.labelFromValue(
+                  item,
+                  'mission_publics_beneficiaires'
+                )
+              })
+              .join(', ')
+          }}
         </VoletRowItem>
         <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
           {{ mission.publics_volontaires.join(', ') }}
@@ -352,34 +369,8 @@ export default {
         } else {
           this.form.state = 'En attente de validation'
         }
-        this.onSubmit()
-      }
-    },
-    onSubmit() {
-      if (
-        this.form.structure.state != 'Validée' &&
-        this.form.state == 'Validée'
-      ) {
-        this.$message.error({
-          message:
-            "Vous devez valider l'organisation au préalable. Les missions en attente de validation seront ensuite automatiquement validées",
-        })
-      } else {
-        let message = 'Êtes vous sur de vos changements ?'
 
-        if (this.form.state == 'Annulée') {
-          message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations liées seront automatiquement annulées et les bénévoles inscrits seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
-        }
-
-        if (this.form.state == 'Terminée') {
-          message = `Les participations en attente de validation seront automatiquement déclinées et celles validées passeront au statut mission effectuée.<br><br>Les bénévoles seront notifiés de ces modifications.<br><br> Êtes vous sûr de vouloir continuer ?`
-        }
-
-        if (this.form.state == 'Signalée') {
-          message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} bénévole(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées.`
-        }
-
-        this.$confirm(message, 'Confirmation', {
+        this.$confirm('Êtes vous sur de vos changements ?', 'Confirmation', {
           confirmButtonText: 'Je confirme',
           cancelButtonText: 'Annuler',
           type: 'warning',

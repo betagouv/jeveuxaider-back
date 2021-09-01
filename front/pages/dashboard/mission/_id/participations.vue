@@ -18,7 +18,7 @@
                   ? 'bg-green-500'
                   : 'bg-red-500'
               "
-              class="rounded-full h-2 w-2 mr-2"
+              class="rounded-full h-2 w-2 mr-2 flex-none"
             ></div>
             <nuxt-link
               target="_blank"
@@ -90,7 +90,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
           name="state"
           label="Statut"
@@ -169,7 +169,7 @@ export default {
     const mission = await $api.getMission(params.id)
 
     if (store.getters.contextRole == 'responsable') {
-      if (store.getters.structure.id != mission.structure_id) {
+      if (store.getters.contextStructure.id != mission.structure_id) {
         return error({ statusCode: 403 })
       }
     }
@@ -218,36 +218,6 @@ export default {
           console.log('exportParticipations', error)
         })
     },
-    // onMassValidation() {
-    //   this.$confirm(
-    //     'Vous êtes sur le point de valider toutes les participations actuellement en attente de validation (' +
-    //       this.$store.getters.reminders.participations +
-    //       ').<br><br>Êtes-vous sûr de vouloir continuer ?',
-    //     'Validation massive',
-    //     {
-    //       confirmButtonText: 'Oui, je confirme',
-    //       cancelButtonText: 'Annuler',
-    //       dangerouslyUseHTMLString: true,
-    //       // center: true,
-    //       // type: 'warning',
-    //     }
-    //   ).then(() => {
-    //     this.loadingButton = true
-    //     this.$api
-    //       .massValidationParticipation()
-    //       .then(() => {
-    //         this.loadingButton = false
-    //         this.$store.dispatch('reminders')
-    //         this.$message.success({
-    //           message: 'Les participations ont été mises à jour',
-    //         })
-    //         this.$fetch()
-    //       })
-    //       .catch(() => {
-    //         this.loadingButton = false
-    //       })
-    //   })
-    // },
   },
 }
 </script>

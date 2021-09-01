@@ -41,28 +41,10 @@
         />
       </div>
       <el-dropdown-menu slot="dropdown" style="max-width: 300px">
-        <!-- <nuxt-link
-            v-if="$store.getters.contextRole == 'responsable'"
-            :to="`/dashboard/structure/${$store.getters.structure.id}/members`"
-          >
-            <el-dropdown-item>Gérer votre équipe</el-dropdown-item>
-          </nuxt-link>
-          <nuxt-link
-            v-if="$store.getters.contextRole == 'admin'"
-            :to="`/dashboard/trash/structures`"
-          >
-            <el-dropdown-item>Corbeille</el-dropdown-item>
-          </nuxt-link>
-          <el-dropdown-item
-            v-if="
-              $store.getters.contextRole == 'responsable' ||
-              $store.getters.contextRole == 'admin'
-            "
-            divided
-          /> -->
         <nuxt-link to="/user/infos">
           <el-dropdown-item>Mon compte</el-dropdown-item>
         </nuxt-link>
+
         <el-dropdown-item
           v-for="structure in $store.getters.profile.structures"
           :key="'structure-' + structure.id"
@@ -81,6 +63,7 @@
             <div class="font-semibold">{{ structure.name }}</div>
           </div>
         </el-dropdown-item>
+
         <el-dropdown-item
           v-for="territoire in $store.getters.profile.territoires"
           :key="'territoire-' + territoire.id"
@@ -100,6 +83,7 @@
             <div class="font-semibold">{{ territoire.name }}</div>
           </div>
         </el-dropdown-item>
+
         <el-dropdown-item
           v-for="role in $store.getters.roles.filter(
             (role) => role.key != 'responsable'
@@ -115,7 +99,9 @@
             <div class="font-semibold">{{ role.label }}</div>
           </div>
         </el-dropdown-item>
+
         <el-dropdown-item v-if="isImpersonating" divided />
+
         <el-dropdown-item
           v-if="isImpersonating"
           class="text-orange-500 flex space-between items-center"
@@ -124,6 +110,7 @@
           Unmasquarade
           <i class="el-icon-s-custom ml-auto" />
         </el-dropdown-item>
+
         <el-dropdown-item
           divided
           :command="{ action: 'logout' }"

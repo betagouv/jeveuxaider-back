@@ -25,27 +25,13 @@
           <div class="container mx-auto px-4">
             <div class="py-8 text-center sm:text-left">
               <h1
-                class="
-                  text-4xl
-                  max-w-4xl
-                  leading-none
-                  font-bold
-                  text-white
-                  sm:text-5xl
-                  md:text-6xl
-                "
+                class="text-4xl max-w-4xl leading-none font-bold text-white sm:text-5xl md:text-6xl"
               >
                 {{ thematique.title }}
               </h1>
 
               <h2
-                class="
-                  mt-5
-                  text-base text-gray-100
-                  max-w-xl
-                  sm:text-lg
-                  md:text-xl
-                "
+                class="mt-5 text-base text-gray-100 max-w-xl sm:text-lg md:text-xl"
               >
                 {{ thematique.description }}
               </h2>
@@ -61,29 +47,7 @@
                     v-if="!$store.getters.isLogged"
                     to="/register/volontaire"
                     :class="`text-${thematique.color}`"
-                    class="
-                      shadow-lg
-                      w-full
-                      flex
-                      items-center
-                      justify-center
-                      px-10
-                      py-3
-                      text-base
-                      leading-6
-                      font-medium
-                      rounded-full
-                      bg-white
-                      hover:bg-white
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      duration-150
-                      ease-in-out
-                      md:py-4
-                      md:text-lg
-                      md:px-15
-                    "
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
                   </nuxt-link>
@@ -91,29 +55,7 @@
                     v-else
                     href="#search"
                     :class="`text-${thematique.color}`"
-                    class="
-                      shadow-lg
-                      w-full
-                      flex
-                      items-center
-                      justify-center
-                      px-10
-                      py-3
-                      text-base
-                      leading-6
-                      font-medium
-                      rounded-full
-                      bg-white
-                      hover:bg-white
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      duration-150
-                      ease-in-out
-                      md:py-4
-                      md:text-lg
-                      md:px-15
-                    "
+                    class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-15"
                   >
                     Trouver une mission
                   </a>
@@ -126,34 +68,10 @@
                     :to="
                       $store.getters.isLogged &&
                       $store.getters.contextRole == 'responsable'
-                        ? `/dashboard/structure/${$store.getters.structure.id}/missions/add`
+                        ? `/dashboard/structure/${$store.getters.contextStructure.id}/missions/add`
                         : '/login'
                     "
-                    class="
-                      shadow-lg
-                      w-full
-                      flex
-                      items-center
-                      justify-center
-                      px-8
-                      py-3
-                      border-transparent border
-                      text-base
-                      leading-6
-                      font-medium
-                      rounded-full
-                      text-white
-                      bg-red-600
-                      hover:bg-red-700
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      duration-150
-                      ease-in-out
-                      md:py-4
-                      md:text-lg
-                      md:px-9
-                    "
+                    class="shadow-lg w-full flex items-center justify-center px-8 py-3 border-transparent border text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-9"
                   >
                     Proposer une mission
                   </nuxt-link>
@@ -169,15 +87,7 @@
           <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
             <div class="col-span-1 flex justify-center lg:col-span-1">
               <p
-                class="
-                  text-center text-base
-                  leading-6
-                  mt-2
-                  font-semibold
-                  uppercase
-                  text-gray-800
-                  tracking-wider
-                "
+                class="text-center text-base leading-6 mt-2 font-semibold uppercase text-gray-800 tracking-wider"
               >
                 En partenariat avec
               </p>
@@ -274,14 +184,7 @@
         >
           <div class="max-w-6xl mx-auto text-center">
             <h2
-              class="
-                text-3xl
-                leading-9
-                font-extrabold
-                text-white
-                sm:text-4xl
-                sm:leading-10
-              "
+              class="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10"
             >
               Rejoignez le mouvement #JeVeuxAider
             </h2>
@@ -291,14 +194,7 @@
               soutenir ce domaine d'action.
             </p>
             <dl
-              class="
-                mt-12
-                text-center
-                sm:max-w-3xl
-                sm:mx-auto
-                sm:grid sm:grid-cols-3
-                sm:gap-8
-              "
+              class="mt-12 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8"
             >
               <div class="flex flex-col">
                 <dd class="text-5xl leading-none font-bold text-white">
@@ -337,29 +233,10 @@
 
       <div class="bg-gray-50 border-b border-gray-200">
         <div
-          class="
-            container
-            mx-auto
-            py-12
-            px-4
-            sm:px-6
-            lg:py-16
-            lg:px-8
-            lg:flex
-            lg:items-center
-            lg:justify-between
-          "
+          class="container mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
         >
           <p
-            class="
-              text-3xl
-              leading-9
-              font-bold
-              tracking-tight
-              text-gray-900
-              sm:text-4xl
-              sm:leading-10
-            "
+            class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
           >
             Votre organisation a besoin de
             <span :class="`text-${thematique.color}`">bénévoles</span> ?
@@ -370,33 +247,11 @@
                 :to="
                   $store.getters.isLogged &&
                   $store.getters.contextRole == 'responsable'
-                    ? {
-                        name: 'DashboardMissionFormAdd',
-                        params: {
-                          structureId: $store.getters.structure.id,
-                        },
-                      }
-                    : '/register/responsable'
+                    ? `/dashboard/structure/${$store.getters.contextStructure.id}/missions/add`
+                    : '/inscription/organisation'
                 "
                 :class="`bg-${thematique.color}`"
-                class="
-                  inline-flex
-                  items-center
-                  justify-center
-                  px-7
-                  py-3
-                  border border-transparent
-                  text-base
-                  leading-6
-                  font-medium
-                  rounded-full
-                  text-white
-                  focus:outline-none
-                  focus:shadow-outline
-                  transition
-                  duration-150
-                  ease-in-out
-                "
+                class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
               >
                 Rejoignez JeVeuxAider.gouv.fr
               </nuxt-link>
@@ -408,16 +263,7 @@
       <div class="bg-white border-gray-200 border-b">
         <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div
-            class="
-              text-center
-              pb-12
-              text-base
-              leading-6
-              font-semibold
-              uppercase
-              text-gray-400
-              tracking-wider
-            "
+            class="text-center pb-12 text-base leading-6 font-semibold uppercase text-gray-400 tracking-wider"
           >
             Parmi les organisations déjà actives sur JeVeuxAider.gouv.fr
           </div>
@@ -466,8 +312,11 @@
 
 <script>
 export default {
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, params, error }) {
     const thematique = await $api.getThematique(params.slug)
+    if (!thematique) {
+      return error({ statusCode: 404 })
+    }
     const { data: statistics } = await $api.getThematiqueStatistics(
       thematique.id
     )

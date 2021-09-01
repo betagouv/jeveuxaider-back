@@ -76,7 +76,7 @@ class MissionRequest extends FormRequest
             'thumbnail' => '',
             'skills' => '',
             'domaine_secondaire' => '',
-            'commitment__hours' => '',
+            'commitment__duration' => '',
             'commitment__time_period' => '',
         ];
     }

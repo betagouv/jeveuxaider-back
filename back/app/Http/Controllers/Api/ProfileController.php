@@ -12,7 +12,6 @@ use App\Exports\ProfilesExport;
 use App\Exports\ProfilesReferentsDepartementsExport;
 use App\Exports\ProfilesReferentsRegionsExport;
 use App\Exports\ProfilesResponsablesExport;
-use App\Filters\FiltersProfileCollectivity;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileSearch;
 use App\Filters\FiltersProfileRole;
@@ -36,16 +35,16 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        // TODO : Mettre dans ProfileRequest ?
-        if ($request->header('Context-Role') == 'responsable') {
-            if (!request('filter')['match_mission']) {
-                abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
-            }
-            $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
-            if (!$missions->contains(request('filter')['match_mission'])) {
-                abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
-            }
-        }
+        // TODO : Mettre dans ProfileRequest ? Plus utilisé ?
+        // if ($request->header('Context-Role') == 'responsable') {
+        //     if (!request('filter')['match_mission']) {
+        //         abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+        //     }
+        //     $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
+        //     if (!$missions->contains(request('filter')['match_mission'])) {
+        //         abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
+        //     }
+        // }
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id', 'territoires:name,id']))
             ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
@@ -54,11 +53,10 @@ class ProfileController extends Controller
                 AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
                 AllowedFilter::custom('domaines', new FiltersProfileTag),
-                AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
                 AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
-                AllowedFilter::custom('match_mission', new FiltersMatchMission),
+                // AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
                 AllowedFilter::exact('referent_department'),
@@ -106,7 +104,6 @@ class ProfileController extends Controller
     //             AllowedFilter::custom('zips', new FiltersProfileZips),
     //             AllowedFilter::custom('role', new FiltersProfileRole),
     //             AllowedFilter::custom('domaines', new FiltersProfileTag),
-    //             AllowedFilter::custom('collectivity', new FiltersProfileCollectivity),
     //             AllowedFilter::custom('disponibilities', new FiltersDisponibility),
     //             AllowedFilter::custom('skills', new FiltersProfileSkill),
     //             AllowedFilter::custom('match_mission', new FiltersMatchMission),

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Collectivity;
 use App\Models\Release;
 use App\Models\Structure;
 use App\Models\Mission;

@@ -16,6 +16,7 @@ export default ({ app, $config }) => {
     el.setAttribute('src', 'https://static.axept.io/sdk.js')
     el.setAttribute('type', 'text/javascript')
     el.setAttribute('async', true)
+    el.setAttribute('defer', true)
     el.setAttribute('data-id', '606dd246669e09466761ef93')
     el.setAttribute('data-cookies-version', 'jeveuxaider-base')
     if (document.body !== null) {

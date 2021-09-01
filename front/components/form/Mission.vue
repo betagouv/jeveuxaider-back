@@ -88,16 +88,7 @@
       >
         <div class="flex items-center">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Titre de la mission
           </h4>
@@ -108,16 +99,7 @@
         </div>
         <div class="flex items-center mt-6">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Présentation de la mission
           </h4>
@@ -126,16 +108,7 @@
         <div class="mt-2 break-normal" v-html="form.template.objectif" />
         <div class="flex items-center mt-6">
           <h4
-            class="
-              flex-shrink-0
-              pr-4
-              bg-white
-              text-sm
-              tracking-wider
-              font-semibold
-              uppercase
-              text-gray-700
-            "
+            class="flex-shrink-0 pr-4 bg-white text-sm tracking-wider font-semibold uppercase text-gray-700"
           >
             Précisions
           </h4>
@@ -240,6 +213,11 @@
           prop="objectif"
           class="flex-1"
         >
+          <ItemDescription container-class="mb-3">
+            Présentez en quelques mots le contexte dans lequel s'inscrit
+            l'intervention du bénévole (historique et objectifs de la mission).
+          </ItemDescription>
+
           <RichEditor v-model="form.objectif" />
         </el-form-item>
 
@@ -249,6 +227,11 @@
           prop="description"
           class="flex-1"
         >
+          <ItemDescription container-class="mb-3">
+            Décrivez les modalités concrètes de l'intervention du bénévole
+            (rôle, actions à réaliser, modalités d'organisation de la mission).
+          </ItemDescription>
+
           <RichEditor v-model="form.description" />
         </el-form-item>
       </div>
@@ -267,10 +250,10 @@
             v-for="item in $store.getters.taxonomies
               .mission_publics_beneficiaires.terms"
             :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            :label="item.value"
             border
-          ></el-checkbox>
+            >{{ item.label }}</el-checkbox
+          >
         </el-checkbox-group>
       </el-form-item>
 
@@ -317,37 +300,13 @@
             <div
               v-for="item in form.skills"
               :key="item.id"
-              class="
-                flex
-                items-center
-                space-x-4
-                py-2
-                pl-3
-                pr-2
-                rounded-10
-                border border-blue-800
-                bg-white
-              "
+              class="flex items-center space-x-4 py-2 pl-3 pr-2 rounded-10 border border-blue-800 bg-white"
             >
               <div class="flex-none text-sm text-blue-800 font-bold">
                 {{ item.name.fr }}
               </div>
               <div
-                class="
-                  flex-none
-                  cursor-pointer
-                  w-6
-                  h-6
-                  p-1
-                  transform
-                  will-change-transform
-                  text-blue-800
-                  hover:text-red-700
-                  hover:scale-125
-                  transition
-                  ease-in-out
-                  duration-150
-                "
+                class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-blue-800 hover:text-red-700 hover:scale-125 transition ease-in-out duration-150"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
                   require('@/assets/images/icones/heroicon/close.svg?include')
@@ -367,10 +326,10 @@
             v-for="item in $store.getters.taxonomies.mission_publics_volontaires
               .terms"
             :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            :label="item.value"
             border
-          ></el-checkbox>
+            >{{ item.label }}</el-checkbox
+          >
         </el-checkbox-group>
       </el-form-item>
 
@@ -409,20 +368,24 @@
       <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4 mb-8">
         <el-form-item
           label="Durée d'engagement minimum"
-          prop="commitment__hours"
+          prop="commitment__duration"
           class="mb-0 flex-none"
         >
-          <el-input-number
-            v-model="form.commitment__hours"
-            :step="1"
-            :min="1"
-            step-strictly
-          ></el-input-number>
+          <el-select
+            v-model="form.commitment__duration"
+            placeholder="Choisissez une durée"
+            clearable
+          >
+            <el-option
+              v-for="item in $store.getters.taxonomies.duration.terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
 
-        <span class="flex-none pt-5 h-10">
-          {{ form.commitment__hours | pluralize(['heure par', 'heures par']) }}
-        </span>
+        <span class="flex-none pt-5 h-10"> par </span>
 
         <el-form-item
           label="Fréquence (facultatif)"
@@ -569,14 +532,17 @@
 
       <div class="flex items-start gap-4 pt-8">
         <div
-          v-if="form.state == 'Brouillon'"
+          v-if="
+            form.state == 'Brouillon' &&
+            $store.getters.user.context_role != 'admin'
+          "
           class="flex flex-col items-center"
         >
           <el-button
             type="secondary"
             :loading="loading"
             class="el-button--submit"
-            @click="onSubmit()"
+            @click="onSubmit('Brouillon')"
           >
             Enregistrer en brouillon
           </el-button>
@@ -592,23 +558,40 @@
         </div>
 
         <el-button
+          v-if="
+            form.template_id &&
+            ['Brouillon'].includes(form.state) &&
+            $store.getters.user.context_role != 'admin'
+          "
           type="success"
           :loading="loading"
           class="el-button--submit"
-          @click="
-            onSubmit(form.template_id ? 'Validée' : 'En attente de validation')
-          "
+          @click="onSubmit('Validée')"
         >
-          <template
-            v-if="
-              !form.template_id &&
-              (!form.state ||
-                ['En attente de validation', 'Brouillon'].includes(form.state))
-            "
-          >
-            Soumettre à validation
-          </template>
-          <template v-else> Enregistrer </template>
+          Enregistrer et publier
+        </el-button>
+
+        <el-button
+          v-else-if="
+            ['En attente de validation', 'Brouillon'].includes(form.state) &&
+            $store.getters.user.context_role != 'admin'
+          "
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="onSubmit('En attente de validation')"
+        >
+          Soumettre à validation
+        </el-button>
+
+        <el-button
+          v-else
+          type="success"
+          :loading="loading"
+          class="el-button--submit"
+          @click="onSubmit()"
+        >
+          Enregistrer
         </el-button>
       </div>
     </el-form>
@@ -642,7 +625,6 @@ export default {
         skills: [],
         state: 'Brouillon',
         type: 'Mission en présentiel',
-        commitment__hours: 1,
         ...this.mission,
         publics_beneficiaires: this.mission.publics_beneficiaires ?? [],
         publics_volontaires: this.mission.publics_volontaires ?? [],
@@ -725,7 +707,7 @@ export default {
             message: 'La date de début est requise',
           },
         ],
-        commitment__hours: [
+        commitment__duration: [
           {
             required: true,
             message: "La durée d'engagement minimum est requise",
@@ -765,7 +747,7 @@ export default {
           break
         case 'En attente de validation':
           message =
-            'Votre proposition de mission a bien été prise en compte.\r\nElle sera modérée très prochainement.'
+            'Les modifications ont été enregistrées.\r\nVotre mission sera modérée très prochainement.'
           break
         case 'Validée':
           message = !this.form.id
@@ -827,12 +809,11 @@ export default {
       this.loading = true
       this.$refs.missionForm.validate((valid, fields) => {
         if (valid) {
-          this.form.state = state
-
           if (this.mission.id) {
             this.$api
-              .updateMission(this.mission.id, this.form)
-              .then(() => {
+              .updateMission(this.mission.id, { ...this.form, state })
+              .then((updatedMission) => {
+                this.form.state = updatedMission.data.state
                 this.loading = false
                 this.$router.go(-1)
                 this.$message.success({
@@ -844,8 +825,9 @@ export default {
               })
           } else if (this.structureId) {
             this.$api
-              .addStructureMission(this.structureId, this.form)
-              .then(() => {
+              .addStructureMission(this.structureId, { ...this.form, state })
+              .then((updatedMission) => {
+                this.form.state = updatedMission.data.state
                 this.loading = false
                 this.$router.push(
                   `/dashboard/structure/${this.structureId}/missions`

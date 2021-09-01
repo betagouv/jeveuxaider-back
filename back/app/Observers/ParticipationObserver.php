@@ -8,7 +8,6 @@ use App\Models\Structure;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
-use App\Notifications\ParticipationFinished;
 
 class ParticipationObserver
 {
@@ -53,11 +52,6 @@ class ParticipationObserver
                         $participation->profile->notify(new ParticipationCanceled($participation));
                     }
                     break;
-                case 'Effectuée':
-                    if ($participation->profile) {
-                        $participation->profile->notify(new ParticipationFinished($participation));
-                    }
-                    break;
             }
         }
 
@@ -78,7 +72,7 @@ class ParticipationObserver
             }
         }
 
-        // Maj Sendinblue : Le nombre de participation effectuées / validées peut avoir changé
+        // Maj Sendinblue : Le nombre de participations validées peut avoir changé
         if (config('app.env') === 'production') {
             if ($oldState != $newState) {
                 SendinblueSyncUser::dispatch($participation->profile->user);

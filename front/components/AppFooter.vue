@@ -57,6 +57,12 @@
             >
               Politique de confidentialité
             </nuxt-link>
+            <nuxt-link
+              class="block p-3 hover:underline"
+              to="/conditions-generales-d-utilisation"
+            >
+              Conditions générales d’utilisation (CGU)
+            </nuxt-link>
             <a
               class="block p-3 hover:underline"
               href="javascript:openAxeptioCookies()"

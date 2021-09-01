@@ -33,6 +33,7 @@ class RegisterVolontaireRequest extends FormRequest
             'zip' => 'required|postal_code:FR',
             'service_civique' => 'boolean',
             'type' => '',
+            'utm_source' => '',
         ];
     }
 

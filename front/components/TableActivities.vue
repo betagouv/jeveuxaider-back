@@ -121,10 +121,12 @@ export default {
           return 'Nom'
         case 'disponibilities':
           return 'Disponibilités'
-        case 'frequence_granularite':
-          return 'Fréquence par'
-        case 'frequence':
-          return 'Fréquence volume'
+        case 'commitment__duration':
+          return "Fréquence d'engagement"
+        case 'commitment__time_period':
+          return "Durée d'engagement"
+        case 'publics_volontaires':
+          return 'Publics Volontaires'
         default:
           return name
       }
@@ -139,8 +141,6 @@ export default {
           return 'Participation'
         case 'App\\Models\\Profile':
           return 'Utilisateur'
-        case 'App\\Models\\Collectivity':
-          return 'Collectivité'
         case 'App\\Models\\Territoire':
           return 'Territoire'
         default:
@@ -153,8 +153,6 @@ export default {
           return `/dashboard/mission/${row.subject_id}/edit`
         case 'App\\Models\\Structure':
           return `/dashboard/structure/${row.subject_id}`
-        case 'App\\Models\\Collectivity':
-          return `/dashboard/collectivity/${row.subject_id}`
         case 'App\\Models\\Territoire':
           return `/dashboard/territoire/${row.subject_id}`
         case 'App\\Models\\Participation':

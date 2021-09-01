@@ -56,7 +56,7 @@ class ProfileObserver
             $profile->department = Utils::getDepartmentFromZip($profile->zip);
         }
 
-        if ($profile->commitment__hours) {
+        if ($profile->commitment__duration) {
             $profile->setCommitmentTotal();
         }
     }

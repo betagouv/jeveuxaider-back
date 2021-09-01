@@ -10,7 +10,7 @@
       <div>
         <nuxt-link
           v-if="$store.getters.contextRole === 'responsable'"
-          :to="`/dashboard/structure/${$store.getters.structure.id}/missions/add`"
+          :to="`/dashboard/structure/${$store.getters.contextStructure.id}/missions/add`"
         >
           <el-button type="primary"> Créer une mission </el-button>
         </nuxt-link>
@@ -42,7 +42,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
           v-if="$store.getters.contextRole === 'responsable'"
           type="select"
@@ -81,12 +81,6 @@
             })
           "
           @changed="onFilterChange"
-        />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
         />
         <SearchFiltersQuery
           type="select"
@@ -252,10 +246,10 @@ export default {
 
     if (
       this.$store.getters.contextRole === 'responsable' &&
-      this.$store.getters.structure
+      this.$store.getters.contextStructure
     ) {
       this.$api
-        .getStructureMembers(this.$store.getters.structure.id)
+        .getStructureMembers(this.$store.getters.contextStructure.id)
         .then((res) => {
           this.responsables = res.data
         })

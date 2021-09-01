@@ -36,7 +36,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
           name="rna"
           label="RNA"
@@ -44,6 +44,16 @@
           :options="[
             { label: 'Non renseigné', value: 'empty' },
             { label: 'Non applicable', value: 'na' },
+            { label: 'Renseigné', value: 'filled' },
+          ]"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          name="api_id"
+          label="Établissement"
+          :value="query['filter[api_id]']"
+          :options="[
+            { label: 'Non renseigné', value: 'empty' },
             { label: 'Renseigné', value: 'filled' },
           ]"
           @changed="onFilterChange"
@@ -143,11 +153,16 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="rna" label="RNA" width="200">
+      <el-table-column prop="rna" label="API" width="300">
         <template slot-scope="scope">
-          <div v-if="scope.row.rna" class="">
-            {{ scope.row.rna }}
-          </div>
+          <div v-if="scope.row.rna" class="">RNA: {{ scope.row.rna }}</div>
+          <a
+            v-if="scope.row.api_id"
+            :href="`https://api-association.cleverapps.io/association/${scope.row.rna}/etablissement/${scope.row.api_id}`"
+            class=""
+            target="_blank"
+            >Fiche: {{ scope.row.api_id }}</a
+          >
         </template>
       </el-table-column>
     </el-table>

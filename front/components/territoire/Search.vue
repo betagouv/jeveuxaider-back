@@ -9,14 +9,7 @@
             </p>
 
             <p
-              class="
-                text-3xl
-                lg:text-4xl
-                leading-none
-                font-extrabold
-                tracking-px
-                lg:tracking-2px
-              "
+              class="text-3xl lg:text-4xl leading-none font-extrabold tracking-px lg:tracking-2px"
             >
               Parmi les dernières missions <br class="hidden md:block" />de
               bénévolat {{ territoire.suffix_title }}
@@ -52,24 +45,7 @@
           <div v-if="moreLink" class="text-center mt-6">
             <nuxt-link :to="moreLink">
               <button
-                class="
-                  leading-none
-                  uppercase
-                  shadow-lg
-                  text-xs
-                  font-extrabold
-                  rounded-full
-                  text-gray-500
-                  bg-white
-                  py-4
-                  px-8
-                  hover:scale-105
-                  transform
-                  transition
-                  duration-150
-                  ease-in-out
-                  will-change-transform
-                "
+                class="leading-none uppercase shadow-lg text-xs font-extrabold rounded-full text-gray-500 bg-white py-4 px-8 hover:scale-105 transform transition duration-150 ease-in-out will-change-transform"
               >
                 <span v-if="!missions.length">Voir les missions</span>
                 <span v-else>Plus de missions</span>

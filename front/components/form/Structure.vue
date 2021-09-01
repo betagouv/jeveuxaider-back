@@ -28,6 +28,20 @@
       <el-input v-model="form.rna" placeholder="Numéro RNA" />
     </el-form-item>
 
+    <el-form-item
+      v-if="
+        $store.getters.contextRole == 'admin' &&
+        form.statut_juridique == 'Association'
+      "
+      label="API ID Établissement"
+      prop="api_id"
+    >
+      <el-input
+        v-model="form.api_id"
+        placeholder="Numéro d'établissement sur l'API"
+      />
+    </el-form-item>
+
     <el-form-item label="Statut juridique" prop="statut_juridique">
       <el-select v-model="form.statut_juridique" placeholder="Statut juridique">
         <el-option
@@ -111,7 +125,12 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="Domaines d'action" prop="domaines" class="">
+    <el-form-item
+      v-if="form.statut_juridique != 'Collectivité'"
+      label="Domaines d'action"
+      prop="domaines"
+      class=""
+    >
       <el-checkbox-group
         v-model="domainesSelected"
         size="medium"
@@ -129,6 +148,7 @@
       </el-checkbox-group>
     </el-form-item>
     <el-form-item
+      v-if="form.statut_juridique != 'Collectivité'"
       label="Publics bénéficiaires"
       prop="publics_beneficiaires"
       class=""
@@ -163,7 +183,7 @@
       />
     </el-form-item>
 
-    <el-form-item label="Email publique de votre organisation" prop="email">
+    <el-form-item label="E-mail public de votre organisation" prop="email">
       <el-input
         v-model="form.email"
         placeholder="contact@mon-organisation.fr"
@@ -199,6 +219,16 @@
           :value="item.id"
         />
       </el-select>
+    </el-form-item>
+    <el-form-item
+      v-if="$store.getters.contextRole === 'admin'"
+      label="Tête de réseau"
+      prop="is_reseau"
+      class="flex-1"
+    >
+      <el-checkbox v-model="form.is_reseau">
+        <span class=""> Cette organisation est une tête de réseau </span>
+      </el-checkbox>
     </el-form-item>
 
     <div class="mt-12 mb-6 flex text-gray-800 text-1-5xl font-bold">
@@ -319,21 +349,7 @@
             @click="onEditImageClick(0)"
           />
           <div
-            class="
-              z-1
-              absolute
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              text-blue-800
-              bg-white
-              rounded-full
-              opacity-75
-              group-hover:opacity-100
-              pointer-events-none
-            "
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
@@ -391,21 +407,7 @@
             @click="onEditImageClick(1)"
           />
           <div
-            class="
-              z-1
-              absolute
-              flex
-              justify-center
-              items-center
-              w-8
-              h-8
-              text-blue-800
-              bg-white
-              rounded-full
-              opacity-75
-              group-hover:opacity-100
-              pointer-events-none
-            "
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-blue-800 bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
             style="right: 12px; bottom: 12px"
           >
             <div
@@ -468,6 +470,17 @@
         </el-option>
       </el-select>
     </el-form-item>
+
+    <div
+      v-if="$store.getters.contextRole === 'admin'"
+      class="bg-red-100 p-4 rounded-10 mb-8"
+    >
+      <el-form-item prop="send_volunteer_coordonates" class="flex-1 mb-0">
+        <el-checkbox v-model="form.send_volunteer_coordonates">
+          <span> Inclure les coordonnées des participants dans les mails </span>
+        </el-checkbox>
+      </el-form-item>
+    </div>
 
     <div class="flex pt-2 items-center">
       <el-button type="primary" :loading="loading" @click="onSubmit">
@@ -673,14 +686,14 @@ export default {
           center: true,
           type: 'error',
         }
-      ).then(() => {
+      ).then(async () => {
         this.form.state = 'Désinscrite'
-        this.$api.updateStructure(this.form.id, this.form).then(() => {
-          this.$message.success({
-            message: `Votre organisation ${this.form.name} a bien été supprimée.`,
-          })
-          this.$router.push('/')
+        await this.$api.updateStructure(this.form.id, this.form)
+        await this.$store.dispatch('auth/fetchUser')
+        this.$message.success({
+          message: `Votre organisation ${this.form.name} a bien été supprimée.`,
         })
+        this.$router.push('/')
       })
     },
     uploadImages() {

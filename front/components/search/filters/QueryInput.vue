@@ -1,5 +1,5 @@
 <template>
-  <div class="query-search-filter mr-4 mb-4">
+  <div class="query-search-filter">
     <div class="text-secondary text-xs uppercase font-semibold mb-2">
       {{ label }}
     </div>

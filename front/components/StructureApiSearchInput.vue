@@ -6,7 +6,7 @@
       :suggestions="suggestions"
       :get-suggestion-value="getSuggestionValue"
       :input-props="{
-        placeholder: 'Nom de votre organisation',
+        placeholder,
         autocomplete: 'new-password',
       }"
       class="relative w-full leading-none"
@@ -19,44 +19,47 @@
     >
       <template slot="before-section-default">
         <div
-          class="
-            text-md text-gray-700
-            py-3
-            px-4
-            font-bold
-            uppercase
-            bg-gray-200
-            tracking-wider
-          "
+          class="text-xs text-gray-700 p-4 px-6 font-bold uppercase border-b"
         >
           Suggestions
         </div>
       </template>
 
       <template slot-scope="{ suggestion }">
-        <div class="mb-1">{{ suggestion.item.name }}</div>
-        <div class="text-xs text-gray-500">RNA {{ suggestion.item.rna }}</div>
+        <div class="mb-2 font-semibold">{{ suggestion.item.name }}</div>
+        <div class="text-sm text-gray-500">RNA {{ suggestion.item.rna }}</div>
         <div
           v-if="suggestion.item.coordonnees.adresse"
-          class="text-xs text-gray-500"
+          class="text-sm text-gray-500 mt-2"
         >
           {{ suggestion.item.coordonnees.adresse.nom_complet }}
         </div>
       </template>
-      <template slot="after-input">
+      <slot slot="after-input">
         <div
           v-if="loading"
           class="absolute z-10 w-5 h-5 text-gray-300 animate-spin"
           style="right: 15px; top: 13px"
           v-html="require('@/assets/images/icones/spinner.svg?include')"
         ></div>
+        <el-button
+          v-else-if="showAddButton && query && query.length > 0"
+          :loading="loadingAddButton"
+          style="right: 7px; top: 7px"
+          type="primary"
+          class="absolute z-10 justify-center uppercase px-4 py-2 border border-transparent rounded-lg shadow font-bold text-white hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+          @click="$emit('added', query)"
+          @keyup.enter="$emit('added', query)"
+        >
+          Ajouter
+        </el-button>
         <div
           v-else
           class="absolute z-10 w-5 h-5 text-gray-300"
           style="right: 15px; top: 13px"
           v-html="require('@/assets/images/icones/heroicon/search.svg?include')"
         ></div>
-      </template>
+      </slot>
     </vue-autosuggest>
   </div>
 </template>
@@ -67,6 +70,22 @@ import { VueAutosuggest } from 'vue-autosuggest'
 export default {
   components: {
     VueAutosuggest,
+  },
+  props: {
+    placeholder: {
+      type: String,
+      default: 'Nom de votre organisation',
+    },
+    showAddButton: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    loadingAddButton: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -86,6 +105,7 @@ export default {
       }
     },
     onInputChange(text) {
+      this.$emit('input', text)
       this.$emit('change', text)
       this.$emit('clear')
       this.search()
@@ -106,19 +126,23 @@ export default {
     },
     async search() {
       this.loading = true
-      const res = await this.$axios.post(
-        'https://api.api-engagement.beta.gouv.fr/v0/association/search',
-        {
-          name: this.query,
-        },
-        {
-          headers: {
-            apikey: this.$config.apieng.key,
+      const res = await this.$axios
+        .post(
+          'https://api.api-engagement.beta.gouv.fr/v1/association/search',
+          {
+            name: this.query,
           },
-        }
-      )
-      this.loading = false
-      this.suggestions = [{ data: res.data.data }]
+          {
+            headers: {
+              apikey: this.$config.apieng.key,
+            },
+          }
+        )
+        .catch(() => (this.loading = false))
+      if (res.data) {
+        this.loading = false
+        this.suggestions = [{ data: res.data.data }]
+      }
     },
   },
 }
@@ -136,7 +160,7 @@ export default {
     max-width: 480px
     @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200
   .autosuggest__results-item
-    @apply px-4 py-3
+    @apply px-6 py-4
     &:not(:last-child)
       @apply border-b border-gray-100
     &.autosuggest__results-item--highlighted

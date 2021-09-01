@@ -64,7 +64,7 @@ export default {
       )
     },
     statesAvailable() {
-      return this.$store.getters.taxonomies.collectivities_states.terms.filter(
+      return this.$store.getters.taxonomies.territoires_states.terms.filter(
         (item) =>
           !['waiting'].includes(item.value) &&
           item.value != this.territoire.state

@@ -24,18 +24,14 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
-Route::get('association/{slug}', 'Api\StructureController@associationSlug');
+Route::get('association/{slugOrId}', 'Api\StructureController@associationSlugOrId');
 
+Route::get('structure/{rnaOrName}/exist', 'Api\StructureController@exist');
 Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
 
 Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 Route::get('sitemap', 'Api\ConfigController@sitemap');
 
-Route::get('collectivities', 'Api\CollectivityController@collectivities');
-Route::get('collectivities/all', 'Api\CollectivityController@all');
-Route::get('departments', 'Api\CollectivityController@departments');
-Route::get('collectivity/{slugOrId}', 'Api\CollectivityController@show');
-Route::get('collectivity/{slugOrId}/statistics', 'Api\CollectivityController@statistics');
 Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
 Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
@@ -59,6 +55,8 @@ Route::get('territoires', 'Api\TerritoireController@index');
 
 Route::get('tags', 'Api\TagController@index');
 
+Route::post('reseau/lead', 'Api\ReseauController@lead');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -73,11 +71,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('structure/{structure}', 'Api\StructureController@update');
     Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
-
-    Route::post('collectivity', 'Api\CollectivityController@store');
-    Route::post('collectivity/{collectivity}', 'Api\CollectivityController@update');
-    Route::post('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@upload');
-    Route::delete('collectivity/{collectivity}/upload/{field}', 'Api\CollectivityController@uploadDelete');
 
     Route::post('participation', 'Api\ParticipationController@store');
     Route::post('participation/{participation}/cancel', 'Api\ParticipationController@cancel');
@@ -114,6 +107,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structure/{structure}', 'Api\StructureController@show');
 
     Route::delete('structure/{structure}', 'Api\StructureController@delete');
+    Route::post('structure/{structure}/restore', 'Api\StructureController@restore');
 
     // STRUCTURE
     Route::post('structure/{structure}/missions', 'Api\StructureController@addMission');
@@ -134,6 +128,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
     Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
+    Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -166,17 +161,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('statistics/departments', 'Api\StatisticsController@departments');
     Route::get('statistics/places', 'Api\StatisticsController@places');
     Route::get('statistics/occupation-rate', 'Api\StatisticsController@occupationRate');
-    Route::get('statistics/collectivities', 'Api\StatisticsController@collectivities');
     Route::get('statistics/structures', 'Api\StatisticsController@structures');
     Route::get('statistics/profiles', 'Api\StatisticsController@profiles');
     Route::get('statistics/skills', 'Api\StatisticsController@skills');
     Route::get('statistics/participations', 'Api\StatisticsController@participations');
     Route::get('statistics/domaines', 'Api\StatisticsController@domaines');
     Route::get('statistics/online', 'Api\StatisticsController@online');
-
-    Route::get('collectivity/{collectivity}/statistics/missions', 'Api\CollectivityController@statisticsMissions');
-    Route::get('collectivity/{collectivity}/statistics/participations', 'Api\CollectivityController@statisticsParticipations');
-    Route::get('collectivity/{collectivity}/charts/created', 'Api\CollectivityController@chartsCreated');
 
     Route::get('charts/created', 'Api\ChartController@created');
 
@@ -220,16 +210,10 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('structure/{structure}/rna', 'Api\RnaController@assign');
 
     // TRASH
-    Route::get('trash/structures', 'Api\TrashController@structures');
-    Route::get('trash/missions', 'Api\TrashController@missions');
-    Route::get('trash/participations', 'Api\TrashController@participations');
+    Route::get('trash/{model}', 'Api\TrashController@index');
     Route::delete('structure/{id}/destroy', 'Api\StructureController@destroy');
-    Route::delete('collectivity/{id}/destroy', 'Api\CollectivityController@destroy');
     Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
     Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
-
-    // COLLECTIVITIES
-    Route::delete('collectivity/{collectivity}', 'Api\CollectivityController@delete');
 
     // THEMATIQUES
     Route::get('thematiques', 'Api\ThematiqueController@index');

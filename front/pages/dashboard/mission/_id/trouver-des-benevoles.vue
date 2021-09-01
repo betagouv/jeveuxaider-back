@@ -45,32 +45,14 @@
               <div
                 v-for="domain in mission.domaines"
                 :key="domain.id"
-                class="
-                  flex-shrink-0
-                  inline-block
-                  px-2
-                  py-0.5
-                  text-gray-800 text-xs
-                  font-medium
-                  bg-gray-100
-                  rounded-full
-                "
+                class="flex-shrink-0 inline-block px-2 py-0.5 text-gray-800 text-xs font-medium bg-gray-100 rounded-full"
               >
                 {{ domain.name.fr }}
               </div>
             </div>
             <div
               v-if="mission.type == 'Mission en présentiel'"
-              class="
-                flex-shrink-0
-                inline-block
-                px-2
-                py-0.5
-                text-gray-800 text-xs
-                font-medium
-                bg-gray-100
-                rounded-full
-              "
+              class="flex-shrink-0 inline-block px-2 py-0.5 text-gray-800 text-xs font-medium bg-gray-100 rounded-full"
             >
               {{ mission.department | labelFromValue('departments') }}
             </div>
@@ -85,12 +67,12 @@
     </div>
 
     <div class="px-12 py-6 bg-gray-50 border-gray-200 border-t">
-      <div class="flex flex-wrap mb-2">
+      <div class="flex flex-wrap gap-4 mb-6">
         <SearchFiltersQueryCommitment
           label="Engagement minimum"
-          placeholder-period="an"
-          :minimum-commitment="query['filter[minimum_commitment]']"
-          class="w-64"
+          :value="query['filter[minimum_commitment]']"
+          name="minimum_commitment"
+          @changed="onFilterChange"
         />
         <SearchFiltersQuery
           v-if="mission.type == 'Mission en présentiel'"
@@ -99,9 +81,11 @@
           multiple
           allow-create
           default-first-option
+          popper-classes="hidden"
           :value="query['filter[zips]']"
           :options="[]"
-          placeholder="Entrer les codes post."
+          placeholder="Entrer les codes postaux"
+          class="hide-carret w-52"
           @changed="onFilterChange"
         />
         <SearchFiltersQuery
@@ -110,6 +94,7 @@
           :value="query['filter[disponibilities]']"
           label="Disponibilités"
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
+          class="w-52"
           @changed="onFilterChange"
         />
         <SearchFiltersQuerySkills
@@ -119,17 +104,13 @@
           :value="query['filter[skills]']"
           label="Compétences"
           :options="$store.getters.taxonomies.profile_disponibilities.terms"
+          style="min-width: 280px"
+          class="flex-grow"
           @changed="onFilterChange"
         />
       </div>
       <ul
-        class="
-          grid grid-cols-1
-          gap-6
-          xs:grid-cols-2
-          lg:grid-cols-2
-          xl:grid-cols-3
-        "
+        class="grid grid-cols-1 gap-6 xs:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
       >
         <li
           v-for="item in tableData"
@@ -147,22 +128,12 @@
                   {{ item.first_name }} {{ item.last_name[0] }}.
                 </h3>
                 <div
-                  class="
-                    flex-shrink-0
-                    inline-block
-                    px-2
-                    py-0.5
-                    text-green-800 text-xs
-                    font-medium
-                    bg-green-100
-                    rounded-full
-                  "
+                  class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
                 >
-                  <template v-if="item.commitment__hours">
+                  <template v-if="item.commitment__duration">
                     <span>
-                      {{ item.commitment__hours }}
                       {{
-                        item.commitment__hours | pluralize(['heure', 'heures'])
+                        item.commitment__duration | labelFromValue('duration')
                       }}
                     </span>
                     <template v-if="item.commitment__time_period">
@@ -183,19 +154,30 @@
               </div>
             </div>
 
-            <div class="h-10 text-gray-500 text-sm">
-              <template v-if="item.disponibilities">
-                {{
-                  item.disponibilities
-                    .map(
-                      (disponibility) =>
-                        $store.getters.taxonomies.profile_disponibilities.terms.filter(
-                          (dispo) => dispo.value == disponibility
-                        )[0].label
-                    )
-                    .join(' • ')
-                }}
-              </template>
+            <div class="text-gray-500 text-sm" style="min-height: 40px">
+              <v-clamp :max-lines="2" autoresize class="">
+                <template v-if="item.disponibilities">
+                  {{
+                    item.disponibilities
+                      .map(
+                        (disponibility) =>
+                          $store.getters.taxonomies.profile_disponibilities.terms.filter(
+                            (dispo) => dispo.value == disponibility
+                          )[0].label
+                      )
+                      .join(' • ')
+                  }}
+                </template>
+
+                <template slot="after" slot-scope="{ clamped, toggle }">
+                  <span
+                    v-if="clamped"
+                    class="ml-1 cursor-pointer uppercase font-bold text-xs text-gray-800"
+                    @click="toggle"
+                    >Voir plus</span
+                  >
+                </template>
+              </v-clamp>
             </div>
             <div class="border-t border-dashed pt-4 flex flex-col space-y-2">
               <div class="text-xs uppercase text-gray-900 font-bold">
@@ -278,8 +260,12 @@ export default {
     }
     const mission = await $api.getMission(params.id)
 
+    if (!mission?.permissions?.canFindBenevoles) {
+      return error({ statusCode: 403 })
+    }
+
     if (store.getters.contextRole == 'responsable') {
-      if (store.getters.structure.id != mission.structure_id) {
+      if (store.getters.contextStructure.id != mission.structure_id) {
         return error({ statusCode: 403 })
       }
     }
@@ -354,3 +340,12 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.hide-carret
+  &::v-deep
+    .el-input__suffix
+      @apply hidden
+    .el-input__inner
+      padding: 0 15px
+</style>

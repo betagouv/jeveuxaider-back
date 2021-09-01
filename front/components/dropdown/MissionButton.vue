@@ -45,15 +45,12 @@ export default {
     hanldleClone() {
       this.loading = true
       this.$api.cloneMission(this.mission.id).then((response) => {
-        this.$router
-          .push({
-            path: `/dashboard/mission/${response.data.id}/edit`,
-          })
-          .then(() => {
-            this.$message.success({
-              message: 'La mission a été dupliquée !',
-            })
-          })
+        this.$router.push({
+          path: `/dashboard/mission/${response.data.id}/edit`,
+        })
+        this.$message.success({
+          message: 'La mission a été dupliquée !',
+        })
       })
     },
     handleDelete() {

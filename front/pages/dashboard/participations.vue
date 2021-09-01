@@ -53,7 +53,7 @@
           Filtres avancés
         </el-button>
       </div>
-      <div v-if="showFilters" class="flex flex-wrap">
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
           name="state"
           label="Statut"
@@ -123,12 +123,6 @@
             })
           "
           @changed="onFilterChange"
-        />
-        <SearchFiltersQueryAutocompleteCollectivities
-          type="select"
-          name="collectivity"
-          :value="query['filter[collectivity]']"
-          label="Collectivité"
         />
         <SearchFiltersQuery
           type="select"

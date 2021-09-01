@@ -538,8 +538,12 @@
 <script>
 export default {
   layout: 'organisation',
-  async asyncData({ $api, params, error }) {
-    const organisation = await $api.getAssociationBySlug(params.slug)
+  async asyncData({ $api, params, error, redirect }) {
+    const organisation = await $api.getAssociationBySlugOrId(params.slug)
+    if (/^\d+$/.test(params.slug)) {
+      // Redirect orga/id vers orga/slug
+      redirect(301, `/organisations/${organisation.slug}`)
+    }
 
     if (!organisation) {
       return error({ statusCode: 404 })
@@ -575,7 +579,7 @@ export default {
       link: [
         {
           rel: 'canonical',
-          href: `https://www.jeveuxaider.gouv.fr/organisation/${this.organisation.id}`,
+          href: `https://www.jeveuxaider.gouv.fr/organisation/${this.organisation.slug}`,
         },
       ],
       meta: [
@@ -646,22 +650,22 @@ export default {
     iconPublicType(publicType) {
       let icon
       switch (publicType) {
-        case 'Personnes âgées':
+        case 'seniors':
           icon = require('@/assets/images/icones/personnes_agees.svg?include')
           break
-        case 'Personnes en situation de handicap':
+        case 'persons_with_disabilities':
           icon = require('@/assets/images/icones/handicap.svg?include')
           break
-        case 'Personnes à la rue':
+        case 'people_in_difficulty':
           icon = require('@/assets/images/icones/helping_hand.svg?include')
           break
-        case 'Parents':
+        case 'parents':
           icon = require('@/assets/images/icones/parents.svg?include')
           break
-        case 'jeunes_enfants':
+        case 'children':
           icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
           break
-        case 'Tous publics':
+        case 'any_public':
           icon = require('@/assets/images/icones/tous_public.svg?include')
           break
       }

@@ -245,10 +245,7 @@ export default {
           .notifyDocument(this.form.id)
           .then((response) => {
             this.$message({
-              message:
-                'Une notification a été envoyée à  ' +
-                response.data.notify_count +
-                ' référents',
+              message: `Une notification a été envoyée à ${response.data.notify_count} référents`,
               type: 'success',
             })
           })

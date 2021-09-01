@@ -23,9 +23,6 @@
           <template v-if="state.value == 'Annulée'"
             >Annuler la participation</template
           >
-          <template v-if="state.value == 'Effectuée'"
-            >Terminer la mission</template
-          >
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -129,9 +126,6 @@ export default {
       if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le bénévole sera notifié de ce changement.`
       }
-      if (state == 'Effectuée') {
-        this.message = `Le réserviste a terminé la mission. Il sera notifié de ce changement.`
-      }
       if (state == 'Annulée') {
         this.message = `Vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le réserviste sera averti automatiquement.`
       }
@@ -143,14 +137,12 @@ export default {
       })
         .then(() => {
           this.loading = true
-          console.log('go update participation')
           this.$api
             .updateParticipation(this.participation.id, {
               ...this.participation,
               state,
             })
             .then((response) => {
-              console.log('then ?!')
               this.$message.success({
                 message: 'Le statut de la participation a été mis à jour',
               })
@@ -163,7 +155,6 @@ export default {
               this.loading = false
             })
             .catch((error) => {
-              console.log('catch !')
               this.loading = false
               this.errors = error.response.data.errors
             })

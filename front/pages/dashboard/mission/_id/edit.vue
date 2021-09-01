@@ -24,7 +24,7 @@
             ? 'bg-green-500'
             : 'bg-red-500'
         "
-        class="rounded-full h-2 w-2 mr-2"
+        class="rounded-full h-2 w-2 mr-2 flex-none"
       ></div>
 
       <nuxt-link
@@ -68,7 +68,7 @@ export default {
     }
 
     if (store.getters.contextRole == 'responsable') {
-      if (store.getters.structure.id != mission.structure_id) {
+      if (store.getters.contextStructure.id != mission.structure_id) {
         return error({ statusCode: 403 })
       }
     }

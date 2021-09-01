@@ -58,11 +58,13 @@ class Structure extends Model implements HasMedia
         'publics_beneficiaires',
         'image_1',
         'image_2',
+        'api_id',
         'rna',
         'phone',
         'email',
         'slug',
-        'color'
+        'color',
+        'send_volunteer_coordonates',
     ];
 
     protected $attributes = [
@@ -76,12 +78,12 @@ class Structure extends Model implements HasMedia
         'latitude' => 'float',
         'longitude' => 'float',
         'publics_beneficiaires' => 'array',
+        'send_volunteer_coordonates' => 'boolean',
     ];
 
     protected $hidden = ['media'];
 
     protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
-    // protected $with = ['collectivity'];
 
     protected static $logFillable = true;
 
@@ -120,9 +122,6 @@ class Structure extends Model implements HasMedia
                 return $query
                     ->whereNotNull('reseau_id')
                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
-                break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
         }
     }
@@ -213,22 +212,12 @@ class Structure extends Model implements HasMedia
             });
     }
 
-    public function collectivity()
+    public function territoire()
     {
-        return $this->hasOne('App\Models\Collectivity');
+        return $this->hasOne('App\Models\Territoire');
     }
 
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        $collectivity = Collectivity::find($collectivity_id);
-
-        if ($collectivity->type == 'commune') {
-            return $query
-                ->whereIn('zip', $collectivity->zips);
-        }
-    }
-
-    public function scopeTerritoire($query, $territoire_id)
+    public function scopeOfTerritoire($query, $territoire_id)
     {
         $territoire = Territoire::find($territoire_id);
 
@@ -367,14 +356,6 @@ class Structure extends Model implements HasMedia
         return $this;
     }
 
-    public function getResponseRatioAttribute($response_ratio)
-    {
-        if ($response_ratio == null) {
-            return 50;
-        }
-        return $response_ratio;
-    }
-
     public function setResponseTime()
     {
         $avgResponseTime = $this->conversations->avg('response_time');
@@ -471,6 +452,35 @@ class Structure extends Model implements HasMedia
 
     public function canBeSendToApiEngagement()
     {
-        return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A';
+        return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A' && $this->api_id;
+    }
+
+    public function getCompletionRateAttribute()
+    {
+        $fields = [
+            ['name' => 'rna', 'label' => 'RNA'],
+            ['name' => 'logo', 'label' => 'Logo'],
+            ['name' => 'email', 'label' => "E-mail public de l'organisation"],
+            ['name' => 'phone', 'label' => "Téléphone de l'organisation"],
+            ['name' => 'website', 'label' => "Site de l'organisation"],
+            ['name' => 'facebook', 'label' => "Page Facebook"],
+            ['name' => 'twitter', 'label' => "Page Twitter"],
+            ['name' => 'instagram', 'label' => "Profil Instagram"],
+        ];
+        $existingFieldsCount = 0;
+        $missingFields = [];
+
+        foreach ($fields as $field) {
+            if ($this->{$field['name']}) {
+                $existingFieldsCount++;
+            } else {
+                $missingFields[] = $field;
+            }
+        }
+
+        return [
+            'score' => round($existingFieldsCount / count($fields) * 100),
+            'missing_fields' => $missingFields
+        ];
     }
 }

@@ -10,22 +10,15 @@
         "
         class="mb-6"
       />
-      <ReminderResponsable
-        v-if="
-          $store.getters.reminders &&
-          $store.getters.contextRole === 'responsable'
-        "
-        class="mb-6"
-      />
-
+      <!--
       <BannerPageOrga
         v-if="
           $store.getters.contextRole === 'responsable' &&
-          $store.getters.structure.statut_juridique == 'Association' &&
-          $store.getters.structure.state == 'Validée'
+          $store.getters.contextStructure.statut_juridique == 'Association' &&
+          $store.getters.contextStructure.state == 'Validée'
         "
         class="mb-6"
-      />
+      /> -->
     </div>
     <div class="px-12">
       <div class="flex flex-wrap">

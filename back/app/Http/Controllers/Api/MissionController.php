@@ -14,7 +14,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
 use App\Filters\FiltersDisponibility;
-use App\Filters\FiltersMissionCollectivity;
 use App\Filters\FiltersMissionDates;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
@@ -53,7 +52,6 @@ class MissionController extends Controller
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
-                AllowedFilter::custom('collectivity', new FiltersMissionCollectivity),
                 AllowedFilter::exact('responsable_id'),
             ])
             ->allowedSorts(['places_left', 'type'])
@@ -70,7 +68,10 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first()->append(['skills','domaines', 'domaine_secondaire']);
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+            if ($mission) {
+                $mission->append(['skills','domaines', 'domaine_secondaire']);
+            }
         } else {
             // API ENGAGEMENT
             $api = new ApiEngagement();
@@ -111,9 +112,17 @@ class MissionController extends Controller
         return (string) $mission->delete();
     }
 
+    public function restore($id)
+    {
+        $mission = Mission::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $mission);
+        return (string) $mission->restore();
+    }
+
     public function destroy($id)
     {
         $mission = Mission::withTrashed()->findOrFail($id);
+        $this->authorize('destroy', $mission);
         return (string) $mission->forceDelete();
     }
 

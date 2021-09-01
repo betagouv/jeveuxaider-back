@@ -132,7 +132,7 @@
                 Vous êtes une organisation ?
               </dt>
               <nuxt-link
-                to="/register/responsable"
+                to="/inscription/organisation"
                 class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-blue-900 bg-blue-200 hover:shadow-lg hover:text-gray-800 hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
               >
                 Publiez vos missions
@@ -146,7 +146,7 @@
                 Vous êtes une collectivité ?
               </dt>
               <nuxt-link
-                to="/register/responsable"
+                to="/inscription/organisation?orga_type=Collectivité"
                 class="mt-4 w-full flex justify-center py-3 px-4 rounded-lg text-lg shadow-sm font-bold text-blue-900 bg-blue-200 hover:shadow-lg hover:text-gray-800 hover:border-transparent hover:bg-white hover:scale-105 transform transition duration-150 ease-in-out"
               >
                 Créez votre page
@@ -237,9 +237,9 @@ export default {
   methods: {
     onSubmit() {
       this.loading = true
-      this.$refs.loginForm.validate((valid, fields) => {
+      this.$refs.loginForm.validate(async (valid, fields) => {
         if (valid) {
-          this.$store.dispatch('auth/login', {
+          await this.$store.dispatch('auth/login', {
             email: this.form.email,
             password: this.form.password,
           })

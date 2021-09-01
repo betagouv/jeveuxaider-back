@@ -399,6 +399,10 @@ body.full-height-layout
   #__nuxt, #__layout
     @apply h-full
 
+body.h-full
+  #__nuxt, #__layout
+    @apply h-full
+
 .break-word
   word-break: break-word
 
@@ -451,12 +455,14 @@ input
     border: 2px solid #070191
 
 #dashboard-layout
+  .el-form-item__content
+    line-height: normal
   .el-checkbox
     .el-checkbox__label
-      font-weight: normal
+      font-weight: 300
     &:not(.is-checked)
       .el-checkbox__label
-        color: #908E8E
+        color: black
   .el-form-item .el-input
     box-shadow: none
   .el-input__inner
@@ -485,4 +491,7 @@ input
   --ck-color-focus-border: #070191
   --ck-focus-ring: 1px solid #070191
 
-
+#dashboard-layout
+  .component--volet
+    .el-button + .el-button
+      margin-left: 0

@@ -1,15 +1,7 @@
 <template>
   <nuxt-link
     to="/messages"
-    class="
-      px-5
-      py-3
-      flex
-      hover:bg-gray-50
-      cursor-pointer
-      items-center
-      justify-between
-    "
+    class="px-5 py-3 flex hover:bg-gray-50 cursor-pointer items-center justify-between"
   >
     <div class="flex-1 flex space-x-4">
       <div class="">

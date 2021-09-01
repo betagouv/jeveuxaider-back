@@ -134,10 +134,10 @@ export default {
       if (mission.type == 'Mission en présentiel') {
         filters.push(`filter[department]=${mission.department}`)
       }
-      if (mission.commitment__hours) {
+      if (mission.commitment__duration) {
         const filterCommitment = mission.commitment__time_period
-          ? `${mission.commitment__hours},${mission.commitment__time_period}`
-          : mission.commitment__hours
+          ? `${mission.commitment__duration},${mission.commitment__time_period}`
+          : mission.commitment__duration
 
         filters.push(`filter[minimum_commitment]=${filterCommitment}`)
       }

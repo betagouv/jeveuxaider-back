@@ -71,7 +71,7 @@
           </button>
           <nuxt-link
             v-if="!$store.getters.isLogged"
-            to="/register/responsable"
+            to="/inscription/organisation"
             class="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
             role="menuitem"
             @click.native="closeMobileMenu"
@@ -149,11 +149,11 @@
               >Connexion</nuxt-link
             >
             <nuxt-link
-              to="/register/volontaire"
+              to="/inscription"
               class="px-3 py-2 rounded-md text-base font-medium text-white"
               role="menuitem"
               @click.native="closeMobileMenu"
-              >Inscription bénévole</nuxt-link
+              >Inscription</nuxt-link
             >
           </template>
         </div>

@@ -43,15 +43,7 @@
                   <div class="flex flex-col w-full">
                     <div class="px-4 lg:pt-8 lg:px-10 xl:px-16">
                       <h2
-                        class="
-                          text-2xl
-                          xl:text-2-5xl
-                          tracking-px
-                          font-semibold
-                          mb-8
-                          text-center
-                          lg:text-left
-                        "
+                        class="text-2xl xl:text-2-5xl tracking-px font-semibold mb-8 text-center lg:text-left"
                       >
                         Favoriser et promouvoir l’engagement de chacun pour tous
                       </h2>
@@ -59,40 +51,13 @@
 
                     <div class="flex flex-wrap">
                       <div
-                        class="
-                          pb-4
-                          sm:p-4
-                          md:px-8
-                          lg:px-10
-                          xl:px-16
-                          xl:pb-8
-                          sm:border-r
-                          flex-grow
-                          w-full
-                          sm:w-1/2
-                          lg:w-auto
-                          text-center
-                          lg:text-left
-                        "
+                        class="pb-4 sm:p-4 md:px-8 lg:px-10 xl:px-16 xl:pb-8 sm:border-r flex-grow w-full sm:w-1/2 lg:w-auto text-center lg:text-left"
                       >
                         <div class="font-extrabold text-4xl">1ère</div>
                         <div class="text-lg">plateforme<br />d'engagement</div>
                       </div>
                       <div
-                        class="
-                          p-4
-                          md:px-8
-                          lg:px-10
-                          xl:px-16
-                          xl:pb-8
-                          sm:border-r
-                          flex-grow
-                          w-full
-                          sm:w-1/2
-                          lg:w-auto
-                          text-center
-                          lg:text-left
-                        "
+                        class="p-4 md:px-8 lg:px-10 xl:px-16 xl:pb-8 sm:border-r flex-grow w-full sm:w-1/2 lg:w-auto text-center lg:text-left"
                       >
                         <div class="font-extrabold text-4xl">330 000</div>
                         <div class="text-lg">
@@ -100,19 +65,7 @@
                         </div>
                       </div>
                       <div
-                        class="
-                          p-4
-                          pb-8
-                          md:px-8
-                          lg:px-12
-                          xl:px-16
-                          flex-grow
-                          w-full
-                          sm:w-1/2
-                          lg:w-auto
-                          text-center
-                          lg:text-left
-                        "
+                        class="p-4 pb-8 md:px-8 lg:px-12 xl:px-16 flex-grow w-full sm:w-1/2 lg:w-auto text-center lg:text-left"
                       >
                         <div class="font-extrabold text-4xl">5000</div>
                         <div class="text-lg">

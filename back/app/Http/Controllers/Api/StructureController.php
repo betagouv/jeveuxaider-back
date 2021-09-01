@@ -16,8 +16,6 @@ use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
-use App\Filters\FiltersStructureCollectivity;
-use App\Filters\FiltersStructureIsCollectivity;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
@@ -42,8 +40,12 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
-                AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
-                AllowedFilter::custom('is_collectivity', new FiltersStructureIsCollectivity),
+            ])
+            ->allowedIncludes([
+                'missions'
+            ])
+            ->allowedAppends([
+                'completion_rate',
             ])
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -82,35 +84,31 @@ class StructureController extends Controller
 
     public function availableMissions(Request $request, Structure $structure)
     {
-        $query = QueryBuilder::for(Mission::with('domaine'))
-            ->allowedAppends(['domaines'])
-            ->available()
-            ->with('structure')
-            ->where('structure_id', $structure->id);
-
-        if ($request->has('exclude')) {
-            $query->where('id', '<>', $request->input('exclude'));
-        }
-
-        return $query
-            ->defaultSort('-updated_at')
-            ->allowedSorts(['places_left', 'type'])
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+        // X-sell sur le domain d'action ET la ville
+        return Mission::search('')
+            ->aroundLatLng($request->input('latitude'), $request->input('longitude'))
+            ->where('id', '!=', $request->input('exclude'))
+            ->with([
+                'facetFilters' => 'domaine_name:' . $request->input('domaine_name'),
+            ])
+            ->get()
+            ->append('domaines');
     }
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        $structure = Structure::with('members')->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
+        $structure = Structure::with(['members', 'territoire'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
         return $structure;
     }
 
-    public function associationSlug(Request $request, $slug)
+    public function associationSlugOrId(Request $request, $slugOrId)
     {
-        $structure = Structure::where('slug', $slug)
-            ->where('state', 'Validée')
-            ->where('statut_juridique', 'Association')
-            ->first();
+        $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
+        $structure = $query->where('state', 'Validée')
+                        ->where('statut_juridique', 'Association')
+                        ->first();
+
         if ($structure) {
             $structure->append('domaines_with_image');
         }
@@ -123,8 +121,20 @@ class StructureController extends Controller
             return $request->validated();
         }
 
+        $structureAttributes = [
+            'user_id' => Auth::guard('api')->user()->id,
+        ];
+
+        // MAPPING API ENGAGEMENT
+        if ($request->has('structure_api') && $request->input('structure_api')) {
+            $structureAttributes = array_merge(
+                $structureAttributes,
+                ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
+            );
+        }
+
         $structure = Structure::create(
-            array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id])
+            array_merge($request->validated(), $structureAttributes)
         );
 
         if ($request->has('domaines')) {
@@ -150,17 +160,33 @@ class StructureController extends Controller
 
         $structure->update($request->validated());
 
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
+        return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
     }
 
     public function delete(StructureDeleteRequest $request, Structure $structure)
     {
+        if ($structure->missions()->exists()) {
+            return response()->json(['errors'=> [
+                'password' => [
+                    "L'organisation ne peut pas être supprimée car elle a des missions liées.",
+                ]
+            ]], 400);
+        }
+
         return (string) $structure->delete();
+    }
+
+    public function restore($id)
+    {
+        $structure = Structure::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $structure);
+        return (string) $structure->restore();
     }
 
     public function destroy($id)
     {
         $structure = Structure::withTrashed()->findOrFail($id);
+        $this->authorize('destroy', $structure);
         return (string) $structure->forceDelete();
     }
 
@@ -273,5 +299,20 @@ class StructureController extends Controller
         if ($structure && $structure->canBeSendToApiEngagement()) {
             return (new ApiEngagement())->syncAssociation($structure);
         }
+    }
+
+    public function exist(Request $request, $apiId)
+    {
+        $structure = Structure::where('api_id', '=', $apiId)
+            ->orWhere('name', 'ILIKE', $apiId)
+            ->first();
+        if ($structure === null) {
+            return false;
+        }
+
+        return [
+            'structure_name' => $structure->name,
+            'responsable_fullname' => $structure->responsables->first()->full_name
+        ];
     }
 }

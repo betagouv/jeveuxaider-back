@@ -114,24 +114,25 @@
 
       <el-form-item label="Fréquence" prop="disponibilities">
         <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
-          <el-input-number
-            v-model="form.commitment__hours"
-            :step="1"
-            :min="1"
-            step-strictly
-            class="flex-none"
-          ></el-input-number>
+          <el-select
+            v-model="form.commitment__duration"
+            placeholder="Choisissez une durée"
+          >
+            <el-option
+              v-for="item in $store.getters.taxonomies.duration.terms"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
 
-          <span class="flex-none">
-            {{
-              form.commitment__hours | pluralize(['heure par', 'heures par'])
-            }}
-          </span>
+          <span class="flex-none"> par </span>
 
           <el-select
             v-model="form.commitment__time_period"
             placeholder="Choisissez une fréquence"
             class="w-full"
+            clearable
           >
             <el-option
               v-for="item in $store.getters.taxonomies.time_period.terms"

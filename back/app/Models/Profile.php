@@ -35,7 +35,7 @@ class Profile extends Model implements HasMedia
         'is_visible',
         'disponibilities',
         'description',
-        'commitment__hours',
+        'commitment__duration',
         'commitment__time_period',
         'type',
         'user_id',
@@ -219,9 +219,6 @@ class Profile extends Model implements HasMedia
                         }
                     );
                 break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
-                break;
             case 'responsable':
                 $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
                 return $query->whereHas(
@@ -268,16 +265,6 @@ class Profile extends Model implements HasMedia
                     $query->where('id', $domain_id);
                 }
             );
-    }
-
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        $collectivity = Collectivity::find($collectivity_id);
-
-        if ($collectivity->type == 'commune') {
-            return $query
-                ->whereIn('zip', $collectivity->zips);
-        }
     }
 
     public function user()
@@ -342,24 +329,6 @@ class Profile extends Model implements HasMedia
         return $this->reseau ? true : false;
     }
 
-    public function getCollectivityAttribute()
-    {
-        $structure = $this->structures()
-            ->whereHas(
-                'collectivity',
-                function (Builder $query) {
-                    $query->where('state', 'validated');
-                }
-            )
-            ->wherePivot('role', 'responsable')
-            ->first();
-
-        if (!$structure) {
-            return null;
-        }
-        return $structure->collectivity;
-    }
-
     public function isResponsable()
     {
         if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
@@ -398,14 +367,14 @@ class Profile extends Model implements HasMedia
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
-            $this->commitment__hours,
+            $this->commitment__duration,
             $this->commitment__time_period
         );
     }
 
-    public function scopeMinimumCommitment($query, $hours, $time_period = null)
+    public function scopeMinimumCommitment($query, $duration, $time_period = null)
     {
-        $total = Utils::calculateCommitmentTotal($hours, $time_period);
+        $total = Utils::calculateCommitmentTotal($duration, $time_period);
         return $query->where('commitment__total', '>=', $total);
     }
 }

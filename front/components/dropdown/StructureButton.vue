@@ -13,9 +13,6 @@
           >Afficher l'organisation</el-dropdown-item
         >
       </nuxt-link>
-      <nuxt-link :to="`/dashboard/structure/${structure.id}/missions/add`">
-        <el-dropdown-item :command="{}">Ajouter une mission</el-dropdown-item>
-      </nuxt-link>
       <nuxt-link :to="`/dashboard/structure/${structure.id}/members`">
         <el-dropdown-item :command="{}"> Gérer les membres </el-dropdown-item>
       </nuxt-link>
@@ -29,7 +26,11 @@
       >
         Envoyer à l'API Engagement
       </el-dropdown-item>
-      <el-dropdown-item :command="{ action: 'delete' }" divided>
+      <el-dropdown-item
+        v-if="$store.getters.contextRole == 'admin'"
+        :command="{ action: 'delete' }"
+        divided
+      >
         Supprimer l'organisation
       </el-dropdown-item>
     </el-dropdown-menu>
@@ -49,6 +50,7 @@ export default {
       return (
         this.structure.state == 'Validée' &&
         this.structure.rna &&
+        this.structure.api_id &&
         this.$store.getters.contextRole == 'admin'
       )
     },
@@ -66,7 +68,6 @@ export default {
       const res = await this.$api.sendStructureToApiEngagement(
         this.structure.id
       )
-      console.log(res)
       if (res) {
         this.$message.success({
           message: `L'organisation ${this.structure.name} a été envoyée à l'API Engagement.`,

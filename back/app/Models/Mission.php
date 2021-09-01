@@ -49,7 +49,7 @@ class Mission extends Model
         'template_id',
         'thumbnail',
         'slug',
-        'commitment__hours',
+        'commitment__duration',
         'commitment__time_period',
     ];
 
@@ -227,7 +227,8 @@ class Mission extends Model
     public function getScoreAttribute()
     {
         // Score = ( Taux de reponse score + Response time score ) / 2
-        return round(($this->structure->response_time_score + $this->structure->response_ratio) / 2);
+        $structure_response_ratio = $this->structure->response_ratio ?? 50;
+        return round(($this->structure->response_time_score + $structure_response_ratio) / 2);
     }
 
 
@@ -253,6 +254,23 @@ class Mission extends Model
             ->where('end_date', '<', Carbon::now());
     }
 
+    public function scopeNotOutdated($query)
+    {
+        return $query
+            ->where(function ($query) {
+                $query
+                    ->where('end_date', '>=', Carbon::now())
+                    ->orWhereNull('end_date');
+            });
+    }
+
+    public function scopeOrganizationState($query, $state)
+    {
+        return $query->whereHas('structure', function (Builder $query) use ($state) {
+            $query->where('state', $state);
+        });
+    }
+
     public function scopeCurrent($query)
     {
         return $query
@@ -262,7 +280,9 @@ class Mission extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('state', 'Validée');
+        return $query->where('state', 'Validée')->whereHas('structure', function (Builder $query) {
+            $query->where('state', 'Validée');
+        });
     }
 
     public function scopeDepartment($query, $value)
@@ -288,17 +308,7 @@ class Mission extends Model
             });
     }
 
-    public function scopeCollectivity($query, $collectivity_id)
-    {
-        $collectivity = Collectivity::find($collectivity_id);
-
-        if ($collectivity->type == 'commune') {
-            return $query
-                ->whereIn('zip', $collectivity->zips);
-        }
-    }
-
-    public function scopeTerritoire($query, $territoire_id)
+    public function scopeOfTerritoire($query, $territoire_id)
     {
         $territoire = Territoire::find($territoire_id);
 
@@ -327,8 +337,14 @@ class Mission extends Model
                 break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
-                return $query
-                    ->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
+                $user = Auth::guard('api')->user();
+                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                    return $query
+                        ->where('structure_id', $user->contextable_id);
+                } else {
+                    return $query
+                        ->where('structure_id', $user->profile->structures->pluck('id')->first());
+                }
                 break;
             case 'referent':
                 // Missions qui sont dans mon département
@@ -348,9 +364,6 @@ class Mission extends Model
                     ->whereHas('structure', function (Builder $query) {
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
-                break;
-            case 'responsable_collectivity':
-                return $query->collectivity(Auth::guard('api')->user()->profile->collectivity->id);
                 break;
         }
     }
@@ -401,7 +414,7 @@ class Mission extends Model
     public function setCommitmentTotal()
     {
         $this->commitment__total = Utils::calculateCommitmentTotal(
-            $this->commitment__hours,
+            $this->commitment__duration,
             $this->commitment__time_period
         );
     }
@@ -409,8 +422,7 @@ class Mission extends Model
     public function getPermissionsAttribute()
     {
         return [
-            'canFindBenevoles' => true,
-            //'canFindBenevoles' => $this->state == 'Validée' && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
+            'canFindBenevoles' => $this->state == 'Validée' && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
         ];
     }
 }

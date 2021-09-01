@@ -8,7 +8,7 @@ import apiPlausible from '@/api/plausible'
 import apiEngagement from '@/api/api-engagement'
 import apiTerritoire from '@/api/territoire'
 
-export default ({ $axios, $config }, inject) => {
+export default ({ $axios, $config, $cookies }, inject) => {
   // Inject `api` key
   // -> app.$api
   // -> this.$api in vue components
@@ -19,7 +19,7 @@ export default ({ $axios, $config }, inject) => {
     ...apiStructure($axios),
     ...apiParticipation($axios),
     ...apiConversation($axios),
-    ...apiUser($axios),
+    ...apiUser($axios, $cookies),
     ...apiPlausible($axios, $config),
     ...apiEngagement($axios, $config),
     ...apiTerritoire($axios),

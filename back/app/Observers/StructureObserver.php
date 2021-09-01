@@ -3,11 +3,12 @@
 namespace App\Observers;
 
 use App\Jobs\SendinblueSyncUser;
-use App\Models\Collectivity;
+use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
-use App\Notifications\CollectivityWaitingValidation;
+use App\Models\User;
+use App\Notifications\TerritoireWaitingValidation;
 use App\Notifications\RegisterUserResponsable;
 use App\Notifications\StructureAssociationValidated;
 use App\Notifications\StructureCollectivityValidated;
@@ -93,11 +94,37 @@ class StructureObserver
                     }
                     break;
                 case 'Désinscrite':
+                    $members = $structure->members;
+
                     $structure->members()->detach();
+
+                    foreach ($members as $member) {
+                        $user = User::find($member->user->id);
+                        $user->context_role = null;
+                        $user->save();
+                    }
+
                     if ($structure->missions) {
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
+
+                        // Notifs ON
+                        Mission::where('structure_id', $structure->id)
+                            ->outdated()
+                            ->where('state', 'Validée')
+                            ->get()->map(function ($mission) {
+                                $mission->update(['state' => 'Terminée']);
+                            });
+
+                        // Notifs ON
+                        Mission::where('structure_id', $structure->id)
+                            ->notOutdated()
+                            ->where('state', 'Validée')
+                            ->get()->map(function ($mission) {
+                                $mission->update(['state' => 'Annulée']);
+                            });
+
                         $structure->missions->unsearchable();
                     }
                     break;
@@ -136,10 +163,10 @@ class StructureObserver
             }
         }
 
-        // Update API Engagement (NOT READY YET)
-        // if ($structure->canBeSendToApiEngagement()) {
-        //     (new ApiEngagement())->syncAssociation($structure);
-        // }
+        // Update API Engagement
+        if ($structure->canBeSendToApiEngagement()) {
+            (new ApiEngagement())->syncAssociation($structure);
+        }
     }
 
     public function deleted(Structure $structure)
@@ -151,18 +178,19 @@ class StructureObserver
     private function createTerritoire($structure)
     {
         $territoire = Territoire::create([
+            'structure_id' => $structure->id,
             'name' => $structure->city ?? $structure->name,
             'suffix_title' => 'à ' . $structure->city ?? $structure->name,
             'zips' => $structure->zip ? [$structure->zip] : [],
             'department' => $structure->department,
             'is_published' => false,
             'type' => 'city',
-            'state' => 'waiting'
+            'state' => 'waiting',
         ]);
         $territoire->save();
         $territoire->addResponsable($structure->user->profile);
 
         Notification::route('slack', config('services.slack.hook_url'))
-            ->notify(new CollectivityWaitingValidation($territoire));
+            ->notify(new TerritoireWaitingValidation($territoire));
     }
 }

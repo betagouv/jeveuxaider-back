@@ -29,8 +29,8 @@ export default (axios) => ({
     const { data } = await axios.get(`/structure/${id}`)
     return data
   },
-  async getAssociationBySlug(slug) {
-    const { data } = await axios.get(`/association/${slug}`)
+  async getAssociationBySlugOrId(slugOrId) {
+    const { data } = await axios.get(`/association/${slugOrId}`)
     return data
   },
   async addOrUpdateStructure(id, structure) {
@@ -43,6 +43,9 @@ export default (axios) => ({
   },
   async destroyStructure(id) {
     return await axios.delete(`/structure/${id}/destroy`)
+  },
+  async restoreStructure(id) {
+    return await axios.post(`/structure/${id}/restore`)
   },
   async getStructureMembers(id) {
     return await axios.get(`/structure/${id}/members`)
@@ -64,5 +67,11 @@ export default (axios) => ({
   },
   async assignStructureRna(structureId, params) {
     return await axios.post(`/structure/${structureId}/rna`, params)
+  },
+  async structureExists(apiId) {
+    return await axios.get(`/structure/${apiId}/exist`)
+  },
+  async reseauLead(form) {
+    return await axios.post('/reseau/lead', form)
   },
 })

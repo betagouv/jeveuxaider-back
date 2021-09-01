@@ -9,7 +9,8 @@ export default {
     if (
       !territoire ||
       !territoire.is_published ||
-      territoire.state != 'validated'
+      territoire.state != 'validated' ||
+      territoire.type != 'department'
     ) {
       return error({ statusCode: 404 })
     }

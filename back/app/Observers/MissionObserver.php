@@ -97,12 +97,8 @@ class MissionObserver
                     break;
                 case 'Terminée':
                     if ($mission->responsable) {
-                        foreach ($mission->participations->whereIn("state", ["Validée"]) as $participation) {
-                            $participation->update(['state' => 'Effectuée']);
-                        }
-                        foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
-                            $participation->update(['state' => 'Annulée']);
-                        }
+                        // Notif OFF
+                        $mission->participations()->where("state", "En attente de validation")->update(['state' => 'Annulée']);
                     }
                     break;
             }
@@ -128,7 +124,7 @@ class MissionObserver
         $places_left = $mission->participations_max - $mission->participations->whereIn('state', Participation::ACTIVE_STATUS)->count();
         $mission->places_left = $places_left < 0 ? 0 : $places_left;
 
-        if ($mission->commitment__hours) {
+        if ($mission->commitment__duration) {
             $mission->setCommitmentTotal();
         }
     }

@@ -9,7 +9,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Filters\FiltersStructureCeu;
-use App\Filters\FiltersStructureCollectivity;
 use App\Filters\FiltersStructureSearch;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureWithRna;
@@ -40,7 +39,6 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
-                AllowedFilter::custom('collectivity', new FiltersStructureCollectivity),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
             ])
             ->defaultSort('-created_at')

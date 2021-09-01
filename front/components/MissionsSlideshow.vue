@@ -1,32 +1,23 @@
 <template>
-  <div class="relative mx-auto">
-    <Swiper :options="swiperOptions" class="p-1" style="max-width: 940px">
-      <SwiperSlide v-for="mission in missions" :key="mission.id">
-        <nuxt-link
-          class="
-            card--mission--wrapper
-            focus:outline-none
-            focus:shadow-outline
-            rounded-lg
-          "
-          :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
-        >
-          <CardMission :mission="mission" />
-        </nuxt-link>
-      </SwiperSlide>
-    </Swiper>
-
-    <div slot="button-prev" class="swiper-button-prev hidden lg:flex"></div>
-    <div slot="button-next" class="swiper-button-next hidden lg:flex"></div>
-    <div
-      slot="pagination"
-      class="swiper-pagination w-full mt-2 lg:hidden"
-    ></div>
-  </div>
+  <VueSlickCarousel v-bind="settings" class="m-auto" style="max-width: 960px">
+    <div v-for="mission in missions" :key="mission.id">
+      <nuxt-link
+        class="card--mission--wrapper focus:outline-none focus:shadow-outline rounded-lg mx-2.5"
+        :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+      >
+        <CardMission :mission="mission" />
+      </nuxt-link>
+    </div>
+  </VueSlickCarousel>
 </template>
 
 <script>
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
 export default {
+  components: { VueSlickCarousel },
   props: {
     missions: {
       type: Array,
@@ -35,36 +26,31 @@ export default {
   },
   data() {
     return {
-      swiperOptions: {
-        pagination: {
-          el: '.swiper-pagination',
-          type: 'bullets',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-          640: {
-            slidesPerView: 2,
+      settings: {
+        arrows: true,
+        dots: false,
+        speed: 500,
+        slidesToShow: 3,
+        touchThreshold: 5,
+        centerPadding: '20px',
+        infinite: false,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 2,
+            },
           },
-          1024: {
-            slidesPerView: 3,
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1,
+              arrows: false,
+            },
           },
-        },
-        spaceBetween: 20,
-        centerInsufficientSlides: true,
-        keyboard: {
-          enabled: true,
-        },
+        ],
       },
     }
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper
-    },
   },
 }
 </script>
@@ -72,36 +58,6 @@ export default {
 <style lang="sass" scoped>
 .card--mission--wrapper
   @apply flex flex-col h-full
-.swiper-slide
+.slick-slide
   height: auto !important
-
-.swiper-button-next,
-.swiper-button-prev
-  @apply text-white rounded-full border w-6 h-6 transition ease-in-out duration-150 opacity-50
-  &::after
-    @apply text-xs
-  &:hover,
-  &:focus
-    @apply opacity-100
-  &:focus
-    @apply shadow-outline outline-none
-  &.swiper-button-disabled
-    @apply opacity-0
-
-.swiper-button-next
-  right: -14px
-  @screen xl
-    right: 110px
-  &::after
-    margin-left: 1px
-
-.swiper-button-prev
-  left: -14px
-  @screen xl
-    left: 110px
-
-.swiper-pagination
-  &::v-deep .swiper-pagination-bullet
-    background: white
-    margin: 4px
 </style>

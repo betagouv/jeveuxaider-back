@@ -71,17 +71,17 @@
           </el-form-item>
         </template>
 
-        <template v-if="form.role == 'responsable_collectivity'">
+        <template v-if="form.role == 'responsable_territoire'">
           <div class="mb-6 mt-12 flex text-xl text-gray-800">
-            Responsable d'une collectivité
+            Responsable d'une ville ou d'un département
           </div>
           <ItemDescription container-class="mb-6">
-            Renseignez le nom de la collectivité. Vous permettez à cet
-            utilisateur de visualiser les missions et bénévoles rattachés à
+            Renseignez le nom de la ville ou du département. Vous permettez à
+            cet utilisateur de visualiser les missions et bénévoles rattachés à
             cette collectivité.
           </ItemDescription>
           <el-form-item
-            label="Collectivité"
+            label="Ville ou département"
             prop="invitable_id"
             class="flex-1 max-w-xl mb-7"
           >
@@ -90,13 +90,13 @@
               filterable
               reserve-keyword
               remote
-              :remote-method="fetchCollectivities"
-              placeholder="Nom de la collectivité"
+              :remote-method="fetchTerritoires"
+              placeholder="Nom de la ville ou du département"
               :loading="loading"
-              @change="form.invitable_type = 'App\\Models\\Structure'"
+              @change="form.invitable_type = 'App\\Models\\Territoire'"
             >
               <el-option
-                v-for="item in collectivities"
+                v-for="item in territoires"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -122,6 +122,7 @@
           >
             <el-select
               v-model="form.invitable_id"
+              filterable
               clearable
               placeholder="Sélectionner un réseau national"
               @change="form.invitable_type = 'App\\Models\\Structure'"
@@ -224,7 +225,7 @@ export default {
     return {
       loading: false,
       organisations: [],
-      collectivities: [],
+      territoires: [],
       form: {
         user_id: this.$store.getters.user.id,
         properties: {},
@@ -264,7 +265,6 @@ export default {
         this.loading = true
         this.$api
           .fetchStructures({
-            'filter[is_collectivity]': false,
             'filter[search]': query,
           })
           .then((response) => {
@@ -273,17 +273,16 @@ export default {
           })
       }
     },
-    fetchCollectivities(query) {
+    fetchTerritoires(query) {
       if (query !== '') {
         this.loading = true
         this.$api
-          .fetchStructures({
-            'filter[is_collectivity]': true,
+          .fetchTerritoires({
             'filter[search]': query,
           })
           .then((response) => {
             this.loading = false
-            this.collectivities = response.data.data
+            this.territoires = response.data.data
           })
       }
     },
@@ -292,7 +291,7 @@ export default {
       this.$delete(this.form, 'invitable_type')
       this.$set(this.form, 'properties', {})
       this.$set(this, 'organisations', [])
-      this.$set(this, 'collectivities', [])
+      this.$set(this, 'territoires', [])
     },
     onSubmit() {
       this.loading = true
