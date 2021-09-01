@@ -4,14 +4,7 @@
       <router-link
         v-for="(item, index) in items"
         :key="item.id"
-        class="
-          p-4
-          flex
-          justify-between
-          items-center
-          hover:bg-gray-50
-          cursor-pointer
-        "
+        class="p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer"
         :to="`/dashboard/profile/${item.id}`"
         target="_blank"
       >
