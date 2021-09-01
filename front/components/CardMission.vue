@@ -195,7 +195,7 @@ export default {
       if (this.participation) {
         switch (this.participation.state) {
           case 'En attente de validation':
-            return 'text-orange-400'
+            return 'text-[#f6ad55]'
           case 'Validée':
             return 'text-[#16a972]'
           default:

@@ -41,9 +41,8 @@
         <span
           class="font-bold text-primary"
           :class="{
-            'text-orange-400':
-              participation.state == 'En attente de validation',
-            'text-green-800': participation.state == 'Validée',
+            'text-[#f6ad55]': participation.state == 'En attente de validation',
+            'text-[#03543f]': participation.state == 'Validée',
             'text-[#f56565]': participation.state == 'Refusée',
           }"
           >{{ participation.state | lowercase }}</span

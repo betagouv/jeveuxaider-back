@@ -49,7 +49,7 @@
           :class="classParticipationStatus(conversation.conversable.state)"
         >
           <span class="text-secondary font-normal"> Participation : </span>
-          <span>
+          <span class="font-semibold">
             {{ conversation.conversable.state }}
           </span>
         </div>
@@ -112,9 +112,9 @@ export default {
     classParticipationStatus(status) {
       switch (status) {
         case 'En attente de validation':
-          return 'text-orange-400 font-semibold'
+          return 'text-[#f6ad55] font-semibold'
         case 'Validée':
-          return 'text-green-800 font-semibold'
+          return 'text-[#03543f] font-semibold'
         default:
           return 'text-gray-500'
       }

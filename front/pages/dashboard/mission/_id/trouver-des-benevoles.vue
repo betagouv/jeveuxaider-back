@@ -128,7 +128,7 @@
                   {{ item.first_name }} {{ item.last_name[0] }}.
                 </h3>
                 <div
-                  class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
+                  class="flex-shrink-0 inline-block px-2 py-0.5 text-[#03543f] text-xs font-medium bg-green-100 rounded-full"
                 >
                   <template v-if="item.commitment__duration">
                     <span>

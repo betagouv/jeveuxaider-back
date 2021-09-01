@@ -33,7 +33,7 @@
         <el-dropdown-item
           v-if="$store.getters.isImpersonating"
           divided
-          class="text-orange-500"
+          class="!text-[#ed8936]"
           :command="{ action: 'stopImpersonate' }"
         >
           Unmasquarade

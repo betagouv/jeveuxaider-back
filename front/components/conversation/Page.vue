@@ -38,7 +38,7 @@
           <h3 class="text-lg leading-8 font-bold text-gray-900">Détails</h3>
 
           <i
-            class="w-6 h-6 p-1 flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black el-icon-close"
+            class="w-6 h-6 p-1 !flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black el-icon-close"
             @click="onPanelRightToggle"
           />
         </div>

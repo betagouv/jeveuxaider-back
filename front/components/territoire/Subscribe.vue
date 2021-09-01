@@ -62,7 +62,7 @@
               </div>
               <button
                 ref="buttonBack"
-                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-green-800 font-extrabold !outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
+                class="mt-4 sm:ml-4 sm:mt-0 px-4 py-2 text-sm cursor-pointer rounded-lg bg-green-100 text-[#03543f] font-extrabold !outline-none focus:ring transition duration-150 hover:scale-105 transform will-change-transform ease-in-out"
                 @click="onBack"
               >
                 Retour
