@@ -17,8 +17,16 @@
 export default {
   data() {
     return {
-      selectedValue: 'current-month',
+      selectedValue: 'last-30-days',
       options: [
+        {
+          key: 'last-30-days',
+          label: 'Les 30 derniers jours',
+        },
+        {
+          key: 'last-7-days',
+          label: 'Les 7 derniers jours',
+        },
         {
           key: 'current-month',
           label: 'Ce mois-ci',

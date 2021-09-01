@@ -28,6 +28,9 @@
         </div>
       </router-link>
     </ul>
+    <div v-else class="flex items-center justify-center p-6">
+      <div class="text-gray-500">Pas de résultats</div>
+    </div>
   </CardTopito>
 </template>
 
@@ -45,7 +48,7 @@ export default {
     }
   },
   created() {
-    this.fetch({ daterange: 'current-month' })
+    this.fetch({ daterange: 'last-30-days' })
   },
   methods: {
     async fetch(filters) {

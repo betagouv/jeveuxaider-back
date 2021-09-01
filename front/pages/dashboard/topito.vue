@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       filters: {
-        daterange: 'current-month',
+        daterange: 'last-30-days',
       },
     }
   },
@@ -50,6 +50,12 @@ export default {
     title() {
       let title = 'Classements'
 
+      if (this.filters.daterange == 'last-30-days') {
+        title = 'Les 30 derniers jours'
+      }
+      if (this.filters.daterange == 'last-7-days') {
+        title = 'Les 7 derniers jours'
+      }
       if (this.filters.daterange == 'current-month') {
         title = this.$dayjs().format('MMMM YYYY')
       }

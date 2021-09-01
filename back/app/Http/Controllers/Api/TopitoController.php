@@ -22,6 +22,16 @@ class TopitoController extends Controller
     public function __construct(Request $request)
     {
 
+        if ($request->input('daterange') == 'last-30-days') {
+            $this->date = Carbon::now()->subDays(30);
+            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
+            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
+        }
+        if ($request->input('daterange') == 'last-7-days') {
+            $this->date = Carbon::now()->subDays(7);
+            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
+            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
+        }
         if ($request->input('daterange') == 'current-month') {
             $this->year = date('Y');
             $this->month = date('n');
