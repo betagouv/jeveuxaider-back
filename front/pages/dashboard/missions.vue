@@ -10,7 +10,7 @@
       <div>
         <nuxt-link
           v-if="$store.getters.contextRole === 'responsable'"
-          :to="`/dashboard/structure/${$store.getters.structure.id}/missions/add`"
+          :to="`/dashboard/structure/${$store.getters.contextStructure.id}/missions/add`"
         >
           <el-button type="primary"> Créer une mission </el-button>
         </nuxt-link>
@@ -246,10 +246,10 @@ export default {
 
     if (
       this.$store.getters.contextRole === 'responsable' &&
-      this.$store.getters.structure
+      this.$store.getters.contextStructure
     ) {
       this.$api
-        .getStructureMembers(this.$store.getters.structure.id)
+        .getStructureMembers(this.$store.getters.contextStructure.id)
         .then((res) => {
           this.responsables = res.data
         })

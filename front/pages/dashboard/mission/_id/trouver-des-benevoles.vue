@@ -265,7 +265,7 @@ export default {
     }
 
     if (store.getters.contextRole == 'responsable') {
-      if (store.getters.structure.id != mission.structure_id) {
+      if (store.getters.contextStructure.id != mission.structure_id) {
         return error({ statusCode: 403 })
       }
     }

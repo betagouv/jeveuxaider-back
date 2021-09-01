@@ -115,7 +115,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::placeholder
-  font-weight: 500
+<style lang="postcss" scoped>
+::placeholder {
+  font-weight: 500;
+}
 </style>

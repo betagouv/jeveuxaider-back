@@ -70,11 +70,11 @@ const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=3
 
 export default {
   asyncData({ $api, store, error }) {
-    if (!store.getters.structure) {
+    if (!store.getters.contextStructure) {
       return error({ statusCode: 403 })
     }
     return {
-      structureId: store.getters.structure.id,
+      structureId: store.getters.contextStructure.id,
     }
   },
   data() {
@@ -98,5 +98,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

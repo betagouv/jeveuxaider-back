@@ -110,13 +110,25 @@
             <template v-if="$route.query.orga_type === 'Collectivité'">
               Nom de votre collectivité
             </template>
-            <template v-else-if="$route.query.orga_type === 'Association'">
+            <template
+              v-else-if="
+                $route.query.orga_type === 'Association' && !userHasAssociation
+              "
+            >
               Nom de votre association
+            </template>
+            <template
+              v-else-if="
+                $route.query.orga_type === 'Association' && userHasAssociation
+              "
+            >
             </template>
             <template v-else>Nom de votre organisation</template>
           </label>
           <StructureApiSearchInput
-            v-if="$route.query.orga_type === 'Association'"
+            v-if="
+              $route.query.orga_type === 'Association' && !userHasAssociation
+            "
             v-model="form.structure.name"
             placeholder="Nom de votre association"
             :show-add-button="!orgaExist"
@@ -124,8 +136,25 @@
             @selected="onStructureApiSelected"
             @change="orgaExist = null"
             @added="onSubmitChooseName"
+          />
+          <div
+            v-else-if="
+              $route.query.orga_type === 'Association' && userHasAssociation
+            "
           >
-          </StructureApiSearchInput>
+            <div class="mb-6">
+              Vous êtes déjà responsable de l'association
+              <span class="font-bold">{{ userHasAssociation.name }}</span>
+            </div>
+            <nuxt-link to="/register/responsable/step/profile">
+              <el-button
+                type="primary"
+                class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
+              >
+                Continuer
+              </el-button>
+            </nuxt-link>
+          </div>
           <el-input
             v-else
             v-model="form.structure.name"
@@ -398,10 +427,19 @@ export default {
     currentStep() {
       return this.steps.find((step) => step.key == this.currentStepKey)
     },
+    userHasAssociation() {
+      if (!this.$store.getters.profile) {
+        return false
+      }
+      return this.$store.getters.profile.structures.find(
+        (structure) => structure.statut_juridique == 'Association'
+      )
+    },
   },
   methods: {
     async onStructureApiSelected(structure) {
-      const res = await this.$api.structureExists(structure.rna)
+      const res = await this.$api.structureExists(structure._id)
+
       if (res.data) {
         this.orgaExist = res.data
       } else {

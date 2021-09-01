@@ -58,11 +58,13 @@ class Structure extends Model implements HasMedia
         'publics_beneficiaires',
         'image_1',
         'image_2',
+        'api_id',
         'rna',
         'phone',
         'email',
         'slug',
-        'color'
+        'color',
+        'send_volunteer_coordonates',
     ];
 
     protected $attributes = [
@@ -76,6 +78,7 @@ class Structure extends Model implements HasMedia
         'latitude' => 'float',
         'longitude' => 'float',
         'publics_beneficiaires' => 'array',
+        'send_volunteer_coordonates' => 'boolean',
     ];
 
     protected $hidden = ['media'];
@@ -449,7 +452,7 @@ class Structure extends Model implements HasMedia
 
     public function canBeSendToApiEngagement()
     {
-        return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A';
+        return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A' && $this->api_id;
     }
 
     public function getCompletionRateAttribute()

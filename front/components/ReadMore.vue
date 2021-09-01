@@ -75,8 +75,10 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.read-more--content
-  ::v-deep p:last-child
-    display: inline
+<style lang="postcss" scoped>
+.read-more--content {
+  ::v-deep p:last-child {
+    display: inline;
+  }
+}
 </style>

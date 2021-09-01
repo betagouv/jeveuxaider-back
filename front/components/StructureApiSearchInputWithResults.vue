@@ -144,7 +144,7 @@ export default {
           params.city = this.city
         }
         const res = await this.$axios.post(
-          'https://api.api-engagement.beta.gouv.fr/v0/association/search',
+          'https://api.api-engagement.beta.gouv.fr/v1/association/search',
           params,
           {
             headers: {
@@ -161,5 +161,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

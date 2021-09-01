@@ -13,7 +13,7 @@ class UserObserver
 
     public function saving(User $user)
     {
-        if($user->context_role != 'responsable') {
+        if ($user->context_role != 'responsable') {
             $user->contextable_type = null;
             $user->contextable_id = null;
         }

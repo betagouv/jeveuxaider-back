@@ -18,23 +18,7 @@
         <DropdownProfileButton :profile="profile" />
       </div>
     </div>
-    <el-menu
-      :default-active="$router.history.current.path"
-      mode="horizontal"
-      class="mb-8"
-      @select="$router.push($event)"
-    >
-      <el-menu-item :index="`/dashboard/profile/${profile.id}`">
-        Informations
-      </el-menu-item>
-      <el-menu-item :index="`/dashboard/profile/${profile.id}/activity`">
-        Activités
-      </el-menu-item>
-      <el-menu-item :index="`/dashboard/profile/${profile.id}/history`">
-        Historique
-      </el-menu-item>
-    </el-menu>
-
+    <TabsUser :profile-id="profile.id" />
     <TableActivities :table-data="tableData" />
     <div class="m-3 flex items-center">
       <el-pagination

@@ -122,6 +122,7 @@
           >
             <el-select
               v-model="form.invitable_id"
+              filterable
               clearable
               placeholder="Sélectionner un réseau national"
               @change="form.invitable_type = 'App\\Models\\Structure'"

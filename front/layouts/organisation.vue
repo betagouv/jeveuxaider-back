@@ -12,5 +12,3 @@ export default {
   name: 'OrganisationLayout',
 }
 </script>
-
-<style lang="sass" scoped></style>

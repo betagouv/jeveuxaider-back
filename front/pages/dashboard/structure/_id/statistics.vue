@@ -1,6 +1,16 @@
 <template>
-  <div v-if="structure" class="has-full-table">
+  <div v-if="structure">
     <HeaderOrganisation :structure="structure" />
+
+    <!-- <BannerPageOrga
+      v-if="
+        $store.getters.contextRole === 'responsable' &&
+        $store.getters.contextStructure.statut_juridique == 'Association' &&
+        $store.getters.contextStructure.state == 'Validée'
+      "
+      class="mb-6"
+    /> -->
+
     <NavTabStructure
       v-if="$store.getters.contextRole != 'responsable'"
       :structure="structure"

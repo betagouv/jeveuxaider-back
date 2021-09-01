@@ -95,10 +95,12 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.gradient
-  background: linear-gradient(94.64deg, #070191 20%, rgba(7, 1, 145, 0) 77%)
+<style lang="postcss" scoped>
+.gradient {
+  background: linear-gradient(94.64deg, #070191 20%, rgba(7, 1, 145, 0) 77%);
+}
 
-.section-promote *
-  border-color: #3936A5
+.section-promote * {
+  border-color: #3936a5;
+}
 </style>

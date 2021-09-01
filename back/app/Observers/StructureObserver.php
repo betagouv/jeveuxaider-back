@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\SendinblueSyncUser;
+use App\Models\Mission;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Territoire;
@@ -14,6 +15,7 @@ use App\Notifications\StructureCollectivityValidated;
 use App\Notifications\StructureSignaled;
 use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
+use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
 
 class StructureObserver
@@ -92,12 +94,11 @@ class StructureObserver
                     }
                     break;
                 case 'Désinscrite':
-
                     $members = $structure->members;
 
                     $structure->members()->detach();
 
-                    foreach($members as $member){
+                    foreach ($members as $member) {
                         $user = User::find($member->user->id);
                         $user->context_role = null;
                         $user->save();
@@ -107,6 +108,23 @@ class StructureObserver
                         foreach ($structure->missions->where("state", "En attente de validation") as $mission) {
                             $mission->update(['state' => 'Annulée']);
                         }
+
+                        // Notifs ON
+                        Mission::where('structure_id', $structure->id)
+                            ->outdated()
+                            ->where('state', 'Validée')
+                            ->get()->map(function ($mission) {
+                                $mission->update(['state' => 'Terminée']);
+                            });
+
+                        // Notifs ON
+                        Mission::where('structure_id', $structure->id)
+                            ->notOutdated()
+                            ->where('state', 'Validée')
+                            ->get()->map(function ($mission) {
+                                $mission->update(['state' => 'Annulée']);
+                            });
+
                         $structure->missions->unsearchable();
                     }
                     break;
@@ -145,10 +163,10 @@ class StructureObserver
             }
         }
 
-        // Update API Engagement (NOT READY YET)
-        // if ($structure->canBeSendToApiEngagement()) {
-        //     (new ApiEngagement())->syncAssociation($structure);
-        // }
+        // Update API Engagement
+        if ($structure->canBeSendToApiEngagement()) {
+            (new ApiEngagement())->syncAssociation($structure);
+        }
     }
 
     public function deleted(Structure $structure)

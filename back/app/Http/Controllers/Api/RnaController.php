@@ -10,6 +10,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
 use App\Filters\FiltersStructureWithRna;
+use App\Filters\FiltersStructureWithApiId;
 
 class RnaController extends Controller
 {
@@ -24,6 +25,7 @@ class RnaController extends Controller
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
+                AllowedFilter::custom('api_id', new FiltersStructureWithApiId),
             ])
             ->defaultSort('created_at')
             ->paginate(config('query-builder.results_per_page'));
@@ -31,7 +33,10 @@ class RnaController extends Controller
 
     public function assign(Request $request, Structure $structure)
     {
-        $structure->update(['rna' => $request->input('rna')]);
+        $structure->update([
+            'rna' => $request->input('rna'),
+            'api_id' => $request->input('api_id')
+        ]);
         return $structure;
     }
 }

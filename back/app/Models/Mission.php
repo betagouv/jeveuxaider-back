@@ -254,6 +254,23 @@ class Mission extends Model
             ->where('end_date', '<', Carbon::now());
     }
 
+    public function scopeNotOutdated($query)
+    {
+        return $query
+            ->where(function ($query) {
+                $query
+                    ->where('end_date', '>=', Carbon::now())
+                    ->orWhereNull('end_date');
+            });
+    }
+
+    public function scopeOrganizationState($query, $state)
+    {
+        return $query->whereHas('structure', function (Builder $query) use ($state) {
+            $query->where('state', $state);
+        });
+    }
+
     public function scopeCurrent($query)
     {
         return $query
@@ -320,8 +337,14 @@ class Mission extends Model
                 break;
             case 'responsable':
                 // Missions des structures dont je suis responsable
-                return $query
-                    ->where('structure_id', Auth::guard('api')->user()->profile->structures->pluck('id')->first());
+                $user = Auth::guard('api')->user();
+                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                    return $query
+                        ->where('structure_id', $user->contextable_id);
+                } else {
+                    return $query
+                        ->where('structure_id', $user->profile->structures->pluck('id')->first());
+                }
                 break;
             case 'referent':
                 // Missions qui sont dans mon département

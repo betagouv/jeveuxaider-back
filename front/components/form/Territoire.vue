@@ -25,7 +25,7 @@
           v-model="form.suffix_title"
           placeholder="à Marseille / au Pays de grasse / dans les Alpes-Maritimes"
         >
-          <template slot="prepend">Dévenez bénévole</template>
+          <template slot="prepend">Devenez bénévole</template>
         </el-input>
       </el-form-item>
 
@@ -60,6 +60,11 @@
         label="Liste des codes postaux"
         prop="zips"
         class="flex-1"
+        :rules="{
+          required: form.type == 'city',
+          message: 'Veuillez renseigner au moins 1 code postal',
+          trigger: 'blur',
+        }"
       >
         <el-select
           v-model="form.zips"

@@ -170,20 +170,21 @@ export default {
   mixins: [FormMixin],
   layout: 'register-steps',
   asyncData({ $api, store, error }) {
-    if (!store.getters.structure) {
+    if (!store.getters.contextStructure) {
       return error({ statusCode: 403 })
     }
     return {
-      structureId: store.getters.structure.id,
+      structureId: store.getters.contextStructure.id,
       form: {
-        ...store.getters.structure,
-        zips: store.getters.structure.collectivity
-          ? store.getters.structure.collectivity.zips
+        ...store.getters.contextStructure,
+        zips: store.getters.contextStructure.collectivity
+          ? store.getters.contextStructure.collectivity.zips
           : null,
       },
       collectivity:
-        store.getters.structure && store.getters.structure.collectivity
-          ? { ...store.getters.structure.collectivity }
+        store.getters.contextStructure &&
+        store.getters.contextStructure.collectivity
+          ? { ...store.getters.contextStructure.collectivity }
           : null,
     }
   },
@@ -210,7 +211,8 @@ export default {
           name: `Quelques mots sur l'organisation`,
           status: 'current',
           disable:
-            this.$store.getters.structure.statut_juridique == 'Collectivité',
+            this.$store.getters.contextStructure.statut_juridique ==
+            'Collectivité',
         },
         {
           name: `Votre organisation en images`,

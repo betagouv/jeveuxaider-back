@@ -101,6 +101,9 @@ class CleanPublicsBeneficiaires extends Command
                 }, $model->publics_beneficiaires);
                 $model->publics_beneficiaires = array_unique($cleanValues);
 
+                // Prevent updated_at timestamp change.
+                $model->timestamps = false;
+
                 $model->saveQuietly();
                 $bar->advance();
             }

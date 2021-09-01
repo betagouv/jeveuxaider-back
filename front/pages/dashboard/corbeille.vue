@@ -193,8 +193,10 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep
-  .el-table_1_column_2 .cell
-    text-transform: capitalize
+<style lang="postcss" scoped>
+::v-deep {
+  .el-table_1_column_2 .cell {
+    text-transform: capitalize;
+  }
+}
 </style>

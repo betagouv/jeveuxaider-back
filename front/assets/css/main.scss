@@ -608,7 +608,7 @@ input {
 #dashboard-layout {
   .el-checkbox {
     .el-checkbox__label {
-      font-weight: normal;
+      font-weight: 300;
     }
     &:not(.is-checked) {
       .el-checkbox__label {
@@ -643,6 +643,16 @@ input {
     }
     .el-input-number__decrease {
       border-radius: 10px 0 0 10px;
+    }
+  }
+  .el-input-group--prepend {
+    .el-input-group__prepend {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    .el-input__inner {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
   }
 

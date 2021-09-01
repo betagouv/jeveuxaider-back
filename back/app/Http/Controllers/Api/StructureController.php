@@ -84,20 +84,15 @@ class StructureController extends Controller
 
     public function availableMissions(Request $request, Structure $structure)
     {
-        $query = QueryBuilder::for(Mission::with('domaine'))
-            ->allowedAppends(['domaines'])
-            ->available()
-            ->with('structure')
-            ->where('structure_id', $structure->id);
-
-        if ($request->has('exclude')) {
-            $query->where('id', '<>', $request->input('exclude'));
-        }
-
-        return $query
-            ->defaultSort('-updated_at')
-            ->allowedSorts(['places_left', 'type'])
-            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+        // X-sell sur le domain d'action ET la ville
+        return Mission::search('')
+            ->aroundLatLng($request->input('latitude'), $request->input('longitude'))
+            ->where('id', '!=', $request->input('exclude'))
+            ->with([
+                'facetFilters' => 'domaine_name:' . $request->input('domaine_name'),
+            ])
+            ->get()
+            ->append('domaines');
     }
 
     public function show(StructureRequest $request, Structure $structure)
@@ -165,7 +160,7 @@ class StructureController extends Controller
 
         $structure->update($request->validated());
 
-        return Structure::with('members')->withCount('missions')->where('id', $structure->id)->first();
+        return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
     }
 
     public function delete(StructureDeleteRequest $request, Structure $structure)
@@ -306,10 +301,10 @@ class StructureController extends Controller
         }
     }
 
-    public function exist(Request $request, $rnaOrName)
+    public function exist(Request $request, $apiId)
     {
-        $structure = Structure::where('rna', '=', $rnaOrName)
-            ->orWhere('name', 'ILIKE', $rnaOrName)
+        $structure = Structure::where('api_id', '=', $apiId)
+            ->orWhere('name', 'ILIKE', $apiId)
             ->first();
         if ($structure === null) {
             return false;

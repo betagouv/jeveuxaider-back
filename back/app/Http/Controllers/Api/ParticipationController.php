@@ -41,6 +41,7 @@ class ParticipationController extends Controller
                 'mission.name',
                 AllowedFilter::exact('mission.template_id'),
                 AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('profile.id'),
                 AllowedFilter::exact('mission.structure_id'),
                 AllowedFilter::exact('mission.responsable_id'),
             )
@@ -124,6 +125,11 @@ class ParticipationController extends Controller
             // Trigger updated_at refresh.
             $participation->conversation->touch();
 
+            if ($request->input('reason') == 'mission_terminated') {
+                $participation->mission->state = 'Terminée';
+                $participation->mission->save();
+            }
+
             $participation->profile->notify(new ParticipationDeclined($participation, $request->input('reason')));
         }
 
@@ -199,8 +205,12 @@ class ParticipationController extends Controller
 
     public function conversation(ParticipationManageRequest $request, Participation $participation)
     {
-        $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
-        return $conversation;
+        if ($participation->conversation) {
+            $conversation = Conversation::with('latestMessage')->find($participation->conversation->id);
+            return $conversation;
+        }
+
+        return null;
     }
 
     public function benevole(ParticipationManageRequest $request, Participation $participation)

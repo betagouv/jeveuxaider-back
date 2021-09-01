@@ -39,7 +39,7 @@ return [
         ],
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'flare'],
+            'channels' => ['daily', 'flare', 'stdout'],
             'ignore_exceptions' => false,
         ],
 

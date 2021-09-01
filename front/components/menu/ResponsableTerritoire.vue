@@ -40,8 +40,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-badge__content.is-fixed
-  top: 13px
-  right: -5px
+<style lang="postcss" scoped>
+::v-deep .el-badge__content.is-fixed {
+  top: 13px;
+  right: -5px;
+}
 </style>
