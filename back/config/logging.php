@@ -77,6 +77,7 @@ return [
         'stdout' => [
             'driver' => 'monolog',
             'handler' => StreamHandler::class,
+            'channels' => ['flare'],
             'with' => [
                 'stream' => 'php://stdout',
             ],
