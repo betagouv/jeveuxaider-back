@@ -15,15 +15,7 @@
     </div> -->
     <div class="text-center mb-6">
       <div
-        class="
-          text-gray-900
-          font-extrabold
-          text-2xl
-          lg:text-3xl
-          leading-8
-          mb-2
-          lg:mb-3
-        "
+        class="text-gray-900 font-extrabold text-2xl lg:text-3xl leading-8 mb-2 lg:mb-3"
       >
         Avant toute chose
       </div>
@@ -50,29 +42,7 @@
 
         <el-button
           :loading="loading"
-          class="
-            font-bold
-            max-w-sm
-            mx-auto
-            w-full
-            flex
-            items-center
-            justify-center
-            px-5
-            py-3
-            border border-transparent
-            text-xl
-            leading-6
-            rounded-full
-            text-white
-            bg-green-400
-            hover:bg-green-500
-            focus:outline-none focus:shadow-outline
-            transition
-            duration-150
-            ease-in-out
-            mt-8
-          "
+          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mt-8"
           @click.prevent="onSubmit"
         >
           Continuer
@@ -120,12 +90,12 @@ export default {
             .then((res) => {
               this.loading = false
               if (!res.data) {
+                this.$gtm.push({ event: 'benevole-email-register-soft-gate' })
                 this.$axios.post('/sendinblue/contact', {
                   email: this.form.email,
                   id_liste: 383,
                   url_mission: window.location.href,
                 })
-                this.$gtm.push({ event: 'benevole-email-register-soft-gate' })
                 this.$emit('register', { email: this.form.email })
               } else {
                 this.$emit('login', res.data)
