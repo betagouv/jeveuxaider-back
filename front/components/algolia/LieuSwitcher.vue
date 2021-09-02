@@ -11,9 +11,7 @@
         :class="[
           { 'opacity-75': radio && radio != item.value },
           `el-radio-${index}`,
-          radio && radio == item.value && color
-            ? `!text-${color}`
-            : 'text-white',
+          radio && radio == item.value && color ? colorClass : 'text-white',
         ]"
         @click.native.prevent="onClick(item.value)"
       >
@@ -51,8 +49,11 @@
 </template>
 
 <script>
+import domainesDynamicColor from '@/mixins/domainesDynamicColor'
+
 export default {
   name: 'AlgoliaLieuSwitcher',
+  mixins: [domainesDynamicColor],
   props: {
     initialType: {
       type: [String, Boolean],

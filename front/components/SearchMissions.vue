@@ -18,7 +18,7 @@
       <div
         ref="header"
         class="header pt-4 lg:pt-7 pb-8 text-white"
-        :class="[`bg-${color}`, { 'custom-color': $options.propsData.color }]"
+        :class="[bgClass, { 'custom-color': $options.propsData.color }]"
       >
         <div class="container mx-auto">
           <div class="px-4">
@@ -393,6 +393,7 @@ import {
 import algoliasearch from 'algoliasearch/lite'
 import { debounce } from 'lodash'
 import qs from 'qs'
+import domainesDynamicColor from '@/mixins/domainesDynamicColor'
 
 const searchClient = algoliasearch(
   process.env.algolia.appId,
@@ -465,6 +466,7 @@ export default {
     AisSearchBox,
     AisRefinementList, // eslint-disable-line vue/no-unused-components
   },
+  mixins: [domainesDynamicColor],
   provide() {
     return {
       // Provide the InstantSearch instance for SSR

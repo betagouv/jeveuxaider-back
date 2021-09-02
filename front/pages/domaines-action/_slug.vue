@@ -307,7 +307,10 @@
 </template>
 
 <script>
+import domainesDynamicColor from '@/mixins/domainesDynamicColor'
+
 export default {
+  mixins: [domainesDynamicColor],
   async asyncData({ $api, params, error }) {
     const thematique = await $api.getThematique(params.slug)
     if (!thematique) {
@@ -363,50 +366,6 @@ export default {
           break
       }
       return thematiqueSeo
-    },
-    bgClass() {
-      let bgClass
-
-      switch (this.thematique.color) {
-        case 'sante':
-          bgClass = 'bg-sante'
-          break
-        case 'solidarite':
-          bgClass = 'bg-solidarite'
-          break
-        case 'nature':
-          bgClass = 'bg-nature'
-          break
-        case 'education':
-          bgClass = 'bg-education'
-          break
-        default:
-          break
-      }
-
-      return bgClass
-    },
-    colorClass() {
-      let colorClass
-
-      switch (this.thematique.color) {
-        case 'sante':
-          colorClass = 'text-sante'
-          break
-        case 'solidarite':
-          colorClass = 'text-solidarite'
-          break
-        case 'nature':
-          colorClass = 'text-nature'
-          break
-        case 'education':
-          colorClass = 'text-education'
-          break
-        default:
-          break
-      }
-
-      return colorClass
     },
   },
 }
