@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-gray-800 mb-4">Compétences</div>
+    <div class="font-bold text-[1.75rem] text-[#242526] mb-4">Compétences</div>
 
     <div class="mb-8 text-md text-gray-600">
       Enrichissez votre profil avec les compétences que vous souhaitez mettre au
@@ -24,13 +24,13 @@
         <div
           v-for="item in form.skills"
           :key="item.id"
-          class="flex items-center space-x-4 px-4 py-3 rounded-lg border border-blue-800 bg-white m-1"
+          class="flex items-center space-x-4 px-4 py-3 rounded-lg border border-[#070191] bg-white m-1"
         >
-          <div class="flex-none text-sm text-blue-800 font-bold">
+          <div class="flex-none text-sm text-[#070191] font-bold">
             {{ item.name.fr }}
           </div>
           <div
-            class="flex-none cursor-pointer w-4 h-4 text-blue-800 hover:text-blue-900"
+            class="flex-none cursor-pointer w-4 h-4 text-[#070191] hover:text-[#1f0391]"
             @click="handleRemoveSkill(item.id)"
             v-html="
               require('@/assets/images/icones/heroicon/close.svg?include')

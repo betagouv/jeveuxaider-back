@@ -2,7 +2,7 @@
   <VueSlickCarousel v-bind="settings" class="m-auto" style="max-width: 960px">
     <div v-for="mission in missions" :key="mission.id">
       <nuxt-link
-        class="card--mission--wrapper focus:outline-none focus:shadow-outline rounded-lg mx-2.5"
+        class="card--mission--wrapper !outline-none focus:ring rounded-lg mx-2.5"
         :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
       >
         <CardMission :mission="mission" />
@@ -55,9 +55,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.card--mission--wrapper
-  @apply flex flex-col h-full
-.slick-slide
-  height: auto !important
+<style lang="postcss" scoped>
+.card--mission--wrapper {
+  @apply flex flex-col h-full;
+}
+.slick-slide {
+  height: auto !important;
+}
 </style>

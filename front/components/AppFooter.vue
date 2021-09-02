@@ -345,10 +345,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.desc.text-black
-  max-width: 260px
-  font-size: 14px
-  line-height: 1.6
-  letter-spacing: 0.05em
+<style lang="postcss" scoped>
+.desc.text-black {
+  max-width: 260px;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
 </style>

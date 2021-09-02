@@ -63,11 +63,11 @@
               ['Validée', 'Terminée'].includes(mission.state)
             "
           >
-            <div class="bg-green-500 rounded-full h-4 w-4"></div>
+            <div class="bg-[#0e9f6e] rounded-full h-4 w-4"></div>
             <div class="text-lg text-gray-900">En ligne</div>
           </template>
           <template v-else>
-            <div class="bg-red-500 rounded-full h-4 w-4"></div>
+            <div class="bg-[#f56565] rounded-full h-4 w-4"></div>
             <div class="text-lg text-gray-900">Hors ligne</div>
           </template>
         </div>
@@ -187,7 +187,7 @@
         <VoletRowItem label="Message">
           <template v-if="mission.information">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="mission.information"
               :max-chars="120"
@@ -198,7 +198,7 @@
         <VoletRowItem label="Présentation">
           <template v-if="mission.objectif">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="mission.objectif"
               :max-chars="120"
@@ -209,7 +209,7 @@
         <VoletRowItem label="Précisions">
           <template v-if="mission.description">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="mission.description"
               :max-chars="120"

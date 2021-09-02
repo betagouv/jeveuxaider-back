@@ -102,11 +102,14 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.query-filter
-  .el-tag.el-tag--info
-    .el-select__tags-text
-      display: inline-flex
-      max-width: 120px
-      overflow: hidden
+<style lang="postcss">
+.query-filter {
+  .el-tag.el-tag--info {
+    .el-select__tags-text {
+      display: inline-flex;
+      max-width: 120px;
+      overflow: hidden;
+    }
+  }
+}
 </style>

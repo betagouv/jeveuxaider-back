@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-blue-800 overflow-hidden">
+  <div class="relative bg-[#070191] overflow-hidden">
     <img
       class="z-1 object-cover absolute h-screen lg:h-auto"
       alt="Je Veux Aider"
@@ -14,7 +14,7 @@
         >
           Réinitialisation de votre mot de passe
         </h2>
-        <p class="text-center text-base text-blue-200">
+        <p class="text-center text-base text-[#c3ddfd]">
           Renseignez votre nouveau mot de passe afin de vous connecter à la
           plateforme.
         </p>
@@ -23,7 +23,7 @@
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <div class="relative">
             <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-gray-300"></div>
+              <div class="w-full border-t border-[#d2d6dc]"></div>
             </div>
             <div class="relative flex justify-center text-xl">
               <span class="px-2 bg-white font-bold text-gray-900">
@@ -63,7 +63,7 @@
                 <el-button
                   type="primary"
                   :loading="loading"
-                  class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-blue-800 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+                  class="!w-full !flex !justify-center !py-3 !px-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#070191] hover:!shadow-lg hover:!scale-105 !transform transition"
                   @click="onSubmit"
                   >Modifier mon mot de passe</el-button
                 >
@@ -82,7 +82,7 @@
                 <span class="block w-full rounded-md shadow-sm">
                   <button
                     type="submit"
-                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-blue-800 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#070191] hover:shadow-lg hover:scale-105 transform transition"
                   >
                     Se connecter
                   </button>

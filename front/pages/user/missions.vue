@@ -62,13 +62,16 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.ais-Hits-item
-  width: 100%
-  @apply border-0 shadow-none p-0 m-3
-  @screen sm
-    width: 292px
-  @screen lg
-    width: 294px
-    @apply flex flex-col
+<style lang="postcss" scoped>
+.ais-Hits-item {
+  width: 100%;
+  @apply border-0 shadow-none p-0 m-3;
+  @screen sm {
+    width: 292px;
+  }
+  @screen lg {
+    width: 294px;
+    @apply flex flex-col;
+  }
+}
 </style>

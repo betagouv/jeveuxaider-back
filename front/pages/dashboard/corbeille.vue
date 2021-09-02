@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="font-bold text-2-5xl text-gray-800">Corbeille</div>
+        <div class="font-bold text-[1.75rem] text-[#242526]">Corbeille</div>
       </div>
     </div>
 
@@ -193,8 +193,10 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep
-  .el-table_1_column_2 .cell
-    text-transform: capitalize
+<style lang="postcss" scoped>
+::v-deep {
+  .el-table_1_column_2 .cell {
+    text-transform: capitalize;
+  }
+}
 </style>

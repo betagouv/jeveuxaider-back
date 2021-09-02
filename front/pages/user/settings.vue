@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="font-bold text-2-5xl text-gray-800 mb-4">
+    <div class="font-bold text-[1.75rem] text-[#242526] mb-4">
       Paramètres de compte
     </div>
 
@@ -18,7 +18,7 @@
       <el-form-item
         label="Ancien mot de passe"
         prop="current_password"
-        class="mb-6"
+        class="!mb-6"
       >
         <el-input
           v-model="form.current_password"
@@ -26,7 +26,7 @@
           show-password
         />
       </el-form-item>
-      <el-form-item label="Nouveau mot de passe" prop="password" class="mb-6">
+      <el-form-item label="Nouveau mot de passe" prop="password" class="!mb-6">
         <el-input
           v-model="form.password"
           placeholder="Nouveau mot de passe"
@@ -36,7 +36,7 @@
       <el-form-item
         label="Confirmation du nouveau mot de passe"
         prop="password_confirmation"
-        class="mb-6"
+        class="!mb-6"
       >
         <el-input
           v-model="form.password_confirmation"
@@ -49,7 +49,7 @@
           Enregistrer les modifications
         </el-button>
         <div
-          class="text-red-500 ml-4 cursor-pointer hover:underline"
+          class="text-[#f56565] ml-4 cursor-pointer hover:underline"
           @click="onSubmitDelete"
         >
           Supprimer mon compte
@@ -151,7 +151,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-1
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-1;
+}
 </style>

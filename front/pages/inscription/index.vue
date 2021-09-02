@@ -1,7 +1,7 @@
 <template>
   <div class="relative text-center z-10">
     <h2
-      class="text-3xl md:text-5xl text-white font-light leading-tight tracking-tight"
+      class="text-3xl md:text-5xl text-white font-light !leading-tight tracking-tight"
     >
       Un petit clic pour vous, <br />
       <span class="font-bold">un grand geste pour la solidarité.</span>
@@ -14,7 +14,7 @@
     >
       <nuxt-link to="/register/volontaire">
         <div
-          class="bg-white w-72 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+          class="bg-white w-72 flex-col items-center justify-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         >
           <p class="text-4xl mb-0">💪</p>
           <p class="text-2xl leading-tight">
@@ -28,7 +28,7 @@
       <div class="text-white text-lg">ou</div>
       <nuxt-link to="/inscription/organisation">
         <div
-          class="bg-white w-72 flex-col items-center justify-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+          class="bg-white w-72 flex-col items-center justify-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         >
           <p class="text-4xl mb-0">📢</p>
           <p class="text-2xl leading-tight">

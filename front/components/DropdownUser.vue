@@ -104,7 +104,7 @@
 
         <el-dropdown-item
           v-if="isImpersonating"
-          class="text-orange-500 flex space-between items-center"
+          class="!text-[#ed8936] !flex !space-between !items-center"
           :command="{ action: 'stopImpersonate' }"
         >
           Unmasquarade
@@ -114,7 +114,7 @@
         <el-dropdown-item
           divided
           :command="{ action: 'logout' }"
-          class="text-red-500"
+          class="!text-[#f56565]"
         >
           Se déconnecter
         </el-dropdown-item>
@@ -164,7 +164,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .el-dropdown-link {
   cursor: pointer;
 }

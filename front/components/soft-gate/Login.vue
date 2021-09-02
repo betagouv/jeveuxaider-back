@@ -39,7 +39,7 @@
         </el-form-item>
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mt-8"
+          class="!font-bold !max-w-sm !mx-auto !w-full !flex !items-center !justify-center !px-5 !py-3 !border !border-transparent !text-xl !leading-6 !rounded-full !text-white !bg-[#16a972] hover:!bg-[#0e9f6e] focus:!outline-none focus:!ring !transition !mt-8"
           @click.prevent="onSubmit"
         >
           Se connecter
@@ -48,7 +48,7 @@
           <nuxt-link
             :to="`/password-reset?email=${form.email}`"
             target="_blank"
-            class="text-sm leading-5 font-medium text-gray-400 hover:text-gray-900 focus:underline transition ease-in-out duration-150"
+            class="text-sm leading-5 font-medium text-gray-400 hover:text-gray-900 focus:underline transition"
           >
             Mot de passe perdu ?
           </nuxt-link>
@@ -135,7 +135,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::placeholder
-  font-weight: 500
+<style lang="postcss" scoped>
+::placeholder {
+  font-weight: 500;
+}
 </style>

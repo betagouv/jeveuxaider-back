@@ -1,7 +1,7 @@
 <template>
   <div class="relative z-10">
     <h2
-      class="text-3xl md:text-5xl text-white leading-tight tracking-tight font-bold text-center"
+      class="text-3xl md:text-5xl text-white !leading-tight tracking-tight font-bold text-center"
       v-html="currentStep.title"
     />
     <div
@@ -14,7 +14,7 @@
       class="max-w-5xl flex flex-col flex-wrap items-center justify-center mt-4 mb-12 md:flex-row mx-auto"
     >
       <div
-        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         @click="handleChooseOrgaType('Association')"
       >
         <p class="text-4xl mb-0">💪</p>
@@ -27,7 +27,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         @click="handleChooseOrgaType('Collectivité')"
       >
         <p class="text-4xl mb-0">🏫️</p>
@@ -40,7 +40,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         @click="handleChooseOrgaType('Tête de réseau')"
       >
         <p class="text-4xl mb-0">🚀</p>
@@ -53,7 +53,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         @click="handleChooseOrgaType('Organisation publique')"
       >
         <p class="text-4xl mb-0">🏢</p>
@@ -65,7 +65,7 @@
         </p>
       </div>
       <div
-        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
         @click="handleChooseOrgaType('Organisation privée')"
       >
         <p class="text-4xl mb-0">🏩</p>
@@ -81,7 +81,7 @@
       <a
         href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
         target="_blank"
-        class="bg-white w-72 h-64 m-4 px-4 py-10 flex-col items-center justify-center text-center rounded-xl transform cursor-pointer hover:scale-105 duration-150"
+        class="bg-white w-72 h-64 m-4 px-4 py-10 flex-col items-center justify-center text-center rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
       >
         <p class="text-4xl mb-0">🤔</p>
         <p class="text-2xl leading-tight">
@@ -101,11 +101,11 @@
         :model="form"
         label-position="top"
         :hide-required-asterisk="true"
-        class="max-w-2xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-xl"
+        class="max-w-2xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-2xl"
       >
         <div class="w-full m-0">
           <label
-            class="uppercase font-semibold text-gray-800 text-sm mb-2 block"
+            class="uppercase font-semibold text-[#242526] text-sm mb-2 block"
           >
             <template v-if="$route.query.orga_type === 'Collectivité'">
               Nom de votre collectivité
@@ -168,7 +168,7 @@
         <template v-if="!orgaExist && $route.query.orga_type !== 'Association'">
           <el-button
             type="primary"
-            class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-8"
+            class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-8 !leading-none"
             @click="onSubmitChooseName"
             @keyup.enter="onSubmitChooseName"
           >
@@ -197,13 +197,13 @@
         label-position="top"
         :hide-required-asterisk="true"
         :rules="rules"
-        class="form-register-steps max-w-xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-xl"
+        class="form-register-steps max-w-xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-2xl"
       >
         <div class="flex flex-wrap -mx-2">
           <el-form-item
             label="Prénom"
             prop="first_name"
-            class="w-full sm:w-1/2 px-2"
+            class="!w-full sm:!w-1/2 !px-2"
           >
             <el-input
               v-model="form.first_name"
@@ -215,7 +215,7 @@
           <el-form-item
             label="Nom"
             prop="last_name"
-            class="w-full sm:w-1/2 px-2"
+            class="!w-full sm:!w-1/2 !px-2"
           >
             <el-input
               v-model="form.last_name"
@@ -224,7 +224,7 @@
               placeholder="Nom"
             />
           </el-form-item>
-          <el-form-item label="E-mail" prop="email" class="w-full px-2">
+          <el-form-item label="E-mail" prop="email" class="!w-full !px-2">
             <el-input
               v-model.trim="form.email"
               label="E-mail"
@@ -235,7 +235,7 @@
           <el-form-item
             label="Mot de passe"
             prop="password"
-            class="w-full sm:w-1/2 px-2"
+            class="!w-full sm:!w-1/2 !px-2"
           >
             <el-input
               v-model="form.password"
@@ -248,7 +248,7 @@
           <el-form-item
             label="Confirmation"
             prop="password_confirmation"
-            class="w-full sm:w-1/2 px-2"
+            class="!w-full sm:!w-1/2 !px-2"
           >
             <el-input
               v-model="form.password_confirmation"
@@ -261,7 +261,7 @@
         <el-button
           type="primary"
           :loading="loading"
-          class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
+          class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-4 !leading-none"
           @click="onSubmitRegisterResponsableForm"
           @keydown.enter="onSubmitRegisterResponsableForm"
         >
@@ -273,7 +273,7 @@
           </template>
           <template v-else>J'inscris mon organisation</template>
         </el-button>
-        <div class="mt-4 text-center text-gray-800 text-sm">
+        <div class="mt-4 text-center text-[#242526] text-sm">
           En m'inscrivant j'accepte
           <a
             href="/politique-de-confidentialite"

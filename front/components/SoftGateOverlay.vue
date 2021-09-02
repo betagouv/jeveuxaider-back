@@ -102,12 +102,15 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-#soft-gate
-  background-color: rgba(25, 22, 130, .95)
-  .title
-    font-size: 24px
-    @screen lg
-      font-size: 50px
-      letter-spacing: -1px
+<style lang="postcss" scoped>
+#soft-gate {
+  background-color: rgba(25, 22, 130, 0.95);
+  .title {
+    font-size: 24px;
+    @screen lg {
+      font-size: 50px;
+      letter-spacing: -1px;
+    }
+  }
+}
 </style>

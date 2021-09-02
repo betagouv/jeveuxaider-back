@@ -1,5 +1,5 @@
 <template>
-  <div class="z-100 text-gray-1000">
+  <div class="z-100 text-[#171725]">
     <AisRefinementList
       :ref="name"
       :key="name"
@@ -21,7 +21,7 @@
         }"
       >
         <div class="h-7 flex justify-between mb-3">
-          <span v-if="!isSearching" class="font-black text-gray-1000">
+          <span v-if="!isSearching" class="font-black text-[#171725]">
             {{ label }}
           </span>
 
@@ -53,7 +53,7 @@
         <el-checkbox
           v-for="item in items"
           :key="item.value"
-          class="w-full text-sm cursor-pointer mb-3"
+          class="!w-full !text-sm !cursor-pointer !mb-3"
           :label="item.value"
           :value="item.isRefined"
           @change="onChange(refine, item)"
@@ -66,7 +66,7 @@
                 autoresize
                 class="w-full mr-2 relative"
                 :class="[
-                  { 'text-gray-1000 font-bold': item.isRefined },
+                  { 'text-[#171725] font-bold': item.isRefined },
                   { 'text-gray-600': !item.isRefined },
                 ]"
               >
@@ -93,7 +93,7 @@
 
         <button
           v-if="canToggleShowMore"
-          class="uppercase text-xs font-bold text-gray-1000 mt-2"
+          class="uppercase text-xs font-bold text-[#171725] mt-2"
           style="margin-left: 30px"
           @click="toggleShowMore"
         >
@@ -167,50 +167,70 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .facet-value
-  > *
-    transition: all .25s
-  &:hover
-    .label
-      color: #27303f !important
+<style lang="postcss" scoped>
+.facet-list ::v-deep .facet-value {
+  > * {
+    transition: all 0.25s;
+  }
+  &:hover {
+    .label {
+      color: #27303f !important;
+    }
+  }
+}
 
-::v-deep .el-checkbox
-  @apply flex items-center whitespace-normal
-  .el-checkbox__label
-    @apply w-full
-  .el-checkbox__input
-    &.is-focus
-      .el-checkbox__inner
-        border-color: #070191 !important
-    .el-checkbox__inner
-      width: 20px
-      height: 20px
-      border-color: white
-      border-radius: 4px
-      &::after
-        border: 2px solid #5B71B9
-        border-left: 0
-        border-top: 0
-        height: 10px
-        left: 6px
-        top: 1px
-        width: 4px
-    &.is-checked
-      .el-checkbox__inner
-        background-color: #E6EAF5
-        border-color: #E6EAF5
+.facet-list .el-checkbox {
+  @apply flex items-center whitespace-normal;
 
-.facet-search
-  ::v-deep .el-input__inner
-    height: 28px
-    border-color: #EDE8E9
-    color: #171725
-    padding: 0 30px 0 8px
-    line-height: 1
-    @apply text-base
-    @screen md
-      font-size: 14px
-  ::v-deep .el-input__icon
-    line-height: 28px
+  ::v-deep .el-checkbox__label {
+    @apply w-full;
+  }
+
+  ::v-deep .el-checkbox__input {
+    &.is-focus {
+      .el-checkbox__inner {
+        border-color: #070191 !important;
+      }
+    }
+    &.is-checked {
+      .el-checkbox__inner {
+        background-color: #e6eaf5 !important;
+        border-color: #e6eaf5 !important;
+      }
+    }
+  }
+
+  ::v-deep .el-checkbox__inner {
+    width: 20px !important;
+    height: 20px !important;
+    border-color: white !important;
+    border-radius: 4px !important;
+    &::after {
+      border: 2px solid #5b71b9 !important;
+      border-left: 0 !important;
+      border-top: 0 !important;
+      height: 10px !important;
+      left: 6px !important;
+      top: 1px !important;
+      width: 4px !important;
+    }
+  }
+}
+
+.facet-search {
+  ::v-deep .el-input__inner {
+    height: 28px;
+    border-color: #ede8e9;
+    color: #171725;
+    padding: 0 30px 0 8px;
+    line-height: 1;
+    @apply text-base;
+    @screen md {
+      font-size: 14px;
+    }
+  }
+  ::v-deep .el-input__icon {
+    line-height: 28px;
+  }
+}
 </style>

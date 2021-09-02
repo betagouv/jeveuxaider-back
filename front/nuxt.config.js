@@ -53,7 +53,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/main.sass'],
+  css: ['@/assets/css/main.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -81,7 +81,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/eslint-module',
-    '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
     '@nuxtjs/device',
@@ -138,22 +137,6 @@ export default {
     config: {
       lazy: true,
     }, // Additional config
-  },
-
-  tailwindcss: {
-    config: {
-      purge: {
-        options: {
-          // Whitelisting some classes to avoid purge
-          safelist: [
-            'bg-green-700',
-            'bg-red-600',
-            'bg-blue-900',
-            'bg-purple-800',
-          ],
-        },
-      },
-    },
   },
 
   redirect: [
@@ -229,6 +212,14 @@ export default {
       'resize-detector',
       'vue-cropperjs',
     ],
+    postcss: {
+      plugins: {
+        'postcss-import': {},
+        'tailwindcss/nesting': {},
+        'tailwindcss': {},
+        'autoprefixer': {},
+      }
+    }
   },
 
   render: {

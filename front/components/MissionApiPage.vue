@@ -33,40 +33,14 @@
                 <div class="-m-2 flex flex-wrap">
                   <span
                     v-if="mission.domaine_name"
-                    class="
-                      m-2
-                      inline-flex
-                      px-3
-                      py-1
-                      rounded-full
-                      text-sm
-                      leading-5
-                      font-semibold
-                      tracking-wide
-                      uppercase
-                      bg-indigo-100
-                      text-blue-900
-                    "
+                    class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-[#1f0391]"
                     >{{ mission.domaine_name }}</span
                   >
                   <template v-if="tags">
                     <span
                       v-for="tag in tags"
                       :key="tag"
-                      class="
-                        m-2
-                        inline-flex
-                        px-3
-                        py-1
-                        rounded-full
-                        text-sm
-                        leading-5
-                        font-semibold
-                        tracking-wide
-                        uppercase
-                        bg-gray-100
-                        text-gray-900
-                      "
+                      class="m-2 inline-flex px-3 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-gray-100 text-gray-900"
                     >
                       {{ tag }}
                     </span>
@@ -75,16 +49,7 @@
               </div>
 
               <h2
-                class="
-                  mt-4
-                  pb-3
-                  text-2xl
-                  sm:text-4xl
-                  leading-7
-                  sm:leading-10
-                  font-bold
-                  text-gray-900
-                "
+                class="mt-4 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
               >
                 {{ mission.name }}
               </h2>
@@ -138,7 +103,7 @@
               <div>
                 <h2 class="text-lg font-medium">
                   <span>L'organisation</span>
-                  <b class="text-blue-800">
+                  <b class="text-[#070191]">
                     {{ structure.name }}
                   </b>
                 </h2>
@@ -172,15 +137,7 @@
             </div>
 
             <div
-              class="
-                aside
-                text-center
-                bg-blue-800
-                rounded-b-lg
-                lg:rounded-b-none lg:rounded-r-lg
-                lg:flex-shrink-0 lg:flex lg:flex-col
-                lg:justify-center
-              "
+              class="aside text-center bg-[#070191] rounded-b-lg lg:rounded-b-none lg:rounded-r-lg lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center"
             >
               <div class="py-8 px-6 lg:p-12">
                 <div
@@ -190,7 +147,7 @@
                 />
 
                 <!-- <div
-                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-blue-800"
+                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-[#070191]"
                 >
                   <template v-if="mission.has_places_left === true">
                     {{ mission.places_left | formatNumber }}
@@ -206,19 +163,7 @@
                 </div> -->
 
                 <div
-                  class="
-                    inline-flex
-                    px-5
-                    py-1
-                    rounded-full
-                    text-sm
-                    leading-5
-                    font-semibold
-                    tracking-wide
-                    uppercase
-                    bg-indigo-100
-                    text-blue-800
-                  "
+                  class="inline-flex px-5 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-indigo-100 text-[#070191]"
                 >
                   {{ placesLeftText }}
                 </div>
@@ -228,46 +173,14 @@
                 </div> -->
 
                 <div
-                  class="
-                    mt-4
-                    flex
-                    items-center
-                    justify-center
-                    text-5xl
-                    leading-none
-                    font-extrabold
-                    text-gray-900
-                  "
+                  class="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900"
                 />
 
                 <div class="mt-6">
                   <a
                     :href="mission.application_url"
                     target="_blank"
-                    class="
-                      max-w-sm
-                      mx-auto
-                      w-full
-                      flex
-                      items-center
-                      justify-center
-                      border border-transparent
-                      rounded-full
-                      text-white
-                      bg-green-400
-                      hover:bg-green-500
-                      focus:outline-none
-                      focus:shadow-outline
-                      transition
-                      duration-150
-                      ease-in-out
-                      font-bold
-                      text-md
-                      sm:text-xl
-                      px-5
-                      py-3
-                      pb-4
-                    "
+                    class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-[#16a972] hover:bg-[#0e9f6e] !outline-none focus:ring transition font-bold text-md sm:text-xl px-5 py-3 pb-4"
                     >Je propose mon aide
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -286,17 +199,7 @@
                 </div>
 
                 <div
-                  class="
-                    mt-8
-                    lg:mt-12
-                    block
-                    text-center text-sm
-                    leading-2
-                    font-medium
-                    text-indigo-300
-                    max-w-xs
-                    mx-auto
-                  "
+                  class="mt-8 lg:mt-12 block text-center text-sm leading-2 font-medium text-indigo-300 max-w-xs mx-auto"
                 >
                   À plusieurs on est meilleur ! Et si vous partagiez cette
                   mission à votre entourage ?
@@ -386,14 +289,7 @@
           <div class="flex justify-between">
             <div class="px-6 pt-8 lg:p-12 lg:pb-0 lg:mr-16">
               <h3
-                class="
-                  text-2xl
-                  sm:text-4xl
-                  leading-7
-                  sm:leading-10
-                  font-bold
-                  text-gray-900
-                "
+                class="text-2xl sm:text-4xl leading-7 sm:leading-10 font-bold text-gray-900"
               >
                 Tout savoir sur cette mission
               </h3>
@@ -417,30 +313,7 @@
             <a
               :href="mission.application_url"
               target="_blank"
-              class="
-                mx-auto
-                w-full
-                sm:w-80
-                flex
-                items-center
-                justify-center
-                border border-transparent
-                rounded-full
-                text-white
-                bg-green-400
-                hover:bg-green-500
-                focus:outline-none
-                focus:shadow-outline
-                transition
-                duration-150
-                ease-in-out
-                font-bold
-                text-md
-                sm:text-xl
-                px-5
-                py-3
-                pb-4
-              "
+              class="mx-auto w-full sm:w-80 flex items-center justify-center border border-transparent rounded-full text-white bg-[#16a972] hover:bg-[#0e9f6e] !outline-none focus:ring transition font-bold text-md sm:text-xl px-5 py-3 pb-4"
               >Je propose mon aide
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -555,12 +428,15 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.aside
-  @screen lg
-    max-width: 410px
-    @apply flex-none w-full
+<style lang="postcss" scoped>
+.aside {
+  @screen lg {
+    max-width: 410px;
+    @apply flex-none w-full;
+  }
+}
 
-::v-deep .el-dialog__title
-  @apply text-gray-800 text-xl font-bold
+::v-deep .el-dialog__title {
+  @apply text-[#242526] text-xl font-bold;
+}
 </style>

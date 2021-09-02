@@ -7,16 +7,7 @@
     >
       <div class="flex flex-col w-full h-full px-4">
         <button
-          class="
-            p-4
-            -mr-4
-            lg:m-0
-            lg:p-8
-            cursor-pointer
-            ml-auto
-            lg:absolute
-            lg:right-0
-          "
+          class="p-4 -mr-4 lg:m-0 lg:p-8 cursor-pointer ml-auto lg:absolute lg:right-0"
           @click="onClose"
         >
           <img src="/images/close-white.svg" alt="Fermer" width="24px" />
@@ -47,8 +38,8 @@
                   v-model="radio"
                   :label="item.value"
                   name="mission-type"
-                  class="flex items-center lg:h-full py-6 px-10 transition"
-                  :class="[{ 'opacity-25': radio && radio != item.value }]"
+                  class="!flex !items-center lg:!h-full !py-6 !px-10 !transition"
+                  :class="[{ '!opacity-25': radio && radio != item.value }]"
                   @keyup.native.space="handleSpaceRadio($event, item.value)"
                   @hook:mounted="focusKeyboard"
                 >
@@ -86,26 +77,11 @@
               </div>
 
               <div
-                class="
-                  submit
-                  py-6
-                  px-10
-                  cursor-pointer
-                  transition
-                  rounded-r-full
-                "
+                class="submit py-6 px-10 cursor-pointer transition rounded-r-full"
                 @click="onSubmit"
               >
                 <button
-                  class="
-                    mx-auto
-                    flex
-                    items-center
-                    justify-center
-                    relative
-                    text-white
-                    font-extrabold
-                  "
+                  class="mx-auto flex items-center justify-center relative text-white font-extrabold"
                 >
                   <ClipLoader
                     v-if="loading"
@@ -162,7 +138,7 @@ export default {
           })
           return (
             `<div class="text-black font-bold">${suggestion.highlight.name}</div>` +
-            `<div class="text-gray-800 text-xs font-light">` +
+            `<div class="text-[#242526] text-xs font-light">` +
             `<span>${suggestion.postcode}</span>${detailsOutput}` +
             `</div>`
           )
@@ -241,127 +217,167 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-#search-overlay
-  background-color: rgba(25, 22, 130, .95)
-  .title
-    font-size: 24px
-    @screen lg
-      font-size: 50px
-      letter-spacing: -1px
-  .submit
-    background-color: #30C48D
-    &:hover
-      background-color: #39aa80
-  ::v-deep
-    .el-radio__label
-      @apply text-base font-extrabold text-black
-    .el-radio__inner
-      width: 20px
-      height: 20px
-      border-color: #F3F3F3
-      background: #F3F3F3
-      transition: all .25s
-      &::after
-        background: url(/images/check-gray.svg)
-        width: 11px
-        height: 100%
-        background-repeat: no-repeat
-        background-position: center
-        transform: translate(-50%, -50%) scale(1)
-    .el-radio__input.is-checked
-      .el-radio__inner
-        border-color: #E6EAF5
-        background: #E6EAF5
-        &::after
-          background: url(/images/check-primary.svg)
-          background-repeat: no-repeat
-          background-position: center
+<style lang="postcss" scoped>
+#search-overlay {
+  background-color: rgba(25, 22, 130, 0.95);
 
-.items-wrapper
-  @screen lg
-    .item
-      @apply bg-white
-      &:nth-child(1)
-        @apply rounded-l-full border-r
+  .title {
+    font-size: 24px;
+    @screen lg {
+      font-size: 50px;
+      letter-spacing: -1px;
+    }
+  }
 
-.submit
-  @apply rounded-full w-full
-  @screen lg
-    @apply w-auto rounded-none rounded-r-full
+  .submit {
+    background-color: #30c48d;
+    &:hover {
+      background-color: #39aa80;
+    }
+  }
 
-.el-radio
-  @apply bg-white rounded-full block m-0 mb-4 w-full
-  @screen lg
-    max-height: 72px
-    @apply w-auto m-0
+  ::v-deep {
+    .el-radio__label {
+      @apply text-base font-extrabold text-black;
+    }
+    .el-radio__inner {
+      width: 20px;
+      height: 20px;
+      border-color: #f3f3f3;
+      background: #f3f3f3;
+      transition: all 0.25s;
+      &::after {
+        background: url(/images/check-gray.svg);
+        width: 11px;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    .el-radio__input.is-checked {
+      .el-radio__inner {
+        border-color: #e6eaf5;
+        background: #e6eaf5;
+        &::after {
+          background: url(/images/check-primary.svg);
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
+  }
+}
 
-.zipcode
-  position: relative
-  @apply m-0 mb-4 h-full
-  @screen lg
-    @apply mb-0
-  &::after
-    content: "Votre code postal"
-    position: absolute
-    pointer-events: none
-    left: 40px
-    top: 10px
-    font-size: 12px
-    color: #908E8E
-    letter-spacing: -0.1px
-    line-height: 18px
-    @screen lg
-      left: 15px
-  ::v-deep
-    .algolia-places
-      @apply bg-white rounded-full
-      @screen lg
-        max-height: 72px
-        @apply rounded-none h-full
-    .ap-dropdown-menu
-      border-radius: 8px
-    .ap-suggestion
-      padding: 5px 15px
-      line-height: normal
-      height: inherit
-    .ap-input
-      width: 100%
-      height: 68px
-      border: 1px solid white
-      color: black
-      font-weight: bold
-      background-color: transparent
-      border: none
-      top: 10px
-      @apply truncate py-6 px-10
-      @screen lg
-        width: 250px
-        height: calc(100% - 10px)
-        padding: 0 15px
-    .ap-icon-pin
-      position: relative
-      pointer-events: none
-      svg
-        display: none
-      &::after
-        content: ""
-        position: absolute
-        width: 22px
-        height: 23px
-        background: url('/images/picker.svg')
-        top: 7px
-        right: 0px
-    .ap-icon-clear
-      width: 20px
-      height: 20px
-      margin: auto
-      display: flex
-      align-items: center
-      svg
-        right: 4px
+.items-wrapper {
+  @screen lg {
+    .item {
+      @apply bg-white;
+      &:nth-child(1) {
+        @apply rounded-l-full border-r;
+      }
+    }
+  }
+}
 
-.chevron
-  left: -12px
-  @apply absolute top-0 bottom-0 m-auto
+.submit {
+  @apply rounded-full w-full;
+  @screen lg {
+    @apply w-auto rounded-none rounded-r-full;
+  }
+}
+
+.el-radio {
+  @apply bg-white rounded-full block m-0 mb-4 w-full;
+  @screen lg {
+    max-height: 72px;
+    @apply w-auto m-0;
+  }
+}
+
+.zipcode {
+  position: relative;
+  @apply m-0 mb-4 h-full;
+  @screen lg {
+    @apply mb-0;
+  }
+  &::after {
+    content: 'Votre code postal';
+    position: absolute;
+    pointer-events: none;
+    left: 40px;
+    top: 10px;
+    font-size: 12px;
+    color: #908e8e;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+    @screen lg {
+      left: 15px;
+    }
+  }
+  ::v-deep {
+    .algolia-places {
+      @apply bg-white rounded-full;
+      @screen lg {
+        max-height: 72px;
+        @apply rounded-none h-full;
+      }
+    }
+    .ap-dropdown-menu {
+      border-radius: 8px;
+    }
+    .ap-suggestion {
+      padding: 5px 15px;
+      line-height: normal;
+      height: inherit;
+    }
+    .ap-input {
+      width: 100%;
+      height: 68px;
+      border: 1px solid white;
+      color: black;
+      font-weight: bold;
+      background-color: transparent;
+      border: none;
+      top: 10px;
+      @apply truncate py-6 px-10;
+      @screen lg {
+        width: 250px;
+        height: calc(100% - 10px);
+        padding: 0 15px;
+      }
+    }
+    .ap-icon-pin {
+      position: relative;
+      pointer-events: none;
+      svg {
+        display: none;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        width: 22px;
+        height: 23px;
+        background: url('/images/picker.svg');
+        top: 7px;
+        right: 0px;
+      }
+    }
+    .ap-icon-clear {
+      width: 20px;
+      height: 20px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      svg {
+        right: 4px;
+      }
+    }
+  }
+}
+
+.chevron {
+  left: -12px;
+  @apply absolute top-0 bottom-0 m-auto;
+}
 </style>

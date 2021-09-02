@@ -14,15 +14,7 @@
     </div>
     <div class="rounded-lg bg-white max-w-xl mx-auto overflow-hidden">
       <div
-        class="
-          px-8
-          py-6
-          bg-white
-          text-black text-3xl
-          font-extrabold
-          leading-9
-          text-center
-        "
+        class="px-8 py-6 bg-white text-black text-3xl font-extrabold leading-9 text-center"
       >
         Sélectionnez vos préférences
       </div>
@@ -40,7 +32,7 @@
           class="form-register-steps"
           :hide-required-asterisk="true"
         >
-          <el-form-item label="Domaines d'action" prop="domaines" class="">
+          <el-form-item label="Domaines d'action" prop="domaines">
             <el-checkbox-group
               v-model="domainesSelected"
               size="medium"
@@ -50,7 +42,7 @@
                 v-for="domaine in domaines"
                 :key="domaine.id"
                 :label="domaine.name.fr"
-                class="bg-white"
+                class="!bg-white"
                 border
                 :checked="isDomaineSelected(domaine.id)"
                 @change="handleClickDomaine(domaine)"
@@ -59,13 +51,7 @@
           </el-form-item>
 
           <div
-            class="
-              mb-8
-              text-black text-2xl
-              font-extrabold
-              leading-9
-              text-center
-            "
+            class="mb-8 text-black text-2xl font-extrabold leading-9 text-center"
           >
             Visibilité de votre profil
           </div>
@@ -81,17 +67,10 @@
             <legend class="sr-only">Visibilité de votre profil</legend>
             <div class="bg-white rounded-md -space-y-px">
               <label
-                class="
-                  rounded-tl-md rounded-tr-md
-                  relative
-                  border
-                  p-4
-                  flex
-                  cursor-pointer
-                "
+                class="rounded-tl-md rounded-tr-md relative border p-4 flex cursor-pointer"
                 :class="
                   !isProfileVisible
-                    ? 'bg-blue-50 border-blue-800 z-10'
+                    ? 'bg-blue-50 border-[#070191] z-10'
                     : 'border-gray-200'
                 "
               >
@@ -99,16 +78,7 @@
                   type="radio"
                   name="is_visible"
                   :value="false"
-                  class="
-                    form-radio
-                    h-4
-                    w-4
-                    mt-0.5
-                    cursor-pointer
-                    text-blue-800
-                    border-gray-300
-                    focus:ring-blue-800
-                  "
+                  class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-[#070191] border-[#d2d6dc] focus:ring-[#070191]"
                   aria-labelledby="privacy-setting-0-label"
                   aria-describedby="privacy-setting-0-description"
                   :checked="!isProfileVisible"
@@ -120,7 +90,7 @@
                     class="block text-sm font-medium"
                     :class="
                       !isProfileVisible
-                        ? 'text-blue-900 font-bold'
+                        ? 'text-[#1f0391] font-bold'
                         : 'text-gray-900'
                     "
                   >
@@ -139,17 +109,10 @@
               </label>
 
               <label
-                class="
-                  relative
-                  rounded-bl-md rounded-br-md
-                  border
-                  p-4
-                  flex
-                  cursor-pointer
-                "
+                class="relative rounded-bl-md rounded-br-md border p-4 flex cursor-pointer"
                 :class="
                   isProfileVisible
-                    ? 'bg-blue-50 border-blue-800 z-10'
+                    ? 'bg-blue-50 border-[#070191] z-10'
                     : 'border-gray-200'
                 "
               >
@@ -157,16 +120,7 @@
                   type="radio"
                   name="is_visible"
                   :value="true"
-                  class="
-                    form-radio
-                    h-4
-                    w-4
-                    mt-0.5
-                    cursor-pointer
-                    text-blue-800
-                    border-gray-300
-                    focus:ring-blue-800
-                  "
+                  class="form-radio h-4 w-4 mt-0.5 cursor-pointer text-[#070191] border-[#d2d6dc] focus:ring-[#070191]"
                   aria-labelledby="privacy-setting-1-label"
                   aria-describedby="privacy-setting-1-description"
                   :checked="isProfileVisible"
@@ -178,7 +132,7 @@
                     class="text-gray-900 block text-sm font-medium"
                     :class="
                       isProfileVisible
-                        ? 'text-blue-900 font-bold'
+                        ? 'text-[#1f0391] font-bold'
                         : 'text-gray-900'
                     "
                   >
@@ -203,31 +157,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="
-                shadow-lg
-                block
-                w-full
-                text-center
-                rounded-lg
-                z-10
-                border border-transparent
-                bg-green-400
-                px-4
-                sm:px-6
-                py-4
-                text-lg
-                sm:text-xl
-                leading-6
-                font-bold
-                text-white
-                hover:bg-green-500
-                focus:outline-none
-                focus:border-blue-700
-                focus:shadow-outline-blue
-                transition
-                ease-in-out
-                duration-150
-              "
+              class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-blue-700 focus:!ring-blue !transition"
               @click="onSubmit"
               >Continuer</el-button
             >
@@ -331,9 +261,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-step__description
-  @apply hidden
-    @screen sm
-      @apply block
+<style lang="postcss" scoped>
+::v-deep .el-step__description {
+  @apply hidden;
+  @screen sm {
+    @apply block;
+  }
+}
 </style>

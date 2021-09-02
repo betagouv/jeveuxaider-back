@@ -109,7 +109,7 @@
       <div class="text-gray-900 flex-1">
         <client-only>
           <ReadMore
-            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
             more-str="Lire plus"
             :text="mission.information"
             :max-chars="120"
@@ -122,7 +122,7 @@
       <div class="text-gray-900 flex-1">
         <client-only>
           <ReadMore
-            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
             more-str="Lire plus"
             :text="mission.objectif"
             :max-chars="120"
@@ -135,7 +135,7 @@
       <div class="text-gray-900 flex-1">
         <client-only>
           <ReadMore
-            more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+            more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
             more-str="Lire plus"
             :text="mission.description"
             :max-chars="120"

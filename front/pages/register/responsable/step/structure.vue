@@ -160,7 +160,7 @@
                 v-for="domaine in domaines"
                 :key="domaine.id"
                 :label="domaine.name.fr"
-                class="bg-white"
+                class="!bg-white"
                 border
                 :checked="isDomaineSelected(domaine.id)"
                 @change="handleClickDomaine(domaine)"
@@ -183,14 +183,14 @@
                   .mission_publics_beneficiaires.terms"
                 :key="item.value"
                 :label="item.value"
-                class="bg-white"
+                class="!bg-white"
                 border
                 >{{ item.label }}</el-checkbox
               >
             </el-checkbox-group>
           </el-form-item>
 
-          <el-form-item label="Département" prop="department" class="flex-1">
+          <el-form-item label="Département" prop="department" class="!flex-1">
             <el-select
               v-model="form.department"
               filterable
@@ -220,27 +220,31 @@
           <el-form-item
             label="Adresse de l'organisation"
             prop="address"
-            class="mt-6"
+            class="!mt-6"
           >
             <el-input v-model="form.address" disabled placeholder="Adresse" />
           </el-form-item>
           <div class="flex">
-            <el-form-item label="Code postal" prop="zip" class="flex-1 mr-2">
+            <el-form-item label="Code postal" prop="zip" class="!flex-1 !mr-2">
               <el-input v-model="form.zip" disabled placeholder="Code postal" />
             </el-form-item>
-            <el-form-item label="Ville" prop="city" class="flex-1">
+            <el-form-item label="Ville" prop="city" class="!flex-1">
               <el-input v-model="form.city" disabled placeholder="Ville" />
             </el-form-item>
           </div>
           <div class="hidden">
-            <el-form-item label="Latitude" prop="latitude" class="flex-1 mr-2">
+            <el-form-item
+              label="Latitude"
+              prop="latitude"
+              class="!flex-1 !mr-2"
+            >
               <el-input
                 v-model="form.latitude"
                 disabled
                 placeholder="Latitude"
               />
             </el-form-item>
-            <el-form-item label="Longitude" prop="longitude" class="flex-1">
+            <el-form-item label="Longitude" prop="longitude" class="!flex-1">
               <el-input
                 v-model="form.longitude"
                 disabled
@@ -253,7 +257,7 @@
             <el-form-item
               label="Faites-vous partie d'un réseau national ?"
               prop="reseau"
-              class="flex-1"
+              class="!flex-1"
             >
               <!-- <item-description container-class="mb-6">
                 Si votre organisation est membre d'un réseau national ou
@@ -284,7 +288,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-indigo-700 focus:!ring-indigo !transition"
               @click="onSubmit"
               @keyup.enter="onSubmit"
               >Continuer</el-button
@@ -487,5 +491,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

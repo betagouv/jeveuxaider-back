@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-blue-800 overflow-hidden">
+  <div class="relative bg-[#070191] overflow-hidden">
     <img
       class="z-1 object-cover absolute h-screen lg:h-auto"
       alt="JeVeuxAider"
@@ -14,7 +14,7 @@
         >
           Invitation à rejoindre la Réserve Civique
         </h2>
-        <p class="text-center text-base text-blue-200">
+        <p class="text-center text-base text-[#c3ddfd]">
           Engagez-vous pour faire vivre les valeurs de la République
         </p>
       </div>
@@ -56,7 +56,7 @@
 
         <div v-if="!$store.getters.isLogged" class="relative">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-300"></div>
+            <div class="w-full border-t border-[#d2d6dc]"></div>
           </div>
           <div class="relative flex justify-center text-xl">
             <span class="px-2 bg-white font-bold text-gray-900">
@@ -112,5 +112,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

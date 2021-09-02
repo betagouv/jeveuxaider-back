@@ -4,7 +4,7 @@
       Création d'une nouvelle mission
     </div>
     <div class="mb-8 flex">
-      <div class="font-bold text-2-5xl text-gray-800">
+      <div class="font-bold text-[1.75rem] text-[#242526]">
         <template v-if="step == 1"
           >Choisissez le domaine d'action de cette mission</template
         >

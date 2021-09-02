@@ -175,10 +175,13 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep
-  a
-    @apply text-primary font-medium
-  .text-xxs
-    font-size: 10px !important
+<style lang="postcss" scoped>
+::v-deep {
+  a {
+    @apply text-primary font-medium;
+  }
+  .text-xxs {
+    font-size: 10px !important;
+  }
+}
 </style>

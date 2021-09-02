@@ -40,16 +40,18 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.nav-skip
-  padding: .5em
-  display: inline-block
-  position: absolute
-  left: -99999rem
-  z-index: 100
+<style lang="postcss" scoped>
+.nav-skip {
+  padding: 0.5em;
+  display: inline-block;
+  position: absolute;
+  left: -99999rem;
+  z-index: 100;
+}
 
-.nav-skip:focus-within
-  position: relative
-  display: block
-  left: 0
+.nav-skip:focus-within {
+  position: relative;
+  display: block;
+  left: 0;
+}
 </style>

@@ -8,7 +8,7 @@
         classes: 'bo-style',
       }"
       class="w-2 h-2 rounded-full"
-      :class="isOnline ? 'bg-green-400' : 'bg-gray-400'"
+      :class="isOnline ? 'bg-[#16a972]' : 'bg-gray-400'"
     ></div>
   </div>
 </template>

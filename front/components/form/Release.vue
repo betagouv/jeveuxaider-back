@@ -1,6 +1,6 @@
 <template>
   <el-form ref="releaseForm" :model="form" label-position="top" :rules="rules">
-    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+    <div class="mb-6 text-1-5xl font-boldtext-[#242526]">
       Informations générales
     </div>
 
@@ -11,7 +11,7 @@
     <el-form-item label="Date" prop="date">
       <el-date-picker
         v-model="form.date"
-        class="w-full"
+        class="!w-full"
         type="datetime"
         placeholder="Date de début"
         value-format="yyyy-MM-dd HH:mm:ss"

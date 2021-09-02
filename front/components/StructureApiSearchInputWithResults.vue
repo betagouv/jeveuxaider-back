@@ -4,7 +4,7 @@
       <el-input
         ref="input"
         v-model="search"
-        class="mb-3"
+        class="!mb-3"
         prefix-icon="el-icon-search"
         placeholder="Rechercher..."
         clearable
@@ -15,7 +15,7 @@
       <el-input
         ref="input-city"
         v-model="city"
-        class="mb-8"
+        class="!mb-8"
         prefix-icon="el-icon-position"
         placeholder="Ville..."
         autocomplete="password"
@@ -27,13 +27,13 @@
       <div
         v-for="suggestion in suggestions"
         :key="suggestion.rna"
-        class="bg-white p-4 mb-4 rounded-lg hover:border-blue-800 cursor-pointer"
-        :class="isSelected(suggestion) ? 'border-2 border-blue-800 ' : 'border'"
+        class="bg-white p-4 mb-4 rounded-lg hover:border-[#070191] cursor-pointer"
+        :class="isSelected(suggestion) ? 'border-2 border-[#070191]' : 'border'"
         @click="onSelected(suggestion)"
       >
         <div
           class="mb-1"
-          :class="isSelected(suggestion) ? 'text-blue-800 ' : ''"
+          :class="isSelected(suggestion) ? 'text-[#070191] ' : ''"
         >
           {{ suggestion.name }}
           <span class="text-gray-500 text-xs"
@@ -51,7 +51,7 @@
     </div>
     <!-- <div
       v-else
-      class="bg-white p-4 mb-4 rounded-lg hover:border-blue-800 cursor-pointer"
+      class="bg-white p-4 mb-4 rounded-lg hover:border-[#070191] cursor-pointer"
     >
       <div class="text-sm text-gray-500">Aucun résultat provenant de l'API</div>
     </div> -->
@@ -161,5 +161,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

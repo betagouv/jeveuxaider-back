@@ -20,7 +20,7 @@
         :hide-required-asterisk="true"
         @submit.prevent.native="onSubmit"
       >
-        <el-form-item label="Email" prop="email" class="mb-5">
+        <el-form-item label="Email" prop="email" class="!mb-5">
           <el-input
             v-model.trim="form.email"
             placeholder="prenom.nom@email.fr"
@@ -28,7 +28,7 @@
             suffix-icon="el-icon-check"
           />
         </el-form-item>
-        <el-form-item label="Mot de passe" prop="password" class="mb-5">
+        <el-form-item label="Mot de passe" prop="password" class="!mb-5">
           <el-input
             v-model="form.password"
             placeholder="Mot de passe"
@@ -38,10 +38,10 @@
           />
         </el-form-item>
         <div class="flex mb-5 space-x-4">
-          <el-form-item label="Prénom" prop="first_name" class="flex-1 mb-0">
+          <el-form-item label="Prénom" prop="first_name" class="!flex-1 !mb-0">
             <el-input v-model="form.first_name" placeholder="Prénom" />
           </el-form-item>
-          <el-form-item label="Nom" prop="last_name" class="flex-1 mb-0">
+          <el-form-item label="Nom" prop="last_name" class="!flex-1 !mb-0">
             <el-input v-model="form.last_name" placeholder="Nom" />
           </el-form-item>
         </div>
@@ -49,22 +49,26 @@
           <el-form-item
             label="Téléphone mobile"
             prop="mobile"
-            class="flex-1 mb-0"
+            class="!flex-1 !mb-0"
           >
             <el-input v-model="form.mobile" placeholder="Téléphone mobile" />
           </el-form-item>
-          <el-form-item label="Téléphone fixe" prop="phone" class="flex-1 mb-0">
+          <el-form-item
+            label="Téléphone fixe"
+            prop="phone"
+            class="!flex-1 !mb-0"
+          >
             <el-input v-model="form.phone" placeholder="Téléphone fixe" />
           </el-form-item>
         </div>
         <div class="flex mb-5 space-x-4">
-          <el-form-item label="Code postal" prop="zip" class="flex-1 mb-0">
+          <el-form-item label="Code postal" prop="zip" class="!flex-1 !mb-0">
             <el-input v-model="form.zip" placeholder="Code postal" />
           </el-form-item>
           <el-form-item
             label="Date de naissance"
             prop="birthday"
-            class="flex-1 mb-0"
+            class="!flex-1 !mb-0"
           >
             <el-input
               v-model="form.birthday"
@@ -76,7 +80,7 @@
           </el-form-item>
         </div>
 
-        <el-form-item label="Profession" prop="type" class="mb-5">
+        <el-form-item label="Profession" prop="type" class="!mb-5">
           <el-select
             v-model="form.type"
             placeholder="Sélectionnez votre profession"
@@ -92,7 +96,7 @@
 
         <el-button
           :loading="loading"
-          class="font-bold max-w-sm mx-auto w-full flex items-center justify-center px-5 py-3 border border-transparent text-xl leading-6 rounded-full text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mt-8"
+          class="!font-bold !max-w-sm !mx-auto !w-full !flex !items-center !justify-center !px-5 !py-3 !border !border-transparent !text-xl !leading-6 !rounded-full !text-white !bg-[#16a972] hover:!bg-[#0e9f6e] focus:!outline-none focus:!ring !transition !mt-8"
           @click.prevent="onSubmit"
         >
           S'inscrire
@@ -287,7 +291,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::placeholder
-  font-weight: 500
+<style lang="postcss" scoped>
+::placeholder {
+  font-weight: 500;
+}
 </style>

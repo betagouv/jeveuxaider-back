@@ -111,10 +111,12 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.el-menu--horizontal
-  @apply px-12
-  > .el-menu-item
-    @apply mr-8 p-0 font-medium
-      border-bottom: solid 3px #070191
+<style scoped lang="postcss">
+.el-menu--horizontal {
+  @apply px-12;
+  > .el-menu-item {
+    border-bottom: solid 3px #070191;
+    @apply mr-8 p-0 font-medium;
+  }
+}
 </style>

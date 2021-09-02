@@ -1,7 +1,7 @@
 <template>
   <el-card
     shadow="never"
-    class="mr-5 mb-5 p-5 uppercase hover:border-blue-900 cursor-pointer"
+    class="mr-5 mb-5 p-5 uppercase hover:border-[#1f0391] cursor-pointer"
     style="width: 330px"
   >
     <div @click.prevent="onClick">

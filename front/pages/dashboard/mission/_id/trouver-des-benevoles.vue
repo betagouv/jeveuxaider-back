@@ -3,7 +3,7 @@
     <div class="header px-12 flex border-b border-gray-200 pb-8">
       <div class="header-titles flex-1">
         <!-- <div class="text-gray-600 uppercase">Trouver des bénévoles</div> -->
-        <div class="mb-1 font-bold text-2-5xl text-gray-800">
+        <div class="mb-1 font-bold text-[1.75rem] text-[#242526]">
           Proposez directement cette mission aux bénévoles
         </div>
         <div class="text-gray-500 mt-1">
@@ -21,17 +21,17 @@
       <div class="text-secondary flex items-center flex-wrap">
         <div
           v-if="mission.type"
-          class="border-r leading-none border-gray-300 mr-3 pr-3"
+          class="border-r leading-none border-[#d2d6dc] mr-3 pr-3"
         >
           {{ mission.type }}
         </div>
         <div
           v-if="mission.format"
-          class="border-r leading-none border-gray-300 mr-3 pr-3"
+          class="border-r leading-none border-[#d2d6dc] mr-3 pr-3"
         >
           {{ mission.format }}
         </div>
-        <div class="border-r leading-none border-gray-300 mr-3 pr-3">
+        <div class="border-r leading-none border-[#d2d6dc] mr-3 pr-3">
           {{ mission.places_left }}
           {{
             mission.places_left
@@ -45,14 +45,14 @@
               <div
                 v-for="domain in mission.domaines"
                 :key="domain.id"
-                class="flex-shrink-0 inline-block px-2 py-0.5 text-gray-800 text-xs font-medium bg-gray-100 rounded-full"
+                class="flex-shrink-0 inline-block px-2 py-0.5 text-[#242526] text-xs font-medium bg-gray-100 rounded-full"
               >
                 {{ domain.name.fr }}
               </div>
             </div>
             <div
               v-if="mission.type == 'Mission en présentiel'"
-              class="flex-shrink-0 inline-block px-2 py-0.5 text-gray-800 text-xs font-medium bg-gray-100 rounded-full"
+              class="flex-shrink-0 inline-block px-2 py-0.5 text-[#242526] text-xs font-medium bg-gray-100 rounded-full"
             >
               {{ mission.department | labelFromValue('departments') }}
             </div>
@@ -128,7 +128,7 @@
                   {{ item.first_name }} {{ item.last_name[0] }}.
                 </h3>
                 <div
-                  class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
+                  class="flex-shrink-0 inline-block px-2 py-0.5 text-[#03543f] text-xs font-medium bg-green-100 rounded-full"
                 >
                   <template v-if="item.commitment__duration">
                     <span>
@@ -172,7 +172,7 @@
                 <template slot="after" slot-scope="{ clamped, toggle }">
                   <span
                     v-if="clamped"
-                    class="ml-1 cursor-pointer uppercase font-bold text-xs text-gray-800"
+                    class="ml-1 cursor-pointer uppercase font-bold text-xs text-[#242526]"
                     @click="toggle"
                     >Voir plus</span
                   >
@@ -186,7 +186,7 @@
               <div class="text-gray-500 text-sm">
                 <ReadMore
                   v-if="item.skills.length"
-                  more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+                  more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
                   more-str="voir plus"
                   :text="
                     item.skills
@@ -341,11 +341,15 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.hide-carret
-  &::v-deep
-    .el-input__suffix
-      @apply hidden
-    .el-input__inner
-      padding: 0 15px
+<style lang="postcss" scoped>
+.hide-carret {
+  &::v-deep {
+    .el-input__suffix {
+      @apply hidden;
+    }
+    .el-input__inner {
+      padding: 0 15px;
+    }
+  }
+}
 </style>

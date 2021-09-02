@@ -21,14 +21,14 @@
           </div>
           <span
             v-if="!hasRead"
-            class="w-2.5 h-2.5 mr-4 bg-red-500 rounded-full"
+            class="w-2.5 h-2.5 mr-4 bg-[#f56565] rounded-full"
             aria-hidden="true"
           ></span>
         </div>
 
         <div
           v-if="conversation.latest_message"
-          class="flex justify-between items-baseline text-gray-800"
+          class="flex justify-between items-baseline text-[#242526]"
           :class="[{ 'font-bold': !hasRead }]"
         >
           <span
@@ -49,7 +49,7 @@
           :class="classParticipationStatus(conversation.conversable.state)"
         >
           <span class="text-secondary font-normal"> Participation : </span>
-          <span>
+          <span class="font-semibold">
             {{ conversation.conversable.state }}
           </span>
         </div>
@@ -112,9 +112,9 @@ export default {
     classParticipationStatus(status) {
       switch (status) {
         case 'En attente de validation':
-          return 'text-orange-400 font-semibold'
+          return 'text-[#f6ad55] font-semibold'
         case 'Validée':
-          return 'text-green-800 font-semibold'
+          return 'text-[#03543f] font-semibold'
         default:
           return 'text-gray-500'
       }
@@ -122,5 +122,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

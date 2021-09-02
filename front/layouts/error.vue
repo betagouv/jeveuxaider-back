@@ -47,21 +47,7 @@
         <div class="flex flex-col items-center">
           <nuxt-link
             to="/"
-            class="
-              rounded-full
-              bg-white
-              text-blue-800
-              font-extrabold
-              py-4
-              px-12
-              text-xl
-              hover:scale-105
-              transform
-              transition
-              duration-150
-              ease-in-out
-              inline-block
-            "
+            class="rounded-full bg-white text-[#070191] font-extrabold py-4 px-12 text-xl hover:scale-105 transform transition inline-block"
           >
             Revenir en lieu sûr
           </nuxt-link>
@@ -101,9 +87,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-#titre-error
-  letter-spacing: -1px
-  @screen lg
-    letter-spacing: -2px
+<style lang="postcss" scoped>
+#titre-error {
+  letter-spacing: -1px;
+  @screen lg {
+    letter-spacing: -2px;
+  }
+}
 </style>

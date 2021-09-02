@@ -24,7 +24,7 @@
           <div class="text-sm leading-5">
             <nuxt-link
               to="/password-reset"
-              class="font-medium text-blue-800 hover:text-blue-900 focus:underline transition ease-in-out duration-150"
+              class="font-medium text-[#070191] hover:text-[#1f0391] focus:underline transition"
             >
               Mot de passe perdu ?
             </nuxt-link>
@@ -34,7 +34,7 @@
     </el-form>
     <div class="mt-4">
       <button
-        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-blue-800 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-[#070191] hover:shadow-lg hover:scale-105 transform transition"
         @click="onSubmit"
       >
         J'accepte l'invitation
@@ -120,7 +120,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-3
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-3;
+}
 </style>

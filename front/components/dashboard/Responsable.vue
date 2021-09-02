@@ -1,7 +1,7 @@
 <template>
   <div class="px-12 max-w-4xl flex flex-col space-y-8">
     <div v-if="actions.length">
-      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+      <div class="font-semibold text-md uppercase text-[#242526] mb-4">
         Actions en attente
         <span>({{ actions.length }})</span>
       </div>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div v-if="$store.getters.user.profile.structures.length">
-      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+      <div class="font-semibold text-md uppercase text-[#242526] mb-4">
         Organisations
         <span>({{ $store.getters.user.profile.structures.length }})</span>
       </div>
@@ -99,7 +99,7 @@
       </div>
     </div>
     <div v-if="$store.getters.user.profile.territoires.length">
-      <div class="font-semibold text-md uppercase text-gray-800 mb-4">
+      <div class="font-semibold text-md uppercase text-[#242526] mb-4">
         Villes
         <span>({{ $store.getters.user.profile.territoires.length }})</span>
       </div>

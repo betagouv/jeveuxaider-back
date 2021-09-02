@@ -10,9 +10,9 @@
         :card-link="`/messages/${conversation.id}`"
       >
         <div class="flex items-center space-x-4">
-          <div class="text-5xl leading-none text-blue-800">
+          <div class="text-5xl leading-none text-[#070191]">
             <div
-              class="text-blue-800 group-hover:text-blue-800 flex-shrink-0"
+              class="text-[#070191] group-hover:text-[#070191] flex-shrink-0"
               v-html="
                 require('@/assets/images/icones/heroicon/mail.svg?include')
               "
@@ -244,7 +244,7 @@
         <VoletRowItem label="Message">
           <template v-if="mission.information">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="mission.information"
               :max-chars="120"
@@ -255,7 +255,7 @@
         <VoletRowItem label="Présentation">
           <template v-if="mission.objectif">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="mission.objectif"
               :max-chars="120"
@@ -266,7 +266,7 @@
         <VoletRowItem label="Précisions">
           <template v-if="mission.description">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="mission.description"
               :max-chars="120"

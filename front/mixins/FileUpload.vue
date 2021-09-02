@@ -42,15 +42,18 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.preview-area
-    width: 300px
+<style lang="postcss" scoped>
+.preview-area {
+  width: 300px;
+}
 
-.preview
-    width: 100%
-    height: calc(372px * (85 / 128))
-    overflow: hidden
+.preview {
+  width: 100%;
+  height: calc(372px * (85 / 128));
+  overflow: hidden;
+}
 
-.cropped-image img
-    max-width: 100%
+.cropped-image img {
+  max-width: 100%;
+}
 </style>

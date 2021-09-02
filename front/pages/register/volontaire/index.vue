@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="relative bg-blue-800 overflow-hidden">
+    <div class="relative bg-[#070191] overflow-hidden">
       <img
         class="z-1 object-cover absolute h-screen lg:h-auto"
         alt="Je Veux Aider"
@@ -9,7 +9,7 @@
       />
 
       <div class="relative py-4 lg:py-12 z-10">
-        <div class="mx-auto max-w-screen-xl">
+        <div class="mx-auto max-w-[1280px]">
           <div class="px-4 lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 pb-10">
             <div class="max-w-2xl mx-auto lg:col-span-6">
               <h1
@@ -22,7 +22,7 @@
                 <li class="flex items-start">
                   <div class="flex-shrink-0">
                     <svg
-                      class="h-6 w-6 text-green-400"
+                      class="h-6 w-6 text-[#16a972]"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -42,7 +42,7 @@
                 <li class="mt-6 flex items-start">
                   <div class="flex-shrink-0">
                     <svg
-                      class="h-6 w-6 text-green-400"
+                      class="h-6 w-6 text-[#16a972]"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
                 <li class="mt-6 flex items-start">
                   <div class="flex-shrink-0">
                     <svg
-                      class="h-6 w-6 text-green-400"
+                      class="h-6 w-6 text-[#16a972]"
                       stroke="currentColor"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -172,7 +172,7 @@
                         <el-form-item
                           label="Prénom"
                           prop="first_name"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.first_name"
@@ -184,7 +184,7 @@
                         <el-form-item
                           label="Nom"
                           prop="last_name"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.last_name"
@@ -196,7 +196,7 @@
                         <el-form-item
                           label="E-mail"
                           prop="email"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model.trim="form.email"
@@ -208,7 +208,7 @@
                         <el-form-item
                           label="Code postal"
                           prop="zip"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.zip"
@@ -220,7 +220,7 @@
                         <el-form-item
                           label="Portable"
                           prop="mobile"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.mobile"
@@ -231,7 +231,7 @@
                         <el-form-item
                           label="Date de naissance"
                           prop="birthday"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.birthday"
@@ -244,7 +244,7 @@
                         <el-form-item
                           label="Mot de passe"
                           prop="password"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.password"
@@ -257,7 +257,7 @@
                         <el-form-item
                           label="Confirmation"
                           prop="password_confirmation"
-                          class="w-full sm:w-1/2 p-2"
+                          class="!w-full sm:!w-1/2 !p-2"
                         >
                           <el-input
                             v-model="form.password_confirmation"
@@ -267,7 +267,7 @@
                           />
                         </el-form-item>
                         <el-form-item
-                          class="-mb-3 py-4 ml-2"
+                          class="!-mb-3 !py-4 !ml-2"
                           prop="service_civique"
                         >
                           <el-checkbox
@@ -285,7 +285,7 @@
                         <el-button
                           type="primary"
                           :loading="loading"
-                          class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-6 py-4 text-2xl leading-6 font-medium text-white hover:bg-green-500 focus:border-indigo-700 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
+                          class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-6 !py-4 !text-xl xl:!text-2xl !leading-6 !font-medium !text-white hover:!bg-[#0e9f6e] focus:!border-indigo-700 focus:!outline-none focus:!ring-indigo !transition"
                           @click="onSubmit"
                           >Je m'inscris<span class="hidden sm:inline">
                             en tant que bénévole</span
@@ -334,9 +334,9 @@
     </div>
 
     <div class="bg-gray-100">
-      <div class="max-w-screen-xl mx-auto pt-14 pb-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-[1280px] mx-auto pt-14 pb-20 px-4 sm:px-6 lg:px-8">
         <h3
-          class="text-center leading-8 pb-8 text-gray-800 text-sm font-medium text-3xl tracking-tight px-4"
+          class="text-center leading-8 pb-8 text-[#242526] text-sm font-medium text-3xl tracking-tight px-4"
         >
           Plus de <b class="font-bold">4000 organisations</b> ont déjà rejoint
           JeVeuxAider.gouv.fr
@@ -352,17 +352,17 @@
 
             <img
               alt="APHP"
-              class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
+              class="min-w-0 m-4 sm:m-8 object-contain max-h-[5rem]"
               src="@/assets/images/logo_aphp.png"
             />
             <img
               alt="Emmaus"
-              class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
+              class="min-w-0 m-4 sm:m-8 object-contain max-h-[5rem]"
               src="@/assets/images/logo_emmaus.png"
             />
             <img
               alt="Banque Alimentaire"
-              class="min-w-0 m-4 sm:m-8 object-contain max-h-20"
+              class="min-w-0 m-4 sm:m-8 object-contain max-h-[5rem]"
               src="@/assets/images/logo_banquealimentaire.png"
               style="max-width: 11rem"
             />
@@ -379,17 +379,17 @@
 
     <section class="bg-gray-100 pb-16">
       <div
-        class="max-w-screen-xl mx-auto grid gap-6 lg:grid-cols-2 px-4 lg:px-6 lg:px-8"
+        class="max-w-[1280px] mx-auto grid gap-6 lg:grid-cols-2 px-4 lg:px-6 lg:px-8"
       >
         <div
           class="p-8 sm:p-12 sm:px-24 lg:px-12 lg:flex lg:flex-col bg-white rounded-lg shadow-lg"
         >
           <blockquote class="lg:flex-grow lg:flex lg:flex-col">
             <div
-              class="relative text-lg leading-7 font-medium text-gray-800 lg:flex-grow"
+              class="relative text-lg leading-7 font-medium text-[#242526] lg:flex-grow"
             >
               <svg
-                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
                 fill="currentColor"
                 viewBox="0 0 32 32"
               >
@@ -433,10 +433,10 @@
         >
           <blockquote class="lg:flex-grow lg:flex lg:flex-col">
             <div
-              class="relative text-lg leading-7 font-medium text-gray-800 lg:flex-grow"
+              class="relative text-lg leading-7 font-medium text-[#242526] lg:flex-grow"
             >
               <svg
-                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-gray-300 opacity-50"
+                class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
                 fill="currentColor"
                 viewBox="0 0 32 32"
               >
@@ -714,14 +714,17 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-3
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-3;
+}
 
 ::v-deep .el-input,
-::v-deep .el-input input
-  @apply rounded-lg
+::v-deep .el-input input {
+  @apply rounded-lg;
+}
 
-::v-deep .el-checkbox
-  @apply text-gray-500 font-normal
+::v-deep .el-checkbox {
+  @apply text-gray-500 font-normal;
+}
 </style>

@@ -24,7 +24,7 @@
               .participation_canceled_by_benevole_reasons.terms"
             :key="item.value"
             :label="item.value"
-            class="w-full mb-2"
+            class="!w-full !mb-2"
             >{{ item.label }}</el-radio
           >
         </el-radio-group>
@@ -110,33 +110,44 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.el-form-item
-  @apply mb-2
-  .el-form-item__label
-    @apply font-semibold
-  ::v-deep
-    .el-radio
-      .el-radio__inner
-        width: 20px
-        height: 20px
-        border-color: #F3F3F3
-        background: #F3F3F3
-        transition: all .25s
-        box-shadow: none !important
-        &::after
-          background: #F3F3F3
-          width: 11px
-          height: 100%
-          background-repeat: no-repeat
-          background-position: center
-          transform: translate(-50%, -50%) scale(1)
-      .el-radio__input.is-checked
-        .el-radio__inner
-          border-color: #E6EAF5
-          background: #E6EAF5
-          &::after
-            background: url(/images/check-primary.svg)
-            background-repeat: no-repeat
-            background-position: center
+<style lang="postcss" scoped>
+.el-form-item {
+  @apply mb-2;
+
+  .el-form-item__label {
+    @apply font-semibold;
+  }
+
+  ::v-deep {
+    .el-radio {
+      .el-radio__inner {
+        width: 20px;
+        height: 20px;
+        border-color: #f3f3f3;
+        background: #f3f3f3;
+        transition: all 0.25s;
+        box-shadow: none !important;
+        &::after {
+          background: #f3f3f3;
+          width: 11px;
+          height: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      .el-radio__input.is-checked {
+        .el-radio__inner {
+          border-color: #e6eaf5;
+          background: #e6eaf5;
+          &::after {
+            background: url(/images/check-primary.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+        }
+      }
+    }
+  }
+}
 </style>

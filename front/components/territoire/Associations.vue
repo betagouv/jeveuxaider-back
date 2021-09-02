@@ -8,12 +8,12 @@
         >
           <div>
             <h2>
-              <p class="uppercase text-red-500 font-extrabold text-sm mb-4">
+              <p class="uppercase text-[#f56565] font-extrabold text-sm mb-4">
                 Associations {{ territoire.suffix_title }}
               </p>
 
               <p
-                class="text-3xl lg:text-4xl leading-none font-extrabold tracking-px lg:tracking-2px"
+                class="text-3xl lg:text-4xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px]"
               >
                 {{ territoire.seo_recruit_title }}
               </p>
@@ -57,5 +57,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

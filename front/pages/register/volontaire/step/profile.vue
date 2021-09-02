@@ -62,7 +62,7 @@
                   <div class="text-xs font-bold text-gray-700 uppercase">
                     AJOUTER UNE PHOTO
                   </div>
-                  <div class="text-xs text-gray-300 uppercase">FACULTATIF</div>
+                  <div class="text-xs text-[#d2d6dc] uppercase">FACULTATIF</div>
                 </template>
 
                 <template
@@ -71,7 +71,7 @@
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-green-400 focus:text-green-400 duration-300 ease-in-out"
+                    class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-[#16a972] focus:text-[#16a972] duration-300 ease-in-out"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     @click="setDialogCropVisible(true)"
@@ -134,7 +134,7 @@
             <el-form-item
               label="Disponibilités"
               prop="disponibilities"
-              class="flex-1 max-w-xl"
+              class="!flex-1 !max-w-xl"
             >
               <el-checkbox-group
                 v-model="form.disponibilities"
@@ -146,7 +146,7 @@
                     .profile_disponibilities.terms"
                   :key="item.value"
                   :label="item.value"
-                  class="bg-white"
+                  class="!bg-white"
                   border
                   >{{ item.label }}</el-checkbox
                 >
@@ -154,7 +154,7 @@
             </el-form-item>
 
             <el-form-item label="Fréquence" prop="disponibilities">
-              <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
+              <div class="flex flex-wrap sm:flex-nowrap items-center gap-4">
                 <el-select
                   v-model="form.commitment__duration"
                   placeholder="Choisissez une durée"
@@ -188,7 +188,7 @@
             <el-form-item
               label="Décrivez vos motivations"
               prop="description"
-              class="flex-1"
+              class="!flex-1"
             >
               <textarea
                 v-model="form.description"
@@ -204,7 +204,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+              class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-indigo-700 focus:!ring-indigo !transition"
               @click="onSubmit"
               >Continuer</el-button
             >
@@ -328,24 +328,31 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.component--image-field
-  ::v-deep
-    .el-upload-dragger
-      width: inherit
-      height: inherit
-      border: none
-      background: transparent
-    .preview-area
-      height: 100px
-      box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, .06)
-      @apply rounded-full m-auto overflow-hidden mt-2
-      > img
-        @apply object-cover w-full h-full
-    .actions
-      margin-top: .25rem !important
-      @apply flex items-center justify-center mb-6
+<style lang="postcss" scoped>
+.component--image-field {
+  ::v-deep {
+    .el-upload-dragger {
+      width: inherit;
+      height: inherit;
+      border: none;
+      background: transparent;
+    }
+    .preview-area {
+      height: 100px;
+      box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.06);
+      @apply rounded-full m-auto overflow-hidden mt-2;
+      > img {
+        @apply object-cover w-full h-full;
+      }
+    }
+    .actions {
+      margin-top: 0.25rem !important;
+      @apply flex items-center justify-center mb-6;
+    }
+  }
+}
 
-.el-form-item
-  @apply mb-6
+.el-form-item {
+  @apply mb-6;
+}
 </style>

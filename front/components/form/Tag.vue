@@ -1,6 +1,6 @@
 <template>
   <el-form ref="tagForm" :model="form" label-position="top" :rules="rules">
-    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+    <div class="mb-6 text-1-5xl font-boldtext-[#242526]">
       Informations générales
     </div>
 
@@ -57,7 +57,7 @@
       :preview-width="'80px'"
       preview-area-class="bg-primary rounded-md p-3"
       label="Icone"
-      label-class="mb-6 text-1-5xl font-bold text-gray-800"
+      label-class="mb-6 text-1-5xl font-bold text-[#242526]"
       description="Format accepté: SVG"
       @add-or-crop="icone = $event"
       @delete="icone = null"

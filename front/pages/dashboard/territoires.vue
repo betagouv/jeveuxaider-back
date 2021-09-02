@@ -5,7 +5,9 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2-5xl text-gray-800">Territoires</div>
+        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">
+          Territoires
+        </div>
       </div>
       <div class>
         <nuxt-link :to="`/dashboard/territoire/add`">
@@ -24,7 +26,7 @@
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
           <el-button
             icon="el-icon-s-operation"
-            class="ml-4"
+            class="!ml-4"
             @click="showFilters = !showFilters"
           >
             Filtres avancés
@@ -33,7 +35,7 @@
         <el-button
           v-else
           icon="el-icon-s-operation"
-          class="ml-4"
+          class="!ml-4"
           @click="showFilters = !showFilters"
         >
           Filtres avancés
@@ -87,7 +89,7 @@
           </div>
           <div class="font-light text-gray-600 text-xs flex items-center">
             <div
-              :class="scope.row.is_published ? 'bg-green-500' : 'bg-red-500'"
+              :class="scope.row.is_published ? 'bg-[#0e9f6e]' : 'bg-[#f56565]'"
               class="rounded-full h-2 w-2 mr-2 flex-none"
             />
             <nuxt-link

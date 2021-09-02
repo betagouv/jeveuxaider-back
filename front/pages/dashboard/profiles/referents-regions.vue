@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-8 font-bold text-2-5xl text-gray-800">
+        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">
           Utilisateurs - Référents régionaux
         </div>
       </div>
@@ -29,7 +29,7 @@
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
           <el-button
             icon="el-icon-s-operation"
-            class="ml-4"
+            class="!ml-4"
             @click="showFilters = !showFilters"
           >
             Filtres avancés
@@ -38,7 +38,7 @@
         <el-button
           v-else
           icon="el-icon-s-operation"
-          class="ml-4"
+          class="!ml-4"
           @click="showFilters = !showFilters"
         >
           Filtres avancés

@@ -5,7 +5,7 @@
         v-show="!showMobileMenu"
         id="main-menu"
         type="button"
-        class="text-blue-300"
+        class="text-[#abb9de]"
         aria-haspopup="true"
         @click="showMobileMenu = true"
       >
@@ -44,7 +44,7 @@
             v-show="showMobileMenu"
             id="main-menu-close"
             type="button"
-            class="text-blue-300 mr-4"
+            class="text-[#abb9de] mr-4"
             aria-haspopup="true"
             @click="showMobileMenu = false"
           >
@@ -108,7 +108,7 @@
             >Centre d'aide</a
           >
         </div>
-        <div class="flex flex-col bg-blue-800 px-4 py-8">
+        <div class="flex flex-col bg-[#070191] px-4 py-8">
           <template v-if="$store.getters.isLogged">
             <nuxt-link
               to="/user/infos"

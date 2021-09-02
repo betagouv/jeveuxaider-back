@@ -5,7 +5,7 @@
     label-position="top"
     :rules="rules"
   >
-    <div class="mb-6 text-1-5xl font-boldtext-gray-800">
+    <div class="mb-6 text-1-5xl font-boldtext-[#242526]">
       Informations générales
     </div>
 
@@ -46,7 +46,7 @@
       <RichEditor v-model="form.description" />
     </el-form-item>
 
-    <div class="mb-6 mt-12 flex text-xl text-gray-800">Visibilité</div>
+    <div class="mb-6 mt-12 flex text-xl text-[#242526]">Visibilité</div>
     <item-description container-class="mb-3">
       Si vous souhaitez rendre ce modèle visible, cochez la case.
     </item-description>
@@ -54,7 +54,9 @@
       <el-checkbox v-model="form.published">En ligne</el-checkbox>
     </el-form-item>
 
-    <div class="mb-6 mt-12 flex text-xl text-gray-800">Mission prioritaire</div>
+    <div class="mb-6 mt-12 flex text-xl text-[#242526]">
+      Mission prioritaire
+    </div>
     <item-description container-class="mb-3">
       Les modèles de missions prioritaires sont mises en avant lors de la
       création d'une nouvelle mission.
@@ -73,7 +75,7 @@
       :preview-width="'80px'"
       preview-area-class="bg-primary rounded-md p-3"
       label="Icone"
-      label-class="mb-6 text-1-5xl font-bold text-gray-800"
+      label-class="mb-6 text-1-5xl font-bold text-[#242526]"
       description="Format accepté: SVG"
       @add-or-crop="icone = $event"
       @delete="icone = null"

@@ -268,7 +268,7 @@
                 <!-- STRUCTURE LINK -->
                 <button
                   v-if="organisation.website"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.website)"
                 >
                   <img
@@ -281,7 +281,7 @@
                 <!-- FACEBOOK -->
                 <button
                   v-if="organisation.facebook"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.facebook)"
                 >
                   <img
@@ -294,7 +294,7 @@
                 <!-- TWITTER -->
                 <button
                   v-if="organisation.twitter"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.twitter)"
                 >
                   <img
@@ -307,7 +307,7 @@
                 <!-- INSTAGRAM -->
                 <button
                   v-if="organisation.instagram"
-                  class="m-1 hover:scale-110 transform transition duration-150 ease-in-out will-change-transform focus:outline-none focus-within:shadow-outline border border-white rounded-full w-10 h-10 flex items-center justify-center"
+                  class="m-1 hover:scale-110 transform transition will-change-transform !outline-none focus-within:ring border border-white rounded-full w-10 h-10 flex items-center justify-center"
                   @click="goTo(organisation.instagram)"
                 >
                   <img
@@ -353,7 +353,7 @@
             :to="`/missions-benevolat?refinementList[structure.name][0]=${organisation.name}`"
           >
             <button
-              class="uppercase shadow-lg text-sm font-bold rounded-full text-gray-500 bg-white py-3 px-8 hover:scale-105 transform transition duration-150 ease-in-out"
+              class="uppercase shadow-lg text-sm font-bold rounded-full text-gray-500 bg-white py-3 px-8 hover:scale-105 transform transition"
             >
               Plus de missions
             </button>
@@ -404,7 +404,7 @@
           <div class="bg-white">
             <div class="text-center transform -translate-y-1/2">
               <button
-                class="mx-auto flex items-center justify-center font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-green-400 py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 focus:outline-none transform transition duration-150 ease-in-out will-change-transform"
+                class="mx-auto flex items-center justify-center font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-[#16a972] py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 !outline-none transform transition will-change-transform"
                 @click="goTo(organisation.donation)"
               >
                 Faire un don
@@ -676,41 +676,57 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-*
-  @apply border-gray-200
+<style lang="postcss" scoped>
+* {
+  @apply border-gray-200;
+}
 
-.breadcrumb
-  border-bottom: 0 !important
-  ::v-deep ol
-    @apply px-0 #{!important}
+.breadcrumb {
+  border-bottom: 0 !important;
+  ::v-deep ol {
+    @apply px-0 !important;
+  }
+}
 
-.public-wrapper
-  ::v-deep svg
-    @apply w-full h-full
+.public-wrapper {
+  ::v-deep svg {
+    @apply w-full h-full;
+  }
+}
 
-.card--mission--wrapper
-  width: 100%
-  @apply border-0 shadow-none p-0 mb-6
-  @screen sm
-    width: 330px
-    @apply m-3 flex flex-col
+.card--mission--wrapper {
+  width: 100%;
+  @apply border-0 shadow-none p-0 mb-6;
+  @screen sm {
+    width: 330px;
+    @apply m-3 flex flex-col;
+  }
+}
 
-.gradient
-  background: linear-gradient(to bottom, #FFFFFF 43.75%, rgba(255, 255, 255, 0) 100%)
+.gradient {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 43.75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
 
-.card--don
-  border-radius: 24px
-  max-width: 1038px
-  overflow: hidden
-  @apply bg-white
+.card--don {
+  border-radius: 24px;
+  max-width: 1038px;
+  overflow: hidden;
+  @apply bg-white;
+}
 
-.footer--button
-  font-size: 10px
-  @apply font-bold uppercase py-6 outline-none transition-colors ease-in-out duration-200
+.footer--button {
+  font-size: 10px;
+  @apply font-bold uppercase py-6 outline-none transition-colors ease-in-out duration-200;
   &:focus-visible,
-  &:hover
-    @apply bg-gray-100
-  @screen sm
-    @apply text-sm
+  &:hover {
+    @apply bg-gray-100;
+  }
+  @screen sm {
+    @apply text-sm;
+  }
+}
 </style>

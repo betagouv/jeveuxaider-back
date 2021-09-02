@@ -4,7 +4,7 @@
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">Participation</div>
         <div v-if="participation.profile" class="flex flex-wrap mb-8">
-          <div class="font-bold text-2-5xl text-gray-800 mr-2">
+          <div class="font-bold text-[1.75rem] text-[#242526] mr-2">
             {{ participation.profile.full_name }}
           </div>
           <TagModelState :state="participation.state" />
@@ -86,10 +86,12 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.el-menu--horizontal
-  @apply px-12
-  > .el-menu-item
-    @apply mr-8 p-0 font-medium
-      border-bottom: solid 3px #070191
+<style scoped lang="postcss">
+.el-menu--horizontal {
+  @apply px-12;
+  > .el-menu-item {
+    @apply mr-8 p-0 font-medium;
+    border-bottom: solid 3px #070191;
+  }
+}
 </style>

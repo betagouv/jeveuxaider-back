@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-blue-800">
+  <div class="relative bg-[#070191]">
     <img
       class="z-1 object-cover absolute h-screen lg:h-full"
       alt="Je Veux Aider"
@@ -31,7 +31,7 @@
               <a
                 target="_blank"
                 href="https://app.livestorm.co/jeveuxaider/session-daccueil-associations"
-                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-blue-800 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-blue-900 focus:outline-none focus:shadow-outline-indigo transition ease-in-out duration-150"
+                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-[#070191] px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-[#1f0391] !outline-none focus:ring-indigo transition"
               >
                 <span class="hidden lg:inline"
                   >Participer à la session d'accueil
@@ -53,7 +53,7 @@
             <span class="block w-full rounded-md shadow-sm">
               <el-button
                 type="primary"
-                class="shadow-lg block w-full text-center rounded-lg z-10 border border-transparent bg-green-400 px-4 sm:px-6 py-4 text-lg sm:text-xl leading-6 font-bold text-white hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150"
+                class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-indigo-700 focus:!ring-indigo !transition"
                 @click="onSubmit"
                 >C'est parti !</el-button
               >
@@ -98,5 +98,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped></style>

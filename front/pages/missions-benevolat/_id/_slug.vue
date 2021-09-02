@@ -30,10 +30,10 @@
       />
 
       <div class="container mx-auto px-4">
-        <div class="flex flex-wrap lg:flex-no-wrap gap-6">
+        <div class="flex flex-wrap lg:flex-nowrap gap-6">
           <div class="w-full">
             <div
-              class="bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
+              class="bg-white rounded-[10px] shadow-lg px-6 py-8 xl:py-12 xl:px-16"
             >
               <div
                 class="flex gap-4 sm:gap-6 justify-between items-start relative"
@@ -44,7 +44,7 @@
                     :key="index"
                     class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase truncate"
                     :class="[
-                      { 'bg-indigo-100 text-blue-900': index === 0 },
+                      { 'bg-indigo-100 text-[#1f0391]': index === 0 },
                       { 'bg-gray-100 text-gray-900': index !== 0 },
                     ]"
                   >
@@ -58,7 +58,7 @@
                 </div>
 
                 <div
-                  class="absolute sm:static bg-white flex-none rounded-full h-8 w-8 flex items-center justify-center p-2 border-2 transform will-change-transform hover:scale-110 focus:scale-110 focus:outline-none transition ease-in-out duration-150 cursor-pointer"
+                  class="absolute sm:static bg-white flex-none rounded-full h-8 w-8 flex items-center justify-center p-2 border-2 transform will-change-transform hover:scale-110 focus:scale-110 !outline-none transition cursor-pointer"
                   style="right: -8px; top: -46px"
                   @click="onClickShare"
                 >
@@ -67,12 +67,12 @@
               </div>
 
               <h1
-                class="mt-6 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-extrabold text-black tracking-px"
+                class="mt-6 pb-3 text-2xl sm:text-4xl leading-7 sm:leading-10 font-extrabold text-black tracking-[-1px]"
               >
                 {{ mission.name }}
               </h1>
 
-              <div class="mt-2 mb-5 text-base text-gray-777E90 font-medium">
+              <div class="mt-2 mb-5 text-base text-[#777E90] font-medium">
                 <span>Publié par </span>
                 <img
                   v-if="mission.responsable.image"
@@ -84,7 +84,7 @@
                   :alt="`Portrait de ${mission.responsable.full_name}`"
                   class="inline-flex w-7 h-7 rounded-full border-2 border-gray-200"
                 />
-                <span class="text-gray-1000">
+                <span class="text-[#171725]">
                   {{ mission.responsable.full_name }}
                 </span>
                 <span>de {{ structureType }}</span>
@@ -96,7 +96,7 @@
                       : 'span'
                   "
                   :to="`/organisations/${structure.slug}`"
-                  class="font-bold uppercase text-blue-800"
+                  class="font-bold uppercase text-[#070191]"
                 >
                   <h2 class="inline">{{ structure.name }}</h2>
                 </component>
@@ -104,11 +104,11 @@
 
               <div class="flex items-center gap-4 mt-8 mb-4">
                 <div
-                  class="flex-none font-bold text-xs uppercase text-gray-696974"
+                  class="flex-none font-bold text-xs uppercase text-[#696974]"
                 >
                   PUBLICS AIDÉS
                 </div>
-                <hr class="text-gray-E6E8EC w-full" />
+                <hr class="text-[#E6E8EC] w-full" />
               </div>
 
               <div class="flex flex-wrap gap-2">
@@ -117,7 +117,7 @@
                     publicBeneficiaire, key
                   ) in mission.publics_beneficiaires"
                   :key="key"
-                  class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-gray-4E4E54 text-white"
+                  class="inline-flex px-3 py-1 rounded-full text-xs leading-5 font-semibold tracking-wide uppercase bg-[#4E4E54] text-white"
                 >
                   {{
                     publicBeneficiaire
@@ -129,15 +129,15 @@
               <template v-if="mission.skills && mission.skills.length">
                 <div class="flex items-center gap-4 mt-8 mb-4">
                   <div
-                    class="flex-none font-bold text-xs uppercase text-gray-696974"
+                    class="flex-none font-bold text-xs uppercase text-[#696974]"
                   >
                     COMPÉTENCES RECHERCHÉES
                   </div>
-                  <hr class="text-gray-E6E8EC w-full" />
+                  <hr class="text-[#E6E8EC] w-full" />
                 </div>
 
                 <div
-                  class="text-gray-777E90"
+                  class="text-[#777E90]"
                   v-html="
                     mission.skills
                       .map((skill) => skill.name.fr)
@@ -147,7 +147,7 @@
               </template>
             </div>
 
-            <div class="mt-6 rounded-10 shadow-lg overflow-hidden">
+            <div class="mt-6 rounded-[10px] shadow-lg overflow-hidden">
               <template v-if="mission.type == 'Mission en présentiel'">
                 <iframe
                   width="100%"
@@ -165,7 +165,7 @@
                   <div class="uppercase font-bold" style="color: #393939">
                     Mission sur le terrain
                   </div>
-                  <div class="text-gray-777E90">
+                  <div class="text-[#777E90]">
                     📍 {{ mission.full_address }}
                   </div>
                 </div>
@@ -197,7 +197,7 @@
             </div>
 
             <div
-              class="mt-6 bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
+              class="mt-6 bg-white rounded-[10px] shadow-lg px-6 py-8 xl:py-12 xl:px-16"
             >
               <div class="font-extrabold text-xl mb-4">
                 Présentation de la mission
@@ -209,7 +209,7 @@
                   more-str="Lire plus"
                   :text="mission.objectif"
                   :max-chars="300"
-                  class="wysiwyg-field text-gray-777E90 leading-7"
+                  class="wysiwyg-field text-[#777E90] leading-7"
                 />
                 <template slot="placeholder">
                   <div v-html="mission.objectif" />
@@ -218,7 +218,7 @@
 
               <div
                 v-if="mission.information"
-                class="mt-6 p-6 md:p-8 xl:p-12 rounded-10 custom-gradient relative"
+                class="mt-6 p-6 md:p-8 xl:p-12 rounded-[10px] custom-gradient relative min-h-[120px]"
               >
                 <img
                   class="absolute right-0 bottom-0 p-6"
@@ -249,7 +249,7 @@
                   more-str="Lire plus"
                   :text="mission.description"
                   :max-chars="300"
-                  class="wysiwyg-field text-gray-777E90 leading-7"
+                  class="wysiwyg-field text-[#777E90] leading-7"
                 />
                 <template slot="placeholder">
                   <div v-html="mission.description" />
@@ -264,11 +264,11 @@
                 class="flex items-center gap-4 mt-8 mb-4"
               >
                 <div
-                  class="flex-none font-bold text-xs uppercase text-gray-696974"
+                  class="flex-none font-bold text-xs uppercase text-[#696974]"
                 >
                   MISSION OUVERTE ÉGALEMENT AUX
                 </div>
-                <hr class="text-gray-E6E8EC w-full" />
+                <hr class="text-[#E6E8EC] w-full" />
               </div>
 
               <div class="grid xl:grid-cols-2 gap-3">
@@ -284,7 +284,7 @@
                     v-html="iconPublicType(public_volontaire)"
                   />
 
-                  <div class="text-gray-777E90">
+                  <div class="text-[#777E90]">
                     {{
                       public_volontaire
                         | labelFromValue('mission_publics_volontaires')
@@ -295,7 +295,7 @@
             </div>
 
             <div
-              class="mt-6 bg-white rounded-10 shadow-lg px-6 py-8 xl:py-12 xl:px-16"
+              class="mt-6 bg-white rounded-[10px] shadow-lg px-6 py-8 xl:py-12 xl:px-16"
             >
               <div
                 class="flex flex-col sm:flex-row gap-6 xl:gap-8 text-center sm:text-left"
@@ -309,7 +309,7 @@
                 />
 
                 <div>
-                  <h2 class="font-bold text-2xl tracking-px mb-4">
+                  <h2 class="font-bold text-2xl tracking-[-1px] mb-4">
                     Découvrez {{ structureType }}
                     <component
                       :is="
@@ -330,7 +330,7 @@
                     <v-clamp
                       :max-lines="3"
                       autoresize
-                      class="text-gray-777E90 leading-7"
+                      class="text-[#777E90] leading-7"
                     >
                       {{ structure.description }}
                     </v-clamp>
@@ -342,7 +342,7 @@
                       structure.state == 'Validée'
                     "
                     :to="`/organisations/${structure.slug}`"
-                    class="inline-block border-2 border-gray-E6E8EC rounded-full text-black hover:border-black focus:outline-none focus:border-black transition duration-150 ease-in-out font-bold text-sm px-4 py-2 mt-6"
+                    class="inline-block border-2 border-gray-E6E8EC rounded-full text-black hover:border-black !outline-none focus:border-black transition font-bold text-sm px-4 py-2 mt-6"
                   >
                     En savoir plus
                   </nuxt-link>
@@ -353,7 +353,7 @@
 
           <div class="flex-none w-full lg:w-96">
             <div
-              class="rounded-10 overflow-hidden shadow-lg sticky"
+              class="rounded-[10px] overflow-hidden shadow-lg sticky"
               style="top: 24px"
             >
               <img
@@ -367,7 +367,7 @@
 
               <div
                 v-if="structure.logo"
-                class="logo-wrapper bg-white shadow-lg rounded-10 p-4"
+                class="logo-wrapper bg-white shadow-lg rounded-[10px] p-4"
               >
                 <img
                   :src="structure.logo.original"
@@ -402,7 +402,7 @@
 
                   <template v-if="participationsCount">
                     <div
-                      class="mt-2 uppercase text-gray-777E90 text-xs font-bold"
+                      class="mt-2 uppercase text-[#777E90] text-xs font-bold"
                     >
                       {{ participationsCount }}
                       {{
@@ -460,7 +460,7 @@
                         <div
                           class="font-bold text-center sm:text-left flex gap-2 items-baseline sm:block"
                         >
-                          <div class="text-gray-777E90" style="font-size: 11px">
+                          <div class="text-[#777E90]" style="font-size: 11px">
                             {{ date.label }}
                           </div>
                           <div class="text-black">
@@ -475,7 +475,7 @@
                 <div class="mx-8 sm:mx-12">
                   <div v-if="mission.commitment__duration" class="text-center">
                     <div
-                      class="mt-6 uppercase text-gray-777E90 text-xs font-bold"
+                      class="mt-6 uppercase text-[#777E90] text-xs font-bold"
                     >
                       Engagement minimum
                     </div>
@@ -513,7 +513,7 @@
 
     <div
       v-if="otherMissions.length > 0"
-      class="bg-blue-282562 border-t-8 border-red-FC7069"
+      class="bg-[#282562] border-t-8 border-[#FC7069]"
     >
       <div class="container mx-auto px-4">
         <div class="pt-16 pb-24">
@@ -526,7 +526,7 @@
           <div class="text-center">
             <nuxt-link
               :to="`/missions-benevolat?refinementList[structure.name][0]=${structure.name}`"
-              class="inline-block border-2 border-gray-500 rounded-full text-white hover:border-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out font-bold text-sm px-4 py-2 mt-6"
+              class="inline-block border-2 border-gray-500 rounded-full text-white hover:border-white !outline-none focus:ring transition font-bold text-sm px-4 py-2 mt-6"
             >
               Plus de missions
             </nuxt-link>
@@ -789,61 +789,88 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.aside
-  @screen lg
-    max-width: 410px
-    @apply flex-none w-full
+<style lang="postcss" scoped>
+.aside {
+  @screen lg {
+    max-width: 410px;
+    @apply flex-none w-full;
+  }
+}
 
-.comment-wrapper
-  min-height: 200px
-  ::v-deep ul,::v-deep ol
-    @apply flex flex-col items-center
-  @screen lg
-    @apply relative
-  .comment-wrapper--icon
-    @apply hidden
-    @screen lg
-      @apply block
-    @screen xl
-      left: 5%
+.comment-wrapper {
+  min-height: 200px;
+  ::v-deep ul,
+  ::v-deep ol {
+    @apply flex flex-col items-center;
+  }
+  @screen lg {
+    @apply relative;
+  }
+  .comment-wrapper--icon {
+    @apply hidden;
+    @screen lg {
+      @apply block;
+    }
+    @screen xl {
+      left: 5%;
+    }
+  }
+}
 
-::v-deep .el-dialog__title
-  @apply text-gray-800 text-xl font-bold
+::v-deep .el-dialog__title {
+  @apply text-[#242526] text-xl font-bold;
+}
 
-.custom-gradient
-  background: linear-gradient(to right, #070191 5px, #eeedf7 5px)
+.custom-gradient {
+  background: linear-gradient(to right, #070191 5px, #eeedf7 5px);
+}
 
-.custom-gradient-2
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70.1%)
+.custom-gradient-2 {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 70.1%
+  );
+}
 
-.citation
+.citation {
   *,
-  ::v-deep *
-    display: inline
-  h3
-    &::before
-      content: "“\00A0"
-    &::after
-      content: "\00A0”"
+  ::v-deep * {
+    display: inline;
+  }
+  h3 {
+    &::before {
+      content: '“\00A0';
+    }
+    &::after {
+      content: '\00A0”';
+    }
+  }
+}
 
-.public-wrapper
-  ::v-deep svg
-    @apply w-full h-full
-    > *[fill]
-      fill: #808080
+.public-wrapper {
+  ::v-deep svg {
+    @apply w-full h-full;
+    > *[fill] {
+      fill: #808080;
+    }
+  }
+}
 
-.logo-wrapper
-  left: 50%
-  transform: translateX(-50%) translateY(-70%)
-  @apply absolute
+.logo-wrapper {
+  left: 50%;
+  transform: translateX(-50%) translateY(-70%);
+  @apply absolute;
+}
 
-.portrait-count
-  width: 34px
-  height: 34px
-  color: #B6B6B6
+.portrait-count {
+  width: 34px;
+  height: 34px;
+  color: #b6b6b6;
+}
 
 .portrait,
-.portrait-count
-  filter: drop-shadow(rgba(0, 0, 0, 0.1) 0 3px 7px)
+.portrait-count {
+  filter: drop-shadow(rgba(0, 0, 0, 0.1) 0 3px 7px);
+}
 </style>

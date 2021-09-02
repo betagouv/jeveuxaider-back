@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ territoire.name }}
         </div>
-        <div class="mb-12 font-bold text-2-5xl text-gray-800">
+        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
           Gérer les responsables
         </div>
       </div>
@@ -29,7 +29,7 @@
             :fallback="responsable.short_name"
           />
           <div class="flex flex-col ml-6" style="min-width: 350px">
-            <div class="text-gray-800">
+            <div class="text-[#242526]">
               {{ responsable.first_name }} {{ responsable.last_name }}
             </div>
             <div class="text-xs text-secondary">
@@ -45,7 +45,7 @@
             type="danger"
             icon="el-icon-delete"
             size="small"
-            class="ml-4 m-auto is-plain"
+            class="!ml-4 !m-auto is-plain"
             @click="deleteConfirm(responsable)"
           >
             Supprimer

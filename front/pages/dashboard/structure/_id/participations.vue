@@ -35,7 +35,7 @@
         <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
           <el-button
             icon="el-icon-s-operation"
-            class="ml-4"
+            class="!ml-4"
             @click="showFilters = !showFilters"
           >
             Filtres avancés
@@ -44,7 +44,7 @@
         <el-button
           v-else
           icon="el-icon-s-operation"
-          class="ml-4"
+          class="!ml-4"
           @click="showFilters = !showFilters"
         >
           Filtres avancés
@@ -181,9 +181,9 @@
 </template>
 
 <script>
+import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
-import fileDownload from 'js-file-download'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
@@ -264,10 +264,12 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.el-menu--horizontal
-  @apply px-12
-  > .el-menu-item
-    @apply mr-8 p-0 font-medium
-      border-bottom: solid 3px #070191
+<style scoped lang="postcss">
+.el-menu--horizontal {
+  @apply px-12;
+  > .el-menu-item {
+    @apply mr-8 p-0 font-medium;
+    border-bottom: solid 3px #070191;
+  }
+}
 </style>

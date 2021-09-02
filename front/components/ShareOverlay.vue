@@ -6,16 +6,7 @@
     >
       <div class="flex flex-col w-full h-full px-4">
         <button
-          class="
-            p-4
-            -mr-4
-            lg:m-0
-            lg:p-8
-            cursor-pointer
-            ml-auto
-            lg:absolute
-            lg:right-0
-          "
+          class="p-4 -mr-4 lg:m-0 lg:p-8 cursor-pointer ml-auto lg:absolute lg:right-0"
           @click="onClose"
         >
           <img src="/images/close-white.svg" alt="Fermer" width="24px" />
@@ -95,7 +86,7 @@ export default {
       message:
         "J'ai trouvé ma future mission de bénévolat sur JeVeuxAider. Rejoignez le mouvement %23ChacunPourTous ",
       buttonClasses:
-        'bg-white h-12 w-12 lg:h-24 lg:w-24 rounded-full flex justify-center items-center cursor-pointer tracking-wide shadow-lg hover:scale-105 transform transition duration-150 ease-in-out will-change-transform',
+        'bg-white h-12 w-12 lg:h-24 lg:w-24 rounded-full flex justify-center items-center cursor-pointer tracking-wide shadow-lg hover:scale-105 transform transition will-change-transform',
     }
   },
   methods: {
@@ -107,12 +98,15 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-#share-overlay
-  background-color: rgba(25, 22, 130, .95)
-  .title
-    font-size: 24px
-    @screen lg
-      font-size: 50px
-      letter-spacing: -1px
+<style lang="postcss" scoped>
+#share-overlay {
+  background-color: rgba(25, 22, 130, 0.95);
+  .title {
+    font-size: 24px;
+    @screen lg {
+      font-size: 50px;
+      letter-spacing: -1px;
+    }
+  }
+}
 </style>

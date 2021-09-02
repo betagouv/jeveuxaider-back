@@ -10,7 +10,7 @@
     </div>
     <div class="flex mt-2">
       <nuxt-link :to="`/organisations/${$store.getters.contextStructure.slug}`">
-        <el-button type="primary" class="mr-2"> Consulter ma page </el-button>
+        <el-button type="primary" class="!mr-2"> Consulter ma page </el-button>
       </nuxt-link>
 
       <nuxt-link

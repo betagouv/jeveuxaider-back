@@ -376,17 +376,20 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.preview-area
-  width: var(--preview-area__width)
+<style lang="postcss" scoped>
+.preview-area {
+  width: var(--preview-area__width);
+}
 
-::v-deep
-  .el-dialog
-    max-width: calc(100% - 2rem)
-    width: 100%
-    @screen sm
-      width: 75%
-      max-width: 680px
-    @screen lg
-      width: 50%
+::v-deep .el-dialog {
+  max-width: calc(100% - 2rem);
+  width: 100%;
+  @screen sm {
+    width: 75%;
+    max-width: 680px;
+  }
+  @screen lg {
+    width: 50%;
+  }
+}
 </style>

@@ -3,23 +3,12 @@
     class="py-4 flex"
     aria-label="Breadcrumb"
     :class="[
-      { 'bg-primary border-blue-750 border-b': theme == 'dark' },
+      { 'bg-primary border-[#3934a7] border-b': theme == 'dark' },
       { 'bg-white border-gray-200 border-b': theme == 'light' },
     ]"
   >
     <ol
-      class="
-        h-6
-        w-full
-        max-w-full
-        mx-auto
-        overflow-x-auto
-        whitespace-no-wrap
-        px-4
-        flex
-        sm:px-6
-        lg:px-8
-      "
+      class="h-6 w-full max-w-full mx-auto overflow-x-auto whitespace-nowrap px-4 flex sm:px-6 lg:px-8"
     >
       <li v-for="(item, index) in withHome" :key="index" class="flex">
         <div
@@ -80,7 +69,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.separator
-  @apply mx-3 w-1 h-1 border-b border-r transform -rotate-45
+<style lang="postcss" scoped>
+.separator {
+  @apply mx-3 w-1 h-1 border-b border-r transform -rotate-45;
+}
 </style>

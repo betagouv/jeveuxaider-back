@@ -12,10 +12,10 @@
     <!-- CENTER -->
     <div
       :class="[{ hide: !$store.getters['messaging/showPanelCenter'] }]"
-      class="panel--center min-w-0 border-r border-cool-gray-200"
+      class="panel--center min-w-0 border-r border-gray-200"
     >
       <div
-        class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+        class="panel--header sticky top-0 bg-white px-6 border-b border-gray-200 flex items-center"
       >
         <ConversationMessagesHeader
           v-if="$store.getters['messaging/conversation']"
@@ -32,13 +32,13 @@
       class="panel--right"
     >
       <div
-        class="panel--header sticky top-0 bg-white px-6 border-b border-cool-gray-200 flex items-center"
+        class="panel--header sticky top-0 bg-white px-6 border-b border-gray-200 flex items-center"
       >
         <div class="flex flex-1 justify-between">
           <h3 class="text-lg leading-8 font-bold text-gray-900">Détails</h3>
 
           <i
-            class="w-6 h-6 p-1 flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black el-icon-close"
+            class="w-6 h-6 p-1 !flex items-center justify-center rounded-full border cursor-pointer leading-none transition hover:border-black el-icon-close"
             @click="onPanelRightToggle"
           />
         </div>
@@ -91,48 +91,62 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="postcss" scoped>
 .panel--center,
-.panel--right
-  transition: opacity .25s
-  opacity: 1
-  pointer-events: auto
-  @apply flex flex-col max-w-full
-  &.hide
-    flex: 0 1 0%
-    width: 0
-    opacity: 0
-    pointer-events: none
-  .panel--header
-    min-height: 77px
-  .panel--container
-    @apply flex flex-col overflow-y-auto
+.panel--right {
+  transition: opacity 0.25s;
+  opacity: 1;
+  pointer-events: auto;
+  @apply flex flex-col max-w-full;
+  &.hide {
+    flex: 0 1 0%;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .panel--header {
+    min-height: 77px;
+  }
+  .panel--container {
+    @apply flex flex-col overflow-y-auto;
+  }
+}
 
-.panel--center
-  width: 100%
-  @apply flex-grow
-  @screen md
-    flex: 1 1 0%
-    transition: all .25s
-  .panel--container
-    @apply flex-col-reverse flex-1 px-6
-    ::v-deep .panel--content
-      max-width: 550px
-      @apply mx-auto mb-auto w-full pt-4
+.panel--center {
+  width: 100%;
+  @apply flex-grow;
+  @screen md {
+    flex: 1 1 0%;
+    transition: all 0.25s;
+  }
+  .panel--container {
+    @apply flex-col-reverse flex-1 px-6;
+    ::v-deep .panel--content {
+      max-width: 550px;
+      @apply mx-auto mb-auto w-full pt-4;
+    }
+  }
+}
 
-.panel--right
-  width: 100%
-  @screen md
-    width: 415px
-    transition: all .25s
-    @apply flex-none
-    > *
-      width: 415px
+.panel--right {
+  width: 100%;
+  @screen md {
+    width: 415px;
+    transition: all 0.25s;
+    @apply flex-none;
+    > * {
+      width: 415px;
+    }
+  }
+}
 
-::v-deep .el-dropdown-menu__item:not(.is-disabled)
-  @apply text-gray-500
-  &:hover
-    @apply bg-gray-200 text-gray-500
-  &.active
-    @apply bg-gray-200 text-black
+::v-deep .el-dropdown-menu__item:not(.is-disabled) {
+  @apply text-gray-500;
+  &:hover {
+    @apply bg-gray-200 text-gray-500;
+  }
+  &.active {
+    @apply bg-gray-200 text-black;
+  }
+}
 </style>

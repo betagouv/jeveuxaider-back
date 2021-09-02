@@ -36,11 +36,11 @@
           <template
             v-if="territoire.state == 'validated' && territoire.is_published"
           >
-            <div class="bg-green-500 rounded-full h-4 w-4"></div>
+            <div class="bg-[#0e9f6e] rounded-full h-4 w-4"></div>
             <div class="text-lg text-gray-900">En ligne</div>
           </template>
           <template v-else>
-            <div class="bg-red-500 rounded-full h-4 w-4"></div>
+            <div class="bg-[#f56565] rounded-full h-4 w-4"></div>
             <div class="text-lg text-gray-900">Hors ligne</div>
           </template>
         </div>

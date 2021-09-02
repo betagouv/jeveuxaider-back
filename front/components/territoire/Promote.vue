@@ -2,7 +2,7 @@
   <div>
     <section
       class="section-promote bg-white"
-      :class="[{ 'bg-blue-pale': territoire.type == 'city' }]"
+      :class="[{ 'bg-[#fafaff]': territoire.type == 'city' }]"
     >
       <div class="container px-4 mx-auto">
         <div
@@ -13,7 +13,7 @@
             },
           ]"
         >
-          <div class="shadow-lg rounded-xl overflow-hidden">
+          <div class="shadow-lg rounded-2xl overflow-hidden">
             <div class="relative">
               <img
                 src="/images/bg-promote.jpg"
@@ -22,7 +22,7 @@
               />
 
               <div
-                class="absolute inset-0 w-full h-full opacity-85"
+                class="absolute inset-0 w-full h-full opacity-[0.85]"
                 style="background-color: #070191"
               ></div>
               <div class="absolute inset-0 w-full h-full gradient"></div>
@@ -43,7 +43,7 @@
                   <div class="flex flex-col w-full">
                     <div class="px-4 lg:pt-8 lg:px-10 xl:px-16">
                       <h2
-                        class="text-2xl xl:text-2-5xl tracking-px font-semibold mb-8 text-center lg:text-left"
+                        class="text-2xl xl:text-[1.75rem] tracking-[-1px] font-semibold mb-8 text-center lg:text-left"
                       >
                         Favoriser et promouvoir l’engagement de chacun pour tous
                       </h2>
@@ -95,10 +95,12 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.gradient
-  background: linear-gradient(94.64deg, #070191 20%, rgba(7, 1, 145, 0) 77%)
+<style lang="postcss" scoped>
+.gradient {
+  background: linear-gradient(94.64deg, #070191 20%, rgba(7, 1, 145, 0) 77%);
+}
 
-.section-promote *
-  border-color: #3936A5
+.section-promote * {
+  border-color: #3936a5;
+}
 </style>

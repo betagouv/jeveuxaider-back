@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="bg-blue-800">
+    <div class="bg-[#070191]">
       <div class="relative">
         <div class="relative pt-6 pb-12 lg:pb-10">
-          <div class="mt-10 mx-auto max-w-screen-xl px-4 sm:px-6 md:mt-16">
+          <div class="mt-10 mx-auto max-w-[1280px] px-4 sm:px-6 md:mt-16">
             <div class="text-center">
               <h1
                 class="text-4xl tracking-tight leading-10 font-bold text-white sm:text-4xl sm:leading-none md:text-5xl max-w-5xl mx-auto"
@@ -27,7 +27,7 @@
                 <div class="rounded-full shadow-lg">
                   <nuxt-link
                     to="/inscription/organisation?orga_type=Collectivité"
-                    class="flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                    class="flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white bg-red-600 hover:bg-red-700 !outline-none focus:ring transition md:py-4 md:text-lg md:px-10"
                   >
                     Inscrivez votre collectivité
                   </nuxt-link>
@@ -41,7 +41,7 @@
             <div class="flex-1"></div>
             <div class="flex-1 w-full bg-gray-100"></div>
           </div>
-          <div class="max-w-screen-xl mx-auto px-6 sm:px-20">
+          <div class="max-w-[1280px] mx-auto px-6 sm:px-20">
             <img
               class="relative rounded-lg shadow-lg"
               src="@/assets/images/screen.jpg"
@@ -52,7 +52,7 @@
       </div>
       <div class="bg-gray-100">
         <div
-          class="max-w-screen-xl mx-auto pt-16 pb-20 px-4 sm:px-6 md:pb-24 lg:px-8"
+          class="max-w-[1280px] mx-auto pt-16 pb-20 px-4 sm:px-6 md:pb-24 lg:px-8"
         >
           <h2
             class="text-center text-gray-400 text-sm font-semibold uppercase tracking-wide"
@@ -104,7 +104,7 @@
     </div>
     <div class="bg-gray-50 overflow-hidden">
       <div
-        class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-screen-xl"
+        class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-[1280px]"
       >
         <div class="lg:text-center mt-20">
           <h2
@@ -123,7 +123,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="bg-blue-800 rounded-md p-3 text-white text-center"
+                      class="bg-[#070191] rounded-md p-3 text-white text-center"
                     >
                       <img
                         class="h-7"
@@ -149,7 +149,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="bg-blue-800 rounded-md p-3 text-white text-center"
+                      class="bg-[#070191] rounded-md p-3 text-white text-center"
                     >
                       <img
                         class="h-7"
@@ -174,7 +174,7 @@
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <div
-                      class="bg-blue-800 rounded-md p-3 text-white text-center"
+                      class="bg-[#070191] rounded-md p-3 text-white text-center"
                     >
                       <img class="h-7" src="@/assets/images/users.svg" alt="" />
                     </div>
@@ -206,11 +206,11 @@
     </div>
     <div class="py-20 bg-gray-100 overflow-hidden shadow-lg">
       <div
-        class="relative max-w-xl mx-auto px-6 sm:px-6 lg:px-8 lg:max-w-screen-xl"
+        class="relative max-w-xl mx-auto px-6 sm:px-6 lg:px-8 lg:max-w-[1280px]"
       >
         <div class="mt-4bg-gray-50 overflow-hidden">
           <div
-            class="relative max-w-xl mx-auto px-8 sm:px-6 lg:px-8 lg:max-w-screen-xl"
+            class="relative max-w-xl mx-auto px-8 sm:px-6 lg:px-8 lg:max-w-[1280px]"
           >
             <div class="lg:text-center">
               <h2
@@ -218,7 +218,7 @@
               >
                 Rejoignez le mouvement
                 <br class="xl:hidden" />
-                <span class="text-blue-800">#JeVeuxAider</span>
+                <span class="text-[#070191]">#JeVeuxAider</span>
               </h2>
               <p
                 class="mt-4 text-center max-w-4xl text-xl leading-7 text-gray-500 lg:mx-auto"
@@ -277,24 +277,24 @@
               >
                 <div class="flex flex-col mt-10 sm:mt-0">
                   <dt
-                    class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
+                    class="order-2 mt-2 text-lg leading-6 font-medium text-[#242526]"
                   >
                     Bénévoles
                   </dt>
                   <dd
-                    class="order-1 text-5xl leading-none font-bold text-gray-800"
+                    class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
                     313 980
                   </dd>
                 </div>
                 <div class="flex flex-col mt-10 sm:mt-0">
                   <dt
-                    class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
+                    class="order-2 mt-2 text-lg leading-6 font-medium text-[#242526]"
                   >
                     Organisations
                   </dt>
                   <dd
-                    class="order-1 text-5xl leading-none font-bold text-gray-800"
+                    class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
                     3 878
                   </dd>
@@ -302,12 +302,12 @@
 
                 <div class="flex flex-col mt-10 sm:mt-0">
                   <dt
-                    class="order-2 mt-2 text-lg leading-6 font-medium text-gray-800"
+                    class="order-2 mt-2 text-lg leading-6 font-medium text-[#242526]"
                   >
                     Mises en relation
                   </dt>
                   <dd
-                    class="order-1 text-5xl leading-none font-bold text-gray-800"
+                    class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
                     107 528
                   </dd>
@@ -318,9 +318,9 @@
         </div>
       </div>
     </div>
-    <div class="bg-blue-800 border-b border-gray-200">
+    <div class="bg-[#070191] border-b border-gray-200">
       <div
-        class="max-w-screen-lg mx-auto py-12 px-18 sm:px-16 lg:py-16 lg:flex lg:items-center lg:justify-between text-center"
+        class="max-w-[1024px] mx-auto py-12 px-18 sm:px-16 lg:py-16 lg:flex lg:items-center lg:justify-between text-center"
       >
         <h2
           class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10 text-center"
@@ -329,7 +329,7 @@
         </h2>
         <nuxt-link
           to="/inscription/organisation?orga_type=Collectivité"
-          class="mt-4 lg:mt-0 inline-flex shadow-lg items-center text-center justify-center px-7 py-3 border-transparent text-lg leading-6 font-medium rounded-full border hover:bg-red-700 hover:text-white bg-red-600 text-white transition duration-150 ease-in-out"
+          class="mt-4 lg:mt-0 inline-flex shadow-lg items-center text-center justify-center px-7 py-3 border-transparent text-lg leading-6 font-medium rounded-full border hover:bg-red-700 hover:text-white bg-red-600 text-white transition"
         >
           Rejoignez JeVeuxAider.gouv.fr
         </nuxt-link>

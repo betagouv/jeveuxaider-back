@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="font-bold text-2-5xl text-gray-800 mb-4">
+    <div class="font-bold text-[1.75rem] text-[#242526] mb-4">
       Informations personnelles
     </div>
 
@@ -105,7 +105,7 @@
               .terms"
             :key="item.value"
             :label="item.value"
-            class="bg-white"
+            class="!bg-white"
             border
             >{{ item.label }}</el-checkbox
           >
@@ -113,7 +113,7 @@
       </el-form-item>
 
       <el-form-item label="Fréquence" prop="disponibilities">
-        <div class="flex flex-wrap sm:flex-no-wrap items-center gap-4">
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-4">
           <el-select
             v-model="form.commitment__duration"
             placeholder="Choisissez une durée"
@@ -298,7 +298,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep .el-form-item
-  @apply mb-6
+<style lang="postcss" scoped>
+::v-deep .el-form-item {
+  @apply mb-6;
+}
 </style>

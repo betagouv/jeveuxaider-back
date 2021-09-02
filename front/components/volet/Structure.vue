@@ -36,11 +36,11 @@
       >
         <div class="flex space-x-4 items-center">
           <template v-if="['Validée', 'Terminée'].includes(structure.state)">
-            <div class="bg-green-500 rounded-full h-4 w-4"></div>
+            <div class="bg-[#0e9f6e] rounded-full h-4 w-4"></div>
             <div class="text-lg text-gray-900">En ligne</div>
           </template>
           <template v-else>
-            <div class="bg-red-500 rounded-full h-4 w-4"></div>
+            <div class="bg-[#f56565] rounded-full h-4 w-4"></div>
             <div class="text-lg text-gray-900">Hors ligne</div>
           </template>
         </div>
@@ -90,7 +90,7 @@
             <div class="text-sm">
               <span>aux bénévoles </span>
               <template v-if="structure.response_time / (60 * 60 * 24) > 9">
-                <span class="text-red-500">(mauvais)</span>
+                <span class="text-[#f56565]">(mauvais)</span>
               </template>
               <template
                 v-else-if="structure.response_time / (60 * 60 * 24) > 4"
@@ -98,7 +98,7 @@
                 <span class="text-orange-500">(moyen)</span>
               </template>
               <template v-else>
-                <span class="text-green-500">(bon)</span>
+                <span class="text-[#0e9f6e]">(bon)</span>
               </template>
             </div>
           </div>
@@ -177,7 +177,7 @@
         <VoletRowItem label="Description">
           <template v-if="structure.description">
             <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-gray-800"
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
               more-str="Lire plus"
               :text="structure.description"
               :max-chars="120"

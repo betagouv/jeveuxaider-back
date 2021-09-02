@@ -4,12 +4,12 @@
       <div class="pt-12 pb-32 bg-white">
         <div class="container mx-auto px-4">
           <h2 class="text-center">
-            <p class="uppercase text-red-500 font-extrabold text-sm mb-4">
+            <p class="uppercase text-[#f56565] font-extrabold text-sm mb-4">
               Trouver une mission
             </p>
 
             <p
-              class="text-3xl lg:text-4xl leading-none font-extrabold tracking-px lg:tracking-2px"
+              class="text-3xl lg:text-4xl leading-none font-extrabold tracking-[-1px] lg:tracking-[-2px]"
             >
               Parmi les dernières missions <br class="hidden md:block" />de
               bénévolat {{ territoire.suffix_title }}
@@ -21,7 +21,7 @@
       <hr class="opacity-25" />
 
       <div
-        class="pb-12 bg-blue-pale"
+        class="pb-12 bg-[#fafaff]"
         :class="[{ 'pb-44': territoire.type != 'city' }]"
       >
         <div class="container mx-auto px-4">
@@ -45,7 +45,7 @@
           <div v-if="moreLink" class="text-center mt-6">
             <nuxt-link :to="moreLink">
               <button
-                class="leading-none uppercase shadow-lg text-xs font-extrabold rounded-full text-gray-500 bg-white py-4 px-8 hover:scale-105 transform transition duration-150 ease-in-out will-change-transform"
+                class="leading-none uppercase shadow-lg text-xs font-extrabold rounded-full text-gray-500 bg-white py-4 px-8 hover:scale-105 transform transition will-change-transform"
               >
                 <span v-if="!missions.length">Voir les missions</span>
                 <span v-else>Plus de missions</span>
@@ -98,17 +98,22 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.card--mission--wrapper
-  width: 100%
-  @apply border-0 shadow-none p-0 mb-6
-  @screen sm
-    width: 280px
-    @apply m-3 flex flex-col
-  @screen md
-    width: 330px
-  @screen lg
-    width: 304px
-  @screen xl
-    width: 330px
+<style lang="postcss" scoped>
+.card--mission--wrapper {
+  width: 100%;
+  @apply border-0 shadow-none p-0 mb-6;
+  @screen sm {
+    width: 280px;
+    @apply m-3 flex flex-col;
+  }
+  @screen md {
+    width: 330px;
+  }
+  @screen lg {
+    width: 304px;
+  }
+  @screen xl {
+    width: 330px;
+  }
+}
 </style>

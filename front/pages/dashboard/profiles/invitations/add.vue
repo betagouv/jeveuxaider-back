@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ $store.getters.contextRoleLabel }}
         </div>
-        <div class="mb-12 font-bold text-2-5xl text-gray-800">
+        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
           Inviter une personne à rejoindre la plateforme
         </div>
       </div>
@@ -37,7 +37,7 @@
         </el-form-item>
 
         <template v-if="form.role == 'responsable_organisation'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Responsable d'une organisation
           </div>
           <ItemDescription container-class="mb-6">
@@ -48,7 +48,7 @@
           <el-form-item
             label="Organisation"
             prop="invitable_id"
-            class="flex-1 max-w-xl mb-7"
+            class="!flex-1 !max-w-xl !mb-7"
           >
             <el-select
               v-model="form.invitable_id"
@@ -72,7 +72,7 @@
         </template>
 
         <template v-if="form.role == 'responsable_territoire'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Responsable d'une ville ou d'un département
           </div>
           <ItemDescription container-class="mb-6">
@@ -83,7 +83,7 @@
           <el-form-item
             label="Ville ou département"
             prop="invitable_id"
-            class="flex-1 max-w-xl mb-7"
+            class="!flex-1 !max-w-xl !mb-7"
           >
             <el-select
               v-model="form.invitable_id"
@@ -107,7 +107,7 @@
         </template>
 
         <template v-if="form.role == 'superviseur'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Tête de réseau national
           </div>
           <ItemDescription container-class="mb-6">
@@ -118,7 +118,7 @@
           <el-form-item
             label="Réseau national"
             prop="invitable_id"
-            class="flex-1"
+            class="!flex-1"
           >
             <el-select
               v-model="form.invitable_id"
@@ -137,7 +137,7 @@
           </el-form-item>
         </template>
         <template v-if="form.role == 'referent_regional'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Référent régional
           </div>
           <ItemDescription container-class="mb-6">
@@ -145,7 +145,7 @@
             visualiser les missions et bénévoles rattachés aux organisations de
             cette région.
           </ItemDescription>
-          <el-form-item label="Région" prop="referent_regional" class="flex-1">
+          <el-form-item label="Région" prop="referent_regional" class="!flex-1">
             <el-select
               v-model="form.properties.referent_regional"
               filterable
@@ -162,7 +162,7 @@
           </el-form-item>
         </template>
         <template v-if="form.role == 'referent_departemental'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Référent départemental
           </div>
           <ItemDescription container-class="mb-6">
@@ -173,7 +173,7 @@
           <el-form-item
             label="Département"
             prop="referent_departemental"
-            class="flex-1"
+            class="!flex-1"
           >
             <el-select
               v-model="form.properties.referent_departemental"
@@ -191,7 +191,7 @@
           </el-form-item>
         </template>
         <template v-if="form.role == 'analyste'">
-          <div class="mb-6 mt-12 flex text-xl text-gray-800">
+          <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Datas analyste
           </div>
           <ItemDescription container-class="mb-6">
@@ -320,9 +320,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.radio-group-options
-  @apply flex flex-col
-  label
-    @apply my-1
+<style lang="postcss" scoped>
+.radio-group-options {
+  @apply flex flex-col;
+  label {
+    @apply my-1;
+  }
+}
 </style>

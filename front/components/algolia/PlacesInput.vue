@@ -132,20 +132,30 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.places-search
-  @apply text-base
-  @screen md
-    font-size: 14px !important
-.ap-dropdown-menu
-  border-radius: 0
-.ap-suggestion
-  padding-left: 25px
-  font-size: 14px
-  .ap-suggestion-icon
-    display: none
-    &.ap-cursor
-      @apply bg-gray-100
-.ap-footer
-  display: none
+<style lang="postcss">
+.places-search {
+  @apply text-base;
+  @screen md {
+    font-size: 14px !important;
+  }
+}
+
+.ap-dropdown-menu {
+  border-radius: 0;
+}
+
+.ap-suggestion {
+  padding-left: 25px;
+  font-size: 14px;
+  .ap-suggestion-icon {
+    display: none;
+    &.ap-cursor {
+      @apply bg-gray-100;
+    }
+  }
+}
+
+.ap-footer {
+  display: none;
+}
 </style>

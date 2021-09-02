@@ -38,7 +38,7 @@
       <slot slot="after-input">
         <div
           v-if="loading"
-          class="absolute z-10 w-5 h-5 text-gray-300 animate-spin"
+          class="absolute z-10 w-5 h-5 text-[#d2d6dc] animate-spin"
           style="right: 15px; top: 13px"
           v-html="require('@/assets/images/icones/spinner.svg?include')"
         ></div>
@@ -47,7 +47,7 @@
           :loading="loadingAddButton"
           style="right: 7px; top: 7px"
           type="primary"
-          class="absolute z-10 justify-center uppercase px-4 py-2 border border-transparent rounded-lg shadow font-bold text-white hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out"
+          class="!absolute !z-10 !justify-center !uppercase !px-4 !py-2 !border !border-transparent !rounded-lg !shadow !font-bold !text-white hover:!shadow-lg hover:!scale-105 !transform !transition"
           @click="$emit('added', query)"
           @keyup.enter="$emit('added', query)"
         >
@@ -55,7 +55,7 @@
         </el-button>
         <div
           v-else
-          class="absolute z-10 w-5 h-5 text-gray-300"
+          class="absolute z-10 w-5 h-5 text-[#d2d6dc]"
           style="right: 15px; top: 13px"
           v-html="require('@/assets/images/icones/heroicon/search.svg?include')"
         ></div>
@@ -148,21 +148,31 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-::v-deep #autosuggest
-  input
-    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm
-::v-deep .ais-Highlight-highlighted
-  background: transparent
-  @apply text-blue-800 font-semibold
-::v-deep .autosuggest__results-container
-  .autosuggest__results ul
-    max-width: 480px
-    @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200
-  .autosuggest__results-item
-    @apply px-6 py-4
-    &:not(:last-child)
-      @apply border-b border-gray-100
-    &.autosuggest__results-item--highlighted
-      @apply cursor-pointer bg-gray-50 text-gray-700
+<style lang="postcss" scoped>
+::v-deep #autosuggest {
+  input {
+    @apply w-full pl-4 pr-12 py-3 rounded-lg border border-gray-200 text-sm;
+  }
+}
+
+::v-deep .ais-Highlight-highlighted {
+  background: transparent;
+  @apply text-[#070191] font-semibold;
+}
+
+::v-deep .autosuggest__results-container {
+  .autosuggest__results ul {
+    max-width: 480px;
+    @apply w-full rounded-lg absolute z-50 bg-white mt-1 overflow-hidden border border-gray-200;
+  }
+  .autosuggest__results-item {
+    @apply px-6 py-4;
+    &:not(:last-child) {
+      @apply border-b border-gray-100;
+    }
+    &.autosuggest__results-item--highlighted {
+      @apply cursor-pointer bg-gray-50 text-gray-700;
+    }
+  }
+}
 </style>
