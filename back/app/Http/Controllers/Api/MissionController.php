@@ -169,7 +169,21 @@ class MissionController extends Controller
 
     public function responsable(MissionStructureRequest $request, Mission $mission)
     {
-
         return $mission->responsable;
+    }
+
+    public function similar(Request $request, Mission $mission)
+    {
+        // X-sell sur le domain d'action ET la ville
+        $query = Mission::search('')
+            ->where('id', '!=', $mission->id)
+            ->with([
+                'facetFilters' => 'domaine_name:' . $mission->domaine_name,
+            ]);
+            if($mission->latitude && $mission->longitude) {
+                $query->aroundLatLng($mission->latitude, $mission->longitude);
+            }
+            
+        return $query->get()->load('structure');
     }
 }

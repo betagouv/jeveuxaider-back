@@ -549,20 +549,18 @@ export default {
       return error({ statusCode: 404 })
     }
 
-    // const missions = await $api.fetchStructureAvailableMissionsWithPagination(
-    //   organisation.id,
-    //   {
-    //     append: 'domaines',
-    //     itemsPerPage: 6,
-    //     sort: '-places_left',
-    //   }
-    // )
+    const missions = await $api.fetchStructureAvailableMissionsWithPagination(
+      organisation.id,
+      {
+        append: 'domaines',
+        itemsPerPage: 6,
+        sort: '-places_left',
+      }
+    )
 
     return {
       organisation,
-      missions: {
-        data: [],
-      },
+      missions: missions.data,
     }
   },
   data() {

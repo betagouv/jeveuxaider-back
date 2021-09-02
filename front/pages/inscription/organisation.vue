@@ -13,9 +13,9 @@
       v-if="currentStep.key == 'choix_orga_type'"
       class="max-w-5xl flex flex-col flex-wrap items-center justify-center mt-4 mb-12 md:flex-row mx-auto"
     >
-      <nuxt-link
+      <div
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
-        to="?orga_type=Association"
+        @click="handleChooseOrgaType('Association')"
       >
         <p class="text-4xl mb-0">💪</p>
         <p class="text-2xl leading-tight">
@@ -25,10 +25,10 @@
           Trouver des bénévoles<br />
           pour vos missions
         </p>
-      </nuxt-link>
-      <nuxt-link
+      </div>
+      <div
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
-        to="?orga_type=Collectivité"
+        @click="handleChooseOrgaType('Collectivité')"
       >
         <p class="text-4xl mb-0">🏫️</p>
         <p class="text-2xl leading-tight">
@@ -38,10 +38,10 @@
           Mairies, départements,<br />
           régions et EPCI
         </p>
-      </nuxt-link>
-      <nuxt-link
+      </div>
+      <div
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
-        to="?orga_type=Tête de réseau"
+        @click="handleChooseOrgaType('Tête de réseau')"
       >
         <p class="text-4xl mb-0">🚀</p>
         <p class="text-2xl leading-tight">
@@ -51,10 +51,10 @@
           Gérer vos différentes antennes, <br />délégations, associations
           locales ...
         </p>
-      </nuxt-link>
-      <nuxt-link
+      </div>
+      <div
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
-        to="?orga_type=Organisation publique"
+        @click="handleChooseOrgaType('Organisation publique')"
       >
         <p class="text-4xl mb-0">🏢</p>
         <p class="text-2xl leading-tight">
@@ -63,10 +63,10 @@
         <p class="text-gray-500 text-sm leading-tight">
           CCAS, Ehpad public, <br />services de l’Etat ...
         </p>
-      </nuxt-link>
-      <nuxt-link
+      </div>
+      <div
         class="bg-white w-72 h-64 m-4 flex-col items-center justify-center text-center px-4 py-10 rounded-2xl transform cursor-pointer hover:scale-105 duration-150"
-        to="?orga_type=Organisation privée"
+        @click="handleChooseOrgaType('Organisation privée')"
       >
         <p class="text-4xl mb-0">🏩</p>
         <p class="text-2xl leading-tight">
@@ -77,7 +77,7 @@
           Établissement de santé privé d'intérêt collectif, Ehpad privé,
           fondation, ESUS
         </p>
-      </nuxt-link>
+      </div>
       <a
         href="https://go.crisp.chat/chat/embed/?website_id=4b843a95-8a0b-4274-bfd5-e81cbdc188ac"
         target="_blank"
@@ -129,7 +129,7 @@
             v-if="
               $route.query.orga_type === 'Association' && !userHasAssociation
             "
-            v-model="form.structure.name"
+            v-model.trim="form.structure.name"
             placeholder="Nom de votre association"
             :show-add-button="!orgaExist"
             :loading-add-button="loading"
@@ -157,7 +157,7 @@
           </div>
           <el-input
             v-else
-            v-model="form.structure.name"
+            v-model.trim="form.structure.name"
             :placeholder="
               $route.query.orga_type === 'Collectivité'
                 ? 'Nom de votre collectivité'
@@ -437,6 +437,9 @@ export default {
     },
   },
   methods: {
+    handleChooseOrgaType(orgaType) {
+      this.$router.push(`/inscription/organisation?orga_type=${orgaType}`)
+    },
     async onStructureApiSelected(structure) {
       const res = await this.$api.structureExists(structure._id)
 
@@ -452,6 +455,9 @@ export default {
       }
     },
     async onSubmitChooseName() {
+      if (!this.form.structure.name) {
+        return
+      }
       if (this.$route.query.orga_type === 'Collectivité') {
         const res = await this.$api.structureExists(this.form.structure.name)
         if (res.data) {

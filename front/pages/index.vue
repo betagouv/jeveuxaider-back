@@ -11,7 +11,6 @@
         :srcSet="bgHeroMultipleSizes.srcSet"
         :src="bgHeroMultipleSizes.src"
       />
-
       <div
         class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
       >
@@ -48,7 +47,6 @@
             </vue-typed-js>
           </div>
         </client-only>
-
         <div
           class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
         >

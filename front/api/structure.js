@@ -1,10 +1,4 @@
 export default (axios) => ({
-  async fetchStructureAvailableMissions(id, params) {
-    const { data } = await axios.get(`/structure/${id}/availableMissions`, {
-      params,
-    })
-    return data
-  },
   async fetchStructureAvailableMissionsWithPagination(id, params) {
     return await axios.get(`/structure/${id}/availableMissions`, {
       params,

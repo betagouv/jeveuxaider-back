@@ -34,6 +34,10 @@ export default (axios) => ({
   async destroyMission(id) {
     return await axios.delete(`/mission/${id}/destroy`)
   },
+  async similarMission(id, params) {
+    const { data } = await axios.get(`/mission/${id}/similar`)
+    return data
+  },
 })
 
 /*

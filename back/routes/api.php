@@ -14,11 +14,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('test-flare', function() {
-    test_flare_error();
-    return 'test flate';
-});
-
 // AUTH
 Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 Route::post('register/responsable', 'Api\PassportController@registerResponsable');
@@ -29,6 +24,7 @@ Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('mission/{mission}', 'Api\MissionController@show');
+Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
 Route::get('association/{slugOrId}', 'Api\StructureController@associationSlugOrId');
 
 Route::get('structure/{rnaOrName}/exist', 'Api\StructureController@exist');

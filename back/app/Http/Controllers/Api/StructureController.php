@@ -84,15 +84,20 @@ class StructureController extends Controller
 
     public function availableMissions(Request $request, Structure $structure)
     {
-        // X-sell sur le domain d'action ET la ville
-        return Mission::search('')
-            ->aroundLatLng($request->input('latitude'), $request->input('longitude'))
-            ->where('id', '!=', $request->input('exclude'))
-            ->with([
-                'facetFilters' => 'domaine_name:' . $request->input('domaine_name'),
-            ])
-            ->get()
-            ->append('domaines');
+        $query = QueryBuilder::for(Mission::with('domaine'))
+        ->allowedAppends(['domaines'])
+        ->available()
+        ->with('structure')
+        ->where('structure_id', $structure->id);
+
+        if ($request->has('exclude')) {
+            $query->where('id', '<>', $request->input('exclude'));
+        }
+
+        return $query
+            ->defaultSort('-updated_at')
+            ->allowedSorts(['places_left', 'type'])
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
     public function show(StructureRequest $request, Structure $structure)
