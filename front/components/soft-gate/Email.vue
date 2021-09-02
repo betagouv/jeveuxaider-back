@@ -90,6 +90,7 @@ export default {
             .then((res) => {
               this.loading = false
               if (!res.data) {
+                this.$gtm.push({ event: 'benevole-email-register-soft-gate' })
                 this.$axios.post('/sendinblue/contact', {
                   email: this.form.email,
                   id_liste: 383,
