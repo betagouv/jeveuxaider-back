@@ -2,6 +2,23 @@ const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   darkMode: false, // or 'media' or 'class'
+  mode: 'jit',
+  purge: {
+    content: [
+      './components/**/*.{vue,js,ts}',
+      './layouts/**/*.vue',
+      './pages/**/*.vue',
+      './plugins/**/*.{js,ts}',
+      './nuxt.config.js',
+      './nuxt.config.ts',
+    ],
+    options: {
+      // Whitelisting some classes to avoid purge
+      safelist: {
+        standard: [/nature$/, /solidarite$/, /education$/, /sante$/],
+      },
+    },
+  },
   theme: {
     screens: {
       sm: '640px',

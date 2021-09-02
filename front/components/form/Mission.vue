@@ -385,7 +385,7 @@
           </el-select>
         </el-form-item>
 
-        <span class="flex-none pt-5 h-10"> par </span>
+        <span class="flex-none h-10"> par </span>
 
         <el-form-item
           label="Fréquence (facultatif)"

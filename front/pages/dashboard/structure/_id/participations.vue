@@ -181,9 +181,9 @@
 </template>
 
 <script>
+import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
-import fileDownload from 'js-file-download'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],

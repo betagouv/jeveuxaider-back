@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "TAILWIND_MODE=watch nuxt",
     "build": "nuxt build --modern=server",
     "start": "nuxt start -p $PORT --modern=server",
     "generate": "nuxt generate",
@@ -71,8 +71,7 @@
     "@nuxtjs/device": "^2.1.0",
     "@nuxtjs/eslint-config": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
-    "@nuxtjs/tailwindcss": "^4.2.1",
-    "autoprefixer": "^10.3.1",
+    "autoprefixer": "^9",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
@@ -85,11 +84,9 @@
     "imagemin-svgo": "^8.0.0",
     "lint-staged": "^10.5.4",
     "node-sass": "^5.0.0",
-    "postcss": "^8.3.6",
-    "postcss-import": "^14.0.2",
-    "postcss-nested": "^5.0.6",
+    "postcss": "^7",
     "prettier": "2.2.1",
     "sass-loader": "10.1.1",
-    "tailwindcss": "^2.2.7"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }

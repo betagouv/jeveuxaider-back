@@ -14,7 +14,7 @@
 
         <div
           :class="[
-            `bg-${thematique.color}`,
+            bgClass,
             'absolute',
             'inset-0',
             { 'opacity-75': thematique.image },
@@ -46,7 +46,7 @@
                   <nuxt-link
                     v-if="!$store.getters.isLogged"
                     to="/register/volontaire"
-                    :class="`text-${thematique.color}`"
+                    :class="colorClass"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white !outline-none focus:ring transition md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
@@ -54,7 +54,7 @@
                   <a
                     v-else
                     href="#search"
-                    :class="`text-${thematique.color}`"
+                    :class="colorClass"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white !outline-none focus:ring transition md:py-4 md:text-lg md:px-15"
                   >
                     Trouver une mission
@@ -174,11 +174,7 @@
         </div>
       </div>
 
-      <div
-        v-if="!$store.getters.loading"
-        id="search"
-        :class="`bg-${thematique.color}`"
-      >
+      <div v-if="!$store.getters.loading" id="search" :class="bgClass">
         <div
           class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8"
         >
@@ -239,7 +235,7 @@
             class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
           >
             Votre organisation a besoin de
-            <span :class="`text-${thematique.color}`">bénévoles</span> ?
+            <span :class="colorClass">bénévoles</span> ?
           </p>
           <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
             <div class="inline-flex rounded-full shadow">
@@ -250,7 +246,7 @@
                     ? `/dashboard/structure/${$store.getters.contextStructure.id}/missions/add`
                     : '/inscription/organisation'
                 "
-                :class="`bg-${thematique.color}`"
+                :class="bgClass"
                 class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white !outline-none focus:ring transition"
               >
                 Rejoignez JeVeuxAider.gouv.fr
@@ -367,6 +363,50 @@ export default {
           break
       }
       return thematiqueSeo
+    },
+    bgClass() {
+      let bgClass
+
+      switch (this.thematique.color) {
+        case 'sante':
+          bgClass = 'bg-sante'
+          break
+        case 'solidarite':
+          bgClass = 'bg-solidarite'
+          break
+        case 'nature':
+          bgClass = 'bg-nature'
+          break
+        case 'education':
+          bgClass = 'bg-education'
+          break
+        default:
+          break
+      }
+
+      return bgClass
+    },
+    colorClass() {
+      let colorClass
+
+      switch (this.thematique.color) {
+        case 'sante':
+          colorClass = 'text-sante'
+          break
+        case 'solidarite':
+          colorClass = 'text-solidarite'
+          break
+        case 'nature':
+          colorClass = 'text-nature'
+          break
+        case 'education':
+          colorClass = 'text-education'
+          break
+        default:
+          break
+      }
+
+      return colorClass
     },
   },
 }

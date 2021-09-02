@@ -81,7 +81,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/eslint-module',
-    '@nuxtjs/tailwindcss',
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
     '@nuxtjs/device',
@@ -138,32 +137,6 @@ export default {
     config: {
       lazy: true,
     }, // Additional config
-  },
-
-  tailwindcss: {
-    jit: true,
-    config: {
-      purge: {
-        content: [
-          'components/**/*.vue',
-          'layouts/**/*.vue',
-          'pages/**/*.vue',
-          'plugins/**/*.js',
-          'nuxt.config.js',
-        ],
-        options: {
-          // Whitelisting some classes to avoid purge
-          safelist: {
-            standard: [
-              '/nature$/',
-              '/solidarite$/',
-              '/education$/',
-              '/sante$/',
-            ],
-          },
-        },
-      },
-    },
   },
 
   redirect: [
@@ -243,6 +216,8 @@ export default {
       plugins: {
         'postcss-import': {},
         'tailwindcss/nesting': {},
+        'tailwindcss': {},
+        'autoprefixer': {},
       }
     }
   },
