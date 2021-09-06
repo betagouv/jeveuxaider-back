@@ -47,12 +47,21 @@ class MissionValidated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+
+        $message =  (new MailMessage)
             ->subject('Votre mission est validée !')
-            ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name . ' » a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.')
-            ->line('Nous vous informerons prochainement des coordonnées du bénévole affecté à cette mission.')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',');
+
+        if ($this->mission->city && $this->mission->type == 'Mission en présentiel') {
+            $message->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name. ' » proposée à ' . $this->mission->city . ' a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
+        } else {
+            $message->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name. ' » a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
+        }
+
+        $message->line('Nous vous informerons prochainement des coordonnées du bénévole affecté à cette mission.')
             ->action('Accéder à mon compte', url(config('app.url') . '/dashboard/structure/' . $this->mission->structure->id . '/missions'));
+
+        return $message;
     }
 
     /**
