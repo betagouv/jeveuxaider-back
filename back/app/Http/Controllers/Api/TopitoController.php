@@ -23,12 +23,10 @@ class TopitoController extends Controller
     {
 
         if ($request->input('daterange') == 'last-30-days') {
-            $this->date = Carbon::now()->subDays(30);
             $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
             $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'last-7-days') {
-            $this->date = Carbon::now()->subDays(7);
             $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
             $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
         }
