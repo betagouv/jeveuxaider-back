@@ -323,6 +323,14 @@ class Structure extends Model implements HasMedia
     public function deleteMember(Profile $profile)
     {
         $this->members()->detach($profile);
+
+        $user = User::find($profile->user_id);
+
+        if ($user->context_role == 'responsable') {
+            $user->context_role = null;
+            $user->save();
+        }
+
         $this->resetResponsable($profile);
 
         return $this->load('members');

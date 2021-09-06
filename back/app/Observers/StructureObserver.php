@@ -100,8 +100,10 @@ class StructureObserver
 
                     foreach ($members as $member) {
                         $user = User::find($member->user->id);
-                        $user->context_role = null;
-                        $user->save();
+                        if ($user->context_role == 'responsable') {
+                            $user->context_role = null;
+                            $user->save();
+                        }
                     }
 
                     if ($structure->missions) {
@@ -109,13 +111,11 @@ class StructureObserver
                             $mission->update(['state' => 'Annulée']);
                         }
 
-                        // Notifs ON
+                        // Notifs OFF
                         Mission::where('structure_id', $structure->id)
                             ->outdated()
                             ->where('state', 'Validée')
-                            ->get()->map(function ($mission) {
-                                $mission->update(['state' => 'Terminée']);
-                            });
+                            ->update(['state' => 'Terminée']);
 
                         // Notifs ON
                         Mission::where('structure_id', $structure->id)

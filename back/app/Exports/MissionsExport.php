@@ -34,7 +34,6 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             ->allowedFilters([
                 'name',
                 'state',
-                'format',
                 'type',
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('template_id'),
@@ -59,7 +58,6 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             'nom',
             'statut',
             'description',
-            'format',
             'type',
             'adresse_complete',
             'adresse',
@@ -93,7 +91,6 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
             $mission->name,
             $mission->state,
             $mission->description,
-            $mission->format,
             $mission->type,
             $mission->full_address,
             $mission->address,

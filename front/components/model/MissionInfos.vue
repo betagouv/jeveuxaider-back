@@ -47,12 +47,6 @@
         {{ mission.type }}
       </div>
     </div>
-    <div v-if="mission.format" class="mb-2 flex">
-      <div class="card-label">Format</div>
-      <div class="text-gray-900 flex-1">
-        {{ mission.format }}
-      </div>
-    </div>
     <div v-if="mission.start_date" class="mb-2 flex">
       <div class="card-label">Début</div>
       <div class="text-gray-900 flex-1">

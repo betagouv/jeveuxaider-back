@@ -25,12 +25,6 @@
         >
           {{ mission.type }}
         </div>
-        <div
-          v-if="mission.format"
-          class="border-r leading-none border-[#d2d6dc] mr-3 pr-3"
-        >
-          {{ mission.format }}
-        </div>
         <div class="border-r leading-none border-[#d2d6dc] mr-3 pr-3">
           {{ mission.places_left }}
           {{
