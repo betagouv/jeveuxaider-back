@@ -753,9 +753,11 @@ export default {
       return illustration
     },
     publicsVolontaires() {
-      return this.mission.publics_volontaires.filter(
-        (item) => item != 'Personnes en situation de handicap'
-      )
+      return this.mission.publics_volontaires
+        ? this.mission.publics_volontaires.filter(
+            (item) => item != 'Personnes en situation de handicap'
+          )
+        : []
     },
   },
   created() {
