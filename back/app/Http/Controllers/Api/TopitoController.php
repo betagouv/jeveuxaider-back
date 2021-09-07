@@ -27,7 +27,7 @@ class TopitoController extends Controller
             $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'last-7-days') {
-            $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
+            $this->startDate = Carbon::now()->subDays(7)->format('Y-m-d H:i:s');
             $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'current-month') {
