@@ -58,6 +58,12 @@ Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseau/lead', 'Api\ReseauController@lead');
 
+Route::get('notification-avis/{token}', 'Api\NotificationAvisController@show');
+Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
+Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
+Route::get('participation/{participation_id}/avis', 'Api\AvisController@show');
+Route::post('avis', 'Api\AvisController@store');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -196,6 +202,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // ACTIONS
     Route::get('actions', 'Api\ActionController@index');
+
+    // AVIS
+    Route::get('avis', 'Api\AvisController@index');
 });
 
 // ONLY ADMIN

@@ -202,7 +202,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    analyze: process.env.NODE_ENV !== 'production',
+    // analyze: process.env.NODE_ENV !== 'production',
+    analyze: false,
     extractCSS: process.env.NODE_ENV === 'production',
     transpile: [
       'vue-instantsearch',

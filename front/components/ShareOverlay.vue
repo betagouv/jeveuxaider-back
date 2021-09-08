@@ -24,52 +24,13 @@
             </div>
 
             <div class="flex justify-center space-x-3 my-10">
-              <a
-                target="_blank"
-                :href="`https://www.facebook.com/sharer/sharer.php?u=${baseUrl}${$router.currentRoute.fullPath}`"
-                :class="buttonClasses"
-              >
-                <img
-                  src="@/assets/images/share-facebook.svg"
-                  alt="Partagez la mission sur Facebook"
-                  class="h-6 w-auto lg:h-auto"
-                />
-              </a>
-
-              <a
-                target="_blank"
-                :href="`https://twitter.com/intent/tweet?url=${message}${baseUrl}${$router.currentRoute.fullPath}`"
-                :class="buttonClasses"
-              >
-                <img
-                  src="@/assets/images/share-twitter.svg"
-                  alt="Partagez la mission sur Twitter"
-                  class="w-6 h-auto lg:w-auto"
-                />
-              </a>
-
-              <a
-                target="_blank"
-                :href="`https://www.linkedin.com/shareArticle?mini=true&url=${baseUrl}${$router.currentRoute.fullPath}&title=${message}`"
-                :class="buttonClasses"
-              >
-                <img
-                  src="@/assets/images/share-linkedin.svg"
-                  alt="Partagez la mission sur Linkedin"
-                  class="w-6 h-auto lg:w-auto"
-                />
-              </a>
-
-              <a
-                :href="`mailto:?&subject=${$store.getters.missionSelected.name}&body=${message}${baseUrl}${$router.currentRoute.fullPath}`"
-                :class="buttonClasses"
-              >
-                <img
-                  src="@/assets/images/share-mail.svg"
-                  alt="Partagez la mission par mail"
-                  class="w-6 h-auto lg:w-auto"
-                />
-              </a>
+              <ShareFacebook />
+              <ShareTwitter :message="message" />
+              <ShareLinkedin :message="message" />
+              <ShareMail
+                :subject="$store.getters.missionSelected.name"
+                :message="message"
+              />
             </div>
           </div>
         </div>

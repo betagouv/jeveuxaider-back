@@ -61,6 +61,7 @@
     "vue-scrollto": "^2.20.0",
     "vue-slick-carousel": "^1.0.6",
     "vue-spinner": "^1.0.4",
+    "vue-star-rating": "^1.7.0",
     "vue-textarea-autosize": "^1.1.1",
     "vue-the-mask": "^0.11.1",
     "vue-typed-js": "^0.1.2",

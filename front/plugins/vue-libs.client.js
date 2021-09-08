@@ -4,12 +4,13 @@ import VScrollLock from 'v-scroll-lock'
 import Vue2Filters from 'vue2-filters'
 import VClamp from 'vue-clamp'
 import PortalVue from 'portal-vue'
-import VTooltip from 'v-tooltip'
+import { VTooltip } from 'v-tooltip'
 import vClickOutside from 'v-click-outside'
 import VueClipboard from 'vue-clipboard2'
 import TextareaAutosize from 'vue-textarea-autosize'
 import Nl2br from 'vue-nl2br'
 import VueTheMask from 'vue-the-mask'
+import VueStarRating from 'vue-star-rating'
 
 Vue.use(VueClipboard)
 Vue.use(vClickOutside)
@@ -40,3 +41,4 @@ Vue.use(VueTheMask)
 
 Vue.component('VClamp', VClamp)
 Vue.component('Nl2br', Nl2br)
+Vue.component('StarRating', VueStarRating)

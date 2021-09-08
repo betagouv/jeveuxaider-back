@@ -17,49 +17,13 @@
         Partagez la mission autour de vous
       </div>
       <div class="flex justify-center space-x-3 my-10">
-        <a
-          target="_blank"
-          :href="`https://www.facebook.com/sharer/sharer.php?u=${baseUrl}${$router.currentRoute.fullPath}`"
-          class="input-shadow bg-white h-12 w-12 lg:h-24 lg:w-24 rounded-full flex justify-center items-center cursor-pointer tracking-wide shadow-lg hover:scale-105 transform transition will-change-transform"
-        >
-          <img
-            src="@/assets/images/share-facebook.svg"
-            alt="Partagez la mission sur Facebook"
-            class="h-6 w-auto lg:h-auto"
-          />
-        </a>
-        <a
-          target="_blank"
-          :href="`https://twitter.com/intent/tweet?url=${message}${baseUrl}${$router.currentRoute.fullPath}`"
-          class="input-shadow bg-white h-12 w-12 lg:h-24 lg:w-24 rounded-full flex justify-center items-center cursor-pointer tracking-wide shadow-lg hover:scale-105 transform transition will-change-transform"
-        >
-          <img
-            src="@/assets/images/share-twitter.svg"
-            alt="Partagez la mission sur Twitter"
-            class="w-6 h-auto lg:w-auto"
-          />
-        </a>
-        <a
-          target="_blank"
-          :href="`https://www.linkedin.com/shareArticle?mini=true&url=${baseUrl}${$router.currentRoute.fullPath}&title=${message}`"
-          class="input-shadow bg-white h-12 w-12 lg:h-24 lg:w-24 rounded-full flex justify-center items-center cursor-pointer tracking-wide shadow-lg hover:scale-105 transform transition will-change-transform"
-        >
-          <img
-            src="@/assets/images/share-linkedin.svg"
-            alt="Partagez la mission sur Linkedin"
-            class="w-6 h-auto lg:w-auto"
-          />
-        </a>
-        <a
-          :href="`mailto:?&subject=${$store.getters.missionSelected.name}&body=${message}${baseUrl}${$router.currentRoute.fullPath}`"
-          class="input-shadow bg-white h-12 w-12 lg:h-24 lg:w-24 rounded-full flex justify-center items-center cursor-pointer tracking-wide shadow-lg hover:scale-105 transform transition will-change-transform"
-        >
-          <img
-            src="@/assets/images/share-mail.svg"
-            alt="Partagez la mission par mail"
-            class="w-6 h-auto lg:w-auto"
-          />
-        </a>
+        <ShareFacebook />
+        <ShareTwitter :message="message" />
+        <ShareLinkedin :message="message" />
+        <ShareMail
+          :subject="$store.getters.missionSelected.name"
+          :message="message"
+        />
       </div>
       <el-button
         class="!font-bold !text-gray-500 !max-w-sm !mx-auto !w-full !flex !items-center !justify-center !px-5 !py-3 !border !border-transparent !text-xl !leading-6 !rounded-full !bg-white focus:!outline-none focus:!ring !shadow-lg hover:!scale-105 !transform !transition !will-change-transform hover:!text-[#070191]"

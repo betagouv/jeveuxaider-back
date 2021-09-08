@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Database\Eloquent\Builder;
 use App\Exports\ParticipationsExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -216,5 +217,15 @@ class ParticipationController extends Controller
     public function benevole(ParticipationManageRequest $request, Participation $participation)
     {
         return $participation->profile->append('roles', 'has_user', 'skills', 'domaines');
+    }
+
+    public function mission(Request $request, Participation $participation)
+    {
+        return $participation->mission;
+    }
+
+    public function benevoleName(Request $request, Participation $participation)
+    {
+        return $participation->profile->only(['id', 'first_name', 'last_name']);
     }
 }
