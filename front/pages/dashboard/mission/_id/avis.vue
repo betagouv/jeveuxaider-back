@@ -3,63 +3,9 @@
     <DashboardMissionHeader :mission="mission" :structure="structure" />
     <DashboardMissionTabs :mission="mission" />
 
-    <div class="px-12 mb-3 flex flex-wrap">
-      <div class="flex w-full mb-4">
-        <SearchFiltersQueryMain
-          name="search"
-          placeholder="Rechercher par mots clés, mission ou structure..."
-          :initial-value="query['filter[search]']"
-          @changed="onFilterChange"
-        />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
-          <el-button
-            icon="el-icon-s-operation"
-            class="!ml-4"
-            @click="showFilters = !showFilters"
-          >
-            Filtres avancés
-          </el-button>
-        </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
-      </div>
-      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
-        <SearchFiltersQuery
-          name="state"
-          label="Statut"
-          multiple
-          :value="query['filter[state]']"
-          :options="
-            $store.getters.taxonomies.participation_workflow_states.terms
-          "
-          @changed="onFilterChange"
-        />
-        <SearchFiltersQuery
-          v-if="$store.getters.contextRole === 'responsable'"
-          type="select"
-          name="mission.responsable_id"
-          :value="query['filter[mission.responsable_id]']"
-          label="Responsable"
-          :options="
-            responsables.map((responsable) => {
-              return {
-                label: responsable.full_name,
-                value: responsable.id,
-              }
-            })
-          "
-          @changed="onFilterChange"
-        />
-      </div>
-    </div>
+    <!-- TODO filtres -->
 
-    <TableParticipations
+    <TableAvis
       :loading="$fetchState.pending"
       :table-data="tableData"
       :on-updated-row="onUpdatedRow"
@@ -80,7 +26,7 @@
     </div>
 
     <portal to="volet">
-      <VoletParticipation @updated="onUpdatedRow" @deleted="onDeletedRow" />
+      <VoletAvis />
     </portal>
   </div>
 </template>
@@ -105,8 +51,8 @@ export default {
     ) {
       return error({ statusCode: 403 })
     }
-    const mission = await $api.getMission(params.id)
 
+    const mission = await $api.getMission(params.id)
     if (store.getters.contextRole == 'responsable') {
       if (store.getters.contextStructure.id != mission.structure_id) {
         return error({ statusCode: 403 })
@@ -115,16 +61,9 @@ export default {
 
     const structure = await $api.getStructure(mission.structure.id)
 
-    const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
-    const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
-    const responsables = await $api.getStructureMembers(structure.id)
-
     return {
       structure,
       mission,
-      domaines: domaines.data.data,
-      templates: templates.data.data,
-      responsables: responsables.data,
     }
   },
 
@@ -135,7 +74,8 @@ export default {
   },
   async fetch() {
     this.query['filter[mission.id]'] = this.mission.id
-    const { data } = await this.$api.fetchParticipations(this.query)
+
+    const { data } = await this.$axios.get(`/avis`, this.query)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from

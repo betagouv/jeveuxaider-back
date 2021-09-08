@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Helpers\Utils;
+use App\Models\Avis;
+use App\Models\Participation;
 
 class Mission extends Model
 {
@@ -62,7 +64,15 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_url', 'full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name', 'permissions'];
+    protected $appends = [
+        'full_url',
+        'full_address',
+        'has_places_left',
+        'participations_count',
+        'participations_total',
+        'domaine_name',
+        'permissions',
+    ];
 
     protected static $logFillable = true;
 
@@ -279,7 +289,7 @@ class Mission extends Model
     public function scopeAvailable($query)
     {
         return $query->where('state', 'Validée')->whereHas('structure', function (Builder $query) {
-            $query->where('state', 'Validée');
+            $query->where('state', 'Valid��e');
         });
     }
 
@@ -422,5 +432,10 @@ class Mission extends Model
         return [
             'canFindBenevoles' => $this->state == 'Validée' && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
         ];
+    }
+
+    public function avis()
+    {
+        return $this->hasManyThrough(Avis::class, Participation::class);
     }
 }

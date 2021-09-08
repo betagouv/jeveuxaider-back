@@ -67,7 +67,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('avis')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['skills','domaines', 'domaine_secondaire']);
             }
@@ -182,7 +182,7 @@ class MissionController extends Controller
         if ($mission->latitude && $mission->longitude) {
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
-            
+
         return $query->get()->load('structure');
     }
 }

@@ -13,13 +13,10 @@ class AvisController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Avis::role($request->header('Context-Role'))->with('profile', 'mission', 'mission.structure:id,name,state', 'mission.responsable'))
+        return QueryBuilder::for(Avis::role($request->header('Context-Role')))
+            ->with('participation', 'participation.profile', 'participation.mission')
             ->allowedFilters(
-                AllowedFilter::exact('mission.department'),
-                'mission.type',
-                'mission.name',
                 AllowedFilter::exact('mission.id'),
-                AllowedFilter::exact('profile.id'),
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));

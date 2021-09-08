@@ -62,6 +62,7 @@ Route::get('notification-avis/{token}', 'Api\NotificationAvisController@show');
 Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 Route::get('participation/{participation_id}/avis', 'Api\AvisController@show');
+Route::get('avis', 'Api\AvisController@index');
 Route::post('avis', 'Api\AvisController@store');
 
 Route::group(['middleware' => ['auth:api']], function () {

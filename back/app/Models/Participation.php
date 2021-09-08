@@ -129,4 +129,9 @@ class Participation extends Model
             return $this->delete($options);
         });
     }
+
+    public function avis()
+    {
+        return $this->hasOne('App\Models\Avis', 'participation_id');
+    }
 }
