@@ -17,8 +17,8 @@
 
           <div class="flex justify-center space-x-5 mt-4">
             <ShareFacebook :url="mission.full_url" />
-            <ShareTwitter :url="mission.full_url" />
-            <ShareLinkedin :url="mission.full_url" />
+            <ShareTwitter :url="mission.full_url" :message="message" />
+            <ShareLinkedin :url="mission.full_url" :message="message" />
           </div>
         </template>
 
@@ -72,6 +72,8 @@ export default {
   data() {
     return {
       form: {},
+      message:
+        "J'ai réalisé une mission de bénévolat grâce à JeVeuxAider. Rejoignez le mouvement #ChacunPourTous",
     }
   },
   computed: {

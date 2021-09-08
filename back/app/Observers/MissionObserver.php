@@ -5,12 +5,15 @@ namespace App\Observers;
 use App\Helpers\Utils;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
+use App\Models\NotificationAvis;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Notifications\AvisCreate;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
+use Illuminate\Support\Str;
 
 class MissionObserver
 {
@@ -99,6 +102,21 @@ class MissionObserver
                     if ($mission->responsable) {
                         // Notif OFF
                         $mission->participations()->where("state", "En attente de validation")->update(['state' => 'Annulée']);
+
+                        // Notifications avis.
+                        $participations = $mission->participations()->where('state', 'Validée')->get();
+                        foreach ($participations as $participation) {
+                            do {
+                                $token = Str::random(32);
+                            } while (NotificationAvis::where('token', $token)->first());
+
+                            $notificationAvis = NotificationAvis::create([
+                                'token' => $token,
+                                'participation_id' => $participation->id,
+                                'reminders_sent' => 1,
+                            ]);
+                            $notificationAvis->participation->profile->user->notify(new AvisCreate($notificationAvis));
+                        }
                     }
                     break;
             }

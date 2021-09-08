@@ -12,6 +12,12 @@ class NotificationAvis extends Model
     protected $casts = [
         'last_sent_at' => 'datetime'
     ];
+    protected $fillable = [
+        'participation_id',
+        'token',
+        'reminders_sent',
+        'last_sent_at',
+    ];
 
     public function participation()
     {
