@@ -30,7 +30,6 @@ class MissionRequest extends FormRequest
             'start_date' => 'nullable|date_format:Y-m-d H:i:s',
             'end_date' => 'nullable|date_format:Y-m-d H:i:s|after:start_date',
             'structure_id' => '',
-            'format' => '',
             'information' => '',
             'objectif' => 'required_without:template_id',
             'description' => 'required_without:template_id',

@@ -41,7 +41,7 @@
     <el-menu
       :default-active="$router.history.current.path"
       mode="horizontal"
-      class="mb-8"
+      class="!mb-8"
       @select="$router.push($event)"
     >
       <el-menu-item :index="`/dashboard/mission/${mission.id}`">

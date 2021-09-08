@@ -40,7 +40,6 @@ class MissionController extends Controller
             ->allowedFilters([
                 'name',
                 'state',
-                'format',
                 'type',
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('template_id'),
@@ -180,9 +179,9 @@ class MissionController extends Controller
             ->with([
                 'facetFilters' => 'domaine_name:' . $mission->domaine_name,
             ]);
-            if($mission->latitude && $mission->longitude) {
-                $query->aroundLatLng($mission->latitude, $mission->longitude);
-            }
+        if ($mission->latitude && $mission->longitude) {
+            $query->aroundLatLng($mission->latitude, $mission->longitude);
+        }
             
         return $query->get()->load('structure');
     }

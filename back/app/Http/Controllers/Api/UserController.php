@@ -105,6 +105,17 @@ class UserController extends Controller
     public function anonymize(Request $request)
     {
         $user = $request->user();
+
+        // Si je suis le dernier responsable d'une organisation on la désinscrit
+        if ($user->profile->structures) {
+            foreach ($user->profile->structures as $structure) {
+                if ($structure->members->count() == 1) {
+                    $structure->state = 'Désinscrite';
+                    $structure->save();
+                }
+            }
+        }
+
         $user->anonymize();
         $user->token()->revoke();
 

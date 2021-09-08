@@ -12,14 +12,17 @@ class ParticipationsUpdateState extends Command
      *
      * @var string
      */
-    protected $signature = 'participations:update-state {--old= : The state that will be replaced} {--new= : The new state}';
+    protected $signature = 'participations:update-state {id?*} {--old= : The state that will be replaced} {--new= : The new state}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'replace all participations with a given state with a new one.';
+    protected $description = 'Replace participations state with a new one.
+                                {id : if present, only for these given mission ids}
+                                {--old= : The old state to replace}
+                                {--new= : The new state}';
 
     /**
      * Create a new command instance.
@@ -50,7 +53,12 @@ class ParticipationsUpdateState extends Command
         }
 
         $query = Participation::where('state', $options['old']);
+        $ids = $this->argument('id');
+        if (!empty($ids)) {
+            $query->whereIn('mission_id', $ids);
+        }
         $count = $query->count();
+
         if ($this->confirm($count . ' participations will be updated  --  [' . $options['old'] . '] => [' . $options['new'] . ']')) {
             $query->update(['state' => $options['new']]);
             $this->info($count . ' participations updated.');

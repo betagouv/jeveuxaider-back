@@ -10,7 +10,7 @@
     </div>
 
     <el-menu
-      class="mb-8"
+      class="!mb-8"
       :default-active="model"
       mode="horizontal"
       @select="handleChangeModel"

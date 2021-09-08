@@ -173,6 +173,7 @@ class User extends Authenticatable
 
     public function anonymize()
     {
+
         $email = $this->id . '@anonymized.fr';
         $this->anonymous_at = Carbon::now();
         $this->name = $email;

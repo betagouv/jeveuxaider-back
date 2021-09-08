@@ -23,26 +23,20 @@ class TopitoController extends Controller
     {
 
         if ($request->input('daterange') == 'last-30-days') {
-            $this->date = Carbon::now()->subDays(30);
-            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
+            $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d H:i:s');
+            $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'last-7-days') {
-            $this->date = Carbon::now()->subDays(7);
-            $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
-            $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
+            $this->startDate = Carbon::now()->subDays(7)->format('Y-m-d H:i:s');
+            $this->endDate =  Carbon::now()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'current-month') {
-            $this->year = date('Y');
-            $this->month = date('n');
-            $this->date = Carbon::parse($this->year."-".$this->month."-01");
+            $this->date = Carbon::now();
             $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
         }
         if ($request->input('daterange') == 'last-month') {
-            $this->year = date('Y');
-            $this->month = date('n') - 1;
-            $this->date = Carbon::parse($this->year."-".$this->month."-01");
+            $this->date = Carbon::now()->subMonth(1);
             $this->startDate = $this->date->startOfMonth()->format('Y-m-d H:i:s');
             $this->endDate = $this->date->endOfMonth()->format('Y-m-d H:i:s');
         }
@@ -60,7 +54,7 @@ class TopitoController extends Controller
         }
         if ($request->input('daterange') == 'all') {
             $this->startDate = Carbon::create(2000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
-            $this->endDate = Carbon::create(3000, 01, 01, 0, 0, 0)->format('Y-m-d H:i:s');
+            $this->endDate = Carbon::now()->format('Y-m-d H:i:s');
         }
     }
 
@@ -111,6 +105,7 @@ class TopitoController extends Controller
         ]);
 
         $ids = collect($results)->pluck('causer_id');
+
         $items = User::whereIn('id', $ids)->get();
         $items->map(function ($item) use ($results) {
             $item->count = collect($results)->filter(function ($values) use ($item) {

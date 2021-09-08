@@ -487,7 +487,6 @@ export default {
       default: () => {
         return [
           'domaines',
-          'format',
           'template_title',
           'department_name',
           'structure.name',
