@@ -318,7 +318,7 @@ return [
     'mission_publics_volontaires' => [
         "vocabulary" => "Publics volontaires",
         "terms" => [
-            "Personnes en situation de handicap" => "Personnes en situation de handicap",
+            // "Personnes en situation de handicap" => "Personnes en situation de handicap",
             "Mineurs" => "Mineurs"
         ]
     ],

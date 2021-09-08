@@ -473,9 +473,9 @@
 
     <div
       v-if="$store.getters.contextRole === 'admin'"
-      class="bg-red-100 p-4 rounded-10 mb-8"
+      class="bg-red-100 p-4 rounded-[10px] mb-8"
     >
-      <el-form-item prop="send_volunteer_coordonates" class="flex-1 mb-0">
+      <el-form-item prop="send_volunteer_coordonates" class="flex-1 !mb-0">
         <el-checkbox v-model="form.send_volunteer_coordonates">
           <span> Inclure les coordonnées des participants dans les mails </span>
         </el-checkbox>
@@ -577,6 +577,46 @@ export default {
           {
             pattern: /^[+|\s|\d]*$/,
             message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
+        website: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://www.votresite.fr",
+            trigger: 'blur',
+          },
+        ],
+        facebook: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://facebook.com/votrepage",
+            trigger: 'blur',
+          },
+        ],
+        twitter: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://twitter.com/votrepage",
+            trigger: 'blur',
+          },
+        ],
+        instagram: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://instagram.com/votrepage",
+            trigger: 'blur',
+          },
+        ],
+        donation: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://votrepagededonation.fr",
             trigger: 'blur',
           },
         ],

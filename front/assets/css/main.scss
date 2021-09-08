@@ -612,11 +612,11 @@ input {
 #dashboard-layout {
   .el-checkbox {
     .el-checkbox__label {
-      font-weight: 300;
+      font-weight: normal;
     }
     &:not(.is-checked) {
       .el-checkbox__label {
-        color: #908e8e;
+        color: black;
       }
     }
   }

@@ -19,6 +19,9 @@ export default (axios) => ({
   async updateStructure(id, structure) {
     return await axios.post(`/structure/${id}`, structure)
   },
+  async unsubscribeStructure(id) {
+    return await axios.post(`/structure/${id}/unsubscribe`)
+  },
   async getStructure(id) {
     const { data } = await axios.get(`/structure/${id}`)
     return data

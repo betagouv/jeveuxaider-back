@@ -115,14 +115,10 @@
       <div class="mb-6">
         <div class="-m-2">
           <div
-            v-for="tag in [
-              participation.mission.format,
-              participation.mission.type,
-            ]"
-            :key="tag"
+            v-if="participation.mission.type"
             class="px-4 py-1 m-2 shadow-md inline-flex text-sm font-semibold rounded-full bg-gray-100 text-gray-500"
           >
-            {{ tag }}
+            {{ participation.mission.type }}
           </div>
         </div>
       </div>

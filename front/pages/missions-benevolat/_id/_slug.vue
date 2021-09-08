@@ -257,10 +257,7 @@
               </client-only>
 
               <div
-                v-if="
-                  mission.publics_volontaires &&
-                  mission.publics_volontaires.length
-                "
+                v-if="publicsVolontaires && publicsVolontaires.length"
                 class="flex items-center gap-4 mt-8 mb-4"
               >
                 <div
@@ -273,9 +270,7 @@
 
               <div class="grid xl:grid-cols-2 gap-3">
                 <div
-                  v-for="(
-                    public_volontaire, key
-                  ) in mission.publics_volontaires"
+                  v-for="(public_volontaire, key) in publicsVolontaires"
                   :key="key"
                   class="flex items-center"
                 >
@@ -756,6 +751,13 @@ export default {
       }
 
       return illustration
+    },
+    publicsVolontaires() {
+      return this.mission.publics_volontaires
+        ? this.mission.publics_volontaires.filter(
+            (item) => item != 'Personnes en situation de handicap'
+          )
+        : []
     },
   },
   created() {

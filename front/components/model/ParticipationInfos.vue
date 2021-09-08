@@ -49,12 +49,6 @@
           {{ participation.mission.type }}
         </div>
       </div>
-      <div v-if="participation.mission.format" class="card-item mb-2 flex">
-        <div class="card-label">Format</div>
-        <div class="text-gray-900 flex-1">
-          {{ participation.mission.format }}
-        </div>
-      </div>
     </template>
     <template
       v-if="

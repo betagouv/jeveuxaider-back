@@ -31,18 +31,30 @@
               <div class="">{{ member.mobile }}</div>
             </div>
           </div>
-          <el-button
-            v-if="
-              members.length > 1 && $store.getters.user.profile.id != member.id
-            "
-            type="danger"
-            icon="el-icon-delete"
-            size="small"
-            class="!ml-4 !m-auto is-plain"
-            @click="deleteConfirm(member)"
+          <template
+            v-if="members.length > 1 || $store.getters.contextRole == 'admin'"
           >
-            Supprimer
-          </el-button>
+            <el-button
+              v-if="$store.getters.user.profile.id != member.id"
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              class="!ml-4 !m-auto is-plain"
+              @click="deleteConfirm(member)"
+            >
+              Retirer
+            </el-button>
+            <el-button
+              v-else
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              class="!ml-4 !m-auto is-plain"
+              @click="quitConfirm(member)"
+            >
+              Quitter
+            </el-button>
+          </template>
         </div>
       </div>
     </div>
@@ -85,12 +97,45 @@ export default {
     this.invitations = invitations.data
   },
   methods: {
+    quitConfirm(member) {
+      this.$confirm(
+        'Êtes vous sur de vouloir quitter votre organisation ?<br><br>Vous ne pourrez plus gérer ses missions ni poursuivre vos suivis de candidatures.<br>',
+        'Confirmation',
+        {
+          confirmButtonText: "Quitter l'organisation",
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
+          type: 'warning',
+          center: true,
+          dangerouslyUseHTMLString: true,
+        }
+      )
+        .then(() => {
+          this.loading = true
+          this.$api
+            .deleteMember(this.structure.id, member.id)
+            .then(async (response) => {
+              this.loading = false
+              this.$message({
+                type: 'success',
+                message: 'Vous ne faites plus partie de cette organisation',
+              })
+              await this.$store.dispatch('auth/fetchUser')
+              this.$router.push('/')
+            })
+            .catch((error) => {
+              this.loading = false
+              this.errors = error.response.data.errors
+            })
+        })
+        .catch(() => {})
+    },
     deleteConfirm(member) {
       this.$confirm(
         'Êtes vous sur de vouloir supprimer ce membre ?<br><br>Ce membre ne pourra plus être affecté à de nouvelles missions.<br>',
         'Confirmation',
         {
-          confirmButtonText: 'Supprimer',
+          confirmButtonText: 'Supprimer ce membre',
           confirmButtonClass: 'el-button--danger',
           cancelButtonText: 'Annuler',
           type: 'warning',
