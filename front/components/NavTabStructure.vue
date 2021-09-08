@@ -2,7 +2,7 @@
   <el-menu
     :default-active="$router.history.current.path"
     mode="horizontal"
-    class="my-8"
+    class="!my-8"
     @select="$router.push($event)"
   >
     <el-menu-item :index="`/dashboard/structure/${structure.id}`">
