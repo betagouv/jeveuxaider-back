@@ -8,7 +8,7 @@ use App\Models\Mission;
 use App\Models\NotificationAvis;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Notifications\AvisCreate;
+use App\Notifications\NotificationAvisCreate;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
@@ -106,6 +106,11 @@ class MissionObserver
                         // Notifications avis.
                         $participations = $mission->participations()->where('state', 'Validée')->get();
                         foreach ($participations as $participation) {
+                            // Be sure there is no existing notification.
+                            if (NotificationAvis::where('participation_id', $participation->id)->exists()) {
+                                continue;
+                            }
+
                             do {
                                 $token = Str::random(32);
                             } while (NotificationAvis::where('token', $token)->first());
@@ -115,7 +120,7 @@ class MissionObserver
                                 'participation_id' => $participation->id,
                                 'reminders_sent' => 1,
                             ]);
-                            $notificationAvis->participation->profile->user->notify(new AvisCreate($notificationAvis));
+                            $notificationAvis->participation->profile->user->notify(new NotificationAvisCreate($notificationAvis));
                         }
                     }
                     break;

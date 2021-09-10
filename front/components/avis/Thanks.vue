@@ -30,8 +30,8 @@
           >
             La mission n’a malheureusement pas été à la hauteur de votre
             engagement. {{ structureType }} {{ structure.name }} et l’équipe de
-            JVA va mettre en oeuvre pour améliorer l’expérience durant cette
-            mission.
+            JVA vont tout mettre en oeuvre pour améliorer l’expérience durant
+            cette mission.
           </div>
         </template>
 

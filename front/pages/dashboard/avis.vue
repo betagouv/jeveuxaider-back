@@ -1,7 +1,13 @@
 <template>
   <div class="has-full-table">
-    <DashboardMissionHeader :mission="mission" :structure="structure" />
-    <DashboardMissionTabs :mission="mission" />
+    <div class="header px-12 flex">
+      <div class="header-titles flex-1">
+        <div class="text-m text-gray-600 uppercase">
+          {{ $store.getters.contextRoleLabel }}
+        </div>
+        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">Avis</div>
+      </div>
+    </div>
 
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
@@ -38,6 +44,14 @@
           :options="$store.getters.taxonomies.grade.terms"
           @changed="onFilterChange"
         />
+
+        <SearchFiltersQueryInput
+          name="participation.mission.id"
+          label="# Mission"
+          placeholder="Numéro"
+          :initial-value="query['filter[participation.mission.id]']"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -59,8 +73,17 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
+      <div class="ml-auto">
+        <el-button
+          :loading="loadingExport"
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
+          Export
+        </el-button>
+      </div>
     </div>
-
     <portal to="volet">
       <VoletAvis />
     </portal>
@@ -76,42 +99,21 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
-  async asyncData({ $api, params, store, error }) {
+  asyncData({ store, error }) {
     if (
-      ![
-        'admin',
-        'superviseur',
-        'responsable',
-        'referent',
-        'referent_regional',
-      ].includes(store.getters.contextRole)
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
     ) {
       return error({ statusCode: 403 })
     }
-
-    const mission = await $api.getMission(params.id)
-    if (store.getters.contextRole == 'responsable') {
-      if (store.getters.contextStructure.id != mission.structure_id) {
-        return error({ statusCode: 403 })
-      }
-    }
-
-    const structure = await $api.getStructure(mission.structure.id)
-
-    return {
-      structure,
-      mission,
-    }
   },
-
   data() {
     return {
       loadingExport: false,
     }
   },
   async fetch() {
-    this.query['filter[participation.mission.id]'] = this.mission.id
-
     const { data } = await this.$axios.get(`/avis`, { params: this.query })
     this.tableData = data.data
     this.totalRows = data.total

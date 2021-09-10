@@ -18,33 +18,9 @@
           />
         </VoletRowItem>
 
-        <VoletRowItem label="Témoignage">
-          {{ row.testimony }}
-        </VoletRowItem>
-      </VoletCard>
-
-      <!-- PARTICIPATION -->
-      <VoletCard
-        v-if="participation"
-        label="Participation"
-        :icon="
-          require('@/assets/images/icones/heroicon/identification.svg?include')
-        "
-        :link="`/dashboard/participation/${participation.id}`"
-      >
-        <VoletRowItem label="Statut">
-          <span class="font-bold">
-            {{ participation.state }}
-          </span>
-        </VoletRowItem>
-
-        <VoletRowItem label="Crée le">
-          {{ participation.created_at | formatMediumWithTime }}
-        </VoletRowItem>
-
-        <VoletRowItem label="Modifié le">
-          {{ participation.updated_at | formatMediumWithTime }}
-        </VoletRowItem>
+        <VoletRowItem label="Témoignage" class="whitespace-pre-line">{{
+          row.testimony
+        }}</VoletRowItem>
       </VoletCard>
 
       <!-- BENEVOLE -->
@@ -142,6 +118,30 @@
         <VoletRowItem label="Dernière co.">{{
           profile.last_online_at | fromNow
         }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- PARTICIPATION -->
+      <VoletCard
+        v-if="participation"
+        label="Participation"
+        :icon="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
+        :link="`/dashboard/participation/${participation.id}`"
+      >
+        <VoletRowItem label="Statut">
+          <span class="font-bold">
+            {{ participation.state }}
+          </span>
+        </VoletRowItem>
+
+        <VoletRowItem label="Crée le">
+          {{ participation.created_at | formatMediumWithTime }}
+        </VoletRowItem>
+
+        <VoletRowItem label="Modifié le">
+          {{ participation.updated_at | formatMediumWithTime }}
+        </VoletRowItem>
       </VoletCard>
 
       <!-- MISSION -->

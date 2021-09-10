@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\NotificationAvis;
 
-class AvisCreate extends Notification
+class NotificationAvisCreate extends Notification
 {
     use Queueable;
 
@@ -56,7 +56,7 @@ class AvisCreate extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line("La mission «" . $this->mission->name . "» est désormais finie ! " . $this->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
             ->line("Prenez désormais le temps de nous raconter votre expérience 😉")
-            ->action('Donner mon avis', url(config('app.url') . '/notifications-avis/' . $this->notificationAvis->token))
+            ->action('Donner mon avis', url(config('app.url') . '/notification-avis/' . $this->notificationAvis->token))
             ->line("À bientôt sur JeVeuxAider.gouv.fr !");
     }
 

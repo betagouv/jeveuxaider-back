@@ -221,7 +221,7 @@ class ParticipationController extends Controller
 
     public function mission(Request $request, Participation $participation)
     {
-        return $participation->mission;
+        return $participation->mission->load('structure');
     }
 
     public function benevoleName(Request $request, Participation $participation)

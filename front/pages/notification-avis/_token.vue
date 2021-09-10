@@ -48,7 +48,8 @@ export default {
     const { data: mission } = await $axios.get(
       `/participation/${notificationAvis.participation_id}/mission`
     )
-    if (!mission || !mission.structure || mission.state != 'Validée') {
+
+    if (!mission || !mission.structure || mission.state != 'Terminée') {
       return error({ statusCode: 404 })
     }
 

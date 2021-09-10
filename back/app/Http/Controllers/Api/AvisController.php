@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersAvisSearch;
 use App\Models\Avis;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,10 +14,14 @@ class AvisController extends Controller
 {
     public function index(Request $request)
     {
+        // @todo: optimiser les relations,
+        // ne sont nécessaires que pour le volet lorsqu'il est ouvert
         return QueryBuilder::for(Avis::role($request->header('Context-Role')))
             ->with('participation', 'participation.profile', 'participation.mission')
             ->allowedFilters(
-                AllowedFilter::exact('mission.id'),
+                AllowedFilter::exact('participation.mission.id'),
+                AllowedFilter::exact('grade'),
+                AllowedFilter::custom('search', new FiltersAvisSearch),
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
