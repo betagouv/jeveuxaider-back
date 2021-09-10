@@ -74,14 +74,14 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
       <div class="ml-auto">
-        <el-button
+        <!-- <el-button
           :loading="loadingExport"
           icon="el-icon-download"
           size="small"
           @click="onExport"
         >
           Export
-        </el-button>
+        </el-button> -->
       </div>
     </div>
     <portal to="volet">
