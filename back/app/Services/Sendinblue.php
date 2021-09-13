@@ -62,6 +62,7 @@ class Sendinblue
                 switch ($response['message']) {
                     case "Unable to update contact, SMS is already associate with another Contact":
                     case "SMS is already associate with another Contact":
+                    case "Unable to create contact, SMS is already associate with another Contact":
                         self::sync($user, false);
                         break;
                     default:
