@@ -165,7 +165,7 @@ export default {
         if (this.form.participations_count) {
           this.message =
             this.message +
-            `<br><br> Une invitation va être envoyée aux participations <b>validées (${this.form.participations_count})</b> invitant les bénévoles à donner leur avis sur la mission effectuée.`
+            `<br><br> Une invitation va être envoyée aux participations <b>validées (${this.form.participations_count})</b> invitant les bénévoles à raconter leur expérience.`
         }
         this.message =
           this.message + `<br><br> Êtes vous sûr de vouloir continuer ?`

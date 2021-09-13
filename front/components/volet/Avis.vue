@@ -4,6 +4,118 @@
     :link="`/dashboard/participation/${row.id}`"
   >
     <div class="flex flex-col space-y-6">
+      <!-- MISSION -->
+      <VoletCard
+        v-if="mission"
+        label="Mission"
+        :icon="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
+        :link="`/dashboard/mission/${mission.id}`"
+      >
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{ mission.name }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
+        <VoletRowItem label="Places restantes">
+          {{ mission.places_left }}
+        </VoletRowItem>
+        <VoletRowItem label="Participation max">
+          {{ mission.participations_max }}
+        </VoletRowItem>
+
+        <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
+        <VoletRowItem v-if="mission.start_date" label="Debut">
+          {{ mission.start_date | formatLongWithTime }}</VoletRowItem
+        >
+        <VoletRowItem v-if="mission.end_date" label="Fin">
+          {{ mission.end_date | formatLongWithTime }}
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.commitment__duration" label="Engag. min.">
+          {{ mission.commitment__duration | labelFromValue('duration') }}
+          <template v-if="mission.commitment__time_period">
+            <span>par</span>
+            <span>
+              {{
+                mission.commitment__time_period | labelFromValue('time_period')
+              }}
+            </span>
+          </template>
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.domaine_name" label="Domaine">
+          {{ mission.domaine_name }}
+        </VoletRowItem>
+        <VoletRowItem
+          v-if="mission.publics_beneficiaires"
+          label="Publics bénéf."
+        >
+          {{
+            mission.publics_beneficiaires
+              .map(function (item) {
+                return $options.filters.labelFromValue(
+                  item,
+                  'mission_publics_beneficiaires'
+                )
+              })
+              .join(', ')
+          }}
+        </VoletRowItem>
+        <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
+          {{ mission.publics_volontaires.join(', ') }}
+        </VoletRowItem>
+        <VoletRowItem label="Compétences">
+          <template v-if="mission.skills && mission.skills.length > 0">
+            {{
+              mission.skills
+                .map(function (item) {
+                  return item.name.fr
+                })
+                .join(', ')
+            }}
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Adresse">
+          {{ mission.full_address }}
+        </VoletRowItem>
+        <VoletRowItem label="Département">
+          {{ mission.department | fullDepartmentFromValue }}
+        </VoletRowItem>
+        <VoletRowItem label="Message">
+          <template v-if="mission.information">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
+              more-str="Lire plus"
+              :text="mission.information"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Présentation">
+          <template v-if="mission.objectif">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
+              more-str="Lire plus"
+              :text="mission.objectif"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+        <VoletRowItem label="Précisions">
+          <template v-if="mission.description">
+            <ReadMore
+              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
+              more-str="Lire plus"
+              :text="mission.description"
+              :max-chars="120"
+            ></ReadMore>
+          </template>
+          <template v-else> N/A </template>
+        </VoletRowItem>
+      </VoletCard>
+
       <!-- AVIS -->
       <VoletCard label="Avis">
         <VoletRowItem label="Note">
@@ -141,118 +253,6 @@
 
         <VoletRowItem label="Modifié le">
           {{ participation.updated_at | formatMediumWithTime }}
-        </VoletRowItem>
-      </VoletCard>
-
-      <!-- MISSION -->
-      <VoletCard
-        v-if="mission"
-        label="Mission"
-        :icon="
-          require('@/assets/images/icones/heroicon/collection.svg?include')
-        "
-        :link="`/dashboard/mission/${mission.id}`"
-      >
-        <VoletRowItem label="Nom"
-          ><span class="font-bold">{{ mission.name }}</span></VoletRowItem
-        >
-        <VoletRowItem label="Statut">{{ mission.state }}</VoletRowItem>
-        <VoletRowItem label="Places restantes">
-          {{ mission.places_left }}
-        </VoletRowItem>
-        <VoletRowItem label="Participation max">
-          {{ mission.participations_max }}
-        </VoletRowItem>
-
-        <VoletRowItem label="Type"> {{ mission.type }} </VoletRowItem>
-        <VoletRowItem v-if="mission.start_date" label="Debut">
-          {{ mission.start_date | formatLongWithTime }}</VoletRowItem
-        >
-        <VoletRowItem v-if="mission.end_date" label="Fin">
-          {{ mission.end_date | formatLongWithTime }}
-        </VoletRowItem>
-        <VoletRowItem v-if="mission.commitment__duration" label="Engag. min.">
-          {{ mission.commitment__duration | labelFromValue('duration') }}
-          <template v-if="mission.commitment__time_period">
-            <span>par</span>
-            <span>
-              {{
-                mission.commitment__time_period | labelFromValue('time_period')
-              }}
-            </span>
-          </template>
-        </VoletRowItem>
-        <VoletRowItem v-if="mission.domaine_name" label="Domaine">
-          {{ mission.domaine_name }}
-        </VoletRowItem>
-        <VoletRowItem
-          v-if="mission.publics_beneficiaires"
-          label="Publics bénéf."
-        >
-          {{
-            mission.publics_beneficiaires
-              .map(function (item) {
-                return $options.filters.labelFromValue(
-                  item,
-                  'mission_publics_beneficiaires'
-                )
-              })
-              .join(', ')
-          }}
-        </VoletRowItem>
-        <VoletRowItem v-if="mission.publics_volontaires" label="Publics volon.">
-          {{ mission.publics_volontaires.join(', ') }}
-        </VoletRowItem>
-        <VoletRowItem label="Compétences">
-          <template v-if="mission.skills && mission.skills.length > 0">
-            {{
-              mission.skills
-                .map(function (item) {
-                  return item.name.fr
-                })
-                .join(', ')
-            }}
-          </template>
-          <template v-else> N/A </template>
-        </VoletRowItem>
-        <VoletRowItem label="Adresse">
-          {{ mission.full_address }}
-        </VoletRowItem>
-        <VoletRowItem label="Département">
-          {{ mission.department | fullDepartmentFromValue }}
-        </VoletRowItem>
-        <VoletRowItem label="Message">
-          <template v-if="mission.information">
-            <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
-              more-str="Lire plus"
-              :text="mission.information"
-              :max-chars="120"
-            ></ReadMore>
-          </template>
-          <template v-else> N/A </template>
-        </VoletRowItem>
-        <VoletRowItem label="Présentation">
-          <template v-if="mission.objectif">
-            <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
-              more-str="Lire plus"
-              :text="mission.objectif"
-              :max-chars="120"
-            ></ReadMore>
-          </template>
-          <template v-else> N/A </template>
-        </VoletRowItem>
-        <VoletRowItem label="Précisions">
-          <template v-if="mission.description">
-            <ReadMore
-              more-class="cursor-pointer uppercase font-bold text-xs text-[#242526]"
-              more-str="Lire plus"
-              :text="mission.description"
-              :max-chars="120"
-            ></ReadMore>
-          </template>
-          <template v-else> N/A </template>
         </VoletRowItem>
       </VoletCard>
     </div>
