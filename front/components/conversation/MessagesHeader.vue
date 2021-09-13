@@ -23,7 +23,24 @@
       </div>
     </div>
 
-    <div class="order-3 ml-2 flex items-center my-4 sm:my-0">
+    <div class="order-3 space-x-2 justify-center flex items-center sm:my-0">
+      <DropdownParticipationState
+        v-if="
+          $store.getters.contextRole == 'responsable' &&
+          $store.getters.contextStructure.id ==
+            conversation.conversable.mission.structure_id &&
+          !!['En attente de validation', 'Validée'].includes(
+            conversation.conversable.state
+          )
+        "
+        class="mt-1.5"
+        :participation="conversation.conversable"
+        @updated="onParticipationUpdate"
+        @messages-added="
+          $store.commit('messaging/incrementNewMessagesCount', $event.count)
+        "
+      />
+
       <button
         v-if="$store.getters.contextRole != 'admin'"
         v-tooltip="{
@@ -34,7 +51,7 @@
           hideOnTargetClick: true,
           placement: 'bottom',
         }"
-        class="flex-none rounded-full transition whitespace-nowrap mr-2 w-7 h-7 flex items-center justify-center !outline-none focus:bg-gray-200 hover:bg-gray-200"
+        class="transition p-1.5 border rounded-full text-secondary"
         @click="onArchiveClick"
       >
         <svg
@@ -53,6 +70,29 @@
       </button>
 
       <button
+        class="p-1.5 border rounded-full"
+        :class="[
+          $store.getters['messaging/showPanelRight']
+            ? 'text-primary border-primary'
+            : 'text-secondary',
+        ]"
+        @click="$emit('toggle-panel-right')"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <!-- <button
         class="text-xs flex-none rounded-full px-3 py-1 border whitespace-nowrap hover:border-black transition !outline-none focus:border-black"
         @click="$emit('toggle-panel-right')"
         v-html="
@@ -60,7 +100,7 @@
             ? 'Masquer les détails'
             : 'Voir les détails'
         "
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -96,6 +136,22 @@ export default {
     },
   },
   methods: {
+    async onParticipationUpdate(participation) {
+      // A participation update adds 1 or 2 new messages, so re-fetch them.
+      const messages = await this.$api.fetchMessages(this.conversation.id, {
+        itemsPerPage:
+          this.$store.getters['messaging/messages'].length +
+          this.$store.getters['messaging/newMessagesCount'],
+      })
+      this.$store.commit('messaging/setMessages', messages.data.data)
+
+      // Refresh the conversation to get the latest message
+      // up to date (inside the teaser)
+      await this.$store.dispatch(
+        'messaging/refreshConversation',
+        this.conversation
+      )
+    },
     onPanelLeftToggle() {
       this.$store.commit('messaging/setShowPanelCenter', false)
       this.$store.commit('messaging/setShowPanelLeft', true)
