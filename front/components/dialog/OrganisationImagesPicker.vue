@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :close-on-click-modal="false"
+    :append-to-body="true"
     title="Sélectionnez votre image"
     width="100%"
     :visible="isVisible"

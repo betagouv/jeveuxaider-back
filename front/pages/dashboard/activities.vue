@@ -14,6 +14,7 @@
     <div class="flex flex-wrap px-12 mb-3">
       <SearchFiltersQueryInput
         name="subject_id"
+        type="number"
         label="ID de l'objet"
         placeholder="ex: 1494"
         :initial-value="query['filter[subject_id]']"

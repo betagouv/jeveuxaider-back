@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :close-on-click-modal="false"
+    :append-to-body="true"
     title="Annuler ma participation"
     width="100%"
     :visible="isVisible"

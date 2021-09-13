@@ -52,6 +52,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::exact('responsable_id'),
+                AllowedFilter::scope('minimum_commitment')
             ])
             ->allowedSorts(['places_left', 'type'])
             ->defaultSort('-updated_at')
