@@ -80,6 +80,8 @@ class FranceConnectController extends Controller
             ]
         );
 
+        $user->refresh();
+
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
 
