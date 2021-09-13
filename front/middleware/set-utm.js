@@ -5,7 +5,7 @@ export default function ({ route, $cookies }) {
     $cookies.set('utm_source', route.query.utm_source, {
       path: '/',
       maxAge: 60 * 60 * 24 * 10, // 10 jours,
-      domain: 'jeveuxaider.gouv.fr',
+      domain: '.jeveuxaider.gouv.fr',
     })
     console.log('cookie set')
   }
