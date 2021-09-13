@@ -17,8 +17,8 @@
         ({{ mission.participations_total }})
       </span>
     </el-menu-item>
-    <el-menu-item :index="`/dashboard/mission/${mission.id}/avis`">
-      Avis
+    <el-menu-item :index="`/dashboard/mission/${mission.id}/temoignages`">
+      Témoignages
       <span class="text-xs text-gray-600"> ({{ mission.avis_count }}) </span>
     </el-menu-item>
     <el-menu-item :index="`/dashboard/mission/${mission.id}/history`">

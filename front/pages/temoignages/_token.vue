@@ -34,10 +34,6 @@
 export default {
   layout: 'avis',
   async asyncData({ $api, params, error, store, $axios }) {
-    // @todo ?
-    // Seulement si la participation est validée
-    // Seulement quand mission terminée
-
     const { data: notificationAvis } = await $axios.get(
       `/notification-avis/${params.token}`
     )
@@ -104,7 +100,6 @@ export default {
       this.form = payload
       this.$store.dispatch('avis/nextStep')
 
-      console.log('TODO create avis')
       await this.$axios.post(`/avis`, {
         ...this.form,
         participation_id: this.notificationAvis.participation_id,

@@ -116,8 +116,8 @@
         </VoletRowItem>
       </VoletCard>
 
-      <!-- AVIS -->
-      <VoletCard label="Avis">
+      <!-- Témoignage -->
+      <VoletCard label="Témoignage">
         <VoletRowItem label="Note">
           <StarRating
             :rating="row.grade"

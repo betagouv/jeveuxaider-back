@@ -235,10 +235,10 @@
 
     <!-- Avis -->
     <nuxt-link
-      to="/dashboard/avis"
+      to="/dashboard/temoignages"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
-        doesPathContains('dashboard/avis')
+        doesPathContains('dashboard/temoignages')
           ? 'bg-primary text-white font-semibold'
           : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
       ]"
@@ -247,13 +247,13 @@
       <div
         class="mr-3 flex-shrink-0 h-6 w-6"
         :class="[
-          doesPathContains('dashboard/avis')
+          doesPathContains('dashboard/temoignages')
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
         v-html="require('@/assets/images/icones/heroicon/chat.svg?include')"
       />
-      Avis
+      Témoignages
     </nuxt-link>
 
     <!-- Corbeille -->
