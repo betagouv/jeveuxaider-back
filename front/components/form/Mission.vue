@@ -84,6 +84,7 @@
       <el-dialog
         :title="form.template.title"
         :visible.sync="modalVisible"
+        :append-to-body="true"
         width="680"
       >
         <div class="flex items-center">
