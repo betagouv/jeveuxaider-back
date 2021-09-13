@@ -21,7 +21,16 @@ class MessageObserver
             }
         }
 
-        // Envoyer un message au destinaire
+        // Si la participation est en attente de validation, et que le responsable envoie un message
+        // la participation devient "En cours de traitement"
+        if ($participation->profile_id != $user->profile->id) {
+            if($participation->state == 'En attente de validation') {
+                $participation->state = 'En cours de traitement';
+                $participation->saveQuietly();
+            }
+        }
+
+        // Envoyer un message au destinataire
         $send = true;
         if($message->type != 'chat') {
             $send = false;

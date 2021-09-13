@@ -81,7 +81,7 @@ class MissionObserver
                     if ($mission->responsable) {
                         $mission->responsable->notify(new MissionSignaled($mission));
                         // Notif ON
-                        foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
+                        foreach ($mission->participations->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }
                         // Notif OFF
@@ -90,7 +90,7 @@ class MissionObserver
                     break;
                 case 'Annulée':
                     if ($mission->responsable) {
-                        foreach ($mission->participations->where("state", "En attente de validation") as $participation) {
+                        foreach ($mission->participations->whereIn("state", ["En attente de validation", "En cours de traitement"]) as $participation) {
                             $participation->update(['state' => 'Annulée']);
                         }
                     }
@@ -98,7 +98,7 @@ class MissionObserver
                 case 'Terminée':
                     if ($mission->responsable) {
                         // Notif OFF
-                        $mission->participations()->where("state", "En attente de validation")->update(['state' => 'Annulée']);
+                        $mission->participations()->whereIn("state", ["En attente de validation", "En cours de traitement"])->update(['state' => 'Annulée']);
                     }
                     break;
             }

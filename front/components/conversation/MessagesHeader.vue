@@ -29,9 +29,11 @@
           $store.getters.contextRole == 'responsable' &&
           $store.getters.contextStructure.id ==
             conversation.conversable.mission.structure_id &&
-          !!['En attente de validation', 'Validée'].includes(
-            conversation.conversable.state
-          )
+          !![
+            'En attente de validation',
+            'En cours de traitement',
+            'Validée',
+          ].includes(conversation.conversable.state)
         "
         class="mt-1.5"
         :participation="conversation.conversable"

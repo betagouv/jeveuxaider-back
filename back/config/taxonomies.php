@@ -611,6 +611,7 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
             "Validée" => "Validée",
             "Refusée" => "Refusée",
             "Annulée" => "Annulée"

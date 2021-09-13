@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Participation;
 use App\Models\Structure;
+use App\Notifications\ParticipationBeingProcessed;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
 use App\Notifications\ParticipationCanceled;
@@ -40,6 +41,11 @@ class ParticipationObserver
                 case 'En attente de validation':
                     if ($participation->mission->responsable) {
                         $participation->mission->responsable->notify(new ParticipationWaitingValidation($participation));
+                    }
+                    break;
+                case 'En cours de traitement':
+                    if ($participation->profile) {
+                        $participation->profile->notify(new ParticipationBeingProcessed($participation));
                     }
                     break;
                 case 'Validée':
