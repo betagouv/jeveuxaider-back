@@ -129,7 +129,7 @@
             v-if="
               $route.query.orga_type === 'Association' && !userHasAssociation
             "
-            v-model.trim="form.structure.name"
+            v-model="form.structure.name"
             placeholder="Nom de votre association"
             :show-add-button="!orgaExist"
             :loading-add-button="loading"
@@ -157,7 +157,7 @@
           </div>
           <el-input
             v-else
-            v-model.trim="form.structure.name"
+            v-model="form.structure.name"
             :placeholder="
               $route.query.orga_type === 'Collectivité'
                 ? 'Nom de votre collectivité'
@@ -455,7 +455,10 @@ export default {
       }
     },
     async onSubmitChooseName() {
-      if (!this.form.structure.name) {
+      if (!this.form.structure.name || this.form.structure.name.trim() == '') {
+        this.$message.error({
+          message: 'Merci de saisir un nom',
+        })
         return
       }
       if (this.$route.query.orga_type === 'Collectivité') {

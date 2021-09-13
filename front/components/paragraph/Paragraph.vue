@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="items">
+    <div v-if="items && items.length">
       <div
         v-for="(item, index) in items"
         :key="item.uuid || item.id"

@@ -151,7 +151,7 @@ class Territoire extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
-    public function structures()
+    public function promotedOrganisations()
     {
         return $this->morphedByMany('App\Models\Structure', 'relation', 'territoire_relations');
     }
@@ -233,11 +233,17 @@ class Territoire extends Model implements HasMedia
                         ],
                     ]);
                 } else {
-                    $config = array_merge($config, [
-                        'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
-                        'aroundRadius' => 35000,
-                        'facetFilters' => ['type:Mission en présentiel'],
-                    ]);
+                    if ($territoire->latitude && $territoire->longitude) {
+                        $config = array_merge($config, [
+                            'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
+                            'aroundRadius' => 35000,
+                            'facetFilters' => ['type:Mission en présentiel'],
+                        ]);
+                    } else {
+                        $config = array_merge($config, [
+                            'facetFilters' => ['type:Mission en présentiel'],
+                        ]);
+                    }
                 }
 
                 $options = array_merge($options, $config);

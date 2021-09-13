@@ -39,8 +39,8 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-        ? Territoire::where('id', $slugOrId)->with(['responsables', 'structures'])->firstOrFail()
-        : Territoire::where('slug', $slugOrId)->with(['structures'])->firstOrFail();
+        ? Territoire::where('id', $slugOrId)->with(['responsables', 'promotedOrganisations'])->firstOrFail()
+        : Territoire::where('slug', $slugOrId)->with(['promotedOrganisations'])->firstOrFail();
 
         return $territoire->setAppends(['full_url', 'banner', 'logo', 'permissions']);
     }
@@ -48,12 +48,13 @@ class TerritoireController extends Controller
     public function store(TerritoireRequest $request)
     {
         $territoire = Territoire::create($request->all());
-        if (!empty($request['structures'])) {
-            $ids = array_column($request['structures'], 'id');
-            $territoire->structures()->sync($ids);
+
+        if (!empty($request['promoted_organisations'])) {
+            $ids = array_column($request['promoted_organisations'], 'id');
+            $territoire->promotedOrganisations()->sync($ids);
         }
 
-        return $territoire;
+        return $territoire->setAppends(['full_url', 'completion_rate']);
     }
 
     public function update(TerritoireUpdateRequest $request, Territoire $territoire)
@@ -61,9 +62,10 @@ class TerritoireController extends Controller
         $request = $request->validated();
         $territoire->update($request);
 
-        $ids = !empty($request['structures']) ? array_column($request['structures'], 'id') : [];
-        $territoire->structures()->sync($ids);
-        return $territoire;
+        $ids = !empty($request['promoted_organisations']) ? array_column($request['promoted_organisations'], 'id') : [];
+        $territoire->promotedOrganisations()->sync($ids);
+
+        return $territoire->setAppends(['full_url', 'completion_rate']);
     }
 
     public function delete(Request $request, Territoire $territoire)

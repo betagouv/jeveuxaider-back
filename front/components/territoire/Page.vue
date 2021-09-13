@@ -20,7 +20,10 @@
       :cities="cities"
     />
 
-    <TerritoireAssociations :territoire="territoire" />
+    <TerritoireAssociations
+      v-if="territoire.promoted_organisations"
+      :territoire="territoire"
+    />
     <TerritoireEngagement :territoire="territoire" />
     <TerritoireSubscribe :territoire="territoire" />
   </div>

@@ -147,10 +147,10 @@
             :schema="[
               { key: 'structure', type: 'autocomplete', model: 'structure' },
             ]"
-            :items="form.structures"
-            @add="onParagraphAddItem('structures', $event)"
-            @update="onParagraphUpdateItem('structures', $event)"
-            @remove="onParagraphRemoveItem('structures', $event)"
+            :items="form.promoted_organisations"
+            @add="onParagraphAddItem('promoted_organisations', $event)"
+            @update="onParagraphUpdateItem('promoted_organisations', $event)"
+            @remove="onParagraphRemoveItem('promoted_organisations', $event)"
           />
         </el-form-item>
       </div>

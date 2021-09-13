@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     structuresLogos() {
-      return this.territoire.structures
+      return this.territoire.promoted_organisations
         .filter(({ logo }) => logo)
         .map(({ logo, id, name }) => {
           return { id, name, logo: logo.thumb || logo.original }

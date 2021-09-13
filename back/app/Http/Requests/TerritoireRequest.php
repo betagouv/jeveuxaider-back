@@ -34,7 +34,7 @@ class TerritoireRequest extends FormRequest
             'seo_engage_title' => '',
             'seo_engage_paragraphs' => '',
 
-            'structures' => ''
+            'promoted_organisations' => ''
         ];
     }
 

@@ -46,9 +46,6 @@ class StructureObserver
             }
         }
 
-        if ($structure->statut_juridique == 'Collectivité') {
-            $this->createTerritoire($structure);
-        }
         if (config('app.env') === 'production') {
             SendinblueSyncUser::dispatch($structure->user);
         }
@@ -152,7 +149,14 @@ class StructureObserver
             }
         }
 
-        // Maj Sendinblue
+        // SI PAS DE TERRITIORE RELIE ET TYPE COLLECTIVITE
+        if ($structure->statut_juridique == 'Collectivité' && !$structure->territoire) {
+            if ($structure->zip && $structure->department) {
+                $this->createTerritoire($structure);
+            }
+        }
+
+        // MAJ SENDINBLUE
         if (config('app.env') === 'production') {
             if ($structure->isDirty('name')) {
                 $structure->responsables->each(function ($profile, $key) {
@@ -177,6 +181,7 @@ class StructureObserver
 
     private function createTerritoire($structure)
     {
+
         $territoire = Territoire::create([
             'structure_id' => $structure->id,
             'name' => $structure->city ?? $structure->name,
