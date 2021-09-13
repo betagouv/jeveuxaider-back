@@ -120,13 +120,6 @@
           @changed="onFilterChange"
         />
         <SearchFiltersQuery
-          name="format"
-          label="Format de mission"
-          :value="query['filter[format]']"
-          :options="$store.getters.taxonomies.mission_formats.terms"
-          @changed="onFilterChange"
-        />
-        <SearchFiltersQuery
           name="state"
           label="Statut"
           multiple
@@ -153,6 +146,12 @@
             { label: 'En cours', value: 'current' },
             { label: 'Date de fin passée', value: 'outdated' },
           ]"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQueryCommitment
+          label="Engagement minimum"
+          :value="query['filter[minimum_commitment]']"
+          name="minimum_commitment"
           @changed="onFilterChange"
         />
       </div>
@@ -194,9 +193,9 @@
 </template>
 
 <script>
+import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
-import fileDownload from 'js-file-download'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],

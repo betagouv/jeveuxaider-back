@@ -80,6 +80,7 @@
         <SearchFiltersQueryInput
           name="mission.id"
           label="# Mission"
+          type="number"
           placeholder="Numéro"
           :initial-value="query['filter[mission.id]']"
           @changed="onFilterChange"

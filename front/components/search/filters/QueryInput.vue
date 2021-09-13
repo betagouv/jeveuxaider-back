@@ -7,6 +7,7 @@
       :ref="name"
       v-model="input"
       :placeholder="placeholder"
+      :type="type"
       clearable
     />
   </div>
@@ -34,6 +35,11 @@ export default {
       type: String,
       required: false,
       default: 'Choisir',
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'text',
     },
   },
   data() {
@@ -68,5 +74,13 @@ export default {
       overflow: hidden;
     }
   }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 </style>
