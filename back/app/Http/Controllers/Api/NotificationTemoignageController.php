@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\NotificationAvis;
+use App\Models\NotificationTemoignage;
 
-class NotificationAvisController extends Controller
+class NotificationTemoignageController extends Controller
 {
     public function show(Request $request, String $token)
     {
-        return NotificationAvis::whereToken($token)->first();
+        return NotificationTemoignage::whereToken($token)->first();
     }
 }

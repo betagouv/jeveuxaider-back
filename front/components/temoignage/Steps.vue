@@ -57,13 +57,13 @@ export default {
   },
   computed: {
     steps() {
-      return this.$store.getters['avis/steps']
+      return this.$store.getters['temoignage/steps']
     },
     currentStep() {
-      return this.$store.getters['avis/step']
+      return this.$store.getters['temoignage/step']
     },
     currentStepIndex() {
-      return this.$store.getters['avis/stepIndex']
+      return this.$store.getters['temoignage/stepIndex']
     },
     lastStep() {
       return this.steps[this.steps.length - 1]
@@ -75,7 +75,7 @@ export default {
   methods: {
     onClick(index) {
       if (!this.isLastStep && index < this.currentStepIndex) {
-        this.$store.commit('avis/setStep', this.steps[index])
+        this.$store.commit('temoignage/setStep', this.steps[index])
       }
     },
   },

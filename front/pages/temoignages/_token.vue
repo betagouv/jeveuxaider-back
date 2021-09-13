@@ -1,48 +1,53 @@
 <template>
   <div>
-    <AvisAlreadyExist v-if="avis" :avis="avis" />
+    <TemoignageAlreadyExist v-if="temoignage" :temoignage="temoignage" />
 
     <template v-else>
-      <AvisGrade
-        v-if="currentStep.slug == 'grade'"
-        :mission="mission"
-        :benevole="benevole"
-        :initial-form="form"
-        @rating-selected="onRatingSelected"
-      />
+      <transition name="fade" mode="out-in">
+        <TemoignageGrade
+          v-if="currentStep.slug == 'grade'"
+          key="TemoignageGrade"
+          :mission="mission"
+          :benevole="benevole"
+          :initial-form="form"
+          @rating-selected="onRatingSelected"
+        />
 
-      <AvisTestimony
-        v-else-if="currentStep.slug == 'testimony'"
-        :mission="mission"
-        :benevole="benevole"
-        :initial-form="form"
-        @submit="onTestimonySubmit"
-        @destroy="onDestroy"
-      />
+        <TemoignageTestimony
+          v-else-if="currentStep.slug == 'testimony'"
+          key="TemoignageTestimony"
+          :mission="mission"
+          :benevole="benevole"
+          :initial-form="form"
+          @submit="onTestimonySubmit"
+          @destroy="onDestroy"
+        />
 
-      <AvisThanks
-        v-else-if="currentStep.slug == 'thanks'"
-        :mission="mission"
-        :benevole="benevole"
-        :initial-form="form"
-      />
+        <TemoignageThanks
+          v-else-if="currentStep.slug == 'thanks'"
+          key="TemoignageThanks"
+          :mission="mission"
+          :benevole="benevole"
+          :initial-form="form"
+        />
+      </transition>
     </template>
   </div>
 </template>
 
 <script>
 export default {
-  layout: 'avis',
+  layout: 'temoignage',
   async asyncData({ $api, params, error, store, $axios }) {
-    const { data: notificationAvis } = await $axios.get(
-      `/notification-avis/${params.token}`
+    const { data: notificationTemoignage } = await $axios.get(
+      `/notification-temoignage/${params.token}`
     )
-    if (!notificationAvis) {
+    if (!notificationTemoignage) {
       return error({ statusCode: 404 })
     }
 
     const { data: mission } = await $axios.get(
-      `/participation/${notificationAvis.participation_id}/mission`
+      `/participation/${notificationTemoignage.participation_id}/mission`
     )
 
     if (!mission || !mission.structure || mission.state != 'Terminée') {
@@ -50,17 +55,17 @@ export default {
     }
 
     const { data: benevole } = await $axios.get(
-      `/participation/${notificationAvis.participation_id}/benevole-name`
+      `/participation/${notificationTemoignage.participation_id}/benevole-name`
     )
 
-    const { data: avis } = await $axios.get(
-      `/participation/${notificationAvis.participation_id}/avis`
+    const { data: temoignage } = await $axios.get(
+      `/participation/${notificationTemoignage.participation_id}/temoignage`
     )
 
     return {
-      notificationAvis,
+      notificationTemoignage,
       benevole,
-      avis,
+      temoignage,
       mission,
     }
   },
@@ -88,21 +93,21 @@ export default {
   },
   computed: {
     currentStep() {
-      return this.$store.getters['avis/step']
+      return this.$store.getters['temoignage/step']
     },
   },
   methods: {
     onRatingSelected(payload) {
       this.form = payload
-      this.$store.dispatch('avis/nextStep')
+      this.$store.dispatch('temoignage/nextStep')
     },
     async onTestimonySubmit(payload) {
       this.form = payload
-      this.$store.dispatch('avis/nextStep')
+      this.$store.dispatch('temoignage/nextStep')
 
-      await this.$axios.post(`/avis`, {
+      await this.$axios.post(`/temoignage`, {
         ...this.form,
-        participation_id: this.notificationAvis.participation_id,
+        participation_id: this.notificationTemoignage.participation_id,
       })
     },
     onDestroy(payload) {

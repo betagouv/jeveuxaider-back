@@ -14,18 +14,16 @@
 
       <div class="py-8">
         <client-only>
-          <transition name="fade" appear>
-            <StarRating
-              v-model="form.grade"
-              :rating="form.grade"
-              class="justify-center"
-              :show-rating="false"
-              inactive-color="#E0E0E0"
-              active-color="#EF9F03"
-              :rounded-corners="true"
-              @rating-selected="$emit('rating-selected', form)"
-            />
-          </transition>
+          <StarRating
+            v-model="form.grade"
+            :rating="form.grade"
+            class="justify-center"
+            :show-rating="false"
+            inactive-color="#E0E0E0"
+            active-color="#EF9F03"
+            :rounded-corners="true"
+            @rating-selected="$emit('rating-selected', form)"
+          />
         </client-only>
       </div>
 
@@ -67,6 +65,9 @@ export default {
     @apply !mr-2 sm:!mr-[50px];
     &:last-of-type {
       @apply !mr-0;
+    }
+    @screen sm {
+      @apply transition hover:scale-125;
     }
   }
   ::v-deep svg.vue-star-rating-star {

@@ -130,8 +130,13 @@ class Participation extends Model
         });
     }
 
-    public function avis()
+    public function temoignage()
     {
-        return $this->hasOne('App\Models\Avis', 'participation_id');
+        return $this->hasOne('App\Models\Temoignage', 'participation_id');
+    }
+
+    public function scopeState($query, $state)
+    {
+        return $query->where('state', $state);
     }
 }

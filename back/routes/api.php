@@ -58,12 +58,12 @@ Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseau/lead', 'Api\ReseauController@lead');
 
-Route::get('notification-avis/{token}', 'Api\NotificationAvisController@show');
+Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
 Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
-Route::get('participation/{participation_id}/avis', 'Api\AvisController@show');
-Route::get('avis', 'Api\AvisController@index');
-Route::post('avis', 'Api\AvisController@store');
+Route::get('participation/{participation_id}/temoignage', 'Api\TemoignageController@show');
+Route::get('temoignages', 'Api\TemoignageController@index');
+Route::post('temoignage', 'Api\TemoignageController@store');
 
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
@@ -204,8 +204,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // ACTIONS
     Route::get('actions', 'Api\ActionController@index');
 
-    // AVIS
-    Route::get('avis', 'Api\AvisController@index');
+    // TEMOIGNAGES
+    Route::get('temoignages', 'Api\TemoignageController@index');
 });
 
 // ONLY ADMIN

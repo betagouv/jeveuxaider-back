@@ -36,7 +36,7 @@ class MissionController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure:id,name,state', 'responsable'))
-            ->allowedAppends('domaines')
+            ->allowedAppends(['domaines', 'participations_validated_count'])
             ->allowedFilters([
                 'name',
                 'state',
@@ -67,7 +67,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('avis')->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['skills','domaines', 'domaine_secondaire']);
             }

@@ -4,10 +4,10 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\Avis;
+use App\Models\Temoignage;
 use Illuminate\Auth\Access\Response;
 
-class AvisPolicy
+class TemoignagePolicy
 {
     use HandlesAuthorization;
 
@@ -18,11 +18,11 @@ class AvisPolicy
         }
     }
 
-    public function view(User $user, Avis $avis)
+    public function view(User $user, Temoignage $temoignage)
     {
-        $ids = Avis::role(request()->header('Context-Role'))->get()->pluck('id')->all();
+        $ids = Temoignage::role(request()->header('Context-Role'))->get()->pluck('id')->all();
 
-        if (in_array($avis->id, $ids)) {
+        if (in_array($temoignage->id, $ids)) {
             return true;
         }
 
@@ -31,22 +31,17 @@ class AvisPolicy
 
     public function create()
     {
-        ray("AVIS POLICY", request());
-
-        $avisCount = Avis::where('participation_id', request("participation_id"))->count();
-
-        ray("participation ID : " . request("participation_id"));
-
-        if ($avisCount > 0) {
-            Response::deny('Vous avez déjà soumis votre avis pour cette mission !', 403);
+        $temoignagesCount = Temoignage::where('participation_id', request("participation_id"))->count();
+        if ($temoignagesCount > 0) {
+            Response::deny('Vous avez déjà soumis votre témoignage pour cette mission !', 403);
         }
 
         return Response::allow();
     }
 
-    // public function update(User $user, Avis $avis)
+    // public function update(User $user, Temoignage $temoignage)
     // {
-    //     if ($avis->profile_id == $user->profile->id) {
+    //     if ($temoignage->profile_id == $user->profile->id) {
     //         return true;
     //     }
 
@@ -54,9 +49,9 @@ class AvisPolicy
     //         return false;
     //     }
 
-    //     $ids = Avis::role(request()->header('Context-Role'))->get()->pluck('id')->all();
+    //     $ids = Temoignage::role(request()->header('Context-Role'))->get()->pluck('id')->all();
 
-    //     if (in_array($avis->id, $ids)) {
+    //     if (in_array($temoignage->id, $ids)) {
     //         return true;
     //     }
 

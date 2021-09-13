@@ -17,7 +17,7 @@
           <Nuxt />
         </main>
 
-        <AvisSteps />
+        <TemoignageSteps />
       </div>
     </div>
 
@@ -33,6 +33,6 @@
 
 <script>
 export default {
-  name: 'AvisLayout',
+  name: 'TemoignageLayout',
 }
 </script>

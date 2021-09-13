@@ -32,14 +32,14 @@
 export default {
   computed: {
     steps() {
-      return this.$store.getters['avis/steps']
+      return this.$store.getters['temoignage/steps']
     },
     lastStep() {
       return this.steps[this.steps.length - 1]
     },
   },
   created() {
-    this.$store.commit('avis/setStep', this.lastStep)
+    this.$store.commit('temoignage/setStep', this.lastStep)
   },
 }
 </script>

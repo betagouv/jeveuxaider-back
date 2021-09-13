@@ -233,7 +233,7 @@
       Topito
     </nuxt-link>
 
-    <!-- Avis -->
+    <!-- Témoignages -->
     <nuxt-link
       to="/dashboard/temoignages"
       class="group flex items-center px-2 py-2 text-sm rounded-md"

@@ -162,10 +162,10 @@ export default {
 
       if (state == 'Terminée') {
         this.message = `Vous êtes sur le point de passer la mission au statut <b>terminée</b>.<br><br> Les participations <b>en attente de validation</b> seront automatiquement déclinées.`
-        if (this.form.participations_count) {
+        if (this.form.participations_validated_count) {
           this.message =
             this.message +
-            `<br><br> Une invitation va être envoyée aux participations <b>validées (${this.form.participations_count})</b> invitant les bénévoles à raconter leur expérience.`
+            `<br><br> Une invitation va être envoyée aux participations <b>validées (${this.form.participations_validated_count})</b> invitant les bénévoles à raconter leur expérience.`
         }
         this.message =
           this.message + `<br><br> Êtes vous sûr de vouloir continuer ?`

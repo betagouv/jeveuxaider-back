@@ -5,10 +5,10 @@ namespace App\Observers;
 use App\Helpers\Utils;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Mission;
-use App\Models\NotificationAvis;
+use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Notifications\NotificationAvisCreate;
+use App\Notifications\NotificationTemoignageCreate;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
@@ -103,24 +103,24 @@ class MissionObserver
                         // Notif OFF
                         $mission->participations()->where("state", "En attente de validation")->update(['state' => 'Annulée']);
 
-                        // Notifications avis.
+                        // Notifications temoignage.
                         $participations = $mission->participations()->where('state', 'Validée')->get();
                         foreach ($participations as $participation) {
                             // Be sure there is no existing notification.
-                            if (NotificationAvis::where('participation_id', $participation->id)->exists()) {
+                            if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
                                 continue;
                             }
 
                             do {
                                 $token = Str::random(32);
-                            } while (NotificationAvis::where('token', $token)->first());
+                            } while (NotificationTemoignage::where('token', $token)->first());
 
-                            $notificationAvis = NotificationAvis::create([
+                            $notificationTemoignage = NotificationTemoignage::create([
                                 'token' => $token,
                                 'participation_id' => $participation->id,
                                 'reminders_sent' => 1,
                             ]);
-                            $notificationAvis->participation->profile->user->notify(new NotificationAvisCreate($notificationAvis));
+                            $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
                         }
                     }
                     break;

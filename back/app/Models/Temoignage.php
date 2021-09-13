@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class Avis extends Model
+class Temoignage extends Model
 {
     protected $fillable = [
         'participation_id',

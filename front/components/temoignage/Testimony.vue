@@ -20,35 +20,33 @@
         </div>
       </div>
 
-      <transition name="fade" appear>
-        <el-form
-          ref="testimonyForm"
-          :model="form"
-          :rules="rules"
-          class="py-8 max-w-[638px] mx-auto"
-          style="filter: drop-shadow(0px 20px 50px rgba(0, 0, 0, 0.15))"
-        >
-          <el-form-item prop="testimony" class="">
-            <div class="bg-white p-8 rounded-t-xl overflow-hidden">
-              <client-only>
-                <textarea-autosize
-                  v-model="form.testimony"
-                  :placeholder="placeholder"
-                  rows="5"
-                  class="m-auto w-full outline-none leading-tight custom-scrollbar text-base"
-                />
-              </client-only>
-            </div>
+      <el-form
+        ref="testimonyForm"
+        :model="form"
+        :rules="rules"
+        class="py-8 max-w-[638px] mx-auto"
+        style="filter: drop-shadow(0px 20px 50px rgba(0, 0, 0, 0.15))"
+      >
+        <el-form-item prop="testimony" class="">
+          <div class="bg-white p-8 rounded-t-xl overflow-hidden">
+            <client-only>
+              <textarea-autosize
+                v-model="form.testimony"
+                :placeholder="placeholder"
+                rows="5"
+                class="m-auto w-full outline-none leading-tight custom-scrollbar text-base"
+              />
+            </client-only>
+          </div>
 
-            <button
-              class="bg-primary p-4 uppercase font-extrabold text-sm tracking-wide rounded-b-xl overflow-hidden text-white w-full"
-              @click.prevent="onClick"
-            >
-              {{ labelCta }}
-            </button>
-          </el-form-item>
-        </el-form>
-      </transition>
+          <button
+            class="bg-primary p-4 uppercase font-extrabold text-sm tracking-wide rounded-b-xl overflow-hidden text-white w-full"
+            @click.prevent="onClick"
+          >
+            {{ labelCta }}
+          </button>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>

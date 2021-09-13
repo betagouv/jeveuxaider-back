@@ -5,28 +5,28 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\NotificationAvis;
+use App\Models\NotificationTemoignage;
 
-class NotificationAvisCreate extends Notification
+class NotificationTemoignageCreate extends Notification
 {
     use Queueable;
 
     /**
      * The order instance.
      *
-     * @var NotificationAvis
+     * @var NotificationTemoignage
      */
-    public $notificationAvis;
+    public $notificationTemoignage;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(NotificationAvis $notificationAvis)
+    public function __construct(NotificationTemoignage $notificationTemoignage)
     {
-        $this->notificationAvis = $notificationAvis;
-        $this->participation = $this->notificationAvis->participation;
+        $this->notificationTemoignage = $notificationTemoignage;
+        $this->participation = $this->notificationTemoignage->participation;
         $this->mission = $this->participation->mission;
         $this->profile = $this->participation->profile;
         $this->structure = $this->mission->structure;
@@ -56,7 +56,7 @@ class NotificationAvisCreate extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line("La mission «" . $this->mission->name . "» est désormais finie ! " . $this->structure->name . " et toute l'équipe de JVA tenons à vous remercier pour votre engagement.")
             ->line("Prenez désormais le temps de nous raconter votre expérience 😉")
-            ->action('Raconter mon expérience', url(config('app.url') . '/temoignages/' . $this->notificationAvis->token))
+            ->action('Raconter mon expérience', url(config('app.url') . '/temoignages/' . $this->notificationTemoignage->token))
             ->line("À bientôt sur JeVeuxAider.gouv.fr !");
     }
 

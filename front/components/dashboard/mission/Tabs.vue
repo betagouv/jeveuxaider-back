@@ -19,7 +19,9 @@
     </el-menu-item>
     <el-menu-item :index="`/dashboard/mission/${mission.id}/temoignages`">
       Témoignages
-      <span class="text-xs text-gray-600"> ({{ mission.avis_count }}) </span>
+      <span class="text-xs text-gray-600">
+        ({{ mission.temoignages_count }})
+      </span>
     </el-menu-item>
     <el-menu-item :index="`/dashboard/mission/${mission.id}/history`">
       Historique

@@ -13,8 +13,6 @@ use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Helpers\Utils;
-use App\Models\Avis;
-use App\Models\Participation;
 
 class Mission extends Model
 {
@@ -212,6 +210,11 @@ class Mission extends Model
         return $this->participations->count();
     }
 
+    public function getParticipationsValidatedCountAttribute()
+    {
+        return $this->participations()->state('Validée')->count();
+    }
+
     public function getNameAttribute($value)
     {
         return $this->template_id ? $this->template->subtitle : $value;
@@ -289,7 +292,7 @@ class Mission extends Model
     public function scopeAvailable($query)
     {
         return $query->where('state', 'Validée')->whereHas('structure', function (Builder $query) {
-            $query->where('state', 'Valid��e');
+            $query->where('state', 'Validée');
         });
     }
 
@@ -434,8 +437,8 @@ class Mission extends Model
         ];
     }
 
-    public function avis()
+    public function temoignages()
     {
-        return $this->hasManyThrough(Avis::class, Participation::class);
+        return $this->hasManyThrough(Temoignage::class, Participation::class);
     }
 }

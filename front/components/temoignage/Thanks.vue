@@ -73,7 +73,7 @@ export default {
     return {
       form: {},
       message:
-        "J'ai réalisé une mission de bénévolat grâce à JeVeuxAider. Rejoignez le mouvement #ChacunPourTous",
+        "J'ai réalisé une mission de bénévolat grâce à #JeVeuxAider. Rejoignez le mouvement #ChacunPourTous",
     }
   },
   computed: {

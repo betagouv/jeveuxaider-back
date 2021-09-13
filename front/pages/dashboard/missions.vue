@@ -194,9 +194,9 @@
 </template>
 
 <script>
+import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
-import fileDownload from 'js-file-download'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],
@@ -226,7 +226,10 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchMissions(this.query)
+    const { data } = await this.$api.fetchMissions({
+      ...this.query,
+      append: 'participations_validated_count',
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from

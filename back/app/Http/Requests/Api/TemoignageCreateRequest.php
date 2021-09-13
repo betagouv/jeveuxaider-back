@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Models\Avis;
+use App\Models\Temoignage;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AvisCreateRequest extends FormRequest
+class TemoignageCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class AvisCreateRequest extends FormRequest
     public function authorize()
     {
         return true;
-        // return $this->authorize('create', Avis::class);
+        // return $this->authorize('create', Temoignage::class);
     }
 
     /**

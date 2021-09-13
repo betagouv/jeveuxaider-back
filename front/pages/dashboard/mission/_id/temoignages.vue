@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <TableAvis
+    <TableTemoignages
       :loading="$fetchState.pending"
       :table-data="tableData"
       :on-updated-row="onUpdatedRow"
@@ -62,7 +62,7 @@
     </div>
 
     <portal to="volet">
-      <VoletAvis />
+      <VoletTemoignage />
     </portal>
   </div>
 </template>
@@ -112,7 +112,9 @@ export default {
   async fetch() {
     this.query['filter[participation.mission.id]'] = this.mission.id
 
-    const { data } = await this.$axios.get(`/avis`, { params: this.query })
+    const { data } = await this.$axios.get(`/temoignages`, {
+      params: this.query,
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -124,7 +126,7 @@ export default {
   methods: {
     onExport() {
       this.loadingExport = true
-      console.log('TODO EXPORT AVIS')
+      console.log('TODO EXPORT TEMOIGNAGES')
       // this.$api
       //   .exportParticipations(this.query)
       //   .then((response) => {

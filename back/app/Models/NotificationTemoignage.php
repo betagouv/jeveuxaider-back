@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationAvis extends Model
+class NotificationTemoignage extends Model
 {
-    protected $table = 'notifications_avis';
+    protected $table = 'notifications_temoignages';
     protected $casts = [
         'last_sent_at' => 'datetime'
     ];
