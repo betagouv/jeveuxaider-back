@@ -175,8 +175,11 @@ export default (axios) => ({
   async fetchTrashItems(type, params) {
     return await axios.get(`/trash/${type}`, { params })
   },
-  async fetchTopitoBenevolesDuMoment(params) {
-    return await axios.get('/topito/benevoles-du-moment', { params })
+  async fetchTopitoParticipations(params) {
+    return await axios.get(`/topito/participations`, { params })
+  },
+  async fetchTopitoMarketPlace(params) {
+    return await axios.get(`/topito/market-place`, { params })
   },
   async fetchTopitoUtilisateursLesPlusActifs(params) {
     return await axios.get('/topito/utilisateurs-les-plus-actifs', { params })

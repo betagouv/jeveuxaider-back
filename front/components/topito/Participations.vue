@@ -1,20 +1,21 @@
 <template>
   <CardTopito
-    title="Organisations les plus attrayantes"
-    subtitle="Qui ont reçu le plus de candidatures"
+    title="Bénévoles du moment"
+    subtitle="Nombre total de candidatures"
     :loading="loading"
   >
     <template slot="actions"
       ><el-select
-        v-model="filters.type"
-        placeholder="Tous les types"
+        v-model="filters.state"
+        placeholder="Tous les statuts"
         clearable
         class="w-28"
         size="small"
         @change="onChangeOption"
       >
         <el-option
-          v-for="item in $store.getters.taxonomies.structure_legal_status.terms"
+          v-for="item in $store.getters.taxonomies.participation_workflow_states
+            .terms"
           :key="item.value"
           :label="item.label"
           :value="item.value"
@@ -26,17 +27,17 @@
         v-for="(item, index) in items"
         :key="item.id"
         class="p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer"
-        :to="`/dashboard/structure/${item.id}`"
+        :to="`/dashboard/profile/${item.id}`"
         target="_blank"
       >
         <div class="flex">
           <Avatar
-            :source="item.logo ? item.logo.thumb : null"
-            :fallback="item.name[0]"
+            :source="item.image ? item.image.thumb : null"
+            :fallback="item.short_name"
           />
           <div class="ml-3">
             <div class="text-sm font-medium text-gray-900">
-              {{ item.name }}
+              {{ item.full_name }}
             </div>
             <div class="text-sm text-gray-500">
               {{ item.count | formatNumber }}
@@ -72,7 +73,7 @@ export default {
     return {
       loading: true,
       items: [],
-      filters: { daterange: this.daterange, type: null },
+      filters: { daterange: this.daterange, state: null },
     }
   },
   watch: {
@@ -86,14 +87,12 @@ export default {
   },
   methods: {
     onChangeOption(value) {
-      this.filters.type = value
+      this.filters.state = value
       this.fetch()
     },
     async fetch() {
       this.loading = true
-      const response = await this.$api.fetchTopitoOrganisationsParticipations(
-        this.filters
-      )
+      const response = await this.$api.fetchTopitoParticipations(this.filters)
       this.items = response.data.items
       this.loading = false
     },

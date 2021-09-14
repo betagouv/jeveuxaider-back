@@ -201,7 +201,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
-    Route::get('topito/benevoles-du-moment', 'Api\TopitoController@benevolesDuMoment');
+    Route::get('topito/participations', 'Api\TopitoController@participations');
+    Route::get('topito/market-place', 'Api\TopitoController@marketPlace');
     Route::get('topito/utilisateurs-les-plus-actifs', 'Api\TopitoController@utilisateursLesPlusActifs');
     Route::get('topito/organisations-missions', 'Api\TopitoController@organisationsMissions');
     Route::get('topito/organisations-participations', 'Api\TopitoController@organisationsParticipations');

@@ -16,15 +16,12 @@
 
     <div class="px-12">
       <div class="flex flex-col space-y-12">
-        <div class="grid grid-cols-3 gap-6">
-          <TopitoBenevolesDuMoment ref="benevolesDuMoment" />
-          <TopitoUtilisateursLesPlusActifs ref="utilisateursLesPlusActifs" />
-        </div>
-        <div class="grid grid-cols-3 gap-6">
-          <TopitoOrganisationsMissions ref="organisationsMissions" />
-          <TopitoOrganisationsParticipations
-            ref="organisationsParticipations"
-          />
+        <div class="grid grid-cols-2 gap-6">
+          <TopitoParticipations :daterange="daterange" />
+          <TopitoMarketPlace :daterange="daterange" />
+          <TopitoOrganisationsMissions :daterange="daterange" />
+          <TopitoOrganisationsParticipations :daterange="daterange" />
+          <TopitoUsersActivities :daterange="daterange" />
         </div>
       </div>
     </div>
@@ -41,34 +38,32 @@ export default {
   },
   data() {
     return {
-      filters: {
-        daterange: 'last-30-days',
-      },
+      daterange: 'last-30-days',
     }
   },
   computed: {
     title() {
       let title = 'Classements'
 
-      if (this.filters.daterange == 'last-30-days') {
+      if (this.daterange == 'last-30-days') {
         title = 'Les 30 derniers jours'
       }
-      if (this.filters.daterange == 'last-7-days') {
+      if (this.daterange == 'last-7-days') {
         title = 'Les 7 derniers jours'
       }
-      if (this.filters.daterange == 'current-month') {
+      if (this.daterange == 'current-month') {
         title = this.$dayjs().format('MMMM YYYY')
       }
-      if (this.filters.daterange == 'last-month') {
+      if (this.daterange == 'last-month') {
         title = this.$dayjs().subtract(1, 'month').format('MMMM YYYY')
       }
-      if (this.filters.daterange == 'current-year') {
+      if (this.daterange == 'current-year') {
         title = 'Année ' + this.$dayjs().format('YYYY')
       }
-      if (this.filters.daterange == 'last-year') {
+      if (this.daterange == 'last-year') {
         title = 'Année ' + this.$dayjs().subtract(1, 'year').format('YYYY')
       }
-      if (this.filters.daterange == 'all') {
+      if (this.daterange == 'all') {
         title = 'Classements depuis le début'
       }
       return title
@@ -76,11 +71,7 @@ export default {
   },
   methods: {
     onChangeTimeframe(value) {
-      this.filters = { daterange: value }
-      this.$refs.benevolesDuMoment.fetch(this.filters)
-      this.$refs.utilisateursLesPlusActifs.fetch(this.filters)
-      this.$refs.organisationsMissions.fetch(this.filters)
-      this.$refs.organisationsParticipations.fetch(this.filters)
+      this.daterange = value
     },
   },
 }
