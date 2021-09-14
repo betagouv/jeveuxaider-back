@@ -18,7 +18,7 @@
       <div class="flex flex-col space-y-12">
         <div class="grid grid-cols-2 gap-6">
           <TopitoParticipations :daterange="daterange" />
-          <TopitoMarketPlace :daterange="daterange" />
+          <TopitoMarketplace :daterange="daterange" />
           <TopitoOrganisationsMissions :daterange="daterange" />
           <TopitoOrganisationsParticipations :daterange="daterange" />
           <TopitoUsersActivities :daterange="daterange" />

@@ -1,7 +1,7 @@
 <template>
   <CardTopito
     title="Bénévoles les plus sollicités"
-    subtitle="A partir de la market place inversée"
+    subtitle="Via la marketplace inversée"
     :loading="loading"
   >
     <template slot="actions"
@@ -91,7 +91,7 @@ export default {
     },
     async fetch() {
       this.loading = true
-      const response = await this.$api.fetchTopitoMarketPlace(this.filters)
+      const response = await this.$api.fetchTopitoMarketplace(this.filters)
       this.items = response.data.items
       this.loading = false
     },

@@ -58,7 +58,7 @@ class TopitoController extends Controller
         }
     }
 
-    public function marketPlace(Request $request)
+    public function marketplace(Request $request)
     {
 
         $department = $request->input('department');

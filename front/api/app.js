@@ -178,8 +178,8 @@ export default (axios) => ({
   async fetchTopitoParticipations(params) {
     return await axios.get(`/topito/participations`, { params })
   },
-  async fetchTopitoMarketPlace(params) {
-    return await axios.get(`/topito/market-place`, { params })
+  async fetchTopitoMarketplace(params) {
+    return await axios.get(`/topito/marketplace`, { params })
   },
   async fetchTopitoUtilisateursLesPlusActifs(params) {
     return await axios.get('/topito/utilisateurs-les-plus-actifs', { params })
