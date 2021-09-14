@@ -426,7 +426,7 @@ class Mission extends Model
     public function getPermissionsAttribute()
     {
         return [
-            'canFindBenevoles' => $this->state == 'Validée' && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
+            'canFindBenevoles' => $this->state == 'Validée' && $this->structure && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
         ];
     }
 }
