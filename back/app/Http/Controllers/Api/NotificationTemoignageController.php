@@ -8,6 +8,8 @@ use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Temoignage;
 use App\Notifications\NotificationTemoignageCreate;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class NotificationTemoignageController extends Controller
 {

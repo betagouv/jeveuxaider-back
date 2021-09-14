@@ -447,4 +447,26 @@ class Mission extends Model
     {
         return $this->hasManyThrough(Temoignage::class, Participation::class);
     }
+
+    public function notificationsTemoignage()
+    {
+        return $this->hasManyThrough(NotificationTemoignage::class, Participation::class);
+    }
+
+    public function getTestimoniesStats()
+    {
+        $temoignages = $this->temoignages;
+        $notificationsTemoignage = $this->notificationsTemoignage;
+
+        return [
+            'testimonies' => [
+                'count' => $temoignages->count(),
+                'average_grade' => $temoignages->avg('grade'),
+            ],
+            'notifications' => [
+                'count' => $notificationsTemoignage->count(),
+                'total' => $this->participations_validated_count,
+            ]
+        ];
+    }
 }

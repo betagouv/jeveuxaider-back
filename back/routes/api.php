@@ -136,6 +136,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
     Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
     Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
+    Route::post('mission/{mission}/send-testimony-notifications', 'Api\MissionController@sendTestimonyNotifications');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -207,6 +208,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('temoignages', 'Api\TemoignageController@index');
     Route::get('participation/{participation}/notification-temoignage', 'Api\NotificationTemoignageController@fromParticipation');
     Route::get('notification-temoignage/{notificationTemoignage}/resend', 'Api\NotificationTemoignageController@resend');
+    Route::get('mission/{mission}/testimonies-stats', 'Api\MissionController@testimoniesStats');
 });
 
 // ONLY ADMIN

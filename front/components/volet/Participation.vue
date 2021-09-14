@@ -67,7 +67,7 @@
           <VoletRowItem label="Note">
             <StarRating
               :rating="temoignage.grade"
-              class=""
+              class="!relative !bottom-[2px]"
               :show-rating="false"
               inactive-color="#E0E0E0"
               active-color="#EF9F03"

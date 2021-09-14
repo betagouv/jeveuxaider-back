@@ -106,7 +106,7 @@ class MissionObserver
                         // Notifications temoignage.
                         $participations = $mission->participations()->where('state', 'Validée')->get();
                         foreach ($participations as $participation) {
-                            // Be sure there is no existing notification.
+                            // Skip if notification already exists.
                             if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
                                 continue;
                             }

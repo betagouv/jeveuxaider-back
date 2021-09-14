@@ -84,6 +84,85 @@
         </nuxt-link>
       </VoletCard>
 
+      <!-- TÉMOIGNAGE -->
+      <template
+        v-if="
+          $store.getters.contextRole == 'admin' &&
+          mission &&
+          mission.state == 'Terminée' &&
+          testimoniesStats
+        "
+      >
+        <VoletCard
+          v-if="
+            testimoniesStats.notifications &&
+            testimoniesStats.notifications.count
+          "
+          label="Témoignages"
+          link-label="Voir les témoignages"
+          :link="`/dashboard/mission/${mission.id}/temoignages`"
+        >
+          <div class="font-bold text-black">
+            Les notifications ont été envoyées.
+          </div>
+
+          <div class="flex space-x-8">
+            <VoletRowItem label="Demandés">
+              {{ testimoniesStats.notifications.count }}
+            </VoletRowItem>
+
+            <VoletRowItem
+              v-if="
+                testimoniesStats.testimonies &&
+                testimoniesStats.testimonies.count >= 0
+              "
+              label="Recueillis"
+            >
+              {{ testimoniesStats.testimonies.count }}
+            </VoletRowItem>
+          </div>
+
+          <VoletRowItem label="Note moyenne">
+            <StarRating
+              v-if="testimoniesStats.testimonies.count"
+              v-tooltip="{
+                content: testimoniesStats.testimonies.average_grade,
+                classes: 'bo-style',
+                placement: 'right',
+              }"
+              :rating="testimoniesStats.testimonies.average_grade"
+              :increment="0.01"
+              class="!inline-flex !relative !bottom-[2px]"
+              :show-rating="false"
+              inactive-color="#E0E0E0"
+              active-color="#EF9F03"
+              :read-only="true"
+              :star-size="16"
+            />
+            <span v-else>N/A</span>
+          </VoletRowItem>
+        </VoletCard>
+
+        <VoletCard
+          v-else-if="
+            testimoniesStats.notifications &&
+            testimoniesStats.notifications.total
+          "
+          label="Témoignages"
+        >
+          <div class="font-bold text-black">
+            Les notifications n'ont pas été envoyées.
+          </div>
+          <span
+            slot="action"
+            class="text-primary cursor-pointer hover:underline text-xs"
+            @click="onSendNotifications"
+          >
+            Envoyer les notifications
+          </span>
+        </VoletCard>
+      </template>
+
       <!-- PLACES RESTANTES -->
       <VoletCard
         v-if="mission"
@@ -276,6 +355,7 @@ export default {
       form: { ...this.$store.getters['volet/row'] },
       mission: null,
       responsable: null,
+      testimoniesStats: {},
     }
   },
   computed: {
@@ -303,6 +383,11 @@ export default {
         this.responsable = await this.$api.getMissionResponsable(
           this.mission.id
         )
+
+        const { data: testimoniesStats } = await this.$axios.get(
+          `/mission/${this.mission.id}/testimonies-stats`
+        )
+        this.testimoniesStats = testimoniesStats
       },
     },
   },
@@ -396,6 +481,31 @@ export default {
           })
           .catch(() => {})
       }
+    },
+    onSendNotifications() {
+      if (
+        this.mission.state !== 'Terminée' ||
+        this.testimoniesStats.notifications.count ||
+        !this.testimoniesStats.notifications.total
+      ) {
+        return
+      }
+
+      this.$confirm(
+        `Vous vous apprétez à inviter les bénévoles ayant une participation <b>validée</b> à faire un retour sur leur expérience.<br /><br />Un email sera envoyé à <b>${this.testimoniesStats.notifications.total}</b> bénévole(s). Êtes vous sur de vouloir continuer ?`,
+        'Envoyer les notifications',
+        {
+          confirmButtonText: 'Envoyer',
+          cancelButtonText: 'Annuler',
+          center: true,
+          dangerouslyUseHTMLString: true,
+        }
+      ).then(async () => {
+        const { data: testimoniesStats } = await this.$axios.post(
+          `/mission/${this.mission.id}/send-testimony-notifications`
+        )
+        this.testimoniesStats = testimoniesStats
+      })
     },
   },
 }

@@ -24,12 +24,15 @@ use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
+use App\Models\NotificationTemoignage;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedSort;
+use Illuminate\Support\Str;
+use App\Notifications\NotificationTemoignageCreate;
 
 class MissionController extends Controller
 {
@@ -185,5 +188,40 @@ class MissionController extends Controller
         }
 
         return $query->get()->load('structure');
+    }
+
+    // testimoniesStats
+    public function testimoniesStats(Request $request, Mission $mission)
+    {
+        return $mission->getTestimoniesStats();
+    }
+
+    public function sendTestimonyNotifications(Request $request, Mission $mission)
+    {
+        // Seulement pour les missions terminées.
+        if ($mission->state != "Terminée") {
+            abort(403, "La mission doit être terminée !");
+        }
+
+        $participations = $mission->participations()->where('state', 'Validée')->get();
+        foreach ($participations as $participation) {
+            // Skip if notification already exists.
+            if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
+                continue;
+            }
+
+            do {
+                $token = Str::random(32);
+            } while (NotificationTemoignage::where('token', $token)->first());
+
+            $notificationTemoignage = NotificationTemoignage::create([
+                'token' => $token,
+                'participation_id' => $participation->id,
+                'reminders_sent' => 1,
+            ]);
+            $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
+        }
+
+        return $mission->getTestimoniesStats();
     }
 }
