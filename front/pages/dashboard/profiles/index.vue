@@ -276,6 +276,7 @@ export default {
           { label: 'Référent départemental', value: 'referent' },
           { label: 'Référent régional', value: 'referent_regional' },
           { label: 'Responsable', value: 'responsable' },
+          { label: 'Responsable territoire', value: 'responsable_territoire' },
           { label: 'Bénévole', value: 'volontaire' },
         ]
       } else {

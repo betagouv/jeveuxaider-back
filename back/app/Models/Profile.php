@@ -126,6 +126,7 @@ class Profile extends Model implements HasMedia
 
     public function getResponsableWaitingActionsAttribute()
     {
+
         $structure = $this->structures->first();
 
         $participations = Participation::structure($structure->id)->where('state', 'En attente de validation')->count();

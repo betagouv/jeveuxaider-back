@@ -301,8 +301,10 @@ class StructureController extends Controller
 
     public function pushApiEngagement(Request $request, Structure $structure)
     {
-        if ($structure && $structure->canBeSendToApiEngagement()) {
-            return (new ApiEngagement())->syncAssociation($structure);
+        if (config('app.env') === 'production') {
+            if ($structure && $structure->canBeSendToApiEngagement()) {
+                return (new ApiEngagement())->syncAssociation($structure);
+            }
         }
     }
 

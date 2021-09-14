@@ -33,7 +33,10 @@ class FiltersProfileRole implements Filter
                 return $query->whereNotNull('reseau_id');
                 break;
             case 'responsable':
-                return $query->whereHas('structures')->orWhereHas('territoires');
+                return $query->whereHas('structures');
+                break;
+            case 'responsable_territoire':
+                return $query->whereHas('territoires');
                 break;
             default:
                 return $query;
