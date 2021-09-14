@@ -72,9 +72,7 @@ export default {
     '@/plugins/hotjar.client.js',
   ],
 
-  router: {
-    middleware: 'set-utm',
-  },
+  router: {},
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
