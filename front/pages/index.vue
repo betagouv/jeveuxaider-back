@@ -63,7 +63,7 @@
             class="mx-auto font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-[#16a972] py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition"
             @click="handleClickCTA()"
           >
-            Je veux aider
+            Trouver une mission
           </button>
         </div>
       </div>
