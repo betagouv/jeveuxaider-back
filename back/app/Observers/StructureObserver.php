@@ -76,9 +76,6 @@ class StructureObserver
                             $mission->searchable();
                         }
                     }
-
-
-
                     break;
                 case 'Signalée':
                     if ($structure->user->profile) {
