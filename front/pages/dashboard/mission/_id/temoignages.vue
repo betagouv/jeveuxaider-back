@@ -77,15 +77,7 @@ export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
-    if (
-      ![
-        'admin',
-        'superviseur',
-        'responsable',
-        'referent',
-        'referent_regional',
-      ].includes(store.getters.contextRole)
-    ) {
+    if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
 

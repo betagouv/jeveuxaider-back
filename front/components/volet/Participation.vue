@@ -55,6 +55,58 @@
         }}</VoletRowItem>
       </VoletCard>
 
+      <!-- TÉMOIGNAGE -->
+      <VoletCard
+        v-if="
+          $store.getters.contextRole == 'admin' &&
+          (temoignage || notificationTemoignage)
+        "
+        label="Témoignage"
+      >
+        <template v-if="temoignage">
+          <VoletRowItem label="Note">
+            <StarRating
+              :rating="temoignage.grade"
+              class=""
+              :show-rating="false"
+              inactive-color="#E0E0E0"
+              active-color="#EF9F03"
+              :read-only="true"
+              :star-size="16"
+            />
+          </VoletRowItem>
+
+          <VoletRowItem label="Témoignage" class="whitespace-pre-line">{{
+            temoignage.testimony
+          }}</VoletRowItem>
+        </template>
+        <template v-else-if="notificationTemoignage">
+          <span
+            slot="action"
+            class="text-primary cursor-pointer hover:underline text-xs"
+            @click="onSendReminderTestimony"
+          >
+            Renvoyer l'email
+          </span>
+
+          <div class="font-bold text-black">La notification a été envoyée</div>
+          <VoletRowItem label="Nb de relance(s)">
+            {{ notificationTemoignage.reminders_sent }}
+          </VoletRowItem>
+          <VoletRowItem label="Dernière relance">
+            {{ notificationTemoignage.last_sent_at | formatMediumWithTime }}
+          </VoletRowItem>
+          <VoletRowItem label="Formulaire">
+            <span
+              class="text-primary cursor-pointer hover:underline"
+              @click="onCopyLink"
+            >
+              copier le lien vers le formulaire
+            </span>
+          </VoletRowItem>
+        </template>
+      </VoletCard>
+
       <!-- BENEVOLE -->
       <VoletCard
         v-if="profile"
@@ -339,6 +391,8 @@ export default {
       mission: null,
       responsable: null,
       conversation: null,
+      temoignage: null,
+      notificationTemoignage: null,
     }
   },
   computed: {
@@ -376,7 +430,45 @@ export default {
         this.responsable = await this.$api.getMissionResponsable(
           this.participation.mission_id
         )
+
+        const { data: notificationTemoignage } = await this.$axios.get(
+          `/participation/${this.participation.id}/notification-temoignage`
+        )
+        this.notificationTemoignage = notificationTemoignage
+
+        const { data: temoignage } = await this.$axios.get(
+          `/participation/${this.participation.id}/temoignage`
+        )
+        this.temoignage = temoignage
       },
+    },
+  },
+  methods: {
+    onCopyLink() {
+      this.$copyText(
+        `${this.$config.appUrl}/temoignages/${this.notificationTemoignage.token}`
+      ).then(() => {
+        this.$message({
+          message: 'Le lien a été copié dans votre presse papier (CTRL+V)',
+          type: 'success',
+        })
+      })
+    },
+    onSendReminderTestimony() {
+      this.$confirm(
+        `Vous êtes sur le point de relancer le bénévole. Êtes vous sur de vouloir renvoyer l'email ?`,
+        'Relancer le bénévole',
+        {
+          confirmButtonText: 'Renvoyer',
+          cancelButtonText: 'Annuler',
+          center: true,
+        }
+      ).then(async () => {
+        const { data: notificationTemoignage } = await this.$axios.get(
+          `/notification-temoignage/${this.notificationTemoignage.id}/resend`
+        )
+        this.notificationTemoignage = notificationTemoignage
+      })
     },
   },
 }

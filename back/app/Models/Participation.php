@@ -135,6 +135,11 @@ class Participation extends Model
         return $this->hasOne('App\Models\Temoignage', 'participation_id');
     }
 
+    public function notificationTemoignage()
+    {
+        return $this->hasOne('App\Models\NotificationTemoignage', 'participation_id');
+    }
+
     public function scopeState($query, $state)
     {
         return $query->where('state', $state);

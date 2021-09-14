@@ -59,10 +59,9 @@ Route::get('tags', 'Api\TagController@index');
 Route::post('reseau/lead', 'Api\ReseauController@lead');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
+Route::get('participation/{participation}/temoignage', 'Api\TemoignageController@fromParticipation');
 Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
-Route::get('participation/{participation_id}/temoignage', 'Api\TemoignageController@show');
-Route::get('temoignages', 'Api\TemoignageController@index');
 Route::post('temoignage', 'Api\TemoignageController@store');
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -206,6 +205,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // TEMOIGNAGES
     Route::get('temoignages', 'Api\TemoignageController@index');
+    Route::get('participation/{participation}/notification-temoignage', 'Api\NotificationTemoignageController@fromParticipation');
+    Route::get('notification-temoignage/{notificationTemoignage}/resend', 'Api\NotificationTemoignageController@resend');
 });
 
 // ONLY ADMIN

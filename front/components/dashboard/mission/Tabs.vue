@@ -17,7 +17,10 @@
         ({{ mission.participations_total }})
       </span>
     </el-menu-item>
-    <el-menu-item :index="`/dashboard/mission/${mission.id}/temoignages`">
+    <el-menu-item
+      v-if="$store.getters.contextRole == 'admin'"
+      :index="`/dashboard/mission/${mission.id}/temoignages`"
+    >
       Témoignages
       <span class="text-xs text-gray-600">
         ({{ mission.temoignages_count }})

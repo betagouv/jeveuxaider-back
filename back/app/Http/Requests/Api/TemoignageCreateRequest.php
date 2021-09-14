@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api;
 
 use App\Models\Temoignage;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class TemoignageCreateRequest extends FormRequest
 {
@@ -15,7 +16,6 @@ class TemoignageCreateRequest extends FormRequest
     public function authorize()
     {
         return true;
-        // return $this->authorize('create', Temoignage::class);
     }
 
     /**

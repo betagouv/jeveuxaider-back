@@ -24,7 +24,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Thematique' => 'App\Policies\ThematiquePolicy',
         'App\Models\MissionTemplate' => 'App\Policies\MissionTemplatePolicy',
         'App\Models\Tag' => 'App\Policies\TagPolicy',
-        'App\Models\Conversation' => 'App\Policies\ConversationPolicy'
+        'App\Models\Conversation' => 'App\Policies\ConversationPolicy',
+        'App\Models\Temoignage' => 'App\Policies\TemoignagePolicy'
     ];
 
     /**
