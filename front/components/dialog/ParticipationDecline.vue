@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :close-on-click-modal="false"
+    :append-to-body="true"
     title="Décliner la participation"
     width="100%"
     :visible="isVisible"
@@ -11,6 +12,7 @@
       Vous êtes sur le point de décliner la participation de
       {{ participation.profile.full_name }}.
     </div>
+
     <el-form
       ref="form"
       :model="form"
@@ -31,9 +33,9 @@
         </el-radio-group>
         <div
           v-if="form.reason == 'mission_terminated'"
-          class="mt-2 leading-snug text-orange-700 flex font-semibold items-center"
+          class="mt-2 leading-snug text-[#DD6B20] flex font-semibold items-baseline"
         >
-          <i class="el-icon-info text-orange-600 mr-2"></i>
+          <i class="el-icon-info mr-2"></i>
           <div class="flex-1">
             En validant ce choix, le statut de la mission sera automatiquement
             mis à jour. Le recrutement de nouveaux bénévoles sera clos.
@@ -51,6 +53,7 @@
         ></el-input>
       </el-form-item>
     </el-form>
+
     <span slot="footer" class="dialog-footer">
       <el-button @click="$emit('close')"> Annuler </el-button>
       <el-button :loading="loading" type="primary" @click="handleDeclineSubmit"

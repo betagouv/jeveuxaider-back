@@ -14,12 +14,15 @@
           <template v-if="state.value == 'En attente de validation'"
             >Repasser en validation</template
           >
-          <template v-if="state.value == 'Validée'"
-            >Valider la participation</template
-          >
-          <template v-if="state.value == 'Refusée'"
-            >Refuser la participation</template
-          >
+          <template v-if="state.value == 'En cours de traitement'">
+            En cours de traitement
+          </template>
+          <template v-if="state.value == 'Validée'">
+            Valider la participation
+          </template>
+          <template v-if="state.value == 'Refusée'">
+            Refuser la participation
+          </template>
           <template v-if="state.value == 'Annulée'"
             >Annuler la participation</template
           >
@@ -72,7 +75,11 @@ export default {
   },
   computed: {
     type() {
-      if (this.participation.state == 'En attente de validation') {
+      if (
+        ['En attente de validation', 'En cours de traitement'].includes(
+          this.participation.state
+        )
+      ) {
         return 'warning'
       }
       return 'default'
@@ -88,27 +95,40 @@ export default {
       ) {
         return false
       }
-      return !!['En attente de validation', 'Validée'].includes(
-        this.participation.state
-      )
+      return !![
+        'En attente de validation',
+        'En cours de traitement',
+        'Validée',
+      ].includes(this.participation.state)
     },
     statesAvailable() {
+      console.log('1')
       if (this.$store.getters.contextRole == 'admin') {
         return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
           (item) => item.value != this.participation.state
         )
-      } else if (this.participation.state == 'En attente de validation') {
+      }
+      console.log('2')
+      if (['En attente de validation'].includes(this.participation.state)) {
+        return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+          (item) =>
+            ['En cours de traitement', 'Validée', 'Refusée'].includes(
+              item.value
+            )
+        )
+      }
+      if (['En cours de traitement'].includes(this.participation.state)) {
         return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
           (item) => ['Validée', 'Refusée'].includes(item.value)
         )
-      } else {
-        return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
-          (item) =>
-            !['En attente de validation', 'Validée', 'Refusée'].includes(
-              item.value
-            ) && item.value != this.participation.state
-        )
       }
+      console.log('3')
+      return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
+        (item) =>
+          !['En attente de validation', 'Validée', 'Refusée'].includes(
+            item.value
+          ) && item.value != this.participation.state
+      )
     },
   },
   methods: {
@@ -123,11 +143,14 @@ export default {
         this.declineParticipationDialog = true
         return
       }
+      if (state == 'En cours de traitement') {
+        this.message = `En indiquant que la participation est en cours de traitement, vous ne recevrez plus de relances par email. Le bénévole sera notifié que vous étudiez sa demande.`
+      }
       if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> la participation. Le bénévole sera notifié de ce changement.`
       }
       if (state == 'Annulée') {
-        this.message = `Vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le réserviste sera averti automatiquement.`
+        this.message = `Vous ou le bénéficiaire n'êtes plus en mesure d'assurer la mission, le bénévole sera averti automatiquement.`
       }
 
       this.$confirm(this.message, 'Changement de statut', {

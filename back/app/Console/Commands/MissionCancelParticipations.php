@@ -47,7 +47,7 @@ class MissionCancelParticipations extends Command
             return;
         }
 
-        $participations = Participation::where('state', 'En attente de validation')
+        $participations = Participation::whereIn('state', ['En attente de validation', 'En cours de traitement'])
             ->where('mission_id', $id);
 
         $count = $participations->count();

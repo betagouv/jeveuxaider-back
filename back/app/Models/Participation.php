@@ -25,6 +25,7 @@ class Participation extends Model
 
     const ACTIVE_STATUS = [
         'En attente de validation',
+        'En cours de traitement',
         'Validée',
     ];
 

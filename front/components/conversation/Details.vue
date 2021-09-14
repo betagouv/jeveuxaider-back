@@ -49,22 +49,6 @@
         >
       </div>
 
-      <DropdownParticipationState
-        v-if="
-          $store.getters.contextRole == 'responsable' &&
-          $store.getters.contextStructure.id ==
-            participation.mission.structure_id &&
-          !!['En attente de validation', 'Validée'].includes(
-            participation.state
-          )
-        "
-        :participation="participation"
-        @updated="onParticipationUpdate"
-        @messages-added="
-          $store.commit('messaging/incrementNewMessagesCount', $event.count)
-        "
-      />
-
       <ButtonParticipationCancel
         v-if="isBenevole && participation.state == 'En attente de validation'"
         class="mt-3"

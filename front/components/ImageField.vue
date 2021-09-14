@@ -48,6 +48,7 @@
         title="Recadrer"
         :visible.sync="dialogCropVisible"
         :close-on-click-modal="false"
+        :append-to-body="true"
         top="3rem"
         @close="onModalClose"
       >
