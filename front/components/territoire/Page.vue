@@ -21,7 +21,10 @@
     />
 
     <TerritoireAssociations
-      v-if="territoire.promoted_organisations"
+      v-if="
+        territoire.promoted_organisations &&
+        territoire.promoted_organisations.length
+      "
       :territoire="territoire"
     />
     <TerritoireEngagement :territoire="territoire" />

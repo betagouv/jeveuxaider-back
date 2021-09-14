@@ -182,9 +182,16 @@
             est déjà inscrite sur la plateforme.
           </p>
           <p class="text-gray-500 text-sm">
-            Veuillez vous rapprocher de la personne suivante pour intégrer
-            l'équipe :<br />
-            <span class="text-black">{{ orgaExist.responsable_fullname }}</span>
+            <template v-if="orgaExist.responsable_fullname">
+              Veuillez vous rapprocher de la personne suivante pour intégrer
+              l'équipe :<br />
+              <span class="text-black">{{
+                orgaExist.responsable_fullname
+              }}</span>
+            </template>
+            <template v-else>
+              Merci de contacter notre support pour plus de détails.
+            </template>
           </p>
         </div>
       </el-form>

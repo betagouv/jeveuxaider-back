@@ -319,7 +319,7 @@ class StructureController extends Controller
 
         return [
             'structure_name' => $structure->name,
-            'responsable_fullname' => $structure->responsables->first()->full_name
+            'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
         ];
     }
 }
