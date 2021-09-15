@@ -205,6 +205,7 @@
           <MissionThumbnailPicker
             :domain-id="mainDomaineId"
             :value="`${form.thumbnail}`"
+            :images-count="mainDomaineId == 4 ? 9 : 3"
             @click="onThumbnailClick"
           />
         </div>

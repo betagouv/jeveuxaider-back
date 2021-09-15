@@ -4,9 +4,9 @@
       Visuel d'Illustration
     </label>
 
-    <div class="flex gap-1">
+    <div class="grid gap-1 grid-cols-3">
       <img
-        v-for="index in 3"
+        v-for="index in imagesCount"
         :key="`${domainId}_${index}`"
         :src="`/images/domaines/${domainId}_${index}.jpg`"
         :srcset="`/images/domaines/${domainId}_${index}@2x.jpg 2x`"
@@ -33,6 +33,10 @@ export default {
     value: {
       type: [String, null],
       default: null,
+    },
+    imagesCount: {
+      type: Number,
+      default: 3,
     },
   },
   data() {
