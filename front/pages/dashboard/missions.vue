@@ -225,7 +225,10 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchMissions(this.query)
+    const { data } = await this.$api.fetchMissions({
+      ...this.query,
+      append: 'participations_validated_count',
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from

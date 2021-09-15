@@ -62,7 +62,15 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = ['full_address', 'has_places_left', 'participations_count', 'participations_total', 'domaine_name', 'permissions'];
+    protected $appends = [
+        'full_url',
+        'full_address',
+        'has_places_left',
+        'participations_count',
+        'participations_total',
+        'domaine_name',
+        'permissions',
+    ];
 
     protected static $logFillable = true;
 
@@ -200,6 +208,11 @@ class Mission extends Model
     public function getParticipationsTotalAttribute()
     {
         return $this->participations->count();
+    }
+
+    public function getParticipationsValidatedCountAttribute()
+    {
+        return $this->participations()->state('Validée')->count();
     }
 
     public function getNameAttribute($value)
@@ -427,6 +440,33 @@ class Mission extends Model
     {
         return [
             'canFindBenevoles' => $this->state == 'Validée' && $this->structure && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
+        ];
+    }
+
+    public function temoignages()
+    {
+        return $this->hasManyThrough(Temoignage::class, Participation::class);
+    }
+
+    public function notificationsTemoignage()
+    {
+        return $this->hasManyThrough(NotificationTemoignage::class, Participation::class);
+    }
+
+    public function getTestimoniesStats()
+    {
+        $temoignages = $this->temoignages;
+        $notificationsTemoignage = $this->notificationsTemoignage;
+
+        return [
+            'testimonies' => [
+                'count' => $temoignages->count(),
+                'average_grade' => $temoignages->avg('grade'),
+            ],
+            'notifications' => [
+                'count' => $notificationsTemoignage->count(),
+                'total' => $this->participations_validated_count,
+            ]
         ];
     }
 }

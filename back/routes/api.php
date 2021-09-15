@@ -58,6 +58,12 @@ Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseau/lead', 'Api\ReseauController@lead');
 
+Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
+Route::get('participation/{participation}/temoignage', 'Api\TemoignageController@fromParticipation');
+Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
+Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
+Route::post('temoignage', 'Api\TemoignageController@store');
+
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
@@ -130,6 +136,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('mission/{mission}', 'Api\MissionController@delete');
     Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
     Route::post('mission/{mission}/restore', 'Api\MissionController@restore');
+    Route::post('mission/{mission}/send-testimony-notifications', 'Api\MissionController@sendTestimonyNotifications');
 
     // PROFILES
     Route::get('profiles', 'Api\ProfileController@index');
@@ -196,6 +203,12 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // ACTIONS
     Route::get('actions', 'Api\ActionController@index');
+
+    // TEMOIGNAGES
+    Route::get('temoignages', 'Api\TemoignageController@index');
+    Route::get('participation/{participation}/notification-temoignage', 'Api\NotificationTemoignageController@fromParticipation');
+    Route::get('notification-temoignage/{notificationTemoignage}/resend', 'Api\NotificationTemoignageController@resend');
+    Route::get('mission/{mission}/testimonies-stats', 'Api\MissionController@testimoniesStats');
 });
 
 // ONLY ADMIN

@@ -7,7 +7,7 @@
       <div class="flex w-full mb-4">
         <SearchFiltersQueryMain
           name="search"
-          placeholder="Rechercher par mots clés, mission ou structure..."
+          placeholder="Rechercher par mots clés, email, nom..."
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
@@ -31,35 +31,17 @@
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
-          name="state"
-          label="Statut"
+          name="grade"
+          label="Note"
           multiple
-          :value="query['filter[state]']"
-          :options="
-            $store.getters.taxonomies.participation_workflow_states.terms
-          "
-          @changed="onFilterChange"
-        />
-        <SearchFiltersQuery
-          v-if="$store.getters.contextRole === 'responsable'"
-          type="select"
-          name="mission.responsable_id"
-          :value="query['filter[mission.responsable_id]']"
-          label="Responsable"
-          :options="
-            responsables.map((responsable) => {
-              return {
-                label: responsable.full_name,
-                value: responsable.id,
-              }
-            })
-          "
+          :value="query['filter[grade]']"
+          :options="$store.getters.taxonomies.grade.terms"
           @changed="onFilterChange"
         />
       </div>
     </div>
 
-    <TableParticipations
+    <TableTemoignages
       :loading="$fetchState.pending"
       :table-data="tableData"
       :on-updated-row="onUpdatedRow"
@@ -80,12 +62,13 @@
     </div>
 
     <portal to="volet">
-      <VoletParticipation @updated="onUpdatedRow" @deleted="onDeletedRow" />
+      <VoletTemoignage />
     </portal>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
@@ -94,19 +77,11 @@ export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
-    if (
-      ![
-        'admin',
-        'superviseur',
-        'responsable',
-        'referent',
-        'referent_regional',
-      ].includes(store.getters.contextRole)
-    ) {
+    if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
-    const mission = await $api.getMission(params.id)
 
+    const mission = await $api.getMission(params.id)
     if (store.getters.contextRole == 'responsable') {
       if (store.getters.contextStructure.id != mission.structure_id) {
         return error({ statusCode: 403 })
@@ -115,16 +90,9 @@ export default {
 
     const structure = await $api.getStructure(mission.structure.id)
 
-    const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
-    const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
-    const responsables = await $api.getStructureMembers(structure.id)
-
     return {
       structure,
       mission,
-      domaines: domaines.data.data,
-      templates: templates.data.data,
-      responsables: responsables.data,
     }
   },
 
@@ -134,8 +102,11 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[mission.id]'] = this.mission.id
-    const { data } = await this.$api.fetchParticipations(this.query)
+    this.query['filter[participation.mission.id]'] = this.mission.id
+
+    const { data } = await this.$axios.get(`/temoignages`, {
+      params: this.query,
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -147,15 +118,16 @@ export default {
   methods: {
     onExport() {
       this.loadingExport = true
-      this.$api
-        .exportParticipations(this.query)
-        .then((response) => {
-          this.loadingExport = false
-          fileDownload(response.data, 'participations.xlsx')
-        })
-        .catch((error) => {
-          console.log('exportParticipations', error)
-        })
+      console.log('TODO EXPORT TEMOIGNAGES')
+      // this.$api
+      //   .exportParticipations(this.query)
+      //   .then((response) => {
+      //     this.loadingExport = false
+      //     fileDownload(response.data, 'participations.xlsx')
+      //   })
+      //   .catch((error) => {
+      //     console.log('exportParticipations', error)
+      //   })
     },
   },
 }

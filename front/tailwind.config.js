@@ -10,15 +10,8 @@ module.exports = {
       './layouts/**/*.vue',
       './pages/**/*.vue',
       './plugins/**/*.{js,ts}',
-      './nuxt.config.js',
-      './nuxt.config.ts',
+      './nuxt.config.{js,ts}',
     ],
-    options: {
-      // Whitelisting some classes to avoid purge
-      safelist: {
-        standard: [/nature$/, /solidarite$/, /education$/, /sante$/],
-      },
-    },
   },
   theme: {
     screens: {

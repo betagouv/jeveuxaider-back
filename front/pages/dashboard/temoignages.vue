@@ -1,13 +1,21 @@
 <template>
   <div class="has-full-table">
-    <DashboardMissionHeader :mission="mission" :structure="structure" />
-    <DashboardMissionTabs :mission="mission" />
+    <div class="header px-12 flex">
+      <div class="header-titles flex-1">
+        <div class="text-m text-gray-600 uppercase">
+          {{ $store.getters.contextRoleLabel }}
+        </div>
+        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">
+          Témoignages
+        </div>
+      </div>
+    </div>
 
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
         <SearchFiltersQueryMain
           name="search"
-          placeholder="Rechercher par mots clés, mission ou structure..."
+          placeholder="Rechercher par mots clés, email, nom..."
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
@@ -31,35 +39,25 @@
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery
-          name="state"
-          label="Statut"
+          name="grade"
+          label="Note"
           multiple
-          :value="query['filter[state]']"
-          :options="
-            $store.getters.taxonomies.participation_workflow_states.terms
-          "
+          :value="query['filter[grade]']"
+          :options="$store.getters.taxonomies.grade.terms"
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
-          v-if="$store.getters.contextRole === 'responsable'"
-          type="select"
-          name="mission.responsable_id"
-          :value="query['filter[mission.responsable_id]']"
-          label="Responsable"
-          :options="
-            responsables.map((responsable) => {
-              return {
-                label: responsable.full_name,
-                value: responsable.id,
-              }
-            })
-          "
+
+        <SearchFiltersQueryInput
+          name="participation.mission.id"
+          label="# Mission"
+          placeholder="Numéro"
+          :initial-value="query['filter[participation.mission.id]']"
           @changed="onFilterChange"
         />
       </div>
     </div>
 
-    <TableParticipations
+    <TableTemoignages
       :loading="$fetchState.pending"
       :table-data="tableData"
       :on-updated-row="onUpdatedRow"
@@ -77,15 +75,25 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
+      <div class="ml-auto">
+        <!-- <el-button
+          :loading="loadingExport"
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
+          Export
+        </el-button> -->
+      </div>
     </div>
-
     <portal to="volet">
-      <VoletParticipation @updated="onUpdatedRow" @deleted="onDeletedRow" />
+      <VoletTemoignage />
     </portal>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
@@ -93,49 +101,24 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
-  async asyncData({ $api, params, store, error }) {
+  asyncData({ store, error }) {
     if (
-      ![
-        'admin',
-        'superviseur',
-        'responsable',
-        'referent',
-        'referent_regional',
-      ].includes(store.getters.contextRole)
+      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+        store.getters.contextRole
+      )
     ) {
       return error({ statusCode: 403 })
     }
-    const mission = await $api.getMission(params.id)
-
-    if (store.getters.contextRole == 'responsable') {
-      if (store.getters.contextStructure.id != mission.structure_id) {
-        return error({ statusCode: 403 })
-      }
-    }
-
-    const structure = await $api.getStructure(mission.structure.id)
-
-    const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
-    const templates = await $api.fetchMissionTemplates({ pagination: 1000 })
-    const responsables = await $api.getStructureMembers(structure.id)
-
-    return {
-      structure,
-      mission,
-      domaines: domaines.data.data,
-      templates: templates.data.data,
-      responsables: responsables.data,
-    }
   },
-
   data() {
     return {
       loadingExport: false,
     }
   },
   async fetch() {
-    this.query['filter[mission.id]'] = this.mission.id
-    const { data } = await this.$api.fetchParticipations(this.query)
+    const { data } = await this.$axios.get(`/temoignages`, {
+      params: this.query,
+    })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
@@ -147,15 +130,16 @@ export default {
   methods: {
     onExport() {
       this.loadingExport = true
-      this.$api
-        .exportParticipations(this.query)
-        .then((response) => {
-          this.loadingExport = false
-          fileDownload(response.data, 'participations.xlsx')
-        })
-        .catch((error) => {
-          console.log('exportParticipations', error)
-        })
+      console.log('TODO EXPORT TEMOIGNAGES')
+      // this.$api
+      //   .exportParticipations(this.query)
+      //   .then((response) => {
+      //     this.loadingExport = false
+      //     fileDownload(response.data, 'participations.xlsx')
+      //   })
+      //   .catch((error) => {
+      //     console.log('exportParticipations', error)
+      //   })
     },
   },
 }

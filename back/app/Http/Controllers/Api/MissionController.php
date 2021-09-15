@@ -24,19 +24,22 @@ use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileZips;
 use App\Http\Requests\Api\MissionDeleteRequest;
+use App\Models\NotificationTemoignage;
 use App\Models\Profile;
 use App\Models\Structure;
 use App\Models\Tag;
 use App\Services\ApiEngagement;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedSort;
+use Illuminate\Support\Str;
+use App\Notifications\NotificationTemoignageCreate;
 
 class MissionController extends Controller
 {
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure:id,name,state', 'responsable'))
-            ->allowedAppends('domaines')
+            ->allowedAppends(['domaines', 'participations_validated_count'])
             ->allowedFilters([
                 'name',
                 'state',
@@ -68,7 +71,7 @@ class MissionController extends Controller
     {
 
         if (is_numeric($id)) {
-            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->where('id', $id)->first();
+            $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('temoignages')->where('id', $id)->first();
             if ($mission) {
                 $mission->append(['skills','domaines', 'domaine_secondaire']);
             }
@@ -183,7 +186,42 @@ class MissionController extends Controller
         if ($mission->latitude && $mission->longitude) {
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
-            
+
         return $query->get()->load('structure');
+    }
+
+    // testimoniesStats
+    public function testimoniesStats(Request $request, Mission $mission)
+    {
+        return $mission->getTestimoniesStats();
+    }
+
+    public function sendTestimonyNotifications(Request $request, Mission $mission)
+    {
+        // Seulement pour les missions terminées.
+        if ($mission->state != "Terminée") {
+            abort(403, "La mission doit être terminée !");
+        }
+
+        $participations = $mission->participations()->where('state', 'Validée')->get();
+        foreach ($participations as $participation) {
+            // Skip if notification already exists.
+            if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
+                continue;
+            }
+
+            do {
+                $token = Str::random(32);
+            } while (NotificationTemoignage::where('token', $token)->first());
+
+            $notificationTemoignage = NotificationTemoignage::create([
+                'token' => $token,
+                'participation_id' => $participation->id,
+                'reminders_sent' => 1,
+            ]);
+            $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
+        }
+
+        return $mission->getTestimoniesStats();
     }
 }

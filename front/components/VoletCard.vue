@@ -4,14 +4,18 @@
       <div class="flex space-x-2 justify-center">
         <div class="text-lg font-medium">{{ label }}</div>
       </div>
-      <router-link
-        v-if="link"
-        :to="link"
-        class="text-xs text-primary hover:text-primary"
-      >
-        {{ linkLabel }}
-      </router-link>
+
+      <slot name="action">
+        <router-link
+          v-if="link"
+          :to="link"
+          class="text-xs text-primary hover:underline"
+        >
+          {{ linkLabel }}
+        </router-link>
+      </slot>
     </div>
+
     <template v-if="cardLink">
       <router-link
         :to="cardLink"

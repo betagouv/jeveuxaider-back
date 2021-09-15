@@ -161,15 +161,22 @@ export default {
       }
 
       if (state == 'Terminée') {
-        this.message = `Les participations en attente de validation seront automatiquement déclinées.<br><br> Êtes vous sûr de vouloir continuer ?`
+        this.message = `Vous êtes sur le point de passer la mission au statut <b>terminée</b>.<br><br> Les participations <b>en attente de validation</b> seront automatiquement déclinées.`
+        if (this.form.participations_validated_count) {
+          this.message =
+            this.message +
+            `<br><br> Une invitation va être envoyée aux participations <b>validées (${this.form.participations_validated_count})</b> invitant les bénévoles à raconter leur expérience.`
+        }
+        this.message =
+          this.message + `<br><br> Êtes vous sûr de vouloir continuer ?`
       }
 
       if (state == 'Annulée') {
-        this.message = `Attention, vous êtes sur le point d'annuler une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations en attente de validation seront automatiquement annulées et ces bénévoles seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
+        this.message = `Attention, vous êtes sur le point d'<b>annuler</b> une mission en lien avec ${this.form.participations_count} participation(s).<br><br> Les participations <b>en attente de validation</b> seront automatiquement annulées et ces bénévoles seront notifiés de l'annulation de la mission.<br><br> Êtes vous sûr de vouloir continuer ?`
       }
 
       if (state == 'Signalée') {
-        this.message = `Vous êtes sur le point de signaler une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} bénévole(s). <br><br> Les participations à venir seront automatiquement annulées. Les coordonnées des bénévoles seront masquées.`
+        this.message = `Vous êtes sur le point de <b>signaler</b> une mission qui ne répond pas aux exigences de la charte ou des règles fixés par le Décret n° 2017-930 du 9 mai 2017 relatif à la Réserve Civique. Le responsable est en lien avec ${this.form.participations_count} bénévole(s). <br><br> Les participations à venir seront automatiquement <b>annulées</b>. Les coordonnées des bénévoles seront masquées.`
       }
 
       this.$confirm(this.message, 'Changement de statut', {
