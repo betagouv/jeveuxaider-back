@@ -220,23 +220,21 @@
           <template v-else> N/A </template>
         </VoletRowItem>
 
-        <template v-if="canShowProfileDetails">
-          <VoletRowItem label="Email">
-            {{ profile.email }}
-          </VoletRowItem>
+        <VoletRowItem label="Email">
+          {{ profile.email }}
+        </VoletRowItem>
 
-          <VoletRowItem v-if="profile.mobile" label="Mobile">
-            {{ profile.mobile }}
-          </VoletRowItem>
+        <VoletRowItem v-if="profile.mobile" label="Mobile">
+          {{ profile.mobile }}
+        </VoletRowItem>
 
-          <VoletRowItem v-if="profile.birthday" label="Anniversaire">
-            {{ profile.birthday }}
-          </VoletRowItem>
+        <VoletRowItem v-if="profile.birthday" label="Anniversaire">
+          {{ profile.birthday }}
+        </VoletRowItem>
 
-          <VoletRowItem v-if="profile.zip" label="Zip">{{
-            profile.zip
-          }}</VoletRowItem>
-        </template>
+        <VoletRowItem v-if="profile.zip" label="Zip">{{
+          profile.zip
+        }}</VoletRowItem>
 
         <VoletRowItem label="Disponibilités">
           <template
@@ -288,7 +286,7 @@
           profile.updated_at | formatMediumWithTime
         }}</VoletRowItem>
 
-        <VoletRowItem label="Dernière co.">{{
+        <VoletRowItem v-if="profile.last_online_at" label="Dernière co.">{{
           profile.last_online_at | fromNow
         }}</VoletRowItem>
       </VoletCard>
@@ -334,13 +332,6 @@ export default {
   computed: {
     row() {
       return this.$store.getters['volet/row']
-    },
-    canShowProfileDetails() {
-      return !!(
-        this.participation.mission &&
-        (this.participation.mission.state != 'Signalée' ||
-          this.$store.getters.contextRole !== 'responsable')
-      )
     },
   },
   watch: {
