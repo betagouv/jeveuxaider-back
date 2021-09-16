@@ -19,7 +19,7 @@
       <div class="flex w-full mb-4">
         <SearchFiltersQueryMain
           name="search"
-          placeholder="Rechercher par mots clés, email, nom..."
+          placeholder="Rechercher par email, nom..."
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
@@ -73,7 +73,7 @@
     </div>
 
     <portal to="volet">
-      <VoletNotificationTemoignage />
+      <VoletNotificationTemoignage @update="onUpdatedRow" />
     </portal>
   </div>
 </template>

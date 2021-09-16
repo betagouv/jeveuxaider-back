@@ -390,6 +390,7 @@ export default {
           `/notification-temoignage/${this.row.id}/resend`
         )
         this.$store.commit('volet/setRow', notificationTemoignage)
+        this.$emit('update', notificationTemoignage)
       })
     },
   },

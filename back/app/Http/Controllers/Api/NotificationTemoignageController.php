@@ -11,6 +11,7 @@ use App\Notifications\NotificationTemoignageCreate;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filters\FiltersNotificationTemoignageSearch;
 
 class NotificationTemoignageController extends Controller
 {
@@ -23,8 +24,7 @@ class NotificationTemoignageController extends Controller
             ->with('participation', 'participation.profile')
             ->allowedFilters(
                 AllowedFilter::exact('participation.mission.id'),
-                // AllowedFilter::exact('grade'),
-                // AllowedFilter::custom('search', new FiltersTemoignageSearch),
+                AllowedFilter::custom('search', new FiltersNotificationTemoignageSearch),
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
