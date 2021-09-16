@@ -33,23 +33,31 @@
         </div>
       </VoletCard>
 
-      <!-- TÉMOIGNAGE OU NOTIFICATION TÉMOIGNAGE -->
+      <!-- NOTIFICATION TÉMOIGNAGE -->
       <VoletCard label="Témoignage">
-        <VoletRowItem label="Note">
-          <StarRating
-            :rating="row.grade"
-            class="!relative !bottom-[2px]"
-            :show-rating="false"
-            inactive-color="#E0E0E0"
-            active-color="#EF9F03"
-            :read-only="true"
-            :star-size="16"
-          />
-        </VoletRowItem>
+        <span
+          slot="action"
+          class="text-primary cursor-pointer hover:underline text-xs"
+          @click="onSendReminderTestimony"
+        >
+          Renvoyer l'email
+        </span>
 
-        <VoletRowItem label="Témoignage" class="whitespace-pre-line">{{
-          row.testimony
-        }}</VoletRowItem>
+        <div class="font-bold text-black">La notification a été envoyée</div>
+        <VoletRowItem label="Nb de relance(s)">
+          {{ row.reminders_sent }}
+        </VoletRowItem>
+        <VoletRowItem label="Dernière relance">
+          {{ row.last_sent_at | formatMediumWithTime }}
+        </VoletRowItem>
+        <VoletRowItem label="Formulaire">
+          <span
+            class="text-primary cursor-pointer hover:underline"
+            @click="onCopyLink"
+          >
+            copier le lien vers le formulaire
+          </span>
+        </VoletRowItem>
       </VoletCard>
 
       <!-- MISSION -->
@@ -339,8 +347,8 @@ export default {
     row: {
       immediate: true,
       deep: false,
-      async handler(newTemoignage) {
-        this.participation = newTemoignage.participation
+      async handler(newNotificationTemoignage) {
+        this.participation = newNotificationTemoignage.participation
         this.profile = this.participation.profile
 
         this.mission = await this.$api.getMission(this.participation.mission_id)
@@ -355,6 +363,34 @@ export default {
           this.participation.mission_id
         )
       },
+    },
+  },
+  methods: {
+    onCopyLink() {
+      this.$copyText(
+        `${this.$config.appUrl}/temoignages/${this.row.token}`
+      ).then(() => {
+        this.$message({
+          message: 'Le lien a été copié dans votre presse papier (CTRL+V)',
+          type: 'success',
+        })
+      })
+    },
+    onSendReminderTestimony() {
+      this.$confirm(
+        `Vous êtes sur le point de relancer le bénévole. Êtes vous sur de vouloir renvoyer l'email ?`,
+        'Relancer le bénévole',
+        {
+          confirmButtonText: 'Renvoyer',
+          cancelButtonText: 'Annuler',
+          center: true,
+        }
+      ).then(async () => {
+        const { data: notificationTemoignage } = await this.$axios.get(
+          `/notification-temoignage/${this.row.id}/resend`
+        )
+        this.$store.commit('volet/setRow', notificationTemoignage)
+      })
     },
   },
 }

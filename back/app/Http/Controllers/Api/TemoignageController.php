@@ -15,10 +15,8 @@ class TemoignageController extends Controller
 {
     public function index(Request $request)
     {
-        // @todo: optimiser les relations,
-        // ne sont nécessaires que pour le volet lorsqu'il est ouvert
         return QueryBuilder::for(Temoignage::role($request->header('Context-Role')))
-            ->with('participation', 'participation.profile', 'participation.mission')
+            ->with('participation', 'participation.profile')
             ->allowedFilters(
                 AllowedFilter::exact('participation.mission.id'),
                 AllowedFilter::exact('grade'),

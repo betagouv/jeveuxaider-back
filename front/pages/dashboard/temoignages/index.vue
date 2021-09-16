@@ -11,6 +11,10 @@
       </div>
     </div>
 
+    <div class="px-12 mb-12">
+      <TabsTemoignages index="/dashboard/temoignages" />
+    </div>
+
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
         <SearchFiltersQueryMain
@@ -75,17 +79,8 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
-      <div class="ml-auto">
-        <!-- <el-button
-          :loading="loadingExport"
-          icon="el-icon-download"
-          size="small"
-          @click="onExport"
-        >
-          Export
-        </el-button> -->
-      </div>
     </div>
+
     <portal to="volet">
       <VoletTemoignage />
     </portal>
@@ -93,8 +88,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
 
@@ -102,17 +95,8 @@ export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
   asyncData({ store, error }) {
-    if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
-        store.getters.contextRole
-      )
-    ) {
+    if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
-    }
-  },
-  data() {
-    return {
-      loadingExport: false,
     }
   },
   async fetch() {
@@ -126,21 +110,6 @@ export default {
   },
   watch: {
     '$route.query': '$fetch',
-  },
-  methods: {
-    onExport() {
-      this.loadingExport = true
-      console.log('TODO EXPORT TEMOIGNAGES')
-      // this.$api
-      //   .exportParticipations(this.query)
-      //   .then((response) => {
-      //     this.loadingExport = false
-      //     fileDownload(response.data, 'participations.xlsx')
-      //   })
-      //   .catch((error) => {
-      //     console.log('exportParticipations', error)
-      //   })
-    },
   },
 }
 </script>

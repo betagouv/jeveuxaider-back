@@ -10,9 +10,26 @@ use App\Models\Temoignage;
 use App\Notifications\NotificationTemoignageCreate;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Database\Eloquent\Builder;
 
 class NotificationTemoignageController extends Controller
 {
+    public function index(Request $request)
+    {
+        return QueryBuilder::for(NotificationTemoignage::role($request->header('Context-Role')))
+            ->whereHas('participation', function (Builder $query) {
+                $query->whereDoesntHave('temoignage');
+            })
+            ->with('participation', 'participation.profile')
+            ->allowedFilters(
+                AllowedFilter::exact('participation.mission.id'),
+                // AllowedFilter::exact('grade'),
+                // AllowedFilter::custom('search', new FiltersTemoignageSearch),
+            )
+            ->defaultSort('-created_at')
+            ->paginate(config('query-builder.results_per_page'));
+    }
+
     public function show(Request $request, String $token)
     {
         return NotificationTemoignage::whereToken($token)->first();

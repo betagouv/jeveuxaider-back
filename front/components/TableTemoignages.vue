@@ -15,26 +15,18 @@
     </el-table-column>
     <el-table-column prop="name" label="Bénévole" width="250">
       <template slot-scope="scope">
-        <template v-if="canShowProfileDetails(scope.row)">
-          <div class="text-gray-900">
-            {{ scope.row.participation.profile.full_name }}
+        <div class="text-gray-900">
+          {{ scope.row.participation.profile.full_name }}
+        </div>
+        <div class="font-light text-gray-600">
+          <div class="text-xs">
+            {{ scope.row.participation.profile.email }}
           </div>
-          <div class="font-light text-gray-600">
-            <div class="text-xs">
-              {{ scope.row.participation.profile.email }}
-            </div>
-            <div class="text-xs">
-              {{ scope.row.participation.profile.mobile }} -
-              {{ scope.row.participation.profile.zip }}
-            </div>
+          <div class="text-xs">
+            {{ scope.row.participation.profile.mobile }} -
+            {{ scope.row.participation.profile.zip }}
           </div>
-        </template>
-        <template v-else>
-          <div class="text-gray-900">Anonyme</div>
-          <div class="font-light text-gray-600 flex items-center">
-            <div class="text-xs">Coordonnées masquées</div>
-          </div>
-        </template>
+        </div>
       </template>
     </el-table-column>
 
@@ -82,15 +74,6 @@ export default {
     onClickedRow: {
       type: Function,
       default: () => {},
-    },
-  },
-  methods: {
-    canShowProfileDetails(row) {
-      return !!(
-        row.participation.mission &&
-        (row.participation.mission.state != 'Signalée' ||
-          this.$store.getters.contextRole !== 'responsable')
-      )
     },
   },
 }
