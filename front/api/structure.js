@@ -13,6 +13,12 @@ export default (axios) => ({
       responseType: 'blob',
     })
   },
+  async exportTerritoires(params) {
+    return await axios.get('/territoires/export', {
+      params,
+      responseType: 'blob',
+    })
+  },
   async addStructure(structure) {
     return await axios.post('/structure', structure)
   },

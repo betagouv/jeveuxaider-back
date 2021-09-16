@@ -157,6 +157,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // EXPORT
     Route::get('structures/export', 'Api\StructureController@export');
+    Route::get('territoires/export', 'Api\TerritoireController@export');
     Route::get('missions/export', 'Api\MissionController@export');
     Route::get('profiles/export', 'Api\ProfileController@export');
     Route::get('participations/export', 'Api\ParticipationController@export');

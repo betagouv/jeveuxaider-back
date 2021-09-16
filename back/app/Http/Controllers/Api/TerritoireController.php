@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\TerritoiresExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TerritoireUpdateRequest;
 use App\Http\Requests\Api\TerritoireUploadRequest;
@@ -16,6 +17,7 @@ use App\Models\Territoire;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Filters\FiltersTerritoireSearch;
+use App\Jobs\NotifyUserOfCompletedExport;
 
 class TerritoireController extends Controller
 {
@@ -182,5 +184,20 @@ class TerritoireController extends Controller
         }
 
         return array_slice($cities, 0, 10);
+    }
+
+    public function export(Request $request)
+    {
+        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+        $fileName = 'territoires-' . Str::random(8) . '.csv';
+        $filePath = $folder . $fileName;
+
+        (new TerritoiresExport($request->header('Context-Role')))
+            ->queue($filePath, 's3')
+            ->chain([
+                new NotifyUserOfCompletedExport($request->user(), $filePath),
+            ]);
+
+        return response()->json(['message'=> 'Export en cours...'], 200);
     }
 }
