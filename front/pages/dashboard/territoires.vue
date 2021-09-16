@@ -159,6 +159,16 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
+      <div class="ml-auto">
+        <el-button
+          :loading="loadingExport"
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
+          Export
+        </el-button>
+      </div>
     </div>
     <portal to="volet">
       <VoletTerritoire @deleted="onDeletedRow" />
@@ -176,6 +186,11 @@ export default {
   asyncData({ store, error }) {
     if (!['admin'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
+    }
+  },
+  data() {
+    return {
+      loadingExport: false,
     }
   },
   async fetch() {
@@ -203,6 +218,24 @@ export default {
       }
 
       return output
+    },
+    onExport() {
+      this.loadingExport = true
+      this.$api
+        .exportTerritoires(this.query)
+        .then(() => {
+          this.loadingExport = false
+          // fileDownload(response.data, 'organisation.xlsx')
+          this.$message.success({
+            message:
+              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
+          })
+        })
+        .catch((error) => {
+          this.$message.error({
+            message: error.response.data.message,
+          })
+        })
     },
   },
 }

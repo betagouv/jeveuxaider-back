@@ -102,6 +102,27 @@
           }}</VoletRowItem>
         </VoletCard>
       </template>
+
+      <!-- STRUCTURE -->
+      <template v-if="structure">
+        <VoletCard
+          v-if="structure"
+          label="Organisation"
+          :link="`/dashboard/structure/${structure.id}`"
+          :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+        >
+          <VoletRowItem label="Nom"
+            ><span class="font-bold">{{ structure.name }}</span></VoletRowItem
+          >
+          <VoletRowItem label="Statut">{{
+            structure.state | labelFromValue('structure_workflow_states')
+          }}</VoletRowItem>
+          <VoletRowItem label="Type">{{
+            structure.statut_juridique
+              | labelFromValue('structure_legal_status')
+          }}</VoletRowItem>
+        </VoletCard>
+      </template>
     </div>
   </Volet>
 </template>
@@ -112,6 +133,7 @@ export default {
     return {
       loading: false,
       territoire: null,
+      structure: null,
       responsables: [],
     }
   },
@@ -129,6 +151,13 @@ export default {
         const responsables = await this.$api.getTerritoireResponsables(
           this.territoire.id
         )
+
+        if (this.territoire.structure_id) {
+          this.structure = await this.$api.getStructure(
+            this.territoire.structure_id
+          )
+        }
+
         this.responsables = responsables.data
       },
     },

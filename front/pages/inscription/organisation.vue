@@ -97,6 +97,7 @@
 
     <div v-else-if="currentStep.key == 'choix_orga_nom'" class="mt-4">
       <el-form
+        v-if="!userHasOrganisation"
         ref="registerResponsableForm"
         :model="form"
         label-position="top"
@@ -110,25 +111,13 @@
             <template v-if="$route.query.orga_type === 'Collectivité'">
               Nom de votre collectivité
             </template>
-            <template
-              v-else-if="
-                $route.query.orga_type === 'Association' && !userHasAssociation
-              "
-            >
+            <template v-else-if="$route.query.orga_type === 'Association'">
               Nom de votre association
-            </template>
-            <template
-              v-else-if="
-                $route.query.orga_type === 'Association' && userHasAssociation
-              "
-            >
             </template>
             <template v-else>Nom de votre organisation</template>
           </label>
           <StructureApiSearchInput
-            v-if="
-              $route.query.orga_type === 'Association' && !userHasAssociation
-            "
+            v-if="$route.query.orga_type === 'Association'"
             v-model="form.structure.name"
             placeholder="Nom de votre association"
             :show-add-button="!orgaExist"
@@ -137,24 +126,6 @@
             @change="orgaExist = null"
             @added="onSubmitChooseName"
           />
-          <div
-            v-else-if="
-              $route.query.orga_type === 'Association' && userHasAssociation
-            "
-          >
-            <div class="mb-6">
-              Vous êtes déjà responsable de l'association
-              <span class="font-bold">{{ userHasAssociation.name }}</span>
-            </div>
-            <nuxt-link to="/register/responsable/step/profile">
-              <el-button
-                type="primary"
-                class="w-full flex justify-center p-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-green-400 hover:shadow-lg hover:scale-105 transform transition duration-150 ease-in-out mt-4"
-              >
-                Continuer
-              </el-button>
-            </nuxt-link>
-          </div>
           <el-input
             v-else
             v-model="form.structure.name"
@@ -177,7 +148,7 @@
         </template>
         <div v-if="orgaExist" class="text-center mt-4">
           <p class="mb-0 font-bold">
-            L'association
+            L'organisation
             <span class="text-primary">{{ orgaExist.structure_name }}</span>
             est déjà inscrite sur la plateforme.
           </p>
@@ -195,6 +166,21 @@
           </p>
         </div>
       </el-form>
+
+      <div v-else class="max-w-2xl mx-auto bg-gray-100 p-6 sm:p-12 rounded-2xl">
+        <div class="mb-6">
+          Vous êtes déjà responsable de l'organisation
+          <span class="font-bold">{{ userHasOrganisation.name }}</span>
+        </div>
+        <nuxt-link to="/register/responsable/step/profile">
+          <el-button
+            type="primary"
+            class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-8 !leading-none"
+          >
+            Continuer
+          </el-button>
+        </nuxt-link>
+      </div>
     </div>
 
     <div v-else-if="currentStep.key == 'form_utilisateur'" class="mt-4">
@@ -434,13 +420,13 @@ export default {
     currentStep() {
       return this.steps.find((step) => step.key == this.currentStepKey)
     },
-    userHasAssociation() {
+    userHasOrganisation() {
       if (!this.$store.getters.profile) {
         return false
       }
-      return this.$store.getters.profile.structures.find(
-        (structure) => structure.statut_juridique == 'Association'
-      )
+      return this.$store.getters.profile.structures.length
+        ? this.$store.getters.profile.structures[0]
+        : null
     },
   },
   methods: {
