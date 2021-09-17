@@ -190,7 +190,6 @@ class MissionController extends Controller
         return $query->get()->load('structure');
     }
 
-    // testimoniesStats
     public function testimoniesStats(Request $request, Mission $mission)
     {
         return $mission->getTestimoniesStats();

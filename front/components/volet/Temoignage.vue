@@ -188,6 +188,28 @@
         }}</VoletRowItem>
       </VoletCard>
 
+      <!-- STRUCTURE -->
+      <VoletCard
+        v-if="mission && mission.structure"
+        label="Organisation"
+        :link="`/dashboard/structure/${mission.structure.id}`"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+      >
+        <!-- <VoletRowItem label="ID">{{ mission.structure.id }}</VoletRowItem> -->
+        <VoletRowItem label="Nom"
+          ><span class="font-bold">{{
+            mission.structure.name
+          }}</span></VoletRowItem
+        >
+        <VoletRowItem label="Statut">{{
+          mission.structure.state | labelFromValue('structure_workflow_states')
+        }}</VoletRowItem>
+        <VoletRowItem label="Type">{{
+          mission.structure.statut_juridique
+            | labelFromValue('structure_legal_status')
+        }}</VoletRowItem>
+      </VoletCard>
+
       <!-- BENEVOLE -->
       <VoletCard
         v-if="profile"

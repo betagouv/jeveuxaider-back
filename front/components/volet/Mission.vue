@@ -94,10 +94,7 @@
         "
       >
         <VoletCard
-          v-if="
-            testimoniesStats.notifications &&
-            testimoniesStats.notifications.count
-          "
+          v-if="testimoniesStats.notifications.count"
           label="Témoignages"
           link-label="Voir les témoignages"
           :link="`/dashboard/mission/${mission.id}/temoignages`"
@@ -112,10 +109,7 @@
             </VoletRowItem>
 
             <VoletRowItem
-              v-if="
-                testimoniesStats.testimonies &&
-                testimoniesStats.testimonies.count >= 0
-              "
+              v-if="testimoniesStats.testimonies.count >= 0"
               label="Recueillis"
             >
               {{ testimoniesStats.testimonies.count }}
@@ -144,10 +138,7 @@
         </VoletCard>
 
         <VoletCard
-          v-else-if="
-            testimoniesStats.notifications &&
-            testimoniesStats.notifications.total
-          "
+          v-else-if="testimoniesStats.notifications.total"
           label="Témoignages"
         >
           <div class="font-bold text-black">
@@ -355,7 +346,7 @@ export default {
       form: { ...this.$store.getters['volet/row'] },
       mission: null,
       responsable: null,
-      testimoniesStats: {},
+      testimoniesStats: null,
     }
   },
   computed: {
