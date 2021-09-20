@@ -54,6 +54,7 @@
           :value="query['filter[api_id]']"
           :options="[
             { label: 'Non renseigné', value: 'empty' },
+            { label: 'Non applicable', value: 'na' },
             { label: 'Renseigné', value: 'filled' },
           ]"
           @changed="onFilterChange"
@@ -71,13 +72,6 @@
           multiple
           :value="query['filter[state]']"
           :options="$store.getters.taxonomies.structure_workflow_states.terms"
-          @changed="onFilterChange"
-        />
-        <SearchFiltersQuery
-          name="statut_juridique"
-          label="Statut juridique"
-          :value="query['filter[statut_juridique]']"
-          :options="$store.getters.taxonomies.structure_legal_status.terms"
           @changed="onFilterChange"
         />
         <SearchFiltersQuery
@@ -156,13 +150,16 @@
       <el-table-column prop="rna" label="API" width="300">
         <template slot-scope="scope">
           <div v-if="scope.row.rna" class="">RNA: {{ scope.row.rna }}</div>
-          <a
-            v-if="scope.row.api_id"
-            :href="`https://api-association.cleverapps.io/association/${scope.row.rna}/etablissement/${scope.row.api_id}`"
-            class=""
-            target="_blank"
-            >Fiche: {{ scope.row.api_id }}</a
-          >
+          <template v-if="scope.row.api_id">
+            <a
+              v-if="scope.row.api_id != 'N/A'"
+              :href="`https://api-association.cleverapps.io/association/${scope.row.rna}/etablissement/${scope.row.api_id}`"
+              class=""
+              target="_blank"
+              >Fiche: {{ scope.row.api_id }}</a
+            >
+            <span v-else>Fiche: {{ scope.row.api_id }}</span>
+          </template>
         </template>
       </el-table-column>
     </el-table>
@@ -177,16 +174,6 @@
       />
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
-      </div>
-      <div class="ml-auto">
-        <el-button
-          :loading="loadingExport"
-          icon="el-icon-download"
-          size="small"
-          @click="onExport"
-        >
-          Export
-        </el-button>
       </div>
     </div>
     <portal to="volet">
@@ -230,24 +217,6 @@ export default {
         this.$refs.table.setCurrentRow(this.tableData[0])
         this.onClickedRow(this.tableData[0])
       }
-    },
-    onExport() {
-      this.loadingExport = true
-      this.$api
-        .exportStructures(this.query)
-        .then(() => {
-          this.loadingExport = false
-          // fileDownload(response.data, 'organisation.xlsx')
-          this.$message.success({
-            message:
-              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
-          })
-        })
-        .catch((error) => {
-          this.$message.error({
-            message: error.response.data.message,
-          })
-        })
     },
   },
 }

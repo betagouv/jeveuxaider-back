@@ -12,6 +12,8 @@ class FiltersStructureWithApiId implements Filter
         return $query->where(function ($query) use ($value, $property) {
             if ($value == 'empty') {
                 $query->whereNull('api_id');
+            } elseif ($value == 'na') {
+                $query->where('api_id', 'N/A');
             } elseif ($value=='filled') {
                 $query->whereNotNull('api_id');
             }

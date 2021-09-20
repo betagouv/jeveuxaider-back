@@ -460,7 +460,9 @@ class Structure extends Model implements HasMedia
 
     public function canBeSendToApiEngagement()
     {
-        return $this->state == 'Validée' && $this->rna && $this->rna != 'N/A' && $this->api_id;
+        return $this->state == 'Validée' && $this->statut_juridique == 'Association'
+            && $this->rna && $this->rna != 'N/A'
+            && $this->api_id && $this->api_id != 'N/A';
     }
 
     public function getCompletionRateAttribute()

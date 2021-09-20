@@ -80,7 +80,10 @@ export default {
     },
     async onSubmitRnaNA() {
       this.loadingNA = true
-      await this.$api.assignStructureRna(this.row.id, { rna: 'N/A' })
+      await this.$api.assignStructureRna(this.row.id, {
+        rna: 'N/A',
+        api_id: 'N/A',
+      })
       this.loadingNA = false
       this.rna = null
       this.api_id = null

@@ -16,11 +16,10 @@ class RnaController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Structure::role($request->header('Context-Role')))
+        return QueryBuilder::for(Structure::role($request->header('Context-Role'))->where('statut_juridique', 'Association'))
             ->withCount('missions')
             ->allowedFilters([
                 'state',
-                'statut_juridique',
                 AllowedFilter::exact('department'),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
