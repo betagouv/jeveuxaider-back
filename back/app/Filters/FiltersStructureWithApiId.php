@@ -14,6 +14,8 @@ class FiltersStructureWithApiId implements Filter
                 $query->whereNull('api_id');
             } elseif ($value == 'na') {
                 $query->where('api_id', 'N/A');
+            } elseif ($value == 'not_found_api_engagement') {
+                $query->where('api_id', 'NOT_FOUND_API_ENGAGEMENT');
             } elseif ($value=='filled') {
                 $query->whereNotNull('api_id');
             }

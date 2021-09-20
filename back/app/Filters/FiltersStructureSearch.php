@@ -19,8 +19,8 @@ class FiltersStructureSearch implements Filter
                     $value = implode(',', $value);
                 }
                 $query
-                ->where('name', 'ILIKE', '%' . $value . '%')
-                ->orWhere('rna', 'ILIKE', '%' . $value . '%');
+                    ->where('name', 'ILIKE', '%' . $value . '%')
+                    ->orWhere('rna', 'ILIKE', '%' . $value . '%');
             }
         });
     }

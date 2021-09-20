@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Structure;
+use App\Services\ApiEngagement;
 use Illuminate\Console\Command;
 
 class FillAssociationIdEtablissementApiFromRna extends Command
@@ -12,14 +13,15 @@ class FillAssociationIdEtablissementApiFromRna extends Command
      *
      * @var string
      */
-    protected $signature = 'rna:fill-association-id-etablissement-from-rna';
+    protected $signature = 'rna:fill-association-id-etablissement-from-rna {--limit=1}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fill Association ID from RNA';
+    protected $description = 'Fill Association ID from RNA
+                                {--limit= : Limit number to process}';
 
     /**
      * Create a new command instance.
@@ -38,12 +40,35 @@ class FillAssociationIdEtablissementApiFromRna extends Command
      */
     public function handle()
     {
-        $globalQuery = Structure::where('statut_juridique', 'Association')->whereNotNull('rna')->where('rna', '!=', 'N/A');
+        $options = $this->options();
 
-        $this->info($globalQuery->count() . ' structure will be updated with RNA Non Applicable');
+        $structures = Structure::where('statut_juridique', 'Association')
+            ->whereNotNull('rna')
+            ->where('rna', '!=', 'N/A')
+            ->whereNull('api_id')
+            ->take($options['limit'])
+            ->get();
+
+        $this->info($structures->count() . ' structure(s) will be updated with RNA Non Applicable');
 
         if ($this->confirm('Do you wish to continue?')) {
-            // $globalQuery->update(['rna' => 'N/A']);
+            foreach ($structures as $structure) {
+                $apiEngagement = new ApiEngagement();
+                $response = $apiEngagement->findAssociation([
+                    'name' => $structure->rna,
+                ]);
+
+                $results = $response->json();
+
+                if (count($results['data'])) {
+                    $structure->api_id = $results['data'][0]['_id'];
+                    $structure->saveQuietly();
+                } else {
+                    $structure->api_id = 'NOT_FOUND_API_ENGAGEMENT';
+                    $structure->saveQuietly();
+                    $this->info('NOT FOUND FOR ' . $structure->name . ' - RNA ' . $structure->rna);
+                }
+            }
         }
     }
 }

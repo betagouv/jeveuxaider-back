@@ -55,6 +55,10 @@
           :options="[
             { label: 'Non renseigné', value: 'empty' },
             { label: 'Non applicable', value: 'na' },
+            {
+              label: 'Non répertorié sur l\'API Engagement',
+              value: 'not_found_api_engagement',
+            },
             { label: 'Renseigné', value: 'filled' },
           ]"
           @changed="onFilterChange"
