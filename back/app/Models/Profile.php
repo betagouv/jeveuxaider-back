@@ -278,6 +278,11 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
+    public function teteDeReseau()
+    {
+        return $this->belongsTo(Reseau::class);
+    }
+
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'responsable_id');
@@ -330,6 +335,11 @@ class Profile extends Model implements HasMedia
         return $this->reseau ? true : false;
     }
 
+    public function isTeteDeReseau()
+    {
+        return true;
+    }
+
     public function isResponsable()
     {
         if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
@@ -361,6 +371,7 @@ class Profile extends Model implements HasMedia
             'referent_regional' => $this->isReferentRegional(),
             'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
+            'tete_de_reseau' => $this->isTeteDeReseau(),
             'analyste' => $this->is_analyste
         ];
     }

@@ -3,6 +3,7 @@ export const rolesList = [
   { key: 'referent', label: 'Référent' },
   { key: 'referent_regional', label: 'Régional' },
   { key: 'superviseur', label: 'Tête de réseau' },
+  { key: 'tete_de_reseau', label: 'Tête de réseau (new)' },
   { key: 'responsable', label: 'Responsable' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },

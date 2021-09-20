@@ -376,6 +376,15 @@ class Mission extends Model
                         $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                     });
                 break;
+            case 'tete_de_reseau':
+                // Missions qui sont dans une structure rattachée à mon réseau
+                return $query
+                    ->whereHas('structure', function (Builder $query) {
+                        $query->whereHas('reseaux', function (Builder $query) {
+                            $query->where('reseau_id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                        });
+                    });
+                break;
         }
     }
 

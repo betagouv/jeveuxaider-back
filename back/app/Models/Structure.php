@@ -123,6 +123,10 @@ class Structure extends Model implements HasMedia
                     ->whereNotNull('reseau_id')
                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
                 break;
+            case 'tete_de_reseau':
+                return $query->whereHas('reseaux', function (Builder $query) {
+                    $query->where('reseau_id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                });
         }
     }
 
@@ -264,6 +268,11 @@ class Structure extends Model implements HasMedia
     public function reseau()
     {
         return $this->belongsTo('App\Models\Structure');
+    }
+
+    public function reseaux()
+    {
+        return $this->belongsToMany(Reseau::class);
     }
 
     public function members()

@@ -57,6 +57,7 @@ Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseau/lead', 'Api\ReseauController@lead');
+Route::get('reseau/test', 'Api\ReseauController@test');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
 Route::get('participation/{participation}/temoignage', 'Api\TemoignageController@fromParticipation');
