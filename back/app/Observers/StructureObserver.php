@@ -183,7 +183,7 @@ class StructureObserver
 
         $territoire = Territoire::create([
             'structure_id' => $structure->id,
-            'name' => $structure->city ?? $structure->name,
+            'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
             'suffix_title' => 'à ' . $structure->city ?? $structure->name,
             'zips' => $structure->zip ? [$structure->zip] : [],
             'department' => $structure->department,

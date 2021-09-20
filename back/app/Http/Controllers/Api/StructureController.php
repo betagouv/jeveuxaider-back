@@ -28,6 +28,8 @@ use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
 use App\Services\ApiEngagement;
 
+use function Symfony\Component\Translation\t;
+
 class StructureController extends Controller
 {
     public function index(Request $request)
@@ -176,6 +178,10 @@ class StructureController extends Controller
                     "L'organisation ne peut pas être supprimée car elle a des missions liées.",
                 ]
             ]], 400);
+        }
+
+        if ($structure->territoire) {
+            $structure->territoire->update(['structure_id' => null]);
         }
 
         return (string) $structure->delete();
