@@ -241,6 +241,13 @@ class Structure extends Model implements HasMedia
         }
     }
 
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        return $query->whereHas('reseaux', function (Builder $query) use ($reseau_id) {
+            $query->where('reseau_id', $reseau_id);
+        });
+    }
+
     public function scopeValidated($query)
     {
         return $query->where('state', 'Validée');

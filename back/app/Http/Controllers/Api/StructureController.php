@@ -40,6 +40,7 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
                 'missions'
