@@ -1,14 +1,16 @@
 <template>
-  <VueSlickCarousel v-bind="settings" class="m-auto" style="max-width: 960px">
-    <div v-for="mission in missions" :key="mission.id">
-      <nuxt-link
-        class="card--mission--wrapper !outline-none focus:ring rounded-lg mx-2.5"
-        :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
-      >
-        <CardMission :mission="mission" />
-      </nuxt-link>
-    </div>
-  </VueSlickCarousel>
+  <client-only>
+    <VueSlickCarousel v-bind="settings" class="m-auto" style="max-width: 960px">
+      <div v-for="mission in missions" :key="mission.id">
+        <nuxt-link
+          class="card--mission--wrapper !outline-none focus:ring rounded-lg mx-2.5"
+          :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+        >
+          <CardMission :mission="mission" />
+        </nuxt-link>
+      </div>
+    </VueSlickCarousel>
+  </client-only>
 </template>
 
 <script>
