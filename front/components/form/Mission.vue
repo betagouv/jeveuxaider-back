@@ -871,13 +871,17 @@ export default {
       this.form.skills = this.form.skills.filter((item) => item.id !== id)
     },
     setAddressFromStructure() {
-      this.form.address = this.form.structure.address
-      this.form.city = this.form.structure.city
-      this.form.zip = this.form.structure.zip
-      this.form.department = this.form.structure.department
-      this.form.full_address = `${this.form.address} ${this.form.zip} ${this.form.city}`
-      this.form.latitude = this.form.structure.latitude
-      this.form.longitude = this.form.structure.longitude
+      this.$set(this.form, 'address', this.form.structure.address)
+      this.$set(this.form, 'city', this.form.structure.city)
+      this.$set(this.form, 'zip', this.form.structure.zip)
+      this.$set(this.form, 'latitude', this.form.structure.latitude)
+      this.$set(this.form, 'longitude', this.form.structure.longitude)
+      this.$set(this.form, 'department', this.form.structure.department)
+      this.$set(
+        this.form,
+        'full_address',
+        `${this.form.address} ${this.form.zip} ${this.form.city}`
+      )
     },
   },
 }
