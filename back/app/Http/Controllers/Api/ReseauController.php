@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Reseau;
+use App\Models\Structure;
 use App\Notifications\ReseauNewLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -15,9 +16,8 @@ class ReseauController extends Controller
     {
         $reseau = Reseau::firstOrCreate(['name' => 'First Réseau']);
         $reseau->structures()->syncWithoutDetaching([3438, 5361, 5374]);
-        ray($reseau);
-        ray($reseau->structures);
-        ray($reseau->profiles);
+        $structure = Structure::find(5374);
+        $structure = Structure::find(3438);
         $reseau->profiles()->saveMany([Profile::find(320048), Profile::find(346484)]);
         return $reseau->profiles;
     }

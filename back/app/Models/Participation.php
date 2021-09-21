@@ -77,6 +77,16 @@ class Participation extends Model
                         });
                     });
                 break;
+            case 'tete_de_reseau':
+                return $query
+                    ->whereHas('mission', function (Builder $query) {
+                        $query->whereHas('structure', function (Builder $query) {
+                            $query->whereHas('reseaux', function (Builder $query) {
+                                $query->where('reseau_id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                            });
+                        });
+                    });
+                break;
             case 'responsable':
                 $user = Auth::guard('api')->user();
                 return $query
