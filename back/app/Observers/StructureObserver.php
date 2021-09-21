@@ -165,10 +165,8 @@ class StructureObserver
         }
 
         // Update API Engagement
-        if (config('app.env') === 'production') {
-            if ($structure->canBeSendToApiEngagement()) {
-                (new ApiEngagement())->syncAssociation($structure);
-            }
+        if ($structure->canBeSendToApiEngagement()) {
+            (new ApiEngagement())->syncAssociation($structure);
         }
     }
 
