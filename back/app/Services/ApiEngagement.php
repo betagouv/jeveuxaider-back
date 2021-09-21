@@ -353,7 +353,7 @@ class ApiEngagement
                     $attributes['twitter'] = $structure->twitter;
                 }
 
-                if ($structure->latitude && $structure->longitude) {
+                if ($structure->latitude && $structure->longitude && $structure->address != $structure->city) {
                     $attributes['coordonnees']['adresse']['location'] = [
                         'lat' => $structure->latitude,
                         'lon' => $structure->longitude,
@@ -361,9 +361,7 @@ class ApiEngagement
                 }
 
                 if ($structure->address && $structure->address != $structure->city) {
-                   // $attributes['coordonnees']['adresse']['nom_complet'] = $structure->full_address;
                     $attributes['coordonnees']['adresse']['nom'] = $structure->address;
-                    $attributes['coordonnees']['adresse']['rue'] = $structure->address;
                 }
 
                 if ($structure->city) {

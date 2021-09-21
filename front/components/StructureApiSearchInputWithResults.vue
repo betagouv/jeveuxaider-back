@@ -26,7 +26,7 @@
     <div v-if="suggestions">
       <div
         v-for="suggestion in suggestions"
-        :key="suggestion.rna"
+        :key="suggestion._id"
         class="bg-white p-4 mb-4 rounded-lg hover:border-[#070191] cursor-pointer"
         :class="isSelected(suggestion) ? 'border-2 border-[#070191]' : 'border'"
         @click="onSelected(suggestion)"
@@ -114,10 +114,16 @@ export default {
     },
     isSelected(suggestion) {
       if (this.selected) {
-        return this.selected.rna == suggestion.rna
+        return (
+          this.selected.rna == suggestion.rna &&
+          this.selected._id == suggestion._id
+        )
       }
       if (this.structure) {
-        return this.structure.rna == suggestion.rna
+        return (
+          this.structure.rna == suggestion.rna &&
+          this.structure.api_id == suggestion._id
+        )
       }
       return false
     },
