@@ -151,7 +151,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="rna" label="API" width="300">
+      <el-table-column prop="rna" label="API" width="320">
         <template slot-scope="scope">
           <div v-if="scope.row.rna" class="">RNA: {{ scope.row.rna }}</div>
           <template v-if="scope.row.api_id">
