@@ -41,6 +41,9 @@
         <LazyMenuSuperviseur
           v-if="$store.getters.contextRole == 'superviseur'"
         />
+        <LazyMenuTeteDeReseau
+          v-if="$store.getters.contextRole == 'tete_de_reseau'"
+        />
         <LazyMenuAnalyste v-if="$store.getters.contextRole == 'analyste'" />
 
         <!-- Secondary navigation -->

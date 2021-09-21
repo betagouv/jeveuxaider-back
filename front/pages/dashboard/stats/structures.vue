@@ -35,6 +35,7 @@ export default {
         'referent_regional',
         'superviseur',
         'analyste',
+        'tete_de_reseau',
       ].includes(store.getters.contextRole)
     ) {
       return error({ statusCode: 403 })
