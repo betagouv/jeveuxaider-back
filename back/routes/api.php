@@ -220,6 +220,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
     Route::post('mission-template/{missionTemplate}/upload/{field}', 'Api\MissionTemplateController@upload');
     Route::delete('mission-template/{missionTemplate}/upload/{field}', 'Api\MissionTemplateController@uploadDelete');
+
+    // RESEAUX
+    Route::get('reseaux', 'Api\ReseauController@index');
 });
 
 // ONLY ADMIN
@@ -301,4 +304,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // TERRITOIRES
     Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
+
+    // RESEAUX
+    Route::post('reseaux', 'Api\ReseauController@store');
+    Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
 });

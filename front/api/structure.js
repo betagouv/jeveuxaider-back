@@ -41,6 +41,11 @@ export default (axios) => ({
       ? await axios.post(`/structure/${id}`, structure)
       : await axios.post('/structure', structure)
   },
+  async addOrUpdateReseau(reseau) {
+    return reseau.id
+      ? await axios.post(`/reseaux/${reseau.id}`, reseau)
+      : await axios.post('/reseaux', reseau)
+  },
   async deleteStructure(id) {
     return await axios.delete(`/structure/${id}`)
   },
@@ -73,6 +78,9 @@ export default (axios) => ({
   },
   async structureExists(apiId) {
     return await axios.get(`/structure/${apiId}/exist`)
+  },
+  async fetchReseaux(params) {
+    return await axios.get('/reseaux', { params })
   },
   async reseauLead(form) {
     return await axios.post('/reseaux/lead', form)

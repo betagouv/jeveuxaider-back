@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReseauRequest;
 use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
 use App\Notifications\ReseauNewLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+
 
 class ReseauController extends Controller
 {
@@ -23,10 +27,27 @@ class ReseauController extends Controller
         return $reseau->missionTemplates;
     }
 
+    public function index(Request $request)
+    {
+        return QueryBuilder::for(Reseau::class)
+            ->defaultSort('-updated_at')
+            ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
+    }
+
     public function show(Request $request, Reseau $reseau) 
     {
         return $reseau;
     }
+
+    public function store(ReseauRequest $request)
+    {
+        $reseau = Reseau::create(
+            $request->validated()
+        );
+
+        return $reseau;
+    }
+
 
     public function lead(Request $request)
     {
