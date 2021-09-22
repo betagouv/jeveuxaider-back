@@ -54,7 +54,6 @@ class MissionTemplateController extends Controller
 
     public function upload(MissionTemplateUploadRequest $request, MissionTemplate $missionTemplate, String $field)
     {
-        ray()->newScreen();
         // Delete previous file
         if ($media = $missionTemplate->getFirstMedia('templates', ['field' => $field])) {
             $media->delete();
@@ -65,7 +64,6 @@ class MissionTemplateController extends Controller
 
         $data = $request->all();
         $cropSettings = json_decode($data['cropSettings']);
-        ray($cropSettings);
 
         $media = $missionTemplate
             ->addMedia($request->file('image'))
@@ -73,7 +71,6 @@ class MissionTemplateController extends Controller
             ->usingFileName($name . '.' . $extension)
             ->withCustomProperties(['field' => $field]);
         
-        ray('media', $media);
 
         if (!empty($cropSettings)) {
             $stringCropSettings = implode(",", [
