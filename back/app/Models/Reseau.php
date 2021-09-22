@@ -21,4 +21,9 @@ class Reseau extends Model
     {
         return $this->belongsToMany(Structure::class);
     }
+
+    public function missionTemplates()
+    {
+        return $this->hasMany(MissionTemplate::class);
+    }
 }

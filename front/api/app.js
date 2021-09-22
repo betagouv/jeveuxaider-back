@@ -32,6 +32,7 @@ export default (axios) => ({
     return await axios.get('/activities', { params })
   },
   async uploadImage(id, model, image, cropSettings, fieldName = null) {
+    console.log('fieldname!', fieldName)
     const data = new FormData()
     const options = {
       'Content-Type': 'multipart/form-data',

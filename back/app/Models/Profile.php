@@ -337,7 +337,7 @@ class Profile extends Model implements HasMedia
 
     public function isTeteDeReseau()
     {
-        return true;
+        return $this->teteDeReseau ? true : false;
     }
 
     public function isResponsable()

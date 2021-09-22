@@ -20,11 +20,12 @@ class MissionTemplateController extends Controller
     {
         $paginate = $request->has('pagination') ? $request->input('pagination') : config('query-builder.results_per_page');
 
-        return QueryBuilder::for(MissionTemplate::with('domaine'))
+        return QueryBuilder::for(MissionTemplate::with(['domaine']))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
                 AllowedFilter::exact('domaine.id'),
-                AllowedFilter::exact('published')
+                AllowedFilter::exact('published'),
+                AllowedFilter::scope('of_reseau')
             )
             ->defaultSort('-updated_at')
             ->paginate($paginate);
@@ -36,9 +37,7 @@ class MissionTemplateController extends Controller
             return $request->validated();
         }
 
-        $missionTemplate = MissionTemplate::create($request->validated());
-
-        return $missionTemplate;
+        return MissionTemplate::create($request->validated());
     }
 
     public function show(MissionTemplate $missionTemplate)
@@ -53,22 +52,60 @@ class MissionTemplateController extends Controller
         return $missionTemplate;
     }
 
-    public function upload(MissionTemplateUploadRequest $request, MissionTemplate $missionTemplate)
+    public function upload(MissionTemplateUploadRequest $request, MissionTemplate $missionTemplate, String $field)
     {
-
+        ray()->newScreen();
         // Delete previous file
-        if ($media = $missionTemplate->getFirstMedia('templates')) {
+        if ($media = $missionTemplate->getFirstMedia('templates', ['field' => $field])) {
             $media->delete();
         }
 
         $extension = $request->file('image')->guessExtension();
         $name = Str::random(15);
 
-        $missionTemplate
+        $data = $request->all();
+        $cropSettings = json_decode($data['cropSettings']);
+        ray($cropSettings);
+
+        $media = $missionTemplate
             ->addMedia($request->file('image'))
             ->usingName($name)
             ->usingFileName($name . '.' . $extension)
-            ->toMediaCollection('templates');
+            ->withCustomProperties(['field' => $field]);
+        
+        ray('media', $media);
+
+        if (!empty($cropSettings)) {
+            $stringCropSettings = implode(",", [
+                $cropSettings->width,
+                $cropSettings->height,
+                $cropSettings->x,
+                $cropSettings->y
+            ]);
+            $media->withManipulations([
+                'thumb' => ['manualCrop' => $stringCropSettings],
+                'large' => ['manualCrop' => $stringCropSettings],
+                'xxl' => ['manualCrop' => $stringCropSettings]
+            ]);
+        } else {
+            $pathName = $request->file('image')->getPathname();
+            $infos = getimagesize($pathName);
+            if($infos) {
+                $stringCropSettings = implode(",", [
+                    $infos[0],
+                    $infos[1],
+                    0,
+                    0
+                ]);
+                $media->withManipulations([
+                    'thumb' => ['manualCrop' => $stringCropSettings],
+                    'large' => ['manualCrop' => $stringCropSettings],
+                    'xxl' => ['manualCrop' => $stringCropSettings]
+                ]);
+            }
+        }
+
+        $media->toMediaCollection('templates');
 
         return $missionTemplate;
     }

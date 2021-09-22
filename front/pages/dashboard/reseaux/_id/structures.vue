@@ -3,14 +3,79 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ $store.getters.contextRoleLabel }}
+          Réseau {{ reseau.name }}
         </div>
-        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">Antennes</div>
+        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">
+          Organisations
+        </div>
       </div>
       <div>
-        <nuxt-link to="/reseaux/id/antennes/add">
-          <el-button type="primary">Créer une antenne</el-button>
+        <nuxt-link to="/reseaux/id/structures/add">
+          <el-button type="primary">Inviter une organisation</el-button>
         </nuxt-link>
+      </div>
+    </div>
+    <div class="px-12 mb-3 flex flex-wrap">
+      <div class="flex w-full mb-4">
+        <SearchFiltersQueryMain
+          name="search"
+          placeholder="Rechercher par mots clés..."
+          :initial-value="query['filter[search]']"
+          @changed="onFilterChange"
+        />
+        <el-badge
+          v-if="activeFilters > 1"
+          :value="activeFilters - 1"
+          type="primary"
+        >
+          <el-button
+            icon="el-icon-s-operation"
+            class="!ml-4"
+            @click="showFilters = !showFilters"
+          >
+            Filtres avancés
+          </el-button>
+        </el-badge>
+        <el-button
+          v-else
+          icon="el-icon-s-operation"
+          class="!ml-4"
+          @click="showFilters = !showFilters"
+        >
+          Filtres avancés
+        </el-button>
+      </div>
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
+        <SearchFiltersQueryInput
+          name="lieu"
+          label="Lieu"
+          placeholder="Ville ou code postal"
+          :initial-value="query['filter[lieu]']"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          name="state"
+          label="Statut"
+          multiple
+          :value="query['filter[state]']"
+          :options="$store.getters.taxonomies.structure_workflow_states.terms"
+          @changed="onFilterChange"
+        />
+        <SearchFiltersQuery
+          name="department"
+          label="Département"
+          multiple
+          :value="query['filter[department]']"
+          :options="
+            $store.getters.taxonomies.departments.terms.map((term) => {
+              return {
+                label: `${term.value} - ${term.label}`,
+                value: term.value,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
       </div>
     </div>
     <el-table
@@ -92,6 +157,9 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
+    <portal to="volet">
+      <VoletStructure @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 
@@ -102,7 +170,7 @@ import TableWithFilters from '@/mixins/table-with-filters'
 export default {
   mixins: [TableWithVolet, TableWithFilters],
   layout: 'dashboard',
-  asyncData({ $api, params, store, error }) {
+  async asyncData({ $api, params, store, error }) {
     if (!['admin', 'tete_de_reseau'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
@@ -112,17 +180,21 @@ export default {
         return error({ statusCode: 403 })
       }
     }
+
+    const reseau = await $api.getReseau(params.id)
+
+    return {
+      reseau,
+    }
   },
   data() {
     return {
       loading: true,
-      mission: null,
-      structure: null,
       tableData: [],
     }
   },
   async fetch() {
-    console.log('query', this.query)
+    this.query['filter[of_reseau]'] = this.$route.params.id
     const { data } = await this.$api.fetchStructures({
       ...this.query,
       include: 'missionsCount',
@@ -132,6 +204,9 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
+  },
+  watch: {
+    '$route.query': '$fetch',
   },
 }
 </script>

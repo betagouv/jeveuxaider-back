@@ -24,11 +24,17 @@ class MissionTemplatePolicy
 
     public function create(User $user)
     {
+        if (in_array(request()->header('Context-Role'), ['tete_de_reseau'])) {
+            return true;
+        }
         return false;
     }
 
     public function update(User $user, MissionTemplate $missionTemplate)
     {
+        if (in_array(request()->header('Context-Role'), ['tete_de_reseau'])) {
+            return true;
+        }
         return false;
     }
 
