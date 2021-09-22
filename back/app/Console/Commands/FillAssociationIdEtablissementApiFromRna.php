@@ -61,12 +61,13 @@ class FillAssociationIdEtablissementApiFromRna extends Command
                 $results = $response->json();
 
                 if (count($results['data'])) {
+                    $this->info('Processing structure ' . $structure->name . ' - RNA ' . $structure->rna);
                     $structure->api_id = $results['data'][0]['_id'];
                     $structure->saveQuietly();
                 } else {
                     $structure->api_id = 'NOT_FOUND_API_ENGAGEMENT';
                     $structure->saveQuietly();
-                    $this->info('NOT FOUND FOR ' . $structure->name . ' - RNA ' . $structure->rna);
+                    $this->info('Association not found in API: ' . $structure->name . ' - RNA ' . $structure->rna);
                 }
             }
         }
