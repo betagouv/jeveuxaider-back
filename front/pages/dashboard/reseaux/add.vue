@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <FormReseau />
+    <FormReseau class="max-w-2xl" />
   </div>
 </template>
 

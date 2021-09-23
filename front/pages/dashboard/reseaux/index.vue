@@ -93,9 +93,9 @@
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
     </div>
-    <!-- <portal to="volet">
-      <VoletStructure @updated="onUpdatedRow" @deleted="onDeletedRow" />
-    </portal> -->
+    <portal to="volet">
+      <VoletReseau @updated="onUpdatedRow" @deleted="onDeletedRow" />
+    </portal>
   </div>
 </template>
 

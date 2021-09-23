@@ -308,4 +308,5 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // RESEAUX
     Route::post('reseaux', 'Api\ReseauController@store');
     Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@addOrganisation');
 });

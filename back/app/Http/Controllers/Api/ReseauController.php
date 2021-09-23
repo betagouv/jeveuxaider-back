@@ -36,6 +36,7 @@ class ReseauController extends Controller
 
     public function show(Request $request, Reseau $reseau) 
     {
+        $reseau = Reseau::with(['profiles', 'structures'])->withCount('structures', 'missionTemplates')->where('id', $reseau->id)->first();
         return $reseau;
     }
 
@@ -48,6 +49,19 @@ class ReseauController extends Controller
         return $reseau;
     }
 
+    public function update(ReseauRequest $request, Reseau $reseau)
+    {
+        return $reseau->update($request->validated());
+    }
+
+    public function addOrganisation(Request $request, Reseau $reseau)
+    {        
+        if($request->input('organisations')) {
+            $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
+        }
+
+        return $reseau;
+    }
 
     public function lead(Request $request)
     {

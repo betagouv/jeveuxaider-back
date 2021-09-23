@@ -1,20 +1,17 @@
 <template>
   <div>
-    <div class="header px-12 flex">
-      <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          Réseau {{ reseau.name }}
-        </div>
-        <div class="mb-8 font-bold text-[1.75rem] text-[#242526]">
-          Organisations
-        </div>
-      </div>
-      <div>
-        <nuxt-link to="/reseaux/id/structures/add">
+    <HeaderReseau :reseau="reseau">
+      <template v-if="$store.getters.contextRole != 'admin'" #action>
+        <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
           <el-button type="primary">Inviter une organisation</el-button>
         </nuxt-link>
-      </div>
-    </div>
+      </template>
+    </HeaderReseau>
+    <NavTabReseau
+      v-if="$store.getters.contextRole == 'admin'"
+      :reseau="reseau"
+    />
+
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">
         <SearchFiltersQueryMain

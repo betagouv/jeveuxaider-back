@@ -89,4 +89,7 @@ export default (axios) => ({
     const { data } = await axios.get(`/reseaux/${id}`)
     return data
   },
+  async addReseauOrga(id, organisations) {
+    return await axios.post(`/reseaux/${id}/organisations`, { organisations })
+  },
 })
