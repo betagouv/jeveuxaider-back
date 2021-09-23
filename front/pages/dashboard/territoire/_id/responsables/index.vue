@@ -39,8 +39,9 @@
           </div>
           <el-button
             v-if="
-              responsables.length > 1 &&
-              $store.getters.user.profile.id != responsable.id
+              (responsables.length > 1 &&
+                $store.getters.user.profile.id != responsable.id) ||
+              $store.getters.contextRole == 'admin'
             "
             type="danger"
             icon="el-icon-delete"
@@ -48,7 +49,7 @@
             class="!ml-4 !m-auto is-plain"
             @click="deleteConfirm(responsable)"
           >
-            Supprimer
+            Retirer
           </el-button>
         </div>
       </div>
@@ -110,12 +111,12 @@ export default {
         .then(() => {
           this.loading = true
           this.$api
-            .deleteResponsable(this.responsable.id, responsable.id)
+            .deleteResponsable(this.territoire.id, responsable.id)
             .then((response) => {
               this.loading = false
               this.$message({
                 type: 'success',
-                message: 'Le membre a bien été supprimé',
+                message: 'Le responsable a bien été supprimé',
               })
               this.responsables = response.data
             })
