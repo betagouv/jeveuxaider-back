@@ -29,7 +29,7 @@ class ReseauController extends Controller
 
     public function index(Request $request)
     {
-        return QueryBuilder::for(Reseau::class)
+        return QueryBuilder::for(Reseau::withCount('structures', 'missionTemplates'))
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }

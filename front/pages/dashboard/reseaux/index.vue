@@ -72,6 +72,20 @@
           </client-only>
         </template>
       </el-table-column>
+      <el-table-column prop="nb_orga" label="Nb. Organisations">
+        <template slot-scope="scope">
+          <div class="text-sm text-secondary break-normal">
+            {{ scope.row.structures_count }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="nb_modele" label="Nb. Modèles de mission">
+        <template slot-scope="scope">
+          <div class="text-sm text-secondary break-normal">
+            {{ scope.row.mission_templates_count }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="Modifiée le" min-width="150">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">

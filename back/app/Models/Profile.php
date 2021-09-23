@@ -26,6 +26,7 @@ class Profile extends Model implements HasMedia
         'phone',
         'mobile',
         'reseau_id',
+        'tete_de_reseau_id',
         'referent_department',
         'referent_region',
         'birthday',

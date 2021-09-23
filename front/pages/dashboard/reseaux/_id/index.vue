@@ -24,12 +24,12 @@
             </nuxt-link>
           </div>
           <div v-if="reseau.profiles.length > 0" class="grid grid-cols-2 gap-3">
-            <!-- <ModelMemberTeaser
-              v-for="member in structure.members"
+            <ModelMemberTeaser
+              v-for="member in reseau.profiles"
               :key="member.id"
               class="member py-2"
               :member="member"
-            /> -->
+            />
           </div>
           <div v-else>
             <EmptyState
