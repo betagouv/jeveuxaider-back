@@ -737,19 +737,21 @@ export default {
       })
     },
     uploadImages() {
-      const promises = []
-      this.uploads.forEach((upload) => {
-        promises.push(
-          this.$api.uploadImage(
-            this.form.id,
-            'structure',
-            upload.blob,
-            upload.cropSettings,
-            upload.fieldName
+      if (this.form.id) {
+        const promises = []
+        this.uploads.forEach((upload) => {
+          promises.push(
+            this.$api.uploadImage(
+              this.form.id,
+              'structure',
+              upload.blob,
+              upload.cropSettings,
+              upload.fieldName
+            )
           )
-        )
-      })
-      Promise.all(promises)
+        })
+        Promise.all(promises)
+      }
     },
   },
 }

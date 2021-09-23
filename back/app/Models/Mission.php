@@ -80,6 +80,9 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
+        if(!$this->structure) {
+            return false;
+        }
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
         return $this->structure->state == 'Validée' && $this->state == 'Validée' ? true : false;
     }

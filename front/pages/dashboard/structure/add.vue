@@ -1,5 +1,5 @@
 <template>
-  <div class="structure-form pl-12 pb-12">
+  <div class="structure-form pl-12 pb-12 max-w-3xl">
     <div class="text-m text-gray-600 uppercase">Organisation</div>
     <div class="mb-8 flex">
       <div class="font-bold text-[1.75rem] text-[#242526]">
@@ -7,7 +7,10 @@
       </div>
     </div>
 
-    <FormStructure :domaines="domaines" />
+    <FormStructure
+      :domaines="domaines"
+      :structure="{ domaines: [], publics_beneficiaires: [] }"
+    />
   </div>
 </template>
 

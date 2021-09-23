@@ -86,7 +86,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
 
     public function map($structure): array
     {
-        $responsable = $structure->user ?? null;
+        $responsable = $structure->responsables->first();
 
         return [
             $structure->id,

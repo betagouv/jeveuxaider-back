@@ -17,6 +17,7 @@ use App\Notifications\StructureSubmitted;
 use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class StructureObserver
 {
@@ -28,6 +29,12 @@ class StructureObserver
      */
     public function created(Structure $structure)
     {
+
+        // Si admin
+        $user = Auth::guard('api')->user();
+        if ($user && $user->is_admin) {
+            return;
+        }
 
         if ($structure->user->profile) {
             $notification = new RegisterUserResponsable($structure);
@@ -57,15 +64,18 @@ class StructureObserver
         $oldState = $structure->getOriginal('state');
         $newState = $structure->state;
 
+        // RESPONSABLE
+        $responsable = $structure->responsables->first();
+
         if ($oldState != $newState) {
             switch ($newState) {
                 case 'Validée':
-                    if ($structure->user->profile) {
-                        $structure->user->profile->notify(new StructureValidated($structure));
+                    if ($responsable) {
+                        $responsable->notify(new StructureValidated($structure));
                         if ($structure->statut_juridique == 'Collectivité') {
-                            $structure->user->notify(new StructureCollectivityValidated($structure));
+                            $responsable->notify(new StructureCollectivityValidated($structure));
                         } else {
-                            $structure->user->notify(new StructureAssociationValidated($structure));
+                            $responsable->notify(new StructureAssociationValidated($structure));
                         }
                     }
                     if ($structure->missions) {
@@ -78,8 +88,8 @@ class StructureObserver
                     }
                     break;
                 case 'Signalée':
-                    if ($structure->user->profile) {
-                        $structure->user->profile->notify(new StructureSignaled($structure));
+                    if ($responsable) {
+                        $responsable->notify(new StructureSignaled($structure));
                     }
                     if ($structure->missions) {
                         foreach ($structure->missions as $mission) {
@@ -89,7 +99,6 @@ class StructureObserver
                     break;
                 case 'Désinscrite':
                     $members = $structure->members;
-
                     $structure->members()->detach();
 
                     foreach ($members as $member) {
@@ -190,7 +199,11 @@ class StructureObserver
             'state' => 'waiting',
         ]);
         $territoire->save();
-        $territoire->addResponsable($structure->user->profile);
+
+        $responsable = $structure->responsables->first();
+        if ($responsable) {
+            $territoire->addResponsable($responsable);
+        }
 
         Notification::route('slack', config('services.slack.hook_url'))
             ->notify(new TerritoireWaitingValidation($territoire));

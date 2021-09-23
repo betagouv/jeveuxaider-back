@@ -10,12 +10,12 @@
         </div>
       </div>
       <div>
-        <!-- <nuxt-link
+        <nuxt-link
           v-if="$store.getters.contextRole == 'admin'"
           to="/dashboard/structure/add"
         >
           <el-button type="primary">Créer une organisation</el-button>
-        </nuxt-link> -->
+        </nuxt-link>
       </div>
     </div>
     <div class="px-12 mb-3 flex flex-wrap">
