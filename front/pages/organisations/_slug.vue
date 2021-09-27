@@ -579,7 +579,7 @@ export default {
       link: [
         {
           rel: 'canonical',
-          href: `https://www.jeveuxaider.gouv.fr/organisation/${this.organisation.slug}`,
+          href: `https://www.jeveuxaider.gouv.fr/organisations/${this.organisation.slug}`,
         },
       ],
       meta: [
