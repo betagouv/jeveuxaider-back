@@ -73,7 +73,7 @@
         <SearchFiltersQuery
           type="select"
           name="reseau.id"
-          :value="query['filter[reseau.id]']"
+          :value="query['filter[of_reseau]']"
           label="Réseau"
           :options="
             reseaux.map((reseau) => {

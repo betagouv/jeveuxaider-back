@@ -77,8 +77,10 @@ export default {
   layout: 'dashboard',
   async asyncData({ $api, params, store, error }) {
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    const structure = await $api.getStructure(params.id)
     return {
       domaines: domaines.data.data,
+      structure,
     }
   },
   data() {
@@ -98,6 +100,9 @@ export default {
       const templates = await this.$api.fetchMissionTemplates({
         'filter[domaine.id]': this.domaine_id,
         'filter[published]': 1,
+        'filter[with_reseaux]': this.structure.reseaux
+          ? this.structure.reseaux.map((reseau) => reseau.id).join(',')
+          : null,
         pagination: 99,
       })
       this.templates = templates.data.data

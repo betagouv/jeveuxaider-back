@@ -12,6 +12,7 @@ use App\Http\Requests\Api\MissionTemplateUploadRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\MissionTemplate;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class MissionTemplateController extends Controller
@@ -24,9 +25,11 @@ class MissionTemplateController extends Controller
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
                 AllowedFilter::exact('domaine.id'),
-                AllowedFilter::exact('reseau.id'),
                 AllowedFilter::exact('published'),
-                AllowedFilter::scope('of_reseau')
+                AllowedFilter::scope('of_reseau'),
+                AllowedFilter::callback('with_reseau', function (Builder $query2, $reseaux) {
+                    $query2->where('reseau_id', null)->orWhereIn('reseau_id', explode(",", $reseaux));
+                }),
             )
             ->defaultSort('-updated_at')
             ->paginate($paginate);
