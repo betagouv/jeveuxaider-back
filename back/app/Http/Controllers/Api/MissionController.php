@@ -44,6 +44,7 @@ class MissionController extends Controller
                 'name',
                 'state',
                 'type',
+                'structure.statut_juridique',
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure_id'),

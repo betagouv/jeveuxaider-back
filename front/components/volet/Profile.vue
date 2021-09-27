@@ -124,10 +124,6 @@
           <VoletRowItem label="Modifié le">{{
             profile.updated_at | formatMediumWithTime
           }}</VoletRowItem>
-
-          <VoletRowItem label="Dernière co.">{{
-            profile.last_online_at | fromNow
-          }}</VoletRowItem>
         </VoletCard>
 
         <template v-if="structures">
