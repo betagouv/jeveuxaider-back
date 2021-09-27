@@ -27,7 +27,8 @@ class MissionTemplateObserver
                 }
             });
         }
-
+        
+        // TODO 
         // If missionTemplate->reseau
             // If isDirty published and published is true
                 // Notif email resonsables tête de réseau

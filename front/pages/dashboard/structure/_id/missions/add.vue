@@ -1,42 +1,66 @@
 <template>
-  <div class="pl-12 pb-12">
-    <div class="text-m text-gray-600 uppercase">
-      Création d'une nouvelle mission
-    </div>
-    <div class="mb-8 flex">
-      <div class="font-bold text-[1.75rem] text-[#242526]">
-        <template v-if="step == 1"
-          >Choisissez le domaine d'action de cette mission</template
+  <div class="px-12 pb-12 max-w-7xl">
+    <div class="flex justify-between">
+      <div>
+        <div class="text-gray-900 text-3xl font-extrabold">
+          Création d'une nouvelle mission
+        </div>
+        <div class="text-gray-500 mt-2">
+          Choisissez le domaine d'action de cette mission
+        </div>
+      </div>
+      <div class="text-xs text-gray-500">
+        Votre mission doit respecter <br />
+        <nuxt-link class="text-primary" to="/charte-reserve-civique"
+          >la charte</nuxt-link
         >
-        <template v-else-if="step == 2"
-          >Choisissez le type de modèle de cette mission</template
-        >
-        <template v-else>
-          <template v-if="template_id"
-            >Publier une mission à partir d'un modèle</template
-          >
-          <template v-else>Rédiger intégralement une mission</template>
-        </template>
+        de Jeveuxaider.gouv.fr
       </div>
     </div>
-    <template v-if="step == 1">
-      <FormMissionSelectDomaine
-        :domaines="domaines"
-        @selected="onSelectDomaine"
-      />
-    </template>
-    <template v-if="step == 2">
-      <FormMissionSelectTemplate
-        :domaine-id="domaine_id"
-        :domaines="domaines"
-        :templates="templates"
-        @change-domaine="onSelectDomaine"
-        @selected="onSelectTemplate"
-      />
-    </template>
-    <template v-if="step == 3">
-      <FormMission :mission="form" :structure-id="parseInt($route.params.id)" />
-    </template>
+
+    <div v-if="!template_id" class="flex flex-wrap -m-2 mt-8">
+      <div
+        v-for="domaine in domaines"
+        :key="domaine.id"
+        class="shadow-lg rounded-lg w-60 py-6 px-16 text-center flex items-center justify-center m-2 font-bold cursor-pointer"
+        :class="[
+          domaine.id == $route.query.domaine
+            ? 'bg-primary text-white'
+            : 'hover:bg-primary hover:text-white',
+        ]"
+        @click="onclickDomaine(domaine.id)"
+      >
+        {{ domaine.name.fr }}
+      </div>
+    </div>
+
+    <div v-if="!template_id" class="border-t mt-10">
+      <h2 class="font-bold mt-8 text-lg">Sélectionnez un modèle de mission</h2>
+      <div class="text-gray-500 mt-2 mb-6">
+        En utilisant un modèle déjà existant, votre mission sera publiée sans
+        besoin de validation.
+      </div>
+      <div class="grid grid-cols-4 gap-6">
+        <CardMissionTemplate
+          v-for="missionTemplate in templates"
+          :key="missionTemplate.id"
+          :title="missionTemplate.title"
+          :description="missionTemplate.subtitle"
+          :image-url="
+            (missionTemplate.photo && missionTemplate.photo.large) ||
+            '/images/card-thumbnail-default@2x.jpg'
+          "
+          @click.native="onSelectTemplate(missionTemplate.id)"
+        />
+      </div>
+    </div>
+
+    <FormMission
+      v-if="template_id"
+      :mission="form"
+      :structure-id="parseInt($route.params.id)"
+      class="mt-8"
+    />
   </div>
 </template>
 
@@ -76,19 +100,19 @@ export default {
     '$route.query': '$fetch',
   },
   methods: {
-    onSelectDomaine(domaineId) {
+    onclickDomaine(domaineId) {
       this.$router.push(
-        `/dashboard/structure/${this.$route.params.id}/missions/add?step=2&domaine=${domaineId}`
+        `/dashboard/structure/${this.$route.params.id}/missions/add?domaine=${domaineId}`
       )
     },
-    onSelectTemplate(template) {
-      if (template) {
+    onSelectTemplate(templateId) {
+      if (templateId) {
         this.$router.push(
-          `/dashboard/structure/${this.$route.params.id}/missions/add?step=3&template=${template.id}`
+          `/dashboard/structure/${this.$route.params.id}/missions/add?step=2&template=${templateId}`
         )
       } else {
         this.$router.push(
-          `/dashboard/structure/${this.$route.params.id}/missions/add?step=3`
+          `/dashboard/structure/${this.$route.params.id}/missions/add?step=2`
         )
       }
     },

@@ -81,7 +81,7 @@
       @add-or-crop="photo = $event"
       @delete="photo = null"
     />
-
+    <!-- 
     <ImageField
       :crop="false"
       accepted-files="image/svg+xml"
@@ -97,7 +97,7 @@
       description="Format accepté: SVG"
       @add-or-crop="icone = $event"
       @delete="icone = null"
-    ></ImageField>
+    ></ImageField> -->
 
     <div class="flex pt-2">
       <el-button type="primary" :loading="loading" @click="onSubmit"

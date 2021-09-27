@@ -82,14 +82,13 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Icone" min-width="70" align="center">
+      <el-table-column label="Photo" min-width="70" align="center">
         <template slot-scope="scope">
           <div
-            v-if="scope.row.image"
-            class="bg-primary rounded-md p-2 inline-block"
-            style="width: 40px; height: 40px"
+            v-if="scope.row.photo"
+            class="rounded overflow-hidden inline-block"
           >
-            <img :src="scope.row.image" :alt="scope.row.title" />
+            <img :src="scope.row.photo.thumb" :alt="scope.row.title" />
           </div>
         </template>
       </el-table-column>
