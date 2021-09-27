@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div v-if="!template_id" class="flex flex-wrap -m-2 mt-8">
+    <div v-if="step == 1" class="flex flex-wrap -m-2 mt-8">
       <div
         v-for="domaine in domaines"
         :key="domaine.id"
@@ -34,13 +34,21 @@
       </div>
     </div>
 
-    <div v-if="!template_id" class="border-t mt-10">
+    <div v-if="step == 1 && domaine_id" class="border-t mt-10">
       <h2 class="font-bold mt-8 text-lg">Sélectionnez un modèle de mission</h2>
       <div class="text-gray-500 mt-2 mb-6">
         En utilisant un modèle déjà existant, votre mission sera publiée sans
         besoin de validation.
       </div>
       <div class="grid grid-cols-4 gap-6">
+        <CardMissionTemplate
+          title="Personnalisez votre mission"
+          description="Tous les champs sont éditables. Elle sera publiée après validation par le référent départemental."
+          image-url="/images/card-add.png"
+          state-text="Validation par un référent"
+          state-style="warning"
+          @click.native="onSelectTemplate()"
+        />
         <CardMissionTemplate
           v-for="missionTemplate in templates"
           :key="missionTemplate.id"
@@ -56,7 +64,7 @@
     </div>
 
     <FormMission
-      v-if="template_id"
+      v-if="step == 2"
       :mission="form"
       :structure-id="parseInt($route.params.id)"
       class="mt-8"
@@ -75,15 +83,14 @@ export default {
   },
   data() {
     return {
-      step: null,
+      step: this.$route.query.step || 1,
       template_id: null,
-      domaine_id: null,
+      domaine_id: parseInt(this.$route.query.domaine) || null,
       templates: [],
       form: {},
     }
   },
   async fetch() {
-    this.step = this.$route.query.step || 1
     this.domaine_id = parseInt(this.$route.query.domaine) || null
     this.template_id = parseInt(this.$route.query.template) || null
 
@@ -112,7 +119,7 @@ export default {
         )
       } else {
         this.$router.push(
-          `/dashboard/structure/${this.$route.params.id}/missions/add?step=2`
+          `/dashboard/structure/${this.$route.params.id}/missions/add?step=2&domaine=${this.domaine_id}`
         )
       }
     },

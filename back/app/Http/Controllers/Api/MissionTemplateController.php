@@ -20,10 +20,11 @@ class MissionTemplateController extends Controller
     {
         $paginate = $request->has('pagination') ? $request->input('pagination') : config('query-builder.results_per_page');
 
-        return QueryBuilder::for(MissionTemplate::with(['domaine']))
+        return QueryBuilder::for(MissionTemplate::with(['domaine', 'reseau']))
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
                 AllowedFilter::exact('domaine.id'),
+                AllowedFilter::exact('reseau.id'),
                 AllowedFilter::exact('published'),
                 AllowedFilter::scope('of_reseau')
             )

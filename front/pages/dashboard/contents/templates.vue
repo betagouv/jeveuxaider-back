@@ -70,6 +70,21 @@
           "
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          type="select"
+          name="reseau.id"
+          :value="query['filter[reseau.id]']"
+          label="Réseau"
+          :options="
+            reseaux.map((reseau) => {
+              return {
+                label: reseau.name,
+                value: reseau.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
       </div>
     </div>
     <el-table
@@ -126,6 +141,14 @@
             size="small"
             >Non publié</el-tag
           >
+          <el-tag
+            v-if="scope.row.reseau"
+            type="primary"
+            class="m-1 ml-0"
+            size="small"
+          >
+            {{ scope.row.reseau.name }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
@@ -186,8 +209,10 @@ export default {
       return error({ statusCode: 403 })
     }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    const reseaux = await $api.fetchReseaux()
     return {
       domaines: domaines.data.data,
+      reseaux: reseaux.data.data,
     }
   },
   data() {
