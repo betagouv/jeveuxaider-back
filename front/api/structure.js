@@ -92,4 +92,7 @@ export default (axios) => ({
   async addReseauOrga(id, organisations) {
     return await axios.post(`/reseaux/${id}/organisations`, { organisations })
   },
+  async deleteReseau(id) {
+    return await axios.delete(`/reseaux/${id}`)
+  },
 })

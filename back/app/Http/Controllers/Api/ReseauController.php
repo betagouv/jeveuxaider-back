@@ -72,4 +72,11 @@ class ReseauController extends Controller
 
         return true;
     }
+
+    public function delete(Request $request, Reseau $reseau)
+    {
+        $this->authorize('delete', $reseau);
+
+        return (string) $reseau->delete();
+    }
 }

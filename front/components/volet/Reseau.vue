@@ -36,7 +36,7 @@
         :link="`/dashboard/reseaux/${row.id}`"
         :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
       >
-        <!-- <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem> -->
+        <VoletRowItem label="ID">{{ row.id }}</VoletRowItem>
         <VoletRowItem label="Nom"
           ><span class="font-bold">{{ row.name }}</span></VoletRowItem
         >
@@ -50,32 +50,6 @@
           row.state | labelFromValue('structure_workflow_states')
         }}</VoletRowItem>
       </VoletCard>
-
-      <!-- RESPONSABLE -->
-      <!-- <template v-if="responsables.length > 0">
-        <VoletCard
-          v-for="responsable in responsables"
-          :key="responsable.id"
-          label="Responsable"
-          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
-          :link="
-            $store.getters.contextRole == 'admin'
-              ? `/dashboard/profile/${responsable.id}`
-              : null
-          "
-        >
-          <VoletRowItem label="Nom"
-            ><span class="font-bold">{{
-              responsable.full_name
-            }}</span></VoletRowItem
-          >
-          <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
-          <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
-          <VoletRowItem v-if="responsable.phone" label="Tel">{{
-            responsable.phone
-          }}</VoletRowItem>
-        </VoletCard>
-      </template> -->
     </div>
   </Volet>
 </template>
@@ -107,37 +81,26 @@ export default {
   },
   methods: {
     onClickDelete() {
-      // if (this.row.missions_count > 0) {
-      //   this.$alert(
-      //     'Il est impossible de supprimer une organisation qui contient des missions.',
-      //     "Supprimer l'organisation",
-      //     {
-      //       confirmButtonText: 'Retour',
-      //       type: 'warning',
-      //     }
-      //   )
-      // } else {
-      //   this.$confirm(
-      //     `L'organisation ${this.row.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-      //     "Supprimer l'organisation",
-      //     {
-      //       confirmButtonText: 'Supprimer',
-      //       confirmButtonClass: 'el-button--danger',
-      //       cancelButtonText: 'Annuler',
-      //       center: true,
-      //       dangerouslyUseHTMLString: true,
-      //       type: 'error',
-      //     }
-      //   ).then(() => {
-      //     this.$api.deleteStructure(this.row.id).then(() => {
-      //       this.$message.success({
-      //         message: `L'organisation ${this.row.name} a été supprimée.`,
-      //       })
-      //       this.$emit('deleted', this.row)
-      //       this.$store.commit('volet/hide')
-      //     })
-      //   })
-      // }
+      this.$confirm(
+        `Le réseau ${this.row.name} sera définitivement supprimé. <br><br> Voulez-vous continuer ?<br>`,
+        'Supprimer le réseau',
+        {
+          confirmButtonText: 'Supprimer',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
+          center: true,
+          dangerouslyUseHTMLString: true,
+          type: 'error',
+        }
+      ).then(() => {
+        this.$api.deleteReseau(this.row.id).then(() => {
+          this.$message.success({
+            message: `Le réseau ${this.row.name} a été supprimé.`,
+          })
+          this.$emit('deleted', this.row)
+          this.$store.commit('volet/hide')
+        })
+      })
     },
   },
 }
