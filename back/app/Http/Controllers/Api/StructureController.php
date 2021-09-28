@@ -28,6 +28,8 @@ use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
 use App\Services\ApiEngagement;
 
+use function Symfony\Component\Translation\t;
+
 class StructureController extends Controller
 {
     public function index(Request $request)
@@ -179,6 +181,10 @@ class StructureController extends Controller
             ]], 400);
         }
 
+        if ($structure->territoire) {
+            $structure->territoire->update(['structure_id' => null]);
+        }
+
         return (string) $structure->delete();
     }
 
@@ -302,10 +308,8 @@ class StructureController extends Controller
 
     public function pushApiEngagement(Request $request, Structure $structure)
     {
-        if (config('app.env') === 'production') {
-            if ($structure && $structure->canBeSendToApiEngagement()) {
-                return (new ApiEngagement())->syncAssociation($structure);
-            }
+        if ($structure && $structure->canBeSendToApiEngagement()) {
+            return (new ApiEngagement())->syncAssociation($structure);
         }
     }
 

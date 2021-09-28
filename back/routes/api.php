@@ -201,6 +201,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
     Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');
     Route::delete('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@uploadDelete');
+    Route::delete('territoire/{territoire}/responsables/{responsable}', 'Api\TerritoireController@deleteResponsable');
 
     Route::get('statistics/{type}/{id}', 'Api\StatisticsController@fetch');
 

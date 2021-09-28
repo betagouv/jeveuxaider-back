@@ -48,8 +48,20 @@
           <ModelTerritoireInfos :territoire="territoire" />
         </el-card>
         <el-card shadow="never" class="p-4">
-          <div class="flex justify-between">
-            <div class="mb-6 text-xl font-semibold">Responsables</div>
+          <div class="flex justify-between items-start">
+            <div
+              v-if="territoire.responsables"
+              class="mb-6 text-xl font-semibold"
+            >
+              Responsables
+            </div>
+            <nuxt-link
+              :to="`/dashboard/territoire/${territoire.id}/responsables`"
+            >
+              <el-button size="small" type="secondary">
+                Gérer les responsables
+              </el-button>
+            </nuxt-link>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <template

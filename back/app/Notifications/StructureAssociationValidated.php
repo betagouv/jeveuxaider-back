@@ -44,7 +44,7 @@ class StructureAssociationValidated extends Notification
     {
         $mailMessage = (new MailMessage)
             ->subject('Bienvenue sur JeVeuxAider.gouv.fr')
-            ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
+            ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line("Vous venez de rejoindre la plateforme JeVeuxAider.gouv.fr proposée par la Réserve Civique : bienvenue ! Toute l’équipe est ravie de vous compter parmi les 5000 organisations membres.")
             ->line("Pour faire connaissance, je vous invite à notre session d'accueil. Au programme :")
             ->line("- 💻 On vous présente la plateforme et son fonctionnement.")

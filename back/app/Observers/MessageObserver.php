@@ -26,7 +26,7 @@ class MessageObserver
         if ($participation->profile_id != $user->profile->id) {
             if($participation->state == 'En attente de validation') {
                 $participation->state = 'En cours de traitement';
-                $participation->saveQuietly();
+                $participation->save();
             }
         }
 

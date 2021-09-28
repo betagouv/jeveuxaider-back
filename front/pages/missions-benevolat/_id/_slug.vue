@@ -96,6 +96,7 @@
                       : 'span'
                   "
                   :to="`/organisations/${structure.slug}`"
+                  target="_blank"
                   class="font-bold uppercase text-[#070191]"
                 >
                   <h2 class="inline">{{ structure.name }}</h2>
@@ -296,8 +297,15 @@
                 class="flex flex-col sm:flex-row gap-6 xl:gap-8 text-center sm:text-left"
               >
                 <img
-                  v-if="structure.logo"
-                  :src="structure.logo.original"
+                  v-if="
+                    structure.logo &&
+                    (structure.logo.thumb || structure.logo.original)
+                  "
+                  :src="
+                    structure.logo.thumb
+                      ? structure.logo.thumb
+                      : structure.logo.original
+                  "
                   :alt="structure.name"
                   class="mx-auto lg:mx-0 my-auto h-20 object-contain"
                   style="max-width: 150px"
@@ -360,17 +368,32 @@
                 @error="defaultThumbnail($event)"
               />
 
-              <div
-                v-if="structure.logo"
+              <component
+                :is="
+                  structure.statut_juridique == 'Association' &&
+                  structure.state == 'Validée'
+                    ? 'nuxt-link'
+                    : 'div'
+                "
+                v-if="
+                  structure.logo &&
+                  (structure.logo.thumb || structure.logo.original)
+                "
+                target="_blank"
+                :to="`/organisations/${structure.slug}`"
                 class="logo-wrapper bg-white shadow-lg rounded-[10px] p-4"
               >
                 <img
-                  :src="structure.logo.original"
+                  :src="
+                    structure.logo.thumb
+                      ? structure.logo.thumb
+                      : structure.logo.original
+                  "
                   :alt="structure.name"
                   class="my-auto h-10 object-contain"
                   style="max-width: 120px"
                 />
-              </div>
+              </component>
 
               <div class="bg-white py-12">
                 <div class="px-4 text-center">

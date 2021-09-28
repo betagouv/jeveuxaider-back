@@ -59,6 +59,14 @@
           "
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          v-if="$store.getters.contextRole === 'admin'"
+          name="structure.statut_juridique"
+          label="Statut juridique"
+          :value="query['filter[structure.statut_juridique]']"
+          :options="$store.getters.taxonomies.structure_legal_status.terms"
+          @changed="onFilterChange"
+        />
         <SearchFiltersQueryInput
           name="lieu"
           label="Lieu"

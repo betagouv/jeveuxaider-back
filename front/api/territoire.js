@@ -24,6 +24,12 @@ export default (axios) => ({
     return await axios.get(`/territoire/${id}/responsables`)
   },
 
+  async deleteResponsable(territoireId, responsableId) {
+    return await axios.delete(
+      `/territoire/${territoireId}/responsables/${responsableId}`
+    )
+  },
+
   async getTerritoireInvitations(id) {
     return await axios.get(`/territoire/${id}/invitations`)
   },

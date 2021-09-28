@@ -99,9 +99,9 @@ class TerritoireController extends Controller
     //         ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     // }
 
-    public function deleteResponsable(Request $request, Territoire $territoire, Profile $profile)
+    public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
     {
-        $territoire->deleteResponsable($profile);
+        $territoire->deleteResponsable($responsable);
         return $territoire->responsables;
     }
 

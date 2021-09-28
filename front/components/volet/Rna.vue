@@ -7,7 +7,7 @@
     <div class="text-xs text-gray-600 uppercase text-center mt-8 mb-6">
       <nuxt-link
         class="font-semibold text-sm my-3 text-primary text-center"
-        :to="`/dashboard/structure/${row.id}/edit`"
+        :to="`/dashboard/structure/${row.id}`"
         target="_blank"
       >
         {{ row.name }}
@@ -80,7 +80,10 @@ export default {
     },
     async onSubmitRnaNA() {
       this.loadingNA = true
-      await this.$api.assignStructureRna(this.row.id, { rna: 'N/A' })
+      await this.$api.assignStructureRna(this.row.id, {
+        rna: 'N/A',
+        api_id: 'N/A',
+      })
       this.loadingNA = false
       this.rna = null
       this.api_id = null

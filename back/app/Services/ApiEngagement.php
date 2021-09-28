@@ -361,19 +361,15 @@ class ApiEngagement
                 }
 
                 if ($structure->address) {
-                    $attributes['coordonnees']['adresse']['nom_complet'] = $structure->full_address;
                     $attributes['coordonnees']['adresse']['nom'] = $structure->address;
-                    $attributes['coordonnees']['adresse']['rue'] = $structure->address;
                 }
 
                 if ($structure->city) {
                     $attributes['coordonnees']['adresse']['commune'] = $structure->city;
                 }
+
                 if ($structure->zip) {
                     $attributes['coordonnees']['adresse']['code_postal'] = $structure->zip;
-                }
-                if ($structure->city) {
-                    $attributes['coordonnees']['adresse']['commune'] = $structure->city;
                 }
 
                 if ($structure->department) {
@@ -399,6 +395,18 @@ class ApiEngagement
             } catch (\Throwable $th) {
                 throw $th;
             }
+        }
+    }
+
+    public static function findAssociation(array $attributes)
+    {
+
+        try {
+            return Http::withHeaders([
+                'apikey' => config('app.api_engagement_key'),
+            ])->post("https://api.api-engagement.beta.gouv.fr/v1/association/search", $attributes);
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 }
