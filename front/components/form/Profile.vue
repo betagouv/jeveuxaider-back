@@ -211,7 +211,7 @@ export default {
     },
   },
   async created() {
-    const { data } = await this.$api.fetchReseaux()
+    const { data } = await this.$api.fetchReseaux({ pagination: 1000 })
     this.reseaux = data.data
   },
   methods: {
