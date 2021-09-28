@@ -513,4 +513,5 @@ class Structure extends Model implements HasMedia
             'missing_fields' => $missingFields
         ];
     }
+
 }

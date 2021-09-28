@@ -26,9 +26,12 @@
           label="Nom de l'antenne de votre réseau"
           prop="properties.antenne_name"
         >
+          <ItemDescription container-class="mb-2">
+            Par exemple : {{ reseau.name }} - Occitanie
+          </ItemDescription>
           <el-input
             v-model="form.properties.antenne_name"
-            :placeholder="`Ex: ${reseau.name} - Occitanie`"
+            placeholder="Renseignez le nom de l'antenne"
           />
         </el-form-item>
         <el-form-item label="Email" prop="email">

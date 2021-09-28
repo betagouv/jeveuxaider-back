@@ -253,7 +253,9 @@
             </el-form-item>
           </div>
 
-          <template v-if="form.statut_juridique != 'Collectivité'">
+          <template
+            v-if="form.statut_juridique != 'Collectivité' && !form.reseau_id"
+          >
             <el-form-item
               label="Faites-vous partie d'un réseau national ?"
               prop="reseau"

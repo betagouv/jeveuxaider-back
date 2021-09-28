@@ -101,6 +101,8 @@ export default {
                 this.$store.dispatch('auth/fetchUser').then(() => {
                   if (this.invitation.role == 'benevole') {
                     this.$router.push('/')
+                  } else if (this.invitation.role == 'responsable_antenne') {
+                    this.$router.push('/register/responsable/step/profile')
                   } else {
                     this.$router.push('/dashboard')
                   }

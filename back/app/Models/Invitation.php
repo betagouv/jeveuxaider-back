@@ -68,6 +68,10 @@ class Invitation extends Model
             if ($this->role == 'responsable_reseau') {
                 $profile->update(['tete_de_reseau_id' => $this->invitable->id]);
             }
+            // RESPONSABLE ANTENNE
+            if ($this->role == 'responsable_antenne') {
+                $this->invitable->createStructure($this->properties['antenne_name'], $profile->user);
+            }
             // REFERENT DEPARTEMENTAL
             if ($this->role == 'referent_departemental') {
                 $profile->update(['referent_department' => $this->properties['referent_departemental']]);

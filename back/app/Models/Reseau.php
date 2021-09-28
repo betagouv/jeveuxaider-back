@@ -41,4 +41,38 @@ class Reseau extends Model
         return $this->load('responsables');
     }
 
+    public function createStructure(string $name , User $user, array $attributes = [])
+    {
+
+        $attributes = array_merge([
+            'name' => $name,
+            'user_id' => $user->id,
+            'statut_juridique' => 'Association',
+        ], $attributes);
+
+        $structure = Structure::create($attributes);
+
+        $this->structures()->attach($structure->id);
+
+        // UPDATE LOG
+        Activity::where('subject_type', 'App\Models\Structure')
+            ->where('subject_id', $structure->id)
+            ->where('description', 'created')
+            ->update(
+                [
+                    'causer_id' => $user->id,
+                    'causer_type' => 'App\Models\User',
+                    'data' => [
+                        "subject_title" => $structure->name,
+                        "full_name" => $user->profile->full_name,
+                        "causer_id" => $user->profile->id,
+                        "context_role" => 'responsable'
+                    ]
+                ]
+            );
+
+        return $structure;
+
+    }
+
 }
