@@ -25,7 +25,7 @@
       Tableau de bord
     </nuxt-link>
 
-    <!-- Structures -->
+    <!-- Antennes -->
     <nuxt-link
       :to="`/dashboard/reseaux/${$store.getters.profile.tete_de_reseau_id}/structures`"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
@@ -49,7 +49,7 @@
         ]"
         v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
       />
-      Organisations
+      Antennes
     </nuxt-link>
 
     <!-- Missions -->

@@ -56,6 +56,11 @@ class InvitationSent extends Notification
                 ->line($this->invitation->user->profile->full_name . ' vous invite à rejoindre le territoire ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
         }
 
+        if ($this->invitation->role == 'responsable_antenne') {
+            $message
+                ->line($this->invitation->user->profile->full_name . ' vous invite à créer votre antenne du réseau ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
+        }
+
         if ($this->invitation->role == 'referent_departemental') {
             $message
                 ->line($this->invitation->user->profile->full_name . ' vous invite à devenir le référent du département ' . $this->invitation->properties['referent_departemental'] . ' sur la plateforme de dépôts de missions de la Réserve Civique.');

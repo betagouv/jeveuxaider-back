@@ -829,6 +829,7 @@ return [
         "vocabulary" => "Roles",
         "terms" => [
             "responsable_organisation" => "Responsable d'une organisation",
+            "responsable_antenne" => "Responsable d'une antenne",
             "responsable_territoire" => "Responsable d'un territoire",
             "referent_departemental" => "Référent départemental",
             "referent_regional" => "Référent régional",

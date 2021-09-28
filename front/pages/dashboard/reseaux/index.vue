@@ -24,33 +24,6 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
-          <el-button
-            icon="el-icon-s-operation"
-            class="!ml-4"
-            @click="showFilters = !showFilters"
-          >
-            Filtres avancés
-          </el-button>
-        </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
-      </div>
-      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
-        <SearchFiltersQuery
-          name="state"
-          label="Statut"
-          multiple
-          :value="query['filter[state]']"
-          :options="$store.getters.taxonomies.structure_workflow_states.terms"
-          @changed="onFilterChange"
-        />
       </div>
     </div>
 
@@ -65,28 +38,24 @@
           <div class="text-secondary text-sm">{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Organisation" min-width="320">
+      <el-table-column prop="name" label="Réseau" min-width="320">
         <template slot-scope="scope">
           <client-only>
             <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
           </client-only>
         </template>
       </el-table-column>
-      <el-table-column prop="nb_orga" label="Nb. Organisations">
+      <el-table-column prop="nb_orga" label="Informations" width="250">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
-            {{ scope.row.structures_count }}
+            {{ scope.row.structures_count }} antenne(s)
+          </div>
+          <div class="text-sm text-secondary break-normal">
+            {{ scope.row.mission_templates_count }} modèle(s) de mission
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nb_modele" label="Nb. Modèles de mission">
-        <template slot-scope="scope">
-          <div class="text-sm text-secondary break-normal">
-            {{ scope.row.mission_templates_count }}
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="Modifiée le" min-width="150">
+      <el-table-column label="Modifiée le" width="200">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
             {{ scope.row.updated_at | fromNow }}

@@ -12,8 +12,8 @@ class Reseau extends Model
         'name',
         'created_at',
     ];
- 
-    public function profiles()
+
+    public function responsables()
     {
         return $this->hasMany(Profile::class, 'tete_de_reseau_id');
     }
@@ -26,5 +26,15 @@ class Reseau extends Model
     public function missionTemplates()
     {
         return $this->hasMany(MissionTemplate::class);
+    }
+
+    public function antennesInvitations()
+    {
+        return $this->morphMany('App\Models\Invitation', 'invitable');
+    }
+
+    public function responsablesInvitations()
+    {
+        return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 }

@@ -14,18 +14,18 @@
           </div>
           <ModelReseauInfos :reseau="reseau" />
         </el-card>
-        <el-card shadow="never" class="p-4">
+        <el-card v-if="responsables" shadow="never" class="p-4">
           <div class="flex justify-between items-start">
             <div class="mb-6 text-xl font-semibold">Responsables du réseau</div>
-            <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/members`">
+            <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables`">
               <el-button size="small" type="secondary">
-                Gérer les membres
+                Gérer les responsables
               </el-button>
             </nuxt-link>
           </div>
-          <div v-if="reseau.profiles.length > 0" class="grid grid-cols-2 gap-3">
+          <div v-if="responsables.length > 0" class="grid grid-cols-2 gap-3">
             <ModelMemberTeaser
-              v-for="member in reseau.profiles"
+              v-for="member in responsables"
               :key="member.id"
               class="member py-2"
               :member="member"
@@ -35,8 +35,6 @@
             <EmptyState
               title="Aucun responsable"
               subtitle="Il n'y a aucun responsable qui gère ce réseau"
-              button-title="Ajouter un responsable"
-              :button-link="`/dashboard/reseaux/${reseau.id}/members/add`"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -67,11 +65,11 @@
             </nuxt-link>
           </div>
           <div
-            v-if="reseau.structures"
+            v-if="reseau.antennes"
             class="text-sm divide-y divide divide-gray-100"
           >
             <div
-              v-for="structure in reseau.structures"
+              v-for="structure in reseau.antennes"
               :key="structure.id"
               class="py-2"
             >
@@ -112,8 +110,10 @@ export default {
   layout: 'dashboard',
   async asyncData({ $api, params }) {
     const reseau = await $api.getReseau(params.id)
+    const responsables = await $api.getReseauResponsables(params.id)
     return {
       reseau,
+      responsables: responsables.data,
     }
   },
 }

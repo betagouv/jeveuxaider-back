@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Profile;
@@ -30,13 +31,16 @@ class ReseauController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Reseau::withCount('structures', 'missionTemplates'))
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersReseauSearch),
+            ])
             ->defaultSort('-updated_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request, Reseau $reseau) 
+    public function show(Request $request, Reseau $reseau)
     {
-        $reseau = Reseau::with(['profiles', 'structures'])->withCount('structures', 'missionTemplates')->where('id', $reseau->id)->first();
+        $reseau = Reseau::with(['structures', 'responsables'])->withCount('structures', 'missionTemplates')->where('id', $reseau->id)->first();
         return $reseau;
     }
 
@@ -55,7 +59,7 @@ class ReseauController extends Controller
     }
 
     public function addOrganisation(Request $request, Reseau $reseau)
-    {        
+    {
         if($request->input('organisations')) {
             $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
         }
@@ -79,4 +83,19 @@ class ReseauController extends Controller
 
         return (string) $reseau->delete();
     }
+
+    public function organisations(Request $request, Reseau $reseau)
+    {
+        return $reseau->structures;
+    }
+
+    public function responsables(Request $request, Reseau $reseau)
+    {
+        return $reseau->responsables;
+    }
+
+    // public function invitations(Request $request, Reseau $reseau)
+    // {
+    //     return $reseau->invitations;
+    // }
 }

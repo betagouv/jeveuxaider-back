@@ -60,7 +60,10 @@ import FormMixin from '@/mixins/Form'
 export default {
   mixins: [FormMixin],
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, store, error, params }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
     const reseau = await $api.getReseau(params.id)
     return {
       reseau,

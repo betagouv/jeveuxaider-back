@@ -40,6 +40,16 @@
         <VoletRowItem label="Nom"
           ><span class="font-bold">{{ row.name }}</span></VoletRowItem
         >
+        <VoletRowItem label="Nb. antennes"
+          ><span class="font-bold"
+            >{{ row.structures_count }} antenne(s)</span
+          ></VoletRowItem
+        >
+        <VoletRowItem label="Nb. modèles"
+          ><span class="font-bold"
+            >{{ row.mission_templates_count }} modèle(s)</span
+          ></VoletRowItem
+        >
         <VoletRowItem label="Crée le">{{
           row.created_at | formatMediumWithTime
         }}</VoletRowItem>
@@ -50,6 +60,33 @@
           row.state | labelFromValue('structure_workflow_states')
         }}</VoletRowItem>
       </VoletCard>
+
+      <!-- RESPONSABLES -->
+      <template v-if="responsables.length > 0">
+        <VoletCard
+          v-for="responsable in responsables"
+          :key="responsable.id"
+          label="Responsable"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :link="
+            $store.getters.contextRole == 'admin'
+              ? `/dashboard/profile/${responsable.id}`
+              : null
+          "
+        >
+          <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
+          <VoletRowItem label="Nom"
+            ><span class="font-bold">{{
+              responsable.full_name
+            }}</span></VoletRowItem
+          >
+          <VoletRowItem label="Email">{{ responsable.email }}</VoletRowItem>
+          <VoletRowItem label="Mobile">{{ responsable.mobile }}</VoletRowItem>
+          <VoletRowItem v-if="responsable.phone" label="Tel">{{
+            responsable.phone
+          }}</VoletRowItem>
+        </VoletCard>
+      </template>
     </div>
   </Volet>
 </template>
@@ -59,7 +96,9 @@ export default {
   data() {
     return {
       loading: false,
+      reseau: null,
       responsables: [],
+      antennes: [],
     }
   },
   computed: {
@@ -72,10 +111,11 @@ export default {
       immediate: true,
       deep: false,
       async handler(newValue, oldValue) {
-        // const responsables = await this.$api.getStructureMembers(
-        //   this.structure.id
-        // )
-        // this.responsables = responsables.data
+        this.reseau = { ...newValue }
+        const responsables = await this.$api.getReseauResponsables(
+          this.reseau.id
+        )
+        this.responsables = responsables.data
       },
     },
   },

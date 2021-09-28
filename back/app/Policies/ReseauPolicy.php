@@ -54,4 +54,9 @@ class ReseauPolicy
     {
         return false;
     }
+
+    public function manage(User $user, Reseau $reseau)
+    {
+        return false;
+    }
 }

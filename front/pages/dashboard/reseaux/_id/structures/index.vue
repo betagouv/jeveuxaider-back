@@ -3,7 +3,7 @@
     <HeaderReseau :reseau="reseau">
       <template v-if="$store.getters.contextRole != 'admin'" #action>
         <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
-          <el-button type="primary">Inviter une organisation</el-button>
+          <el-button type="primary">Inviter une antenne</el-button>
         </nuxt-link>
       </template>
     </HeaderReseau>
@@ -86,7 +86,7 @@
           <div class="text-secondary text-sm">{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="Organisation" min-width="320">
+      <el-table-column prop="name" label="Antenne" min-width="320">
         <template slot-scope="scope">
           <client-only>
             <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
