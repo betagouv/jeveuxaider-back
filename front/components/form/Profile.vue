@@ -63,6 +63,7 @@
         <el-select
           v-model="form.tete_de_reseau_id"
           clearable
+          filterable
           placeholder="Sélectionner un réseau"
         >
           <el-option

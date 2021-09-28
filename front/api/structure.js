@@ -89,6 +89,9 @@ export default (axios) => ({
     const { data } = await axios.get(`/reseaux/${id}`)
     return data
   },
+  async getStructureReseaux(id) {
+    return await axios.get(`/structure/${id}/reseaux`)
+  },
   async getReseauResponsables(id) {
     return await axios.get(`/reseaux/${id}/responsables`)
   },
@@ -98,6 +101,11 @@ export default (axios) => ({
   async deleteReseauResponsable(reseauId, responsableId) {
     return await axios.delete(
       `/reseaux/${reseauId}/responsables/${responsableId}`
+    )
+  },
+  async deleteReseauStructure(reseauId, structureId) {
+    return await axios.delete(
+      `/reseaux/${reseauId}/organisations/${structureId}`
     )
   },
   async getReseauStructures(id) {

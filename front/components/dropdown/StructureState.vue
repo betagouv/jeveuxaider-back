@@ -63,10 +63,7 @@ export default {
         return true
       }
 
-      if (
-        this.$store.getters.contextRole == 'superviseur' &&
-        this.structure.state == 'En attente de validation'
-      ) {
+      if (this.$store.getters.contextRole == 'tete_de_reseau') {
         return false
       }
 

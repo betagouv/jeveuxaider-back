@@ -67,6 +67,14 @@ class ReseauController extends Controller
         return $reseau;
     }
 
+    public function removeOrganisation(Request $request, Reseau $reseau, Structure $organisation)
+    {
+
+        $reseau->structures()->detach($organisation->id);
+
+        return $reseau;
+    }
+
     public function lead(Request $request)
     {
         Notification::route('mail', [

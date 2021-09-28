@@ -207,6 +207,11 @@ class StructureController extends Controller
         return $structure->members;
     }
 
+    public function reseaux(StructureRequest $request, Structure $structure)
+    {
+        return $structure->reseaux;
+    }
+
     public function invitations(StructureRequest $request, Structure $structure)
     {
         return $structure->invitations;

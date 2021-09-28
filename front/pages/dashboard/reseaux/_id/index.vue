@@ -35,6 +35,8 @@
             <EmptyState
               title="Aucun responsable"
               subtitle="Il n'y a aucun responsable qui gère ce réseau"
+              button-title="Ajouter un responsable"
+              :button-link="`/dashboard/reseaux/${reseau.id}/responsables/add`"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

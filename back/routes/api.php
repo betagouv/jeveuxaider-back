@@ -224,6 +224,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // RESEAUX
     Route::get('reseaux', 'Api\ReseauController@index');
+    Route::get('structure/{structure}/reseaux', 'Api\StructureController@reseaux');
+
 });
 
 // ONLY ADMIN
@@ -315,5 +317,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@addOrganisation');
     Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+    Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@removeOrganisation');
 
 });
