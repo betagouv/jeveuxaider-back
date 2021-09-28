@@ -1,16 +1,7 @@
 <template>
   <div class="has-full-table">
-    <HeaderReseau :reseau="reseau">
-      <template v-if="$store.getters.contextRole != 'admin'" #action>
-        <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
-          <el-button type="primary">Inviter une antenne</el-button>
-        </nuxt-link>
-      </template>
-    </HeaderReseau>
-    <NavTabReseau
-      v-if="$store.getters.contextRole == 'admin'"
-      :reseau="reseau"
-    />
+    <HeaderReseau :reseau="reseau"> </HeaderReseau>
+    <NavTabReseau :reseau="reseau" />
 
     <div class="px-12 mb-3 flex flex-wrap">
       <div class="flex w-full mb-4">

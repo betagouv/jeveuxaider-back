@@ -1,10 +1,6 @@
 <template>
   <div class="has-full-table">
-    <HeaderReseau :reseau="reseau">
-      <template #action>
-        <DropdownReseauButton :reseau="reseau" />
-      </template>
-    </HeaderReseau>
+    <HeaderReseau :reseau="reseau"> </HeaderReseau>
     <NavTabReseau :reseau="reseau" />
 
     <div class="px-12 mb-3 flex flex-wrap">

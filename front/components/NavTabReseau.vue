@@ -2,10 +2,13 @@
   <el-menu
     :default-active="$router.history.current.path"
     mode="horizontal"
-    class="!my-8"
+    class="!mb-8"
     @select="$router.push($event)"
   >
-    <el-menu-item :index="`/dashboard/reseaux/${reseau.id}`">
+    <el-menu-item
+      v-if="$store.getters.contextRole == 'admin'"
+      :index="`/dashboard/reseaux/${reseau.id}`"
+    >
       Informations
     </el-menu-item>
     <el-menu-item :index="`/dashboard/reseaux/${reseau.id}/structures`">

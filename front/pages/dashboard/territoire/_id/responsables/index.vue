@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ territoire.name }}
         </div>
-        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
+        <div class="font-bold text-[1.75rem] text-[#242526]">
           Gérer les responsables
         </div>
       </div>

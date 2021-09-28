@@ -9,10 +9,15 @@
           Ajouter des organisations
         </el-dropdown-item>
       </nuxt-link>
-      <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/members`">
+      <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
+        <el-dropdown-item :command="{}">
+          Inviter des antennes
+        </el-dropdown-item>
+      </nuxt-link>
+      <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables`">
         <el-dropdown-item :command="{}"> Gérer les membres </el-dropdown-item>
       </nuxt-link>
-      <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/members/add`">
+      <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables/add`">
         <el-dropdown-item :command="{}"> Ajouter un membre </el-dropdown-item>
       </nuxt-link>
       <el-dropdown-item

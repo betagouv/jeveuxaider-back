@@ -15,7 +15,14 @@
       </div>
 
       <slot name="action">
-        <DropdownReseauButton :reseau="reseau" />
+        <template v-if="$store.getters.contextRole == 'admin'">
+          <DropdownReseauButton :reseau="reseau" />
+        </template>
+        <template v-else
+          ><nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
+            <el-button type="primary">Inviter une antenne</el-button>
+          </nuxt-link>
+        </template>
       </slot>
     </div>
   </div>

@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ reseau.name }}
         </div>
-        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
+        <div class="font-bold text-[1.75rem] text-[#242526]">
           Gérer les responsables
         </div>
       </div>
@@ -69,7 +69,10 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData({ $api, params }) {
+  async asyncData({ $api, store, error, params }) {
+    if (!['admin'].includes(store.getters.contextRole)) {
+      return error({ statusCode: 403 })
+    }
     const reseau = await $api.getReseau(params.id)
     return {
       reseau,
