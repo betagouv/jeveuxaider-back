@@ -12,6 +12,12 @@
       Antennes
       <span class="text-xs text-gray-600">({{ reseau.structures_count }})</span>
     </el-menu-item>
+    <el-menu-item :index="`/dashboard/reseaux/${reseau.id}/invitations`">
+      Invitations
+      <span class="text-xs text-gray-600"
+        >({{ reseau.invitations_antennes_count }})</span
+      >
+    </el-menu-item>
   </el-menu>
 </template>
 

@@ -28,9 +28,14 @@ class Reseau extends Model
         return $this->hasMany(MissionTemplate::class);
     }
 
-    public function invitations()
+    public function invitationsResponsables()
     {
-        return $this->morphMany('App\Models\Invitation', 'invitable');
+        return $this->morphMany('App\Models\Invitation', 'invitable')->where('role', 'responsable_reseau');
+    }
+
+    public function invitationsAntennes()
+    {
+        return $this->morphMany('App\Models\Invitation', 'invitable')->where('role', 'responsable_antenne');
     }
 
     public function deleteResponsable(Profile $profile)

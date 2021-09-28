@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="has-full-table">
     <HeaderReseau :reseau="reseau">
       <template v-if="$store.getters.contextRole != 'admin'" #action>
         <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 
 class Invitation extends Model
 {
@@ -38,6 +39,14 @@ class Invitation extends Model
     public function invitable()
     {
         return $this->morphTo();
+    }
+
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        return $query
+            ->where('invitable_type', 'App\Models\Reseau')
+            ->where('invitable_id', $reseau_id)
+            ->where('role', 'responsable_antenne');
     }
 
     public function getIsRegisteredAttribute()

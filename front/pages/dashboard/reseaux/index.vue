@@ -43,15 +43,29 @@
           <client-only>
             <v-clamp :max-lines="1" autoresize>{{ scope.row.name }}</v-clamp>
           </client-only>
+          <div class="text-sm text-secondary break-normal">
+            {{ scope.row.structures_count }}
+            {{
+              scope.row.structures_count | pluralize(['antenne', 'antennes'])
+            }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="nb_orga" label="Informations" width="250">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
-            {{ scope.row.structures_count }} antenne(s)
+            {{ scope.row.responsables_count }}
+            {{
+              scope.row.responsables_count
+                | pluralize(['responsable', 'responsables'])
+            }}
           </div>
           <div class="text-sm text-secondary break-normal">
-            {{ scope.row.mission_templates_count }} modèle(s) de mission
+            {{ scope.row.mission_templates_count }}
+            {{
+              scope.row.mission_templates_count
+                | pluralize(['modèle', 'modèles'])
+            }}
           </div>
         </template>
       </el-table-column>

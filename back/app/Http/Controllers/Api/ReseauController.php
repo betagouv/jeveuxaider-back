@@ -30,7 +30,7 @@ class ReseauController extends Controller
 
     public function index(Request $request)
     {
-        return QueryBuilder::for(Reseau::withCount('structures', 'missionTemplates'))
+        return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates']))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
             ])
@@ -40,7 +40,7 @@ class ReseauController extends Controller
 
     public function show(Request $request, Reseau $reseau)
     {
-        $reseau = Reseau::with(['structures', 'responsables'])->withCount('structures', 'missionTemplates')->where('id', $reseau->id)->first();
+        $reseau = Reseau::withCount('structures', 'missionTemplates','invitationsAntennes')->where('id', $reseau->id)->first();
         return $reseau;
     }
 
@@ -102,9 +102,14 @@ class ReseauController extends Controller
         return $reseau->responsables;
     }
 
-    public function invitations(Request $request, Reseau $reseau)
+    public function invitationsResponsables(Request $request, Reseau $reseau)
     {
-        return $reseau->invitations;
+        return $reseau->invitationsResponsables;
+    }
+
+    public function invitationsAntennes(Request $request, Reseau $reseau)
+    {
+        return $reseau->invitationsAntennes;
     }
 
     public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)

@@ -56,9 +56,6 @@
         <VoletRowItem label="Modifié le">{{
           row.updated_at | formatMediumWithTime
         }}</VoletRowItem>
-        <VoletRowItem label="Statut">{{
-          row.state | labelFromValue('structure_workflow_states')
-        }}</VoletRowItem>
       </VoletCard>
 
       <!-- RESPONSABLES -->

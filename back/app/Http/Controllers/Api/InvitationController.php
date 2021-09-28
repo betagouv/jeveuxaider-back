@@ -23,6 +23,7 @@ class InvitationController extends Controller
     {
         return QueryBuilder::for(Invitation::class)
             ->allowedFilters(
+                AllowedFilter::scope('of_reseau'),
                 AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
             ->defaultSort('-created_at')

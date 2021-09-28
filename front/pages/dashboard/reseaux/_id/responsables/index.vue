@@ -86,7 +86,7 @@ export default {
       this.$route.params.id
     )
     this.responsables = responsables.data
-    const invitations = await this.$api.getReseauInvitations(
+    const invitations = await this.$api.getReseauInvitationsResponsables(
       this.$route.params.id
     )
     this.invitations = invitations.data
