@@ -314,4 +314,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('reseaux/{reseau}/invitations', 'Api\ReseauController@invitations');
     Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@addOrganisation');
     Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
+    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+
 });

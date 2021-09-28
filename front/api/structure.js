@@ -95,6 +95,11 @@ export default (axios) => ({
   async getReseauInvitations(id) {
     return await axios.get(`/reseaux/${id}/invitations`)
   },
+  async deleteReseauResponsable(reseauId, responsableId) {
+    return await axios.delete(
+      `/reseaux/${reseauId}/responsables/${responsableId}`
+    )
+  },
   async getReseauStructures(id) {
     return await axios.get(`/reseaux/${id}/organisations`)
   },

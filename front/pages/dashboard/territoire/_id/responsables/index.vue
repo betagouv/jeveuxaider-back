@@ -111,7 +111,7 @@ export default {
         .then(() => {
           this.loading = true
           this.$api
-            .deleteResponsable(this.territoire.id, responsable.id)
+            .deleteTerritoireResponsable(this.territoire.id, responsable.id)
             .then((response) => {
               this.loading = false
               this.$message({

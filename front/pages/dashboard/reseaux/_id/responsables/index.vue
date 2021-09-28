@@ -106,7 +106,21 @@ export default {
         }
       )
         .then(() => {
-          // TODO
+          this.loading = true
+          this.$api
+            .deleteReseauResponsable(this.reseau.id, responsable.id)
+            .then((response) => {
+              this.loading = false
+              this.$message({
+                type: 'success',
+                message: 'Le responsable a bien été supprimé',
+              })
+              this.responsables = response.data
+            })
+            .catch((error) => {
+              this.loading = false
+              this.errors = error.response.data.errors
+            })
         })
         .catch(() => {})
     },

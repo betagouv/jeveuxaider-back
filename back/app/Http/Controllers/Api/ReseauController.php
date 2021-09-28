@@ -98,4 +98,10 @@ class ReseauController extends Controller
     {
         return $reseau->invitations;
     }
+
+    public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
+    {
+        $reseau->deleteResponsable($responsable);
+        return $reseau->responsables;
+    }
 }

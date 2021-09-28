@@ -33,4 +33,12 @@ class Reseau extends Model
         return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 
+    public function deleteResponsable(Profile $profile)
+    {
+        $profile->tete_de_reseau_id = null;
+        $profile->save();
+
+        return $this->load('responsables');
+    }
+
 }

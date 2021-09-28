@@ -64,6 +64,10 @@ class Invitation extends Model
             if ($this->role == 'responsable_territoire') {
                 $this->invitable->addResponsable($profile);
             }
+            // RESPONSABLE RESEAU
+            if ($this->role == 'responsable_reseau') {
+                $profile->update(['tete_de_reseau_id' => $this->invitable->id]);
+            }
             // REFERENT DEPARTEMENTAL
             if ($this->role == 'referent_departemental') {
                 $profile->update(['referent_department' => $this->properties['referent_departemental']]);
