@@ -22,7 +22,10 @@
         label-position="top"
         :rules="rules"
       >
-        <el-form-item label="Nom de l'antenne de votre réseau" prop="name">
+        <el-form-item
+          label="Nom de l'antenne de votre réseau"
+          prop="properties.antenne_name"
+        >
           <el-input
             v-model="form.properties.antenne_name"
             :placeholder="`Ex: ${reseau.name} - Occitanie`"
@@ -65,9 +68,10 @@ export default {
         role: 'responsable_antenne',
         invitable_id: this.$route.params.id,
         invitable_type: 'App\\Models\\Reseau',
+        properties: {},
       },
       rules: {
-        name: [
+        'properties.antenne_name': [
           {
             required: true,
             message: "Veuillez renseigner le nom de l'antenne",
