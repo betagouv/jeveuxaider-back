@@ -42,7 +42,6 @@ class FillMissionTemplatePhoto extends Command
      */
     public function handle()
     {
-        ray()->newScreen();
         $query = MissionTemplate::count();
         $this->info($query  . ' mission templates will be updated');
 

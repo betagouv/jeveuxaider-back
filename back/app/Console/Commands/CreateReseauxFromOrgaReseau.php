@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Profile;
 use App\Models\Reseau;
 use App\Models\Structure;
 use Illuminate\Console\Command;
@@ -53,13 +54,14 @@ class CreateReseauxFromOrgaReseau extends Command
                     'created_at' => $structure->created_at, 
                     'updated_at' => $structure->updated_at
                 ]);
-                // Get antennes
+                // Link antennes
                 $this->info("Réseau " . $reseau->name . " crée");
                 $antennesIds = Structure::where('reseau_id', $structure->id)->pluck("id")->toArray();
-                ray($antennesIds);
                 array_push($antennesIds, $structure->id);
                 $this->info("Réseau " . $reseau->name . " a " . count($antennesIds) . " antennes");
                 $reseau->structures()->syncWithoutDetaching($antennesIds);
+                // Link profile to reseau
+                Profile::where('reseau_id', $structure->id)->update(['tete_de_reseau_id' => $reseau->id]);
             });
         }
     }

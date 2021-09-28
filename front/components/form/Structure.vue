@@ -220,16 +220,6 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item
-      v-if="$store.getters.contextRole === 'admin'"
-      label="Tête de réseau"
-      prop="is_reseau"
-      class="flex-1"
-    >
-      <el-checkbox v-model="form.is_reseau">
-        <span class=""> Cette organisation est une tête de réseau </span>
-      </el-checkbox>
-    </el-form-item>
 
     <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Lieu de l'établissement
