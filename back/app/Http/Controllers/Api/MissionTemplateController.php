@@ -27,8 +27,11 @@ class MissionTemplateController extends Controller
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
                 AllowedFilter::scope('of_reseau'),
-                AllowedFilter::callback('with_reseau', function (Builder $query2, $reseaux) {
-                    $query2->where('reseau_id', null)->orWhereIn('reseau_id', explode(",", $reseaux));
+                AllowedFilter::callback('with_reseaux', function (Builder $query, $reseaux) {
+                    $query->where(function ($query) use ($reseaux) {
+                        $query->where('reseau_id', null)
+                        ->orWhereIn('reseau_id', explode(",", $reseaux));
+                    });
                 }),
             )
             ->defaultSort('-updated_at')
