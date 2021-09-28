@@ -94,8 +94,8 @@ class ReseauController extends Controller
         return $reseau->responsables;
     }
 
-    // public function invitations(Request $request, Reseau $reseau)
-    // {
-    //     return $reseau->invitations;
-    // }
+    public function invitations(Request $request, Reseau $reseau)
+    {
+        return $reseau->invitations;
+    }
 }

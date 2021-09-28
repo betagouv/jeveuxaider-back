@@ -28,13 +28,9 @@ class Reseau extends Model
         return $this->hasMany(MissionTemplate::class);
     }
 
-    public function antennesInvitations()
+    public function invitations()
     {
         return $this->morphMany('App\Models\Invitation', 'invitable');
     }
 
-    public function responsablesInvitations()
-    {
-        return $this->morphMany('App\Models\Invitation', 'invitable');
-    }
 }

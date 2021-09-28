@@ -310,6 +310,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::get('reseaux/{reseau}/organisations', 'Api\ReseauController@organisations');
     Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
+    Route::get('reseaux/{reseau}/invitations', 'Api\ReseauController@invitations');
     Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@addOrganisation');
     Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
 });
