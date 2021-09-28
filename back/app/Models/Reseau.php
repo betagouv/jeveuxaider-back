@@ -10,6 +10,7 @@ class Reseau extends Model
 
     protected $fillable = [
         'name',
+        'created_at',
     ];
  
     public function profiles()
