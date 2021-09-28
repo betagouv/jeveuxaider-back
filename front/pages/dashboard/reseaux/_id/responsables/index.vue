@@ -16,38 +16,40 @@
     <el-divider />
     <div class="px-12 mb-12">
       <div class="text-sm font-medium text-secondary mb-4">Responsables</div>
-      <div
-        v-for="responsable in responsables"
-        :key="responsable.id"
-        class="responsable py-4 px-6"
-      >
-        <div class="flex items-center">
-          <Avatar
-            :source="responsable.image ? responsable.image.thumb : null"
-            :fallback="responsable.short_name"
-          />
-          <div class="flex flex-col ml-6" style="min-width: 350px">
-            <div class="text-[#242526]">
-              {{ responsable.first_name }} {{ responsable.last_name }}
+      <div class="grid grid-cols-2 gap-4">
+        <div
+          v-for="responsable in responsables"
+          :key="responsable.id"
+          class="py-4 px-6 bg-gray-50 rounded"
+        >
+          <div class="flex items-center">
+            <Avatar
+              :source="responsable.image ? responsable.image.thumb : null"
+              :fallback="responsable.short_name"
+            />
+            <div class="flex flex-1 flex-col ml-6" style="min-width: 350px">
+              <div class="text-[#242526]">
+                {{ responsable.first_name }} {{ responsable.last_name }}
+              </div>
+              <div class="text-xs text-secondary">
+                <div class="break-all">{{ responsable.email }}</div>
+                <div class="">{{ responsable.mobile }}</div>
+              </div>
             </div>
-            <div class="text-xs text-secondary">
-              <div class="break-all">{{ responsable.email }}</div>
-              <div class="">{{ responsable.mobile }}</div>
-            </div>
+            <el-button
+              v-if="
+                responsables.length > 1 &&
+                $store.getters.user.profile.id != responsable.id
+              "
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              class="!ml-4 !m-auto is-plain"
+              @click="deleteConfirm(responsable)"
+            >
+              Supprimer
+            </el-button>
           </div>
-          <el-button
-            v-if="
-              responsables.length > 1 &&
-              $store.getters.user.profile.id != responsable.id
-            "
-            type="danger"
-            icon="el-icon-delete"
-            size="small"
-            class="!ml-4 !m-auto is-plain"
-            @click="deleteConfirm(responsable)"
-          >
-            Supprimer
-          </el-button>
         </div>
       </div>
     </div>
