@@ -67,7 +67,7 @@
           placeholder="Sélectionner un réseau"
         >
           <el-option
-            v-for="item in reseaux"
+            v-for="item in $store.getters.reseaux"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -211,10 +211,10 @@ export default {
       return true
     },
   },
-  async created() {
-    const { data } = await this.$api.fetchReseaux({ pagination: 1000 })
-    this.reseaux = data.data
-  },
+  // async created() {
+  //   const { data } = await this.$api.fetchReseaux({ pagination: 1000 })
+  //   this.reseaux = data.data
+  // },
   methods: {
     onSubmit() {
       this.loading = true

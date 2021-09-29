@@ -253,7 +253,7 @@
             </el-form-item>
           </div>
 
-          <template
+          <!-- <template
             v-if="form.statut_juridique != 'Collectivité' && !form.reseau_id"
           >
             <el-form-item
@@ -261,14 +261,14 @@
               prop="reseau"
               class="!flex-1"
             >
-              <!-- <item-description container-class="mb-6">
+              <item-description container-class="mb-6">
                 Si votre organisation est membre d'un réseau national ou
                 territorial, sélectionnez-le. Vous permettrez au superviseur de
                 votre réseau de visualiser les missions et bénévoles rattachés à
                 votre organisation. Vous faciliterez également la validation de
                 votre organisation par les autorités territoriales lors de votre
                 inscription.
-              </item-description> -->
+              </item-description>
               <el-select
                 v-model="form.reseau_id"
                 clearable
@@ -283,7 +283,7 @@
                 />
               </el-select>
             </el-form-item>
-          </template>
+          </template> -->
         </el-form>
         <div class="sm:col-span-">
           <span class="block w-full rounded-md shadow-sm">

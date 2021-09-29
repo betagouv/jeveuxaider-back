@@ -194,7 +194,7 @@
       <el-input v-model="form.phone" placeholder="01 23 45 67 89" />
     </el-form-item>
 
-    <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
+    <!-- <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Réseau national ou territorial
     </div>
     <ItemDescription container-class="mb-6">
@@ -219,7 +219,7 @@
           :value="item.id"
         />
       </el-select>
-    </el-form-item>
+    </el-form-item> -->
 
     <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Lieu de l'établissement

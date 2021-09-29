@@ -38,8 +38,8 @@
             </div>
             <el-button
               v-if="
-                responsables.length > 1 &&
-                $store.getters.user.profile.id != responsable.id
+                $store.getters.user.profile.id != responsable.id ||
+                $store.getters.contextRole == 'admin'
               "
               type="danger"
               icon="el-icon-delete"
@@ -47,7 +47,7 @@
               class="!ml-4 !m-auto is-plain"
               @click="deleteConfirm(responsable)"
             >
-              Supprimer
+              Retirer
             </el-button>
           </div>
         </div>
