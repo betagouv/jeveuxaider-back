@@ -832,7 +832,8 @@ return [
             "responsable_territoire" => "Responsable d'un territoire",
             "referent_departemental" => "Référent départemental",
             "referent_regional" => "Référent régional",
-            "superviseur" => "Tête de réseau national",
+            // "superviseur" => "Tête de réseau national",
+            "tete_de_reseau" => "Tête de réseau national",
             "datas_analyst" => "Datas analyste",
             "benevole" => "Bénévole",
         ]

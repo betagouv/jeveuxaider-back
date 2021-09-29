@@ -52,8 +52,6 @@ class Structure extends Model implements HasMedia
         'twitter',
         'instagram',
         'donation',
-        'reseau_id',
-        'is_reseau',
         'state',
         'publics_beneficiaires',
         'image_1',
@@ -118,14 +116,14 @@ class Structure extends Model implements HasMedia
                     ->whereNotNull('department')
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
                 break;
-            case 'superviseur':
-                return $query
-                    ->whereNotNull('reseau_id')
-                    ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
-                break;
+            // case 'superviseur':
+            //     return $query
+            //         ->whereNotNull('reseau_id')
+            //         ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
+            //     break;
             case 'tete_de_reseau':
                 return $query->whereHas('reseaux', function (Builder $query) {
-                    $query->where('reseau_id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                    $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
                 });
         }
     }
@@ -244,7 +242,7 @@ class Structure extends Model implements HasMedia
     public function scopeOfReseau($query, $reseau_id)
     {
         return $query->whereHas('reseaux', function (Builder $query) use ($reseau_id) {
-            $query->where('reseau_id', $reseau_id);
+            $query->where('reseaux.id', $reseau_id);
         });
     }
 

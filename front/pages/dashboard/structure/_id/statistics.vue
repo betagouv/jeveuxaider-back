@@ -118,7 +118,7 @@ export default {
         'responsable',
         'referent',
         'referent_regional',
-        'superviseur',
+        // 'superviseur',
         'tete_de_reseau',
       ].includes(store.getters.contextRole)
     ) {

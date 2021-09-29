@@ -25,7 +25,7 @@ class Profile extends Model implements HasMedia
         'email',
         'phone',
         'mobile',
-        'reseau_id',
+        //'reseau_id',
         'tete_de_reseau_id',
         'referent_department',
         'referent_region',
@@ -210,17 +210,17 @@ class Profile extends Model implements HasMedia
                         }
                     );
                 break;
-            case 'superviseur':
-                return $query
-                    ->whereHas(
-                        'structures',
-                        function (Builder $query) {
-                            $query
-                                ->whereNotNull('reseau_id')
-                                ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                        }
-                    );
-                break;
+            // case 'superviseur':
+            //     return $query
+            //         ->whereHas(
+            //             'structures',
+            //             function (Builder $query) {
+            //                 $query
+            //                     ->whereNotNull('reseau_id')
+            //                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
+            //             }
+            //         );
+            //     break;
             case 'responsable':
                 $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
                 return $query->whereHas(
@@ -331,10 +331,10 @@ class Profile extends Model implements HasMedia
         return $this->referent_region ? true : false;
     }
 
-    public function isSuperviseur()
-    {
-        return $this->reseau ? true : false;
-    }
+    // public function isSuperviseur()
+    // {
+    //     return $this->reseau ? true : false;
+    // }
 
     public function isTeteDeReseau()
     {
@@ -370,7 +370,7 @@ class Profile extends Model implements HasMedia
             'admin' => $this->isAdmin(),
             'referent' => $this->isReferent(),
             'referent_regional' => $this->isReferentRegional(),
-            'superviseur' => $this->isSuperviseur(),
+            // 'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'tete_de_reseau' => $this->isTeteDeReseau(),
             'analyste' => $this->is_analyste

@@ -42,14 +42,20 @@ class Temoignage extends Model
                         });
                     });
                 break;
-            case 'superviseur':
+            // case 'superviseur':
+            //     return $query
+            //         ->whereHas('participation', function (Builder $query) {
+            //             $query->whereHas('mission', function (Builder $query) {
+            //                 $query->whereHas('structure', function (Builder $query) {
+            //                     $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
+            //                 });
+            //             });
+            //         });
+            //     break;
+            case 'tete_de_reseau':
                 return $query
-                    ->whereHas('participation', function (Builder $query) {
-                        $query->whereHas('mission', function (Builder $query) {
-                            $query->whereHas('structure', function (Builder $query) {
-                                $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                            });
-                        });
+                    ->whereHas('participation.mission.structure.reseaux', function (Builder $query) {
+                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->reseau_id);
                     });
                 break;
             case 'responsable':

@@ -69,18 +69,18 @@ class Participation extends Model
                         $query->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
                     });
                 break;
-            case 'superviseur':
-                return $query
-                    ->whereHas('mission', function (Builder $query) {
-                        $query->whereHas('structure', function (Builder $query) {
-                            $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                        });
-                    });
-                break;
+            // case 'superviseur':
+            //     return $query
+            //         ->whereHas('mission', function (Builder $query) {
+            //             $query->whereHas('structure', function (Builder $query) {
+            //                 $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
+            //             });
+            //         });
+            //     break;
             case 'tete_de_reseau':
                 return $query
                     ->whereHas('mission.structure.reseaux', function (Builder $query) {
-                        $query->where('reseau_id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
                     });
                 break;
             case 'responsable':

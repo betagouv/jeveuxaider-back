@@ -61,13 +61,6 @@ class ConfigController extends Controller
 
     private function reseaux()
     {
-        // return Structure::where('is_reseau', true)->orderBy('name')->get()->map(function ($structure) {
-        //     return [
-        //         'id' => $structure->id,
-        //         'name' => $structure->name
-        //     ];
-        // });
-
         return Reseau::orderBy('name')->get(['id','name']);
     }
 
@@ -96,7 +89,7 @@ class ConfigController extends Controller
         switch ($table) {
             case 'structures':
                 $rows = Structure::cursor();
-                $columns = ['id', 'user_id', 'name', 'is_reseau', 'reseau_id', 'siret', 'statut_juridique', 'association_types', 'structure_publique_type', 'structure_publique_etat_type', 'structure_privee_type', 'address', 'zip', 'city', 'department', 'latitude', 'longitude', 'website', 'facebook', 'twitter', 'instagram', 'state', 'created_at', 'updated_at', 'deleted_at'];
+                $columns = ['id', 'user_id', 'name', 'siret', 'statut_juridique', 'association_types', 'structure_publique_type', 'structure_publique_etat_type', 'structure_privee_type', 'address', 'zip', 'city', 'department', 'latitude', 'longitude', 'website', 'facebook', 'twitter', 'instagram', 'state', 'created_at', 'updated_at', 'deleted_at'];
                 break;
             case 'missions':
                 $rows = Mission::cursor();

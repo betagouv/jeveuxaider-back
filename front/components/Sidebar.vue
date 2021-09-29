@@ -38,9 +38,9 @@
         <LazyMenuReferentRegional
           v-if="$store.getters.contextRole == 'referent_regional'"
         />
-        <LazyMenuSuperviseur
+        <!-- <LazyMenuSuperviseur
           v-if="$store.getters.contextRole == 'superviseur'"
-        />
+        /> -->
         <LazyMenuTeteDeReseau
           v-if="$store.getters.contextRole == 'tete_de_reseau'"
         />

@@ -90,9 +90,9 @@ class Invitation extends Model
                 $profile->update(['referent_region' => $this->properties['referent_regional']]);
             }
             // SUPERVISEUR
-            if ($this->role == 'superviseur') {
-                $profile->update(['reseau_id' => $this->invitable->id]);
-            }
+            // if ($this->role == 'superviseur') {
+            //     $profile->update(['reseau_id' => $this->invitable->id]);
+            // }
             // DATAS ANALYST
             if ($this->role == 'datas_analyst') {
                 $profile->update(['is_analyste' => true]);

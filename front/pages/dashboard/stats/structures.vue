@@ -33,7 +33,7 @@ export default {
         'admin',
         'referent',
         'referent_regional',
-        'superviseur',
+        // 'superviseur',
         'analyste',
         'tete_de_reseau',
       ].includes(store.getters.contextRole)

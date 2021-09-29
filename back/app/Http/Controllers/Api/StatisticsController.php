@@ -101,7 +101,8 @@ class StatisticsController extends Controller
                     'responsable' => Profile::role($request->header('Context-Role'))->whereHas('missions')->orWhereHas('structures')->count(),
                     'referent' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_department')->count(),
                     'referent_regional' => Profile::role($request->header('Context-Role'))->whereNotNull('referent_region')->count(),
-                    'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
+                    // 'superviseur' => Profile::role($request->header('Context-Role'))->whereHas('reseau')->count(),
+                    'tete_de_reseau' => Profile::role($request->header('Context-Role'))->whereNotNull('tete_de_reseau_id')->count(),
                     'admin' => Profile::role($request->header('Context-Role'))
                         ->whereHas('user', function (Builder $query) {
                             $query->where('is_admin', true);
@@ -111,7 +112,24 @@ class StatisticsController extends Controller
                 break;
             case 'referent':
             case 'referent_regional':
-            case 'superviseur':
+            // case 'superviseur':
+            //     $total = Profile::role($request->header('Context-Role'))->count();
+            //     $volontaire = Profile::role($request->header('Context-Role'))
+            //         ->whereHas('user', function (Builder $query) {
+            //             $query->where('context_role', 'volontaire');
+            //         })
+            //         ->count();
+            //     return [
+            //         'total' => $total,
+            //         'volontaire' => $volontaire,
+            //         'responsable' => $total - $volontaire,
+            //         'service_civique' => Profile::role($request->header('Context-Role'))
+            //             ->whereHas('user', function (Builder $query) {
+            //                 $query->where('service_civique', true);
+            //             })->count(),
+            //     ];
+            //     break;
+            case 'tete_de_reseau':
                 $total = Profile::role($request->header('Context-Role'))->count();
                 $volontaire = Profile::role($request->header('Context-Role'))
                     ->whereHas('user', function (Builder $query) {
