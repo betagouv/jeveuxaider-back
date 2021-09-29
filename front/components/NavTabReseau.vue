@@ -15,6 +15,15 @@
       Antennes
       <span class="text-xs text-gray-600">({{ reseau.structures_count }})</span>
     </el-menu-item>
+    <el-menu-item
+      v-if="$store.getters.contextRole == 'admin'"
+      :index="`/dashboard/reseaux/${reseau.id}/modeles-de-mission`"
+    >
+      Modèles
+      <span class="text-xs text-gray-600"
+        >({{ reseau.mission_templates_count }})</span
+      >
+    </el-menu-item>
     <el-menu-item :index="`/dashboard/reseaux/${reseau.id}/invitations`">
       Invitations
       <span class="text-xs text-gray-600"

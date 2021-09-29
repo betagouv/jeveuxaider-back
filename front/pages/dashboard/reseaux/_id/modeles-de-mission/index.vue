@@ -1,6 +1,6 @@
 <template>
-  <div class="px-12">
-    <div class="header flex">
+  <div class="">
+    <div class="px-12 header flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
           Réseau {{ reseau.name }}
@@ -21,41 +21,45 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="grid grid-cols-4 gap-6 max-w-7xl">
-      <CardMissionTemplate
-        title="Créez un modèle de mission"
-        description="Ce modèle pourra ensuite être proposé par les antennes de votre réseau afin de faciliter la publication de ses missions."
-        image-url="/images/card-add.png"
-        state-text="Validation par un référent"
-        state-style="warning"
-        @click.native="
-          $router.push(
-            `/dashboard/reseaux/${$route.params.id}/modeles-de-mission/add`
-          )
-        "
-      />
+    <NavTabReseau :reseau="reseau" />
 
-      <CardMissionTemplate
-        v-for="missionTemplate in missionTemplates"
-        :key="missionTemplate.id"
-        :title="missionTemplate.title"
-        :description="missionTemplate.subtitle"
-        :image-url="
-          missionTemplate.photo
-            ? missionTemplate.photo.large
-            : '/images/card-thumbnail-default@2x.jpg'
-        "
-        :state-text="
-          missionTemplate.published ? 'En attente de validation' : null
-        "
-        :state-style="missionTemplate.published ? 'warning' : null"
-        action-title="Éditer"
-        @click.native="
-          $router.push(
-            `/dashboard/reseaux/${$route.params.id}/modeles-de-mission/${missionTemplate.id}/edit`
-          )
-        "
-      />
+    <div class="px-12">
+      <div class="grid grid-cols-4 gap-6 max-w-7xl">
+        <CardMissionTemplate
+          title="Créez un modèle de mission"
+          description="Ce modèle pourra ensuite être proposé par les antennes de votre réseau afin de faciliter la publication de ses missions."
+          image-url="/images/card-add.png"
+          state-text="Validation par un référent"
+          state-style="warning"
+          @click.native="
+            $router.push(
+              `/dashboard/reseaux/${$route.params.id}/modeles-de-mission/add`
+            )
+          "
+        />
+
+        <CardMissionTemplate
+          v-for="missionTemplate in missionTemplates"
+          :key="missionTemplate.id"
+          :title="missionTemplate.title"
+          :description="missionTemplate.subtitle"
+          :image-url="
+            missionTemplate.photo
+              ? missionTemplate.photo.large
+              : '/images/card-thumbnail-default@2x.jpg'
+          "
+          :state-text="
+            missionTemplate.published ? 'En attente de validation' : null
+          "
+          :state-style="missionTemplate.published ? 'warning' : null"
+          action-title="Éditer"
+          @click.native="
+            $router.push(
+              `/dashboard/reseaux/${$route.params.id}/modeles-de-mission/${missionTemplate.id}/edit`
+            )
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
