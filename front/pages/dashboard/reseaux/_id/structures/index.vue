@@ -89,9 +89,6 @@
       </el-table-column>
       <el-table-column label="Contextes" min-width="300">
         <template slot-scope="scope">
-          <!-- <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0">
-            {{ scope.row.reseau_id | reseauFromValue }}
-          </el-tag> -->
           <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>

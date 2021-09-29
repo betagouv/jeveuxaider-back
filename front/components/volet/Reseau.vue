@@ -53,7 +53,10 @@
 
       <!-- STATISTICS -->
       <VoletCard>
-        <div class="flex space-x-4">
+        <router-link
+          :to="`/dashboard/reseaux/${row.id}/structures`"
+          class="flex space-x-4"
+        >
           <div class="text-5xl leading-none text-gray-900">
             {{ row.missions_count }}
           </div>
@@ -66,7 +69,7 @@
               {{ row.structures_count | pluralize(['antenne', 'antennes']) }}
             </div>
           </div>
-        </div>
+        </router-link>
       </VoletCard>
 
       <!-- RESPONSABLES -->

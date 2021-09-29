@@ -71,7 +71,6 @@ class Structure extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'is_reseau' => 'boolean',
         'association_types' => 'array',
         'latitude' => 'float',
         'longitude' => 'float',
@@ -116,11 +115,6 @@ class Structure extends Model implements HasMedia
                     ->whereNotNull('department')
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
                 break;
-            // case 'superviseur':
-            //     return $query
-            //         ->whereNotNull('reseau_id')
-            //         ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
-            //     break;
             case 'tete_de_reseau':
                 return $query->whereHas('reseaux', function (Builder $query) {
                     $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);

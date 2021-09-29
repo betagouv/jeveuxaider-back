@@ -25,7 +25,6 @@ class Profile extends Model implements HasMedia
         'email',
         'phone',
         'mobile',
-        //'reseau_id',
         'tete_de_reseau_id',
         'referent_department',
         'referent_region',
@@ -210,17 +209,6 @@ class Profile extends Model implements HasMedia
                         }
                     );
                 break;
-            // case 'superviseur':
-            //     return $query
-            //         ->whereHas(
-            //             'structures',
-            //             function (Builder $query) {
-            //                 $query
-            //                     ->whereNotNull('reseau_id')
-            //                     ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-            //             }
-            //         );
-            //     break;
             case 'responsable':
                 $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
                 return $query->whereHas(

@@ -112,23 +112,6 @@ class StatisticsController extends Controller
                 break;
             case 'referent':
             case 'referent_regional':
-            // case 'superviseur':
-            //     $total = Profile::role($request->header('Context-Role'))->count();
-            //     $volontaire = Profile::role($request->header('Context-Role'))
-            //         ->whereHas('user', function (Builder $query) {
-            //             $query->where('context_role', 'volontaire');
-            //         })
-            //         ->count();
-            //     return [
-            //         'total' => $total,
-            //         'volontaire' => $volontaire,
-            //         'responsable' => $total - $volontaire,
-            //         'service_civique' => Profile::role($request->header('Context-Role'))
-            //             ->whereHas('user', function (Builder $query) {
-            //                 $query->where('service_civique', true);
-            //             })->count(),
-            //     ];
-            //     break;
             case 'tete_de_reseau':
                 $total = Profile::role($request->header('Context-Role'))->count();
                 $volontaire = Profile::role($request->header('Context-Role'))
