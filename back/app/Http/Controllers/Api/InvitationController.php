@@ -8,6 +8,7 @@ use App\Http\Requests\InvitationRequest;
 use App\Http\Requests\RegisterInvitationRequest;
 use App\Models\Invitation;
 use App\Models\Profile;
+use App\Models\Structure;
 use App\Models\User;
 use App\Notifications\InvitationSent;
 use Carbon\Carbon;
@@ -44,11 +45,20 @@ class InvitationController extends Controller
     public function store(InvitationRequest $request)
     {
 
-        // Check si pas déjà responsable
-        if (in_array($request->input('role'), ['responsable_organisation', 'responsable_antenne'])) {
+        // RESPONSABLE ORGANISATION
+        if (in_array($request->input('role'), ['responsable_organisation'])) {
             $profile = Profile::where('email', 'ILIKE', $request->input('email'))->first();
             if ($profile && $profile->structures->count() > 0) {
                 abort(402, "Cet email est déjà rattaché à une organisation");
+            }
+        }
+
+        // RESPONSABLE ANTENNE
+        if (in_array($request->input('role'), ['responsable_antenne'])) {
+            $properties = $request->input('properties');
+            $structure = Structure::where('name', 'ILIKE', $properties['antenne_name'])->first();
+            if ($structure) {
+                abort(402, "Cette structure est déjà inscrite sur la plateforme");
             }
         }
 
