@@ -92,11 +92,6 @@ class ReseauController extends Controller
         return (string) $reseau->delete();
     }
 
-    public function organisations(Request $request, Reseau $reseau)
-    {
-        return $reseau->structures;
-    }
-
     public function responsables(Request $request, Reseau $reseau)
     {
         return $reseau->responsables;
@@ -105,11 +100,6 @@ class ReseauController extends Controller
     public function invitationsResponsables(Request $request, Reseau $reseau)
     {
         return $reseau->invitationsResponsables;
-    }
-
-    public function invitationsAntennes(Request $request, Reseau $reseau)
-    {
-        return $reseau->invitationsAntennes;
     }
 
     public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)

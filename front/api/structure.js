@@ -108,9 +108,6 @@ export default (axios) => ({
       `/reseaux/${reseauId}/organisations/${structureId}`
     )
   },
-  async getReseauStructures(id) {
-    return await axios.get(`/reseaux/${id}/organisations`)
-  },
   async addReseauOrga(id, organisations) {
     return await axios.post(`/reseaux/${id}/organisations`, { organisations })
   },
