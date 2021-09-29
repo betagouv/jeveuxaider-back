@@ -53,9 +53,9 @@
               : '/images/card-thumbnail-default@2x.jpg'
           "
           :state-text="
-            missionTemplate.published ? 'En attente de validation' : null
+            !missionTemplate.published ? 'En attente de validation' : null
           "
-          :state-style="missionTemplate.published ? 'warning' : null"
+          :state-style="!missionTemplate.published ? 'warning' : null"
           action-title="Éditer"
           @click.native="
             $router.push(

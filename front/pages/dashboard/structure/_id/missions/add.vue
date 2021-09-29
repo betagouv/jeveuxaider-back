@@ -22,7 +22,7 @@
       <div
         v-for="domaine in domaines"
         :key="domaine.id"
-        class="shadow-lg rounded-lg w-60 py-6 px-16 text-center flex items-center justify-center m-2 font-bold cursor-pointer"
+        class="shadow-lg rounded-lg w-60 py-6 px-16 text-center flex flex-col items-center justify-center m-2 font-bold cursor-pointer"
         :class="[
           domaine.id == $route.query.domaine
             ? 'bg-primary text-white'
@@ -30,7 +30,8 @@
         ]"
         @click="onclickDomaine(domaine.id)"
       >
-        {{ domaine.name.fr }}
+        <div class="text-4xl mb-2">{{ iconeDomaine(domaine) }}</div>
+        <div class="">{{ domaine.name.fr }}</div>
       </div>
     </div>
 
@@ -126,6 +127,30 @@ export default {
         this.$router.push(
           `/dashboard/structure/${this.$route.params.id}/missions/add?step=2&domaine=${this.domaine_id}`
         )
+      }
+    },
+    iconeDomaine(domaine) {
+      switch (domaine.id) {
+        case 1: // Mobilisation Covid-19
+          return '😷'
+        case 2: // Éducation pour tous
+          return '📚'
+        case 3: // Santé pour tous
+          return '💊'
+        case 4: // Protection de la nature
+          return '🌿'
+        case 6: // Solidarité et insertion
+          return '🍲'
+        case 7: // Sport pour tous
+          return '🏀'
+        case 8: // Prévention et protection
+          return '🚨'
+        case 9: // Mémoire et citoyenneté
+          return '📯'
+        case 10: // Coopération internationale
+          return '🌍'
+        case 11: // Art & Culture pour tous
+          return '🎨'
       }
     },
   },
