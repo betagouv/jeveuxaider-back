@@ -129,6 +129,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('structure/{structure}/invitations', 'Api\StructureController@invitations');
     Route::post('invitation', 'Api\InvitationController@store');
 
+    // INVITATIONS
+    Route::get('invitations', 'Api\InvitationController@index');
+
     // MISSIONS
     Route::get('missions', 'Api\MissionController@index');
     Route::get('mission/{mission}/benevoles', 'Api\MissionController@benevoles');
@@ -301,9 +304,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('profiles/referents/departements/export', 'Api\ProfileController@exportReferentsDepartements');
     Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
-
-    // INVITATIONS
-    Route::get('invitations', 'Api\InvitationController@index');
 
     // TERRITOIRES
     Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');

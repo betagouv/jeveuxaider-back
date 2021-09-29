@@ -10,7 +10,6 @@
           <div class="font-bold text-[1.75rem] text-[#242526] mr-2">
             {{ reseau.name }}
           </div>
-          <!-- <TagModelState v-if="structure.state" :state="structure.state" /> -->
         </div>
       </div>
 
@@ -20,7 +19,7 @@
         </template>
         <template v-else
           ><nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
-            <el-button type="primary">Inviter une antenne</el-button>
+            <el-button type="primary">Inviter une nouvelle antenne</el-button>
           </nuxt-link>
         </template>
       </slot>

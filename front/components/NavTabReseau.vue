@@ -25,7 +25,7 @@
       >
     </el-menu-item>
     <el-menu-item :index="`/dashboard/reseaux/${reseau.id}/invitations`">
-      Invitations
+      Invitations à créer une antenne
       <span class="text-xs text-gray-600"
         >({{ reseau.invitations_antennes_count }})</span
       >

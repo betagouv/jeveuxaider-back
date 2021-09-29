@@ -6,19 +6,23 @@
     <el-dropdown-menu slot="dropdown">
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/add`">
         <el-dropdown-item :command="{}">
-          Ajouter des organisations
+          Relier des organisations existantes
         </el-dropdown-item>
       </nuxt-link>
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
         <el-dropdown-item :command="{}">
-          Inviter des antennes
+          Inviter de nouvelles antennes
         </el-dropdown-item>
       </nuxt-link>
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables`">
-        <el-dropdown-item :command="{}"> Gérer les membres </el-dropdown-item>
+        <el-dropdown-item :command="{}">
+          Gérer les responsables
+        </el-dropdown-item>
       </nuxt-link>
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables/add`">
-        <el-dropdown-item :command="{}"> Ajouter un membre </el-dropdown-item>
+        <el-dropdown-item :command="{}">
+          Inviter un responsable de réseau
+        </el-dropdown-item>
       </nuxt-link>
       <el-dropdown-item
         v-if="$store.getters.contextRole == 'admin'"

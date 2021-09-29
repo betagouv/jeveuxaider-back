@@ -55,53 +55,6 @@
             </EmptyState>
           </div>
         </el-card>
-        <el-card shadow="never" class="p-4">
-          <div class="flex justify-between items-start">
-            <div class="mb-6 text-xl font-semibold">
-              Organisations du réseau
-            </div>
-            <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/add`">
-              <el-button size="small" type="secondary">
-                Ajouter une organisation
-              </el-button>
-            </nuxt-link>
-          </div>
-          <div
-            v-if="reseau.antennes"
-            class="text-sm divide-y divide divide-gray-100"
-          >
-            <div
-              v-for="structure in reseau.antennes"
-              :key="structure.id"
-              class="py-2"
-            >
-              {{ structure.name }}
-            </div>
-          </div>
-          <div v-else>
-            <EmptyState
-              title="Aucune organisation"
-              subtitle="Il n'y a aucune organisation liée à ce réseau"
-              button-title="Ajouter une organisation"
-              :button-link="`/dashboard/reseaux/${reseau.id}/structures/add`"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="mx-auto h-12 w-12 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                />
-              </svg>
-            </EmptyState>
-          </div>
-        </el-card>
       </div>
     </div>
   </div>

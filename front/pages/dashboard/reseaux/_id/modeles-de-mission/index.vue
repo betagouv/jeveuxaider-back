@@ -21,7 +21,11 @@
         </nuxt-link>
       </div>
     </div>
-    <NavTabReseau :reseau="reseau" />
+
+    <NavTabReseau
+      v-if="$store.getters.contextRole == 'admin'"
+      :reseau="reseau"
+    />
 
     <div class="px-12">
       <div class="grid grid-cols-4 gap-6 max-w-7xl">
