@@ -59,7 +59,6 @@
         </template>
       </el-table-column>
       <el-table-column
-        v-if="$store.getters.contextRole === 'admin'"
         label="Actions"
         width="250"
         class-name="dropdown-wrapper"
