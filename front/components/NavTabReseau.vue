@@ -19,7 +19,7 @@
       v-if="$store.getters.contextRole == 'admin'"
       :index="`/dashboard/reseaux/${reseau.id}/modeles-de-mission`"
     >
-      Modèles
+      Modèles de mission
       <span class="text-xs text-gray-600"
         >({{ reseau.mission_templates_count }})</span
       >

@@ -35,14 +35,6 @@
         {{ reseau.mission_templates_count }}
       </div>
     </div>
-    <div class="mb-2 flex">
-      <div class="card-label">NB Mission</div>
-      <div class="text-gray-900 flex-1">todo</div>
-    </div>
-    <div class="mb-2 flex">
-      <div class="card-label">NB Particip.</div>
-      <div class="text-gray-900 flex-1">todo</div>
-    </div>
   </div>
 </template>
 

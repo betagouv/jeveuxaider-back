@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
 
 class Reseau extends Model
 {
+    use HasRelationships;
+
     protected $table = 'reseaux';
 
     protected $fillable = [
@@ -21,6 +24,11 @@ class Reseau extends Model
     public function structures()
     {
         return $this->belongsToMany(Structure::class);
+    }
+
+    public function missions()
+    {
+        return $this->hasManyDeep('App\Models\Mission', ['reseau_structure', 'App\Models\Structure']);
     }
 
     public function missionTemplates()

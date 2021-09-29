@@ -30,7 +30,7 @@ class ReseauController extends Controller
 
     public function index(Request $request)
     {
-        return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates']))
+        return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates', 'missions']))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
             ])

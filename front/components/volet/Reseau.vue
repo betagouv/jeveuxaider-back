@@ -40,22 +40,33 @@
         <VoletRowItem label="Nom"
           ><span class="font-bold">{{ row.name }}</span></VoletRowItem
         >
-        <VoletRowItem label="Nb. antennes"
-          ><span class="font-bold"
-            >{{ row.structures_count }} antenne(s)</span
-          ></VoletRowItem
-        >
-        <VoletRowItem label="Nb. modèles"
-          ><span class="font-bold"
-            >{{ row.mission_templates_count }} modèle(s)</span
-          ></VoletRowItem
-        >
+        <VoletRowItem label="Nb. modèles">{{
+          row.mission_templates_count
+        }}</VoletRowItem>
         <VoletRowItem label="Crée le">{{
           row.created_at | formatMediumWithTime
         }}</VoletRowItem>
         <VoletRowItem label="Modifié le">{{
           row.updated_at | formatMediumWithTime
         }}</VoletRowItem>
+      </VoletCard>
+
+      <!-- STATISTICS -->
+      <VoletCard>
+        <div class="flex space-x-4">
+          <div class="text-5xl leading-none text-gray-900">
+            {{ row.missions_count }}
+          </div>
+          <div class="">
+            <div class="text-lg text-gray-900">
+              {{ row.missions_count | pluralize(['mission', 'missions']) }}
+            </div>
+            <div class="text-sm">
+              sur {{ row.structures_count }}
+              {{ row.structures_count | pluralize(['antenne', 'antennes']) }}
+            </div>
+          </div>
+        </div>
       </VoletCard>
 
       <!-- RESPONSABLES -->

@@ -51,22 +51,19 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nb_orga" label="Informations" width="250">
+      <el-table-column prop="nb_missions" label="Missions" width="250">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
-            {{ scope.row.responsables_count }}
-            {{
-              scope.row.responsables_count
-                | pluralize(['responsable', 'responsables'])
-            }}
+            {{ scope.row.missions_count }}
+            {{ scope.row.missions_count | pluralize(['mission', 'missions']) }}
           </div>
-          <div class="text-sm text-secondary break-normal">
+          <!-- <div class="text-sm text-secondary break-normal">
             {{ scope.row.mission_templates_count }}
             {{
               scope.row.mission_templates_count
                 | pluralize(['modèle', 'modèles'])
             }}
-          </div>
+          </div> -->
         </template>
       </el-table-column>
       <el-table-column label="Modifiée le" width="200">
