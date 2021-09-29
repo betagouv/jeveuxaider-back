@@ -27,32 +27,21 @@
             {{ scope.row.email }}
           </div>
           <div class="font-light text-gray-600 text-xs">
-            {{ scope.row.role | labelFromValue('roles') }}
+            {{ scope.row.role | labelFromValue('invitations_roles') }}
           </div>
         </template>
       </el-table-column>
       <el-table-column label="Invitation" min-width="300">
         <template slot-scope="scope">
-          <div
-            v-if="scope.row.invitable"
-            class="text-gray-900 flex items-center"
-          >
+          <div v-if="scope.row.invitable" class="text-gray-900">
             {{ scope.row.invitable.name }}
           </div>
-          <template v-else>
-            <template v-if="scope.row.properties">
-              <div v-if="scope.row.properties.referent_departemental">
-                {{
-                  scope.row.properties.referent_departemental
-                    | labelFromValue('departments')
-                }}
-              </div>
-              <div v-else-if="scope.row.properties.referent_regional">
-                {{ scope.row.properties.referent_regional }}
-              </div>
-            </template>
-            <div v-else>N/A</div>
-          </template>
+          <div
+            v-if="scope.row.properties.antenne_name"
+            class="font-light text-gray-600 text-xs"
+          >
+            {{ scope.row.properties.antenne_name }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="created_at" label="Crée le" min-width="150">

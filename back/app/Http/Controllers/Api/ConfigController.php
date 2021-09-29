@@ -9,6 +9,7 @@ use App\Models\Structure;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
+use App\Models\Reseau;
 use App\Models\Thematique;
 use App\Models\User;
 use Carbon\Carbon;
@@ -60,12 +61,14 @@ class ConfigController extends Controller
 
     private function reseaux()
     {
-        return Structure::where('is_reseau', true)->orderBy('name')->get()->map(function ($structure) {
-            return [
-                'id' => $structure->id,
-                'name' => $structure->name
-            ];
-        });
+        // return Structure::where('is_reseau', true)->orderBy('name')->get()->map(function ($structure) {
+        //     return [
+        //         'id' => $structure->id,
+        //         'name' => $structure->name
+        //     ];
+        // });
+
+        return Reseau::orderBy('name')->get(['id','name']);
     }
 
     private function taxonomies()

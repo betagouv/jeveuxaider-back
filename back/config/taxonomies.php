@@ -829,11 +829,30 @@ return [
         "vocabulary" => "Roles",
         "terms" => [
             "responsable_organisation" => "Responsable d'une organisation",
-            "responsable_antenne" => "Responsable d'une antenne",
             "responsable_territoire" => "Responsable d'un territoire",
             "referent_departemental" => "Référent départemental",
             "referent_regional" => "Référent régional",
             "superviseur" => "Tête de réseau national",
+            "datas_analyst" => "Datas analyste",
+            "benevole" => "Bénévole",
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | INVITATIONS ROLES
+    |--------------------------------------------------------------------------
+    |
+    */
+    'invitations_roles' => [
+        "vocabulary" => "Roles",
+        "terms" => [
+            "responsable_organisation" => "Responsable d'une organisation",
+            "responsable_reseau" => "Responsable d'un réseau",
+            "responsable_antenne" => "Invitation à créer son antenne",
+            "responsable_territoire" => "Responsable d'un territoire",
+            "referent_departemental" => "Référent départemental",
+            "referent_regional" => "Référent régional",
             "datas_analyst" => "Datas analyste",
             "benevole" => "Bénévole",
         ]

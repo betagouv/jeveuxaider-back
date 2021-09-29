@@ -58,7 +58,7 @@ class InvitationSent extends Notification
 
         if ($this->invitation->role == 'responsable_antenne') {
             $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à créer votre antenne du réseau ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
+                ->line($this->invitation->user->profile->full_name . ' vous invite à créer l\'antenne ' . $this->invitation->properties['antenne_name'] . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
         }
 
         if ($this->invitation->role == 'responsable_reseau') {
