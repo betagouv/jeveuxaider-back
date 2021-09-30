@@ -209,7 +209,7 @@ class Territoire extends Model implements HasMedia
         $territoire = $this;
         $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
             $config =  [
-                // 'filters' => 'has_places_left=1 AND provider:reserve_civique',
+                'filters' => 'provider:reserve_civique',
                 'aroundPrecision' => 2000,
                 'hitsPerPage' => $limit,
             ];
@@ -220,6 +220,7 @@ class Territoire extends Model implements HasMedia
                     'facetFilters' => [
                         'department_name:' . $territoire->department . ' - ' . $departmentName,
                     ],
+                    'aroundLatLngViaIP' => true,
                 ]);
             } else {
                 if ($territoire->latitude && $territoire->longitude) {
