@@ -222,6 +222,7 @@
             <div class="flex justify-between items-center">
               <span class="font-bold">{{ reseau.name }}</span>
               <div
+                v-if="canRemoveReseau(reseau)"
                 class="text-red-400 cursor-pointer"
                 @click="onClickRemove(reseau)"
               >
@@ -324,6 +325,12 @@ export default {
     },
   },
   methods: {
+    canRemoveReseau(reseau) {
+      return (
+        this.$store.getters.contextRole == 'admin' ||
+        this.$store.getters.profile.tete_de_reseau_id == reseau.id
+      )
+    },
     onClickRemove(reseau) {
       this.$confirm(
         `L'organisation ${this.row.name} sera retirée du réseau.<br><br> Voulez-vous continuer ?<br>`,
