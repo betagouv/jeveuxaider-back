@@ -158,7 +158,7 @@ class MissionController extends Controller
 
 
         return QueryBuilder::for($profilesQueryBuilder)
-            ->allowedAppends('last_online_at', 'skills', 'domaines')
+            ->allowedAppends('last_online_at', 'skills', 'domaines', 'notification_benevole_stats')
             ->allowedFilters(
                 AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('domaine', new FiltersProfileTag),
