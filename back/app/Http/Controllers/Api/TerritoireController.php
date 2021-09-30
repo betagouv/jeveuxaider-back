@@ -108,10 +108,6 @@ class TerritoireController extends Controller
     public function promotedMissions(Request $request, Territoire $territoire)
     {
         $missions = $territoire->promotedMissions();
-        if ($missions->isEmpty()) {
-            $missions = $territoire->promotedMissions(true);
-        }
-
         return $missions;
     }
 
@@ -172,7 +168,7 @@ class TerritoireController extends Controller
     public function citiesWithAvailableMissions(Request $request, Territoire $territoire)
     {
         $cities = [];
-        $missionsByCity = $territoire->promotedMissions(true, 50)->groupBy('city');
+        $missionsByCity = $territoire->promotedMissions(50)->groupBy('city');
 
         foreach ($missionsByCity as $missions) {
             $mission = $missions->first();

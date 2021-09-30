@@ -33,7 +33,7 @@
             ]"
           >
             <nuxt-link
-              v-for="mission in missions.slice(0, 3)"
+              v-for="mission in missions.slice(0, 6)"
               :key="mission.id"
               class="card--mission--wrapper"
               :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
