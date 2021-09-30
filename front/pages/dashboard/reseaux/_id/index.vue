@@ -7,35 +7,35 @@
     </HeaderReseau>
     <NavTabReseau :reseau="reseau" />
     <div class="px-12">
-      <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-        <el-card shadow="never" class="p-4">
+      <div class="flex space-x-4">
+        <el-card shadow="never" class="p-4 h-full w-1/2">
           <div class="flex justify-between">
             <div class="mb-6 text-xl font-semibold">Informations</div>
           </div>
           <ModelReseauInfos :reseau="reseau" />
         </el-card>
-        <el-card v-if="responsables" shadow="never" class="p-4">
+        <el-card v-if="responsables" shadow="never" class="p-4 h-full w-1/2">
           <div class="flex justify-between items-start">
             <div class="mb-6 text-xl font-semibold">Responsables du réseau</div>
             <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables`">
-              <el-button size="small" type="secondary">
-                Gérer les responsables
-              </el-button>
+              <el-button size="small" type="secondary"> Gérer </el-button>
             </nuxt-link>
           </div>
-          <div v-if="responsables.length > 0" class="grid grid-cols-2 gap-3">
-            <ModelMemberTeaser
-              v-for="member in responsables"
-              :key="member.id"
-              class="member py-2"
-              :member="member"
-            />
-          </div>
-          <div v-else>
+          <template v-if="responsables.length">
+            <div v-if="responsables.length" class="grid grid-cols-2 gap-3">
+              <ModelMemberTeaser
+                v-for="member in responsables"
+                :key="member.id"
+                class="member py-2"
+                :member="member"
+              />
+            </div>
+          </template>
+          <template v-else>
             <EmptyState
               title="Aucun responsable"
               subtitle="Il n'y a aucun responsable qui gère ce réseau"
-              button-title="Ajouter un responsable"
+              button-title="Inviter un responsable"
               :button-link="`/dashboard/reseaux/${reseau.id}/responsables/add`"
             >
               <svg
@@ -53,7 +53,21 @@
                 />
               </svg>
             </EmptyState>
-          </div>
+          </template>
+          <nuxt-link
+            v-if="invitations.length"
+            :to="`/dashboard/reseaux/${reseau.id}/responsables`"
+            class="bg-gray-50 rounded-lg py-3 px-4 flex justify-between items-center mt-6"
+          >
+            <div class="text-xs">
+              Il y a {{ invitations.length }}
+              {{
+                invitations.length | pluralize(['invitation', 'invitations'])
+              }}
+              en attente
+            </div>
+            <div class="text-xs">→</div>
+          </nuxt-link>
         </el-card>
       </div>
     </div>
@@ -66,9 +80,11 @@ export default {
   async asyncData({ $api, params }) {
     const reseau = await $api.getReseau(params.id)
     const responsables = await $api.getReseauResponsables(params.id)
+    const invitations = await $api.getReseauInvitationsResponsables(params.id)
     return {
       reseau,
       responsables: responsables.data,
+      invitations: invitations.data,
     }
   },
 }

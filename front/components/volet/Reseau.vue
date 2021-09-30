@@ -132,26 +132,38 @@ export default {
   },
   methods: {
     onClickDelete() {
-      this.$confirm(
-        `Le réseau ${this.row.name} sera définitivement supprimé. <br><br> Voulez-vous continuer ?<br>`,
-        'Supprimer le réseau',
-        {
-          confirmButtonText: 'Supprimer',
-          confirmButtonClass: 'el-button--danger',
-          cancelButtonText: 'Annuler',
-          center: true,
-          dangerouslyUseHTMLString: true,
-          type: 'error',
-        }
-      ).then(() => {
-        this.$api.deleteReseau(this.row.id).then(() => {
-          this.$message.success({
-            message: `Le réseau ${this.row.name} a été supprimé.`,
+      if (this.reseau.structures_count > 0) {
+        this.$alert(
+          'Il est impossible de supprimer un réseau qui contient des antennes.',
+          'Supprimer le réseau',
+          {
+            confirmButtonText: 'Retour',
+            type: 'warning',
+            center: true,
+          }
+        )
+      } else {
+        this.$confirm(
+          `Le réseau ${this.row.name} sera définitivement supprimé. <br><br> Voulez-vous continuer ?<br>`,
+          'Supprimer le réseau',
+          {
+            confirmButtonText: 'Supprimer',
+            confirmButtonClass: 'el-button--danger',
+            cancelButtonText: 'Annuler',
+            center: true,
+            dangerouslyUseHTMLString: true,
+            type: 'error',
+          }
+        ).then(() => {
+          this.$api.deleteReseau(this.row.id).then(() => {
+            this.$message.success({
+              message: `Le réseau ${this.row.name} a été supprimé.`,
+            })
+            this.$emit('deleted', this.row)
+            this.$store.commit('volet/hide')
           })
-          this.$emit('deleted', this.row)
-          this.$store.commit('volet/hide')
         })
-      })
+      }
     },
   },
 }

@@ -46,42 +46,42 @@ export default {
   methods: {
     handleCommand(command) {
       if (command.action == 'delete') {
-        // this.handleDeleteStructure()
+        this.handleDeleteReseau()
       }
     },
-    // handleDeleteStructure() {
-    //   if (this.structure.missions_count > 0) {
-    //     this.$alert(
-    //       'Il est impossible de supprimer une organisation qui contient des missions.',
-    //       "Supprimer l'organisation",
-    //       {
-    //         confirmButtonText: 'Retour',
-    //         type: 'warning',
-    //         center: true,
-    //       }
-    //     )
-    //   } else {
-    //     this.$confirm(
-    //       `L'organisation ${this.structure.name} sera définitivement supprimée de la plateforme.<br><br> Voulez-vous continuer ?<br>`,
-    //       "Supprimer l'organisation",
-    //       {
-    //         confirmButtonText: 'Supprimer',
-    //         confirmButtonClass: 'el-button--danger',
-    //         cancelButtonText: 'Annuler',
-    //         center: true,
-    //         dangerouslyUseHTMLString: true,
-    //         type: 'error',
-    //       }
-    //     ).then(() => {
-    //       this.$api.deleteStructure(this.structure.id).then(() => {
-    //         this.$message.success({
-    //           message: `L'organisation ${this.structure.name} a été supprimée.`,
-    //         })
-    //         this.$router.push('/dashboard/structures')
-    //       })
-    //     })
-    //   }
-    // },
+    handleDeleteReseau() {
+      if (this.reseau.structures_count > 0) {
+        this.$alert(
+          'Il est impossible de supprimer un réseau qui contient des antennes.',
+          'Supprimer le réseau',
+          {
+            confirmButtonText: 'Retour',
+            type: 'warning',
+            center: true,
+          }
+        )
+      } else {
+        this.$confirm(
+          `Le réseau ${this.reseau.name} sera définitivement supprimé. <br><br> Voulez-vous continuer ?<br>`,
+          'Supprimer le réseau',
+          {
+            confirmButtonText: 'Supprimer',
+            confirmButtonClass: 'el-button--danger',
+            cancelButtonText: 'Annuler',
+            center: true,
+            dangerouslyUseHTMLString: true,
+            type: 'error',
+          }
+        ).then(() => {
+          this.$api.deleteReseau(this.reseau.id).then(() => {
+            this.$message.success({
+              message: `Le réseau ${this.reseau.name} a été supprimé.`,
+            })
+            this.$router.push('/dashboard/reseaux')
+          })
+        })
+      }
+    },
   },
 }
 </script>

@@ -11,6 +11,15 @@
     >
       Informations
     </el-menu-item>
+    <el-menu-item
+      v-if="$store.getters.contextRole == 'admin'"
+      :index="`/dashboard/reseaux/${reseau.id}/responsables`"
+    >
+      Responsables
+      <span class="text-xs text-gray-600"
+        >({{ reseau.responsables_count }})</span
+      >
+    </el-menu-item>
     <el-menu-item :index="`/dashboard/reseaux/${reseau.id}/structures`">
       Antennes
       <span class="text-xs text-gray-600">({{ reseau.structures_count }})</span>

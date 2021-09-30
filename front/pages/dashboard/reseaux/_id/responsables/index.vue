@@ -1,21 +1,18 @@
 <template>
   <div class="">
-    <div class="header px-12 flex">
-      <div class="header-titles flex-1">
-        <div class="text-m text-gray-600 uppercase">
-          {{ reseau.name }}
-        </div>
-        <div class="font-bold text-[1.75rem] text-[#242526]">
-          Gérer les responsables
-        </div>
+    <HeaderReseau :reseau="reseau">
+      <template #action>
+        <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables/add`">
+          <el-button type="primary"> Inviter un responsable </el-button>
+        </nuxt-link>
+      </template>
+    </HeaderReseau>
+    <NavTabReseau :reseau="reseau" />
+
+    <div v-if="responsables.length" class="px-12 mb-12">
+      <div class="text-xl font-medium text-gray-700 mb-4">
+        Responsables ({{ responsables.length }})
       </div>
-      <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables/add`">
-        <el-button type="primary"> Inviter un responsable </el-button>
-      </nuxt-link>
-    </div>
-    <el-divider />
-    <div class="px-12 mb-12">
-      <div class="text-sm font-medium text-secondary mb-4">Responsables</div>
       <div class="grid grid-cols-2 gap-4">
         <div
           v-for="responsable in responsables"
@@ -53,8 +50,10 @@
         </div>
       </div>
     </div>
-    <div v-if="invitations.length > 0" class="px-12">
-      <div class="text-sm font-medium text-secondary mb-4">Invitations</div>
+    <div v-if="invitations.length" class="px-12">
+      <div class="text-xl font-medium text-gray-700 mb-4">
+        Invitations en attente ({{ invitations.length }})
+      </div>
       <div class="grid grid-cols-2 gap-4">
         <div
           v-for="invitation in invitations"

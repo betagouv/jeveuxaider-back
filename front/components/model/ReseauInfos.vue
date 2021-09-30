@@ -25,16 +25,6 @@
         {{ reseau.state }}
       </div>
     </div>
-    <div class="mb-2 flex">
-      <div class="card-label">NB Antennes</div>
-      <div class="text-gray-900 flex-1">{{ reseau.structures_count }}</div>
-    </div>
-    <div class="mb-2 flex">
-      <div class="card-label">NB Modèle de mission</div>
-      <div class="text-gray-900 flex-1">
-        {{ reseau.mission_templates_count }}
-      </div>
-    </div>
   </div>
 </template>
 

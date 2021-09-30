@@ -40,7 +40,7 @@ class ReseauController extends Controller
 
     public function show(Request $request, Reseau $reseau)
     {
-        $reseau = Reseau::withCount('structures', 'missionTemplates','invitationsAntennes')->where('id', $reseau->id)->first();
+        $reseau = Reseau::withCount('structures', 'missionTemplates','invitationsAntennes','responsables')->where('id', $reseau->id)->first();
         return $reseau;
     }
 
