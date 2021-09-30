@@ -83,6 +83,17 @@
           "
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          v-if="$store.getters.contextRole === 'admin'"
+          name="antenne"
+          label="Antenne"
+          :value="query['filter[antenne]']"
+          :options="[
+            { label: 'Oui', value: true },
+            { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -109,6 +120,9 @@
       </el-table-column>
       <el-table-column label="Contextes" min-width="300">
         <template slot-scope="scope">
+          <el-tag v-if="scope.row.reseaux_count" class="m-1 ml-0">
+            Antenne
+          </el-tag>
           <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>
@@ -199,7 +213,7 @@ export default {
   async fetch() {
     const { data } = await this.$api.fetchStructures({
       ...this.query,
-      include: 'missionsCount',
+      include: 'missionsCount,reseauxCount',
       append: 'completion_rate',
     })
     this.tableData = data.data

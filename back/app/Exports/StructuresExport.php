@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersStructureAntenne;
 use App\Models\Structure;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -40,6 +41,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
+                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
+
             ])
             ->defaultSort('-created_at')
             ->get();

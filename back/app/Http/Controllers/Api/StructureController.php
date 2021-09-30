@@ -16,6 +16,7 @@ use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
+use App\Filters\FiltersStructureAntenne;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
@@ -27,8 +28,6 @@ use App\Models\Tag;
 use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
 use App\Services\ApiEngagement;
-
-use function Symfony\Component\Translation\t;
 
 class StructureController extends Controller
 {
@@ -42,10 +41,12 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
                 AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
-                'missions'
+                'missions',
+                'reseaux'
             ])
             ->allowedAppends([
                 'completion_rate',
