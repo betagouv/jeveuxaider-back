@@ -26,7 +26,7 @@
       >
         <SearchMissions
           :facets="[]"
-          :filters="`type:&quot;Mission en présentiel&quot;`"
+          :filters="filters"
           :title-tag="'h2'"
           :hits-per-page="6"
           :default-radius="35000"
@@ -81,7 +81,23 @@ export default {
       }
       return link
     },
+    filters() {
+      if (this.territoire.type == 'department') {
+        const departmentName = this.$options.filters
+          .fullDepartmentFromValue(this.territoire.department)
+          .replaceAll(' ', '&nbsp;')
+        return `type:Mission&nbsp;en&nbsp;présentiel AND department_name:${departmentName}`
+      }
+
+      return `type:Mission&nbsp;en&nbsp;présentiel`
+    },
     geoSearch() {
+      // Departements
+      if (this.territoire.type == 'department') {
+        return {}
+      }
+
+      // Villes
       return {
         aroundLatLng: `${this.territoire.latitude}, ${this.territoire.longitude}`,
       }
