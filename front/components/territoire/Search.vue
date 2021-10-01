@@ -83,18 +83,18 @@ export default {
     },
     filters() {
       if (this.territoire.type == 'department') {
-        const departmentName = this.$options.filters
-          .fullDepartmentFromValue(this.territoire.department)
-          .replaceAll(' ', '&nbsp;')
-        return `type:Mission&nbsp;en&nbsp;présentiel AND department_name:${departmentName}`
+        const departmentName = this.$options.filters.fullDepartmentFromValue(
+          this.territoire.department
+        )
+        return `department_name:"${departmentName}"`
       }
 
-      return `type:Mission&nbsp;en&nbsp;présentiel`
+      return ''
     },
     geoSearch() {
       // Departements
       if (this.territoire.type == 'department') {
-        return {}
+        return null
       }
 
       // Villes
