@@ -183,6 +183,8 @@ class MissionController extends Controller
             ->where('id', '!=', $mission->id)
             ->with([
                 'facetFilters' => 'domaine_name:' . $mission->domaine_name,
+                // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
+                'filters' => 'provider:reserve_civique',
             ]);
         if ($mission->latitude && $mission->longitude) {
             $query->aroundLatLng($mission->latitude, $mission->longitude);

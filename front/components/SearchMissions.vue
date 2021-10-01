@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-gray-100">
+  <div class="component--search-missions bg-gray-100">
     <AisInstantSearchSsr ref="AisInstantSearchSsr">
       <AisConfigure
         ref="aisConfigure"
-        :hits-per-page.camel="type ? 18 : 17"
+        :hits-per-page.camel="hitsPerPage ? hitsPerPage : type ? 18 : 17"
         :around-lat-lng.camel="aroundLatLng"
         :around-lat-lng-via-i-p.camel="
           aroundLatLng || type == 'Mission à distance' ? false : true
@@ -16,6 +16,7 @@
 
       <!-- Header -->
       <div
+        v-if="!noHeader"
         ref="header"
         class="header pt-4 lg:pt-7 pb-8 text-white"
         :class="[bgClass, { 'custom-color': $options.propsData.color }]"
@@ -94,6 +95,7 @@
             <!-- Filtres -->
             <transition name="fade">
               <div
+                v-if="!noFilters"
                 v-show="showFilters"
                 class="facets--wrapper flex-none mb-8 w-full lg:w-64 lg:mr-8"
               >
@@ -291,7 +293,11 @@
                     </div>
                   </AisHits>
 
-                  <AisPagination class="mt-6" @page-change="scrollToTop">
+                  <AisPagination
+                    v-if="!noPagination"
+                    class="mt-6"
+                    @page-change="scrollToTop"
+                  >
                     <ul
                       slot-scope="{
                         currentRefinement,
@@ -504,6 +510,22 @@ export default {
     initialGeoSearch: {
       type: [Object, Boolean],
       default: null,
+    },
+    hitsPerPage: {
+      type: Number,
+      default: null,
+    },
+    noHeader: {
+      type: Boolean,
+      default: false,
+    },
+    noFilters: {
+      type: Boolean,
+      default: false,
+    },
+    noPagination: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
