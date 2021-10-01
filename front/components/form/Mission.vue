@@ -618,6 +618,29 @@ export default {
     },
   },
   data() {
+    const noUrlsInContent = (rule, value, callback) => {
+      if (
+        // eslint-disable-next-line prefer-regex-literals
+        new RegExp(
+          '([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?'
+        ).test(value)
+      ) {
+        callback(new Error(`Il n'est pas possible de rentrer un lien.`))
+      } else {
+        callback()
+      }
+    }
+    const noPhoneInContent = (rule, value, callback) => {
+      const regex = /(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})/
+      if (value.match(regex)) {
+        callback(
+          new Error(`Il n'est pas possible de rentrer un numéro de téléphone.`)
+        )
+      } else {
+        callback()
+      }
+    }
+
     return {
       hasBeenInitialized: false,
       loading: false,
@@ -667,6 +690,8 @@ export default {
             message: 'Veuillez renseigner un objectif de la mission',
             trigger: 'blur',
           },
+          { validator: noUrlsInContent, trigger: 'blur' },
+          { validator: noPhoneInContent, trigger: 'blur' },
         ],
         description: [
           {
@@ -674,6 +699,12 @@ export default {
             message: 'Veuillez renseigner un descriptif de la mission',
             trigger: 'blur',
           },
+          { validator: noUrlsInContent, trigger: 'blur' },
+          { validator: noPhoneInContent, trigger: 'blur' },
+        ],
+        information: [
+          { validator: noUrlsInContent, trigger: 'blur' },
+          { validator: noPhoneInContent, trigger: 'blur' },
         ],
         department: [
           {
