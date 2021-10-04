@@ -220,7 +220,7 @@
             l'intervention du bénévole (historique et objectifs de la mission).
           </ItemDescription>
 
-          <RichEditor v-model="form.objectif" />
+          <RichEditor v-model="form.objectif" :toolbar="richEditorToolbar" />
         </el-form-item>
 
         <el-form-item
@@ -234,7 +234,7 @@
             (rôle, actions à réaliser, modalités d'organisation de la mission).
           </ItemDescription>
 
-          <RichEditor v-model="form.description" />
+          <RichEditor v-model="form.description" :toolbar="richEditorToolbar" />
         </el-form-item>
       </div>
 
@@ -243,7 +243,7 @@
         prop="information"
         class="flex-1"
       >
-        <RichEditor v-model="form.information" />
+        <RichEditor v-model="form.information" :toolbar="richEditorToolbar" />
       </el-form-item>
 
       <el-form-item label="Publics bénéficiaires" prop="publics_beneficiaires">
@@ -749,6 +749,14 @@ export default {
           },
         ],
       },
+      richEditorToolbar: [
+        false,
+        'bold',
+        'italic',
+        '|',
+        'bulletedList',
+        'numberedList',
+      ],
     }
   },
   computed: {
