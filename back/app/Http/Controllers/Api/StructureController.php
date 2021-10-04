@@ -28,8 +28,6 @@ use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
 use App\Services\ApiEngagement;
 
-use function Symfony\Component\Translation\t;
-
 class StructureController extends Controller
 {
     public function index(Request $request)
