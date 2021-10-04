@@ -94,7 +94,7 @@ export default {
     'portal-vue/nuxt',
     '@nuxtjs/dayjs',
     '@nuxtjs/redirect-module',
-    '@nuxtjs/sentry',
+    // '@nuxtjs/sentry',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@nuxtjs/gtm',
@@ -131,12 +131,12 @@ export default {
     },
   },
 
-  sentry: {
-    dsn: process.env.SENTRY_DSN, // Enter your project's DSN here
-    config: {
-      lazy: true,
-    }, // Additional config
-  },
+  // sentry: {
+  //   dsn: process.env.SENTRY_DSN, // Enter your project's DSN here
+  //   config: {
+  //     lazy: true,
+  //   }, // Additional config
+  // },
 
   redirect: [
     /* eslint-disable */
