@@ -3,10 +3,10 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ reseau.name }}
+          Réseau {{ reseau.name }}
         </div>
         <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
-          Ajouter des organisations
+          Relier des antennes existantes
         </div>
       </div>
       <div>
@@ -16,9 +16,9 @@
       </div>
     </div>
     <div class="px-12 max-w-2xl">
-      <div class="mb-2 text-gray-900 text-sm">Rechercher une organisation</div>
+      <div class="mb-2 text-gray-900 text-sm">Rechercher une antenne</div>
       <AutocompleteStructureSingle
-        placeholder="Nom de l'organisation"
+        placeholder="Nom de l'antenne"
         @change="onAutocompleteChange"
       />
       <div

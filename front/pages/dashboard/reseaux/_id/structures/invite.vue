@@ -3,10 +3,10 @@
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
-          {{ reseau.name }}
+          Réseau {{ reseau.name }}
         </div>
         <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
-          Inviter une antenne
+          Inviter une nouvelle antenne
         </div>
       </div>
       <div>

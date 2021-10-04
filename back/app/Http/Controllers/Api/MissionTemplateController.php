@@ -29,8 +29,12 @@ class MissionTemplateController extends Controller
                 AllowedFilter::scope('of_reseau'),
                 AllowedFilter::callback('with_reseaux', function (Builder $query, $reseaux) {
                     $query->where(function ($query) use ($reseaux) {
-                        $query->where('reseau_id', null)
-                        ->orWhereIn('reseau_id', explode(",", $reseaux));
+                        $query->whereNull('reseau_id');
+                        if(is_array($reseaux)){
+                            $query->orWhereIn('reseau_id', $reseaux);
+                        } else {
+                            $query->orWhere('reseau_id', $reseaux);
+                        }
                     });
                 }),
             )

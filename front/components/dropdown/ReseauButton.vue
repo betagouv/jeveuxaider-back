@@ -11,7 +11,7 @@
       </nuxt-link>
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">
         <el-dropdown-item :command="{}">
-          Inviter de nouvelles antennes
+          Inviter une nouvelle antenne
         </el-dropdown-item>
       </nuxt-link>
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/responsables`">
