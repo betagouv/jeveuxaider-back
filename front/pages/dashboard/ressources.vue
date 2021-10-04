@@ -76,7 +76,7 @@
               <el-button
                 type="secondary"
                 icon="el-icon-download"
-                @click.prevent="onDownloadFile(scope.row.file)"
+                @click.stop.prevent="onDownloadFile(scope.row.file)"
                 >Télécharger</el-button
               >
             </template>
@@ -84,7 +84,7 @@
               <el-button
                 type="secondary"
                 icon="el-icon-link"
-                @click.prevent="onClickLink(scope.row)"
+                @click.stop.prevent="onClickLink(scope.row)"
                 >Ouvrir le lien</el-button
               ></template
             >

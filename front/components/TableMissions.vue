@@ -66,7 +66,7 @@
               plain
               size="mini"
               icon="el-icon-search"
-              @click.prevent="$router.push(prefilteredUrl(scope.row))"
+              @click.stop.prevent="$router.push(prefilteredUrl(scope.row))"
             ></el-button>
 
             <!-- <nuxt-link

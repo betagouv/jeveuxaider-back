@@ -146,7 +146,7 @@
             size="small"
             split-button
             trigger="click"
-            @click="handleClickEdit(scope.row.id)"
+            @click.stop="handleClickEdit(scope.row.id)"
             @command="handleCommand"
           >
             <i class="el-icon-edit mr-2"></i>Modifier

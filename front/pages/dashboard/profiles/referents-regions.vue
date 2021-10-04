@@ -141,7 +141,12 @@
         class-name="dropdown-wrapper"
       >
         <template slot-scope="scope">
-          <el-dropdown split-button size="small" @command="handleCommand">
+          <el-dropdown
+            split-button
+            size="small"
+            @command="handleCommand"
+            @click.native.stop
+          >
             Choisissez une action
             <el-dropdown-menu slot="dropdown">
               <nuxt-link :to="`/dashboard/profile/${scope.row.id}`"
@@ -194,9 +199,9 @@
 </template>
 
 <script>
+import fileDownload from 'js-file-download'
 import TableWithVolet from '@/mixins/table-with-volet'
 import TableWithFilters from '@/mixins/table-with-filters'
-import fileDownload from 'js-file-download'
 
 export default {
   mixins: [TableWithFilters, TableWithVolet],

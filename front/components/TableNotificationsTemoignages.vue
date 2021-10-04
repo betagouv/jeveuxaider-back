@@ -54,7 +54,12 @@
 
     <el-table-column label="Actions" width="250" class-name="dropdown-wrapper">
       <template slot-scope="scope">
-        <el-dropdown split-button size="small" @command="handleCommand">
+        <el-dropdown
+          split-button
+          size="small"
+          @command="handleCommand"
+          @click.native.stop
+        >
           Choisissez une action
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="{ action: 'copy', row: scope.row }">

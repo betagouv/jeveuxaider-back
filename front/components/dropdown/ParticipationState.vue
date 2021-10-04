@@ -1,10 +1,17 @@
 <template>
   <div>
-    <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
+    <el-dropdown
+      v-if="canEditStatut"
+      size="small"
+      split-button
+      :type="type"
+      @click.native.stop
+    >
       <div style="min-width: 140px; text-align: left">
         <template v-if="loading"> Chargement... </template>
         <template v-else>{{ participation.state }}</template>
       </div>
+
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
           v-for="state in statesAvailable"
