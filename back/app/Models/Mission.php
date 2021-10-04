@@ -80,7 +80,7 @@ class Mission extends Model
 
     public function shouldBeSearchable()
     {
-        if(!$this->structure) {
+        if (!$this->structure) {
             return false;
         }
         // Attention  bien mettre à jour la query côté API Engagement aussi ( Api\EngagementController@feed )
@@ -149,7 +149,11 @@ class Mission extends Model
 
     public function getDomaineNameAttribute()
     {
-        return $this->template ? $this->template->domaine->name : $this->domaine->name;
+        if ($this->template) {
+            return $this->template->domaine ? $this->template->domaine->name : null;
+        }
+
+        return $this->domaine ? $this->domaine->name : null;
     }
 
     public function getDomainesAttribute()
@@ -479,5 +483,14 @@ class Mission extends Model
                 'total' => $this->participations_validated_count,
             ]
         ];
+    }
+
+    public function sendNotificationsTemoignages()
+    {
+        $participations = $this->participations()->state('Validée')->get();
+        foreach ($participations as $participation) {
+            /** @var \App\Models\Participation $participation */
+            $participation->sendNotificationTemoignage();
+        }
     }
 }

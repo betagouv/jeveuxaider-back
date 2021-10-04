@@ -26,7 +26,9 @@ use App\Observers\InvitationObserver;
 use App\Observers\MessageObserver;
 use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
+use App\Models\NotificationTemoignage;
 use App\Models\Territoire;
+use App\Observers\NotificationTemoignageObserver;
 use App\Observers\TerritoireObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -70,6 +72,7 @@ class AppServiceProvider extends ServiceProvider
         Conversation::observe(ConversationObserver::class);
         Invitation::observe(InvitationObserver::class);
         Territoire::observe(TerritoireObserver::class);
+        NotificationTemoignage::observe(NotificationTemoignageObserver::class);
 
 
         Validator::extend('phone', function ($attribute, $value, $parameters) {
