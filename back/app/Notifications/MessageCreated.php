@@ -51,14 +51,13 @@ class MessageCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $fromOrga = false;
-        if($this->message->conversation->conversable->mission->responsable_id == $this->message->from->profile->id) {
+        if ($this->message->conversation->conversable->mission->responsable_id == $this->message->from->profile->id) {
             $fromOrga = $this->message->conversation->conversable->mission->structure;
         }
         $message = (new MailMessage);
-        if($fromOrga) {
+        if ($fromOrga) {
             $message->subject('Nouveau message de la part de ' . $this->message->from->profile->first_name . ' ('.$fromOrga->name.')');
-        }
-        else {
+        } else {
             $message->subject('Nouveau message de la part de ' . $this->message->from->profile->first_name);
         }
         $message->greeting('Bonjour ' . $notifiable->profile->first_name . ',')

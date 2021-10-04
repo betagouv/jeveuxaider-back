@@ -44,8 +44,8 @@ class RegisterUserResponsable extends Notification
         return (new MailMessage)
             ->subject('Votre organisation est en cours de validation')
             ->greeting('Bonjour ' . $notifiable->profile->first_name . ',')
-            ->line('Vous vous êtes inscrit sur la plateforme de dépôt de missions de la Réserve Civique.')
-            ->line('Votre organisation « ' . $this->structure->name . ' » est en cours de validation.')
+            ->line("Vous vous êtes inscrit sur JeVeuxAider.gouv.fr, la plateforme publique du bénévolat.")
+            ->line('Votre organisation « ' . $this->structure->name . ' » est en cours de validation.')
             ->line('Vous pouvez désormais proposer des missions de bénévolat qui seront visibles sur la plateforme une fois votre organisation validée.')
             ->action('Créer une mission', url(config('app.url') . '/dashboard/structure/' . $this->structure->id . '/missions/add'));
     }

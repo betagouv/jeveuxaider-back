@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Support\Str;
 
 class Participation extends Model
 {
@@ -144,5 +145,27 @@ class Participation extends Model
     public function scopeState($query, $state)
     {
         return $query->where('state', $state);
+    }
+
+    public function sendNotificationTemoignage()
+    {
+        // Skip if not Validée.
+        if ($this->state != 'Validée') {
+            return;
+        }
+        // Skip if notification already exists.
+        if (NotificationTemoignage::where('participation_id', $this->id)->exists()) {
+            return;
+        }
+
+        do {
+            $token = Str::random(32);
+        } while (NotificationTemoignage::where('token', $token)->first());
+
+        NotificationTemoignage::create([
+            'token' => $token,
+            'participation_id' => $this->id,
+            'reminders_sent' => 1,
+        ]);
     }
 }

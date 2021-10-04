@@ -53,7 +53,7 @@ class ParticipationDeclined extends Notification
             ->subject('Votre participation a été déclinée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
             ->line('Nous avons bien reçu votre candidature pour une mission au sein de l\'organisation ' . $this->participation->mission->structure->name. '.')
-            ->line('Néanmoins l\'organisation ne pourra malheureusement pas vous accueillir dans le contexte actuel.');
+            ->line("Malheureusement, l'organisation ne pourra pas vous accueillir en mission de bénévolat.");
 
         if ($this->reason && $this->reason != 'other') {
             $message->line('La raison est la suivante: '. config('taxonomies.participation_declined_reasons.terms')[$this->reason]);

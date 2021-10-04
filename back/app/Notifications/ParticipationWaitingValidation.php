@@ -52,7 +52,7 @@ class ParticipationWaitingValidation extends Notification
         $message = (new MailMessage)
             ->subject('Vous avez une nouvelle demande de participation')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name .' souhaite participer à la mission « ' . $this->participation->mission->name .' »');
+            ->line('Bonne nouvelle ! ' . $this->participation->profile->full_name . ' souhaite participer à la mission « ' . $this->participation->mission->name . ' »');
 
         if ($this->structure->send_volunteer_coordonates) {
             $message->line('Voici ses coordonnées :')
@@ -63,6 +63,10 @@ class ParticipationWaitingValidation extends Notification
                         $this->participation->profile->email
                     )
                 );
+        }
+
+        if ($this->participation->mission->full_address && $this->participation->mission->type == 'Mission en présentiel') {
+            $message->line("Adresse de la mission : " . $this->participation->mission->full_address);
         }
 
         $message->line('Vous pouvez échanger avec cette personne directement sur la messagerie de JeVeuxAider.gouv.fr et valider sa participation depuis votre espace de gestion.');

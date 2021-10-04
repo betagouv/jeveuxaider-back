@@ -18,9 +18,6 @@ class NotificationTemoignageController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(NotificationTemoignage::role($request->header('Context-Role')))
-            ->whereHas('participation', function (Builder $query) {
-                $query->whereDoesntHave('temoignage');
-            })
             ->with('participation', 'participation.profile')
             ->allowedFilters(
                 AllowedFilter::exact('participation.mission.id'),
