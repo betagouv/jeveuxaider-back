@@ -162,6 +162,13 @@
           name="minimum_commitment"
           @changed="onFilterChange"
         />
+        <SearchFiltersQueryInput
+          name="id"
+          label="# Mission"
+          placeholder="Numéro"
+          :initial-value="query['filter[id]']"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 

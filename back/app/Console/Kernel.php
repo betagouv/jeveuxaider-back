@@ -35,16 +35,17 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationTodoToModerateurs::class)->weekdays()->daily()->at('08:00');
         $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:10');
         $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
+        $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');
 
         // Sync ApiEngagement
         $schedule->command(SyncApiEngagement::class)->everySixHours();
-        
+
         // Horizon update dashboard metrics
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
         $schedule->command('sitemap:generate')->daily()->at('07:00');
 
-        // Purge revoked and expired tokens and auth codes 
+        // Purge revoked and expired tokens and auth codes
         $schedule->command('passport:purge')->hourly();
     }
 

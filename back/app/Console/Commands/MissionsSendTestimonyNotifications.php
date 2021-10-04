@@ -48,7 +48,7 @@ class MissionsSendTestimonyNotifications extends Command
             ->whereDoesntHave('temoignage')
             ->whereHas('mission', function (Builder $query) {
                 $query->where('state', 'Terminée')
-                    ->where('start_date', '>=', Carbon::now()->subMonths(2));
+                    ->where('start_date', '>=', Carbon::now()->startOfDay()->subMonths(2));
             });
 
         $this->info("Send the testimony notifications for the past 2 month completed missions.");
