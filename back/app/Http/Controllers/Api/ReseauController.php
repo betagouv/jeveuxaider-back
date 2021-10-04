@@ -94,12 +94,12 @@ class ReseauController extends Controller
 
     public function responsables(Request $request, Reseau $reseau)
     {
-        return $reseau->responsables;
+        return $reseau->responsables()->orderBy('id')->get();
     }
 
     public function invitationsResponsables(Request $request, Reseau $reseau)
     {
-        return $reseau->invitationsResponsables;
+        return $reseau->invitationsResponsables()->orderBy('id')->get();
     }
 
     public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)

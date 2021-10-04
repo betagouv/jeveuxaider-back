@@ -24,7 +24,11 @@
               :source="responsable.image ? responsable.image.thumb : null"
               :fallback="responsable.short_name"
             />
-            <div class="flex flex-1 flex-col ml-6" style="min-width: 350px">
+            <router-link
+              :to="`/dashboard/profile/${responsable.id}`"
+              target="_blank"
+              class="flex flex-1 flex-col ml-6"
+            >
               <div class="text-[#242526]">
                 {{ responsable.first_name }} {{ responsable.last_name }}
               </div>
@@ -32,7 +36,7 @@
                 <div class="break-all">{{ responsable.email }}</div>
                 <div class="">{{ responsable.mobile }}</div>
               </div>
-            </div>
+            </router-link>
             <el-button
               v-if="
                 $store.getters.user.profile.id != responsable.id ||

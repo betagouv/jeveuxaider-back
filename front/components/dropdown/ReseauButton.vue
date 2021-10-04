@@ -6,7 +6,7 @@
     <el-dropdown-menu slot="dropdown">
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/add`">
         <el-dropdown-item :command="{}">
-          Relier des organisations existantes
+          Relier des antennes existantes
         </el-dropdown-item>
       </nuxt-link>
       <nuxt-link :to="`/dashboard/reseaux/${reseau.id}/structures/invite`">

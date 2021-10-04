@@ -27,7 +27,7 @@
               :source="member.image ? member.image.thumb : null"
               :fallback="member.short_name"
             />
-            <div class="flex flex-1 flex-col ml-6" style="min-width: 350px">
+            <div class="flex flex-1 flex-col ml-6" style="">
               <div class="text-[#242526]">
                 {{ member.first_name }} {{ member.last_name }}
               </div>
