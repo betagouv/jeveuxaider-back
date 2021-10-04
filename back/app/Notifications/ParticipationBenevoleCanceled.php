@@ -52,10 +52,10 @@ class ParticipationBenevoleCanceled extends Notification
         $message = (new MailMessage)
             ->subject('Une participation a été annulée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line($this->participation->profile->full_name . ' a annulée sa participation à la mission ' . $this->participation->mission->name . '.');
+            ->line($this->participation->profile->full_name . ' a annulée sa participation à la mission « ' . $this->participation->mission->name . ' ».');
 
         if ($this->reason && $this->reason != 'other') {
-            $message->line('La raison est la suivante: ' . config('taxonomies.participation_canceled_by_benevole_reasons.terms')[$this->reason]);
+            $message->line('La raison est la suivante : ' . config('taxonomies.participation_canceled_by_benevole_reasons.terms')[$this->reason]);
         }
 
         $url = $this->participation->conversation ? '/messages/' . $this->participation->conversation->id : '/messages';

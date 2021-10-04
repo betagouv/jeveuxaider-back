@@ -50,7 +50,7 @@ class ParticipationBeingProcessed extends Notification
         $message = (new MailMessage)
             ->subject('Votre demande de participation est en cours de traitement')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Votre demande de participation à la mission « ' . $this->participation->mission->name .' » est actuellement en cours de traitement.')
+            ->line('Votre demande de participation à la mission « ' . $this->participation->mission->name .' » est actuellement en cours de traitement.')
             ->line('Le responsable de la mission vous contactera très prochainement pour un premier échange.')
             ->line('En cas de besoin, vous pouvez le contacter directement via la messagerie de JeVeuxAider.gouv.fr.');
 
