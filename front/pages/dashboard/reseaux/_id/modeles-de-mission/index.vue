@@ -49,9 +49,8 @@
           :title="missionTemplate.title"
           :description="missionTemplate.subtitle"
           :image-url="
-            missionTemplate.photo
-              ? missionTemplate.photo.large
-              : '/images/card-thumbnail-default@2x.jpg'
+            (missionTemplate.photo && missionTemplate.photo.large) ||
+            `/images/templates/${missionTemplate.id}.jpg`
           "
           :state-text="
             !missionTemplate.published ? 'En attente de validation' : null

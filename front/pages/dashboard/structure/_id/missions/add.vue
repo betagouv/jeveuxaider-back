@@ -57,7 +57,7 @@
           :description="missionTemplate.subtitle"
           :image-url="
             (missionTemplate.photo && missionTemplate.photo.large) ||
-            '/images/card-thumbnail-default@2x.jpg'
+            `/images/templates/${missionTemplate.id}.jpg`
           "
           @click.native="onSelectTemplate(missionTemplate.id)"
         />
