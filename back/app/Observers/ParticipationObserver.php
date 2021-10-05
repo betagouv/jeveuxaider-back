@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Jobs\SendinblueSyncUser;
 use App\Models\Participation;
 use App\Models\Structure;
+use App\Notifications\MissionAlmostFull;
 use App\Notifications\ParticipationBeingProcessed;
 use App\Notifications\ParticipationValidated;
 use App\Notifications\ParticipationWaitingValidation;
@@ -28,6 +29,14 @@ class ParticipationObserver
         // Maj Sendinblue
         if (config('app.env') === 'production') {
             SendinblueSyncUser::dispatch($participation->profile->user);
+        }
+
+        // Update Places left & Algolia
+        $participation->mission->update();
+
+        if ($participation->mission->participations_max > 10 &&
+            $participation->mission->places_left === 1) {
+            $participation->mission->responsable->notify(new MissionAlmostFull($participation->mission));
         }
     }
 
@@ -92,7 +101,7 @@ class ParticipationObserver
 
         // MAJ SENDINBLUE
         if (config('app.env') === 'production') {
-            if($participation->profile){
+            if ($participation->profile) {
                 SendinblueSyncUser::dispatch($participation->profile->user);
             }
         }
