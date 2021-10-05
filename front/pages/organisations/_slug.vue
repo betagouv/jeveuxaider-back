@@ -345,10 +345,7 @@
           </nuxt-link>
         </div>
 
-        <div
-          v-if="missions.current_page != missions.last_page"
-          class="text-center mt-6"
-        >
+        <div class="text-center mt-6">
           <nuxt-link
             :to="`/missions-benevolat?refinementList[structure.name][0]=${organisation.name}`"
           >
