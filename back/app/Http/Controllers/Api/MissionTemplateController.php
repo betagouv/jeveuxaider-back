@@ -30,7 +30,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::callback('with_reseaux', function (Builder $query, $reseaux) {
                     $query->where(function ($query) use ($reseaux) {
                         $query->whereNull('reseau_id');
-                        if(is_array($reseaux)){
+                        if (is_array($reseaux)) {
                             $query->orWhereIn('reseau_id', $reseaux);
                         } else {
                             $query->orWhere('reseau_id', $reseaux);
@@ -98,7 +98,7 @@ class MissionTemplateController extends Controller
         } else {
             $pathName = $request->file('image')->getPathname();
             $infos = getimagesize($pathName);
-            if($infos) {
+            if ($infos) {
                 $stringCropSettings = implode(",", [
                     $infos[0],
                     $infos[1],

@@ -30,11 +30,12 @@
     <div class="px-12">
       <div class="grid grid-cols-4 gap-6 max-w-7xl">
         <CardMissionTemplate
-          title="Créez un modèle de mission"
+          title="Créer un modèle de mission"
           description="Ce modèle pourra ensuite être proposé par les antennes de votre réseau afin de faciliter la publication de ses missions."
           image-url="/images/card-add.png"
           state-text="Validation par un référent"
           state-style="warning"
+          action-title="Créer"
           @click.native="
             $router.push(
               `/dashboard/reseaux/${$route.params.id}/modeles-de-mission/add`
