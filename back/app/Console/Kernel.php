@@ -5,6 +5,8 @@ namespace App\Console;
 use App\Console\Commands\SendNotificationTodoToModerateurs;
 use App\Console\Commands\SendNotificationTodoToReferents;
 use App\Console\Commands\SendNotificationTodoToResponsables;
+use App\Console\Commands\SendNotificationsMissionOutdated;
+use App\Console\Commands\SendNotificationsMissionInDraft;
 use App\Console\Commands\SyncApiEngagement;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -36,6 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendNotificationTodoToReferents::class)->weekdays()->daily()->at('08:10');
         $schedule->command(SendNotificationTodoToResponsables::class)->days([1, 3, 5])->at('08:20');
         $schedule->command(SendNotificationsMissionOutdated::class)->weekdays()->daily()->at('08:30');
+        $schedule->command(SendNotificationsMissionInDraft::class)->weekdays()->daily()->at('08:40');
 
         // Sync ApiEngagement
         $schedule->command(SyncApiEngagement::class)->everySixHours();
