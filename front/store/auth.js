@@ -48,6 +48,7 @@ export const actions = {
           path: '/',
           secure: true,
         })
+        this.$gtm.push({ event: 'user-login' })
         await dispatch('fetchUser')
         this.$router.push(
           this.$router.history.current.query.redirect || '/missions-benevolat'
