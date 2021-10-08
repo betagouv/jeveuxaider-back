@@ -201,12 +201,24 @@ class ConfigController extends Controller
                 ];
             });
 
+        $organisationsUrls = Structure::where('state', 'Validée')
+            ->where('statut_juridique', 'Association')
+            ->whereNotNull('slug')
+            ->get()
+            ->map(function ($organisation) {
+                return [
+                    'url' => '/organisations/' . $organisation->slug,
+                    'lastmod' => Carbon::now()->subDays(1),
+                ];
+            });
+
         return [
             ...$pagesUrls,
             ...$missionsUrls,
             ...$departementsUrls,
             ...$citiesUrls,
             ...$domainesUrls,
+            ...$organisationsUrls,
         ];
     }
 }

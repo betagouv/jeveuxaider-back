@@ -48,8 +48,6 @@ class Kernel extends ConsoleKernel
         // Horizon update dashboard metrics
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
-        $schedule->command('sitemap:generate')->daily()->at('07:00');
-
         // Purge revoked and expired tokens and auth codes
         $schedule->command('passport:purge')->hourly();
     }
