@@ -778,7 +778,11 @@ export default {
     publicsVolontaires() {
       return this.mission.publics_volontaires
         ? this.mission.publics_volontaires.filter(
-            (item) => item != 'Personnes en situation de handicap'
+            (item) =>
+              ![
+                'Jeunes volontaires du Service National Universel',
+                'Personnes en situation de handicap',
+              ].includes(item)
           )
         : []
     },

@@ -324,14 +324,54 @@
         prop="publics_volontaires"
       >
         <el-checkbox-group v-model="form.publics_volontaires">
-          <el-checkbox
+          <div
             v-for="item in $store.getters.taxonomies.mission_publics_volontaires
               .terms"
             :key="item.value"
-            :label="item.value"
-            border
-            >{{ item.label }}</el-checkbox
+            class="flex items-center spaxe-x-2"
           >
+            <el-checkbox :label="item.value" class="!flex items-center" border>
+              <div class="flex items-center space-x-2">
+                <img
+                  v-if="
+                    item.label ==
+                    'Jeunes volontaires du Service National Universel'
+                  "
+                  src="/images/logo-snu-small.jpg"
+                  srcset="/images/logo-snu-small@2x.jpg 2x"
+                  alt="SNU"
+                />
+
+                <span>{{ item.label }}</span>
+              </div>
+            </el-checkbox>
+
+            <v-popover
+              v-if="
+                item.label == 'Jeunes volontaires du Service National Universel'
+              "
+              ref="tooltip"
+            >
+              <i class="cursor-pointer ml-2 el-icon-info text-primary" />
+
+              <div
+                slot="popover"
+                class="tooltip-content"
+                @mouseover="ontooltipMouseOver()"
+                @mouseout="ontooltipMouseOut()"
+              >
+                Les volontaires (de 16 à 25 ans) doivent effectuer une mission
+                de 84 heures pour valider leur SNU.
+                <a
+                  target="_blank"
+                  href="https://www.snu.gouv.fr/"
+                  class="underline"
+                >
+                  En savoir plus sur le Service National Universel
+                </a>
+              </div>
+            </v-popover>
+          </div>
         </el-checkbox-group>
       </el-form-item>
 
@@ -637,6 +677,15 @@ export default {
         callback()
       }
     }
+    const noEmailInContent = (rule, value, callback) => {
+      if (value?.match(/\S+@\S+\.\S+/)) {
+        callback(
+          new Error(`Les adresses email ne sont pas autorisées dans ce champ.`)
+        )
+      } else {
+        callback()
+      }
+    }
 
     return {
       hasBeenInitialized: false,
@@ -689,6 +738,7 @@ export default {
           },
           { validator: noUrlsInContent, trigger: 'blur' },
           { validator: noPhoneInContent, trigger: 'blur' },
+          { validator: noEmailInContent, trigger: 'blur' },
         ],
         description: [
           {
@@ -698,10 +748,12 @@ export default {
           },
           { validator: noUrlsInContent, trigger: 'blur' },
           { validator: noPhoneInContent, trigger: 'blur' },
+          { validator: noEmailInContent, trigger: 'blur' },
         ],
         information: [
           { validator: noUrlsInContent, trigger: 'blur' },
           { validator: noPhoneInContent, trigger: 'blur' },
+          { validator: noEmailInContent, trigger: 'blur' },
         ],
         department: [
           {
@@ -919,6 +971,12 @@ export default {
         `${this.form.address} ${this.form.zip} ${this.form.city}`
       )
     },
+    ontooltipMouseOver() {
+      this.$refs.tooltip[0].show()
+    },
+    ontooltipMouseOut() {
+      this.$refs.tooltip[0].hide()
+    },
   },
 }
 </script>
@@ -935,12 +993,21 @@ export default {
 }
 
 .el-checkbox-group {
-  @apply flex flex-wrap gap-4;
-  > label {
+  @apply flex flex-wrap gap-4 text-base;
+  label {
     @apply m-0 rounded-[10px] !important;
-    @apply ease-in-out duration-150 transition;
+    @apply ease-in-out duration-150 transition px-4 flex items-center;
     &:hover {
       @apply border-primary;
+    }
+    ::v-deep {
+      .el-checkbox__input {
+        display: none;
+      }
+      .el-checkbox__label {
+        padding-left: 0;
+        @apply flex items-center;
+      }
     }
   }
 }
