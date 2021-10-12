@@ -187,9 +187,7 @@
         Parmi les missions prioritaires
       </p>
 
-      <div
-        class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3 lg:max-w-none"
-      >
+      <div class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3">
         <nuxt-link
           v-for="mission in missions_prioritaires"
           :key="mission.name"
