@@ -611,11 +611,9 @@ export default {
         return error({ statusCode: 403 })
       }
     }
-    const otherMissions = await $api.similarMission(mission.id)
 
     return {
       mission,
-      otherMissions,
     }
   },
   data() {
@@ -639,7 +637,11 @@ export default {
           },
         ],
       },
+      otherMissions: [],
     }
+  },
+  async fetch() {
+    this.otherMissions = await this.$api.similarMission(this.mission.id)
   },
   head() {
     return {
