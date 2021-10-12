@@ -361,7 +361,7 @@
             >
               <img
                 :src="illustration.default"
-                :srcset="illustration.x2"
+                :srcset="`${illustration.x2} 2x`"
                 alt=""
                 class="w-full object-cover object-top"
                 style="min-height: 180px"
@@ -661,7 +661,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: '/images/share-image.jpg',
+          content: this.illustration.x2 ?? this.illustration.default,
         },
       ],
     }
@@ -766,7 +766,7 @@ export default {
         } else {
           illustration = {
             default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
-            x2: `/images/organisations/domaines/${this.structure.image_1}@2x.jpg 2x`,
+            x2: `/images/organisations/domaines/${this.structure.image_1}@2x.jpg`,
           }
         }
       } else {
