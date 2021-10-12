@@ -126,18 +126,8 @@
       <!-- 1 -- RIGHT -->
       <div>
         <img
-          :src="
-            organisation.override_image_1
-              ? organisation.override_image_1.xxl
-                ? organisation.override_image_1.xxl
-                : organisation.override_image_1.original
-              : `/images/organisations/domaines/${organisation.image_1}.jpg`
-          "
-          :srcset="
-            organisation.override_image_1
-              ? null
-              : `/images/organisations/domaines/${organisation.image_1}@2x.jpg 2x`
-          "
+          :src="image1.default"
+          :srcset="image1.x2 ? `${image1.x2} 2x` : false"
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
           @error="defaultImg($event, 'image_1')"
         />
@@ -151,18 +141,8 @@
       <!-- 2 -- LEFT -->
       <div class="order-2 md:order-1">
         <img
-          :src="
-            organisation.override_image_2
-              ? organisation.override_image_2.xxl
-                ? organisation.override_image_2.xxl
-                : organisation.override_image_2.original
-              : `/images/organisations/domaines/${organisation.image_2}.jpg`
-          "
-          :srcset="
-            organisation.override_image_2
-              ? null
-              : `/images/organisations/domaines/${organisation.image_2}@2x.jpg 2x`
-          "
+          :src="image2.default"
+          :srcset="image2.x2 ? `${image2.x2} 2x` : false"
           class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
           @error="defaultImg($event, 'image_2')"
         />
@@ -622,6 +602,62 @@ export default {
     },
     color() {
       return this.organisation.color ? this.organisation.color : '#B91C1C'
+    },
+    image1() {
+      let illustration1 = {}
+      if (this.organisation?.override_image_1?.original) {
+        illustration1 = {
+          default:
+            this.organisation.override_image_1.xxl ??
+            this.organisation.override_image_1.original,
+          x2: null,
+        }
+      } else if (this.organisation.image_1) {
+        illustration1 = {
+          default: `/images/organisations/domaines/${this.organisation.image_1}.jpg`,
+          x2: `/images/organisations/domaines/${this.organisation.image_1}@2x.jpg`,
+        }
+      } else if (this.organisation.domaines.length > 0) {
+        illustration1 = {
+          default: `/images/organisations/domaines/${this.organisation.domaines[0].id}_1.jpg`,
+          x2: `/images/organisations/domaines/${this.organisation.domaines[0].id}_1@2x.jpg`,
+        }
+      } else {
+        illustration1 = {
+          default: `/images/organisations/domaines/1_1.jpg`,
+          x2: `/images/organisations/domaines/1_1@2x.jpg`,
+        }
+      }
+
+      return illustration1
+    },
+    image2() {
+      let illustration2 = {}
+      if (this.organisation?.override_image_2?.original) {
+        illustration2 = {
+          default:
+            this.organisation.override_image_2.xxl ??
+            this.organisation.override_image_2.original,
+          x2: null,
+        }
+      } else if (this.organisation.image_2) {
+        illustration2 = {
+          default: `/images/organisations/domaines/${this.organisation.image_2}.jpg`,
+          x2: `/images/organisations/domaines/${this.organisation.image_2}@2x.jpg`,
+        }
+      } else if (this.organisation.domaines.length > 0) {
+        illustration2 = {
+          default: `/images/organisations/domaines/${this.organisation.domaines[0].id}_2.jpg`,
+          x2: `/images/organisations/domaines/${this.organisation.domaines[0].id}_2@2x.jpg`,
+        }
+      } else {
+        illustration2 = {
+          default: `/images/organisations/domaines/2_1.jpg`,
+          x2: `/images/organisations/domaines/2_1@2x.jpg`,
+        }
+      }
+
+      return illustration2
     },
   },
   methods: {

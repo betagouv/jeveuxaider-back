@@ -361,7 +361,7 @@
             >
               <img
                 :src="illustration.default"
-                :srcset="`${illustration.x2} 2x`"
+                :srcset="illustration.x2 ? `${illustration.x2} 2x` : false"
                 alt=""
                 class="w-full object-cover object-top"
                 style="min-height: 180px"
@@ -759,14 +759,19 @@ export default {
         if (this.structure?.override_image_1?.original) {
           illustration = {
             default:
-              this.structure?.override_image_1?.large ??
-              this.structure?.override_image_1?.original,
+              this.structure.override_image_1.large ??
+              this.structure.override_image_1.original,
+            x2: null,
+          }
+        } else if (this.structure.image_1) {
+          illustration = {
+            default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
             x2: null,
           }
         } else {
           illustration = {
-            default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
-            x2: `/images/organisations/domaines/${this.structure.image_1}@2x.jpg`,
+            default: `/images/mission-default.jpg`,
+            x2: `/images/mission-default@2x.jpg`,
           }
         }
       } else {
