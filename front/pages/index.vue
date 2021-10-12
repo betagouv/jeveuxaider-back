@@ -75,7 +75,7 @@
           <h2
             class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-5xl sm:leading-10"
           >
-            Plus de 330 000 bénévoles
+            Plus de 350 000 bénévoles
           </h2>
           <p class="mt-3 text-xl lg:text-2xl leading-7 text-[#c3ddfd] sm:mt-4">
             soutiennent des milliers d'associations et d'organisations publiques
