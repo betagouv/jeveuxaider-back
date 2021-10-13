@@ -82,6 +82,7 @@ export default {
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
     '@nuxtjs/device',
+    '@nuxtjs/tailwindcss',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -213,10 +214,7 @@ export default {
     ],
     postcss: {
       plugins: {
-        'postcss-import': {},
         'tailwindcss/nesting': {},
-        'tailwindcss': {},
-        // 'autoprefixer': {},
       }
     }
   },
