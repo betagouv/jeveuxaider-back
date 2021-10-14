@@ -370,14 +370,14 @@ export default {
           required:
             this.$store.getters.contextStructure.statut_juridique !=
             'Collectivité',
-          message: "Sélectionnez au moins un domaine d'action",
+          message: "Veuillez choisir au moins un domaine d'action",
           trigger: 'blur',
         },
         publics_beneficiaires: {
           required:
             this.$store.getters.contextStructure.statut_juridique !=
             'Collectivité',
-          message: 'Sélectionnez au moins un type',
+          message: 'Veuillez choisir au moins un public bénéficiaire',
           trigger: 'blur',
         },
         address: [
