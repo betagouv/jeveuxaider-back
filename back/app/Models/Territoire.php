@@ -165,9 +165,9 @@ class Territoire extends Model implements HasMedia
     {
         $this->responsables()->detach($profile);
 
-        if($profile->user->contextable_type == 'territoire'){
-            $profile->user->contextable_type = NULL;
-            $profile->user->contextable_id = NULL;
+        if ($profile->user->contextable_type == 'territoire') {
+            $profile->user->contextable_type = null;
+            $profile->user->contextable_id = null;
             $profile->user->save();
         }
 
@@ -204,62 +204,43 @@ class Territoire extends Model implements HasMedia
         ];
     }
 
-    public function promotedMissions($byRadius = false, $limit = 4)
+    public function promotedMissions($limit = 7)
     {
-        // Missions within the territory postcodes, random sort
-        if (!$byRadius) {
-            $missions = Mission::ofTerritoire($this->id)
-                ->where('state', 'Validée')
-                ->where('places_left', '>', 0)
-                ->where('type', 'Mission en présentiel')
-                ->where(function ($query) {
-                    $query
-                        ->where('end_date', '>', Carbon::now())
-                        ->orWhereNull('end_date');
-                })
-                ->with('structure')
-                ->inRandomOrder()
-                ->limit($limit)
-                -> get();
-        } else {
-            // By radius, sorted by score and distance (like the search page)
-            $territoire = $this;
-            $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
-                $config =  [
-                    'filters' => 'has_places_left=1 AND provider:reserve_civique',
-                    'aroundPrecision' => 2000,
-                    'hitsPerPage' => $limit,
-                ];
+        $territoire = $this;
+        $missions = Mission::search('', function ($algolia, $query, $options) use ($territoire, $limit) {
+            $config =  [
+                'filters' => 'provider:reserve_civique',
+                'aroundPrecision' => 2000,
+                'hitsPerPage' => $limit,
+            ];
 
-                if ($territoire->type == 'department') {
-                    $departmentName = config('taxonomies.departments')["terms"][$territoire->department];
+            if ($territoire->type == 'department') {
+                $departmentName = config('taxonomies.departments')["terms"][$territoire->department];
+                $config = array_merge($config, [
+                    'facetFilters' => [
+                        'department_name:' . $territoire->department . ' - ' . $departmentName,
+                    ],
+                    'aroundLatLngViaIP' => true,
+                ]);
+            } else {
+                if ($territoire->latitude && $territoire->longitude) {
                     $config = array_merge($config, [
-                        'facetFilters' => [
-                            'department_name:' . $territoire->department . ' - ' . $departmentName,
-                        ],
+                        'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
+                        'aroundRadius' => 35000,
+                        'facetFilters' => ['type:Mission en présentiel'],
                     ]);
                 } else {
-                    if ($territoire->latitude && $territoire->longitude) {
-                        $config = array_merge($config, [
-                            'aroundLatLng' => $territoire->latitude . ',' . $territoire->longitude,
-                            'aroundRadius' => 35000,
-                            'facetFilters' => ['type:Mission en présentiel'],
-                        ]);
-                    } else {
-                        $config = array_merge($config, [
-                            'facetFilters' => ['type:Mission en présentiel'],
-                        ]);
-                    }
+                    $config = array_merge($config, [
+                        'facetFilters' => ['type:Mission en présentiel'],
+                    ]);
                 }
+            }
 
-                $options = array_merge($options, $config);
-                return $algolia->search($query, $options);
-            });
+            $options = array_merge($options, $config);
+            return $algolia->search($query, $options);
+        });
 
-            $missions = $missions->get()->load(['structure'])->append('score');
-        }
-
-
+        $missions = $missions->get()->load(['structure'])->append('score');
         return $missions;
     }
 }

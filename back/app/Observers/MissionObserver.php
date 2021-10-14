@@ -8,7 +8,6 @@ use App\Models\Mission;
 use App\Models\NotificationTemoignage;
 use App\Models\Participation;
 use App\Models\Profile;
-use App\Notifications\NotificationTemoignageCreate;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
@@ -104,24 +103,7 @@ class MissionObserver
                         $mission->participations()->whereIn("state", ["En attente de validation", "En cours de traitement"])->update(['state' => 'Annulée']);
 
                         // Notifications temoignage.
-                        $participations = $mission->participations()->where('state', 'Validée')->get();
-                        foreach ($participations as $participation) {
-                            // Skip if notification already exists.
-                            if (NotificationTemoignage::where('participation_id', $participation->id)->exists()) {
-                                continue;
-                            }
-
-                            do {
-                                $token = Str::random(32);
-                            } while (NotificationTemoignage::where('token', $token)->first());
-
-                            $notificationTemoignage = NotificationTemoignage::create([
-                                'token' => $token,
-                                'participation_id' => $participation->id,
-                                'reminders_sent' => 1,
-                            ]);
-                            $notificationTemoignage->participation->profile->user->notify(new NotificationTemoignageCreate($notificationTemoignage));
-                        }
+                        $mission->sendNotificationsTemoignages();
                     }
                     break;
             }

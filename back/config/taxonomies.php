@@ -319,7 +319,8 @@ return [
         "vocabulary" => "Publics volontaires",
         "terms" => [
             // "Personnes en situation de handicap" => "Personnes en situation de handicap",
-            "Mineurs" => "Mineurs"
+            "Mineurs" => "Mineurs",
+            "Jeunes volontaires du Service National Universel" => "Jeunes volontaires du Service National Universel"
         ]
     ],
 

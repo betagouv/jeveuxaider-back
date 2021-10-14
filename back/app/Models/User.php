@@ -50,7 +50,8 @@ class User extends Authenticatable
         $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['unreadConversations'] = self::getUnreadConversations($id);
         $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
-        $user['nbTodayParticipationsOnPendingValidation'] = self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
+        $user['nbTodayParticipationsOnPendingValidation'] =
+            self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
 
         return $user;
     }

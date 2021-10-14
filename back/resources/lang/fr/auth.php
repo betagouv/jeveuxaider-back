@@ -19,6 +19,11 @@ return [
     'invalid_credentials' => [ // key from error type
         'error'   => 'invalid_credentials',
         'message' => 'Les identifiants sont incorrects.'
+    ],
+
+    "invalid_grant" => [ // key from error type
+        'error'   => 'invalid_grant',
+        'message' => 'Les identifiants sont incorrects.'
     ]
 
 

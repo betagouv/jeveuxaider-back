@@ -50,9 +50,8 @@ class ParticipationCanceled extends Notification
         return (new MailMessage)
             ->subject('Votre participation a été annulée')
             ->greeting('Bonjour ' . $notifiable->first_name . ',')
-            ->line('Nous sommes au regret de vous informer que votre participation à la mission « ' . $this->participation->mission->name . ' » est annulée.')
-            ->line('Nous vous invitons à poursuivre votre engagement au titre d\'une autre mission proposée sur le site JeVeuxAider.gouv.fr')
-            ->line('Le responsable de l\'organisation « ' . $this->participation->mission->structure->name . ' »')
+            ->line('Nous sommes au regret de vous informer que votre participation à la mission « ' . $this->participation->mission->name . ' » est annulée.')
+            ->line('Nous vous invitons à proposer votre aide sur une autre mission disponible sur JeVeuxAider.gouv.fr')
             ->action('Toutes nos missions', url(config('app.url') . '/missions'))
         ;
     }

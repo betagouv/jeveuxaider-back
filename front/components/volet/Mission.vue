@@ -105,7 +105,10 @@
 
           <div class="flex space-x-8">
             <VoletRowItem label="Demandés">
-              {{ testimoniesStats.notifications.count }}
+              {{
+                testimoniesStats.notifications.count +
+                testimoniesStats.testimonies.count
+              }}
             </VoletRowItem>
 
             <VoletRowItem

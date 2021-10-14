@@ -197,17 +197,29 @@
           </div>
 
           <div class="text-center font-bold border-gray-200 border-t">
-            <div
+            <template
               v-if="
                 notifications.filter(
                   (notification) => notification.profile_id == item.id
                 ).length == 0
               "
-              class="py-4 text-primary hover:bg-gray-50 cursor-pointer"
-              @click="handleSendNotfication(item)"
             >
-              Proposer la mission
-            </div>
+              <div
+                v-if="item.notification_benevole_stats.thisMonth >= 2"
+                class="py-4 text-yellow-500"
+              >
+                Déjà sollicité 2 fois ce mois-ci
+              </div>
+
+              <div
+                v-else
+                class="py-4 text-primary hover:bg-gray-50 cursor-pointer"
+                @click="handleSendNotfication(item)"
+              >
+                Proposer la mission
+              </div>
+            </template>
+
             <div v-else class="py-4 text-green-700">E-mail envoyé !</div>
           </div>
         </li>
@@ -285,7 +297,7 @@ export default {
       {
         ...this.query,
       },
-      ['last_online_at', 'skills', 'domaines']
+      ['last_online_at', 'skills', 'domaines', 'notification_benevole_stats']
     )
     this.tableData = data.data
     this.totalRows = data.total

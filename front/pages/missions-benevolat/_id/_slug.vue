@@ -361,7 +361,7 @@
             >
               <img
                 :src="illustration.default"
-                :srcset="illustration.x2"
+                :srcset="illustration.x2 ? `${illustration.x2} 2x` : false"
                 alt=""
                 class="w-full object-cover object-top"
                 style="min-height: 180px"
@@ -611,11 +611,9 @@ export default {
         return error({ statusCode: 403 })
       }
     }
-    const otherMissions = await $api.similarMission(mission.id)
 
     return {
       mission,
-      otherMissions,
     }
   },
   data() {
@@ -639,7 +637,11 @@ export default {
           },
         ],
       },
+      otherMissions: [],
     }
+  },
+  async fetch() {
+    this.otherMissions = await this.$api.similarMission(this.mission.id)
   },
   head() {
     return {
@@ -661,7 +663,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: '/images/share-image.jpg',
+          content: this.illustration.x2 ?? this.illustration.default,
         },
       ],
     }
@@ -759,14 +761,19 @@ export default {
         if (this.structure?.override_image_1?.original) {
           illustration = {
             default:
-              this.structure?.override_image_1?.large ??
-              this.structure?.override_image_1?.original,
+              this.structure.override_image_1.large ??
+              this.structure.override_image_1.original,
+            x2: null,
+          }
+        } else if (this.structure.image_1) {
+          illustration = {
+            default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
             x2: null,
           }
         } else {
           illustration = {
-            default: `/images/organisations/domaines/${this.structure.image_1}.jpg`,
-            x2: `/images/organisations/domaines/${this.structure.image_1}@2x.jpg 2x`,
+            default: `/images/mission-default.jpg`,
+            x2: `/images/mission-default@2x.jpg`,
           }
         }
       } else {
@@ -778,7 +785,11 @@ export default {
     publicsVolontaires() {
       return this.mission.publics_volontaires
         ? this.mission.publics_volontaires.filter(
-            (item) => item != 'Personnes en situation de handicap'
+            (item) =>
+              ![
+                'Jeunes volontaires du Service National Universel',
+                'Personnes en situation de handicap',
+              ].includes(item)
           )
         : []
     },

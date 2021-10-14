@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="section-search">
-      <div class="pt-12 pb-32 bg-white">
+      <div class="pt-12 pb-28 bg-white">
         <div class="container mx-auto px-4">
           <h2 class="text-center">
             <p class="uppercase text-[#f56565] font-extrabold text-sm mb-4">
@@ -24,31 +24,26 @@
         class="pb-12 bg-[#fafaff]"
         :class="[{ 'pb-44': territoire.type != 'city' }]"
       >
-        <div class="container mx-auto px-4">
-          <div
-            class="flex flex-wrap justify-center transform -translate-y-24"
-            :class="[
-              { '-mb-24': missions.length },
-              { '-mb-28': !missions.length },
-            ]"
-          >
-            <nuxt-link
-              v-for="mission in missions.slice(0, 3)"
-              :key="mission.id"
-              class="card--mission--wrapper"
-              :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
-            >
-              <CardMission :mission="mission" />
-            </nuxt-link>
-          </div>
+        <SearchMissions
+          :facets="[]"
+          :filters="filters"
+          :title-tag="'h2'"
+          :hits-per-page="6"
+          :default-radius="35000"
+          :initial-geo-search="geoSearch"
+          no-header
+          no-filters
+          no-pagination
+          class="flex flex-wrap justify-center transform -translate-y-24 -mb-24"
+        />
 
+        <div class="container mx-auto px-4">
           <div v-if="moreLink" class="text-center mt-6">
             <nuxt-link :to="moreLink">
               <button
                 class="leading-none uppercase shadow-lg text-xs font-extrabold rounded-full text-gray-500 bg-white py-4 px-8 hover:scale-105 transform transition will-change-transform"
               >
-                <span v-if="!missions.length">Voir les missions</span>
-                <span v-else>Plus de missions</span>
+                Plus de missions
               </button>
             </nuxt-link>
           </div>
@@ -69,15 +64,7 @@ export default {
     },
   },
   data() {
-    return {
-      missions: [],
-    }
-  },
-  async fetch() {
-    const missions = await this.$api.fetchTerritoirePromotedMissions(
-      this.territoire.id
-    )
-    this.missions = missions.data
+    return {}
   },
   computed: {
     moreLink() {
@@ -94,26 +81,58 @@ export default {
       }
       return link
     },
+    filters() {
+      if (this.territoire.type == 'department') {
+        const departmentName = this.$options.filters.fullDepartmentFromValue(
+          this.territoire.department
+        )
+        return `department_name:"${departmentName}"`
+      }
+
+      return ''
+    },
+    geoSearch() {
+      // Departements
+      if (this.territoire.type == 'department') {
+        return null
+      }
+
+      // Villes
+      return {
+        aroundLatLng: `${this.territoire.latitude}, ${this.territoire.longitude}`,
+      }
+    },
   },
 }
 </script>
 
 <style lang="postcss" scoped>
-.card--mission--wrapper {
-  width: 100%;
-  @apply border-0 shadow-none p-0 mb-6;
-  @screen sm {
-    width: 280px;
-    @apply m-3 flex flex-col;
-  }
-  @screen md {
-    width: 330px;
-  }
-  @screen lg {
-    width: 304px;
-  }
-  @screen xl {
-    width: 330px;
+.component--search-missions {
+  background-color: unset;
+
+  ::v-deep {
+    .ais-Hits-item {
+      @screen sm {
+        width: 292px;
+      }
+      @screen md {
+        width: 330px;
+      }
+      @screen lg {
+        width: 308px;
+      }
+      @screen xl {
+        width: 330px;
+      }
+    }
+
+    .ais-Hits-list {
+      justify-content: center;
+    }
+
+    .ais-StateResults {
+      @apply mb-4;
+    }
   }
 }
 </style>

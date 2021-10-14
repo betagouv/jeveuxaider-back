@@ -1,62 +1,72 @@
 <template>
   <div>
-    <template v-if="showAskValidation">
-      <el-dropdown size="small" split-button :type="type">
-        <div style="min-width: 140px; text-align: left">
-          <template v-if="loading"> Chargement... </template>
-          <template v-else> {{ mission.state }} </template>
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="onAskValidationSubmit">
-            Publier la mission
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </template>
-    <template v-else>
-      <el-dropdown v-if="canEditStatut" size="small" split-button :type="type">
-        <div style="min-width: 140px; text-align: left">
-          <template v-if="loading"> Chargement... </template>
-          <template v-else> {{ mission.state }} </template>
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="state in statesAvailable"
-            :key="state.value"
-            @click.native="onSubmitState(state.value)"
+    <el-dropdown
+      v-if="showAskValidation"
+      size="small"
+      split-button
+      :type="type"
+      @click.native.stop
+    >
+      <div style="min-width: 140px; text-align: left">
+        <template v-if="loading"> Chargement... </template>
+        <template v-else> {{ mission.state }} </template>
+      </div>
+
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item @click.native="onAskValidationSubmit">
+          Publier la mission
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+    <el-dropdown
+      v-else-if="canEditStatut"
+      size="small"
+      split-button
+      :type="type"
+      @click.native.stop
+    >
+      <div style="min-width: 140px; text-align: left">
+        <template v-if="loading"> Chargement... </template>
+        <template v-else> {{ mission.state }} </template>
+      </div>
+
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item
+          v-for="state in statesAvailable"
+          :key="state.value"
+          @click.native="onSubmitState(state.value)"
+        >
+          <template v-if="state.value == 'En attente de validation'"
+            >Repasser en validation</template
           >
-            <template v-if="state.value == 'En attente de validation'"
-              >Repasser en validation</template
-            >
-            <template v-if="state.value == 'Validée'"
-              >Valider la mission</template
-            >
-            <template
-              v-if="
-                (mission.state == 'Validée' ||
-                  $store.getters.contextRole == 'admin') &&
-                state.value == 'Terminée'
-              "
-              >Terminer la mission</template
-            >
-            <template
-              v-if="
-                (mission.state == 'Validée' ||
-                  $store.getters.contextRole == 'admin') &&
-                state.value == 'Annulée'
-              "
-              >Annuler la mission</template
-            >
-            <template v-if="state.value == 'Signalée'"
-              >Signaler la mission</template
-            >
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <template v-else>
-        <div class="text-sm leading-normal">{{ mission.state }}</div>
-      </template>
-    </template>
+          <template v-if="state.value == 'Validée'"
+            >Valider la mission</template
+          >
+          <template
+            v-if="
+              (mission.state == 'Validée' ||
+                $store.getters.contextRole == 'admin') &&
+              state.value == 'Terminée'
+            "
+            >Terminer la mission</template
+          >
+          <template
+            v-if="
+              (mission.state == 'Validée' ||
+                $store.getters.contextRole == 'admin') &&
+              state.value == 'Annulée'
+            "
+            >Annuler la mission</template
+          >
+          <template v-if="state.value == 'Signalée'"
+            >Signaler la mission</template
+          >
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+    <div v-else class="text-sm leading-normal">{{ mission.state }}</div>
   </div>
 </template>
 

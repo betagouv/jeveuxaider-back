@@ -70,14 +70,14 @@
             <button
               type="button"
               class="el-button is-plain el-button--mini"
-              @click="handleRestore(scope.row)"
+              @click.stop="handleRestore(scope.row)"
             >
               Restaurer
             </button>
             <button
               type="button"
               class="el-button is-plain el-button--danger el-button--mini"
-              @click="handleDelete(scope.row)"
+              @click.stop="handleDelete(scope.row)"
             >
               Supprimer définitivement
             </button>

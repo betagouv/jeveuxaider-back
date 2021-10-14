@@ -170,6 +170,7 @@
             size="small"
             class="text-0 leading-none"
             @command="handleCommand"
+            @click.native.stop
           >
             Choisissez une action
             <el-dropdown-menu slot="dropdown">

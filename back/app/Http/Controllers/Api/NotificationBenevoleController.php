@@ -28,10 +28,19 @@ class NotificationBenevoleController extends Controller
 
     public function store(NotificationBenevoleRequest $request)
     {
-        $NotificationBenevoleCount = NotificationBenevole::where('profile_id', request("profile_id"))->where('mission_id', request("mission_id"))->count();
+        $profile_id = request("profile_id");
 
-        if ($NotificationBenevoleCount > 0) {
+        $notificationBenevoleCount = NotificationBenevole::where(
+            'profile_id',
+            $profile_id
+        )->where('mission_id', request("mission_id"))->count();
+        if ($notificationBenevoleCount > 0) {
             abort(402, "Vous avez déjà envoyé un e-mail à ce bénévole !");
+        }
+
+        $notificationBenevoleStats = Profile::getNotificationBenevoleStats($profile_id);
+        if ($notificationBenevoleStats['thisMonth'] >= 2) {
+            abort(402, "Le bénévole à déjà été sollicité 2 fois ce mois-ci !");
         }
 
         $notificationBenevole = NotificationBenevole::create(

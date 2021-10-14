@@ -32,6 +32,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    toolbar: {
+      type: Array,
+      default: null,
+    },
   },
   data() {
     return {
@@ -50,7 +54,7 @@ export default {
             'facebook',
           ],
         },
-        toolbar: [
+        toolbar: this.toolbar ?? [
           this.withHeading ? 'heading' : false,
           'bold',
           'italic',

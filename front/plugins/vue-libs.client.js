@@ -33,7 +33,13 @@ Vue.use(VTooltip, {
     },
   },
   defaultDelay: 250,
-  defaultOffset: 8,
+  popover: {
+    defaultPlacement: 'right',
+    defaultDelay: 250,
+    defaultTrigger: 'hover',
+    defaultBoundariesElement: 'offsetParent',
+    defaultClass: 'popover-theme-1',
+  },
 })
 
 Vue.use(vClickOutside)

@@ -75,7 +75,7 @@
           <h2
             class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-5xl sm:leading-10"
           >
-            Plus de 330 000 bénévoles
+            Plus de 350 000 bénévoles
           </h2>
           <p class="mt-3 text-xl lg:text-2xl leading-7 text-[#c3ddfd] sm:mt-4">
             soutiennent des milliers d'associations et d'organisations publiques
@@ -187,9 +187,7 @@
         Parmi les missions prioritaires
       </p>
 
-      <div
-        class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3 lg:max-w-none"
-      >
+      <div class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3">
         <nuxt-link
           v-for="mission in missions_prioritaires"
           :key="mission.name"

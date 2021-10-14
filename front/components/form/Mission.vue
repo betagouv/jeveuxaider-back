@@ -219,7 +219,7 @@
             l'intervention du bénévole (historique et objectifs de la mission).
           </ItemDescription>
 
-          <RichEditor v-model="form.objectif" />
+          <RichEditor v-model="form.objectif" :toolbar="richEditorToolbar" />
         </el-form-item>
 
         <el-form-item
@@ -233,7 +233,7 @@
             (rôle, actions à réaliser, modalités d'organisation de la mission).
           </ItemDescription>
 
-          <RichEditor v-model="form.description" />
+          <RichEditor v-model="form.description" :toolbar="richEditorToolbar" />
         </el-form-item>
       </div>
 
@@ -242,7 +242,7 @@
         prop="information"
         class="flex-1"
       >
-        <RichEditor v-model="form.information" />
+        <RichEditor v-model="form.information" :toolbar="richEditorToolbar" />
       </el-form-item>
 
       <el-form-item label="Publics bénéficiaires" prop="publics_beneficiaires">
@@ -323,14 +323,54 @@
         prop="publics_volontaires"
       >
         <el-checkbox-group v-model="form.publics_volontaires">
-          <el-checkbox
+          <div
             v-for="item in $store.getters.taxonomies.mission_publics_volontaires
               .terms"
             :key="item.value"
-            :label="item.value"
-            border
-            >{{ item.label }}</el-checkbox
+            class="flex items-center spaxe-x-2"
           >
+            <el-checkbox :label="item.value" class="!flex items-center" border>
+              <div class="flex items-center space-x-2">
+                <img
+                  v-if="
+                    item.label ==
+                    'Jeunes volontaires du Service National Universel'
+                  "
+                  src="/images/logo-snu-small.jpg"
+                  srcset="/images/logo-snu-small@2x.jpg 2x"
+                  alt="SNU"
+                />
+
+                <span>{{ item.label }}</span>
+              </div>
+            </el-checkbox>
+
+            <v-popover
+              v-if="
+                item.label == 'Jeunes volontaires du Service National Universel'
+              "
+              ref="tooltip"
+            >
+              <i class="cursor-pointer ml-2 el-icon-info text-primary" />
+
+              <div
+                slot="popover"
+                class="tooltip-content"
+                @mouseover="ontooltipMouseOver()"
+                @mouseout="ontooltipMouseOut()"
+              >
+                Les volontaires (de 16 à 25 ans) doivent effectuer une mission
+                de 84 heures pour valider leur SNU.
+                <a
+                  target="_blank"
+                  href="https://www.snu.gouv.fr/"
+                  class="underline"
+                >
+                  En savoir plus sur le Service National Universel
+                </a>
+              </div>
+            </v-popover>
+          </div>
         </el-checkbox-group>
       </el-form-item>
 
@@ -617,6 +657,35 @@ export default {
     },
   },
   data() {
+    const noUrlsInContent = (rule, value, callback) => {
+      if (value?.match(/(www.)|(http:\/\/)|(https:\/\/)/)) {
+        callback(new Error(`Les liens ne sont pas autorisés dans ce champ.`))
+      } else {
+        callback()
+      }
+    }
+    const noPhoneInContent = (rule, value, callback) => {
+      const regex = /(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})/
+      if (value?.match(regex)) {
+        callback(
+          new Error(
+            `Les numéros de téléphones ne sont pas autorisés dans ce champ.`
+          )
+        )
+      } else {
+        callback()
+      }
+    }
+    const noEmailInContent = (rule, value, callback) => {
+      if (value?.match(/\S+@\S+\.\S+/)) {
+        callback(
+          new Error(`Les adresses email ne sont pas autorisées dans ce champ.`)
+        )
+      } else {
+        callback()
+      }
+    }
+
     return {
       hasBeenInitialized: false,
       loading: false,
@@ -666,6 +735,9 @@ export default {
             message: 'Veuillez renseigner un objectif de la mission',
             trigger: 'blur',
           },
+          { validator: noUrlsInContent, trigger: 'blur' },
+          { validator: noPhoneInContent, trigger: 'blur' },
+          { validator: noEmailInContent, trigger: 'blur' },
         ],
         description: [
           {
@@ -673,6 +745,14 @@ export default {
             message: 'Veuillez renseigner un descriptif de la mission',
             trigger: 'blur',
           },
+          { validator: noUrlsInContent, trigger: 'blur' },
+          { validator: noPhoneInContent, trigger: 'blur' },
+          { validator: noEmailInContent, trigger: 'blur' },
+        ],
+        information: [
+          { validator: noUrlsInContent, trigger: 'blur' },
+          { validator: noPhoneInContent, trigger: 'blur' },
+          { validator: noEmailInContent, trigger: 'blur' },
         ],
         department: [
           {
@@ -715,6 +795,14 @@ export default {
           },
         ],
       },
+      richEditorToolbar: [
+        false,
+        'bold',
+        'italic',
+        '|',
+        'bulletedList',
+        'numberedList',
+      ],
     }
   },
   computed: {
@@ -882,6 +970,12 @@ export default {
         `${this.form.address} ${this.form.zip} ${this.form.city}`
       )
     },
+    ontooltipMouseOver() {
+      this.$refs.tooltip[0].show()
+    },
+    ontooltipMouseOut() {
+      this.$refs.tooltip[0].hide()
+    },
   },
 }
 </script>
@@ -898,12 +992,21 @@ export default {
 }
 
 .el-checkbox-group {
-  @apply flex flex-wrap gap-4;
-  > label {
+  @apply flex flex-wrap gap-4 text-base;
+  label {
     @apply m-0 rounded-[10px] !important;
-    @apply ease-in-out duration-150 transition;
+    @apply ease-in-out duration-150 transition px-4 flex items-center;
     &:hover {
       @apply border-primary;
+    }
+    ::v-deep {
+      .el-checkbox__input {
+        display: none;
+      }
+      .el-checkbox__label {
+        padding-left: 0;
+        @apply flex items-center;
+      }
     }
   }
 }

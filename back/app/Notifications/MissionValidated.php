@@ -53,12 +53,12 @@ class MissionValidated extends Notification
             ->greeting('Bonjour ' . $notifiable->first_name . ',');
 
         if ($this->mission->city && $this->mission->type == 'Mission en présentiel') {
-            $message->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name. ' » proposée à ' . $this->mission->city . ' a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
+            $message->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name. ' » proposée à ' . $this->mission->city . ' a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
         } else {
-            $message->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name. ' » a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
+            $message->line('Nous avons le plaisir de vous informer que la mission « ' . $this->mission->name. ' » a bien été validée. Elle sera proposée aux bénévoles de JeVeuxAider.gouv.fr.');
         }
 
-        $message->line('Nous vous informerons prochainement des coordonnées du bénévole affecté à cette mission.')
+        $message->line("Dès qu'un bénévole candidatera à votre mission, nous vous transmettrons automatiquement ses coordonnées. Vous pourrez alors valider ou refuser sa candidature, et échanger directement avec lui sur la messagerie intégrée à la plateforme.")
             ->action('Accéder à mon compte', url(config('app.url') . '/dashboard/structure/' . $this->mission->structure->id . '/missions'));
 
         return $message;

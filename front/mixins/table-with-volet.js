@@ -9,12 +9,7 @@ export default {
       this.tableData.splice(foundIndex, 1)
     },
     onClickedRow(row, column) {
-      // Hack pour éviter que le volet s'affiche quand on clique sur un boutton
-      if (!column) {
-        this.$store.commit('volet/show', { ...row })
-      } else if (!['Actions', 'Statut', 'Places'].includes(column.label)) {
-        this.$store.commit('volet/show', { ...row })
-      }
+      this.$store.commit('volet/show', { ...row })
     },
   },
 }

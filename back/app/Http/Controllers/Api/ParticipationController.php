@@ -80,7 +80,7 @@ class ParticipationController extends Controller
                 $conversation = $currentUser->startConversation($user, $participation);
                 $currentUser->sendMessage($conversation->id, request('content'));
             }
-            $mission->update(); // Places left & Algolia
+
             return $participation;
         }
 

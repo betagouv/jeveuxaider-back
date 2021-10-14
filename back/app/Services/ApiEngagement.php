@@ -353,31 +353,29 @@ class ApiEngagement
                     $attributes['twitter'] = $structure->twitter;
                 }
 
-                if ($structure->latitude && $structure->longitude) {
-                    $attributes['coordonnees']['adresse']['location'] = [
-                        'lat' => $structure->latitude,
-                        'lon' => $structure->longitude,
-                    ];
-                }
-
-                if ($structure->address) {
-                    $attributes['coordonnees']['adresse']['nom'] = $structure->address;
-                }
-
-                if ($structure->city) {
-                    $attributes['coordonnees']['adresse']['commune'] = $structure->city;
-                }
-
-                if ($structure->zip) {
-                    $attributes['coordonnees']['adresse']['code_postal'] = $structure->zip;
-                }
-
-                if ($structure->department) {
-                    $termsDepartments = config('taxonomies.departments.terms');
-                    $termsRegions = config('taxonomies.department_region.terms');
-                    $attributes['coordonnees']['adresse']['departement_numero'] = $structure->department;
-                    $attributes['coordonnees']['adresse']['departement'] = $termsDepartments[$structure->department];
-                    $attributes['coordonnees']['adresse']['region'] = $termsRegions[$structure->department];
+                if($structure->address != $structure->city){
+                    if ($structure->latitude && $structure->longitude) {
+                        $attributes['coordonnees']['adresse']['location'] = [
+                            'lat' => $structure->latitude,
+                            'lon' => $structure->longitude,
+                        ];
+                    }
+                    if ($structure->address) {
+                        $attributes['coordonnees']['adresse']['nom'] = $structure->address;
+                    }
+                    if ($structure->city) {
+                        $attributes['coordonnees']['adresse']['commune'] = $structure->city;
+                    }
+                    if ($structure->zip) {
+                        $attributes['coordonnees']['adresse']['code_postal'] = $structure->zip;
+                    }
+                    if ($structure->department) {
+                        $termsDepartments = config('taxonomies.departments.terms');
+                        $termsRegions = config('taxonomies.department_region.terms');
+                        $attributes['coordonnees']['adresse']['departement_numero'] = $structure->department;
+                        $attributes['coordonnees']['adresse']['departement'] = $termsDepartments[$structure->department];
+                        $attributes['coordonnees']['adresse']['region'] = $termsRegions[$structure->department];
+                    }
                 }
 
                 if ($structure->phone) {

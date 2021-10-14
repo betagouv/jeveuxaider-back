@@ -69,7 +69,6 @@ export default {
     '@/plugins/atinternet.client.js',
     { src: '~/plugins/vue-cropper.js', mode: 'client' },
     '@/plugins/plausible.client.js',
-    '@/plugins/hotjar.client.js',
   ],
 
   router: {},
@@ -83,6 +82,7 @@ export default {
     '@aceforth/nuxt-optimized-images',
     'nuxt-compress',
     '@nuxtjs/device',
+    '@nuxtjs/tailwindcss',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -214,10 +214,7 @@ export default {
     ],
     postcss: {
       plugins: {
-        'postcss-import': {},
         'tailwindcss/nesting': {},
-        'tailwindcss': {},
-        // 'autoprefixer': {},
       }
     }
   },

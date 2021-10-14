@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
                 $exception->setPayload($transPayload);
             }
         }
-    
+
         parent::report($exception);
     }
 
@@ -56,6 +56,9 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Laravel\Passport\Exceptions\OAuthServerException) {
             if ($exception->getCode() === 10) {
                 $transPayload = trans('auth.invalid_credentials');
+                return response()->json($transPayload, 401);
+            } elseif ($exception->getCode() === 6) {
+                $transPayload = trans('auth.invalid_grant');
                 return response()->json($transPayload, 401);
             }
         }

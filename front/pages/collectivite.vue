@@ -284,7 +284,7 @@
                   <dd
                     class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
-                    313 980
+                    351 813
                   </dd>
                 </div>
                 <div class="flex flex-col mt-10 sm:mt-0">
@@ -296,7 +296,7 @@
                   <dd
                     class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
-                    3 878
+                    7 226
                   </dd>
                 </div>
 
@@ -309,7 +309,7 @@
                   <dd
                     class="order-1 text-5xl leading-none font-bold text-[#242526]"
                   >
-                    107 528
+                    187 745
                   </dd>
                 </div>
               </dl>

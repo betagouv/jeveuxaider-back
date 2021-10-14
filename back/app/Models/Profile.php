@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Helpers\Utils;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
@@ -377,5 +378,26 @@ class Profile extends Model implements HasMedia
     {
         $total = Utils::calculateCommitmentTotal($duration, $time_period);
         return $query->where('commitment__total', '>=', $total);
+    }
+
+
+    public static function getNotificationBenevoleStats($pid)
+    {
+        $total = NotificationBenevole::where('profile_id', $pid)->count();
+        $this_month = NotificationBenevole::where('profile_id', $pid)
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])->count();
+
+        return [
+            'total' => $total,
+            'thisMonth' => $this_month,
+        ];
+    }
+
+    public function getNotificationBenevoleStatsAttribute()
+    {
+        return self::getNotificationBenevoleStats($this->id);
     }
 }
