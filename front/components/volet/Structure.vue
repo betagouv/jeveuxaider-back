@@ -54,7 +54,10 @@
 
       <!-- STATISTICS -->
       <VoletCard v-if="statistics">
-        <div class="flex space-x-4">
+        <router-link
+          :to="`/dashboard/structure/${row.id}/missions`"
+          class="flex space-x-4"
+        >
           <div class="text-5xl leading-none text-gray-900">
             {{ statistics.participations.total }}
           </div>
@@ -72,7 +75,7 @@
               }}
             </div>
           </div>
-        </div>
+        </router-link>
       </VoletCard>
 
       <VoletCard

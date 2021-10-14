@@ -17,7 +17,12 @@
       <CardParticipationsCount
         label="Participations"
         name="participations"
-        link="/dashboard/participations"
+        :link="
+          $store.getters.contextRole == 'tete_de_reseau' &&
+          $store.getters.profile.tete_de_reseau_id
+            ? null
+            : '/dashboard/participations'
+        "
       />
       <ChartModelsCreated type="participations" class="max-w-4xl" />
     </div>

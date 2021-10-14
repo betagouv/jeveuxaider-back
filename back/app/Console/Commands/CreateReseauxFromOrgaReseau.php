@@ -8,7 +8,6 @@ use App\Models\Structure;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-
 class CreateReseauxFromOrgaReseau extends Command
 {
     /**
@@ -42,16 +41,15 @@ class CreateReseauxFromOrgaReseau extends Command
      */
     public function handle()
     {
-        // ray()->newScreen();
 
         if ($this->confirm('Do you wish to continue?')) {
             // Clean field reseau_id
-            Structure::withTrashed()->where('is_reseau', TRUE)->update(['reseau_id' => NULL]);
+            Structure::withTrashed()->where('is_reseau', true)->update(['reseau_id' => null]);
             // Create Reseaux
-            Structure::where('is_reseau', TRUE)->each(function ($structure, $key) {
+            Structure::where('is_reseau', true)->each(function ($structure, $key) {
                 $reseau = Reseau::updateOrCreate([
                     'name' => $structure->name
-                ],[
+                ], [
                     'created_at' => $structure->created_at,
                     'updated_at' => $structure->updated_at
                 ]);
@@ -63,12 +61,10 @@ class CreateReseauxFromOrgaReseau extends Command
                 $reseau->structures()->syncWithoutDetaching($antennesIds);
                 // Link profile to reseau
                 Profile::where('reseau_id', $structure->id)->update(['tete_de_reseau_id' => $reseau->id]);
-                
             });
 
             // Update context_role in users table
-            User::where('context_role','superviseur')->update(['context_role' => 'tete_de_reseau']);
-
+            User::where('context_role', 'superviseur')->update(['context_role' => 'tete_de_reseau']);
         }
     }
 }

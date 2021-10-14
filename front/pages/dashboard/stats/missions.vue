@@ -17,7 +17,12 @@
       <CardMissionsCount
         label="Missions"
         name="missions"
-        link="/dashboard/missions"
+        :link="
+          $store.getters.contextRole == 'tete_de_reseau' &&
+          $store.getters.profile.tete_de_reseau_id
+            ? null
+            : '/dashboard/missions'
+        "
       />
       <ChartModelsCreated type="missions" class="max-w-4xl" />
     </div>
