@@ -54,6 +54,55 @@
 
     <!-- Missions -->
     <nuxt-link
+      to="/dashboard/missions"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/mission')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
+    >
+      <div
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/mission')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
+        v-html="
+          require('@/assets/images/icones/heroicon/collection.svg?include')
+        "
+      />
+      Missions
+    </nuxt-link>
+
+    <!-- Participations -->
+    <nuxt-link
+      to="/dashboard/participations"
+      class="group flex items-center px-2 py-2 text-sm rounded-md"
+      :class="[
+        doesPathContains('dashboard/participation')
+          ? 'bg-primary text-white font-semibold'
+          : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium',
+      ]"
+      x-state-description='undefined: "bg-gray-200 text-gray-900", undefined: "text-gray-700 hover:text-gray-900 hover:bg-gray-50"'
+    >
+      <div
+        class="mr-3 flex-shrink-0 h-6 w-6"
+        :class="[
+          doesPathContains('dashboard/participation')
+            ? 'bg-primary text-white'
+            : 'text-gray-400 hover:text-gray-900',
+        ]"
+        v-html="
+          require('@/assets/images/icones/heroicon/identification.svg?include')
+        "
+      />
+      Participations
+    </nuxt-link>
+
+    <!-- Missions -->
+    <nuxt-link
       :to="`/dashboard/reseaux/${$store.getters.profile.tete_de_reseau_id}/modeles-de-mission`"
       class="group flex items-center px-2 py-2 text-sm rounded-md"
       :class="[
@@ -74,7 +123,7 @@
             : 'text-gray-400 hover:text-gray-900',
         ]"
         v-html="
-          require('@/assets/images/icones/heroicon/collection.svg?include')
+          require('@/assets/images/icones/heroicon/color-swatch.svg?include')
         "
       />
       Modèles de mission
