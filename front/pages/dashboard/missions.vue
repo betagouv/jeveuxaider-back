@@ -169,6 +169,14 @@
           :initial-value="query['filter[id]']"
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          name="publics_volontaires"
+          label="Proposé aux"
+          multiple
+          :value="query['filter[publics_volontaires]']"
+          :options="$store.getters.taxonomies.mission_publics_volontaires.terms"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
