@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100">
+  <div class="bg-[#F9F8F6] tracking-tight">
     <div class="nav-skip" lang="fr">
       <ul id="top">
         <li>

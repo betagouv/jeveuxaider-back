@@ -269,7 +269,7 @@
                           </div>
 
                           <div
-                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-[#16a972] group-hover:bg-[#0e9f6e] transition mt-6 font-extrabold inline-flex justify-center items-center"
+                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-jva-green group-hover:bg-[#0e9f6e] transition mt-6 font-extrabold inline-flex justify-center items-center"
                             style="width: 212px; height: 45px"
                           >
                             Missions à distance

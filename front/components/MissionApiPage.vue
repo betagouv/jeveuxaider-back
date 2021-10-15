@@ -180,7 +180,7 @@
                   <a
                     :href="mission.application_url"
                     target="_blank"
-                    class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-[#16a972] hover:bg-[#0e9f6e] !outline-none focus:ring transition font-bold text-md sm:text-xl px-5 py-3 pb-4"
+                    class="max-w-sm mx-auto w-full flex items-center justify-center border border-transparent rounded-full text-white bg-jva-green hover:bg-[#0e9f6e] !outline-none focus:ring transition font-bold text-md sm:text-xl px-5 py-3 pb-4"
                     >Je propose mon aide
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -313,7 +313,7 @@
             <a
               :href="mission.application_url"
               target="_blank"
-              class="mx-auto w-full sm:w-80 flex items-center justify-center border border-transparent rounded-full text-white bg-[#16a972] hover:bg-[#0e9f6e] !outline-none focus:ring transition font-bold text-md sm:text-xl px-5 py-3 pb-4"
+              class="mx-auto w-full sm:w-80 flex items-center justify-center border border-transparent rounded-full text-white bg-jva-green hover:bg-[#0e9f6e] !outline-none focus:ring transition font-bold text-md sm:text-xl px-5 py-3 pb-4"
               >Je propose mon aide
               <svg
                 xmlns="http://www.w3.org/2000/svg"

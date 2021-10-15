@@ -36,16 +36,6 @@ module.exports = {
         '"Segoe UI Symbol"',
         '"Noto Color Emoji"',
       ],
-      serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-      mono: [
-        'Menlo',
-        'Monaco',
-        'Consolas',
-        '"Liberation Mono"',
-        '"Courier New"',
-        'monospace',
-      ],
-      montserrat: ['Montserrat', 'sans-serif'],
     },
     extend: {
       colors: {
@@ -55,6 +45,9 @@ module.exports = {
         nature: '#057a55',
         education: '#1f0391',
         sante: '#553c9a',
+        jva: {
+          green: '#09AC8C',
+        },
       },
       fontSize: {
         0: [0, 0],

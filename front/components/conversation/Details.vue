@@ -139,7 +139,7 @@
           >
             <div class="flex-shrink-0" style="margin-top: 2px">
               <svg
-                class="h-5 w-5 text-[#16a972]"
+                class="h-5 w-5 text-jva-green"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >

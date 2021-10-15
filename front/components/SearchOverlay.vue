@@ -94,7 +94,7 @@
                   <img
                     class="flex-none"
                     :class="[{ 'opacity-0': loading }]"
-                    src="/images/search-white-bold.svg"
+                    src="/images/search.svg"
                     alt="Rechercher"
                   />
                   <span class="ml-2">Rechercher</span>

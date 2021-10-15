@@ -9,8 +9,8 @@
         :srcset="`${thumbnail.x2} 2x`"
         :alt="mission.domaine_name"
         class="w-full h-full object-cover"
-        width="300px"
-        height="143px"
+        width="300"
+        height="143"
         @error="defaultThumbnail($event)"
       />
       <div class="pill absolute m-4 top-0 right-0">
@@ -28,7 +28,7 @@
             {{ mission.city }}
           </template>
         </template>
-        <template v-else> À distance </template>
+        <template v-else> Mission à distance </template>
       </div>
 
       <div
@@ -197,7 +197,7 @@ export default {
           case 'En attente de validation':
             return 'text-[#f6ad55]'
           case 'Validée':
-            return 'text-[#16a972]'
+            return 'text-jva-green'
           default:
             return ''
         }
@@ -313,10 +313,10 @@ export default {
 
 .pill-2 {
   border-radius: 35px;
-  background-color: #ebf4ff;
   font-size: 11px;
   letter-spacing: 0.01em;
   color: #070191;
+  background-color: #ebf4ff;
   @apply font-bold uppercase py-1 px-3 mb-4 inline-flex;
 }
 </style>
