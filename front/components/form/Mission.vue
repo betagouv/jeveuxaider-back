@@ -360,8 +360,18 @@
                 @mouseover="ontooltipMouseOver()"
                 @mouseout="ontooltipMouseOut()"
               >
-                Les volontaires (de 16 à 25 ans) doivent effectuer une mission
-                de 84 heures pour valider leur SNU.
+                <p class="!mb-1">
+                  Les volontaires (de 16 à 25 ans) doivent effectuer une mission
+                  d'intérêt général de 84 heures pour valider leur SNU et ont
+                  ensuite la possibilité de prolonger leur engagement civique
+                  jusqu'à leur 25 ans.
+                </p>
+                <p class="!mb-1">
+                  En ouvrant votre mission aux jeunes volontaires SNU, vous
+                  acceptez la création automatique de votre compte responsable
+                  sur la plateforme de dépôt de missions SNU admin.snu.gouv.fr
+                  et cette mission y sera déposée automatiquement.
+                </p>
                 <a
                   target="_blank"
                   href="https://www.snu.gouv.fr/"
