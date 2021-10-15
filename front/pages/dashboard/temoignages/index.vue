@@ -54,6 +54,7 @@
         <SearchFiltersQueryInput
           name="participation.mission.id"
           label="# Mission"
+          type="number"
           placeholder="Numéro"
           :initial-value="query['filter[participation.mission.id]']"
           @changed="onFilterChange"

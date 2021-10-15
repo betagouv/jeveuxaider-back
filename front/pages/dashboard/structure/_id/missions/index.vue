@@ -152,6 +152,7 @@
         <SearchFiltersQueryInput
           name="id"
           label="# Mission"
+          type="number"
           placeholder="Numéro"
           :initial-value="query['filter[id]']"
           @changed="onFilterChange"
