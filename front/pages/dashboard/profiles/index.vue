@@ -288,9 +288,6 @@ export default {
       }
     },
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   methods: {
     handleCommand(command) {
       if (command.action == 'impersonate') {

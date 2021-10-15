@@ -109,13 +109,11 @@ export default {
       ].includes(this.participation.state)
     },
     statesAvailable() {
-      console.log('1')
       if (this.$store.getters.contextRole == 'admin') {
         return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
           (item) => item.value != this.participation.state
         )
       }
-      console.log('2')
       if (['En attente de validation'].includes(this.participation.state)) {
         return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
           (item) =>
@@ -129,7 +127,6 @@ export default {
           (item) => ['Validée', 'Refusée'].includes(item.value)
         )
       }
-      console.log('3')
       return this.$store.getters.taxonomies.participation_workflow_states.terms.filter(
         (item) =>
           !['En attente de validation', 'Validée', 'Refusée'].includes(

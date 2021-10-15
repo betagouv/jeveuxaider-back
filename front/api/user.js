@@ -9,8 +9,11 @@ export const rolesList = [
 ]
 
 export default (axios, $cookies) => ({
-  async fetchProfileParticipations(id) {
-    const { data } = await axios.get(`/profile/${id}/participations`)
+  async fetchProfileParticipations(id, params) {
+    return await axios.get(`/profile/${id}/participations`, { params })
+  },
+  async fetchProfileStatistics(id) {
+    const { data } = await axios.get(`/profile/${id}/statistics`)
     return data
   },
   async updateProfile(id, profile) {

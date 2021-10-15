@@ -1,98 +1,112 @@
 <template>
   <div
-    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden"
+    class="card--mission relative h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden"
+    :class="isLoading ? 'opacity-25' : ''"
   >
-    <div class="thumbnail--wrapper relative will-change-transform">
-      <img
-        v-if="thumbnail.default"
-        :src="thumbnail.default"
-        :srcset="`${thumbnail.x2} 2x`"
-        :alt="mission.domaine_name"
-        class="w-full h-full object-cover"
-        width="300px"
-        height="143px"
-        @error="defaultThumbnail($event)"
-      />
-      <div class="pill absolute m-4 top-0 right-0">
-        <template
-          v-if="mission.city && mission.type == 'Mission en présentiel'"
-        >
-          <template v-if="mission.zip">
-            {{ mission.city }} ({{ mission.zip }})
-          </template>
-
-          <template v-else-if="mission.department">
-            {{ mission.city }} ({{ mission.department }})
-          </template>
-          <template v-else>
-            {{ mission.city }}
-          </template>
-        </template>
-        <template v-else> À distance </template>
-      </div>
-
-      <div
-        v-if="formattedDate"
-        class="pill absolute mr-4 bottom-0 right-0 rounded-b-none"
-      >
-        {{ formattedDate }}
-      </div>
+    <div
+      v-if="isLoading"
+      class="bg-white opacity-50 flex items-center justify-center"
+      style="height: 294px"
+    >
+      <IconSpin class="animate-spin h-10 w-10" />
     </div>
+    <template v-else>
+      <div class="thumbnail--wrapper relative will-change-transform">
+        <img
+          v-if="thumbnail.default"
+          :src="thumbnail.default"
+          :srcset="`${thumbnail.x2} 2x`"
+          :alt="mission.domaine_name"
+          class="w-full h-full object-cover"
+          width="300px"
+          height="143px"
+          @error="defaultThumbnail($event)"
+        />
+        <div class="pill absolute m-4 top-0 right-0">
+          <template
+            v-if="mission.city && mission.type == 'Mission en présentiel'"
+          >
+            <template v-if="mission.zip">
+              {{ mission.city }} ({{ mission.zip }})
+            </template>
 
-    <div class="mb-auto p-4">
-      <div class="pill-2">{{ mission.domaine_name }}</div>
-
-      <client-only>
-        <v-clamp
-          tag="h2"
-          :max-lines="3"
-          autoresize
-          class="name font-black text-black text-lg relative"
-        >
-          {{ mission.name }}
-
-          <template slot="after" slot-scope="{ clamped }">
-            <!-- Tooltip if clamped -->
-            <span
-              v-if="clamped"
-              v-tooltip="{
-                delay: { show: 700, hide: 100 },
-                content: mission.name,
-                hideOnTargetClick: true,
-                placement: 'top',
-              }"
-              class="absolute w-full h-full top-0 left-0"
-            />
+            <template v-else-if="mission.department">
+              {{ mission.city }} ({{ mission.department }})
+            </template>
+            <template v-else>
+              {{ mission.city }}
+            </template>
           </template>
-        </v-clamp>
-        <template slot="placeholder">
-          <h2 class="name font-black text-black text-lg">{{ mission.name }}</h2>
-        </template>
-      </client-only>
+          <template v-else> À distance </template>
+        </div>
 
-      <h3
-        class="structure mt-4 mb-1 truncate"
-        v-text="mission.structure.name"
-      />
-
-      <div
-        v-if="mission.provider == 'api_engagement'"
-        class="api-engagement mt-4 mb-1"
-      >
-        <div class="flex items-center justify-between">
-          <div class="mr-8">
-            <div>Mission proposée par</div>
-            <div class="font-bold text-black">{{ mission.publisher_name }}</div>
-          </div>
-          <img
-            :src="mission.publisher_logo"
-            :alt="mission.publisher_name"
-            width="70px"
-            class="h-auto"
-          />
+        <div
+          v-if="formattedDate"
+          class="pill absolute mr-4 bottom-0 right-0 rounded-b-none"
+        >
+          {{ formattedDate }}
         </div>
       </div>
-      <div
+
+      <div class="mb-auto p-4">
+        <div class="pill-2">{{ mission.domaine_name }}</div>
+
+        <client-only>
+          <v-clamp
+            tag="h2"
+            :max-lines="3"
+            autoresize
+            class="name font-black text-black text-lg relative"
+          >
+            {{ mission.name }}
+
+            <template slot="after" slot-scope="{ clamped }">
+              <!-- Tooltip if clamped -->
+              <span
+                v-if="clamped"
+                v-tooltip="{
+                  delay: { show: 700, hide: 100 },
+                  content: mission.name,
+                  hideOnTargetClick: true,
+                  placement: 'top',
+                }"
+                class="absolute w-full h-full top-0 left-0"
+              />
+            </template>
+          </v-clamp>
+          <template slot="placeholder">
+            <h2 class="name font-black text-black text-lg">
+              {{ mission.name }}
+            </h2>
+          </template>
+        </client-only>
+
+        <h3
+          v-if="mission.structure"
+          class="structure mt-4 mb-1 truncate"
+          v-text="mission.structure.name"
+        />
+
+        <div
+          v-if="mission.provider == 'api_engagement'"
+          class="api-engagement mt-4 mb-1"
+        >
+          <div class="flex items-center justify-between">
+            <div class="mr-8">
+              <div>Mission proposée par</div>
+              <div class="font-bold text-black">
+                {{ mission.publisher_name }}
+              </div>
+            </div>
+            <img
+              :src="mission.publisher_logo"
+              :alt="mission.publisher_name"
+              width="70px"
+              class="h-auto"
+            />
+          </div>
+        </div>
+        <!-- <div
         v-if="$store.getters.contextRole == 'admin'"
         class="bg-gray-50 rounded-lg p-4 text-xs"
       >
@@ -115,44 +129,46 @@
           <br />
           Taux de réponse : {{ mission.structure.response_ratio }}%
         </span>
+      </div>-->
       </div>
-    </div>
 
-    <div
-      v-if="showState && participation"
-      class="footer border-t p-4 text-center relative"
-    >
-      <span class="text-sm font-bold" :class="participationStateTheme">{{
-        participation.state
-      }}</span>
-    </div>
-    <div v-else class="footer border-t p-4 text-center relative">
-      <span
-        class="places-left font-bold"
-        :class="[{ 'is-full': mission.has_places_left === false }]"
+      <div
+        v-if="showState && participation"
+        class="footer border-t p-4 text-center relative"
       >
-        {{ placesLeftText }}
-      </span>
+        <span class="text-sm font-bold" :class="participationStateTheme">{{
+          participation.state
+        }}</span>
+      </div>
+      <div v-else class="footer border-t p-4 text-center relative">
+        <span
+          class="places-left font-bold"
+          :class="[{ 'is-full': mission.has_places_left === false }]"
+        >
+          {{ placesLeftText }}
+        </span>
 
-      <img
-        v-if="mission.provider == 'api_engagement'"
-        :src="
-          mission.has_places_left
-            ? '/images/external_green.svg'
-            : '/images/external_gray.svg'
-        "
-        width="15px"
-        class="absolute mx-4 my-auto right-0 top-0 bottom-0"
-        alt="Lien externe"
-      />
-    </div>
+        <img
+          v-if="mission.provider == 'api_engagement'"
+          :src="
+            mission.has_places_left
+              ? '/images/external_green.svg'
+              : '/images/external_gray.svg'
+          "
+          width="15px"
+          class="absolute mx-4 my-auto right-0 top-0 bottom-0"
+          alt="Lien externe"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import MissionMixin from '@/mixins/MissionMixin'
-
+import IconSpin from '@/components/icons/IconSpin'
 export default {
+  components: { IconSpin },
   mixins: [MissionMixin],
   props: {
     mission: {
@@ -164,6 +180,10 @@ export default {
       default: null,
     },
     showState: {
+      type: Boolean,
+      default: false,
+    },
+    isLoading: {
       type: Boolean,
       default: false,
     },

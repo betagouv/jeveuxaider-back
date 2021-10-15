@@ -7,8 +7,8 @@
       >
         <Sidebar class="" />
 
-        <div class="main-container bg-white overflow-y-auto w-full">
-          <Nuxt :nuxt-child-key="$route.fullPath" class="app-main pt-8" />
+        <div id="main" class="main-container bg-white overflow-y-auto w-full">
+          <Nuxt class="app-main pt-8" />
         </div>
 
         <portal-target

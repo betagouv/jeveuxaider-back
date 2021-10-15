@@ -235,11 +235,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  computed: {},
-  watch: {
-    '$route.query': '$fetch',
-  },
-  created() {},
   methods: {
     handleCommand(command) {
       if (command.action == 'impersonate') {

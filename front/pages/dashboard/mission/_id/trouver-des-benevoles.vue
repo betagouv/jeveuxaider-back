@@ -303,9 +303,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   created() {
     this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((res) => {
       this.domaines = res.data.data

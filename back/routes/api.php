@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
     Route::delete('profile/{profile}/upload', 'Api\ProfileController@uploadDelete');
     Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');
+    Route::get('profile/{profile}/statistics', 'Api\ProfileController@statistics');
 
     Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');

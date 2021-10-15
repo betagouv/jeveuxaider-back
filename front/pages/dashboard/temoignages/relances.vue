@@ -99,8 +99,5 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
 }
 </script>

@@ -128,9 +128,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   methods: {
     onDownloadFile(file) {
       window.open(file.url, '_blank')

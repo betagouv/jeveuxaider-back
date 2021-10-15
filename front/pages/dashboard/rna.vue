@@ -210,9 +210,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   methods: {
     async onUpdatedRow() {
       await this.$fetch()

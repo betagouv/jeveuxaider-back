@@ -125,12 +125,6 @@ export default {
       return this.query && this.query.model ? this.query.model : 'structure'
     },
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
-  mounted() {
-    // console.log('query', this.query)
-  },
   methods: {
     handleChangeModel(model) {
       this.$router.push(`/dashboard/corbeille?model=${model}`)

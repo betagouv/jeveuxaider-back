@@ -214,7 +214,7 @@ class Mission extends Model
 
     public function getParticipationsTotalAttribute()
     {
-        return $this->participations->count();
+        return $this->participations()->count();
     }
 
     public function getParticipationsValidatedCountAttribute()

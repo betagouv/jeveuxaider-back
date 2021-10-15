@@ -68,10 +68,26 @@ class ProfileController extends Controller
 
     public function participations(Request $request, Profile $profile)
     {
-        return QueryBuilder::for(Participation::with(['mission.responsable', 'mission.structure', 'conversation']))
-            ->where('profile_id', $profile->id)
-            ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
+        return QueryBuilder::for(Participation::with(['mission.structure','conversation'])->where('profile_id', $profile->id))
+            ->allowedFilters(
+                'state'
+            )
+            ->defaultSort('-created_at')
+            ->paginate(8);
+    }
+
+    public function statistics(Request $request, Profile $profile)
+    {
+        return [
+            'participations' => [
+                'Toutes' => Participation::where('profile_id', $profile->id)->count(),
+                'En attente de validation' => Participation::where('profile_id', $profile->id)->where('state', 'En attente de validation')->count(),
+                'En cours de traitement' => Participation::where('profile_id', $profile->id)->where('state', 'En cours de traitement')->count(),
+                'Validée' => Participation::where('profile_id', $profile->id)->where('state', 'Validée')->count(),
+                'Refusée' => Participation::where('profile_id', $profile->id)->where('state', 'Refusée')->count(),
+                'Annulée' => Participation::where('profile_id', $profile->id)->where('state', 'Annulée')->count(),
+            ]
+        ];
     }
 
     // LARAVEL EXCEL

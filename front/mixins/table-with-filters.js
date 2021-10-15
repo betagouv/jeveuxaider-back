@@ -2,7 +2,7 @@ import { isEmpty, isBoolean, isNumber } from 'lodash'
 
 export default {
   watch: {
-    '$route.query': '$fetch',
+    '$route.query': 'urlQuerytHasChanged',
   },
   data() {
     return {
@@ -40,6 +40,11 @@ export default {
     },
   },
   methods: {
+    urlQuerytHasChanged() {
+      this.query = this.$route.query
+      this.$fetch()
+      document.getElementById('main').scrollIntoView()
+    },
     onPageChange(page) {
       this.$router.push({
         path: this.$router.history.current.fullpath,
@@ -55,6 +60,9 @@ export default {
           page: 1,
         },
       })
+    },
+    isFilterActive(name, value) {
+      return this.query[name] && this.query[name] == value
     },
   },
 }

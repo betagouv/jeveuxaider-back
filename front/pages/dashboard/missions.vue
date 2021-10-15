@@ -249,9 +249,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   async created() {
     const domaines = await this.$api.fetchTags({ 'filter[type]': 'domaine' })
     this.domaines = domaines.data.data
