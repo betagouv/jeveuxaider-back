@@ -19,6 +19,7 @@ use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
 use App\Filters\FiltersMissionDomaine;
+use App\Filters\FiltersMissionPublicsVolontaires;
 use App\Filters\FiltersProfileDepartment;
 use App\Filters\FiltersProfileSkill;
 use App\Filters\FiltersProfileTag;
@@ -55,6 +56,7 @@ class MissionController extends Controller
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
+                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::exact('responsable_id'),
                 AllowedFilter::scope('minimum_commitment')
             ])
