@@ -1,5 +1,5 @@
 {
-  "phpSniffer.standard": "PSR2",
+  "phpSniffer.standard": "back/phpcs.xml",
   "editor.formatOnSave": true,
   "[javascript]": {
     "editor.formatOnSave": false

@@ -102,7 +102,7 @@
     <hr class="mt-12 pt-12 md:hidden border-[#CDCDCD]" />
 
     <!-- MISSIONS PRIORITAIRES -->
-    <section>
+    <section v-if="prioritizedMissions.length > 0" class="overflow-hidden">
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-baseline mb-6">
           <h2
@@ -117,10 +117,15 @@
             #{{ Date.now() | formatCustom('MMMM') }}
           </span>
         </div>
+
+        <MissionsSlideshow
+          :missions="prioritizedMissions"
+          more-link="/missions-benevolat?toggle[is_priority]=true"
+        />
       </div>
     </section>
 
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 mt-8">
       <div class="bg-red-500 p-12"></div>
     </div>
   </div>
@@ -128,6 +133,49 @@
 
 <script>
 export default {
+  data() {
+    return {
+      prioritizedMissions: [],
+    }
+  },
+  async fetch() {
+    const { data } = await this.$api.fetchMissions({
+      'filter[is_priority]': 'true',
+      'filter[state]': 'Validée',
+      'filter[structure.state]': 'Validée',
+    })
+    this.prioritizedMissions = data.data
+  },
+  head() {
+    return {
+      title:
+        'Je Veux Aider | Devenez bénévole dans une association en quelques clics | La plateforme publique du bénévolat par la Réserve Civique',
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://www.jeveuxaider.gouv.fr/',
+        },
+      ],
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            "Trouvez une mission de bénévolat dans une association, organisation publique ou une commune, partout en France, sur le terrain ou à distance. 50 000 places disponibles dans 10 domaines d'action : solidarité, insertion, éducation, environnement, santé, sport, culture ...",
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: '/images/share-image.jpg',
+        },
+        {
+          hid: 'facebook-domain-verification',
+          name: 'facebook-domain-verification',
+          content: '8jnmyx2s1iopvryhthxappg6b3tryp',
+        },
+      ],
+    }
+  },
   methods: {
     handleClickCTA() {
       window.plausible &&

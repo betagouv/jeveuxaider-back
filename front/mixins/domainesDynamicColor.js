@@ -1,53 +1,94 @@
 export default {
-  // @todo: Supprimer le champ color et utiliser seulement les ids
-  computed: {
-    bgClass() {
-      const color = this.thematique?.color ?? this.color
-      let output
-
-      switch (color) {
-        case 'sante':
-          output = '!bg-sante'
+  methods: {
+    // Pas de classe dynamique pour éviter problèmes de purge.
+    domainColor(domainId) {
+      let colorClass
+      switch (domainId) {
+        case 1:
+          colorClass = 'text-domaine-covid'
           break
-        case 'solidarite':
-          output = '!bg-solidarite'
+        case 2:
+          colorClass = 'text-domaine-education'
           break
-        case 'nature':
-          output = '!bg-nature'
+        case 3:
+          colorClass = 'text-domaine-sante'
           break
-        case 'education':
-          output = '!bg-education'
+        case 4:
+          colorClass = 'text-domaine-nature'
+          break
+        case 6:
+          colorClass = 'text-domaine-solidarite'
+          break
+        case 7:
+          colorClass = 'text-domaine-sport'
+          break
+        case 8:
+          colorClass = 'text-domaine-prevention'
+          break
+        case 9:
+          colorClass = 'text-domaine-prevention'
+          break
+        case 10:
+          colorClass = 'text-domaine-cooperation'
+          break
+        case 11:
+          colorClass = 'text-domaine-culture'
           break
         default:
-          output = '!bg-primary'
+          colorClass = 'text-primary'
           break
       }
 
-      return output
+      return colorClass
     },
-    colorClass() {
-      const color = this.thematique?.color ?? this.color
-      let output
-
-      switch (color) {
-        case 'sante':
-          output = '!text-sante'
+    domainBgColor(domainId) {
+      let colorClass
+      switch (domainId) {
+        case 1:
+          colorClass = 'bg-domaine-covid'
           break
-        case 'solidarite':
-          output = '!text-solidarite'
+        case 2:
+          colorClass = 'bg-domaine-education'
           break
-        case 'nature':
-          output = '!text-nature'
+        case 3:
+          colorClass = 'bg-domaine-sante'
           break
-        case 'education':
-          output = '!text-education'
+        case 4:
+          colorClass = 'bg-domaine-nature'
+          break
+        case 6:
+          colorClass = 'bg-domaine-solidarite'
+          break
+        case 7:
+          colorClass = 'bg-domaine-sport'
+          break
+        case 8:
+          colorClass = 'bg-domaine-prevention'
+          break
+        case 9:
+          colorClass = 'bg-domaine-prevention'
+          break
+        case 10:
+          colorClass = 'bg-domaine-cooperation'
+          break
+        case 11:
+          colorClass = 'bg-domaine-culture'
           break
         default:
-          output = '!text-primary'
+          colorClass = 'bg-primary'
           break
       }
 
-      return output
+      return colorClass
+    },
+  },
+  computed: {
+    domainId() {
+      return (
+        this.thematique?.domaine_id ??
+        this.mission?.domaine_id ??
+        this.mission?.template?.domaine_id
+      )
     },
   },
 }

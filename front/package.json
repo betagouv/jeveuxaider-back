@@ -72,6 +72,7 @@
     "@nuxtjs/device": "^2.1.0",
     "@nuxtjs/eslint-config": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/svg": "^0.3.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "autoprefixer": "^10.3.7",
     "babel-eslint": "^10.1.0",

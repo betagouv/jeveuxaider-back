@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-lg overflow-hidden"
+    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-[10px] overflow-hidden"
   >
     <div class="thumbnail--wrapper relative will-change-transform">
       <img
@@ -13,41 +13,56 @@
         height="143"
         @error="defaultThumbnail($event)"
       />
-      <div class="pill absolute m-4 top-0 right-0">
-        <template
-          v-if="mission.city && mission.type == 'Mission en présentiel'"
-        >
-          <template v-if="mission.zip">
-            {{ mission.city }} ({{ mission.zip }})
+
+      <div class="custom-gradient absolute inset-0"></div>
+
+      <div
+        class="absolute px-[30px] mb-2 bottom-0 left-0 text-white text-[15px] w-full"
+      >
+        <div class="truncate">
+          <span>📍</span>
+
+          <template
+            v-if="mission.city && mission.type == 'Mission en présentiel'"
+          >
+            <template v-if="mission.zip">
+              <span class="font-bold">{{ missionCity }}</span>
+              <span>({{ mission.zip }})</span>
+            </template>
+
+            <template v-else-if="mission.department">
+              <span class="font-bold">{{ missionCity }}</span>
+              <span>({{ mission.department }})</span>
+            </template>
+
+            <template v-else>
+              <span class="font-bold">{{ missionCity }}</span>
+            </template>
           </template>
 
-          <template v-else-if="mission.department">
-            {{ mission.city }} ({{ mission.department }})
-          </template>
-          <template v-else>
-            {{ mission.city }}
-          </template>
-        </template>
-        <template v-else> Mission à distance </template>
+          <template v-else> Mission à distance </template>
+        </div>
       </div>
 
       <div
         v-if="formattedDate"
-        class="pill absolute mr-4 bottom-0 right-0 rounded-b-none"
+        class="absolute top-0 flex justify-center inset-x-0"
       >
-        {{ formattedDate }}
+        <div class="pill !rounded-t-none">{{ formattedDate }}</div>
       </div>
     </div>
 
-    <div class="mb-auto p-4">
-      <div class="pill-2">{{ mission.domaine_name }}</div>
+    <div class="mx-[30px] my-6 flex-1 flex flex-col items-start">
+      <div class="pill-2" :class="[domainBgColor(domainId)]">
+        {{ mission.domaine_name }}
+      </div>
 
       <client-only>
         <v-clamp
           tag="h2"
           :max-lines="3"
           autoresize
-          class="name font-black text-black text-lg relative"
+          class="name font-black text-black text-lg relative mb-auto"
         >
           {{ mission.name }}
 
@@ -66,21 +81,23 @@
           </template>
         </v-clamp>
         <template slot="placeholder">
-          <h2 class="name font-black text-black text-lg">{{ mission.name }}</h2>
+          <h2 class="name font-black text-black text-lg mb-auto">
+            {{ mission.name }}
+          </h2>
         </template>
       </client-only>
 
       <h3
-        class="structure mt-4 mb-1 truncate"
+        class="structure mt-2 truncate max-w-full"
         v-text="mission.structure.name"
       />
 
       <div
         v-if="mission.provider == 'api_engagement'"
-        class="api-engagement mt-4 mb-1"
+        class="api-engagement self-stretch"
       >
-        <div class="flex items-center justify-between">
-          <div class="mr-8">
+        <div class="flex items-center justify-between space-x-8">
+          <div>
             <div>Mission proposée par</div>
             <div class="font-bold text-black">{{ mission.publisher_name }}</div>
           </div>
@@ -88,34 +105,35 @@
             :src="mission.publisher_logo"
             :alt="mission.publisher_name"
             width="70px"
-            class="h-auto"
+            class="h-auto max-h-[38px] object-contain"
           />
         </div>
       </div>
-      <div
-        v-if="$store.getters.contextRole == 'admin'"
-        class="bg-gray-50 rounded-lg p-4 text-xs"
-      >
-        <template
-          v-if="mission._rankingInfo && mission._rankingInfo.matchedGeoLocation"
-        >
-          Distance :
-          {{ mission._rankingInfo.matchedGeoLocation.distance / 1000 }} km<br />
-        </template>
+    </div>
 
-        Score : {{ mission.score }}<br />
-        <span class="text-gray-400">
-          Temps de réponse :
-          <span v-if="mission.structure.response_time">
-            {{ Math.round(mission.structure.response_time / 86400) }}
-            jours</span
-          ><span v-else>n/a</span> ({{
-            mission.structure.response_time_score
-          }}/100)
-          <br />
-          Taux de réponse : {{ mission.structure.response_ratio }}%
-        </span>
-      </div>
+    <div
+      v-if="$store.getters.contextRole == 'admin'"
+      class="bg-gray-50 px-[30px] py-4 text-xs"
+    >
+      <template
+        v-if="mission._rankingInfo && mission._rankingInfo.matchedGeoLocation"
+      >
+        Distance :
+        {{ mission._rankingInfo.matchedGeoLocation.distance / 1000 }} km<br />
+      </template>
+
+      Score : {{ mission.score }}<br />
+      <span class="text-gray-400">
+        Temps de réponse :
+        <span v-if="mission.structure.response_time">
+          {{ Math.round(mission.structure.response_time / 86400) }}
+          jours</span
+        ><span v-else>n/a</span> ({{
+          mission.structure.response_time_score
+        }}/100)
+        <br />
+        Taux de réponse : {{ mission.structure.response_ratio }}%
+      </span>
     </div>
 
     <div
@@ -126,34 +144,30 @@
         participation.state
       }}</span>
     </div>
-    <div v-else class="footer border-t p-4 text-center relative">
-      <span
-        class="places-left font-bold"
-        :class="[{ 'is-full': mission.has_places_left === false }]"
-      >
+    <div
+      v-else
+      class="footer border-t p-4 text-center flex items-center justify-center space-x-2"
+      :class="[domainColor(domainId)]"
+    >
+      <span class="text-sm font-bold">
         {{ placesLeftText }}
       </span>
 
-      <img
-        v-if="mission.provider == 'api_engagement'"
-        :src="
-          mission.has_places_left
-            ? '/images/external_green.svg'
-            : '/images/external_gray.svg'
-        "
-        width="15px"
-        class="absolute mx-4 my-auto right-0 top-0 bottom-0"
-        alt="Lien externe"
-      />
+      <ExternalSvg class="flex-none" width="15" height="16" />
     </div>
   </div>
 </template>
 
 <script>
 import MissionMixin from '@/mixins/MissionMixin'
+import DomaineColors from '@/mixins/domainesDynamicColor'
+import ExternalSvg from '@/assets/images/external.svg?inline'
 
 export default {
-  mixins: [MissionMixin],
+  components: {
+    ExternalSvg,
+  },
+  mixins: [MissionMixin, DomaineColors],
   props: {
     mission: {
       type: Object,
@@ -253,6 +267,17 @@ export default {
         return `À partir du ${startDateObject.format('D MMMM')}`
       }
     },
+    missionCity() {
+      if (this.mission.city?.includes('Paris')) {
+        return 'Paris'
+      } else if (this.mission.city?.includes('Lyon')) {
+        return 'Lyon'
+      } else if (this.mission.city?.includes('Marseille')) {
+        return 'Marseille'
+      } else {
+        return this.mission?.city
+      }
+    },
   },
 }
 </script>
@@ -262,10 +287,12 @@ export default {
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
+  @apply transition;
   &:hover {
     .thumbnail--wrapper img {
       transform: scale(1.05);
     }
+    @apply shadow-xl;
   }
 }
 
@@ -273,17 +300,7 @@ export default {
   height: 143px;
   @apply bg-gray-200 overflow-hidden;
   img {
-    transition: all 0.25s;
-  }
-}
-
-.footer {
-  .places-left {
-    color: #30c48d;
-    font-size: 13px;
-    &.is-full {
-      color: #d42b3b;
-    }
+    transition: all 0.4s ease-in-out;
   }
 }
 
@@ -306,6 +323,7 @@ export default {
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 11px;
+  font-weight: bold;
   color: #171725;
   height: 23.5px;
   @apply px-3 inline-flex items-center truncate;
@@ -315,8 +333,15 @@ export default {
   border-radius: 35px;
   font-size: 11px;
   letter-spacing: 0.01em;
-  color: #070191;
-  background-color: #ebf4ff;
+  color: white;
   @apply font-bold uppercase py-1 px-3 mb-4 inline-flex;
+}
+
+.custom-gradient {
+  background: linear-gradient(
+    183.3deg,
+    rgba(0, 0, 0, 0) 66.74%,
+    rgba(0, 0, 0, 0.7) 102.8%
+  );
 }
 </style>

@@ -77,6 +77,7 @@ class MissionRequest extends FormRequest
             'domaine_secondaire' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
+            'is_priority' => '',
         ];
     }
 

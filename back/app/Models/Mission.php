@@ -50,11 +50,13 @@ class Mission extends Model
         'slug',
         'commitment__duration',
         'commitment__time_period',
+        'is_priority',
     ];
 
     protected $casts = [
         'publics_beneficiaires' => 'array',
-        'publics_volontaires' => 'array'
+        'publics_volontaires' => 'array',
+        'is_priority' => 'boolean'
     ];
 
     protected $attributes = [
@@ -134,7 +136,8 @@ class Mission extends Model
             'thumbnail' => $this->thumbnail,
             'domaine_id' => $this->domaine_id,
             'template_id' => $this->template_id,
-            'score' => $this->score
+            'score' => $this->score,
+            'is_priority' => $this->is_priority,
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -356,7 +359,8 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' && !empty($user->contextable_id)) {
+                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
+                    !empty($user->contextable_id)) {
                     return $query
                         ->where('structure_id', $user->contextable_id);
                 } else {
@@ -374,7 +378,10 @@ class Mission extends Model
                 // Missions qui sont dans ma région
                 return $query
                     ->whereNotNull('department')
-                    ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
+                    ->whereIn(
+                        'department',
+                        config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]
+                    );
                 break;
             case 'superviseur':
                 // Missions qui sont dans une structure rattachée à mon réseau
@@ -454,7 +461,8 @@ class Mission extends Model
     public function getPermissionsAttribute()
     {
         return [
-            'canFindBenevoles' => $this->state == 'Validée' && $this->structure && $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
+            'canFindBenevoles' => $this->state == 'Validée' && $this->structure &&
+                $this->structure->state == 'Validée' && $this->has_places_left ? true : false,
         ];
     }
 

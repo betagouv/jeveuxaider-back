@@ -19,7 +19,10 @@
         v-if="!noHeader"
         ref="header"
         class="header pt-4 lg:pt-7 pb-8 text-white"
-        :class="[bgClass, { 'custom-color': $options.propsData.color }]"
+        :class="[
+          domainBgColor(domainId),
+          { 'custom-color': $options.propsData.thematique },
+        ]"
       >
         <div class="container mx-auto">
           <div class="px-4">
@@ -184,6 +187,14 @@
 
                   <!-- https://discourse.algolia.com/t/nuxt-doesnt-render-the-ais-components-ssr/11610/18#post_20 -->
                   <!-- <AisRefinementList attribute="domaines" class="hidden" /> -->
+
+                  <AlgoliaToggleRefinement
+                    v-if="facets.includes('is_priority')"
+                    attribute="is_priority"
+                    label="Missions prioritaires"
+                    class="mb-6"
+                    @toggle-facet="onToggleRefinement($event)"
+                  />
 
                   <AlgoliaFacet
                     v-if="facets.includes('domaines')"
@@ -393,13 +404,14 @@ import {
   AisClearRefinements,
   AisSearchBox,
   AisRefinementList,
+  AisToggleRefinement,
   createServerRootMixin,
 } from 'vue-instantsearch'
 
 import algoliasearch from 'algoliasearch/lite'
 import { debounce } from 'lodash'
 import qs from 'qs'
-import domainesDynamicColor from '@/mixins/domainesDynamicColor'
+import domaineColors from '@/mixins/domainesDynamicColor'
 
 const searchClient = algoliasearch(
   process.env.algolia.appId,
@@ -471,8 +483,9 @@ export default {
     AisClearRefinements,
     AisSearchBox,
     AisRefinementList, // eslint-disable-line vue/no-unused-components
+    AisToggleRefinement, // eslint-disable-line vue/no-unused-components
   },
-  mixins: [domainesDynamicColor],
+  mixins: [domaineColors],
   provide() {
     return {
       // Provide the InstantSearch instance for SSR
@@ -480,9 +493,9 @@ export default {
     }
   },
   props: {
-    color: {
-      type: String,
-      default: 'primary',
+    thematique: {
+      type: Object,
+      default: null,
     },
     titleTag: {
       type: String,
@@ -492,6 +505,7 @@ export default {
       type: Array,
       default: () => {
         return [
+          'is_priority',
           'domaines',
           'template_title',
           'department_name',
@@ -664,6 +678,7 @@ export default {
       }
 
       this.$delete(this.routeState, 'query')
+      this.$delete(this.routeState, 'toggle')
       refine()
       this.writeUrl()
     },
@@ -745,6 +760,20 @@ export default {
       }
       this.writeUrl()
     },
+    onToggleRefinement($event) {
+      if ($event.active) {
+        this.addToggleRefinement($event)
+      } else {
+        this.deleteToggleRefinement($event)
+      }
+      this.writeUrl()
+    },
+    addToggleRefinement($event) {
+      if (!this.routeState.toggle) {
+        this.$set(this.routeState, 'toggle', {})
+      }
+      this.$set(this.routeState.toggle, $event.name, $event.value)
+    },
     addFacet($event) {
       if (!this.routeState.refinementList) {
         this.$set(this.routeState, 'refinementList', {})
@@ -765,8 +794,12 @@ export default {
         this.$delete(this.routeState.refinementList, $event.name)
       }
     },
+    deleteToggleRefinement($event) {
+      this.$delete(this.routeState.toggle, $event.name)
+    },
     readUrl() {
       const routeState = qs.parse(this.$router.currentRoute.query)
+      console.log(routeState)
       this.$set(this, 'routeState', routeState)
     },
     writeUrl() {

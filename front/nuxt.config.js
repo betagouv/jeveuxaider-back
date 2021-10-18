@@ -83,6 +83,7 @@ export default {
     'nuxt-compress',
     '@nuxtjs/device',
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/svg',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -117,9 +118,10 @@ export default {
   optimizedImages: {
     optimizeImages: true,
     optimizeImagesInDev: false,
-    svgo: {
-      plugins: [{ removeViewBox: false }],
-    },
+    handleImages: ['jpeg', 'png', 'webp', 'gif'],
+    // svgo: {
+    //   plugins: [{ removeViewBox: false }],
+    // },
   },
 
   'nuxt-compress': {

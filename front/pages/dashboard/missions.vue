@@ -169,6 +169,16 @@
           :initial-value="query['filter[id]']"
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          name="is_priority"
+          label="Missions prioritaires"
+          :value="query['filter[is_priority]']"
+          :options="[
+            { label: 'Oui', value: true },
+            { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 

@@ -45,6 +45,18 @@ module.exports = {
         nature: '#057a55',
         education: '#1f0391',
         sante: '#553c9a',
+        domaine: {
+          solidarite: '#F46D66',
+          nature: '#0B9B6B',
+          education: '#D42EB0',
+          sante: '#61198D',
+          covid: '#070191',
+          prevention: '#05D3AB',
+          sport: '#EE6018',
+          culture: '#F99E2D',
+          memoire: '#175AB6',
+          cooperation: '#5B8397',
+        },
         jva: {
           green: '#09AC8C',
         },
