@@ -26,9 +26,15 @@
         <organizationStatusJuridique>
             <![CDATA[{{ $mission->structure->statut_juridique }}]]>
         </organizationStatusJuridique>
+        @php
+            $assoFrontUrl = $mission->structure->statut_juridique == 'Association' ? config('app.url') . '/organisations/' . $mission->structure->slug : null;
+        @endphp
         <organizationUrl>
-            <![CDATA[{{ $mission->structure->website }}]]>
+            <![CDATA[{{ $assoFrontUrl }}]]>
         </organizationUrl>
+        <organizationWebsite>
+            <![CDATA[{{ $mission->structure->website }}]]>
+        </organizationWebsite>
         <organizationFullAddress>
             <![CDATA[{{ $mission->structure->address }}, {{ $mission->structure->zip }} {{ $mission->structure->city }}, {{ $mission->structure->country }}]]>
         </organizationFullAddress>
