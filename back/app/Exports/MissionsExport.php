@@ -35,6 +35,7 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 'name',
                 'state',
                 'type',
+                'structure.statut_juridique',
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure_id'),
