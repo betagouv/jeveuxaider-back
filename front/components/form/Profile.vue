@@ -52,20 +52,19 @@
     </div>
 
     <template v-if="$store.getters.contextRole == 'admin'">
-      <div class="mb-6 mt-12 flex text-xl text-[#242526]">
-        Tête de réseau national
-      </div>
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">Tête de réseau</div>
       <ItemDescription container-class="mb-6">
-        Si cet utilisateur est membre d'un réseau national (Les Banques
-        alimentaires, Armée du Salut...), renseignez son nom. Vous permettez à
-        cet utilisateur de visualiser les missions et bénévoles rattachés aux
-        organisations de ce réseau national.
+        Si cet utilisateur est membre d'un réseau (Les Banques alimentaires,
+        Armée du Salut...), renseignez son nom. Vous permettez à cet utilisateur
+        de visualiser les missions et bénévoles rattachés aux organisations de
+        ce réseau national.
       </ItemDescription>
-      <el-form-item label="Réseau national" prop="reseau_id" class="flex-1">
+      <el-form-item label="Réseau" prop="tete_de_reseau_id" class="flex-1">
         <el-select
-          v-model="form.reseau_id"
+          v-model="form.tete_de_reseau_id"
           clearable
-          placeholder="Sélectionner un réseau national"
+          filterable
+          placeholder="Sélectionner un réseau"
         >
           <el-option
             v-for="item in $store.getters.reseaux"
@@ -163,6 +162,7 @@ export default {
   data() {
     return {
       loading: false,
+      reseaux: [],
       form: { ...this.profile },
       rules: {
         email: [
@@ -211,6 +211,10 @@ export default {
       return true
     },
   },
+  // async created() {
+  //   const { data } = await this.$api.fetchReseaux({ pagination: 1000 })
+  //   this.reseaux = data.data
+  // },
   methods: {
     onSubmit() {
       this.loading = true

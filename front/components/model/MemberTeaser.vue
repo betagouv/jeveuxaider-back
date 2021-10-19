@@ -3,7 +3,7 @@
     <Avatar
       :source="member.image ? member.image.thumb : null"
       :fallback="member.short_name"
-      width="w-12 h-12"
+      class="w-12 h-12"
     />
 
     <div class="flex flex-col ml-6" style="">
@@ -36,9 +36,5 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {}
-  },
-  methods: {},
 }
 </script>

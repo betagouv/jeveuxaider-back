@@ -46,25 +46,42 @@
       <RichEditor v-model="form.description" />
     </el-form-item>
 
-    <div class="mb-6 mt-12 flex text-xl text-[#242526]">Visibilité</div>
-    <item-description container-class="mb-3">
-      Si vous souhaitez rendre ce modèle visible, cochez la case.
-    </item-description>
-    <el-form-item prop="published" class="flex-1">
-      <el-checkbox v-model="form.published">En ligne</el-checkbox>
-    </el-form-item>
+    <div v-if="$store.getters.contextRole == 'admin'">
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">Visibilité</div>
+      <item-description container-class="mb-3">
+        Si vous souhaitez rendre ce modèle visible, cochez la case.
+      </item-description>
+      <el-form-item prop="published" class="flex-1">
+        <el-checkbox v-model="form.published">En ligne</el-checkbox>
+      </el-form-item>
 
-    <div class="mb-6 mt-12 flex text-xl text-[#242526]">
-      Mission prioritaire
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">
+        Mission prioritaire
+      </div>
+      <item-description container-class="mb-3">
+        Les modèles de missions prioritaires sont mises en avant lors de la
+        création d'une nouvelle mission.
+      </item-description>
+      <el-form-item prop="priority" class="flex-1">
+        <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
+      </el-form-item>
     </div>
-    <item-description container-class="mb-3">
-      Les modèles de missions prioritaires sont mises en avant lors de la
-      création d'une nouvelle mission.
-    </item-description>
-    <el-form-item prop="priority" class="flex-1">
-      <el-checkbox v-model="form.priority">Mission prioritaire</el-checkbox>
-    </el-form-item>
 
+    <ImageField
+      :model="model"
+      :model-id="form.id ? form.id : null"
+      :max-size="2000000"
+      :preview-width="'200px'"
+      :field="form.photo"
+      :aspect-ratio="300 / 140"
+      label="Photo"
+      field-name="photo"
+      :min-width="120"
+      component-classes="mb-8"
+      @add-or-crop="photo = $event"
+      @delete="photo = null"
+    />
+    <!-- 
     <ImageField
       :crop="false"
       accepted-files="image/svg+xml"
@@ -73,13 +90,14 @@
       :field="form.image"
       :max-size="1000000"
       :preview-width="'80px'"
+      field-name="icon"
       preview-area-class="bg-primary rounded-md p-3"
       label="Icone"
       label-class="mb-6 text-1-5xl font-bold text-[#242526]"
       description="Format accepté: SVG"
       @add-or-crop="icone = $event"
       @delete="icone = null"
-    ></ImageField>
+    ></ImageField> -->
 
     <div class="flex pt-2">
       <el-button type="primary" :loading="loading" @click="onSubmit"
@@ -104,6 +122,16 @@ export default {
         }
       },
     },
+    onSubmitEnd: {
+      type: Function,
+      default() {
+        this.$router.push('/dashboard/contents/templates')
+        this.$message({
+          message: 'Le modèle a été enregistré !',
+          type: 'success',
+        })
+      },
+    },
   },
   data() {
     return {
@@ -112,6 +140,7 @@ export default {
       model: 'mission-template',
       form: { ...this.template },
       icone: null,
+      photo: null,
     }
   },
   computed: {
@@ -168,17 +197,28 @@ export default {
         if (valid) {
           this.$api
             .addOrUpdateMissionTemplate(this.template.id, this.form)
-            .then((response) => {
+            .then(async (response) => {
               this.form = response.data
               if (this.icone) {
-                this.$api
-                  .uploadImage(this.form.id, this.model, this.icone.blob, null)
-                  .then(() => {
-                    this.onSubmitEnd()
-                  })
-              } else {
-                this.onSubmitEnd()
+                await this.$api.uploadImage(
+                  this.form.id,
+                  this.model,
+                  this.icone.blob,
+                  '',
+                  this.icone.fieldName
+                )
               }
+              if (this.photo) {
+                await this.$api.uploadImage(
+                  this.form.id,
+                  this.model,
+                  this.photo.blob,
+                  this.photo.cropSettings,
+                  this.photo.fieldName
+                )
+              }
+              this.loading = false
+              this.onSubmitEnd()
             })
             .catch(() => {
               this.loading = false
@@ -187,14 +227,6 @@ export default {
           this.showErrors(fields)
           this.loading = false
         }
-      })
-    },
-    onSubmitEnd() {
-      this.loading = false
-      this.$router.push('/dashboard/contents/templates')
-      this.$message({
-        message: 'Le modèle a été enregistré !',
-        type: 'success',
       })
     },
   },

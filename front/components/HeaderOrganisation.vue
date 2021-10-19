@@ -11,17 +11,6 @@
             {{ structure.name }}
           </div>
           <TagModelState v-if="structure.state" :state="structure.state" />
-          <el-tag
-            v-if="structure.is_reseau"
-            size="medium"
-            class="m-1 ml-0"
-            type="danger"
-          >
-            Tête de réseau
-          </el-tag>
-          <el-tag v-if="structure.reseau_id" class="m-1 ml-0" size="medium">
-            {{ structure.reseau_id | reseauFromValue }}
-          </el-tag>
         </div>
       </div>
 

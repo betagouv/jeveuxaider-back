@@ -24,7 +24,7 @@ export default (axios) => ({
     return await axios.get(`/territoire/${id}/responsables`)
   },
 
-  async deleteResponsable(territoireId, responsableId) {
+  async deleteTerritoireResponsable(territoireId, responsableId) {
     return await axios.delete(
       `/territoire/${territoireId}/responsables/${responsableId}`
     )

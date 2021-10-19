@@ -272,7 +272,7 @@ export default {
       ) {
         return [
           { label: 'Modérateur', value: 'admin' },
-          { label: 'Tête de réseau', value: 'superviseur' },
+          { label: 'Tête de réseau', value: 'tete_de_reseau' },
           { label: 'Analyste', value: 'analyste' },
           { label: 'Référent départemental', value: 'referent' },
           { label: 'Référent régional', value: 'referent_regional' },

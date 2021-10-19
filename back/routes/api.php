@@ -56,7 +56,9 @@ Route::get('territoires', 'Api\TerritoireController@index');
 
 Route::get('tags', 'Api\TagController@index');
 
-Route::post('reseau/lead', 'Api\ReseauController@lead');
+Route::post('reseaux/lead', 'Api\ReseauController@lead');
+Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
+Route::get('reseaux/test', 'Api\ReseauController@test');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
 Route::get('participation/{participation}/temoignage', 'Api\TemoignageController@fromParticipation');
@@ -127,6 +129,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // STRUCTURE INVITATIONS
     Route::get('structure/{structure}/invitations', 'Api\StructureController@invitations');
     Route::post('invitation', 'Api\InvitationController@store');
+
+    // INVITATIONS
+    Route::get('invitations', 'Api\InvitationController@index');
 
     // MISSIONS
     Route::get('missions', 'Api\MissionController@index');
@@ -213,6 +218,18 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('participation/{participation}/notification-temoignage', 'Api\NotificationTemoignageController@fromParticipation');
     Route::get('notification-temoignage/{notificationTemoignage}/resend', 'Api\NotificationTemoignageController@resend');
     Route::get('mission/{mission}/testimonies-stats', 'Api\MissionController@testimoniesStats');
+
+    // MISSION TEMPLATES
+    Route::post('mission-template', 'Api\MissionTemplateController@store');
+    Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
+    Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
+    Route::post('mission-template/{missionTemplate}/upload/{field}', 'Api\MissionTemplateController@upload');
+    Route::delete('mission-template/{missionTemplate}/upload/{field}', 'Api\MissionTemplateController@uploadDelete');
+
+    // RESEAUX
+    Route::get('reseaux', 'Api\ReseauController@index');
+    Route::get('structure/{structure}/reseaux', 'Api\StructureController@reseaux');
+
 });
 
 // ONLY ADMIN
@@ -241,13 +258,6 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
     Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
     Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');
-
-    // MISSION TEMPLATES
-    Route::post('mission-template', 'Api\MissionTemplateController@store');
-    Route::post('mission-template/{missionTemplate}', 'Api\MissionTemplateController@update');
-    Route::delete('mission-template/{missionTemplate}', 'Api\MissionTemplateController@delete');
-    Route::post('mission-template/{missionTemplate}/upload', 'Api\MissionTemplateController@upload');
-    Route::delete('mission-template/{missionTemplate}/upload', 'Api\MissionTemplateController@uploadDelete');
 
     // TAGS
     Route::get('tag/{tag}', 'Api\TagController@show');
@@ -296,9 +306,17 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
 
-    // INVITATIONS
-    Route::get('invitations', 'Api\InvitationController@index');
-
     // TERRITOIRES
     Route::delete('territoire/{territoire}', 'Api\TerritoireController@delete');
+
+    // RESEAUX
+    Route::post('reseaux', 'Api\ReseauController@store');
+    Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
+    Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
+    Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@addOrganisation');
+    Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
+    Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
+    Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@removeOrganisation');
+
 });

@@ -138,6 +138,8 @@ export default {
                 window.plausible('Inscription depuis une invitation')
               if (this.invitation.role == 'benevole') {
                 this.$router.push('/register/volontaire/step/profile')
+              } else if (this.invitation.role == 'responsable_antenne') {
+                this.$router.push('/register/responsable/step/profile')
               } else {
                 this.$router.push('/register/invitation/step/profile')
               }

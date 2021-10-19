@@ -52,9 +52,12 @@
         </nuxt-link>
       </VoletCard>
 
-      <!-- PARTICIPATIONS -->
+      <!-- STATISTICS -->
       <VoletCard v-if="statistics">
-        <div class="flex space-x-4">
+        <router-link
+          :to="`/dashboard/structure/${row.id}/missions`"
+          class="flex space-x-4"
+        >
           <div class="text-5xl leading-none text-gray-900">
             {{ statistics.participations.total }}
           </div>
@@ -72,7 +75,7 @@
               }}
             </div>
           </div>
-        </div>
+        </router-link>
       </VoletCard>
 
       <VoletCard
@@ -205,7 +208,35 @@
         </VoletRowItem>
       </VoletCard>
 
-      <!-- RESPONSABLE -->
+      <!-- RESEAUX -->
+      <template v-if="reseaux.length > 0">
+        <VoletCard
+          v-for="reseau in reseaux"
+          :key="reseau.id"
+          label="Réseau"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :link="
+            $store.getters.contextRole == 'admin'
+              ? `/dashboard/reseaux/${reseau.id}`
+              : null
+          "
+        >
+          <VoletRowItem label="Nom">
+            <div class="flex justify-between items-center">
+              <span class="font-bold">{{ reseau.name }}</span>
+              <div
+                v-if="canRemoveReseau(reseau)"
+                class="text-red-400 cursor-pointer"
+                @click="onClickRemove(reseau)"
+              >
+                Retirer
+              </div>
+            </div>
+          </VoletRowItem>
+        </VoletCard>
+      </template>
+
+      <!-- RESPONSABLES -->
       <template v-if="responsables.length > 0">
         <VoletCard
           v-for="responsable in responsables"
@@ -242,6 +273,7 @@ export default {
       loading: false,
       form: {},
       structure: null,
+      reseaux: [],
       responsables: [],
       statistics: null,
     }
@@ -278,6 +310,10 @@ export default {
       async handler(newValue, oldValue) {
         this.form = { ...newValue }
         this.structure = { ...newValue }
+
+        const reseaux = await this.$api.getStructureReseaux(this.structure.id)
+        this.reseaux = reseaux.data
+
         const responsables = await this.$api.getStructureMembers(
           this.structure.id
         )
@@ -292,6 +328,34 @@ export default {
     },
   },
   methods: {
+    canRemoveReseau(reseau) {
+      return (
+        this.$store.getters.contextRole == 'admin' ||
+        this.$store.getters.profile.tete_de_reseau_id == reseau.id
+      )
+    },
+    onClickRemove(reseau) {
+      this.$confirm(
+        `L'organisation ${this.row.name} sera retirée du réseau.<br><br> Voulez-vous continuer ?<br>`,
+        "Retirer l'organisation du réseau",
+        {
+          confirmButtonText: 'Retirer',
+          confirmButtonClass: 'el-button--danger',
+          cancelButtonText: 'Annuler',
+          center: true,
+          dangerouslyUseHTMLString: true,
+          type: 'error',
+        }
+      ).then(() => {
+        this.$api.deleteReseauStructure(reseau.id, this.row.id).then(() => {
+          this.$message.success({
+            message: `L'organisation ${this.row.name} a été retirée.`,
+          })
+          this.$emit('deleted', this.row)
+          this.$store.commit('volet/hide')
+        })
+      })
+    },
     onClickDelete() {
       if (this.row.missions_count > 0) {
         this.$alert(

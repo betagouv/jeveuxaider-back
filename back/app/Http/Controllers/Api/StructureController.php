@@ -16,6 +16,7 @@ use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
+use App\Filters\FiltersStructureAntenne;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
@@ -40,9 +41,12 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
+                AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
-                'missions'
+                'missions',
+                'reseaux'
             ])
             ->allowedAppends([
                 'completion_rate',
@@ -102,7 +106,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        $structure = Structure::with(['members', 'territoire'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
+        $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
         return $structure;
     }
@@ -202,6 +206,11 @@ class StructureController extends Controller
     public function members(StructureRequest $request, Structure $structure)
     {
         return $structure->members;
+    }
+
+    public function reseaux(StructureRequest $request, Structure $structure)
+    {
+        return $structure->reseaux;
     }
 
     public function invitations(StructureRequest $request, Structure $structure)

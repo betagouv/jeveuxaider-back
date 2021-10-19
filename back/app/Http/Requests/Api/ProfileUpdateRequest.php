@@ -56,7 +56,7 @@ class ProfileUpdateRequest extends ProfileRequest
             $rules['referent_department'] = '';
             $rules['referent_region'] = '';
             $rules['collectivity_id'] = '';
-            $rules['reseau_id'] = '';
+            $rules['tete_de_reseau_id'] = '';
             $rules['is_analyste'] = 'boolean';
         }
 

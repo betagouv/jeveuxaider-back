@@ -233,7 +233,7 @@ export default {
   },
   asyncData({ store, error }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+      !['admin', 'referent', 'referent_regional', 'tete_de_reseau'].includes(
         store.getters.contextRole
       )
     ) {

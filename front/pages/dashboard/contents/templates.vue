@@ -70,6 +70,21 @@
           "
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          type="select"
+          name="reseau.id"
+          :value="query['filter[of_reseau]']"
+          label="Réseau"
+          :options="
+            reseaux.map((reseau) => {
+              return {
+                label: reseau.name,
+                value: reseau.id,
+              }
+            })
+          "
+          @changed="onFilterChange"
+        />
       </div>
     </div>
     <el-table
@@ -82,14 +97,13 @@
           <div>{{ scope.row.id }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="Icone" min-width="70" align="center">
+      <el-table-column label="Photo" min-width="70" align="center">
         <template slot-scope="scope">
           <div
-            v-if="scope.row.image"
-            class="bg-primary rounded-md p-2 inline-block"
-            style="width: 40px; height: 40px"
+            v-if="scope.row.photo"
+            class="rounded overflow-hidden inline-block"
           >
-            <img :src="scope.row.image" :alt="scope.row.title" />
+            <img :src="scope.row.photo.thumb" :alt="scope.row.title" />
           </div>
         </template>
       </el-table-column>
@@ -127,6 +141,14 @@
             size="small"
             >Non publié</el-tag
           >
+          <el-tag
+            v-if="scope.row.reseau"
+            type="primary"
+            class="m-1 ml-0"
+            size="small"
+          >
+            {{ scope.row.reseau.name }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="updated_at" label="Modifiée le" min-width="120">
@@ -187,8 +209,10 @@ export default {
       return error({ statusCode: 403 })
     }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
+    const reseaux = await $api.fetchReseaux()
     return {
       domaines: domaines.data.data,
+      reseaux: reseaux.data.data,
     }
   },
   data() {

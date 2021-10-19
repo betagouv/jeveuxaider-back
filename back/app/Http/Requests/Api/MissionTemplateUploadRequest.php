@@ -14,7 +14,8 @@ class MissionTemplateUploadRequest extends MissionTemplateRequest
     public function rules()
     {
         return [
-            'image' => 'required|file|image',
+            'image' => 'file|image',
+            'photo' => 'file|image',
         ];
     }
 }

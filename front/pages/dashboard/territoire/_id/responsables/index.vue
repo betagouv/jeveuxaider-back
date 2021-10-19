@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ territoire.name }}
         </div>
-        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
+        <div class="font-bold text-[1.75rem] text-[#242526]">
           Gérer les responsables
         </div>
       </div>
@@ -18,39 +18,41 @@
     <el-divider />
     <div class="px-12 mb-12">
       <div class="text-sm font-medium text-secondary mb-4">Responsables</div>
-      <div
-        v-for="responsable in responsables"
-        :key="responsable.id"
-        class="responsable py-4 px-6"
-      >
-        <div class="flex items-center">
-          <Avatar
-            :source="responsable.image ? responsable.image.thumb : null"
-            :fallback="responsable.short_name"
-          />
-          <div class="flex flex-col ml-6" style="min-width: 350px">
-            <div class="text-[#242526]">
-              {{ responsable.first_name }} {{ responsable.last_name }}
+      <div class="grid grid-cols-2 gap-4">
+        <div
+          v-for="responsable in responsables"
+          :key="responsable.id"
+          class="py-4 px-6 bg-gray-50 rounded"
+        >
+          <div class="flex items-center">
+            <Avatar
+              :source="responsable.image ? responsable.image.thumb : null"
+              :fallback="responsable.short_name"
+            />
+            <div class="flex flex-1 flex-col ml-6">
+              <div class="text-[#242526]">
+                {{ responsable.first_name }} {{ responsable.last_name }}
+              </div>
+              <div class="text-xs text-secondary">
+                <div class="break-all">{{ responsable.email }}</div>
+                <div class="">{{ responsable.mobile }}</div>
+              </div>
             </div>
-            <div class="text-xs text-secondary">
-              <div class="break-all">{{ responsable.email }}</div>
-              <div class="">{{ responsable.mobile }}</div>
-            </div>
+            <el-button
+              v-if="
+                (responsables.length > 1 &&
+                  $store.getters.user.profile.id != responsable.id) ||
+                $store.getters.contextRole == 'admin'
+              "
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              class="!ml-4 !m-auto is-plain"
+              @click="deleteConfirm(responsable)"
+            >
+              Retirer
+            </el-button>
           </div>
-          <el-button
-            v-if="
-              (responsables.length > 1 &&
-                $store.getters.user.profile.id != responsable.id) ||
-              $store.getters.contextRole == 'admin'
-            "
-            type="danger"
-            icon="el-icon-delete"
-            size="small"
-            class="!ml-4 !m-auto is-plain"
-            @click="deleteConfirm(responsable)"
-          >
-            Retirer
-          </el-button>
         </div>
       </div>
     </div>
@@ -111,7 +113,7 @@ export default {
         .then(() => {
           this.loading = true
           this.$api
-            .deleteResponsable(this.territoire.id, responsable.id)
+            .deleteTerritoireResponsable(this.territoire.id, responsable.id)
             .then((response) => {
               this.loading = false
               this.$message({

@@ -41,6 +41,11 @@ export default (axios) => ({
       ? await axios.post(`/structure/${id}`, structure)
       : await axios.post('/structure', structure)
   },
+  async addOrUpdateReseau(reseau) {
+    return reseau.id
+      ? await axios.post(`/reseaux/${reseau.id}`, reseau)
+      : await axios.post('/reseaux', reseau)
+  },
   async deleteStructure(id) {
     return await axios.delete(`/structure/${id}`)
   },
@@ -74,7 +79,39 @@ export default (axios) => ({
   async structureExists(apiId) {
     return await axios.get(`/structure/${apiId}/exist`)
   },
+  async fetchReseaux(params) {
+    return await axios.get('/reseaux', { params })
+  },
   async reseauLead(form) {
-    return await axios.post('/reseau/lead', form)
+    return await axios.post('/reseaux/lead', form)
+  },
+  async getReseau(id) {
+    const { data } = await axios.get(`/reseaux/${id}`)
+    return data
+  },
+  async getStructureReseaux(id) {
+    return await axios.get(`/structure/${id}/reseaux`)
+  },
+  async getReseauResponsables(id) {
+    return await axios.get(`/reseaux/${id}/responsables`)
+  },
+  async getReseauInvitationsResponsables(id) {
+    return await axios.get(`/reseaux/${id}/invitations-responsables`)
+  },
+  async deleteReseauResponsable(reseauId, responsableId) {
+    return await axios.delete(
+      `/reseaux/${reseauId}/responsables/${responsableId}`
+    )
+  },
+  async deleteReseauStructure(reseauId, structureId) {
+    return await axios.delete(
+      `/reseaux/${reseauId}/organisations/${structureId}`
+    )
+  },
+  async addReseauOrga(id, organisations) {
+    return await axios.post(`/reseaux/${id}/organisations`, { organisations })
+  },
+  async deleteReseau(id) {
+    return await axios.delete(`/reseaux/${id}`)
   },
 })

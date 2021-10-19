@@ -97,7 +97,8 @@ export default {
     if (
       ![
         'admin',
-        'superviseur',
+        // 'superviseur',
+        'tete_de_reseau',
         'responsable',
         'referent',
         'referent_regional',

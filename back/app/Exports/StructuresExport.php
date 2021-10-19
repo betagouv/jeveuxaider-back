@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Filters\FiltersStructureAntenne;
 use App\Models\Structure;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -40,6 +41,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
+                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
+
             ])
             ->defaultSort('-created_at')
             ->get();
@@ -61,8 +64,6 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'structure_privee_type',
             'siret',
             'description',
-            'reseau',
-            'reseau_id',
             'adresse_complete',
             'adresse',
             'departement',
@@ -102,8 +103,6 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->structure_privee_type,
             $structure->siret,
             $structure->description,
-            $structure->is_reseau,
-            $structure->reseau_id,
             $structure->full_address,
             $structure->address,
             $structure->department,

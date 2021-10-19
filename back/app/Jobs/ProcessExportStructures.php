@@ -74,8 +74,6 @@ class ProcessExportStructures implements ShouldQueue
                 'structure_privee_type' => $structure->structure_privee_type,
                 'siret' => $structure->siret,
                 'description' => $structure->description,
-                'is_reseau' => $structure->is_reseau,
-                'reseau_id' => $structure->reseau_id,
                 'full_address' => $structure->full_address,
                 'address' => $structure->address,
                 'department' => $structure->department,

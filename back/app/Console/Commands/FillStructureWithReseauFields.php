@@ -38,51 +38,51 @@ class FillStructureWithReseauFields extends Command
      */
     public function handle()
     {
-        $reseauIds = $this->argument('id');
-        $queryCount = Structure::whereNotNull('reseau_id')->where('is_reseau', false);
-        if (!empty($reseauIds)) {
-            $queryCount->whereIn('reseau_id', $reseauIds);
-        }
-        $this->info($queryCount->count() . ' structures will be updated');
+        // $reseauIds = $this->argument('id');
+        // $queryCount = Structure::whereNotNull('reseau_id')->where('is_reseau', false);
+        // if (!empty($reseauIds)) {
+        //     $queryCount->whereIn('reseau_id', $reseauIds);
+        // }
+        // $this->info($queryCount->count() . ' structures will be updated');
 
-        if ($this->confirm('Do you wish to continue?')) {
-            $queryReseaux = Structure::where('is_reseau', true);
-            if (!empty($reseauIds)) {
-                $queryReseaux->whereIn('id', $reseauIds);
-            }
-            $reseaux = $queryReseaux->get();
+        // if ($this->confirm('Do you wish to continue?')) {
+        //     $queryReseaux = Structure::where('is_reseau', true);
+        //     if (!empty($reseauIds)) {
+        //         $queryReseaux->whereIn('id', $reseauIds);
+        //     }
+        //     $reseaux = $queryReseaux->get();
 
-            foreach ($reseaux as $reseau) {
-                $array = [
-                    'image_1' => $reseau->image_1,
-                    'image_2' => $reseau->image_2,
-                    'color' => $reseau->color,
-                ];
+        //     foreach ($reseaux as $reseau) {
+        //         $array = [
+        //             'image_1' => $reseau->image_1,
+        //             'image_2' => $reseau->image_2,
+        //             'color' => $reseau->color,
+        //         ];
 
-                Structure::where('reseau_id', $reseau->id)
-                    ->where('is_reseau', false)
-                    ->update($array);
+        //         Structure::where('reseau_id', $reseau->id)
+        //             ->where('is_reseau', false)
+        //             ->update($array);
 
-                // Description - only if empty.
-                Structure::where('reseau_id', $reseau->id)
-                    ->where('is_reseau', false)
-                    ->where(function ($query) {
-                        $query
-                            ->where('description', '')
-                            ->orWhereNull('description');
-                    })
-                    ->update(['description' => $reseau->description]);
+        //         // Description - only if empty.
+        //         Structure::where('reseau_id', $reseau->id)
+        //             ->where('is_reseau', false)
+        //             ->where(function ($query) {
+        //                 $query
+        //                     ->where('description', '')
+        //                     ->orWhereNull('description');
+        //             })
+        //             ->update(['description' => $reseau->description]);
 
-                // Donation - only if empty.
-                Structure::where('reseau_id', $reseau->id)
-                    ->where('is_reseau', false)
-                    ->where(function ($query) {
-                        $query
-                            ->where('donation', '')
-                            ->orWhereNull('donation');
-                    })
-                    ->update(['donation' => $reseau->donation]);
-            }
-        }
+        //         // Donation - only if empty.
+        //         Structure::where('reseau_id', $reseau->id)
+        //             ->where('is_reseau', false)
+        //             ->where(function ($query) {
+        //                 $query
+        //                     ->where('donation', '')
+        //                     ->orWhereNull('donation');
+        //             })
+        //             ->update(['donation' => $reseau->donation]);
+        //     }
+        // }
     }
 }

@@ -47,8 +47,6 @@ class StructureRequest extends FormRequest
             'twitter' => 'max:255',
             'instagram' => 'max:255',
             'donation' => 'max:255',
-            'reseau_id' => '',
-            'is_reseau' => '',
             'state' => '',
             'publics_beneficiaires' => '',
             'domaines' => '',
@@ -60,6 +58,7 @@ class StructureRequest extends FormRequest
             'email' => '',
             'color' => '',
             'send_volunteer_coordonates' => '',
+            'reseaux' => ''
         ];
     }
 

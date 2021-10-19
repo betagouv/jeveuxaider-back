@@ -84,7 +84,7 @@ class ProcessExportProfiles implements ShouldQueue
                 'zip' => $profile->zip,
                 'referent_department' => $profile->referent_department,
                 'referent_region' => $profile->referent_region,
-                'reseau_id' => $profile->reseau_id,
+                'tete_de_reseau_id' => $profile->tete_de_reseau_id,
                 'service_civique' => $profile->service_civique,
                 'is_visible' => $profile->is_visible,
                 'created_at' => $profile->created_at,

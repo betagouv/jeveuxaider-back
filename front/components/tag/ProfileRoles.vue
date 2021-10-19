@@ -37,9 +37,9 @@
     </el-tag>
 
     <el-tag
-      v-if="profile.roles.superviseur"
+      v-if="profile.tete_de_reseau"
       v-tooltip="{
-        content: profile.reseau.name,
+        content: profile.tete_de_reseau.name,
         classes: 'bo-style',
       }"
       type=""

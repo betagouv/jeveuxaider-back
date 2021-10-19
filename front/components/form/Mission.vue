@@ -34,8 +34,7 @@
       >
         <div class="flex-none self-stretch">
           <img
-            :src="`/images/templates/${form.template_id}.jpg`"
-            :srcset="`/images/templates/${form.template_id}@2x.jpg 2x`"
+            :src="form.template.photo.thumb"
             width="125px"
             class="object-cover h-full"
             @error="defaultThumbnail($event)"

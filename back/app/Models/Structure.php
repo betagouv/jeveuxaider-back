@@ -52,8 +52,6 @@ class Structure extends Model implements HasMedia
         'twitter',
         'instagram',
         'donation',
-        'reseau_id',
-        'is_reseau',
         'state',
         'publics_beneficiaires',
         'image_1',
@@ -73,7 +71,6 @@ class Structure extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'is_reseau' => 'boolean',
         'association_types' => 'array',
         'latitude' => 'float',
         'longitude' => 'float',
@@ -118,11 +115,10 @@ class Structure extends Model implements HasMedia
                     ->whereNotNull('department')
                     ->whereIn('department', config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]);
                 break;
-            case 'superviseur':
-                return $query
-                    ->whereNotNull('reseau_id')
-                    ->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
-                break;
+            case 'tete_de_reseau':
+                return $query->whereHas('reseaux', function (Builder $query) {
+                    $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
+                });
         }
     }
 
@@ -237,6 +233,13 @@ class Structure extends Model implements HasMedia
         }
     }
 
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        return $query->whereHas('reseaux', function (Builder $query) use ($reseau_id) {
+            $query->where('reseaux.id', $reseau_id);
+        });
+    }
+
     public function scopeValidated($query)
     {
         return $query->where('state', 'Validée');
@@ -264,6 +267,11 @@ class Structure extends Model implements HasMedia
     public function reseau()
     {
         return $this->belongsTo('App\Models\Structure');
+    }
+
+    public function reseaux()
+    {
+        return $this->belongsToMany(Reseau::class);
     }
 
     public function members()
@@ -497,4 +505,5 @@ class Structure extends Model implements HasMedia
             'missing_fields' => $missingFields
         ];
     }
+
 }

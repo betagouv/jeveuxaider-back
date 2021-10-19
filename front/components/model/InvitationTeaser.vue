@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-between">
+  <div class="flex justify-between items-center">
     <div class="flex items-center">
-      <Avatar icon="el-icon-s-promotion" />
+      <Avatar icon="el-icon-s-promotion" class="w-12 h-12 bg-gray-600" />
 
       <div class="flex flex-col ml-6">
         <div class="text-gray-900 flex items-center">
@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <TailwindDropdownEllipsis>
+    <TailwindDropdownEllipsis v-if="showActions">
       <template slot="menu">
         <div
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
@@ -46,6 +46,10 @@ export default {
     invitation: {
       type: Object,
       required: true,
+    },
+    showActions: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {

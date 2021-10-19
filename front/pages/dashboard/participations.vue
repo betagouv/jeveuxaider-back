@@ -201,7 +201,7 @@ export default {
   },
   async asyncData({ $api, store, error, params }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+      !['admin', 'referent', 'referent_regional', 'tete_de_reseau'].includes(
         store.getters.contextRole
       )
     ) {
