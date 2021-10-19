@@ -103,7 +103,7 @@
 
     <!-- MISSIONS PRIORITAIRES -->
     <section v-if="prioritizedMissions.length > 0" class="overflow-hidden">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-8 sm:px-4">
         <div class="flex justify-between items-baseline mb-6">
           <h2
             class="text-4xl lg:text-5xl tracking-tighter text-center md:text-left"
@@ -118,10 +118,43 @@
           </span>
         </div>
 
-        <MissionsSlideshow
+        <SlideshowMissions
           :missions="prioritizedMissions"
           more-link="/missions-benevolat?toggle[is_priority]=true"
         />
+      </div>
+    </section>
+
+    <!-- DOMAINES D'ACTION -->
+    <section class="mt-16 py-16 bg-white overflow-hidden">
+      <div class="container mx-auto px-8 sm:px-4">
+        <div class="flex justify-between items-baseline mb-6">
+          <h2
+            class="text-4xl lg:text-5xl tracking-tighter text-center md:text-left"
+          >
+            Trouvez votre
+            <strong class="font-extrabold">domaine d'action</strong>
+          </h2>
+          <span
+            class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
+          >
+            #jeveuxaider
+          </span>
+        </div>
+
+        <SlideshowDomaines />
+      </div>
+    </section>
+
+    <!-- ENGAGEZ-VOUS -->
+    <section class="py-16 bg-[#F9F8F6]">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl lg:text-5xl tracking-tighter text-center md:text-left"
+        >
+          Engagez-vous
+          <strong class="font-extrabold">près de chez vous</strong>
+        </h2>
       </div>
     </section>
 

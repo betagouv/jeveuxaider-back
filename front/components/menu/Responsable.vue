@@ -20,7 +20,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/home.svg?raw')"
       />
       Tableau de bord
     </nuxt-link>
@@ -43,7 +43,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/library.svg?raw')"
       />
       Mon organisation
     </nuxt-link>
@@ -66,9 +66,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="
-          require('@/assets/images/icones/heroicon/collection.svg?include')
-        "
+        v-html="require('@/assets/images/icones/heroicon/collection.svg?raw')"
       />
       Mes missions
     </nuxt-link>
@@ -92,7 +90,7 @@
             : 'text-gray-400 hover:text-gray-900',
         ]"
         v-html="
-          require('@/assets/images/icones/heroicon/identification.svg?include')
+          require('@/assets/images/icones/heroicon/identification.svg?raw')
         "
       />
       Participations
@@ -106,7 +104,7 @@
     >
       <div
         class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6"
-        v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/mail.svg?raw')"
       />
       Messagerie
       <span

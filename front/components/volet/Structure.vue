@@ -136,7 +136,7 @@
         v-if="structure"
         label="Organisation"
         :link="`/dashboard/structure/${structure.id}`"
-        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?raw')"
       >
         <!-- <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem> -->
         <VoletRowItem label="Nom"
@@ -211,7 +211,7 @@
           v-for="responsable in responsables"
           :key="responsable.id"
           label="Responsable"
-          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?raw')"
           :link="
             $store.getters.contextRole == 'admin'
               ? `/dashboard/profile/${responsable.id}`

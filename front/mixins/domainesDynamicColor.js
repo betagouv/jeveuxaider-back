@@ -26,7 +26,7 @@ export default {
           colorClass = 'text-domaine-prevention'
           break
         case 9:
-          colorClass = 'text-domaine-prevention'
+          colorClass = 'text-domaine-memoire'
           break
         case 10:
           colorClass = 'text-domaine-cooperation'
@@ -66,7 +66,7 @@ export default {
           colorClass = 'bg-domaine-prevention'
           break
         case 9:
-          colorClass = 'bg-domaine-prevention'
+          colorClass = 'bg-domaine-memoire'
           break
         case 10:
           colorClass = 'bg-domaine-cooperation'

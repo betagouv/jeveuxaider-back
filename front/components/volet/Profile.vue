@@ -27,7 +27,7 @@
         <VoletCard
           v-if="profile"
           label="Bénévole"
-          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?raw')"
           :link="`/dashboard/profile/${profile.id}`"
         >
           <!-- <VoletRowItem label="ID">{{ profile.id }}</VoletRowItem> -->
@@ -132,9 +132,7 @@
             :key="structure.id"
             label="Organisation"
             :link="`/dashboard/structure/${structure.id}`"
-            :icon="
-              require('@/assets/images/icones/heroicon/library.svg?include')
-            "
+            :icon="require('@/assets/images/icones/heroicon/library.svg?raw')"
           >
             <!-- <VoletRowItem label="ID">{{ structure.id }}</VoletRowItem> -->
             <VoletRowItem label="Nom"
@@ -156,7 +154,7 @@
             :key="territoire.id"
             label="Territoire"
             :link="`/dashboard/territoire/${territoire.id}`"
-            :icon="require('@/assets/images/icones/heroicon/globe.svg?include')"
+            :icon="require('@/assets/images/icones/heroicon/globe.svg?raw')"
           >
             <!-- <VoletRowItem label="ID">{{ territoire.id }}</VoletRowItem> -->
             <VoletRowItem label="Nom"
@@ -183,7 +181,7 @@
           v-if="reseau"
           label="Réseau"
           :link="`/dashboard/structure/${reseau.id}`"
-          :icon="require('@/assets/images/icones/heroicon/globe.svg?include')"
+          :icon="require('@/assets/images/icones/heroicon/globe.svg?raw')"
         >
           <!-- <VoletRowItem label="ID">{{ reseau.id }}</VoletRowItem> -->
           <VoletRowItem label="Nom"

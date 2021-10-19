@@ -310,7 +310,7 @@
                     class="opacity-50 svg-100"
                     style="width: 36px"
                     v-html="
-                      require('@/assets/images/dynamic/vivre-ensemble.svg?include')
+                      require('@/assets/images/dynamic/vivre-ensemble.svg?raw')
                     "
                   />
                 </div>
@@ -348,7 +348,7 @@
                     class="opacity-50 svg-100"
                     style="width: 36px"
                     v-html="
-                      require('@/assets/images/dynamic/environnement.svg?include')
+                      require('@/assets/images/dynamic/environnement.svg?raw')
                     "
                   />
                 </div>
@@ -386,7 +386,7 @@
                     class="opacity-50 svg-100"
                     style="width: 36px"
                     v-html="
-                      require('@/assets/images/dynamic/education.svg?include')
+                      require('@/assets/images/dynamic/education.svg?raw')
                     "
                   />
                 </div>
@@ -423,9 +423,7 @@
                   <div
                     class="opacity-50 svg-100"
                     style="width: 36px"
-                    v-html="
-                      require('@/assets/images/dynamic/sante.svg?include')
-                    "
+                    v-html="require('@/assets/images/dynamic/sante.svg?raw')"
                   />
                 </div>
                 <div class="ml-4 w-0 flex-1">
@@ -807,9 +805,7 @@
           <div class="p-8 lg:p-15">
             <div
               class="ml-1 h-12 opacity-50 mb-4 svg-h-100"
-              v-html="
-                require('@/assets/images/dynamic/helping-hand.svg?include')
-              "
+              v-html="require('@/assets/images/dynamic/helping-hand.svg?raw')"
             />
             <p
               class="leading-6 text-[#070191] font-semibold tracking-wide uppercase"
@@ -903,7 +899,7 @@
           <div class="p-8 lg:p-15">
             <div
               class="ml-1 h-12 opacity-50 mb-4 svg-h-100"
-              v-html="require('@/assets/images/dynamic/townhall.svg?include')"
+              v-html="require('@/assets/images/dynamic/townhall.svg?raw')"
             />
             <p
               class="leading-6 text-[#070191] font-semibold tracking-wide uppercase"

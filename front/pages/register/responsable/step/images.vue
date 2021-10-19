@@ -117,9 +117,7 @@
             >
               <div
                 class="text-[#070191]"
-                v-html="
-                  require('@/assets/images/icones/heroicon/edit.svg?include')
-                "
+                v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
               />
             </div>
           </div>
@@ -141,9 +139,7 @@
             >
               <div
                 class="text-[#070191]"
-                v-html="
-                  require('@/assets/images/icones/heroicon/edit.svg?include')
-                "
+                v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
               />
             </div>
           </div>

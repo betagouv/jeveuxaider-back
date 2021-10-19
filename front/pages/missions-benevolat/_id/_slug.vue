@@ -539,7 +539,7 @@
             Vous pourriez aussi aimer&nbsp;…
           </div>
 
-          <MissionsSlideshow class="mb-6" :missions="otherMissions" />
+          <SlideshowMissions class="mb-6" :missions="otherMissions" />
 
           <div class="text-center">
             <nuxt-link
@@ -804,10 +804,10 @@ export default {
       let icon
       switch (publicType) {
         case 'Personnes en situation de handicap':
-          icon = require('@/assets/images/icones/handicap.svg?include')
+          icon = require('@/assets/images/icones/handicap.svg?raw')
           break
         case 'Mineurs':
-          icon = require('@/assets/images/icones/mineur.svg?include')
+          icon = require('@/assets/images/icones/mineur.svg?raw')
           break
       }
 

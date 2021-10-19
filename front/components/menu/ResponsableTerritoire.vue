@@ -20,7 +20,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/home.svg?raw')"
       />
       Tableau de bord
     </nuxt-link>

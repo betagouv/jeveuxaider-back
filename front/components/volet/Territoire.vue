@@ -57,7 +57,7 @@
         v-if="territoire"
         label="Territoire"
         :link="`/dashboard/territoire/${territoire.id}`"
-        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?raw')"
       >
         <!-- <VoletRowItem label="ID">{{ territoire.id }}</VoletRowItem> -->
         <VoletRowItem label="Nom"
@@ -86,7 +86,7 @@
           v-for="responsable in responsables"
           :key="responsable.id"
           label="Responsable"
-          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?raw')"
           :link="`/dashboard/profile/${responsable.id}`"
         >
           <!-- <VoletRowItem label="ID">{{ responsable.id }}</VoletRowItem> -->
@@ -109,7 +109,7 @@
           v-if="structure"
           label="Organisation"
           :link="`/dashboard/structure/${structure.id}`"
-          :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+          :icon="require('@/assets/images/icones/heroicon/library.svg?raw')"
         >
           <VoletRowItem label="Nom"
             ><span class="font-bold">{{ structure.name }}</span></VoletRowItem

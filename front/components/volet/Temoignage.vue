@@ -14,9 +14,7 @@
           <div class="text-5xl leading-none text-[#070191]">
             <div
               class="text-[#070191] group-hover:text-[#070191] flex-shrink-0"
-              v-html="
-                require('@/assets/images/icones/heroicon/mail.svg?include')
-              "
+              v-html="require('@/assets/images/icones/heroicon/mail.svg?raw')"
             />
           </div>
           <div class="">
@@ -56,9 +54,7 @@
       <VoletCard
         v-if="mission"
         label="Mission"
-        :icon="
-          require('@/assets/images/icones/heroicon/collection.svg?include')
-        "
+        :icon="require('@/assets/images/icones/heroicon/collection.svg?raw')"
         :link="`/dashboard/mission/${mission.id}`"
       >
         <VoletRowItem label="Nom"
@@ -168,7 +164,7 @@
       <VoletCard
         v-if="responsable"
         label="Responsable"
-        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?raw')"
         :link="
           $store.getters.contextRole == 'admin'
             ? `/dashboard/profile/${responsable.id}`
@@ -193,7 +189,7 @@
         v-if="mission && mission.structure"
         label="Organisation"
         :link="`/dashboard/structure/${mission.structure.id}`"
-        :icon="require('@/assets/images/icones/heroicon/library.svg?include')"
+        :icon="require('@/assets/images/icones/heroicon/library.svg?raw')"
       >
         <!-- <VoletRowItem label="ID">{{ mission.structure.id }}</VoletRowItem> -->
         <VoletRowItem label="Nom"
@@ -214,7 +210,7 @@
       <VoletCard
         v-if="profile"
         label="Bénévole"
-        :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+        :icon="require('@/assets/images/icones/heroicon/user.svg?raw')"
         :link="
           $store.getters.contextRole == 'admin'
             ? `/dashboard/profile/${profile.id}`
@@ -310,7 +306,7 @@
         v-if="participation"
         label="Participation"
         :icon="
-          require('@/assets/images/icones/heroicon/identification.svg?include')
+          require('@/assets/images/icones/heroicon/identification.svg?raw')
         "
         :link="`/dashboard/participation/${participation.id}`"
       >

@@ -684,22 +684,22 @@ export default {
       let icon
       switch (publicType) {
         case 'seniors':
-          icon = require('@/assets/images/icones/personnes_agees.svg?include')
+          icon = require('@/assets/images/icones/personnes_agees.svg?raw')
           break
         case 'persons_with_disabilities':
-          icon = require('@/assets/images/icones/handicap.svg?include')
+          icon = require('@/assets/images/icones/handicap.svg?raw')
           break
         case 'people_in_difficulty':
-          icon = require('@/assets/images/icones/helping_hand.svg?include')
+          icon = require('@/assets/images/icones/helping_hand.svg?raw')
           break
         case 'parents':
-          icon = require('@/assets/images/icones/parents.svg?include')
+          icon = require('@/assets/images/icones/parents.svg?raw')
           break
         case 'children':
-          icon = require('@/assets/images/icones/jeunes_enfants.svg?include')
+          icon = require('@/assets/images/icones/jeunes_enfants.svg?raw')
           break
         case 'any_public':
-          icon = require('@/assets/images/icones/tous_public.svg?include')
+          icon = require('@/assets/images/icones/tous_public.svg?raw')
           break
       }
 

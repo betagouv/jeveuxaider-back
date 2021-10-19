@@ -328,7 +328,7 @@
                 class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-[#070191] hover:text-red-700 hover:scale-125 transition"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
-                  require('@/assets/images/icones/heroicon/close.svg?include')
+                  require('@/assets/images/icones/heroicon/close.svg?raw')
                 "
               />
             </div>

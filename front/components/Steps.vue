@@ -23,7 +23,7 @@
                   <div
                     class="w-5 h-5 text-white"
                     v-html="
-                      require('@/assets/images/icones/heroicon/check.svg?include')
+                      require('@/assets/images/icones/heroicon/check.svg?raw')
                     "
                   />
                 </div>
@@ -120,7 +120,7 @@
               <div
                 class="w-5 h-5 text-white"
                 v-html="
-                  require('@/assets/images/icones/heroicon/check.svg?include')
+                  require('@/assets/images/icones/heroicon/check.svg?raw')
                 "
               />
               <span class="sr-only">{{ step.name }}</span>

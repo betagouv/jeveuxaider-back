@@ -2,7 +2,7 @@
   <div
     class="card--mission h-auto flex flex-col flex-1 bg-white rounded-[10px] overflow-hidden"
   >
-    <div class="thumbnail--wrapper relative will-change-transform">
+    <div class="thumbnail--wrapper relative">
       <img
         v-if="thumbnail.default"
         :src="thumbnail.default"
@@ -285,8 +285,6 @@ export default {
 <style lang="postcss" scoped>
 .card--mission {
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
   @apply transition;
   &:hover {
     .thumbnail--wrapper img {

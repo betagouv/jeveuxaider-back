@@ -20,7 +20,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/home.svg?raw')"
       />
       Tableau de bord
     </nuxt-link>
@@ -42,7 +42,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/globe.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/globe.svg?raw')"
       />
       Territoires
     </nuxt-link>
@@ -65,7 +65,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/library.svg?raw')"
       />
       Organisations
     </nuxt-link>
@@ -87,9 +87,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="
-          require('@/assets/images/icones/heroicon/collection.svg?include')
-        "
+        v-html="require('@/assets/images/icones/heroicon/collection.svg?raw')"
       />
       Missions
     </nuxt-link>
@@ -113,7 +111,7 @@
             : 'text-gray-400 hover:text-gray-900',
         ]"
         v-html="
-          require('@/assets/images/icones/heroicon/identification.svg?include')
+          require('@/assets/images/icones/heroicon/identification.svg?raw')
         "
       />
       Participations
@@ -137,7 +135,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/chat.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/chat.svg?raw')"
       />
       Témoignages
     </nuxt-link>
@@ -160,9 +158,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="
-          require('@/assets/images/icones/heroicon/user-group.svg?include')
-        "
+        v-html="require('@/assets/images/icones/heroicon/user-group.svg?raw')"
       />
       Utilisateurs
     </nuxt-link>
@@ -175,7 +171,7 @@
     >
       <div
         class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6"
-        v-html="require('@/assets/images/icones/heroicon/mail.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/mail.svg?raw')"
       />
       Messagerie
       <span
@@ -203,9 +199,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="
-          require('@/assets/images/icones/heroicon/view-list.svg?include')
-        "
+        v-html="require('@/assets/images/icones/heroicon/view-list.svg?raw')"
       />
       Contenus
     </nuxt-link>
@@ -228,7 +222,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/flag.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/flag.svg?raw')"
       />
       Activités
     </nuxt-link>
@@ -251,7 +245,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/sparkles.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/sparkles.svg?raw')"
       />
       Topito
     </nuxt-link>
@@ -274,7 +268,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/trash.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/trash.svg?raw')"
       />
       Corbeille
     </nuxt-link>

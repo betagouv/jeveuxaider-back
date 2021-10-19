@@ -41,7 +41,7 @@
       </template>
 
       <template #customPaging>
-        <div class="sm:flex items-center sm:space-x-8 text-base text-[#DEDEDE]">
+        <div class="text-sm text-[#DEDEDE]">
           <div>●</div>
         </div>
       </template>
@@ -112,9 +112,9 @@ export default {
 
 <style lang="postcss" scoped>
 .card--mission--wrapper {
-  @apply flex flex-col h-full;
+  @apply flex flex-col h-full max-w-[325px];
   width: calc(100vw - 64px) !important;
-  @apply max-w-[325px] sm:w-[325px];
+  @apply w-full;
 }
 
 .slick-slider {
@@ -136,6 +136,10 @@ export default {
 
     .slick-arrow {
       box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+      display: none;
+      @screen sm {
+        display: block;
+      }
     }
 
     .slick-dots {
