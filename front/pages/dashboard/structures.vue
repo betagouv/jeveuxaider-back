@@ -120,9 +120,15 @@
       </el-table-column>
       <el-table-column label="Contextes" min-width="300">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.reseaux_count" class="m-1 ml-0">
-            Antenne
-          </el-tag>
+          <template v-if="scope.row.reseaux">
+            <el-tag
+              v-for="reseau in scope.row.reseaux"
+              :key="reseau.id"
+              class="m-1 ml-0"
+            >
+              {{ reseau.name }}
+            </el-tag>
+          </template>
           <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>
@@ -213,7 +219,7 @@ export default {
   async fetch() {
     const { data } = await this.$api.fetchStructures({
       ...this.query,
-      include: 'missionsCount,reseauxCount',
+      include: 'missionsCount,reseaux',
       append: 'completion_rate',
     })
     this.tableData = data.data
