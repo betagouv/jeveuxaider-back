@@ -86,7 +86,6 @@ export default {
   },
   data() {
     return {
-      step: this.$route.query.step || 1,
       template_id: null,
       domaine_id: parseInt(this.$route.query.domaine) || null,
       templates: [],
@@ -108,6 +107,11 @@ export default {
       })
       this.templates = templates.data.data
     }
+  },
+  computed: {
+    step() {
+      return this.$route.query.step || 1
+    },
   },
   watch: {
     '$route.query': '$fetch',
