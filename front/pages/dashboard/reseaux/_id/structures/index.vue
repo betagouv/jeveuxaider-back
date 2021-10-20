@@ -138,6 +138,16 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
+      <div class="ml-auto">
+        <el-button
+          :loading="loadingExport"
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
+          Export
+        </el-button>
+      </div>
     </div>
     <portal to="volet">
       <VoletStructure @updated="onUpdatedRow" @deleted="onDeletedRow" />
@@ -172,6 +182,7 @@ export default {
   data() {
     return {
       loading: true,
+      loadingExport: false,
       tableData: [],
     }
   },
@@ -187,8 +198,25 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
+  methods: {
+    onExport() {
+      this.loadingExport = true
+      this.$api
+        .exportStructures(this.query)
+        .then(() => {
+          this.loadingExport = false
+          // fileDownload(response.data, 'organisation.xlsx')
+          this.$message.success({
+            message:
+              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
+          })
+        })
+        .catch((error) => {
+          this.$message.error({
+            message: error.response.data.message,
+          })
+        })
+    },
   },
 }
 </script>

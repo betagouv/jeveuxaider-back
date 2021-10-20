@@ -42,7 +42,7 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('rna', new FiltersStructureWithRna),
                 AllowedFilter::custom('antenne', new FiltersStructureAntenne),
-
+                AllowedFilter::scope('of_reseau'),
             ])
             ->defaultSort('-created_at')
             ->get();

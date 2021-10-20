@@ -20,6 +20,7 @@ use App\Filters\FiltersStructureAntenne;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
+use App\Filters\FiltersStructureWithRna;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 // use App\Jobs\ProcessExportStructures;
@@ -42,6 +43,7 @@ class StructureController extends Controller
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
                 AllowedFilter::custom('antenne', new FiltersStructureAntenne),
+                AllowedFilter::custom('rna', new FiltersStructureWithRna),
                 AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
