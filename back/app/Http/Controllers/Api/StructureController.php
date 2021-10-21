@@ -154,6 +154,12 @@ class StructureController extends Controller
             $structure->syncTagsWithType($domaines, 'domaine');
         }
 
+        if ($request->has('reseau_id')) {
+            if($request->input('reseau_id')){
+                $structure->reseaux()->syncWithoutDetaching([$request->input('reseau_id')]);
+            }
+        }
+
         $structure->update($request->validated());
 
         return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
