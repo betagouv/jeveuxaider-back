@@ -17,16 +17,6 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class ReseauController extends Controller
 {
-    public function test() 
-    {
-        // $reseau = Reseau::firstOrCreate(['name' => 'First Réseau']);
-        // ray($reseau->missionTemplates);
-        // $reseau->structures()->syncWithoutDetaching([3438, 5361, 5374]);
-        // $structure = Structure::find(5374);
-        // $structure = Structure::find(3438);
-        // $reseau->profiles()->saveMany([Profile::find(320048), Profile::find(346484)]);
-        // return $reseau->missionTemplates;
-    }
 
     public function index(Request $request)
     {
@@ -34,7 +24,7 @@ class ReseauController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
             ])
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 

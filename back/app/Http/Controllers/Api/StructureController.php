@@ -54,7 +54,7 @@ class StructureController extends Controller
             ->allowedAppends([
                 'completion_rate',
             ])
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
