@@ -32,6 +32,7 @@
         >
           <div>
             {{ organisation.name }}
+            <span class="text-gray-400">#{{ organisation.id }}</span>
           </div>
           <div
             class="text-red-400 cursor-pointer"
