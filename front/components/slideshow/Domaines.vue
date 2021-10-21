@@ -68,6 +68,7 @@ export default {
             default: '/images/card_domaine_covid19.jpg',
             x2: '/images/card_domaine_covid19@2x.jpg',
           },
+          bottom: true,
         },
         {
           id: 2,
@@ -90,6 +91,7 @@ export default {
             default: '/images/card_domaine_sante.jpg',
             x2: '/images/card_domaine_sante@2x.jpg',
           },
+          bottom: true,
         },
         {
           id: 4,
@@ -113,6 +115,7 @@ export default {
             default: '/images/card_domaine_solidarite.jpg',
             x2: '/images/card_domaine_solidarite@2x.jpg',
           },
+          bottom: true,
         },
         {
           id: 7,
@@ -134,6 +137,7 @@ export default {
             default: '/images/card_domaine_prevention.jpg',
             x2: '/images/card_domaine_prevention@2x.jpg',
           },
+          bottom: true,
         },
         {
           id: 9,
@@ -155,6 +159,7 @@ export default {
             default: '/images/card_domaine_cooperation.jpg',
             x2: '/images/card_domaine_cooperation@2x.jpg',
           },
+          bottom: true,
         },
         {
           id: 11,

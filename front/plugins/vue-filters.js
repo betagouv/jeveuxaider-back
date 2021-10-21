@@ -201,4 +201,29 @@ export default function ({ store, $dayjs }) {
   Vue.filter('daysFromTimestamp', function (value) {
     return (value / (60 * 60 * 24)).toFixed(0)
   })
+
+  Vue.filter('stripHTML', function (value) {
+    return value.replace(/(<([^>]+)>)/gi, '')
+  })
+
+  Vue.filter('decodeHTMLEntities', function (value) {
+    const entities = {
+      amp: '&',
+      apos: "'",
+      lt: '<',
+      gt: '>',
+      quot: '"',
+      nbsp: '\xA0',
+      rsquo: "'",
+    }
+    const entityPattern = /&([a-z]+);/gi
+
+    return value.replace(entityPattern, function (match, entity) {
+      entity = entity.toLowerCase()
+      if (Object.prototype.hasOwnProperty.call(entities, entity)) {
+        return entities[entity]
+      }
+      return match
+    })
+  })
 }

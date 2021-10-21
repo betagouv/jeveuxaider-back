@@ -76,6 +76,8 @@
             srcset="/images/mosaique_orgas@2x.png 2x"
             alt="Mosaïque organisations"
             class="object-cover object-left-bottom w-full h-[370px] md:h-[650px] translate-y-[-45px] md:translate-y-[-138px] md:absolute md:right-0 md:top-0 mosaic"
+            width="790"
+            height="670"
           />
         </picture>
 
@@ -102,7 +104,10 @@
     <hr class="mt-12 pt-12 md:hidden border-[#CDCDCD]" />
 
     <!-- MISSIONS PRIORITAIRES -->
-    <section v-if="prioritizedMissions.length > 0" class="overflow-hidden">
+    <section
+      v-if="prioritizedMissions.length > 0"
+      class="overflow-hidden xl:mt-6"
+    >
       <div class="container mx-auto px-8 sm:px-4">
         <div class="flex justify-between items-baseline mb-6">
           <h2
@@ -112,7 +117,7 @@
             <strong class="font-extrabold">prioritaires</strong>
           </h2>
           <span
-            class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
+            class="hidden lg:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
           >
             #{{ Date.now() | formatCustom('MMMM') }}
           </span>
@@ -147,14 +152,114 @@
     </section>
 
     <!-- ENGAGEZ-VOUS -->
-    <section class="py-16 bg-[#F9F8F6]">
-      <div class="container mx-auto px-4">
+    <section class="py-16 bg-[#F9F8F6] overflow-hidden">
+      <div class="container mx-auto px-4 relative">
         <h2
-          class="text-4xl lg:text-5xl tracking-tighter text-center md:text-left"
+          class="text-4xl lg:text-5xl tracking-tighter text-center lg:text-left"
         >
           Engagez-vous
           <strong class="font-extrabold">près de chez vous</strong>
         </h2>
+
+        <div
+          class="mt-8 max-w-3xl lg:max-w-[500px] mx-auto lg:ml-0 flex flex-wrap gap-4 items-center justify-center lg:justify-start"
+        >
+          <nuxt-link
+            v-for="(city, index) in hightlightedCities"
+            :key="city.name"
+            class="text-[#696974] leading-none truncate px-[18px] h-[40px] flex items-center rounded-full text-[13px] shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-110"
+            :class="[
+              {
+                'w-[40px] h-[40px] !p-0 flex items-center justify-center text-[26px] font-normal':
+                  index == hightlightedCities.length - 1,
+              },
+            ]"
+            :to="city.url"
+          >
+            <template v-if="index != hightlightedCities.length - 1">
+              {{ city.name }}
+            </template>
+
+            <img v-else src="/images/more.svg" alt="Voir plus de villes" />
+          </nuxt-link>
+        </div>
+
+        <div
+          class="bg-white mt-16 text-center md:text-left rounded-[10px] overflow-hidden lg:max-w-[660px]"
+          style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05)"
+        >
+          <div class="flex flex-col items-center md:flex-row md:items-end">
+            <div class="px-6 pt-8 md:pb-8 md:px-8">
+              <h2 class="text-4xl lg:text-5xl tracking-tighter">
+                Ou <strong class="font-extrabold">à distance</strong>
+              </h2>
+
+              <div class="mt-4 text-xl text-[#696974]">
+                Plus de 1 000 missions de bénévolat sont réalisables en
+                autonomie
+              </div>
+
+              <nuxt-link
+                class="rounded-full text-white bg-jva-green hover:scale-105 !outline-none focus:scale-105 transition px-8 py-3 transform will-change-transform shadow-xl font-bold inline-flex mt-8"
+                to="/missions-benevolat?refinementList[type][0]=Mission à distance"
+              >
+                <span>Découvrir le télébénévolat</span>
+              </nuxt-link>
+            </div>
+
+            <img
+              src="/images/telebenevolat.svg"
+              alt="Télébénévolat"
+              class="-mt-16 md:mt-0 md:-mr-24"
+              width="379"
+              height="292"
+            />
+          </div>
+        </div>
+
+        <img
+          src="/images/map_france_2.svg"
+          alt="Carte de la France"
+          class="hidden lg:block absolute top-0 right-0 mr-[-150px] xl:-mr-0 pr-4"
+          width="607"
+          height="624"
+          style="filter: drop-shadow(8px 20px 16px rgba(0, 0, 0, 0.1))"
+        />
+      </div>
+    </section>
+
+    <!-- ACTUALITÉS -->
+    <section v-if="articles.length > 0" class="py-16 bg-white overflow-hidden">
+      <div class="container mx-auto px-8 sm:px-4">
+        <div class="flex justify-between items-baseline mb-6">
+          <h2
+            class="text-4xl lg:text-5xl tracking-tighter text-center md:text-left"
+          >
+            Les actualités de
+            <span>l'<strong class="font-extrabold">engagement</strong></span>
+          </h2>
+          <span
+            class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
+          >
+            #blog
+          </span>
+        </div>
+
+        <SlideshowArticles :articles="articles" />
+      </div>
+    </section>
+
+    <!-- TÉMOIGNAGES -->
+    <section class="py-16 bg-[#F9F8F6] overflow-hidden">
+      <div class="container mx-auto px-8 sm:px-4">
+        <h2
+          class="text-4xl lg:text-5xl tracking-tighter text-center text-[#AFAFAE]"
+        >
+          Paroles de
+          <strong class="font-extrabold">bénévoles</strong>
+        </h2>
+
+        <SlideshowTestimonies class="mt-12" />
       </div>
     </section>
 
@@ -169,6 +274,61 @@ export default {
   data() {
     return {
       prioritizedMissions: [],
+      articles: [],
+      hightlightedCities: [
+        {
+          name: 'Paris',
+          url: '/villes/paris',
+        },
+        {
+          name: 'Toulouse',
+          url: '/villes/toulouse',
+        },
+        {
+          name: 'Lyon',
+          url: '/villes/lyon',
+        },
+        {
+          name: 'Marseille',
+          url: '/villes/marseille',
+        },
+        {
+          name: 'Bordeaux',
+          url: '/villes/bordeaux',
+        },
+        {
+          name: 'Lille',
+          url: '/villes/lille',
+        },
+        {
+          name: 'Rennes',
+          url: '/villes/rennes',
+        },
+        {
+          name: 'Montpellier',
+          url: '/villes/montpellier',
+        },
+        {
+          name: 'Strasbourg',
+          url: '/villes/strasbourg',
+        },
+        {
+          name: 'Nice',
+          url: '/villes/nice',
+        },
+        {
+          name: 'Rouen',
+          url: '/villes/rouen',
+        },
+        {
+          name: 'Angers',
+          url: '/villes/angers',
+        },
+        {
+          name: '+',
+          url: '/territoires',
+        },
+      ],
     }
   },
   async fetch() {
@@ -178,6 +338,29 @@ export default {
       'filter[structure.state]': 'Validée',
     })
     this.prioritizedMissions = data.data
+
+    const { data: articles } = await this.$axios.get(
+      `${this.$config.blog.restApiUrl}/posts/?per_page=6`,
+      {
+        excludeContextRole: true,
+      }
+    )
+    const articlesWithMedia = []
+    for (const article of articles) {
+      const url = article._links['wp:featuredmedia']
+        ? article._links['wp:featuredmedia'][0].href
+        : article._links['wp:attachment'][0].href
+      const { data: media } = await this.$axios.get(url, {
+        excludeContextRole: true,
+      })
+
+      if (!Array.isArray(media)) {
+        articlesWithMedia.push({ ...article, media })
+      } else {
+        articlesWithMedia.push({ ...article, media: media[0] })
+      }
+    }
+    this.articles = articlesWithMedia
   },
   head() {
     return {

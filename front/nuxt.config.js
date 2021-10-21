@@ -189,6 +189,10 @@ export default {
     },
     google: {
       places: process.env.GOOGLE_PLACE_API_KEY
+    },
+    blog: {
+      restApiUrl: process.env.BLOG_REST_API_URL,
+      url: process.env.BLOG_URL,
     }
   },
 
