@@ -58,7 +58,6 @@ class StructureController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    // LARAVEL EXCEL
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
@@ -73,21 +72,6 @@ class StructureController extends Controller
 
         return response()->json(['message'=> 'Export en cours...'], 200);
     }
-
-    // FAST EXCEL
-    // PB: serializer la query avant le job https://github.com/AnourValar/eloquent-serialize
-    // public function export(Request $request)
-    // {
-    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-    //     $fileName = 'organisations-' . Str::random(8) . '.xlsx';
-    //     $filePath = $folder . $fileName;
-
-    //     ProcessExportStructures::withChain([
-    //         new NotifyUserOfCompletedExport($request->user(), $filePath),
-    //     ])->dispatch($request->user(), $request->header('Context-Role'), $filePath, $fileName);
-
-    //     return response()->json(['message'=> 'Export en cours...'], 200);
-    // }
 
     public function availableMissions(Request $request, Structure $structure)
     {

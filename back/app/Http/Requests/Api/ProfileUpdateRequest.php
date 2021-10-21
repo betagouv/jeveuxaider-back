@@ -50,6 +50,7 @@ class ProfileUpdateRequest extends ProfileRequest
             'type' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
+            'can_export_profiles' => 'boolean',
         ];
 
         if (request()->user()->isAdmin()) {

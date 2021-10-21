@@ -181,23 +181,10 @@ export default (axios, $cookies) => ({
       params,
     })
   },
+  async exportProfiles(params) {
+    return await axios.get('/profiles/export', {
+      params,
+      // responseType: 'blob',
+    })
+  },
 })
-
-// import axios from 'axios'
-
-// async exportProfiles(params) {
-//   return axios.get(`/profiles/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// async addProfile(profile) {
-//   return axios.post(`/profile`, profile)
-// }
-
-// async fetchUsers(params, appends) {
-//   return axios.get(`/users?append=${appends.join(',')}`, {
-//     params,
-//   })
-// }

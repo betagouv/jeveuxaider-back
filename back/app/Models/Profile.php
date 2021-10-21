@@ -40,13 +40,15 @@ class Profile extends Model implements HasMedia
         'commitment__time_period',
         'type',
         'user_id',
+        'can_export_profiles',
     ];
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',
         'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
-        'disponibilities' => 'array'
+        'disponibilities' => 'array',
+        'can_export_profiles' => 'boolean'
     ];
 
     protected $appends = ['full_name', 'short_name', 'image'];

@@ -137,6 +137,17 @@
           Accès au tableau de bord
         </el-checkbox>
       </el-form-item>
+
+      <div class="mb-6 mt-12 flex text-xl text-[#242526]">Exports</div>
+      <ItemDescription container-class="mb-6">
+        Si cet utilisateur est un référent accrédité, cochez la case. Il aura
+        accès aux exports des bénévoles.
+      </ItemDescription>
+      <el-form-item prop="is_analyste" class="flex-1">
+        <el-checkbox v-model="form.can_export_profiles">
+          Cet utilisateur peut exporter les utilisateurs
+        </el-checkbox>
+      </el-form-item>
     </template>
     <div class="flex pt-2">
       <el-button type="primary" :loading="loading" @click="onSubmit">
