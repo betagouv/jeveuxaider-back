@@ -28,6 +28,7 @@ use App\Models\Mission;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
+use App\Models\Reseau;
 use App\Services\ApiEngagement;
 
 class StructureController extends Controller
@@ -334,5 +335,21 @@ class StructureController extends Controller
             'structure_name' => $structure->name,
             'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
         ];
+    }
+
+    public function attachReseaux(Request $request, Structure $structure)
+    {
+        if($request->input('reseaux')) {
+            $structure->reseaux()->syncWithoutDetaching($request->input('reseaux'));
+        }
+
+        return $structure;
+    }
+
+    public function detachReseau(Request $request, Structure $structure, Reseau $reseau)
+    {
+        $structure->reseaux()->detach($reseau->id);
+
+        return $structure;
     }
 }

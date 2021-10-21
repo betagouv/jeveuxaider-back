@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           Réseau {{ reseau.name }}
         </div>
-        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
+        <div class="font-bold text-[1.75rem] text-[#242526]">
           Inviter une nouvelle antenne
         </div>
       </div>
@@ -15,6 +15,7 @@
         </nuxt-link>
       </div>
     </div>
+    <el-divider />
     <div class="px-12 max-w-2xl">
       <el-form
         ref="invitationForm"

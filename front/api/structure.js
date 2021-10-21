@@ -103,13 +103,14 @@ export default (axios) => ({
       `/reseaux/${reseauId}/responsables/${responsableId}`
     )
   },
-  async deleteReseauStructure(reseauId, structureId) {
-    return await axios.delete(
-      `/reseaux/${reseauId}/organisations/${structureId}`
-    )
+  async detachStructureFromReseau(structureId, reseauId) {
+    return await axios.delete(`/structure/${structureId}/reseaux/${reseauId}`)
   },
   async addReseauOrga(id, organisations) {
     return await axios.post(`/reseaux/${id}/organisations`, { organisations })
+  },
+  async addOrganisationReseaux(id, reseaux) {
+    return await axios.post(`/structure/${id}/reseaux`, { reseaux })
   },
   async deleteReseau(id) {
     return await axios.delete(`/reseaux/${id}`)

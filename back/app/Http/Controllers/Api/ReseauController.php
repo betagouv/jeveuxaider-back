@@ -58,7 +58,7 @@ class ReseauController extends Controller
         return $reseau->update($request->validated());
     }
 
-    public function addOrganisation(Request $request, Reseau $reseau)
+    public function attachOrganisations(Request $request, Reseau $reseau)
     {
         if($request->input('organisations')) {
             $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
@@ -67,10 +67,10 @@ class ReseauController extends Controller
         return $reseau;
     }
 
-    public function removeOrganisation(Request $request, Reseau $reseau, Structure $organisation)
+    public function detachOrganisation(Request $request, Reseau $reseau, Structure $structure)
     {
 
-        $reseau->structures()->detach($organisation->id);
+        $reseau->structures()->detach($structure->id);
 
         return $reseau;
     }

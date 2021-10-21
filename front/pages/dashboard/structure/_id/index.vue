@@ -52,7 +52,7 @@
                   Réseau: {{ reseau.name }}
                 </div>
                 <el-button
-                  v-if="canRemoveReseau(reseau)"
+                  v-if="canDetachReseau(reseau)"
                   size="small"
                   type="danger"
                   @click="onClickRemove(reseau)"
@@ -86,9 +86,10 @@ export default {
     }
   },
   methods: {
-    canRemoveReseau(reseau) {
+    canDetachReseau(reseau) {
       return (
         this.$store.getters.contextRole == 'admin' ||
+        this.$store.getters.contextRole == 'referent' ||
         this.$store.getters.profile.tete_de_reseau_id == reseau.id
       )
     },
@@ -106,10 +107,10 @@ export default {
         }
       ).then(() => {
         this.$api
-          .deleteReseauStructure(reseau.id, this.structure.id)
+          .detachStructureFromReseau(this.structure.id, reseau.id)
           .then(async () => {
             this.$message.success({
-              message: `L'organisation ${this.structure.name} a été retirée.`,
+              message: `L'organisation ${this.structure.name} a été retirée du reseau.`,
             })
             const structure = await this.$api.getStructure(this.structure.id)
             this.structure = structure

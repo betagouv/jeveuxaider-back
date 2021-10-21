@@ -347,7 +347,7 @@ export default {
           type: 'error',
         }
       ).then(() => {
-        this.$api.deleteReseauStructure(reseau.id, this.row.id).then(() => {
+        this.$api.detachStructureFromReseau(this.row.id, reseau.id).then(() => {
           this.$message.success({
             message: `L'organisation ${this.row.name} a été retirée.`,
           })

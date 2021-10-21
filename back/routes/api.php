@@ -125,6 +125,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::post('structure/{structure}/members', 'Api\StructureController@addMember');
     Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
     Route::get('structure/{structure}/actions', 'Api\ActionController@structure');
+    Route::post('structure/{structure}/reseaux', 'Api\StructureController@attachReseaux');
+    Route::delete('structure/{structure}/reseaux/{reseau}', 'Api\StructureController@detachReseau');
+
 
     // STRUCTURE INVITATIONS
     Route::get('structure/{structure}/invitations', 'Api\StructureController@invitations');
@@ -314,9 +317,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
     Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
-    Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@addOrganisation');
+    Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@attachOrganisations');
     Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
-    Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@removeOrganisation');
+    Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@detachOrganisation');
 
 });

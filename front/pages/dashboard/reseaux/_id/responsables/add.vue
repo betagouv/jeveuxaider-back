@@ -1,21 +1,26 @@
 <template>
-  <div class="max-w-2xl">
+  <div class="">
     <div class="header px-12 flex">
       <div class="header-titles flex-1">
         <div class="text-m text-gray-600 uppercase">
           {{ reseau.name }}
         </div>
-        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
+        <div class="font-bold text-[1.75rem] text-[#242526]">
           Inviter un nouveau responsable
         </div>
       </div>
+      <nuxt-link :to="`/dashboard/reseaux/${$route.params.id}`">
+        <el-button>Retour</el-button>
+      </nuxt-link>
     </div>
+    <el-divider />
     <div class="px-12">
       <el-form
         ref="invitationForm"
         :model="form"
         label-position="top"
         :rules="rules"
+        class="max-w-2xl"
       >
         <el-form-item label="Email" prop="email">
           <el-input v-model.trim="form.email" placeholder="Email" />
