@@ -308,13 +308,11 @@ export default {
         .then((res) => {
           this.loadingExport = false
           // fileDownload(response.data, 'utilisateurs.csv')
-          if (res.statusCode == 200) {
-            this.$message.success({
-              message:
-                "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
-              type: 'success',
-            })
-          }
+          this.$message.success({
+            message:
+              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
+            type: 'success',
+          })
         })
         .catch((error) => {
           this.loadingExport = false

@@ -50,7 +50,6 @@ class ProfileUpdateRequest extends ProfileRequest
             'type' => '',
             'commitment__duration' => '',
             'commitment__time_period' => '',
-            'can_export_profiles' => 'boolean',
         ];
 
         if (request()->user()->isAdmin()) {
@@ -59,6 +58,7 @@ class ProfileUpdateRequest extends ProfileRequest
             $rules['collectivity_id'] = '';
             $rules['tete_de_reseau_id'] = '';
             $rules['is_analyste'] = 'boolean';
+            $rules['can_export_profiles'] = 'boolean';
         }
 
         return $rules;
