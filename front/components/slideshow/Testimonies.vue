@@ -1,99 +1,61 @@
 <template>
-  <div>
-    <VueSlickCarousel ref="vueSlickCarousel" v-bind="settings">
-      <div v-for="testimony in testimonies" :key="testimony.id">
-        <div
-          class="flex flex-col items-center space-y-6 text-center max-w-[768px] mx-auto"
-        >
+  <Slideshow :slides-count="testimonies.length" :settings="settings">
+    <div v-for="testimony in testimonies" :key="testimony.id">
+      <div
+        class="testimony--wrapper flex flex-col items-center space-y-6 text-center max-w-[768px] mx-auto"
+      >
+        <img
+          :src="testimony.organization.logo.default"
+          :srcset="
+            testimony.organization.logo.x2
+              ? `${testimony.organization.logo.x2} 2x`
+              : false
+          "
+          :alt="testimony.organization.name"
+        />
+
+        <div class="text-xl lg:text-2xl leading-relaxed">
+          “{{ testimony.content }}”
+        </div>
+
+        <div class="flex items-center space-x-4">
           <img
-            :src="testimony.organization.logo.default"
+            :src="testimony.author.image.default"
             :srcset="
-              testimony.organization.logo.x2
-                ? `${testimony.organization.logo.x2} 2x`
+              testimony.author.image.x2
+                ? `${testimony.author.image.x2} 2x`
                 : false
             "
-            :alt="testimony.organization.name"
+            :alt="testimony.author.name"
+            class="flex-none"
           />
 
-          <div class="text-xl lg:text-2xl leading-relaxed">
-            “{{ testimony.content }}”
-          </div>
-
-          <div class="flex items-center space-x-4">
-            <img
-              :src="testimony.author.image.default"
-              :srcset="
-                testimony.author.image.x2
-                  ? `${testimony.author.image.x2} 2x`
-                  : false
-              "
-              :alt="testimony.author.name"
-              class="flex-none"
-            />
-
-            <div class="text-left">
-              <span class="font-bold text-[#111827]">
-                {{ testimony.author.name }}
+          <div class="text-left">
+            <span class="font-bold text-[#111827]">
+              {{ testimony.author.name }}
+            </span>
+            <span
+              class="text-[#A7A7B0] font-bold mx-2 text-lg hidden sm:inline-block"
+              >/</span
+            >
+            <span class="text-[#A7A7B0] block sm:inline">
+              Bénévole chez
+              <span class="uppercase font-bold">
+                {{ testimony.organization.name }}
               </span>
-              <span
-                class="text-[#A7A7B0] font-bold mx-2 text-lg hidden sm:inline-block"
-                >/</span
-              >
-              <span class="text-[#A7A7B0] block sm:inline">
-                Bénévole chez
-                <span class="uppercase font-bold">
-                  {{ testimony.organization.name }}
-                </span>
-              </span>
-            </div>
+            </span>
           </div>
         </div>
       </div>
-
-      <template #prevArrow>
-        <transition name="fade">
-          <div
-            class="rounded-full !bg-white transition transform !-translate-x-12 !-translate-y-1/2 hover:scale-125 will-change-transform flex justify-center items-center !p-6 relative z-10"
-          >
-            <img
-              src="/images/chevron_left.svg"
-              alt="Précédent"
-              class="absolute inset-0 m-auto"
-            />
-          </div>
-        </transition>
-      </template>
-
-      <template #nextArrow>
-        <transition name="fade">
-          <div
-            class="rounded-full !bg-white transition transform !translate-x-12 !-translate-y-1/2 hover:scale-125 will-change-transform flex justify-center items-center !p-6 relative z-10"
-          >
-            <img
-              src="/images/chevron_right.svg"
-              alt="Suivant"
-              class="absolute inset-0 m-auto"
-            />
-          </div>
-        </transition>
-      </template>
-
-      <template #customPaging>
-        <div class="text-sm text-[#DEDEDE]">
-          <div>●</div>
-        </div>
-      </template>
-    </VueSlickCarousel>
-  </div>
+    </div>
+  </Slideshow>
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import Slideshow from '@/mixins/Slideshow'
 
 export default {
-  components: { VueSlickCarousel },
+  components: { Slideshow },
   data() {
     return {
       testimonies: [
@@ -145,53 +107,27 @@ export default {
       },
     }
   },
-  mounted() {
-    const dotsWrapper = this.$refs?.vueSlickCarousel?.$el
-      ?.getElementsByClassName('slick-dots')
-      ?.item(0)
-
-    if (dotsWrapper) {
-      const wrapper = document.createElement('div')
-      wrapper.className = 'mt-6'
-      dotsWrapper.parentNode.insertBefore(wrapper, dotsWrapper)
-      wrapper.appendChild(dotsWrapper)
-    }
-  },
 }
 </script>
 
 <style lang="postcss" scoped>
-.slick-slider {
-  ::v-deep {
-    .slick-slide {
-      height: auto !important;
-    }
+.testimony--wrapper {
+  @screen sm {
+    width: calc(100% - 150px);
+  }
+}
 
-    .slick-arrow {
-      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
-      display: none;
-      @screen lg {
-        display: block;
-        transform: translate(0px, -50%) !important;
-        &.slick-prev {
-          left: 0;
-        }
-        &.slick-next {
-          right: 0;
-        }
-      }
-    }
+::v-deep .slick-slider {
+  .wrapper--slick-dots {
+    display: block !important;
+  }
 
-    .slick-dots {
-      position: inherit;
-      @apply text-center bottom-0 w-auto flex-none;
-      > li {
-        @apply w-auto h-auto m-[6px];
-        &.slick-active > div {
-          color: #696974;
-        }
-      }
-    }
+  .slick-dots {
+    @apply !text-center;
+  }
+
+  .slick-track {
+    @apply space-x-0;
   }
 }
 </style>

@@ -290,7 +290,7 @@
 
                       <template v-else>
                         <nuxt-link
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition rounded-[10px]"
                           :to="
                             item.provider == 'api_engagement'
                               ? `/missions-benevolat/${item.id}`
@@ -799,7 +799,6 @@ export default {
     },
     readUrl() {
       const routeState = qs.parse(this.$router.currentRoute.query)
-      console.log(routeState)
       this.$set(this, 'routeState', routeState)
     },
     writeUrl() {

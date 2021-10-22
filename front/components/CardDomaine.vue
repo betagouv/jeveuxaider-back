@@ -24,7 +24,7 @@
         />
 
         <div
-          class="absolute p-8 space-y-4"
+          class="absolute p-6 sm:p-8 space-y-4"
           :class="[
             { 'bottom-0': domaine.bottom },
             { 'top-0': !domaine.bottom },

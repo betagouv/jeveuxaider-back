@@ -694,3 +694,7 @@ input {
     }
   }
 }
+
+:focus-visible {
+  @apply outline-none ring;
+}

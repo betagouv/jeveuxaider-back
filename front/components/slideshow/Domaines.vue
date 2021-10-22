@@ -1,61 +1,21 @@
 <template>
-  <div>
-    <VueSlickCarousel ref="vueSlickCarousel" v-bind="settings">
-      <nuxt-link
-        v-for="domaine in domaines"
-        :key="domaine.id"
-        class="card--domaine--wrapper"
-        :to="`/domaines-action/${domaine.slug}`"
-      >
-        <CardDomaine :domaine="domaine" class="!h-full" />
-      </nuxt-link>
-
-      <template #prevArrow="arrowOption">
-        <transition name="fade">
-          <div
-            v-show="arrowOption.currentSlide"
-            class="rounded-full !bg-white transition transform !-translate-x-12 !-translate-y-1/2 hover:scale-125 will-change-transform flex justify-center items-center !p-6 relative z-10"
-          >
-            <img
-              src="/images/chevron_left.svg"
-              alt="Précédent"
-              class="absolute inset-0 m-auto"
-            />
-          </div>
-        </transition>
-      </template>
-
-      <template #nextArrow="arrowOption">
-        <transition name="fade">
-          <div
-            v-show="arrowOption.currentSlide < domaines.length - 1"
-            class="rounded-full !bg-white transition transform !translate-x-12 !-translate-y-1/2 hover:scale-125 will-change-transform flex justify-center items-center !p-6 relative z-10"
-          >
-            <img
-              src="/images/chevron_right.svg"
-              alt="Suivant"
-              class="absolute inset-0 m-auto"
-            />
-          </div>
-        </transition>
-      </template>
-
-      <template #customPaging>
-        <div class="text-sm text-[#DEDEDE]">
-          <div>●</div>
-        </div>
-      </template>
-    </VueSlickCarousel>
-  </div>
+  <Slideshow :slides-are-links="true" :slides-count="domaines.length">
+    <nuxt-link
+      v-for="domaine in domaines"
+      :key="domaine.id"
+      class="card--domaine--wrapper"
+      :to="`/domaines-action/${domaine.slug}`"
+    >
+      <CardDomaine :domaine="domaine" class="!h-full" />
+    </nuxt-link>
+  </Slideshow>
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import Slideshow from '@/mixins/Slideshow'
 
 export default {
-  components: { VueSlickCarousel },
+  components: { Slideshow },
   data() {
     return {
       domaines: [
@@ -173,28 +133,6 @@ export default {
           bottom: true,
         },
       ],
-      settings: {
-        arrows: true,
-        dots: true,
-        speed: 500,
-        edgeFriction: 0,
-        touchThreshold: 100,
-        swipeToSlide: true,
-        infinite: false,
-        variableWidth: true,
-      },
-    }
-  },
-  mounted() {
-    const dotsWrapper = this.$refs?.vueSlickCarousel?.$el
-      ?.getElementsByClassName('slick-dots')
-      ?.item(0)
-
-    if (dotsWrapper) {
-      const wrapper = document.createElement('div')
-      wrapper.className = 'mt-6'
-      dotsWrapper.parentNode.insertBefore(wrapper, dotsWrapper)
-      wrapper.appendChild(dotsWrapper)
     }
   },
 }
@@ -202,50 +140,27 @@ export default {
 
 <style lang="postcss" scoped>
 .card--domaine--wrapper {
-  @apply flex flex-col max-w-[360px];
+  @apply !flex flex-col max-w-[360px] transition rounded-[10px];
   width: calc(100vw - 64px) !important;
   @screen sm {
     @apply max-w-[350px] w-full;
   }
 }
 
-.slick-slider {
-  ::v-deep {
-    .slick-slide {
-      height: auto !important;
+::v-deep .slick-slider {
+  .slick-arrow {
+    &.slick-prev {
+      @apply translate-x-[-104px];
     }
-
-    .slick-list {
-      overflow: visible;
+    &.slick-next {
+      @apply translate-x-[104px];
     }
+  }
 
-    .slick-track {
-      @apply space-x-6 flex items-stretch;
-      @screen xl {
-        @apply space-x-14;
-      }
-      > div > div {
-        height: 100%;
-      }
-    }
-
-    .slick-arrow {
-      box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
-      display: none;
-      @screen sm {
-        display: block;
-      }
-    }
-
-    .slick-dots {
-      position: inherit;
-      @apply !space-x-3 text-center sm:text-left bottom-0 w-auto flex-none;
-      > li {
-        @apply w-auto h-auto m-0;
-        &.slick-active > div {
-          color: #696974;
-        }
-      }
+  .slick-track {
+    @apply space-x-6;
+    @screen xl {
+      @apply space-x-14;
     }
   }
 }
