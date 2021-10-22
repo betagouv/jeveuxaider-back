@@ -536,6 +536,52 @@
         </div>
       </div>
     </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="flex justify-between items-baseline mb-12">
+            <h2
+              class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center md:text-left"
+            >
+              Toutes les réponses à
+              <strong class="font-extrabold">vos questions</strong>
+            </h2>
+            <span
+              class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
+            >
+              #faq
+            </span>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-x-8 gap-y-16 xl:gap-24">
+            <div>
+              <div class="font-bold text-primary tracking-wide uppercase mb-4">
+                Bénévoles
+              </div>
+
+              <Accordion :items="faq.benevoles" />
+            </div>
+            <div>
+              <div class="font-bold text-primary tracking-wide uppercase mb-4">
+                Responsable d'organisation
+              </div>
+
+              <Accordion :items="faq.responsables" />
+            </div>
+          </div>
+
+          <a
+            href="https://reserve-civique.crisp.help/fr/"
+            class="text-lg text-primary hover:underline inline-flex mt-8"
+            target="_blank"
+          >
+            Toutes les réponses à vos questions ›
+          </a>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -614,6 +660,42 @@ export default {
           `Créez une page dédiée à votre collectivité`,
           `Centralisez les missions des organisations locales`,
           `Encouragez et valorisez l'engagement de vos citoyens`,
+        ],
+      },
+      faq: {
+        benevoles: [
+          {
+            icon: '✊',
+            title: `Qui peut s'insccrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
+          },
+          {
+            icon: '🔍',
+            title: `Comment trouver une mission&nbsp;?`,
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
+          },
+          {
+            icon: '‍️‍️🖐',
+            title: `Comment candidater à une mission&nbsp;?`,
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
+          },
+        ],
+        responsables: [
+          {
+            icon: '😁',
+            title: `Comment s’inscrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
+          },
+          {
+            icon: '✊',
+            title: `Qui peut s’inscrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
+          },
+          {
+            icon: '‍️‍️📣',
+            title: `Comment publier une mission&nbsp;?`,
+            content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
+          },
         ],
       },
     }

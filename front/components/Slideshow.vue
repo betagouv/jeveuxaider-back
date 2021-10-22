@@ -1,7 +1,7 @@
 <template>
   <div>
     <VueSlickCarousel ref="vueSlickCarousel" v-bind="settings">
-      <slot ref="slides"></slot>
+      <slot></slot>
 
       <template #prevArrow="arrowOption">
         <transition name="fade">
@@ -45,25 +45,16 @@
     </VueSlickCarousel>
 
     <template v-if="moreLink">
-      <nuxt-link
-        v-if="!moreLink.isExternal"
+      <component
+        :is="moreLink.isExternal ? 'a' : 'nuxt-link'"
         ref="moreLink"
-        slot="moreLink"
-        :to="moreLink.link"
-        class="text-[#696974] hover:underline"
+        :to="moreLink.isExternal ? false : moreLink.link"
+        :href="moreLink.isExternal ? moreLink.link : false"
+        :target="moreLink.isExternal ? '_blank' : false"
+        class="text-[#696974] hover:underline cursor-pointer"
       >
         {{ moreLink.label }}
-      </nuxt-link>
-
-      <a
-        v-else
-        ref="moreLink"
-        :href="moreLink.link"
-        target="_blank"
-        class="text-[#696974] hover:underline"
-      >
-        {{ moreLink.label }}
-      </a>
+      </component>
     </template>
   </div>
 </template>

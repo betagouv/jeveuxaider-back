@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Slideshow from '@/mixins/Slideshow'
+import Slideshow from '@/components/Slideshow'
 
 export default {
   components: { Slideshow },
