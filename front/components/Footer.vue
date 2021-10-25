@@ -88,11 +88,56 @@
         </div>
       </div>
     </div>
+
+    <hr />
+
+    <div class="bg-white py-4">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-[1170px] text-[#666666] text-xs">
+          <div class="divide-x">
+            <nuxt-link
+              v-for="(link, index) in links2"
+              :key="link.name"
+              :to="link.url"
+              class="hover:underline px-4"
+              :class="[{ 'pl-0': index === 0 }]"
+            >
+              {{ link.name }}
+            </nuxt-link>
+
+            <a
+              href="javascript:openAxeptioCookies()"
+              class="hover:underline px-4"
+            >
+              Gestion des cookies
+            </a>
+          </div>
+
+          <div class="mt-6">
+            Sauf mention contraire, tous les textes de ce site sont sous
+            <a
+              href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+              target="_blank"
+              class="inline-flex items-baseline"
+            >
+              <span class="underline">licence etatlab-2.0</span>
+
+              <ExternalSvg class="flex-none ml-1" width="10" height="10" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </footer>
 </template>
 
 <script>
+import ExternalSvg from '@/assets/images/external.svg?inline'
+
 export default {
+  components: {
+    ExternalSvg,
+  },
   data() {
     return {
       cities: [
@@ -257,12 +302,26 @@ export default {
           url: `https://service-public.fr`,
         },
         {
-          name: `service-public.fr`,
-          url: `https://www.service-public.fr/`,
-        },
-        {
           name: `data.gouv.fr`,
           url: `https://www.data.gouv.fr`,
+        },
+      ],
+      links2: [
+        {
+          name: `Plan du site`,
+          url: `/sitemap.xml`,
+        },
+        {
+          name: `Accessibilité`,
+          url: `/accessibilite`,
+        },
+        {
+          name: `Mentions légales`,
+          url: `/mentions-legales`,
+        },
+        {
+          name: `Données personnelles`,
+          url: `/politique-de-confidentialite`,
         },
       ],
     }
