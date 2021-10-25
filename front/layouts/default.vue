@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#F9F8F6] tracking-tight">
+  <div class="bg-jva-grayLight tracking-tight">
     <div class="nav-skip" lang="fr">
       <ul id="top">
         <li>
@@ -14,7 +14,7 @@
     <main id="main">
       <Nuxt />
     </main>
-    <AppFooter />
+    <Footer />
     <transition name="fade">
       <LazySearchOverlay
         v-if="$store.getters.searchOverlay"

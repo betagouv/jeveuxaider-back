@@ -59,6 +59,7 @@ module.exports = {
         },
         jva: {
           green: '#09AC8C',
+          grayLight: '#F9F8F6',
         },
       },
       fontSize: {

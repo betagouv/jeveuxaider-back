@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <AppFooter />
+    <Footer />
     <transition name="fade">
       <LazySearchOverlay
         v-if="$store.getters.searchOverlay"

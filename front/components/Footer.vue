@@ -1,0 +1,273 @@
+<template>
+  <footer>
+    <div class="bg-jva-grayLight py-8">
+      <div class="container px-4 mx-auto">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="grid lg:grid-cols-2 text-xs gap-8">
+            <div>
+              <div class="font-bold mb-8">Le bénévolat en France</div>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <nuxt-link
+                  v-for="city in cities"
+                  :key="city.name"
+                  :to="city.url"
+                  class="hover:underline text-[#666666]"
+                >
+                  {{ city.name }}
+                </nuxt-link>
+              </div>
+            </div>
+
+            <div>
+              <div class="font-bold mb-8">Organisations populaires</div>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <nuxt-link
+                  v-for="organization in organizations"
+                  :key="organization.name"
+                  :to="organization.url"
+                  class="hover:underline text-[#666666]"
+                >
+                  {{ organization.name }}
+                </nuxt-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white py-8">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="lg:flex">
+            <nuxt-link
+              to="/"
+              class="inline-flex flex-col space-y-8 items-center justify-start sm:flex-row sm:space-x-8 sm:space-y-0 lg:space-x-4 xl:space-x-8"
+            >
+              <img
+                src="@/assets/images/republique-francaise-logo.svg"
+                alt="République Française"
+                width="167"
+                height="151"
+                class="ml-[-19px]"
+              />
+
+              <img
+                src="@/assets/images/jeveuxaider-logo.svg"
+                alt="Bénévolat je veux aider"
+                title="Bénévolat association"
+                width="251"
+                height="41"
+              />
+            </nuxt-link>
+
+            <div class="ml-auto lg:pl-16">
+              <div
+                class="text-[#383838] text-sm lg:max-w-lg leading-relaxed mt-8 mb-6"
+              >
+                Trouvez une mission d'intérêt général auprès d'un organisme
+                public
+                <br class="hidden md:block" />
+                ou associatif et faites vivre les valeurs de la République.
+              </div>
+
+              <div class="flex flex-wrap -mx-3 -my-2">
+                <a
+                  v-for="link in links"
+                  :key="link.url"
+                  class="hover:underline font-bold text-sm px-3 py-2"
+                  :href="link.url"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{ link.name }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      cities: [
+        {
+          name: `Paris`,
+          url: `/villes/paris`,
+        },
+        {
+          name: `Lille`,
+          url: `/villes/lille`,
+        },
+        {
+          name: `Rouen`,
+          url: `/villes/rouen`,
+        },
+        {
+          name: `Toulouse`,
+          url: `/villes/toulouse`,
+        },
+        {
+          name: `Rennes`,
+          url: `/villes/rennes`,
+        },
+        {
+          name: `Grenoble`,
+          url: `/villes/grenoble`,
+        },
+        {
+          name: `Lyon`,
+          url: `/villes/lyon`,
+        },
+        {
+          name: `Montpellier`,
+          url: `/villes/montpellier`,
+        },
+        {
+          name: `Tours`,
+          url: `/villes/tours`,
+        },
+        {
+          name: `Marseille`,
+          url: `/villes/marseille`,
+        },
+        {
+          name: `Strasbourg`,
+          url: `/villes/strasbourg`,
+        },
+        {
+          name: `Dijon`,
+          url: `/villes/dijon`,
+        },
+        {
+          name: `Bordeaux`,
+          url: `/villes/bordeaux`,
+        },
+        {
+          name: `Angers`,
+          url: `/villes/angers`,
+        },
+        {
+          name: `Nancy`,
+          url: `/villes/nancy`,
+        },
+        {
+          name: `Nantes`,
+          url: `/villes/nantes`,
+        },
+        {
+          name: `Nice`,
+          url: `/villes/nice`,
+        },
+        {
+          name: `Caen`,
+          url: `/villes/caen`,
+        },
+      ],
+      organizations: [
+        {
+          name: `Singa`,
+          url: `/organisations/5575-singa`,
+        },
+        {
+          name: `Action contre la faim`,
+          url: `/organisations/5461-action-contre-la-faim`,
+        },
+        {
+          name: `J'agis pour la nature`,
+          url: `/`,
+        },
+        {
+          name: `Benevolt`,
+          url: `/`,
+        },
+        {
+          name: `Banques Alimentaires`,
+          url: `/organisations/4400-federation-francaise-des-banques-alimentaires`,
+        },
+        {
+          name: `Emmaüs`,
+          url: `/organisations/5638-emmaus-france`,
+        },
+        {
+          name: `Afev`,
+          url: `/organisations/5431-afev`,
+        },
+        {
+          name: `APHP`,
+          url: `/`,
+        },
+        {
+          name: `Benenova`,
+          url: `/organisations/25-benenova`,
+        },
+        {
+          name: `Article 1`,
+          url: `/organisations/5265-article-1`,
+        },
+        {
+          name: `Make.org`,
+          url: `/`,
+        },
+        {
+          name: `Mamie Boom`,
+          url: `/`,
+        },
+        {
+          name: `Armée du Salut`,
+          url: `/organisations/3657-fondation-de-larmee-du-salut`,
+        },
+        {
+          name: `Petits Frères des Pauvres`,
+          url: `/organisations/1486-petits-freres-des-pauvres`,
+        },
+        {
+          name: `Makesense`,
+          url: `/organisations/2747-makesense`,
+        },
+        {
+          name: `Energie Jeunes`,
+          url: `/organisations/5430-energie-jeunes`,
+        },
+        {
+          name: `Secours Catholique`,
+          url: `/organisations/8353-secours-catholique`,
+        },
+        {
+          name: `Bon Samaritain`,
+          url: `/organisations/6875-le-bon-samaritain`,
+        },
+      ],
+      links: [
+        {
+          name: `legifrance.gouv.fr`,
+          url: `https://legifrance.gouv.fr`,
+        },
+        {
+          name: `gouvernement.fr`,
+          url: `https://gouvernement.fr`,
+        },
+        {
+          name: `service-public.fr`,
+          url: `https://service-public.fr`,
+        },
+        {
+          name: `service-public.fr`,
+          url: `https://www.service-public.fr/`,
+        },
+        {
+          name: `data.gouv.fr`,
+          url: `https://www.data.gouv.fr`,
+        },
+      ],
+    }
+  },
+}
+</script>
+
+<style lang="postcss" scoped></style>

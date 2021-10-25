@@ -160,7 +160,7 @@
     </section>
 
     <!-- ENGAGEZ-VOUS -->
-    <section class="py-16 bg-[#F9F8F6] overflow-hidden">
+    <section class="py-16 bg-jva-grayLight overflow-hidden">
       <div class="container mx-auto px-4 relative">
         <div class="mx-auto max-w-[1170px]">
           <h2
@@ -271,7 +271,7 @@
     </section>
 
     <!-- TÉMOIGNAGES -->
-    <section class="py-16 bg-[#F9F8F6] overflow-hidden">
+    <section class="py-16 bg-jva-grayLight overflow-hidden">
       <div class="container mx-auto px-4">
         <h2
           class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center text-[#AFAFAE]"

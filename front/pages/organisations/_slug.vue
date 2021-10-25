@@ -346,7 +346,7 @@
       class="gradient"
       :class="[{ 'py-16': !missions.data.length }]"
     >
-      <div class="container px-4 mx-auto">
+      <div class="container px-4 mx-auto relative">
         <div
           class="card--don mx-auto shadow-lg"
           :class="[{ 'transform -translate-y-16': missions.data.length }]"
@@ -378,8 +378,19 @@
             </div>
           </div>
 
-          <div class="bg-white">
-            <div class="text-center transform -translate-y-1/2">
+          <div>
+            <div
+              class="text-center transform -translate-y-1/2"
+              :class="[
+                {
+                  'absolute inset-x-0':
+                    !organisation.donation.includes('helloasso') &&
+                    !organisation.donation.includes('leetchi') &&
+                    !organisation.donation.includes('microdon') &&
+                    !organisation.donation.includes('ulule'),
+                },
+              ]"
+            >
               <button
                 class="mx-auto flex items-center justify-center font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-jva-green py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 !outline-none transform transition will-change-transform"
                 @click="goTo(organisation.donation)"
@@ -409,7 +420,7 @@
                 organisation.donation.includes('microdon') ||
                 organisation.donation.includes('ulule')
               "
-              class="-mt-7 p-6"
+              class="-mt-7 p-6 bg-white"
             >
               <div class="flex items-center justify-center">
                 <span

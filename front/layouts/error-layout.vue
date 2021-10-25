@@ -17,7 +17,7 @@
       <Nuxt />
     </main>
 
-    <AppFooter />
+    <Footer />
 
     <transition name="fade">
       <LazySearchOverlay
