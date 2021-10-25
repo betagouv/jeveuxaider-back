@@ -268,7 +268,7 @@
                 inscription.
               </item-description> -->
               <el-select
-                v-model="form.reseau_id"
+                v-model="form.tete_de_reseau_id"
                 clearable
                 placeholder="Choix de votre réseau national"
                 filterable

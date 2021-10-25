@@ -154,9 +154,9 @@ class StructureController extends Controller
             $structure->syncTagsWithType($domaines, 'domaine');
         }
 
-        if ($request->has('reseau_id')) {
-            if($request->input('reseau_id')){
-                $structure->reseaux()->syncWithoutDetaching([$request->input('reseau_id')]);
+        if ($request->has('tete_de_reseau_id')) {
+            if($request->input('tete_de_reseau_id')){
+                $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
             }
         }
 
