@@ -12834,6 +12834,11 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
+vue-in-viewport-mixin@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/vue-in-viewport-mixin/-/vue-in-viewport-mixin-2.0.2.tgz#3a0d826ab3e7ca7a30c99574810a8d156a805e5b"
+  integrity sha512-tr5tNsTWNJnbDsETi9vDyUv7uomuGBOwt8s9NfhYtjZ79ZUsCup6hzLWvxkPII+5L4KqyRAmy30k95fYY3TTAg==
+
 vue-instantsearch@^3.5.0:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/vue-instantsearch/-/vue-instantsearch-3.8.1.tgz#6ab57f0aef5558e235b085e0652e5a50eb8aa6e1"
