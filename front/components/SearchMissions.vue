@@ -403,8 +403,8 @@ import {
   AisPagination,
   AisClearRefinements,
   AisSearchBox,
-  AisRefinementList,
-  AisToggleRefinement,
+  // AisRefinementList,
+  // AisToggleRefinement,
   createServerRootMixin,
 } from 'vue-instantsearch'
 
@@ -482,8 +482,8 @@ export default {
     AisPagination,
     AisClearRefinements,
     AisSearchBox,
-    AisRefinementList, // eslint-disable-line vue/no-unused-components
-    AisToggleRefinement, // eslint-disable-line vue/no-unused-components
+    // AisRefinementList, // eslint-disable-line vue/no-unused-components
+    // AisToggleRefinement, // eslint-disable-line vue/no-unused-components
   },
   mixins: [domaineColors],
   provide() {
