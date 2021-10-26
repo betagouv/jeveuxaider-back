@@ -53,7 +53,7 @@
                   </nuxt-link>
                   <a
                     v-else
-                    href="#search"
+                    href="#search-wrapper"
                     :class="domainColor(domainId)"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white !outline-none focus:ring transition md:py-4 md:text-lg md:px-15"
                   >
@@ -174,11 +174,7 @@
         </div>
       </div>
 
-      <div
-        v-if="!$store.getters.loading"
-        id="search"
-        :class="domainBgColor(domainId)"
-      >
+      <div v-if="!$store.getters.loading" :class="domainBgColor(domainId)">
         <div
           class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8"
         >
@@ -225,7 +221,13 @@
 
       <SearchMissions
         v-if="thematique.domaine"
-        :facets="['template_title', 'department_name', 'structure.name']"
+        id="search-wrapper"
+        :facets="[
+          'template_title',
+          'department_name',
+          'structure.name',
+          'is_priority',
+        ]"
         :filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
         :thematique="thematique"
         :title-tag="'h2'"

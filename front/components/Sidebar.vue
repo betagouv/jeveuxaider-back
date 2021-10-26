@@ -41,7 +41,7 @@
         <!-- <LazySidebarSuperviseur
           v-if="$store.getters.contextRole == 'superviseur'"
         /> -->
-        <LazyMenuTeteDeReseau
+        <LazySidebarTeteDeReseau
           v-if="$store.getters.contextRole == 'tete_de_reseau'"
         />
         <LazySidebarAnalyste v-if="$store.getters.contextRole == 'analyste'" />
