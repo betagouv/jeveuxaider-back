@@ -135,7 +135,7 @@
 
                 <div
                   v-scroll-lock="showFilters && isMobile"
-                  class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
+                  class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-visible flex flex-col flex-1"
                 >
                   <client-only>
                     <AisClearRefinements :excluded-attributes="clearExcludes">

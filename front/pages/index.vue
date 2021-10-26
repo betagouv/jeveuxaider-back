@@ -61,6 +61,13 @@
 
     <!-- ORGANISATIONS -->
     <section class="relative overflow-hidden md:h-[500px] md:flex items-center">
+      <img
+        src="/images/deco_1.svg"
+        alt="Décorations"
+        class="deco--1 absolute hidden xl:block"
+        data-not-lazy
+      />
+
       <div class="md:container md:mx-auto xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <picture>
@@ -269,7 +276,21 @@
     </section>
 
     <!-- TÉMOIGNAGES -->
-    <section class="py-16 bg-jva-grayLight overflow-hidden">
+    <section class="py-16 bg-jva-grayLight overflow-hidden relative">
+      <img
+        src="/images/deco_2.svg"
+        alt="Décorations"
+        class="deco--2 absolute hidden lg:block"
+        data-not-lazy
+      />
+
+      <img
+        src="/images/deco_3.svg"
+        alt="Décorations"
+        class="deco--3 absolute hidden lg:block"
+        data-not-lazy
+      />
+
       <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <h2
           class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center text-[#AFAFAE]"
@@ -802,5 +823,20 @@ export default {
 
 .text-shadow {
   text-shadow: 0px 4px 14px rgb(0 0 0 / 25%), 0px 4px 30px rgb(0 0 0 / 85%);
+}
+
+.deco--1 {
+  left: calc(50% - 727px);
+  top: -6px;
+}
+
+.deco--2 {
+  left: calc(50% - 728px);
+  top: 50px;
+}
+
+.deco--3 {
+  right: calc(50% - 728px);
+  top: -12px;
 }
 </style>
