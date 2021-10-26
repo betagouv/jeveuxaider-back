@@ -380,4 +380,8 @@ export default {
   left: -12px;
   @apply absolute top-0 bottom-0 m-auto;
 }
+
+::v-deep #search-overlay--places-input {
+  box-shadow: none !important;
+}
 </style>

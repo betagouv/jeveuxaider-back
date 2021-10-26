@@ -722,13 +722,6 @@ export default {
     }
   },
   methods: {
-    handleClickCTA() {
-      window.plausible &&
-        window.plausible('Click CTA - Homepage', {
-          props: { isLogged: this.$store.getters.isLogged },
-        })
-      this.$store.commit('toggleSearchOverlay')
-    },
     handleSubmitNewsletter() {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       if (re.test(String(this.newsletterForm.email).toLowerCase())) {
