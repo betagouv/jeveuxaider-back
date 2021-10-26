@@ -115,15 +115,23 @@ export default {
       const dotsWrapper = this.$refs?.vueSlickCarousel?.$el
         ?.getElementsByClassName('slick-dots')
         ?.item(0)
+      const moreLinkEl = this.$refs?.moreLink?.$el || this.$refs?.moreLink
 
-      if (dotsWrapper) {
+      if (dotsWrapper || moreLinkEl) {
+        // Add wrapper.
         const wrapper = document.createElement('div')
         wrapper.className =
           'wrapper--slick-dots mt-6 flex flex-col sm:flex-row items-center sm:justify-start space-y-4 sm:space-y-0 sm:space-x-8'
-        dotsWrapper.parentNode.insertBefore(wrapper, dotsWrapper)
-        wrapper.appendChild(dotsWrapper)
+        if (dotsWrapper) {
+          dotsWrapper.parentNode.insertBefore(wrapper, dotsWrapper)
+        } else {
+          moreLinkEl.parentNode.insertBefore(wrapper, moreLinkEl)
+        }
 
-        const moreLinkEl = this.$refs?.moreLink?.$el || this.$refs?.moreLink
+        // Add elements to the wrapper.
+        if (dotsWrapper) {
+          wrapper.appendChild(dotsWrapper)
+        }
         if (moreLinkEl) {
           wrapper.appendChild(moreLinkEl)
         }

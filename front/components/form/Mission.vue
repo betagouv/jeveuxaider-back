@@ -34,7 +34,7 @@
       >
         <div class="flex-none self-stretch">
           <img
-            :src="form.template.photo.thumb"
+            :src="form.template.photo && form.template.photo.thumb"
             width="125px"
             class="object-cover h-full"
             @error="defaultThumbnail($event)"

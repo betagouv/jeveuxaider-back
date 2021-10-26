@@ -181,6 +181,7 @@
               class="-mt-16 md:mt-0 md:mr-[-97px]"
               width="379"
               height="292"
+              data-not-lazy
             />
           </div>
         </div>

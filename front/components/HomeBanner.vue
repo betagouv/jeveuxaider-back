@@ -71,9 +71,9 @@ export default {
   watch: {
     'inViewport.now'(visible) {
       if (!visible) {
-        this.$refs.video.pause()
+        this.$refs?.video?.pause()
       } else {
-        this.$refs.video.play()
+        this.$refs?.video?.play()
       }
     },
   },

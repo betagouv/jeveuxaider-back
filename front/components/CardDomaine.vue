@@ -15,7 +15,6 @@
           style="min-height: 180px"
           width="328"
           height="405"
-          data-not-lazy
         />
 
         <div

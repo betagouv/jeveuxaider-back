@@ -66,7 +66,7 @@
             : 'text-gray-400 hover:text-gray-900',
         ]"
         v-html="
-          require('@/assets/images/icones/heroicon/office-building.svg?include')
+          require('@/assets/images/icones/heroicon/office-building.svg?raw')
         "
       />
       Réseaux

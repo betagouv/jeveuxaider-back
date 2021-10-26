@@ -20,7 +20,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/home.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/home.svg?raw')"
       />
       Tableau de bord
     </nuxt-link>
@@ -47,7 +47,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="require('@/assets/images/icones/heroicon/library.svg?include')"
+        v-html="require('@/assets/images/icones/heroicon/library.svg?raw')"
       />
       Antennes
     </nuxt-link>
@@ -69,9 +69,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="
-          require('@/assets/images/icones/heroicon/collection.svg?include')
-        "
+        v-html="require('@/assets/images/icones/heroicon/collection.svg?raw')"
       />
       Missions
     </nuxt-link>
@@ -95,7 +93,7 @@
             : 'text-gray-400 hover:text-gray-900',
         ]"
         v-html="
-          require('@/assets/images/icones/heroicon/identification.svg?include')
+          require('@/assets/images/icones/heroicon/identification.svg?raw')
         "
       />
       Participations
@@ -122,9 +120,7 @@
             ? 'bg-primary text-white'
             : 'text-gray-400 hover:text-gray-900',
         ]"
-        v-html="
-          require('@/assets/images/icones/heroicon/color-swatch.svg?include')
-        "
+        v-html="require('@/assets/images/icones/heroicon/color-swatch.svg?raw')"
       />
       Modèles de mission
     </nuxt-link>

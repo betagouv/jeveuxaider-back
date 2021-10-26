@@ -214,7 +214,7 @@
           v-for="reseau in reseaux"
           :key="reseau.id"
           label="Réseau"
-          :icon="require('@/assets/images/icones/heroicon/user.svg?include')"
+          :icon="require('@/assets/images/icones/heroicon/user.svg?raw')"
           :link="
             $store.getters.contextRole == 'admin'
               ? `/dashboard/reseaux/${reseau.id}`
