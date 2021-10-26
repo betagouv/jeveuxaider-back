@@ -137,7 +137,6 @@ class Mission extends Model
             'domaine_id' => $this->domaine_id,
             'template_id' => $this->template_id,
             'score' => $this->score,
-            'is_priority' => $this->is_priority,
         ];
 
         if ($this->latitude && $this->longitude) {
@@ -145,6 +144,10 @@ class Mission extends Model
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
             ];
+        }
+
+        if ($this->is_priority) {
+            $mission['is_priority'] = true;
         }
 
         return $mission;
