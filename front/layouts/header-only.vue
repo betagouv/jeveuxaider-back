@@ -1,6 +1,6 @@
 <template>
   <div class="relative h-full">
-    <AppHeader />
+    <Header />
     <img
       class="z-1 object-cover absolute"
       alt="Je Veux Aider"

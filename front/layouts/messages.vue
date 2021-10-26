@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100 h-full flex flex-col">
-    <AppHeader />
+    <Header />
 
     <client-only>
       <div

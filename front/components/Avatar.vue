@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-hidden rounded-full flex-none flex items-center justify-center text-white"
+    class="component--avatar overflow-hidden rounded-full flex-none flex items-center justify-center text-white"
     :class="[
       width,
       fontSize,
@@ -18,6 +18,7 @@
           class="object-cover w-full h-full"
           :src="initialSource"
           :alt="fallback"
+          data-not-lazy
           @error="onSourceError"
         />
       </template>

@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <AppHeader />
+    <Header />
     <main id="main">
       <Nuxt />
     </main>

@@ -21,27 +21,27 @@
       </div>
 
       <nav class="px-3 mt-6">
-        <LazyMenuResponsable
+        <LazySidebarResponsable
           v-if="
             $store.getters.contextRole == 'responsable' &&
             $store.getters.contextableType == 'structure'
           "
         />
-        <LazyMenuResponsableTerritoire
+        <LazySidebarResponsableTerritoire
           v-if="
             $store.getters.contextRole == 'responsable' &&
             $store.getters.contextableType == 'territoire'
           "
         />
-        <LazyMenuModerateur v-if="$store.getters.contextRole == 'admin'" />
-        <LazyMenuReferent v-if="$store.getters.contextRole == 'referent'" />
-        <LazyMenuReferentRegional
+        <LazySidebarModerateur v-if="$store.getters.contextRole == 'admin'" />
+        <LazySidebarReferent v-if="$store.getters.contextRole == 'referent'" />
+        <LazySidebarReferentRegional
           v-if="$store.getters.contextRole == 'referent_regional'"
         />
-        <LazyMenuSuperviseur
+        <LazySidebarSuperviseur
           v-if="$store.getters.contextRole == 'superviseur'"
         />
-        <LazyMenuAnalyste v-if="$store.getters.contextRole == 'analyste'" />
+        <LazySidebarAnalyste v-if="$store.getters.contextRole == 'analyste'" />
 
         <!-- Secondary navigation -->
         <div class="mt-8">

@@ -36,6 +36,18 @@ use App\Notifications\NotificationTemoignageCreate;
 
 class MissionController extends Controller
 {
+    public function promotedToFrontPage(Request $request)
+    {
+        return Mission::where('is_priority', true)
+        ->where('places_left', '>', 0)
+        ->where('state', 'Validée')
+        ->whereHas('structure', function (Builder $query) {
+            $query->where('state', 'Validée');
+        })
+        ->limit(10)
+        ->get();
+    }
+
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure:id,name,state', 'responsable'))

@@ -91,11 +91,9 @@
                     class="flex absolute left-0"
                   ></ClipLoader>
 
-                  <img
+                  <SearchSvg
                     class="flex-none"
                     :class="[{ 'opacity-0': loading }]"
-                    src="/images/search.svg"
-                    alt="Rechercher"
                   />
                   <span class="ml-2">Rechercher</span>
                 </button>
@@ -111,11 +109,13 @@
 <script>
 import qs from 'qs'
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
+import SearchSvg from '@/static/images/search.svg?inline'
 
 export default {
   name: 'SearchOverlay',
   components: {
     ClipLoader,
+    SearchSvg,
   },
   data() {
     return {

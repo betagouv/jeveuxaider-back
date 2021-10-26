@@ -10,6 +10,9 @@ export default (axios) => ({
   async fetchMissions(params) {
     return await axios.get('/missions', { params })
   },
+  async fetchPromotedToFrontPageMissions(params) {
+    return await axios.get('/missions/promoted', { params })
+  },
   async deleteMission(id) {
     return await axios.delete(`/mission/${id}`)
   },

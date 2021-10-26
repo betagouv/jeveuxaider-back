@@ -698,3 +698,10 @@ input {
 :focus-visible {
   @apply outline-none ring;
 }
+
+.el-upload.el-upload--text {
+  width: 100% !important;
+}
+.el-upload-dragger {
+  width: 100% !important;
+}

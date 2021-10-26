@@ -26,8 +26,12 @@
       <div class="bg-black opacity-50 absolute inset-0 h-full w-full"></div>
 
       <div class="relative z-10 h-full">
-        <div class="container mx-auto px-4 text-center text-white h-full">
-          <div class="flex flex-col justify-center items-center h-full">
+        <div
+          class="container xl:max-w-[1412px] mx-auto px-4 text-center text-white h-full"
+        >
+          <div
+            class="flex flex-col justify-center items-center h-full text-shadow"
+          >
             <div
               class="text-[50px] leading-none lg:text-7xl font-extrabold mb-4 tracking-tighter"
             >
@@ -47,13 +51,7 @@
               class="flex items-center justify-center rounded-full text-white bg-jva-green hover:scale-105 !outline-none focus:scale-105 transition px-8 py-4 transform will-change-transform shadow-xl font-bold text-xl"
               @click="handleClickCTA()"
             >
-              <img
-                class="flex-none"
-                src="/images/search.svg"
-                alt="Rechercher"
-                width="16"
-                height="16"
-              />
+              <SearchSvg width="16" height="16" class="flex-none" />
               <span class="ml-2">Trouver une mission</span>
             </button>
           </div>
@@ -63,7 +61,7 @@
 
     <!-- ORGANISATIONS -->
     <section class="relative overflow-hidden md:h-[500px] md:flex items-center">
-      <div class="md:container md:mx-auto">
+      <div class="md:container md:mx-auto xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <picture>
             <source
@@ -112,7 +110,7 @@
       v-if="prioritizedMissions.length > 0"
       class="overflow-hidden xl:mt-6 pb-16"
     >
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-6">
             <h2
@@ -138,7 +136,7 @@
 
     <!-- DOMAINES D'ACTION -->
     <section class="py-16 bg-white overflow-hidden">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-6">
             <h2
@@ -161,7 +159,7 @@
 
     <!-- ENGAGEZ-VOUS -->
     <section class="py-16 bg-jva-grayLight overflow-hidden">
-      <div class="container mx-auto px-4 relative">
+      <div class="container mx-auto px-4 relative xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <h2
             class="text-4xl lg:text-[50px] lg:leading-[42px] tracking-tight text-center lg:text-left"
@@ -249,7 +247,7 @@
 
     <!-- ACTUALITÉS -->
     <section v-if="articles.length > 0" class="py-16 bg-white overflow-hidden">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-6">
             <h2
@@ -272,7 +270,7 @@
 
     <!-- TÉMOIGNAGES -->
     <section class="py-16 bg-jva-grayLight overflow-hidden">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <h2
           class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center text-[#AFAFAE]"
         >
@@ -286,7 +284,7 @@
 
     <!-- NEWSLETTER & GROUPE FACEBOOK -->
     <section>
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <div class="grid gap-5 md:grid-cols-2">
           <!-- NEWSLETTER -->
           <div
@@ -416,7 +414,7 @@
 
     <!-- ACTEURS DE L'ENGAGEMENT -->
     <section class="py-16">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <h2
           class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center text-[#AFAFAE] mb-16"
         >
@@ -539,7 +537,7 @@
 
     <!-- FAQ -->
     <section class="py-16 bg-white">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-12">
             <h2
@@ -586,7 +584,12 @@
 </template>
 
 <script>
+import SearchSvg from '@/static/images/search.svg?inline'
+
 export default {
+  components: {
+    SearchSvg,
+  },
   data() {
     return {
       prioritizedMissions: [],
@@ -701,12 +704,8 @@ export default {
     }
   },
   async fetch() {
-    const { data } = await this.$api.fetchMissions({
-      'filter[is_priority]': 'true',
-      'filter[state]': 'Validée',
-      'filter[structure.state]': 'Validée',
-    })
-    this.prioritizedMissions = data.data
+    const { data } = await this.$api.fetchPromotedToFrontPageMissions()
+    this.prioritizedMissions = data
 
     const { data: articles } = await this.$axios.get(
       `${this.$config.blog.restApiUrl}/posts/?per_page=6`,
@@ -799,5 +798,9 @@ export default {
   @screen lg {
     width: calc(50% + 50px);
   }
+}
+
+.text-shadow {
+  text-shadow: 0px 4px 14px rgb(0 0 0 / 25%), 0px 4px 30px rgb(0 0 0 / 85%);
 }
 </style>

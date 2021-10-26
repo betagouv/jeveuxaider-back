@@ -44,15 +44,23 @@
           show-password
         />
       </el-form-item>
-      <div class="mt-8 flex items-center">
-        <el-button type="primary" :loading="loading" class="" @click="onSubmit">
-          Enregistrer les modifications
-        </el-button>
-        <div
-          class="text-[#f56565] ml-4 cursor-pointer hover:underline"
-          @click="onSubmitDelete"
-        >
-          Supprimer mon compte
+      <div class="mt-8">
+        <div class="flex flex-wrap items-center -m-4">
+          <el-button
+            type="primary"
+            :loading="loading"
+            class="!m-4"
+            @click="onSubmit"
+          >
+            Enregistrer les modifications
+          </el-button>
+
+          <div
+            class="text-[#f56565] ml-4 cursor-pointer hover:underline m-4"
+            @click="onSubmitDelete"
+          >
+            Supprimer mon compte
+          </div>
         </div>
       </div>
     </el-form>
