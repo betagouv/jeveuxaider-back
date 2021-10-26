@@ -26,7 +26,7 @@ class Profile extends Model implements HasMedia
         'email',
         'phone',
         'mobile',
-        'reseau_id',
+        'tete_de_reseau_id',
         'referent_department',
         'referent_region',
         'birthday',
@@ -40,13 +40,15 @@ class Profile extends Model implements HasMedia
         'commitment__time_period',
         'type',
         'user_id',
+        'can_export_profiles',
     ];
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',
         'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
-        'disponibilities' => 'array'
+        'disponibilities' => 'array',
+        'can_export_profiles' => 'boolean'
     ];
 
     protected $appends = ['full_name', 'short_name', 'image'];
@@ -210,17 +212,6 @@ class Profile extends Model implements HasMedia
                         }
                     );
                 break;
-            case 'superviseur':
-                return $query
-                    ->whereHas(
-                        'structures',
-                        function (Builder $query) {
-                            $query
-                                ->whereNotNull('reseau_id')
-                                ->where('reseau_id', Auth::guard('api')->user()->profile->reseau_id);
-                        }
-                    );
-                break;
             case 'responsable':
                 $structures_id =  Auth::guard('api')->user()->profile->structures->pluck('id')->toArray();
                 return $query->whereHas(
@@ -279,6 +270,11 @@ class Profile extends Model implements HasMedia
         return $this->belongsTo('App\Models\Structure');
     }
 
+    public function teteDeReseau()
+    {
+        return $this->belongsTo(Reseau::class);
+    }
+
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'responsable_id');
@@ -326,9 +322,14 @@ class Profile extends Model implements HasMedia
         return $this->referent_region ? true : false;
     }
 
-    public function isSuperviseur()
+    // public function isSuperviseur()
+    // {
+    //     return $this->reseau ? true : false;
+    // }
+
+    public function isTeteDeReseau()
     {
-        return $this->reseau ? true : false;
+        return $this->teteDeReseau ? true : false;
     }
 
     public function isResponsable()
@@ -360,8 +361,9 @@ class Profile extends Model implements HasMedia
             'admin' => $this->isAdmin(),
             'referent' => $this->isReferent(),
             'referent_regional' => $this->isReferentRegional(),
-            'superviseur' => $this->isSuperviseur(),
+            // 'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
+            'tete_de_reseau' => $this->isTeteDeReseau(),
             'analyste' => $this->is_analyste
         ];
     }

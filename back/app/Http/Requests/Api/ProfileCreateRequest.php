@@ -34,7 +34,7 @@ class ProfileCreateRequest extends ProfileRequest
             'avatar' => '',
             'referent_department' => '',
             'referent_region' => '',
-            'reseau_id' => '',
+            'tete_de_reseau_id' => '',
             'is_analyste' => 'boolean'
         ];
     }

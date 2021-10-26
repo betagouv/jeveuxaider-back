@@ -34,6 +34,17 @@
             <strong>{{ invitation.invitable.name }}</strong> en tant que
             responsable.
           </template>
+          <template v-if="invitation.role == 'responsable_antenne'">
+            Vous avez été invité(e) à créer l'antenne
+            <strong>{{ invitation.properties.antenne_name }}</strong> du réseau
+            <strong>{{ invitation.invitable.name }}</strong
+            >.
+          </template>
+          <template v-if="invitation.role == 'responsable_reseau'">
+            Vous avez été invité(e) à superviser le réseau
+            <strong>{{ invitation.invitable.name }}</strong
+            >.
+          </template>
           <template v-if="invitation.role == 'responsable_territoire'">
             Vous avez été invité(e) à rejoindre le territoire
             <strong>{{ invitation.invitable.name }}</strong> en tant que

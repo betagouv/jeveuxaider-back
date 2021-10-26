@@ -129,12 +129,6 @@
               :state="scope.row.state"
               size="big"
             />
-            <el-tag v-if="scope.row.is_reseau" class="m-1 ml-0" type="info">
-              Tête de réseau
-            </el-tag>
-            <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0">
-              {{ scope.row.reseau_id | reseauFromValue }}
-            </el-tag>
             <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
               {{ scope.row.department | fullDepartmentFromValue }}
             </el-tag>
@@ -209,9 +203,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   methods: {
     async onUpdatedRow() {

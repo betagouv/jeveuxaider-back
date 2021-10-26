@@ -102,6 +102,20 @@
               </ImageField>
             </div>
 
+            <el-form-item label="Profession" prop="type" class="!mb-5">
+              <el-select
+                v-model="form.type"
+                placeholder="Sélectionnez votre profession"
+              >
+                <el-option
+                  v-for="item in $store.getters.taxonomies.profile_types.terms"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+
             <el-form-item label="Téléphone mobile" prop="mobile" class="mb-5">
               <input
                 v-model="form.mobile"
@@ -182,6 +196,13 @@ export default {
           {
             pattern: /^[+|\s|\d]*$/,
             message: 'Le format du numéro de téléphone est incorrect',
+            trigger: 'blur',
+          },
+        ],
+        type: [
+          {
+            required: true,
+            message: 'Choisissez votre profession',
             trigger: 'blur',
           },
         ],

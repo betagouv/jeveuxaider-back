@@ -152,6 +152,7 @@
         <SearchFiltersQueryInput
           name="id"
           label="# Mission"
+          type="number"
           placeholder="Numéro"
           :initial-value="query['filter[id]']"
           @changed="onFilterChange"
@@ -233,9 +234,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   methods: {
     onExport() {

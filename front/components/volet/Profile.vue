@@ -180,19 +180,13 @@
         <VoletCard
           v-if="reseau"
           label="Réseau"
-          :link="`/dashboard/structure/${reseau.id}`"
+          :link="`/dashboard/reseaux/${reseau.id}`"
           :icon="require('@/assets/images/icones/heroicon/globe.svg?raw')"
         >
           <!-- <VoletRowItem label="ID">{{ reseau.id }}</VoletRowItem> -->
           <VoletRowItem label="Nom"
             ><span class="font-bold">{{ reseau.name }}</span></VoletRowItem
           >
-          <VoletRowItem label="Statut">{{
-            reseau.state | labelFromValue('structure_workflow_states')
-          }}</VoletRowItem>
-          <VoletRowItem label="Type">{{
-            reseau.statut_juridique | labelFromValue('structure_legal_status')
-          }}</VoletRowItem>
         </VoletCard>
       </div>
     </div>
@@ -225,7 +219,7 @@ export default {
       return this.profile.territoires ? this.profile.territoires : null
     },
     reseau() {
-      return this.profile.reseau ? this.profile.reseau : null
+      return this.profile.tete_de_reseau ? this.profile.tete_de_reseau : null
     },
   },
   watch: {

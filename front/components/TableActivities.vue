@@ -33,7 +33,7 @@
         </table>
       </template>
     </el-table-column>
-    <el-table-column prop="updated_at" label="Date" width="190">
+    <el-table-column prop="updated_at" label="Date" width="220">
       <template slot-scope="scope">
         <div class="text-sm text-gray-900">
           {{ scope.row.updated_at | formatLongWithTime }}

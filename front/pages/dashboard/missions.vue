@@ -165,6 +165,7 @@
         <SearchFiltersQueryInput
           name="id"
           label="# Mission"
+          type="number"
           placeholder="Numéro"
           :initial-value="query['filter[id]']"
           @changed="onFilterChange"
@@ -177,6 +178,15 @@
             { label: 'Oui', value: true },
             { label: 'Non', value: false },
           ]"
+          @changed="onFilterChange"
+        />
+
+        <SearchFiltersQuery
+          name="publics_volontaires"
+          label="Proposé aux"
+          multiple
+          :value="query['filter[publics_volontaires]']"
+          :options="$store.getters.taxonomies.mission_publics_volontaires.terms"
           @changed="onFilterChange"
         />
       </div>
@@ -234,7 +244,7 @@ export default {
   },
   asyncData({ store, error }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+      !['admin', 'referent', 'referent_regional', 'tete_de_reseau'].includes(
         store.getters.contextRole
       )
     ) {
@@ -258,9 +268,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   async created() {
     const domaines = await this.$api.fetchTags({ 'filter[type]': 'domaine' })

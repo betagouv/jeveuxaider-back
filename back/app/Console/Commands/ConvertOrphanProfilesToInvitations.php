@@ -64,11 +64,6 @@ class ConvertOrphanProfilesToInvitations extends Command
                     $invitation->role = 'referent_regional';
                     $invitation->properties = ['referent_regional'=>$profile->referent_region];
                 // $this->info("Converting " . $profile->email. " / " . "Referent régional du " . $profile->referent_region);
-                } elseif ($profile->reseau_id) {
-                    $invitation->role = 'superviseur';
-                    $invitation->invitable_id = $profile->reseau_id;
-                    $invitation->invitable_type = 'App\Models\Structure';
-                // $this->info("Converting " . $profile->email. " / " . "Superviseur du " . $profile->reseau->name);
                 } elseif ($profile->is_analyste) {
                     $invitation->role = 'datas_analyst';
                 // $this->info("Converting " . $profile->email. " / " . "Analyste");

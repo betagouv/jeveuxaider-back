@@ -114,10 +114,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  computed: {},
-  watch: {
-    '$route.query': '$fetch',
-  },
   methods: {
     handleCommand(command) {
       if (command.action == 'delete') {

@@ -211,11 +211,17 @@
       <div class="text-secondary text-xs ml-3">
         Affiche {{ fromRow }} à {{ toRow }} sur {{ totalRows }} résultats
       </div>
-      <!-- <div class="ml-auto">
-        <el-button icon="el-icon-download" size="small" @click="onExport">
+      <div class="ml-auto">
+        <el-button
+          v-if="$store.getters.user.profile.can_export_profiles"
+          :loading="loadingExport"
+          icon="el-icon-download"
+          size="small"
+          @click="onExport"
+        >
           Export
         </el-button>
-      </div> -->
+      </div>
     </div>
     <portal to="volet">
       <VoletProfile @updated="onUpdatedRow" />
@@ -250,6 +256,7 @@ export default {
   data() {
     return {
       loading: true,
+      loadingExport: false,
     }
   },
   async fetch() {
@@ -272,7 +279,7 @@ export default {
       ) {
         return [
           { label: 'Modérateur', value: 'admin' },
-          { label: 'Tête de réseau', value: 'superviseur' },
+          { label: 'Tête de réseau', value: 'tete_de_reseau' },
           { label: 'Analyste', value: 'analyste' },
           { label: 'Référent départemental', value: 'referent' },
           { label: 'Référent régional', value: 'referent_regional' },
@@ -288,31 +295,30 @@ export default {
       }
     },
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   methods: {
     handleCommand(command) {
       if (command.action == 'impersonate') {
         this.$store.dispatch('auth/impersonate', command.id)
       }
     },
-    // onExport() {
-    //   this.loading = true
-    //   exportProfiles(this.query)
-    //     .then(() => {
-    //       this.loading = false
-    //       // fileDownload(response.data, 'utilisateurs.csv')
-    //       this.$message.success({
-    //         message:
-    //           "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
-    //         type: 'success',
-    //       })
-    //     })
-    //     .catch((error) => {
-    //       console.log('exportProfiles', error)
-    //     })
-    // },
+    onExport() {
+      this.loadingExport = true
+      this.$api
+        .exportProfiles(this.query)
+        .then((res) => {
+          this.loadingExport = false
+          // fileDownload(response.data, 'utilisateurs.csv')
+          this.$message.success({
+            message:
+              "Votre export est en cours de génération... Vous recevrez un e-mail lorsqu'il sera prêt !",
+            type: 'success',
+          })
+        })
+        .catch((error) => {
+          this.loadingExport = false
+          console.log('exportProfiles', error)
+        })
+    },
   },
 }
 </script>

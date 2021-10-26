@@ -55,7 +55,8 @@ export default {
         'admin',
         'referent',
         'referent_regional',
-        'superviseur',
+        // 'superviseur',
+        'tete_de_reseau',
         'responsable',
       ].includes(store.getters.contextRole)
     ) {
@@ -79,10 +80,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
-  methods: {},
 }
 </script>
 

@@ -203,9 +203,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  watch: {
-    '$route.query': '$fetch',
-  },
   methods: {
     tooltipCompletionRate(completionRate) {
       let output = `<b>Complétion :</b> ${completionRate.score}%`

@@ -17,7 +17,12 @@
       <CardOrganisationsCount
         label="Organisations"
         name="structures"
-        link="/dashboard/structures"
+        :link="
+          $store.getters.contextRole == 'tete_de_reseau' &&
+          $store.getters.profile.tete_de_reseau_id
+            ? `/dashboard/reseaux/${$store.getters.profile.tete_de_reseau_id}/structures`
+            : '/dashboard/structures'
+        "
       />
       <ChartModelsCreated type="structures" class="max-w-4xl" />
     </div>
@@ -33,8 +38,9 @@ export default {
         'admin',
         'referent',
         'referent_regional',
-        'superviseur',
+        // 'superviseur',
         'analyste',
+        'tete_de_reseau',
       ].includes(store.getters.contextRole)
     ) {
       return error({ statusCode: 403 })

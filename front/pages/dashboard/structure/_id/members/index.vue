@@ -5,7 +5,7 @@
         <div class="text-m text-gray-600 uppercase">
           {{ structure.name }}
         </div>
-        <div class="mb-12 font-bold text-[1.75rem] text-[#242526]">
+        <div class="font-bold text-[1.75rem] text-[#242526]">
           Gérer votre équipe
         </div>
       </div>
@@ -16,45 +16,51 @@
     <el-divider />
     <div class="px-12 mb-12">
       <div class="text-sm font-medium text-secondary mb-4">Membres</div>
-      <div v-for="member in members" :key="member.id" class="member py-4 px-6">
-        <div class="flex items-center">
-          <Avatar
-            :source="member.image ? member.image.thumb : null"
-            :fallback="member.short_name"
-          />
-          <div class="flex flex-col ml-6" style="min-width: 350px">
-            <div class="text-[#242526]">
-              {{ member.first_name }} {{ member.last_name }}
+      <div class="grid grid-cols-2 gap-4">
+        <div
+          v-for="member in members"
+          :key="member.id"
+          class="py-4 px-6 bg-gray-50 rounded"
+        >
+          <div class="flex items-center">
+            <Avatar
+              :source="member.image ? member.image.thumb : null"
+              :fallback="member.short_name"
+            />
+            <div class="flex flex-1 flex-col ml-6" style="">
+              <div class="text-[#242526]">
+                {{ member.first_name }} {{ member.last_name }}
+              </div>
+              <div class="text-xs text-secondary">
+                <div class="break-all">{{ member.email }}</div>
+                <div class="">{{ member.mobile }}</div>
+              </div>
             </div>
-            <div class="text-xs text-secondary">
-              <div class="break-all">{{ member.email }}</div>
-              <div class="">{{ member.mobile }}</div>
-            </div>
+            <template
+              v-if="members.length > 1 || $store.getters.contextRole == 'admin'"
+            >
+              <el-button
+                v-if="$store.getters.user.profile.id != member.id"
+                type="danger"
+                icon="el-icon-delete"
+                size="small"
+                class="!ml-4 !m-auto is-plain"
+                @click="deleteConfirm(member)"
+              >
+                Retirer
+              </el-button>
+              <el-button
+                v-else
+                type="danger"
+                icon="el-icon-delete"
+                size="small"
+                class="!ml-4 !m-auto is-plain"
+                @click="quitConfirm(member)"
+              >
+                Quitter
+              </el-button>
+            </template>
           </div>
-          <template
-            v-if="members.length > 1 || $store.getters.contextRole == 'admin'"
-          >
-            <el-button
-              v-if="$store.getters.user.profile.id != member.id"
-              type="danger"
-              icon="el-icon-delete"
-              size="small"
-              class="!ml-4 !m-auto is-plain"
-              @click="deleteConfirm(member)"
-            >
-              Retirer
-            </el-button>
-            <el-button
-              v-else
-              type="danger"
-              icon="el-icon-delete"
-              size="small"
-              class="!ml-4 !m-auto is-plain"
-              @click="quitConfirm(member)"
-            >
-              Quitter
-            </el-button>
-          </template>
         </div>
       </div>
     </div>

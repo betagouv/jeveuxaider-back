@@ -80,6 +80,7 @@
             />
           </template>
         </v-clamp>
+
         <template slot="placeholder">
           <h2 class="name font-black text-black text-lg mb-auto">
             {{ mission.name }}
@@ -111,7 +112,8 @@
       </div>
     </div>
 
-    <div
+    <!-- SCORE -->
+    <!-- <div
       v-if="$store.getters.contextRole == 'admin'"
       class="bg-gray-50 px-[30px] py-4 text-xs"
     >
@@ -134,7 +136,7 @@
         <br />
         Taux de réponse : {{ mission.structure.response_ratio }}%
       </span>
-    </div>
+    </div> -->
 
     <div
       v-if="showState && participation"
@@ -178,6 +180,10 @@ export default {
       default: null,
     },
     showState: {
+      type: Boolean,
+      default: false,
+    },
+    isLoading: {
       type: Boolean,
       default: false,
     },

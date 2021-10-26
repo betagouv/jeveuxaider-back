@@ -3,23 +3,7 @@
     <div class="mb-6 text-md leading-snug text-gray-500">
       Vous pouvez publier une mission de bénévolat à partir d'un modèle
       prédéfini ou choisir de la rédiger intégralement dans le respect de la
-      <nuxt-link class="text-primary" to="/charte-reserve-civique"
-        >charte</nuxt-link
-      >.
     </div>
-    <el-select
-      v-model="domaine_id"
-      placeholder="Domaine d'action"
-      class="mb-8"
-      @change="$emit('change-domaine', domaine_id)"
-    >
-      <el-option
-        v-for="domaine in domaines"
-        :key="domaine.id"
-        :label="domaine.name.fr"
-        :value="domaine.id"
-      ></el-option>
-    </el-select>
 
     <div class="text-1-5xl font-bold text-[#242526] flex items-center">
       <div>Rédiger intégralement la mission</div>

@@ -45,6 +45,7 @@
         <SearchFiltersQueryInput
           name="participation.mission.id"
           label="# Mission"
+          type="number"
           placeholder="Numéro"
           :initial-value="query['filter[participation.mission.id]']"
           @changed="onFilterChange"
@@ -98,9 +99,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
 }
 </script>

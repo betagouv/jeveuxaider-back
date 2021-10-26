@@ -97,7 +97,8 @@ export default {
     if (
       ![
         'admin',
-        'superviseur',
+        // 'superviseur',
+        'tete_de_reseau',
         'responsable',
         'referent',
         'referent_regional',
@@ -140,9 +141,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   methods: {
     onExport() {

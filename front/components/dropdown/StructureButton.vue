@@ -19,6 +19,14 @@
       <nuxt-link :to="`/dashboard/structure/${structure.id}/members/add`">
         <el-dropdown-item :command="{}"> Ajouter un membre </el-dropdown-item>
       </nuxt-link>
+      <nuxt-link
+        v-if="['admin', 'referent'].includes($store.getters.contextRole)"
+        :to="`/dashboard/structure/${structure.id}/reseaux/add`"
+      >
+        <el-dropdown-item :command="{}">
+          Relier la structure à des réseaux
+        </el-dropdown-item>
+      </nuxt-link>
       <el-dropdown-item
         v-if="canBeSentToApiEngagement"
         :command="{ action: 'send-api' }"

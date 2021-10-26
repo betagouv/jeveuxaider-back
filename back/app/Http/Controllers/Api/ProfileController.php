@@ -27,24 +27,15 @@ use App\Jobs\NotifyUserOfCompletedExport;
 use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Tag;
+use App\Models\User;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Str;
-use Rap2hpoutre\FastExcel\FastExcel;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        // TODO : Mettre dans ProfileRequest ? Plus utilisé ?
-        // if ($request->header('Context-Role') == 'responsable') {
-        //     if (!request('filter')['match_mission']) {
-        //         abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
-        //     }
-        //     $missions = Mission::role('responsable')->available()->hasPlacesLeft()->get();
-        //     if (!$missions->contains(request('filter')['match_mission'])) {
-        //         abort(403, "Vous n'êtes pas autorisé à accéder à ce contenu");
-        //     }
-        // }
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id', 'territoires:name,id']))
             ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
@@ -56,7 +47,6 @@ class ProfileController extends Controller
                 AllowedFilter::custom('department', new FiltersProfileDepartment),
                 AllowedFilter::custom('disponibilities', new FiltersDisponibility),
                 AllowedFilter::custom('skills', new FiltersProfileSkill),
-                // AllowedFilter::custom('match_mission', new FiltersMatchMission),
                 AllowedFilter::exact('is_visible'),
                 AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
                 AllowedFilter::exact('referent_department'),
@@ -68,76 +58,49 @@ class ProfileController extends Controller
 
     public function participations(Request $request, Profile $profile)
     {
-        return QueryBuilder::for(Participation::with(['mission.responsable', 'mission.structure', 'conversation']))
-            ->where('profile_id', $profile->id)
-            ->defaultSort('-updated_at')
-            ->paginate(config('query-builder.results_per_page'));
+        return QueryBuilder::for(Participation::with(['mission.structure','conversation'])->where('profile_id', $profile->id))
+            ->allowedFilters(
+                'state'
+            )
+            ->defaultSort('-created_at')
+            ->paginate(8);
     }
 
-    // LARAVEL EXCEL
+    public function statistics(Request $request, Profile $profile)
+    {
+        return [
+            'participations' => [
+                'Toutes' => Participation::where('profile_id', $profile->id)->count(),
+                'En attente de validation' => Participation::where('profile_id', $profile->id)->where('state', 'En attente de validation')->count(),
+                'En cours de traitement' => Participation::where('profile_id', $profile->id)->where('state', 'En cours de traitement')->count(),
+                'Validée' => Participation::where('profile_id', $profile->id)->where('state', 'Validée')->count(),
+                'Refusée' => Participation::where('profile_id', $profile->id)->where('state', 'Refusée')->count(),
+                'Annulée' => Participation::where('profile_id', $profile->id)->where('state', 'Annulée')->count(),
+            ]
+        ];
+    }
+
     public function export(Request $request)
     {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+
+        $currentUser = User::find(Auth::guard('api')->user()->id);
+
+        if(!$currentUser->profile->can_export_profiles){
+            return response()->json(['message'=> 'Seuls les référents accrédités peuvent générer cet export'], 401);
+        }
+
+        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
         $fileName = 'profiles-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
-        // (new ProfilesExport($request->header('Context-Role')))
-        //     ->queue($filePath, 's3')
-        //     ->chain([
-        //         new NotifyUserOfCompletedExport($request->user(), $filePath),
-        //     ]);
+        (new ProfilesExport($request->header('Context-Role')))
+            ->queue($filePath, 's3')
+            ->chain([
+                new NotifyUserOfCompletedExport($request->user(), $filePath),
+            ]);
 
-        return response()->json(['message' => 'Export en cours...'], 200);
+        return response()->json(['message'=> 'Export en cours...'], 200);
     }
-
-    // FAST EXCEL
-    // public function export(Request $request)
-    // {
-    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-    //     $fileName = 'profiles-' . Str::random(8) . '.csv';
-    //     $filePath = $folder . $fileName;
-
-    //     $query = QueryBuilder::for(Profile::role($request->header('Context-Role')))
-    //         ->allowedFilters(
-    //             AllowedFilter::custom('search', new FiltersProfileSearch),
-    //             AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
-    //             AllowedFilter::custom('zips', new FiltersProfileZips),
-    //             AllowedFilter::custom('role', new FiltersProfileRole),
-    //             AllowedFilter::custom('domaines', new FiltersProfileTag),
-    //             AllowedFilter::custom('disponibilities', new FiltersDisponibility),
-    //             AllowedFilter::custom('skills', new FiltersProfileSkill),
-    //             AllowedFilter::custom('match_mission', new FiltersMatchMission),
-    //             AllowedFilter::exact('is_visible'),
-    //             AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
-    //             AllowedFilter::exact('referent_department'),
-    //             'referent_region'
-    //         )
-    //         ->defaultSort('-created_at')
-    //         ->get();
-
-    //     $exportFilePath = (new FastExcel($query))
-    //     ->export($fileName, function ($profile) {
-    //         return [
-    //             'id' => $profile->id,
-    //             // 'user_id' => $profile->user_id,
-    //             // 'first_name' => $profile->first_name,
-    //             // 'last_name' => $profile->last_name,
-    //             // 'email' => $profile->email,
-    //             // 'phone' => $profile->phone,
-    //             // 'mobile' => $profile->mobile,
-    //             // 'zip' => $profile->zip,
-    //             // 'referent_department' => $profile->referent_department,
-    //             // 'referent_region' => $profile->referent_region,
-    //             // 'reseau_id' => $profile->reseau_id,
-    //             // 'service_civique' => $profile->service_civique,
-    //             // 'is_visible' => $profile->is_visible,
-    //             // 'created_at' => $profile->created_at,
-    //             // 'updated_at' => $profile->updated_at,
-    //         ];
-    //     });
-
-    //     return response()->json(['message'=> 'Export en cours...'], 200);
-    // }
 
     public function exportReferentsDepartements(Request $request)
     {

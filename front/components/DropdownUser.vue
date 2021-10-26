@@ -90,8 +90,26 @@
         </el-dropdown-item>
 
         <el-dropdown-item
+          v-if="$store.getters.profile.tete_de_reseau"
+          :command="{
+            action: 'changeContext',
+            context_role: 'tete_de_reseau',
+          }"
+          divided
+        >
+          <div class="leading-normal py-2">
+            <div class="uppercase font-medium text-gray-400 text-xs">
+              Mon espace Tête de Réseau
+            </div>
+            <div class="font-semibold">
+              {{ $store.getters.profile.tete_de_reseau.name }}
+            </div>
+          </div>
+        </el-dropdown-item>
+
+        <el-dropdown-item
           v-for="role in $store.getters.roles.filter(
-            (role) => role.key != 'responsable'
+            (role) => role.key != 'responsable' && role.key != 'tete_de_reseau'
           )"
           :key="role.key"
           :command="{ action: 'changeContext', context_role: role.key }"

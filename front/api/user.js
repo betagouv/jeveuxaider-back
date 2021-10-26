@@ -2,15 +2,19 @@ export const rolesList = [
   { key: 'admin', label: 'Modérateur' },
   { key: 'referent', label: 'Référent' },
   { key: 'referent_regional', label: 'Régional' },
-  { key: 'superviseur', label: 'Tête de réseau' },
+  // { key: 'superviseur', label: 'Tête de réseau' },
+  { key: 'tete_de_reseau', label: 'Tête de réseau' },
   { key: 'responsable', label: 'Responsable' },
   { key: 'volontaire', label: 'Bénévole' },
   { key: 'analyste', label: 'Analyste' },
 ]
 
 export default (axios, $cookies) => ({
-  async fetchProfileParticipations(id) {
-    const { data } = await axios.get(`/profile/${id}/participations`)
+  async fetchProfileParticipations(id, params) {
+    return await axios.get(`/profile/${id}/participations`, { params })
+  },
+  async fetchProfileStatistics(id) {
+    const { data } = await axios.get(`/profile/${id}/statistics`)
     return data
   },
   async updateProfile(id, profile) {
@@ -177,23 +181,10 @@ export default (axios, $cookies) => ({
       params,
     })
   },
+  async exportProfiles(params) {
+    return await axios.get('/profiles/export', {
+      params,
+      // responseType: 'blob',
+    })
+  },
 })
-
-// import axios from 'axios'
-
-// async exportProfiles(params) {
-//   return axios.get(`/profiles/export`, {
-//     responseType: 'blob',
-//     params,
-//   })
-// }
-
-// async addProfile(profile) {
-//   return axios.post(`/profile`, profile)
-// }
-
-// async fetchUsers(params, appends) {
-//   return axios.get(`/users?append=${appends.join(',')}`, {
-//     params,
-//   })
-// }

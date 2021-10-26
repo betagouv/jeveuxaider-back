@@ -83,6 +83,17 @@
           "
           @changed="onFilterChange"
         />
+        <SearchFiltersQuery
+          v-if="$store.getters.contextRole === 'admin'"
+          name="antenne"
+          label="Antenne"
+          :value="query['filter[antenne]']"
+          :options="[
+            { label: 'Oui', value: true },
+            { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -109,12 +120,15 @@
       </el-table-column>
       <el-table-column label="Contextes" min-width="300">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.is_reseau" class="m-1 ml-0" type="info">
-            Tête de réseau
-          </el-tag>
-          <el-tag v-if="scope.row.reseau_id" class="m-1 ml-0">
-            {{ scope.row.reseau_id | reseauFromValue }}
-          </el-tag>
+          <template v-if="scope.row.reseaux">
+            <el-tag
+              v-for="reseau in scope.row.reseaux"
+              :key="reseau.id"
+              class="m-1 ml-0"
+            >
+              {{ reseau.name }}
+            </el-tag>
+          </template>
           <el-tag v-if="scope.row.department" type="info" class="m-1 ml-0">
             {{ scope.row.department | fullDepartmentFromValue }}
           </el-tag>
@@ -190,7 +204,7 @@ export default {
   layout: 'dashboard',
   asyncData({ store, error }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+      !['admin', 'referent', 'referent_regional'].includes(
         store.getters.contextRole
       )
     ) {
@@ -205,16 +219,13 @@ export default {
   async fetch() {
     const { data } = await this.$api.fetchStructures({
       ...this.query,
-      include: 'missionsCount',
+      include: 'missionsCount,reseaux',
       append: 'completion_rate',
     })
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   methods: {
     onExport() {

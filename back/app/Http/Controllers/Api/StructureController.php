@@ -16,9 +16,11 @@ use App\Notifications\StructureInvitationSent;
 use App\Filters\FiltersStructureCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Exports\StructuresExport;
+use App\Filters\FiltersStructureAntenne;
 use Illuminate\Support\Facades\Auth;
 use App\Filters\FiltersStructureLieu;
 use App\Filters\FiltersStructureSearch;
+use App\Filters\FiltersStructureWithRna;
 use App\Http\Requests\StructureRequest;
 use App\Jobs\NotifyUserOfCompletedExport;
 // use App\Jobs\ProcessExportStructures;
@@ -26,6 +28,7 @@ use App\Models\Mission;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use App\Http\Requests\Api\StructureUploadRequest;
+use App\Models\Reseau;
 use App\Services\ApiEngagement;
 
 class StructureController extends Controller
@@ -40,18 +43,21 @@ class StructureController extends Controller
                 AllowedFilter::custom('ceu', new FiltersStructureCeu),
                 AllowedFilter::custom('lieu', new FiltersStructureLieu),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
+                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
+                AllowedFilter::custom('rna', new FiltersStructureWithRna),
+                AllowedFilter::scope('of_reseau'),
             ])
             ->allowedIncludes([
-                'missions'
+                'missions',
+                'reseaux'
             ])
             ->allowedAppends([
                 'completion_rate',
             ])
-            ->defaultSort('-updated_at')
+            ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    // LARAVEL EXCEL
     public function export(Request $request)
     {
         $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
@@ -66,21 +72,6 @@ class StructureController extends Controller
 
         return response()->json(['message'=> 'Export en cours...'], 200);
     }
-
-    // FAST EXCEL
-    // PB: serializer la query avant le job https://github.com/AnourValar/eloquent-serialize
-    // public function export(Request $request)
-    // {
-    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-    //     $fileName = 'organisations-' . Str::random(8) . '.xlsx';
-    //     $filePath = $folder . $fileName;
-
-    //     ProcessExportStructures::withChain([
-    //         new NotifyUserOfCompletedExport($request->user(), $filePath),
-    //     ])->dispatch($request->user(), $request->header('Context-Role'), $filePath, $fileName);
-
-    //     return response()->json(['message'=> 'Export en cours...'], 200);
-    // }
 
     public function availableMissions(Request $request, Structure $structure)
     {
@@ -102,7 +93,7 @@ class StructureController extends Controller
 
     public function show(StructureRequest $request, Structure $structure)
     {
-        $structure = Structure::with(['members', 'territoire'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
+        $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
         return $structure;
     }
@@ -163,6 +154,12 @@ class StructureController extends Controller
             $structure->syncTagsWithType($domaines, 'domaine');
         }
 
+        if ($request->has('tete_de_reseau_id')) {
+            if($request->input('tete_de_reseau_id')){
+                $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
+            }
+        }
+
         $structure->update($request->validated());
 
         return Structure::with(['members'])->withCount('missions')->where('id', $structure->id)->first()->append('completion_rate');
@@ -202,6 +199,11 @@ class StructureController extends Controller
     public function members(StructureRequest $request, Structure $structure)
     {
         return $structure->members;
+    }
+
+    public function reseaux(StructureRequest $request, Structure $structure)
+    {
+        return $structure->reseaux;
     }
 
     public function invitations(StructureRequest $request, Structure $structure)
@@ -323,5 +325,21 @@ class StructureController extends Controller
             'structure_name' => $structure->name,
             'responsable_fullname' => $structure->responsables->first() ? $structure->responsables->first()->full_name : null
         ];
+    }
+
+    public function attachReseaux(Request $request, Structure $structure)
+    {
+        if($request->input('reseaux')) {
+            $structure->reseaux()->syncWithoutDetaching($request->input('reseaux'));
+        }
+
+        return $structure;
+    }
+
+    public function detachReseau(Request $request, Structure $structure, Reseau $reseau)
+    {
+        $structure->reseaux()->detach($reseau->id);
+
+        return $structure;
     }
 }

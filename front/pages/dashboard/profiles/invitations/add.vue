@@ -28,7 +28,9 @@
             @change="resetForm"
           >
             <el-radio
-              v-for="item in $store.getters.taxonomies.roles.terms"
+              v-for="item in $store.getters.taxonomies.invitations_roles.terms.filter(
+                (item) => item.value != 'responsable_antenne'
+              )"
               :key="item.value"
               :label="item.value"
               >{{ item.label }}</el-radio
@@ -106,7 +108,7 @@
           </el-form-item>
         </template>
 
-        <template v-if="form.role == 'superviseur'">
+        <template v-if="form.role == 'responsable_reseau'">
           <div class="mb-6 mt-12 flex text-xl text-[#242526]">
             Tête de réseau national
           </div>
@@ -125,7 +127,7 @@
               filterable
               clearable
               placeholder="Sélectionner un réseau national"
-              @change="form.invitable_type = 'App\\Models\\Structure'"
+              @change="form.invitable_type = 'App\\Models\\Reseau'"
             >
               <el-option
                 v-for="item in $store.getters.reseaux"

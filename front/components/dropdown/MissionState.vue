@@ -136,7 +136,7 @@ export default {
       } else {
         return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
           (item) =>
-            !['En attente de validation'].includes(item.value) &&
+            !['Signalée', 'En attente de validation'].includes(item.value) &&
             item.value != this.mission.state
         )
       }

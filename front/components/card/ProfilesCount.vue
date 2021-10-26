@@ -49,10 +49,16 @@
                 {{ data.referent_regional | formatNumber }}
               </div>
             </div>
-            <div class="mr-6 mt-6">
+            <!-- <div class="mr-6 mt-6">
               <div class="text-gray-500 text-sm">Superviseurs</div>
               <div class>
                 {{ data.superviseur | formatNumber }}
+              </div>
+            </div> -->
+            <div class="mr-6 mt-6">
+              <div class="text-gray-500 text-sm">Tetes de réseau</div>
+              <div class>
+                {{ data.tete_de_reseau | formatNumber }}
               </div>
             </div>
             <div class="mr-6 mt-6">

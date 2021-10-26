@@ -13,7 +13,7 @@
       <el-option
         v-for="option in options"
         :key="option.id"
-        :label="option.name"
+        :label="`${option.name} #${option.id}`"
         :value="option"
       />
     </el-select>
@@ -43,7 +43,7 @@ export default {
   async fetch() {
     const { data: structures } = await this.$api.fetchStructures({
       'filter[search]': this.selected?.name,
-      'filter[state]': 'Validée',
+      // 'filter[state]': 'Validée',
       pagination: 10,
     })
     this.options = structures.data
@@ -54,7 +54,7 @@ export default {
       this.loading = true
       const { data: structures } = await this.$api.fetchStructures({
         'filter[search]': query,
-        'filter[state]': 'Validée',
+        // 'filter[state]': 'Validée',
         pagination: 10,
       })
       this.options = structures.data

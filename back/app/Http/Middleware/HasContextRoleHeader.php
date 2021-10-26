@@ -20,9 +20,10 @@ class HasContextRoleHeader
             'admin',
             'referent',
             'referent_regional',
-            'superviseur',
+            // 'superviseur',
             'responsable',
             'responsable_collectivity',
+            'tete_de_reseau',
             'analyste',
         ];
 

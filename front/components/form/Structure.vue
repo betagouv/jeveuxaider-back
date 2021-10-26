@@ -195,43 +195,6 @@
     </el-form-item>
 
     <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
-      Réseau national ou territorial
-    </div>
-    <ItemDescription container-class="mb-6">
-      Si votre organisation est membre d'un réseau national ou territorial qui
-      figure dans le menu déroulant du champ ci-dessous, sélectionnez-le. Vous
-      permettrez à la tête de réseau de visualiser les missions et bénévoles
-      rattachés à votre organisation. Vous faciliterez également la validation
-      de votre organisation par les autorités territoriales lors de votre
-      inscription.
-    </ItemDescription>
-    <el-form-item label="Réseau national" prop="reseau" class="flex-1">
-      <el-select
-        v-model="form.reseau_id"
-        clearable
-        filterable
-        placeholder="Réseau national"
-      >
-        <el-option
-          v-for="item in $store.getters.reseaux"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item
-      v-if="$store.getters.contextRole === 'admin'"
-      label="Tête de réseau"
-      prop="is_reseau"
-      class="flex-1"
-    >
-      <el-checkbox v-model="form.is_reseau">
-        <span class=""> Cette organisation est une tête de réseau </span>
-      </el-checkbox>
-    </el-form-item>
-
-    <div class="mt-12 mb-6 flex text-[#242526] text-1-5xl font-bold">
       Lieu de l'établissement
     </div>
     <el-form-item label="Département" prop="department">
@@ -535,12 +498,12 @@ export default {
         ],
         domaines: {
           required: true,
-          message: "Sélectionnez au moins un domaine d'action",
+          message: "Veuillez choisir au moins un domaine d'action",
           trigger: 'blur',
         },
         publics_beneficiaires: {
           required: true,
-          message: 'Sélectionnez au moins un type',
+          message: 'Veuillez choisir au moins un public bénéficiaire',
           trigger: 'blur',
         },
         department: {

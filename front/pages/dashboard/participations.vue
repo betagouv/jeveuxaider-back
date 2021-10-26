@@ -201,7 +201,7 @@ export default {
   },
   async asyncData({ $api, store, error, params }) {
     if (
-      !['admin', 'referent', 'referent_regional', 'superviseur'].includes(
+      !['admin', 'referent', 'referent_regional', 'tete_de_reseau'].includes(
         store.getters.contextRole
       )
     ) {
@@ -228,9 +228,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   created() {},
   methods: {

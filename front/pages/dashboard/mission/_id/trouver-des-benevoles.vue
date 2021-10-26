@@ -258,7 +258,8 @@ export default {
         'admin',
         'referent',
         'referent_regional',
-        'superviseur',
+        // 'superviseur',
+        'tete_de_reseau',
         'responsable',
       ].includes(store.getters.contextRole)
     ) {
@@ -302,9 +303,6 @@ export default {
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
-  },
-  watch: {
-    '$route.query': '$fetch',
   },
   created() {
     this.$api.fetchTags({ 'filter[type]': 'domaine' }).then((res) => {

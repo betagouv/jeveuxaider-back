@@ -42,7 +42,7 @@
             {{ scope.row.email }}
           </div>
           <div class="font-light text-gray-600 text-xs">
-            {{ scope.row.role | labelFromValue('roles') }}
+            {{ scope.row.role | labelFromValue('invitations_roles') }}
           </div>
         </template>
       </el-table-column>
@@ -64,6 +64,12 @@
               </div>
               <div v-else-if="scope.row.properties.referent_regional">
                 {{ scope.row.properties.referent_regional }}
+              </div>
+              <div
+                v-else-if="scope.row.properties.antenne_name"
+                class="font-light text-gray-600 text-xs"
+              >
+                {{ scope.row.properties.antenne_name }}
               </div>
             </template>
             <div v-else>N/A</div>
@@ -158,11 +164,6 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
-  computed: {},
-  watch: {
-    '$route.query': '$fetch',
-  },
-  created() {},
   methods: {
     handleCommand(command) {
       if (command.action == 'copy') {

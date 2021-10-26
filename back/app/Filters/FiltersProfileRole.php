@@ -29,8 +29,8 @@ class FiltersProfileRole implements Filter
             case 'referent_regional':
                 return $query->whereNotNull('referent_region');
                 break;
-            case 'superviseur':
-                return $query->whereNotNull('reseau_id');
+            case 'tete_de_reseau':
+                return $query->whereNotNull('tete_de_reseau_id');
                 break;
             case 'responsable':
                 return $query->whereHas('structures');

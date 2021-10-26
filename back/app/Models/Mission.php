@@ -217,7 +217,7 @@ class Mission extends Model
 
     public function getParticipationsTotalAttribute()
     {
-        return $this->participations->count();
+        return $this->participations()->count();
     }
 
     public function getParticipationsValidatedCountAttribute()
@@ -383,11 +383,11 @@ class Mission extends Model
                         config('taxonomies.regions.departments')[Auth::guard('api')->user()->profile->referent_region]
                     );
                 break;
-            case 'superviseur':
+            case 'tete_de_reseau':
                 // Missions qui sont dans une structure rattachée à mon réseau
                 return $query
-                    ->whereHas('structure', function (Builder $query) {
-                        $query->where('reseau_id', Auth::guard('api')->user()->profile->reseau->id);
+                    ->whereHas('structure.reseaux', function (Builder $query) {
+                        $query->where('reseaux.id', Auth::guard('api')->user()->profile->teteDeReseau->id);
                     });
                 break;
         }

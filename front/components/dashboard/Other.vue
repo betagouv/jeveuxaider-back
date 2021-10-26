@@ -45,13 +45,19 @@
           link="/dashboard/stats/participations"
         />
         <CardDefaultCount
-          v-if="$store.getters.contextRole != 'responsable'"
+          v-if="
+            $store.getters.contextRole != 'responsable' &&
+            $store.getters.contextRole != 'tete_de_reseau'
+          "
           label="Utilisateurs"
           name="profiles"
           link="/dashboard/stats/profiles"
         />
         <CardDefaultCount
-          v-if="$store.getters.contextRole != 'responsable'"
+          v-if="
+            $store.getters.contextRole != 'responsable' &&
+            $store.getters.contextRole != 'tete_de_reseau'
+          "
           label="En ligne"
           name="online"
           link="/dashboard/stats/profiles"

@@ -268,7 +268,7 @@
                 inscription.
               </item-description> -->
               <el-select
-                v-model="form.reseau_id"
+                v-model="form.tete_de_reseau_id"
                 clearable
                 placeholder="Choix de votre réseau national"
                 filterable
@@ -346,8 +346,9 @@ export default {
           name: `Quelques mots sur l'organisation`,
           status: 'upcoming',
           disable:
+            this.$store.getters.contextStructure &&
             this.$store.getters.contextStructure.statut_juridique ==
-            'Collectivité',
+              'Collectivité',
         },
         {
           name: `Votre organisation en images`,
@@ -368,16 +369,18 @@ export default {
         },
         domaines: {
           required:
+            this.$store.getters.contextStructure &&
             this.$store.getters.contextStructure.statut_juridique !=
-            'Collectivité',
-          message: "Sélectionnez au moins un domaine d'action",
+              'Collectivité',
+          message: "Veuillez choisir au moins un domaine d'action",
           trigger: 'blur',
         },
         publics_beneficiaires: {
           required:
+            this.$store.getters.contextStructure &&
             this.$store.getters.contextStructure.statut_juridique !=
-            'Collectivité',
-          message: 'Sélectionnez au moins un type',
+              'Collectivité',
+          message: 'Veuillez choisir au moins un public bénéficiaire',
           trigger: 'blur',
         },
         address: [

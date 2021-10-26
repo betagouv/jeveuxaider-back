@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MissionTemplate extends Model implements HasMedia
 {
@@ -19,7 +20,8 @@ class MissionTemplate extends Model implements HasMedia
         'description',
         'priority',
         'published',
-        'domaine_id'
+        'reseau_id',
+        'domaine_id',
     ];
 
     protected $attributes = [
@@ -32,19 +34,50 @@ class MissionTemplate extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    protected $appends = ['image'];
+    protected $appends = ['image', 'photo'];
 
     protected $hidden = ['media'];
 
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('large')
+            ->width(640)
+            ->nonQueued()
+            ->performOnCollections('templates');
+
+        $this->addMediaConversion('thumb')
+            ->width(320)
+            ->nonQueued()
+            ->performOnCollections('templates');
+
+        $this->addMediaConversion('xxl')
+            ->width(1440)
+            ->nonQueued()
+            ->performOnCollections('templates');
+    }
+
     public function getImageAttribute()
     {
-        $media = $this->getFirstMedia('templates');
+        return $this->getMediaUrls('icon');
+    }
 
+
+    public function getPhotoAttribute()
+    {
+        return $this->getMediaUrls('photo');
+    }
+
+    protected function getMediaUrls($field)
+    {
+        $media = $this->getFirstMedia('templates', ['field' => $field]);
         if ($media) {
-            return $media->getFullUrl();
+            $mediaUrls = ['original' => $media->getFullUrl()];
+            foreach ($media->getGeneratedConversions() as $key => $conversion) {
+                $mediaUrls[$key] = $media->getUrl($key);
+            }
+            return $mediaUrls;
         }
-
-        return $this->domaine->image;
+        return null;
     }
 
     public function domaine()
@@ -55,5 +88,15 @@ class MissionTemplate extends Model implements HasMedia
     public function missions()
     {
         return $this->hasMany('App\Models\Mission', 'template_id');
+    }
+
+    public function reseau()
+    {
+        return $this->belongsTo(Reseau::class);
+    }
+
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        $query->where('reseau_id', $reseau_id);
     }
 }

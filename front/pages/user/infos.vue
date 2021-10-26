@@ -38,7 +38,7 @@
           <el-input
             v-model="form.first_name"
             placeholder="Prénom"
-            :disabled="candEditFields"
+            :disabled="isFieldDisabled"
           />
         </el-form-item>
 
@@ -46,7 +46,7 @@
           <el-input
             v-model="form.last_name"
             placeholder="Nom"
-            :disabled="candEditFields"
+            :disabled="isFieldDisabled"
           />
         </el-form-item>
       </div>
@@ -248,12 +248,13 @@ export default {
     }
   },
   computed: {
-    candEditFields() {
-      return (
-        this.$store.getters.user.social_accounts.filter(
-          (socialAccount) => socialAccount.provider == 'franceconnect'
-        ).length > 0
-      )
+    isFieldDisabled() {
+      return false
+      // return (
+      //   this.$store.getters.user.social_accounts.filter(
+      //     (socialAccount) => socialAccount.provider == 'franceconnect'
+      //   ).length > 0
+      // )
     },
   },
   methods: {

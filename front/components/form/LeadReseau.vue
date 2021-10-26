@@ -5,7 +5,7 @@
       ref="reseauForm"
       :model="form"
       label-position="top"
-      :hide-required-asterisk="true"
+      :hide-required-asterisk="false"
       :rules="rules"
       class="form-register-steps"
     >
@@ -21,6 +21,7 @@
             placeholder="Nom de votre réseau d'organisation"
           />
         </el-form-item>
+
         <el-form-item
           label="Prénom"
           prop="first_name"
@@ -29,23 +30,16 @@
           <el-input
             v-model="form.first_name"
             label="Prénom"
-            autocomplete="new-password"
             placeholder="Prénom"
           />
         </el-form-item>
         <el-form-item label="Nom" prop="last_name" class="w-full sm:w-1/2 px-2">
-          <el-input
-            v-model="form.last_name"
-            label="Nom"
-            autocomplete="new-password"
-            placeholder="Nom"
-          />
+          <el-input v-model="form.last_name" label="Nom" placeholder="Nom" />
         </el-form-item>
         <el-form-item label="E-mail" prop="email" class="w-full sm:w-1/2 px-2">
           <el-input
             v-model.trim="form.email"
             label="E-mail"
-            autocomplete="new-password"
             placeholder="E-mail"
           />
         </el-form-item>
@@ -57,8 +51,48 @@
           <el-input
             v-model="form.phone"
             label="Téléphone"
-            autocomplete="new-password"
             placeholder="Téléphone"
+          />
+        </el-form-item>
+        <el-form-item
+          label="Nombre d'antennes"
+          prop="nb_antennes"
+          class="w-full sm:w-1/3 px-2"
+        >
+          <el-input
+            v-model="form.nb_antennes"
+            type="number"
+            placeholder="Ex: 5"
+          />
+        </el-form-item>
+        <el-form-item
+          label="Nombre de salariés"
+          prop="nb_employees"
+          class="w-full sm:w-1/3 px-2"
+        >
+          <el-input v-model="form.nb_employees" placeholder="Ex: 25" />
+        </el-form-item>
+        <el-form-item
+          label="Nombre de bénévoles"
+          prop="nb_volunteers"
+          class="w-full sm:w-1/3 px-2"
+        >
+          <el-input
+            v-model="form.nb_volunteers"
+            type="number"
+            placeholder="Ex: 200"
+          />
+        </el-form-item>
+        <el-form-item
+          label="Votre demande"
+          prop="description"
+          class="w-full px-2"
+        >
+          <el-input
+            v-model="form.description"
+            type="textarea"
+            :rows="6"
+            placeholder="Précisez votre besoin en matière de bénévoles ou de missions"
           />
         </el-form-item>
       </div>
@@ -125,6 +159,34 @@ export default {
           {
             required: true,
             message: 'Nom obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        phone: [
+          {
+            required: true,
+            message: 'Téléphone obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        nb_antennes: [
+          {
+            required: true,
+            message: 'Champ obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        nb_employees: [
+          {
+            required: true,
+            message: 'Champ obligatoire',
+            trigger: 'blur',
+          },
+        ],
+        nb_volunteers: [
+          {
+            required: true,
+            message: 'Champ obligatoire',
             trigger: 'blur',
           },
         ],

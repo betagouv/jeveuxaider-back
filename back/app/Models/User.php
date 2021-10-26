@@ -43,16 +43,11 @@ class User extends Authenticatable
             return null;
         }
         $id = Auth::guard('api')->user()->id;
-        $user = User::with([
-            'profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations'
-        ])->where('id', $id)->first();
-
-        // Hack pour éviter de mettre des append -> trop gourmand en queries
-        $user['profile']['roles'] = $user->profile->roles;
-        $user['profile']['skills'] = $user->profile->skills;
-        $user['profile']['domaines'] = $user->profile->domaines;
-        $user['social_accounts'] = $user->socialAccounts;
-
+        $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations', 'profile.teteDeReseau'])->where('id', $id)->first();
+        $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
         $user['unreadConversations'] = self::getUnreadConversations($id);
         $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
         $user['nbTodayParticipationsOnPendingValidation'] =
