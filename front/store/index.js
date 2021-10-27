@@ -8,7 +8,6 @@ export const state = () => ({
   shareOverlay: false,
   missionSelected: null,
   taxonomies: null,
-  reseaux: null,
   reminders: null,
   stucture: null,
 })
@@ -57,7 +56,6 @@ export const getters = {
   user: (state) => state.auth.user,
   isImpersonating: (state) => !!state.auth.accessTokenImpersonate,
   taxonomies: (state) => state.taxonomies,
-  reseaux: (state) => state.reseaux,
   structure: (state, getters) => {
     if (!getters.profile && !getters.profile.structures) {
       return null
@@ -74,9 +72,6 @@ export const mutations = {
   },
   setTaxonomies: (state, taxonomies) => {
     state.taxonomies = taxonomies
-  },
-  setReseaux: (state, reseaux) => {
-    state.reseaux = reseaux
   },
   setReminders: (state, reminders) => {
     state.reminders = reminders
@@ -118,7 +113,6 @@ export const actions = {
   async bootstrap({ commit }) {
     const { data } = await this.$axios.get('/bootstrap')
     commit('setTaxonomies', data.taxonomies)
-    commit('setReseaux', data.reseaux)
     commit('setAppIsLoaded', true)
   },
   async reminders({ commit }) {
