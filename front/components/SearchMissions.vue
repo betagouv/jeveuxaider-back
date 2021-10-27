@@ -185,9 +185,6 @@
                     </div>
                   </AisSearchBox>
 
-                  <!-- https://discourse.algolia.com/t/nuxt-doesnt-render-the-ais-components-ssr/11610/18#post_20 -->
-                  <!-- <AisRefinementList attribute="domaines" class="hidden" /> -->
-
                   <AlgoliaToggleRefinement
                     v-if="facets.includes('is_priority')"
                     attribute="is_priority"
@@ -403,8 +400,6 @@ import {
   AisPagination,
   AisClearRefinements,
   AisSearchBox,
-  // AisRefinementList,
-  // AisToggleRefinement,
   createServerRootMixin,
 } from 'vue-instantsearch'
 
@@ -443,7 +438,6 @@ function addIndex(routeState) {
   return routeState
 }
 
-// eslint-disable-next-line no-unused-vars
 function nuxtRouter(vueRouter) {
   return {
     read() {
@@ -482,8 +476,6 @@ export default {
     AisPagination,
     AisClearRefinements,
     AisSearchBox,
-    // AisRefinementList, // eslint-disable-line vue/no-unused-components
-    // AisToggleRefinement, // eslint-disable-line vue/no-unused-components
   },
   mixins: [domaineColors],
   provide() {
