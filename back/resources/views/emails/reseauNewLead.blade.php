@@ -16,7 +16,7 @@ Bonjour,
 | Téléphone | {{ $form['phone'] }} |
 @endcomponent
 
-@if ($form['description'])
+@if (isset($form['description']))
 <i>{{ $form['description'] }}</i>
 @endif
 
