@@ -267,18 +267,24 @@
                 votre organisation par les autorités territoriales lors de votre
                 inscription.
               </item-description> -->
+
               <el-select
                 v-model="form.tete_de_reseau_id"
-                clearable
-                placeholder="Choix de votre réseau national"
                 filterable
+                reserve-keyword
+                remote
+                clearable
+                :remote-method="fetchReseaux"
+                placeholder="Choix de votre réseau national"
+                :loading="loading"
               >
                 <el-option
-                  v-for="item in $store.getters.reseaux"
+                  v-for="item in reseaux"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id"
-                />
+                >
+                </el-option>
               </el-select>
             </el-form-item>
           </template>
@@ -405,6 +411,7 @@ export default {
           },
         ],
       },
+      reseaux: [],
     }
   },
   computed: {
@@ -490,6 +497,19 @@ export default {
           this.showErrors(fields)
         }
       })
+    },
+    fetchReseaux(query) {
+      if (query !== '') {
+        this.loading = true
+        this.$api
+          .fetchReseaux({
+            'filter[search]': query,
+          })
+          .then((response) => {
+            this.loading = false
+            this.reseaux = response.data.data
+          })
+      }
     },
   },
 }

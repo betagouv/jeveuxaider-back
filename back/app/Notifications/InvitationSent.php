@@ -58,7 +58,8 @@ class InvitationSent extends Notification
 
         if ($this->invitation->role == 'responsable_antenne') {
             $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à créer l\'antenne ' . $this->invitation->properties['antenne_name'] . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
+                ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+                ->line($this->invitation->user->profile->full_name . ' vous invite à créer un compte pour ' . $this->invitation->properties['antenne_name'] . ' sur JeVeuxAider.gouv.fr.');
         }
 
         if ($this->invitation->role == 'responsable_reseau') {
@@ -93,6 +94,12 @@ class InvitationSent extends Notification
 
         $message
             ->action('Voir l\'invitation', url(config('app.url') . '/invitation/' . $this->invitation->token));
+
+        if ($this->invitation->role == 'responsable_antenne') {
+            $message
+                ->line("Une fois l’invitation acceptée, vous serez rattaché au réseau " . $this->invitation->invitable['name'] . " et pourrez facilement publier des missions en vue de recruter des bénévoles.")
+                ->line("En cas de besoin, vous pouvez répondre à ce e-mail pour échanger directement avec le support Utilisateurs !");
+        }
 
         return $message;
     }
