@@ -23,7 +23,7 @@
         <transition name="fade">
           <div
             v-show="
-              settings.infinite || arrowOption.currentSlide < slidesCount - 1
+              settings.infinite || arrowOption.currentSlide < slidesCount - 3
             "
             class="rounded-full !bg-white transition will-change-transform flex justify-center items-center !p-6 relative z-10"
           >
@@ -153,7 +153,7 @@ export default {
     }
 
     .slick-track {
-      @apply space-x-[30px] flex items-stretch;
+      @apply space-x-[16px] sm:space-x-[30px] flex items-stretch;
       > div > div {
         height: 100%;
       }

@@ -14,22 +14,24 @@
 
       <div class="md:container md:mx-auto xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
-          <picture>
-            <source
-              srcset="
-                /images/mosaique_orgas_desktop.png,
-                /images/mosaique_orgas_desktop@2x.png 2x
-              "
-              media="(min-width: 440px)"
-            />
-            <img
-              srcset="/images/mosaique_orgas@2x.png 2x"
-              alt="Mosaïque organisations"
-              class="object-cover object-left-bottom w-full h-[370px] md:h-[650px] translate-y-[-45px] md:translate-y-[-138px] md:absolute md:right-0 md:top-0 mosaic"
-              width="790"
-              height="670"
-            />
-          </picture>
+          <img
+            srcset="/images/mosaique_orgas@2x.png 2x"
+            alt="Mosaïque organisations"
+            class="sm:hidden object-cover object-left-bottom w-full h-[370px] translate-y-[-45px] mosaic"
+            width="440"
+            height="371"
+          />
+
+          <img
+            srcset="
+              /images/mosaique_orgas_desktop.png,
+              /images/mosaique_orgas_desktop@2x.png 2x
+            "
+            alt="Mosaïque organisations"
+            class="hidden sm:block object-cover object-left-bottom w-full h-[370px] md:h-[650px] translate-y-[-45px] md:translate-y-[-138px] md:absolute md:right-0 md:top-0 mosaic"
+            width="790"
+            height="670"
+          />
 
           <div
             class="max-w-[440px] mx-auto md:ml-0 px-4 xl:px-0 text-center md:text-left"
@@ -61,7 +63,7 @@
       v-if="prioritizedMissions.length > 0"
       class="overflow-hidden xl:mt-6 pb-16"
     >
-      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+      <div class="container mx-auto px-8 sm:px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-6">
             <h2
@@ -87,7 +89,7 @@
 
     <!-- DOMAINES D'ACTION -->
     <section class="py-16 bg-white overflow-hidden">
-      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+      <div class="container mx-auto px-8 sm:px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-6">
             <h2
@@ -199,7 +201,7 @@
 
     <!-- ACTUALITÉS -->
     <section v-if="articles.length > 0" class="py-16 bg-white overflow-hidden">
-      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+      <div class="container mx-auto px-8 sm:px-4 xl:max-w-[1412px]">
         <div class="mx-auto max-w-[1170px]">
           <div class="flex justify-between items-baseline mb-6">
             <h2
@@ -437,7 +439,7 @@
 
               <nuxt-link
                 to="/inscription/organisation"
-                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-white bg-primary hover:scale-105 transform transition mt-auto"
+                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-white bg-primary hover:scale-105 transform transition mt-auto lg:mx-auto"
               >
                 Inscrire mon organisation
               </nuxt-link>
@@ -491,7 +493,7 @@
 
               <nuxt-link
                 to="/inscription/organisation?orga_type=Collectivité"
-                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-jva-green bg-white hover:scale-105 transform transition mt-auto"
+                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-jva-green bg-white hover:scale-105 transform transition mt-auto lg:mx-auto"
               >
                 Inscrire ma collectivité
               </nuxt-link>

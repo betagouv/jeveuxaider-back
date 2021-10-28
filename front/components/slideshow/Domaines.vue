@@ -158,7 +158,10 @@ export default {
   }
 
   .slick-track {
-    @apply space-x-6;
+    @apply space-x-4;
+    @screen sm {
+      @apply space-x-6;
+    }
     @screen xl {
       @apply space-x-14;
     }

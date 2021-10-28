@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-[10px] overflow-hidden"
+    class="card--mission h-auto flex flex-col flex-1 bg-white rounded-[10px] overflow-hidden safari-fix-scale"
   >
     <div class="thumbnail--wrapper relative">
       <img
@@ -59,7 +59,7 @@
 
       <client-only>
         <v-clamp
-          tag="h2"
+          tag="h3"
           :max-lines="3"
           autoresize
           class="name font-black text-black text-lg relative mb-auto"
@@ -82,13 +82,13 @@
         </v-clamp>
 
         <template slot="placeholder">
-          <h2 class="name font-black text-black text-lg mb-auto">
+          <h3 class="name font-black text-black text-lg mb-auto">
             {{ mission.name }}
-          </h2>
+          </h3>
         </template>
       </client-only>
 
-      <h3
+      <div
         class="structure mt-2 truncate max-w-full"
         v-text="mission.structure.name"
       />
@@ -292,11 +292,13 @@ export default {
 .card--mission {
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
   @apply transition;
-  &:hover {
-    .thumbnail--wrapper img {
-      transform: scale(1.05);
+  @screen sm {
+    &:hover {
+      .thumbnail--wrapper img {
+        transform: scale(1.05);
+      }
+      @apply shadow-xl;
     }
-    @apply shadow-xl;
   }
 }
 

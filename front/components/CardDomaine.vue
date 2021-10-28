@@ -6,7 +6,7 @@
     />
 
     <div class="px-4">
-      <div class="relative rounded-[10px] overflow-hidden">
+      <div class="relative rounded-[10px] overflow-hidden safari-fix-scale">
         <img
           :src="domaine.image.default"
           :srcset="domaine.image.x2 ? `${domaine.image.x2} 2x` : false"
@@ -33,11 +33,11 @@
             {{ domaine.name }}
           </div>
 
-          <div
+          <h3
             class="text-white font-extrabold text-2xl leading-[28px] text-shadow"
           >
             {{ domaine.description }}
-          </div>
+          </h3>
         </div>
       </div>
     </div>
@@ -64,9 +64,11 @@ export default {
   img {
     transition: all 0.4s ease-in-out;
   }
-  &:hover {
-    img {
-      transform: scale(1.05);
+  @screen sm {
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
     }
   }
 }

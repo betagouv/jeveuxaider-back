@@ -103,7 +103,6 @@ export default {
         edgeFriction: 0,
         touchThreshold: 100,
         infinite: true,
-        fade: true,
       },
     }
   },
@@ -128,6 +127,10 @@ export default {
 
   .slick-track {
     @apply space-x-0;
+  }
+
+  .slick-list {
+    overflow: hidden;
   }
 }
 </style>

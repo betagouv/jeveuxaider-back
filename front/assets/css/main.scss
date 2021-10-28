@@ -705,3 +705,8 @@ input {
 .el-upload-dragger {
   width: 100% !important;
 }
+
+.safari-fix-scale {
+  position: relative;
+  z-index: 1;
+}

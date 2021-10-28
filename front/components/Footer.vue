@@ -25,7 +25,7 @@
                   v-for="organization in organizations"
                   :key="organization.name"
                   :to="organization.url"
-                  class="hover:underline text-[#666666]"
+                  class="hover:underline text-[#666666] truncate"
                 >
                   {{ organization.name }}
                 </nuxt-link>
@@ -216,75 +216,75 @@ export default {
       ],
       organizations: [
         {
-          name: `Singa`,
-          url: `/organisations/5575-singa`,
-        },
-        {
-          name: `Action contre la faim`,
-          url: `/organisations/5461-action-contre-la-faim`,
-        },
-        {
-          name: `J'agis pour la nature`,
-          url: `/`,
-        },
-        {
-          name: `Benevolt`,
-          url: `/`,
-        },
-        {
-          name: `Banques Alimentaires`,
-          url: `/organisations/4400-federation-francaise-des-banques-alimentaires`,
-        },
-        {
-          name: `Emmaüs`,
-          url: `/organisations/5638-emmaus-france`,
-        },
-        {
-          name: `Afev`,
-          url: `/organisations/5431-afev`,
-        },
-        {
-          name: `APHP`,
-          url: `/`,
-        },
-        {
-          name: `Benenova`,
-          url: `/organisations/25-benenova`,
+          name: `Makesense`,
+          url: `/organisations/2747-makesense`,
         },
         {
           name: `Article 1`,
           url: `/organisations/5265-article-1`,
         },
         {
-          name: `Make.org`,
-          url: `/`,
+          name: `AVDTM - ExplorJob`,
+          url: `/organisations/6144-avdtm-explorjob`,
         },
         {
-          name: `Mamie Boom`,
-          url: `/`,
+          name: `JobIRL`,
+          url: `/organisations/1784-jobirl`,
         },
         {
-          name: `Armée du Salut`,
-          url: `/organisations/3657-fondation-de-larmee-du-salut`,
+          name: `Lobby des Consciences`,
+          url: `/organisations/7198-lobby-des-consciences`,
         },
         {
-          name: `Petits Frères des Pauvres`,
-          url: `/organisations/1486-petits-freres-des-pauvres`,
+          name: `Entraide Scolaire Amicale`,
+          url: `/organisations/6638-entraide-scolaire-amicale`,
+        },
+        {
+          name: `Emmaüs Connect - Paris`,
+          url: `/organisations/5605-emmaus-connect-paris`,
+        },
+        {
+          name: `Singa`,
+          url: `/organisations/5575-singa`,
+        },
+        {
+          name: `Secours Catholique - Délégation du Val de Marne`,
+          url: `/organisations/8818-secours-catholique-delegation-du-val-de-marne`,
+        },
+        {
+          name: `Etendart`,
+          url: `/organisations/8507-etendart`,
+        },
+        {
+          name: `1 Lettre 1 Sourire`,
+          url: `/organisations/7490-1-lettre-1-sourire`,
+        },
+        {
+          name: `Association Solidarité Universelle Monde`,
+          url: `/organisations/8281-association-solidarite-universelle-monde`,
+        },
+        {
+          name: `Restos du coeur`,
+          url: `/organisations/7159-restos-du-coeur`,
         },
         {
           name: `Makesense`,
           url: `/organisations/2747-makesense`,
         },
         {
-          name: `Energie Jeunes`,
-          url: `/organisations/5430-energie-jeunes`,
+          name: `Entourage`,
+          url: `/organisations/97-entourage`,
         },
         {
-          name: `Secours Catholique`,
-          url: `/organisations/8353-secours-catholique`,
+          name: `Mon Emile Association`,
+          url: `/organisations/4561-mon-emile-association`,
         },
         {
-          name: `Bon Samaritain`,
+          name: `Coallia`,
+          url: `/organisations/6484-coallia`,
+        },
+        {
+          name: `Le Bon Samaritain`,
           url: `/organisations/6875-le-bon-samaritain`,
         },
       ],

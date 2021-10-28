@@ -16,9 +16,9 @@
           {{ item.icon }}
         </div>
 
-        <div class="font-bold text-lg mr-4 group-hover:underline">
+        <h3 class="font-bold text-lg mr-4 group-hover:underline">
           {{ item.title | decodeHTMLEntities }}
-        </div>
+        </h3>
 
         <img
           src="/images/chevron_gris.svg"

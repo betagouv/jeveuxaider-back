@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card--article h-auto flex flex-col flex-1 bg-white rounded-[10px] overflow-hidden"
+    class="card--article h-auto flex flex-col flex-1 bg-white rounded-[10px] overflow-hidden safari-fix-scale"
   >
     <div class="thumbnail--wrapper relative">
       <img
@@ -18,7 +18,7 @@
     <div class="m-8 flex-1 flex flex-col items-start space-y-6">
       <client-only>
         <v-clamp
-          tag="h2"
+          tag="h3"
           :max-lines="3"
           autoresize
           class="text-[#111111] text-2xl leading-[28px] font-bold relative mb-auto"
@@ -42,22 +42,22 @@
           </template>
         </v-clamp>
 
-        <h2
+        <h3
           slot="placeholder"
           class="text-[#111111] text-2xl leading-[28px] font-bold relative mb-auto"
         >
           {{ article.title.rendered }}
-        </h2>
+        </h3>
       </client-only>
 
       <client-only>
-        <v-clamp tag="h3" :max-lines="2" autoresize class="text-[#696974]">
+        <v-clamp :max-lines="2" autoresize class="text-[#696974]">
           {{ article.excerpt.rendered | stripHTML | decodeHTMLEntities }}
         </v-clamp>
 
-        <h3 slot="placeholder" class="text-[#696974]">
+        <div slot="placeholder" class="text-[#696974]">
           {{ article.excerpt.rendered | stripHTML | decodeHTMLEntities }}
-        </h3>
+        </div>
       </client-only>
     </div>
   </div>
@@ -79,9 +79,11 @@ export default {
 .card--article {
   box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1);
   @apply transition;
-  &:hover {
-    .thumbnail--wrapper img {
-      transform: scale(1.05);
+  @screen sm {
+    &:hover {
+      .thumbnail--wrapper img {
+        transform: scale(1.05);
+      }
     }
   }
 }

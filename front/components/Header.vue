@@ -83,8 +83,27 @@
 
           <div v-if="$store.getters.isLogged" class="flex items-center">
             <nuxt-link
+              v-if="
+                $store.getters.reminders &&
+                $store.getters.contextRole != 'volontaire' &&
+                $store.getters.reminders.total > 0
+              "
+              to="/dashboard"
+              class="px-2 py-1 transform transition hover:scale-125"
+            >
+              <el-badge
+                :value="$store.getters.reminders.total"
+                is-dot
+                :max="99"
+                class="badge--bell"
+              >
+                <BellSvg width="20" height="18" />
+              </el-badge>
+            </nuxt-link>
+
+            <nuxt-link
               to="/messages"
-              class="px-4 py-1 transform transition hover:scale-125"
+              class="px-2 py-1 transform transition hover:scale-125"
             >
               <el-badge
                 :value="$store.getters.user.unreadConversations.length"
@@ -150,6 +169,7 @@ import AvatarSvg from '@/static/images/avatar.svg?inline'
 import BurgerMenu from '@/static/images/icones/menu.svg?inline'
 import CloseSvg from '@/static/images/icones/close.svg?inline'
 import EnvelopeSvg from '@/static/images/icones/envelope.svg?inline'
+import BellSvg from '@/static/images/icones/bell.svg?inline'
 
 export default {
   components: {
@@ -159,6 +179,7 @@ export default {
     BurgerMenu,
     CloseSvg,
     EnvelopeSvg,
+    BellSvg,
   },
   data() {
     return {
@@ -227,6 +248,12 @@ export default {
         @apply rounded-full;
       }
     }
+  }
+}
+
+.badge--bell {
+  ::v-deep .el-badge__content {
+    top: 2px;
   }
 }
 </style>
