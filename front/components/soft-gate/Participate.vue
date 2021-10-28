@@ -71,6 +71,7 @@ export default {
           },
           {
             min: 10,
+            whitespace: true,
             message: 'Votre message est trop court.',
             trigger: 'blur',
           },

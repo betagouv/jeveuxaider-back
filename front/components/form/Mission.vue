@@ -221,7 +221,7 @@
           <MissionThumbnailPicker
             :domain-id="mainDomaineId"
             :value="`${form.thumbnail}`"
-            :images-count="mainDomaineId == 4 ? 9 : 3"
+            :images-count="imagesCount(mainDomaineId)"
             @click="onThumbnailClick"
           />
         </div>
@@ -1002,6 +1002,20 @@ export default {
     },
     ontooltipMouseOut() {
       this.$refs.tooltip[0].hide()
+    },
+    imagesCount(domainId) {
+      switch (domainId) {
+        case 2:
+        case 3:
+        case 4:
+        case 6:
+        case 7:
+        case 8:
+        case 11:
+          return 9
+        default:
+          return 3
+      }
     },
   },
 }

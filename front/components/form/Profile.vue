@@ -62,16 +62,21 @@
       <el-form-item label="Réseau" prop="tete_de_reseau_id" class="flex-1">
         <el-select
           v-model="form.tete_de_reseau_id"
-          clearable
           filterable
+          reserve-keyword
+          remote
+          clearable
+          :remote-method="fetchReseaux"
           placeholder="Sélectionner un réseau"
+          :loading="loading"
         >
           <el-option
-            v-for="item in $store.getters.reseaux"
+            v-for="item in reseaux"
             :key="item.id"
             :label="item.name"
             :value="item.id"
-          />
+          >
+          </el-option>
         </el-select>
       </el-form-item>
 
@@ -222,11 +227,25 @@ export default {
       return true
     },
   },
-  // async created() {
-  //   const { data } = await this.$api.fetchReseaux({ pagination: 1000 })
-  //   this.reseaux = data.data
-  // },
+  created() {
+    if (this.profile.tete_de_reseau) {
+      this.fetchReseaux(this.profile.tete_de_reseau.name)
+    }
+  },
   methods: {
+    fetchReseaux(query) {
+      if (query !== '') {
+        this.loading = true
+        this.$api
+          .fetchReseaux({
+            'filter[search]': query,
+          })
+          .then((response) => {
+            this.loading = false
+            this.reseaux = response.data.data
+          })
+      }
+    },
     onSubmit() {
       this.loading = true
       this.$refs.profileForm.validate((valid, fields) => {

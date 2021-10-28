@@ -125,16 +125,20 @@
             <el-select
               v-model="form.invitable_id"
               filterable
-              clearable
+              reserve-keyword
+              remote
+              :remote-method="fetchReseaux"
               placeholder="Sélectionner un réseau national"
+              :loading="loading"
               @change="form.invitable_type = 'App\\Models\\Reseau'"
             >
               <el-option
-                v-for="item in $store.getters.reseaux"
+                v-for="item in reseaux"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
-              />
+              >
+              </el-option>
             </el-select>
           </el-form-item>
         </template>
@@ -228,6 +232,7 @@ export default {
       loading: false,
       organisations: [],
       territoires: [],
+      reseaux: [],
       form: {
         user_id: this.$store.getters.user.id,
         properties: {},
@@ -288,12 +293,26 @@ export default {
           })
       }
     },
+    fetchReseaux(query) {
+      if (query !== '') {
+        this.loading = true
+        this.$api
+          .fetchReseaux({
+            'filter[search]': query,
+          })
+          .then((response) => {
+            this.loading = false
+            this.reseaux = response.data.data
+          })
+      }
+    },
     resetForm() {
       this.$delete(this.form, 'invitable_id')
       this.$delete(this.form, 'invitable_type')
       this.$set(this.form, 'properties', {})
       this.$set(this, 'organisations', [])
       this.$set(this, 'territoires', [])
+      this.$set(this, 'reseaux', [])
     },
     onSubmit() {
       this.loading = true

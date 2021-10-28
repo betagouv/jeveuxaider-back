@@ -42,57 +42,162 @@ class InvitationSent extends Notification
      */
     public function toMail($notifiable)
     {
+        switch ($this->invitation->role) {
+            case 'responsable_organisation':
+                $message = $this->inviteResponsableOrganization();
+                break;
+            case 'responsable_territoire':
+                $message = $this->inviteResponsableTerritoire();
+                break;
+            case 'responsable_antenne':
+                $message = $this->inviteResponsableAntenne();
+                break;
+            case 'responsable_reseau':
+                $message = $this->inviteResponsableReseau();
+                break;
+            case 'referent_departemental':
+                $message = $this->inviteReferentDepartemental();
+                break;
+            case 'referent_regional':
+                $message = $this->inviteReferentRegional();
+                break;
+            case 'datas_analyst':
+                $message = $this->inviteDatasAnalyst();
+                break;
+            case 'benevole':
+                $message = $this->inviteBenevole();
+                break;
+
+            default:
+                $message = $this->inviteDefault();
+                break;
+        }
+
+        return $message;
+    }
+
+    private function inviteResponsableOrganization()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer l'organisation " . $this->invitation->invitable->name)
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l’invitation acceptée, vous pourrez facilement publier des missions en vue de recruter des bénévoles.")
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteResponsableTerritoire()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à rejoindre la plateforme JeVeuxAider.gouv.fr afin de gérer le territoire " . $this->invitation->invitable->name)
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l’invitation acceptée, vous pourrez facilement publier des missions en vue de recruter des bénévoles.")
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteResponsableAntenne()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à créer un compte pour l'organisation " . $this->invitation->properties['antenne_name'] . " sur JeVeuxAider.gouv.fr.")
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l’invitation acceptée, vous serez rattaché au réseau " . $this->invitation->invitable['name'] . " et pourrez facilement publier des missions en vue de recruter des bénévoles.")
+            ->line("En cas de besoin, vous pouvez répondre à ce e-mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteResponsableReseau()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à superviser le réseau " . $this->invitation->invitable->name . " sur JeVeuxAider.gouv.fr")
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l'invitation acceptée, vous pourrez facilement piloter l'activité de votre réseau associatif sur la plateforme JeVeuxAider.gouv.fr.")
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteReferentDepartemental()
+    {
+        $departmentNumber = $this->invitation->properties['referent_departemental'];
+        $departmentName = config('taxonomies.departments.terms')[$departmentNumber];
+
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à devenir référent du département " . $departmentName . " (" . $departmentNumber . ") sur la plateforme JeVeuxAider.gouv.fr")
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l’invitation acceptée, vous pourrez facilement suivre l'activité de la Réserve Civique sur votre département.")
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteReferentRegional()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à devenir référent de la région " . $this->invitation->properties['referent_regional'] . " sur la plateforme JeVeuxAider.gouv.fr")
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l’invitation acceptée, vous pourrez facilement suivre l'activité de la Réserve Civique sur votre région.")
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteDatasAnalyst()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à accéder au tableau de bord de la plateforme JeVeuxAider.gouv.fr")
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteBenevole()
+    {
+        $message = (new MailMessage)
+            ->subject("Invitation en attente")
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting("Bonjour,")
+            ->line($this->invitation->user->profile->full_name . " vous invite à accéder à la plateforme JeVeuxAider.gouv.fr")
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token))
+            ->line("Une fois l'invitation acceptée, vous pourrez vous engager sur des missions de bénévolat partout en France.")
+            ->line("En cas de besoin, vous pouvez répondre à ce mail pour échanger directement avec le support Utilisateurs !");
+
+        return $message;
+    }
+
+    private function inviteDefault()
+    {
         $message = (new MailMessage)
             ->subject('Invitation en attente')
-            ->greeting('Bonjour,');
-
-        if ($this->invitation->role == 'responsable_organisation') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à rejoindre la structure ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        if ($this->invitation->role == 'responsable_territoire') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à rejoindre le territoire ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        if ($this->invitation->role == 'responsable_antenne') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à créer l\'antenne ' . $this->invitation->properties['antenne_name'] . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        if ($this->invitation->role == 'responsable_reseau') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à superviser le réseau ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        if ($this->invitation->role == 'referent_departemental') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à devenir le référent du département ' . $this->invitation->properties['referent_departemental'] . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        if ($this->invitation->role == 'referent_regional') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à devenir le référent de la région ' . $this->invitation->properties['referent_regional'] . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        // if ($this->invitation->role == 'superviseur') {
-        //     $message
-        //         ->line($this->invitation->user->profile->full_name . ' vous invite à devenir le superviseur du réseau ' . $this->invitation->invitable->name . ' sur la plateforme de dépôts de missions de la Réserve Civique.');
-        // }
-
-        if ($this->invitation->role == 'datas_analyst') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à accéder au tableau de bord de la plateforme de dépôts de missions de la Réserve Civique.');
-        }
-
-        if ($this->invitation->role == 'benevole') {
-            $message
-                ->line($this->invitation->user->profile->full_name . ' vous invite à accéder à la plateforme JeVeuxAider.gouv.fr de la Réserve Civique.');
-        }
-
-        $message
-            ->action('Voir l\'invitation', url(config('app.url') . '/invitation/' . $this->invitation->token));
+            ->from("contact@reserve-civique.on.crisp.email", "JeVeuxAider.gouv.fr")
+            ->greeting('Bonjour,')
+            ->line($this->invitation->user->profile->full_name . ' vous invite à accéder à la plateforme JeVeuxAider.gouv.fr.')
+            ->action("Voir l'invitation", url(config('app.url') . '/invitation/' . $this->invitation->token));
 
         return $message;
     }

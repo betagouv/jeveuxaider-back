@@ -78,8 +78,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'twitter',
             'date_creation',
             'date_modification',
-            'utilisateur_id',
-            'utilisateur_email',
+            // 'utilisateur_id',
+            // 'utilisateur_email',
             // 'user_first_name',
             // 'user_last_name',
         ];
@@ -117,8 +117,8 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->twitter,
             $structure->created_at,
             $structure->updated_at,
-            $structure->user_id,
-            $responsable ? $responsable->email : '',
+            // $structure->user_id,
+            // $responsable ? $responsable->email : '',
         ];
     }
 }

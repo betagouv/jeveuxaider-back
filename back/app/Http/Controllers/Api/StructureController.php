@@ -91,8 +91,12 @@ class StructureController extends Controller
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
-    public function show(StructureRequest $request, Structure $structure)
+    public function show(Request $request, Structure $structure)
     {
+        if (Auth::guard('api')->user()->cannot('view', $structure)) {
+            abort(403);
+        }
+
         $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         $structure->append('response_time_score');
         return $structure;
@@ -155,7 +159,7 @@ class StructureController extends Controller
         }
 
         if ($request->has('tete_de_reseau_id')) {
-            if($request->input('tete_de_reseau_id')){
+            if ($request->input('tete_de_reseau_id')) {
                 $structure->reseaux()->syncWithoutDetaching([$request->input('tete_de_reseau_id')]);
             }
         }
@@ -329,7 +333,7 @@ class StructureController extends Controller
 
     public function attachReseaux(Request $request, Structure $structure)
     {
-        if($request->input('reseaux')) {
+        if ($request->input('reseaux')) {
             $structure->reseaux()->syncWithoutDetaching($request->input('reseaux'));
         }
 
