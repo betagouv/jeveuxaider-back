@@ -40,7 +40,21 @@ class StructureRequest extends FormRequest
             'longitude' => '',
             'zip' => '',
             'city' => '',
-            'department' => '',
+            'department' => [
+                function ($attribute, $value, $fail) {
+                    $datas = $this->validator->getData();
+                    if (!empty($datas['zip'])) {
+                        if (substr($datas['zip'], 0, strlen($value)) != $value) {
+                            // Exeptions.
+                            if (in_array($value, ['2A', '2B']) && substr($datas['zip'], 0, 2) == '20') {
+                                return;
+                            }
+
+                            $fail("L'adresse et le département ne correspondent pas !");
+                        }
+                    }
+                }
+            ],
             'country' => '',
             'website' => 'max:255',
             'facebook' => 'max:255',
