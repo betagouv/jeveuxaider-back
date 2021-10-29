@@ -13,6 +13,7 @@
           "
           :alt="testimony.organization.name"
           class="max-w-[150px] max-h-[60px] object-contain w-full h-full"
+          data-not-lazy
         />
 
         <div class="text-xl lg:text-2xl leading-relaxed">

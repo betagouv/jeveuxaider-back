@@ -632,7 +632,7 @@ export default {
         benevoles: [
           {
             icon: '✊',
-            title: `Qui peut s'insccrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            title: `Qui peut s'inscrire sur JeVeuxAider.gouv.fr&nbsp;?`,
             content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet erat augue. Nullam vel ex et arcu scelerisque varius. Nullam augue arcu, sollicitudin non rutrum vitae, hendrerit non eros.`,
           },
           {
