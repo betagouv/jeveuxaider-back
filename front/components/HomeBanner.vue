@@ -2,9 +2,22 @@
   <section class="relative h-[590px]">
     <picture class="lg:hidden">
       <source
+        srcset="/images/banner.webp, /images/banner@2x.webp 2x"
+        media="(min-width: 440px)"
+        type="image/webp"
+      />
+
+      <source
         srcset="/images/banner.jpg, /images/banner@2x.jpg 2x"
         media="(min-width: 440px)"
+        type="image/jpeg"
       />
+
+      <source
+        srcset="/images/banner_mobile.webp, /images/banner_mobile@2x.webp 2x"
+        type="image/webp"
+      />
+
       <img
         srcset="/images/banner_mobile.jpg, /images/banner_mobile@2x.jpg 2x"
         alt="Récolte de nourriture et de vêtement"
