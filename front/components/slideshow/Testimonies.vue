@@ -13,8 +13,8 @@
           "
           :alt="testimony.organization.name"
           class="max-w-[150px] max-h-[60px] object-contain w-full h-full"
-          :width="testimony.organization.width"
-          :height="testimony.organization.height"
+          :width="testimony.organization.logo.width"
+          :height="testimony.organization.logo.height"
           data-not-lazy
         />
 
@@ -22,7 +22,7 @@
           “{{ testimony.content | decodeHTMLEntities }}”
         </div>
 
-        <div class="flex items-center space-x-4">
+        <div class="flex items-start space-x-4">
           <img
             :src="testimony.author.image.default"
             :srcset="
@@ -33,7 +33,7 @@
             :alt="testimony.author.name"
             width="40"
             height="40"
-            class="flex-none rounded-full overflow-hidden"
+            class="flex-none rounded-full overflow-hidden mt-1"
           />
 
           <div class="text-left">
