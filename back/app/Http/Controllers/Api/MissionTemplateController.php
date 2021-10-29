@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersTemplatesWithReseau;
 use App\Filters\FiltersTitleBodySearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,16 +28,7 @@ class MissionTemplateController extends Controller
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
                 AllowedFilter::scope('of_reseau'),
-                AllowedFilter::callback('with_reseaux', function (Builder $query, $reseaux) {
-                    $query->where(function ($query) use ($reseaux) {
-                        $query->whereNull('reseau_id');
-                        if (is_array($reseaux)) {
-                            $query->orWhereIn('reseau_id', $reseaux);
-                        } else {
-                            $query->orWhere('reseau_id', $reseaux);
-                        }
-                    });
-                }),
+                AllowedFilter::callback('with_reseaux', new FiltersTemplatesWithReseau)
             )
             ->defaultSort('-updated_at')
             ->paginate($paginate);
@@ -81,7 +73,7 @@ class MissionTemplateController extends Controller
             ->usingName($name)
             ->usingFileName($name . '.' . $extension)
             ->withCustomProperties(['field' => $field]);
-        
+
 
         if (!empty($cropSettings)) {
             $stringCropSettings = implode(",", [
