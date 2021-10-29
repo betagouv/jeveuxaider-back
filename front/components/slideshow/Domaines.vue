@@ -24,10 +24,8 @@ export default {
           name: 'Mobilisation Covid-19',
           slug: 'mobilisation-covid-19',
           description: 'Mobilisez-vous pour la lutte contre la Covid-19',
-          image: {
-            default: '/images/card_domaine_covid19.jpg',
-            x2: '/images/card_domaine_covid19@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_covid19.webp, /images/card_domaine_covid19@2x.webp 2x, /images/card_domaine_covid19.jpg, /images/card_domaine_covid19@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -35,10 +33,8 @@ export default {
           name: 'Éducation pour tous',
           slug: 'education-pour-tous',
           description: `Mobilisez-vous pour l'éducation`,
-          image: {
-            default: '/images/card_domaine_education.jpg',
-            x2: '/images/card_domaine_education@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_education.webp, /images/card_domaine_education@2x.webp 2x, /images/card_domaine_education.jpg, /images/card_domaine_education@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -47,10 +43,8 @@ export default {
           slug: 'sante-pour-tous',
           description:
             'Venez en aide aux malades, à leurs proches ou aux soignants',
-          image: {
-            default: '/images/card_domaine_sante.jpg',
-            x2: '/images/card_domaine_sante@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_sante.webp, /images/card_domaine_sante@2x.webp 2x, /images/card_domaine_sante.jpg, /images/card_domaine_sante@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -59,10 +53,8 @@ export default {
           slug: 'protection-de-la-nature',
           description:
             'Aidez les associations locales à protéger l’environnement',
-          image: {
-            default: '/images/card_domaine_nature.jpg',
-            x2: '/images/card_domaine_nature@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_nature.webp, /images/card_domaine_nature@2x.webp 2x, /images/card_domaine_nature.jpg, /images/card_domaine_nature@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -71,10 +63,8 @@ export default {
           slug: 'solidarite-et-insertion',
           description:
             'Venez en aide aux plus démunis et aux personnes isolées',
-          image: {
-            default: '/images/card_domaine_solidarite.jpg',
-            x2: '/images/card_domaine_solidarite@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_solidarite.webp, /images/card_domaine_solidarite@2x.webp 2x, /images/card_domaine_solidarite.jpg, /images/card_domaine_solidarite@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -82,10 +72,8 @@ export default {
           name: 'Sport pour tous',
           slug: 'sport-pour-tous',
           description: `Mobilisez-vous pour le sport`,
-          image: {
-            default: '/images/card_domaine_sport.jpg',
-            x2: '/images/card_domaine_sport@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_sport.webp, /images/card_domaine_sport@2x.webp 2x, /images/card_domaine_sport.jpg, /images/card_domaine_sport@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -93,10 +81,8 @@ export default {
           name: 'Prévention et protection',
           slug: 'prevention-et-protection',
           description: `Mobilisez-vous pour la prévention et la protection civile`,
-          image: {
-            default: '/images/card_domaine_prevention.jpg',
-            x2: '/images/card_domaine_prevention@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_prevention.webp, /images/card_domaine_prevention@2x.webp 2x, /images/card_domaine_prevention.jpg, /images/card_domaine_prevention@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -104,10 +90,8 @@ export default {
           name: 'Mémoire et citoyenneté',
           slug: 'memoire-et-citoyennete',
           description: `Mobilisez-vous pour la mémoire et la citoyenneté`,
-          image: {
-            default: '/images/card_domaine_memoire.jpg',
-            x2: '/images/card_domaine_memoire@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_memoire.webp, /images/card_domaine_memoire@2x.webp 2x, /images/card_domaine_memoire.jpg, /images/card_domaine_memoire@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -115,10 +99,8 @@ export default {
           name: 'Coopération internationale',
           slug: 'cooperation-internationale',
           description: `Mobilisez-vous pour la coopération internationale`,
-          image: {
-            default: '/images/card_domaine_cooperation.jpg',
-            x2: '/images/card_domaine_cooperation@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_cooperation.webp, /images/card_domaine_cooperation@2x.webp 2x, /images/card_domaine_cooperation.jpg, /images/card_domaine_cooperation@2x.jpg 2x',
           bottom: true,
         },
         {
@@ -126,10 +108,8 @@ export default {
           name: 'Art & Culture pour tous',
           slug: 'art-and-culture-pour-tous',
           description: `Mobilisez-vous pour l'art et la culture`,
-          image: {
-            default: '/images/card_domaine_art.jpg',
-            x2: '/images/card_domaine_art@2x.jpg',
-          },
+          image:
+            '/images/card_domaine_art.webp, /images/card_domaine_art@2x.webp 2x, /images/card_domaine_art.jpg, /images/card_domaine_art@2x.jpg 2x',
           bottom: true,
         },
       ],

@@ -8,9 +8,8 @@
     <div class="px-4">
       <div class="relative rounded-[10px] overflow-hidden safari-fix-scale">
         <img
-          :src="domaine.image.default"
-          :srcset="domaine.image.x2 ? `${domaine.image.x2} 2x` : false"
-          alt=""
+          :srcset="domaine.image"
+          :alt="domaine.name"
           class="w-full object-cover object-right-top"
           style="min-height: 180px"
           width="328"
