@@ -4,8 +4,8 @@
       <source
         srcset="
           /images/banner.webp,
-          /images/banner.jpg,
           /images/banner@2x.webp 2x,
+          /images/banner.jpg,
           /images/banner@2x.jpg  2x
         "
         media="(min-width: 440px)"
@@ -14,8 +14,8 @@
       <img
         srcset="
           /images/banner_mobile.webp,
-          /images/banner_mobile.jpg,
           /images/banner_mobile@2x.webp 2x,
+          /images/banner_mobile.jpg,
           /images/banner_mobile@2x.jpg  2x
         "
         alt="Récolte de nourriture et de vêtement"
