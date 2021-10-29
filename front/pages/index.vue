@@ -17,7 +17,7 @@
           <img
             srcset="/images/mosaique_orgas@2x.png 2x"
             alt="Mosaïque organisations"
-            class="sm:hidden object-cover object-left-bottom w-full h-[370px] translate-y-[-45px] mosaic"
+            class="sm:hidden object-cover object-left-bottom w-full h-[370px] translate-y-[-25px] mosaic"
             width="440"
             height="371"
           />
@@ -28,7 +28,7 @@
               /images/mosaique_orgas_desktop@2x.png 2x
             "
             alt="Mosaïque organisations"
-            class="hidden sm:block object-cover object-left-bottom w-full h-[370px] md:h-[650px] translate-y-[-45px] md:translate-y-[-138px] md:absolute md:right-0 md:top-0 mosaic"
+            class="hidden sm:block object-cover object-left-bottom w-full h-[370px] md:h-[650px] md:translate-y-[-138px] md:absolute md:right-0 md:top-0 mosaic"
             width="790"
             height="670"
           />

@@ -12,10 +12,11 @@
               : false
           "
           :alt="testimony.organization.name"
+          class="max-w-[150px] max-h-[60px] object-contain w-full h-full"
         />
 
         <div class="text-xl lg:text-2xl leading-relaxed">
-          “{{ testimony.content }}”
+          “{{ testimony.content | decodeHTMLEntities }}”
         </div>
 
         <div class="flex items-center space-x-4">
@@ -27,7 +28,9 @@
                 : false
             "
             :alt="testimony.author.name"
-            class="flex-none"
+            width="40"
+            height="40"
+            class="flex-none rounded-full overflow-hidden"
           />
 
           <div class="text-left">
@@ -61,37 +64,38 @@ export default {
       testimonies: [
         {
           id: 1,
-          content: `Une expérience formidable avec un super groupe de vacanciers et d’accompagnateurs. On s'est vite sentis comme en famille. Hâte de m’engager à nouveau avec SINGA !`,
+          content: `Experience très positive qui m'a permise d'être utile envers les autres, mais aussi de rencontrer des belles personnes.
+Je me suis désormais active dans la Banque Alimentaire près de chez moi deux matinées par semaine&nbsp;🙂`,
           author: {
-            name: `Judith`,
+            name: `Anne-Marie`,
             image: {
-              default: `/images/temoignages/portraits/judith.png`,
-              x2: `/images/temoignages/portraits/judith@2x.png`,
+              default: `/images/temoignages/portraits/annemarie.jpg`,
+              x2: `/images/temoignages/portraits/annemarie@2x.jpg`,
             },
           },
           organization: {
-            name: 'Singa',
+            name: 'Banque Alimentaire',
             logo: {
-              default: `/images/temoignages/organisations/singa.png`,
-              x2: `/images/temoignages/organisations/singa@2x.png`,
+              default: `/images/temoignages/organisations/banques_alimentaires.png`,
+              x2: `/images/temoignages/organisations/banques_alimentaires@2x.png`,
             },
           },
         },
         {
           id: 2,
-          content: `Duis vitae ullamcorper justo, quis sollicitudin eros. Quisque sed elit ligula. Maecenas faucibus nulla augue, sit amet condimentum ante finibus vitae. Morbi dignissim lacinia pharetra. `,
+          content: `Une expérience formidable avec un super groupe de vacanciers et d’accompagnateurs. On s'est vite sentis comme en famille. Hâte de partir à nouveau avec l’APF l’année prochaine &nbsp;!`,
           author: {
-            name: `Test`,
+            name: `Romain`,
             image: {
-              default: `/images/temoignages/portraits/judith.png`,
-              x2: `/images/temoignages/portraits/judith@2x.png`,
+              default: `/images/temoignages/portraits/romain.jpg`,
+              x2: `/images/temoignages/portraits/romain@2x.jpg`,
             },
           },
           organization: {
-            name: 'Singa',
+            name: 'APF Evasion France Handicap',
             logo: {
-              default: `/images/temoignages/organisations/singa.png`,
-              x2: `/images/temoignages/organisations/singa@2x.png`,
+              default: `/images/temoignages/organisations/APF_Evasion_France_Handicap.svg`,
+              x2: null,
             },
           },
         },

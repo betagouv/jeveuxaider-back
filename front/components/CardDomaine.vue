@@ -11,7 +11,7 @@
           :src="domaine.image.default"
           :srcset="domaine.image.x2 ? `${domaine.image.x2} 2x` : false"
           alt=""
-          class="w-full object-cover object-top"
+          class="w-full object-cover object-right-top"
           style="min-height: 180px"
           width="328"
           height="405"

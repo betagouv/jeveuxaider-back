@@ -140,7 +140,7 @@ export default {
 
 <style lang="postcss" scoped>
 .card--domaine--wrapper {
-  @apply !flex flex-col max-w-[360px] transition rounded-[10px];
+  @apply !flex flex-col max-w-[360px] transition rounded-[10px] h-full;
   width: calc(100vw - 64px) !important;
   @screen sm {
     @apply max-w-[350px] w-full;
