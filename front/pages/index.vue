@@ -707,6 +707,12 @@ export default {
           rel: 'canonical',
           href: 'https://www.jeveuxaider.gouv.fr/',
         },
+        {
+          rel: 'preload',
+          as: 'image',
+          href: '/images/banner_mobile.jpg',
+          imagesrcset: `/images/banner_mobile.webp, /images/banner_mobile.jpg, /images/banner_mobile@2x.webp 2x, /images/banner_mobile@2x.jpg  2x`,
+        },
       ],
       meta: [
         {
