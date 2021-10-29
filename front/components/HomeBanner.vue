@@ -9,6 +9,8 @@
         srcset="/images/banner_mobile.jpg, /images/banner_mobile@2x.jpg 2x"
         alt="Récolte de nourriture et de vêtement"
         class="object-cover absolute w-full h-full"
+        width="440"
+        height="584"
       />
     </picture>
 

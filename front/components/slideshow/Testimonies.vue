@@ -13,6 +13,8 @@
           "
           :alt="testimony.organization.name"
           class="max-w-[150px] max-h-[60px] object-contain w-full h-full"
+          :width="testimony.organization.width"
+          :height="testimony.organization.height"
           data-not-lazy
         />
 
@@ -79,6 +81,8 @@ Je me suis désormais active dans la Banque Alimentaire près de chez moi deux m
             logo: {
               default: `/images/temoignages/organisations/banques_alimentaires.png`,
               x2: `/images/temoignages/organisations/banques_alimentaires@2x.png`,
+              width: 150,
+              height: 34,
             },
           },
         },
@@ -97,6 +101,8 @@ Je me suis désormais active dans la Banque Alimentaire près de chez moi deux m
             logo: {
               default: `/images/temoignages/organisations/APF_Evasion_France_Handicap.svg`,
               x2: null,
+              width: 95,
+              height: 60,
             },
           },
         },
