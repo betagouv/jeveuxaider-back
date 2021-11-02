@@ -9,8 +9,7 @@
   "license": "MIT",
   "require": {
     "php": "^7.3",
-    "algolia/algoliasearch-client-php": "^2.7",
-    "algolia/scout-extended": "^1.9",
+    "algolia/scout-extended": "^1.20",
     "anourvalar/eloquent-serialize": "^1.1",
     "axlon/laravel-postal-code-validation": "^3.0",
     "doctrine/dbal": "^2.10",

@@ -41,23 +41,23 @@ export const actions = {
         password: credentials.password,
         scope: '*',
       })
-      .then(async ({ data }) => {
-        commit('setAccessToken', data.access_token)
-        this.$cookies.set('access-token', data.access_token, {
-          maxAge: data.expires_in,
+      .then(async (response) => {
+        await commit('setAccessToken', response?.data?.access_token)
+        await this.$cookies.set('access-token', response?.data?.access_token, {
+          maxAge: response?.data?.expires_in,
           path: '/',
           secure: true,
         })
-        this.$gtm.push({ event: 'user-login' })
+        await this.$gtm.push({ event: 'user-login' })
         await dispatch('fetchUser')
         this.$router.push(
           this.$router.history.current.query.redirect || '/missions-benevolat'
         )
       })
-      .catch(() => {
+      .catch((error) => {
         commit('setAccessToken', null)
         this.$cookies.remove('access-token')
-        return Promise.reject(new Error('Login failed'))
+        return Promise.reject(new Error(error))
       })
   },
 
