@@ -386,6 +386,13 @@ class Mission extends Model
         }
     }
 
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        return $query->whereHas('structure', function (Builder $query) use ($reseau_id) {
+            $query->ofReseau($reseau_id);
+        });
+    }
+
     public function scopeDistance($query, $latitude, $longitude)
     {
         $latName = 'latitude';

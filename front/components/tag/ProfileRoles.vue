@@ -36,17 +36,8 @@
       Régional
     </el-tag>
 
-    <el-tag
-      v-if="profile.tete_de_reseau"
-      v-tooltip="{
-        content: profile.tete_de_reseau.name,
-        classes: 'bo-style',
-      }"
-      type=""
-      :size="size"
-      class="m-1"
-    >
-      Tête de réseau
+    <el-tag v-if="profile.tete_de_reseau" type="" :size="size" class="m-1">
+      {{ profile.tete_de_reseau.name }}
     </el-tag>
 
     <el-tag v-if="profile.roles.analyste" type="" :size="size" class="m-1">

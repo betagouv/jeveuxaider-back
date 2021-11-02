@@ -83,6 +83,12 @@ export default (axios, $cookies) => ({
       params,
     })
   },
+  async exportProfilesTetesDeReseau(params) {
+    return await axios.get(`/profiles/tetes-de-reseau/export`, {
+      responseType: 'blob',
+      params,
+    })
+  },
   async exportProfilesReferentsRegions(params) {
     return await axios.get(`/profiles/referents/regions/export`, {
       responseType: 'blob',

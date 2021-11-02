@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProfilesExport;
 use App\Exports\ProfilesReferentsDepartementsExport;
 use App\Exports\ProfilesReferentsRegionsExport;
+use App\Exports\ProfilesTetesDeReseauExport;
 use App\Exports\ProfilesResponsablesExport;
 use App\Filters\FiltersProfileTag;
 use App\Filters\FiltersProfileSearch;
@@ -37,7 +38,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id', 'territoires:name,id']))
-            ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
+            ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'tete_de_reseau_waiting_actions', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
                 AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
@@ -110,6 +111,11 @@ class ProfileController extends Controller
     public function exportReferentsRegions(Request $request)
     {
         return Excel::download(new ProfilesReferentsRegionsExport(), 'referents-regions.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function exportTetesDeReseau(Request $request)
+    {
+        return Excel::download(new ProfilesTetesDeReseauExport(), 'tetes-de-reseau.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function exportResponsables(Request $request)

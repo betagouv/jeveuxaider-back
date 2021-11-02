@@ -127,6 +127,20 @@ class Profile extends Model implements HasMedia
         ];
     }
 
+    public function getTeteDeReseauWaitingActionsAttribute()
+    {
+        $antennes = Structure::ofReseau($this->tete_de_reseau_id)->count();
+        $missions = Mission::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
+        $participations = Participation::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
+
+        return [
+            'total' => $missions + $participations,
+            'antennes' => $antennes,
+            'missions' => $missions,
+            'participations' => $participations,
+        ];
+    }
+
     public function getResponsableWaitingActionsAttribute()
     {
 
@@ -361,7 +375,6 @@ class Profile extends Model implements HasMedia
             'admin' => $this->isAdmin(),
             'referent' => $this->isReferent(),
             'referent_regional' => $this->isReferentRegional(),
-            // 'superviseur' => $this->isSuperviseur(),
             'responsable' => $this->isResponsable(),
             'tete_de_reseau' => $this->isTeteDeReseau(),
             'analyste' => $this->is_analyste

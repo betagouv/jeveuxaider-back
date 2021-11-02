@@ -90,6 +90,13 @@ class Participation extends Model
         }
     }
 
+    public function scopeOfReseau($query, $reseau_id)
+    {
+        return $query->whereHas('mission', function (Builder $query) use ($reseau_id) {
+            $query->ofReseau($reseau_id);
+        });
+    }
+
     public function scopeDepartment($query, $value)
     {
         return $query

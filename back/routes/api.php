@@ -307,6 +307,7 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     Route::get('profiles/referents/departements/export', 'Api\ProfileController@exportReferentsDepartements');
     Route::get('profiles/referents/regions/export', 'Api\ProfileController@exportReferentsRegions');
+    Route::get('profiles/tetes-de-reseau/export', 'Api\ProfileController@exportTetesDeReseau');
     Route::get('profiles/responsables/export', 'Api\ProfileController@exportResponsables');
 
     // TERRITOIRES

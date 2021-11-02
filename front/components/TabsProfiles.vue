@@ -7,6 +7,9 @@
     <el-menu-item index="/dashboard/profiles/referents-regions"
       >Référents régionaux</el-menu-item
     >
+    <el-menu-item index="/dashboard/profiles/tetes-de-reseau"
+      >Têtes de réseau</el-menu-item
+    >
     <el-menu-item index="/dashboard/profiles/responsables"
       >Responsables</el-menu-item
     >
