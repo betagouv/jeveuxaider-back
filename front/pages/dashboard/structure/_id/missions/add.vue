@@ -100,9 +100,9 @@ export default {
       const templates = await this.$api.fetchMissionTemplates({
         'filter[domaine.id]': this.domaine_id,
         'filter[published]': 1,
-        'filter[with_reseaux]': this.structure.reseaux
+        'filter[with_reseaux]': this.structure.reseaux?.length
           ? this.structure.reseaux.map((reseau) => reseau.id).join(',')
-          : null,
+          : 'empty',
         pagination: 99,
       })
       this.templates = templates.data.data
