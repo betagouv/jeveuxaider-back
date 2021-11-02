@@ -8,7 +8,7 @@
       <img
         src="/images/deco_1.svg"
         alt="Décorations"
-        class="deco--1 absolute hidden xl:block"
+        class="deco--1 absolute hidden xl:block pointer-events-none"
         data-not-lazy
       />
 
@@ -233,14 +233,14 @@
       <img
         src="/images/deco_2.svg"
         alt="Décorations"
-        class="deco--2 absolute hidden lg:block"
+        class="deco--2 absolute hidden lg:block pointer-events-none"
         data-not-lazy
       />
 
       <img
         src="/images/deco_3.svg"
         alt="Décorations"
-        class="deco--3 absolute hidden lg:block"
+        class="deco--3 absolute hidden lg:block pointer-events-none"
         data-not-lazy
       />
 
