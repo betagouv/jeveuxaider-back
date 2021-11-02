@@ -42,34 +42,22 @@ export const actions = {
         scope: '*',
       })
       .then(async ({ data }) => {
-        commit('setAccessToken', data.access_token)
-        this.$cookies.set('access-token', data.access_token, {
+        await commit('setAccessToken', data.access_token)
+        await this.$cookies.set('access-token', data.access_token, {
           maxAge: data.expires_in,
           path: '/',
           secure: true,
         })
-        this.$gtm.push({ event: 'user-login' })
+        await this.$gtm.push({ event: 'user-login' })
         await dispatch('fetchUser')
         this.$router.push(
           this.$router.history.current.query.redirect || '/missions-benevolat'
         )
       })
       .catch((error) => {
-        if (error.response) {
-          // Request made and server responded
-          console.log('err login response data', error.response.data)
-          console.log('err login response status', error.response.status)
-          console.log('err login response headers', error.response.headers)
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log('err login request', error.request)
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('err login message', error.message)
-        }
         commit('setAccessToken', null)
         this.$cookies.remove('access-token')
-        return Promise.reject(new Error('Login failed'))
+        return Promise.reject(new Error(error))
       })
   },
 
