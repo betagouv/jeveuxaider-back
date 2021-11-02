@@ -32,9 +32,7 @@
       </div>
 
       <transition name="fade">
-        <div v-if="item.isOpen" class="pb-6">
-          {{ item.content }}
-        </div>
+        <div v-if="item.isOpen" class="pb-6" v-html="item.content" />
       </transition>
     </div>
   </div>

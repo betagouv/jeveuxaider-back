@@ -95,22 +95,24 @@
       <div class="container mx-auto px-4">
         <div class="mx-auto max-w-[1170px] text-[#666666] text-xs">
           <div class="divide-x">
-            <nuxt-link
+            <component
+              :is="
+                link.component
+                  ? link.component
+                  : link.external
+                  ? 'a'
+                  : 'nuxt-link'
+              "
               v-for="(link, index) in links2"
               :key="link.name"
               :to="link.url"
-              class="hover:underline px-4"
+              :href="link.url"
+              :target="link.external ? '_blank' : null"
+              class="cursor-pointer hover:underline px-4 my-1 inline-block"
               :class="[{ 'pl-0': index === 0 }]"
             >
               {{ link.name }}
-            </nuxt-link>
-
-            <a
-              href="javascript:openAxeptioCookies()"
-              class="hover:underline px-4"
-            >
-              Gestion des cookies
-            </a>
+            </component>
           </div>
 
           <div class="mt-6">
@@ -268,8 +270,8 @@ export default {
           url: `/organisations/7159-restos-du-coeur`,
         },
         {
-          name: `Makesense`,
-          url: `/organisations/2747-makesense`,
+          name: `Apprentis d'Auteuil`,
+          url: `/organisations/7330-apprentis-dauteuil`,
         },
         {
           name: `Entourage`,
@@ -311,9 +313,14 @@ export default {
           name: `Plan du site`,
           url: `/sitemap.xml`,
         },
+        // {
+        //   name: `Accessibilité`,
+        //   url: `/accessibilite`,
+        // },
         {
-          name: `Accessibilité`,
-          url: `/accessibilite`,
+          name: `Centre d'aide`,
+          url: `https://reserve-civique.crisp.help/fr/`,
+          external: true,
         },
         {
           name: `Mentions légales`,
@@ -322,6 +329,38 @@ export default {
         {
           name: `Données personnelles`,
           url: `/politique-de-confidentialite`,
+        },
+        {
+          name: `Gestion des cookies`,
+          url: `javascript:openAxeptioCookies()`,
+          component: 'a',
+        },
+        {
+          name: `CGU`,
+          url: `/conditions-generales-d-utilisation`,
+        },
+        {
+          name: `Charte`,
+          url: `/charte-reserve-civique`,
+        },
+        {
+          name: `Règles de sécurité`,
+          url: `/regles-de-securite`,
+        },
+        {
+          name: `Statistiques`,
+          url: `https://reserve-civique-metabase.osc-secnum-fr1.scalingo.io/public/dashboard/c25b3d89-d800-4ab7-bdd1-c225328da9ce`,
+          external: true,
+        },
+        {
+          name: `Presse`,
+          url: `https://www.jeveuxaider.gouv.fr/engagement/presse/`,
+          external: true,
+        },
+        {
+          name: `Communication`,
+          url: `https://www.jeveuxaider.gouv.fr/engagement/communication/`,
+          external: true,
         },
       ],
     }
