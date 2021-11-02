@@ -41,10 +41,10 @@ export const actions = {
         password: credentials.password,
         scope: '*',
       })
-      .then(async ({ data }) => {
-        await commit('setAccessToken', data.access_token)
-        await this.$cookies.set('access-token', data.access_token, {
-          maxAge: data.expires_in,
+      .then(async (response) => {
+        await commit('setAccessToken', response?.data.access_token)
+        await this.$cookies.set('access-token', response?.data.access_token, {
+          maxAge: response?.data.expires_in,
           path: '/',
           secure: true,
         })
