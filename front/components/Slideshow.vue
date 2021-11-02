@@ -121,7 +121,7 @@ export default {
         // Add wrapper.
         const wrapper = document.createElement('div')
         wrapper.className =
-          'wrapper--slick-dots mt-6 flex flex-col sm:flex-row items-center sm:justify-start space-y-4 sm:space-y-0 sm:space-x-8'
+          'wrapper--slick-dots mt-6 flex flex-col sm:flex-row items-center sm:justify-start space-y-4 sm:space-y-0'
         if (dotsWrapper) {
           dotsWrapper.parentNode.insertBefore(wrapper, dotsWrapper)
         } else {
@@ -180,12 +180,15 @@ export default {
 
     .slick-dots {
       position: inherit;
-      @apply !space-x-3 text-center sm:text-left bottom-0 w-auto flex-none;
+      @apply !space-x-3 text-center sm:text-left bottom-0 w-auto flex-none mr-8;
       > li {
         @apply w-auto h-auto m-0;
         &.slick-active > div {
           color: #696974;
         }
+      }
+      @screen xl {
+        display: none !important;
       }
     }
   }

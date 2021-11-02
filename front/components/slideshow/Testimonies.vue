@@ -22,7 +22,7 @@
           “{{ testimony.content | decodeHTMLEntities }}”
         </div>
 
-        <div class="flex items-start space-x-4">
+        <div class="flex items-center space-x-4">
           <img
             :src="testimony.author.image.default"
             :srcset="
@@ -33,18 +33,20 @@
             :alt="testimony.author.name"
             width="40"
             height="40"
-            class="flex-none rounded-full overflow-hidden mt-1"
+            class="flex-none rounded-full overflow-hidden"
           />
 
-          <div class="text-left">
+          <div
+            class="text-left flex flex-col md:flex-row md:flex-wrap md:items-center"
+          >
             <span class="font-bold text-[#111827]">
               {{ testimony.author.name }}
             </span>
             <span
-              class="text-[#A7A7B0] font-bold mx-2 text-lg hidden sm:inline-block"
+              class="text-[#A7A7B0] font-bold mx-2 text-lg hidden md:inline-block"
               >/</span
             >
-            <span class="text-[#A7A7B0] block sm:inline">
+            <span class="text-[#A7A7B0]">
               Bénévole chez
               <span class="uppercase font-bold">
                 {{ testimony.organization.name }}

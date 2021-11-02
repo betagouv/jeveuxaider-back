@@ -53,6 +53,7 @@
             <a
               href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
               class="text-lg text-primary hover:underline"
+              target="_blank"
             >
               Consulter toutes les organisations ›
             </a>
@@ -404,7 +405,7 @@
               class="flex flex-col items-start text-center md:text-left h-full"
             >
               <div
-                class="w-full font-bold text-primary tracking-wide leading-[22px] mb-6 truncate"
+                class="flex-none w-full font-bold text-primary tracking-wide leading-[22px] mb-6 truncate"
               >
                 ASSOCIATIONS ET ORGANISATIONS PUBLIQUES
               </div>
@@ -438,7 +439,9 @@
                     width="19px"
                     height="19px"
                   />
-                  <span class="text-lg text-[#696974]">{{ goal }}</span>
+                  <span class="text-lg xl:text-xl text-[#696974]">
+                    {{ goal }}
+                  </span>
                 </li>
               </ul>
 
@@ -459,7 +462,7 @@
               class="flex flex-col items-start text-center md:text-left h-full"
             >
               <div
-                class="w-full font-bold text-white tracking-wide leading-[22px] mb-6 truncate"
+                class="flex-none w-full font-bold text-white tracking-wide leading-[22px] mb-6 truncate"
               >
                 COLLECTIVITÉS ET TERRITOIRES
               </div>
@@ -492,7 +495,9 @@
                     width="19px"
                     height="19px"
                   />
-                  <span class="text-lg text-white">{{ goal }}</span>
+                  <span class="text-lg xl:text-xl text-white">
+                    {{ goal }}
+                  </span>
                 </li>
               </ul>
 

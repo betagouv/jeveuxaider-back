@@ -531,9 +531,9 @@
 
     <div
       v-if="otherMissions.length > 0"
-      class="bg-[#282562] border-t-8 border-[#FC7069]"
+      class="bg-[#282562] border-t-8 border-[#FC7069] overflow-hidden"
     >
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-8 sm:px-4">
         <div class="pt-16 pb-24">
           <div class="text-white font-bold text-4xl text-center mb-8">
             Vous pourriez aussi aimer&nbsp;…
