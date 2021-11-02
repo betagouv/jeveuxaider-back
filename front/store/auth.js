@@ -54,7 +54,19 @@ export const actions = {
           this.$router.history.current.query.redirect || '/missions-benevolat'
         )
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error.response) {
+          // Request made and server responded
+          console.log('err login response data', error.response.data)
+          console.log('err login response status', error.response.status)
+          console.log('err login response headers', error.response.headers)
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log('err login request', error.request)
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('err login message', error.message)
+        }
         commit('setAccessToken', null)
         this.$cookies.remove('access-token')
         return Promise.reject(new Error('Login failed'))
