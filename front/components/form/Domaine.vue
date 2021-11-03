@@ -14,9 +14,7 @@
         placeholder="Ex: Solidarité et instertion"
       />
       <ItemDescription>
-        Accessible à l'adresse : {{ $config.appUrl }}/domaines-action/{{
-          form.name | slugify
-        }}
+        Accessible à l'adresse : {{ $config.appUrl }}{{ form.full_url }}
       </ItemDescription>
     </el-form-item>
     <el-form-item label="Titre du domaine d'action" prop="title">

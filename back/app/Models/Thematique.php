@@ -7,10 +7,12 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Thematique extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, HasSlug;
 
     protected $table = 'thematiques';
 
@@ -28,9 +30,23 @@ class Thematique extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    protected $appends = ['image'];
+    protected $appends = ['image', 'full_url'];
 
     protected $hidden = ['media'];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(function ($thematique) {
+                return $thematique->name;
+            })
+            ->saveSlugsTo('slug');
+    }
+
+    public function getFullUrlAttribute()
+    {
+        return "/domaines-action/$this->slug";
+    }
 
     public function getImageAttribute()
     {

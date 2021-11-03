@@ -47,7 +47,6 @@ class Mission extends Model
         'domaine_id',
         'template_id',
         'thumbnail',
-        'slug',
         'commitment__duration',
         'commitment__time_period',
         'is_priority',
