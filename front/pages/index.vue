@@ -728,8 +728,8 @@ export default {
     }
   },
   async fetch() {
-    // const { data } = await this.$api.fetchPromotedToFrontPageMissions()
-    // this.prioritizedMissions = data
+    const { data } = await this.$api.fetchPromotedToFrontPageMissions()
+    this.prioritizedMissions = data
     // const { data: articles } = await this.$axios.get(
     //   `${this.$config.blog.restApiUrl}/posts/?per_page=6`,
     //   {
