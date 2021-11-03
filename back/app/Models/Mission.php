@@ -134,7 +134,7 @@ class Mission extends Model
             'start_date' => $this->start_date ? strtotime($this->start_date) : null,
             'end_date' => $this->end_date ? strtotime($this->end_date) : null,
             'thumbnail' => $this->thumbnail,
-            'domaine_id' => $this->domaine_id,
+            'domaine_id' => $this->template ? $this->template->domaine_id : $this->domaine_id,
             'template_id' => $this->template_id,
             'score' => $this->score,
         ];
