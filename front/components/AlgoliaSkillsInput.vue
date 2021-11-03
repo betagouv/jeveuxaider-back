@@ -24,7 +24,7 @@
                 class="after-input absolute z-10 w-5 h-5 text-[#d2d6dc]"
                 style="right: 15px; top: 12px"
                 v-html="
-                  require('@/assets/images/icones/heroicon/search.svg?include')
+                  require('@/assets/images/icones/heroicon/search.svg?raw')
                 "
               ></div
             ></template>

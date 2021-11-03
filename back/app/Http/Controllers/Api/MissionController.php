@@ -37,6 +37,18 @@ use App\Notifications\NotificationTemoignageCreate;
 
 class MissionController extends Controller
 {
+    public function promotedToFrontPage(Request $request)
+    {
+        return Mission::search('')
+            ->where('is_priority', true)
+            ->with([
+                // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
+                'filters' => 'provider:reserve_civique',
+            ])
+            ->take(10)
+            ->get();
+    }
+
     public function index(Request $request)
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role'))->with('structure:id,name,state', 'responsable'))
@@ -46,9 +58,11 @@ class MissionController extends Controller
                 'state',
                 'type',
                 'structure.statut_juridique',
+                'structure.state',
                 AllowedFilter::exact('department'),
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure_id'),
+                AllowedFilter::exact('is_priority'),
                 AllowedFilter::exact('id'),
                 AllowedFilter::custom('ceu', new FiltersMissionCeu),
                 AllowedFilter::custom('search', new FiltersMissionSearch),

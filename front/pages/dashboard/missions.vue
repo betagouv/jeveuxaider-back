@@ -171,6 +171,17 @@
           @changed="onFilterChange"
         />
         <SearchFiltersQuery
+          name="is_priority"
+          label="Missions prioritaires"
+          :value="query['filter[is_priority]']"
+          :options="[
+            { label: 'Oui', value: true },
+            { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
+
+        <SearchFiltersQuery
           name="publics_volontaires"
           label="Proposé aux"
           multiple

@@ -3,7 +3,7 @@
     <main id="main">
       <Nuxt />
     </main>
-    <AppFooter />
+    <Footer />
   </div>
 </template>
 

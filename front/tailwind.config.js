@@ -19,6 +19,7 @@ module.exports = {
       md: '768px',
       lg: '1024px',
       xl: '1280px',
+      // xl: '1412px',
     },
     fontFamily: {
       sans: [
@@ -36,16 +37,6 @@ module.exports = {
         '"Segoe UI Symbol"',
         '"Noto Color Emoji"',
       ],
-      serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-      mono: [
-        'Menlo',
-        'Monaco',
-        'Consolas',
-        '"Liberation Mono"',
-        '"Courier New"',
-        'monospace',
-      ],
-      montserrat: ['Montserrat', 'sans-serif'],
     },
     extend: {
       colors: {
@@ -55,6 +46,22 @@ module.exports = {
         nature: '#057a55',
         education: '#1f0391',
         sante: '#553c9a',
+        domaine: {
+          solidarite: '#F46D66',
+          nature: '#0B9B6B',
+          education: '#D42EB0',
+          sante: '#61198D',
+          covid: '#070191',
+          prevention: '#05D3AB',
+          sport: '#EE6018',
+          culture: '#F99E2D',
+          memoire: '#175AB6',
+          cooperation: '#5B8397',
+        },
+        jva: {
+          green: '#09AC8C',
+          grayLight: '#F9F8F6',
+        },
       },
       fontSize: {
         0: [0, 0],

@@ -34,7 +34,7 @@
       >
         <div class="flex-none self-stretch">
           <img
-            :src="form.template.photo.thumb"
+            :src="form.template.photo && form.template.photo.thumb"
             width="125px"
             class="object-cover h-full"
             @error="defaultThumbnail($event)"
@@ -128,6 +128,23 @@
       <div class="mt-6 mb-6 text-1-5xl font-bold text-[#242526]">
         Descriptif de la mission
       </div>
+
+      <el-form-item
+        v-if="$store.getters.user.context_role == 'admin'"
+        label="Mission prioritaire"
+        prop="is_priority"
+        class="flex-1"
+      >
+        <ItemDescription container-class="mb-3">
+          Les missions indiqués comme étant prioritaires seront mises en avant
+          sur la page d'accueil du site.
+        </ItemDescription>
+
+        <el-checkbox v-model="form.is_priority" border>
+          Cochez la case s'il s'agit d'une mission prioritaire
+        </el-checkbox>
+      </el-form-item>
+
       <div v-if="!form.template">
         <el-form-item label="Titre de la mission" prop="name" class="flex-1">
           <ItemDescription container-class="mb-3">
@@ -310,7 +327,7 @@
                 class="flex-none cursor-pointer w-6 h-6 p-1 transform will-change-transform text-[#070191] hover:text-red-700 hover:scale-125 transition"
                 @click="handleRemoveSkill(item.id)"
                 v-html="
-                  require('@/assets/images/icones/heroicon/close.svg?include')
+                  require('@/assets/images/icones/heroicon/close.svg?raw')
                 "
               />
             </div>
@@ -1015,14 +1032,17 @@ export default {
   }
 }
 
+.el-checkbox.is-bordered {
+  @apply m-0 rounded-[10px] !important;
+  @apply ease-in-out duration-150 transition px-4 inline-flex items-center;
+  &:hover {
+    @apply border-primary;
+  }
+}
+
 .el-checkbox-group {
   @apply flex flex-wrap gap-4 text-base;
   label {
-    @apply m-0 rounded-[10px] !important;
-    @apply ease-in-out duration-150 transition px-4 flex items-center;
-    &:hover {
-      @apply border-primary;
-    }
     ::v-deep {
       .el-checkbox__input {
         display: none;

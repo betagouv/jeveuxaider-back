@@ -531,19 +531,19 @@
 
     <div
       v-if="otherMissions.length > 0"
-      class="bg-[#282562] border-t-8 border-[#FC7069]"
+      class="bg-[#282562] border-t-8 border-[#FC7069] overflow-hidden"
     >
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-8 sm:px-4">
         <div class="pt-16 pb-24">
           <div class="text-white font-bold text-4xl text-center mb-8">
             Vous pourriez aussi aimer&nbsp;…
           </div>
 
-          <MissionsSlideshow class="mb-6" :missions="otherMissions" />
+          <SlideshowMissions class="mb-6" :missions="otherMissions" />
 
           <div class="text-center">
             <nuxt-link
-              :to="`/missions-benevolat?refinementList[structure.name][0]=${structure.name}`"
+              :to="`/missions-benevolat?refinementList[domaines][0]=${mission.domaine_name}`"
               class="inline-block border-2 border-gray-500 rounded-full text-white hover:border-white !outline-none focus:ring transition font-bold text-sm px-4 py-2 mt-6"
             >
               Plus de missions
@@ -804,10 +804,10 @@ export default {
       let icon
       switch (publicType) {
         case 'Personnes en situation de handicap':
-          icon = require('@/assets/images/icones/handicap.svg?include')
+          icon = require('@/assets/images/icones/handicap.svg?raw')
           break
         case 'Mineurs':
-          icon = require('@/assets/images/icones/mineur.svg?include')
+          icon = require('@/assets/images/icones/mineur.svg?raw')
           break
       }
 

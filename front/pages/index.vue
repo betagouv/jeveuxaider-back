@@ -1,1121 +1,572 @@
 <template>
   <div>
-    <div class="relative bg-[#070191] overflow-hidden z-10">
-      <div
-        class="absolute bottom-0 bg-gradient-to-b from-transparent to-[#070191] z-10 h-32 w-full"
-      ></div>
+    <!-- BANNER -->
+    <HomeBanner />
 
+    <!-- ORGANISATIONS -->
+    <section class="relative overflow-hidden md:h-[500px] md:flex items-center">
       <img
-        class="z-1 object-cover absolute h-screen lg:h-auto"
-        alt="Je Veux Aider"
-        :srcSet="bgHeroMultipleSizes.srcSet"
-        :src="bgHeroMultipleSizes.src"
+        src="/images/deco_1.svg"
+        alt="Décorations"
+        class="deco--1 absolute hidden xl:block pointer-events-none"
+        data-not-lazy
       />
-      <div
-        class="p-6 lg:pt-40 lg:pb-40 mt-12 relative w-full lg:inset-y-0 text-center z-10"
-      >
-        <client-only>
-          <template #placeholder>
-            <div
-              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white md:h-auto"
-            >
-              Je veux aider
-            </div>
-          </template>
-          <div v-if="hasReduceMotionOrMobile">
-            <div
-              class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white md:h-auto"
-            >
-              Je veux aider
-            </div>
-          </div>
-          <div v-else>
-            <vue-typed-js
-              ref="typedJS"
-              :strings="strings"
-              :loop="true"
-              :start-delay="70"
-              :type-speed="70"
-              :back-delay="2000"
-              cursor-char="|"
-            >
-              <div
-                class="mx-auto text-4xl lg:text-5xl tracking-tight leading-10 font-bold text-white h-40 md:h-auto"
-              >
-                Je veux <br class="lg:hidden" /><span class="typing"></span>
-              </div>
-            </vue-typed-js>
-          </div>
-        </client-only>
-        <div
-          class="mt-3 max-w-md mx-auto text-white text-xl lg:text-2xl md:mt-2 md:max-w-3xl"
-        >
-          <h1 class="inline">
-            Devenez bénévole et trouvez des missions en quelques clics
-          </h1>
-          <br class="hidden lg:block" />
-          <strong class="font-bold">près de chez vous</strong> ou
-          <strong class="font-bold">à distance</strong>
-        </div>
 
-        <div class="mt-5">
-          <button
-            class="mx-auto font-bold cursor-pointer flex items-center shadow-lg justify-center border border-transparent text-2xl leading-6 rounded-full text-white bg-[#16a972] py-4 px-10 pb-5 hover:shadow-lg hover:scale-105 transform transition"
-            @click="handleClickCTA()"
-          >
-            Trouver une mission
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-[#070191] pt-6">
-      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
-          <h2
-            class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-5xl sm:leading-10"
-          >
-            Plus de 350 000 bénévoles
-          </h2>
-          <p class="mt-3 text-xl lg:text-2xl leading-7 text-[#c3ddfd] sm:mt-4">
-            soutiennent des milliers d'associations et d'organisations publiques
-          </p>
-        </div>
-      </div>
-      <div class="mt-10 pb-12 bg-gray-50">
-        <div class="relative">
-          <div class="absolute inset-0 h-14 bg-[#070191]"></div>
-          <div class="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto">
-              <div
-                class="rounded-lg bg-white py-1 shadow-lg grid grid-cols-2 lg:grid-cols-5"
-              >
-                <div
-                  class="flex lg:flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
-                >
-                  <img
-                    class="m-auto"
-                    alt="partenaire engagement J'agis pour la nature"
-                    src="@/assets/images/logo-jagis-pour-la-nature.svg"
-                    width="100"
-                    height="40"
-                  />
-                </div>
-                <div
-                  class="flex lg:flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
-                >
-                  <img
-                    class="m-auto"
-                    alt="partenaire engagement Banque Alimentaire"
-                    src="@/assets/images/logo_banquealimentaire.png"
-                    width="150"
-                    height="60"
-                  />
-                </div>
-                <div
-                  class="flex flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
-                >
-                  <img
-                    class="m-auto"
-                    src="@/assets/images/logo_emmaus.png"
-                    alt="partenaire engagement Emmaus"
-                    width="150"
-                    height="60"
-                  />
-                </div>
-                <div
-                  class="flex flex-col border-b border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r justify-center"
-                >
-                  <img
-                    class="m-auto"
-                    src="@/assets/images/logo_aphp.png"
-                    alt="partenaire engagement APHP"
-                    width="150"
-                    height="60"
-                  />
-                </div>
-                <a
-                  href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
-                  target="_blank"
-                  rel="noopener"
-                  class="flex flex-col border-gray-100 py-4 px-6 text-center sm:border-0 sm:border-r uppercase leading-6 text-xs text-[#242526] col-span-2 lg:col-span-1"
-                >
-                  parmi Plus de
-                  <span class="text-4xl font-bold">5000</span>
-                  organisations
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-gray-50 pt-6 z-10 relative">
-      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mx-auto text-center">
-          <span
-            class="text-2xl lg:text-3xl leading-8 lg:leading-10 block lg:inline-flex font-bold tracking-tight text-[#242526]"
-          >
-            <span class="block lg:inline-flex">
-              Trouvez une mission de bénévolat</span
-            >
-
-            <nuxt-link
-              to="/missions-benevolat?refinementList[type][0]=Mission en présentiel"
-              class="tracking-normal lg:inline-flex mx-4 mt-3 lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition"
-            >
-              près de chez vous</nuxt-link
-            >
-            <span class="block lg:inline-flex my-4 lg:my-0">ou</span>
-
-            <nuxt-link
-              to="/missions-benevolat?refinementList[type][0]=Mission à distance"
-              class="tracking-normal lg:ml-4 lg:inline-flex lg:-mt-2 text-[#242526] font-semibold bg-white border border-transparent rounded-full shadow-lg py-4 pb-5 px-5 inline-flex items-center text-2xl lg:text-3xl leading-6 lg:leading-6 hover:scale-105 hover:text-[#070191] transform transition"
-            >
-              à distance</nuxt-link
-            >
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-gray-50 pb-20 px-4 md:px-6 lg:px-8">
-      <p
-        class="text-center pt-12 pb-2 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
-      >
-        Parmi les missions prioritaires
-      </p>
-
-      <div class="mt-10 grid gap-5 max-w-6xl mx-auto lg:grid-cols-3">
-        <nuxt-link
-          v-for="mission in missions_prioritaires"
-          :key="mission.name"
-          :to="mission.link"
-          class="flex max-w-lg mx-auto flex-col rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition"
-        >
-          <div class="flex-shrink-0">
-            <div class="absolute transform translate-y-px ml-6 mt-5">
-              <div class="flex justify-center transform">
-                <span
-                  class="inline-flex shadow-lg text-xs rounded-full bg-pink-100 px-3 py-1 leading-5 font-semibold tracking-wider uppercase text-pink-700"
-                >
-                  Mission prioritaire
-                </span>
-              </div>
-            </div>
-            <div>
-              <img
-                class="h-48 w-full object-cover"
-                :src="mission.image"
-                :alt="mission.name"
-                width="600"
-                height="286"
-              />
-            </div>
-          </div>
-          <div class="flex-1 bg-white p-8 pt-4 flex flex-col justify-between">
-            <div class="flex-1">
-              <div
-                class="text-base leading-10 font-semibold tracking-wide uppercase text-gray-500 hover:text-[#070191]"
-              >
-                {{ mission.thematique }}
-              </div>
-              <h3 class="text-xl leading-7 font-bold text-gray-900">
-                {{ mission.name }}
-              </h3>
-            </div>
-            <div class="mt-4 flex items-center">
-              <div class="flex-shrink-0">
-                <div
-                  class="hidden sm:block flex-shrink-0 rounded-md p-2 text-center bg-[#070191]"
-                >
-                  <img
-                    :src="mission.thematique_image"
-                    :alt="mission.thematique"
-                    style="width: 28px"
-                  />
-                </div>
-              </div>
-              <div class="ml-4">
-                <p
-                  class="text-sm leading-5 tracking-tight font-medium text-[#242526]"
-                  v-html="mission.nb_missions_text"
-                ></p>
-              </div>
-            </div>
-          </div>
-        </nuxt-link>
-      </div>
-
-      <div class="mt-8">
-        <p
-          class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
-        >
-          Partout en france
-        </p>
-
-        <div
-          class="mt-12 max-w-3xl mx-auto flex flex-wrap gap-4 sm:gap-6 items-center justify-center"
-        >
-          <nuxt-link
-            v-for="(city, index) in hightlightedCities"
-            :key="city.name"
-            :class="[
-              { 'text-gray-400': index == hightlightedCities.length - 1 },
-              { 'text-[#242526]': index != hightlightedCities.length - 1 },
-            ]"
-            class="leading-none truncate px-8 py-4 rounded-full text-sm shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-105"
-            :to="city.url"
-          >
-            {{ city.name }}
-          </nuxt-link>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="relative bg-gray-100 pt-16 pb-10 px-4 sm:px-6 lg:px-8 shadow-lg z-10"
-    >
-      <div class="relative max-w-6xl mx-auto">
-        <div class="text-center">
-          <h2
-            class="text-3xl leading-9 tracking-tight font-bold text-[#242526] sm:text-5xl sm:leading-10"
-          >
-            Trouvez votre domaine d'action
-          </h2>
-        </div>
-
-        <div
-          class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto"
-        >
-          <div
-            class="bg-[#f56565] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
-          >
-            <div class="bg-white px-4 py-2 sm:px-6">
-              <div class="text-sm leading-5">
-                <nuxt-link
-                  to="/domaines-action/solidarite-et-insertion"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
-                >
-                  solidarité et insertion</nuxt-link
-                >
-              </div>
-            </div>
-
-            <div class="px-4 py-5 sm:p-8">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
-                  <div
-                    class="opacity-50 svg-100"
-                    style="width: 36px"
-                    v-html="
-                      require('@/assets/images/dynamic/vivre-ensemble.svg?include')
-                    "
-                  />
-                </div>
-                <div class="ml-4 w-0 flex-1">
-                  <nuxt-link
-                    to="/domaines-action/solidarite-et-insertion"
-                    class="block"
-                  >
-                    <h3 class="text-xl leading-6 font-semibold text-white">
-                      Venez en aide aux plus démunis et aux personnes isolées
-                    </h3>
-                  </nuxt-link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="bg-[#0e9f6e] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
-          >
-            <div class="bg-gray-50 px-4 py-2 sm:px-6">
-              <div class="text-sm leading-5">
-                <nuxt-link
-                  to="/domaines-action/protection-de-la-nature"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
-                >
-                  protection de la nature</nuxt-link
-                >
-              </div>
-            </div>
-            <div class="px-4 py-5 sm:p-8">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
-                  <div
-                    class="opacity-50 svg-100"
-                    style="width: 36px"
-                    v-html="
-                      require('@/assets/images/dynamic/environnement.svg?include')
-                    "
-                  />
-                </div>
-                <div class="ml-4 w-0 flex-1">
-                  <nuxt-link
-                    to="/domaines-action/protection-de-la-nature"
-                    class="block"
-                  >
-                    <h3 class="text-xl leading-6 font-semibold text-white">
-                      Participez à des activités en pleine nature pour protéger
-                      l'environnement
-                    </h3>
-                  </nuxt-link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="bg-[#070191] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
-          >
-            <div class="bg-gray-50 px-4 py-2 sm:px-6">
-              <div class="text-sm leading-5">
-                <nuxt-link
-                  to="/domaines-action/education-pour-tous"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
-                >
-                  éducation pour tous</nuxt-link
-                >
-              </div>
-            </div>
-            <div class="px-4 py-5 sm:p-8">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
-                  <div
-                    class="opacity-50 svg-100"
-                    style="width: 36px"
-                    v-html="
-                      require('@/assets/images/dynamic/education.svg?include')
-                    "
-                  />
-                </div>
-                <div class="ml-4 w-0 flex-1">
-                  <nuxt-link
-                    to="/domaines-action/education-pour-tous"
-                    class="block"
-                  >
-                    <h3 class="text-xl leading-6 font-semibold text-white">
-                      Soutenez les parcours scolaires et professionnels des
-                      jeunes
-                    </h3>
-                  </nuxt-link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="bg-[#553c9a] overflow-hidden shadow-lg rounded-lg hover:scale-105 transform transition"
-          >
-            <div class="bg-gray-50 px-4 py-2 sm:px-6">
-              <div class="text-sm leading-5">
-                <nuxt-link
-                  to="/domaines-action/sante-pour-tous"
-                  class="text-base leading-10 font-semibold tracking-wide uppercase text-[#242526]"
-                >
-                  santé pour tous</nuxt-link
-                >
-              </div>
-            </div>
-            <div class="px-4 py-5 sm:p-8">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 bg-white shadow-lg rounded-lg p-3">
-                  <div
-                    class="opacity-50 svg-100"
-                    style="width: 36px"
-                    v-html="
-                      require('@/assets/images/dynamic/sante.svg?include')
-                    "
-                  />
-                </div>
-                <div class="ml-4 w-0 flex-1">
-                  <nuxt-link
-                    to="/domaines-action/sante-pour-tous"
-                    class="block"
-                  >
-                    <h3 class="text-xl leading-6 font-semibold text-white">
-                      Venez en aide aux personnes malades, à leurs proches ou
-                      aux soignants
-                    </h3>
-                  </nuxt-link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="relative max-w-[1280px] text-center mx-auto">
-        <p
-          class="text-center pt-10 text-base leading-6 font-semibold uppercase text-gray-600 tracking-wider"
-        >
-          les autres domaines d'action
-        </p>
-
-        <div
-          class="py-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6"
-        >
-          <nuxt-link
-            v-for="domaine in domaines"
-            :key="domaine.name"
-            :to="domaine.link"
-            class="inline-flex items-center py-2 px-4 sm:py-3 rounded-full text-xs sm:text-sm lg:text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition hover:text-[#070191]"
-          >
-            <img
-              :alt="domaine.name"
-              class="h-7 pr-3 opacity-50"
-              :src="require(`@/assets/images/dynamic/${domaine.image}`)"
-              width="40"
-              height="28"
-            />
-            {{ domaine.name }}
-          </nuxt-link>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="relative bg-gradient-to-r from-[#070191] to-[#1f0391] overflow-hidden pt-20 pb-6 z-0"
-    >
-      <div class="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full">
-        <div class="relative h-full max-w-[1280px] mx-auto opacity-25">
+      <div class="md:container md:mx-auto xl:max-w-[1412px]">
+        <div class="mx-auto max-w-[1170px]">
           <img
-            class="hidden lg:block absolute left-full transform -translate-x-3/4 -translate-y-20 opacity-75"
-            src="@/assets/images/france_dark.svg"
-            width="1530"
-            alt="france engagement"
+            srcset="
+              /images/mosaique_orgas@2x.webp 2x,
+              /images/mosaique_orgas@2x.png  2x
+            "
+            alt="Mosaïque organisations"
+            class="sm:hidden object-cover object-left-bottom w-full h-[370px] translate-y-[-25px] mosaic"
+            width="440"
+            height="371"
+          />
+
+          <img
+            srcset="
+              /images/mosaique_orgas_desktop.webp,
+              /images/mosaique_orgas_desktop@2x.webp 2x,
+              /images/mosaique_orgas_desktop.png,
+              /images/mosaique_orgas_desktop@2x.png  2x
+            "
+            alt="Mosaïque organisations"
+            class="hidden sm:block object-cover object-left-bottom w-full h-[370px] md:h-[650px] md:translate-y-[-138px] md:absolute md:right-0 md:top-0 mosaic"
+            width="790"
+            height="670"
+          />
+
+          <div
+            class="max-w-[440px] mx-auto md:ml-0 px-4 xl:px-0 text-center md:text-left"
+          >
+            <h2
+              class="font-extrabold text-4xl lg:text-[50px] lg:leading-[52px] tracking-tighter mb-6"
+            >
+              Chacun pour tous
+            </h2>
+            <p class="text-[#696974] text-2xl mb-6">
+              Plus de <strong>60 000 missions de bénévolat</strong> sont
+              disponibles chez les petits et grands acteurs de l'engagement.
+            </p>
+            <a
+              href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
+              class="text-lg text-primary hover:underline"
+              target="_blank"
+            >
+              Consulter toutes les organisations ›
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="mt-12 pt-12 md:hidden border-[#CDCDCD]" />
+
+    <!-- MISSIONS PRIORITAIRES -->
+    <section
+      v-if="prioritizedMissions.length > 0"
+      class="overflow-hidden xl:mt-6 pb-16"
+    >
+      <div class="container mx-auto px-8 sm:px-4 xl:max-w-[1412px]">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="flex justify-between items-baseline mb-6">
+            <h2
+              class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center md:text-left"
+            >
+              Les missions de bénévolat
+              <strong class="font-extrabold">prioritaires</strong>
+            </h2>
+            <span
+              class="hidden lg:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
+            >
+              #{{ Date.now() | formatCustom('MMMM') }}
+            </span>
+          </div>
+
+          <SlideshowMissions
+            :missions="prioritizedMissions"
+            more-link="/missions-benevolat?toggle[is_priority]=true"
           />
         </div>
       </div>
+    </section>
 
-      <div class="relative pb-12">
-        <div class="max-w-[1280px] mx-auto px-4 sm:px-6">
-          <div class="text-center mb-10">
+    <!-- DOMAINES D'ACTION -->
+    <section class="py-16 bg-white overflow-hidden">
+      <div class="container mx-auto px-8 sm:px-4 xl:max-w-[1412px]">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="flex justify-between items-baseline mb-6">
             <h2
-              class="text-3xl leading-9 tracking-tight font-bold text-white sm:text-5xl sm:leading-10"
+              class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center md:text-left"
             >
-              Rejoignez le mouvement
-              <span class="text-[#c3ddfd]">#JeVeuxAider</span>
+              Trouvez votre
+              <strong class="font-extrabold">domaine d'action</strong>
             </h2>
-            <p
-              class="mt-4 mb-8 text-center max-w-4xl text-2xl leading-7 text-[#c3ddfd] lg:mx-auto"
+            <span
+              class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
             >
-              Des milliers de bénévoles, associations et collectivités en font
-              déjà partie.
-            </p>
+              #jeveuxaider
+            </span>
           </div>
-        </div>
-        <div
-          class="max-w-[1280px] mx-auto md:grid gap-6 md:grid-cols-2 px-4 md:px-6 lg:px-8"
-        >
-          <div
-            class="p-14 pb-10 md:flex md:flex-col bg-white rounded-lg shadow-lg"
-          >
-            <blockquote class="md:flex-grow md:flex md:flex-col">
-              <div
-                class="relative text-lg leading-7 font-medium text-[#242526] md:flex-grow"
-              >
-                <svg
-                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
-                  fill="currentColor"
-                  viewBox="0 0 32 32"
-                >
-                  <path
-                    d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"
-                  />
-                </svg>
-                <p class="relative">
-                  J’ai eu la chance de pouvoir me rendre utile en faisant une
-                  distribution de repas pour les SDF de Nancy. Une expérience
-                  qui ne laisse pas indifférent … J'ai des souvenirs plein la
-                  tête. Maintenant je continue mon chemin avec la Réserve
-                  Civique en participant à différentes missions. Je me sens
-                  utile et citoyenne !
-                </p>
-              </div>
-              <footer class="mt-6">
-                <div class="flex">
-                  <div class="flex-shrink-0 rounded-full">
-                    <img
-                      class="h-14 w-14 mt-1 rounded-full shadow-lg"
-                      src="@/assets/images/sante-3.jpg"
-                      alt="domaine sante"
-                      width="56"
-                      height="56"
-                    />
-                  </div>
-                  <div class="ml-5">
-                    <div class="text-base leading-6 font-medium text-gray-900">
-                      Nathalie
-                      <span
-                        class="text-base leading-6 font-medium text-gray-400"
-                      >
-                        · Bénévole</span
-                      >
-                    </div>
-                    <img
-                      class="h-9"
-                      src="@/assets/images/logo_banquealimentaire.png"
-                      alt="logo banque alimentaire"
-                      width="90"
-                      height="36"
-                    />
-                  </div>
-                </div>
-              </footer>
-            </blockquote>
-          </div>
-          <div
-            class="p-14 pb-10 mt-4 md:mt-0 md:flex md:flex-col bg-white rounded-lg shadow-lg"
-          >
-            <blockquote class="md:flex-grow md:flex md:flex-col">
-              <div
-                class="relative text-lg leading-7 font-medium text-[#242526] md:flex-grow"
-              >
-                <svg
-                  class="absolute top-0 left-0 transform -translate-x-3 -translate-y-3 h-8 w-8 text-[#d2d6dc] opacity-50"
-                  fill="currentColor"
-                  viewBox="0 0 32 32"
-                >
-                  <path
-                    d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"
-                  />
-                </svg>
-                <p class="relative">
-                  La puissance de mobilisation de JeVeuxAider est
-                  impressionnante ! Nous avons reçu 170 nouvelles candidatures
-                  de bénévoles en moins de 6 semaines. JeVeuxAider est
-                  clairement l’un des meilleurs canaux en termes d’efficacité du
-                  temps investi et de nombre de retours.
-                </p>
-              </div>
-              <footer class="mt-6">
-                <div class="flex">
-                  <div class="flex-shrink-0 rounded-full">
-                    <img
-                      class="mt-0 rounded-full shadow-lg"
-                      src="@/assets/images/clement.jpeg"
-                      alt="candidature bénévole"
-                      width="56"
-                      height="56"
-                    />
-                  </div>
-                  <div class="ml-5">
-                    <div class="text-base leading-6 font-medium text-gray-900">
-                      Clément Debosque
-                      <span
-                        class="text-base leading-6 font-medium text-gray-400"
-                      >
-                        · Responsable</span
-                      >
-                    </div>
-                    <img
-                      class="h-6"
-                      src="@/assets/images/lafourmiliere.png"
-                      alt="logo la fourmiliere"
-                      width="138"
-                      height="24"
-                    />
-                  </div>
-                </div>
-              </footer>
-            </blockquote>
-          </div>
+
+          <SlideshowDomaines />
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="relative bg-gray-100 pt-16 pb-28 px-4 sm:px-6 lg:px-8">
-      <div class="relative max-w-6xl mx-auto">
-        <div class="text-center">
+    <!-- ENGAGEZ-VOUS -->
+    <section class="py-16 bg-jva-grayLight overflow-hidden">
+      <div class="container mx-auto px-4 relative xl:max-w-[1412px]">
+        <div class="mx-auto max-w-[1170px]">
           <h2
-            class="text-3xl leading-9 tracking-tight font-bold text-gray-900 sm:text-5xl sm:leading-10"
+            class="text-4xl lg:text-[50px] lg:leading-[42px] tracking-tight text-center lg:text-left"
           >
-            Restez informé
+            Engagez-vous
+            <strong class="font-extrabold">près de chez vous</strong>
           </h2>
-          <p
-            class="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4"
-          >
-            Les actualités de l’engagement sur le blog de l'engagement
-          </p>
-        </div>
-        <div
-          class="mt-12 grid container gap-6 mx-auto lg:grid-cols-3 lg:max-w-none"
-        >
+
           <div
-            v-for="actualite in actualites"
-            :key="actualite.title"
-            class="flex flex-col rounded-lg shadow-lg overflow-hidden"
+            class="mt-12 max-w-3xl lg:max-w-[500px] mx-auto lg:ml-0 flex flex-wrap gap-4 items-center justify-center lg:justify-start"
           >
-            <div class="flex-shrink-0">
+            <nuxt-link
+              v-for="(city, index) in hightlightedCities"
+              :key="city.name"
+              class="text-[#696974] leading-none truncate px-[18px] h-[40px] flex items-center rounded-full text-[13px] shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-110"
+              :class="[
+                {
+                  'w-[40px] h-[40px] !p-0 flex items-center justify-center text-[26px] font-normal':
+                    index == hightlightedCities.length - 1,
+                },
+              ]"
+              :to="city.url"
+            >
+              <template v-if="index != hightlightedCities.length - 1">
+                {{ city.name }}
+              </template>
+
               <img
-                :src="require(`@/assets/images/dynamic/${actualite.image}`)"
-                :alt="actualite.title"
-                class="h-48 w-full object-cover"
-                width="554"
-                height="312"
+                v-else
+                src="/images/more.svg"
+                alt="Voir plus de villes"
+                width="13"
+                height="13"
+                data-not-lazy
               />
-            </div>
-            <div class="flex-1 bg-white p-8 flex flex-col justify-between">
-              <div class="flex-1">
-                <p class="text-sm leading-5 font-medium text-[#070191]">
-                  <a
-                    target="_blank"
-                    rel="noopener"
-                    href="https://jeveuxaider.gouv.fr/engagement/actualites/"
-                    class="text-base leading-2 font-semibold tracking-wide uppercase text-gray-500 hover:text-[#070191]"
-                  >
-                    {{ actualite.type }}
-                  </a>
-                </p>
-                <a
-                  target="_blank"
-                  rel="noopener"
-                  :href="actualite.link"
-                  class="block"
-                  ><h3
-                    class="mt-2 text-2xl leading-7 font-bold text-[#242526] tracking-tight"
-                  >
-                    {{ actualite.title }}
-                  </h3>
-                  <p class="mt-3 text-base leading-6 text-gray-500">
-                    {{ actualite.teaser }}
-                  </p></a
-                >
-              </div>
-            </div>
+            </nuxt-link>
           </div>
         </div>
-      </div>
 
-      <div class="text-center mt-12 pb-6">
-        <a
-          href="https://jeveuxaider.gouv.fr/engagement/actualites/"
-          target="_blank"
-          rel="noopener"
-          class="m-3 inline-flex px-6 py-3 rounded-full text-base leading-8 font-semibold tracking-wide uppercase bg-white shadow-lg text-[#242526] hover:scale-105 transform transition hover:text-[#070191]"
+        <div
+          class="bg-white mt-16 text-center md:text-left rounded-[10px] overflow-hidden lg:max-w-[660px] xl:ml-[56px]"
+          style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05)"
         >
-          Plus d'articles</a
-        >
-      </div>
-    </div>
-
-    <div class="relative pb-10 px-4 sm:px-6 lg:px-8">
-      <div class="relative max-w-6xl mx-auto">
-        <div class="max-w-[1280px] mx-auto grid gap-6 lg:grid-cols-2">
-          <div
-            class="sm:p-9 p-6 pb-8 md:flex md:flex-col rounded-lg shadow-lg bg-gradient-to-r from-[#1f0391] to-[#070191]"
-          >
-            <h2
-              class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10"
-            >
-              <span class="block"
-                >Un e-mail par mois pour plus d'engagement</span
+          <div class="flex flex-col items-center md:flex-row md:items-end">
+            <div class="px-6 pt-8 md:pt-0 md:pb-12 md:pl-12 md:pr-0">
+              <h2
+                class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight"
               >
+                Ou <strong class="font-extrabold">à distance</strong>
+              </h2>
+
+              <div class="mt-4 text-xl text-[#696974]">
+                Plus de 1 000 missions de bénévolat sont réalisables en
+                autonomie
+              </div>
+
+              <nuxt-link
+                class="rounded-full text-white bg-jva-green hover:scale-105 !outline-none focus:scale-105 transition px-8 py-3 transform will-change-transform shadow-xl font-bold inline-flex mt-8"
+                to="/missions-benevolat?refinementList[type][0]=Mission à distance"
+              >
+                <span>Découvrir le télébénévolat</span>
+              </nuxt-link>
+            </div>
+
+            <img
+              src="/images/telebenevolat.svg"
+              alt="Télébénévolat"
+              class="-mt-16 md:mt-0 md:mr-[-97px]"
+              width="379"
+              height="292"
+              data-not-lazy
+            />
+          </div>
+        </div>
+
+        <img
+          src="/images/map_france_2.svg"
+          alt="Carte de la France"
+          class="hidden lg:block absolute top-0 right-0 mr-[-180px] xl:-mr-0 pr-4 h-full"
+          width="607"
+          height="624"
+          style="filter: drop-shadow(8px 20px 16px rgba(0, 0, 0, 0.1))"
+        />
+      </div>
+    </section>
+
+    <!-- ACTUALITÉS -->
+    <section v-if="articles.length > 0" class="py-16 bg-white overflow-hidden">
+      <div class="container mx-auto px-8 sm:px-4 xl:max-w-[1412px]">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="flex justify-between items-baseline mb-6">
+            <h2
+              class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center md:text-left"
+            >
+              Les actualités de
+              <span>l'<strong class="font-extrabold">engagement</strong></span>
             </h2>
-            <p
-              id="newsletter-headline"
-              class="mt-3 max-w-3xl text-lg leading-6 text-[#c3ddfd]"
+            <span
+              class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
             >
-              Chaque mois, nous vous proposons de nouvelles missions de
-              bénévolat à distance ou près de chez vous.
-            </p>
-            <form
-              v-if="!successNewsletter"
-              class="sm:flex items-start mt-9 max-w-xl"
-              aria-labelledby="newsletter-headline"
-            >
-              <div class="w-full">
+              #blog
+            </span>
+          </div>
+
+          <SlideshowArticles :articles="articles" />
+        </div>
+      </div>
+    </section>
+
+    <!-- TÉMOIGNAGES -->
+    <section class="py-16 bg-jva-grayLight overflow-hidden relative">
+      <img
+        src="/images/deco_2.svg"
+        alt="Décorations"
+        class="deco--2 absolute hidden lg:block pointer-events-none"
+        data-not-lazy
+      />
+
+      <img
+        src="/images/deco_3.svg"
+        alt="Décorations"
+        class="deco--3 absolute hidden lg:block pointer-events-none"
+        data-not-lazy
+      />
+
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+        <h2
+          class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center text-[#AFAFAE]"
+        >
+          Paroles de
+          <strong class="font-extrabold">bénévoles</strong>
+        </h2>
+
+        <SlideshowTestimonies class="mt-12" />
+      </div>
+    </section>
+
+    <!-- NEWSLETTER & GROUPE FACEBOOK -->
+    <section>
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+        <div class="grid gap-5 md:grid-cols-2">
+          <!-- NEWSLETTER -->
+          <div
+            class="px-6 pt-10 pb-12 lg:px-8 lg:py-12 xl:px-16 xl:py-12 bg-[#D0E2FF] rounded-[10px] shadow-xl relative overflow-hidden"
+          >
+            <div class="flex flex-col text-center md:text-left">
+              <h2
+                class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight mb-6 max-w-[442px]"
+              >
+                <span>Un</span>
+                <strong class="font-extrabold">e-mail par mois</strong>
+                <span>pour plus d'engagement</span>
+              </h2>
+
+              <div id="newsletter-headline" class="text-[#696974] text-xl mb-7">
+                Chaque mois, nous vous proposons de nouvelles missions de
+                bénévolat à distance ou près de chez vous.
+              </div>
+
+              <form
+                v-if="!newsletterForm.isSuccess"
+                aria-labelledby="newsletter-headline"
+                class="relative flex flex-col lg:flex-row lg:items-start"
+              >
                 <input
-                  v-model="email"
+                  v-model="newsletterForm.email"
                   aria-label="Email address"
                   type="email"
                   required
-                  class="w-full px-5 py-3 appearance-none shadow-lg rounded-full text-gray-900 bg-white placeholder-gray-500 focus:placeholder-gray-400 transition"
-                  placeholder="Votre e-mail"
+                  class="w-full px-5 py-3 appearance-none rounded-full text-gray-900 bg-white placeholder-gray-500 focus:placeholder-gray-400 transition mb-4 lg:mb-0 lg:mr-4 !outline-none focus-visible:ring"
+                  placeholder="Renseignez votre e-mail"
                 />
-                <div v-if="emailError" class="text-red-600 font-semibold ml-6">
-                  {{ emailError }}
+
+                <button
+                  class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-white bg-primary hover:scale-105 transform transition"
+                  @click.prevent="handleSubmitNewsletter()"
+                >
+                  <img
+                    src="/images/envelope.svg"
+                    alt="Enveloppe"
+                    class="mr-2"
+                    width="16"
+                    height="14"
+                    data-not-lazy
+                  />
+                  <span>S'inscrire</span>
+                </button>
+
+                <div
+                  v-if="newsletterForm.error"
+                  class="text-red-600 absolute w-full text-center md:text-left pt-2 bottom-0 translate-y-full"
+                >
+                  {{ newsletterForm.error }}
                 </div>
+              </form>
+
+              <div
+                v-else
+                class="text-jva-green text-xl text-center md:text-left"
+              >
+                Merci&nbsp;! Vous êtes désormais inscrit(e) à notre
+                newsletter&nbsp;😉
+              </div>
+            </div>
+
+            <img
+              src="/images/newsletter.svg"
+              alt="Newsletter"
+              class="hidden md:flex absolute top-[58px] lg:top-0 right-0 transform translate-x-[101px] xl:translate-x-[40px]"
+              width="200"
+              height="153"
+            />
+          </div>
+
+          <!-- GROUPE FACEBOOK -->
+          <div
+            class="px-6 pt-10 pb-12 lg:px-8 lg:py-12 xl:px-16 xl:py-12 bg-white rounded-[10px] shadow-xl relative overflow-hidden"
+          >
+            <div
+              class="flex flex-col items-start text-center md:text-left h-full relative z-10"
+            >
+              <h2
+                class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight mb-6 max-w-[442px]"
+              >
+                <span>Échangez avec la</span>
+                <strong class="font-extrabold">communauté</strong>
+              </h2>
+
+              <div
+                id="facebook-headline"
+                class="text-[#696974] text-xl mb-7 lg:max-w-[256px] xl:max-w-[392px]"
+              >
+                Posez toutes vos questions aux bénévoles et à l'équipe dans le
+                groupe Facebook
               </div>
 
-              <button
-                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 font-medium rounded-full shadow-lg text-white bg-[#16a972] hover:text-white mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0 hover:scale-105 transform transition"
-                @click.prevent="handleSubmitNewsletter(email)"
+              <a
+                href="https://www.facebook.com/jeveuxaider.gouv.fr"
+                target="_blank"
+                rel="noopener"
+                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-white bg-primary hover:scale-105 transform transition mt-auto relative z-10"
+                aria-labelledby="facebook-headline"
               >
-                S'inscrire
-              </button>
-            </form>
-            <div
-              v-if="!successNewsletter"
-              class="mt-2 sm:ml-6 text-sm leading-5 text-[#c3ddfd] text-center sm:text-left"
-            >
-              Nous veillons à respecter votre vie privée
-            </div>
-            <div
-              v-if="successNewsletter"
-              class="text-white font-semibold text-xl mt-6"
-            >
-              Merci! Vous avez bien été ajouté à la Newsletter.
-            </div>
-          </div>
-          <div
-            class="sm:p-9 p-6 rounded-lg shadow-lg bg-gradient-to-r from-[#070191] to-[#1f0391]"
-          >
-            <h2
-              class="text-3xl leading-9 font-bold tracking-tight text-white sm:text-4xl sm:leading-10"
-            >
-              <span class="block"
-                >Echangez avec la communauté #JeVeuxAider</span
-              >
-            </h2>
-            <p
-              id="facebook-headline"
-              class="mt-3 max-w-3xl text-lg leading-6 text-[#c3ddfd]"
-            >
-              Posez toutes vos questions aux bénévoles et à l'équipe dans le
-              groupe Facebook
-            </p>
-            <a
-              href="https://www.facebook.com/jeveuxaider.gouv.fr"
-              target="_blank"
-              rel="noopener"
-              class="mt-9 bg-white border border-transparent rounded-full shadow-lg py-3 px-5 inline-flex items-center sm:text-lg leading-7 font-medium text-[#070191] hover:scale-105 transform transition"
-            >
-              <svg
-                class="mr-2"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                width="24px"
-                height="24px"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                  clip-rule="evenodd"
+                <img
+                  src="/images/facebook_alt.svg"
+                  alt="Facebook"
+                  class="mr-2"
+                  width="20"
+                  height="20"
+                  data-not-lazy
                 />
-              </svg>
-              Rejoindre le groupe</a
-            >
+                <span>Rejoindre le groupe</span>
+              </a>
+            </div>
+
+            <img
+              src="/images/group_facebook.svg"
+              alt="Groupe Facebook"
+              class="hidden md:flex absolute bottom-0 right-0 transform translate-y-[70px] lg:translate-y-0"
+              width="306"
+              height="331"
+            />
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="relative bg-gray-50 mt-10 border-b border-t border-gray-200">
-      <div class="relative lg:grid lg:grid-cols-2 gap-1 max-w-6xl mx-auto">
-        <div class="lg:col-start-1 border-r border-gray-200">
-          <div class="p-8 lg:p-15">
+    <!-- ACTEURS DE L'ENGAGEMENT -->
+    <section class="py-16">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+        <h2
+          class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center text-[#AFAFAE] mb-16"
+        >
+          Acteurs de l'engagement,
+          <strong class="font-extrabold">rejoingnez le mouvement&nbsp;!</strong>
+        </h2>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          <!-- ASSOCIATIONS & ORGANISATIONS PUBLIQUES -->
+          <div
+            class="px-6 pt-10 pb-12 lg:px-8 lg:py-12 xl:px-16 xl:py-12 bg-white rounded-[10px] shadow-xl relative overflow-hidden"
+          >
             <div
-              class="ml-1 h-12 opacity-50 mb-4 svg-h-100"
-              v-html="
-                require('@/assets/images/dynamic/helping-hand.svg?include')
-              "
-            />
-            <p
-              class="leading-6 text-[#070191] font-semibold tracking-wide uppercase"
+              class="flex flex-col items-start text-center md:text-left h-full"
             >
-              associations et organisations publiques
-            </p>
-            <h2
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-            >
-              Facilitez le recrutement<br class="hidden lg:block" />
-              de vos bénévoles
-            </h2>
-            <ul class="">
-              <li class="flex items-start">
-                <div class="flex-shrink-0">
-                  <svg
-                    class="text-[#16a972]"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    height="24px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-3 text-xl leading-6 text-gray-700">
-                  Inscrivez votre organisation en quelques clics
-                </p>
-              </li>
-              <li class="mt-4 flex items-start">
-                <div class="flex-shrink-0">
-                  <svg
-                    class="text-[#16a972]"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    height="24px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-3 text-xl leading-6 text-gray-700">
-                  Publiez vos missions de bénévolat
-                </p>
-              </li>
-              <li class="mt-4 flex items-start">
-                <div class="flex-shrink-0">
-                  <svg
-                    class="text-[#16a972]"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    height="24px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-3 text-xl leading-6 text-gray-700">
-                  Trouvez des bénévoles motivés et disponibles
-                </p>
-              </li>
-            </ul>
+              <div
+                class="flex-none w-full font-bold text-primary tracking-wide leading-[22px] mb-6 truncate"
+              >
+                ASSOCIATIONS ET ORGANISATIONS PUBLIQUES
+              </div>
+              <h2
+                class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight mb-8"
+              >
+                <span>Facilitez-vous le</span>
+                <strong class="font-extrabold">
+                  recrutement de vos bénévoles
+                </strong>
+              </h2>
+              <img
+                src="/images/associations_organisations_publiques.svg"
+                alt="Associations & organisations publiques"
+                width="311"
+                height="219"
+                class="mx-auto mb-8 md:h-full md:max-h-[170px] lg:max-h-[270px]"
+              />
 
-            <nuxt-link
-              to="/inscription/organisation"
-              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition"
-            >
-              Inscrire mon organisation
-            </nuxt-link>
+              <ul class="text-left space-y-3 mb-8">
+                <li
+                  v-for="(goal, index) in goals.associations"
+                  :key="index"
+                  class="flex space-x-4 items-start"
+                >
+                  <img
+                    src="/images/puce_li_check_blue.svg"
+                    alt="Check"
+                    class="flex-none mt-1"
+                    data-not-lazy
+                    width="19px"
+                    height="19px"
+                  />
+                  <span class="text-lg xl:text-xl text-[#696974]">
+                    {{ goal }}
+                  </span>
+                </li>
+              </ul>
+
+              <nuxt-link
+                to="/inscription/organisation"
+                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-white bg-primary hover:scale-105 transform transition mt-auto lg:mx-auto"
+              >
+                Inscrire mon organisation
+              </nuxt-link>
+            </div>
           </div>
-        </div>
-        <div class="lg:col-start-2">
-          <div class="p-8 lg:p-15">
+
+          <!-- COLLECTIVITÉS & TERRITOIRES -->
+          <div
+            class="px-6 pt-10 pb-12 lg:px-8 lg:py-12 xl:px-16 xl:py-12 bg-jva-green rounded-[10px] shadow-xl relative overflow-hidden"
+          >
             <div
-              class="ml-1 h-12 opacity-50 mb-4 svg-h-100"
-              v-html="require('@/assets/images/dynamic/townhall.svg?include')"
-            />
-            <p
-              class="leading-6 text-[#070191] font-semibold tracking-wide uppercase"
+              class="flex flex-col items-start text-center md:text-left h-full"
             >
-              Collectivités et territoires
-            </p>
-            <h2
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-            >
-              Favorisez l'engagement local<br class="hidden lg:block" />
-              de vos citoyens
-            </h2>
-            <ul class="">
-              <li class="flex items-start">
-                <div class="flex-shrink-0">
-                  <svg
-                    class="text-[#16a972]"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    height="24px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-3 text-xl leading-6 text-gray-700">
-                  Créez une page dédiée à votre collectivité
-                </p>
-              </li>
-              <li class="mt-4 flex items-start">
-                <div class="flex-shrink-0">
-                  <svg
-                    class="text-[#16a972]"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    height="24px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-3 text-xl leading-6 text-gray-700">
-                  Centralisez les missions des organisations locales
-                </p>
-              </li>
-              <li class="mt-4 flex items-start">
-                <div class="flex-shrink-0">
-                  <svg
-                    class="text-[#16a972]"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    height="24px"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p class="ml-3 text-xl leading-6 text-gray-700">
-                  Encouragez et valorisez l'engagement de vos citoyens
-                </p>
-              </li>
-            </ul>
-            <nuxt-link
-              to="/collectivite"
-              class="mt-8 shadow-lg inline-flex items-center justify-center px-6 py-3 border border-transparent sm:text-lg leading-6 font-medium rounded-full bg-[#070191] text-white hover:scale-105 transform transition"
-            >
-              Inscrire ma collectivité
-            </nuxt-link>
+              <div
+                class="flex-none w-full font-bold text-white tracking-wide leading-[22px] mb-6 truncate"
+              >
+                COLLECTIVITÉS ET TERRITOIRES
+              </div>
+              <h2
+                class="text-white justify-end text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight mb-8"
+              >
+                <span>Encouragez</span>
+                <strong class="font-extrabold"> l'engagement local </strong>
+                <span>de vos citoyens</span>
+              </h2>
+              <img
+                src="/images/collectivites_territoires.svg"
+                alt="Collectivités et territoires"
+                width="311"
+                height="299"
+                class="mx-auto mb-8 md:h-full md:max-h-[170px] lg:max-h-[270px]"
+              />
+
+              <ul class="text-left space-y-3 mb-8">
+                <li
+                  v-for="(goal, index) in goals.collectivites"
+                  :key="index"
+                  class="flex space-x-4 items-start"
+                >
+                  <img
+                    src="/images/puce_li_check_white.svg"
+                    alt="Check"
+                    class="flex-none mt-1"
+                    data-not-lazy
+                    width="19px"
+                    height="19px"
+                  />
+                  <span class="text-lg xl:text-xl text-white">
+                    {{ goal }}
+                  </span>
+                </li>
+              </ul>
+
+              <nuxt-link
+                to="/inscription/organisation?orga_type=Collectivité"
+                class="w-full lg:w-auto flex items-center justify-center px-12 py-3 font-bold rounded-full text-jva-green bg-white hover:scale-105 transform transition mt-auto lg:mx-auto"
+              >
+                Inscrire ma collectivité
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4 xl:max-w-[1412px]">
+        <div class="mx-auto max-w-[1170px]">
+          <div class="flex justify-between items-baseline mb-12">
+            <h2
+              class="text-4xl lg:text-[40px] lg:leading-[42px] tracking-tight text-center md:text-left"
+            >
+              Toutes les réponses à
+              <strong class="font-extrabold">vos questions</strong>
+            </h2>
+            <span
+              class="hidden md:block ml-4 text-[32px] xl:text-[40px] text-[#A7A7B0] font-light"
+            >
+              #faq
+            </span>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-x-8 gap-y-16 xl:gap-24">
+            <div>
+              <div class="font-bold text-primary tracking-wide uppercase mb-4">
+                Bénévoles
+              </div>
+
+              <Accordion :items="faq.benevoles" />
+            </div>
+            <div>
+              <div class="font-bold text-primary tracking-wide uppercase mb-4">
+                Responsable d'organisation
+              </div>
+
+              <Accordion :items="faq.responsables" />
+            </div>
+          </div>
+
+          <a
+            href="https://reserve-civique.crisp.help/fr/"
+            class="text-lg text-primary hover:underline inline-flex mt-8"
+            target="_blank"
+          >
+            Toutes les réponses à vos questions ›
+          </a>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-const bgHeroMultipleSizes = require('@/assets/images/bg-jva.jpg?resize&sizes[]=320&sizes[]=640&sizes[]=960&sizes[]=1200&sizes[]=1800&sizes[]=2400&sizes[]=3900')
-
 export default {
   data() {
     return {
-      bgHeroMultipleSizes,
-      missions_prioritaires: [
-        {
-          thematique: 'Solidarité et Insertion',
-          thematique_image: require('@/assets/images/dynamic/icon_solidarite_insertion.svg'),
-          name:
-            'Je distribue des produits de première nécessité et des repas aux plus démunis, dans la rue ou au sein d’établissements.',
-          image: require('@/assets/images/dynamic/cover-produit.jpg'),
-          link:
-            '/missions-benevolat?refinementList[template_title][0]=J%27apporte%20une%20aide%20alimentaire%20d%27urgence',
-          nb_missions_text: '345 missions disponibles <br><b>en présentiel</b>',
-        },
-        {
-          thematique: 'Solidarité et Insertion',
-          thematique_image: require('@/assets/images/dynamic/icon_solidarite_insertion.svg'),
-          name:
-            'Je maintiens un lien avec des personnes fragiles isolées (âgées, malades, situation de handicap, de pauvreté, de précarité, etc.)',
-          image: require('@/assets/images/dynamic/cover-call.jpg'),
-          link:
-            '/missions-benevolat?refinementList[template_title][0]=Je%20maintiens%20le%20lien%20avec%20des%20personnes%20fragiles%20isolées',
-          nb_missions_text:
-            '298 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
-        },
-        {
-          thematique: 'Éducation pour tous',
-          thematique_image: require('@/assets/images/dynamic/icon_education.svg'),
-          name:
-            'J’apporte un soutien aux enfants et jeunes, notamment dans les quartiers populaires, zones rurales et territoires fragiles.',
-          image: require('@/assets/images/dynamic/cover-ecole.jpg'),
-          link:
-            '/missions-benevolat?refinementList[template_title][0]=J%27assure%20une%20mission%20de%20mentorat%20pour%20un%20enfant%20ou%20un%20jeune',
-          nb_missions_text:
-            '267 missions disponibles <br><b>en présentiel</b> ou <b>à distance</b>',
-        },
-      ],
-      domaines: [
-        {
-          name: 'Mobilisation Covid19',
-          image: 'covid.svg',
-          link:
-            '/missions-benevolat?refinementList[domaines][0]=Mobilisation covid-19',
-        },
-        {
-          name: 'Prévention et protection',
-          image: 'securite.svg',
-          link:
-            '/missions-benevolat?refinementList[domaines][0]=Prévention et protection',
-        },
-        {
-          name: 'Sport pour tous',
-          image: 'sport.svg',
-          link:
-            '/missions-benevolat?refinementList[domaines][0]=Sport pour tous',
-        },
-        {
-          name: 'Art & Culture pour tous',
-          image: 'art.svg',
-          link:
-            '/missions-benevolat?refinementList[domaines][0]=Art et culture pour tous',
-        },
-        {
-          name: 'Mémoire et citoyenneté',
-          image: 'memoire.svg',
-          link:
-            '/missions-benevolat?refinementList[domaines][0]=Mémoire et citoyenneté',
-        },
-        {
-          name: 'Coopération internationale',
-          image: 'cooperation.svg',
-          link:
-            '/missions-benevolat?refinementList[domaines][0]=Coopération internationale',
-        },
-      ],
-      actualites: [
-        {
-          title: 'Giving Tuesday : libérons notre générosité !',
-          link:
-            'https://jeveuxaider.gouv.fr/engagement/actualite/giving-tuesday-liberons-notre-generosite/',
-          image: 'Honrizontal-1-uai-554x312.png',
-          teaser:
-            "Décembre, c'est le mois du don chez JeVeuxAider. Quoi de mieux que le Giving Tuesday, ce 1er décembre, pour bien démarrer ?",
-          type: 'Actualités',
-        },
-        {
-          title: 'Paul, bénévole pour la Mission Camionnette',
-          link:
-            'https://jeveuxaider.gouv.fr/engagement/temoignage/paul-benevole-pour-la-mission-camionnette-la-faim-nest-pas-que-physique-elle-est-aussi-soif-de-dialogue-damitie/',
-          image: 'o-uai.jpg',
-          teaser:
-            "Pourquoi et comment s'engager pour l'aide alimentaire ? Paul Piron, 24 ans, professeur de français dans le Val d'Oise et...",
-          type: 'Témoignages',
-        },
-        {
-          title:
-            "[Parole d'asso] L’Agence du Don en Nature, solidaire et anti-gaspi",
-          link:
-            'https://jeveuxaider.gouv.fr/engagement/actualite/lagence-du-don-en-nature-contre-la-precarite-et-le-gaspillage/',
-          image: 'GovinSorel.jpg',
-          teaser:
-            "Que fait-on des produits non-alimentaires lorsqu'ils ne sont pas vendus ? Depuis 2008, l'Agence du Don en Nature se propose de..",
-          type: 'Focus',
-        },
-      ],
-      email: '',
-      emailError: '',
-      successNewsletter: false,
-      strings: [
-        'aider',
-        'vivre des moments forts',
-        'une société solidaire',
-        'me rendre utile',
-        'faire vivre les valeurs de la République',
-      ],
+      prioritizedMissions: [],
+      articles: [],
       hightlightedCities: [
         {
           name: 'Paris',
@@ -1166,11 +617,142 @@ export default {
           url: '/villes/angers',
         },
         {
-          name: 'Plus de villes',
+          name: '+',
           url: '/territoires',
         },
       ],
+      newsletterForm: {
+        email: '',
+        error: '',
+        isSuccess: false,
+      },
+      goals: {
+        associations: [
+          `Inscrivez votre organisation en quelques clics`,
+          `Publiez vos missions de bénévolat`,
+          `Trouvez des bénévoles motivés et disponibles`,
+        ],
+        collectivites: [
+          `Créez une page dédiée à votre collectivité`,
+          `Centralisez les missions des organisations locales`,
+          `Encouragez et valorisez l'engagement de vos citoyens`,
+        ],
+      },
+      faq: {
+        benevoles: [
+          {
+            icon: '✊',
+            title: `Qui peut s'inscrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            content: `Bonjour et merci pour votre engagement&nbsp;!
+              <br /><br />
+              L'activité de réserviste répond à des conditions précises.
+              <br /><br />
+              Ainsi, tout citoyen ou résident régulier de plus de 16 ans souhaitant s’engager dans son temps libre dans le cadre des missions prioritaires pour la continuité de la Nation peut se rendre sur la plateforme JeVeuxAider.gouv.fr de la Réserve Civique et proposer son aide aux associations référencées.
+              <br /><br />
+              <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/qui-peut-realiser-une-mission-sur-jeveuxaidergouvfr-i15md9/" target="_blank">En lire plus ›</a>`,
+          },
+          {
+            icon: '🔍',
+            title: `Comment trouver une mission&nbsp;?`,
+            content: `Bonjour et merci pour votre engagement !
+              <br /><br />
+              La plateforme JeVeuxAider.gouv.fr est alimentée par les propositions de missions émanant d'organisations telles que des associations ou des collectivités. Vous pouvez facilement voir les missions disponibles.
+              <br /><br />
+              <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/comment-trouver-une-missison-sur-jeveuxaidergouvfr-a1fbnf/" target="_blank">En lire plus ›</a>`,
+          },
+          {
+            icon: '‍️‍️🖐',
+            title: `Comment candidater à une mission&nbsp;?`,
+            content: `Bonjour,
+              <br /><br />
+              Après avoir identifié la mission qui vous convenait et avoir bien pris connaissance du descriptif, vous pouvez candidater.
+              <br /><br />
+              <ul class="list-disc pl-4">
+                <li>Cliquer sur le bouton vert situé à droite de l’écran «&nbsp;Je propose mon aide&nbsp;»</li>
+              </ul>
+              <br />
+              <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/comment-candidater-a-une-mission-sur-jeveuxaidergouvfr-1cdiioe/" target="_blank">En lire plus ›</a>`,
+          },
+        ],
+        responsables: [
+          {
+            icon: '😁',
+            title: `Comment s’inscrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            content: `Bonjour et merci pour votre engagement !
+              <br /><br />
+              <ul class="list-decimal pl-6">
+                <li class="pl-2">Une fois sur JeVeuxAider.gouv.fr, cliquez sur le bouton "&nbsp;Inscription&nbsp;" en haut à droite de l'écran.</li>
+                <li class="pl-2">Sélectionnez "&nbsp;Je veux publier des missions&nbsp;" afin de créer un compte organisation.</li>
+              </ul>
+              <br />
+              <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/comment-inscrire-mon-organisation-sur-jeveuxaidergouvfr-rku0gq/" target="_blank">En lire plus ›</a>`,
+          },
+          {
+            icon: '✊',
+            title: `Qui peut s’inscrire sur JeVeuxAider.gouv.fr&nbsp;?`,
+            content: `Bonjour,
+              <br /><br />
+              Peuvent déposer des missions relevant des 10 domaines d’action rappelés <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/quelles-sont-les-missions-que-lon-peut-proposer-a8ahqy/" target="_blank">ici</a>:
+              <br /><br />
+              <ul class="list-disc pl-4">
+                <li>les organismes sans but lucratif</li>
+                <li>
+                  les structures publiques telles que :
+                  <ul class="list-disc pl-4">
+                    <li>les établissements scolaires</li>
+                    <li>les établissements publics de santé</li>
+                    <li>les collectivités territoriales</li>
+                    <li>les services de l’Etat</li>
+                  </ul>
+                </li>
+              </ul>
+              <br />
+              <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/quest-ce-quune-organisation-1m7331c/" target="_blank">En lire plus ›</a>`,
+          },
+          {
+            icon: '‍️‍️📣',
+            title: `Comment publier une mission&nbsp;?`,
+            content: `Bonjour,
+              <br /><br />
+              Une fois votre organisation créée sur JeVeuxAider.gouv.fr, il vous est possible de mettre en ligne des missions.
+              <br /><br />
+              <ul class="list-decimal pl-6">
+                <li class="pl-2">Cliquez sur votre prénom puis sur le nom de votre organisation en haut à droite de votre écran. Vous arrivez alors sur votre espace responsable.</li>
+                <li class="pl-2">Cliquez sur l'onglet "Mes Missions" à gauche de votre écran.</li>
+              </ul>
+              <br />
+              <a class="text-primary hover:underline" href="https://reserve-civique.crisp.help/fr/article/comment-publier-une-mission-sur-la-plateforme-16n8nk6/" target="_blank">En lire plus ›</a>`,
+          },
+        ],
+      },
     }
+  },
+  async fetch() {
+    const { data } = await this.$api.fetchPromotedToFrontPageMissions()
+    this.prioritizedMissions = data
+
+    const { data: articles } = await this.$axios.get(
+      `${this.$config.blog.restApiUrl}/posts/?per_page=6`,
+      {
+        excludeContextRole: true,
+      }
+    )
+    const articlesWithMedia = []
+    for (const article of articles) {
+      const url = article._links['wp:featuredmedia']
+        ? article._links['wp:featuredmedia'][0].href
+        : article._links['wp:attachment'][0].href
+      const { data: media } = await this.$axios.get(url, {
+        excludeContextRole: true,
+      })
+
+      if (!Array.isArray(media)) {
+        articlesWithMedia.push({ ...article, media })
+      } else {
+        articlesWithMedia.push({ ...article, media: media[0] })
+      }
+    }
+    this.articles = articlesWithMedia
   },
   head() {
     return {
@@ -1180,6 +762,12 @@ export default {
         {
           rel: 'canonical',
           href: 'https://www.jeveuxaider.gouv.fr/',
+        },
+        {
+          rel: 'preload',
+          as: 'image',
+          href: '/images/banner_mobile.jpg',
+          imagesrcset: `/images/banner_mobile.webp, /images/banner_mobile.jpg, /images/banner_mobile@2x.webp 2x, /images/banner_mobile@2x.jpg  2x`,
         },
       ],
       meta: [
@@ -1202,68 +790,55 @@ export default {
       ],
     }
   },
-  computed: {
-    hasReduceMotionOrMobile() {
-      if (this.$device.isMobile) {
-        return true
-      }
-      if (process.client) {
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-        if (!mediaQuery || mediaQuery.matches) {
-          return true
-        } else {
-          return false
-        }
-      }
-      return false
-    },
-  },
-  beforeDestroy() {
-    if (this.$refs.typedJS) {
-      this.$refs.typedJS.typedObj.destroy()
-    }
-  },
   methods: {
-    handleSubmitNewsletter(email) {
-      // eslint-disable-next-line
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      if (re.test(String(email).toLowerCase())) {
+    handleSubmitNewsletter() {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (re.test(String(this.newsletterForm.email).toLowerCase())) {
         this.$axios
-          .post('/sendinblue/contact', { email })
+          .post('/sendinblue/contact', { email: this.newsletterForm.email })
           .then(() => {
-            this.successNewsletter = true
+            this.newsletterForm.isSuccess = true
           })
           .catch((error) => {
             console.log(error)
-            this.emailError = 'Message erreur !'
+            this.newsletterForm.error = 'Message erreur !'
           })
       } else {
-        this.emailError = "L'email renseigné n'est pas valide"
+        this.newsletterForm.error = "L'email renseigné n'est pas valide"
       }
-      setTimeout(() => (this.emailError = ''), 5000)
-    },
-    handleClickCTA() {
-      window.plausible &&
-        window.plausible('Click CTA - Homepage', {
-          props: { isLogged: this.$store.getters.isLogged },
-        })
-      this.$store.commit('toggleSearchOverlay')
+      // setTimeout(() => (this.newsletterForm.error = ''), 5000)
     },
   },
 }
 </script>
 
 <style lang="postcss" scoped>
-.hide-br {
-  br {
-    @apply hidden;
-    @screen lg {
-      @apply inline;
-    }
+.mosaic {
+  @screen md {
+    width: calc(50% - 10px);
+  }
+
+  @screen lg {
+    width: calc(50% + 50px);
   }
 }
 
-::v-deep .typed-cursor {
-  font-weight: 100;
+.text-shadow {
+  text-shadow: 0px 4px 14px rgb(0 0 0 / 25%), 0px 4px 30px rgb(0 0 0 / 85%);
+}
+
+.deco--1 {
+  left: calc(50% - 727px);
+  top: -6px;
+}
+
+.deco--2 {
+  left: calc(50% - 728px);
+  top: 50px;
+}
+
+.deco--3 {
+  right: calc(50% - 728px);
+  top: -12px;
 }
 </style>

@@ -61,7 +61,7 @@
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-[#16a972] focus:text-[#16a972] duration-300 ease-in-out"
+                class="h-5 w-5 m-1 cursor-pointer transition-colors hover:text-jva-green focus:text-jva-green duration-300 ease-in-out"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 @click="setDialogCropVisible(true)"
@@ -117,9 +117,7 @@
             >
               <div
                 class="text-[#070191]"
-                v-html="
-                  require('@/assets/images/icones/heroicon/edit.svg?include')
-                "
+                v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
               />
             </div>
           </div>
@@ -141,9 +139,7 @@
             >
               <div
                 class="text-[#070191]"
-                v-html="
-                  require('@/assets/images/icones/heroicon/edit.svg?include')
-                "
+                v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
               />
             </div>
           </div>
@@ -154,7 +150,7 @@
             <el-button
               type="primary"
               :loading="loading"
-              class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-[#16a972] !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-indigo-700 focus:!ring-indigo !transition"
+              class="!shadow-lg !block !w-full !text-center !rounded-lg !z-10 !border !border-transparent !bg-jva-green !px-4 sm:!px-6 !py-4 !text-lg sm:!text-xl !leading-6 !font-bold !text-white hover:!bg-[#0e9f6e] focus:!outline-none focus:!border-indigo-700 focus:!ring-indigo !transition"
               @click="onSubmit"
               >Terminer</el-button
             >

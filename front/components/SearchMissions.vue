@@ -19,7 +19,10 @@
         v-if="!noHeader"
         ref="header"
         class="header pt-4 lg:pt-7 pb-8 text-white"
-        :class="[bgClass, { 'custom-color': $options.propsData.color }]"
+        :class="[
+          domainBgColor(domainId),
+          { 'custom-color': $options.propsData.thematique },
+        ]"
       >
         <div class="container mx-auto">
           <div class="px-4">
@@ -132,7 +135,7 @@
 
                 <div
                   v-scroll-lock="showFilters && isMobile"
-                  class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-hidden flex flex-col flex-1"
+                  class="px-4 pt-8 pb-32 lg:p-0 overflow-y-auto lg:overflow-visible flex flex-col flex-1"
                 >
                   <client-only>
                     <AisClearRefinements :excluded-attributes="clearExcludes">
@@ -182,8 +185,13 @@
                     </div>
                   </AisSearchBox>
 
-                  <!-- https://discourse.algolia.com/t/nuxt-doesnt-render-the-ais-components-ssr/11610/18#post_20 -->
-                  <!-- <AisRefinementList attribute="domaines" class="hidden" /> -->
+                  <AlgoliaToggleRefinement
+                    v-if="facets.includes('is_priority')"
+                    attribute="is_priority"
+                    label="Missions prioritaires"
+                    class="mb-6"
+                    @toggle-facet="onToggleRefinement($event)"
+                  />
 
                   <AlgoliaFacet
                     v-if="facets.includes('domaines')"
@@ -269,7 +277,7 @@
                           </div>
 
                           <div
-                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-[#16a972] group-hover:bg-[#0e9f6e] transition mt-6 font-extrabold inline-flex justify-center items-center"
+                            class="text-center px-4 py-2 rounded-full text-white shadow-md cursor-pointer bg-jva-green group-hover:bg-[#0e9f6e] transition mt-6 font-extrabold inline-flex justify-center items-center"
                             style="width: 212px; height: 45px"
                           >
                             Missions à distance
@@ -279,7 +287,7 @@
 
                       <template v-else>
                         <nuxt-link
-                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition"
+                          class="flex flex-col flex-1 hover:bg-gray-50 focus:bg-gray-50 transition rounded-[10px]"
                           :to="
                             item.provider == 'api_engagement'
                               ? `/missions-benevolat/${item.id}`
@@ -392,14 +400,13 @@ import {
   AisPagination,
   AisClearRefinements,
   AisSearchBox,
-  AisRefinementList,
   createServerRootMixin,
 } from 'vue-instantsearch'
 
 import algoliasearch from 'algoliasearch/lite'
 import { debounce } from 'lodash'
 import qs from 'qs'
-import domainesDynamicColor from '@/mixins/domainesDynamicColor'
+import domaineColors from '@/mixins/domainesDynamicColor'
 
 const searchClient = algoliasearch(
   process.env.algolia.appId,
@@ -431,7 +438,6 @@ function addIndex(routeState) {
   return routeState
 }
 
-// eslint-disable-next-line no-unused-vars
 function nuxtRouter(vueRouter) {
   return {
     read() {
@@ -470,9 +476,8 @@ export default {
     AisPagination,
     AisClearRefinements,
     AisSearchBox,
-    AisRefinementList, // eslint-disable-line vue/no-unused-components
   },
-  mixins: [domainesDynamicColor],
+  mixins: [domaineColors],
   provide() {
     return {
       // Provide the InstantSearch instance for SSR
@@ -480,9 +485,9 @@ export default {
     }
   },
   props: {
-    color: {
-      type: String,
-      default: 'primary',
+    thematique: {
+      type: Object,
+      default: null,
     },
     titleTag: {
       type: String,
@@ -492,6 +497,7 @@ export default {
       type: Array,
       default: () => {
         return [
+          'is_priority',
           'domaines',
           'template_title',
           'department_name',
@@ -664,6 +670,7 @@ export default {
       }
 
       this.$delete(this.routeState, 'query')
+      this.$delete(this.routeState, 'toggle')
       refine()
       this.writeUrl()
     },
@@ -745,6 +752,20 @@ export default {
       }
       this.writeUrl()
     },
+    onToggleRefinement($event) {
+      if ($event.active) {
+        this.addToggleRefinement($event)
+      } else {
+        this.deleteToggleRefinement($event)
+      }
+      this.writeUrl()
+    },
+    addToggleRefinement($event) {
+      if (!this.routeState.toggle) {
+        this.$set(this.routeState, 'toggle', {})
+      }
+      this.$set(this.routeState.toggle, $event.name, $event.value)
+    },
     addFacet($event) {
       if (!this.routeState.refinementList) {
         this.$set(this.routeState, 'refinementList', {})
@@ -764,6 +785,9 @@ export default {
       if (this.routeState.refinementList[$event.name]?.length == 0) {
         this.$delete(this.routeState.refinementList, $event.name)
       }
+    },
+    deleteToggleRefinement($event) {
+      this.$delete(this.routeState.toggle, $event.name)
     },
     readUrl() {
       const routeState = qs.parse(this.$router.currentRoute.query)

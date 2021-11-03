@@ -40,9 +40,7 @@
           <div v-else class="flex items-center justify-center">
             <div
               class="w-10"
-              v-html="
-                require('@/assets/images/icones/heroicon/link.svg?include')
-              "
+              v-html="require('@/assets/images/icones/heroicon/link.svg?raw')"
             ></div>
           </div>
         </template>

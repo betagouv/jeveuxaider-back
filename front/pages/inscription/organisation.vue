@@ -139,7 +139,7 @@
         <template v-if="!orgaExist && $route.query.orga_type !== 'Association'">
           <el-button
             type="primary"
-            class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-8 !leading-none"
+            class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-jva-green hover:!shadow-lg hover:!scale-105 !transform !transition !mt-8 !leading-none"
             @click="onSubmitChooseName"
             @keyup.enter="onSubmitChooseName"
           >
@@ -175,7 +175,7 @@
         <nuxt-link to="/register/responsable/step/profile">
           <el-button
             type="primary"
-            class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-8 !leading-none"
+            class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-jva-green hover:!shadow-lg hover:!scale-105 !transform !transition !mt-8 !leading-none"
           >
             Continuer
           </el-button>
@@ -254,7 +254,7 @@
         <el-button
           type="primary"
           :loading="loading"
-          class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-[#16a972] hover:!shadow-lg hover:!scale-105 !transform !transition !mt-4 !leading-none"
+          class="!w-full !flex !justify-center !p-4 !border !border-transparent !rounded-lg !shadow-lg !text-lg !font-bold !text-white !bg-jva-green hover:!shadow-lg hover:!scale-105 !transform !transition !mt-4 !leading-none"
           @click="onSubmitRegisterResponsableForm"
           @keydown.enter="onSubmitRegisterResponsableForm"
         >

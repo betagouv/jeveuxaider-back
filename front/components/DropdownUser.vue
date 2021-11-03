@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="component--dropdown-user group">
     <el-dropdown
       ref="dropdown"
       class="w-full"
@@ -7,8 +7,10 @@
       trigger="click"
       @command="handleCommand"
     >
-      <div class="el-dropdown-link flex justify-between items-center">
-        <div class="flex pr-2 truncate">
+      <div
+        class="el-dropdown-link flex justify-between items-center lg:max-w-[165px] xl:max-w-full"
+      >
+        <div class="flex pr-4 w-full">
           <Avatar
             v-if="$store.getters.user.profile"
             :source="
@@ -17,16 +19,19 @@
                 : null
             "
             :fallback="$store.getters.user.profile.short_name"
+            class="transition transform group-hover:scale-110"
           />
 
           <div
             v-if="$store.getters.isSidebarExpanded"
             class="flex flex-col ml-2 truncate"
           >
-            <div class="text-black truncate">
+            <div class="text-[#111827] text-sm font-bold truncate">
               {{ $store.getters.user.profile.first_name }}
             </div>
-            <div class="uppercase text-xs truncate">
+            <div
+              class="text-[#6B7280] text-sm truncate leading-tight font-normal"
+            >
               {{
                 $store.getters.contextStructure
                   ? $store.getters.contextStructure.name

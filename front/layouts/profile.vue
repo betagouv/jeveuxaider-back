@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100">
-    <AppHeader />
+    <Header />
 
     <div class="bg-primary pb-32">
       <div class="container mx-auto px-4">
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <AppFooter />
+    <Footer />
     <transition name="fade">
       <LazySearchOverlay
         v-if="$store.getters.searchOverlay"

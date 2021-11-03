@@ -11,13 +11,13 @@
       </ul>
     </div>
 
-    <AppHeader />
+    <Header />
 
     <main id="main" class="flex-1 flex flex-col" style="min-height: 500px">
       <Nuxt />
     </main>
 
-    <AppFooter />
+    <Footer />
 
     <transition name="fade">
       <LazySearchOverlay

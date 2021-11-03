@@ -14,7 +14,7 @@
 
         <div
           :class="[
-            bgClass,
+            domainBgColor(domainId),
             'absolute',
             'inset-0',
             { 'opacity-75': thematique.image },
@@ -46,15 +46,15 @@
                   <nuxt-link
                     v-if="!$store.getters.isLogged"
                     to="/register/volontaire"
-                    :class="colorClass"
+                    :class="domainColor(domainId)"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white !outline-none focus:ring transition md:py-4 md:text-lg md:px-15"
                   >
                     Devenir réserviste
                   </nuxt-link>
                   <a
                     v-else
-                    href="#search"
-                    :class="colorClass"
+                    href="#search-wrapper"
+                    :class="domainColor(domainId)"
                     class="shadow-lg w-full flex items-center justify-center px-10 py-3 text-base leading-6 font-medium rounded-full bg-white hover:bg-white !outline-none focus:ring transition md:py-4 md:text-lg md:px-15"
                   >
                     Trouver une mission
@@ -174,7 +174,7 @@
         </div>
       </div>
 
-      <div v-if="!$store.getters.loading" id="search" :class="bgClass">
+      <div v-if="!$store.getters.loading" :class="domainBgColor(domainId)">
         <div
           class="container mx-auto py-12 pt-16 px-4 sm:py-16 sm:px-6 lg:px-8"
         >
@@ -221,9 +221,15 @@
 
       <SearchMissions
         v-if="thematique.domaine"
-        :facets="['template_title', 'department_name', 'structure.name']"
+        id="search-wrapper"
+        :facets="[
+          'template_title',
+          'department_name',
+          'structure.name',
+          'is_priority',
+        ]"
         :filters="`domaines:&quot;${thematique.domaine.name.fr}&quot;`"
-        :color="thematique.color"
+        :thematique="thematique"
         :title-tag="'h2'"
       />
 
@@ -235,7 +241,7 @@
             class="text-3xl leading-9 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
           >
             Votre organisation a besoin de
-            <span :class="colorClass">bénévoles</span> ?
+            <span :class="domainColor(domainId)">bénévoles</span> ?
           </p>
           <div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
             <div class="inline-flex rounded-full shadow">
@@ -246,7 +252,7 @@
                     ? `/dashboard/structure/${$store.getters.contextStructure.id}/missions/add`
                     : '/inscription/organisation'
                 "
-                :class="bgClass"
+                :class="domainBgColor(domainId)"
                 class="inline-flex items-center justify-center px-7 py-3 border border-transparent text-base leading-6 font-medium rounded-full text-white !outline-none focus:ring transition"
               >
                 Rejoignez JeVeuxAider.gouv.fr
@@ -307,10 +313,10 @@
 </template>
 
 <script>
-import domainesDynamicColor from '@/mixins/domainesDynamicColor'
+import domaineColors from '@/mixins/domainesDynamicColor'
 
 export default {
-  mixins: [domainesDynamicColor],
+  mixins: [domaineColors],
   async asyncData({ $api, params, error }) {
     const thematique = await $api.getThematique(params.slug)
     if (!thematique) {

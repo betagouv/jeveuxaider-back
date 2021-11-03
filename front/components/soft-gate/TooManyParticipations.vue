@@ -23,7 +23,7 @@
 
     <div class="max-w-md mx-auto">
       <el-button
-        class="!font-bold !w-full !flex !items-center !justify-center !px-5 !py-4 !border !border-transparent !text-lg !leading-6 !rounded-full !text-white !bg-[#16a972] hover:!bg-[#0e9f6e] focus:!outline-none focus:!ring !transition !whitespace-normal"
+        class="!font-bold !w-full !flex !items-center !justify-center !px-5 !py-4 !border !border-transparent !text-lg !leading-6 !rounded-full !text-white !bg-jva-green hover:!bg-[#0e9f6e] focus:!outline-none focus:!ring !transition !whitespace-normal"
         @click.prevent="$emit('close')"
       >
         J'attends la validation de mes inscriptions
