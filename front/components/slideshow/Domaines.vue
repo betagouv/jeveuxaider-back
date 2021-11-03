@@ -106,7 +106,7 @@ export default {
         {
           id: 11,
           name: 'Art & Culture pour tous',
-          slug: 'art-and-culture-pour-tous',
+          slug: 'art-culture-pour-tous',
           description: `Mobilisez-vous pour l'art et la culture`,
           image:
             '/images/card_domaine_art.webp, /images/card_domaine_art@2x.webp 2x, /images/card_domaine_art.jpg, /images/card_domaine_art@2x.jpg 2x',
