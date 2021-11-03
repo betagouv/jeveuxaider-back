@@ -1,5 +1,5 @@
 <template>
-  <section class="relative h-[590px]">
+  <section class="relative h-[590px] shadow-xl">
     <picture class="lg:hidden">
       <source
         srcset="
