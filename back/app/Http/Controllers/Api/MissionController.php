@@ -39,14 +39,14 @@ class MissionController extends Controller
 {
     public function promotedToFrontPage(Request $request)
     {
-        return Mission::where('is_priority', true)
-        ->where('places_left', '>', 0)
-        ->where('state', 'Validée')
-        ->whereHas('structure', function (Builder $query) {
-            $query->where('state', 'Validée');
-        })
-        ->limit(10)
-        ->get();
+        return Mission::search('')
+            ->where('is_priority', true)
+            ->with([
+                // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
+                'filters' => 'provider:reserve_civique',
+            ])
+            ->take(10)
+            ->get();
     }
 
     public function index(Request $request)
