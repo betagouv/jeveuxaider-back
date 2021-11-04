@@ -348,10 +348,10 @@
     >
       <div class="container px-4 mx-auto relative">
         <div
-          class="card--don mx-auto shadow-lg"
-          :class="[{ 'transform -translate-y-16': missions.data.length }]"
+          class="card--don mx-auto rounded-[24px]"
+          :class="[{ 'transform -translate-y-16 mb-6': missions.data.length }]"
         >
-          <div class="relative">
+          <div class="relative rounded-[24px] overflow-hidden shadow-lg">
             <img
               src="/images/bg_don.png"
               srcset="/images/bg_don@2x.png 2x"
@@ -420,7 +420,7 @@
                 organisation.donation.includes('microdon') ||
                 organisation.donation.includes('ulule')
               "
-              class="-mt-7 p-6 bg-white"
+              class="-mt-7 pt-6"
             >
               <div class="flex items-center justify-center">
                 <span
@@ -756,10 +756,7 @@ export default {
 }
 
 .card--don {
-  border-radius: 24px;
   max-width: 1038px;
-  overflow: hidden;
-  @apply bg-white;
 }
 
 .footer--button {
