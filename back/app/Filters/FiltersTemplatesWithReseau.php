@@ -10,9 +10,8 @@ class FiltersTemplatesWithReseau implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value, $property) {
-            if ($value == 'empty') {
-                $query->whereNull('reseau_id');
-            } else {
+            $query->whereNull('reseau_id');
+            if ($value != 'empty') {
                 if (is_array($value)) {
                     $query->orWhereIn('reseau_id', $value);
                 } else {
