@@ -19,7 +19,6 @@ class Thematique extends Model implements HasMedia
     protected $fillable = [
         'name',
         'title',
-        'slug',
         'domaine_id',
         'published',
         'description',

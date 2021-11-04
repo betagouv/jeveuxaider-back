@@ -20,15 +20,6 @@ export default {
     return {
       domaines: [
         {
-          id: 1,
-          name: 'Mobilisation Covid-19',
-          slug: 'mobilisation-covid-19',
-          description: 'Mobilisez-vous pour la lutte contre la Covid-19',
-          image:
-            '/images/card_domaine_covid19.webp, /images/card_domaine_covid19@2x.webp 2x, /images/card_domaine_covid19.jpg, /images/card_domaine_covid19@2x.jpg 2x',
-          bottom: true,
-        },
-        {
           id: 2,
           name: 'Éducation pour tous',
           slug: 'education-pour-tous',
@@ -110,6 +101,15 @@ export default {
           description: `Mobilisez-vous pour l'art et la culture`,
           image:
             '/images/card_domaine_art.webp, /images/card_domaine_art@2x.webp 2x, /images/card_domaine_art.jpg, /images/card_domaine_art@2x.jpg 2x',
+          bottom: true,
+        },
+        {
+          id: 1,
+          name: 'Mobilisation Covid-19',
+          slug: 'mobilisation-covid-19',
+          description: 'Mobilisez-vous pour la lutte contre la Covid-19',
+          image:
+            '/images/card_domaine_covid19.webp, /images/card_domaine_covid19@2x.webp 2x, /images/card_domaine_covid19.jpg, /images/card_domaine_covid19@2x.jpg 2x',
           bottom: true,
         },
       ],
