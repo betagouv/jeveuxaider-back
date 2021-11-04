@@ -183,6 +183,11 @@ class StructureObserver
     {
         // Delete pending invitation
         $structure->invitations()->delete();
+
+        // Detaching members from organisation
+        $structure->responsables->map(function($responsable) use ($structure) {
+            $structure->deleteMember($responsable);
+        });
     }
 
     private function createTerritoire($structure)
