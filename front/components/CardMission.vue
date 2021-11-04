@@ -226,22 +226,11 @@ export default {
     },
     formattedDate() {
       const startDate = this.mission.start_date
-      const endDate = this.mission.end_date
-
       if (!startDate) {
         return
       }
 
-      // API Engagement
-      if (this.mission.provider == 'api_engagement') {
-        if (!endDate) {
-          return
-        }
-        if (this.$dayjs(endDate).diff(this.$dayjs(startDate), 'year') > 1) {
-          return
-        }
-      }
-
+      const now = this.$dayjs()
       const startDateObject =
         Number.isInteger(startDate) && this.$dayjs.unix(startDate).isValid()
           ? this.$dayjs.unix(startDate)
@@ -251,27 +240,9 @@ export default {
           ? this.$dayjs(startDate)
           : null
 
-      let endDateObject
-      if (endDate) {
-        endDateObject =
-          Number.isInteger(endDate) && this.$dayjs.unix(endDate).isValid()
-            ? this.$dayjs.unix(endDate)
-            : this.$dayjs(endDate, 'YYYY-MM-DD HH:mm:ss', 'fr', true).isValid()
-            ? this.$dayjs(endDate, 'YYYY-MM-DD HH:mm:ss')
-            : this.$dayjs(endDate).isValid()
-            ? this.$dayjs(endDate)
-            : null
-      }
-
-      if (
-        endDate &&
-        startDateObject.format('D MMMM YYYY') ==
-          endDateObject.format('D MMMM YYYY')
-      ) {
-        return startDateObject.format('D MMMM')
-      } else {
-        return `À partir du ${startDateObject.format('D MMMM')}`
-      }
+      return startDateObject && startDateObject.isAfter(now)
+        ? `À partir du ${startDateObject.format('D MMMM')}`
+        : null
     },
     missionCity() {
       if (this.mission.city?.includes('Paris')) {
