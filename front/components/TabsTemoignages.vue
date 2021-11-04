@@ -1,5 +1,10 @@
 <template>
-  <el-menu :default-active="index" mode="horizontal" @select="handleSelect">
+  <el-menu
+    v-if="['admin'].includes($store.getters.contextRole)"
+    :default-active="index"
+    mode="horizontal"
+    @select="handleSelect"
+  >
     <el-menu-item index="/dashboard/temoignages"> Témoignages </el-menu-item>
     <el-menu-item index="/dashboard/temoignages/relances">
       Relances

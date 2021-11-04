@@ -96,7 +96,11 @@ export default {
   mixins: [TableWithFilters, TableWithVolet],
   layout: 'dashboard',
   asyncData({ store, error }) {
-    if (!['admin'].includes(store.getters.contextRole)) {
+    if (
+      !['admin', 'referent_regional', 'referent'].includes(
+        store.getters.contextRole
+      )
+    ) {
       return error({ statusCode: 403 })
     }
   },
