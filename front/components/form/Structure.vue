@@ -18,10 +18,7 @@
     </el-form-item>
 
     <el-form-item
-      v-if="
-        $store.getters.contextRole == 'admin' &&
-        form.statut_juridique == 'Association'
-      "
+      v-if="form.statut_juridique == 'Association'"
       label="RNA"
       prop="rna"
     >
