@@ -27,8 +27,8 @@
             <p
               class="mt-4 text-center max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto"
             >
-              Sur l'ensemble du territoire français, des milliers de
-              réservistes, de structures et d'association ont déjà rejoint
+              Sur l'ensemble du territoire français, des milliers de bénévoles,
+              de structures et d'association ont déjà rejoint
               <b>JeVeuxAider.gouv.fr</b>.
             </p>
           </div>

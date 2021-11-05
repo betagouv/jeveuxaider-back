@@ -196,7 +196,7 @@
                 <dd class="text-5xl leading-none font-bold text-white">
                   {{ statistics.volontaires_count | formatNumber }}
                 </dd>
-                <dt class="mt-2 text-lg font-medium text-white">Réservistes</dt>
+                <dt class="mt-2 text-lg font-medium text-white">Bénévoles</dt>
               </div>
               <div class="flex flex-col mt-10 sm:mt-0">
                 <dd class="text-5xl leading-none font-bold text-white">
