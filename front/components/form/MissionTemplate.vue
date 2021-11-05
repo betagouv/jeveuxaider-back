@@ -11,7 +11,7 @@
 
     <el-form-item label="Titre" prop="title">
       <ItemDescription container-class="mb-3">
-        Le titre sera affiché dans la recherche et sur la page de la mission.
+        Il s'agit du titre principal affiché sur la page de la mission.
       </ItemDescription>
       <el-input
         v-model="form.title"
