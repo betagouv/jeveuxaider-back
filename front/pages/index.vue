@@ -730,27 +730,27 @@ export default {
   async fetch() {
     const { data } = await this.$api.fetchPromotedToFrontPageMissions()
     this.prioritizedMissions = data
-    const { data: articles } = await this.$axios.get(
-      `${this.$config.blog.restApiUrl}/posts/?per_page=6`,
-      {
-        excludeContextRole: true,
-      }
-    )
-    const articlesWithMedia = []
-    for (const article of articles) {
-      const url = article._links['wp:featuredmedia']
-        ? article._links['wp:featuredmedia'][0].href
-        : article._links['wp:attachment'][0].href
-      const { data: media } = await this.$axios.get(url, {
-        excludeContextRole: true,
-      })
-      if (!Array.isArray(media)) {
-        articlesWithMedia.push({ ...article, media })
-      } else {
-        articlesWithMedia.push({ ...article, media: media[0] })
-      }
-    }
-    this.articles = articlesWithMedia
+    // const { data: articles } = await this.$axios.get(
+    //   `${this.$config.blog.restApiUrl}/posts/?per_page=6`,
+    //   {
+    //     excludeContextRole: true,
+    //   }
+    // )
+    // const articlesWithMedia = []
+    // for (const article of articles) {
+    //   const url = article._links['wp:featuredmedia']
+    //     ? article._links['wp:featuredmedia'][0].href
+    //     : article._links['wp:attachment'][0].href
+    //   const { data: media } = await this.$axios.get(url, {
+    //     excludeContextRole: true,
+    //   })
+    //   if (!Array.isArray(media)) {
+    //     articlesWithMedia.push({ ...article, media })
+    //   } else {
+    //     articlesWithMedia.push({ ...article, media: media[0] })
+    //   }
+    // }
+    // this.articles = articlesWithMedia
   },
   head() {
     return {
