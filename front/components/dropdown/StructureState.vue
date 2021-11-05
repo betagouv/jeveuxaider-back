@@ -20,15 +20,18 @@
           :key="state.value"
           @click.native="onSubmitState(state.value)"
         >
-          <template v-if="state.value == 'En attente de validation'"
-            >Repasser en validation</template
-          >
-          <template v-if="state.value == 'Validée'"
-            >Valider l'organisation</template
-          >
-          <template v-if="state.value == 'Signalée'"
-            >Signaler l'organisation</template
-          >
+          <template v-if="state.value == 'En attente de validation'">
+            Repasser en validation
+          </template>
+          <template v-if="state.value == 'En cours de traitement'">
+            En cours de traitement
+          </template>
+          <template v-if="state.value == 'Validée'">
+            Valider l'organisation
+          </template>
+          <template v-if="state.value == 'Signalée'">
+            Signaler l'organisation
+          </template>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -86,8 +89,11 @@ export default {
       } else {
         return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
           (item) =>
-            !['En attente de validation', 'Désinscrite'].includes(item.value) &&
-            item.value != this.structure.state
+            ![
+              'En attente de validation',
+              'En cours de traitement',
+              'Désinscrite',
+            ].includes(item.value) && item.value != this.structure.state
         )
       }
     },
@@ -99,6 +105,10 @@ export default {
   },
   methods: {
     onSubmitState(state) {
+      if (state == 'En cours de traitement') {
+        this.message = `Vous êtes sur le point de passer l'organisation' au statut <b>en cours de traitement</b>.<br><br> Continuer ?`
+      }
+
       if (state == 'Validée') {
         this.message = `Vous êtes sur le point de <b>valider</b> une organisation.`
         if (this.form.missions_count > 0) {
