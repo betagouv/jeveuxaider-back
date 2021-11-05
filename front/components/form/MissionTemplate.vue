@@ -10,16 +10,26 @@
     </div>
 
     <el-form-item label="Titre" prop="title">
-      <el-input v-model="form.title" placeholder="Titre" />
+      <ItemDescription container-class="mb-3">
+        Il s'agit du titre principal affiché sur la page de la mission.
+      </ItemDescription>
+      <el-input
+        v-model="form.title"
+        placeholder="Titre"
+        type="textarea"
+        :autosize="{ minRows: 2, maxRows: 6 }"
+      />
     </el-form-item>
 
-    <el-form-item label="Sous titre" prop="subtitle" class="flex-1">
+    <el-form-item label="Titre court" prop="subtitle" class="flex-1">
+      <ItemDescription container-class="mb-3">
+        Le titre court sera utilisé comme libellé pour le filtre "Type de
+        mission" dans la recherche.
+      </ItemDescription>
       <el-input
         v-model="form.subtitle"
         name="subtitle"
-        type="textarea"
-        :autosize="{ minRows: 2, maxRows: 6 }"
-        placeholder="Placeholder subtitle"
+        placeholder="Titre court"
       ></el-input>
     </el-form-item>
 
@@ -81,7 +91,7 @@
       @add-or-crop="photo = $event"
       @delete="photo = null"
     />
-    <!-- 
+    <!--
     <ImageField
       :crop="false"
       accepted-files="image/svg+xml"
@@ -152,11 +162,21 @@ export default {
             message: 'Veuillez renseigner un titre',
             trigger: 'blur',
           },
+          {
+            max: 255,
+            message: 'Taille maximale : 255 caractères',
+            trigger: 'blur',
+          },
         ],
         subtitle: [
           {
             required: true,
             message: 'Veuillez renseigner un sous-titre',
+            trigger: 'blur',
+          },
+          {
+            max: 255,
+            message: 'Taille maximale : 255 caractères',
             trigger: 'blur',
           },
         ],
