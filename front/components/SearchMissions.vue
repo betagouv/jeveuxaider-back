@@ -202,8 +202,8 @@
                   />
 
                   <AlgoliaFacet
-                    v-if="facets.includes('template_title')"
-                    name="template_title"
+                    v-if="facets.includes('template_subtitle')"
+                    name="template_subtitle"
                     label="Type de mission"
                     is-searchable
                     class="mb-6"
@@ -499,7 +499,7 @@ export default {
         return [
           'is_priority',
           'domaines',
-          'template_title',
+          'template_subtitle',
           'department_name',
           'structure.name',
         ]

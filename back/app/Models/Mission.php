@@ -121,6 +121,7 @@ class Mission extends Model
                 'response_ratio' => $this->structure->response_ratio
             ] : null,
             'type' => $this->type,
+            'template_subtitle' => $this->template ? $this->template->subtitle : null,
             'template_title' => $this->template ? $this->template->title : null,
             'domaine_name' => $this->domaine_name,
             'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
@@ -229,7 +230,7 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-        return $this->template_id ? $this->template->subtitle : $value;
+        return $this->template_id ? $this->template->title : $value;
     }
 
     public function setNameAttribute($value)
