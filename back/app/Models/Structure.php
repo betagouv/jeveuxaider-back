@@ -348,7 +348,7 @@ class Structure extends Model implements HasMedia
     {
         $newResponsableProfileId = $this->members->where('id', '!=', $profile->id)->pluck('id')->first();
         if ($newResponsableProfileId) {
-            Mission::where('responsable_id', $profile->id)->update(['responsable_id' => $newResponsableProfileId]);
+            Mission::where('responsable_id', $profile->id)->where('structure_id', $this->id)->update(['responsable_id' => $newResponsableProfileId]);
         }
     }
 
@@ -505,5 +505,4 @@ class Structure extends Model implements HasMedia
             'missing_fields' => $missingFields
         ];
     }
-
 }
