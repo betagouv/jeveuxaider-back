@@ -13,6 +13,7 @@ use App\Notifications\MissionWaitingValidation;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
 use Illuminate\Support\Str;
+use App\Notifications\MissionBeingProcessed;
 
 class MissionObserver
 {
@@ -104,6 +105,11 @@ class MissionObserver
 
                         // Notifications temoignage.
                         $mission->sendNotificationsTemoignages();
+                    }
+                    break;
+                case 'En cours de traitement':
+                    if ($mission->responsable) {
+                        $mission->responsable->notify(new MissionBeingProcessed($mission));
                     }
                     break;
             }

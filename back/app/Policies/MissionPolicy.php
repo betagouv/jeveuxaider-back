@@ -63,7 +63,7 @@ class MissionPolicy
             }
             return false;
         } elseif (in_array(request()->header('Context-Role'), ['referent', 'referent_regional'])) {
-            if (in_array($newState, ['Signalée', 'Validée'])) {
+            if (in_array($newState, ['Signalée', 'Validée', 'En cours de traitement'])) {
                 return true;
             }
             return false;

@@ -18,6 +18,7 @@ use App\Notifications\StructureValidated;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\StructureBeingProcessed;
 
 class StructureObserver
 {
@@ -131,6 +132,11 @@ class StructureObserver
                         $structure->missions->unsearchable();
                     }
                     break;
+                case 'En cours de traitement':
+                    if ($responsable) {
+                        $responsable->notify(new StructureBeingProcessed($structure));
+                    }
+                    break;
             }
         }
 
@@ -185,7 +191,7 @@ class StructureObserver
         $structure->invitations()->delete();
 
         // Detaching members from organisation
-        $structure->responsables->map(function($responsable) use ($structure) {
+        $structure->responsables->map(function ($responsable) use ($structure) {
             $structure->deleteMember($responsable);
         });
     }

@@ -86,6 +86,15 @@ export default {
         return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
           (item) => item.value != this.structure.state
         )
+      } else if (
+        this.$store.getters.contextRole == 'referent' ||
+        this.$store.getters.contextRole == 'referent_regional'
+      ) {
+        return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
+          (item) =>
+            !['En attente de validation', 'Désinscrite'].includes(item.value) &&
+            item.value != this.structure.state
+        )
       } else {
         return this.$store.getters.taxonomies.structure_workflow_states.terms.filter(
           (item) =>
@@ -106,7 +115,7 @@ export default {
   methods: {
     onSubmitState(state) {
       if (state == 'En cours de traitement') {
-        this.message = `Vous êtes sur le point de passer l'organisation' au statut <b>en cours de traitement</b>.<br><br> Continuer ?`
+        this.message = `Vous êtes sur le point de passer l'organisation au statut <b>en cours de traitement</b>.<br><br> Continuer ?`
       }
 
       if (state == 'Validée') {
