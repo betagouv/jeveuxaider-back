@@ -73,6 +73,7 @@ return [
         "vocabulary" => "Statut",
         "terms" => [
             "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
             // "En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Signalée" => "Signalée",
@@ -91,6 +92,7 @@ return [
         "terms" => [
             "Brouillon" => "Brouillon",
             "En attente de validation" => "En attente de validation",
+            "En cours de traitement" => "En cours de traitement",
             //"En attente de correction" => "En attente de correction",
             "Validée" => "Validée",
             "Terminée" => "Terminée",

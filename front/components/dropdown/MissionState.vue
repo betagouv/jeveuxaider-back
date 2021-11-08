@@ -40,6 +40,9 @@
           <template v-if="state.value == 'En attente de validation'"
             >Repasser en validation</template
           >
+          <template v-if="state.value == 'En cours de traitement'">
+            En cours de traitement
+          </template>
           <template v-if="state.value == 'Validée'"
             >Valider la mission</template
           >
@@ -121,8 +124,11 @@ export default {
       } else if (this.$store.getters.contextRole == 'responsable') {
         return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
           (item) =>
-            !['Signalée', 'En attente de validation'].includes(item.value) &&
-            item.value != this.mission.state
+            ![
+              'Signalée',
+              'En attente de validation',
+              'En cours de traitement',
+            ].includes(item.value) && item.value != this.mission.state
         )
       } else if (
         this.$store.getters.contextRole == 'referent' ||
@@ -130,14 +136,18 @@ export default {
       ) {
         return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
           (item) =>
-            ['Signalée', 'Validée'].includes(item.value) &&
-            item.value != this.mission.state
+            ['Signalée', 'Validée', 'En cours de traitement'].includes(
+              item.value
+            ) && item.value != this.mission.state
         )
       } else {
         return this.$store.getters.taxonomies.mission_workflow_states.terms.filter(
           (item) =>
-            !['Signalée', 'En attente de validation'].includes(item.value) &&
-            item.value != this.mission.state
+            ![
+              'Signalée',
+              'En attente de validation',
+              'En cours de traitement',
+            ].includes(item.value) && item.value != this.mission.state
         )
       }
     },
@@ -164,6 +174,10 @@ export default {
     onSubmitState(state) {
       if (state == 'En attente de validation') {
         this.message = `Une demande de publication va être envoyée aux référents de la plateforme.<br><br> Êtes vous sûr de vouloir continuer ?`
+      }
+
+      if (state == 'En cours de traitement') {
+        this.message = `Vous êtes sur le point de passer la mission au statut <b>en cours de traitement</b>.<br><br> Continuer ?`
       }
 
       if (state == 'Validée') {
