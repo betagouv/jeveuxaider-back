@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ReseauUploadRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Profile;
 use App\Models\Reseau;
@@ -13,7 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-
+use App\Models\Tag;
+use Illuminate\Support\Str;
 
 class ReseauController extends Controller
 {
@@ -30,7 +32,7 @@ class ReseauController extends Controller
 
     public function show(Request $request, Reseau $reseau)
     {
-        $reseau = Reseau::withCount('structures', 'missionTemplates','invitationsAntennes','responsables')->where('id', $reseau->id)->first();
+        $reseau = Reseau::withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->where('id', $reseau->id)->first()->append(["logo"]);
         return $reseau;
     }
 
@@ -40,17 +42,29 @@ class ReseauController extends Controller
             $request->validated()
         );
 
+        if ($request->has('domaines')) {
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $reseau->syncTagsWithType($domaines, 'domaine');
+        }
+
         return $reseau;
     }
 
     public function update(ReseauRequest $request, Reseau $reseau)
     {
+        if ($request->has('domaines')) {
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $reseau->syncTagsWithType($domaines, 'domaine');
+        }
+
         return $reseau->update($request->validated());
     }
 
     public function attachOrganisations(Request $request, Reseau $reseau)
     {
-        if($request->input('organisations')) {
+        if ($request->input('organisations')) {
             $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
         }
 
@@ -59,10 +73,8 @@ class ReseauController extends Controller
 
     public function detachOrganisation(Request $request, Reseau $reseau, Structure $structure)
     {
-
-        $reseau->structures()->detach($structure->id);
-
-        return $reseau;
+        $structure->structures()->detach($structure->id);
+        return $structure;
     }
 
     public function lead(Request $request)
@@ -96,5 +108,57 @@ class ReseauController extends Controller
     {
         $reseau->deleteResponsable($responsable);
         return $reseau->responsables;
+    }
+
+    public function upload(ReseauUploadRequest $request, Reseau $reseau, String $field)
+    {
+        // Delete previous file
+        if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
+            $media->delete();
+        }
+
+        $data = $request->all();
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(30);
+
+        $cropSettings = json_decode($data['cropSettings']);
+        if (!empty($cropSettings)) {
+            $stringCropSettings = implode(",", [
+                $cropSettings->width,
+                $cropSettings->height,
+                $cropSettings->x,
+                $cropSettings->y
+            ]);
+        } else {
+            $pathName = $request->file('image')->getPathname();
+            $infos = getimagesize($pathName);
+            $stringCropSettings = implode(",", [
+                $infos[0],
+                $infos[1],
+                0,
+                0
+            ]);
+        }
+
+        $reseau
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->withCustomProperties(['field' => $field])
+            ->withManipulations([
+                'thumb' => ['manualCrop' => $stringCropSettings],
+                'large' => ['manualCrop' => $stringCropSettings],
+                'xxl' => ['manualCrop' => $stringCropSettings]
+            ])
+            ->toMediaCollection('reseaux');
+
+        return $reseau;
+    }
+
+    public function uploadDelete(ReseauUploadRequest $request, Reseau $reseau, String $field)
+    {
+        if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
+            $media->delete();
+        }
     }
 }

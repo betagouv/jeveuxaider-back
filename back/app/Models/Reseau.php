@@ -4,17 +4,46 @@ namespace App\Models;
 
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Reseau extends Model
+class Reseau extends Model implements HasMedia
 {
-    use HasRelationships;
+    use HasRelationships, HasTags, InteractsWithMedia;
 
     protected $table = 'reseaux';
 
     protected $fillable = [
         'name',
+        'publics_beneficiaires',
         'created_at',
+        'description',
+        'email',
+        'phone',
+        'address',
+        'latitude',
+        'longitude',
+        'zip',
+        'city',
+        'department',
+        'country',
+        'website',
+        'facebook',
+        'twitter',
+        'instagram',
+        'donation',
+        'image_1',
+        'image_2',
     ];
+
+    protected $appends = ['domaines', 'full_address'];
+
+    protected $casts = [
+        'publics_beneficiaires' => 'array',
+    ];
+
 
     public function responsables()
     {
@@ -54,7 +83,7 @@ class Reseau extends Model
         return $this->load('responsables');
     }
 
-    public function createStructure(string $name , User $user, array $attributes = [])
+    public function createStructure(string $name, User $user, array $attributes = [])
     {
 
         $attributes = array_merge([
@@ -85,7 +114,55 @@ class Reseau extends Model
             );
 
         return $structure;
-
     }
 
+    public function getDomainesAttribute()
+    {
+        return $this->tagsWithType('domaine')->values();
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return "{$this->address}, {$this->zip} {$this->city}";
+    }
+
+    public function getLogoAttribute()
+    {
+        return $this->getMediaUrls('logo');
+    }
+
+    protected function getMediaUrls($field)
+    {
+        $media = $this->getFirstMedia('reseaux', ['field' => $field]);
+        if ($media) {
+            $mediaUrls = ['original' => $media->getFullUrl()];
+            foreach ($media->getGeneratedConversions() as $key => $conversion) {
+                // $mediaUrls[$key] = $media->getUrl($key);
+                $mediaUrls[$key] = $media->getSrcset($key);
+            }
+            return $mediaUrls;
+        }
+        return null;
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(320)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('reseaux');
+
+        $this->addMediaConversion('large')
+            ->width(640)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('reseaux');
+
+        $this->addMediaConversion('xxl')
+            ->width(1440)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('reseaux');
+    }
 }

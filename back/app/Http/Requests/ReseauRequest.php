@@ -16,6 +16,40 @@ class ReseauRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|required|min:3|max:255',
+            'domaines' => '',
+            'publics_beneficiaires' => '',
+            'description' => 'required',
+            'phone' => '',
+            'email' => '',
+            'address' => '',
+            'latitude' => '',
+            'longitude' => '',
+            'zip' => '',
+            'city' => '',
+            'department' => [
+                function ($attribute, $value, $fail) {
+                    $datas = $this->validator->getData();
+                    if (!empty($datas['zip'])) {
+                        if (substr($datas['zip'], 0, strlen($value)) != $value) {
+                            // Exeptions.
+                            if (in_array($value, ['2A', '2B']) && substr($datas['zip'], 0, 2) == '20') {
+                                return;
+                            }
+
+                            $fail("L'adresse et le département ne correspondent pas !");
+                        }
+                    }
+                }
+            ],
+            'country' => '',
+            'website' => 'max:255',
+            'facebook' => 'max:255',
+            'twitter' => 'max:255',
+            'instagram' => 'max:255',
+            'donation' => 'max:255',
+            'logo' => '',
+            'image_1' => '',
+            'image_2' => '',
         ];
     }
 

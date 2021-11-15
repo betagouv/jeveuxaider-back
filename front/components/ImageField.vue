@@ -18,7 +18,7 @@
           '--preview-area__width': previewWidth,
         }"
       >
-        <img :src="imgPreview" :alt="alt" />
+        <img :srcset="imgPreview" :alt="alt" />
       </div>
 
       <div class="actions mt-4">
