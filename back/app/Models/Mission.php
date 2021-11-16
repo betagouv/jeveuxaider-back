@@ -100,6 +100,7 @@ class Mission extends Model
 
     public function toSearchableArray()
     {
+
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
@@ -229,8 +230,12 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-        return $value; // @TODO LAZY
-        return $this->template_id ? $this->template->title : $value;
+        if ($this->template_id) {
+            $template = MissionTemplate::find($this->template_id);
+            return $template->title;
+        }
+
+        return $value;
     }
 
     public function setNameAttribute($value)
@@ -240,14 +245,22 @@ class Mission extends Model
 
     public function getDescriptionAttribute($value)
     {
-        return $value; // @TODO LAZY
-        return $this->template_id ? $this->template->description : $value;
+        if ($this->template_id) {
+            $template = MissionTemplate::find($this->template_id);
+            return $template->description;
+        }
+
+        return $value;
     }
 
     public function getObjectifAttribute($value)
     {
-        return $value; // @TODO LAZY
-        return $this->template_id ? $this->template->objectif : $value;
+        if ($this->template_id) {
+            $template = MissionTemplate::find($this->template_id);
+            return $template->objectif;
+        }
+
+        return $value;
     }
 
     public function getScoreAttribute()

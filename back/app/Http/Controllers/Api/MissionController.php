@@ -42,7 +42,6 @@ class MissionController extends Controller
         return Mission::search('')
             ->where('is_priority', true)
             ->with([
-                // Sans prendre en compte l'API, sinon erreur ScoutExtended ObjectID seems invalid
                 'filters' => 'provider:reserve_civique',
             ])
             ->take(10)
