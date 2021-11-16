@@ -45,7 +45,8 @@ class MissionController extends Controller
                 'filters' => 'provider:reserve_civique',
             ])
             ->take(10)
-            ->get();
+            ->get()
+            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
 
     public function index(Request $request)

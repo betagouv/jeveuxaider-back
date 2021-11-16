@@ -34,9 +34,7 @@ class MissionTemplate extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    protected $appends = ['image', 'photo'];
-
-    protected $hidden = ['media'];
+    protected $appends = ['photo'];
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -55,12 +53,6 @@ class MissionTemplate extends Model implements HasMedia
             ->nonQueued()
             ->performOnCollections('templates');
     }
-
-    public function getImageAttribute()
-    {
-        return $this->getMediaUrls('icon');
-    }
-
 
     public function getPhotoAttribute()
     {

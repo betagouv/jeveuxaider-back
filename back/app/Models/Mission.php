@@ -156,7 +156,7 @@ class Mission extends Model
 
     public function getDomaineNameAttribute()
     {
-        if ($this->template) {
+        if ($this->template_id) {
             return $this->template->domaine ? $this->template->domaine->name : null;
         }
 
@@ -230,12 +230,7 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-        if ($this->template_id) {
-            $template = MissionTemplate::find($this->template_id);
-            return $template->title;
-        }
-
-        return $value;
+         return $this->template_id ? $this->template->title : $value;
     }
 
     public function setNameAttribute($value)
@@ -245,22 +240,12 @@ class Mission extends Model
 
     public function getDescriptionAttribute($value)
     {
-        if ($this->template_id) {
-            $template = MissionTemplate::find($this->template_id);
-            return $template->description;
-        }
-
-        return $value;
+        return $this->template_id ? $this->template->description : $value;
     }
 
     public function getObjectifAttribute($value)
     {
-        if ($this->template_id) {
-            $template = MissionTemplate::find($this->template_id);
-            return $template->objectif;
-        }
-
-        return $value;
+        return $this->template_id ? $this->template->objectif : $value;
     }
 
     public function getScoreAttribute()
@@ -528,4 +513,5 @@ class Mission extends Model
             $participation->sendNotificationTemoignage();
         }
     }
+
 }
