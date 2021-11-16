@@ -51,7 +51,7 @@ class Profile extends Model implements HasMedia
         'can_export_profiles' => 'boolean'
     ];
 
-    protected $appends = ['full_name', 'short_name', 'image'];
+    protected $appends = ['full_name']; // short_name , 'image'
 
     protected $hidden = ['media', 'user'];
 

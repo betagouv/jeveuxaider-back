@@ -63,15 +63,15 @@ class Mission extends Model
         'country' => 'France'
     ];
 
-    protected $appends = [
-        'full_url',
-        'full_address',
-        'has_places_left',
-        'participations_count',
-        'participations_total',
-        'domaine_name',
-        'permissions',
-    ];
+    // protected $appends = [
+    //     'full_url',
+    //     'full_address',
+    //     'has_places_left',
+    //     'participations_count',
+    //     'participations_total',
+    //     'domaine_name',
+    //     'permissions',
+    // ];
 
     protected static $logFillable = true;
 
@@ -362,8 +362,10 @@ class Mission extends Model
             case 'responsable':
                 // Missions des structures dont je suis responsable
                 $user = Auth::guard('api')->user();
-                if ($user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
-                    !empty($user->contextable_id)) {
+                if (
+                    $user->context_role == 'responsable' && $user->contextable_type == 'structure' &&
+                    !empty($user->contextable_id)
+                ) {
                     return $query
                         ->where('structure_id', $user->contextable_id);
                 } else {
