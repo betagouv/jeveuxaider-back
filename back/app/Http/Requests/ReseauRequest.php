@@ -50,6 +50,8 @@ class ReseauRequest extends FormRequest
             'logo' => '',
             'image_1' => '',
             'image_2' => '',
+            'color' => '',
+            'is_published' => '',
         ];
     }
 

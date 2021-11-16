@@ -6,6 +6,15 @@
     label-position="top"
     :rules="rules"
   >
+    <el-form-item label="Statut" prop="is_published">
+      <el-switch
+        v-model="form.is_published"
+        active-text="Publié"
+        inactive-text="Hors-ligne"
+      >
+      </el-switch>
+    </el-form-item>
+
     <div class="flex justify-between mb-6 text-1-5xl font-bold">
       <div class="text-[#242526]">Informations</div>
     </div>
@@ -185,79 +194,66 @@
       @delete="handleDelete($event)"
     />
 
-    <!-- Visuel 1 -->
-    <div class="mb-8">
-      <div class="el-form-item__label">Visuel N° 1</div>
-      <template
-        v-if="$store.getters.contextRole != 'admin' && form['override_image_1']"
-      >
-        <ItemDescription container-class="mb-6">
-          Cette image a été surchargée par un administrateur et n'est pas
-          modifiable.
-        </ItemDescription>
+    <div class="grid grid-cols-2 gap-2 mb-8">
+      <!-- Visuel 1 -->
+      <div>
+        <div class="el-form-item__label">Visuel N° 1</div>
 
-        <img
-          :src="form.override_image_1.thumb"
-          class="opacity-50"
-          width="250px"
-        />
-      </template>
-
-      <div v-else class="relative inline-flex flex-col group">
-        <img
-          :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
-          :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
-          class="h-auto rounded-lg cursor-pointer shadow-xl"
-          width="250px"
-          @click="onEditImageClick(0)"
-        />
-        <div
-          class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
-          style="right: 12px; bottom: 12px"
-        >
-          <div
-            class="text-[#070191]"
-            v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
+        <div class="relative inline-flex flex-col group">
+          <img
+            :src="`/images/organisations/domaines/${selectedImages[0]}.jpg`"
+            :srcset="`/images/organisations/domaines/${selectedImages[0]}@2x.jpg 2x`"
+            class="w-full h-auto rounded-lg cursor-pointer shadow-xl transition"
+            :class="[
+              {
+                'opacity-25 pointer-events-none': overriddenImages.includes(
+                  'override_image_1'
+                ),
+              },
+            ]"
+            @click="onEditImageClick(0)"
           />
+          <div
+            v-if="!overriddenImages.includes('override_image_1')"
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+            style="right: 12px; bottom: 12px"
+          >
+            <div
+              class="text-[#070191]"
+              v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Visuel 2 -->
-    <div class="mb-8">
-      <div class="el-form-item__label">Visuel N° 2</div>
+      <!-- Visuel 2 -->
+      <div>
+        <div class="el-form-item__label">Visuel N° 2</div>
 
-      <template
-        v-if="$store.getters.contextRole != 'admin' && form['override_image_2']"
-      >
-        <ItemDescription container-class="mb-6">
-          Cette image a été surchargée par un administrateur et n'est pas
-          modifiable.
-        </ItemDescription>
-
-        <img
-          :src="form.override_image_2.thumb"
-          class="opacity-50"
-          width="250px"
-        />
-      </template>
-
-      <div v-else class="relative inline-flex group">
-        <img
-          :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
-          :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
-          class="h-auto rounded-lg cursor-pointer shadow-xl"
-          width="250px"
-          @click="onEditImageClick(1)"
-        />
-        <div
-          class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
-          style="right: 12px; bottom: 12px"
-        >
-          <div
-            class="text-[#070191]"
-            v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
+        <div class="relative inline-flex group">
+          <img
+            :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+            :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
+            class="w-full h-auto rounded-lg cursor-pointer shadow-xl transition"
+            :class="[
+              {
+                'opacity-25 pointer-events-none': overriddenImages.includes(
+                  'override_image_2'
+                ),
+              },
+            ]"
+            @click="onEditImageClick(1)"
           />
+          <div
+            v-if="!overriddenImages.includes('override_image_2')"
+            class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+            style="right: 12px; bottom: 12px"
+          >
+            <div
+              class="text-[#070191]"
+              v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -269,6 +265,58 @@
       @picked="onPickedImage"
       @close="showDialog = false"
     />
+
+    <div class="grid grid-cols-2 gap-2 mb-8">
+      <ImageField
+        model="reseaux"
+        :model-id="form.id ? form.id : null"
+        :max-size="2000000"
+        :min-width="1440"
+        :min-height="1080"
+        :aspect-ratio="1440 / 1080"
+        :field="form[`override_image_1`]"
+        :field-name="`override_image_1`"
+        label="Surcharger Visuel N° 1"
+        preview-width="100%"
+        preview-area-class="rounded-lg overflow-hidden"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
+
+      <ImageField
+        model="reseaux"
+        :model-id="form.id ? form.id : null"
+        :max-size="2000000"
+        :min-width="1440"
+        :min-height="1080"
+        :aspect-ratio="1440 / 1080"
+        :field="form[`override_image_2`]"
+        :field-name="`override_image_2`"
+        label="Surcharger Visuel N° 2"
+        preview-width="100%"
+        @add-or-crop="handleAddOrCrop($event)"
+        @delete="handleDelete($event)"
+      ></ImageField>
+    </div>
+
+    <el-form-item label="Couleur" prop="color">
+      <el-select v-model="form.color" placeholder="Couleur">
+        <el-option
+          v-for="item in colors"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+          <div class="flex items-center">
+            <span
+              class="w-6 h-6 rounded-full mr-4 my-auto"
+              :style="`float: left; background-color: ${item.value};`"
+            ></span>
+            <span>{{ item.label }}</span>
+          </div>
+        </el-option>
+      </el-select>
+    </el-form-item>
 
     <div class="flex pt-2 items-center">
       <el-button type="primary" :loading="loading" @click="onSubmit">
@@ -343,6 +391,17 @@ export default {
       },
       showDialog: false,
       imageIndex: 0,
+      colors: [
+        { label: 'Noir', value: '#111827' },
+        { label: 'Gris', value: '#4B5563' },
+        { label: 'Rouge', value: '#B91C1C' },
+        { label: 'Orange', value: '#D97706' },
+        { label: 'Vert', value: '#047857' },
+        { label: 'Bleu', value: '#1E40AF' },
+        { label: 'Indigo', value: '#3730A3' },
+        { label: 'Violet', value: '#5B21B6' },
+        { label: 'Rose', value: '#DB2777' },
+      ],
     }
   },
   async fetch() {
@@ -368,7 +427,6 @@ export default {
       },
     },
     firstImage() {
-      // return this.form.image_1 ?? '1_1'
       return (
         this.form.image_1 ??
         (this.form.domaines.length > 0
@@ -377,12 +435,30 @@ export default {
       )
     },
     secondImage() {
-      return this.form.image_2 ?? this.form.domaines.length > 0
-        ? this.form.domaines[0].id + '_2'
-        : '2_1'
+      return (
+        this.form.image_2 ??
+        (this.form.domaines.length > 0
+          ? this.form.domaines[0].id + '_2'
+          : '2_1')
+      )
     },
     selectedImages() {
       return [this.firstImage, this.secondImage]
+    },
+    overriddenImages() {
+      const fields = ['override_image_1', 'override_image_2']
+      const overridenImages = []
+
+      fields.forEach((fieldName) => {
+        if (
+          this.form[fieldName] ||
+          this.uploads.some((upload) => upload.fieldName == fieldName)
+        ) {
+          overridenImages.push(fieldName)
+        }
+      })
+
+      return overridenImages
     },
   },
   methods: {
@@ -441,6 +517,10 @@ export default {
         ),
         1
       )
+
+      if (['override_image_1', 'override_image_2'].includes($event.fieldName)) {
+        this.$delete(this.form, $event.fieldName)
+      }
     },
     uploadImages() {
       if (this.form.id) {
@@ -464,7 +544,6 @@ export default {
       this.showDialog = true
     },
     onPickedImage(imageName) {
-      // this.selectedImages[this.imageIndex] = imageName
       this.$set(this.form, `image_${this.imageIndex + 1}`, imageName)
     },
   },

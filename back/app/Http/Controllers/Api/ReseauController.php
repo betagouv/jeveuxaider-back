@@ -25,6 +25,7 @@ class ReseauController extends Controller
         return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates', 'missions']))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
+                AllowedFilter::exact('is_published'),
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -32,7 +33,7 @@ class ReseauController extends Controller
 
     public function show(Request $request, Reseau $reseau)
     {
-        $reseau = Reseau::withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->where('id', $reseau->id)->first()->append(["logo"]);
+        $reseau = Reseau::withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->where('id', $reseau->id)->first()->append(["domaines", "logo", "override_image_1", "override_image_2"]);
         return $reseau;
     }
 

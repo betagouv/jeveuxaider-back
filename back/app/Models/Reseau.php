@@ -15,33 +15,15 @@ class Reseau extends Model implements HasMedia
 
     protected $table = 'reseaux';
 
-    protected $fillable = [
-        'name',
-        'publics_beneficiaires',
-        'created_at',
-        'description',
-        'email',
-        'phone',
-        'address',
-        'latitude',
-        'longitude',
-        'zip',
-        'city',
-        'department',
-        'country',
-        'website',
-        'facebook',
-        'twitter',
-        'instagram',
-        'donation',
-        'image_1',
-        'image_2',
+    protected $guarded = [
+        'id',
     ];
 
-    protected $appends = ['domaines', 'full_address'];
+    protected $appends = ['full_address'];
 
     protected $casts = [
         'publics_beneficiaires' => 'array',
+        'is_published' => 'boolean',
     ];
 
 
@@ -129,6 +111,16 @@ class Reseau extends Model implements HasMedia
     public function getLogoAttribute()
     {
         return $this->getMediaUrls('logo');
+    }
+
+    public function getOverrideImage1Attribute()
+    {
+        return $this->getMediaUrls('override_image_1');
+    }
+
+    public function getOverrideImage2Attribute()
+    {
+        return $this->getMediaUrls('override_image_2');
     }
 
     protected function getMediaUrls($field)

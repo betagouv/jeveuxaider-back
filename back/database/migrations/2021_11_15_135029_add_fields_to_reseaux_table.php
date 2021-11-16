@@ -32,6 +32,8 @@ class AddFieldsToReseauxTable extends Migration
             $table->text('donation')->nullable();
             $table->text('image_1')->nullable();
             $table->text('image_2')->nullable();
+            $table->string('color')->nullable();
+            $table->boolean('is_published')->default(false);
         });
     }
 
@@ -61,6 +63,8 @@ class AddFieldsToReseauxTable extends Migration
             $table->dropColumn('donation');
             $table->dropColumn('image_1');
             $table->dropColumn('image_2');
+            $table->dropColumn('color');
+            $table->dropColumn('is_published');
         });
     }
 }
