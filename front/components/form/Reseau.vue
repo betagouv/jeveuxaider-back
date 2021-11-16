@@ -223,6 +223,45 @@
       </div>
     </div>
 
+    <!-- Visuel 2 -->
+    <div class="mb-8">
+      <div class="el-form-item__label">Visuel N° 2</div>
+
+      <template
+        v-if="$store.getters.contextRole != 'admin' && form['override_image_2']"
+      >
+        <ItemDescription container-class="mb-6">
+          Cette image a été surchargée par un administrateur et n'est pas
+          modifiable.
+        </ItemDescription>
+
+        <img
+          :src="form.override_image_2.thumb"
+          class="opacity-50"
+          width="250px"
+        />
+      </template>
+
+      <div v-else class="relative inline-flex group">
+        <img
+          :src="`/images/organisations/domaines/${selectedImages[1]}.jpg`"
+          :srcset="`/images/organisations/domaines/${selectedImages[1]}@2x.jpg 2x`"
+          class="h-auto rounded-lg cursor-pointer shadow-xl"
+          width="250px"
+          @click="onEditImageClick(1)"
+        />
+        <div
+          class="z-1 absolute flex justify-center items-center w-8 h-8 text-[#070191] bg-white rounded-full opacity-75 group-hover:opacity-100 pointer-events-none"
+          style="right: 12px; bottom: 12px"
+        >
+          <div
+            class="text-[#070191]"
+            v-html="require('@/assets/images/icones/heroicon/edit.svg?raw')"
+          />
+        </div>
+      </div>
+    </div>
+
     <DialogOrganisationImagesPicker
       :initial-image="selectedImages[imageIndex]"
       :domaines="form.domaines.length ? form.domaines : domaines"
@@ -311,6 +350,13 @@ export default {
       'filter[type]': 'domaine',
     })
     this.domaines = domaines.data
+
+    if (!this.form.image_1) {
+      this.form.image_1 = this.firstImage
+    }
+    if (!this.form.image_2) {
+      this.form.image_2 = this.secondImage
+    }
   },
   computed: {
     domainesSelected: {
@@ -321,12 +367,22 @@ export default {
         //
       },
     },
+    firstImage() {
+      // return this.form.image_1 ?? '1_1'
+      return (
+        this.form.image_1 ??
+        (this.form.domaines.length > 0
+          ? this.form.domaines[0].id + '_1'
+          : '1_1')
+      )
+    },
+    secondImage() {
+      return this.form.image_2 ?? this.form.domaines.length > 0
+        ? this.form.domaines[0].id + '_2'
+        : '2_1'
+    },
     selectedImages() {
-      return this.form.image_1
-        ? [this.form.image_1, this.form.image_2]
-        : this.form.domaines.length > 0
-        ? [this.form.domaines[0].id + '_1', this.form.domaines[0].id + '_2']
-        : ['1_1', '2_1']
+      return [this.firstImage, this.secondImage]
     },
   },
   methods: {
@@ -408,8 +464,8 @@ export default {
       this.showDialog = true
     },
     onPickedImage(imageName) {
-      this.selectedImages[this.imageIndex] = imageName
-      this.form[`image_${this.imageIndex + 1}`] = imageName
+      // this.selectedImages[this.imageIndex] = imageName
+      this.$set(this.form, `image_${this.imageIndex + 1}`, imageName)
     },
   },
 }

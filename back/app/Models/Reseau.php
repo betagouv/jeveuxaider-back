@@ -137,8 +137,8 @@ class Reseau extends Model implements HasMedia
         if ($media) {
             $mediaUrls = ['original' => $media->getFullUrl()];
             foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                // $mediaUrls[$key] = $media->getUrl($key);
-                $mediaUrls[$key] = $media->getSrcset($key);
+                $mediaUrls[$key] = $media->getUrl($key);
+                // $mediaUrls[$key] = $media->getSrcset($key);
             }
             return $mediaUrls;
         }
