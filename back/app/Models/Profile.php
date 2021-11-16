@@ -336,11 +336,6 @@ class Profile extends Model implements HasMedia
         return $this->referent_region ? true : false;
     }
 
-    // public function isSuperviseur()
-    // {
-    //     return $this->reseau ? true : false;
-    // }
-
     public function isTeteDeReseau()
     {
         return $this->teteDeReseau ? true : false;
