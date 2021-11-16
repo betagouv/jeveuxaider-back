@@ -41,9 +41,11 @@ class TerritoireController extends Controller
     public function show($slugOrId)
     {
         $territoire = (is_numeric($slugOrId))
-        ? Territoire::where('id', $slugOrId)->with(['responsables', 'promotedOrganisations'])->firstOrFail()
-        : Territoire::where('slug', $slugOrId)->with(['promotedOrganisations'])->firstOrFail();
-
+            ? Territoire::where('id', $slugOrId)->with(['responsables', 'promotedOrganisations', 'promotedOrganisations.media'])->firstOrFail()
+            : Territoire::where('slug', $slugOrId)->with(['promotedOrganisations', 'promotedOrganisations.media'])->firstOrFail();
+        foreach ($territoire->promotedOrganisations as $structure) {
+            $structure->setAppends(['logo']);
+        }
         return $territoire->setAppends(['full_url', 'banner', 'logo', 'permissions']);
     }
 
@@ -184,7 +186,7 @@ class TerritoireController extends Controller
 
     public function export(Request $request)
     {
-        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
         $fileName = 'territoires-' . Str::random(8) . '.csv';
         $filePath = $folder . $fileName;
 
@@ -194,6 +196,6 @@ class TerritoireController extends Controller
                 new NotifyUserOfCompletedExport($request->user(), $filePath),
             ]);
 
-        return response()->json(['message'=> 'Export en cours...'], 200);
+        return response()->json(['message' => 'Export en cours...'], 200);
     }
 }
