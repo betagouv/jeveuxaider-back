@@ -206,8 +206,7 @@ class MissionController extends Controller
         if ($mission->latitude && $mission->longitude) {
             $query->aroundLatLng($mission->latitude, $mission->longitude);
         }
-
-        return $query->get()->load('structure');
+        return $query->paginate(10)->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
 
     public function testimoniesStats(Request $request, Mission $mission)
