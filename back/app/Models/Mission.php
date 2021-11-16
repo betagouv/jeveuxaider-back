@@ -164,7 +164,6 @@ class Mission extends Model
 
     public function getDomainesAttribute()
     {
-
         $domains =  collect([
             $this->template ? $this->template->domaine : $this->domaine,
             $this->domaine_secondaire
@@ -230,6 +229,7 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
+        return $value; // @TODO LAZY
         return $this->template_id ? $this->template->title : $value;
     }
 
@@ -240,11 +240,13 @@ class Mission extends Model
 
     public function getDescriptionAttribute($value)
     {
+        return $value; // @TODO LAZY
         return $this->template_id ? $this->template->description : $value;
     }
 
     public function getObjectifAttribute($value)
     {
+        return $value; // @TODO LAZY
         return $this->template_id ? $this->template->objectif : $value;
     }
 
