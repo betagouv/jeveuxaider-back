@@ -31,10 +31,13 @@ class ReseauController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request, Reseau $reseau)
+    public function show($slugOrId)
     {
-        $reseau = Reseau::withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->where('id', $reseau->id)->first()->append(["domaines", "logo", "override_image_1", "override_image_2"]);
-        return $reseau;
+        $reseau = (is_numeric($slugOrId))
+        ? Reseau::where('id', $slugOrId)->withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->firstOrFail()
+        : Reseau::where('slug', $slugOrId)->withCount('participations')->firstOrFail()->append(['domaines_with_image']);
+
+        return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
     }
 
     public function store(ReseauRequest $request)

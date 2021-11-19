@@ -8,10 +8,12 @@ use Spatie\Tags\HasTags;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Reseau extends Model implements HasMedia
 {
-    use HasRelationships, HasTags, InteractsWithMedia;
+    use HasRelationships, HasTags, InteractsWithMedia, HasSlug;
 
     protected $table = 'reseaux';
 
@@ -19,7 +21,7 @@ class Reseau extends Model implements HasMedia
         'id',
     ];
 
-    protected $appends = ['full_address'];
+    protected $appends = ['full_address', 'full_url'];
 
     protected $casts = [
         'publics_beneficiaires' => 'array',
@@ -67,7 +69,6 @@ class Reseau extends Model implements HasMedia
 
     public function createStructure(string $name, User $user, array $attributes = [])
     {
-
         $attributes = array_merge([
             'name' => $name,
             'user_id' => $user->id,
@@ -103,6 +104,11 @@ class Reseau extends Model implements HasMedia
         return $this->tagsWithType('domaine')->values();
     }
 
+    public function getDomainesWithImageAttribute()
+    {
+        return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
+    }
+
     public function getFullAddressAttribute()
     {
         return "{$this->address}, {$this->zip} {$this->city}";
@@ -123,14 +129,22 @@ class Reseau extends Model implements HasMedia
         return $this->getMediaUrls('override_image_2');
     }
 
+    public function participations()
+    {
+        return $this->hasManyDeep(
+            'App\Models\Participation',
+            ['App\Models\Structure', 'App\Models\Mission']
+        );
+    }
+
     protected function getMediaUrls($field)
     {
         $media = $this->getFirstMedia('reseaux', ['field' => $field]);
         if ($media) {
             $mediaUrls = ['original' => $media->getFullUrl()];
             foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                $mediaUrls[$key] = $media->getUrl($key);
-                // $mediaUrls[$key] = $media->getSrcset($key);
+                // $mediaUrls[$key] = $media->getUrl($key);
+                $mediaUrls[$key] = $media->getSrcset($key);
             }
             return $mediaUrls;
         }
@@ -156,5 +170,17 @@ class Reseau extends Model implements HasMedia
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('reseaux');
+    }
+
+    public function getFullUrlAttribute()
+    {
+        return "/reseaux/$this->slug";
+    }
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['id', 'name'])
+            ->saveSlugsTo('slug');
     }
 }

@@ -34,6 +34,7 @@ class AddFieldsToReseauxTable extends Migration
             $table->text('image_2')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_published')->default(false);
+            $table->string('slug')->nullable();
         });
     }
 
@@ -65,6 +66,7 @@ class AddFieldsToReseauxTable extends Migration
             $table->dropColumn('image_2');
             $table->dropColumn('color');
             $table->dropColumn('is_published');
+            $table->dropColumn('slug');
         });
     }
 }

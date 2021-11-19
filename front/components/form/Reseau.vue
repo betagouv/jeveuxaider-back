@@ -388,6 +388,65 @@ export default {
             trigger: 'blur',
           },
         ],
+        department: {
+          required: true,
+          message: 'Le champ département est requis',
+          trigger: 'blur',
+        },
+        address: [
+          {
+            required: true,
+            message: 'Veuillez renseigner une adresse',
+            trigger: 'blur',
+          },
+        ],
+        city: [
+          {
+            required: true,
+            message: 'Veuillez renseigner un ville',
+            trigger: 'blur',
+          },
+        ],
+        website: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://www.votresite.fr",
+            trigger: 'blur',
+          },
+        ],
+        facebook: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://facebook.com/votrepage",
+            trigger: 'blur',
+          },
+        ],
+        twitter: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://twitter.com/votrepage",
+            trigger: 'blur',
+          },
+        ],
+        instagram: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://instagram.com/votrepage",
+            trigger: 'blur',
+          },
+        ],
+        donation: [
+          {
+            pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)*$/,
+            message:
+              "Le lien n'est pas correct. Il doit être au format https://votrepagededonation.fr",
+            trigger: 'blur',
+          },
+        ],
       },
       showDialog: false,
       imageIndex: 0,
@@ -473,7 +532,7 @@ export default {
             .addOrUpdateReseau(this.form)
             .then(() => {
               this.loading = false
-              this.$router.push('/dashboard/reseaux')
+              this.$router.pushPrevious('/dashboard/reseaux')
               this.$message({
                 message: 'Le réseau a été enregistré !',
                 type: 'success',

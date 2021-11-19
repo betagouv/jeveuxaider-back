@@ -85,8 +85,8 @@ export default (axios) => ({
   async reseauLead(form) {
     return await axios.post('/reseaux/lead', form)
   },
-  async getReseau(id) {
-    const { data } = await axios.get(`/reseaux/${id}`)
+  async getReseau(slugOrId) {
+    const { data } = await axios.get(`/reseaux/${slugOrId}`)
     return data
   },
   async getStructureReseaux(id) {

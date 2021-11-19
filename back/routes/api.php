@@ -58,7 +58,7 @@ Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
-Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
+Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
 Route::get('reseaux/test', 'Api\ReseauController@test');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
