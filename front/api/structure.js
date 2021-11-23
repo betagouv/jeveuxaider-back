@@ -115,4 +115,8 @@ export default (axios) => ({
   async deleteReseau(id) {
     return await axios.delete(`/reseaux/${id}`)
   },
+
+  async getStructuresFromReseau(id) {
+    return await axios.get(`/reseaux/${id}/structures`)
+  },
 })

@@ -35,7 +35,22 @@ class ReseauController extends Controller
     {
         $reseau = (is_numeric($slugOrId))
         ? Reseau::where('id', $slugOrId)->withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->firstOrFail()
-        : Reseau::where('slug', $slugOrId)->withCount('participations')->firstOrFail()->append(['domaines_with_image']);
+        : Reseau::where('slug', $slugOrId)
+            ->withCount(['structures' => function ($query) {
+                $query->where('state', 'Validée');
+            }])
+            ->with([
+                'structures' => function ($query) {
+                    $query->where('state', 'Validée')
+                        ->withCount(['missions' => function ($query) {
+                            $query->where('state', 'Validée');
+                        }])
+                        ->orderBy('missions_count', 'DESC')
+                        ->limit(5);
+                }
+            ])
+            ->firstOrFail()
+            ->append(['domaines_with_image', 'participations_max']);
 
         return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
     }
@@ -164,5 +179,15 @@ class ReseauController extends Controller
         if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
             $media->delete();
         }
+    }
+
+    public function structures(Request $request, Reseau $reseau)
+    {
+        // @todo: corriger orderBy
+        return $reseau->structures()
+        ->where('state', 'Validée')
+        ->where('statut_juridique', 'Association')
+        ->orderBy('structures.name')
+        ->get();
     }
 }

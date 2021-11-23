@@ -40,8 +40,8 @@
           </div>
         </header>
 
-        <div class="px-4 max-w-3xl ml-auto">
-          <div class="pb-4 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
+        <div class="max-w-3xl ml-auto">
+          <div class="px-4 pb-8 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
             <Breadcrumb class="breadcrumb" :items="[{ label: reseau.name }]" />
 
             <img
@@ -91,7 +91,7 @@
         <footer
           class="grid grid-cols-3 divide-x divide-gray-200 text-center border-t"
         >
-          <button v-scroll-to="'#missions'" class="footer--button">
+          <button v-scroll-to="'#antennes'" class="footer--button">
             Devenir bénévole
           </button>
 
@@ -151,7 +151,14 @@
               <div
                 class="text-2xl sm:text-4xl font-extrabold text-white mb-8 tracking-tight"
               >
-                XXX bénévoles recherchés partout en France
+                {{ reseau.participations_max | formatNumber }}
+                {{
+                  reseau.participations_max
+                    | pluralize([
+                      'bénévole recherché partout en France',
+                      'bénévoles recherchés partout en France',
+                    ])
+                }}
               </div>
 
               <div class="flex items-center mb-4">
@@ -293,14 +300,288 @@
     </div>
 
     <!-- ANTENNES -->
-    <div id="antennes" class="pt-16 pb-32">
+    <section id="antennes" class="pt-16 pb-8">
       <div class="container px-4 mx-auto">
         <h2
-          class="text-center mb-12 text-3xl sm:text-5xl tracking-tight text-gray-900 tracking-tighter max-w-3xl mx-auto"
+          class="text-center mb-12 text-3xl sm:text-5xl text-gray-900 tracking-tighter max-w-3xl mx-auto"
         >
           <span>Les antennes de</span>
           <span class="font-extrabold">{{ reseau.name }}</span>
         </h2>
+
+        <div
+          class="mt-12 max-w-5xl mx-auto flex flex-wrap gap-4 items-center justify-center"
+        >
+          <a
+            v-for="antenne in reseau.structures"
+            :key="antenne.name"
+            class="text-[#696974] leading-none truncate px-[18px] h-[40px] flex items-center rounded-full text-[13px] shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-105"
+            :href="`#${antenne.id}`"
+          >
+            {{ antenne.city }}
+          </a>
+
+          <nuxt-link
+            v-if="reseau.structures_count - 5 > 0"
+            :to="`/missions-benevolat?refinementList[structure.reseau.name][0]=${reseau.name}`"
+            class="text-[#696974] leading-none truncate px-[18px] h-[40px] flex items-center rounded-full text-[13px] shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-105"
+          >
+            + {{ reseau.structures_count - 5 }} antennes
+          </nuxt-link>
+        </div>
+      </div>
+    </section>
+
+    <template v-if="missions.length">
+      <section
+        v-for="(antenne, index) in reseau.structures"
+        :id="antenne.id"
+        :key="antenne.id"
+        class="py-16"
+        :class="[{ 'bg-white': Math.abs(index % 2) == 1 }]"
+      >
+        <div class="container px-4 mx-auto">
+          <div class="max-w-5xl mx-auto">
+            <span class="font-bold uppercase text-[#696974] ml-[2px]">
+              Antenne
+            </span>
+            <div class="flex items-baseline justify-stretch mb-12">
+              <h3
+                class="text-3xl sm:text-4xl !leading-normal text-gray-900 tracking-tighter font-extrabold relative mr-4 truncate"
+              >
+                {{ reseau.name }} de {{ antenne.city }}
+              </h3>
+
+              <nuxt-link
+                :to="`/missions-benevolat?refinementList[structure.name][0]=${antenne.name}`"
+                class="flex-none text-[#696974] text-lg hover:underline"
+              >
+                {{ missionsFrom(antenne.id).missionCount | formatNumber }}
+                {{
+                  missionsFrom(antenne.id).missionCount
+                    | pluralize(['mission ›', 'missions ›'])
+                }}
+              </nuxt-link>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xl:gap-8">
+              <nuxt-link
+                v-for="mission in missionsFrom(antenne.id).missions"
+                :key="mission.id"
+                class="card--mission--wrapper"
+                :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
+              >
+                <CardMission :mission="mission" />
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <template v-if="reseau.structures_count - 5 > 0">
+      <hr class="mt-4" />
+
+      <section class="container mx-auto px-4 py-16">
+        <div class="max-w-5xl mx-auto">
+          <h4 class="tracking-tight text-2xl mb-8">
+            Les {{ reseau.structures_count - 5 }} autres antennes de
+            <span class="font-extrabold">{{ reseau.name }}</span> en France
+          </h4>
+
+          <ul class="columns-layout list-disc pl-6">
+            <li
+              v-for="antenne in autresAntennes"
+              :key="antenne.id"
+              class="text-[#6A6A6A] text-sm"
+            >
+              <nuxt-link :to="antenne.full_url" class="hover:underline">
+                {{ antenne.name }}
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </template>
+
+    <!-- FAIRE UN DON -->
+    <div v-if="reseau.donation" id="faire-un-don" class="gradient mt-20">
+      <div class="container px-4 mx-auto relative">
+        <div
+          class="max-w-[960px] mx-auto rounded-[24px] transform -translate-y-16 mb-6"
+        >
+          <div class="relative rounded-[24px] overflow-hidden shadow-lg">
+            <img
+              src="/images/bg_don.png"
+              srcset="/images/bg_don@2x.png 2x"
+              class="bg-img absolute object-cover w-full h-full"
+            />
+
+            <div
+              class="absolute inset-0 w-full h-full opacity-90"
+              :style="`background: ${color}`"
+            ></div>
+
+            <div class="relative text-white p-8 py-16 text-center">
+              <h2
+                class="font-bold text-center mb-6 text-3xl leading-8 tracking-tight sm:text-5xl sm:leading-tight"
+              >
+                <span>Faites un don à l'organisation</span>
+                <br class="hidden xl:block" />
+                <span class="font-extrabold">{{ reseau.name }}</span>
+              </h2>
+
+              <p class="text-xl max-w-xl mx-auto">
+                Plus que jamais, l'organisation {{ reseau.name }} a besoin de
+                votre générosité
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div
+              class="text-center transform -translate-y-1/2"
+              :class="[
+                {
+                  'absolute inset-x-0':
+                    !reseau.donation.includes('helloasso') &&
+                    !reseau.donation.includes('leetchi') &&
+                    !reseau.donation.includes('microdon') &&
+                    !reseau.donation.includes('ulule'),
+                },
+              ]"
+            >
+              <button
+                class="mx-auto flex items-center justify-center font-extrabold cursor-pointer shadow-lg text-xl leading-6 rounded-full text-white bg-jva-green py-4 px-10 hover:shadow-lg hover:scale-105 focus:scale-105 !outline-none transform transition will-change-transform"
+                @click="goTo(reseau.donation)"
+              >
+                Faire un don
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              v-if="
+                reseau.donation.includes('helloasso') ||
+                reseau.donation.includes('leetchi') ||
+                reseau.donation.includes('microdon') ||
+                reseau.donation.includes('ulule')
+              "
+              class="-mt-7 pt-6"
+            >
+              <div class="flex items-center justify-center">
+                <span
+                  class="uppercase text-gray-500 mr-2"
+                  style="font-size: 10px"
+                  >Par</span
+                >
+
+                <img
+                  v-if="reseau.donation.includes('helloasso')"
+                  src="/images/helloasso.svg"
+                  alt="Helloasso"
+                  class="flex-none"
+                  width="92px"
+                />
+
+                <img
+                  v-if="reseau.donation.includes('leetchi')"
+                  src="/images/leetchi.png"
+                  srcset="/images/leetchi@2x.png 2x"
+                  alt="Leetchi"
+                  class="flex-none"
+                />
+
+                <img
+                  v-if="reseau.donation.includes('ulule')"
+                  src="/images/ulule.svg"
+                  alt="Ulule"
+                  class="flex-none"
+                  width="92px"
+                />
+
+                <img
+                  v-if="reseau.donation.includes('microdon')"
+                  src="/images/microdon.png"
+                  srcset="/images/microdon@2x.png 2x"
+                  alt="Microdon"
+                  class="flex-none"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3 -->
+    <div
+      id="infos"
+      class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2"
+    >
+      <!-- 3 -- LEFT -->
+      <div class="col-span-2 lg:col-span-1">
+        <div class="px-4 max-w-3xl ml-auto">
+          <div class="pt-4 pb-8 md:p-8 xl:p-16">
+            <h2
+              class="mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
+            >
+              <span>Contactez l'organisation</span>
+              <br class="hidden xl:block" />
+              <span class="font-extrabold">{{ reseau.name }}</span>
+            </h2>
+
+            <div class="mb-8">
+              <div
+                class="text-gray-400 font-bold uppercase tracking-wider text-sm"
+              >
+                Adresse
+              </div>
+              <p>{{ reseau.full_address }}</p>
+            </div>
+
+            <div>
+              <div
+                class="text-gray-400 font-bold uppercase tracking-wider text-sm"
+              >
+                Contact
+              </div>
+              <p>
+                <span v-if="reseau.phone">{{ reseau.phone }}<br /></span>
+                <span v-if="reseau.email">{{ reseau.email }}</span>
+                <span v-if="!reseau.email && !reseau.phone">
+                  Non renseigné
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -- RIGHT -->
+      <div>
+        <iframe
+          width="100%"
+          height="100%"
+          style="border: 0; min-height: 320px"
+          loading="lazy"
+          allowfullscreen
+          :src="`https://www.google.com/maps/embed/v1/place?key=${$config.google.places}
+            &q=${reseau.full_address}`"
+        />
       </div>
     </div>
   </div>
@@ -311,7 +592,7 @@
 
 export default {
   layout: 'organisation',
-  async asyncData({ $api, params, error }) {
+  async asyncData({ $api, params, error, $algoliaApi }) {
     const reseau = await $api.getReseau(params.slug)
     if (!reseau || !reseau.is_published) {
       return error({ statusCode: 404 })
@@ -324,7 +605,32 @@ export default {
   data() {
     return {
       expandDescription: false,
+      missions: [],
+      structures: [],
     }
+  },
+  async fetch() {
+    const missions = []
+    await Promise.all(
+      this.reseau.structures.map(async (antenne) => {
+        const config = {
+          filters: `structure.id = ${antenne.id}`,
+          hitsPerPage: 3,
+        }
+        const missionsData = await this.$algoliaApi.getMissions(config)
+        missions.push({
+          antenneId: antenne.id,
+          missions: missionsData.json.hits,
+          missionCount: missionsData.json.nbHits,
+        })
+      })
+    )
+    this.$set(this, 'missions', missions)
+
+    const { data: structures } = await this.$api.getStructuresFromReseau(
+      this.reseau.id
+    )
+    this.$set(this, 'structures', structures)
   },
   head() {
     return {
@@ -369,6 +675,14 @@ export default {
     color() {
       return this.reseau.color ?? '#B91C1C'
     },
+    autresAntennes() {
+      return this.structures.filter(
+        (antenne) =>
+          !this.reseau.structures.find(
+            (highlightedAntennas) => highlightedAntennas.id == antenne.id
+          )
+      )
+    },
   },
   methods: {
     iconPublicType(publicType) {
@@ -399,6 +713,11 @@ export default {
     goTo(url) {
       window.open(url, '_blank')
     },
+    missionsFrom(antenneId) {
+      return this.missions.find((antenne) => {
+        return antenne.antenneId == antenneId
+      })
+    },
   },
 }
 </script>
@@ -425,5 +744,24 @@ export default {
   @screen sm {
     @apply text-sm;
   }
+}
+
+.columns-layout {
+  @screen sm {
+    column-count: 2;
+    column-gap: 2rem;
+  }
+  @screen lg {
+    column-count: 3;
+  }
+  @apply space-y-6;
+}
+
+.gradient {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 43.75%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 </style>

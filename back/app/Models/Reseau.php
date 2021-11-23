@@ -13,7 +13,10 @@ use Spatie\Sluggable\SlugOptions;
 
 class Reseau extends Model implements HasMedia
 {
-    use HasRelationships, HasTags, InteractsWithMedia, HasSlug;
+    use HasRelationships;
+    use HasTags;
+    use InteractsWithMedia;
+    use HasSlug;
 
     protected $table = 'reseaux';
 
@@ -42,6 +45,11 @@ class Reseau extends Model implements HasMedia
     public function missions()
     {
         return $this->hasManyDeep('App\Models\Mission', ['reseau_structure', 'App\Models\Structure']);
+    }
+
+    public function getParticipationsMaxAttribute()
+    {
+        return $this->missions()->sum('participations_max');
     }
 
     public function missionTemplates()
@@ -127,14 +135,6 @@ class Reseau extends Model implements HasMedia
     public function getOverrideImage2Attribute()
     {
         return $this->getMediaUrls('override_image_2');
-    }
-
-    public function participations()
-    {
-        return $this->hasManyDeep(
-            'App\Models\Participation',
-            ['App\Models\Structure', 'App\Models\Mission']
-        );
     }
 
     protected function getMediaUrls($field)
