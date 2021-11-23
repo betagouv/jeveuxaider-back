@@ -183,11 +183,10 @@ class ReseauController extends Controller
 
     public function structures(Request $request, Reseau $reseau)
     {
-        // @todo: corriger orderBy
         return $reseau->structures()
-        ->where('state', 'Validée')
-        ->where('statut_juridique', 'Association')
-        ->orderBy('structures.name')
-        ->get();
+            ->where('state', 'Validée')
+            ->where('statut_juridique', 'Association')
+            ->orderByRaw('UPPER(structures.name)') // Bypass case insensitive collation (PostgreSQL)
+            ->get();
     }
 }
