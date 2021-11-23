@@ -140,7 +140,10 @@
               :key="antenne.id"
               class="text-[#6A6A6A] text-sm"
             >
-              <nuxt-link :to="antenne.full_url" class="hover:underline">
+              <nuxt-link
+                :to="antenne.full_url"
+                class="hover:underline truncate block"
+              >
                 {{ antenne.city }}
               </nuxt-link>
             </li>
@@ -394,12 +397,15 @@ export default {
 }
 
 .columns-layout {
-  @screen sm {
+  @media screen and (min-width: 425px) {
     column-count: 2;
     column-gap: 2rem;
   }
-  @screen lg {
+  @screen sm {
     column-count: 3;
+  }
+  @screen lg {
+    column-count: 4;
   }
   @apply space-y-6;
 }
