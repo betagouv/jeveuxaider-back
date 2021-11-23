@@ -205,3 +205,11 @@ export default {
   },
 }
 </script>
+
+<style lang="postcss" scoped>
+.public-wrapper {
+  ::v-deep svg {
+    @apply w-full h-full;
+  }
+}
+</style>

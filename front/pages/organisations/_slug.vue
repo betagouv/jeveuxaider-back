@@ -59,7 +59,7 @@
     <div v-if="missions.data.length" id="missions" class="pt-16 pb-32">
       <div class="container px-4 mx-auto">
         <h2
-          class="text-center mb-12 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-5xl sm:leading-tight"
+          class="text-center mb-12 text-3xl sm:text-5xl sm:!leading-[1.1] tracking-tighter text-gray-900"
         >
           <span>Trouvez une mission dans {{ legalStatus }}</span>
           <br class="hidden xl:block" />
@@ -219,64 +219,15 @@
       </div>
     </div>
 
-    <!-- ROW 3 -->
-    <div
-      id="infos"
-      class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2"
-    >
-      <!-- 3 -- LEFT -->
-      <div class="col-span-2 lg:col-span-1 md:border-b">
-        <div class="px-4 max-w-3xl ml-auto">
-          <div class="pt-4 pb-8 md:p-8 lg:pt-6 xl:p-16 xl:pt-8">
-            <h2
-              class="mt-2 mb-6 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-            >
-              <span v-if="legalStatus">Contactez {{ legalStatus }}</span>
-              <br class="hidden xl:block" />
-              <span class="font-extrabold">{{ organisation.name }}</span>
-            </h2>
-
-            <div class="mb-8">
-              <div class="text-gray-500 font-bold uppercase">Adresse</div>
-              <p>{{ organisation.full_address }}</p>
-            </div>
-
-            <div>
-              <div class="text-gray-500 font-bold uppercase">Contact</div>
-              <p>
-                <span v-if="organisation.phone">
-                  Téléphone&nbsp;: {{ organisation.phone }}<br />
-                </span>
-                <span v-if="organisation.email"
-                  >E-mail&nbsp;: {{ organisation.email }}</span
-                >
-                <span v-if="!organisation.email && !organisation.phone"
-                  >Non renseigné</span
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3 -- RIGHT -->
-      <div>
-        <iframe
-          width="100%"
-          height="100%"
-          style="border: 0; min-height: 320px"
-          loading="lazy"
-          allowfullscreen
-          :src="`https://www.google.com/maps/embed/v1/place?key=${$config.google.places}
-            &q=${organisation.full_address}`"
-        />
-      </div>
-    </div>
+    <SectionOrganisationContact :organisation="organisation" />
   </div>
 </template>
 
 <script>
+import OrganisationMixin from '@/mixins/OrganisationMixin'
+
 export default {
+  mixins: [OrganisationMixin],
   layout: 'organisation',
   async asyncData({ $api, params, error, redirect }) {
     const organisation = await $api.getAssociationBySlugOrId(params.slug)
@@ -289,7 +240,10 @@ export default {
       return error({ statusCode: 404 })
     }
 
-    const missions = await $api.fetchStructureAvailableMissionsWithPagination(
+    // @todo: api algolia
+    const {
+      data: missions,
+    } = await $api.fetchStructureAvailableMissionsWithPagination(
       organisation.id,
       {
         append: 'domaines',
@@ -300,7 +254,7 @@ export default {
 
     return {
       organisation,
-      missions: missions.data,
+      missions,
     }
   },
   head() {
@@ -336,33 +290,6 @@ export default {
     }
   },
   computed: {
-    legalStatus() {
-      // @todo: delete
-      let output
-      switch (this.organisation.statut_juridique) {
-        case 'Association':
-          output = "l'association"
-          break
-        case 'Collectivité':
-          output = 'la collectivité'
-          break
-        case 'Structure publique':
-          output = "l'organisation publique"
-          break
-        case 'Structure privée':
-          output = "l'organisation privée"
-          break
-        default:
-          output = "l'organisation"
-          break
-      }
-
-      return output
-    },
-    color() {
-      // @todo: delete
-      return this.organisation.color ? this.organisation.color : '#B91C1C'
-    },
     image1() {
       return (
         this.organisation?.override_image_1?.xxl ??
@@ -399,12 +326,6 @@ export default {
 <style lang="postcss" scoped>
 * {
   @apply border-gray-200;
-}
-
-.public-wrapper {
-  ::v-deep svg {
-    @apply w-full h-full;
-  }
 }
 
 .card--mission--wrapper {

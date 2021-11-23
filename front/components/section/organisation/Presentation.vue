@@ -38,7 +38,7 @@
           />
 
           <h1
-            class="mt-2 text-3xl sm:text-5xl font-bold tracking-tighter text-gray-900"
+            class="mt-2 text-3xl sm:text-5xl sm:!leading-[1.1] tracking-tighter text-gray-900"
           >
             <div>Découvrez {{ legalStatus }}</div>
             <span class="font-extrabold">{{ organisation.name }}</span>
@@ -65,8 +65,8 @@
                   class="uppercase text-black text-sm font-semibold cursor-pointer"
                   @click="expandDescription = true"
                 >
-                  Lire plus</span
-                >
+                  Lire plus
+                </span>
               </template>
             </v-clamp>
           </client-only>
