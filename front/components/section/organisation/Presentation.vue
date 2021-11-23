@@ -1,6 +1,6 @@
 <template>
   <div class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2">
-    <!-- 1 -- LEFT -->
+    <!-- LEFT -->
     <div class="col-span-2 lg:col-span-1">
       <header class="border-b flex justify-between items-stretch">
         <div class="p-4 border-r flex items-center">
@@ -76,7 +76,7 @@
       <slot name="anchors" />
     </div>
 
-    <!-- 1 -- RIGHT -->
+    <!-- RIGHT -->
     <div>
       <img
         :srcset="srcSet"

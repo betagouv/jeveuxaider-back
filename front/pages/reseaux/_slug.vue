@@ -89,16 +89,17 @@
             <span class="font-bold uppercase text-[#696974] ml-[2px]">
               Antenne
             </span>
-            <div class="lg:flex items-baseline justify-stretch mb-12">
+            <div class="lg:flex items-baseline mb-12">
               <h3
-                class="text-3xl lg:text-4xl !lg:leading-normal text-gray-900 tracking-tighter font-extrabold relative lg:mr-4 lg:truncate"
+                class="text-3xl lg:text-4xl lg:!leading-normal text-gray-900 tracking-tighter font-extrabold relative lg:pr-4 lg:truncate"
               >
-                {{ reseau.name }} de {{ antenne.city }}
+                <!-- {{ reseau.name }} de  -->
+                {{ antenne.city }}
               </h3>
 
               <nuxt-link
                 :to="`/missions-benevolat?refinementList[structure.name][0]=${antenne.name}`"
-                class="flex-none text-[#696974] text-lg hover:underline"
+                class="flex-none text-[#696974] text-lg hover:underline ml-auto"
               >
                 {{ missionsFrom(antenne.id).missionCount | formatNumber }}
                 {{
@@ -140,7 +141,7 @@
               class="text-[#6A6A6A] text-sm"
             >
               <nuxt-link :to="antenne.full_url" class="hover:underline">
-                {{ antenne.name }}
+                {{ antenne.city }}
               </nuxt-link>
             </li>
           </ul>
@@ -276,8 +277,6 @@
 </template>
 
 <script>
-// TODO REFACTORING AVEC ORGANISATIONS
-
 export default {
   layout: 'organisation',
   async asyncData({ $api, params, error, $algoliaApi }) {

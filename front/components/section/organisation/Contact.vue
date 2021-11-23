@@ -3,7 +3,7 @@
     id="infos"
     class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2"
   >
-    <!-- 3 -- LEFT -->
+    <!-- LEFT -->
     <div class="col-span-2 lg:col-span-1">
       <div class="max-w-3xl ml-auto">
         <div class="p-4 py-8 md:p-8 xl:p-16">
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <!-- 3 -- RIGHT -->
+    <!-- RIGHT -->
     <div>
       <iframe
         width="100%"
