@@ -186,7 +186,7 @@ class ReseauController extends Controller
         return $reseau->structures()
             ->where('state', 'Validée')
             ->where('statut_juridique', 'Association')
-            ->orderByRaw('UPPER(structures.name)') // Bypass case insensitive collation (PostgreSQL)
+            ->orderByRaw('UPPER(structures.city)') // Bypass case insensitive collation (PostgreSQL)
             ->get();
     }
 }
