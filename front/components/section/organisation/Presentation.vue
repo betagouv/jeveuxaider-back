@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-white md:grid md:grid-cols-3 lg:grid-cols-2">
+  <div class="relative bg-white lg:grid lg:grid-cols-2">
     <!-- LEFT -->
     <div class="col-span-2 lg:col-span-1">
       <header class="border-b flex justify-between items-stretch">
@@ -80,7 +80,7 @@
     <div>
       <img
         :srcset="srcSet"
-        class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
+        class="lg:absolute object-cover w-full lg:w-1/2 h-full max-h-[400px] lg:max-h-full"
       />
     </div>
   </div>

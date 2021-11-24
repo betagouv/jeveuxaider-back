@@ -1,18 +1,16 @@
 <template>
-  <div
-    class="flex flex-col md:grid md:grid-cols-3 lg:grid-cols-2 relative bg-white"
-  >
+  <div class="flex flex-col lg:grid lg:grid-cols-2 relative bg-white">
     <!-- LEFT -->
-    <div class="order-2 md:order-1">
+    <div class="order-2 lg:order-1">
       <img
         :srcset="srcSet"
-        class="md:absolute object-cover w-full md:w-1/3 lg:w-1/2 h-full"
+        class="lg:absolute object-cover w-full lg:w-1/2 h-full max-h-[400px] lg:max-h-full"
       />
     </div>
 
     <!-- RIGHT -->
     <div
-      class="order-1 md:order-2 col-span-2 lg:col-span-1"
+      class="order-1 lg:order-2 col-span-2 lg:col-span-1"
       :style="`background-color: ${color}`"
     >
       <div class="max-w-3xl mr-auto">
@@ -32,7 +30,7 @@
               Non renseigné
             </div>
 
-            <div v-else class="grid lg:grid-cols-2 gap-3 xl:gap-x-6">
+            <div v-else class="grid md:grid-cols-2 gap-3 xl:gap-x-6">
               <div
                 v-for="domaine in organisation.domaines_with_image"
                 :key="domaine.id"

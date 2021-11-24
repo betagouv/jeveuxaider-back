@@ -44,6 +44,7 @@
 
     <SectionOrganisationDetails :organisation="organisation" :src-set="image2">
       <div
+        v-if="organisation.places_left > 0"
         slot="nbBenevoles"
         class="text-2xl sm:text-4xl font-extrabold text-white mb-8 tracking-tight"
       >

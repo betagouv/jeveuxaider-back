@@ -29,6 +29,7 @@
 
     <SectionOrganisationDetails :organisation="reseau" :src-set="image2">
       <div
+        v-if="reseau.participations_max > 0"
         slot="nbBenevoles"
         class="text-2xl sm:text-4xl font-extrabold text-white mb-8 tracking-tight"
       >
@@ -116,7 +117,7 @@
                 class="card--mission--wrapper"
                 :to="`/missions-benevolat/${mission.id}/${mission.slug}`"
               >
-                <CardMission :mission="mission" />
+                <CardMission :mission="mission" class="!h-full" />
               </nuxt-link>
             </div>
           </div>
