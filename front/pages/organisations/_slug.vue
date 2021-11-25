@@ -241,7 +241,7 @@ export default {
       return error({ statusCode: 404 })
     }
 
-    // @todo: api algolia
+    // @todo: Utiliser plutôt $algoliaApi.getMissions
     const {
       data: missions,
     } = await $api.fetchStructureAvailableMissionsWithPagination(

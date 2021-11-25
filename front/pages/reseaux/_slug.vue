@@ -363,7 +363,6 @@ export default {
       )
     },
     color() {
-      // @todo: delete
       return this.reseau.color ?? '#B91C1C'
     },
     autresAntennes() {
