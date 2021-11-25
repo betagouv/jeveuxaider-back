@@ -34,8 +34,10 @@ class ParticipationObserver
         // Update Places left & Algolia
         $participation->mission->update();
 
-        if ($participation->mission->participations_max > 10 &&
-            $participation->mission->places_left === 1) {
+        if (
+            $participation->mission->participations_max > 10 &&
+            $participation->mission->places_left === 1
+        ) {
             $participation->mission->responsable->notify(new MissionAlmostFull($participation->mission));
         }
     }
