@@ -11,6 +11,14 @@
     >
       En attente de validation
     </el-tag>
+    <el-tag
+      v-if="['En cours de traitement'].includes(state)"
+      type="warning"
+      :size="size"
+      class="m-1"
+    >
+      En cours de traitement
+    </el-tag>
     <el-tag v-if="state == 'Terminée'" type="info" :size="size" class="m-1">
       Terminée
     </el-tag>
