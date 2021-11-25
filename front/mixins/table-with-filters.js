@@ -24,7 +24,7 @@ export default {
       let count = 0
       if (this.query) {
         Object.entries(this.query).forEach(([key, value]) => {
-          if (key != 'page' && key != 'filter[search]') {
+          if (!['page', 'filter[search]', 'filter[of_reseau]'].includes(key)) {
             if (
               (!isEmpty(value) && value) ||
               isBoolean(value) ||

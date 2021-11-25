@@ -8,7 +8,7 @@
           rel="noopener"
           href="https://www.jeveuxaider.gouv.fr/engagement/organisations/"
         >
-          Associations
+          Organisations
         </a>
 
         <nuxt-link :class="linkClasses" to="/territoires">
