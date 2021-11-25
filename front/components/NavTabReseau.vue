@@ -26,6 +26,13 @@
     </el-menu-item>
     <el-menu-item
       v-if="$store.getters.contextRole == 'admin'"
+      :index="`/dashboard/reseaux/${reseau.id}/missions`"
+    >
+      Missions
+      <span class="text-xs text-gray-600">({{ reseau.missions_count }})</span>
+    </el-menu-item>
+    <el-menu-item
+      v-if="$store.getters.contextRole == 'admin'"
       :index="`/dashboard/reseaux/${reseau.id}/modeles-de-mission`"
     >
       Modèles de mission
