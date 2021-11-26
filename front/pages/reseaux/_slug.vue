@@ -15,7 +15,10 @@
 
         <button
           v-if="reseau.donation"
-          v-scroll-to="'#faire-un-don'"
+          v-scroll-to="{
+            el: '#faire-un-don',
+            offset: -80,
+          }"
           class="footer--button"
         >
           Faire un don

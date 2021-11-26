@@ -16,13 +16,13 @@ class StructurePolicy
             return true;
         }
 
-        if (request()->header('Context-Role') == 'referent') {
-            return true;
-        }
+        // if (request()->header('Context-Role') == 'referent') {
+        //     return true;
+        // }
 
-        if (request()->header('Context-Role') == 'referent_regional') {
-            return true;
-        }
+        // if (request()->header('Context-Role') == 'referent_regional') {
+        //     return true;
+        // }
     }
 
     public function view(User $user, Structure $structure)

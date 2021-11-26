@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ReseauUpdateRequest;
 use App\Http\Requests\Api\ReseauUploadRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Profile;
@@ -72,7 +73,7 @@ class ReseauController extends Controller
         return $reseau;
     }
 
-    public function update(ReseauRequest $request, Reseau $reseau)
+    public function update(ReseauUpdateRequest $request, Reseau $reseau)
     {
         if ($request->has('domaines')) {
             $domaines_ids = collect($request->input('domaines'))->pluck('id');
@@ -90,12 +91,6 @@ class ReseauController extends Controller
         }
 
         return $reseau;
-    }
-
-    public function detachOrganisation(Request $request, Reseau $reseau, Structure $structure)
-    {
-        $structure->structures()->detach($structure->id);
-        return $structure;
     }
 
     public function lead(Request $request)

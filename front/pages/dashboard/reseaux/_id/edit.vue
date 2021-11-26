@@ -46,9 +46,16 @@
 export default {
   layout: 'dashboard',
   async asyncData({ $api, store, error, params }) {
-    if (!['admin'].includes(store.getters.contextRole)) {
+    if (!['admin', 'tete_de_reseau'].includes(store.getters.contextRole)) {
       return error({ statusCode: 403 })
     }
+
+    if (store.getters.contextRole == 'tete_de_reseau') {
+      if (store.state.auth.user.profile.tete_de_reseau_id != params.id) {
+        return error({ statusCode: 403 })
+      }
+    }
+
     const reseau = await $api.getReseau(params.id)
     return {
       reseau,

@@ -532,7 +532,9 @@ export default {
             .addOrUpdateReseau(this.form)
             .then(() => {
               this.loading = false
-              this.$router.pushPrevious('/dashboard/reseaux')
+              if (this.$store.getters.contextRole == 'admin') {
+                this.$router.pushPrevious('/dashboard/reseaux')
+              }
               this.$message({
                 message: 'Le réseau a été enregistré !',
                 type: 'success',
