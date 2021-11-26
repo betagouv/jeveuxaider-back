@@ -47,7 +47,8 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::custom('dates', new FiltersMissionDates),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::exact('responsable_id'),
-                AllowedFilter::scope('minimum_commitment')
+                AllowedFilter::scope('minimum_commitment'),
+                AllowedFilter::scope('of_reseau')
             ])
             ->defaultSort('-created_at')
             ->get();

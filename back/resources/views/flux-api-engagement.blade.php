@@ -135,6 +135,29 @@
                 </domain>
             @break
         @endswitch
+
+        <publicsBeneficiaires>
+            @if ($mission->publics_beneficiaires)
+                @foreach ($mission->publics_beneficiaires as $public_beneficiaire)
+                    <value><![CDATA[{{ $public_beneficiaire }}]]></value>
+                @endforeach
+            @endif
+        </publicsBeneficiaires>
+
+        <publicsVolontaires>
+            @if ($mission->publics_volontaires)
+                @foreach ($mission->publics_volontaires as $public_volontaire)
+                    <value><![CDATA[{{ $public_volontaire }}]]></value>
+                @endforeach
+            @endif
+        </publicsVolontaires>
+
+        <snu>
+            @php
+                $isSnu = !empty($mission->publics_volontaires) && in_array('Jeunes volontaires du Service National Universel', $mission->publics_volontaires) ;
+            @endphp
+            <![CDATA[{{ $isSnu ? 'yes' : 'no' }}]]>
+        </snu>
     </mission>
 @endforeach
 </source>

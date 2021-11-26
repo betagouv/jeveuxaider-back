@@ -34,7 +34,9 @@ class ReseauController extends Controller
     public function show($slugOrId)
     {
         $reseau = (is_numeric($slugOrId))
-        ? Reseau::where('id', $slugOrId)->withCount('structures', 'missionTemplates', 'invitationsAntennes', 'responsables')->firstOrFail()
+        ? Reseau::where('id', $slugOrId)
+            ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
+            ->firstOrFail()
         : Reseau::where('slug', $slugOrId)
             ->withCount(['structures' => function ($query) {
                 $query->where('state', 'Validée');

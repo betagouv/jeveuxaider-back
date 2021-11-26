@@ -41,12 +41,14 @@ class StructureRequest extends FormRequest
             'zip' => '',
             'city' => '',
             'department' => [
-                function ($attribute, $value, $fail) {
+                function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
                     if (!empty($datas['zip'])) {
-                        if (substr($datas['zip'], 0, strlen($value)) != $value) {
+                        $zip = str_replace(' ', '', $datas['zip']);
+
+                        if (substr($zip, 0, strlen($department)) != $department) {
                             // Exeptions.
-                            if (in_array($value, ['2A', '2B']) && substr($datas['zip'], 0, 2) == '20') {
+                            if (in_array($department, ['2A', '2B']) && substr($zip, 0, 2) == '20') {
                                 return;
                             }
 
