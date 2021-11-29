@@ -111,7 +111,11 @@ class StructureController extends Controller
 
         if ($structure) {
             $structure->append(['places_left', 'domaines']);
+            if($structure->domaines){
+                // @TODO: Append l'url de l'image
+            }
         }
+        
         return $structure;
     }
 
