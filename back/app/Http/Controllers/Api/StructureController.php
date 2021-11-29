@@ -110,7 +110,7 @@ class StructureController extends Controller
                         ->first();
 
         if ($structure) {
-            $structure->append('domaines_with_image');
+            $structure->append(['places_left', 'domaines']);
         }
         return $structure;
     }
