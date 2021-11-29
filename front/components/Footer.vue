@@ -312,6 +312,7 @@ export default {
         {
           name: `Plan du site`,
           url: `/sitemap.xml`,
+          component: 'a',
         },
         // {
         //   name: `Accessibilité`,
