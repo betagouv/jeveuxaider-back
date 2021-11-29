@@ -90,7 +90,6 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/sitemap',
     'cookie-universal-nuxt',
     'nuxt-lazy-load',
     'portal-vue/nuxt',
@@ -100,6 +99,7 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@nuxtjs/gtm',
+    '@nuxtjs/sitemap', // Need to be last.
   ],
 
   gtm: {
