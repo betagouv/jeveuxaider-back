@@ -97,6 +97,17 @@ class StructureObserver
                             $mission->update(['state' => 'Signalée']);
                         }
                     }
+                    //  Si territoire relié on dépublie
+                    if($structure->statut_juridique == 'Collectivité')
+                    {
+                        $territoire = Territoire::where('structure_id', $structure->id)->first();
+                        if($territoire){
+                            $territoire->update([
+                                'is_published' => false,
+                                'state' => 'refused',
+                            ]);
+                        }
+                    }
                     break;
                 case 'Désinscrite':
                     $members = $structure->members;

@@ -422,6 +422,7 @@ class Mission extends Model
     {
         $mission = $this->replicate();
         $mission->state = 'Brouillon';
+        $mission->is_priority = false;
 
         // Si la personne qui clone fait parti des responsables de l'organisation,
         // la mettre en tant que responsable de la mission
@@ -431,7 +432,6 @@ class Mission extends Model
         }
 
         $mission->save();
-
         return $mission;
     }
 
