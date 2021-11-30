@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\Tag as SpatieTag;
 
 class Tag extends SpatieTag
 {
-    use InteractsWithMedia, Searchable;
+    use Searchable;
 
     public function shouldBeSearchable()
     {
