@@ -3,17 +3,12 @@
 namespace App\Models;
 
 use Laravel\Scout\Searchable;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Tags\Tag as SpatieTag;
 
-class Tag extends SpatieTag implements HasMedia
+class Tag extends SpatieTag
 {
     use InteractsWithMedia, Searchable;
-
-   // protected $appends = ['image'];
-
-   // protected $hidden = ['media'];
 
     public function shouldBeSearchable()
     {
@@ -24,15 +19,6 @@ class Tag extends SpatieTag implements HasMedia
     {
         return config('scout.prefix').'_covid_competences';
     }
-
-    // public function getImageAttribute()
-    // {
-    //     $media = $this->getFirstMedia('tags');
-    //     if ($media) {
-    //         return $media->getFullUrl();
-    //     }
-    //     return null;
-    // }
 
     public function profiles()
     {
