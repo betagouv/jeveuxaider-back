@@ -75,10 +75,10 @@ class StructureController extends Controller
 
     public function availableMissions(Request $request, Structure $structure)
     {
-        $query = QueryBuilder::for(Mission::with('domaine'))
+
+        $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.media', 'structure']))
         ->allowedAppends(['domaines'])
         ->available()
-        ->with('structure')
         ->where('structure_id', $structure->id);
 
         if ($request->has('exclude')) {
