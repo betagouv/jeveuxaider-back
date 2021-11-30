@@ -32,11 +32,12 @@
       >
         <p class="text-4xl mb-0">🏫️</p>
         <p class="text-2xl leading-tight">
-          Une <span class="font-bold">collectivité territoriale</span>
+          Une
+          <span class="font-bold">collectivité territoriale</span> ou un
+          <span class="font-bold">CCAS</span>
         </p>
         <p class="text-gray-500 text-sm leading-tight">
-          Mairies, départements,<br />
-          régions et EPCI
+          Mairies, CCAS, EPCI, départements, régions
         </p>
       </div>
       <div
@@ -61,7 +62,7 @@
           Autre organisation <br /><span class="font-bold">publique</span>
         </p>
         <p class="text-gray-500 text-sm leading-tight">
-          CCAS, Ehpad public, <br />services de l’Etat ...
+          Ehpad public, <br />services de l’Etat ...
         </p>
       </div>
       <div

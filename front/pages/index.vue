@@ -701,7 +701,7 @@ export default {
                   <ul class="list-disc pl-4">
                     <li>les établissements scolaires</li>
                     <li>les établissements publics de santé</li>
-                    <li>les collectivités territoriales</li>
+                    <li>les collectivités territoriales ou un CCAS</li>
                     <li>les services de l’Etat</li>
                   </ul>
                 </li>

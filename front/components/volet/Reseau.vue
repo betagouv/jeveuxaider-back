@@ -54,7 +54,7 @@
       <!-- STATISTICS -->
       <VoletCard>
         <router-link
-          :to="`/dashboard/reseaux/${row.id}/structures`"
+          :to="`/dashboard/reseaux/${row.id}/missions`"
           class="flex space-x-4"
         >
           <div class="text-5xl leading-none text-gray-900">

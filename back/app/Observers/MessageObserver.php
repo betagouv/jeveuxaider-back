@@ -24,9 +24,9 @@ class MessageObserver
         // Si la participation est en attente de validation, et que le responsable envoie un message
         // la participation devient "En cours de traitement"
         if ($participation->profile_id != $user->profile->id) {
-            if($participation->state == 'En attente de validation') {
+            if ($participation->state == 'En attente de validation') {
                 $participation->state = 'En cours de traitement';
-                $participation->save();
+                $participation->saveQuietly(); // Quietly pour éviter la double notif : message + en cours de traitement
             }
         }
 
@@ -41,7 +41,7 @@ class MessageObserver
         }
         // Éviter le flood
         if ($send) {
-            $lastMessage = $message->conversation->messages->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
+            $lastMessage = $message->conversation->messages->where('type', 'chat')->sortBy([['created_at', 'desc']])[1]; // 0 est le nouveau message
             if ($lastMessage->from_id == $message->from_id) {
                 // 1 heure entre deux emails de la même personne
                 $diffInMinutes = $message->created_at->diffInMinutes($lastMessage->created_at);

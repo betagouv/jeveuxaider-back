@@ -98,9 +98,13 @@ class Mission extends Model
         return "/missions-benevolat/$this->id/$this->slug";
     }
 
+    public function makeAllSearchableUsing(Builder $query)
+    {
+        return $query->with(['structure', 'template.domaine', 'tags', 'domaine']);
+    }
+
     public function toSearchableArray()
     {
-
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
@@ -230,7 +234,7 @@ class Mission extends Model
 
     public function getNameAttribute($value)
     {
-         return $this->template_id ? $this->template->title : $value;
+        return $this->template_id ? $this->template->title : $value;
     }
 
     public function setNameAttribute($value)
@@ -422,6 +426,7 @@ class Mission extends Model
     {
         $mission = $this->replicate();
         $mission->state = 'Brouillon';
+        $mission->is_priority = false;
 
         // Si la personne qui clone fait parti des responsables de l'organisation,
         // la mettre en tant que responsable de la mission
@@ -431,7 +436,6 @@ class Mission extends Model
         }
 
         $mission->save();
-
         return $mission;
     }
 
@@ -513,5 +517,4 @@ class Mission extends Model
             $participation->sendNotificationTemoignage();
         }
     }
-
 }

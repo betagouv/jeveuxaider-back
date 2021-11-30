@@ -46,7 +46,8 @@ class MissionController extends Controller
             ])
             ->take(10)
             ->get()
-            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
+            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure')
+            ->append('domaine_name');
     }
 
     public function index(Request $request)
@@ -72,7 +73,8 @@ class MissionController extends Controller
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 AllowedFilter::exact('responsable_id'),
-                AllowedFilter::scope('minimum_commitment')
+                AllowedFilter::scope('minimum_commitment'),
+                AllowedFilter::scope('of_reseau'),
             ])
             ->allowedSorts(['places_left', 'type'])
             ->defaultSort('-created_at')
