@@ -75,10 +75,10 @@ class StructureController extends Controller
 
     public function availableMissions(Request $request, Structure $structure)
     {
-        $query = QueryBuilder::for(Mission::with('domaine'))
+
+        $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.media', 'structure']))
         ->allowedAppends(['domaines'])
         ->available()
-        ->with('structure')
         ->where('structure_id', $structure->id);
 
         if ($request->has('exclude')) {
@@ -110,8 +110,12 @@ class StructureController extends Controller
                         ->first();
 
         if ($structure) {
-            $structure->append('domaines_with_image');
+            $structure->append(['places_left', 'domaines']);
+            if($structure->domaines){
+                // @TODO: Append l'url de l'image
+            }
         }
+        
         return $structure;
     }
 
