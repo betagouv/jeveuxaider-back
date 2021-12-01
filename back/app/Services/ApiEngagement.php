@@ -96,13 +96,11 @@ class ApiEngagement
 
     private function formatDomain($mission)
     {
-        $baseUrl = 'https://reserve-civique-prod.osu.eu-west-2.outscale.com/public/production/';
         switch ($mission['domain']) {
             case 'environnement':
                 return [
                     'id' => 4,
                     'name' => 'Protection de la nature',
-                    'logo' => $baseUrl . '154/FFR5Cx5qbSjCBy0.svg'
                 ];
                 break;
 
@@ -110,7 +108,6 @@ class ApiEngagement
                 return [
                     'id' => 6,
                     'name' => 'Solidarité et insertion',
-                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
                 ];
                 break;
 
@@ -118,7 +115,6 @@ class ApiEngagement
                 return [
                     'id' => 3,
                     'name' => 'Santé pour tous',
-                    'logo' => $baseUrl . '153/LXzqaXwNUXoycsj.svg'
                 ];
                 break;
 
@@ -126,7 +122,6 @@ class ApiEngagement
                 return [
                     'id' => 11,
                     'name' => 'Art et culture pour tous',
-                    'logo' => $baseUrl . '161/ZLbnYJvmSJTl6FH.svg'
                 ];
                 break;
 
@@ -134,7 +129,6 @@ class ApiEngagement
                 return [
                     'id' => 2,
                     'name' => 'Éducation pour tous',
-                    'logo' => $baseUrl . '152/IIgYOvFa9Lx5zDz.svg'
                 ];
                 break;
 
@@ -142,7 +136,6 @@ class ApiEngagement
                 return [
                     'id' => 6,
                     'name' => 'Solidarité et insertion',
-                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
                 ];
                 break;
 
@@ -150,7 +143,6 @@ class ApiEngagement
                 return [
                     'id' => 7,
                     'name' => 'Sport pour tous',
-                    'logo' => $baseUrl . '157/ai45u4kEBbOJ820.svg'
                 ];
                 break;
 
@@ -158,7 +150,6 @@ class ApiEngagement
                 return [
                     'id' => 6,
                     'name' => 'Solidarité et insertion',
-                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
                 ];
                 break;
 
@@ -166,7 +157,6 @@ class ApiEngagement
                 return [
                     'id' => 4,
                     'name' => 'Protection de la nature',
-                    'logo' => $baseUrl . '154/FFR5Cx5qbSjCBy0.svg'
                 ];
                 break;
 
@@ -174,7 +164,6 @@ class ApiEngagement
                 return [
                     'id' => 6,
                     'name' => 'Solidarité et insertion',
-                    'logo' => $baseUrl . '1047/IMzA4pHnRjHGMeM.svg'
                 ];
                 break;
 
@@ -220,7 +209,10 @@ class ApiEngagement
 
     private function formatMission($mission)
     {
+        $domaine = $this->formatDomain($mission);
+
         return [
+            'provider' => 'api_engagement',
             'objectID' => 'ApiEngagement/' . $mission['_id'],
             'publisher_name' => $mission['publisherName'],
             'publisher_logo' => $mission['publisherLogo'],
@@ -242,12 +234,18 @@ class ApiEngagement
                 'description' => $mission['organizationDescription'] ?? null,
             ],
             'type' => $this->formatRemote($mission),
-            'template_title' => $this->formatTemplateTitle($mission),
-            'domaine_name' => $this->formatDomain($mission)['name'],
-            'domaine_image' => $this->formatDomain($mission)['logo'], // Url de l'icone du domaine
-            'domaine_id' => $this->formatDomain($mission)['id'],
+            'template_title' => $this->formatTemplateTitle($mission), // @TODO : à retirer quand facet Algolia OK
+            'template' => [
+                'title' => $this->formatTemplateTitle($mission),
+                'photo' => null
+            ],
+            'domaine_name' => $this->formatDomain($mission)['name'], // @TODO: A retirer
+            'domaine_id' => $domaine['id'],
+            'domaine' => [
+                'id' => $domaine['id'],
+                'name' => $domaine['name']
+            ],
             'domaines' => [$this->formatDomain($mission)['name']],
-            'provider' => 'api_engagement',
             '_geoloc' => [
                 'lat' => isset($mission['location']) && isset($mission['location']['lat']) ? $mission['location']['lat'] : 0,
                 'lng' => isset($mission['location']) && isset($mission['location']['lon']) ? $mission['location']['lon'] : 0
