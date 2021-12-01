@@ -42,16 +42,20 @@ class User extends Authenticatable
         if (!Auth::guard('api')->user()) {
             return null;
         }
-        $id = Auth::guard('api')->user()->id;
-        $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations', 'profile.teteDeReseau'])->where('id', $id)->first();
-        $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        $user['unreadConversations'] = self::getUnreadConversations($id);
-        $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
-        $user['nbTodayParticipationsOnPendingValidation'] =
-            self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
+
+        // $id = Auth::guard('api')->user()->id;
+        // $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations', 'profile.teteDeReseau'])->where('id', $id)->first();
+        // $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        // $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        // $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        // $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
+        // $user['unreadConversations'] = self::getUnreadConversations($id);
+        // $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
+        // $user['nbTodayParticipationsOnPendingValidation'] =
+        //     self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
+
+        $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
+        $user->profile->append(['avatar']);
 
         return $user;
     }

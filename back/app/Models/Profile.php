@@ -20,27 +20,8 @@ class Profile extends Model implements HasMedia
 
     protected $table = 'profiles';
 
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'mobile',
-        'tete_de_reseau_id',
-        'referent_department',
-        'referent_region',
-        'birthday',
-        'zip',
-        'service_civique',
-        'is_analyste',
-        'is_visible',
-        'disponibilities',
-        'description',
-        'commitment__duration',
-        'commitment__time_period',
-        'type',
-        'user_id',
-        'can_export_profiles',
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
@@ -51,9 +32,9 @@ class Profile extends Model implements HasMedia
         'can_export_profiles' => 'boolean'
     ];
 
-    protected $appends = ['full_name']; // short_name , 'image'
+    protected $appends = ['short_name', 'full_name'];
 
-    protected $hidden = ['media', 'user'];
+    protected $hidden = ['user'];
 
     protected static $logFillable = true;
 
@@ -66,7 +47,7 @@ class Profile extends Model implements HasMedia
         $this->attributes['email'] = mb_strtolower($value);
     }
 
-    public function getImageAttribute()
+    public function getAvatarAttribute()
     {
         $media = $this->getFirstMedia('profiles');
         if ($media) {
