@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Token;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -23,6 +24,47 @@ class UserController extends Controller
     public function show(Request $request)
     {
         return User::currentUser();
+    }
+
+    public function contextRoles(Request $request)
+    {
+        $user = Auth::guard('api')->user();
+
+        if (!$user ) {
+            return null;
+        }
+
+        $contextRoles = [];
+
+        if($user->is_admin){
+            $contextRoles[] = [
+                'role' => 'admin',
+            ];
+        }
+
+        if($user->profile->is_analyste){
+            $contextRoles[] = [
+                'role' => 'analyste',
+            ];
+        }
+
+        if($user->profile->referent_department){
+            $contextRoles[] = [
+                'role' => 'referent',
+                'key' => $user->profile->referent_department
+            ];
+        }
+
+        if($user->profile->referent_department){
+            $contextRoles[] = [
+                'role' => 'referent_regional',
+                'key' => $user->profile->referent_region
+            ];
+        }
+
+        ray($contextRoles);
+
+        return $contextRoles;
     }
 
     public function update(Request $request)

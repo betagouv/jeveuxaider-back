@@ -70,6 +70,7 @@ Route::post('temoignage', 'Api\TemoignageController@store');
 Route::group(['middleware' => ['auth:api']], function () {
     // CONFIG
     Route::get('user', 'Api\UserController@show');
+    Route::get('user/context-roles', 'Api\UserController@contextRoles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
