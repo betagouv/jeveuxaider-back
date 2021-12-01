@@ -30,6 +30,26 @@
         </el-button>
       </div>
 
+      <!-- LIGNE -->
+      <VoletCard>
+        <div class="flex space-x-4 items-center">
+          <template v-if="row.is_published">
+            <div class="bg-[#0e9f6e] rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">En ligne</div>
+          </template>
+          <template v-else>
+            <div class="bg-[#f56565] rounded-full h-4 w-4"></div>
+            <div class="text-lg text-gray-900">Hors ligne</div>
+          </template>
+        </div>
+
+        <nuxt-link v-if="row.is_published" target="_blank" :to="row.full_url">
+          <span class="text-sm underline hover:no-underline break-all">
+            {{ $config.appUrl }}{{ row.full_url }}
+          </span>
+        </nuxt-link>
+      </VoletCard>
+
       <!-- RÉSEAU -->
       <VoletCard
         label="Réseau"

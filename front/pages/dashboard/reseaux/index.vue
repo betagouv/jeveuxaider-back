@@ -24,6 +24,36 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
+        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+          <el-button
+            icon="el-icon-s-operation"
+            class="!ml-4"
+            @click="showFilters = !showFilters"
+          >
+            Filtres avancés
+          </el-button>
+        </el-badge>
+        <el-button
+          v-else
+          icon="el-icon-s-operation"
+          class="!ml-4"
+          @click="showFilters = !showFilters"
+        >
+          Filtres avancés
+        </el-button>
+      </div>
+
+      <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
+        <SearchFiltersQuery
+          name="is_published"
+          label="Publié"
+          :value="query['filter[is_published]']"
+          :options="[
+            { label: 'Oui', value: true },
+            { label: 'Non', value: false },
+          ]"
+          @changed="onFilterChange"
+        />
       </div>
     </div>
 
@@ -51,7 +81,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="nb_missions" label="Missions" width="250">
+      <el-table-column prop="nb_missions" label="Missions" width="150">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
             {{ scope.row.missions_count }}
@@ -66,10 +96,18 @@
           </div> -->
         </template>
       </el-table-column>
-      <el-table-column label="Modifiée le" width="200">
+      <el-table-column label="Modifiée le" width="150">
         <template slot-scope="scope">
           <div class="text-sm text-secondary break-normal">
             {{ scope.row.updated_at | fromNow }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column width="120" label="Statut">
+        <template slot-scope="scope">
+          <div class="text-sm">
+            <template v-if="scope.row.is_published"> Publié </template>
+            <template v-else> Hors-ligne </template>
           </div>
         </template>
       </el-table-column>

@@ -261,14 +261,15 @@ export default {
 
 <style lang="postcss" scoped>
 .card--mission {
-  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1);
   @apply transition;
   @screen sm {
     &:hover {
       .thumbnail--wrapper img {
         transform: scale(1.05);
       }
-      @apply shadow-xl;
+      box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
     }
   }
 }

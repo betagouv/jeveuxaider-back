@@ -196,7 +196,7 @@
                   <AlgoliaFacet
                     v-if="facets.includes('domaines')"
                     name="domaines"
-                    label="Domaines d'action"
+                    label="Domaine d'action"
                     class="mb-6"
                     @toggle-facet="onToggleFacet($event)"
                   />
@@ -221,9 +221,18 @@
                   />
 
                   <AlgoliaFacet
+                    v-if="facets.includes('structure.reseau.name')"
+                    name="structure.reseau.name"
+                    label="Reseau"
+                    is-searchable
+                    class="mb-6"
+                    @toggle-facet="onToggleFacet($event)"
+                  />
+
+                  <AlgoliaFacet
                     v-if="facets.includes('structure.name')"
                     name="structure.name"
-                    label="Organisations"
+                    label="Organisation"
                     is-searchable
                     class="mb-6"
                     @toggle-facet="onToggleFacet($event)"
@@ -501,6 +510,7 @@ export default {
           'domaines',
           'template_subtitle',
           'department_name',
+          'structure.reseau.name',
           'structure.name',
         ]
       },

@@ -1,4 +1,4 @@
-export default ({ app, store, $cookies }) => {
+export default ({ app, store, $cookies, $nuxt }) => {
   app.router.afterEach((to, from) => {
     // console.log('after each to', to)
     if (to.query.utm_source) {
@@ -12,4 +12,13 @@ export default ({ app, store, $cookies }) => {
     }
     store.commit('volet/hide')
   })
+
+  // Todo: Utiliser dans tous les formulaires après la soumission ?
+  app.router.pushPrevious = (fallback) => {
+    if (app.context.from) {
+      app.router.push(app.context.from)
+    } else {
+      app.router.push(fallback)
+    }
+  }
 }
