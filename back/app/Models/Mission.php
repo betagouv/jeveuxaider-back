@@ -100,11 +100,14 @@ class Mission extends Model
 
     public function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with(['structure', 'template.domaine', 'tags', 'domaine']);
+        return $query->with(['structure', 'template.domaine', 'template.media', 'tags', 'domaine']);
     }
 
     public function toSearchableArray()
     {
+
+        $domaine = $this->template_id ? $this->template->domaine : $this->domaine;
+
         $mission = [
             'id' => $this->id,
             'name' => $this->name,
@@ -128,8 +131,22 @@ class Mission extends Model
             'type' => $this->type,
             'template_subtitle' => $this->template ? $this->template->subtitle : null,
             'template_title' => $this->template ? $this->template->title : null,
-            'domaine_name' => $this->domaine_name,
-            'domaine_image' => $this->template ? $this->template->image : $this->domaine->image,
+            'domaine_name' => $this->domaine_name, // @TODO: à retirer quand facet ok coté Algolia
+            'domaine_image' => $this->template ? $this->template->image : $this->domaine->image, // @TODO: à retirer
+            'template' => $this->template ? [
+                'id' => $this->template->id,
+                'title' => $this->template->title,
+                'subtitle' => $this->template->subtitle,
+                'photo' => $this->template->photo ? [
+                    'thumb' => $this->template->photo['thumb'],
+                    'large' => $this->template->photo['large'],
+                ] : null,
+            ] : null,
+            'domaine' => [
+                'id' => $domaine->id,
+                'name' => $domaine->name,
+                'image' => $domaine->image
+            ],
             'domaines' => $this->domaines->map(function ($domaine) {
                 return $domaine->name;
             }),
@@ -158,6 +175,7 @@ class Mission extends Model
         return $mission;
     }
 
+    // @TODO: à retirer quand facet algolia ok
     public function getDomaineNameAttribute()
     {
         if ($this->template_id) {

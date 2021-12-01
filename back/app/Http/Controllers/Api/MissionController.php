@@ -46,8 +46,7 @@ class MissionController extends Controller
             ])
             ->take(10)
             ->get()
-            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure')
-            ->append('domaine_name');
+            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
     }
 
     public function index(Request $request)
