@@ -41,6 +41,11 @@ class User extends Authenticatable
     {
         $roles = [];
 
+        $roles[] = [
+            'key' => 'volontaire',
+            'label' => 'Bénévole'
+        ];
+
         if($this->is_admin){
             $roles[] = [
                 'key' => 'admin',
@@ -193,47 +198,49 @@ class User extends Authenticatable
         ]);
     }
 
-    public function getContextRoleAttribute()
-    {
-        if (empty($this->attributes['context_role']) || $this->attributes['context_role'] == 'volontaire') {
-            if ($this->profile) {
-                $userRoles = array_filter($this->profile->roles, function ($role) {
-                    return $role === true;
-                });
-                if (count($userRoles) > 0) {
-                    $this->attributes['context_role'] = array_key_first($userRoles);
-                }
-            }
-        }
+    // @TODO: context_role si null doit être volontaire
 
-        return $this->attributes['context_role'] ?? null;
-    }
+    // public function getContextRoleAttribute()
+    // {
+    //     if (empty($this->attributes['context_role']) || $this->attributes['context_role'] == 'volontaire') {
+    //         if ($this->profile) {
+    //             $userRoles = array_filter($this->profile->roles, function ($role) {
+    //                 return $role === true;
+    //             });
+    //             if (count($userRoles) > 0) {
+    //                 $this->attributes['context_role'] = array_key_first($userRoles);
+    //             }
+    //         }
+    //     }
 
-    public function getContextableTypeAttribute()
-    {
-        if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
-            if ($this->profile->structures->first()) {
-                return 'structure';
-            } elseif ($this->profile->territoires->first()) {
-                return 'territoire';
-            }
-        }
+    //     return $this->attributes['context_role'] ?? null;
+    // }
 
-        return $this->attributes['contextable_type'] ?? null;
-    }
+    // public function getContextableTypeAttribute()
+    // {
+    //     if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
+    //         if ($this->profile->structures->first()) {
+    //             return 'structure';
+    //         } elseif ($this->profile->territoires->first()) {
+    //             return 'territoire';
+    //         }
+    //     }
 
-    public function getContextableIdAttribute()
-    {
-        if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
-            if ($this->profile->structures->first()) {
-                return $this->profile->structures->first()['id'];
-            } elseif ($this->profile->territoires->first()) {
-                return $this->profile->territoires->first()['id'];
-            }
-        }
+    //     return $this->attributes['contextable_type'] ?? null;
+    // }
 
-        return $this->attributes['contextable_id'] ?? null;
-    }
+    // public function getContextableIdAttribute()
+    // {
+    //     if ($this->attributes['context_role'] == 'responsable' && $this->attributes['contextable_type'] == null) {
+    //         if ($this->profile->structures->first()) {
+    //             return $this->profile->structures->first()['id'];
+    //         } elseif ($this->profile->territoires->first()) {
+    //             return $this->profile->territoires->first()['id'];
+    //         }
+    //     }
+
+    //     return $this->attributes['contextable_id'] ?? null;
+    // }
 
     public function anonymize()
     {

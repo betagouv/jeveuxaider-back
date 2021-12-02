@@ -17,6 +17,7 @@ class HasContextRoleHeader
     public function handle($request, Closure $next)
     {
         $roles = [
+            'volontaire',
             'admin',
             'referent',
             'referent_regional',
