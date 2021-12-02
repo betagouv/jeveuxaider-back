@@ -21,7 +21,7 @@ class HasContextRoleHeader
             'referent',
             'referent_regional',
             'responsable',
-            'responsable_collectivity',
+            'responsable_territoire',
             'tete_de_reseau',
             'analyste',
         ];
@@ -30,9 +30,14 @@ class HasContextRoleHeader
             return new Response("Missing or wrong 'Context-Role' header", 401);
         }
 
-        if ($request->user()->profile->roles[$request->header('Context-Role')] !== true) {
+        if(array_search($request->header('Context-Role'), array_column($request->user()->roles, 'key')) === false){
             return new Response("Missing or wrong 'Context-Role' header", 401);
+
         }
+
+        // if ($request->user()->profiles->roles[$request->header('Context-Role')] !== true) {
+        //     return new Response("Missing or wrong 'Context-Role' header", 401);
+        // }
 
         return $next($request);
     }

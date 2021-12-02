@@ -307,55 +307,55 @@ class Profile extends Model implements HasMedia
         return $this->tagsWithType('competence')->values();
     }
 
-    public function isReferent()
-    {
-        return $this->referent_department ? true : false;
-    }
+    // public function isReferent()
+    // {
+    //     return $this->referent_department ? true : false;
+    // }
 
-    public function isReferentRegional()
-    {
-        return $this->referent_region ? true : false;
-    }
+    // public function isReferentRegional()
+    // {
+    //     return $this->referent_region ? true : false;
+    // }
 
-    public function isTeteDeReseau()
-    {
-        return $this->teteDeReseau ? true : false;
-    }
+    // public function isTeteDeReseau()
+    // {
+    //     return $this->teteDeReseau ? true : false;
+    // }
 
-    public function isResponsable()
-    {
-        if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
-            return true;
-        }
-        return false;
-    }
+    // public function isResponsable()
+    // {
+    //     if ($this->belongsToMany('App\Models\Structure', 'members')->first() || $this->belongsToMany('App\Models\Territoire')->first()) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
-    public function isAdmin()
-    {
-        return $this->user ? ($this->user->is_admin ? true : false) : false;
-    }
+    // public function isAdmin()
+    // {
+    //     return $this->user ? ($this->user->is_admin ? true : false) : false;
+    // }
 
-    public function isVolontaire()
-    {
-        return $this->user ? ($this->user->context_role == 'volontaire' ? true : false) : false;
-    }
+    // public function isVolontaire()
+    // {
+    //     return $this->user ? ($this->user->context_role == 'volontaire' ? true : false) : false;
+    // }
 
-    public function getVolontaireAttribute()
-    {
-        return $this->isVolontaire();
-    }
+    // public function getVolontaireAttribute()
+    // {
+    //     return $this->isVolontaire();
+    // }
 
-    public function getRolesAttribute()
-    {
-        return [
-            'admin' => $this->isAdmin(),
-            'referent' => $this->isReferent(),
-            'referent_regional' => $this->isReferentRegional(),
-            'responsable' => $this->isResponsable(),
-            'tete_de_reseau' => $this->isTeteDeReseau(),
-            'analyste' => $this->is_analyste
-        ];
-    }
+    // public function getRolesAttribute()
+    // {
+    //     return [
+    //         'admin' => $this->isAdmin(),
+    //         'referent' => $this->isReferent(),
+    //         'referent_regional' => $this->isReferentRegional(),
+    //         'responsable' => $this->isResponsable(),
+    //         'tete_de_reseau' => $this->isTeteDeReseau(),
+    //         'analyste' => $this->is_analyste
+    //     ];
+    // }
 
     public function setCommitmentTotal()
     {

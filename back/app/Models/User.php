@@ -37,28 +37,87 @@ class User extends Authenticatable
         $this->attributes['email'] = mb_strtolower($value);
     }
 
-    public static function currentUser()
+    public function getRolesAttribute()
     {
-        if (!Auth::guard('api')->user()) {
-            return null;
+        $roles = [];
+
+        if($this->is_admin){
+            $roles[] = [
+                'key' => 'admin',
+                'label' => 'Modérateur'
+            ];
         }
 
-        // $id = Auth::guard('api')->user()->id;
-        // $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations', 'profile.teteDeReseau'])->where('id', $id)->first();
-        // $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        // $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        // $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        // $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
-        // $user['unreadConversations'] = self::getUnreadConversations($id);
-        // $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
-        // $user['nbTodayParticipationsOnPendingValidation'] =
-        //     self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
+        if($this->profile->is_analyste){
+            $roles[] = [
+                'key' => 'analyste',
+                'label' => 'Analyste'
+            ];
+        }
 
-        $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
-        $user->profile->append(['avatar']);
+        if($this->profile->referent_department){
+            $roles[] = [
+                'key' => 'referent',
+                'label' => $this->profile->referent_department
+            ];
+        }
 
-        return $user;
+        if($this->profile->referent_department){
+            $roles[] = [
+                'key' => 'referent_regional',
+                'label' => $this->profile->referent_region
+            ];
+        }
+
+        $structures = $this->profile->structures;
+        if($structures){
+            foreach($structures as $structure) {
+                $roles[] = [
+                    'key' => 'responsable',
+                    'contextable_type' => 'structure',
+                    'contextable_id' => $structure->id,
+                    'label' => $structure->name
+                ];
+            }
+        }
+
+        $territoires = $this->profile->territoires;
+        if($territoires){
+            foreach($territoires as $territoire) {
+                $roles[] = [
+                    'key' => 'responsable_territoire',
+                    'contextable_type' => 'territoire',
+                    'contextable_id' => $territoire->id,
+                    'label' => $territoire->name
+                ];
+            }
+        }
+
+        return $roles;
     }
+
+    // public static function currentUser()
+    // {
+    //     if (!Auth::guard('api')->user()) {
+    //         return null;
+    //     }
+
+    //     // $id = Auth::guard('api')->user()->id;
+    //     // $user = User::with(['profile.structures', 'profile.territoires', 'profile.structures.territoire', 'profile.participations', 'profile.teteDeReseau'])->where('id', $id)->first();
+    //     // $user['profile']['roles'] = $user->profile->roles; // Hack pour éviter de le mettre append -> trop gourmand en queries
+    //     // $user['profile']['skills'] = $user->profile->skills; // Hack pour éviter de le mettre append -> trop gourmand en queries
+    //     // $user['profile']['domaines'] = $user->profile->domaines; // Hack pour éviter de le mettre append -> trop gourmand en queries
+    //     // $user['social_accounts'] = $user->socialAccounts; // Hack pour éviter de le mettre append -> trop gourmand en queries
+    //     // $user['unreadConversations'] = self::getUnreadConversations($id);
+    //     // $user['nbParticipationsOver'] = self::getNbParticipationsOver($user->profile->id);
+    //     // $user['nbTodayParticipationsOnPendingValidation'] =
+    //     //     self::getNbTodayParticipationsOnPendingValidation($user->profile->id);
+
+    //     $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
+    //     $user->profile->append(['avatar']);
+
+    //     return $user;
+    // }
 
     public function profile()
     {

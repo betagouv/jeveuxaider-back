@@ -68,9 +68,9 @@ Route::get('participation/{participation}/mission', 'Api\ParticipationController
 Route::post('temoignage', 'Api\TemoignageController@store');
 
 Route::group(['middleware' => ['auth:api']], function () {
-    // CONFIG
+
     Route::get('user', 'Api\UserController@show');
-    Route::get('user/context-roles', 'Api\UserController@contextRoles');
+    Route::get('user/roles', 'Api\UserController@roles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
