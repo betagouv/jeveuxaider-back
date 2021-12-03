@@ -20,36 +20,8 @@ class Mission extends Model
 
     protected $table = 'missions';
 
-    protected $fillable = [
-        'name',
-        'information',
-        'objectif',
-        'description',
-        'address',
-        'zip',
-        'city',
-        'department',
-        'country',
-        'latitude',
-        'longitude',
-        'user_id',
-        'structure_id',
-        'start_date',
-        'end_date',
-        'state',
-        'participations_max',
-        'dates_infos',
-        'responsable_id',
-        'periodicite',
-        'publics_beneficiaires',
-        'publics_volontaires',
-        'type',
-        'domaine_id',
-        'template_id',
-        'thumbnail',
-        'commitment__duration',
-        'commitment__time_period',
-        'is_priority',
+    protected $guarded = [
+        'id',
     ];
 
     protected $casts = [
