@@ -59,6 +59,37 @@ class ActionController extends Controller
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
                 break;
+                case 'referent':
+                case 'referent_regional':
+                    $actions[] = [
+                        'type' => 'messages_unread',
+                        'value' => $user->getUnreadConversationsCount()
+                    ];
+                    $actions[] = [
+                        'type' => 'participations_waiting_validation',
+                        'value' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                    ];
+                    $actions[] = [
+                        'type' => 'participations_in_progress',
+                        'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
+                    ];
+                    $actions[] = [
+                        'type' => 'missions_outdated',
+                        'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
+                    ];
+                    $actions[] = [
+                        'type' => 'organisations_waiting_validation',
+                        'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
+                    ];
+                    $actions[] = [
+                        'type' => 'organisations_incomplete',
+                        'value' => Structure::role($request->header('Context-Role'))->count()
+                    ];
+                    $actions[] = [
+                        'type' => 'missions_waiting_validation',
+                        'value' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                    ];
+                    break;
         }
 
         return $actions;

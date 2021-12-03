@@ -150,6 +150,13 @@ class Profile extends Model implements HasMedia
         $this->attributes['last_name'] = Utils::ucfirst($value);
     }
 
+    public function scopeBenevole($query)
+    {
+        return $query->whereHas('user', function(Builder $query){
+            $query->where('context_role', 'volontaire')->orWhereNull('context_role');
+        });
+    }
+
     public function scopeRole($query, $contextRole)
     {
         switch ($contextRole) {
