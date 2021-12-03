@@ -205,7 +205,7 @@ class Mission extends Model
 
     public function getFullAddressAttribute()
     {
-        return "{$this->address} {$this->zip} {$this->city}";
+        return ($this->address == $this->city) ? "{$this->zip} {$this->city}" : "{$this->address} {$this->zip} {$this->city}";
     }
 
     public function getHasPlacesLeftAttribute()
