@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user', 'Api\UserController@show');
     Route::get('user/roles', 'Api\UserController@roles');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
+    Route::post('user', 'Api\UserController@update');
 
     // Route::post('profile/{profile}', 'Api\ProfileController@update');
     // Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
