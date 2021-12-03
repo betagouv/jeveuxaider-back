@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@show');
     Route::get('user/roles', 'Api\UserController@roles');
+    Route::get('user/actions', 'Api\ActionController@index');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::post('user', 'Api\UserController@update');
 
