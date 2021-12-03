@@ -342,8 +342,12 @@ class StructureController extends Controller
 
     public function detachReseau(Request $request, Structure $structure, Reseau $reseau)
     {
-        $structure->reseaux()->detach($reseau->id);
+        if (!Auth::guard('api')->user()->can('update', $structure)) {
+            abort(401, 'Pas les droits');
+            return;
+        }
 
+        $structure->reseaux()->detach($reseau->id);
         return $structure;
     }
 }

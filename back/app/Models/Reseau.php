@@ -4,17 +4,33 @@ namespace App\Models;
 
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
-class Reseau extends Model
+class Reseau extends Model implements HasMedia
 {
     use HasRelationships;
+    use HasTags;
+    use InteractsWithMedia;
+    use HasSlug;
 
     protected $table = 'reseaux';
 
-    protected $fillable = [
-        'name',
-        'created_at',
+    protected $guarded = [
+        'id',
     ];
+
+    protected $appends = ['full_address', 'full_url'];
+
+    protected $casts = [
+        'publics_beneficiaires' => 'array',
+        'is_published' => 'boolean',
+    ];
+
 
     public function responsables()
     {
@@ -29,6 +45,11 @@ class Reseau extends Model
     public function missions()
     {
         return $this->hasManyDeep('App\Models\Mission', ['reseau_structure', 'App\Models\Structure']);
+    }
+
+    public function getParticipationsMaxAttribute()
+    {
+        return $this->missions()->sum('participations_max');
     }
 
     public function missionTemplates()
@@ -54,9 +75,8 @@ class Reseau extends Model
         return $this->load('responsables');
     }
 
-    public function createStructure(string $name , User $user, array $attributes = [])
+    public function createStructure(string $name, User $user, array $attributes = [])
     {
-
         $attributes = array_merge([
             'name' => $name,
             'user_id' => $user->id,
@@ -85,7 +105,82 @@ class Reseau extends Model
             );
 
         return $structure;
-
     }
 
+    public function getDomainesAttribute()
+    {
+        return $this->tagsWithType('domaine')->values();
+    }
+
+    public function getDomainesWithImageAttribute()
+    {
+        return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return "{$this->address}, {$this->zip} {$this->city}";
+    }
+
+    public function getLogoAttribute()
+    {
+        return $this->getMediaUrls('logo');
+    }
+
+    public function getOverrideImage1Attribute()
+    {
+        return $this->getMediaUrls('override_image_1');
+    }
+
+    public function getOverrideImage2Attribute()
+    {
+        return $this->getMediaUrls('override_image_2');
+    }
+
+    protected function getMediaUrls($field)
+    {
+        $media = $this->getFirstMedia('reseaux', ['field' => $field]);
+        if ($media) {
+            $mediaUrls = ['original' => $media->getFullUrl()];
+            foreach ($media->getGeneratedConversions() as $key => $conversion) {
+                // $mediaUrls[$key] = $media->getUrl($key);
+                $mediaUrls[$key] = $media->getSrcset($key);
+            }
+            return $mediaUrls;
+        }
+        return null;
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(320)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('reseaux');
+
+        $this->addMediaConversion('large')
+            ->width(640)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('reseaux');
+
+        $this->addMediaConversion('xxl')
+            ->width(1440)
+            ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('reseaux');
+    }
+
+    public function getFullUrlAttribute()
+    {
+        return "/reseaux/$this->slug";
+    }
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['id', 'name'])
+            ->saveSlugsTo('slug');
+    }
 }

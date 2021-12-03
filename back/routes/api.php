@@ -58,7 +58,8 @@ Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('tags', 'Api\TagController@index');
 
 Route::post('reseaux/lead', 'Api\ReseauController@lead');
-Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
+Route::get('reseaux/{reseau}', 'Api\ReseauController@show');
+Route::get('reseaux/{reseau}/structures', 'Api\ReseauController@structures');
 Route::get('reseaux/test', 'Api\ReseauController@test');
 
 Route::get('notification-temoignage/{token}', 'Api\NotificationTemoignageController@show');
@@ -233,7 +234,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // RESEAUX
     Route::get('reseaux', 'Api\ReseauController@index');
     Route::get('structure/{structure}/reseaux', 'Api\StructureController@reseaux');
-
+    Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
+    Route::post('reseaux/{reseau}/upload/{field}', 'Api\ReseauController@upload');
+    Route::delete('reseaux/{reseau}/upload/{field}', 'Api\ReseauController@uploadDelete');
 });
 
 // ONLY ADMIN
@@ -316,12 +319,9 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // RESEAUX
     Route::post('reseaux', 'Api\ReseauController@store');
-    Route::post('reseaux/{reseau}', 'Api\ReseauController@update');
     Route::get('reseaux/{reseau}/responsables', 'Api\ReseauController@responsables');
     Route::get('reseaux/{reseau}/invitations-responsables', 'Api\ReseauController@invitationsResponsables');
     Route::post('reseaux/{reseau}/organisations', 'Api\ReseauController@attachOrganisations');
     Route::delete('reseaux/{reseau}', 'Api\ReseauController@delete');
     Route::delete('reseaux/{reseau}/responsables/{responsable}', 'Api\ReseauController@deleteResponsable');
-    Route::delete('reseaux/{reseau}/organisations/{organisation}', 'Api\ReseauController@detachOrganisation');
-
 });

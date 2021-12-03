@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\FiltersReseauSearch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ReseauUpdateRequest;
+use App\Http\Requests\Api\ReseauUploadRequest;
 use App\Http\Requests\ReseauRequest;
 use App\Models\Profile;
 use App\Models\Reseau;
@@ -13,7 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-
+use App\Models\Tag;
+use Illuminate\Support\Str;
 
 class ReseauController extends Controller
 {
@@ -23,15 +26,36 @@ class ReseauController extends Controller
         return QueryBuilder::for(Reseau::withCount(['structures', 'missionTemplates', 'missions']))
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
+                AllowedFilter::exact('is_published'),
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request, Reseau $reseau)
+    public function show($slugOrId)
     {
-        $reseau = Reseau::withCount('structures', 'missions', 'missionTemplates','invitationsAntennes','responsables')->where('id', $reseau->id)->first();
-        return $reseau;
+        $reseau = (is_numeric($slugOrId))
+        ? Reseau::where('id', $slugOrId)
+            ->withCount('structures', 'missions', 'missionTemplates', 'invitationsAntennes', 'responsables')
+            ->firstOrFail()
+        : Reseau::where('slug', $slugOrId)
+            ->withCount(['structures' => function ($query) {
+                $query->where('state', 'Validée');
+            }])
+            ->with([
+                'structures' => function ($query) {
+                    $query->where('state', 'Validée')
+                        ->withCount(['missions' => function ($query) {
+                            $query->where('state', 'Validée');
+                        }])
+                        ->orderBy('missions_count', 'DESC')
+                        ->limit(5);
+                }
+            ])
+            ->firstOrFail()
+            ->append(['domaines_with_image', 'participations_max']);
+
+        return $reseau->append(["domaines", "logo", "override_image_1", "override_image_2"]);
     }
 
     public function store(ReseauRequest $request)
@@ -40,27 +64,31 @@ class ReseauController extends Controller
             $request->validated()
         );
 
-        return $reseau;
-    }
-
-    public function update(ReseauRequest $request, Reseau $reseau)
-    {
-        return $reseau->update($request->validated());
-    }
-
-    public function attachOrganisations(Request $request, Reseau $reseau)
-    {
-        if($request->input('organisations')) {
-            $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
+        if ($request->has('domaines')) {
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $reseau->syncTagsWithType($domaines, 'domaine');
         }
 
         return $reseau;
     }
 
-    public function detachOrganisation(Request $request, Reseau $reseau, Structure $structure)
+    public function update(ReseauUpdateRequest $request, Reseau $reseau)
     {
+        if ($request->has('domaines')) {
+            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $reseau->syncTagsWithType($domaines, 'domaine');
+        }
 
-        $reseau->structures()->detach($structure->id);
+        return $reseau->update($request->validated());
+    }
+
+    public function attachOrganisations(Request $request, Reseau $reseau)
+    {
+        if ($request->input('organisations')) {
+            $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
+        }
 
         return $reseau;
     }
@@ -96,5 +124,66 @@ class ReseauController extends Controller
     {
         $reseau->deleteResponsable($responsable);
         return $reseau->responsables;
+    }
+
+    public function upload(ReseauUploadRequest $request, Reseau $reseau, String $field)
+    {
+        // Delete previous file
+        if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
+            $media->delete();
+        }
+
+        $data = $request->all();
+        $extension = $request->file('image')->guessExtension();
+        $name = Str::random(30);
+
+        $cropSettings = json_decode($data['cropSettings']);
+        if (!empty($cropSettings)) {
+            $stringCropSettings = implode(",", [
+                $cropSettings->width,
+                $cropSettings->height,
+                $cropSettings->x,
+                $cropSettings->y
+            ]);
+        } else {
+            $pathName = $request->file('image')->getPathname();
+            $infos = getimagesize($pathName);
+            $stringCropSettings = implode(",", [
+                $infos[0],
+                $infos[1],
+                0,
+                0
+            ]);
+        }
+
+        $reseau
+            ->addMedia($request->file('image'))
+            ->usingName($name)
+            ->usingFileName($name . '.' . $extension)
+            ->withCustomProperties(['field' => $field])
+            ->withManipulations([
+                'thumb' => ['manualCrop' => $stringCropSettings],
+                'large' => ['manualCrop' => $stringCropSettings],
+                'xxl' => ['manualCrop' => $stringCropSettings]
+            ])
+            ->toMediaCollection('reseaux');
+
+        return $reseau;
+    }
+
+    public function uploadDelete(ReseauUploadRequest $request, Reseau $reseau, String $field)
+    {
+        if ($media = $reseau->getFirstMedia('reseaux', ['field' => $field])) {
+            $media->delete();
+        }
+    }
+
+    public function structures(Request $request, Reseau $reseau)
+    {
+        return $reseau->structures()
+            ->where('state', 'Validée')
+            ->where('statut_juridique', 'Association')
+            ->orderByRaw('UPPER(structures.city)') // Bypass case insensitive collation (PostgreSQL)
+            ->get();
     }
 }
