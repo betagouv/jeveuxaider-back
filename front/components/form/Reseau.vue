@@ -294,6 +294,7 @@
         :field-name="`override_image_2`"
         label="Surcharger Visuel N° 2"
         preview-width="100%"
+        preview-area-class="rounded-lg overflow-hidden"
         @add-or-crop="handleAddOrCrop($event)"
         @delete="handleDelete($event)"
       ></ImageField>
