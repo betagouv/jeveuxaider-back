@@ -24,7 +24,7 @@ class UserController extends Controller
     public function show(Request $request)
     {
         $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
-        $user->profile->append(['avatar']);
+        $user->profile->append(['avatar','skills', 'domaines']);
 
         return $user;
     }
@@ -53,7 +53,7 @@ class UserController extends Controller
         }
 
         $user->update($request->all());
-        $user->profile->append(['avatar']);
+        $user->profile->append(['avatar','skills', 'domaines']);
 
         return $user;
     }

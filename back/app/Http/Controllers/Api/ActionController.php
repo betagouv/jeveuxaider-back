@@ -90,6 +90,17 @@ class ActionController extends Controller
                         'value' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
                     ];
                     break;
+                    case 'volontaire':
+                        $actions[] = [
+                            'type' => 'messages_unread',
+                            'value' => $user->getUnreadConversationsCount()
+                        ];
+                        $actions[] = [
+                            'type' => 'profile_incomplete',
+                            'value' => 66
+                        ];
+
+                        break;
         }
 
         return $actions;

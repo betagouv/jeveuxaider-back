@@ -58,8 +58,6 @@ class StatisticsController extends Controller
                     'participations_validated' => Participation::role($request->header('Context-Role'))->where('state', 'Validée')->count(),
                     'places_left' => $placesLeft,
                     'places_occupation_rate' => $placesOffered ? round(($placesLeft / $placesOffered) * 100) : 0,
-                    // 'users' => Profile::role($request->header('Context-Role'))->count(),
-                    // 'users_benevoles' => Profile::role($request->header('Context-Role'))->benevole()->count(),
                 ];
                 break;
             case 'responsable':

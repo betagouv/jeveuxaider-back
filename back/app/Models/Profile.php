@@ -84,56 +84,56 @@ class Profile extends Model implements HasMedia
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function getReferentWaitingActionsAttribute()
-    {
-        $structures = Structure::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
-        $missions = Mission::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
+    // public function getReferentWaitingActionsAttribute()
+    // {
+    //     $structures = Structure::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
+    //     $missions = Mission::department($this->referent_department)->whereIn('state', ['En attente de validation'])->count();
 
-        return [
-            'total' => $structures + $missions,
-            'structures' => $structures,
-            'missions' => $missions
-        ];
-    }
+    //     return [
+    //         'total' => $structures + $missions,
+    //         'structures' => $structures,
+    //         'missions' => $missions
+    //     ];
+    // }
 
-    public function getReferentRegionWaitingActionsAttribute()
-    {
-        $structures = Structure::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
-        $missions = Mission::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
+    // public function getReferentRegionWaitingActionsAttribute()
+    // {
+    //     $structures = Structure::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
+    //     $missions = Mission::region($this->referent_region)->whereIn('state', ['En attente de validation'])->count();
 
-        return [
-            'total' => $structures + $missions,
-            'structures' => $structures,
-            'missions' => $missions
-        ];
-    }
+    //     return [
+    //         'total' => $structures + $missions,
+    //         'structures' => $structures,
+    //         'missions' => $missions
+    //     ];
+    // }
 
-    public function getTeteDeReseauWaitingActionsAttribute()
-    {
-        $antennes = Structure::ofReseau($this->tete_de_reseau_id)->count();
-        $missions = Mission::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
-        $participations = Participation::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
+    // public function getTeteDeReseauWaitingActionsAttribute()
+    // {
+    //     $antennes = Structure::ofReseau($this->tete_de_reseau_id)->count();
+    //     $missions = Mission::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
+    //     $participations = Participation::ofReseau($this->tete_de_reseau_id)->whereIn('state', ['En attente de validation'])->count();
 
-        return [
-            'total' => $missions + $participations,
-            'antennes' => $antennes,
-            'missions' => $missions,
-            'participations' => $participations,
-        ];
-    }
+    //     return [
+    //         'total' => $missions + $participations,
+    //         'antennes' => $antennes,
+    //         'missions' => $missions,
+    //         'participations' => $participations,
+    //     ];
+    // }
 
-    public function getResponsableWaitingActionsAttribute()
-    {
+    // public function getResponsableWaitingActionsAttribute()
+    // {
 
-        $structure = $this->structures->first();
+    //     $structure = $this->structures->first();
 
-        $participations = Participation::structure($structure->id)->where('state', 'En attente de validation')->count();
+    //     $participations = Participation::structure($structure->id)->where('state', 'En attente de validation')->count();
 
-        return [
-            'total' => $participations,
-            'test' => $this->structures->first(),
-        ];
-    }
+    //     return [
+    //         'total' => $participations,
+    //         'test' => $this->structures->first(),
+    //     ];
+    // }
 
     public function getShortNameAttribute()
     {

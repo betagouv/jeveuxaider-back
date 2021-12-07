@@ -104,7 +104,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::post('invitation/{token}/accept', 'Api\InvitationController@accept');
     // Route::delete('invitation/{token}/delete', 'Api\InvitationController@delete');
 
-    // Route::post('logout', 'Api\PassportController@logout');
+    Route::post('logout', 'Api\PassportController@logout');
 
     // API ENGAGEMENT
     // Route::get('apiengagement/mymission/{id}', 'Api\ApiEngagementController@myMission');
