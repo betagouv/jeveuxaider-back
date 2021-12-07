@@ -94,7 +94,7 @@
 
     <template v-if="missions.length">
       <section
-        v-for="(antenne, index) in reseau.structures"
+        v-for="(antenne, index) in antennesWithMissions"
         :id="antenne.id"
         :key="antenne.id"
         class="py-16"
