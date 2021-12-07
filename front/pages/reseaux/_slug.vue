@@ -48,7 +48,11 @@
     </SectionOrganisationDetails>
 
     <!-- ANTENNES -->
-    <section id="antennes" class="pt-16 pb-8">
+    <section
+      v-if="antennesWithMissions.length"
+      id="antennes"
+      class="pt-16 pb-8"
+    >
       <div class="container px-4 md:px-8 mx-auto">
         <h2
           class="text-center mb-12 text-3xl sm:text-5xl sm:!leading-[1.1] text-gray-900 tracking-tighter max-w-3xl mx-auto"
@@ -61,7 +65,7 @@
           class="mt-12 max-w-5xl mx-auto flex flex-wrap gap-4 items-center justify-center"
         >
           <a
-            v-for="antenne in reseau.structures"
+            v-for="antenne in antennesWithMissions"
             :key="antenne.name"
             class="text-[#696974] leading-none truncate px-[18px] h-[40px] flex items-center rounded-full text-[13px] shadow-md font-extrabold tracking-wide uppercase bg-white transform transition will-change-transform hover:scale-105"
             :href="`#${antenne.id}`"
@@ -311,11 +315,13 @@ export default {
           hitsPerPage: 3,
         }
         const missionsData = await this.$algoliaApi.getMissions(config)
-        missions.push({
-          antenneId: antenne.id,
-          missions: missionsData.json.hits,
-          missionCount: missionsData.json.nbHits,
-        })
+        if (missionsData.json.nbHits) {
+          missions.push({
+            antenneId: antenne.id,
+            missions: missionsData.json.hits,
+            missionCount: missionsData.json.nbHits,
+          })
+        }
       })
     )
     this.$set(this, 'missions', missions)
@@ -375,6 +381,14 @@ export default {
             (highlightedAntennas) => highlightedAntennas.id == antenne.id
           )
       )
+    },
+    antennesWithMissions() {
+      return this.reseau.structures.filter((structure) => {
+        const missions = this.missions.find(
+          (mission) => mission.antenneId == structure.id
+        )
+        return missions?.missionCount > 0
+      })
     },
   },
   methods: {
