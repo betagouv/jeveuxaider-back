@@ -7,9 +7,17 @@
     <SectionOrganisationPresentation :organisation="reseau" :src-set="image1">
       <footer
         slot="anchors"
-        class="grid grid-cols-3 divide-x divide-gray-200 text-center border-t"
+        class="grid divide-x divide-gray-200 text-center border-t"
+        :class="[
+          { 'grid-cols-3': antennesWithMissions.length && reseau.donation },
+          { 'grid-cols-2': antennesWithMissions.length || reseau.donation },
+        ]"
       >
-        <button v-scroll-to="'#antennes'" class="footer--button">
+        <button
+          v-if="antennesWithMissions.length"
+          v-scroll-to="'#antennes'"
+          class="footer--button"
+        >
           Devenir bénévole
         </button>
 
