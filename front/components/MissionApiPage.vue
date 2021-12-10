@@ -302,9 +302,8 @@
               <div
                 class="whitespace-pre-line text-gray-600"
                 style="word-break: break-word"
-              >
-                {{ mission.description }}
-              </div>
+                v-html="mission.description"
+              />
             </div>
             <img class="my-8 hidden xl:block" src="/images/france_right.svg" />
           </div>
