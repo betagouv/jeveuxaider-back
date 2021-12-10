@@ -7,7 +7,6 @@ export default {
   },
   methods: {
     handleLogout() {
-      this.closeMobileMenu()
       this.$router.push('/')
       this.$store.dispatch('auth/logout')
     },
