@@ -10,7 +10,10 @@
           </div>
         </div>
 
-        <nuxt-link :to="`/dashboard/reseaux/${$route.params.id}`">
+        <nuxt-link
+          v-if="$store.getters.contextRole == 'admin'"
+          :to="`/dashboard/reseaux/${$route.params.id}`"
+        >
           <el-button>Retour</el-button>
         </nuxt-link>
       </div>
