@@ -344,7 +344,11 @@ export default {
       loading: false,
       domaines: [],
       uploads: [],
-      form: { ...this.reseau },
+      form: {
+        domaines: [],
+        publics_beneficiaires: [],
+        ...this.reseau,
+      },
       rules: {
         name: [
           {
@@ -489,7 +493,7 @@ export default {
     firstImage() {
       return (
         this.form.image_1 ??
-        (this.form.domaines.length > 0
+        (this.form.domaines?.length > 0
           ? this.form.domaines[0].id + '_1'
           : '1_1')
       )
@@ -497,7 +501,7 @@ export default {
     secondImage() {
       return (
         this.form.image_2 ??
-        (this.form.domaines.length > 0
+        (this.form.domaines?.length > 0
           ? this.form.domaines[0].id + '_2'
           : '2_1')
       )
