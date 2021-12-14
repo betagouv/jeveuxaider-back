@@ -34,12 +34,6 @@ $departments = config('taxonomies.departments.terms');
         <statusJuridique>
             <![CDATA[{{ $organisation->statut_juridique }}]]>
         </statusJuridique>
-        <phone>
-            <![CDATA[{{ $organisation->phone }}]]>
-        </phone>
-        <email>
-            <![CDATA[{{ $organisation->email }}]]>
-        </email>
         <domaines>
             @if ($organisation->domaines)
                 @foreach ($organisation->domaines as $domaine)

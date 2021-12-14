@@ -23,7 +23,7 @@ class EngagementController extends Controller
 
     public function organisations()
     {
-        $organisations = Structure::with('reseau:id,name')->where('state', 'Validée')->get();
+        $organisations = Structure::with('reseau:id,name')->where('state', 'Validée')->take(1)->get();
 
         return response()->view('flux-api-engagement-organisations', compact('organisations'))->header('Content-Type', 'text/xml');
     }
