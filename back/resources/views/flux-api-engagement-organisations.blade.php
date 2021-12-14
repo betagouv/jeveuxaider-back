@@ -50,7 +50,7 @@ $departments = config('taxonomies.departments.terms');
             @endif
         </domaines>
         <publicsBeneficiaires>
-            @if ($organisation->publics_beneficiaires)
+            @if ($organisation->publics_beneficiaires && is_array($organisation->publics_beneficiaires))
                 @foreach ($organisation->publics_beneficiaires as $public_beneficiaire)
                     <value>
                         <![CDATA[{{ $public_beneficiaire }}]]>
