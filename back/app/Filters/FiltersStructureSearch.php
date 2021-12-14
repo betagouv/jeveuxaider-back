@@ -4,23 +4,23 @@ namespace App\Filters;
 
 use Spatie\QueryBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class FiltersStructureSearch implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): Builder
     {
-        return $query->where(function ($query) use ($value, $property) {
+        return $query->where(function ($query) use ($value) {
+            
             if (is_numeric($value)) {
                 $query
-                ->where('name', 'ILIKE', '%' . $value . '%')
+                ->where('zip', 'ILIKE', '%' . $value . '%')
                 ->orWhere('id', $value);
             } else {
-                if (is_array($value)) {
-                    $value = implode(',', $value);
+                $terms = explode(" ", $value);
+                foreach ($terms as $term) {
+                    $query->whereRaw("CONCAT(name, ' ', city, ' ', rna) ILIKE ?", ['%' . $term . '%']);
                 }
-                $query
-                    ->where('name', 'ILIKE', '%' . $value . '%')
-                    ->orWhere('rna', 'ILIKE', '%' . $value . '%');
             }
         });
     }

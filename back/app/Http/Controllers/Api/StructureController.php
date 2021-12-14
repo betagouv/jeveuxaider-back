@@ -37,23 +37,23 @@ class StructureController extends Controller
     {
         return QueryBuilder::for(Structure::role($request->header('Context-Role')))
             ->allowedFilters([
-                AllowedFilter::exact('department'),
-                'state',
-                'statut_juridique',
-                AllowedFilter::custom('ceu', new FiltersStructureCeu),
-                AllowedFilter::custom('lieu', new FiltersStructureLieu),
+                // AllowedFilter::exact('department'),
                 AllowedFilter::custom('search', new FiltersStructureSearch),
-                AllowedFilter::custom('antenne', new FiltersStructureAntenne),
-                AllowedFilter::custom('rna', new FiltersStructureWithRna),
-                AllowedFilter::scope('of_reseau'),
+                'state',
+                // 'statut_juridique',
+                // AllowedFilter::custom('ceu', new FiltersStructureCeu),
+                // AllowedFilter::custom('lieu', new FiltersStructureLieu),
+                // AllowedFilter::custom('antenne', new FiltersStructureAntenne),
+                // AllowedFilter::custom('rna', new FiltersStructureWithRna),
+                // AllowedFilter::scope('of_reseau'),
             ])
-            ->allowedIncludes([
-                'missions',
-                'reseaux'
-            ])
-            ->allowedAppends([
-                'completion_rate',
-            ])
+            // ->allowedIncludes([
+            //     'missions',
+            //     'reseaux'
+            // ])
+            // ->allowedAppends([
+            //     'completion_rate',
+            // ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }

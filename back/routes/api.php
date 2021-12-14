@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::post('user', 'Api\UserController@update');
 
     // STRUCTURES
-    // Route::get('structures', 'Api\StructureController@index');
+    Route::get('structures', 'Api\StructureController@index');
     // Route::get('structure/{structure}', 'Api\StructureController@show');
 
     // Route::delete('structure/{structure}', 'Api\StructureController@delete');
