@@ -28,7 +28,7 @@ class InvitationController extends Controller
                 AllowedFilter::custom('search', new FiltersInvitationSearch),
             )
             ->defaultSort('-created_at')
-            ->paginate(10);
+            ->paginate(15);
     }
 
     public function show(Request $request, String $token)
