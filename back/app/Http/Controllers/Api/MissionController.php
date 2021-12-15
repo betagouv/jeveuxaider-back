@@ -57,6 +57,7 @@ class MissionController extends Controller
             // ->allowedAppends(['domaines', 'participations_validated_count'])
             ->allowedFilters([
                 'state',
+                // AllowedFilter::custom('search', new FiltersMissionSearch),
                 // 'name',
                 // 'type',
                 // 'structure.statut_juridique',
@@ -67,7 +68,7 @@ class MissionController extends Controller
                 // AllowedFilter::exact('is_priority'),
                 // AllowedFilter::exact('id'),
                 // AllowedFilter::custom('ceu', new FiltersMissionCeu),
-                // AllowedFilter::custom('search', new FiltersMissionSearch),
+                // 
                 // AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 // AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 // AllowedFilter::custom('dates', new FiltersMissionDates),
