@@ -64,10 +64,13 @@ class EngagementController extends Controller
                 'structure_privee_type' => $item->structure_privee_type,
                 'address' => [
                     'full' => $item->full_address,
+                    'address' => $item->address,
                     'zip' => $item->zip,
                     'city' => $item->city,
                     'department' => $item->department,
                     'country' => $item->country,
+                    'latitude' => $item->latitude,
+                    'longitude' => $item->longitude,
                 ],
                 'website' => $item->website,
                 'facebook' => $item->facebook,
