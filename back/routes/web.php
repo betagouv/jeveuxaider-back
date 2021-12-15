@@ -11,7 +11,8 @@
 |
 */
 
-use App\Models\User;
-
 Route::get('api/api-engagement/flux', 'Api\EngagementController@feed');
-Route::get('api/api-engagement/organisations', 'Api\EngagementController@organisations');
+
+Route::group(['middleware' => ['has.api.key']], function () {
+    Route::get('api/api-engagement/organisations', 'Api\EngagementController@organisations');
+});
