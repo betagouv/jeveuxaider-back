@@ -55,6 +55,8 @@ class EngagementController extends Controller
                 'rna' => $item->rna,
                 'api_id' => $item->api_id,
                 'name' => $item->name,
+                'phone' => $item->phone,
+                'email' => $item->email,
                 'url' => $item->full_url,
                 'description' => $item->description,
                 'statut_juridique' => $item->statut_juridique,
