@@ -34,7 +34,7 @@ class MissionTemplate extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    protected $appends = ['photo'];
+    // protected $appends = ['photo'];
 
     public function registerMediaConversions(Media $media = null): void
     {

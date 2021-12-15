@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::get('invitations', 'Api\InvitationController@index');
 
     // MISSIONS
-    // Route::get('missions', 'Api\MissionController@index');
+    Route::get('missions', 'Api\MissionController@index');
     // Route::get('mission/{mission}/benevoles', 'Api\MissionController@benevoles');
     // Route::get('mission/{mission}/responsable', 'Api\MissionController@responsable');
     // Route::post('mission/{mission}', 'Api\MissionController@update');

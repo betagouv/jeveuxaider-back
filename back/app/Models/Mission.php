@@ -45,6 +45,8 @@ class Mission extends Model
     //     'permissions',
     // ];
 
+    protected $with = ['template'];
+
     protected static $logFillable = true;
 
     protected static $logOnlyDirty = true;
