@@ -21,10 +21,12 @@ class UserController extends Controller
                 ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request)
+    public function me(Request $request)
     {
         $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
-        $user->profile->append(['avatar','skills', 'domaines']);
+        $user->profile->append(['avatar', 'skills', 'domaines']);
+
+        ray($user);
 
         return $user;
     }

@@ -146,14 +146,14 @@ class ProfileController extends Controller
         }
 
         // Hack pour éviter de le mettre append -> trop gourmand en queries
-        $profile['roles'] = $profile->roles;
-        $profile['domaines'] = $profile->domaines;
-        $profile['skills'] = $profile->skills;
-        $profile['participations'] = $profile->participations;
+        // $profile['roles'] = $profile->roles;
+        // $profile['domaines'] = $profile->domaines;
+        // $profile['skills'] = $profile->skills;
+        // $profile['participations'] = $profile->participations;
 
-        if ($profile->isResponsable()) {
-            $profile['structures'] = $profile->structures;
-        }
+        // if ($profile->isResponsable()) {
+        //     $profile['structures'] = $profile->structures;
+        // }
 
         return $profile;
     }

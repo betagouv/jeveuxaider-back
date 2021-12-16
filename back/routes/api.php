@@ -15,7 +15,7 @@
 use Illuminate\Support\Facades\Route;
 
 // AUTH
-// Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
+Route::post('register/volontaire', 'Api\PassportController@registerVolontaire');
 // Route::post('register/responsable', 'Api\PassportController@registerResponsable');
 // Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 // Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
@@ -68,13 +68,13 @@ Route::get('tags', 'Api\TagController@index');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
-    Route::get('user', 'Api\UserController@show');
+    Route::get('user', 'Api\UserController@me');
     Route::get('user/roles', 'Api\UserController@roles');
     Route::get('user/actions', 'Api\ActionController@index');
     Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::post('user', 'Api\UserController@update');
 
-    // Route::post('profile/{profile}', 'Api\ProfileController@update');
+    Route::post('profile/{profile}', 'Api\ProfileController@update');
     // Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
     // Route::delete('profile/{profile}/upload', 'Api\ProfileController@uploadDelete');
     // Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');

@@ -49,7 +49,9 @@ class PassportController extends Controller
         $notification = new RegisterUserVolontaire($user);
         $user->notify($notification);
 
-        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+        return $user;
+
+        // return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
     public function registerResponsable(RegisterResponsableWithStructureRequest $request)

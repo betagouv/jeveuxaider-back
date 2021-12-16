@@ -306,7 +306,8 @@ class Profile extends Model implements HasMedia
 
     public function getDomainesAttribute()
     {
-        return $this->tagsWithType('domaine')->values();
+        // return $this->tagsWithType('domaine')->values();
+        return $this->tagsWithType('domaine')->pluck('id')->values();
     }
 
     public function getSkillsAttribute()
