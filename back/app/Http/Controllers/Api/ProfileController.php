@@ -134,7 +134,8 @@ class ProfileController extends Controller
         $profile->update($request->validated());
 
         if ($request->has('domaines')) {
-            $domaines_ids = collect($request->input('domaines'))->pluck('id');
+            //$domaines_ids = collect($request->input('domaines'))->pluck('id');
+            $domaines_ids =$request->input('domaines');
             $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $profile->syncTagsWithType($domaines, 'domaine');
         }
