@@ -55,6 +55,8 @@ class MissionController extends Controller
             
         // ->with('structure:id,name,state', 'responsable')
             // ->allowedAppends(['domaines', 'participations_validated_count'])
+            // ->allowedIncludes(['posts.comments', 'permissions'])
+            ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
             ->allowedFilters([
                 'state',
                 // AllowedFilter::custom('search', new FiltersMissionSearch),
