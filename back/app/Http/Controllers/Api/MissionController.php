@@ -63,6 +63,8 @@ class MissionController extends Controller
                 'type',
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
+                AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
+
                 // AllowedFilter::custom('search', new FiltersMissionSearch),
                 // 'name',
                 // 'structure.statut_juridique',
@@ -76,7 +78,6 @@ class MissionController extends Controller
                 // AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 // AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 // AllowedFilter::custom('dates', new FiltersMissionDates),
-                // AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
                 // AllowedFilter::exact('responsable_id'),
                 // AllowedFilter::scope('minimum_commitment'),
                 // AllowedFilter::scope('of_reseau'),
