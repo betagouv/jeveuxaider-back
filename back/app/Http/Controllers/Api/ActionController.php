@@ -106,6 +106,23 @@ class ActionController extends Controller
         return $actions;
     }
 
+    public function benevole(Request $request)
+    {
+        $actions =  [];
+        $user = $request->user();
+
+        $actions[] = [
+            'type' => 'messages_unread',
+            'value' => $user->getUnreadConversationsCount()
+        ];
+        $actions[] = [
+            'type' => 'profile_incomplete',
+            'value' => 66
+        ];
+
+        return $actions;
+    }
+
     // public function index(Request $request)
     // {
 
