@@ -325,6 +325,7 @@ class StructureController extends Controller
         $structure = Structure::where('api_id', '=', $apiId)
             ->orWhere('name', 'ILIKE', $apiId)
             ->first();
+
         if ($structure === null) {
             return false;
         }
