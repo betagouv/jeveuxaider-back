@@ -50,8 +50,6 @@ class PassportController extends Controller
         $user->notify($notification);
 
         return $user;
-
-        // return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
     public function registerResponsable(RegisterResponsableWithStructureRequest $request)
@@ -67,6 +65,7 @@ class PassportController extends Controller
         );
         $attributes = $request->validated();
         $attributes['user_id'] = $user->id;
+
         $profile = Profile::firstOrCreate(
             ['email' => request('email')],
             $attributes
@@ -111,8 +110,10 @@ class PassportController extends Controller
                     ]
                 ]
             );
-            
-        return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+
+        return $user;
+
+        // return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
     public function logout(Request $request)
