@@ -9,7 +9,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use App\Filters\FiltersMissionCeu;
 use App\Filters\FiltersMissionSearch;
 use App\Filters\FiltersMissionLieu;
 use App\Filters\FiltersMissionPlacesLeft;
@@ -40,7 +39,6 @@ class MissionsExport implements FromCollection, WithMapping, WithHeadings
                 AllowedFilter::exact('template_id'),
                 AllowedFilter::exact('structure_id'),
                 AllowedFilter::exact('id'),
-                AllowedFilter::custom('ceu', new FiltersMissionCeu),
                 AllowedFilter::custom('search', new FiltersMissionSearch),
                 AllowedFilter::custom('lieu', new FiltersMissionLieu),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
