@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -26,14 +27,20 @@ class UserController extends Controller
         $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
         $user->profile->append(['avatar', 'skills', 'domaines']);
 
-        ray($user);
-
         return $user;
+    }
+
+    public function structure(Request $request)
+    {
+        $profile = Profile::where('user_id', Auth::guard('api')->user()->id)->first();
+
+        return $profile->structures->first();
     }
 
     public function roles(Request $request)
     {
         $user = User::where('id', Auth::guard('api')->user()->id)->first();
+
         return $user->roles;
     }
 

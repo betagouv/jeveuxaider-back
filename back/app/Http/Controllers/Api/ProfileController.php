@@ -67,75 +67,74 @@ class ProfileController extends Controller
             ->paginate(8);
     }
 
-    public function statistics(Request $request, Profile $profile)
-    {
-        return [
-            'participations' => [
-                'Toutes' => Participation::where('profile_id', $profile->id)->count(),
-                'En attente de validation' => Participation::where('profile_id', $profile->id)->where('state', 'En attente de validation')->count(),
-                'En cours de traitement' => Participation::where('profile_id', $profile->id)->where('state', 'En cours de traitement')->count(),
-                'Validée' => Participation::where('profile_id', $profile->id)->where('state', 'Validée')->count(),
-                'Refusée' => Participation::where('profile_id', $profile->id)->where('state', 'Refusée')->count(),
-                'Annulée' => Participation::where('profile_id', $profile->id)->where('state', 'Annulée')->count(),
-            ]
-        ];
-    }
+    // public function statistics(Request $request, Profile $profile)
+    // {
+    //     return [
+    //         'participations' => [
+    //             'Toutes' => Participation::where('profile_id', $profile->id)->count(),
+    //             'En attente de validation' => Participation::where('profile_id', $profile->id)->where('state', 'En attente de validation')->count(),
+    //             'En cours de traitement' => Participation::where('profile_id', $profile->id)->where('state', 'En cours de traitement')->count(),
+    //             'Validée' => Participation::where('profile_id', $profile->id)->where('state', 'Validée')->count(),
+    //             'Refusée' => Participation::where('profile_id', $profile->id)->where('state', 'Refusée')->count(),
+    //             'Annulée' => Participation::where('profile_id', $profile->id)->where('state', 'Annulée')->count(),
+    //         ]
+    //     ];
+    // }
 
-    public function export(Request $request)
-    {
+    // public function export(Request $request)
+    // {
 
-        $currentUser = User::find(Auth::guard('api')->user()->id);
+    //     $currentUser = User::find(Auth::guard('api')->user()->id);
 
-        if(!$currentUser->profile->can_export_profiles){
-            return response()->json(['message'=> 'Seuls les référents accrédités peuvent générer cet export'], 401);
-        }
+    //     if(!$currentUser->profile->can_export_profiles){
+    //         return response()->json(['message'=> 'Seuls les référents accrédités peuvent générer cet export'], 401);
+    //     }
 
-        $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
-        $fileName = 'profiles-' . Str::random(8) . '.csv';
-        $filePath = $folder . $fileName;
+    //     $folder = 'public/'. config('app.env').'/exports/'.$request->user()->id . '/';
+    //     $fileName = 'profiles-' . Str::random(8) . '.csv';
+    //     $filePath = $folder . $fileName;
 
-        (new ProfilesExport($request->header('Context-Role')))
-            ->queue($filePath, 's3')
-            ->chain([
-                new NotifyUserOfCompletedExport($request->user(), $filePath),
-            ]);
+    //     (new ProfilesExport($request->header('Context-Role')))
+    //         ->queue($filePath, 's3')
+    //         ->chain([
+    //             new NotifyUserOfCompletedExport($request->user(), $filePath),
+    //         ]);
 
-        return response()->json(['message'=> 'Export en cours...'], 200);
-    }
+    //     return response()->json(['message'=> 'Export en cours...'], 200);
+    // }
 
-    public function exportReferentsDepartements(Request $request)
-    {
-        return Excel::download(new ProfilesReferentsDepartementsExport(), 'referents-departements.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
+    // public function exportReferentsDepartements(Request $request)
+    // {
+    //     return Excel::download(new ProfilesReferentsDepartementsExport(), 'referents-departements.csv', \Maatwebsite\Excel\Excel::CSV);
+    // }
 
-    public function exportReferentsRegions(Request $request)
-    {
-        return Excel::download(new ProfilesReferentsRegionsExport(), 'referents-regions.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
+    // public function exportReferentsRegions(Request $request)
+    // {
+    //     return Excel::download(new ProfilesReferentsRegionsExport(), 'referents-regions.csv', \Maatwebsite\Excel\Excel::CSV);
+    // }
 
-    public function exportTetesDeReseau(Request $request)
-    {
-        return Excel::download(new ProfilesTetesDeReseauExport(), 'tetes-de-reseau.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
+    // public function exportTetesDeReseau(Request $request)
+    // {
+    //     return Excel::download(new ProfilesTetesDeReseauExport(), 'tetes-de-reseau.csv', \Maatwebsite\Excel\Excel::CSV);
+    // }
 
-    public function exportResponsables(Request $request)
-    {
-        return Excel::download(new ProfilesResponsablesExport(), 'responsables.csv', \Maatwebsite\Excel\Excel::CSV);
-    }
+    // public function exportResponsables(Request $request)
+    // {
+    //     return Excel::download(new ProfilesResponsablesExport(), 'responsables.csv', \Maatwebsite\Excel\Excel::CSV);
+    // }
 
-    public function show(ProfileRequest $request, Profile $profile = null)
-    {
-        return Profile::with(['structures:id,name,state,statut_juridique','territoires'])->find($profile->id)->append('roles', 'has_user', 'skills', 'domaines')
-            ?: Profile::with(['structures:id,name,state,statut_juridique','territoires'])->find($request->user()->profile->id)->append('roles', 'has_user', 'skills', 'domaines');
-    }
+    // public function show(ProfileRequest $request, Profile $profile = null)
+    // {
+    //     return Profile::with(['structures:id,name,state,statut_juridique','territoires'])->find($profile->id)->append('roles', 'has_user', 'skills', 'domaines')
+    //         ?: Profile::with(['structures:id,name,state,statut_juridique','territoires'])->find($request->user()->profile->id)->append('roles', 'has_user', 'skills', 'domaines');
+    // }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
         $profile->update($request->validated());
 
         if ($request->has('domaines')) {
-            //$domaines_ids = collect($request->input('domaines'))->pluck('id');
-            $domaines_ids =$request->input('domaines');
+            $domaines_ids = $request->input('domaines');
             $domaines = Tag::whereIn('id', $domaines_ids)->get();
             $profile->syncTagsWithType($domaines, 'domaine');
         }
@@ -159,64 +158,64 @@ class ProfileController extends Controller
         return $profile;
     }
 
-    public function upload(ProfileUpdateRequest $request, Profile $profile)
-    {
+    // public function upload(ProfileUpdateRequest $request, Profile $profile)
+    // {
 
-        // Delete previous file
-        if ($media = $profile->getFirstMedia('profiles')) {
-            $media->delete();
-        }
+    //     // Delete previous file
+    //     if ($media = $profile->getFirstMedia('profiles')) {
+    //         $media->delete();
+    //     }
 
-        $data = $request->all();
-        $extension = $request->file('image')->guessExtension();
-        $name = Str::random(30);
+    //     $data = $request->all();
+    //     $extension = $request->file('image')->guessExtension();
+    //     $name = Str::random(30);
 
-        $cropSettings = json_decode($data['cropSettings']);
-        if (!empty($cropSettings)) {
-            $stringCropSettings = implode(",", [
-                $cropSettings->width,
-                $cropSettings->height,
-                $cropSettings->x,
-                $cropSettings->y
-            ]);
-        } else {
-            $pathName = $request->file('image')->getPathname();
-            $infos = getimagesize($pathName);
-            $stringCropSettings = implode(",", [
-                $infos[0],
-                $infos[1],
-                0,
-                0
-            ]);
-        }
+    //     $cropSettings = json_decode($data['cropSettings']);
+    //     if (!empty($cropSettings)) {
+    //         $stringCropSettings = implode(",", [
+    //             $cropSettings->width,
+    //             $cropSettings->height,
+    //             $cropSettings->x,
+    //             $cropSettings->y
+    //         ]);
+    //     } else {
+    //         $pathName = $request->file('image')->getPathname();
+    //         $infos = getimagesize($pathName);
+    //         $stringCropSettings = implode(",", [
+    //             $infos[0],
+    //             $infos[1],
+    //             0,
+    //             0
+    //         ]);
+    //     }
 
-        $profile
-            ->addMedia($request->file('image'))
-            ->usingName($name)
-            ->usingFileName($name . '.' . $extension)
-            ->withManipulations([
-                'thumb' => ['manualCrop' => $stringCropSettings]
-            ])
-            ->toMediaCollection('profiles');
+    //     $profile
+    //         ->addMedia($request->file('image'))
+    //         ->usingName($name)
+    //         ->usingFileName($name . '.' . $extension)
+    //         ->withManipulations([
+    //             'thumb' => ['manualCrop' => $stringCropSettings]
+    //         ])
+    //         ->toMediaCollection('profiles');
 
-        return $profile;
-    }
+    //     return $profile;
+    // }
 
-    public function uploadDelete(ProfileUpdateRequest $request, Profile $profile)
-    {
-        if ($media = $profile->getFirstMedia('profiles')) {
-            $media->delete();
-        }
-    }
+    // public function uploadDelete(ProfileUpdateRequest $request, Profile $profile)
+    // {
+    //     if ($media = $profile->getFirstMedia('profiles')) {
+    //         $media->delete();
+    //     }
+    // }
 
-    public function firstname(Request $request)
-    {
-        $profile = Profile::where('email', 'ILIKE', request('email'))->first();
+    // public function firstname(Request $request)
+    // {
+    //     $profile = Profile::where('email', 'ILIKE', request('email'))->first();
 
-        if (!$profile) {
-            return null;
-        }
+    //     if (!$profile) {
+    //         return null;
+    //     }
 
-        return collect($profile)->only('first_name', 'email');
-    }
+    //     return collect($profile)->only('first_name', 'email');
+    // }
 }
