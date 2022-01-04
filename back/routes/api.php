@@ -236,7 +236,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::delete('mission-template/{missionTemplate}/upload/{field}', 'Api\MissionTemplateController@uploadDelete');
 
     // RESEAUX
-    // Route::get('reseaux', 'Api\ReseauController@index');
+    Route::get('reseaux', 'Api\ReseauController@index');
     // Route::get('structure/{structure}/reseaux', 'Api\StructureController@reseaux');
 
 });

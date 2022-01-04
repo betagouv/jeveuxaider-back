@@ -28,73 +28,73 @@ class ReseauController extends Controller
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request, Reseau $reseau)
-    {
-        $reseau = Reseau::withCount('structures', 'missions', 'missionTemplates','invitationsAntennes','responsables')->where('id', $reseau->id)->first();
-        return $reseau;
-    }
+    // public function show(Request $request, Reseau $reseau)
+    // {
+    //     $reseau = Reseau::withCount('structures', 'missions', 'missionTemplates','invitationsAntennes','responsables')->where('id', $reseau->id)->first();
+    //     return $reseau;
+    // }
 
-    public function store(ReseauRequest $request)
-    {
-        $reseau = Reseau::create(
-            $request->validated()
-        );
+    // public function store(ReseauRequest $request)
+    // {
+    //     $reseau = Reseau::create(
+    //         $request->validated()
+    //     );
 
-        return $reseau;
-    }
+    //     return $reseau;
+    // }
 
-    public function update(ReseauRequest $request, Reseau $reseau)
-    {
-        return $reseau->update($request->validated());
-    }
+    // public function update(ReseauRequest $request, Reseau $reseau)
+    // {
+    //     return $reseau->update($request->validated());
+    // }
 
-    public function attachOrganisations(Request $request, Reseau $reseau)
-    {
-        if($request->input('organisations')) {
-            $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
-        }
+    // public function attachOrganisations(Request $request, Reseau $reseau)
+    // {
+    //     if($request->input('organisations')) {
+    //         $reseau->structures()->syncWithoutDetaching($request->input('organisations'));
+    //     }
 
-        return $reseau;
-    }
+    //     return $reseau;
+    // }
 
-    public function detachOrganisation(Request $request, Reseau $reseau, Structure $structure)
-    {
+    // public function detachOrganisation(Request $request, Reseau $reseau, Structure $structure)
+    // {
 
-        $reseau->structures()->detach($structure->id);
+    //     $reseau->structures()->detach($structure->id);
 
-        return $reseau;
-    }
+    //     return $reseau;
+    // }
 
-    public function lead(Request $request)
-    {
-        Notification::route('mail', [
-            'nassim.merzouk@beta.gouv.fr' => 'Joe',
-            'joe.achkar@beta.gouv.fr' => 'Nassim',
-        ])->notify(new ReseauNewLead($request->all()));
+    // public function lead(Request $request)
+    // {
+    //     Notification::route('mail', [
+    //         'nassim.merzouk@beta.gouv.fr' => 'Joe',
+    //         'joe.achkar@beta.gouv.fr' => 'Nassim',
+    //     ])->notify(new ReseauNewLead($request->all()));
 
-        return true;
-    }
+    //     return true;
+    // }
 
-    public function delete(Request $request, Reseau $reseau)
-    {
-        $this->authorize('delete', $reseau);
+    // public function delete(Request $request, Reseau $reseau)
+    // {
+    //     $this->authorize('delete', $reseau);
 
-        return (string) $reseau->delete();
-    }
+    //     return (string) $reseau->delete();
+    // }
 
-    public function responsables(Request $request, Reseau $reseau)
-    {
-        return $reseau->responsables()->orderBy('id')->get();
-    }
+    // public function responsables(Request $request, Reseau $reseau)
+    // {
+    //     return $reseau->responsables()->orderBy('id')->get();
+    // }
 
-    public function invitationsResponsables(Request $request, Reseau $reseau)
-    {
-        return $reseau->invitationsResponsables()->orderBy('id')->get();
-    }
+    // public function invitationsResponsables(Request $request, Reseau $reseau)
+    // {
+    //     return $reseau->invitationsResponsables()->orderBy('id')->get();
+    // }
 
-    public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
-    {
-        $reseau->deleteResponsable($responsable);
-        return $reseau->responsables;
-    }
+    // public function deleteResponsable(Request $request, Reseau $reseau, Profile $responsable)
+    // {
+    //     $reseau->deleteResponsable($responsable);
+    //     return $reseau->responsables;
+    // }
 }

@@ -10,7 +10,6 @@ class FiltersStructureSearch implements Filter
     public function __invoke(Builder $query, $value, string $property): Builder
     {
         return $query->where(function ($query) use ($value) {
-            
             if (is_numeric($value)) {
                 $query
                 ->where('zip', 'ILIKE', '%' . $value . '%')

@@ -11,16 +11,12 @@ class FiltersReseauSearch implements Filter
     {
         return $query->where(function ($query) use ($value, $property) {
             if (is_numeric($value)) {
-                $query
-                ->where('name', 'ILIKE', '%' . $value . '%')
-                ->orWhere('id', $value);
+                $query->where('id', $value);
             } else {
-                if (is_array($value)) {
-                    $value = implode(',', $value);
+                $terms = explode(" ", $value);
+                foreach ($terms as $term) {
+                    $query->whereRaw("CONCAT(name, ' ') ILIKE ?", ['%' . $term . '%']);
                 }
-                $query
-                ->where('name', 'ILIKE', '%' . $value . '%')
-                ;
             }
         });
     }
