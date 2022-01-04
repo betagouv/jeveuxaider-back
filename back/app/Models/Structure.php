@@ -124,13 +124,13 @@ class Structure extends Model implements HasMedia
 
     public function getDomainesAttribute()
     {
-        return $this->tagsWithType('domaine')->values();
+        return $this->tagsWithType('domaine')->pluck('id')->values();
     }
 
-    public function getDomainesWithImageAttribute()
-    {
-        return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
-    }
+    // public function getDomainesWithImageAttribute()
+    // {
+    //     return Tag::whereIn('id', $this->tagsWithType('domaine')->pluck('id'))->get()->toArray();
+    // }
 
     public function setNameAttribute($value)
     {

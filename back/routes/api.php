@@ -54,7 +54,7 @@ Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
 // Route::get('territoire/{territoire}/promotedMissions', 'Api\TerritoireController@promotedMissions');
 Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
 
-Route::get('tags', 'Api\TagController@index');
+// Route::get('tags', 'Api\TagController@index');
 
 // Route::post('reseaux/lead', 'Api\ReseauController@lead');
 // Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
@@ -69,6 +69,7 @@ Route::get('tags', 'Api\TagController@index');
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
+    Route::get('user/structure', 'Api\UserController@structure');
     Route::get('user/roles', 'Api\UserController@roles');
     Route::get('user/actions', 'Api\ActionController@index');
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
@@ -82,7 +83,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::get('profile/{profile}/statistics', 'Api\ProfileController@statistics');
 
     // Route::post('structure', 'Api\StructureController@store');
-    // Route::post('structure/{structure}', 'Api\StructureController@update');
+    Route::post('structure/{structure}', 'Api\StructureController@update');
     // Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
@@ -118,7 +119,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
-    // Route::get('structure/{structure}', 'Api\StructureController@show');
+    Route::get('structure/{structure}', 'Api\StructureController@show');
 
     // Route::delete('structure/{structure}', 'Api\StructureController@delete');
     // Route::post('structure/{structure}/restore', 'Api\StructureController@restore');
