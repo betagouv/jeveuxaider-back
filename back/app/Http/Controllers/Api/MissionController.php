@@ -60,6 +60,7 @@ class MissionController extends Controller
                 'department',
                 'type',
                 AllowedFilter::exact('responsable.id'),
+                AllowedFilter::exact('structure.name'),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
