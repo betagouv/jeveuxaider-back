@@ -9,7 +9,6 @@ use App\Http\Requests\Api\MissionUpdateRequest;
 use App\Http\Requests\Api\MissionStructureRequest;
 use App\Http\Requests\Api\MissionCloneRequest;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Filters\FiltersMissionCeu;
 use Spatie\QueryBuilder\AllowedFilter;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\MissionsExport;
@@ -53,7 +52,6 @@ class MissionController extends Controller
     {
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
             
-        // ->with('structure:id,name,state', 'responsable')
             // ->allowedAppends(['domaines', 'participations_validated_count'])
             // ->allowedIncludes(['posts.comments', 'permissions'])
             ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
@@ -61,24 +59,15 @@ class MissionController extends Controller
                 'state',
                 'department',
                 'type',
+                AllowedFilter::exact('responsable.id'),
                 AllowedFilter::custom('domaine', new FiltersMissionDomaine),
                 AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 AllowedFilter::custom('publics_volontaires', new FiltersMissionPublicsVolontaires),
+                AllowedFilter::custom('search', new FiltersMissionSearch),
+                AllowedFilter::scope('available'),
 
-                // AllowedFilter::custom('search', new FiltersMissionSearch),
-                // 'name',
-                // 'structure.statut_juridique',
-                // 'structure.state',
-                // AllowedFilter::exact('template_id'),
-                // AllowedFilter::exact('structure_id'),
-                // AllowedFilter::exact('is_priority'),
-                // AllowedFilter::exact('id'),
-                // AllowedFilter::custom('ceu', new FiltersMissionCeu),
-                // 
                 // AllowedFilter::custom('lieu', new FiltersMissionLieu),
-                // AllowedFilter::custom('place', new FiltersMissionPlacesLeft),
                 // AllowedFilter::custom('dates', new FiltersMissionDates),
-                // AllowedFilter::exact('responsable_id'),
                 // AllowedFilter::scope('minimum_commitment'),
                 // AllowedFilter::scope('of_reseau'),
             ])

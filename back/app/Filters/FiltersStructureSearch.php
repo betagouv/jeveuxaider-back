@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Spatie\QueryBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class FiltersStructureSearch implements Filter
 {
