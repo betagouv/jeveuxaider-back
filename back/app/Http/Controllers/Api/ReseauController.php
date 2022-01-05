@@ -65,15 +65,15 @@ class ReseauController extends Controller
     //     return $reseau;
     // }
 
-    // public function lead(Request $request)
-    // {
-    //     Notification::route('mail', [
-    //         'nassim.merzouk@beta.gouv.fr' => 'Joe',
-    //         'joe.achkar@beta.gouv.fr' => 'Nassim',
-    //     ])->notify(new ReseauNewLead($request->all()));
+    public function lead(Request $request)
+    {
+        Notification::route('mail', [
+            'nassim.merzouk@beta.gouv.fr' => 'Joe',
+            'joe.achkar@beta.gouv.fr' => 'Nassim',
+        ])->notify(new ReseauNewLead($request->all()));
 
-    //     return true;
-    // }
+        return true;
+    }
 
     // public function delete(Request $request, Reseau $reseau)
     // {
