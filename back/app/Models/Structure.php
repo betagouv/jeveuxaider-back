@@ -144,17 +144,17 @@ class Structure extends Model implements HasMedia
 
     public function setStructurePubliqueTypeAttribute($value)
     {
-        $this->attributes['structure_publique_type'] = ($this->statut_juridique == 'Structure publique') ? $value : null;
+        $this->attributes['structure_publique_type'] = ($this->statut_juridique == 'Organisation publique') ? $value : null;
     }
 
     public function setStructurePubliqueEtatTypeAttribute($value)
     {
-        $this->attributes['structure_publique_etat_type'] = ($this->statut_juridique == 'Structure publique') ? $value : null;
+        $this->attributes['structure_publique_etat_type'] = ($this->statut_juridique == 'Organisation publique') ? $value : null;
     }
 
     public function setStructurePriveeTypeAttribute($value)
     {
-        $this->attributes['structure_privee_type'] = ($this->statut_juridique == 'Structure privée') ? $value : null;
+        $this->attributes['structure_privee_type'] = ($this->statut_juridique == 'Organisation privée') ? $value : null;
     }
 
     public function setStatutJuridiqueAttribute($value)
