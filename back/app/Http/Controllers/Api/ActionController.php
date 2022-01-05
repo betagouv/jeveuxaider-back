@@ -22,7 +22,7 @@ class ActionController extends Controller
         $actions =  [];
         $user = $request->user();
 
-        switch($request->header('Context-Role')) {
+        switch ($request->header('Context-Role')) {
             case 'admin':
                 $actions[] = [
                     'type' => 'organisations_waiting_validation',
@@ -43,6 +43,10 @@ class ActionController extends Controller
                 break;
             case 'responsable':
                 $actions[] = [
+                    'type' => 'missions_empty',
+                    'value' => Mission::role($request->header('Context-Role'))->count() ? false : true,
+                ];
+                $actions[] = [
                     'type' => 'messages_unread',
                     'value' => $user->getUnreadConversationsCount()
                 ];
@@ -59,48 +63,48 @@ class ActionController extends Controller
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
                 break;
-                case 'referent':
-                case 'referent_regional':
-                    $actions[] = [
-                        'type' => 'messages_unread',
-                        'value' => $user->getUnreadConversationsCount()
-                    ];
-                    $actions[] = [
-                        'type' => 'participations_waiting_validation',
-                        'value' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
-                    ];
-                    $actions[] = [
-                        'type' => 'participations_in_progress',
-                        'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
-                    ];
-                    $actions[] = [
-                        'type' => 'missions_outdated',
-                        'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
-                    ];
-                    $actions[] = [
-                        'type' => 'organisations_waiting_validation',
-                        'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
-                    ];
-                    $actions[] = [
-                        'type' => 'organisations_incomplete',
-                        'value' => Structure::role($request->header('Context-Role'))->count()
-                    ];
-                    $actions[] = [
-                        'type' => 'missions_waiting_validation',
-                        'value' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
-                    ];
-                    break;
-                    case 'volontaire':
-                        $actions[] = [
-                            'type' => 'messages_unread',
-                            'value' => $user->getUnreadConversationsCount()
-                        ];
-                        $actions[] = [
-                            'type' => 'profile_incomplete',
-                            'value' => 66
-                        ];
+            case 'referent':
+            case 'referent_regional':
+                $actions[] = [
+                    'type' => 'messages_unread',
+                    'value' => $user->getUnreadConversationsCount()
+                ];
+                $actions[] = [
+                    'type' => 'participations_waiting_validation',
+                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'participations_in_progress',
+                    'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'missions_outdated',
+                    'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'organisations_waiting_validation',
+                    'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
+                ];
+                $actions[] = [
+                    'type' => 'organisations_incomplete',
+                    'value' => Structure::role($request->header('Context-Role'))->count()
+                ];
+                $actions[] = [
+                    'type' => 'missions_waiting_validation',
+                    'value' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
+                ];
+                break;
+            case 'volontaire':
+                $actions[] = [
+                    'type' => 'messages_unread',
+                    'value' => $user->getUnreadConversationsCount()
+                ];
+                $actions[] = [
+                    'type' => 'profile_incomplete',
+                    'value' => 66
+                ];
 
-                        break;
+                break;
         }
 
         return $actions;
