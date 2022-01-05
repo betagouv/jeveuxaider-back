@@ -145,7 +145,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('missions', 'Api\MissionController@index');
     // Route::get('mission/{mission}/benevoles', 'Api\MissionController@benevoles');
     // Route::get('mission/{mission}/responsable', 'Api\MissionController@responsable');
-    // Route::post('mission/{mission}', 'Api\MissionController@update');
+    Route::put('mission/{mission}', 'Api\MissionController@update');
     // Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     // Route::delete('mission/{mission}', 'Api\MissionController@delete');
     // Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
