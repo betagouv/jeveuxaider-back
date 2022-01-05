@@ -56,7 +56,7 @@ Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWit
 
 // Route::get('tags', 'Api\TagController@index');
 
-// Route::post('reseaux/lead', 'Api\ReseauController@lead');
+Route::post('reseaux/lead', 'Api\ReseauController@lead');
 // Route::get('reseaux/{reseau}', 'Api\ReseauController@show')->whereNumber('reseau');
 // Route::get('reseaux/test', 'Api\ReseauController@test');
 

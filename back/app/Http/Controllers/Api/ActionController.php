@@ -43,7 +43,7 @@ class ActionController extends Controller
                 break;
             case 'responsable':
                 $actions[] = [
-                    'type' => 'missions_empty',
+                    'type' => 'mission_new',
                     'value' => Mission::role($request->header('Context-Role'))->count() ? false : true,
                 ];
                 $actions[] = [
