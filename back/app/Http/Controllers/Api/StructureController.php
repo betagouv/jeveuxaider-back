@@ -97,7 +97,10 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->append('domaines');
+        //return $structure->append('domaines');
+
+        return Structure::with(['territoire'])->where('id', $structure->id)->first()->append('domaines');
+
 
         // $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         // $structure->append('response_time_score');
@@ -121,36 +124,38 @@ class StructureController extends Controller
     //     return $structure;
     // }
 
-    // public function store(StructureCreateRequest $request)
-    // {
-    //     if (!$request->validated()) {
-    //         return $request->validated();
-    //     }
+    public function store(StructureCreateRequest $request)
+    {
+        if (!$request->validated()) {
+            return $request->validated();
+        }
 
-    //     $structureAttributes = [
-    //         'user_id' => Auth::guard('api')->user()->id,
-    //     ];
+        $structureAttributes = [
+            'user_id' => Auth::guard('api')->user()->id,
+        ];
 
-    //     // MAPPING API ENGAGEMENT
-    //     if ($request->has('structure_api') && $request->input('structure_api')) {
-    //         $structureAttributes = array_merge(
-    //             $structureAttributes,
-    //             ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
-    //         );
-    //     }
+        // MAPPING API ENGAGEMENT
+        if ($request->has('structure_api') && $request->input('structure_api')) {
+            $structureAttributes = array_merge(
+                $structureAttributes,
+                ApiEngagement::prepareStructureAttributes($request->input('structure_api'))
+            );
+        }
 
-    //     $structure = Structure::create(
-    //         array_merge($request->validated(), $structureAttributes)
-    //     );
+        $structure = Structure::create(
+            array_merge($request->validated(), $structureAttributes)
+        );
 
-    //     if ($request->has('domaines')) {
-    //         $domaines_ids = collect($request->input('domaines'))->pluck('id');
-    //         $domaines = Tag::whereIn('id', $domaines_ids)->get();
-    //         $structure->syncTagsWithType($domaines, 'domaine');
-    //     }
+        if ($request->has('domaines')) {
+            $domaines_ids = $request->input('domaines');
+            $domaines = Tag::whereIn('id', $domaines_ids)->get();
+            $structure->syncTagsWithType($domaines, 'domaine');
+        }
 
-    //     return $structure;
-    // }
+        ray($structure);
+
+        return $structure;
+    }
 
     public function update(StructureUpdateRequest $request, Structure $structure)
     {

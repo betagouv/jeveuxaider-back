@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');
     // Route::get('profile/{profile}/statistics', 'Api\ProfileController@statistics');
 
-    // Route::post('structure', 'Api\StructureController@store');
+    Route::post('structure', 'Api\StructureController@store');
     Route::post('structure/{structure}', 'Api\StructureController@update');
     // Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
@@ -209,7 +209,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // TERRITOIRES
     // Route::post('territoire', 'Api\TerritoireController@store');
-    // Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
+    Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
     // Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
     // Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
     // Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');
