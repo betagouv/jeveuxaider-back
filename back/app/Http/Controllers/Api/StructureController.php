@@ -97,7 +97,10 @@ class StructureController extends Controller
             abort(403);
         }
 
-        return $structure->append('domaines');
+        //return $structure->append('domaines');
+
+        return Structure::with(['territoire'])->where('id', $structure->id)->first()->append('domaines');
+
 
         // $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
         // $structure->append('response_time_score');

@@ -49,17 +49,17 @@ class TerritoireController extends Controller
         return $territoire->setAppends(['full_url', 'banner', 'logo', 'permissions']);
     }
 
-    public function store(TerritoireRequest $request)
-    {
-        $territoire = Territoire::create($request->all());
+    // public function store(TerritoireRequest $request)
+    // {
+    //     $territoire = Territoire::create($request->all());
 
-        if (!empty($request['promoted_organisations'])) {
-            $ids = array_column($request['promoted_organisations'], 'id');
-            $territoire->promotedOrganisations()->sync($ids);
-        }
+    //     if (!empty($request['promoted_organisations'])) {
+    //         $ids = array_column($request['promoted_organisations'], 'id');
+    //         $territoire->promotedOrganisations()->sync($ids);
+    //     }
 
-        return $territoire->setAppends(['full_url', 'completion_rate']);
-    }
+    //     return $territoire->setAppends(['full_url', 'completion_rate']);
+    // }
 
     public function update(TerritoireUpdateRequest $request, Territoire $territoire)
     {
@@ -72,20 +72,20 @@ class TerritoireController extends Controller
         return $territoire->setAppends(['full_url', 'completion_rate']);
     }
 
-    public function delete(Request $request, Territoire $territoire)
-    {
-        return (string) $territoire->delete();
-    }
+    // public function delete(Request $request, Territoire $territoire)
+    // {
+    //     return (string) $territoire->delete();
+    // }
 
-    public function responsables(Request $request, Territoire $territoire)
-    {
-        return $territoire->responsables;
-    }
+    // public function responsables(Request $request, Territoire $territoire)
+    // {
+    //     return $territoire->responsables;
+    // }
 
-    public function invitations(Request $request, Territoire $territoire)
-    {
-        return $territoire->invitations;
-    }
+    // public function invitations(Request $request, Territoire $territoire)
+    // {
+    //     return $territoire->invitations;
+    // }
 
     // public function missions(Request $request, Territoire $territoire)
     // {
@@ -101,71 +101,71 @@ class TerritoireController extends Controller
     //         ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     // }
 
-    public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
-    {
-        $territoire->deleteResponsable($responsable);
-        return $territoire->responsables;
-    }
+    // public function deleteResponsable(Request $request, Territoire $territoire, Profile $responsable)
+    // {
+    //     $territoire->deleteResponsable($responsable);
+    //     return $territoire->responsables;
+    // }
 
-    public function promotedMissions(Request $request, Territoire $territoire)
-    {
-        $missions = $territoire->promotedMissions();
-        return $missions;
-    }
+    // public function promotedMissions(Request $request, Territoire $territoire)
+    // {
+    //     $missions = $territoire->promotedMissions();
+    //     return $missions;
+    // }
 
-    public function upload(TerritoireUploadRequest $request, Territoire $territoire, String $field)
-    {
+    // public function upload(TerritoireUploadRequest $request, Territoire $territoire, String $field)
+    // {
 
-        // Delete previous file
-        if ($media = $territoire->getFirstMedia('territoires', ['field' => $field])) {
-            $media->delete();
-        }
+    //     // Delete previous file
+    //     if ($media = $territoire->getFirstMedia('territoires', ['field' => $field])) {
+    //         $media->delete();
+    //     }
 
-        $data = $request->all();
-        $extension = $request->file('image')->guessExtension();
-        $name = Str::random(30);
+    //     $data = $request->all();
+    //     $extension = $request->file('image')->guessExtension();
+    //     $name = Str::random(30);
 
-        $cropSettings = json_decode($data['cropSettings']);
-        if (!empty($cropSettings)) {
-            $stringCropSettings = implode(",", [
-                $cropSettings->width,
-                $cropSettings->height,
-                $cropSettings->x,
-                $cropSettings->y
-            ]);
-        } else {
-            $pathName = $request->file('image')->getPathname();
-            $infos = getimagesize($pathName);
-            $stringCropSettings = implode(",", [
-                $infos[0],
-                $infos[1],
-                0,
-                0
-            ]);
-        }
+    //     $cropSettings = json_decode($data['cropSettings']);
+    //     if (!empty($cropSettings)) {
+    //         $stringCropSettings = implode(",", [
+    //             $cropSettings->width,
+    //             $cropSettings->height,
+    //             $cropSettings->x,
+    //             $cropSettings->y
+    //         ]);
+    //     } else {
+    //         $pathName = $request->file('image')->getPathname();
+    //         $infos = getimagesize($pathName);
+    //         $stringCropSettings = implode(",", [
+    //             $infos[0],
+    //             $infos[1],
+    //             0,
+    //             0
+    //         ]);
+    //     }
 
-        $territoire
-            ->addMedia($request->file('image'))
-            ->usingName($name)
-            ->usingFileName($name . '.' . $extension)
-            ->withCustomProperties(['field' => $field])
-            ->withManipulations([
-                'large' => ['manualCrop' => $stringCropSettings],
-                'thumb' => ['manualCrop' => $stringCropSettings]
-            ])
-            ->toMediaCollection('territoires');
+    //     $territoire
+    //         ->addMedia($request->file('image'))
+    //         ->usingName($name)
+    //         ->usingFileName($name . '.' . $extension)
+    //         ->withCustomProperties(['field' => $field])
+    //         ->withManipulations([
+    //             'large' => ['manualCrop' => $stringCropSettings],
+    //             'thumb' => ['manualCrop' => $stringCropSettings]
+    //         ])
+    //         ->toMediaCollection('territoires');
 
-        return $territoire;
-    }
+    //     return $territoire;
+    // }
 
-    public function uploadDelete(TerritoireDeleteRequest $request, Territoire $territoire, String $field)
-    {
-        if ($media = $territoire->getFirstMedia('territoires', ['field' => $field])) {
-            $media->delete();
-        }
+    // public function uploadDelete(TerritoireDeleteRequest $request, Territoire $territoire, String $field)
+    // {
+    //     if ($media = $territoire->getFirstMedia('territoires', ['field' => $field])) {
+    //         $media->delete();
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     public function citiesWithAvailableMissions(Request $request, Territoire $territoire)
     {
@@ -184,18 +184,18 @@ class TerritoireController extends Controller
         return array_slice($cities, 0, 10);
     }
 
-    public function export(Request $request)
-    {
-        $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
-        $fileName = 'territoires-' . Str::random(8) . '.csv';
-        $filePath = $folder . $fileName;
+    // public function export(Request $request)
+    // {
+    //     $folder = 'public/' . config('app.env') . '/exports/' . $request->user()->id . '/';
+    //     $fileName = 'territoires-' . Str::random(8) . '.csv';
+    //     $filePath = $folder . $fileName;
 
-        (new TerritoiresExport($request->header('Context-Role')))
-            ->queue($filePath, 's3')
-            ->chain([
-                new NotifyUserOfCompletedExport($request->user(), $filePath),
-            ]);
+    //     (new TerritoiresExport($request->header('Context-Role')))
+    //         ->queue($filePath, 's3')
+    //         ->chain([
+    //             new NotifyUserOfCompletedExport($request->user(), $filePath),
+    //         ]);
 
-        return response()->json(['message' => 'Export en cours...'], 200);
-    }
+    //     return response()->json(['message' => 'Export en cours...'], 200);
+    // }
 }

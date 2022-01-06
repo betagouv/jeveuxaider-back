@@ -18,6 +18,7 @@ use App\Http\Requests\RegisterResponsableWithStructureRequest;
 use App\Models\Activity;
 use App\Models\SocialAccount;
 use App\Models\Structure;
+use App\Models\Territoire;
 use App\Services\ApiEngagement;
 use Illuminate\Support\Facades\Auth;
 
@@ -94,6 +95,7 @@ class PassportController extends Controller
                 $structure->attachTag($domaine, 'domaine');
             }
         }
+
         // UPDATE LOG
         Activity::where('subject_type', 'App\Models\Structure')
             ->where('subject_id', $structure->id)
@@ -111,9 +113,26 @@ class PassportController extends Controller
                 ]
             );
 
-        return $user;
+        // COLLECTIVITE
+        if(request('structure_statut_juridique') === 'Collectivité'){
+            $territoire = Territoire::create([
+                'structure_id' => $structure->id,
+                'name' => preg_replace("/(^Mairie (des|du|de|d')*)/mi", "", $structure->name),
+                'suffix_title' => 'à ' . $structure->city ?? $structure->name,
+                'zips' => $structure->zip ? [$structure->zip] : [],
+                'department' => $structure->department,
+                'is_published' => false,
+                'type' => 'city',
+                'state' => 'waiting',
+            ]);
+            $territoire->save();
+            $responsable = $structure->responsables->first();
+            if ($responsable) {
+                $territoire->addResponsable($responsable);
+            }
+        }
 
-        // return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
+        return $user;
     }
 
     public function logout(Request $request)
