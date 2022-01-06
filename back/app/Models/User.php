@@ -41,10 +41,10 @@ class User extends Authenticatable
     {
         $roles = [];
 
-        $roles[] = [
-            'key' => 'volontaire',
-            'label' => 'Bénévole'
-        ];
+        // $roles[] = [
+        //     'key' => 'volontaire',
+        //     'label' => 'Bénévole'
+        // ];
 
         if($this->is_admin){
             $roles[] = [

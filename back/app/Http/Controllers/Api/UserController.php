@@ -25,6 +25,7 @@ class UserController extends Controller
     public function me(Request $request)
     {
         $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
+        $user->append(['roles']);
         $user->profile->append(['avatar', 'skills', 'domaines']);
 
         return $user;
@@ -37,12 +38,12 @@ class UserController extends Controller
         return $profile->structures->first();
     }
 
-    public function roles(Request $request)
-    {
-        $user = User::where('id', Auth::guard('api')->user()->id)->first();
+    // public function roles(Request $request)
+    // {
+    //     $user = User::where('id', Auth::guard('api')->user()->id)->first();
 
-        return $user->roles;
-    }
+    //     return $user->roles;
+    // }
 
     public function update(Request $request)
     {
@@ -62,7 +63,8 @@ class UserController extends Controller
         }
 
         $user->update($request->all());
-        $user->profile->append(['avatar','skills', 'domaines']);
+        $user->append(['roles']);
+        $user->profile->append(['avatar', 'skills', 'domaines']);
 
         return $user;
     }
