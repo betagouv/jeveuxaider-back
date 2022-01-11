@@ -26,20 +26,20 @@ class MissionRequest extends FormRequest
         return [
             'user_id' => 'sometimes|required',
             'name' => 'required_without:template_id|min:3|max:255',
-            'responsable_id' => '',
-            'start_date' => 'nullable|date_format:Y-m-d H:i:s',
-            'end_date' => 'nullable|date_format:Y-m-d H:i:s|after:start_date',
+            'responsable_id' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after:start_date',
             'structure_id' => '',
             'information' => '',
             'objectif' => 'required_without:template_id',
             'description' => 'required_without:template_id',
-            'address' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'zip' => 'required',
-            'city' => 'required',
+            'address' => 'requiredIf:type,Mission en présentiel',
+            'latitude' => 'requiredIf:type,Mission en présentiel',
+            'longitude' => 'requiredIf:type,Mission en présentiel',
+            'zip' => 'requiredIf:type,Mission en présentiel',
+            'city' => 'requiredIf:type,Mission en présentiel',
             'department' => [
-                'required',
+                'requiredIf:type,Mission en présentiel',
                 function ($attribute, $department, $fail) {
                     $datas = $this->validator->getData();
                     if (!empty($datas['zip'])) {
@@ -77,7 +77,7 @@ class MissionRequest extends FormRequest
             'thumbnail' => '',
             'skills' => '',
             'domaine_secondaire' => '',
-            'commitment__duration' => '',
+            'commitment__duration' => 'required',
             'commitment__time_period' => '',
             'is_priority' => '',
         ];
@@ -102,6 +102,7 @@ class MissionRequest extends FormRequest
             'end_date.date_format' => 'La date de fin doit être au format YYYY-MM-DD H:i:s',
             'end_date.after' => 'La date de fin doit être supérieur à celle de début',
             'name.required_without' => 'Le nom de la mission est requis',
+            'responsable_id.required' => 'Sélectionnez le contact principal de la mission'
         ];
     }
 }

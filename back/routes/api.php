@@ -125,7 +125,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::post('structure/{structure}/restore', 'Api\StructureController@restore');
 
     // STRUCTURE
-    // Route::post('structure/{structure}/missions', 'Api\StructureController@addMission');
+    Route::post('structure/{structure}/missions', 'Api\StructureController@addMission');
     // Route::get('structure/{structure}/members', 'Api\StructureController@members');
     // Route::post('structure/{structure}/members', 'Api\StructureController@addMember');
     // Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
@@ -201,7 +201,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::get('documents', 'Api\DocumentController@index');
 
     // MISSIONS TEMPLATES
-    // Route::get('mission-template/{missionTemplate}', 'Api\MissionTemplateController@show');
+    Route::get('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@show');
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
 
     // ACTIVITIES
