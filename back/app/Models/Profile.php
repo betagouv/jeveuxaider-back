@@ -55,7 +55,11 @@ class Profile extends Model implements HasMedia
             foreach ($media->getGeneratedConversions() as $key => $conversion) {
                 $mediaUrls[$key] = $media->getUrl($key);
             }
-            return $mediaUrls;
+            return [
+                'idMedia' => $media->id,
+                'urls' => $mediaUrls,
+                'manipulations' => $media->manipulations ? $media->manipulations[array_key_first($media->manipulations)] : null
+            ];
         }
         return null;
     }
@@ -63,9 +67,17 @@ class Profile extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(320)
-            ->height(320)
+            ->width(34)
+            ->height(34)
             ->nonQueued()
+            ->withResponsiveImages()
+            ->performOnCollections('profiles');
+
+        $this->addMediaConversion('big')
+            ->width(100)
+            ->height(100)
+            ->nonQueued()
+            ->withResponsiveImages()
             ->performOnCollections('profiles');
     }
 
@@ -152,7 +164,7 @@ class Profile extends Model implements HasMedia
 
     public function scopeBenevole($query)
     {
-        return $query->whereHas('user', function(Builder $query){
+        return $query->whereHas('user', function (Builder $query) {
             $query->where('context_role', 'volontaire')->orWhereNull('context_role');
         });
     }
