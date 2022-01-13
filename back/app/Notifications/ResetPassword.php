@@ -26,7 +26,7 @@ class ResetPassword extends ResetPasswordNotification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $link =  config('app.url') . '/password-reset/set-new/' . $this->token . '?email=' . $notifiable->getEmailForPasswordReset();
+        $link =  config('app.url') . '/password-reset/' . $this->token . '?email=' . $notifiable->getEmailForPasswordReset();
 
         return (new MailMessage)
             ->subject('Réinitialiser mon mot de passe')
