@@ -24,8 +24,6 @@ trait HasMissingFields
             }
         }
 
-        ray($missingFields);
-
         $this->missing_fields = count($missingFields) ? $missingFields : null;
 
     }

@@ -32,10 +32,6 @@ class ActionController extends Controller
                     'type' => 'missions_waiting_validation',
                     'value' => Mission::where('state', 'En attente de validation')->count(),
                 ];
-                $actions[] = [
-                    'type' => 'missions_outdated',
-                    'value' => Mission::where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
-                ];
                 break;
             case 'responsable':
                 $actions[] = [
@@ -76,10 +72,6 @@ class ActionController extends Controller
                 $actions[] = [
                     'type' => 'participations_in_progress',
                     'value' => Participation::role($request->header('Context-Role'))->where('state', 'En cours de traitement')->count(),
-                ];
-                $actions[] = [
-                    'type' => 'missions_outdated',
-                    'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
                 $actions[] = [
                     'type' => 'organisations_waiting_validation',
