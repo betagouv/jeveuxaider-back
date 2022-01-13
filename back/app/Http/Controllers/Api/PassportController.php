@@ -187,6 +187,6 @@ class PassportController extends Controller
 
         return $response == Password::RESET_LINK_SENT
             ? response()->json(['message' => 'Un lien de réinitialisation de votre mot de passe a été envoyé par mail'], 201)
-            : response()->json(['errors' => ['email' => ['Impossible de vous envoyer un lien de réinitialisation de votre mot de passe ']]], 401);
+            : response()->json(['message' => "L'email que vous avez renseigné est incorrect"], 401);
     }
 }
