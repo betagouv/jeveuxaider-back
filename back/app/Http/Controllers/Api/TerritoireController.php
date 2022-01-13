@@ -31,7 +31,6 @@ class TerritoireController extends Controller
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
             ->allowedAppends([
-                'completion_rate',
                 'full_url',
             ])
             ->defaultSort('-created_at')

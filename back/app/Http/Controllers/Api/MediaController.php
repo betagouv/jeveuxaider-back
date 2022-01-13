@@ -51,17 +51,18 @@ class MediaController extends Controller
         $manipulations = [];
         foreach ($conversions as $conversion) {
             $manipulations[$conversion] = [
-                'manualCrop' => implode(",", [
+                'manualCrop' => !empty($cropSettings) ? implode(",", [
                     $cropSettings->width,
                     $cropSettings->height,
                     $cropSettings->left,
                     $cropSettings->top
-                ])
+                ]) : null
             ];
         }
 
         $model
             ->addMedia($request->file('image'))
+            ->withCustomProperties(['attribute' => $attribute])
             ->withManipulations($manipulations)
             ->toMediaCollection($collection);
 

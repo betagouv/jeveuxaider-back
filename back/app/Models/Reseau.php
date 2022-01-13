@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasMissingFields;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Model;
 
 class Reseau extends Model
 {
-    use HasRelationships;
+    use HasRelationships, HasMissingFields;
 
     protected $table = 'reseaux';
 
@@ -15,6 +16,16 @@ class Reseau extends Model
         'name',
         'created_at',
     ];
+
+    protected $guarded = [
+        'id',
+    ];
+
+    protected $casts = [
+        'missing_fields' => 'array'
+    ];
+
+    protected $checkFields = ['publics_beneficiaires', 'description', 'phone', 'email' ,'address' ,'zip', 'city', 'department', 'website'];
 
     public function responsables()
     {

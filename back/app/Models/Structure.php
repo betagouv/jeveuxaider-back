@@ -16,10 +16,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Models\Tag;
+use App\Traits\HasMissingFields;
 
 class Structure extends Model implements HasMedia
 {
-    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug;
+    use SoftDeletes, LogsActivity, HasRelationships, HasTags, InteractsWithMedia, HasSlug, HasMissingFields;
 
     const CEU_TYPES = [
         "SDIS (Service départemental d'Incendie et de Secours)",
@@ -30,39 +31,8 @@ class Structure extends Model implements HasMedia
 
     protected $table = 'structures';
 
-    protected $fillable = [
-        'name',
-        'user_id',
-        'siret',
-        'statut_juridique',
-        'association_types',
-        'structure_publique_type',
-        'structure_publique_etat_type',
-        'structure_privee_type',
-        'description',
-        'address',
-        'latitude',
-        'longitude',
-        'zip',
-        'city',
-        'department',
-        'country',
-        'website',
-        'facebook',
-        'twitter',
-        'instagram',
-        'donation',
-        'state',
-        'publics_beneficiaires',
-        'image_1',
-        'image_2',
-        'api_id',
-        'rna',
-        'phone',
-        'email',
-        'slug',
-        'color',
-        'send_volunteer_coordonates',
+    protected $guarded = [
+        'id',
     ];
 
     protected $attributes = [
@@ -76,9 +46,12 @@ class Structure extends Model implements HasMedia
         'longitude' => 'float',
         'publics_beneficiaires' => 'array',
         'send_volunteer_coordonates' => 'boolean',
+        'missing_fields' => 'array'
     ];
 
     protected $hidden = ['media'];
+
+    protected $checkFields = ['description', 'domaines', 'publics_beneficiaires', 'address', 'department', 'logo', 'email', 'phone', 'website'];
 
     // protected $appends = ['full_url', 'full_address', 'domaines', 'logo', 'places_left', 'override_image_1', 'override_image_2'];
 
@@ -477,32 +450,4 @@ class Structure extends Model implements HasMedia
             && $this->api_id && $this->api_id != 'N/A';
     }
 
-    public function getCompletionRateAttribute()
-    {
-        $fields = [
-            ['name' => 'rna', 'label' => 'RNA'],
-            ['name' => 'logo', 'label' => 'Logo'],
-            ['name' => 'email', 'label' => "E-mail public de l'organisation"],
-            ['name' => 'phone', 'label' => "Téléphone de l'organisation"],
-            ['name' => 'website', 'label' => "Site de l'organisation"],
-            ['name' => 'facebook', 'label' => "Page Facebook"],
-            ['name' => 'twitter', 'label' => "Page Twitter"],
-            ['name' => 'instagram', 'label' => "Profil Instagram"],
-        ];
-        $existingFieldsCount = 0;
-        $missingFields = [];
-
-        foreach ($fields as $field) {
-            if ($this->{$field['name']}) {
-                $existingFieldsCount++;
-            } else {
-                $missingFields[] = $field;
-            }
-        }
-
-        return [
-            'score' => round($existingFieldsCount / count($fields) * 100),
-            'missing_fields' => $missingFields
-        ];
-    }
 }
