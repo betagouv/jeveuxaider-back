@@ -29,7 +29,6 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
             ->allowedAppends([
-                'completion_rate',
                 'full_url',
             ])
             ->defaultSort('-created_at')
@@ -48,7 +47,7 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
             'zips',
             'state',
             'is_published',
-            'completion_rate',
+            'missing_fields',
             'full_url',
             'structure_id'
         ];
@@ -67,7 +66,7 @@ class TerritoiresExport implements FromCollection, WithMapping, WithHeadings, Sh
             $territoire->zips,
             $territoire->state,
             $territoire->is_published,
-            $territoire->completion_rate['score'],
+            $territoire->missing_fields,
             $territoire->full_url,
             $territoire->structure_id,
         ];

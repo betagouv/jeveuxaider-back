@@ -126,9 +126,9 @@ class StructureController extends Controller
 
     public function store(StructureCreateRequest $request)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
+        // if (!$request->validated()) {
+        //     return $request->validated();
+        // }
 
         $structureAttributes = [
             'user_id' => Auth::guard('api')->user()->id,
@@ -152,16 +152,14 @@ class StructureController extends Controller
             $structure->syncTagsWithType($domaines, 'domaine');
         }
 
-        ray($structure);
-
         return $structure;
     }
 
     public function update(StructureUpdateRequest $request, Structure $structure)
     {
-        if (!$request->validated()) {
-            return $request->validated();
-        }
+        // if (!$request->validated()) {
+        //     return $request->validated();
+        // }
 
         if ($request->has('domaines')) {
             $domaines_ids = $request->input('domaines');

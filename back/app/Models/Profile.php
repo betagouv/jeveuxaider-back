@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Helpers\Utils;
+use App\Traits\HasMissingFields;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Profile extends Model implements HasMedia
 {
-    use Notifiable, InteractsWithMedia, HasTags, LogsActivity;
+    use Notifiable, InteractsWithMedia, HasTags, LogsActivity, HasMissingFields;
 
     protected $table = 'profiles';
 
@@ -29,12 +30,15 @@ class Profile extends Model implements HasMedia
         'is_analyste' => 'boolean',
         'is_visible' => 'boolean',
         'disponibilities' => 'array',
-        'can_export_profiles' => 'boolean'
+        'can_export_profiles' => 'boolean',
+        'missing_fields' => 'array'
     ];
 
     protected $appends = ['short_name', 'full_name'];
 
     protected $hidden = ['user'];
+
+    protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period','commitment__duration', 'description', 'birthday', 'skills' ,'domaines'];
 
     protected static $logFillable = true;
 
@@ -392,23 +396,24 @@ class Profile extends Model implements HasMedia
     }
 
 
-    public static function getNotificationBenevoleStats($pid)
-    {
-        $total = NotificationBenevole::where('profile_id', $pid)->count();
-        $this_month = NotificationBenevole::where('profile_id', $pid)
-            ->whereBetween('created_at', [
-                Carbon::now()->startOfMonth(),
-                Carbon::now()->endOfMonth()
-            ])->count();
+    // public static function getNotificationBenevoleStats($pid)
+    // {
+    //     $total = NotificationBenevole::where('profile_id', $pid)->count();
+    //     $this_month = NotificationBenevole::where('profile_id', $pid)
+    //         ->whereBetween('created_at', [
+    //             Carbon::now()->startOfMonth(),
+    //             Carbon::now()->endOfMonth()
+    //         ])->count();
 
-        return [
-            'total' => $total,
-            'thisMonth' => $this_month,
-        ];
-    }
+    //     return [
+    //         'total' => $total,
+    //         'thisMonth' => $this_month,
+    //     ];
+    // }
 
-    public function getNotificationBenevoleStatsAttribute()
-    {
-        return self::getNotificationBenevoleStats($this->id);
-    }
+    // public function getNotificationBenevoleStatsAttribute()
+    // {
+    //     return self::getNotificationBenevoleStats($this->id);
+    // }
+
 }

@@ -59,6 +59,9 @@ class ProfileObserver
         if ($profile->commitment__duration) {
             $profile->setCommitmentTotal();
         }
+
+        $profile->saveMissingFields();
+        
     }
 
     /**

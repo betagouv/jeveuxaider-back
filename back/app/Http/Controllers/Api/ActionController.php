@@ -29,10 +29,6 @@ class ActionController extends Controller
                     'value' => Structure::where('state', 'En attente de validation')->count()
                 ];
                 $actions[] = [
-                    'type' => 'organisations_incomplete',
-                    'value' => Structure::count()
-                ];
-                $actions[] = [
                     'type' => 'missions_waiting_validation',
                     'value' => Mission::where('state', 'En attente de validation')->count(),
                 ];
@@ -62,6 +58,10 @@ class ActionController extends Controller
                     'type' => 'missions_outdated',
                     'value' => Mission::role($request->header('Context-Role'))->where('end_date', '<', Carbon::now())->where('state', 'Validée')->count(),
                 ];
+                $actions[] = [
+                    'type' => 'organisation_incomplete',
+                    'value' => isset($user->profile->structures[0]) ? $user->profile->structures[0]->missing_fields : false,
+                ];
                 break;
             case 'referent':
             case 'referent_regional':
@@ -86,24 +86,9 @@ class ActionController extends Controller
                     'value' => Structure::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count()
                 ];
                 $actions[] = [
-                    'type' => 'organisations_incomplete',
-                    'value' => Structure::role($request->header('Context-Role'))->count()
-                ];
-                $actions[] = [
                     'type' => 'missions_waiting_validation',
                     'value' => Mission::role($request->header('Context-Role'))->where('state', 'En attente de validation')->count(),
                 ];
-                break;
-            case 'volontaire':
-                $actions[] = [
-                    'type' => 'messages_unread',
-                    'value' => $user->getUnreadConversationsCount()
-                ];
-                $actions[] = [
-                    'type' => 'profile_incomplete',
-                    'value' => 66
-                ];
-
                 break;
         }
 
@@ -121,7 +106,11 @@ class ActionController extends Controller
         ];
         $actions[] = [
             'type' => 'profile_incomplete',
-            'value' => 66
+            'value' => $user->profile->missing_fields,
+        ];
+        $actions[] = [
+            'type' => 'search_missions',
+            'value' => true
         ];
 
         return $actions;
