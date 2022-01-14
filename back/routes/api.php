@@ -23,7 +23,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 // Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
-Route::get('missions/promoted', 'Api\MissionController@promotedToFrontPage');
+Route::get('missions/prioritaires', 'Api\MissionController@prioritaires');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
 Route::get('association/{slugOrId}', 'Api\StructureController@associationSlugOrId');

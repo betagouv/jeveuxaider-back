@@ -38,7 +38,12 @@ class SettingController
 
     public function updateEdito(Request $request, EditoSettings $settings)
     {
-        $settings->missions_prioritaires = [];
+
+        ray($request->input('missions_prioritaires'));
+        $settings->missions_prioritaires = $request->input('missions_prioritaires');
+
+        $settings->save();
+        
         return $settings;
     }
 
