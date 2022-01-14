@@ -2,10 +2,12 @@
 
 namespace App\Traits;
 
+use \Illuminate\Database\Eloquent\Collection;
+
 trait HasMissingFields
 {
 
-    public function saveMissingFields()
+    public function getMissingFieldsAttribute()
     {
 
         if(!$this->checkFields){
@@ -16,15 +18,17 @@ trait HasMissingFields
 
         foreach ($this->checkFields as $field) {
             if ($this->{$field}) {
-                if(is_array($this->{$field}) && count($this->{$field}) == 0){
-                    $missingFields[] = $field;
+                if(is_array($this->{$field}) || $this->{$field} instanceof Collection){
+                    if(count($this->{$field}) == 0){
+                        $missingFields[] = $field;
+                    }
                 }
             } else {
                 $missingFields[] = $field;
             }
         }
 
-        $this->missing_fields = count($missingFields) ? $missingFields : null;
+        return count($missingFields) ? $missingFields : null;
 
     }
 

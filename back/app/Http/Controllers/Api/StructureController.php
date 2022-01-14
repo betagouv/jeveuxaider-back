@@ -99,7 +99,7 @@ class StructureController extends Controller
 
         //return $structure->append('domaines');
 
-        return Structure::with(['territoire'])->where('id', $structure->id)->first()->append('domaines');
+        return Structure::with(['territoire', 'members'])->where('id', $structure->id)->first()->append('domaines');
 
 
         // $structure = Structure::with(['members', 'territoire', 'reseaux.responsables'])->withCount('missions', 'participations', 'waitingParticipations', 'conversations')->where('id', $structure->id)->first();
@@ -254,18 +254,18 @@ class StructureController extends Controller
     //     return $structure->members;
     // }
 
-    // public function addMission(MissionCreateRequest $request, Structure $structure)
-    // {
-    //     $attributes = array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]);
+    public function addMission(MissionCreateRequest $request, Structure $structure)
+    {
+        $attributes = array_merge($request->validated(), ['user_id' => Auth::guard('api')->user()->id]);
 
-    //     if ($structure->state != 'Validée' && empty($attributes['state'])) {
-    //         $attributes['state'] = 'Brouillon';
-    //     }
+        if ($structure->state != 'Validée' && empty($attributes['state'])) {
+            $attributes['state'] = 'Brouillon';
+        }
 
-    //     $mission = $structure->addMission($attributes);
+        $mission = $structure->addMission($attributes);
 
-    //     return $mission;
-    // }
+        return $mission;
+    }
 
     // public function upload(StructureUploadRequest $request, Structure $structure, String $field)
     // {

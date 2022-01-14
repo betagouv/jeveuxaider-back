@@ -27,7 +27,9 @@ class Mission extends Model
     protected $casts = [
         'publics_beneficiaires' => 'array',
         'publics_volontaires' => 'array',
-        'is_priority' => 'boolean'
+        'is_priority' => 'boolean',
+        'start_date' => 'datetime:Y-m-d\TH:i',
+        'end_date' => 'datetime:Y-m-d\TH:i'
     ];
 
     protected $attributes = [
