@@ -66,6 +66,10 @@ Route::post('reseaux/lead', 'Api\ReseauController@lead');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 // Route::post('temoignage', 'Api\TemoignageController@store');
 
+
+Route::get('settings/messages', 'Api\SettingController@messages');
+Route::get('settings/edito', 'Api\SettingController@edito');
+
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('user', 'Api\UserController@me');
@@ -246,9 +250,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
-    Route::get('settings/messages', 'Api\SettingController@messages');
     Route::post('settings/messages', 'Api\SettingController@updateMessages');
-    Route::get('settings/edito', 'Api\SettingController@edito');
     Route::post('settings/edito', 'Api\SettingController@updateEdito');
 
     // Route::get('topito/participations', 'Api\TopitoController@participations');
