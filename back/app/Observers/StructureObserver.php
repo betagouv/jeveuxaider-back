@@ -198,7 +198,7 @@ class StructureObserver
 
     public function saving(Structure $structure)
     {
-        $structure->saveMissingFields();
+        //
     }
 
     public function deleted(Structure $structure)

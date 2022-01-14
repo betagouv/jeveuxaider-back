@@ -53,19 +53,9 @@ class Profile extends Model implements HasMedia
 
     public function getAvatarAttribute()
     {
-        $media = $this->getFirstMedia('profiles');
-        if ($media) {
-            $mediaUrls = ['original' => $media->getFullUrl()];
-            foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                $mediaUrls[$key] = $media->getUrl($key);
-            }
-            return [
-                'idMedia' => $media->id,
-                'urls' => $mediaUrls,
-                'manipulations' => $media->manipulations ? $media->manipulations[array_key_first($media->manipulations)] : null
-            ];
-        }
-        return null;
+        return $this->getMedia('profiles', ['attribute' => 'avatar'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -415,5 +405,4 @@ class Profile extends Model implements HasMedia
     // {
     //     return self::getNotificationBenevoleStats($this->id);
     // }
-
 }

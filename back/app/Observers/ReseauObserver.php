@@ -9,7 +9,7 @@ class ReseauObserver
 
     public function saving(Reseau $reseau)
     {
-        $reseau->saveMissingFields();
+        //
     }
 
 }
