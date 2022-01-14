@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Http\Controllers\Controller;
 
 class MediaController extends Controller
 {
     public function store(Request $request, String $modelType, Int $modelId, String $collection, String $attribute)
     {
         $model = $this->getModel($modelType, $modelId);
-        $conversions = $this->getConversions($model, $collection);
-        $this->deleteCurrentMedia($model, $collection, $attribute);
-        return $this->addMedia($request, $conversions, $model, $collection, $attribute);
-        // return response()->json($model->{$attribute});
+        $media = $model
+            ->addMedia($request->file('file'))
+            ->withCustomProperties(['attribute' => $attribute])
+            ->withManipulations($this->getManipulations($request, $model, $collection))
+            ->toMediaCollection($collection);
+
+        return $media->getFormattedMediaField();
     }
 
     public function delete(Request $request, Media $media)
@@ -26,7 +30,29 @@ class MediaController extends Controller
     {
         $modelClass = '\\App\\Models\\' . Str::studly($modelType);
         $model = $modelClass::find($modelId);
-        return $model->registerMediaConversions();
+        $model->registerMediaConversions();
+        return $model;
+    }
+
+    private function getManipulations($request, $model, $collection)
+    {
+        $conversions = $this->getConversions($model, $collection);
+        $manipulations = [];
+        $cropSettings = json_decode($request->get('cropSettings'));
+
+        foreach ($conversions as $conversion) {
+            $manipulations[$conversion] = [];
+            if (!empty($cropSettings)) {
+                $manipulations[$conversion]['manualCrop'] = implode(",", [
+                    $cropSettings->width,
+                    $cropSettings->height,
+                    $cropSettings->left,
+                    $cropSettings->top
+                ]);
+            }
+        }
+
+        return $manipulations;
     }
 
     private function getConversions($model, $collection)
@@ -34,38 +60,5 @@ class MediaController extends Controller
         return array_filter(array_map(function ($conversion) use ($collection) {
             return $conversion->shouldBePerformedOn($collection) ? $conversion->getName() : null;
         }, $model->mediaConversions));
-    }
-
-    private function deleteCurrentMedia($model, $collection, $attribute)
-    {
-        // Delete previous file
-        if ($media = $model->getFirstMedia($collection, ['attribute' => $attribute])) {
-            $media->delete();
-        }
-    }
-
-    private function addMedia(Request $request, $conversions, $model, String $collection, $attribute)
-    {
-        // Add media
-        $cropSettings = json_decode($request->get('cropSettings'));
-        $manipulations = [];
-        foreach ($conversions as $conversion) {
-            $manipulations[$conversion] = [
-                'manualCrop' => !empty($cropSettings) ? implode(",", [
-                    $cropSettings->width,
-                    $cropSettings->height,
-                    $cropSettings->left,
-                    $cropSettings->top
-                ]) : null
-            ];
-        }
-
-        $model
-            ->addMedia($request->file('image'))
-            ->withCustomProperties(['attribute' => $attribute])
-            ->withManipulations($manipulations)
-            ->toMediaCollection($collection);
-
-        return $model->{$attribute};
     }
 }
