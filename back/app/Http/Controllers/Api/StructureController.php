@@ -47,13 +47,15 @@ class StructureController extends Controller
                 // AllowedFilter::custom('rna', new FiltersStructureWithRna),
                 // AllowedFilter::scope('of_reseau'),
             ])
-            // ->allowedIncludes([
-            //     'missions',
-            //     'reseaux'
-            // ])
-            // ->allowedAppends([
-            //     'completion_rate',
-            // ])
+            ->allowedIncludes([
+                // 'missions',
+                // 'reseaux',
+                'tags'
+            ])
+            ->allowedAppends([
+                'domaines',
+                'places_left',
+            ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
     }
