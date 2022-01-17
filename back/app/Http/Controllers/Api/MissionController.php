@@ -75,7 +75,7 @@ class MissionController extends Controller
                 AllowedFilter::scope('minimum_commitment'),
                 AllowedFilter::scope('of_reseau'),
             ])
-            ->allowedSorts(['places_left', 'type'])
+            ->allowedSorts(['-created_at', 'created_at', '-updated_at', 'updated_at', '-places_left', 'places_left', 'type'])
             ->defaultSort('-created_at')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }

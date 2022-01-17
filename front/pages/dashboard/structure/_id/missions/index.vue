@@ -19,7 +19,7 @@
           :initial-value="query['filter[search]']"
           @changed="onFilterChange"
         />
-        <el-badge v-if="activeFilters" :value="activeFilters" type="primary">
+        <el-badge :value="activeFilters || null" type="primary">
           <el-button
             icon="el-icon-s-operation"
             class="!ml-4"
@@ -28,14 +28,6 @@
             Filtres avancés
           </el-button>
         </el-badge>
-        <el-button
-          v-else
-          icon="el-icon-s-operation"
-          class="!ml-4"
-          @click="showFilters = !showFilters"
-        >
-          Filtres avancés
-        </el-button>
       </div>
       <div v-if="showFilters" class="flex flex-wrap gap-4 mb-4">
         <SearchFiltersQuery

@@ -991,11 +991,13 @@ export default {
       this.$set(this.form, 'latitude', this.form.structure.latitude)
       this.$set(this.form, 'longitude', this.form.structure.longitude)
       this.$set(this.form, 'department', this.form.structure.department)
-      this.$set(
-        this.form,
-        'full_address',
-        `${this.form.address} ${this.form.zip} ${this.form.city}`
-      )
+      if (this.form.city) {
+        this.$set(
+          this.form,
+          'full_address',
+          `${this.form.address} ${this.form.zip} ${this.form.city}`
+        )
+      }
     },
     ontooltipMouseOver() {
       this.$refs.tooltip[0].show()
