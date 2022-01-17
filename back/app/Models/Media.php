@@ -10,7 +10,7 @@ class Media extends SpatieMedia
     {
         $mediaUrls = ['original' => $this->getFullUrl()];
         foreach ($this->getGeneratedConversions() as $key => $conversion) {
-            $mediaUrls[$key] = $this->getUrl($key);
+            $mediaUrls[$key] = $this->getSrcset($key);
         }
 
         // name, size, type -> https://developer.mozilla.org/fr/docs/Web/API/File

@@ -61,15 +61,15 @@ class Profile extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(34)
-            ->height(34)
+            ->width(68)
+            ->height(68)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
 
         $this->addMediaConversion('big')
-            ->width(100)
-            ->height(100)
+            ->width(200)
+            ->height(200)
             ->nonQueued()
             ->withResponsiveImages()
             ->performOnCollections('profiles');
