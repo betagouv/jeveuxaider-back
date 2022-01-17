@@ -32,8 +32,8 @@
           :sorts="[
             { label: 'Nombre de places décroissant', value: '-places_left' },
             { label: 'Nombre de places croissant', value: 'places_left' },
-            { label: 'Modification les plus récentes', value: '-updated_at' },
-            { label: 'Modification les moins récentes', value: 'updated_at' },
+            { label: 'Modifications les plus récentes', value: '-updated_at' },
+            { label: 'Modifications les moins récentes', value: 'updated_at' },
             { label: 'Les plus récentes', value: '-created_at' },
             { label: 'Les moins récentes', value: 'created_at' },
           ]"
