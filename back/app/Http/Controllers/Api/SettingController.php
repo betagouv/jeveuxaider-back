@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Settings\MessageSettings;
-use App\Settings\EditoSettings;
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 
 class SettingController
@@ -31,20 +31,19 @@ class SettingController
         return $settings;
     }
 
-    public function edito(EditoSettings $settings)
+    public function general(GeneralSettings $settings)
     {
         return $settings->toArray();
     }
 
-    public function updateEdito(Request $request, EditoSettings $settings)
+    public function updateGeneral(Request $request, GeneralSettings $settings)
     {
 
-        ray($request->input('missions_prioritaires'));
-        $settings->missions_prioritaires = $request->input('missions_prioritaires');
+        $settings->light_mode_active = $request->input('light_mode_active');
+        $settings->france_connect_active = $request->input('france_connect_active');
 
         $settings->save();
-        
+
         return $settings;
     }
-
 }
