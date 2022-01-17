@@ -62,19 +62,10 @@
           "
           @changed="onFilterChange"
         />
-        <SearchFiltersQuery
+        <SearchFiltersQueryReseaux
           type="select"
-          name="reseau.id"
-          :value="query['filter[of_reseau]']"
+          name="of_reseau"
           label="Réseau"
-          :options="
-            reseaux.map((reseau) => {
-              return {
-                label: reseau.name,
-                value: reseau.id,
-              }
-            })
-          "
           @changed="onFilterChange"
         />
       </div>
@@ -201,10 +192,8 @@ export default {
       return error({ statusCode: 403 })
     }
     const domaines = await $api.fetchTags({ 'filter[type]': 'domaine' })
-    const reseaux = await $api.fetchReseaux()
     return {
       domaines: domaines.data.data,
-      reseaux: reseaux.data.data,
     }
   },
   data() {

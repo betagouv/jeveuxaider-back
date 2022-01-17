@@ -27,6 +27,8 @@ class ReseauController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new FiltersReseauSearch),
                 AllowedFilter::exact('is_published'),
+                AllowedFilter::exact('id'),
+                'name',
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
