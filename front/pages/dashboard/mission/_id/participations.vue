@@ -127,18 +127,23 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[mission.id]'] = this.mission.id
-    const { data } = await this.$api.fetchParticipations(this.query)
+    const { data } = await this.$api.fetchParticipations(this.fullQuery)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
   },
+  computed: {
+    fullQuery() {
+      // exposed + forced filters
+      return { ...this.query, 'filter[mission.id]': this.mission.id }
+    },
+  },
   methods: {
     onExport() {
       this.loadingExport = true
       this.$api
-        .exportParticipations(this.query)
+        .exportParticipations(this.fullQuery)
         .then((response) => {
           this.loadingExport = false
           fileDownload(response.data, 'participations.xlsx')

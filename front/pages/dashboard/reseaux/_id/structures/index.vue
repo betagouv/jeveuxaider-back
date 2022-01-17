@@ -175,9 +175,8 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[of_reseau]'] = this.$route.params.id
     const { data } = await this.$api.fetchStructures({
-      ...this.query,
+      ...this.fullQuery,
       include: 'missionsCount',
       append: 'completion_rate',
     })
@@ -186,11 +185,17 @@ export default {
     this.fromRow = data.from
     this.toRow = data.to
   },
+  computed: {
+    fullQuery() {
+      // exposed + forced filters
+      return { ...this.query, 'filter[of_reseau]': this.$route.params.id }
+    },
+  },
   methods: {
     onExport() {
       this.loadingExport = true
       this.$api
-        .exportStructures(this.query)
+        .exportStructures(this.fullQuery)
         .then(() => {
           this.loadingExport = false
           // fileDownload(response.data, 'organisation.xlsx')

@@ -230,18 +230,23 @@ export default {
     }
   },
   async fetch() {
-    this.query['filter[structure_id]'] = this.structure.id
-    const { data } = await this.$api.fetchMissions(this.query)
+    const { data } = await this.$api.fetchMissions(this.fullQuery)
     this.tableData = data.data
     this.totalRows = data.total
     this.fromRow = data.from
     this.toRow = data.to
   },
+  computed: {
+    fullQuery() {
+      // exposed + forced filters
+      return { ...this.query, 'filter[structure_id]': this.structure.id }
+    },
+  },
   methods: {
     onExport() {
       this.loadingExport = true
       this.$api
-        .exportMissions(this.query)
+        .exportMissions(this.fullQuery)
         .then((response) => {
           this.loadingExport = false
           fileDownload(response.data, 'missions.xlsx')
