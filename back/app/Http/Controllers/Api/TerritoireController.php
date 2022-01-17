@@ -68,7 +68,7 @@ class TerritoireController extends Controller
         $ids = !empty($request['promoted_organisations']) ? array_column($request['promoted_organisations'], 'id') : [];
         $territoire->promotedOrganisations()->sync($ids);
 
-        return $territoire->setAppends(['full_url', 'completion_rate']);
+        return $territoire->setAppends(['full_url']);
     }
 
     // public function delete(Request $request, Territoire $territoire)

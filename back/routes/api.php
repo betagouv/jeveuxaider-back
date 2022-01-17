@@ -23,7 +23,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 // Route::get('faqs', 'Api\FaqController@index');
 Route::get('page/{page}', 'Api\PageController@show');
 
-Route::get('missions/promoted', 'Api\MissionController@promotedToFrontPage');
+Route::get('missions/prioritaires', 'Api\MissionController@prioritaires');
 Route::get('mission/{mission}', 'Api\MissionController@show');
 Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
 Route::get('association/{slugOrId}', 'Api\StructureController@associationSlugOrId');
@@ -65,6 +65,10 @@ Route::post('reseaux/lead', 'Api\ReseauController@lead');
 // Route::get('participation/{participation}/benevole-name', 'Api\ParticipationController@benevoleName');
 // Route::get('participation/{participation}/mission', 'Api\ParticipationController@mission');
 // Route::post('temoignage', 'Api\TemoignageController@store');
+
+
+Route::get('settings/messages', 'Api\SettingController@messages');
+Route::get('settings/edito', 'Api\SettingController@edito');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
@@ -208,7 +212,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
 
     // ACTIVITIES
-    // Route::get('activities', 'Api\ActivityController@index');
+    Route::get('activities', 'Api\ActivityController@index');
 
     // TERRITOIRES
     // Route::post('territoire', 'Api\TerritoireController@store');
@@ -245,6 +249,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
 // ONLY ADMIN
 Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
+
+    Route::post('settings/messages', 'Api\SettingController@updateMessages');
+    Route::post('settings/edito', 'Api\SettingController@updateEdito');
 
     // Route::get('topito/participations', 'Api\TopitoController@participations');
     // Route::get('topito/marketplace', 'Api\TopitoController@marketplace');

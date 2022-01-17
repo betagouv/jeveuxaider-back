@@ -33,25 +33,28 @@ use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedSort;
 use Illuminate\Support\Str;
 use App\Notifications\NotificationTemoignageCreate;
+use App\Settings\EditoSettings;
+use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class MissionController extends Controller
 {
-    public function promotedToFrontPage(Request $request)
+    public function prioritaires(EditoSettings $settings)
     {
-        return Mission::search('')
-            ->where('is_priority', true)
-            ->with([
-                'filters' => 'provider:reserve_civique',
-            ])
-            ->take(10)
-            ->get()
-            ->load('domaine', 'template', 'template.domaine', 'template.media', 'structure');
+        if(count($settings->missions_prioritaires)){
+            return Mission::with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
+                ->where('state','Validée')
+                ->hasPlacesLeft()
+                ->whereIn('id', $settings->missions_prioritaires)
+                ->get();
+        }
+
+        return [];
     }
 
     public function index(Request $request)
     {
+
         return QueryBuilder::for(Mission::role($request->header('Context-Role')))
-            
             // ->allowedAppends(['domaines', 'participations_validated_count'])
             // ->allowedIncludes(['posts.comments', 'permissions'])
             ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
