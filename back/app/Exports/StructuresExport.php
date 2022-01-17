@@ -78,17 +78,14 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             'twitter',
             'date_creation',
             'date_modification',
-            // 'utilisateur_id',
-            // 'utilisateur_email',
-            // 'user_first_name',
-            // 'user_last_name',
+            'responsables',
+            'responsables_id',
+            'responsables_email',
         ];
     }
 
     public function map($structure): array
     {
-        $responsable = $structure->responsables->first();
-
         return [
             $structure->id,
             $structure->name,
@@ -117,8 +114,15 @@ class StructuresExport implements FromCollection, WithMapping, WithHeadings, Sho
             $structure->twitter,
             $structure->created_at,
             $structure->updated_at,
-            // $structure->user_id,
-            // $responsable ? $responsable->email : '',
+            $structure->responsables->map(function ($responsable) {
+                return $responsable->full_name;
+            })->implode(', '),
+            $structure->responsables->map(function ($responsable) {
+                return $responsable->id;
+            })->implode(', '),
+            $structure->responsables->map(function ($responsable) {
+                return $responsable->email;
+            })->implode(', '),
         ];
     }
 }
