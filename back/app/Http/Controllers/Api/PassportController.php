@@ -27,13 +27,14 @@ class PassportController extends Controller
 
     public function registerVolontaire(RegisterVolontaireRequest $request)
     {
+        $utmSource = request("utm_source");
         $user = User::create(
             [
                 'name' => request("email"),
                 'email' => request("email"),
                 'context_role' => 'volontaire',
                 'password' => Hash::make(request("password")),
-                'utm_source' => request("utm_source")
+                'utm_source' => is_array($utmSource) ? current($utmSource) : $utmSource,
             ]
         );
 
@@ -109,7 +110,7 @@ class PassportController extends Controller
                     ]
                 ]
             );
-            
+
         return User::with(['profile.structures', 'profile.participations'])->where('id', $user->id)->first();
     }
 
