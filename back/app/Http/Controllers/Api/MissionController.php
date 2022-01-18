@@ -38,17 +38,15 @@ use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class MissionController extends Controller
 {
-    public function prioritaires(EditoSettings $settings)
+    public function prioritaires(Request $request)
     {
-        if(count($settings->missions_prioritaires)){
-            return Mission::with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
-                ->where('state','Validée')
-                ->hasPlacesLeft()
-                ->whereIn('id', $settings->missions_prioritaires)
-                ->get();
-        }
-
-        return [];
+        return  QueryBuilder::for(Mission::where('is_priority', true))
+            ->with(['domaine', 'template', 'template.domaine', 'template.media', 'structure'])
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FiltersMissionSearch),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
     }
 
     public function index(Request $request)
@@ -78,7 +76,6 @@ class MissionController extends Controller
             ->defaultSort('-created_at')
             ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
             // ->allowedSorts(['places_left', 'type'])
-
     }
 
     public function export(Request $request)
