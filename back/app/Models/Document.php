@@ -31,12 +31,9 @@ class Document extends Model implements HasMedia
 
     public function getFileAttribute()
     {
-        $file = null;
-        $file = $this->getFirstMedia('documents');
-        if ($file) {
-            $file->url = $file->getFullUrl();
-        }
-        return $file;
+        return $this->getMedia('documents', ['attribute' => 'file'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function scopeRole($query, $contextRole)

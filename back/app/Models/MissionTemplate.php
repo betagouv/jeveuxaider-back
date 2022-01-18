@@ -56,20 +56,9 @@ class MissionTemplate extends Model implements HasMedia
 
     public function getPhotoAttribute()
     {
-        return $this->getMediaUrls('photo');
-    }
-
-    protected function getMediaUrls($field)
-    {
-        $media = $this->getFirstMedia('templates', ['field' => $field]);
-        if ($media) {
-            $mediaUrls = ['original' => $media->getFullUrl()];
-            foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                $mediaUrls[$key] = $media->getUrl($key);
-            }
-            return $mediaUrls;
-        }
-        return null;
+        return $this->getMedia('templates', ['attribute' => 'photo'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function domaine()

@@ -383,20 +383,23 @@ class Structure extends Model implements HasMedia
 
     public function getLogoAttribute()
     {
-        return $this->getMediaUrls('logo');
+        return $this->getMedia('structures', ['attribute' => 'logo'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
-    protected function getMediaUrls($field)
+    public function getOverrideImage1Attribute()
     {
-        $media = $this->getFirstMedia('structures', ['field' => $field]);
-        if ($media) {
-            $mediaUrls = ['original' => $media->getFullUrl()];
-            foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                $mediaUrls[$key] = $media->getUrl($key);
-            }
-            return $mediaUrls;
-        }
-        return null;
+        return $this->getMedia('structures', ['attribute' => 'override_image_1'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
+    }
+
+    public function getOverrideImage2Attribute()
+    {
+        return $this->getMedia('structures', ['attribute' => 'override_image_2'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -429,16 +432,6 @@ class Structure extends Model implements HasMedia
         return $this->missions()->available()->get()->sum('places_left');
     }
 
-    public function getOverrideImage1Attribute()
-    {
-        return $this->getMediaUrls('override_image_1');
-    }
-
-    public function getOverrideImage2Attribute()
-    {
-        return $this->getMediaUrls('override_image_2');
-    }
-
     public function canBeSendToApiEngagement()
     {
         if (config('app.env') != 'production') {
@@ -449,5 +442,4 @@ class Structure extends Model implements HasMedia
             && $this->rna && $this->rna != 'N/A'
             && $this->api_id && $this->api_id != 'N/A';
     }
-
 }

@@ -49,15 +49,9 @@ class Thematique extends Model implements HasMedia
 
     public function getImageAttribute()
     {
-        $media = $this->getFirstMedia('thematiques');
-        if ($media) {
-            $mediaUrls = ['original' => $media->getFullUrl()];
-            foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                $mediaUrls[$key] = $media->getUrl($key);
-            }
-            return $mediaUrls;
-        }
-        return null;
+        return $this->getMedia('thematiques', ['attribute' => 'image'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function setNameAttribute($value)

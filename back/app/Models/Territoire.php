@@ -52,12 +52,16 @@ class Territoire extends Model implements HasMedia
 
     public function getBannerAttribute()
     {
-        return $this->getMediaUrls('banner');
+        return $this->getMedia('territoires', ['attribute' => 'banner'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function getLogoAttribute()
     {
-        return $this->getMediaUrls('logo');
+        return $this->getMedia('territoires', ['attribute' => 'logo'])->map(function ($media) {
+            return $media->getFormattedMediaField();
+        });
     }
 
     public function getFullUrlAttribute()
@@ -105,19 +109,6 @@ class Territoire extends Model implements HasMedia
     //         'missing_fields' => $missingFields
     //     ];
     // }
-
-    protected function getMediaUrls($field)
-    {
-        $media = $this->getFirstMedia('territoires', ['field' => $field]);
-        if ($media) {
-            $mediaUrls = ['original' => $media->getFullUrl()];
-            foreach ($media->getGeneratedConversions() as $key => $conversion) {
-                $mediaUrls[$key] = $media->getUrl($key);
-            }
-            return $mediaUrls;
-        }
-        return null;
-    }
 
     public function getSlugOptions(): SlugOptions
     {
