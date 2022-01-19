@@ -253,6 +253,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     Route::post('settings/messages', 'Api\SettingController@updateMessages');
     Route::post('settings/general', 'Api\SettingController@updateGeneral');
 
+    Route::get('notifications/{key}', 'Api\NotificationController@show');
+
     // Route::get('topito/participations', 'Api\TopitoController@participations');
     // Route::get('topito/marketplace', 'Api\TopitoController@marketplace');
     // Route::get('topito/utilisateurs-les-plus-actifs', 'Api\TopitoController@utilisateursLesPlusActifs');
