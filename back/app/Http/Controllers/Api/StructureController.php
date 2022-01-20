@@ -75,23 +75,23 @@ class StructureController extends Controller
     //     return response()->json(['message'=> 'Export en cours...'], 200);
     // }
 
-    // public function availableMissions(Request $request, Structure $structure)
-    // {
+    public function availableMissions(Request $request, Structure $structure)
+    {
 
-    //     $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.media', 'structure']))
-    //     ->allowedAppends(['domaines'])
-    //     ->available()
-    //     ->where('structure_id', $structure->id);
+        $query = QueryBuilder::for(Mission::with([ 'domaine', 'template', 'template.domaine', 'template.media', 'structure']))
+        //->allowedAppends(['domaines'])
+        ->available()
+        ->where('structure_id', $structure->id);
 
-    //     if ($request->has('exclude')) {
-    //         $query->where('id', '<>', $request->input('exclude'));
-    //     }
+        if ($request->has('exclude')) {
+            $query->where('id', '<>', $request->input('exclude'));
+        }
 
-    //     return $query
-    //         ->defaultSort('-updated_at')
-    //         ->allowedSorts(['places_left', 'type'])
-    //         ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
-    // }
+        return $query
+            ->defaultSort('-updated_at')
+            ->allowedSorts(['places_left', 'type'])
+            ->paginate($request->input('itemsPerPage') ?? config('query-builder.results_per_page'));
+    }
 
     public function show(Request $request, Structure $structure)
     {
@@ -109,22 +109,22 @@ class StructureController extends Controller
         // return $structure;
     }
 
-    // public function associationSlugOrId(Request $request, $slugOrId)
-    // {
-    //     $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
-    //     $structure = $query->where('state', 'Validée')
-    //                     ->where('statut_juridique', 'Association')
-    //                     ->first();
+    public function associationSlugOrId(Request $request, $slugOrId)
+    {
+        $query = (is_numeric($slugOrId)) ? Structure::where('id', $slugOrId) : Structure::where('slug', $slugOrId);
+        $structure = $query->where('state', 'Validée')
+                        ->where('statut_juridique', 'Association')
+                        ->first();
 
-    //     if ($structure) {
-    //         $structure->append(['places_left', 'domaines']);
-    //         if($structure->domaines){
-    //             // @TODO: Append l'url de l'image
-    //         }
-    //     }
+        if ($structure) {
+            $structure->append(['places_left', 'domaines']);
+            if($structure->domaines){
+                // @TODO: Append l'url de l'image
+            }
+        }
         
-    //     return $structure;
-    // }
+        return $structure;
+    }
 
     public function store(StructureCreateRequest $request)
     {
