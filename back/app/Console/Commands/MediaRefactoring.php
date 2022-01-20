@@ -47,32 +47,45 @@ class MediaRefactoring extends Command
             $bar->start();
 
             foreach ($query->cursor() as $media) {
-                // Rename field property to attribute
-                if ($media->hasCustomProperty('field')) {
-                    $media->setCustomProperty('attribute', $media->getCustomProperty('field'));
-                    $media->forgetCustomProperty('field');
-                }
-
-                switch ($media->model_type) {
-                    case 'App\Models\Profile':
-                        $media->setCustomProperty('attribute', 'avatar');
-                        break;
-                    case 'App\Models\Document':
-                        $media->setCustomProperty('attribute', 'file');
-                        break;
-                    case 'App\Models\Thematique':
-                        $media->setCustomProperty('attribute', 'image');
-                        break;
-                    case 'App\Models\MissionTemplate':
-                        $media->setCustomProperty('attribute', 'photo');
-                        break;
-                }
-
+                $this->handleAttributePropertyConversion($media);
                 $media->saveQuietly();
+                $this->cleanOldMedia($media);
                 $bar->advance();
             }
 
             $bar->finish();
+        }
+    }
+
+    private function handleAttributePropertyConversion($media)
+    {
+        if ($media->hasCustomProperty('field')) {
+            $media->setCustomProperty('attribute', $media->getCustomProperty('field'));
+            $media->forgetCustomProperty('field');
+        }
+
+        switch ($media->model_type) {
+            case 'App\Models\Profile':
+                $media->setCustomProperty('attribute', 'avatar');
+                break;
+            case 'App\Models\Document':
+                $media->setCustomProperty('attribute', 'file');
+                break;
+            case 'App\Models\Thematique':
+                $media->setCustomProperty('attribute', 'image');
+                break;
+            case 'App\Models\MissionTemplate':
+                $media->setCustomProperty('attribute', 'photo');
+                break;
+        }
+
+        return $media;
+    }
+
+    private function cleanOldMedia($media)
+    {
+        if ($media->model_type === 'App\Models\Collectivity') {
+            $media->delete();
         }
     }
 }

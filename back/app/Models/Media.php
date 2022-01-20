@@ -24,13 +24,4 @@ class Media extends SpatieMedia
             'type' => $this->mime_type
         ];
     }
-
-    // private function getConversions()
-    // {
-    //     $model = ($this->model_type)::find($this->model_id);
-    //     $model->registerMediaConversions();
-    //     return array_filter(array_map(function ($conversion) {
-    //         return $conversion->shouldBePerformedOn($this->collection_name) ? $conversion->getName() : null;
-    //     }, $model->mediaConversions));
-    // }
 }

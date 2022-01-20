@@ -5,6 +5,7 @@
 /storage/*.key
 /storage/backups
 /storage/medialibrary
+/storage/media-library
 /vendor
 .env
 .env.backup
