@@ -24,7 +24,6 @@ class StatisticsController extends Controller
 {
     public function dashboard(Request $request)
     {
-
         $missionsAvailable = Mission::role($request->header('Context-Role'))
             ->available()
             ->get();
@@ -73,6 +72,26 @@ class StatisticsController extends Controller
         }
 
     }
+
+    public function organisations(Request $request, Structure $structure) 
+    {
+        $missionsStateCount = array_map(function($state) use ($structure) {
+            return $structure->missions()->where('state', $state)->count();
+        }, config('taxonomies.mission_workflow_states.terms'));
+
+        $participationsStateCount = array_map(function($state) use ($structure) {
+            return $structure->participations()->where('participations.state', $state)->count();
+        }, config('taxonomies.participation_workflow_states.terms'));
+
+        return [
+            'missions_total' => $structure->missions()->count(),
+            'missions_available' => $structure->missions()->available()->count(),
+            'missions_state' =>  $missionsStateCount,
+            'participations_total' => $structure->participations()->count(),
+            'participations_state' =>  $participationsStateCount,
+        ];
+    }
+
 
     // public function global(Request $request)
     // {
@@ -309,7 +328,6 @@ class StatisticsController extends Controller
     //         })->count(),
     //     ];
     // }
-
 
     // public function fetch(Request $request, $type, $id)
     // {
