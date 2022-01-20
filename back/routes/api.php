@@ -189,6 +189,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // STATISTICS
     Route::get('statistics', 'Api\StatisticsController@dashboard');
+    Route::get('statistics/organisations/{structure}', 'Api\StatisticsController@organisations');
     // Route::get('statistics/missions', 'Api\StatisticsController@missions');
     // Route::get('statistics/departments', 'Api\StatisticsController@departments');
     // Route::get('statistics/places', 'Api\StatisticsController@places');
@@ -253,6 +254,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     Route::post('settings/messages', 'Api\SettingController@updateMessages');
     Route::post('settings/general', 'Api\SettingController@updateGeneral');
+
+    Route::get('notifications/{key}', 'Api\NotificationController@show');
 
     // Route::get('topito/participations', 'Api\TopitoController@participations');
     // Route::get('topito/marketplace', 'Api\TopitoController@marketplace');

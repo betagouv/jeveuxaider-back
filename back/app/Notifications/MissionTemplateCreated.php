@@ -54,7 +54,7 @@ class MissionTemplateCreated extends Notification implements ShouldQueue
             ->subject($this->missionTemplate->reseau->name . ' : Nouveau modèle de mission en attente de validation')
             ->greeting('Bonjour,')
             ->line('Le réseau ' . $this->missionTemplate->reseau->name . ' a posté un nouveau modèle de mission : **' . $this->missionTemplate->title . '**')
-            ->line('Cochez la case "En ligne" pour le rendre utilisable par les antennes du réseau sans qu\'il y est besoin de validation futures par les référents.')
+            ->line('Cochez la case "En ligne" pour le rendre utilisable par les antennes du réseau sans qu\'il y ait besoin de validations futures par les référents.')
             ->action('Modérer le modèle de mission', url(config('app.url') . '/dashboard/contents/template/' . $this->missionTemplate->id . '/edit'));
 
         return $message;
