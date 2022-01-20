@@ -4,19 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Media;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 
 class MediaController extends Controller
 {
     public function store(Request $request, String $modelType, Int $modelId, String $collection, String $attribute)
     {
         $model = $this->getModel($modelType, $modelId);
-        $manipulations = json_decode($request->post('manipulations'), true);
-        if (empty($manipulations)) {
-            $manipulations = [];
-        }
-        ray($this->formatManipulations($manipulations, $model, $collection));
+        $manipulations = json_decode($request->post('manipulations'), true) ?? [];
 
         $media = $model
             ->addMedia($request->file('file'))
@@ -29,18 +26,18 @@ class MediaController extends Controller
 
     public function update(Request $request, Media $media)
     {
-        $manipulations = json_decode($request->post('manipulations'), true);
         $model = ($media->model_type)::find($media->model_id);
         $model->registerMediaConversions();
-
-        ray($this->formatManipulations($manipulations, $model, $media->collection_name));
-
+        $manipulations = json_decode($request->post('manipulations'), true) ?? [];
         $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
         $media->save();
 
-        ray($media);
+        Artisan::call('media-library:regenerate', [
+            '--ids' => $media->id,
+            '--force' => true,
+        ]);
 
-        // return $media->getFormattedMediaField();
+        return $media->getFormattedMediaField();
     }
 
     public function delete(Request $request, Media $media)
