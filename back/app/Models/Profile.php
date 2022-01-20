@@ -53,13 +53,14 @@ class Profile extends Model implements HasMedia
 
     public function getAvatarAttribute()
     {
-        return $this->getMedia('profiles', ['attribute' => 'avatar'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
+        $media = $this->getFirstMedia('profiles', ['attribute' => 'avatar']);
+        return $media ? $media->getFormattedMediaField() : null;
     }
 
     public function registerMediaConversions(Media $media = null): void
     {
+        // * 2 for high pixel density
+
         $this->addMediaConversion('thumb')
             ->width(68)
             ->height(68)
@@ -67,7 +68,7 @@ class Profile extends Model implements HasMedia
             ->withResponsiveImages()
             ->performOnCollections('profiles');
 
-        $this->addMediaConversion('big')
+        $this->addMediaConversion('formPreview')
             ->width(200)
             ->height(200)
             ->nonQueued()

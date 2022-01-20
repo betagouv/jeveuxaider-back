@@ -49,32 +49,32 @@ class TagController extends Controller
         return $tag;
     }
 
-    public function upload(TagUploadRequest $request, Tag $tag)
-    {
+    // public function upload(TagUploadRequest $request, Tag $tag)
+    // {
 
-        // Delete previous file
-        if ($media = $tag->getFirstMedia('tags')) {
-            $media->delete();
-        }
+    //     // Delete previous file
+    //     if ($media = $tag->getFirstMedia('tags')) {
+    //         $media->delete();
+    //     }
 
-        $extension = $request->file('image')->guessExtension();
-        $name = Str::random(15);
+    //     $extension = $request->file('image')->guessExtension();
+    //     $name = Str::random(15);
 
-        $tag
-            ->addMedia($request->file('image'))
-            ->usingName($name)
-            ->usingFileName($name . '.' . $extension)
-            ->toMediaCollection('tags');
+    //     $tag
+    //         ->addMedia($request->file('image'))
+    //         ->usingName($name)
+    //         ->usingFileName($name . '.' . $extension)
+    //         ->toMediaCollection('tags');
 
-        return $tag;
-    }
+    //     return $tag;
+    // }
 
-    public function uploadDelete(TagDeleteRequest $request, Tag $tag)
-    {
-        if ($media = $tag->getFirstMedia('tags')) {
-            $media->delete();
-        }
-    }
+    // public function uploadDelete(TagDeleteRequest $request, Tag $tag)
+    // {
+    //     if ($media = $tag->getFirstMedia('tags')) {
+    //         $media->delete();
+    //     }
+    // }
 
     public function delete(TagDeleteRequest $request, Tag $tag)
     {

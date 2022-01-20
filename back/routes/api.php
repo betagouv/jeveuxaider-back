@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::get('profile/{profile}/statistics', 'Api\ProfileController@statistics');
 
     Route::post('medias/{modelType}/{modelId}/{collectionName}/{attribute}', 'Api\MediaController@store');
+    Route::post('medias/{media}', 'Api\MediaController@update');
     Route::delete('medias/{media}', 'Api\MediaController@delete');
 
     Route::post('structure', 'Api\StructureController@store');

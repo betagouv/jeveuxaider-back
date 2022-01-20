@@ -55,67 +55,67 @@ class MissionTemplateController extends Controller
         return $missionTemplate;
     }
 
-    public function upload(MissionTemplateUploadRequest $request, MissionTemplate $missionTemplate, String $field)
-    {
-        // Delete previous file
-        if ($media = $missionTemplate->getFirstMedia('templates', ['field' => $field])) {
-            $media->delete();
-        }
+    // public function upload(MissionTemplateUploadRequest $request, MissionTemplate $missionTemplate, String $field)
+    // {
+    //     // Delete previous file
+    //     if ($media = $missionTemplate->getFirstMedia('templates', ['field' => $field])) {
+    //         $media->delete();
+    //     }
 
-        $extension = $request->file('image')->guessExtension();
-        $name = Str::random(15);
+    //     $extension = $request->file('image')->guessExtension();
+    //     $name = Str::random(15);
 
-        $data = $request->all();
-        $cropSettings = json_decode($data['cropSettings']);
+    //     $data = $request->all();
+    //     $cropSettings = json_decode($data['cropSettings']);
 
-        $media = $missionTemplate
-            ->addMedia($request->file('image'))
-            ->usingName($name)
-            ->usingFileName($name . '.' . $extension)
-            ->withCustomProperties(['field' => $field]);
+    //     $media = $missionTemplate
+    //         ->addMedia($request->file('image'))
+    //         ->usingName($name)
+    //         ->usingFileName($name . '.' . $extension)
+    //         ->withCustomProperties(['field' => $field]);
 
 
-        if (!empty($cropSettings)) {
-            $stringCropSettings = implode(",", [
-                $cropSettings->width,
-                $cropSettings->height,
-                $cropSettings->x,
-                $cropSettings->y
-            ]);
-            $media->withManipulations([
-                'thumb' => ['manualCrop' => $stringCropSettings],
-                'large' => ['manualCrop' => $stringCropSettings],
-                'xxl' => ['manualCrop' => $stringCropSettings]
-            ]);
-        } else {
-            $pathName = $request->file('image')->getPathname();
-            $infos = getimagesize($pathName);
-            if ($infos) {
-                $stringCropSettings = implode(",", [
-                    $infos[0],
-                    $infos[1],
-                    0,
-                    0
-                ]);
-                $media->withManipulations([
-                    'thumb' => ['manualCrop' => $stringCropSettings],
-                    'large' => ['manualCrop' => $stringCropSettings],
-                    'xxl' => ['manualCrop' => $stringCropSettings]
-                ]);
-            }
-        }
+    //     if (!empty($cropSettings)) {
+    //         $stringCropSettings = implode(",", [
+    //             $cropSettings->width,
+    //             $cropSettings->height,
+    //             $cropSettings->x,
+    //             $cropSettings->y
+    //         ]);
+    //         $media->withManipulations([
+    //             'thumb' => ['manualCrop' => $stringCropSettings],
+    //             'large' => ['manualCrop' => $stringCropSettings],
+    //             'xxl' => ['manualCrop' => $stringCropSettings]
+    //         ]);
+    //     } else {
+    //         $pathName = $request->file('image')->getPathname();
+    //         $infos = getimagesize($pathName);
+    //         if ($infos) {
+    //             $stringCropSettings = implode(",", [
+    //                 $infos[0],
+    //                 $infos[1],
+    //                 0,
+    //                 0
+    //             ]);
+    //             $media->withManipulations([
+    //                 'thumb' => ['manualCrop' => $stringCropSettings],
+    //                 'large' => ['manualCrop' => $stringCropSettings],
+    //                 'xxl' => ['manualCrop' => $stringCropSettings]
+    //             ]);
+    //         }
+    //     }
 
-        $media->toMediaCollection('templates');
+    //     $media->toMediaCollection('templates');
 
-        return $missionTemplate;
-    }
+    //     return $missionTemplate;
+    // }
 
-    public function uploadDelete(MissionTemplateDeleteRequest $request, MissionTemplate $missionTemplate)
-    {
-        if ($media = $missionTemplate->getFirstMedia('templates')) {
-            $media->delete();
-        }
-    }
+    // public function uploadDelete(MissionTemplateDeleteRequest $request, MissionTemplate $missionTemplate)
+    // {
+    //     if ($media = $missionTemplate->getFirstMedia('templates')) {
+    //         $media->delete();
+    //     }
+    // }
 
     public function delete(Request $request, MissionTemplate $missionTemplate)
     {

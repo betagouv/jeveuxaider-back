@@ -46,27 +46,27 @@ class DocumentController extends Controller
         return $document;
     }
 
-    public function upload(DocumentUploadRequest $request, Document $document)
-    {
+    // public function upload(DocumentUploadRequest $request, Document $document)
+    // {
 
-        // Delete previous file
-        if ($media = $document->getFirstMedia('documents')) {
-            $media->delete();
-        }
+    //     // Delete previous file
+    //     if ($media = $document->getFirstMedia('documents')) {
+    //         $media->delete();
+    //     }
 
-        $document
-            ->addMedia($request->file('file'))
-            ->toMediaCollection('documents');
+    //     $document
+    //         ->addMedia($request->file('file'))
+    //         ->toMediaCollection('documents');
 
-        return $document;
-    }
+    //     return $document;
+    // }
 
-    public function uploadDelete(DocumentDeleteRequest $request, Document $document)
-    {
-        if ($media = $document->getFirstMedia('documents')) {
-            $media->delete();
-        }
-    }
+    // public function uploadDelete(DocumentDeleteRequest $request, Document $document)
+    // {
+    //     if ($media = $document->getFirstMedia('documents')) {
+    //         $media->delete();
+    //     }
+    // }
 
     public function delete(DocumentDeleteRequest $request, Document $document)
     {

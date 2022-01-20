@@ -12,13 +12,35 @@ class MediaController extends Controller
     public function store(Request $request, String $modelType, Int $modelId, String $collection, String $attribute)
     {
         $model = $this->getModel($modelType, $modelId);
+        $manipulations = json_decode($request->post('manipulations'), true);
+        if (empty($manipulations)) {
+            $manipulations = [];
+        }
+        ray($this->formatManipulations($manipulations, $model, $collection));
+
         $media = $model
             ->addMedia($request->file('file'))
             ->withCustomProperties(['attribute' => $attribute])
-            ->withManipulations($this->getManipulations($request, $model, $collection))
+            ->withManipulations($this->formatManipulations($manipulations, $model, $collection))
             ->toMediaCollection($collection);
 
         return $media->getFormattedMediaField();
+    }
+
+    public function update(Request $request, Media $media)
+    {
+        $manipulations = json_decode($request->post('manipulations'), true);
+        $model = ($media->model_type)::find($media->model_id);
+        $model->registerMediaConversions();
+
+        ray($this->formatManipulations($manipulations, $model, $media->collection_name));
+
+        $media->manipulations = $this->formatManipulations($manipulations, $model, $media->collection_name);
+        $media->save();
+
+        ray($media);
+
+        // return $media->getFormattedMediaField();
     }
 
     public function delete(Request $request, Media $media)
@@ -34,25 +56,14 @@ class MediaController extends Controller
         return $model;
     }
 
-    private function getManipulations($request, $model, $collection)
+    private function formatManipulations($manipulations, $model, $collection)
     {
+        $formattedManipulations = [];
         $conversions = $this->getConversions($model, $collection);
-        $manipulations = [];
-        $cropSettings = json_decode($request->get('cropSettings'));
-
         foreach ($conversions as $conversion) {
-            $manipulations[$conversion] = [];
-            if (!empty($cropSettings)) {
-                $manipulations[$conversion]['manualCrop'] = implode(",", [
-                    $cropSettings->width,
-                    $cropSettings->height,
-                    $cropSettings->left,
-                    $cropSettings->top
-                ]);
-            }
+            $formattedManipulations[$conversion] = $manipulations;
         }
-
-        return $manipulations;
+        return $formattedManipulations;
     }
 
     private function getConversions($model, $collection)
