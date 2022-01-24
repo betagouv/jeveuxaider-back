@@ -39,6 +39,8 @@ class SettingController
     public function updateGeneral(Request $request, GeneralSettings $settings)
     {
 
+        $settings->blog_active = $request->input('blog_active');
+        $settings->maintenance_mode_active = $request->input('maintenance_mode_active');
         $settings->light_mode_active = $request->input('light_mode_active');
         $settings->france_connect_active = $request->input('france_connect_active');
 
