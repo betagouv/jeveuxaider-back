@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\FiltersThematiqueSearch;
 use App\Http\Controllers\Controller;
 use App\Models\Thematique;
 use App\Http\Requests\Api\ThematiqueCreateRequest;
@@ -15,69 +16,71 @@ use App\Models\Mission;
 use App\Models\Participation;
 use App\Models\Profile;
 use App\Models\Structure;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ThematiqueController extends Controller
 {
     public function index()
     {
         return QueryBuilder::for(Thematique::class)
+            ->with(['domaine', 'media'])
             ->allowedFilters([
-                'name',
+                AllowedFilter::custom('search', new FiltersThematiqueSearch),
             ])
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show($slugOrId)
-    {
-        $thematique = (is_numeric($slugOrId))
-            ? Thematique::where('id', $slugOrId)->firstOrFail()
-            : Thematique::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
+    // public function show($slugOrId)
+    // {
+    //     $thematique = (is_numeric($slugOrId))
+    //         ? Thematique::where('id', $slugOrId)->firstOrFail()
+    //         : Thematique::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
 
-        return $thematique;
-    }
+    //     return $thematique;
+    // }
 
-    public function statistics($slugOrId)
-    {
-        $thematique = (is_numeric($slugOrId))
-            ? Thematique::where('id', $slugOrId)->firstOrFail()
-            : Thematique::where('slug', $slugOrId)->firstOrFail();
+    // public function statistics($slugOrId)
+    // {
+    //     $thematique = (is_numeric($slugOrId))
+    //         ? Thematique::where('id', $slugOrId)->firstOrFail()
+    //         : Thematique::where('slug', $slugOrId)->firstOrFail();
 
-        $templates = [];
+    //     $templates = [];
 
-        $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->domaine_id)->get();
-        $templates = $templatesCollection->map(function ($template) {
-            return [
-                    'id' => $template->id,
-                    'title' => $template->title,
-                    'subtitle' => $template->subtitle,
-                    'missions_count' => Mission::where('template_id', $template->id)
-                        ->count(),
-                    'image' => $template->image
-                ];
-        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
+    //     $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->domaine_id)->get();
+    //     $templates = $templatesCollection->map(function ($template) {
+    //         return [
+    //                 'id' => $template->id,
+    //                 'title' => $template->title,
+    //                 'subtitle' => $template->subtitle,
+    //                 'missions_count' => Mission::where('template_id', $template->id)
+    //                     ->count(),
+    //                 'image' => $template->image
+    //             ];
+    //     })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
-        return [
-                'structures_count' => Structure::domaine($thematique->domaine_id)->count(), // TODO
-                'participations_count' => Participation::domaine($thematique->domaine_id)->count(), // TODO
-                'volontaires_count' => Profile::domaine($thematique->domaine_id)->count(), // TODO
-                'templates' => $templates,
-            ];
-    }
+    //     return [
+    //             'structures_count' => Structure::domaine($thematique->domaine_id)->count(), // TODO
+    //             'participations_count' => Participation::domaine($thematique->domaine_id)->count(), // TODO
+    //             'volontaires_count' => Profile::domaine($thematique->domaine_id)->count(), // TODO
+    //             'templates' => $templates,
+    //         ];
+    // }
 
-    public function store(ThematiqueCreateRequest $request)
-    {
-        $thematique = Thematique::create($request->validated());
+    // public function store(ThematiqueCreateRequest $request)
+    // {
+    //     $thematique = Thematique::create($request->validated());
 
-        return $thematique;
-    }
+    //     return $thematique;
+    // }
 
-    public function update(ThematiqueUpdateRequest $request, Thematique $thematique)
-    {
-        $thematique->update($request->validated());
+    // public function update(ThematiqueUpdateRequest $request, Thematique $thematique)
+    // {
+    //     $thematique->update($request->validated());
 
-        return $thematique;
-    }
+    //     return $thematique;
+    // }
 
     // public function upload(ThematiqueUploadRequest $request, Thematique $thematique)
     // {
@@ -130,8 +133,8 @@ class ThematiqueController extends Controller
     //     }
     // }
 
-    public function delete(ThematiqueDeleteRequest $request, Thematique $thematique)
-    {
-        return (string) $thematique->delete();
-    }
+    // public function delete(ThematiqueDeleteRequest $request, Thematique $thematique)
+    // {
+    //     return (string) $thematique->delete();
+    // }
 }

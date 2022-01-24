@@ -273,8 +273,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
     // Route::delete('mission/{id}/destroy', 'Api\MissionController@destroy');
     // Route::delete('participation/{id}/destroy', 'Api\ParticipationController@destroy');
 
-    // // THEMATIQUES
-    // Route::get('thematiques', 'Api\ThematiqueController@index');
+    // // DOMAINES D'ACTIONS
+    Route::get('thematiques', 'Api\ThematiqueController@index');
     // Route::post('thematique', 'Api\ThematiqueController@store');
     // Route::post('thematique/{thematique}', 'Api\ThematiqueController@update');
     // Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');

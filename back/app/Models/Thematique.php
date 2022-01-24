@@ -29,9 +29,9 @@ class Thematique extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    protected $appends = ['image', 'full_url'];
+    // protected $appends = ['image', 'full_url'];
 
-    protected $hidden = ['media'];
+    //protected $hidden = ['media'];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -47,18 +47,18 @@ class Thematique extends Model implements HasMedia
         return "/domaines-action/$this->slug";
     }
 
-    public function getImageAttribute()
-    {
-        return $this->getMedia('thematiques', ['attribute' => 'image'])->map(function ($media) {
-            return $media->getFormattedMediaField();
-        });
-    }
+    // public function getImageAttribute()
+    // {
+    //     return $this->getMedia('thematiques', ['attribute' => 'image'])->map(function ($media) {
+    //         return $media->getFormattedMediaField();
+    //     });
+    // }
 
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
-    }
+    // public function setNameAttribute($value)
+    // {
+    //     $this->attributes['name'] = $value;
+    //     $this->attributes['slug'] = Str::slug($value);
+    // }
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -75,13 +75,14 @@ class Thematique extends Model implements HasMedia
             ->performOnCollections('thematiques');
     }
 
-    public function missionTemplates()
-    {
-        return $this->hasMany('App\Models\MissionTemplate');
-    }
+    // public function missionTemplates()
+    // {
+    //     return $this->hasMany('App\Models\MissionTemplate');
+    // }
 
     public function domaine()
     {
         return $this->belongsTo('App\Models\Tag');
     }
+
 }
