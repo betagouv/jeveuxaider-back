@@ -79,7 +79,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
     // Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::post('user', 'Api\UserController@update');
-
+    
+    Route::get('profile/{profile}', 'Api\ProfileController@show');
     Route::post('profile/{profile}', 'Api\ProfileController@update');
     // Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
     // Route::delete('profile/{profile}/upload', 'Api\ProfileController@uploadDelete');
@@ -100,7 +101,6 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // Route::post('user/password', 'Api\UserController@updatePassword');
 
-    // Route::get('profile/{profile?}', 'Api\ProfileController@show');
 
     // MESSAGES
     // Route::get('conversations', 'Api\ConversationsController@index');

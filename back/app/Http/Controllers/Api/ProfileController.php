@@ -132,11 +132,10 @@ class ProfileController extends Controller
     //     return Excel::download(new ProfilesResponsablesExport(), 'responsables.csv', \Maatwebsite\Excel\Excel::CSV);
     // }
 
-    // public function show(ProfileRequest $request, Profile $profile = null)
-    // {
-    //     return Profile::with(['structures:id,name,state,statut_juridique','territoires'])->find($profile->id)->append('roles', 'has_user', 'skills', 'domaines')
-    //         ?: Profile::with(['structures:id,name,state,statut_juridique','territoires'])->find($request->user()->profile->id)->append('roles', 'has_user', 'skills', 'domaines');
-    // }
+    public function show(ProfileRequest $request, Profile $profile)
+    {
+        return $profile->load('user');
+    }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
     {
