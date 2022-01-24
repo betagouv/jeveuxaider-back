@@ -11,6 +11,9 @@ class FiltersProfileMinParticipations implements Filter
     {
         return $query->where(function ($query) use ($value, $property) {
             $query->has('participations', '>=', $value);
+            $query->whereHas('participations', function (Builder $query) {
+                $query->where('state', 'Validée');
+            }, '>=', $value);
         });
     }
 }

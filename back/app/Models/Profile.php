@@ -36,8 +36,6 @@ class Profile extends Model implements HasMedia
 
     protected $appends = ['short_name', 'full_name'];
 
-    protected $hidden = ['user'];
-
     protected $checkFields = ['mobile', 'zip', 'type', 'disponibilities', 'commitment__time_period','commitment__duration', 'description', 'birthday', 'skills' ,'domaines'];
 
     protected static $logFillable = true;
@@ -309,6 +307,11 @@ class Profile extends Model implements HasMedia
     public function participations()
     {
         return $this->hasMany('App\Models\Participation');
+    }
+
+    public function participationsValidated()
+    {
+        return $this->hasMany('App\Models\Participation')->where('state', 'Validée');
     }
 
     public function getDomainesAttribute()

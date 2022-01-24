@@ -32,40 +32,49 @@ use App\Models\User;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\AllowedInclude;
 
 class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        return QueryBuilder::for(Profile::role($request->header('Context-Role'))->with(['structures:name,id', 'territoires:name,id']))
-            ->allowedAppends('last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'tete_de_reseau_waiting_actions', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions')
+        return QueryBuilder::for(Profile::role($request->header('Context-Role')))
+            // ->allowedAppends()
+            // 'last_online_at', 'roles', 'has_user', 'skills', 'domaines', 'tete_de_reseau_waiting_actions', 'referent_waiting_actions', 'referent_region_waiting_actions', 'responsable_waiting_actions'
+            ->allowedIncludes([
+                'user',
+                'participationsValidatedCount',
+            ])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersProfileSearch),
-                AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
-                AllowedFilter::custom('zips', new FiltersProfileZips),
                 AllowedFilter::custom('role', new FiltersProfileRole),
-                AllowedFilter::custom('domaines', new FiltersProfileTag),
-                AllowedFilter::custom('department', new FiltersProfileDepartment),
-                AllowedFilter::custom('disponibilities', new FiltersDisponibility),
-                AllowedFilter::custom('skills', new FiltersProfileSkill),
+                'department',
+                'zip',
                 AllowedFilter::exact('is_visible'),
-                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations),
-                AllowedFilter::exact('referent_department'),
-                'referent_region'
+                AllowedFilter::custom('min_participations', new FiltersProfileMinParticipations)
+                // AllowedFilter::custom('postal_code', new FiltersProfilePostalCode),
+                // AllowedFilter::custom('zips', new FiltersProfileZips),
+                
+                // AllowedFilter::custom('domaines', new FiltersProfileTag),
+                // AllowedFilter::custom('department', new FiltersProfileDepartment),
+                // AllowedFilter::custom('disponibilities', new FiltersDisponibility),
+                // AllowedFilter::custom('skills', new FiltersProfileSkill),
+                // AllowedFilter::exact('referent_department'),
+                // 'referent_region'
             )
             ->defaultSort('-created_at')
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function participations(Request $request, Profile $profile)
-    {
-        return QueryBuilder::for(Participation::with(['mission.structure','conversation'])->where('profile_id', $profile->id))
-            ->allowedFilters(
-                'state'
-            )
-            ->defaultSort('-created_at')
-            ->paginate(8);
-    }
+    // public function participations(Request $request, Profile $profile)
+    // {
+    //     return QueryBuilder::for(Participation::with(['mission.structure','conversation'])->where('profile_id', $profile->id))
+    //         ->allowedFilters(
+    //             'state'
+    //         )
+    //         ->defaultSort('-created_at')
+    //         ->paginate(8);
+    // }
 
     // public function statistics(Request $request, Profile $profile)
     // {

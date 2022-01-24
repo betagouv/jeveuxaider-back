@@ -17,11 +17,10 @@ class FiltersMissionSearch implements Filter
                 if (is_array($value)) {
                     $value = implode(',', $value);
                 }
-                $query
-                ->where('name', 'ILIKE', '%' . $value . '%')
-                ->orWhereHas('structure', function (Builder $query) use ($value) {
-                    $query->where('name', 'ILIKE', '%' . $value . '%');
-                });
+                $query->where('name', 'ILIKE', '%' . $value . '%')
+                    ->orWhereHas('structure', function (Builder $query) use ($value) {
+                        $query->where('name', 'ILIKE', '%' . $value . '%');
+                    });
             }
         });
     }

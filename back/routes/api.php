@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/roles', 'Api\UserController@roles');
     Route::get('user/actions', 'Api\ActionController@index');
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
-    Route::post('user/anonymize', 'Api\UserController@anonymize');
+    // Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::post('user', 'Api\UserController@update');
 
     Route::post('profile/{profile}', 'Api\ProfileController@update');
@@ -161,7 +161,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // Route::post('mission/{mission}/send-testimony-notifications', 'Api\MissionController@sendTestimonyNotifications');
 
     // PROFILES
-    // Route::get('profiles', 'Api\ProfileController@index');
+    Route::get('profiles', 'Api\ProfileController@index');
 
     // PARTICIPATIONS
     // Route::get('participation/{participation}', 'Api\ParticipationController@show');
