@@ -13,7 +13,7 @@ class MediaRefactoring extends Command
      *
      * @var string
      */
-    protected $signature = 'cnut:media-refactoring';
+    protected $signature = 'mep:media-refactoring';
 
     /**
      * The console command description.
