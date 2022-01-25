@@ -64,7 +64,7 @@ class MissionsSetFullByTemplate extends Command
                     $mission->places_left = 0;
                 }
                 // Trigger scout reindex
-                $mission->save();
+                $mission->saveQuietly();
             }
         }
     }

@@ -158,6 +158,7 @@ class Participation extends Model
         if ($this->state != 'Validée') {
             return;
         }
+        
         // Skip if notification already exists.
         if (NotificationTemoignage::where('participation_id', $this->id)->exists()) {
             return;

@@ -2,25 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mission;
-use App\Models\MissionTemplate;
+use App\Models\Structure;
 use Illuminate\Console\Command;
 
-class MissionsGenerateSlugs extends Command
+class FillRnaNonApplicableForStructures extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'missions:generate-slugs';
+    protected $signature = 'rna:fill-structures-non-applicable';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Regenerate slugs for all missions';
+    protected $description = 'Fill RNA to N/A for structures which are not association';
 
     /**
      * Create a new command instance.
@@ -35,17 +34,16 @@ class MissionsGenerateSlugs extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
     public function handle()
     {
-        $missions = Mission::all();
-        $this->info($missions->count() . ' missions will be updated.');
+        $globalQuery = Structure::where('statut_juridique', '!=', 'Association');
+
+        $this->info($globalQuery->count() . ' structure will be updated with RNA Non Applicable');
+
         if ($this->confirm('Do you wish to continue?')) {
-            foreach ($missions as $mission) {
-                $mission->generateSlug();
-                $mission->saveQuietly();
-            }
+            $globalQuery->update(['rna' => 'N/A']);
         }
     }
 }

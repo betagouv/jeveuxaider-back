@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\OLD;
+namespace App\Console\Commands;
 
 use App\Models\Structure;
 use App\Services\ApiEngagement;
