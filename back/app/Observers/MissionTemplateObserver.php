@@ -12,13 +12,17 @@ class MissionTemplateObserver
 {
     public function created(MissionTemplate $missionTemplate)
     {
-        if($missionTemplate->reseau_id) {
+        if($missionTemplate->reseau_id && $missionTemplate->state == 'waiting') {
             Notification::route('mail', ['giulietta.bressy@gmail.com', 'nassim.merzouk@beta.gouv.fr'])->notify(new MissionTemplateCreated($missionTemplate));
         }
     }
 
     public function updated(MissionTemplate $missionTemplate)
     {
+
+        if($missionTemplate->reseau_id && $missionTemplate->getOriginal('state')->state != 'waiting' && $missionTemplate->state == 'waiting') {
+            Notification::route('mail', ['giulietta.bressy@gmail.com', 'nassim.merzouk@beta.gouv.fr'])->notify(new MissionTemplateCreated($missionTemplate));
+        }
 
         $changes = $missionTemplate->getChanges();
 

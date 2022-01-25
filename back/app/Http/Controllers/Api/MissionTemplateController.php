@@ -10,8 +10,11 @@ use App\Http\Requests\Api\MissionTemplateCreateRequest;
 use App\Http\Requests\Api\MissionTemplateUpdateRequest;
 use App\Http\Requests\Api\MissionTemplateDeleteRequest;
 use App\Http\Requests\Api\MissionTemplateUploadRequest;
+use App\Models\Mission;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\MissionTemplate;
+use App\Models\Participation;
+use App\Models\Structure;
 use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -24,6 +27,7 @@ class MissionTemplateController extends Controller
 
         return QueryBuilder::for(MissionTemplate::with(['domaine', 'reseau']))
             ->allowedFilters(
+                'state',
                 AllowedFilter::custom('search', new FiltersTitleBodySearch),
                 AllowedFilter::exact('domaine.id'),
                 AllowedFilter::exact('published'),
@@ -45,7 +49,21 @@ class MissionTemplateController extends Controller
 
     public function show(MissionTemplate $missionTemplate)
     {
-        return $missionTemplate;
+        return MissionTemplate::with('reseau')->find($missionTemplate->id);
+    }
+
+    public function statistics(MissionTemplate $missionTemplate)
+    {
+        return [
+                'missions_count' => Mission::where('template_id',$missionTemplate->id)->count(),
+                'missions_available_count' => Mission::available()->where('template_id',$missionTemplate->id)->count(),
+                'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('template_id', $missionTemplate->id);
+                })->count(),
+                'participations_validated_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('state','Validée')->where('template_id', $missionTemplate->id);
+                })->count(),
+            ];
     }
 
     public function update(MissionTemplateUpdateRequest $request, MissionTemplate $missionTemplate)

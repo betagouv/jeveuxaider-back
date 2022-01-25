@@ -13,20 +13,13 @@ class MissionTemplate extends Model implements HasMedia
 
     protected $table = 'mission_templates';
 
-    protected $fillable = [
-        'title',
-        'subtitle',
-        'objectif',
-        'description',
-        'priority',
-        'published',
-        'reseau_id',
-        'domaine_id',
+    protected $guarded = [
+        'id',
     ];
 
     protected $attributes = [
         'priority' => false,
-        'published' => true
+        'published' => false
     ];
 
     protected $casts = [

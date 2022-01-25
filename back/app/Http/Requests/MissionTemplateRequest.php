@@ -21,7 +21,8 @@ class MissionTemplateRequest extends FormRequest
             'domaine_id' => 'required',
             'reseau_id' => '',
             'published' => 'boolean',
-            'priority' => 'boolean'
+            'priority' => 'boolean',
+            'state' => 'required'
         ];
     }
 }

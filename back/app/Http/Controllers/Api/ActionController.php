@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Structure;
 use App\Models\Mission;
+use App\Models\MissionTemplate;
 use App\Models\Participation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,6 +27,10 @@ class ActionController extends Controller
                 $actions[] = [
                     'type' => 'missions_waiting_validation',
                     'value' => Mission::where('state', 'En attente de validation')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'mission_template_waiting_validation',
+                    'value' => MissionTemplate::where('state', 'waiting')->count(),
                 ];
                 break;
             case 'responsable':

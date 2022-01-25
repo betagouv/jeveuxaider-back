@@ -212,6 +212,8 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // MISSIONS TEMPLATES
     Route::get('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@show');
     Route::get('mission-templates', 'Api\MissionTemplateController@index');
+    Route::put('mission-templates/{missionTemplate}', 'Api\MissionTemplateController@update');
+    Route::get('mission-templates/{missionTemplate}/statistics', 'Api\MissionTemplateController@statistics');
 
     // ACTIVITIES
     Route::get('activities', 'Api\ActivityController@index');

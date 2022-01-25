@@ -46,25 +46,10 @@ class ThematiqueController extends Controller
             ? Thematique::where('id', $slugOrId)->firstOrFail()
             : Thematique::where('slug', $slugOrId)->firstOrFail();
 
-        // $templates = [];
-
-        // $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->domaine_id)->get();
-        // $templates = $templatesCollection->map(function ($template) {
-        //     return [
-        //             'id' => $template->id,
-        //             'title' => $template->title,
-        //             'subtitle' => $template->subtitle,
-        //             'missions_count' => Mission::where('template_id', $template->id)
-        //                 ->count(),
-        //             'image' => $template->image
-        //         ];
-        // })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
-
         return [
                 'structures_count' => Structure::domaine($thematique->domaine_id)->count(),
                 'participations_count' => Participation::domaine($thematique->domaine_id)->count(),
                 'volontaires_count' => Profile::domaine($thematique->domaine_id)->count(),
-                //'templates' => $templates,
             ];
     }
 
