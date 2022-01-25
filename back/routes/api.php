@@ -275,8 +275,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // // DOMAINES D'ACTIONS
     Route::get('thematiques', 'Api\ThematiqueController@index');
-    // Route::post('thematique', 'Api\ThematiqueController@store');
-    // Route::post('thematique/{thematique}', 'Api\ThematiqueController@update');
+    Route::post('thematique', 'Api\ThematiqueController@store');
+    Route::put('thematique/{thematique}', 'Api\ThematiqueController@update');
     // Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
     // Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
     // Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');

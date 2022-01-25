@@ -31,56 +31,56 @@ class ThematiqueController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    // public function show($slugOrId)
-    // {
-    //     $thematique = (is_numeric($slugOrId))
-    //         ? Thematique::where('id', $slugOrId)->firstOrFail()
-    //         : Thematique::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
+    public function show($slugOrId)
+    {
+        $thematique = (is_numeric($slugOrId))
+            ? Thematique::where('id', $slugOrId)->firstOrFail()
+            : Thematique::where('slug', $slugOrId)->with(['domaine'])->firstOrFail();
 
-    //     return $thematique;
-    // }
+        return $thematique;
+    }
 
-    // public function statistics($slugOrId)
-    // {
-    //     $thematique = (is_numeric($slugOrId))
-    //         ? Thematique::where('id', $slugOrId)->firstOrFail()
-    //         : Thematique::where('slug', $slugOrId)->firstOrFail();
+    public function statistics($slugOrId)
+    {
+        $thematique = (is_numeric($slugOrId))
+            ? Thematique::where('id', $slugOrId)->firstOrFail()
+            : Thematique::where('slug', $slugOrId)->firstOrFail();
 
-    //     $templates = [];
+        $templates = [];
 
-    //     $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->domaine_id)->get();
-    //     $templates = $templatesCollection->map(function ($template) {
-    //         return [
-    //                 'id' => $template->id,
-    //                 'title' => $template->title,
-    //                 'subtitle' => $template->subtitle,
-    //                 'missions_count' => Mission::where('template_id', $template->id)
-    //                     ->count(),
-    //                 'image' => $template->image
-    //             ];
-    //     })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
+        $templatesCollection = MissionTemplate::where('published', true)->where('domaine_id', $thematique->domaine_id)->get();
+        $templates = $templatesCollection->map(function ($template) {
+            return [
+                    'id' => $template->id,
+                    'title' => $template->title,
+                    'subtitle' => $template->subtitle,
+                    'missions_count' => Mission::where('template_id', $template->id)
+                        ->count(),
+                    'image' => $template->image
+                ];
+        })->where('missions_count', '>', 0)->sortByDesc('missions_count')->values()->all();
 
-    //     return [
-    //             'structures_count' => Structure::domaine($thematique->domaine_id)->count(), // TODO
-    //             'participations_count' => Participation::domaine($thematique->domaine_id)->count(), // TODO
-    //             'volontaires_count' => Profile::domaine($thematique->domaine_id)->count(), // TODO
-    //             'templates' => $templates,
-    //         ];
-    // }
+        return [
+                'structures_count' => Structure::domaine($thematique->domaine_id)->count(), // TODO
+                'participations_count' => Participation::domaine($thematique->domaine_id)->count(), // TODO
+                'volontaires_count' => Profile::domaine($thematique->domaine_id)->count(), // TODO
+                'templates' => $templates,
+            ];
+    }
 
-    // public function store(ThematiqueCreateRequest $request)
-    // {
-    //     $thematique = Thematique::create($request->validated());
+    public function store(ThematiqueCreateRequest $request)
+    {
+        $thematique = Thematique::create($request->validated());
 
-    //     return $thematique;
-    // }
+        return $thematique;
+    }
 
-    // public function update(ThematiqueUpdateRequest $request, Thematique $thematique)
-    // {
-    //     $thematique->update($request->validated());
+    public function update(ThematiqueUpdateRequest $request, Thematique $thematique)
+    {
+        $thematique->update($request->validated());
 
-    //     return $thematique;
-    // }
+        return $thematique;
+    }
 
     // public function upload(ThematiqueUploadRequest $request, Thematique $thematique)
     // {

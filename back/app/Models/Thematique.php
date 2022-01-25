@@ -29,7 +29,7 @@ class Thematique extends Model implements HasMedia
         'published' => 'boolean',
     ];
 
-    // protected $appends = ['image', 'full_url'];
+    protected $appends = ['full_url'];
 
     //protected $hidden = ['media'];
 
