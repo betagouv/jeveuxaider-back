@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\OLD;
 
 use App\Models\Conversation;
 use App\Models\MissionTemplate;

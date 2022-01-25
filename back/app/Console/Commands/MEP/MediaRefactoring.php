@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\MEP;
 
 use App\Models\Media;
 use Illuminate\Console\Command;

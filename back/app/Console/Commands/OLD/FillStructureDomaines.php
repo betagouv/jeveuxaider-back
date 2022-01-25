@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\OLD;
 
 use App\Models\Conversation;
 use App\Models\Mission;
@@ -9,21 +9,21 @@ use App\Models\Structure;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 
-class FillStructurePublics extends Command
+class FillStructureDomaines extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cnut:fill-structure-publics';
+    protected $signature = 'cnut:fill-structure-domaines';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fill structure publics if empty';
+    protected $description = 'Fill structure domaines if empty';
 
     /**
      * Create a new command instance.
@@ -42,24 +42,27 @@ class FillStructurePublics extends Command
      */
     public function handle()
     {
-        $globalQuery = Structure::whereJsonLength('publics_beneficiaires', '=', 0)->whereHas('missions');
+        $globalQuery = Structure::whereDoesntHave('tags')->whereHas('missions');
 
-        $this->info($globalQuery->count() . ' structures will be updated with publics from their missions');
+        $this->info($globalQuery->count() . ' structures will be updated with domaines from their missions');
 
         if ($this->confirm('Do you wish to continue?')) {
             $structures = $globalQuery->get();
 
             foreach ($structures as $structure) {
-                $publics = [];
+                $domaineIds = [];
                 $missions = Mission::where('structure_id', $structure->id)->get();
 
                 foreach ($missions as $mission) {
-                    $publics = array_merge($mission->publics_beneficiaires, $publics);
+                    $mainDomain = $mission->domaines->first();
+                    if ($mainDomain && !in_array($mainDomain->id, $domaineIds)) {
+                        $domaineIds[] = $mainDomain->id;
+                    }
                 }
 
-                if (!empty($publics)) {
-                    $structure->publics_beneficiaires = array_values(array_unique($publics));
-                    $structure->saveQuietly();
+                if ($domaineIds) {
+                    $domaines = Tag::whereIn('id', $domaineIds)->get();
+                    $structure->syncTagsWithType($domaines, 'domaine');
                 }
             }
         }
