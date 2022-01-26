@@ -49,11 +49,13 @@ class TerritoireController extends Controller
             $structure->setAppends(['logo']);
         }
 
-        return $territoire->setAppends([
-            //  'banner',
-            //   'logo',
-            //'permissions'
-        ]);
+        return $territoire;
+
+        // return $territoire->setAppends([
+        //      'banner',
+        //       'logo',
+        //     'permissions'
+        // ]);
     }
 
     public function statistics(Territoire $territoire)
@@ -184,7 +186,7 @@ class TerritoireController extends Controller
     //     return true;
     // }
 
-    public function citiesWithAvailableMissions(Request $request, Territoire $territoire)
+    public function availableCities(Request $request, Territoire $territoire)
     {
         $cities = [];
         $missionsByCity = $territoire->promotedMissions(50)->groupBy('city');

@@ -7,6 +7,7 @@ use App\Models\Structure;
 use App\Models\Mission;
 use App\Models\MissionTemplate;
 use App\Models\Participation;
+use App\Models\Territoire;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,10 @@ class ActionController extends Controller
                 $actions[] = [
                     'type' => 'mission_template_waiting_validation',
                     'value' => MissionTemplate::where('state', 'waiting')->count(),
+                ];
+                $actions[] = [
+                    'type' => 'territoires_waiting_validation',
+                    'value' => Territoire::where('state', 'waiting')->count(),
                 ];
                 break;
             case 'responsable':
