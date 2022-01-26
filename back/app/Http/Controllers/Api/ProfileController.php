@@ -134,7 +134,11 @@ class ProfileController extends Controller
 
     public function show(ProfileRequest $request, Profile $profile)
     {
-        return $profile->load('user');
+        return $profile->load(['user', 'territoires', 'structures', 'teteDeReseau'])->append(['avatar', 'skills', 'domaines']);
+
+        // $user = User::with('profile', 'profile.media')->where('id', Auth::guard('api')->user()->id)->first();
+        // $user->append(['roles']);
+        // $user->profile->append(['avatar', 'skills', 'domaines']);
     }
 
     public function update(ProfileUpdateRequest $request, Profile $profile = null)
