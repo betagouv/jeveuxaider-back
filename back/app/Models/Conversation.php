@@ -21,7 +21,7 @@ class Conversation extends Model
 
     public function latestMessage()
     {
-        return $this->hasOne('App\Models\Message')->latest('id');
+        return $this->hasOne('App\Models\Message')->where('type', 'chat')->latest('id');
     }
 
     public function users()
