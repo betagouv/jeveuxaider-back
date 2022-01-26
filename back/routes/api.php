@@ -52,7 +52,7 @@ Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLo
 Route::get('territoires', 'Api\TerritoireController@index');
 Route::get('territoires/{slugOrId}', 'Api\TerritoireController@show');
 // Route::get('territoire/{territoire}/promotedMissions', 'Api\TerritoireController@promotedMissions');
-Route::get('territoires/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
+Route::get('territoires/{territoire}/available-cities', 'Api\TerritoireController@availableCities');
 
 // Route::get('tags', 'Api\TagController@index');
 
@@ -79,7 +79,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
     // Route::post('user/anonymize', 'Api\UserController@anonymize');
     Route::put('user', 'Api\UserController@update');
-    
     Route::get('profiles/{profile}', 'Api\ProfileController@show');
     Route::put('profiles/{profile}', 'Api\ProfileController@update');
     // Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
