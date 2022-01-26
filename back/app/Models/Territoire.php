@@ -39,9 +39,10 @@ class Territoire extends Model implements HasMedia
 
     protected $checkFields = ['banner', 'suffix_title', 'department', 'zips' ,'tags' ,'seo_recruit_title', 'seo_recruit_description', 'seo_engage_title', 'seo_engage_paragraphs'];
 
+    protected $appends = ['full_url'];
     // protected $appends = ['completion_rate', 'full_url', 'banner', 'logo', 'permissions'];
 
-    protected $hidden = ['media'];
+    //protected $hidden = ['media'];
 
     protected static $logUnguarded = true;
 
@@ -76,6 +77,12 @@ class Territoire extends Model implements HasMedia
                 break;
         }
     }
+
+    public function getPlacesLeftAttribute()
+    {
+        return Mission::ofTerritoire($this->id)->sum('places_left');
+    }
+    
 
     // public function getCompletionRateAttribute()
     // {

@@ -60,8 +60,8 @@ class MissionTemplateController extends Controller
                 'participations_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
                     $query->where('template_id', $missionTemplate->id);
                 })->count(),
-                'participations_validated_count' => Participation::whereHas('mission', function (Builder $query) use ($missionTemplate) {
-                    $query->where('state','Validée')->where('template_id', $missionTemplate->id);
+                'participations_validated_count' => Participation::where('state','Validée')->whereHas('mission', function (Builder $query) use ($missionTemplate) {
+                    $query->where('template_id', $missionTemplate->id);
                 })->count(),
             ];
     }

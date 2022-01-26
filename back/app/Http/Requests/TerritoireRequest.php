@@ -28,12 +28,10 @@ class TerritoireRequest extends FormRequest
             'tags' => '',
             'is_published' => 'boolean',
             'state' => '',
-
             'seo_recruit_title' => '',
             'seo_recruit_description' => '',
             'seo_engage_title' => '',
             'seo_engage_paragraphs' => '',
-
             'promoted_organisations' => ''
         ];
     }
