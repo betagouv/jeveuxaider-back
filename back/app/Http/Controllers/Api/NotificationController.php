@@ -23,7 +23,7 @@ use App\Notifications\MissionInDraft;
 use App\Notifications\MissionOutdated;
 use App\Notifications\MissionSignaled;
 use App\Notifications\MissionSubmitted;
-use App\Notifications\MissionTemplateCreated;
+use App\Notifications\MissionTemplateWaiting;
 use App\Notifications\MissionValidated;
 use App\Notifications\MissionWaitingValidation;
 use App\Notifications\ModerateurDailyTodo;
@@ -153,7 +153,7 @@ class NotificationController extends Controller
                 break;
             case 'mission_template_created':
                 $missionTemplate = MissionTemplate::latest()->first();
-                $notification = new MissionTemplateCreated($missionTemplate);
+                $notification = new MissionTemplateWaiting($missionTemplate);
                 break;
             case 'moderateur_daily_todo':
                 $byDepartment[75] = [
