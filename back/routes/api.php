@@ -221,6 +221,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     // TERRITOIRES
     // Route::post('territoire', 'Api\TerritoireController@store');
     Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
+    Route::get('territoire/{territoire}/statistics', 'Api\TerritoireController@statistics');
     // Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
     // Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
     // Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');

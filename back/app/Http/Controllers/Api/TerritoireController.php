@@ -18,6 +18,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Filters\FiltersTerritoireSearch;
 use App\Jobs\NotifyUserOfCompletedExport;
+use App\Models\Participation;
+use Illuminate\Database\Eloquent\Builder;
 
 class TerritoireController extends Controller
 {
@@ -31,7 +33,7 @@ class TerritoireController extends Controller
                 AllowedFilter::custom('search', new FiltersTerritoireSearch),
             ])
             ->allowedAppends([
-                'full_url',
+                'places_left',
             ])
             ->defaultSort('-created_at')
             ->paginate($request->input('pagination') ?? config('query-builder.results_per_page'));
@@ -42,10 +44,22 @@ class TerritoireController extends Controller
         $territoire = (is_numeric($slugOrId))
             ? Territoire::where('id', $slugOrId)->with(['responsables', 'promotedOrganisations', 'promotedOrganisations.media'])->firstOrFail()
             : Territoire::where('slug', $slugOrId)->with(['promotedOrganisations', 'promotedOrganisations.media'])->firstOrFail();
+
         foreach ($territoire->promotedOrganisations as $structure) {
             $structure->setAppends(['logo']);
         }
+
         return $territoire->setAppends(['full_url', 'banner', 'logo', 'permissions']);
+    }
+
+    public function statistics(Territoire $territoire)
+    {
+        return [
+                'missions_count' => Mission::ofTerritoire($territoire->id)->count(),
+                'missions_available_count' => Mission::ofTerritoire($territoire->id)->available()->count(),
+                'participations_count' => Participation::ofTerritoire($territoire->id)->count(),
+                'participations_validated_count' => Participation::ofTerritoire($territoire->id)->where('state', 'Validée')->count(),
+            ];
     }
 
     // public function store(TerritoireRequest $request)
