@@ -21,21 +21,21 @@ Route::post('password/forgot', 'Api\PassportController@forgotPassword');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 // Route::get('faqs', 'Api\FaqController@index');
-Route::get('page/{page}', 'Api\PageController@show');
+// Route::get('page/{page}', 'Api\PageController@show');
 
 Route::get('missions/prioritaires', 'Api\MissionController@prioritaires');
-Route::get('mission/{mission}', 'Api\MissionController@show');
-Route::get('mission/{mission}/similar', 'Api\MissionController@similar');
-Route::get('association/{slugOrId}', 'Api\StructureController@associationSlugOrId');
+Route::get('missions/{mission}', 'Api\MissionController@show');
+Route::get('missions/{mission}/similar', 'Api\MissionController@similar');
+Route::get('associations/{slugOrId}', 'Api\StructureController@associationSlugOrId');
 
-Route::get('structure/{rnaOrName}/exist', 'Api\StructureController@exist');
-Route::get('structure/{structure}/availableMissions', 'Api\StructureController@availableMissions');
+Route::get('structures/{rnaOrName}/exist', 'Api\StructureController@exist');
+Route::get('structures/{structure}/available-missions', 'Api\StructureController@availableMissions');
 
 // Route::get('bootstrap', 'Api\ConfigController@bootstrap');
 // Route::get('sitemap', 'Api\ConfigController@sitemap');
 
-Route::get('thematique/{slugOrId}', 'Api\ThematiqueController@show');
-Route::get('thematique/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
+Route::get('thematiques/{slugOrId}', 'Api\ThematiqueController@show');
+Route::get('thematiques/{slugOrId}/statistics', 'Api\ThematiqueController@statistics');
 
 // Route::get('statistics/global', 'Api\StatisticsController@global');
 
@@ -50,9 +50,9 @@ Route::get('franceconnect/login-authorize', 'Auth\FranceConnectController@oauthL
 Route::get('franceconnect/login-callback', 'Auth\FranceConnectController@oauthLoginCallback');
 
 Route::get('territoires', 'Api\TerritoireController@index');
-Route::get('territoire/{slugOrId}', 'Api\TerritoireController@show');
+Route::get('territoires/{slugOrId}', 'Api\TerritoireController@show');
 // Route::get('territoire/{territoire}/promotedMissions', 'Api\TerritoireController@promotedMissions');
-Route::get('territoire/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
+Route::get('territoires/{territoire}/cities', 'Api\TerritoireController@citiesWithAvailableMissions');
 
 // Route::get('tags', 'Api\TagController@index');
 
@@ -78,21 +78,21 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/actions', 'Api\ActionController@index');
     Route::get('user/actions/benevole', 'Api\ActionController@benevole');
     // Route::post('user/anonymize', 'Api\UserController@anonymize');
-    Route::post('user', 'Api\UserController@update');
+    Route::put('user', 'Api\UserController@update');
     
-    Route::get('profile/{profile}', 'Api\ProfileController@show');
-    Route::post('profile/{profile}', 'Api\ProfileController@update');
+    Route::get('profiles/{profile}', 'Api\ProfileController@show');
+    Route::put('profiles/{profile}', 'Api\ProfileController@update');
     // Route::post('profile/{profile}/upload', 'Api\ProfileController@upload');
     // Route::delete('profile/{profile}/upload', 'Api\ProfileController@uploadDelete');
     // Route::get('profile/{profile}/participations', 'Api\ProfileController@participations');
     // Route::get('profile/{profile}/statistics', 'Api\ProfileController@statistics');
 
     Route::post('medias/{modelType}/{modelId}/{collectionName}/{attribute}', 'Api\MediaController@store');
-    Route::post('medias/{media}', 'Api\MediaController@update');
+    Route::put('medias/{media}', 'Api\MediaController@update');
     Route::delete('medias/{media}', 'Api\MediaController@delete');
 
     Route::post('structure', 'Api\StructureController@store');
-    Route::post('structure/{structure}', 'Api\StructureController@update');
+    Route::put('structures/{structure}', 'Api\StructureController@update');
     // Route::post('structure/{structure}/upload/{field}', 'Api\StructureController@upload');
     // Route::delete('structure/{structure}/upload/{field}', 'Api\StructureController@uploadDelete');
 
@@ -127,13 +127,13 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
 
     // STRUCTURES
     Route::get('structures', 'Api\StructureController@index');
-    Route::get('structure/{structure}', 'Api\StructureController@show');
+    Route::get('structures/{structure}', 'Api\StructureController@show');
 
     // Route::delete('structure/{structure}', 'Api\StructureController@delete');
     // Route::post('structure/{structure}/restore', 'Api\StructureController@restore');
 
     // STRUCTURE
-    Route::post('structure/{structure}/missions', 'Api\StructureController@addMission');
+    Route::post('structures/{structure}/missions', 'Api\StructureController@addMission');
     // Route::get('structure/{structure}/members', 'Api\StructureController@members');
     // Route::post('structure/{structure}/members', 'Api\StructureController@addMember');
     // Route::delete('structure/{structure}/members/{member}', 'Api\StructureController@deleteMember');
@@ -153,7 +153,7 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('missions', 'Api\MissionController@index');
     // Route::get('mission/{mission}/benevoles', 'Api\MissionController@benevoles');
     // Route::get('mission/{mission}/responsable', 'Api\MissionController@responsable');
-    Route::put('mission/{mission}', 'Api\MissionController@update');
+    Route::put('missions/{mission}', 'Api\MissionController@update');
     // Route::post('mission/{mission}/clone', 'Api\MissionController@clone');
     // Route::delete('mission/{mission}', 'Api\MissionController@delete');
     // Route::get('mission/{mission}/structure', 'Api\MissionController@structure');
@@ -219,9 +219,9 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('activities', 'Api\ActivityController@index');
 
     // TERRITOIRES
-    // Route::post('territoire', 'Api\TerritoireController@store');
-    Route::post('territoire/{territoire}', 'Api\TerritoireController@update');
-    Route::get('territoire/{territoire}/statistics', 'Api\TerritoireController@statistics');
+    Route::post('territoires', 'Api\TerritoireController@store');
+    Route::put('territoires/{territoire}', 'Api\TerritoireController@update');
+    Route::get('territoires/{territoire}/statistics', 'Api\TerritoireController@statistics');
     // Route::get('territoire/{territoire}/responsables', 'Api\TerritoireController@responsables');
     // Route::get('territoire/{territoire}/invitations', 'Api\TerritoireController@invitations');
     // Route::post('territoire/{territoire}/upload/{field}', 'Api\TerritoireController@upload');
@@ -278,8 +278,8 @@ Route::group(['middleware' => ['auth:api', 'is.admin']], function () {
 
     // // DOMAINES D'ACTIONS
     Route::get('thematiques', 'Api\ThematiqueController@index');
-    Route::post('thematique', 'Api\ThematiqueController@store');
-    Route::put('thematique/{thematique}', 'Api\ThematiqueController@update');
+    Route::post('thematiques', 'Api\ThematiqueController@store');
+    Route::put('thematiques/{thematique}', 'Api\ThematiqueController@update');
     // Route::post('thematique/{thematique}/upload', 'Api\ThematiqueController@upload');
     // Route::delete('thematique/{thematique}/upload', 'Api\ThematiqueController@uploadDelete');
     // Route::delete('thematique/{thematique}', 'Api\ThematiqueController@delete');

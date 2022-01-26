@@ -49,30 +49,34 @@ class TerritoireController extends Controller
             $structure->setAppends(['logo']);
         }
 
-        return $territoire->setAppends(['full_url', 'banner', 'logo', 'permissions']);
+        return $territoire->setAppends([
+            //  'banner',
+            //   'logo',
+            //'permissions'
+        ]);
     }
 
     public function statistics(Territoire $territoire)
     {
         return [
-                'missions_count' => Mission::ofTerritoire($territoire->id)->count(),
-                'missions_available_count' => Mission::ofTerritoire($territoire->id)->available()->count(),
-                'participations_count' => Participation::ofTerritoire($territoire->id)->count(),
-                'participations_validated_count' => Participation::ofTerritoire($territoire->id)->where('state', 'Validée')->count(),
-            ];
+            'missions_count' => Mission::ofTerritoire($territoire->id)->count(),
+            'missions_available_count' => Mission::ofTerritoire($territoire->id)->available()->count(),
+            'participations_count' => Participation::ofTerritoire($territoire->id)->count(),
+            'participations_validated_count' => Participation::ofTerritoire($territoire->id)->where('state', 'Validée')->count(),
+        ];
     }
 
-    // public function store(TerritoireRequest $request)
-    // {
-    //     $territoire = Territoire::create($request->all());
+    public function store(TerritoireRequest $request)
+    {
+        $territoire = Territoire::create($request->all());
 
-    //     if (!empty($request['promoted_organisations'])) {
-    //         $ids = array_column($request['promoted_organisations'], 'id');
-    //         $territoire->promotedOrganisations()->sync($ids);
-    //     }
+        if (!empty($request['promoted_organisations'])) {
+            $ids = array_column($request['promoted_organisations'], 'id');
+            $territoire->promotedOrganisations()->sync($ids);
+        }
 
-    //     return $territoire->setAppends(['full_url', 'completion_rate']);
-    // }
+        return $territoire;
+    }
 
     public function update(TerritoireUpdateRequest $request, Territoire $territoire)
     {
@@ -82,7 +86,7 @@ class TerritoireController extends Controller
         $ids = !empty($request['promoted_organisations']) ? array_column($request['promoted_organisations'], 'id') : [];
         $territoire->promotedOrganisations()->sync($ids);
 
-        return $territoire->setAppends(['full_url']);
+        return $territoire;
     }
 
     // public function delete(Request $request, Territoire $territoire)
