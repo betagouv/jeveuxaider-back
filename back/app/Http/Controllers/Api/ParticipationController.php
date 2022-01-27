@@ -34,9 +34,12 @@ class ParticipationController extends Controller
         // >with('profile', 'mission', 'mission.structure:id,name,state', 'mission.responsable')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FiltersParticipationSearch),
+                AllowedFilter::exact('mission_id'),
                 'state',
                 'mission.department',
-                'mission.zip'
+                'mission.zip',
+                'mission.type',
+                'mission.structure.name'
                 // AllowedFilter::custom('lieu', new FiltersParticipationLieu),
                 // AllowedFilter::custom('domaine', new FiltersParticipationDomaine),
                 // AllowedFilter::exact('mission.department'),
