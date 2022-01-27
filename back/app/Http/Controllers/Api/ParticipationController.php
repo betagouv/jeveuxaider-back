@@ -58,9 +58,18 @@ class ParticipationController extends Controller
             ->paginate(config('query-builder.results_per_page'));
     }
 
-    public function show(Request $request, Int $id)
+    public function show(Request $request, Participation $participation)
     {
-        return Participation::with(['mission', 'profile'])->where('id', $id)->first();
+        $participation = $participation->load(['mission', 'profile', 'mission.responsable']);
+        $participation->profile->append(['avatar', 'skills', 'domaines']);
+        $participation->mission->append(['full_address']);
+
+        // $mission = Mission::with(['structure.members:id,first_name,last_name,mobile,email', 'template.domaine', 'domaine', 'tags', 'responsable'])->withCount('temoignages')->where('id', $id)->first();
+        // if ($mission) {
+        //     $mission->append(['skills', 'domaines', 'domaine_secondaire', 'full_address', 'has_places_left']);
+        //     $mission->structure->append(['logo']);
+        // }
+        return $participation;
     }
 
     public function export(Request $request)

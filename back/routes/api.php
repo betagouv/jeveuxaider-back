@@ -163,11 +163,11 @@ Route::group(['middleware' => ['auth:api', 'has.context.role.header']], function
     Route::get('profiles', 'Api\ProfileController@index');
 
     // PARTICIPATIONS
-    // Route::get('participation/{participation}', 'Api\ParticipationController@show');
+    Route::get('participations', 'Api\ParticipationController@index');
+    Route::get('participations/{participation}', 'Api\ParticipationController@show');
     // Route::get('participation/{participation}/conversation', 'Api\ParticipationController@conversation');
     // Route::get('participation/{participation}/benevole', 'Api\ParticipationController@benevole');
     // Route::delete('participation/{participation}', 'Api\ParticipationController@delete');
-    Route::get('participations', 'Api\ParticipationController@index');
     // Route::post('participation/{participation}', 'Api\ParticipationController@update');
     // Route::post('participation/{participation}/decline', 'Api\ParticipationController@decline');
     // Route::post('participations/mass-validation', 'Api\ParticipationController@massValidation');
